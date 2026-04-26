@@ -44,7 +44,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/InstructorHomePageE2ETestSql.json");
+        testData = loadDataBundle("/InstructorHomePageE2ETest.json");
         studentToEmail = testData.students.get("IHome.charlie.d.tmms@IHome.CS2104");
         studentToEmail.setEmail(TestProperties.TEST_EMAIL);
         testData = removeAndRestoreDataBundle(testData);

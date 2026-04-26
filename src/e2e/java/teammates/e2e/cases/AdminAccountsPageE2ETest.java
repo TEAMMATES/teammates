@@ -18,7 +18,7 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = removeAndRestoreDataBundle(loadDataBundle("/AdminAccountsPageE2ETestSql.json"));
+        testData = removeAndRestoreDataBundle(loadDataBundle("/AdminAccountsPageE2ETest.json"));
     }
 
     @Test

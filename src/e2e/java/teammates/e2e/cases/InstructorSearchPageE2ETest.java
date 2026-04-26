@@ -22,7 +22,7 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(
-                loadDataBundle("/InstructorSearchPageE2ETestSql.json"));
+                loadDataBundle("/InstructorSearchPageE2ETest.json"));
     }
 
     @Test

@@ -24,7 +24,7 @@ import teammates.storage.sqlentity.Student;
 public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
     @Override
     protected void prepareTestData() {
-        testData = removeAndRestoreDataBundle(loadDataBundle("/FeedbackMsqQuestionE2ESqlTest.json"));
+        testData = removeAndRestoreDataBundle(loadDataBundle("/FeedbackMsqQuestionE2ETest.json"));
 
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");

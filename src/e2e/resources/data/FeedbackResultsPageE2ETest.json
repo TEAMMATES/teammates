@@ -151,8 +151,7 @@
           "id": "00000000-0000-4000-8000-000000000301"
         },
         "name": "Alice Betsy",
-        "email": "fres.alice.b@gmail.tmt",
-        "googleId": "tm.e2e.FRes.alice.b"
+        "email": "fres.alice.b@gmail.tmt"
       },
       "Benny": {
         "comments": "This student's name is Benny Charles",
@@ -229,11 +228,11 @@
         "sessionVisibleFromTime": "2012-04-01T16:00:00Z",
         "resultsVisibleFromTime": "2012-05-01T16:00:00Z",
         "gracePeriod": 10,
-        "isOpeningEmailEnabled": true,
-        "isClosingEmailEnabled": true,
+        "isOpenedEmailEnabled": true,
+        "isClosingSoonEmailEnabled": true,
         "isPublishedEmailEnabled": true,
         "isOpeningSoonEmailSent": false,
-        "isOpenEmailSent": false,
+        "isOpenedEmailSent": false,
         "isClosingSoonEmailSent": false,
         "isClosedEmailSent": false,
         "isPublishedEmailSent": false,

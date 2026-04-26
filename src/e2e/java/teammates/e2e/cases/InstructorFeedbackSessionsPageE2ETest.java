@@ -44,7 +44,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(
-                loadDataBundle("/InstructorFeedbackSessionsPageE2ETestSql.json"));
+                loadDataBundle("/InstructorFeedbackSessionsPageE2ETest.json"));
 
         studentToEmail = testData.students.get("IFSessionPage.charlie");
         instructor = testData.instructors.get("IFSessionPage.instr1");

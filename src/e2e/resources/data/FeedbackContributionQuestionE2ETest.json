@@ -2,33 +2,44 @@
   "accounts": {
     "instructorWithSessions": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "tm.e2e.FMcqQn.instructor",
+      "googleId": "tm.e2e.FContrQn.instructor",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt"
     },
-    "tm.e2e.FMcqQn.alice.tmms": {
+    "tm.e2e.FContrQn.alice.tmms": {
       "id": "00000000-0000-4000-8000-000000000002",
-      "googleId": "tm.e2e.FMcqQn.alice.tmms",
+      "googleId": "tm.e2e.FCContrQn.alice.tmms",
       "name": "Alice Betsy",
       "email": "alice.b.tmms@gmail.tmt"
     },
-    "tm.e2e.FMcqQn.benny.tmms": {
+    "tm.e2e.FContrQn.benny.tmms": {
       "id": "00000000-0000-4000-8000-000000000003",
-      "googleId": "tm.e2e.FMcqQn.benny.tmms",
+      "googleId": "tm.e2e.FCContrQn.benny.tmms",
       "name": "Benny Charles",
       "email": "benny.c.tmms@gmail.tmt"
+    },
+    "tm.e2e.FContrQn.charlie.tmms": {
+      "id": "00000000-0000-4000-8000-000000000004",
+      "googleId": "tm.e2e.FCContrQn.charlie.tmms",
+      "name": "Charlie Davis",
+      "email": "charlie.d.tmms@gmail.tmt"
+    },
+    "tm.e2e.FContrQn.danny.tmms": {
+      "id": "00000000-0000-4000-8000-000000000005",
+      "googleId": "tm.e2e.FCContrQn.danny.tmms",
+      "name": "Danny Engrid",
+      "email": "danny.e.tmms@gmail.tmt"
     }
   },
-  "accountRequests": {},
   "courses": {
     "course": {
-      "id": "tm.e2e.FMcqQn.CS2104",
+      "id": "tm.e2e.FContrQn.CS2104",
       "name": "Programming Language Concepts",
       "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Africa/Johannesburg"
     },
     "course2": {
-      "id": "tm.e2e.FMcqQn.CS1101",
+      "id": "tm.e2e.FContrQn.CS1101",
       "name": "Programming Methodology",
       "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Africa/Johannesburg"
@@ -36,10 +47,10 @@
   },
   "instructors": {
     "instructor": {
-      "id": "00000000-0000-4000-8000-000000000501",
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
+      "courseId": "tm.e2e.FContrQn.CS2104",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -58,63 +69,41 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      },
-      "courseId": "tm.e2e.FMcqQn.CS2104"
+      }
     },
     "instructor2": {
-      "id": "00000000-0000-4000-8000-000000000502",
       "account": {
-          "id": "00000000-0000-4000-8000-000000000001"
+        "id": "00000000-0000-4000-8000-000000000001"
       },
-      "courseId": "tm.e2e.FMcqQn.CS1101",
-      "displayName": "Co-owner",
-      "email": "tmms.test@gmail.tmt",
-      "isDisplayedToStudents": true,
+      "courseId": "tm.e2e.FContrQn.CS1101",
       "name": "Teammates Test",
+      "email": "tmms.test@gmail.tmt",
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "isDisplayedToStudents": true,
+      "displayName": "Co-owner",
       "privileges": {
-          "courseLevel": {
-              "canModifyCourse": true,
-              "canModifyInstructor": true,
-              "canModifySession": true,
-              "canModifySessionCommentsInSections": true,
-              "canModifyStudent": true,
-              "canSubmitSessionInSections": true,
-              "canViewSessionInSections": true,
-              "canViewStudentInSections": true
-          },
-          "sectionLevel": {
-          },
-          "sessionLevel": {
-          }
-      },
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER"
-    }
-  },
-  "sections": {
-    "ProgrammingLanguageConceptsSection1": {
-      "id": "00000000-0000-4000-8000-000000000101",
-      "course": {
-        "id": "tm.e2e.FMcqQn.CS2104"
-      },
-      "name": "Section 1"
-    }
-  },
-  "teams": {
-    "ProgrammingLanguageConceptsTeam1": {
-      "id": "00000000-0000-4000-8000-000000000201",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
-      "name": "Team 1"
+        "courseLevel": {
+          "canViewStudentInSections": true,
+          "canSubmitSessionInSections": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyCourse": true,
+          "canViewSessionInSections": true,
+          "canModifySession": true,
+          "canModifyStudent": true,
+          "canModifyInstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
     }
   },
   "students": {
-    "alice.tmms@FMcqQn.CS2104": {
+    "alice.tmms@FContrQn.CS2104": {
       "id": "00000000-0000-4000-8000-000000000601",
       "account": {
         "id": "00000000-0000-4000-8000-000000000002"
       },
-      "courseId": "tm.e2e.FMcqQn.CS2104",
+      "courseId": "tm.e2e.FContrQn.CS2104",
       "team": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
@@ -122,24 +111,83 @@
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy"
     },
-    "benny.tmms@FMcqQn.CS2104": {
+    "benny.tmms@FContrQn.CS2104": {
       "id": "00000000-0000-4000-8000-000000000602",
       "account": {
         "id": "00000000-0000-4000-8000-000000000003"
       },
-      "courseId": "tm.e2e.FMcqQn.CS2104",
+      "courseId": "tm.e2e.FContrQn.CS2104",
       "team": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
-      "email": "benny.c.tmms@gmail.tmt",
+      "email": "benny.tmms@gmail.tmt",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles"
+    },
+    "charlie.tmms@FContrQn.CS2104": {
+      "id": "00000000-0000-4000-8000-000000000603",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000004"
+      },
+      "courseId": "tm.e2e.FContrQn.CS2104",
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000201"
+      },
+      "email": "fcontrqn.charlie.tmms@gmail.tmt",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis"
+    },
+    "danny.tmms@FContrQn.CS1101": {
+      "id": "00000000-0000-4000-8000-000000000604",
+      "account": {
+        "id": "00000000-0000-4000-8000-000000000005"
+      },
+      "courseId": "tm.e2e.FContrQn.CS1101",
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000202"
+      },
+      "email": "fcontrqn.danny.tmms@gmail.tmt",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid"
+    }
+  },
+  "sections": {
+    "CS2104None": {
+      "id": "00000000-0000-4000-8000-000000000101",
+      "course": {
+        "id": "tm.e2e.FContrQn.CS2104"
+      },
+      "name": "None"
+    },
+    "CS1101None": {
+      "id": "00000000-0000-4000-8000-000000000102",
+      "course": {
+        "id": "tm.e2e.FContrQn.CS1101"
+      },
+      "name": "None"
+    }
+  },
+  "teams": {
+    "CS2104Team1": {
+      "id": "00000000-0000-4000-8000-000000000201",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000101"
+      },
+      "name": "Team 1"
+    },
+    "CS1101Team1": {
+      "id": "00000000-0000-4000-8000-000000000202",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000102"
+      },
+      "name": "Team 1"
     }
   },
   "feedbackSessions": {
     "openSession": {
       "id": "00000000-0000-4000-8000-000000000701",
       "name": "First Session",
+      "courseId": "tm.e2e.FContrQn.CS2104",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
       "createdAt": "2012-04-01T23:59:00Z",
@@ -147,7 +195,6 @@
       "endTime": "2026-04-30T22:00:00Z",
       "sessionVisibleFromTime": "2012-04-01T22:00:00Z",
       "resultsVisibleFromTime": "2026-05-01T22:00:00Z",
-      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "isOpenedEmailSent": false,
       "isClosingSoonEmailSent": false,
@@ -155,14 +202,12 @@
       "isPublishedEmailSent": false,
       "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true,
-      "studentDeadlines": {},
-      "instructorDeadlines": {},
-      "courseId": "tm.e2e.FMcqQn.CS2104"
+      "isPublishedEmailEnabled": true
     },
     "openSession2": {
       "id": "00000000-0000-4000-8000-000000000702",
       "name": "Second Session",
+      "courseId": "tm.e2e.FContrQn.CS1101",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for Second session</p>",
       "createdAt": "2012-04-01T23:59:00Z",
@@ -170,7 +215,6 @@
       "endTime": "2026-04-30T22:00:00Z",
       "sessionVisibleFromTime": "2012-04-01T22:00:00Z",
       "resultsVisibleFromTime": "2026-05-01T22:00:00Z",
-      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 10,
       "isOpenedEmailSent": false,
       "isClosingSoonEmailSent": false,
@@ -178,10 +222,7 @@
       "isPublishedEmailSent": false,
       "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true,
-      "studentDeadlines": {},
-      "instructorDeadlines": {},
-      "courseId": "tm.e2e.FMcqQn.CS1101"
+      "isPublishedEmailEnabled": true
     }
   },
   "feedbackQuestions": {
@@ -191,35 +232,27 @@
         "id": "00000000-0000-4000-8000-000000000701"
       },
       "questionDetails": {
-        "questionType": "MCQ",
-        "questionText": "Which area did you work on the most?",
-        "mcqChoices": [
-          "UI",
-          "Algo",
-          "Testing"
-        ],
-        "otherEnabled": true,
-        "hasAssignedWeights": true,
-        "mcqWeights": [
-          30.61,
-          29.4,
-          20
-        ],
-        "mcqOtherWeight": 60
+        "isZeroSum": false,
+        "isNotSureAllowed": true,
+        "questionType": "CONTRIB",
+        "questionText": "How much has each team member including yourself, contributed to the project?"
       },
       "description": "<p>Testing description for first session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "NONE",
-      "numOfEntitiesToGiveFeedbackTo": 1,
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
-        "INSTRUCTORS"
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER"
       ],
       "showGiverNameTo": [
         "INSTRUCTORS"
       ],
       "showRecipientNameTo": [
-        "INSTRUCTORS"
+        "INSTRUCTORS",
+        "RECEIVER"
       ]
     },
     "qn1ForSecondSession": {
@@ -228,17 +261,16 @@
         "id": "00000000-0000-4000-8000-000000000702"
       },
       "questionDetails": {
-        "mcqChoices": [],
-        "questionText": "Who is the best student?",
-        "questionType": "MCQ",
-        "generateOptionsFor": "STUDENTS",
-        "otherEnabled": false
+        "isZeroSum": true,
+        "isNotSureAllowed": false,
+        "questionType": "CONTRIB",
+        "questionText": "How much has each team member including yourself, contributed to the project?"
       },
       "description": "<p>Testing description for second session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
-      "recipientType": "NONE",
-      "numOfEntitiesToGiveFeedbackTo": 1,
+      "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+      "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": [
         "INSTRUCTORS"
       ],
@@ -250,7 +282,6 @@
       ]
     }
   },
-  "feedbackResponseComments": {},
-  "notifications": {},
-  "readNotifications": {}
+  "feedbackResponses": {},
+  "feedbackResponseComments": {}
 }
