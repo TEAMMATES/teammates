@@ -1411,19 +1411,23 @@ public class Logic {
     /**
      * Gets the session result for a feedback session.
      *
-     * @see FeedbackResponsesLogic#getSessionResultsForCourse(
-     *      FeedbackSession, String, String, String, Section,
-     *      FeedbackResultFetchType)
+     * @param feedbackSession the feedback session
+     * @param courseId the ID of the course
+     * @param instructorEmail the email of the instructor requesting for the session result
+     * @param questionId if not null, will only return partial bundle for the question
+     * @param sectionName if not null, will only return partial bundle for the section
+     * @param fetchType if not null, will fetch responses by giver, receiver sections, or both
+     * @return the session result bundle
      */
     public SessionResultsBundle getSessionResultsForCourse(
-            FeedbackSession feedbackSession, String courseId, String userEmail,
+            FeedbackSession feedbackSession, String courseId, String instructorEmail,
             @Nullable UUID questionId, @Nullable String sectionName, @Nullable FeedbackResultFetchType fetchType) {
         assert feedbackSession != null;
         assert courseId != null;
-        assert userEmail != null;
+        assert instructorEmail != null;
 
         return feedbackResponsesLogic.getSessionResultsForCourse(
-                feedbackSession, courseId, userEmail, questionId, sectionName, fetchType);
+                feedbackSession, courseId, instructorEmail, questionId, sectionName, fetchType);
     }
 
     /**

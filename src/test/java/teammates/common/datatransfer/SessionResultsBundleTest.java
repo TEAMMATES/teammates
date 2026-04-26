@@ -63,9 +63,9 @@ public class SessionResultsBundleTest extends BaseTestCase {
     public void testGetQuestionMissingResponseMap() {
         DataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
 
-        List<String> expectedMissingResponses = new ArrayList<>();
-        expectedMissingResponses.add(responseBundle.feedbackResponses.get("response1ForQ1").toString());
-        expectedMissingResponses.add(responseBundle.feedbackResponses.get("response2ForQ1").toString());
+        List<FeedbackMissingResponse> expectedMissingResponses = new ArrayList<>();
+        expectedMissingResponses.add(createFeedbackMissingResponse(responseBundle.feedbackResponses.get("response1ForQ1")));
+        expectedMissingResponses.add(createFeedbackMissingResponse(responseBundle.feedbackResponses.get("response2ForQ1")));
 
         SessionResultsBundle bundle =
                 new SessionResultsBundle(
@@ -73,7 +73,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
                         new HashSet<>(),
                         new HashSet<>(),
                         new ArrayList<>(),
-                        new ArrayList<>(responseBundle.feedbackResponses.values()),
+                        new ArrayList<>(expectedMissingResponses),
                         new HashMap<>(),
                         new HashMap<>(),
                         new HashMap<>(),
@@ -84,12 +84,10 @@ public class SessionResultsBundleTest extends BaseTestCase {
 
         ______TS("Test question having missing responses");
         FeedbackQuestion fq = responseBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-        List<FeedbackResponse> missingResponses = bundle.getQuestionMissingResponseMap().get(fq);
+        List<FeedbackMissingResponse> missingResponses = bundle.getQuestionMissingResponseMap().get(fq);
         assertEquals(2, missingResponses.size());
-        List<String> missingResponsesString = new ArrayList<>();
-        missingResponsesString.add(missingResponses.get(0).toString());
-        missingResponsesString.add(missingResponses.get(1).toString());
-        assertEquals(expectedMissingResponses, missingResponsesString);
+        assertEquals(expectedMissingResponses.get(0), missingResponses.get(0));
+        assertEquals(expectedMissingResponses.get(1), missingResponses.get(1));
 
         ______TS("Test question having no missing responses");
         fq = responseBundle.feedbackQuestions.get("qn4InSession1InCourse1");
@@ -112,17 +110,23 @@ public class SessionResultsBundleTest extends BaseTestCase {
         FeedbackResponse response1ForQ2S1C1 = getTypicalFeedbackResponseForQuestion(question2ForS1C1);
         FeedbackResponse response2ForQ2S1C1 = getTypicalFeedbackResponseForQuestion(question2ForS1C1);
 
-        Map<FeedbackResponse, Boolean> responseGiverVisibilityTable = new HashMap<>();
-        responseGiverVisibilityTable.put(response1ForQ1S1C1, true);
-        responseGiverVisibilityTable.put(response2ForQ1S1C1, false);
-        responseGiverVisibilityTable.put(response1ForQ2S1C1, true);
-        responseGiverVisibilityTable.put(response2ForQ2S1C1, false);
+        Map<UUID, FeedbackResponse> responses = new HashMap<>();
+        responses.put(response1ForQ1S1C1.getId(), response1ForQ1S1C1);
+        responses.put(response2ForQ1S1C1.getId(), response2ForQ1S1C1);
+        responses.put(response1ForQ2S1C1.getId(), response1ForQ2S1C1);
+        responses.put(response2ForQ2S1C1.getId(), response2ForQ2S1C1);
 
-        Map<FeedbackResponse, Boolean> responseRecipientVisibilityTable = new HashMap<>();
-        responseRecipientVisibilityTable.put(response1ForQ1S1C1, false);
-        responseRecipientVisibilityTable.put(response2ForQ1S1C1, true);
-        responseRecipientVisibilityTable.put(response1ForQ2S1C1, true);
-        responseRecipientVisibilityTable.put(response2ForQ2S1C1, false);
+        Map<UUID, Boolean> responseGiverVisibilityTable = new HashMap<>();
+        responseGiverVisibilityTable.put(response1ForQ1S1C1.getId(), true);
+        responseGiverVisibilityTable.put(response2ForQ1S1C1.getId(), false);
+        responseGiverVisibilityTable.put(response1ForQ2S1C1.getId(), true);
+        responseGiverVisibilityTable.put(response2ForQ2S1C1.getId(), false);
+
+        Map<UUID, Boolean> responseRecipientVisibilityTable = new HashMap<>();
+        responseRecipientVisibilityTable.put(response1ForQ1S1C1.getId(), false);
+        responseRecipientVisibilityTable.put(response2ForQ1S1C1.getId(), true);
+        responseRecipientVisibilityTable.put(response1ForQ2S1C1.getId(), true);
+        responseRecipientVisibilityTable.put(response2ForQ2S1C1.getId(), false);
 
         SessionResultsBundle bundle =
                 new SessionResultsBundle(
@@ -139,14 +143,18 @@ public class SessionResultsBundleTest extends BaseTestCase {
                                 new ArrayList<>(responseBundle.instructors.values()))
                 );
 
-        for (Map.Entry<FeedbackResponse, Boolean> visibilityEntry : responseGiverVisibilityTable.entrySet()) {
+        for (Map.Entry<UUID, Boolean> visibilityEntry : responseGiverVisibilityTable.entrySet()) {
+            UUID responseId = visibilityEntry.getKey();
+            FeedbackParticipantType giverType = responses.get(responseId).getFeedbackQuestion().getGiverType();
             assertEquals(visibilityEntry.getValue(),
-                    bundle.isResponseGiverVisible(visibilityEntry.getKey()));
+                    bundle.isResponseGiverVisible(responseId, giverType));
         }
 
-        for (Map.Entry<FeedbackResponse, Boolean> visibilityEntry : responseRecipientVisibilityTable.entrySet()) {
+        for (Map.Entry<UUID, Boolean> visibilityEntry : responseRecipientVisibilityTable.entrySet()) {
+            UUID responseId = visibilityEntry.getKey();
+            FeedbackParticipantType recipientType = responses.get(responseId).getFeedbackQuestion().getRecipientType();
             assertEquals(visibilityEntry.getValue(),
-                    bundle.isResponseRecipientVisible(visibilityEntry.getKey()));
+                    bundle.isResponseRecipientVisible(responseId, recipientType));
         }
     }
 
@@ -198,5 +206,15 @@ public class SessionResultsBundleTest extends BaseTestCase {
         assertTrue(anonName1.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT));
         assertEquals(anonName1, anonName2);
         assertNotEquals(anonName1, anotherAnonName);
+    }
+
+    private FeedbackMissingResponse createFeedbackMissingResponse(FeedbackResponse response) {
+        return new FeedbackMissingResponse(
+                response.getFeedbackQuestion(),
+                response.getGiver(),
+                response.getGiverSectionName(),
+                response.getRecipient(),
+                response.getRecipientSectionName()
+        );
     }
 }
