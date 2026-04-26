@@ -211,10 +211,10 @@ public class SessionResultsBundleTest extends BaseTestCase {
     private FeedbackMissingResponse createFeedbackMissingResponse(FeedbackResponse response) {
         return new FeedbackMissingResponse(
                 response.getFeedbackQuestion(),
-                "giver",
-                "giverSection",
-                "recipient",
-                "recipientSection"
+                response.getGiver(),
+                response.getGiverSectionName(),
+                response.getRecipient(),
+                response.getRecipientSectionName()
         );
     }
 }

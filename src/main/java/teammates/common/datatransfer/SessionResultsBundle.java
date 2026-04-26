@@ -75,7 +75,8 @@ public class SessionResultsBundle {
      * Returns false otherwise.
      */
     public boolean isResponseGiverVisible(UUID responseId, FeedbackParticipantType giverParticipantType) {
-        return giverParticipantType == FeedbackParticipantType.NONE || responseGiverVisibilityTable.get(responseId);
+        return giverParticipantType == FeedbackParticipantType.NONE
+                || responseGiverVisibilityTable.getOrDefault(responseId, false);
     }
 
     /**
@@ -83,7 +84,8 @@ public class SessionResultsBundle {
      * Returns false otherwise.
      */
     public boolean isResponseRecipientVisible(UUID responseId, FeedbackParticipantType recipientParticipantType) {
-        return recipientParticipantType == FeedbackParticipantType.NONE || responseRecipientVisibilityTable.get(responseId);
+        return recipientParticipantType == FeedbackParticipantType.NONE
+                || responseRecipientVisibilityTable.getOrDefault(responseId, false);
     }
 
     /**

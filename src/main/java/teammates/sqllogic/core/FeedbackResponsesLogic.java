@@ -993,16 +993,25 @@ public final class FeedbackResponsesLogic {
                 && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER);
         boolean isVisibleToGiver = SanitizationHelper.areEmailsEqual(giver, userEmail);
         boolean isVisibleToStudents = !isInstructor && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS);
-        boolean isVisibleToTeam = studentsEmailInTeam != null && !isInstructor
+        boolean isVisibleToTeamRecipient = studentsEmailInTeam != null && !isInstructor
                 && (relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS
-                    || relatedQuestion.getRecipientType() == FeedbackParticipantType.OWN_TEAM_MEMBERS
-                    || relatedQuestion.getRecipientType() == FeedbackParticipantType.RECEIVER_TEAM_MEMBERS
                     || relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS_IN_SAME_SECTION
                     || relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS_EXCLUDING_SELF)
                 && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
                 && recipient.equals(student.getTeamName());
+        boolean isVisibleToTeamGiver = studentsEmailInTeam != null && !isInstructor
+                && relatedQuestion.getGiverType() == FeedbackParticipantType.TEAMS
+                && giver.equals(student.getTeamName());
+        boolean isVisibleToOwnTeamMembers = studentsEmailInTeam != null && !isInstructor
+                && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                && studentsEmailInTeam.contains(giver);
+        boolean isVisibleToReceiverTeamMembers = studentsEmailInTeam != null && !isInstructor
+                && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                && studentsEmailInTeam.contains(recipient);
 
-        return isVisibleToInstructor || isVisibleToRecipient || isVisibleToGiver || isVisibleToStudents || isVisibleToTeam;
+        return isVisibleToInstructor || isVisibleToRecipient || isVisibleToGiver
+                || isVisibleToStudents || isVisibleToTeamRecipient || isVisibleToTeamGiver
+                || isVisibleToOwnTeamMembers || isVisibleToReceiverTeamMembers;
     }
 
     /**
