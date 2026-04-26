@@ -430,10 +430,9 @@ export class FeedbackSessionsService {
   /**
    * Soft delete a session by moving it to the recycle bin.
    */
-  moveSessionToRecycleBin(courseId: string, feedbackSessionName: string): Observable<any> {
+  moveSessionToRecycleBin(feedbackSessionId: string): Observable<any> {
     const paramMap: Record<string, string> = {
-      courseid: courseId,
-      fsname: feedbackSessionName,
+      fsid: feedbackSessionId,
     };
 
     return this.httpRequestService.put(ResourceEndpoints.BIN_SESSION, paramMap);

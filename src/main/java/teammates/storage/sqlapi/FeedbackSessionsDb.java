@@ -184,28 +184,6 @@ public final class FeedbackSessionsDb {
     }
 
     /**
-     * Soft-deletes a specific feedback session by its name and course id.
-     *
-     * @return the feedback session.
-     */
-    public FeedbackSession softDeleteFeedbackSession(String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException {
-        assert courseId != null;
-        assert feedbackSessionName != null;
-
-        FeedbackSession feedbackSessionEntity = getFeedbackSession(feedbackSessionName, courseId);
-
-        if (feedbackSessionEntity == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        feedbackSessionEntity.setDeletedAt(Instant.now());
-        HibernateUtil.merge(feedbackSessionEntity);
-
-        return feedbackSessionEntity;
-    }
-
-    /**
      * Gets feedback sessions for a given {@code courseId}.
      */
     public List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {

@@ -22,6 +22,7 @@ describe('FeedbackSessionsService', () => {
   let model: SessionsTableRowModel;
 
   const mockFeedbackSession: FeedbackSession = {
+    feedbackSessionId: 'c64aa0ca-beba-412d-94c3-58134feb6822',
     courseId: 'dog.gma-demo',
     timeZone: 'Asia/Singapore',
     feedbackSessionName: 'First team feedback session',
@@ -50,6 +51,7 @@ describe('FeedbackSessionsService', () => {
     service = TestBed.inject(FeedbackSessionsService);
     model = {
       feedbackSession: {
+        feedbackSessionId: '248b1915-5f52-4730-b5b2-3ec25a2caabc',
         courseId: 'CS3281',
         timeZone: '',
         feedbackSessionName: '',
@@ -132,11 +134,10 @@ describe('FeedbackSessionsService', () => {
 
   it('should call put when moving session to recycle bin', () => {
     const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
-      fsname: 'test feedback session',
+      fsid: '213bccdb-1c83-45b6-8643-2c9ab7b03837',
     };
 
-    service.moveSessionToRecycleBin(paramMap['courseid'], paramMap['fsname']);
+    service.moveSessionToRecycleBin(paramMap['fsid']);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.BIN_SESSION, paramMap);
   });
 

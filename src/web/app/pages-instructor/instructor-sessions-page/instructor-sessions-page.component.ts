@@ -497,8 +497,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     this.isMoveToRecycleBinLoading = true;
     const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
     this.feedbackSessionsService.moveSessionToRecycleBin(
-        model.feedbackSession.courseId,
-        model.feedbackSession.feedbackSessionName,
+        model.feedbackSession.feedbackSessionId,
     )
         .pipe(finalize(() => {
           this.isMoveToRecycleBinLoading = false;

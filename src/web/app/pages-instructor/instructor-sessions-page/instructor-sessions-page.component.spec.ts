@@ -51,6 +51,7 @@ describe('InstructorSessionsPageComponent', () => {
   };
 
   const testFeedbackSession1: FeedbackSession = {
+    feedbackSessionId: '31927276-5b53-43d4-a1ee-3560ca4550c5',
     feedbackSessionName: 'First Session',
     courseId: 'CS1231',
     timeZone: 'Asia/Singapore',
@@ -68,6 +69,7 @@ describe('InstructorSessionsPageComponent', () => {
   };
 
   const testFeedbackSession2: FeedbackSession = {
+    feedbackSessionId: '3b4364a1-3bb5-4c10-8adb-0ea710284a64',
     feedbackSessionName: 'Second Session',
     courseId: 'CS3281',
     timeZone: 'Asia/Singapore',
@@ -85,6 +87,7 @@ describe('InstructorSessionsPageComponent', () => {
   };
 
   const testFeedbackSession3: FeedbackSession = {
+    feedbackSessionId: '245cbbfa-beeb-4d87-bddb-4bdc87414ba1',
     feedbackSessionName: 'Third Session',
     courseId: 'CS1231',
     timeZone: 'Asia/Singapore',
@@ -103,6 +106,7 @@ describe('InstructorSessionsPageComponent', () => {
   };
 
   const testFeedbackSession4: FeedbackSession = {
+    feedbackSessionId: 'fefce740-c337-40c7-a53f-f7088c8ae8cc',
     feedbackSessionName: 'Fourth Session',
     courseId: 'CS3281',
     timeZone: 'Asia/Singapore',
@@ -236,7 +240,7 @@ describe('InstructorSessionsPageComponent', () => {
     component.moveSessionToRecycleBinEventHandler(0);
 
     expect(courseSpy).toHaveBeenCalledTimes(1);
-    expect(courseSpy).toHaveBeenLastCalledWith('CS1231', 'First Session');
+    expect(courseSpy).toHaveBeenLastCalledWith(testFeedbackSession1.feedbackSessionId);
 
     expect(component.sessionsTableRowModels.length).toEqual(1);
     expect(component.recycleBinFeedbackSessionRowModels.length).toEqual(1);

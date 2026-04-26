@@ -550,7 +550,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   deleteExistingSessionHandler(): void {
     this.sessionEditFormModel.isDeleting = true;
-    this.feedbackSessionsService.moveSessionToRecycleBin(this.courseId, this.feedbackSessionName)
+    this.feedbackSessionsService.moveSessionToRecycleBin(this.feedbackSessionId)
       .pipe(finalize(() => {
         this.sessionEditFormModel.isDeleting = false;
       }))
