@@ -221,19 +221,26 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
-     * Deletes a feedback response cascade its associated feedback response comments.
-     * Implicitly makes use of CascadeType.REMOVE.
+     * Deletes a feedback response and its associated feedback response comments.
+     *
+     * <p>Fails silently if the feedback response doesn't exist.</p>
      */
     public void deleteFeedbackResponsesAndCommentsCascade(FeedbackResponse feedbackResponse) {
+        if (feedbackResponse == null) {
+            return;
+        }
+
         frDb.deleteFeedbackResponse(feedbackResponse);
     }
 
     /**
-     * Deletes all feedback responses of a question cascade its associated comments.
+     * Deletes all feedback responses of a question and its associated comments.
      */
-    public void deleteFeedbackResponsesForQuestionCascade(UUID feedbackQuestionId) {
-        // delete all responses, comments of the question
-        frDb.deleteFeedbackResponsesForQuestionCascade(feedbackQuestionId);
+    public void deleteFeedbackResponsesForQuestionCascade(FeedbackQuestion feedbackQuestion) {
+        List<FeedbackResponse> responses = feedbackQuestion.getFeedbackResponses();
+        for (FeedbackResponse response : responses) {
+            deleteFeedbackResponsesAndCommentsCascade(response);
+        }
     }
 
     /**
@@ -478,7 +485,7 @@ public final class FeedbackResponsesLogic {
         for (FeedbackResponse response : responsesFromUser) {
             qn = fqLogic.getFeedbackQuestion(response.getId());
             if (qn != null && qn.getGiverType() == FeedbackParticipantType.TEAMS) {
-                deleteFeedbackResponsesForQuestionCascade(qn.getId());
+                deleteFeedbackResponsesForQuestionCascade(qn);
             }
         }
 
@@ -488,7 +495,7 @@ public final class FeedbackResponsesLogic {
         for (FeedbackResponse response : responsesToUser) {
             qn = fqLogic.getFeedbackQuestion(response.getId());
             if (qn != null && qn.getGiverType() == FeedbackParticipantType.TEAMS) {
-                deleteFeedbackResponsesForQuestionCascade(qn.getId());
+                deleteFeedbackResponsesForQuestionCascade(qn);
             }
         }
 

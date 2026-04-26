@@ -466,6 +466,8 @@ public class Logic {
 
     /**
      * Deletes a deadline extension.
+     *
+     * <p>Fails silently if the deadline extension does not exist</p>
      */
     public void deleteDeadlineExtension(DeadlineExtension de) {
         deadlineExtensionsLogic.deleteDeadlineExtension(de);
@@ -690,9 +692,7 @@ public class Logic {
      * Deletes a feedback session cascade to its associated questions, responses,
      * deadline extensions and comments.
      *
-     * <br/>
-     * Preconditions: <br/>
-     * * All parameters are non-null.
+     * <p>Fails silently if the feedback session doesn't exist.</p>
      */
     public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
         feedbackSessionsLogic.deleteFeedbackSessionCascade(feedbackSessionName, courseId);
@@ -852,14 +852,7 @@ public class Logic {
     /**
      * Deletes notification by ID.
      *
-     * <ul>
-     * <li>Fails silently if no such notification.</li>
-     * </ul>
-     *
-     * <p>
-     * Preconditions:
-     * </p>
-     * * All parameters are non-null.
+     * <p>Fails silently if the notification doesn't exist.</p>
      */
     public void deleteNotification(UUID notificationId) {
         notificationsLogic.deleteNotification(notificationId);
@@ -1552,14 +1545,11 @@ public class Logic {
     }
 
     /**
-     * Deletes a feedback response and cascades its associated comments.
+     * Deletes a feedback response and its associated feedback response comments.
      *
-     * <br/>
-     * Preconditions: <br/>
-     * * All parameters are non-null.
+     * <p>Fails silently if the feedback response doesn't exist.</p>
      */
     public void deleteFeedbackResponsesAndCommentsCascade(FeedbackResponse feedbackResponse) {
-        assert feedbackResponse != null;
         feedbackResponsesLogic.deleteFeedbackResponsesAndCommentsCascade(feedbackResponse);
     }
 
@@ -1659,6 +1649,8 @@ public class Logic {
 
     /**
      * Deletes a feedbackResponseComment.
+     *
+     * <p>Fails silently if the comment does not exist.</p>
      */
     public void deleteFeedbackResponseComment(UUID frcId) {
         feedbackResponseCommentsLogic.deleteFeedbackResponseComment(frcId);

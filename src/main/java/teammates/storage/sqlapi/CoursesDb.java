@@ -85,9 +85,7 @@ public final class CoursesDb {
      * Deletes a course.
      */
     public void deleteCourse(Course course) {
-        if (course != null) {
-            HibernateUtil.remove(course);
-        }
+        HibernateUtil.remove(course);
     }
 
     /**
