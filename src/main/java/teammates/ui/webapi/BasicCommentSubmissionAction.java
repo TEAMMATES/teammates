@@ -32,7 +32,7 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
     /**
      * Verify response ownership for student.
      */
-    void verifyResponseOwnerShipForStudent(Student student, FeedbackResponse response,
+    void verifyResponseOwnershipForStudent(Student student, FeedbackResponse response,
             FeedbackQuestion question)
             throws UnauthorizedAccessException {
         if (question.getGiverType() == FeedbackParticipantType.TEAMS

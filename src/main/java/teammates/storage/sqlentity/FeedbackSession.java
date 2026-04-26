@@ -129,26 +129,6 @@ public class FeedbackSession extends BaseEntity {
     }
 
     /**
-     * Creates a copy that uses the specific deadline for the given user.
-     *
-     * @param userEmail The email address of the given user.
-     * @return The copy of this object for the given user.
-     */
-    public FeedbackSession getCopyForUser(String userEmail) {
-        // TODO: DANGEROUS, remove this and replace with a safer way.
-        // In most cases a copy is not necessary or appropriate.
-        // If a copy is necessary, it should be created by copying the entity into a DTO instead.
-        // Copying this way risks accidentally modifying the entity which is persisted in the database.
-        FeedbackSession copy = getCopy();
-        copy.setDeadlineExtensions(copy.getDeadlineExtensions()
-                .stream().filter(
-                    de -> SanitizationHelper.areEmailsEqual(de.getUser().getEmail(), userEmail)
-                ).collect(Collectors.toList()));
-
-        return copy;
-    }
-
-    /**
      * Creates a copy of the feedback session.
      *
      * @return The copy of this object.
