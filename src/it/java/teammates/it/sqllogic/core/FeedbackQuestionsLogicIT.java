@@ -92,7 +92,7 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
                 fq1.getQuestionNumber(),
                 fq1.getDescription(),
                 fq1.getQuestionDetailsCopy(),
-                fq1.getQuestionDetailsCopy().getQuestionType(),
+                fq1.getQuestionType(),
                 fq1.getGiverType(),
                 fq1.getRecipientType(),
                 fq1.getNumOfEntitiesToGiveFeedbackTo(),

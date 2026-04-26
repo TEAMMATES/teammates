@@ -78,7 +78,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         assertEquals(response.getQuestionBrief(), createdQuestion.getQuestionDetailsCopy().getQuestionText());
 
         assertEquals(response.getQuestionType(), FeedbackQuestionType.TEXT);
-        assertEquals(response.getQuestionType(), createdQuestion.getQuestionDetailsCopy().getQuestionType());
+        assertEquals(response.getQuestionType(), createdQuestion.getQuestionType());
 
         assertEquals(response.getGiverType(), FeedbackParticipantType.STUDENTS);
         assertEquals(response.getGiverType(), createdQuestion.getGiverType());
