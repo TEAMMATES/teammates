@@ -191,7 +191,7 @@ public final class FeedbackResponsesLogic {
     /**
      * Updates a feedback response.
      *
-     * <p>Cascade updates to its associated feedback response comment
+     * <p>Cascade-updates the associated feedback response comments.
      *
      * @return updated feedback response
      * @throws InvalidParametersException if attributes to update are not valid
