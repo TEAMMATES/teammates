@@ -73,6 +73,7 @@ import {
 } from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
 import { Sections } from '../../pages-help/instructor-help-page/sections';
 
+
 interface InstructorEditPanelDetail {
   originalInstructor: Instructor;
   originalPanel: InstructorEditPanel;
@@ -122,33 +123,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
   isAddingNewInstructor: boolean = false;
   isCopyingInstructor: boolean = false;
-  newInstructorPanel: InstructorEditPanel = {
-    googleId: '',
-    courseId: '',
-    email: '',
-    isDisplayedToStudents: true,
-    displayedToStudentsAs: 'Instructor',
-    name: '',
-    role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-    joinState: JoinState.NOT_JOINED,
-
-    permission: {
-      privilege: {
-        canModifyCourse: false,
-        canModifySession: false,
-        canModifyStudent: false,
-        canModifyInstructor: false,
-        canViewStudentInSections: false,
-        canModifySessionCommentsInSections: false,
-        canViewSessionInSections: false,
-        canSubmitSessionInSections: false,
-      },
-      sectionLevel: [],
-    },
-
-    isEditing: true,
-    isSavingInstructorEdit: false,
-  };
+  newInstructorPanel: InstructorEditPanel = this.getDefaultInstructorPanel({
+        isEditing: true
+  })
 
   courseFormModel: CourseEditFormModel = DEFAULT_COURSE_EDIT_FORM_MODEL();
   resetCourseFormEvent: EventEmitter<void> = new EventEmitter();
@@ -303,46 +280,85 @@ export class InstructorCourseEditPageComponent implements OnInit {
         });
   }
 
-  /**
-   * Gets the default edit panel model of an instructor.
-   */
-  getInstructorEditPanelModel(i: Instructor): InstructorEditPanel {
     /**
-     * The non-null assertion operator (!) is used below in `isDisplayedToStudents`,
-     * `displayedToStudentsAs` and `role`. These attributes should never be undefined and are only
-     * typed as such to accommodate for a use case in SearchService.
+      * Gets the default edit panel model of an instructor.
+      */
+    getInstructorEditPanelModel(i: Instructor): InstructorEditPanel {
+        /**
+         * The non-null assertion operator (!) is used below in `isDisplayedToStudents`,
+         * `displayedToStudentsAs` and `role`. These attributes should never be undefined and are only
+         * typed as such to accommodate for a use case in SearchService.
+         */
+        return this.getDefaultInstructorPanel({
+            googleId: i.googleId,
+            courseId: i.courseId,
+            email: i.email,
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            isDisplayedToStudents: i.isDisplayedToStudents!,
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            displayedToStudentsAs: i.displayedToStudentsAs!,
+            name: i.name,
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            role: i.role!,
+            joinState: i.joinState,
+        });
+    }
+
+    /**
+     * Generates a default InstructorEditPanel with optional overrides.
+     * @param overrides Properties to overwrite the base model.
+     * @param defaultPrivileges Boolean to set all nested privileges to true or false.
      */
-    return {
-      googleId: i.googleId,
-      courseId: i.courseId,
-      email: i.email,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      isDisplayedToStudents: i.isDisplayedToStudents!,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      displayedToStudentsAs: i.displayedToStudentsAs!,
-      name: i.name,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      role: i.role!,
-      joinState: i.joinState,
+    private getDefaultInstructorPanel(
+        overrides: Partial<InstructorEditPanel> = {},
+        defaultPrivileges: boolean = false
+    ): InstructorEditPanel {
+        return {
+            googleId: '',
+            courseId: '',
+            email: '',
+            isDisplayedToStudents: true,
+            displayedToStudentsAs: 'Instructor',
+            name: '',
+            role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+            joinState: JoinState.NOT_JOINED,
 
-      permission: {
-        privilege: {
-          canModifyCourse: false,
-          canModifySession: false,
-          canModifyStudent: false,
-          canModifyInstructor: false,
-          canViewStudentInSections: false,
-          canModifySessionCommentsInSections: false,
-          canViewSessionInSections: false,
-          canSubmitSessionInSections: false,
-        },
-        sectionLevel: [],
-      },
+            permission: {
+                privilege: {
+                    canModifyCourse: defaultPrivileges,
+                    canModifySession: defaultPrivileges,
+                    canModifyStudent: defaultPrivileges,
+                    canModifyInstructor: defaultPrivileges,
+                    canViewStudentInSections: defaultPrivileges,
+                    canModifySessionCommentsInSections: defaultPrivileges,
+                    canViewSessionInSections: defaultPrivileges,
+                    canSubmitSessionInSections: defaultPrivileges,
+                },
+                sectionLevel: [],
+            },
 
-      isEditing: false,
-      isSavingInstructorEdit: false,
-    };
-  }
+            isEditing: false,
+            isSavingInstructorEdit: false,
+            ...overrides, // Applies any specific value passed in
+        }; // <-- Fixed the closing syntax here
+    }
+
+    // new course tab helper function
+    private getDefaultCourseTab(overrides: Partial<CourseTabModel> = {}): CourseTabModel {
+        return {
+            courseId: '',
+            courseName: '',
+            creationTimestamp: 0,
+            instructorCandidates: [],
+            instructorCandidatesSortBy: SortBy.NONE,
+            instructorCandidatesSortOrder: SortOrder.ASC,
+            hasInstructorsLoaded: false,
+            isTabExpanded: false,
+            hasLoadingFailed: false,
+            ...overrides,
+        };
+    }
+    
 
   /**
    * Shows the model of details permission for a role.
@@ -522,37 +538,15 @@ export class InstructorCourseEditPageComponent implements OnInit {
             this.updatePrivilegeForInstructor(newDetailPanels.originalInstructor, newDetailPanels.editPanel.permission);
 
             this.isAddingNewInstructor = false;
-            this.newInstructorPanel = {
-              googleId: '',
-              courseId: '',
-              email: '',
-              isDisplayedToStudents: true,
-              displayedToStudentsAs: '',
-              name: '',
-              role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-              joinState: JoinState.NOT_JOINED,
 
-              permission: {
-                privilege: {
-                  canModifyCourse: true,
-                  canModifySession: true,
-                  canModifyStudent: true,
-                  canModifyInstructor: true,
-                  canViewStudentInSections: true,
-                  canModifySessionCommentsInSections: true,
-                  canViewSessionInSections: true,
-                  canSubmitSessionInSections: true,
-                },
-                sectionLevel: [],
-              },
-
-              isEditing: true,
-              isSavingInstructorEdit: false,
-            };
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
+                this.newInstructorPanel = this.getDefaultInstructorPanel({
+                    displayedToStudentsAs: '', //override the default 'Instructor'
+                    isEditing: true, // keeping the form open
+                }, true);
+            },
+            error: (resp: ErrorMessageOutput) => {
+                this.statusMessageService.showErrorToast(resp.error.message);
+            },
         });
   }
 
@@ -695,20 +689,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
         const activeCourses: Courses = values[0];
 
         activeCourses.courses.forEach((course: Course) => {
-          if (course.courseId !== this.courseId && course.institute === this.courseFormModel.course.institute) {
-            const model: CourseTabModel = {
-              courseId: course.courseId,
-              courseName: course.courseName,
-              creationTimestamp: course.creationTimestamp,
-              instructorCandidates: [],
-              instructorCandidatesSortBy: SortBy.NONE,
-              instructorCandidatesSortOrder: SortOrder.ASC,
-              hasInstructorsLoaded: false,
-              isTabExpanded: false,
-              hasLoadingFailed: false,
-            };
-            courseTabModels.push(model);
-          }
+            if (course.courseId !== this.courseId && course.institute === this.courseFormModel.course.institute) {
+                const model: CourseTabModel = this.getDefaultCourseTab({
+                    courseId: course.courseId,
+                    courseName: course.courseName,
+                    creationTimestamp: course.creationTimestamp,
+                });
+                courseTabModels.push(model);
+            } 
         });
       },
       error: (err: ErrorMessageOutput) => {
