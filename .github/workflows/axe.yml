@@ -32,15 +32,7 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
-      - name: Cache Gradle packages
-        uses: actions/cache@v5
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('.gradle/*.gradle*', 'build.gradle') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+          cache: gradle
       - name: Update Property File
         run: mv src/e2e/resources/test.ci-${{ matrix.browser }}.properties src/e2e/resources/test.properties
       - name: Start Docker services

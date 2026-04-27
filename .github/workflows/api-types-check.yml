@@ -24,15 +24,7 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
-      - name: Cache Gradle packages
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+          cache: gradle
       - name: Regenerate API type definitions
         run: ./gradlew generateTypes
       - name: Verify checked-in API types match regenerated output
