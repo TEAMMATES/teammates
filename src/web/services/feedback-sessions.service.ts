@@ -102,11 +102,10 @@ export class FeedbackSessionsService {
   /**
    * Updates a feedback session by calling API.
    */
-  updateFeedbackSession(courseId: string, feedbackSessionName: string, request: FeedbackSessionUpdateRequest):
+  updateFeedbackSession(feedbackSessionId: string, request: FeedbackSessionUpdateRequest):
       Observable<FeedbackSession> {
     const paramMap: Record<string, string> = {
-      courseid: courseId,
-      fsname: feedbackSessionName,
+      fsid: feedbackSessionId,
     };
     return this.httpRequestService.put(ResourceEndpoints.SESSION, paramMap, request);
   }

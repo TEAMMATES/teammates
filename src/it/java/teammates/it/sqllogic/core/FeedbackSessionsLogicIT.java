@@ -14,12 +14,16 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.util.HibernateUtil;
+import teammates.common.util.TimeHelper;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.sqllogic.core.FeedbackQuestionsLogic;
 import teammates.sqllogic.core.FeedbackSessionsLogic;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
+import teammates.ui.output.ResponseVisibleSetting;
+import teammates.ui.output.SessionVisibleSetting;
+import teammates.ui.request.FeedbackSessionUpdateRequest;
 
 /**
  * SUT: {@link FeedbackSessionsLogic}.
@@ -156,5 +160,45 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         // check deletion is cascaded
         assertNull(fsLogic.getFeedbackSession(fs.getId()));
         assertTrue(fqLogic.getFeedbackQuestionsForSession(retrievedFs).isEmpty());
+    }
+
+    @Test
+    public void testUpdateFeedbackSession_validUpdate_success() throws Exception {
+        FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
+        String timeZone = fs.getCourse().getTimeZone();
+
+        Instant newStartTime = TimeHelper.getInstantNearestHourBefore(
+                TimeHelper.getInstantHoursOffsetFromNow(1)
+        );
+        Instant newEndTime = TimeHelper.getInstantNearestHourBefore(
+                TimeHelper.getInstantHoursOffsetFromNow(24)
+        );
+        Instant newSessionVisibleFromTime = newStartTime;
+        Instant newResultsVisibleFromTime = TimeHelper.getInstantNearestHourBefore(
+                TimeHelper.getInstantHoursOffsetFromNow(48)
+        );
+
+        FeedbackSessionUpdateRequest updateRequest = new FeedbackSessionUpdateRequest();
+        updateRequest.setInstructions("new instructions");
+        updateRequest.setGracePeriod(60);
+        updateRequest.setSessionVisibleSetting(SessionVisibleSetting.CUSTOM);
+        updateRequest.setResponseVisibleSetting(ResponseVisibleSetting.CUSTOM);
+        updateRequest.setSubmissionStartTimestamp(newStartTime.toEpochMilli());
+        updateRequest.setSubmissionEndTimestamp(newEndTime.toEpochMilli());
+        updateRequest.setCustomSessionVisibleTimestamp(newSessionVisibleFromTime.toEpochMilli());
+        updateRequest.setCustomResponseVisibleTimestamp(newResultsVisibleFromTime.toEpochMilli());
+        updateRequest.setClosingSoonEmailEnabled(false);
+        updateRequest.setPublishedEmailEnabled(false);
+
+        fs = fsLogic.updateFeedbackSession(fs.getId(), updateRequest);
+
+        assertEquals(updateRequest.getInstructions(), fs.getInstructions());
+        assertEquals(updateRequest.getGracePeriod(), fs.getGracePeriod());
+        assertEquals(updateRequest.getAdjustedSessionVisibleFromTime(timeZone), fs.getSessionVisibleFromTime());
+        assertEquals(updateRequest.getAdjustedResultsVisibleFromTime(timeZone), fs.getResultsVisibleFromTime());
+        assertEquals(updateRequest.getSubmissionStartTime(), fs.getStartTime());
+        assertEquals(updateRequest.getSubmissionEndTime(), fs.getEndTime());
+        assertEquals(updateRequest.isClosingSoonEmailEnabled(), fs.isClosingSoonEmailEnabled());
+        assertEquals(updateRequest.isPublishedEmailEnabled(), fs.isPublishedEmailEnabled());
     }
 }

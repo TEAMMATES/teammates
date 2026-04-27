@@ -15,7 +15,9 @@ import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -24,6 +26,9 @@ import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.test.BaseTestCase;
+import teammates.ui.output.ResponseVisibleSetting;
+import teammates.ui.output.SessionVisibleSetting;
+import teammates.ui.request.FeedbackSessionUpdateRequest;
 
 /**
  * SUT: {@link FeedbackSessionsLogic}.
@@ -445,5 +450,145 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         assertEquals(1, result.size());
         assertEquals(session, result.get(0));
         assertNotNull(result.get(0).getDeletedAt());
+    }
+
+    @Test
+    public void testUpdateFeedbackSession_validUpdate_success() throws Exception {
+        Course course = getTypicalCourse();
+        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
+        String timeZone = session.getCourse().getTimeZone();
+        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
+
+        when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
+
+        session = fsLogic.updateFeedbackSession(session.getId(), updateRequest);
+
+        assertEquals(updateRequest.getInstructions(), session.getInstructions());
+        assertEquals(updateRequest.getGracePeriod(), session.getGracePeriod());
+        assertEquals(updateRequest.getAdjustedSessionVisibleFromTime(timeZone), session.getSessionVisibleFromTime());
+        assertEquals(updateRequest.getAdjustedResultsVisibleFromTime(timeZone), session.getResultsVisibleFromTime());
+        assertEquals(updateRequest.getSubmissionStartTime(), session.getStartTime());
+        assertEquals(updateRequest.getSubmissionEndTime(), session.getEndTime());
+        assertEquals(updateRequest.isClosingSoonEmailEnabled(), session.isClosingSoonEmailEnabled());
+        assertEquals(updateRequest.isPublishedEmailEnabled(), session.isPublishedEmailEnabled());
+    }
+
+    @Test
+    public void testUpdateFeedbackSession_sessionDoesNotExist_throwsEntityDoesNotExistException() {
+        UUID nonExistentId = UUID.randomUUID();
+        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
+
+        when(fsDb.getFeedbackSession(nonExistentId)).thenReturn(null);
+
+        EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
+                () -> fsLogic.updateFeedbackSession(nonExistentId, updateRequest));
+        assertEquals(String.format("Feedback session with id %s not found.", nonExistentId), ex.getMessage());
+    }
+
+    @Test
+    public void testUpdateFeedbackSession_invalidStartTime_throwsInvalidParametersException() {
+        Course course = getTypicalCourse();
+        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
+        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        // Start time more than 2 hours in the past
+        Instant newStartTime = TimeHelper.getInstantNearestHourBefore(
+                TimeHelper.getInstantHoursOffsetFromNow(-3)
+        );
+        updateRequest.setSubmissionStartTimestamp(newStartTime.toEpochMilli());
+        when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
+
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+                () -> fsLogic.updateFeedbackSession(session.getId(), updateRequest));
+        assertEquals("Invalid submission opening time: "
+                + "The start time for this feedback session cannot "
+                + "be earlier than 2 hours before now.", ex.getMessage());
+    }
+
+    @Test
+    public void testUpdateFeedbackSession_invalidEndTime_throwsInvalidParametersException() {
+        Course course = getTypicalCourse();
+        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
+        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        // End time more than 1 hour in the past
+        Instant newEndTime = TimeHelper.getInstantNearestHourBefore(
+                TimeHelper.getInstantHoursOffsetFromNow(-2)
+        );
+        updateRequest.setSubmissionEndTimestamp(newEndTime.toEpochMilli());
+        when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
+
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+                () -> fsLogic.updateFeedbackSession(session.getId(), updateRequest));
+        assertEquals("Invalid submission closing time: "
+                + "The end time for this feedback session cannot "
+                + "be earlier than 1 hour before now.", ex.getMessage());
+    }
+
+    @Test
+    public void testUpdateFeedbackSession_invalidSessionVisibleTime_throwsInvalidParametersException() {
+        Course course = getTypicalCourse();
+        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
+        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        // Session visible time more than 30 days before start time
+        Instant newSessionVisibleTime = TimeHelper.getInstantNearestHourBefore(
+                TimeHelper.getInstantDaysOffsetFromNow(-40)
+        );
+        updateRequest.setCustomSessionVisibleTimestamp(newSessionVisibleTime.toEpochMilli());
+        when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
+
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+                () -> fsLogic.updateFeedbackSession(session.getId(), updateRequest));
+        assertEquals("Invalid session visible time: "
+                + "The time when the session will be visible for this feedback session "
+                + "cannot be earlier than 30 days before start time.", ex.getMessage());
+    }
+
+    @Test
+    public void testUpdateFeedbackSession_endTimeBeforeStartTime_throwsInvalidParametersException() {
+        Course course = getTypicalCourse();
+        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
+        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
+        // End time before start time
+        Instant newStartTime = TimeHelper.getInstantNearestHourBefore(
+                TimeHelper.getInstantHoursOffsetFromNow(1)
+        );
+        Instant newEndTime = TimeHelper.getInstantNearestHourBefore(
+                TimeHelper.getInstantHoursOffsetFromNow(-1)
+        );
+        updateRequest.setSubmissionEndTimestamp(newEndTime.toEpochMilli());
+        updateRequest.setSubmissionStartTimestamp(newStartTime.toEpochMilli());
+        when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
+
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+                () -> fsLogic.updateFeedbackSession(session.getId(), updateRequest));
+        assertEquals("Invalid submission closing time: "
+                + "The end time for this feedback session "
+                + "cannot be earlier than 1 hour before now.", ex.getMessage());
+    }
+
+    private FeedbackSessionUpdateRequest getTypicalFeedbackSessionUpdateRequest() {
+        Instant newStartTime = TimeHelper.getInstantNearestHourBefore(
+                TimeHelper.getInstantHoursOffsetFromNow(1)
+        );
+        Instant newEndTime = TimeHelper.getInstantNearestHourBefore(
+                TimeHelper.getInstantHoursOffsetFromNow(24)
+        );
+        Instant newSessionVisibleFromTime = newStartTime;
+        Instant newResultsVisibleFromTime = TimeHelper.getInstantNearestHourBefore(
+                TimeHelper.getInstantHoursOffsetFromNow(48)
+        );
+
+        FeedbackSessionUpdateRequest updateRequest = new FeedbackSessionUpdateRequest();
+        updateRequest.setInstructions("new instructions");
+        updateRequest.setGracePeriod(60);
+        updateRequest.setSessionVisibleSetting(SessionVisibleSetting.CUSTOM);
+        updateRequest.setResponseVisibleSetting(ResponseVisibleSetting.CUSTOM);
+        updateRequest.setSubmissionStartTimestamp(newStartTime.toEpochMilli());
+        updateRequest.setSubmissionEndTimestamp(newEndTime.toEpochMilli());
+        updateRequest.setCustomSessionVisibleTimestamp(newSessionVisibleFromTime.toEpochMilli());
+        updateRequest.setCustomResponseVisibleTimestamp(newResultsVisibleFromTime.toEpochMilli());
+        updateRequest.setClosingSoonEmailEnabled(false);
+        updateRequest.setPublishedEmailEnabled(false);
+
+        return updateRequest;
     }
 }

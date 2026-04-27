@@ -415,7 +415,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     responseVisibleTime: number): void {
     this.sessionEditFormModel.isSaving = true;
     this.sessionEditFormModel.isEditable = false;
-    this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, {
+    this.feedbackSessionsService.updateFeedbackSession(this.feedbackSessionId, {
       instructions: this.sessionEditFormModel.instructions,
 
       submissionStartTimestamp: submissionStartTime,
