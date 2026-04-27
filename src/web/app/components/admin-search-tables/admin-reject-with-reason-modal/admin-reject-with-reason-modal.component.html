@@ -17,6 +17,8 @@
         <label><b>Rejection Message Body:</b></label>
       </div>
       <tm-rich-text-editor id="rejection-reason-body" [richText]="rejectionReasonBody" (richTextChange)="onRejectionReasonBodyChange($event)"></tm-rich-text-editor>
+    </div>
+  </div>
 </div>
 <div class="modal-footer">
   <button id="btn-cancel-reject-request" type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
