@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse, NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionEditFormMode, QuestionEditFormModel } from './question-edit-form-model';
 import { CommonVisibilitySetting, FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -28,7 +28,6 @@ import { RankRecipientsQuestionEditDetailsFormComponent } from '../question-type
 import { RubricQuestionEditDetailsFormComponent } from '../question-types/question-edit-details-form/rubric-question-edit-details-form.component';
 import { TextQuestionEditDetailsFormComponent } from '../question-types/question-edit-details-form/text-question-edit-details-form.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
-import { collapseAnim } from '../teammates-common/collapse-anim';
 import { QuestionTypeNamePipe } from '../teammates-common/question-type-name.pipe';
 import { VisibilityPanelComponent } from '../visibility-panel/visibility-panel.component';
 
@@ -60,7 +59,6 @@ const QUESTION_DETAIL_PROPERTIES: Set<string> = new Set<string>([
   selector: 'tm-question-edit-form',
   templateUrl: './question-edit-form.component.html',
   styleUrls: ['./question-edit-form.component.scss'],
-  animations: [collapseAnim],
   imports: [
     PanelChevronComponent,
     FormsModule,
@@ -80,6 +78,7 @@ const QUESTION_DETAIL_PROPERTIES: Set<string> = new Set<string>([
     FeedbackPathPanelComponent,
     VisibilityPanelComponent,
     QuestionTypeNamePipe,
+    NgbCollapse,
 ],
 })
 export class QuestionEditFormComponent {

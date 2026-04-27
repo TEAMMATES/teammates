@@ -3,6 +3,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TemplateQuestionModalComponent } from './template-question-modal.component';
+import { provideRouter } from '@angular/router';
 
 describe('TemplateQuestionModalComponent', () => {
   let component: TemplateQuestionModalComponent;
@@ -14,6 +15,7 @@ describe('TemplateQuestionModalComponent', () => {
         NgbActiveModal,
         provideHttpClient(),
         provideHttpClientTesting(),
+        provideRouter([]),
       ],
     })
     .compileComponents();
