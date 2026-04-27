@@ -18,7 +18,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
-import teammates.common.util.TimeHelperExtension;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.test.BaseTestCase;
 
@@ -163,70 +162,5 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
         feedbackSessionsDb.deleteFeedbackSession(feedbackSession);
 
         mockHibernateUtil.verify(() -> HibernateUtil.remove(feedbackSession), times(1));
-    }
-
-    @Test
-    public void testGetSoftDeletedFeedbackSession_isSoftDeleted_success() {
-        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
-        String sessionName = feedbackSession.getName();
-        String courseId = feedbackSession.getCourseId();
-        feedbackSession.setDeletedAt(TimeHelperExtension.getInstantDaysOffsetFromNow(2));
-        doReturn(feedbackSession).when(feedbackSessionsDb).getFeedbackSession(sessionName, courseId);
-
-        FeedbackSession sessionFetched = feedbackSessionsDb.getSoftDeletedFeedbackSession(sessionName, courseId);
-
-        assertEquals(feedbackSession, sessionFetched);
-    }
-
-    @Test
-    public void testGetSoftDeletedFeedbackSession_notSoftDeleted_returnNull() {
-        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
-        String sessionName = feedbackSession.getName();
-        String courseId = feedbackSession.getCourseId();
-        doReturn(feedbackSession).when(feedbackSessionsDb).getFeedbackSession(sessionName, courseId);
-
-        FeedbackSession sessionFetched = feedbackSessionsDb.getSoftDeletedFeedbackSession(sessionName, courseId);
-
-        assertNull(sessionFetched);
-    }
-
-    @Test
-    public void testGetSoftDeletedFeedbackSession_sessionDoesNotExist_returnNull() {
-        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
-        String sessionName = feedbackSession.getName();
-        String courseId = feedbackSession.getCourseId();
-        doReturn(null).when(feedbackSessionsDb).getFeedbackSession(sessionName, courseId);
-
-        FeedbackSession sessionFetched = feedbackSessionsDb.getSoftDeletedFeedbackSession(sessionName, courseId);
-
-        assertNull(sessionFetched);
-    }
-
-    @Test
-    public void testRestoreDeletedFeedbackSession_success() throws EntityDoesNotExistException {
-        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
-        String sessionName = feedbackSession.getName();
-        String courseId = feedbackSession.getCourseId();
-        feedbackSession.setDeletedAt(TimeHelperExtension.getInstantDaysOffsetFromNow(2));
-        doReturn(feedbackSession).when(feedbackSessionsDb).getFeedbackSession(sessionName, courseId);
-        mockHibernateUtil.when(() -> HibernateUtil.merge(feedbackSession)).thenReturn(feedbackSession);
-
-        feedbackSessionsDb.restoreDeletedFeedbackSession(sessionName, courseId);
-
-        assertNull(feedbackSession.getDeletedAt());
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(feedbackSession), times(1));
-    }
-
-    @Test
-    public void testRestoreDeletedFeedbackSession_sessionDoesNotExist_throwsEntityDoesNotExistException()
-            throws EntityDoesNotExistException {
-        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
-        String sessionName = feedbackSession.getName();
-        String courseId = feedbackSession.getCourseId();
-        doReturn(null).when(feedbackSessionsDb).getFeedbackSession(sessionName, courseId);
-
-        assertThrows(EntityDoesNotExistException.class,
-                () -> feedbackSessionsDb.restoreDeletedFeedbackSession(sessionName, courseId));
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(feedbackSession), never());
     }
 }

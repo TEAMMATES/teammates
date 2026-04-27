@@ -234,10 +234,12 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
     public void testRestoreFeedbackSessionFromRecycleBin_sessionExists_success() throws EntityDoesNotExistException {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
+        session.setDeletedAt(Instant.now());
+        when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
 
-        fsLogic.restoreFeedbackSessionFromRecycleBin(session.getName(), course.getId());
+        fsLogic.restoreFeedbackSessionFromRecycleBin(session.getId());
 
-        verify(fsDb, times(1)).restoreDeletedFeedbackSession(session.getName(), course.getId());
+        assertNull(session.getDeletedAt());
     }
 
     @Test
@@ -245,11 +247,11 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
 
-        when(fsDb.getFeedbackSession(session.getName(), course.getId())).thenReturn(session);
+        when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
 
-        fsLogic.deleteFeedbackSessionCascade(session.getName(), course.getId());
+        fsLogic.deleteFeedbackSessionCascade(session.getId());
 
-        verify(fsDb, times(1)).getFeedbackSession(session.getName(), course.getId());
+        verify(fsDb, times(1)).getFeedbackSession(session.getId());
         verify(fsDb, times(1)).deleteFeedbackSession(session);
     }
 

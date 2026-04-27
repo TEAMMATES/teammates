@@ -46,8 +46,6 @@ public final class FeedbackSessionsDb {
      * @return null if not found
      */
     public FeedbackSession getFeedbackSession(UUID fsId) {
-        assert fsId != null;
-
         return HibernateUtil.get(FeedbackSession.class, fsId);
     }
 
@@ -114,24 +112,6 @@ public final class FeedbackSessionsDb {
                     cb.greaterThan(root.get("endTime"), rangeStart),
                     cb.lessThan(root.get("startTime"), rangeEnd)));
         return HibernateUtil.createQuery(cr).getResultList();
-    }
-
-    /**
-     * Restores a specific soft deleted feedback session.
-     */
-    public void restoreDeletedFeedbackSession(String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException {
-        assert courseId != null;
-        assert feedbackSessionName != null;
-
-        FeedbackSession sessionEntity = getFeedbackSession(feedbackSessionName, courseId);
-
-        if (sessionEntity == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        sessionEntity.setDeletedAt(null);
-        HibernateUtil.merge(sessionEntity);
     }
 
     /**

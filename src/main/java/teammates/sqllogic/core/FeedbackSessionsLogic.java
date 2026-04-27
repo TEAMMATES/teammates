@@ -284,8 +284,8 @@ public final class FeedbackSessionsLogic {
      *
      * <p>Fails silently if the feedback session doesn't exist.</p>
      */
-    public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
-        FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionName, courseId);
+    public void deleteFeedbackSessionCascade(UUID feedbackSessionId) {
+        FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             return;
         }
@@ -299,7 +299,7 @@ public final class FeedbackSessionsLogic {
      */
     public FeedbackSession moveFeedbackSessionToRecycleBin(UUID feedbackSessionId)
             throws EntityDoesNotExistException {
-        FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityDoesNotExistException(
                 String.format("Feedback Session with id %s does not exist.", feedbackSessionId));
@@ -313,9 +313,17 @@ public final class FeedbackSessionsLogic {
     /**
      * Restores a specific feedback session from Recycle Bin.
      */
-    public void restoreFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId)
+    public FeedbackSession restoreFeedbackSessionFromRecycleBin(UUID feedbackSessionId)
             throws EntityDoesNotExistException {
-        fsDb.restoreDeletedFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSession feedbackSession = getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityDoesNotExistException(
+                String.format("Feedback Session with id %s does not exist.", feedbackSessionId));
+        }
+
+        feedbackSession.setDeletedAt(null);
+
+        return feedbackSession;
     }
 
     /**

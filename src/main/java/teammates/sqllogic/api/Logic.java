@@ -633,8 +633,8 @@ public class Logic {
      *
      * <p>Fails silently if the feedback session doesn't exist.</p>
      */
-    public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
-        feedbackSessionsLogic.deleteFeedbackSessionCascade(feedbackSessionName, courseId);
+    public void deleteFeedbackSessionCascade(UUID feedbackSessionId) {
+        feedbackSessionsLogic.deleteFeedbackSessionCascade(feedbackSessionId);
     }
 
     /**
@@ -648,13 +648,9 @@ public class Logic {
     /**
      * Restores a specific session from Recycle Bin to feedback sessions table.
      */
-    public void restoreFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId)
+    public FeedbackSession restoreFeedbackSessionFromRecycleBin(UUID feedbackSessionId)
             throws EntityDoesNotExistException {
-
-        assert feedbackSessionName != null;
-        assert courseId != null;
-
-        feedbackSessionsLogic.restoreFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
+        return feedbackSessionsLogic.restoreFeedbackSessionFromRecycleBin(feedbackSessionId);
     }
 
     /**
