@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditRequestModalComponent } from './admin-edit-request-modal.component';
 
-describe('RejectWithReasonModal', () => {
+describe('EditRequestModalComponent', () => {
   let fixture: ComponentFixture<EditRequestModalComponent>;
   let component: EditRequestModalComponent;
 
