@@ -6,10 +6,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import { AccountRequestTableRowModel } from './account-search-table-model';
 import { AdminAccountSearchTableComponent } from './admin-account-search-table.component';
-import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
+import { EditRequestModalComponent } from '../account-requests-table/admin-edit-request-modal/admin-edit-request-modal.component';
 import {
   RejectWithReasonModalComponent,
-} from './admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
+} from '../account-requests-table/admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
 import { AccountService } from '../../../services/account.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
