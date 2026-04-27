@@ -54,7 +54,7 @@ public class GetDeadlineExtensionsActionTest
         typicalInstructor = getTypicalInstructor();
         typicalStudent = getTypicalStudent();
 
-        when(mockLogic.getFeedbackSession(FEEDBACK_SESSION_NAME, COURSE_ID)).thenReturn(typicalFeedbackSession);
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId())).thenReturn(typicalFeedbackSession);
         when(mockLogic.getStudentsForCourse(COURSE_ID)).thenReturn(new ArrayList<>());
         when(mockLogic.getInstructorsByCourse(COURSE_ID)).thenReturn(new ArrayList<>());
     }
@@ -78,7 +78,7 @@ public class GetDeadlineExtensionsActionTest
 
     @Test
     void testExecute_sessionNotFound_throwsEntityNotFoundException() {
-        when(mockLogic.getFeedbackSession(FEEDBACK_SESSION_NAME, COURSE_ID)).thenReturn(null);
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId())).thenReturn(null);
         loginAsInstructor(typicalInstructor.getGoogleId());
 
         verifyEntityNotFoundAcl(getTypicalParams());
@@ -144,8 +144,7 @@ public class GetDeadlineExtensionsActionTest
 
     private String[] getTypicalParams() {
         return new String[] {
-                Const.ParamsNames.COURSE_ID, COURSE_ID,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, FEEDBACK_SESSION_NAME,
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
     }
 }

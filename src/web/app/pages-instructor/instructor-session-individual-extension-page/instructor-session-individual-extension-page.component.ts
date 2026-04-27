@@ -144,8 +144,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         feedbackSessionId: this.feedbackSessionId,
         intent: Intent.FULL_DETAIL,
       }),
-      this.feedbackSessionsService.getFeedbackSessionDeadlineExtensions(
-        this.courseId, this.feedbackSessionName),
+      this.feedbackSessionsService.getFeedbackSessionDeadlineExtensions(this.feedbackSessionId),
     ])
       .pipe(finalize(() => {
         this.isLoadingFeedbackSession = false;
