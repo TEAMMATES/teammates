@@ -15,7 +15,7 @@ import teammates.ui.output.FeedbackSessionDeadlineExtensionsData;
 /**
  * Gets the deadline extensions for a feedback session.
  */
-public class GetFeedbackSessionDeadlineExtensionsAction extends Action {
+public class GetDeadlineExtensionsAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
