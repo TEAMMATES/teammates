@@ -3,7 +3,6 @@ package teammates.it.storage.sqlapi;
 import java.util.List;
 import java.util.UUID;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -27,16 +26,11 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     private DataBundle typicalDataBundle;
 
-    @BeforeClass
-    public void setupClass() {
-        typicalDataBundle = getTypicalDataBundle();
-    }
-
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalDataBundle);
+        typicalDataBundle = persistDataBundle(getTypicalDataBundle());
         HibernateUtil.flushSession();
     }
 

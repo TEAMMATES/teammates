@@ -1,6 +1,5 @@
 package teammates.it.sqllogic.core;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -35,16 +34,11 @@ public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     private DataBundle typicalDataBundle;
 
-    @BeforeClass
-    public void setupClass() {
-        typicalDataBundle = getTypicalDataBundle();
-    }
-
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalDataBundle);
+        typicalDataBundle = persistDataBundle(getTypicalDataBundle());
         HibernateUtil.flushSession();
         HibernateUtil.clearSession();
     }

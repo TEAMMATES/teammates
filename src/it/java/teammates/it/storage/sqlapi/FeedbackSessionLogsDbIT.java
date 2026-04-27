@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -27,16 +26,11 @@ public class FeedbackSessionLogsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     private DataBundle typicalDataBundle;
 
-    @BeforeClass
-    public void setupClass() {
-        typicalDataBundle = getTypicalDataBundle();
-    }
-
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalDataBundle);
+        typicalDataBundle = persistDataBundle(getTypicalDataBundle());
         HibernateUtil.flushSession();
     }
 

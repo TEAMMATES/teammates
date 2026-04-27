@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
@@ -24,12 +25,13 @@ import teammates.ui.webapi.UpdateFeedbackQuestionAction;
  * SUT: {@link UpdateFeedbackQuestionAction}.
  */
 public class UpdateFeedbackQuestionActionIT extends BaseActionIT<UpdateFeedbackQuestionAction> {
+    private DataBundle typicalBundle;
 
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalBundle);
+        typicalBundle = persistDataBundle(getTypicalDataBundle());
         HibernateUtil.flushSession();
     }
 

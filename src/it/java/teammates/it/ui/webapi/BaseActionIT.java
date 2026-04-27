@@ -13,7 +13,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.UserInfo;
@@ -64,7 +63,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
     static final String PUT = HttpPut.METHOD_NAME;
     static final String DELETE = HttpDelete.METHOD_NAME;
 
-    DataBundle typicalBundle = getTypicalDataBundle();
     Logic logic = Logic.inst();
     MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
     MockEmailSender mockEmailSender = new MockEmailSender();

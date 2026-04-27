@@ -3,6 +3,7 @@ package teammates.it.ui.webapi;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.AccountRequest;
@@ -14,13 +15,13 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link GetCourseJoinStatusAction}.
  */
 public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatusAction> {
+    private DataBundle typicalBundle;
 
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        this.typicalBundle = loadDataBundle("/typicalDataBundle.json");
-        persistDataBundle(typicalBundle);
+        typicalBundle = persistDataBundle(getTypicalDataBundle());
         HibernateUtil.flushSession();
     }
 
