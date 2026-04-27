@@ -23,7 +23,7 @@ public final class EntityCopyUtil {
                 original.getName(), original.getCourse(), original.getCreatorEmail(), original.getInstructions(),
                 original.getStartTime(),
                 original.getEndTime(), original.getSessionVisibleFromTime(), original.getResultsVisibleFromTime(),
-                original.getGracePeriod(), original.isOpenedEmailEnabled(), original.isClosingSoonEmailEnabled(),
+                original.getGracePeriod(), original.isClosingSoonEmailEnabled(),
                 original.isPublishedEmailEnabled());
         fs.setId(null);
         fs.setCreatedAt(original.getCreatedAt());

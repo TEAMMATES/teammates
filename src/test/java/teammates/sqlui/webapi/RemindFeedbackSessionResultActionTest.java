@@ -145,7 +145,7 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
                 instructor.getEmail(), "generic instructions",
                 beforeNow, beforeNow,
                 beforeNow, beforeNow,
-                Duration.ofHours(10), true, false, false);
+                Duration.ofHours(10), false, false);
         fs.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
 
@@ -160,7 +160,7 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
                 afterNowStartTime,
                 afterNowEndTime,
                 afterNowStartTime, afterNowEndTime,
-                Duration.ofHours(10), true, false, false);
+                Duration.ofHours(10), false, false);
         fs.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
 

@@ -83,9 +83,6 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
     @FindBy(id = "btn-change-email")
     private WebElement changeEmailButton;
 
-    @FindBy(id = "email-opening")
-    private WebElement openedSessionEmailCheckbox;
-
     @FindBy(id = "email-closing")
     private WebElement closingSoonSessionEmailCheckbox;
 
@@ -402,9 +399,6 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
 
     private void setEmailSettings(FeedbackSession newFeedbackSessionDetails) {
         showEmailSettings();
-        if (newFeedbackSessionDetails.isOpenedEmailEnabled() != openedSessionEmailCheckbox.isSelected()) {
-            click(openedSessionEmailCheckbox);
-        }
         if (newFeedbackSessionDetails.isClosingSoonEmailEnabled() != closingSoonSessionEmailCheckbox.isSelected()) {
             click(closingSoonSessionEmailCheckbox);
         }

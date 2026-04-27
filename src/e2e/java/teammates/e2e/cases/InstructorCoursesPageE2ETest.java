@@ -84,7 +84,6 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                     .toInstant(),
                 Const.TIME_REPRESENTS_LATER,
                 session.getGracePeriod(),
-                session.isOpenedEmailEnabled(),
                 session.isClosingSoonEmailEnabled(),
                 session.isPublishedEmailEnabled()
         );
@@ -100,7 +99,6 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 copySession.getSessionVisibleFromTime(),
                 copySession.getResultsVisibleFromTime(),
                 copySession.getGracePeriod(),
-                copySession.isOpenedEmailEnabled(),
                 copySession.isClosingSoonEmailEnabled(),
                 copySession.isPublishedEmailEnabled()
         );

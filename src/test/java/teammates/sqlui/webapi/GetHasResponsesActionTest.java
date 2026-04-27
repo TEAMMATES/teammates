@@ -455,7 +455,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
                 endTime,
                 Duration.ofMinutes(5),
                 false,
-                false,
                 false);
     }
 

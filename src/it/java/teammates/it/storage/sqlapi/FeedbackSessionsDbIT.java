@@ -32,10 +32,10 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         coursesDb.createCourse(course1);
         FeedbackSession fs1 = new FeedbackSession("name1", course1, "test1@test.com", "test-instruction",
                 Instant.now().plus(Duration.ofDays(1)), Instant.now().plus(Duration.ofDays(7)), Instant.now(),
-                Instant.now().plus(Duration.ofDays(7)), Duration.ofMinutes(10), true, true, true);
+                Instant.now().plus(Duration.ofDays(7)), Duration.ofMinutes(10), true, true);
         FeedbackSession fs2 = new FeedbackSession("name2", course1, "test1@test.com", "test-instruction",
                 Instant.now().plus(Duration.ofDays(1)), Instant.now().plus(Duration.ofDays(7)), Instant.now(),
-                Instant.now().plus(Duration.ofDays(7)), Duration.ofMinutes(10), true, true, true);
+                Instant.now().plus(Duration.ofDays(7)), Duration.ofMinutes(10), true, true);
         fsDb.createFeedbackSession(fs1);
         fsDb.createFeedbackSession(fs2);
 
@@ -53,31 +53,31 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         FeedbackSession c1Fs1 = new FeedbackSession("name1-1", course1, "test1@test.com", "test-instruction",
                 instantNow.minus(Duration.ofDays(7L)), instantNow.minus(Duration.ofDays(1L)),
                 instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
-                true, true, true);
+                true, true);
         fsDb.createFeedbackSession(c1Fs1);
         FeedbackSession c1Fs2 = new FeedbackSession("name1-2", course1, "test2@test.com", "test-instruction",
                 instantNow, instantNow.plus(Duration.ofDays(7L)),
                 instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
-                true, true, true);
+                true, true);
         fsDb.createFeedbackSession(c1Fs2);
         Course course2 = new Course("test-id2", "test-name2", "UTC", "MIT");
         coursesDb.createCourse(course2);
         FeedbackSession c2Fs1 = new FeedbackSession("name2-1", course2, "test3@test.com", "test-instruction",
                 instantNow.minus(Duration.ofHours(12L)), instantNow.plus(Duration.ofHours(12L)),
                 instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
-                true, true, true);
+                true, true);
         fsDb.createFeedbackSession(c2Fs1);
         FeedbackSession c2Fs2 = new FeedbackSession("name2-2", course2, "test3@test.com", "test-instruction",
                 instantNow.plus(Duration.ofDays(1L)), instantNow.plus(Duration.ofDays(7L)),
                 instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
-                true, true, true);
+                true, true);
         fsDb.createFeedbackSession(c2Fs2);
         Course course3 = new Course("test-id3", "test-name3", "UTC", "UCL");
         coursesDb.createCourse(course3);
         FeedbackSession c3Fs1 = new FeedbackSession("name3-1", course3, "test4@test.com", "test-instruction",
                 instantNow.minus(Duration.ofDays(7L)), instantNow,
                 instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
-                true, true, true);
+                true, true);
         fsDb.createFeedbackSession(c3Fs1);
         Set<FeedbackSession> expectedUniqueOngoingSessions = new HashSet<>();
         expectedUniqueOngoingSessions.add(c1Fs2);

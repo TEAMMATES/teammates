@@ -833,7 +833,6 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Instant.now().minus(Duration.ofHours(1)),
                 Duration.ofMinutes(15),
                 false,
-                false,
                 false);
     }
 
