@@ -150,7 +150,7 @@ describe('FeedbackSessionsService', () => {
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.BIN_SESSION, paramMap);
   });
 
-  it('should call delete when restoring session from recycle bin', () => {
+  it('should call delete when deleting feedback session', () => {
     const paramMap: Record<string, string> = {
       fsid: 'bae3cb90-13dd-45f5-882e-250a43b1ee6f',
     };

@@ -24,6 +24,9 @@ public class RestoreFeedbackSessionAction extends Action {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
         FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityNotFoundException("The feedback session does not exist.");
+        }
 
         gateKeeper.verifyAccessible(
                 sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()),

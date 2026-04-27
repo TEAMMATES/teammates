@@ -234,6 +234,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
     public void testRestoreFeedbackSessionFromRecycleBin_sessionExists_success() throws EntityDoesNotExistException {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
+        session.setDeletedAt(Instant.now());
         when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
 
         fsLogic.restoreFeedbackSessionFromRecycleBin(session.getId());

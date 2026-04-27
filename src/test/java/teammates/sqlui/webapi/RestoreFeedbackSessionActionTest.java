@@ -73,7 +73,7 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
     }
 
     @Test
-    void testExecute_invalidCourseIdParam_throwsInvalidHttpParameterException() {
+    void testExecute_invalidFeedbackSessionIdParam_throwsInvalidHttpParameterException() {
         loginAsInstructor(GOOGLE_ID);
 
         ______TS("Null fsId parameter");
