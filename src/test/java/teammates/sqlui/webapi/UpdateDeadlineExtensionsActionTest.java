@@ -28,13 +28,13 @@ import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.request.FeedbackSessionDeadlineExtensionsUpdateRequest;
-import teammates.ui.webapi.UpdateFeedbackSessionDeadlineExtensionsAction;
+import teammates.ui.webapi.UpdateDeadlineExtensionsAction;
 
 /**
- * SUT: {@link UpdateFeedbackSessionDeadlineExtensionsAction}.
+ * SUT: {@link UpdateDeadlineExtensionsAction}.
  */
-public class UpdateFeedbackSessionDeadlineExtensionsActionTest
-        extends BaseActionTest<UpdateFeedbackSessionDeadlineExtensionsAction> {
+public class UpdateDeadlineExtensionsActionTest
+        extends BaseActionTest<UpdateDeadlineExtensionsAction> {
 
     private Course course;
     private Instructor instructor;
@@ -53,7 +53,7 @@ public class UpdateFeedbackSessionDeadlineExtensionsActionTest
     }
 
     @BeforeMethod
-    void setUp() throws InvalidParametersException, EntityAlreadyExistsException {
+    void setUp() {
         nearestHour = Instant.now().truncatedTo(java.time.temporal.ChronoUnit.HOURS);
         endHour = Instant.now().plus(2, java.time.temporal.ChronoUnit.HOURS)
                 .truncatedTo(java.time.temporal.ChronoUnit.HOURS);
@@ -79,8 +79,7 @@ public class UpdateFeedbackSessionDeadlineExtensionsActionTest
         FeedbackSession originalFeedbackSession = generateSession1InCourse(course, instructor);
 
         String[] param = new String[] {
-                Const.ParamsNames.COURSE_ID, originalFeedbackSession.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, originalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, originalFeedbackSession.getId().toString(),
                 Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
 
@@ -88,11 +87,11 @@ public class UpdateFeedbackSessionDeadlineExtensionsActionTest
         originalDeadlines.add(new DeadlineExtension(instructor, originalFeedbackSession, nearestHour));
         originalFeedbackSession.setDeadlineExtensions(originalDeadlines);
 
-        when(mockLogic.getFeedbackSession(any(), any())).thenReturn(originalFeedbackSession);
+        when(mockLogic.getFeedbackSession(originalFeedbackSession.getId())).thenReturn(originalFeedbackSession);
 
         FeedbackSessionDeadlineExtensionsUpdateRequest updateRequest =
                 buildUpdateRequest(instructor.getEmail(), endHour);
-        UpdateFeedbackSessionDeadlineExtensionsAction a = getAction(updateRequest, param);
+        UpdateDeadlineExtensionsAction a = getAction(updateRequest, param);
         getJsonResult(a);
 
         verify(mockLogic, times(1)).updateDeadlineExtension(any());
@@ -101,25 +100,24 @@ public class UpdateFeedbackSessionDeadlineExtensionsActionTest
 
     @Test
     void testExecute_createDeadlineExtensionEndTime_success()
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         loginAsInstructor(instructor.getGoogleId());
         FeedbackSession originalFeedbackSession = generateSession1InCourse(course, instructor);
 
         String[] param = new String[] {
-                Const.ParamsNames.COURSE_ID, originalFeedbackSession.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, originalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, originalFeedbackSession.getId().toString(),
                 Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
 
         originalFeedbackSession.setDeadlineExtensions(new ArrayList<>());
 
-        when(mockLogic.getFeedbackSession(any(), any())).thenReturn(originalFeedbackSession);
+        when(mockLogic.getFeedbackSession(originalFeedbackSession.getId())).thenReturn(originalFeedbackSession);
         when(mockLogic.getInstructorForEmail(originalFeedbackSession.getCourseId(), instructor.getEmail()))
                 .thenReturn(instructor);
 
         FeedbackSessionDeadlineExtensionsUpdateRequest updateRequest =
                 buildUpdateRequest(instructor.getEmail(), nearestHour);
-        UpdateFeedbackSessionDeadlineExtensionsAction a = getAction(updateRequest, param);
+        UpdateDeadlineExtensionsAction a = getAction(updateRequest, param);
         getJsonResult(a);
 
         verify(mockLogic, times(1)).createDeadlineExtension(any());

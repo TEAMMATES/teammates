@@ -618,9 +618,8 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     /**
      * Gets feedback session deadline extensions data from the database.
      */
-    protected FeedbackSessionDeadlineExtensionsData getFeedbackSessionDeadlineExtensions(
-            String courseId, String feedbackSessionName) {
-        return BACKDOOR.getFeedbackSessionDeadlineExtensionsData(courseId, feedbackSessionName);
+    protected FeedbackSessionDeadlineExtensionsData getFeedbackSessionDeadlineExtensions(UUID feedbackSessionId) {
+        return BACKDOOR.getFeedbackSessionDeadlineExtensionsData(feedbackSessionId.toString());
     }
 
     /**

@@ -144,8 +144,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         feedbackSessionId: this.feedbackSessionId,
         intent: Intent.FULL_DETAIL,
       }),
-      this.feedbackSessionsService.getFeedbackSessionDeadlineExtensions(
-        this.courseId, this.feedbackSessionName),
+      this.feedbackSessionsService.getFeedbackSessionDeadlineExtensions(this.feedbackSessionId),
     ])
       .pipe(finalize(() => {
         this.isLoadingFeedbackSession = false;
@@ -402,7 +401,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   ): void {
     this.isSubmittingDeadlines = true;
     this.feedbackSessionsService
-      .updateFeedbackSessionDeadlineExtensions(this.courseId, this.feedbackSessionName, request, isNotifyDeadlines)
+      .updateFeedbackSessionDeadlineExtensions(this.feedbackSessionId, request, isNotifyDeadlines)
       .pipe(finalize(() => { this.isSubmittingDeadlines = false; }))
       .subscribe({
         next: () => {
