@@ -61,7 +61,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             checkAccessControlForStudentFeedbackSubmission(student, session);
             gateKeeper.verifyOwnership(feedbackResponseComment,
                     question.getGiverType() == FeedbackParticipantType.TEAMS
-                            ? student.getTeam().getName() : student.getEmail());
+                            ? student.getTeamName() : student.getEmail());
             break;
         case INSTRUCTOR_SUBMISSION:
             Instructor instructorAsFeedbackParticipant = getSqlInstructorOfCourseFromRequest(courseId);

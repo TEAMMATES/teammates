@@ -94,6 +94,9 @@ public final class CoursesDb {
     public Section createSection(Section section) throws InvalidParametersException, EntityAlreadyExistsException {
         assert section != null;
 
+        // TODO: refactor callers to call createSection in CoursesLogic instead.
+        // This validation is already done in coursesLogic, but is kept here until
+        // the refactor is done to prevent breaking existing callers.
         if (!section.isValid()) {
             throw new InvalidParametersException(section.getInvalidityInfo());
         }

@@ -51,10 +51,6 @@ public abstract class User extends BaseEntity {
     @JoinColumn(name = "courseId", nullable = false)
     private Course course;
 
-    @ManyToOne
-    @JoinColumn(name = "teamId")
-    private Team team;
-
     @Column(nullable = false)
     private String name;
 
@@ -110,29 +106,6 @@ public abstract class User extends BaseEntity {
         this.course = course;
         this.courseId = course.getId();
     }
-
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
-    /**
-     * Returns the user's section.
-     */
-    abstract Section getSection();
-
-    /**
-     * Returns the user's team name.
-     */
-    abstract String getTeamName();
-
-    /**
-     * Returns the user's section name.
-     */
-    abstract String getSectionName();
 
     public String getName() {
         return name;

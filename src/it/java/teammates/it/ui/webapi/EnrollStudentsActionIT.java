@@ -50,7 +50,7 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         List<StudentsEnrollRequest.StudentEnrollRequest> studentEnrollRequests = new ArrayList<>();
         students.forEach(student -> {
             studentEnrollRequests.add(new StudentsEnrollRequest.StudentEnrollRequest(student.getName(),
-                    student.getEmail(), student.getTeam().getName(), student.getSection().getName(), student.getComments()));
+                    student.getEmail(), student.getTeamName(), student.getSectionName(), student.getComments()));
         });
 
         return new StudentsEnrollRequest(studentEnrollRequests);

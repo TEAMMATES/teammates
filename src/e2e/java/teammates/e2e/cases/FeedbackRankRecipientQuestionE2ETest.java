@@ -126,6 +126,6 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
         FeedbackRankRecipientsResponseDetails details = new FeedbackRankRecipientsResponseDetails();
         details.setAnswer(answer);
         return FeedbackResponse.makeResponse(question, student.getEmail(),
-                student.getSection(), receiver.getEmail(), receiver.getSection(), details);
+                student.getSection(), receiver.getEmail(), null, details);
     }
 }

@@ -587,7 +587,7 @@ public final class FeedbackResponsesLogic {
         Set<String> studentsEmailInTeam = new HashSet<>();
         if (student != null) {
             for (Student studentInTeam
-                    : roster.getTeamToMembersTable().getOrDefault(student.getTeam().getName(), Collections.emptyList())) {
+                    : roster.getTeamToMembersTable().getOrDefault(student.getTeamName(), Collections.emptyList())) {
                 studentsEmailInTeam.add(studentInTeam.getEmail());
             }
         }

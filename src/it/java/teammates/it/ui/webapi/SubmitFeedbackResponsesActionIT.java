@@ -171,11 +171,11 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     }
 
     private List<String> extractStudentEmails(List<Student> students) {
-        return students.stream().map(recipient -> recipient.getEmail()).collect(Collectors.toList());
+        return students.stream().map(User::getEmail).collect(Collectors.toList());
     }
 
     private List<String> extractStudentTeams(List<Student> students) {
-        return students.stream().map(recipient -> recipient.getTeam().getName()).collect(Collectors.toList());
+        return students.stream().map(Student::getTeamName).collect(Collectors.toList());
     }
 
     private FeedbackResponsesRequest buildRequestBodyWithStudentRecipientsEmail(

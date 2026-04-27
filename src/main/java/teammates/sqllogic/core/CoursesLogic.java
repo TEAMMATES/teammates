@@ -238,7 +238,20 @@ public final class CoursesLogic {
     /**
      * Creates a section.
      */
-    public Section createSection(Section section) throws InvalidParametersException, EntityAlreadyExistsException {
+    public Section createSection(Course course, String sectionName)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        if (coursesDb.getSectionByName(course.getId(), sectionName) != null) {
+            throw new EntityAlreadyExistsException("Section with name "
+                    + sectionName + " already exists in course " + course.getId());
+        }
+
+        Section section = new Section(course, sectionName);
+        course.addSection(section);
+
+        if (!section.isValid()) {
+            throw new InvalidParametersException(section.getInvalidityInfo());
+        }
+
         return coursesDb.createSection(section);
     }
 
@@ -272,7 +285,20 @@ public final class CoursesLogic {
     /**
      * Creates a team.
      */
-    public Team createTeam(Team team) throws InvalidParametersException, EntityAlreadyExistsException {
+    public Team createTeam(Section section, String teamName)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        if (coursesDb.getTeamByName(section.getId(), teamName) != null) {
+            throw new EntityAlreadyExistsException("Team with name "
+                    + teamName + " already exists in section " + section.getId());
+        }
+
+        Team team = new Team(section, teamName);
+        section.addTeam(team);
+
+        if (!team.isValid()) {
+            throw new InvalidParametersException(team.getInvalidityInfo());
+        }
+
         return coursesDb.createTeam(team);
     }
 
