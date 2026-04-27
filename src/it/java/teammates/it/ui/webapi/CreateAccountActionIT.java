@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -27,12 +28,13 @@ import teammates.ui.webapi.InvalidHttpParameterException;
  * SUT: {@link CreateAccountAction}.
  */
 public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
+    private DataBundle typicalBundle;
 
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalBundle);
+        typicalBundle = persistDataBundle(getTypicalDataBundle());
         HibernateUtil.flushSession();
     }
 

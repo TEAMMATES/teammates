@@ -3,6 +3,7 @@ package teammates.it.ui.webapi;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
@@ -19,12 +20,13 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link CreateInstructorAction}.
  */
 public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorAction> {
+    private DataBundle typicalBundle;
 
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalBundle);
+        typicalBundle = persistDataBundle(getTypicalDataBundle());
 
         // Ensure the admin account exists for email sending
         String adminId = Config.APP_ADMINS.get(0);

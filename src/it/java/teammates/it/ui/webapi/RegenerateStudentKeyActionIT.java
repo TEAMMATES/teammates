@@ -3,6 +3,7 @@ package teammates.it.ui.webapi;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
@@ -17,12 +18,13 @@ import teammates.ui.webapi.RegenerateStudentKeyAction;
  * SUT: {@link RegenerateStudentKeyAction}.
  */
 public class RegenerateStudentKeyActionIT extends BaseActionIT<RegenerateStudentKeyAction> {
+    private DataBundle typicalBundle;
 
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalBundle);
+        typicalBundle = persistDataBundle(getTypicalDataBundle());
         HibernateUtil.flushSession();
     }
 

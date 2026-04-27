@@ -8,6 +8,7 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
@@ -22,6 +23,7 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link FeedbackSessionClosingSoonRemindersAction}.
  */
 public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<FeedbackSessionClosingSoonRemindersAction> {
+    private DataBundle typicalBundle;
 
     @Override
     @BeforeMethod

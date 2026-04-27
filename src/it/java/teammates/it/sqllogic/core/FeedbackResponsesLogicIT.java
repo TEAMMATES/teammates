@@ -25,16 +25,11 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
 
     private DataBundle typicalDataBundle;
 
-    @BeforeClass
-    public void setupClass() {
-        typicalDataBundle = getTypicalDataBundle();
-    }
-
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalDataBundle);
+        typicalDataBundle = persistDataBundle(getTypicalDataBundle());
         HibernateUtil.flushSession();
         HibernateUtil.clearSession();
     }

@@ -6,6 +6,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
@@ -29,6 +30,7 @@ import teammates.ui.webapi.RejectAccountRequestAction;
  * SUT: {@link RejectAccountRequestAction}.
  */
 public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequestAction> {
+    private DataBundle typicalBundle;
 
     private static final String TYPICAL_TITLE = "We are Unable to Create an Account for you";
     private static final String TYPICAL_BODY = new StringBuilder()
@@ -50,7 +52,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalBundle);
+        typicalBundle = persistDataBundle(getTypicalDataBundle());
         HibernateUtil.flushSession();
     }
 
