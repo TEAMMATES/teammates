@@ -107,23 +107,6 @@ public abstract class User extends BaseEntity {
         this.courseId = course.getId();
     }
 
-    abstract Team getTeam();
-
-    /**
-     * Returns the user's section.
-     */
-    abstract Section getSection();
-
-    /**
-     * Returns the user's team name.
-     */
-    abstract String getTeamName();
-
-    /**
-     * Returns the user's section name.
-     */
-    abstract String getSectionName();
-
     public String getName() {
         return name;
     }

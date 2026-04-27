@@ -56,7 +56,6 @@ public class Student extends User {
         this.comments = SanitizationHelper.sanitizeTextField(comments);
     }
 
-    @Override
     public Team getTeam() {
         return this.getTeam();
     }
@@ -65,19 +64,16 @@ public class Student extends User {
         this.team = team;
     }
 
-    @Override
     public String getTeamName() {
-        return getTeam() != null ? getTeam().getName() : null;
+        return getTeam().getName();
     }
 
-    @Override
     public String getSectionName() {
-        return getTeam() != null ? getTeam().getSection() != null ? getTeam().getSection().getName() : null : null;
+        return getSection().getName();
     }
 
-    @Override
     public Section getSection() {
-        return getTeam() != null ? getTeam().getSection() : null;
+        return getTeam().getSection();
     }
 
     @Override
