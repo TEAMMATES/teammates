@@ -92,7 +92,6 @@ public class CreateFeedbackSessionAction extends Action {
                 sessionVisibleTime,
                 resultsVisibleTime,
                 createRequest.getGracePeriod(),
-                true,
                 createRequest.isClosingSoonEmailEnabled(),
                 createRequest.isPublishedEmailEnabled()
         );
