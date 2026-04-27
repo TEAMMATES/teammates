@@ -73,7 +73,6 @@ import {
 } from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
 import { Sections } from '../../pages-help/instructor-help-page/sections';
 
-
 interface InstructorEditPanelDetail {
   originalInstructor: Instructor;
   originalPanel: InstructorEditPanel;
@@ -125,7 +124,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   isCopyingInstructor: boolean = false;
   newInstructorPanel: InstructorEditPanel = this.getDefaultInstructorPanel({
         isEditing: true
-  })
+  });
 
   courseFormModel: CourseEditFormModel = DEFAULT_COURSE_EDIT_FORM_MODEL();
   resetCourseFormEvent: EventEmitter<void> = new EventEmitter();
@@ -281,8 +280,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
   }
 
     /**
-      * Gets the default edit panel model of an instructor.
-      */
+     * Gets the default edit panel model of an instructor.
+     */
     getInstructorEditPanelModel(i: Instructor): InstructorEditPanel {
         /**
          * The non-null assertion operator (!) is used below in `isDisplayedToStudents`,
@@ -306,12 +305,13 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     /**
      * Generates a default InstructorEditPanel with optional overrides.
+     * 
      * @param overrides Properties to overwrite the base model.
      * @param defaultPrivileges Boolean to set all nested privileges to true or false.
      */
     private getDefaultInstructorPanel(
         overrides: Partial<InstructorEditPanel> = {},
-        defaultPrivileges: boolean = false
+        defaultPrivileges: boolean = false,
     ): InstructorEditPanel {
         return {
             googleId: '',
@@ -340,7 +340,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
             isEditing: false,
             isSavingInstructorEdit: false,
             ...overrides, // Applies any specific value passed in
-        }; // <-- Fixed the closing syntax here
+        }; 
     }
 
     // new course tab helper function
@@ -358,11 +358,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
             ...overrides,
         };
     }
-    
 
-  /**
-   * Shows the model of details permission for a role.
-   */
+    /**
+     * Shows the model of details permission for a role.
+     */
   viewRolePrivilegeModel(role: InstructorPermissionRole): void {
     const modalRef: NgbModalRef = this.ngbModal.open(ViewRolePrivilegesModalComponent);
     modalRef.result.then(() => {}, () => {});
@@ -540,7 +539,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
             this.isAddingNewInstructor = false;
 
                 this.newInstructorPanel = this.getDefaultInstructorPanel({
-                    displayedToStudentsAs: '', //override the default 'Instructor'
+                    displayedToStudentsAs: '', // override the default 'Instructor'
                     isEditing: true, // keeping the form open
                 }, true);
             },
@@ -696,7 +695,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
                     creationTimestamp: course.creationTimestamp,
                 });
                 courseTabModels.push(model);
-            } 
+            }
         });
       },
       error: (err: ErrorMessageOutput) => {
