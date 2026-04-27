@@ -18,6 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
@@ -466,7 +467,11 @@ public abstract class AppPage {
      * Asserts that all values in the body of the given table are equal to the expectedTableBodyValues.
      */
     protected void verifyTableBodyValues(WebElement table, String[][] expectedTableBodyValues) {
-        List<WebElement> rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+        List<WebElement> rows = table.findElement(By.tagName("tbody"))
+                                        .findElements(By.tagName("tr"))
+                                        .stream()
+                                        .filter(WebElement::isDisplayed)
+                                        .collect(Collectors.toList());
         assertTrue(expectedTableBodyValues.length <= rows.size());
         for (int rowIndex = 0; rowIndex < expectedTableBodyValues.length; rowIndex++) {
             verifyTableRowValues(rows.get(rowIndex), expectedTableBodyValues[rowIndex]);

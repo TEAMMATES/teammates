@@ -1,6 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { QuestionEditFormModel } from './question-edit-form-model';
 import { QuestionEditFormComponent } from './question-edit-form.component';
 import { mockTinyMceUuid } from '../../../test-helpers/mock-tinymce-uuid';
@@ -16,6 +17,9 @@ describe('QuestionEditFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      imports: [
+        BrowserAnimationsModule,
+      ],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),

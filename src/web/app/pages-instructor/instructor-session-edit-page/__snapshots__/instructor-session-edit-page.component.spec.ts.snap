@@ -1977,9 +1977,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 </div>
               </div>
             </button>
-            <div
-              class="collapse show"
-            >
+            <div>
               <div
                 class="card-body"
               >
@@ -2686,9 +2684,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 </div>
               </div>
             </button>
-            <div
-              class="collapse show"
-            >
+            <div>
               <div
                 class="card-body"
               >
@@ -5150,9 +5146,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
             </div>
           </div>
         </button>
-        <div
-          class="collapse show"
-        >
+        <div>
           <div
             class="card-body"
           >

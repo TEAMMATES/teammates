@@ -118,9 +118,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
         </div>
       </div>
     </button>
-    <div
-      class="collapse show"
-    >
+    <div>
       <div
         class="card-body"
       >
