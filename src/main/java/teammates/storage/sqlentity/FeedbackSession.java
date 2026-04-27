@@ -377,9 +377,9 @@ public class FeedbackSession extends BaseEntity {
         return "FeedbackSession [id=" + id + ", courseId=" + course.getId() + ", name=" + name
                 + ", creatorEmail=" + creatorEmail
                 + ", instructions=" + instructions + ", startTime=" + startTime + ", endTime=" + endTime
-                + ", sessionVisibleFromTime=" + sessionVisibleFromTime + ", resultsVisibleFromTime="
-                + resultsVisibleFromTime + ", gracePeriod=" + gracePeriod
-                + "isClosingSoonEmailEnabled=" + isClosingSoonEmailEnabled
+                + ", sessionVisibleFromTime=" + sessionVisibleFromTime
+                + ", resultsVisibleFromTime=" + resultsVisibleFromTime + ", gracePeriod=" + gracePeriod
+                + ", isClosingSoonEmailEnabled=" + isClosingSoonEmailEnabled
                 + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
                 + ", isOpeningSoonEmailSent=" + isOpeningSoonEmailSent + ", isOpenedEmailSent=" + isOpenedEmailSent
                 + ", isClosingSoonEmailSent=" + isClosingSoonEmailSent + ", isClosedEmailSent=" + isClosedEmailSent
