@@ -58,7 +58,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         FeedbackSession accessibleFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourse().getId(),
+                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.name(),
         };
 
@@ -69,7 +69,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
 
         SessionResultsData expectedResults = SessionResultsData.initForInstructor(
                 logic.getSessionResultsForCourse(accessibleFeedbackSession,
-                        accessibleFeedbackSession.getCourse().getId(),
+                        accessibleFeedbackSession.getCourseId(),
                         instructor.getEmail(),
                         null, null, FeedbackResultFetchType.BOTH));
 
@@ -87,7 +87,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
             for (Section section : sections) {
                 submissionParams = new String[] {
                         Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getName(),
-                        Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourse().getId(),
+                        Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
                         Const.ParamsNames.INTENT, Intent.FULL_DETAIL.name(),
                         Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, section.getName(),
                         Const.ParamsNames.FEEDBACK_RESULTS_SECTION_BY_GIVER_RECEIVER, fetchType.name(),
@@ -100,7 +100,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
 
                 expectedResults = SessionResultsData.initForInstructor(
                         logic.getSessionResultsForCourse(accessibleFeedbackSession,
-                                accessibleFeedbackSession.getCourse().getId(),
+                                accessibleFeedbackSession.getCourseId(),
                                 instructor.getEmail(),
                                 null, section.getName(), fetchType));
 
@@ -114,7 +114,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
 
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourse().getId(),
+                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
                 Const.ParamsNames.PREVIEWAS, student.getEmail(),
         };
@@ -125,7 +125,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         output = (SessionResultsData) r.getOutput();
         expectedResults = SessionResultsData.initForStudent(
                 logic.getSessionResultsForUser(accessibleFeedbackSession,
-                        accessibleFeedbackSession.getCourse().getId(),
+                        accessibleFeedbackSession.getCourseId(),
                         student.getEmail(),
                         false, null, true),
                 student);
@@ -138,7 +138,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
 
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourse().getId(),
+                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
         };
 
@@ -148,7 +148,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         output = (SessionResultsData) r.getOutput();
         expectedResults = SessionResultsData.initForStudent(
                 logic.getSessionResultsForUser(accessibleFeedbackSession,
-                        accessibleFeedbackSession.getCourse().getId(),
+                        accessibleFeedbackSession.getCourseId(),
                         student.getEmail(),
                         false, null, false),
                 student);
@@ -163,7 +163,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
 
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourse().getId(),
+                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
         };
@@ -174,7 +174,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         output = (SessionResultsData) r.getOutput();
         expectedResults = SessionResultsData.initForStudent(
                 logic.getSessionResultsForUser(accessibleFeedbackSession,
-                        accessibleFeedbackSession.getCourse().getId(),
+                        accessibleFeedbackSession.getCourseId(),
                         student.getEmail(),
                         false, question.getId(), false),
                 student);
@@ -193,7 +193,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         ______TS("Inaccessible for authenticated instructor when unpublished");
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, inaccessibleFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, inaccessibleFeedbackSession.getCourse().getId(),
+                Const.ParamsNames.COURSE_ID, inaccessibleFeedbackSession.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.name(),
         };
         verifyCannotAccess(submissionParams);
@@ -201,7 +201,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         ______TS("Inaccessible for authenticated student when unpublished");
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, inaccessibleFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, inaccessibleFeedbackSession.getCourse().getId(),
+                Const.ParamsNames.COURSE_ID, inaccessibleFeedbackSession.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
         };
         Student student1InCourse1 = typicalBundle.students.get("student1InCourse1");
@@ -229,13 +229,13 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         ______TS("Invalid intent");
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, publishedFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, publishedFeedbackSession.getCourse().getId(),
+                Const.ParamsNames.COURSE_ID, publishedFeedbackSession.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.name(),
         };
         verifyHttpParameterFailure(submissionParams);
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, publishedFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, publishedFeedbackSession.getCourse().getId(),
+                Const.ParamsNames.COURSE_ID, publishedFeedbackSession.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.name(),
         };
         verifyHttpParameterFailure(submissionParams);

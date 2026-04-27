@@ -15,7 +15,7 @@ public class FeedbackSubmitPageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = removeAndRestoreDataBundle(loadDataBundle("/FeedbackSubmitPageE2ETestSql.json"));
+        testData = removeAndRestoreDataBundle(loadDataBundle("/FeedbackSubmitPageE2ETest.json"));
     }
 
     @Test
@@ -23,6 +23,7 @@ public class FeedbackSubmitPageAxeTest extends BaseAxeTestCase {
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
                 .withCourseId(testData.courses.get("FSubmit.CS2104").getId())
+                .withFeedbackSessionId(testData.feedbackSessions.get("Open Session").getId().toString())
                 .withSessionName(testData.feedbackSessions.get("Open Session").getName());
 
         FeedbackSubmitPageSql feedbackSubmitPage = loginToPage(url, FeedbackSubmitPageSql.class,

@@ -363,6 +363,20 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
     }
 
     @Test
+    void testExecute_whitespaceOnlyTeamName_throwsInvalidHttpRequestBodyException()
+            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
+        StudentUpdateRequest studentUpdateRequest = new StudentUpdateRequest(newName, newEmail, "   ",
+                section.getName(), student.getComments(), true);
+
+        String[] params = {
+                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
+        };
+
+        verifyHttpRequestBodyFailure(studentUpdateRequest, params);
+    }
+
+    @Test
     void testExecute_invalidSectionOrTeam_throwsInvalidOperationException() throws EnrollException {
         StudentUpdateRequest studentUpdateRequest = new StudentUpdateRequest(newName, newEmail, team.getName(),
                 section.getName(), student.getComments(), true);

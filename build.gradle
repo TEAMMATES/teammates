@@ -102,6 +102,8 @@ dependencies {
 
     compileOnly("org.liquibase.ext:liquibase-hibernate6:5.0.2")
 
+    liquibaseRuntime("org.springframework:spring-core:6.2.10")
+    liquibaseRuntime("org.springframework:spring-beans:6.2.10")
     liquibaseRuntime("info.picocli:picocli:4.7.7")
     liquibaseRuntime("org.liquibase.ext:liquibase-hibernate6:5.0.2")
     liquibaseRuntime(sourceSets.main.output)
@@ -136,16 +138,13 @@ sourceSets {
     }
 }
 
-if (!project.hasProperty("runList")) {
-    project.ext.set("runList", "main")
-}
+if (project.gradle.startParameter.taskNames.any { it.contains("liquibaseDiffChangelog") }) {
+    if (!project.hasProperty("migrationName")) {
+        throw new GradleException("Pass -PmigrationName=foo when running liquibaseDiffChangelog")
+    }
 
-if (project.ext.runList == "diffMain" && !project.hasProperty("migrationName")) {
-    throw new GradleException("Pass -PmigrationName=foo when running diffMain")
+    project.ext.set("runList", "diffMain")
 }
-def liquibaseDiffTimestamp = new Date().format("yyyyMMdd")
-def migrationName = findProperty("migrationName")
-def liquibaseDiffChangelogFile = "src/main/resources/db/changelog/migrations/${liquibaseDiffTimestamp}-${migrationName}.xml"
 
 liquibase {
     activities {
@@ -155,17 +154,22 @@ liquibase {
             url project.properties['liquibaseDbUrl']
             username project.properties['liquibaseUsername']
             password project.properties['liquibasePassword']
+            if (project.hasProperty('count')) {
+                count project.properties['count']
+            }
         }
         diffMain {
+            def migrationName = project.properties["migrationName"]
+            def liquibaseDiffTimestamp = new Date().format("yyyyMMdd")
             searchPath "${projectDir}"
-            changelogFile liquibaseDiffChangelogFile
+            changelogFile "src/main/resources/db/changelog/migrations/${liquibaseDiffTimestamp}-${migrationName}.xml"
             referenceUrl "hibernate:classic:teammates.liquibase.LiquibaseHibernateConfigFactory"
             url project.properties['liquibaseDbUrl']
             username project.properties['liquibaseUsername']
             password project.properties['liquibasePassword']
         }
     }
-    runList = project.ext.runList
+    runList = project.findProperty("runList") ?: "main"
 }
 
 // TODO: remove this workaround after cz.habarta.typescript.generator is patched to fix this issue

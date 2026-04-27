@@ -65,18 +65,15 @@ export class FeedbackSessionsService {
    * Retrieves a feedback session by calling API.
    */
   getFeedbackSession(queryParams: {
-    courseId: string,
-    feedbackSessionName: string,
+    feedbackSessionId: string,
     intent: Intent,
     key?: string,
     moderatedPerson?: string,
     previewAs?: string,
   }): Observable<FeedbackSession> {
-    // load feedback session
     const paramMap: Record<string, string> = {
       intent: queryParams.intent,
-      courseid: queryParams.courseId,
-      fsname: queryParams.feedbackSessionName,
+      fsid: queryParams.feedbackSessionId,
     };
 
     if (queryParams.key) {
@@ -143,8 +140,8 @@ export class FeedbackSessionsService {
   /**
    * Deletes a feedback session by calling API.
    */
-  deleteFeedbackSession(courseId: string, feedbackSessionName: string): Observable<FeedbackSession> {
-    const paramMap: Record<string, string> = { courseid: courseId, fsname: feedbackSessionName };
+  deleteFeedbackSession(feedbackSessionId: string): Observable<MessageOutput> {
+    const paramMap: Record<string, string> = { fsid: feedbackSessionId };
     return this.httpRequestService.delete(ResourceEndpoints.SESSION, paramMap);
   }
 
@@ -433,22 +430,20 @@ export class FeedbackSessionsService {
   /**
    * Soft delete a session by moving it to the recycle bin.
    */
-  moveSessionToRecycleBin(courseId: string, feedbackSessionName: string): Observable<any> {
+  moveSessionToRecycleBin(feedbackSessionId: string): Observable<any> {
     const paramMap: Record<string, string> = {
-      courseid: courseId,
-      fsname: feedbackSessionName,
+      fsid: feedbackSessionId,
     };
 
     return this.httpRequestService.put(ResourceEndpoints.BIN_SESSION, paramMap);
   }
 
   /**
-   * Removes a session from the recycle bin.
+   * Restores a session from the recycle bin.
    */
-  deleteSessionFromRecycleBin(courseId: string, feedbackSessionName: string): Observable<FeedbackSession> {
+  restoreSessionFromRecycleBin(feedbackSessionId: string): Observable<FeedbackSession> {
     const paramMap: Record<string, string> = {
-      courseid: courseId,
-      fsname: feedbackSessionName,
+      fsid: feedbackSessionId,
     };
 
     return this.httpRequestService.delete(ResourceEndpoints.BIN_SESSION, paramMap);

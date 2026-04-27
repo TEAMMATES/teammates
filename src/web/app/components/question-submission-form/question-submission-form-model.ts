@@ -51,7 +51,6 @@ export interface QuestionSubmissionFormModel {
   isLoading: boolean;
   isLoaded: boolean;
 
-  hasResponseChangedForRecipients: Map<string, boolean>;
   isTabExpandedForRecipients: Map<string, boolean>;
 
   isTabExpanded: boolean;
@@ -68,7 +67,7 @@ export interface FeedbackResponseRecipient {
 }
 
 /**
- * The form modal of recipient submission form.
+ * The form model of recipient submission form.
  */
 export interface FeedbackResponseRecipientSubmissionFormModel {
   responseId: string;
@@ -76,6 +75,7 @@ export interface FeedbackResponseRecipientSubmissionFormModel {
   responseDetails: FeedbackResponseDetails;
 
   isValid: boolean;
+  isModified: boolean;
 
   // comment by giver
   commentByGiver?: CommentRowModel;

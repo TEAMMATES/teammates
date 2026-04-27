@@ -17,7 +17,7 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = removeAndRestoreDataBundle(loadDataBundle("/StudentCourseJoinConfirmationPageE2ETestSql.json"));
+        testData = removeAndRestoreDataBundle(loadDataBundle("/StudentCourseJoinConfirmationPageE2ETest.json"));
 
         newStudent = testData.students.get("alice.tmms@SCJoinConf.CS2104");
         newStudentGoogleId = testData.accounts.get("alice.tmms").getGoogleId();

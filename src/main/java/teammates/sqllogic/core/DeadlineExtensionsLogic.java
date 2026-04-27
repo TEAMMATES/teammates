@@ -2,6 +2,7 @@ package teammates.sqllogic.core;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -40,27 +41,21 @@ public final class DeadlineExtensionsLogic {
     }
 
     /**
-     * Get extended deadline end time for this session and user if it exists, otherwise get the deadline of the session.
+     * Gets a deadline extension by its id.
      */
-    public Instant getDeadlineForUser(FeedbackSession session, User user) {
-        Instant extendedDeadline =
-                getExtendedDeadlineForUser(session, user);
-
-        if (extendedDeadline == null) {
-            return session.getEndTime();
-        }
-
-        return extendedDeadline;
+    public DeadlineExtension getDeadlineExtension(UUID id) {
+        return deadlineExtensionsDb.getDeadlineExtension(id);
     }
 
     /**
-     * Get extended deadline end time for this session and user if it exists, otherwise return null.
+     * Get extended deadline end time for this session and user if it exists, otherwise get the deadline of the session.
      */
-    public Instant getExtendedDeadlineForUser(FeedbackSession feedbackSession, User user) {
+    public Instant getDeadlineForUser(FeedbackSession session, User user) {
         DeadlineExtension deadlineExtension =
-                deadlineExtensionsDb.getDeadlineExtension(user.getId(), feedbackSession.getId());
+                deadlineExtensionsDb.getDeadlineExtension(user.getId(), session.getId());
+
         if (deadlineExtension == null) {
-            return null;
+            return session.getEndTime();
         }
 
         return deadlineExtension.getEndTime();
@@ -88,8 +83,14 @@ public final class DeadlineExtensionsLogic {
 
     /**
      * Deletes a deadline extension.
+     *
+     * <p>Fails silently if the deadline extension does not exist</p>
      */
     public void deleteDeadlineExtension(DeadlineExtension de) {
+        if (de == null) {
+            return;
+        }
+
         deadlineExtensionsDb.deleteDeadlineExtension(de);
     }
 

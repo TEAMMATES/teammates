@@ -65,13 +65,9 @@ public final class NotificationsDb {
 
     /**
      * Deletes a notification.
-     *
-     * <p>Fails silently if notification is null.
      */
     public void deleteNotification(Notification notification) {
-        if (notification != null) {
-            HibernateUtil.remove(notification);
-        }
+        HibernateUtil.remove(notification);
     }
 
     /**
@@ -128,6 +124,13 @@ public final class NotificationsDb {
     public ReadNotification createReadNotification(ReadNotification readNotification) {
         HibernateUtil.persist(readNotification);
         return readNotification;
+    }
+
+    /**
+     * Gets a read notification by its unique ID.
+     */
+    public ReadNotification getReadNotification(UUID readNotificationId) {
+        return HibernateUtil.get(ReadNotification.class, readNotificationId);
     }
 
     /**

@@ -46,8 +46,6 @@ public final class FeedbackSessionsDb {
      * @return null if not found
      */
     public FeedbackSession getFeedbackSession(UUID fsId) {
-        assert fsId != null;
-
         return HibernateUtil.get(FeedbackSession.class, fsId);
     }
 
@@ -65,17 +63,6 @@ public final class FeedbackSessionsDb {
                 cb.equal(fsRoot.get("name"), feedbackSessionName),
                 cb.equal(fsJoin.get("id"), courseId)));
         return HibernateUtil.createQuery(cq).getResultStream().findFirst().orElse(null);
-    }
-
-    /**
-     * Gets a feedback session reference.
-     *
-     * @return Returns a proxy for the feedback session.
-     */
-    public FeedbackSession getFeedbackSessionReference(UUID id) {
-        assert id != null;
-
-        return HibernateUtil.getReference(FeedbackSession.class, id);
     }
 
     /**
@@ -128,24 +115,6 @@ public final class FeedbackSessionsDb {
     }
 
     /**
-     * Restores a specific soft deleted feedback session.
-     */
-    public void restoreDeletedFeedbackSession(String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException {
-        assert courseId != null;
-        assert feedbackSessionName != null;
-
-        FeedbackSession sessionEntity = getFeedbackSession(feedbackSessionName, courseId);
-
-        if (sessionEntity == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        sessionEntity.setDeletedAt(null);
-        HibernateUtil.merge(sessionEntity);
-    }
-
-    /**
      * Creates a feedback session.
      */
     public FeedbackSession createFeedbackSession(FeedbackSession session)
@@ -191,31 +160,7 @@ public final class FeedbackSessionsDb {
      * Deletes a feedback session.
      */
     public void deleteFeedbackSession(FeedbackSession feedbackSession) {
-        if (feedbackSession != null) {
-            HibernateUtil.remove(feedbackSession);
-        }
-    }
-
-    /**
-     * Soft-deletes a specific feedback session by its name and course id.
-     *
-     * @return the feedback session.
-     */
-    public FeedbackSession softDeleteFeedbackSession(String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException {
-        assert courseId != null;
-        assert feedbackSessionName != null;
-
-        FeedbackSession feedbackSessionEntity = getFeedbackSession(feedbackSessionName, courseId);
-
-        if (feedbackSessionEntity == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        feedbackSessionEntity.setDeletedAt(Instant.now());
-        HibernateUtil.merge(feedbackSessionEntity);
-
-        return feedbackSessionEntity;
+        HibernateUtil.remove(feedbackSession);
     }
 
     /**

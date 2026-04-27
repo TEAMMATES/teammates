@@ -14,7 +14,7 @@ import { ApiConst } from '../../../types/api-const';
 import {
   Course, FeedbackSession,
   FeedbackSessionLog, FeedbackSessionLogEntry,
-  FeedbackSessionLogs, FeedbackSessions,
+  FeedbackSessionLogs, FeedbackSessionLogType, FeedbackSessions,
   Student,
 } from '../../../types/api-output';
 import {
@@ -47,7 +47,7 @@ interface SearchLogsFormModel {
   logsDateTo: DateFormat;
   logsTimeFrom: TimeFormat;
   logsTimeTo: TimeFormat;
-  logType: string;
+  logTypes: FeedbackSessionLogType[];
   selectedSession: SelectedSession;
   selectedStudent: SelectedStudent;
   showActions: boolean;
@@ -56,17 +56,17 @@ interface SearchLogsFormModel {
 
 interface LogType {
   label: string;
-  value: string;
+  value: FeedbackSessionLogType;
 }
 
 interface SelectedStudent {
-    studentEmail?: string;
-    studentId?: string;
+  studentEmail?: string;
+  studentId?: string;
 }
 
 interface SelectedSession {
-    feedbackSessionName?: string;
-    sessionId?: string;
+  feedbackSessionName?: string;
+  sessionId?: string;
 }
 
 /**
@@ -104,10 +104,9 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   LOGS_DATE_TIME_FORMAT: string = 'ddd, DD MMM YYYY hh:mm:ss A';
   STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD: number = ApiConst.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD;
   LOG_TYPES: LogType[] = [
-    { label: 'session access', value: 'access' },
-    { label: 'session submission', value: 'submission' },
-    { label: 'session access and submission', value: 'access,submission' },
-    { label: 'view session results', value: 'view result' },
+    { label: 'Session Access', value: FeedbackSessionLogType.ACCESS },
+    { label: 'Session Submission', value: FeedbackSessionLogType.SUBMISSION },
+    { label: 'View Session Results', value: FeedbackSessionLogType.VIEW_RESULT },
   ];
 
   // enum
@@ -118,10 +117,10 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     logsTimeFrom: getDefaultTimeFormat(),
     logsDateTo: getDefaultDateFormat(),
     logsTimeTo: getDefaultTimeFormat(),
-    logType: '',
-      selectedStudent: { studentEmail: '', studentId: '' },
-      selectedSession: { feedbackSessionName: '', sessionId: '' },
-    showActions: false,
+    logTypes: [FeedbackSessionLogType.ACCESS, FeedbackSessionLogType.SUBMISSION],
+    selectedStudent: { studentEmail: '', studentId: '' },
+    selectedSession: { feedbackSessionName: '', sessionId: '' },
+    showActions: true,
     showInactions: false,
   };
   course: Course = {
@@ -191,7 +190,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
    * Search for logs of student activity
    */
   search(): void {
-    if (this.formModel.logType === '') {
+    if (!this.formModel.logTypes || this.formModel.logTypes.length === 0) {
       this.statusMessageService.showErrorToast('Please select an activity type');
       return;
     }
@@ -208,11 +207,9 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
 
     this.logsService.searchFeedbackSessionLog({
       courseId: this.course.courseId,
-      searchFrom: searchFrom.toString(),
-      searchUntil: searchUntil.toString(),
-      studentEmail: this.formModel.selectedStudent.studentEmail,
-      logType: this.formModel.logType,
-      sessionName: this.formModel.selectedSession.feedbackSessionName,
+      searchFrom,
+      searchUntil,
+      logTypes: this.formModel.logTypes,
       studentId: this.formModel.selectedStudent.studentId,
       sessionId: this.formModel.selectedSession.sessionId,
     }).pipe(
@@ -373,7 +370,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
                 { value: student.teamName }]);
               });
             } else {
-              status = `Not ${this.logTypeToActivityDisplay(this.formModel.logType)} within the query range`;
+              status = 'No results within the query range';
               dataStyle += 'color:red;';
               rows.push([
                 {
@@ -393,34 +390,37 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     };
   }
 
-  private logTypeToActivityDisplay(logType: string): string {
-    switch (logType.toUpperCase()) {
-      case 'ACCESS':
+  isLogTypeSelected(logType: FeedbackSessionLogType): boolean {
+    return this.formModel.logTypes.includes(logType);
+  }
+
+  onLogTypeToggle(logType: FeedbackSessionLogType, checked: boolean): void {
+    const current = this.formModel.logTypes;
+    if (checked) {
+      if (current.includes(logType)) {
+        return;
+      }
+      this.triggerModelChange('logTypes', [...current, logType]);
+    } else {
+      this.triggerModelChange('logTypes', current.filter((t) => t !== logType));
+    }
+  }
+
+  private logTypeToActivityDisplay(logType: FeedbackSessionLogType): string {
+    switch (logType) {
+      case FeedbackSessionLogType.ACCESS:
         return 'viewed the submission page';
-      case 'SUBMISSION':
+      case FeedbackSessionLogType.SUBMISSION:
         return 'submitted responses';
-      case 'VIEW_RESULT':
-      case 'VIEW RESULT':
+      case FeedbackSessionLogType.VIEW_RESULT:
         return 'viewed the session results';
-      case 'ACCESS,SUBMISSION':
-        return 'viewed the submission page or submitted responses';
       default:
-        return 'unknown activity';
+        return '';
     }
   }
 
   private getStudentKey(log: FeedbackSessionLog, studentEmail: string): string {
     return `${log.feedbackSessionData.feedbackSessionName}-${studentEmail}`;
-  }
-
-  triggerDefaultLogActivityTypeChange(logType: string): void {
-    if (logType === 'view result') {
-      this.formModel.showInactions = true;
-      this.formModel.showActions = false;
-    } else {
-      this.formModel.showInactions = false;
-      this.formModel.showActions = true;
-    }
   }
 
   /**

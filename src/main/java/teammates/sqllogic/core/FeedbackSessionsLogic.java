@@ -89,16 +89,6 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Gets a feedback session reference.
-     *
-     * @return Returns a proxy for the feedback session.
-     */
-    public FeedbackSession getFeedbackSessionReference(UUID id) {
-        assert id != null;
-        return fsDb.getFeedbackSessionReference(id);
-    }
-
-    /**
      * Gets all feedback sessions of a course, except those that are soft-deleted.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {
@@ -291,9 +281,15 @@ public final class FeedbackSessionsLogic {
 
     /**
      * Deletes a feedback session cascade to its associated questions, responses, deadline extensions and comments.
+     *
+     * <p>Fails silently if the feedback session doesn't exist.</p>
      */
-    public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
-        FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionName, courseId);
+    public void deleteFeedbackSessionCascade(UUID feedbackSessionId) {
+        FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            return;
+        }
+
         fsDb.deleteFeedbackSession(feedbackSession);
     }
 
@@ -301,18 +297,33 @@ public final class FeedbackSessionsLogic {
      * Soft-deletes a specific feedback session to Recycle Bin.
      * @return the feedback session
      */
-    public FeedbackSession moveFeedbackSessionToRecycleBin(String feedbackSessionName, String courseId)
+    public FeedbackSession moveFeedbackSessionToRecycleBin(UUID feedbackSessionId)
             throws EntityDoesNotExistException {
+        FeedbackSession feedbackSession = getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityDoesNotExistException(
+                String.format("Feedback Session with id %s does not exist.", feedbackSessionId));
+        }
 
-        return fsDb.softDeleteFeedbackSession(feedbackSessionName, courseId);
+        feedbackSession.setDeletedAt(Instant.now());
+
+        return feedbackSession;
     }
 
     /**
      * Restores a specific feedback session from Recycle Bin.
      */
-    public void restoreFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId)
+    public FeedbackSession restoreFeedbackSessionFromRecycleBin(UUID feedbackSessionId)
             throws EntityDoesNotExistException {
-        fsDb.restoreDeletedFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSession feedbackSession = getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityDoesNotExistException(
+                String.format("Feedback Session with id %s does not exist.", feedbackSessionId));
+        }
+
+        feedbackSession.setDeletedAt(null);
+
+        return feedbackSession;
     }
 
     /**
@@ -376,23 +387,6 @@ public final class FeedbackSessionsLogic {
             // case where all are team questions
             return frLogic.hasGiverRespondedForSession(userTeam, session.getFeedbackQuestions());
         }
-    }
-
-    /**
-     * Checks whether an instructor has attempted a feedback session.
-     *
-     * <p>If there is no question for instructors, the feedback session is considered as attempted.</p>
-     */
-    public boolean isFeedbackSessionAttemptedByInstructor(FeedbackSession session, String userEmail) {
-        assert session != null;
-        assert userEmail != null;
-
-        if (frLogic.hasGiverRespondedForSession(userEmail, session.getFeedbackQuestions())) {
-            return true;
-        }
-
-        // if there is no question for instructor, session is attempted
-        return !fqLogic.hasFeedbackQuestionsForInstructors(session.getFeedbackQuestions(), session.isCreator(userEmail));
     }
 
     /**
@@ -539,7 +533,7 @@ public final class FeedbackSessionsLogic {
         int expectedTotal = 0;
         List<FeedbackQuestion> questions = fqLogic.getFeedbackQuestionsForSession(fs);
         if (fqLogic.hasFeedbackQuestionsForStudents(questions)) {
-            expectedTotal += usersLogic.getStudentsForCourse(fs.getCourse().getId()).size();
+            expectedTotal += usersLogic.getStudentsForCourse(fs.getCourseId()).size();
         }
 
         // Pre-flight check to ensure there are questions for instructors.
@@ -547,7 +541,7 @@ public final class FeedbackSessionsLogic {
             return expectedTotal;
         }
 
-        List<Instructor> instructors = usersLogic.getInstructorsForCourse(fs.getCourse().getId());
+        List<Instructor> instructors = usersLogic.getInstructorsForCourse(fs.getCourseId());
         if (instructors.isEmpty()) {
             return expectedTotal;
         }

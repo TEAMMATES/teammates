@@ -60,19 +60,19 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         );
         verifyHttpParameterFailure(
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail()
         );
         verifyHttpParameterFailure(
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.getLabel(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.name(),
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail()
         );
         verifyHttpParameterFailure(
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs2.getId().toString(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
                 Const.ParamsNames.STUDENT_SQL_ID, student2.getId().toString()
         );
 
@@ -91,7 +91,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         String[] paramsSuccessfulAccess = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.getLabel(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.name(),
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
                 Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
@@ -109,7 +109,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         String[] paramsSuccessfulSubmission = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs2.getName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
                 Const.ParamsNames.STUDENT_EMAIL, student2.getEmail(),
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs2.getId().toString(),
                 Const.ParamsNames.STUDENT_SQL_ID, student2.getId().toString(),
@@ -127,7 +127,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         String[] paramsNonExistentCourseId = {
                 Const.ParamsNames.COURSE_ID, "non-existent-course-id",
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
                 Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
@@ -142,7 +142,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         String[] paramsNonExistentFsName = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "non-existent-feedback-session-name",
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
                 Const.ParamsNames.FEEDBACK_SESSION_ID, UUID.randomUUID().toString(),
                 Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
@@ -155,7 +155,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         String[] paramsNonExistentStudentEmail = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
                 Const.ParamsNames.STUDENT_EMAIL, "non-existent-student@email.com",
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
                 Const.ParamsNames.STUDENT_SQL_ID, UUID.randomUUID().toString(),
@@ -168,7 +168,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         String[] paramsWithoutAccess = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
                 Const.ParamsNames.STUDENT_EMAIL, student3.getEmail(),
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
                 Const.ParamsNames.STUDENT_SQL_ID, student3.getId().toString(),
@@ -181,7 +181,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         String[] paramsViewResult = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.VIEW_RESULT.getLabel(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.VIEW_RESULT.name(),
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
                 Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
@@ -204,9 +204,9 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         Student student2 = typicalBundle.students.get("student2InCourse1");
         FeedbackSession fs1 = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] params = {
-                Const.ParamsNames.COURSE_ID, student1.getCourse().getId(),
+                Const.ParamsNames.COURSE_ID, student1.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.getLabel(),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.name(),
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
                 Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),

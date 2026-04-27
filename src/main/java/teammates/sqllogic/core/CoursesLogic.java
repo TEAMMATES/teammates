@@ -166,21 +166,20 @@ public final class CoursesLogic {
             return;
         }
 
-        usersLogic.deleteStudentsInCourseCascade(courseId);
-        List<FeedbackSession> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
-        feedbackSessions.forEach(feedbackSession -> {
-            fsLogic.deleteFeedbackSessionCascade(feedbackSession.getName(), courseId);
-        });
+        List<FeedbackSession> feedbackSessions = course.getFeedbackSessions();
+        feedbackSessions.forEach(feedbackSession ->
+                fsLogic.deleteFeedbackSessionCascade(feedbackSession.getId())
+        );
 
-        List<FeedbackSession> softDeletedFeedbackSessions = fsLogic.getSoftDeletedFeedbackSessionsForCourse(courseId);
-        softDeletedFeedbackSessions.forEach(feedbackSession -> {
-            fsLogic.deleteFeedbackSessionCascade(feedbackSession.getName(), courseId);
-        });
-        coursesDb.deleteSectionsByCourseId(courseId);
         List<Instructor> instructors = usersLogic.getInstructorsForCourse(courseId);
-        instructors.forEach(instructor -> {
-            usersLogic.deleteInstructorCascade(courseId, instructor.getEmail());
-        });
+        instructors.forEach(instructor ->
+                usersLogic.deleteInstructorCascade(courseId, instructor.getEmail())
+        );
+
+        List<Student> students = usersLogic.getStudentsForCourse(courseId);
+        students.forEach(student ->
+                usersLogic.deleteStudentCascade(courseId, student.getEmail())
+        );
 
         coursesDb.deleteCourse(course);
     }
@@ -271,26 +270,10 @@ public final class CoursesLogic {
     }
 
     /**
-     * Gets the institute of the course.
-     */
-    public String getCourseInstitute(String courseId) {
-        Course course = getCourse(courseId);
-        assert course != null : "Trying to getCourseInstitute for inexistent course with id " + courseId;
-        return course.getInstitute();
-    }
-
-    /**
      * Creates a team.
      */
     public Team createTeam(Team team) throws InvalidParametersException, EntityAlreadyExistsException {
         return coursesDb.createTeam(team);
-    }
-
-    /**
-     * Returns teams for a particular section.
-     */
-    public List<Team> getTeamsForSection(Section section) {
-        return coursesDb.getTeamsForSection(section);
     }
 
     /**

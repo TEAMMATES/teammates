@@ -53,7 +53,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         expectedGivers.add(typicalDataBundle.students.get("student2InCourse1").getEmail());
         expectedGivers.add(typicalDataBundle.students.get("student3InCourse1").getEmail());
 
-        Set<String> givers = fsLogic.getGiverSetThatAnsweredFeedbackSession(fs.getName(), fs.getCourse().getId());
+        Set<String> givers = fsLogic.getGiverSetThatAnsweredFeedbackSession(fs.getName(), fs.getCourseId());
         assertEquals(expectedGivers.size(), givers.size());
         assertEquals(expectedGivers, givers);
     }
@@ -64,15 +64,15 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         FeedbackSession unpublishedFs = typicalDataBundle.feedbackSessions.get("unpublishedSession1InTypicalCourse");
 
         FeedbackSession publishedFs1 = fsLogic.publishFeedbackSession(
-                unpublishedFs.getName(), unpublishedFs.getCourse().getId());
+                unpublishedFs.getName(), unpublishedFs.getCourseId());
 
         assertEquals(publishedFs1.getName(), unpublishedFs.getName());
         assertTrue(publishedFs1.isPublished());
 
         assertThrows(InvalidParametersException.class, () -> fsLogic.publishFeedbackSession(
-                publishedFs1.getName(), publishedFs1.getCourse().getId()));
+                publishedFs1.getName(), publishedFs1.getCourseId()));
         assertThrows(EntityDoesNotExistException.class, () -> fsLogic.publishFeedbackSession(
-                "non-existent name", unpublishedFs.getCourse().getId()));
+                "non-existent name", unpublishedFs.getCourseId()));
         assertThrows(EntityDoesNotExistException.class, () -> fsLogic.publishFeedbackSession(
                 unpublishedFs.getName(), "random-course-id"));
     }
@@ -83,15 +83,15 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         FeedbackSession publishedFs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
 
         FeedbackSession unpublishedFs1 = fsLogic.unpublishFeedbackSession(
-                publishedFs.getName(), publishedFs.getCourse().getId());
+                publishedFs.getName(), publishedFs.getCourseId());
 
         assertEquals(unpublishedFs1.getName(), publishedFs.getName());
         assertFalse(unpublishedFs1.isPublished());
 
         assertThrows(InvalidParametersException.class, () -> fsLogic.unpublishFeedbackSession(
-                unpublishedFs1.getName(), unpublishedFs1.getCourse().getId()));
+                unpublishedFs1.getName(), unpublishedFs1.getCourseId()));
         assertThrows(EntityDoesNotExistException.class, () -> fsLogic.unpublishFeedbackSession(
-                "non-existent name", publishedFs.getCourse().getId()));
+                "non-existent name", publishedFs.getCourseId()));
         assertThrows(EntityDoesNotExistException.class, () -> fsLogic.unpublishFeedbackSession(
                 publishedFs.getName(), "random-course-id"));
     }
@@ -146,19 +146,18 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void testDeleteFeedbackSessionCascade_deleteSessionNotInRecycleBin_shouldDoCascadeDeletion() {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
 
-        FeedbackSession retrievedFs = fsLogic.getFeedbackSession(fs.getName(), fs.getCourse().getId());
+        FeedbackSession retrievedFs = fsLogic.getFeedbackSession(fs.getName(), fs.getCourseId());
 
         assertNotNull(retrievedFs);
-        assertNull(fsLogic.getFeedbackSessionFromRecycleBin(fs.getName(), fs.getCourse().getId()));
+        assertNull(fsLogic.getFeedbackSessionFromRecycleBin(fs.getName(), fs.getCourseId()));
         assertFalse(retrievedFs.getFeedbackQuestions().isEmpty());
         assertFalse(fqLogic.getFeedbackQuestionsForSession(retrievedFs).isEmpty());
 
         // delete existing feedback session directly
-        fsLogic.deleteFeedbackSessionCascade(fs.getName(), fs.getCourse().getId());
+        fsLogic.deleteFeedbackSessionCascade(fs.getId());
 
         // check deletion is cascaded
-        assertNull(fsLogic.getFeedbackSession(fs.getName(), fs.getCourse().getId()));
-        assertNull(fsLogic.getFeedbackSessionFromRecycleBin(fs.getName(), fs.getCourse().getId()));
+        assertNull(fsLogic.getFeedbackSession(fs.getId()));
         assertTrue(fqLogic.getFeedbackQuestionsForSession(retrievedFs).isEmpty());
     }
 }

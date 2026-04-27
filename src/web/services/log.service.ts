@@ -25,6 +25,7 @@ export class LogService {
     feedbackSessionName: string,
     studentEmail: string,
     logType: FeedbackSessionLogType,
+    key?: string,
     feedbackSessionId?: string,
     studentId?: string,
   }): Observable<string> {
@@ -34,6 +35,10 @@ export class LogService {
       studentemail: queryParams.studentEmail,
       fsltype: queryParams.logType.toString(),
     };
+
+    if (queryParams.key) {
+      paramMap['key'] = queryParams.key;
+    }
 
     if (queryParams.feedbackSessionId) {
       paramMap['fsid'] = queryParams.feedbackSessionId;
@@ -51,31 +56,18 @@ export class LogService {
    */
   searchFeedbackSessionLog(queryParams: {
     courseId: string,
-    searchFrom: string,
-    searchUntil: string,
-    studentEmail?: string,
-    sessionName?: string,
-    logType?: string,
+    searchFrom: number,
+    searchUntil: number,
+    logTypes: FeedbackSessionLogType[],
     studentId?: string,
     sessionId?: string,
   }): Observable<FeedbackSessionLogs> {
-    const paramMap: Record<string, string> = {
+    const paramMap: Record<string, string | string[]> = {
       courseid: queryParams.courseId,
-      fslstarttime: queryParams.searchFrom,
-      fslendtime: queryParams.searchUntil,
+      fslstarttime: queryParams.searchFrom.toString(),
+      fslendtime: queryParams.searchUntil.toString(),
+      fsltype: queryParams.logTypes.map((type) => type.toString()),
     };
-
-    if (queryParams.studentEmail) {
-      paramMap['studentemail'] = queryParams.studentEmail;
-    }
-
-    if (queryParams.sessionName) {
-      paramMap['fsname'] = queryParams.sessionName;
-    }
-
-    if (queryParams.logType) {
-      paramMap['fsltype'] = queryParams.logType;
-    }
 
     if (queryParams.studentId) {
       paramMap['studentid'] = queryParams.studentId;

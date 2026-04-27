@@ -231,27 +231,15 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testMoveFeedbackSessionToRecycleBin_sessionExists_success() throws EntityDoesNotExistException {
-        Course course = getTypicalCourse();
-        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-
-        when(fsDb.softDeleteFeedbackSession(session.getName(), course.getId())).thenReturn(session);
-
-        FeedbackSession result = fsLogic.moveFeedbackSessionToRecycleBin(session.getName(), course.getId());
-
-        assertNotNull(result);
-        assertEquals(session, result);
-        verify(fsDb, times(1)).softDeleteFeedbackSession(session.getName(), course.getId());
-    }
-
-    @Test
     public void testRestoreFeedbackSessionFromRecycleBin_sessionExists_success() throws EntityDoesNotExistException {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
+        session.setDeletedAt(Instant.now());
+        when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
 
-        fsLogic.restoreFeedbackSessionFromRecycleBin(session.getName(), course.getId());
+        fsLogic.restoreFeedbackSessionFromRecycleBin(session.getId());
 
-        verify(fsDb, times(1)).restoreDeletedFeedbackSession(session.getName(), course.getId());
+        assertNull(session.getDeletedAt());
     }
 
     @Test
@@ -259,11 +247,11 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
 
-        when(fsDb.getFeedbackSession(session.getName(), course.getId())).thenReturn(session);
+        when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
 
-        fsLogic.deleteFeedbackSessionCascade(session.getName(), course.getId());
+        fsLogic.deleteFeedbackSessionCascade(session.getId());
 
-        verify(fsDb, times(1)).getFeedbackSession(session.getName(), course.getId());
+        verify(fsDb, times(1)).getFeedbackSession(session.getId());
         verify(fsDb, times(1)).deleteFeedbackSession(session);
     }
 
@@ -278,21 +266,6 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         when(fqLogic.hasFeedbackQuestionsForStudents(session.getFeedbackQuestions())).thenReturn(false);
 
         boolean result = fsLogic.isFeedbackSessionAttemptedByStudent(session, student.getEmail(), student.getTeamName());
-
-        assertTrue(result);
-    }
-
-    @Test
-    public void testIsFeedbackSessionAttemptedByInstructor_noQuestions_returnsTrue() {
-        Course course = getTypicalCourse();
-        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-        session.setFeedbackQuestions(new ArrayList<>());
-        Instructor instructor = getTypicalInstructor();
-
-        when(frLogic.hasGiverRespondedForSession(instructor.getEmail(), session.getFeedbackQuestions())).thenReturn(false);
-        when(fqLogic.hasFeedbackQuestionsForInstructors(session.getFeedbackQuestions(), false)).thenReturn(false);
-
-        boolean result = fsLogic.isFeedbackSessionAttemptedByInstructor(session, instructor.getEmail());
 
         assertTrue(result);
     }
@@ -436,7 +409,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals(session, result.get(0));
-        assertEquals(course.getId(), result.get(0).getCourse().getId());
+        assertEquals(course.getId(), result.get(0).getCourseId());
     }
 
     @Test

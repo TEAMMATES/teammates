@@ -24,7 +24,7 @@ import { LoadingRetryComponent } from '../../components/loading-retry/loading-re
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
-
+import { noWhitespaceValidator } from '../../validators/no-whitespace.validator';
 /**
  * Instructor course student edit page.
  */
@@ -131,7 +131,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
       'section-name': new UntypedFormControl(this.student.sectionName,
           [Validators.required, Validators.maxLength(FormValidator.SECTION_NAME_MAX_LENGTH)]),
       'team-name': new UntypedFormControl(this.student.teamName,
-          [Validators.required, Validators.maxLength(FormValidator.TEAM_NAME_MAX_LENGTH)]),
+          [Validators.required, noWhitespaceValidator, Validators.maxLength(FormValidator.TEAM_NAME_MAX_LENGTH)]),
       'new-student-email': new UntypedFormControl(this.student.email, // original student email initialized
           [Validators.required, Validators.maxLength(FormValidator.EMAIL_MAX_LENGTH)]),
       comments: new UntypedFormControl(this.student.comments),

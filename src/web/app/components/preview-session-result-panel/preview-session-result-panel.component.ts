@@ -31,6 +31,9 @@ export class PreviewSessionResultPanelComponent {
   feedbackSessionName: string = '';
 
   @Input()
+  feedbackSessionId: string = '';
+
+  @Input()
   studentsOfCourse: Student[] = [];
 
   @Input()

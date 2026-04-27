@@ -71,7 +71,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(
-            loadDataBundle("/InstructorFeedbackReportPageE2ETestSql.json"));
+            loadDataBundle("/InstructorFeedbackReportPageE2ETest.json"));
 
         studentToEmail = testData.students.get("IFRep.emily@CS2103");
         instructor = testData.instructors.get("IFRep.instr.CS2104");
@@ -91,6 +91,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
         resultsUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
                 .withCourseId(course.getId())
+                .withFeedbackSessionId(feedbackSession.getId().toString())
                 .withSessionName(feedbackSession.getName());
 
         organiseResponses(course.getId());
@@ -341,12 +342,13 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
                 .withCourseId(course.getId())
+                .withFeedbackSessionId(feedbackSession.getId().toString())
                 .withSessionName(feedbackSession.getName());
         resultsPage = loginToPage(url, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
 
         ______TS("verify loaded session details");
         // Sync resultsVisibleFromTime from database as it may differ from JSON test data
-        FeedbackSessionData actualSession = getFeedbackSession(course.getId(), feedbackSession.getName());
+        FeedbackSessionData actualSession = getFeedbackSession(feedbackSession);
         if (actualSession.getResultVisibleFromTimestamp() != null) {
             feedbackSession.setResultsVisibleFromTime(
                     Instant.ofEpochMilli(actualSession.getResultVisibleFromTimestamp()));
@@ -401,35 +403,35 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
     private void verifySessionPublishedState(FeedbackSession feedbackSession, boolean state) {
         int retryLimit = 5;
-        var actual = getFeedbackSession(feedbackSession.getCourse().getId(), feedbackSession.getName());
+        var actual = getFeedbackSession(feedbackSession);
         while (isFeedbackSessionPublished(actual.getPublishStatus()) != state && retryLimit > 0) {
             retryLimit--;
             ThreadHelper.waitFor(1000);
-            actual = getFeedbackSession(feedbackSession.getCourse().getId(), feedbackSession.getName());
+            actual = getFeedbackSession(feedbackSession);
         }
         assertEquals(isFeedbackSessionPublished(actual.getPublishStatus()), state);
     }
 
     private List<FeedbackQuestion> getQuestionsByCourse(String courseId) {
         return testData.feedbackQuestions.values().stream()
-                .filter(question -> question.getFeedbackSession().getCourse().getId().equals(courseId))
+                .filter(question -> question.getFeedbackSession().getCourseId().equals(courseId))
                 .collect(Collectors.toList());
     }
 
     private List<Student> getNotRespondedStudents(String courseId) {
         Set<String> responders = testData.feedbackResponses.values().stream()
-                .filter(r -> r.getFeedbackQuestion().getFeedbackSession().getCourse().getId().equals(courseId))
+                .filter(r -> r.getFeedbackQuestion().getFeedbackSession().getCourseId().equals(courseId))
                 .map(FeedbackResponse::getGiver)
                 .collect(Collectors.toSet());
 
         return testData.students.values().stream()
-                .filter(s -> !responders.contains(s.getEmail()) && s.getCourse().getId().equals(courseId))
+                .filter(s -> !responders.contains(s.getEmail()) && s.getCourseId().equals(courseId))
                 .collect(Collectors.toList());
     }
 
     private List<FeedbackResponse> getResponsesByQuestion(String courseId, int qnNum) {
         List<FeedbackResponse> responses = testData.feedbackResponses.values().stream()
-                .filter(r -> r.getFeedbackQuestion().getFeedbackSession().getCourse().getId().equals(courseId)
+                .filter(r -> r.getFeedbackQuestion().getFeedbackSession().getCourseId().equals(courseId)
                         && r.getFeedbackQuestion().getQuestionNumber() == qnNum)
                 .collect(Collectors.toList());
         sortResponses(responses);

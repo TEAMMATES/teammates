@@ -1,9 +1,6 @@
 package teammates.sqlui.webapi;
 
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
-import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
 
@@ -16,7 +13,6 @@ import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.FeedbackSessionData;
-import teammates.ui.webapi.EntityNotFoundException;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.RestoreFeedbackSessionAction;
 
@@ -26,7 +22,6 @@ import teammates.ui.webapi.RestoreFeedbackSessionAction;
 public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeedbackSessionAction> {
     private static final String GOOGLE_ID = "user-googleId";
     private static final String COURSE_ID = "course-id";
-    private static final String FEEDBACK_SESSION_NAME = "feedback-session-name";
 
     private FeedbackSession stubFeedbackSession;
     private Instructor stubInstructor;
@@ -47,7 +42,6 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
         stubCourse.setId(COURSE_ID);
 
         stubFeedbackSession = getTypicalFeedbackSessionForCourse(stubCourse);
-        stubFeedbackSession.setName(FEEDBACK_SESSION_NAME);
         stubFeedbackSession.setCreatedAt(Instant.now());
 
         stubInstructor = getTypicalInstructor();
@@ -55,26 +49,21 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
 
     @Test
     void testExecute_typicalCase_success() throws EntityDoesNotExistException {
-        when(mockLogic.getFeedbackSessionFromRecycleBin(FEEDBACK_SESSION_NAME, COURSE_ID))
-                .thenReturn(stubFeedbackSession);
-        doNothing().when(mockLogic).restoreFeedbackSessionFromRecycleBin(FEEDBACK_SESSION_NAME, COURSE_ID);
-        when(mockLogic.getFeedbackSession(FEEDBACK_SESSION_NAME, COURSE_ID))
+        when(mockLogic.restoreFeedbackSessionFromRecycleBin(stubFeedbackSession.getId()))
                 .thenReturn(stubFeedbackSession);
         when(mockLogic.getInstructorByGoogleId(COURSE_ID, GOOGLE_ID)).thenReturn(stubInstructor);
 
         loginAsInstructor(GOOGLE_ID);
 
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, COURSE_ID,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, FEEDBACK_SESSION_NAME,
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
         };
 
         RestoreFeedbackSessionAction action = getAction(params);
         JsonResult result = getJsonResult(action);
-        FeedbackSessionData feedbackSessionMessage = (FeedbackSessionData) result.getOutput();
+        FeedbackSessionData output = (FeedbackSessionData) result.getOutput();
 
-        assertEquals(COURSE_ID, feedbackSessionMessage.getCourseId());
-        assertEquals(FEEDBACK_SESSION_NAME, feedbackSessionMessage.getFeedbackSessionName());
+        assertEquals(stubFeedbackSession.getId(), output.getFeedbackSessionId());
     }
 
     @Test
@@ -84,79 +73,38 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
     }
 
     @Test
-    void testExecute_invalidCourseIdParam_throwsInvalidHttpParameterException() {
+    void testExecute_invalidFeedbackSessionIdParam_throwsInvalidHttpParameterException() {
         loginAsInstructor(GOOGLE_ID);
 
-        ______TS("Missing courseId parameter");
-        verifyHttpParameterFailure(Const.ParamsNames.FEEDBACK_SESSION_NAME, FEEDBACK_SESSION_NAME);
-
-        ______TS("Null courseId parameter");
-        String[] nullCourseIdParams = new String[] {
-                Const.ParamsNames.COURSE_ID, null,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, FEEDBACK_SESSION_NAME,
+        ______TS("Null fsId parameter");
+        String[] nullFsIdParams = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_ID, null,
         };
 
-        verifyHttpParameterFailure(nullCourseIdParams);
+        verifyHttpParameterFailure(nullFsIdParams);
     }
 
     @Test
-    void testExecute_invalidFeedbackSessionNameParam_throwsInvalidHttpParameterException() {
-        loginAsInstructor(GOOGLE_ID);
-
-        ______TS("Missing feedbackSessionName parameter");
-        verifyHttpParameterFailure(Const.ParamsNames.COURSE_ID, COURSE_ID);
-
-        ______TS("Null feedbackSessionName parameter");
-        String[] nullFeedbackSessionNameParams = new String[] {
-                Const.ParamsNames.COURSE_ID, COURSE_ID,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, null,
-        };
-
-        verifyHttpParameterFailure(nullFeedbackSessionNameParams);
-    }
-
-    @Test
-    void testExecute_sessionNotInBin_throwsEntityNotFoundException() {
-        when(mockLogic.getFeedbackSessionFromRecycleBin(FEEDBACK_SESSION_NAME, COURSE_ID)).thenReturn(null);
+    void testExecute_entityDoesNotExist_throwsEntityNotFoundException() throws EntityDoesNotExistException {
+        when(mockLogic.restoreFeedbackSessionFromRecycleBin(stubFeedbackSession.getId()))
+                .thenThrow(new EntityDoesNotExistException("Error Msg"));
 
         loginAsInstructor(GOOGLE_ID);
 
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, COURSE_ID,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, FEEDBACK_SESSION_NAME,
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
         };
 
-        EntityNotFoundException enfe = verifyEntityNotFound(params);
-        assertEquals("Feedback session is not in recycle bin", enfe.getMessage());
-    }
-
-    @Test
-    void testExecute_restoreFeedbackSessionThrowsEntityDoesNotExist_throwsEntityNotFoundException()
-            throws EntityDoesNotExistException {
-        when(mockLogic.getFeedbackSessionFromRecycleBin(FEEDBACK_SESSION_NAME, COURSE_ID))
-                .thenReturn(stubFeedbackSession);
-        doThrow(new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT)).when(mockLogic)
-                .restoreFeedbackSessionFromRecycleBin(FEEDBACK_SESSION_NAME, COURSE_ID);
-
-        loginAsInstructor(GOOGLE_ID);
-
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, COURSE_ID,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, FEEDBACK_SESSION_NAME,
-        };
-
-        EntityNotFoundException enfe = verifyEntityNotFound(params);
-        assertEquals(ERROR_UPDATE_NON_EXISTENT, enfe.getMessage());
+        verifyEntityNotFound(params);
     }
 
     @Test
     void testAccessControl() {
-        when(mockLogic.getFeedbackSessionFromRecycleBin(FEEDBACK_SESSION_NAME, COURSE_ID))
+        when(mockLogic.getFeedbackSession(stubFeedbackSession.getId()))
                 .thenReturn(stubFeedbackSession);
 
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, COURSE_ID,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, FEEDBACK_SESSION_NAME,
+                Const.ParamsNames.FEEDBACK_SESSION_ID, stubFeedbackSession.getId().toString(),
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(

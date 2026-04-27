@@ -1524,12 +1524,14 @@ export const EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL: QuestionSubmissionF
       recipientIdentifier: 'alice',
       responseDetails: { questionType: FeedbackQuestionType.RUBRIC, answer: [0, 2] } as FeedbackRubricResponseDetails,
       isValid: true,
+      isModified: false,
     },
     {
       responseId: 'response2',
       recipientIdentifier: 'bob',
       responseDetails: { questionType: FeedbackQuestionType.RUBRIC, answer: [1, 3] } as FeedbackRubricResponseDetails,
       isValid: true,
+      isModified: false,
     },
   ],
   customNumberOfEntitiesToGiveFeedbackTo: 0,
@@ -1566,10 +1568,6 @@ export const EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL: QuestionSubmissionF
       ],
     ],
   } as FeedbackRubricQuestionDetails,
-  hasResponseChangedForRecipients: new Map<string, boolean>([
-    ['alice', false],
-    ['bob', false],
-  ]),
   isTabExpandedForRecipients: new Map<string, boolean>([
     ['alice', true],
     ['bob', true],

@@ -105,9 +105,7 @@ public final class AccountsDb {
      * Deletes an Account.
      */
     public void deleteAccount(Account account) {
-        if (account != null) {
-            HibernateUtil.remove(account);
-        }
+        HibernateUtil.remove(account);
     }
 
 }

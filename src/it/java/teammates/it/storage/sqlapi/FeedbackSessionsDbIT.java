@@ -9,7 +9,6 @@ import java.util.Set;
 import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.CoursesDb;
@@ -40,7 +39,7 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         fsDb.createFeedbackSession(fs1);
         fsDb.createFeedbackSession(fs2);
 
-        FeedbackSession actualFs = fsDb.getFeedbackSession(fs2.getName(), fs2.getCourse().getId());
+        FeedbackSession actualFs = fsDb.getFeedbackSession(fs2.getName(), fs2.getCourseId());
 
         verifyEquals(fs2, actualFs);
     }
@@ -89,40 +88,5 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         Set<FeedbackSession> actualUniqueOngoingSessions = new HashSet<>();
         actualUniqueOngoingSessions.addAll(actualOngoingSessions);
         assertEquals(expectedUniqueOngoingSessions, actualUniqueOngoingSessions);
-    }
-
-    @Test
-    public void testSoftDeleteFeedbackSession()
-            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
-        Course course1 = new Course("test-id1", "test-name1", "UTC", "NUS");
-        coursesDb.createCourse(course1);
-        FeedbackSession fs1 = new FeedbackSession("name1", course1, "test1@test.com", "test-instruction",
-                Instant.now().plus(Duration.ofDays(1)), Instant.now().plus(Duration.ofDays(7)), Instant.now(),
-                Instant.now().plus(Duration.ofDays(7)), Duration.ofMinutes(10), true, true, true);
-        fsDb.createFeedbackSession(fs1);
-        fsDb.softDeleteFeedbackSession(fs1.getName(), course1.getId());
-
-        FeedbackSession softDeletedFs = fsDb.getSoftDeletedFeedbackSession(fs1.getName(), course1.getId());
-        verifyEquals(fs1, softDeletedFs);
-    }
-
-    @Test
-    public void testRestoreFeedbackSession()
-            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
-        Course course1 = new Course("test-id1", "test-name1", "UTC", "NUS");
-        coursesDb.createCourse(course1);
-        FeedbackSession fs1 = new FeedbackSession("name1", course1, "test1@test.com", "test-instruction",
-                Instant.now().plus(Duration.ofDays(1)), Instant.now().plus(Duration.ofDays(7)), Instant.now(),
-                Instant.now().plus(Duration.ofDays(7)), Duration.ofMinutes(10), true, true, true);
-        fs1.setDeletedAt(Instant.now());
-        fsDb.createFeedbackSession(fs1);
-        FeedbackSession softDeletedFs = fsDb.getSoftDeletedFeedbackSession(fs1.getName(), course1.getId());
-
-        verifyEquals(fs1, softDeletedFs);
-
-        fsDb.restoreDeletedFeedbackSession(fs1.getName(), course1.getId());
-        FeedbackSession restoredFs = fsDb.getFeedbackSession(fs1.getName(), course1.getId());
-
-        verifyEquals(fs1, restoredFs);
     }
 }

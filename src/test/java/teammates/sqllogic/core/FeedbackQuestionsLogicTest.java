@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
@@ -12,13 +13,20 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.FeedbackQuestionsDb;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.Team;
+import teammates.storage.sqlentity.User;
 import teammates.test.BaseTestCase;
 
 /**
@@ -282,5 +290,202 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
             questions.add(fq);
         }
         return questions;
+    }
+
+    @Test
+    public void testGetDynamicallyGeneratedOptions_mcqStudents_returnsSortedStudentOptions() {
+        FeedbackMcqQuestionDetails mcqDetails =
+                getMockMcqQuestionDetails(FeedbackParticipantType.STUDENTS);
+        FeedbackQuestion question = getMockFeedbackQuestionWithDetails(mcqDetails, "course-1");
+        when(question.getQuestionType()).thenReturn(FeedbackQuestionType.MCQ);
+
+        Student student1 = getMockStudent(UUID.randomUUID(),
+                "Charlie", "charlie@teammates.tmt", "Section A", "Team 2");
+        Student student2 = getMockStudent(UUID.randomUUID(),
+                "Alice", "alice@teammates.tmt", "Section A", "Team 1");
+
+        when(usersLogic.getStudentsForCourse("course-1")).thenReturn(List.of(student1, student2));
+
+        Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, student1);
+
+        assertTrue(actualOptions.isPresent());
+        assertEquals(List.of("Alice (Team 1)", "Charlie (Team 2)"), actualOptions.get());
+    }
+
+    @Test
+    public void testGetDynamicallyGeneratedOptions_mcqStudentsExcludingSelf_excludesCurrentStudent() {
+        FeedbackMcqQuestionDetails mcqDetails =
+                getMockMcqQuestionDetails(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF);
+        FeedbackQuestion question = getMockFeedbackQuestionWithDetails(mcqDetails, "course-1");
+        when(question.getQuestionType()).thenReturn(FeedbackQuestionType.MCQ);
+
+        Student currentStudent = getMockStudent(UUID.randomUUID(),
+                "Alice", "alice@teammates.tmt", "Section A", "Team 1");
+        Student otherStudent = getMockStudent(UUID.randomUUID(),
+                "Bob", "bob@teammates.tmt", "Section A", "Team 2");
+
+        when(usersLogic.getStudentsForCourse("course-1")).thenReturn(List.of(currentStudent, otherStudent));
+
+        Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, currentStudent);
+
+        assertTrue(actualOptions.isPresent());
+        assertEquals(List.of("Bob (Team 2)"), actualOptions.get());
+    }
+
+    @Test
+    public void testGetDynamicallyGeneratedOptions_msqStudentsInSameSection_returnsSortedSectionStudentOptions() {
+        FeedbackMsqQuestionDetails msqDetails =
+                getMockMsqQuestionDetails(FeedbackParticipantType.STUDENTS_IN_SAME_SECTION);
+        FeedbackQuestion question = getMockFeedbackQuestionWithDetails(msqDetails, "course-1");
+        when(question.getQuestionType()).thenReturn(FeedbackQuestionType.MSQ);
+
+        Student currentStudent = getMockStudent(UUID.randomUUID(),
+                "Current", "current@teammates.tmt", "Section A", "Team 0");
+        Student student1 = getMockStudent(UUID.randomUUID(),
+                "Charlie", "charlie@teammates.tmt", "Section A", "Team 2");
+        Student student2 = getMockStudent(UUID.randomUUID(),
+                "Alice", "alice@teammates.tmt", "Section A", "Team 1");
+
+        when(usersLogic.getStudentsForSection("Section A", "course-1")).thenReturn(List.of(student1, student2));
+
+        Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, currentStudent);
+
+        assertTrue(actualOptions.isPresent());
+        assertEquals(List.of("Alice (Team 1)", "Charlie (Team 2)"), actualOptions.get());
+    }
+
+    @Test
+    public void testGetDynamicallyGeneratedOptions_mcqOwnTeamMembersIncludingSelf_returnsAllTeamMemberNames() {
+        FeedbackMcqQuestionDetails mcqDetails =
+                getMockMcqQuestionDetails(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
+        FeedbackQuestion question = getMockFeedbackQuestionWithDetails(mcqDetails, "course-1");
+        when(question.getQuestionType()).thenReturn(FeedbackQuestionType.MCQ);
+
+        Student currentStudent = mock(Student.class);
+        Team team = mock(Team.class);
+        User user1 = getMockUser(UUID.randomUUID(), "Bob");
+        User user2 = getMockUser(UUID.randomUUID(), "Alice");
+
+        when(currentStudent.getTeam()).thenReturn(team);
+        when(team.getUsers()).thenReturn(List.of(user1, user2));
+
+        Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, currentStudent);
+
+        assertTrue(actualOptions.isPresent());
+        assertEquals(List.of("Alice", "Bob"), actualOptions.get());
+    }
+
+    @Test
+    public void testGetDynamicallyGeneratedOptions_mcqOwnTeamMembers_excludesCurrentStudent() {
+        FeedbackMcqQuestionDetails mcqDetails =
+                getMockMcqQuestionDetails(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        FeedbackQuestion question = getMockFeedbackQuestionWithDetails(mcqDetails, "course-1");
+        when(question.getQuestionType()).thenReturn(FeedbackQuestionType.MCQ);
+
+        Student currentStudent = mock(Student.class);
+        Team team = mock(Team.class);
+        UUID currentStudentId = UUID.randomUUID();
+        User currentUser = getMockUser(currentStudentId, "Alice");
+        User otherUser = getMockUser(UUID.randomUUID(), "Bob");
+
+        when(currentStudent.getId()).thenReturn(currentStudentId);
+        when(currentStudent.getTeam()).thenReturn(team);
+        when(team.getUsers()).thenReturn(List.of(currentUser, otherUser));
+
+        Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, currentStudent);
+
+        assertTrue(actualOptions.isPresent());
+        assertEquals(List.of("Bob"), actualOptions.get());
+    }
+
+    @Test
+    public void testGetDynamicallyGeneratedOptions_msqInstructors_returnsSortedInstructorNames() {
+        FeedbackMsqQuestionDetails msqDetails =
+                getMockMsqQuestionDetails(FeedbackParticipantType.INSTRUCTORS);
+        FeedbackQuestion question = getMockFeedbackQuestionWithDetails(msqDetails, "course-1");
+        when(question.getQuestionType()).thenReturn(FeedbackQuestionType.MSQ);
+
+        Instructor instructor1 = mock(Instructor.class);
+        Instructor instructor2 = mock(Instructor.class);
+        when(instructor1.getName()).thenReturn("Charlie");
+        when(instructor2.getName()).thenReturn("Alice");
+
+        when(usersLogic.getInstructorsForCourse("course-1")).thenReturn(List.of(instructor1, instructor2));
+
+        Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, null);
+
+        assertTrue(actualOptions.isPresent());
+        assertEquals(List.of("Alice", "Charlie"), actualOptions.get());
+    }
+
+    @Test
+    public void testGetDynamicallyGeneratedOptions_mcqNone_returnsEmptyOptional() {
+        FeedbackMcqQuestionDetails mcqDetails =
+                getMockMcqQuestionDetails(FeedbackParticipantType.NONE);
+        FeedbackQuestion question = getMockFeedbackQuestionWithDetails(mcqDetails, "course-1");
+        when(question.getQuestionType()).thenReturn(FeedbackQuestionType.MCQ);
+
+        Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, null);
+
+        assertTrue(actualOptions.isEmpty());
+    }
+
+    @Test
+    public void testGetDynamicallyGeneratedOptions_nonMcqMsqQuestionType_returnsEmptyOptional() {
+        FeedbackQuestionDetails questionDetails =
+                mock(FeedbackQuestionDetails.class);
+        FeedbackQuestion question = getMockFeedbackQuestionWithDetails(questionDetails, "course-1");
+
+        when(question.getQuestionType()).thenReturn(
+                FeedbackQuestionType.TEXT);
+
+        Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, null);
+
+        assertTrue(actualOptions.isEmpty());
+    }
+
+    private FeedbackQuestion getMockFeedbackQuestionWithDetails(FeedbackQuestionDetails questionDetails, String courseId) {
+        FeedbackQuestion question = mock(FeedbackQuestion.class);
+        when(question.getQuestionDetailsCopy()).thenReturn(questionDetails);
+        when(question.getCourseId()).thenReturn(courseId);
+        return question;
+    }
+
+    private FeedbackMcqQuestionDetails getMockMcqQuestionDetails(
+            FeedbackParticipantType generateOptionsFor) {
+        FeedbackMcqQuestionDetails mcqDetails =
+                mock(FeedbackMcqQuestionDetails.class);
+        when(mcqDetails.getGenerateOptionsFor()).thenReturn(generateOptionsFor);
+        return mcqDetails;
+    }
+
+    private FeedbackMsqQuestionDetails getMockMsqQuestionDetails(
+            FeedbackParticipantType generateOptionsFor) {
+        FeedbackMsqQuestionDetails msqDetails =
+                mock(FeedbackMsqQuestionDetails.class);
+        when(msqDetails.getGenerateOptionsFor()).thenReturn(generateOptionsFor);
+        return msqDetails;
+    }
+
+    private Student getMockStudent(UUID id, String name, String email, String sectionName, String teamName) {
+        Student student = mock(Student.class);
+        Team team = mock(Team.class);
+
+        when(student.getId()).thenReturn(id);
+        when(student.getName()).thenReturn(name);
+        when(student.getEmail()).thenReturn(email);
+        when(student.getSectionName()).thenReturn(sectionName);
+        when(student.getTeamName()).thenReturn(teamName);
+        when(student.getTeam()).thenReturn(team);
+        when(team.getName()).thenReturn(teamName);
+
+        return student;
+    }
+
+    private User getMockUser(UUID id, String name) {
+        User user = mock(User.class);
+        when(user.getId()).thenReturn(id);
+        when(user.getName()).thenReturn(name);
+        return user;
     }
 }

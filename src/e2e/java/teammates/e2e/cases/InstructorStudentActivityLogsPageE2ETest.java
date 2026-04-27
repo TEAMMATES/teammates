@@ -31,7 +31,7 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(
-                loadDataBundle("/InstructorStudentActivityLogsPageE2ETestSql.json"));
+                loadDataBundle("/InstructorStudentActivityLogsPageE2ETest.json"));
 
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");
@@ -68,6 +68,7 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
         logout();
         AppUrl studentSubmissionPageUrl = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
                 .withCourseId(course.getId())
+                .withFeedbackSessionId(feedbackSession.getId().toString())
                 .withSessionName(feedbackSession.getName());
         FeedbackSubmitPageSql studentSubmissionPage = loginToPage(studentSubmissionPageUrl,
                 FeedbackSubmitPageSql.class, student.getGoogleId());

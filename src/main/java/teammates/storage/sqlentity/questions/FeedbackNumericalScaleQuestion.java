@@ -11,6 +11,7 @@ import jakarta.persistence.Entity;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
 
@@ -38,6 +39,11 @@ public class FeedbackNumericalScaleQuestion extends FeedbackQuestion {
         super(feedbackSession, questionNumber, description, giverType, recipientType,
                 numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo);
         setFeedBackQuestionDetails((FeedbackNumericalScaleQuestionDetails) feedbackQuestionDetails);
+    }
+
+    @Override
+    public FeedbackQuestionType getQuestionType() {
+        return FeedbackQuestionType.NUMSCALE;
     }
 
     @Override

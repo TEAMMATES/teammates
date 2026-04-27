@@ -23,7 +23,7 @@ public class FeedbackRubricQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/FeedbackRubricQuestionE2ESqlTest.json");
+        testData = loadDataBundle("/FeedbackRubricQuestionE2ETest.json");
         removeAndRestoreDataBundle(testData);
 
         instructor = testData.instructors.get("instructor");
@@ -69,7 +69,7 @@ public class FeedbackRubricQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         feedbackEditPage.copyQuestion(copiedQuestion.getCourseId(),
                 copiedQuestion.getQuestionDetailsCopy().getQuestionText());
         copiedQuestion.getCourse().setId(course.getId());
-        copiedQuestion.getFeedbackSession().setName(feedbackSession.getName());
+        copiedQuestion.setFeedbackSession(feedbackSession);
         copiedQuestion.setQuestionNumber(3);
 
         feedbackEditPage.verifyRubricQuestionDetails(3, questionDetails);

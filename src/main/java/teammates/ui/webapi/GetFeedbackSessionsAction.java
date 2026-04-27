@@ -71,15 +71,13 @@ public class GetFeedbackSessionsAction extends Action {
 
         List<FeedbackSession> feedbackSessions = new ArrayList<>();
         List<Instructor> instructors = new ArrayList<>();
-        List<String> studentEmails = new ArrayList<>();
         Map<FeedbackSession, Instant> sessionToDeadline = new LinkedHashMap<>();
 
         if (courseId == null) {
             if (Const.EntityType.STUDENT.equals(entityType)) {
                 List<Student> students = sqlLogic.getStudentsByGoogleId(userInfo.getId());
                 for (Student student : students) {
-                    String studentCourseId = student.getCourse().getId();
-                    studentEmails.add(student.getEmail());
+                    String studentCourseId = student.getCourseId();
                     List<FeedbackSession> sessions = sqlLogic.getFeedbackSessionsForCourse(studentCourseId);
                     for (FeedbackSession session : sessions) {
                         sessionToDeadline.put(session, sqlLogic.getDeadlineForUser(session, student));
@@ -101,7 +99,6 @@ public class GetFeedbackSessionsAction extends Action {
             if (Const.EntityType.STUDENT.equals(entityType) && !feedbackSessions.isEmpty()) {
                 Student student = sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
                 assert student != null;
-                studentEmails.add(student.getEmail());
                 for (FeedbackSession session : feedbackSessions) {
                     sessionToDeadline.put(session, sqlLogic.getDeadlineForUser(session, student));
                 }
@@ -111,31 +108,16 @@ public class GetFeedbackSessionsAction extends Action {
             }
         }
 
+        FeedbackSessionsData responseData;
         Map<String, Instructor> courseIdToInstructor = new HashMap<>();
         instructors.forEach(instructor -> courseIdToInstructor.put(instructor.getCourseId(), instructor));
 
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
             for (FeedbackSession session : feedbackSessions) {
-                Instructor instructor = courseIdToInstructor.get(session.getCourse().getId());
+                Instructor instructor = courseIdToInstructor.get(session.getCourseId());
                 sessionToDeadline.put(session, sqlLogic.getDeadlineForUser(session, instructor));
             }
-        }
-
-        FeedbackSessionsData responseData;
-        if (Const.EntityType.STUDENT.equals(entityType)) {
-            // hide sessions not visible to student
-            sessionToDeadline.keySet().removeIf(session -> !session.isVisible());
-        }
-
-        responseData = new FeedbackSessionsData(sessionToDeadline);
-
-        for (String studentEmail : studentEmails) {
-            responseData.hideInformationForStudent(studentEmail);
-        }
-
-        if (Const.EntityType.STUDENT.equals(entityType)) {
-            responseData.getFeedbackSessions().forEach(FeedbackSessionData::hideInformation);
-        } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
+            responseData = new FeedbackSessionsData(sessionToDeadline);
             responseData.getFeedbackSessions().forEach(session -> {
                 Instructor instructor = courseIdToInstructor.get(session.getCourseId());
                 if (instructor == null) {
@@ -146,7 +128,15 @@ public class GetFeedbackSessionsAction extends Action {
                         constructInstructorPrivileges(instructor, session.getFeedbackSessionName());
                 session.setPrivileges(privilege);
             });
+        } else if (Const.EntityType.STUDENT.equals(entityType)) {
+            // hide sessions not visible to student
+            sessionToDeadline.keySet().removeIf(session -> !session.isVisible());
+            responseData = new FeedbackSessionsData(sessionToDeadline);
+            responseData.getFeedbackSessions().forEach(FeedbackSessionData::hideInformation);
+        } else {
+            responseData = new FeedbackSessionsData(feedbackSessions);
         }
+
         return new JsonResult(responseData);
     }
 }

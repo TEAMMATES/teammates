@@ -187,38 +187,29 @@ public class CoursesLogicTest extends BaseTestCase {
     public void testDeleteCourseCascade_shouldDeleteCourse_success() {
         Course course = getTypicalCourse();
         List<Instructor> instructors = new ArrayList<>();
-        List<FeedbackSession> feedbackSessions = new ArrayList<>();
-        List<FeedbackSession> softDeletedFeedbackSessions = new ArrayList<>();
 
         FeedbackSession fs = new FeedbackSession("test-fs", course, "test@email.com",
                 "test", Instant.now(), Instant.now(), Instant.now(), Instant.now(), Duration.ofSeconds(60),
                 false, false, false);
-        feedbackSessions.add(fs);
+        course.addFeedbackSession(fs);
 
         FeedbackSession softDeletedFs = new FeedbackSession("soft-deleted-fs", course, "test@email.com",
                 "test", Instant.now(), Instant.now(), Instant.now(), Instant.now(), Duration.ofSeconds(60),
                 false, false, false);
         softDeletedFs.setDeletedAt(Instant.now());
-        softDeletedFeedbackSessions.add(softDeletedFs);
+        course.addFeedbackSession(softDeletedFs);
         instructors.add(getTypicalInstructor());
 
-        when(fsLogic.getFeedbackSessionsForCourse(course.getId())).thenReturn(feedbackSessions);
-        when(fsLogic.getSoftDeletedFeedbackSessionsForCourse(course.getId()))
-                .thenReturn(softDeletedFeedbackSessions);
         when(usersLogic.getInstructorsForCourse(course.getId())).thenReturn(instructors);
         when(coursesDb.getCourse(course.getId())).thenReturn(course);
 
         coursesLogic.deleteCourseCascade(course.getId());
 
-        verify(usersLogic, times(1)).deleteStudentsInCourseCascade(course.getId());
         verify(usersLogic, times(1)).getInstructorsForCourse(course.getId());
         verify(usersLogic, times(1)).deleteInstructorCascade(course.getId(), instructors.get(0).getEmail());
-        verify(fsLogic, times(1)).deleteFeedbackSessionCascade(fs.getName(), course.getId());
-        verify(fsLogic, times(1)).deleteFeedbackSessionCascade(softDeletedFs.getName(), course.getId());
-        verify(fsLogic, times(1)).getFeedbackSessionsForCourse(course.getId());
-        verify(fsLogic, times(1)).getSoftDeletedFeedbackSessionsForCourse(course.getId());
+        verify(fsLogic, times(1)).deleteFeedbackSessionCascade(fs.getId());
+        verify(fsLogic, times(1)).deleteFeedbackSessionCascade(softDeletedFs.getId());
         verify(coursesDb, times(1)).deleteCourse(course);
-        verify(coursesDb, times(1)).deleteSectionsByCourseId(course.getId());
     }
 
     @Test
@@ -339,32 +330,6 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetCourseInstitute_shouldReturnInstitute_success() {
-        Course course = getTypicalCourse();
-        String courseId = course.getId();
-
-        when(coursesDb.getCourse(courseId)).thenReturn(course);
-
-        String institute = coursesLogic.getCourseInstitute(courseId);
-
-        verify(coursesDb, times(1)).getCourse(courseId);
-        assertNotNull(institute);
-    }
-
-    @Test
-    public void testGetCourseInstituteNonExistentCourse_throwAssertionError() {
-        Course course = getTypicalCourse();
-        String courseId = course.getId();
-
-        when(coursesDb.getCourse(courseId)).thenReturn(null);
-
-        AssertionError ex = assertThrows(AssertionError.class,
-                () -> coursesLogic.getCourseInstitute(courseId));
-
-        assertEquals("Trying to getCourseInstitute for inexistent course with id " + courseId, ex.getMessage());
-    }
-
-    @Test
     public void testCreateTeam_shouldReturnCreatedTeam_success()
             throws EntityAlreadyExistsException, InvalidParametersException {
         Team team = getTypicalTeam();
@@ -404,33 +369,6 @@ public class CoursesLogicTest extends BaseTestCase {
                 () -> coursesLogic.createTeam(team));
 
         assertEquals("The provided team name is not acceptable to TEAMMATES as it cannot be empty.", ex.getMessage());
-    }
-
-    @Test
-    public void testGetTeamsForSection_shouldReturnListOfTeams_success() {
-        Section section = getTypicalSection();
-
-        Team t1 = getTypicalTeam();
-        t1.setName("test-teamName1");
-
-        Team t2 = getTypicalTeam();
-        t2.setName("test-teamName2");
-
-        List<Team> teams = new ArrayList<>();
-        teams.add(t1);
-        teams.add(t2);
-
-        section.setTeams(teams);
-
-        when(coursesDb.getTeamsForSection(section)).thenReturn(teams);
-
-        List<Team> returnedTeams = coursesLogic.getTeamsForSection(section);
-
-        verify(coursesDb, times(1)).getTeamsForSection(section);
-
-        List<Team> expectedTeams = List.of(t1, t2);
-
-        assertEquals(expectedTeams, returnedTeams);
     }
 
     @Test

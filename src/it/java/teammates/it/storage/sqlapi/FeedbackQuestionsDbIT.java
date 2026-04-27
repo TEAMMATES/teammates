@@ -134,11 +134,8 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         FeedbackQuestion fq = typicalDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         verifyPresentInDatabase(fq);
 
-        fqDb.deleteFeedbackQuestion(fq.getId());
+        fqDb.deleteFeedbackQuestion(fq);
         assertNull(fqDb.getFeedbackQuestion(fq.getId()));
-
-        ______TS("failure: null parameter, assertion error");
-        assertThrows(AssertionError.class, () -> fqDb.deleteFeedbackQuestion(null));
     }
 
     @Test

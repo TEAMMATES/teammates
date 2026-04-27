@@ -36,8 +36,11 @@ public class FeedbackSession extends BaseEntity {
     @Id
     private UUID id;
 
+    @Column(nullable = false, insertable = false, updatable = false)
+    private String courseId;
+
     @ManyToOne
-    @JoinColumn(name = "courseId")
+    @JoinColumn(name = "courseId", nullable = false)
     private Course course;
 
     @Column(nullable = false)
@@ -124,42 +127,6 @@ public class FeedbackSession extends BaseEntity {
         this.setPublishedEmailEnabled(isPublishedEmailEnabled);
     }
 
-    /**
-     * Creates a copy that uses the specific deadline for the given user.
-     *
-     * @param userEmail The email address of the given user.
-     * @return The copy of this object for the given user.
-     */
-    public FeedbackSession getCopyForUser(String userEmail) {
-        FeedbackSession copy = getCopy();
-        for (DeadlineExtension de : copy.getDeadlineExtensions()) {
-            if (!SanitizationHelper.areEmailsEqual(de.getUser().getEmail(), userEmail)) {
-                de.setEndTime(copy.getEndTime());
-            }
-        }
-        return copy;
-    }
-
-    /**
-     * Creates a copy of the feedback session.
-     *
-     * @return The copy of this object.
-     */
-    public FeedbackSession getCopy() {
-        FeedbackSession fs = new FeedbackSession(
-                name, course, creatorEmail, instructions, startTime,
-                endTime, sessionVisibleFromTime, resultsVisibleFromTime,
-                gracePeriod, isOpenedEmailEnabled, isClosingSoonEmailEnabled, isPublishedEmailEnabled
-        );
-        fs.setId(getId());
-        fs.setCreatedAt(getCreatedAt());
-        fs.setUpdatedAt(getUpdatedAt());
-        fs.setDeletedAt(getDeletedAt());
-        fs.setDeadlineExtensions(getDeadlineExtensions());
-
-        return fs;
-    }
-
     @Override
     public List<String> getInvalidityInfo() {
         List<String> errors = new ArrayList<>();
@@ -219,6 +186,20 @@ public class FeedbackSession extends BaseEntity {
         return errors;
     }
 
+    /**
+     * Adds a feedback question to the feedback session.
+     */
+    public void addFeedbackQuestion(FeedbackQuestion feedbackQuestion) {
+        this.feedbackQuestions.add(feedbackQuestion);
+    }
+
+    /**
+     * Adds a deadline extension to the feedback session.
+     */
+    public void addDeadlineExtension(DeadlineExtension deadlineExtension) {
+        this.deadlineExtensions.add(deadlineExtension);
+    }
+
     public UUID getId() {
         return id;
     }
@@ -231,12 +212,16 @@ public class FeedbackSession extends BaseEntity {
         return course;
     }
 
+    /**
+     * Sets a course as well as the courseId.
+     */
     public void setCourse(Course course) {
         this.course = course;
+        this.courseId = course.getId();
     }
 
     public String getCourseId() {
-        return course.getId();
+        return this.courseId;
     }
 
     public String getName() {

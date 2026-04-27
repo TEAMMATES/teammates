@@ -17,7 +17,7 @@ public class InstructorNotificationsPageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/InstructorNotificationsPageE2ESqlTest.json");
+        testData = loadDataBundle("/InstructorNotificationsPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
     }
 

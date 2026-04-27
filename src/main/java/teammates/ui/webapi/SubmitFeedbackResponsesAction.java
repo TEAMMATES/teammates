@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
+import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -64,7 +68,6 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             if (student == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
             }
-            feedbackSession = feedbackSession.getCopyForUser(student.getEmail());
             verifySessionOpenExceptForModeration(feedbackSession, student);
             checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;
@@ -74,7 +77,6 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             if (instructor == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
             }
-            feedbackSession = feedbackSession.getCopyForUser(instructor.getEmail());
             verifySessionOpenExceptForModeration(feedbackSession, instructor);
             checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
             break;
@@ -100,6 +102,8 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
 
         List<FeedbackResponse> existingResponses;
         Map<String, FeedbackQuestionRecipient> recipientsOfTheQuestion;
+        FeedbackQuestionDetails questionDetails = feedbackQuestion.getQuestionDetailsCopy();
+        Optional<List<String>> dynamicallyGeneratedOptions;
 
         String giverIdentifier;
         Section giverSection;
@@ -113,8 +117,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             giverSection = student.getSection();
             existingResponses = sqlLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(feedbackQuestion, student);
             recipientsOfTheQuestion = sqlLogic.getRecipientsOfQuestion(feedbackQuestion, null, student);
-            sqlLogic.populateFieldsToGenerateInQuestion(feedbackQuestion,
-                    feedbackQuestion.getCourseId(), student.getEmail(), student.getTeamName());
+            dynamicallyGeneratedOptions = sqlLogic.getDynamicallyGeneratedOptions(feedbackQuestion, student);
             break;
         case INSTRUCTOR_SUBMISSION:
             Instructor instructor = getSqlInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
@@ -122,11 +125,19 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             giverSection = sqlLogic.getDefaultSectionOrCreate(courseId);
             existingResponses = sqlLogic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructor);
             recipientsOfTheQuestion = sqlLogic.getRecipientsOfQuestion(feedbackQuestion, instructor, null);
-            sqlLogic.populateFieldsToGenerateInQuestion(feedbackQuestion,
-                    feedbackQuestion.getCourseId(), instructor.getEmail(), null);
+            dynamicallyGeneratedOptions = sqlLogic.getDynamicallyGeneratedOptions(feedbackQuestion, null);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
+        }
+
+        if (dynamicallyGeneratedOptions.isPresent()) {
+            // Dynamically generated options are only supported for MCQ and MSQ questions
+            if (questionDetails instanceof FeedbackMcqQuestionDetails feedbackMcqQuestionDetails) {
+                feedbackMcqQuestionDetails.setMcqChoices(dynamicallyGeneratedOptions.get());
+            } else if (questionDetails instanceof FeedbackMsqQuestionDetails feedbackMsqQuestionDetails) {
+                feedbackMsqQuestionDetails.setMsqChoices(dynamicallyGeneratedOptions.get());
+            }
         }
 
         Map<String, FeedbackResponse> existingResponsesPerRecipient = new HashMap<>();
@@ -194,9 +205,8 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             numRecipients = recipientsOfTheQuestion.size();
         }
 
-        List<String> questionSpecificErrors =
-                feedbackQuestion.getQuestionDetailsCopy()
-                        .validateResponsesDetails(responseDetails, numRecipients);
+        List<String> questionSpecificErrors = questionDetails
+                .validateResponsesDetails(responseDetails, numRecipients);
 
         if (!questionSpecificErrors.isEmpty()) {
             throw new InvalidHttpRequestBodyException(questionSpecificErrors.toString());

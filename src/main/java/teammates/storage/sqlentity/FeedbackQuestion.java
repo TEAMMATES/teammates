@@ -24,6 +24,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.FieldValidator;
 import teammates.storage.sqlentity.questions.FeedbackConstantSumQuestion;
 import teammates.storage.sqlentity.questions.FeedbackContributionQuestion;
@@ -89,7 +90,7 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
         // required by Hibernate
     }
 
-    public FeedbackQuestion(
+    protected FeedbackQuestion(
             FeedbackSession feedbackSession, Integer questionNumber,
             String description, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
             Integer numOfEntitiesToGiveFeedbackTo, List<FeedbackParticipantType> showResponsesTo,
@@ -106,6 +107,11 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
         this.setShowGiverNameTo(showGiverNameTo);
         this.setShowRecipientNameTo(showRecipientNameTo);
     }
+
+    /**
+     * Gets the type of the feedback question.
+     */
+    public abstract FeedbackQuestionType getQuestionType();
 
     /**
      * Gets a copy of the question details of the feedback question.
@@ -157,9 +163,7 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
                     feedbackQuestionDetails
             );
             break;
-        case CONSTSUM:
-        case CONSTSUM_OPTIONS:
-        case CONSTSUM_RECIPIENTS:
+        case CONSTSUM, CONSTSUM_OPTIONS, CONSTSUM_RECIPIENTS:
             feedbackQuestion = new FeedbackConstantSumQuestion(
                     feedbackSession, questionNumber, description, giverType, recipientType,
                     numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
@@ -225,6 +229,13 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
         }
 
         return this.getQuestionDetailsCopy().shouldChangesRequireResponseDeletion(questionDetails);
+    }
+
+    /**
+     * Adds a feedback response to the question.
+     */
+    public void addFeedbackResponse(FeedbackResponse feedbackResponse) {
+        this.feedbackResponses.add(feedbackResponse);
     }
 
     public UUID getId() {
@@ -337,7 +348,7 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     }
 
     public String getCourseId() {
-        return this.feedbackSession.getCourse().getId();
+        return this.feedbackSession.getCourseId();
     }
 
     @Override
@@ -358,11 +369,9 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
         if (!this.questionNumber.equals(o.questionNumber)) {
             return Integer.compare(this.questionNumber, o.questionNumber);
         }
-        // Although question numbers ought to be unique in a feedback session,
-        // eventual consistency can result in duplicate questions numbers.
-        // Therefore, to ensure that the question order is always consistent to the user,
-        // compare feedbackQuestionId, which is guaranteed to be unique,
-        // when the questionNumbers are the same.
+
+        // In the event that two questions have the same question number, we order them by their Ids
+        // to ensure that the question order is always consistent to the user.
         return this.id.compareTo(o.id);
     }
 

@@ -7,11 +7,9 @@ import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
-import jakarta.persistence.criteria.Subquery;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -87,9 +85,7 @@ public final class CoursesDb {
      * Deletes a course.
      */
     public void deleteCourse(Course course) {
-        if (course != null) {
-            HibernateUtil.remove(course);
-        }
+        HibernateUtil.remove(course);
     }
 
     /**
@@ -147,39 +143,6 @@ public final class CoursesDb {
                 cb.equal(teamJoin.get("name"), teamName)));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
-    }
-
-    /**
-     * Deletes all sections by {@code courseId}.
-     */
-    public void deleteSectionsByCourseId(String courseId) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaDelete<Section> cd = cb.createCriteriaDelete(Section.class);
-        Root<Section> sRoot = cd.from(Section.class);
-        Subquery<UUID> subquery = cd.subquery(UUID.class);
-        Root<Section> subqueryRoot = subquery.from(Section.class);
-        Join<Section, Course> sqJoin = subqueryRoot.join("course");
-        subquery.select(subqueryRoot.get("id"));
-        subquery.where(cb.equal(sqJoin.get("id"), courseId));
-        cd.where(cb.in(sRoot.get("id")).value(subquery));
-        HibernateUtil.createMutationQuery(cd).executeUpdate();
-    }
-
-    /**
-     * Get teams by {@code section}.
-     */
-    public List<Team> getTeamsForSection(Section section) {
-        assert section != null;
-
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Team> cr = cb.createQuery(Team.class);
-        Root<Team> teamRoot = cr.from(Team.class);
-        Join<Team, Section> teamJoin = teamRoot.join("section");
-
-        cr.select(teamRoot).where(
-                cb.equal(teamJoin.get("id"), section.getId()));
-
-        return HibernateUtil.createQuery(cr).getResultList();
     }
 
     /**

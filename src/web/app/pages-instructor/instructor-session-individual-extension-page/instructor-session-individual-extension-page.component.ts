@@ -141,8 +141,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     forkJoin([
       this.courseService.getCourseAsInstructor(this.courseId),
       this.feedbackSessionsService.getFeedbackSession({
-        courseId: this.courseId,
-        feedbackSessionName: this.feedbackSessionName,
+        feedbackSessionId: this.feedbackSessionId,
         intent: Intent.FULL_DETAIL,
       }),
       this.feedbackSessionsService.getFeedbackSessionDeadlineExtensions(

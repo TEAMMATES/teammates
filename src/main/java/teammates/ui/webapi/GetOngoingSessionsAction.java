@@ -74,7 +74,7 @@ public class GetOngoingSessionsAction extends AdminOnlyAction {
             List<FeedbackSession> ongoingSessions) {
         Map<String, List<FeedbackSession>> courseIdToFeedbackSessionsMap = new HashMap<>();
         for (FeedbackSession fs : ongoingSessions) {
-            String courseId = fs.getCourse().getId();
+            String courseId = fs.getCourseId();
             courseIdToFeedbackSessionsMap.computeIfAbsent(courseId, k -> new ArrayList<>()).add(fs);
         }
         return courseIdToFeedbackSessionsMap;

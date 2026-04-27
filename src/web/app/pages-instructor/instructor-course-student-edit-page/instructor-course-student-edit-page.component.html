@@ -68,7 +68,7 @@
                   <div
                     class="invalid-field">
                     <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                    <span [hidden]="!editForm.get('team-name')!.errors!['required']">
+                    <span [hidden]="!editForm.get('team-name')!.errors!['required'] && !editForm.get('team-name')!.errors!['whitespace']">
                       {{ displayEmptyFieldMessage('Team Name') }}
                     </span>
                     <span [hidden]="!editForm.get('team-name')!.errors!['maxlength']">

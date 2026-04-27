@@ -32,7 +32,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(
-                loadDataBundle("/InstructorSessionIndividualExtensionPageE2ETestSql.json"));
+                loadDataBundle("/InstructorSessionIndividualExtensionPageE2ETest.json"));
 
         testEmail = TestProperties.TEST_EMAIL;
         Student alice = testData.students.get("alice.tmms@ISesIe.CS2104");
@@ -202,6 +202,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
     private InstructorSessionIndividualExtensionPageSql loginToInstructorSessionIndividualExtensionPage() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_INDIVIDUAL_EXTENSION_PAGE)
                 .withCourseId(course.getId())
+                .withFeedbackSessionId(feedbackSession.getId().toString())
                 .withSessionName(feedbackSession.getName());
 
         return loginToPage(url, InstructorSessionIndividualExtensionPageSql.class, instructor.getGoogleId());
