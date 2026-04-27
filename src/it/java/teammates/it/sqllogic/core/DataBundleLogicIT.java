@@ -171,7 +171,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
                 "instr1@teammates.tmt", "Please please fill in the following questions.",
                 Instant.parse("2012-04-01T22:00:00Z"), Instant.parse("2027-04-30T22:00:00Z"),
                 Instant.parse("2012-03-28T22:00:00Z"), Instant.parse("2027-05-01T22:00:00Z"), Duration.ofMinutes(10),
-                true, true, true);
+                true, true);
         expectedSession1.setId(actualSession1.getId());
         expectedSession1.setOpenedEmailSent(actualSession1.isOpenedEmailSent());
         expectedSession1.setOpeningSoonEmailSent(actualSession1.isOpeningSoonEmailSent());

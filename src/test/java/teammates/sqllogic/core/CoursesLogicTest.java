@@ -190,12 +190,12 @@ public class CoursesLogicTest extends BaseTestCase {
 
         FeedbackSession fs = new FeedbackSession("test-fs", course, "test@email.com",
                 "test", Instant.now(), Instant.now(), Instant.now(), Instant.now(), Duration.ofSeconds(60),
-                false, false, false);
+                false, false);
         course.addFeedbackSession(fs);
 
         FeedbackSession softDeletedFs = new FeedbackSession("soft-deleted-fs", course, "test@email.com",
                 "test", Instant.now(), Instant.now(), Instant.now(), Instant.now(), Duration.ofSeconds(60),
-                false, false, false);
+                false, false);
         softDeletedFs.setDeletedAt(Instant.now());
         course.addFeedbackSession(softDeletedFs);
         instructors.add(getTypicalInstructor());

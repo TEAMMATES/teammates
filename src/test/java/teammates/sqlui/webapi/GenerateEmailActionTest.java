@@ -46,7 +46,7 @@ public class GenerateEmailActionTest
                 "session-name", course, "creater_email@tm.tmt", null,
                 Instant.parse("2020-01-01T00:00:00.000Z"), Instant.parse("2020-10-01T00:00:00.000Z"),
                 Instant.parse("2020-01-01T00:00:00.000Z"), Instant.parse("2020-11-01T00:00:00.000Z"),
-                null, false, false, false);
+                null, false, false);
         student = new Student(course, "student name", "student_email@tm.tmt", null);
 
         loginAsAdmin();

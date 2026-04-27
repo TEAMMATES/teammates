@@ -48,7 +48,6 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
                 Instant.parse("2020-11-01T00:00:00.000Z"),
                 null,
                 false,
-                false,
                 false);
         loginAsInstructor(googleId);
     }

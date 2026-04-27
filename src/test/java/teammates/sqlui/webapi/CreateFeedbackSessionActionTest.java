@@ -179,7 +179,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
                 instructor.getEmail(), "generic instructions",
                 nearestHour, endHour,
                 nearestHour, responseVisibleHour,
-                Duration.ofHours(10), true, false, false);
+                Duration.ofHours(10), false, false);
         fs.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
 

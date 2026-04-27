@@ -178,15 +178,15 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         FeedbackSession c1Fs2 = new FeedbackSession("name1-2", course1, "test2@test.com", "test-instruction",
                 instantNow.plus(Duration.ofHours(12L)), instantNow.plus(Duration.ofDays(7L)),
                 instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
-                true, true, true);
+                true, true);
         FeedbackSession c2Fs1 = new FeedbackSession("name2-1", course2, "test3@test.com", "test-instruction",
                 instantNow.minus(Duration.ofHours(12L)), instantNow.plus(Duration.ofHours(12L)),
                 instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
-                true, true, true);
+                true, true);
         FeedbackSession c3Fs1 = new FeedbackSession("name3-1", course3, "test4@test.com", "test-instruction",
                 instantNow.minus(Duration.ofDays(7L)), instantNow.minus(Duration.ofHours(12L)),
                 instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
-                true, true, true);
+                true, true);
         List<FeedbackSession> ongoingSqlSessions = new ArrayList<>();
         ongoingSqlSessions.add(c1Fs2);
         ongoingSqlSessions.add(c2Fs1);
@@ -250,11 +250,11 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         FeedbackSession sqlC1Fs2 = new FeedbackSession("name1-2", course1, "test2@test.com", "test-instruction",
                 instantNow.plus(Duration.ofHours(12L)), instantNow.plus(Duration.ofDays(7L)),
                 instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
-                true, true, true);
+                true, true);
         FeedbackSession sqlC2Fs1 = new FeedbackSession("name2-1", course2, "test3@test.com", "test-instruction",
                 instantNow.minus(Duration.ofHours(12L)), instantNow.plus(Duration.ofHours(12L)),
                 instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
-                true, true, true);
+                true, true);
         List<FeedbackSession> ongoingSqlSessions = new ArrayList<>();
         ongoingSqlSessions.add(sqlC1Fs2);
         ongoingSqlSessions.add(sqlC2Fs1);

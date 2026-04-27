@@ -172,7 +172,6 @@ public class BaseTestCase {
                 endTime,
                 Duration.ofMinutes(5),
                 false,
-                false,
                 false);
     }
 
