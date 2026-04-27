@@ -1,6 +1,5 @@
 package teammates.storage.sqlapi;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
@@ -15,7 +14,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -54,8 +52,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateSession_duplicateSessionById_throwsEntityAlreadyExistsException()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testCreateSession_duplicateSessionById_throwsEntityAlreadyExistsException() {
         FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         UUID uuid = feedbackSession.getId();
         doReturn(feedbackSession).when(feedbackSessionsDb).getFeedbackSession(uuid);
@@ -68,8 +65,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateSession_duplicateSessionByNameAndCourse_throwsEntityAlreadyExistsException()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testCreateSession_duplicateSessionByNameAndCourse_throwsEntityAlreadyExistsException() {
         FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         UUID uuid = feedbackSession.getId();
         doReturn(null).when(feedbackSessionsDb).getFeedbackSession(uuid);
@@ -82,8 +78,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateSession_invalidParams_throwsInvalidParametersException()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testCreateSession_invalidParams_throwsInvalidParametersException() {
         FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         feedbackSession.setName("");
 
@@ -92,8 +87,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateSession_nullParams_throwsAssertionError()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testCreateSession_nullParams_throwsAssertionError() {
         assertThrows(AssertionError.class, () -> feedbackSessionsDb.createFeedbackSession(null));
     }
 
@@ -121,42 +115,7 @@ public class FeedbackSessionsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpdateFeedbackSession_success() throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
-        doReturn(feedbackSession).when(feedbackSessionsDb).getFeedbackSession(any(UUID.class));
-        mockHibernateUtil.when(() -> HibernateUtil.merge(feedbackSession)).thenReturn(feedbackSession);
-
-        feedbackSessionsDb.updateFeedbackSession(feedbackSession);
-
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(feedbackSession), times(1));
-    }
-
-    @Test
-    public void testUpdateFeedbackSession_sessionDoesNotExist_throwsEntityDoesNotExistException()
-            throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
-        UUID uuid = feedbackSession.getId();
-        doReturn(null).when(feedbackSessionsDb).getFeedbackSession(uuid);
-
-        assertThrows(EntityDoesNotExistException.class,
-                () -> feedbackSessionsDb.updateFeedbackSession(feedbackSession));
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(feedbackSession), never());
-    }
-
-    @Test
-    public void testUpdateFeedbackSession_sessionInvalid_throwsInvalidParametersException()
-            throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
-        UUID uuid = feedbackSession.getId();
-        feedbackSession.setName("");
-        doReturn(feedbackSession).when(feedbackSessionsDb).getFeedbackSession(uuid);
-
-        assertThrows(InvalidParametersException.class, () -> feedbackSessionsDb.updateFeedbackSession(feedbackSession));
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(feedbackSession), never());
-    }
-
-    @Test
-    public void testDeleteFeedbackSession_success() throws InvalidParametersException, EntityDoesNotExistException {
+    public void testDeleteFeedbackSession_success() {
         FeedbackSession feedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
 
         feedbackSessionsDb.deleteFeedbackSession(feedbackSession);

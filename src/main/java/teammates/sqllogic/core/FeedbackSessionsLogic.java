@@ -14,6 +14,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
@@ -21,6 +22,7 @@ import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
+import teammates.ui.request.FeedbackSessionUpdateRequest;
 
 /**
  * Handles operations related to feedback sessions.
@@ -220,9 +222,70 @@ public final class FeedbackSessionsLogic {
      * @throws EntityDoesNotExistException if the feedback session does not exist
      * @throws InvalidParametersException if the new fields for feedback session are invalid
      */
-    public FeedbackSession updateFeedbackSession(FeedbackSession session)
+    public FeedbackSession updateFeedbackSession(UUID feedbackSessionId, FeedbackSessionUpdateRequest updateRequest)
             throws InvalidParametersException, EntityDoesNotExistException {
-        return fsDb.updateFeedbackSession(session);
+        FeedbackSession session = getFeedbackSession(feedbackSessionId);
+        if (session == null) {
+            throw new EntityDoesNotExistException(
+                String.format("Feedback session with id %s not found.", feedbackSessionId));
+        }
+
+        String timeZone = session.getCourse().getTimeZone();
+        Instant startTime = updateRequest.getAdjustedSubmissionStartTime(timeZone);
+        Instant endTime = updateRequest.getAdjustedSubmissionEndTime(timeZone);
+        Instant sessionVisibleTime = updateRequest.getAdjustedSessionVisibleFromTime(timeZone);
+        Instant resultsVisibleTime = updateRequest.getAdjustedResultsVisibleFromTime(timeZone);
+
+        validateNewFeedbackSessionTiming(session, timeZone, startTime, endTime, sessionVisibleTime);
+
+        session.setInstructions(updateRequest.getInstructions());
+        session.setStartTime(startTime);
+        session.setEndTime(endTime);
+        session.setGracePeriod(updateRequest.getGracePeriod());
+        session.setSessionVisibleFromTime(sessionVisibleTime);
+        session.setResultsVisibleFromTime(resultsVisibleTime);
+        session.setClosingSoonEmailEnabled(updateRequest.isClosingSoonEmailEnabled());
+        session.setPublishedEmailEnabled(updateRequest.isPublishedEmailEnabled());
+
+        if (!session.isValid()) {
+            throw new InvalidParametersException(session.getInvalidityInfo());
+        }
+
+        return session;
+    }
+
+    /**
+     * Validates that the new timing fields of the feedback session are valid.
+     */
+    private void validateNewFeedbackSessionTiming(FeedbackSession session, String timeZone,
+            Instant newStartTime, Instant newEndTime, Instant newSessionVisibleTime) throws InvalidParametersException {
+        boolean isStartTimeChanged = session == null || !newStartTime.equals(session.getStartTime());
+        boolean isEndTimeChanged = session == null || !newEndTime.equals(session.getEndTime());
+        boolean isSessionVisibleTimeChanged = session == null
+                || !newSessionVisibleTime.equals(session.getSessionVisibleFromTime());
+
+        if (isStartTimeChanged) {
+            String startTimeError = FieldValidator.getInvalidityInfoForNewStartTime(newStartTime, timeZone);
+            if (!startTimeError.isEmpty()) {
+                throw new InvalidParametersException("Invalid submission opening time: " + startTimeError);
+            }
+        }
+
+        if (isEndTimeChanged) {
+            String endTimeError = FieldValidator.getInvalidityInfoForNewEndTime(newEndTime, timeZone);
+            if (!endTimeError.isEmpty()) {
+                throw new InvalidParametersException("Invalid submission closing time: " + endTimeError);
+            }
+        }
+
+        if (isSessionVisibleTimeChanged) {
+            String visibilityStartAndSessionStartTimeError = FieldValidator
+                    .getInvalidityInfoForTimeForNewVisibilityStart(newSessionVisibleTime, newStartTime);
+            if (!visibilityStartAndSessionStartTimeError.isEmpty()) {
+                throw new InvalidParametersException("Invalid session visible time: "
+                        + visibilityStartAndSessionStartTimeError);
+            }
+        }
     }
 
     /**

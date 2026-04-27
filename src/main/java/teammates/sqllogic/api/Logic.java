@@ -56,6 +56,7 @@ import teammates.storage.sqlentity.UsageStatistics;
 import teammates.storage.sqlentity.User;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
+import teammates.ui.request.FeedbackSessionUpdateRequest;
 import teammates.ui.request.InstructorCreateRequest;
 
 /**
@@ -550,11 +551,13 @@ public class Logic {
     /**
      * Updates a feedback session.
      *
-     * @return returns the updated feedback session.
+     * @return updated feedback session
+     * @throws EntityDoesNotExistException if the feedback session does not exist
+     * @throws InvalidParametersException if the new fields for feedback session are invalid
      */
-    public FeedbackSession updateFeedbackSession(FeedbackSession feedbackSession)
+    public FeedbackSession updateFeedbackSession(UUID feedbackSessionId, FeedbackSessionUpdateRequest updateRequest)
             throws InvalidParametersException, EntityDoesNotExistException {
-        return feedbackSessionsLogic.updateFeedbackSession(feedbackSession);
+        return feedbackSessionsLogic.updateFeedbackSession(feedbackSessionId, updateRequest);
     }
 
     /**
