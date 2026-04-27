@@ -4,7 +4,7 @@ import { EditRequestModalComponentResult } from './admin-edit-request-modal-mode
 import { castAsInputElement, castAsTextAreaElement } from '../../../../types/event-target-caster';
 
 /**
- * Modal to select reject account requests with reason.
+ * Modal to edit an account request.
  */
 @Component({
     selector: 'tm-edit-request-modal',
