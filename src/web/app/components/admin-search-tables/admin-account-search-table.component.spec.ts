@@ -6,16 +6,16 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import { AccountRequestTableRowModel } from './account-search-table-model';
 import { AdminAccountSearchTableComponent } from './admin-account-search-table.component';
-import { EditRequestModalComponent } from '../account-requests-table/admin-edit-request-modal/admin-edit-request-modal.component';
-import {
-  RejectWithReasonModalComponent,
-} from '../account-requests-table/admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
 import { AccountService } from '../../../services/account.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { createBuilder } from '../../../test-helpers/generic-builder';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { AccountRequest, AccountRequestStatus } from '../../../types/api-output';
+import { EditRequestModalComponent } from '../account-requests-table/admin-edit-request-modal/admin-edit-request-modal.component';
+import {
+  RejectWithReasonModalComponent,
+} from '../account-requests-table/admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 
 describe('AdminAccountSearchTableComponent', () => {
