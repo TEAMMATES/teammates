@@ -85,6 +85,11 @@ public class Instructor extends User {
     }
 
     @Override
+    public Team getTeam() {
+        return null;
+    }
+
+    @Override
     public String getTeamName() {
         return Const.USER_TEAM_FOR_INSTRUCTOR;
     }

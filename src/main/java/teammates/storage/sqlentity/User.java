@@ -111,9 +111,7 @@ public abstract class User extends BaseEntity {
         this.courseId = course.getId();
     }
 
-    public Team getTeam() {
-        return team;
-    }
+    abstract Team getTeam();
 
     public void setTeam(Team team) {
         this.team = team;

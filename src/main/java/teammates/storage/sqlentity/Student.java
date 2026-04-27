@@ -51,6 +51,11 @@ public class Student extends User {
     }
 
     @Override
+    public Team getTeam() {
+        return this.getTeam();
+    }
+
+    @Override
     public String getTeamName() {
         return getTeam() != null ? getTeam().getName() : null;
     }
