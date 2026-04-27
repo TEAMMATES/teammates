@@ -476,7 +476,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         const updatedInstructorDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
           affectedInstructorModels, this.instructorDeadlines);
         this.feedbackSessionsService.updateFeedbackSessionDeadlineExtensions(
-          this.courseId, this.feedbackSessionName,
+          this.feedbackSessionId,
           { studentDeadlines: updatedStudentDeadlines, instructorDeadlines: updatedInstructorDeadlines },
           isNotifyDeadlines,
         ).subscribe({

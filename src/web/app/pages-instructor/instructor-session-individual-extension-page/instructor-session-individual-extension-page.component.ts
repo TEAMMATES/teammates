@@ -401,7 +401,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   ): void {
     this.isSubmittingDeadlines = true;
     this.feedbackSessionsService
-      .updateFeedbackSessionDeadlineExtensions(this.courseId, this.feedbackSessionName, request, isNotifyDeadlines)
+      .updateFeedbackSessionDeadlineExtensions(this.feedbackSessionId, request, isNotifyDeadlines)
       .pipe(finalize(() => { this.isSubmittingDeadlines = false; }))
       .subscribe({
         next: () => {
