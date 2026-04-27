@@ -101,23 +101,19 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
                 .orElse(null);
     }
 
-    private void setStartTime(FeedbackSession session, int days)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    private void setStartTime(FeedbackSession session, int days) {
         Instant startTime = TimeHelper.getInstantDaysOffsetFromNow(days);
 
         session.setStartTime(startTime);
 
-        logic.updateFeedbackSession(session);
         HibernateUtil.flushSession();
     }
 
-    private void setEndTime(FeedbackSession session, int days)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    private void setEndTime(FeedbackSession session, int days) {
         Instant endTime = TimeHelper.getInstantDaysOffsetFromNow(days);
 
         session.setEndTime(endTime);
 
-        logic.updateFeedbackSession(session);
         HibernateUtil.flushSession();
     }
 

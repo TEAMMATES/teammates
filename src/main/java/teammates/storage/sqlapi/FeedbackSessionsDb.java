@@ -1,7 +1,6 @@
 package teammates.storage.sqlapi;
 
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
-import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
 import java.util.List;
@@ -14,7 +13,6 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.Logger;
@@ -132,28 +130,6 @@ public final class FeedbackSessionsDb {
 
         HibernateUtil.persist(session);
         return session;
-    }
-
-    /**
-     * Saves an updated {@code FeedbackSession} to the db.
-     *
-     * @return updated feedback session
-     * @throws InvalidParametersException  if attributes to update are not valid
-     * @throws EntityDoesNotExistException if the feedback session cannot be found
-     */
-    public FeedbackSession updateFeedbackSession(FeedbackSession feedbackSession)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        assert feedbackSession != null;
-
-        if (!feedbackSession.isValid()) {
-            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
-        }
-
-        if (getFeedbackSession(feedbackSession.getId()) == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        return HibernateUtil.merge(feedbackSession);
     }
 
     /**
