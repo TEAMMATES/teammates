@@ -68,25 +68,24 @@ exports[`RejectWithReasonModal should show empty title and body 1`] = `
           </div>
         </tm-rich-text-editor>
       </div>
-      <div
-        class="modal-footer"
-      >
-        <button
-          class="btn btn-light"
-          id="btn-cancel-reject-request"
-          type="button"
-        >
-          Cancel
-        </button>
-        <button
-          class="btn btn-warning"
-          id="btn-confirm-reject-request"
-          type="button"
-        >
-           Reject 
-        </button>
-      </div>
     </div>
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      id="btn-cancel-reject-request"
+      type="button"
+    >
+      Cancel
+    </button>
+    <button
+      class="btn btn-warning"
+      id="btn-confirm-reject-request"
+      type="button"
+    >
+       Reject 
+    </button>
   </div>
 </tm-reject-with-reason-modal>
 `;

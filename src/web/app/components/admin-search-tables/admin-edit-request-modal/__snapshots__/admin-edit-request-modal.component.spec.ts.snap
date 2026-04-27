@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`RejectWithReasonModal should show empty fields 1`] = `
+exports[`EditRequestModalComponent should show empty fields 1`] = `
 <tm-edit-request-modal
   accountRequestComments=""
   accountRequestEmail=""
@@ -87,29 +87,28 @@ exports[`RejectWithReasonModal should show empty fields 1`] = `
           />
         </div>
       </div>
-      <div
-        class="modal-footer"
-      >
-        <button
-          class="btn btn-light"
-          type="button"
-        >
-          Cancel
-        </button>
-        <button
-          class="btn btn-primary"
-          id="btn-confirm-edit-request"
-          type="button"
-        >
-           Save 
-        </button>
-      </div>
     </div>
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      type="button"
+    >
+      Cancel
+    </button>
+    <button
+      class="btn btn-primary"
+      id="btn-confirm-edit-request"
+      type="button"
+    >
+       Save 
+    </button>
   </div>
 </tm-edit-request-modal>
 `;
 
-exports[`RejectWithReasonModal should show populated data 1`] = `
+exports[`EditRequestModalComponent should show populated data 1`] = `
 <tm-edit-request-modal
   accountRequestComments={[Function String]}
   accountRequestEmail={[Function String]}
@@ -196,24 +195,23 @@ exports[`RejectWithReasonModal should show populated data 1`] = `
           />
         </div>
       </div>
-      <div
-        class="modal-footer"
-      >
-        <button
-          class="btn btn-light"
-          type="button"
-        >
-          Cancel
-        </button>
-        <button
-          class="btn btn-primary"
-          id="btn-confirm-edit-request"
-          type="button"
-        >
-           Save 
-        </button>
-      </div>
     </div>
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      type="button"
+    >
+      Cancel
+    </button>
+    <button
+      class="btn btn-primary"
+      id="btn-confirm-edit-request"
+      type="button"
+    >
+       Save 
+    </button>
   </div>
 </tm-edit-request-modal>
 `;
