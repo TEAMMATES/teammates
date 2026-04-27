@@ -28,13 +28,13 @@ import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.request.FeedbackSessionDeadlineExtensionsUpdateRequest;
-import teammates.ui.webapi.UpdateFeedbackSessionDeadlineExtensionsAction;
+import teammates.ui.webapi.UpdateDeadlineExtensionsAction;
 
 /**
- * SUT: {@link UpdateFeedbackSessionDeadlineExtensionsAction}.
+ * SUT: {@link UpdateDeadlineExtensionsAction}.
  */
-public class UpdateFeedbackSessionDeadlineExtensionsActionTest
-        extends BaseActionTest<UpdateFeedbackSessionDeadlineExtensionsAction> {
+public class UpdateDeadlineExtensionsActionTest
+        extends BaseActionTest<UpdateDeadlineExtensionsAction> {
 
     private Course course;
     private Instructor instructor;
@@ -92,7 +92,7 @@ public class UpdateFeedbackSessionDeadlineExtensionsActionTest
 
         FeedbackSessionDeadlineExtensionsUpdateRequest updateRequest =
                 buildUpdateRequest(instructor.getEmail(), endHour);
-        UpdateFeedbackSessionDeadlineExtensionsAction a = getAction(updateRequest, param);
+        UpdateDeadlineExtensionsAction a = getAction(updateRequest, param);
         getJsonResult(a);
 
         verify(mockLogic, times(1)).updateDeadlineExtension(any());
@@ -119,7 +119,7 @@ public class UpdateFeedbackSessionDeadlineExtensionsActionTest
 
         FeedbackSessionDeadlineExtensionsUpdateRequest updateRequest =
                 buildUpdateRequest(instructor.getEmail(), nearestHour);
-        UpdateFeedbackSessionDeadlineExtensionsAction a = getAction(updateRequest, param);
+        UpdateDeadlineExtensionsAction a = getAction(updateRequest, param);
         getJsonResult(a);
 
         verify(mockLogic, times(1)).createDeadlineExtension(any());

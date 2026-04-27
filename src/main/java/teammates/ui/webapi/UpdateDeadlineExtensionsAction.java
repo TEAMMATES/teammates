@@ -31,7 +31,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Updates the deadline extensions for a feedback session.
  */
-public class UpdateFeedbackSessionDeadlineExtensionsAction extends Action {
+public class UpdateDeadlineExtensionsAction extends Action {
 
     private static final Logger log = Logger.getLogger();
 
