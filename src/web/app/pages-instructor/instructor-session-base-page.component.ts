@@ -502,7 +502,7 @@ export abstract class InstructorSessionBasePageComponent {
     );
 
     this.feedbackSessionsService
-      .publishFeedbackSession(model.feedbackSession.courseId, model.feedbackSession.feedbackSessionName)
+      .publishFeedbackSession(model.feedbackSession.feedbackSessionId)
       .pipe(finalize(() => {
           this.isResultActionLoading = false;
         }),
@@ -557,7 +557,7 @@ export abstract class InstructorSessionBasePageComponent {
     );
 
     this.feedbackSessionsService
-      .unpublishFeedbackSession(model.feedbackSession.courseId, model.feedbackSession.feedbackSessionName)
+      .unpublishFeedbackSession(model.feedbackSession.feedbackSessionId)
       .pipe(
         finalize(() => {
           this.isResultActionLoading = false;

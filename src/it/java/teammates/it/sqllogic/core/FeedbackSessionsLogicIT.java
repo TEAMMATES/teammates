@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -63,18 +64,16 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
             throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackSession unpublishedFs = typicalDataBundle.feedbackSessions.get("unpublishedSession1InTypicalCourse");
 
-        FeedbackSession publishedFs1 = fsLogic.publishFeedbackSession(
-                unpublishedFs.getName(), unpublishedFs.getCourseId());
+        FeedbackSession publishedFs1 = fsLogic.publishFeedbackSession(unpublishedFs.getId());
 
-        assertEquals(publishedFs1.getName(), unpublishedFs.getName());
+        assertEquals(publishedFs1.getId(), unpublishedFs.getId());
         assertTrue(publishedFs1.isPublished());
+        assertFalse(publishedFs1.isPublishedEmailSent());
 
         assertThrows(InvalidParametersException.class, () -> fsLogic.publishFeedbackSession(
-                publishedFs1.getName(), publishedFs1.getCourseId()));
+                publishedFs1.getId()));
         assertThrows(EntityDoesNotExistException.class, () -> fsLogic.publishFeedbackSession(
-                "non-existent name", unpublishedFs.getCourseId()));
-        assertThrows(EntityDoesNotExistException.class, () -> fsLogic.publishFeedbackSession(
-                unpublishedFs.getName(), "random-course-id"));
+                UUID.fromString("2da92144-63f3-4da5-9148-dbcbdef6dc2c")));
     }
 
     @Test
@@ -83,17 +82,15 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         FeedbackSession publishedFs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
 
         FeedbackSession unpublishedFs1 = fsLogic.unpublishFeedbackSession(
-                publishedFs.getName(), publishedFs.getCourseId());
+                publishedFs.getId());
 
-        assertEquals(unpublishedFs1.getName(), publishedFs.getName());
+        assertEquals(unpublishedFs1.getId(), publishedFs.getId());
         assertFalse(unpublishedFs1.isPublished());
 
         assertThrows(InvalidParametersException.class, () -> fsLogic.unpublishFeedbackSession(
-                unpublishedFs1.getName(), unpublishedFs1.getCourseId()));
+                unpublishedFs1.getId()));
         assertThrows(EntityDoesNotExistException.class, () -> fsLogic.unpublishFeedbackSession(
-                "non-existent name", publishedFs.getCourseId()));
-        assertThrows(EntityDoesNotExistException.class, () -> fsLogic.unpublishFeedbackSession(
-                publishedFs.getName(), "random-course-id"));
+                UUID.fromString("2da92144-63f3-4da5-9148-dbcbdef6dc2c")));
     }
 
     @Test

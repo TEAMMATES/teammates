@@ -166,15 +166,17 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
             throws EntityDoesNotExistException, InvalidParametersException {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
+        session.setPublishedEmailSent(true);
         session.setResultsVisibleFromTime(Instant.now().plusSeconds(86400)); // Not yet published
 
-        when(fsDb.getFeedbackSession(session.getName(), course.getId())).thenReturn(session);
+        when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
 
-        FeedbackSession result = fsLogic.publishFeedbackSession(session.getName(), course.getId());
+        FeedbackSession result = fsLogic.publishFeedbackSession(session.getId());
 
         assertNotNull(result);
         assertEquals(session, result);
         assertTrue(result.isPublished());
+        assertFalse(result.isPublishedEmailSent());
         assertNotNull(result.getResultsVisibleFromTime());
     }
 
@@ -184,20 +186,21 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         session.setResultsVisibleFromTime(Instant.now().minusSeconds(3600)); // Already published
 
-        when(fsDb.getFeedbackSession(session.getName(), course.getId())).thenReturn(session);
+        when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
 
         InvalidParametersException ex = assertThrows(InvalidParametersException.class,
-                () -> fsLogic.publishFeedbackSession(session.getName(), course.getId()));
-        assertEquals("Error publishing feedback session: Session has already been published.", ex.getMessage());
+                () -> fsLogic.publishFeedbackSession(session.getId()));
+        assertEquals("Feedback Session is already published.", ex.getMessage());
     }
 
     @Test
     public void testPublishFeedbackSession_sessionDoesNotExist_throwsException() {
-        when(fsDb.getFeedbackSession("non-existent", "course")).thenReturn(null);
+        UUID nonExistentId = UUID.fromString("2da92144-63f3-4da5-9148-dbcbdef6dc2c");
+        when(fsDb.getFeedbackSession(nonExistentId)).thenReturn(null);
 
         EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
-                () -> fsLogic.publishFeedbackSession("non-existent", "course"));
-        assertTrue(ex.getMessage().contains("Trying to update a non-existent feedback session"));
+                () -> fsLogic.publishFeedbackSession(nonExistentId));
+        assertEquals(String.format("Feedback session with id %s not found.", nonExistentId), ex.getMessage());
     }
 
     @Test
@@ -205,15 +208,17 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
             throws EntityDoesNotExistException, InvalidParametersException {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
+        session.setPublishedEmailSent(false);
         session.setResultsVisibleFromTime(Instant.now().minusSeconds(3600)); // Published
 
-        when(fsDb.getFeedbackSession(session.getName(), course.getId())).thenReturn(session);
+        when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
 
-        FeedbackSession result = fsLogic.unpublishFeedbackSession(session.getName(), course.getId());
+        FeedbackSession result = fsLogic.unpublishFeedbackSession(session.getId());
 
         assertNotNull(result);
         assertEquals(session, result);
         assertFalse(result.isPublished());
+        assertFalse(result.isPublishedEmailSent());
         assertEquals(Const.TIME_REPRESENTS_LATER, result.getResultsVisibleFromTime());
     }
 
@@ -223,11 +228,21 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         session.setResultsVisibleFromTime(Instant.now().plusSeconds(86400)); // Not published
 
-        when(fsDb.getFeedbackSession(session.getName(), course.getId())).thenReturn(session);
+        when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
 
         InvalidParametersException ex = assertThrows(InvalidParametersException.class,
-                () -> fsLogic.unpublishFeedbackSession(session.getName(), course.getId()));
-        assertEquals("Error unpublishing feedback session: Session has already been unpublished.", ex.getMessage());
+                () -> fsLogic.unpublishFeedbackSession(session.getId()));
+        assertEquals("Feedback Session is already unpublished.", ex.getMessage());
+    }
+
+    @Test
+    public void testUnpublishFeedbackSession_sessionDoesNotExist_throwsException() {
+        UUID nonExistentId = UUID.fromString("2da92144-63f3-4da5-9148-dbcbdef6dc2c");
+        when(fsDb.getFeedbackSession(nonExistentId)).thenReturn(null);
+
+        EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
+                () -> fsLogic.unpublishFeedbackSession(nonExistentId));
+        assertEquals(String.format("Feedback session with id %s not found.", nonExistentId), ex.getMessage());
     }
 
     @Test
