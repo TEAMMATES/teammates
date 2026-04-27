@@ -131,8 +131,8 @@ public class BaseTestCase {
     }
 
     protected Student getTypicalStudent() {
-        Course course = getTypicalCourse();
         Team team = getTypicalTeam();
+        Course course = team.getSection().getCourse();
         Student student = new Student(course, "student-name", "validstudent@teammates.tmt", "comments");
 
         student.setTeam(team);

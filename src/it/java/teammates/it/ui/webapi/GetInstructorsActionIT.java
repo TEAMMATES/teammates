@@ -89,10 +89,9 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         verifyHttpParameterFailure(params);
     }
 
-    @Test
     @Override
     protected void testAccessControl() throws Exception {
-        // Tested seperately
+        // Tested separately
     }
 
     @Test
