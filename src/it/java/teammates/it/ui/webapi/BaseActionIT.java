@@ -33,7 +33,9 @@ import teammates.sqllogic.api.MockUserProvision;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.Team;
 import teammates.test.MockHttpServletRequest;
 import teammates.ui.request.BasicRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -739,7 +741,16 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
             throws InvalidParametersException, EntityAlreadyExistsException {
         Student student = logic.getStudentForEmail(course.getId(), email);
         if (student == null) {
+            Section section = logic.getSection(course.getId(), "section name");
+            if (section == null) {
+                section = logic.createSection(course, "section name");
+            }
+
+            Team team = logic.getTeamOrCreate(section, "team name");
+
             student = new Student(course, "student-name", email, "");
+            student.setTeam(team);
+            team.addUser(student);
             logic.createStudent(student);
 
             Account account = new Account(email, "account", email);

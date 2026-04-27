@@ -4,7 +4,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.util.UUID;
 
@@ -14,7 +13,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Account;
@@ -41,9 +39,7 @@ public class DataBundleLogicTest extends BaseTestCase {
     private AccountsLogic accountsLogic;
     private AccountRequestsLogic accountRequestsLogic;
     private CoursesLogic coursesLogic;
-    private FeedbackSessionsLogic fsLogic;
     private NotificationsLogic notificationsLogic;
-    private UsersLogic usersLogic;
 
     @BeforeMethod
     public void setUpMethod() {
@@ -51,9 +47,7 @@ public class DataBundleLogicTest extends BaseTestCase {
         accountsLogic = mock(AccountsLogic.class);
         accountRequestsLogic = mock(AccountRequestsLogic.class);
         coursesLogic = mock(CoursesLogic.class);
-        fsLogic = mock(FeedbackSessionsLogic.class);
         notificationsLogic = mock(NotificationsLogic.class);
-        usersLogic = mock(UsersLogic.class);
 
         dataBundleLogic.initLogicDependencies(
                 accountsLogic, accountRequestsLogic, coursesLogic, notificationsLogic);
@@ -87,12 +81,10 @@ public class DataBundleLogicTest extends BaseTestCase {
 
     @Test
     public void testPersistDataBundle_withCourse_createsCourse()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException {
         DataBundle dataBundle = new DataBundle();
         Course course = getTypicalCourse();
         dataBundle.courses.put("course1", course);
-
-        when(coursesLogic.createCourse(course)).thenReturn(course);
 
         DataBundle result = dataBundleLogic.persistDataBundle(dataBundle);
 
@@ -107,7 +99,7 @@ public class DataBundleLogicTest extends BaseTestCase {
 
     @Test
     public void testPersistDataBundle_withAccount_createsAccount()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException {
         DataBundle dataBundle = new DataBundle();
         Account account = getTypicalAccount();
         dataBundle.accounts.put("account1", account);
@@ -124,12 +116,10 @@ public class DataBundleLogicTest extends BaseTestCase {
 
     @Test
     public void testPersistDataBundle_withNotification_createsNotification()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException {
         DataBundle dataBundle = new DataBundle();
         Notification notification = getTypicalNotificationWithId();
         dataBundle.notifications.put("notification1", notification);
-
-        when(notificationsLogic.createNotification(notification)).thenReturn(notification);
 
         DataBundle result = dataBundleLogic.persistDataBundle(dataBundle);
 
@@ -149,8 +139,6 @@ public class DataBundleLogicTest extends BaseTestCase {
         AccountRequest accountRequest = getTypicalAccountRequest();
         dataBundle.accountRequests.put("accountRequest1", accountRequest);
 
-        when(accountRequestsLogic.createAccountRequest(accountRequest)).thenReturn(accountRequest);
-
         DataBundle result = dataBundleLogic.persistDataBundle(dataBundle);
 
         assertNotNull(result);
@@ -163,7 +151,7 @@ public class DataBundleLogicTest extends BaseTestCase {
 
     @Test
     public void testPersistDataBundle_withMultipleEntities_createsAllEntities()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException {
         DataBundle dataBundle = new DataBundle();
 
         Course course = getTypicalCourse();
@@ -175,10 +163,6 @@ public class DataBundleLogicTest extends BaseTestCase {
         dataBundle.accounts.put("account1", account);
         dataBundle.notifications.put("notification1", notification);
         dataBundle.accountRequests.put("accountRequest1", accountRequest);
-
-        when(coursesLogic.createCourse(course)).thenReturn(course);
-        when(notificationsLogic.createNotification(notification)).thenReturn(notification);
-        when(accountRequestsLogic.createAccountRequest(accountRequest)).thenReturn(accountRequest);
 
         DataBundle result = dataBundleLogic.persistDataBundle(dataBundle);
 
@@ -205,7 +189,7 @@ public class DataBundleLogicTest extends BaseTestCase {
 
     @Test
     public void testPersistDataBundle_withSectionsAndTeams_createsHierarchy()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException {
         DataBundle dataBundle = new DataBundle();
         Course course = getTypicalCourse();
         Section section = new Section(course, "Section 1");
@@ -214,10 +198,6 @@ public class DataBundleLogicTest extends BaseTestCase {
         dataBundle.courses.put("course1", course);
         dataBundle.sections.put("section1", section);
         dataBundle.teams.put("team1", team);
-
-        when(coursesLogic.createCourse(course)).thenReturn(course);
-        when(coursesLogic.createSection(section)).thenReturn(section);
-        when(coursesLogic.createTeam(team)).thenReturn(team);
 
         DataBundle result = dataBundleLogic.persistDataBundle(dataBundle);
 
@@ -240,7 +220,7 @@ public class DataBundleLogicTest extends BaseTestCase {
 
     @Test
     public void testPersistDataBundle_withStudentsAndInstructors_createsUsers()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException {
         DataBundle dataBundle = new DataBundle();
         Course course = getTypicalCourse();
         Section section = new Section(course, "Section 1");
@@ -257,12 +237,6 @@ public class DataBundleLogicTest extends BaseTestCase {
         dataBundle.teams.put("team1", team);
         dataBundle.students.put("student1", student);
         dataBundle.instructors.put("instructor1", instructor);
-
-        when(coursesLogic.createCourse(course)).thenReturn(course);
-        when(coursesLogic.createSection(section)).thenReturn(section);
-        when(coursesLogic.createTeam(team)).thenReturn(team);
-        when(usersLogic.createStudent(student)).thenReturn(student);
-        when(usersLogic.createInstructor(instructor)).thenReturn(instructor);
 
         DataBundle result = dataBundleLogic.persistDataBundle(dataBundle);
 
@@ -281,16 +255,13 @@ public class DataBundleLogicTest extends BaseTestCase {
 
     @Test
     public void testPersistDataBundle_withFeedbackSession_createsSession()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException {
         DataBundle dataBundle = new DataBundle();
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
 
         dataBundle.courses.put("course1", course);
         dataBundle.feedbackSessions.put("session1", session);
-
-        when(coursesLogic.createCourse(course)).thenReturn(course);
-        when(fsLogic.createFeedbackSession(session)).thenReturn(session);
 
         DataBundle result = dataBundleLogic.persistDataBundle(dataBundle);
 
@@ -304,7 +275,7 @@ public class DataBundleLogicTest extends BaseTestCase {
 
     @Test
     public void testPersistDataBundle_withReadNotifications_updatesReadNotifications()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException {
         DataBundle dataBundle = new DataBundle();
         Account account = getTypicalAccount();
         Notification notification = getTypicalNotificationWithId();
@@ -313,8 +284,6 @@ public class DataBundleLogicTest extends BaseTestCase {
         dataBundle.accounts.put("account1", account);
         dataBundle.notifications.put("notification1", notification);
         dataBundle.readNotifications.put("readNotification1", readNotification);
-
-        when(notificationsLogic.createNotification(notification)).thenReturn(notification);
 
         DataBundle result = dataBundleLogic.persistDataBundle(dataBundle);
 

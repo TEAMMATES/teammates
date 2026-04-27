@@ -1011,6 +1011,22 @@ public class Logic {
     }
 
     /**
+     * Creates a section.
+     */
+    public Section createSection(Course course, String sectionName)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return coursesLogic.createSection(course, sectionName);
+    }
+
+    /**
+     * Creates a team.
+     */
+    public Team createTeam(Section section, String teamName)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return coursesLogic.createTeam(section, teamName);
+    }
+
+    /**
      * Search for students. Preconditions: all parameters are non-null.
      *
      * @param instructors a list of Instructors associated to a googleId,

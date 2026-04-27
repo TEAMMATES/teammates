@@ -54,6 +54,13 @@ public class Team extends BaseEntity {
         this.setUsers(new ArrayList<>());
     }
 
+    /**
+     * Adds a user to the team.
+     */
+    public void addUser(Student student) {
+        this.users.add(student);
+    }
+
     @Override
     public int hashCode() {
         return this.getId().hashCode();

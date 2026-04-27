@@ -132,17 +132,27 @@ public class BaseTestCase {
 
     protected Student getTypicalStudent() {
         Course course = getTypicalCourse();
-        return new Student(course, "student-name", "validstudent@teammates.tmt", "comments");
+        Team team = getTypicalTeam();
+        Student student = new Student(course, "student-name", "validstudent@teammates.tmt", "comments");
+
+        student.setTeam(team);
+        team.addUser(student);
+
+        return student;
     }
 
     protected Section getTypicalSection() {
         Course course = getTypicalCourse();
-        return new Section(course, "test-section");
+        Section section = new Section(course, "test-section");
+        course.addSection(section);
+        return section;
     }
 
     protected Team getTypicalTeam() {
         Section section = getTypicalSection();
-        return new Team(section, "test-team");
+        Team team = new Team(section, "test-team");
+        section.addTeam(team);
+        return team;
     }
 
     protected FeedbackResponseComment getTypicalFeedbackResponseComment() {

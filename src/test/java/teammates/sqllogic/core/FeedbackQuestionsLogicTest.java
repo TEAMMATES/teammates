@@ -26,7 +26,6 @@ import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
-import teammates.storage.sqlentity.User;
 import teammates.test.BaseTestCase;
 
 /**
@@ -363,8 +362,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         Student currentStudent = mock(Student.class);
         Team team = mock(Team.class);
-        User user1 = getMockUser(UUID.randomUUID(), "Bob");
-        User user2 = getMockUser(UUID.randomUUID(), "Alice");
+        Student user1 = getMockStudent(UUID.randomUUID(), "Bob");
+        Student user2 = getMockStudent(UUID.randomUUID(), "Alice");
 
         when(currentStudent.getTeam()).thenReturn(team);
         when(team.getUsers()).thenReturn(List.of(user1, user2));
@@ -385,8 +384,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         Student currentStudent = mock(Student.class);
         Team team = mock(Team.class);
         UUID currentStudentId = UUID.randomUUID();
-        User currentUser = getMockUser(currentStudentId, "Alice");
-        User otherUser = getMockUser(UUID.randomUUID(), "Bob");
+        Student currentUser = getMockStudent(currentStudentId, "Alice");
+        Student otherUser = getMockStudent(UUID.randomUUID(), "Bob");
 
         when(currentStudent.getId()).thenReturn(currentStudentId);
         when(currentStudent.getTeam()).thenReturn(team);
@@ -482,10 +481,10 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         return student;
     }
 
-    private User getMockUser(UUID id, String name) {
-        User user = mock(User.class);
-        when(user.getId()).thenReturn(id);
-        when(user.getName()).thenReturn(name);
-        return user;
+    private Student getMockStudent(UUID id, String name) {
+        Student student = mock(Student.class);
+        when(student.getId()).thenReturn(id);
+        when(student.getName()).thenReturn(name);
+        return student;
     }
 }

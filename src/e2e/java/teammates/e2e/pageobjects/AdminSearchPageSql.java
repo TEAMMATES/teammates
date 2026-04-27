@@ -11,7 +11,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;

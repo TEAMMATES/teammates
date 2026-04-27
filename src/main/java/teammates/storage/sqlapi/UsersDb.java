@@ -65,8 +65,7 @@ public final class UsersDb {
     /**
      * Creates a student.
      */
-    public Student createStudent(Student student)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public Student createStudent(Student student) throws InvalidParametersException {
         assert student != null;
 
         if (!student.isValid()) {

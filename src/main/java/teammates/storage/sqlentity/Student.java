@@ -57,7 +57,7 @@ public class Student extends User {
     }
 
     public Team getTeam() {
-        return this.getTeam();
+        return this.team;
     }
 
     public void setTeam(Team team) {
