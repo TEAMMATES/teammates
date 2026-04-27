@@ -197,7 +197,6 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "courseId": "tm.e2e.FRankOptQn.CS2104"
@@ -217,7 +216,6 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "courseId": "tm.e2e.FRankOptQn.CS1101"

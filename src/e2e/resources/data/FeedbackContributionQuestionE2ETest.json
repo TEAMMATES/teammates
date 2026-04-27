@@ -200,7 +200,6 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true
     },
@@ -220,7 +219,6 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true
     }

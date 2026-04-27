@@ -209,7 +209,6 @@
       "sessionVisibleFromTime": "2012-04-01T22:00:00Z",
       "resultsVisibleFromTime": "2032-05-01T22:00:00Z",
       "gracePeriod": 10,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": false,
