@@ -25,6 +25,8 @@
         <div class="form-group">
           <textarea id="request-comments" class="form-control" [rows]="5" [value]="accountRequestComments" (input)="accountRequestComments = castAsTextAreaElement($event.target).value"></textarea>
         </div>
+      </div>
+    </div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
