@@ -4,19 +4,19 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <changeSet author="samfang" id="1777308213300-1">
+    <changeSet author="samuelfangjw" id="1777308213300-1">
         <renameColumn tableName="feedback_sessions"
             oldColumnName="is_closing_email_enabled"
             newColumnName="is_closing_soon_email_enabled"
             columnDataType="BOOLEAN" />
     </changeSet>
-    <changeSet author="samfang" id="1777308213300-2">
+    <changeSet author="samuelfangjw" id="1777308213300-2">
         <renameColumn tableName="feedback_sessions"
             oldColumnName="is_open_email_sent"
             newColumnName="is_opened_email_sent"
             columnDataType="BOOLEAN" />
     </changeSet>
-    <changeSet author="samfang" id="1777308213300-3">
+    <changeSet author="samuelfangjw" id="1777308213300-3">
         <dropColumn columnName="is_opening_email_enabled" tableName="feedback_sessions" />
         <rollback>
             <addColumn tableName="feedback_sessions">
