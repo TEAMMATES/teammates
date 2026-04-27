@@ -236,8 +236,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             feedbackSessionId: this.feedbackSessionId,
             intent: Intent.FULL_DETAIL,
           }),
-          this.feedbackSessionsService.getFeedbackSessionDeadlineExtensions(
-            this.courseId, this.feedbackSessionName),
+          this.feedbackSessionsService.getFeedbackSessionDeadlineExtensions(this.feedbackSessionId),
         ]).pipe(finalize(() => {
           this.isLoadingFeedbackSession = false;
         }))
@@ -477,7 +476,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         const updatedInstructorDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
           affectedInstructorModels, this.instructorDeadlines);
         this.feedbackSessionsService.updateFeedbackSessionDeadlineExtensions(
-          this.courseId, this.feedbackSessionName,
+          this.feedbackSessionId,
           { studentDeadlines: updatedStudentDeadlines, instructorDeadlines: updatedInstructorDeadlines },
           isNotifyDeadlines,
         ).subscribe({

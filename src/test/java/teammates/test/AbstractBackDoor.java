@@ -547,10 +547,9 @@ public abstract class AbstractBackDoor {
      * Gets feedback session deadline extensions data from the database.
      */
     public FeedbackSessionDeadlineExtensionsData getFeedbackSessionDeadlineExtensionsData(
-            String courseId, String feedbackSessionName) {
+            String feedbackSessionId) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.COURSE_ID, courseId);
-        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId);
 
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.SESSION_DEADLINE_EXTENSIONS, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {

@@ -105,8 +105,8 @@ public final class ActionFactory {
         map(ResourceURIs.SESSION, PUT, UpdateFeedbackSessionAction.class);
         map(ResourceURIs.SESSION, POST, CreateFeedbackSessionAction.class);
         map(ResourceURIs.SESSION, DELETE, DeleteFeedbackSessionAction.class);
-        map(ResourceURIs.SESSION_DEADLINE_EXTENSIONS, GET, GetFeedbackSessionDeadlineExtensionsAction.class);
-        map(ResourceURIs.SESSION_DEADLINE_EXTENSIONS, PUT, UpdateFeedbackSessionDeadlineExtensionsAction.class);
+        map(ResourceURIs.SESSION_DEADLINE_EXTENSIONS, GET, GetDeadlineExtensionsAction.class);
+        map(ResourceURIs.SESSION_DEADLINE_EXTENSIONS, PUT, UpdateDeadlineExtensionsAction.class);
         map(ResourceURIs.SESSION_PUBLISH, POST, PublishFeedbackSessionAction.class);
         map(ResourceURIs.SESSION_PUBLISH, DELETE, UnpublishFeedbackSessionAction.class);
         map(ResourceURIs.SESSION_SUBMITTED_GIVER_SET, GET, GetFeedbackSessionSubmittedGiverSetAction.class);
