@@ -5,6 +5,8 @@ import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import teammates.common.util.Config;
@@ -20,6 +22,10 @@ import teammates.common.util.SanitizationHelper;
 public class Student extends User {
     @Column(nullable = false)
     private String comments;
+
+    @ManyToOne
+    @JoinColumn(name = "teamId", nullable = false)
+    private Team team;
 
     protected Student() {
         // required by Hibernate
@@ -53,6 +59,10 @@ public class Student extends User {
     @Override
     public Team getTeam() {
         return this.getTeam();
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
     @Override
