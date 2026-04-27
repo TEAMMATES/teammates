@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -35,7 +35,7 @@ public class UnpublishFeedbackSessionAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidOperationException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
         try {
@@ -46,8 +46,8 @@ public class UnpublishFeedbackSessionAction extends Action {
             return new JsonResult(new FeedbackSessionData(unpublishFeedbackSession));
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
-        } catch (InvalidParametersException e) {
-            throw new InvalidHttpParameterException(e);
+        } catch (InvalidFeedbackSessionStateException e) {
+            throw new InvalidOperationException(e);
         }
     }
 

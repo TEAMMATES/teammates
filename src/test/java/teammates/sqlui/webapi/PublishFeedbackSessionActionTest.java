@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailWrapper;
@@ -73,7 +73,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
 
     @Test
     void testExecute_unpublishedFeedbackSessionWithEmailDisabled_succeedsWithNoTasksAdded()
-            throws EntityDoesNotExistException, InvalidParametersException {
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
@@ -95,7 +95,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
 
     @Test
     void testExecute_unpublishedFeedbackSessionWithEmailEnabled_succeedsWithTasksAdded()
-            throws EntityDoesNotExistException, InvalidParametersException {
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
         typicalFeedbackSession.setPublishedEmailEnabled(true);
         EmailWrapper mockEmail = mock(EmailWrapper.class);
 

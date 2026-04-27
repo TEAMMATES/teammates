@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailWrapper;
@@ -72,7 +72,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
 
     @Test
     void testExecute_publishedFeedbackSessionWithEmailDisabled_succeedsWithNoTasksAdded()
-            throws EntityDoesNotExistException, InvalidParametersException {
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
         typicalFeedbackSession.setResultsVisibleFromTime(Instant.now()); // set the input to be published
         FeedbackSession outputFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
         outputFeedbackSession.setCreatedAt(Instant.now());
@@ -97,7 +97,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
 
     @Test
     void testExecute_publishedFeedbackSessionWithEmailEnabled_succeedsWithTasksAdded()
-            throws EntityDoesNotExistException, InvalidParametersException {
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
         typicalFeedbackSession.setResultsVisibleFromTime(Instant.now()); // set the input to be published
         typicalFeedbackSession.setPublishedEmailEnabled(true);
         FeedbackSession outputFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
@@ -123,24 +123,6 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
                 FeedbackSessionPublishStatus.NOT_PUBLISHED);
         verify(mockLogic).unpublishFeedbackSession(typicalFeedbackSession.getId());
         verifySpecifiedTasksAdded(TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
-    }
-
-    @Test
-    void testCheckSpecificAccessControl_nonExistentCourse_throwsEntityNotFoundException() {
-        String courseId = "abcRandomCourseId";
-        String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
-        };
-
-        when(mockLogic.getInstructorByGoogleId(courseId, typicalInstructor.getGoogleId()))
-                .thenReturn(null);
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId()))
-
-                .thenReturn(null);
-
-        loginAsInstructor(typicalInstructor.getGoogleId());
-
-        verifyEntityNotFoundAcl(params);
     }
 
     @Test

@@ -20,6 +20,7 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
+import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
@@ -604,12 +605,24 @@ public class Logic {
      * Publishes a feedback session.
      *
      * @return the published feedback session
-     * @throws InvalidParametersException if session is already published
+     * @throws InvalidFeedbackSessionStateException if session is already published
      * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
     public FeedbackSession publishFeedbackSession(UUID feedbackSessionId)
-            throws EntityDoesNotExistException, InvalidParametersException {
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
         return feedbackSessionsLogic.publishFeedbackSession(feedbackSessionId);
+    }
+
+    /**
+     * Unpublishes a feedback session.
+     *
+     * @return the unpublished feedback session
+     * @throws InvalidFeedbackSessionStateException if session is already unpublished
+     * @throws EntityDoesNotExistException if the feedback session cannot be found
+     */
+    public FeedbackSession unpublishFeedbackSession(UUID feedbackSessionId)
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
+        return feedbackSessionsLogic.unpublishFeedbackSession(feedbackSessionId);
     }
 
     /**
@@ -648,18 +661,6 @@ public class Logic {
     public FeedbackSession restoreFeedbackSessionFromRecycleBin(UUID feedbackSessionId)
             throws EntityDoesNotExistException {
         return feedbackSessionsLogic.restoreFeedbackSessionFromRecycleBin(feedbackSessionId);
-    }
-
-    /**
-     * Unpublishes a feedback session.
-     *
-     * @return the unpublished feedback session
-     * @throws InvalidParametersException if session is already unpublished
-     * @throws EntityDoesNotExistException if the feedback session cannot be found
-     */
-    public FeedbackSession unpublishFeedbackSession(UUID feedbackSessionId)
-            throws EntityDoesNotExistException, InvalidParametersException {
-        return feedbackSessionsLogic.unpublishFeedbackSession(feedbackSessionId);
     }
 
     /**

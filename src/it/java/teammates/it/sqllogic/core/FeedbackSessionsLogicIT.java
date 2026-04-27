@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.sqllogic.core.FeedbackQuestionsLogic;
@@ -61,7 +61,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testPublishFeedbackSession()
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
         FeedbackSession unpublishedFs = typicalDataBundle.feedbackSessions.get("unpublishedSession1InTypicalCourse");
 
         FeedbackSession publishedFs1 = fsLogic.publishFeedbackSession(unpublishedFs.getId());
@@ -70,7 +70,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertTrue(publishedFs1.isPublished());
         assertFalse(publishedFs1.isPublishedEmailSent());
 
-        assertThrows(InvalidParametersException.class, () -> fsLogic.publishFeedbackSession(
+        assertThrows(InvalidFeedbackSessionStateException.class, () -> fsLogic.publishFeedbackSession(
                 publishedFs1.getId()));
         assertThrows(EntityDoesNotExistException.class, () -> fsLogic.publishFeedbackSession(
                 UUID.fromString("2da92144-63f3-4da5-9148-dbcbdef6dc2c")));
@@ -78,7 +78,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testUnpublishFeedbackSession()
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
         FeedbackSession publishedFs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
 
         FeedbackSession unpublishedFs1 = fsLogic.unpublishFeedbackSession(
@@ -87,7 +87,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertEquals(unpublishedFs1.getId(), publishedFs.getId());
         assertFalse(unpublishedFs1.isPublished());
 
-        assertThrows(InvalidParametersException.class, () -> fsLogic.unpublishFeedbackSession(
+        assertThrows(InvalidFeedbackSessionStateException.class, () -> fsLogic.unpublishFeedbackSession(
                 unpublishedFs1.getId()));
         assertThrows(EntityDoesNotExistException.class, () -> fsLogic.unpublishFeedbackSession(
                 UUID.fromString("2da92144-63f3-4da5-9148-dbcbdef6dc2c")));

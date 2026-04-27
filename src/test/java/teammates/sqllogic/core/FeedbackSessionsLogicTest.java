@@ -14,7 +14,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.util.Const;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlentity.Course;
@@ -163,7 +163,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
     @Test
     public void testPublishFeedbackSession_unpublishedSession_success()
-            throws EntityDoesNotExistException, InvalidParametersException {
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         session.setPublishedEmailSent(true);
@@ -188,7 +188,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
 
-        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+        InvalidFeedbackSessionStateException ex = assertThrows(InvalidFeedbackSessionStateException.class,
                 () -> fsLogic.publishFeedbackSession(session.getId()));
         assertEquals("Feedback Session is already published.", ex.getMessage());
     }
@@ -205,7 +205,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
     @Test
     public void testUnpublishFeedbackSession_publishedSession_success()
-            throws EntityDoesNotExistException, InvalidParametersException {
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         session.setPublishedEmailSent(false);
@@ -230,7 +230,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
 
-        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+        InvalidFeedbackSessionStateException ex = assertThrows(InvalidFeedbackSessionStateException.class,
                 () -> fsLogic.unpublishFeedbackSession(session.getId()));
         assertEquals("Feedback Session is already unpublished.", ex.getMessage());
     }

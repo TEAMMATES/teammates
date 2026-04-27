@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
@@ -228,11 +229,11 @@ public final class FeedbackSessionsLogic {
      * Unpublishes a feedback session.
      *
      * @return the unpublished feedback session
-     * @throws InvalidParametersException if session is already unpublished
+     * @throws InvalidFeedbackSessionStateException if session is already unpublished
      * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
     public FeedbackSession unpublishFeedbackSession(UUID feedbackSessionId)
-            throws EntityDoesNotExistException, InvalidParametersException {
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
 
         FeedbackSession sessionToUnpublish = getFeedbackSession(feedbackSessionId);
         if (sessionToUnpublish == null) {
@@ -241,7 +242,7 @@ public final class FeedbackSessionsLogic {
         }
 
         if (!sessionToUnpublish.isPublished()) {
-            throw new InvalidParametersException("Feedback Session is already unpublished.");
+            throw new InvalidFeedbackSessionStateException("Feedback Session is already unpublished.");
         }
 
         sessionToUnpublish.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
@@ -254,11 +255,11 @@ public final class FeedbackSessionsLogic {
      * Publishes a feedback session.
      *
      * @return the published feedback session
-     * @throws InvalidParametersException if session is already published
+     * @throws InvalidFeedbackSessionStateException if session is already published
      * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
     public FeedbackSession publishFeedbackSession(UUID feedbackSessionId)
-            throws EntityDoesNotExistException, InvalidParametersException {
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
 
         FeedbackSession sessionToPublish = getFeedbackSession(feedbackSessionId);
 
@@ -268,7 +269,7 @@ public final class FeedbackSessionsLogic {
         }
 
         if (sessionToPublish.isPublished()) {
-            throw new InvalidParametersException("Feedback Session is already published.");
+            throw new InvalidFeedbackSessionStateException("Feedback Session is already published.");
         }
 
         sessionToPublish.setResultsVisibleFromTime(Instant.now());
