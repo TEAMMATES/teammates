@@ -5,7 +5,6 @@ import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -179,12 +178,6 @@ public final class FeedbackSessionsDb {
      * and possibly need a opening soon email to be sent.
      */
     public List<FeedbackSession> getFeedbackSessionsPossiblyNeedingOpeningSoonEmail() {
-        return getFeedbackSessionEntitiesPossiblyNeedingOpeningSoonEmail().stream()
-                .filter(session -> session.getDeletedAt() == null)
-                .collect(Collectors.toList());
-    }
-
-    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpeningSoonEmail() {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
         Root<FeedbackSession> root = cr.from(FeedbackSession.class);
@@ -192,7 +185,9 @@ public final class FeedbackSessionsDb {
         cr.select(root)
                 .where(cb.and(
                     cb.greaterThan(root.get("startTime"), TimeHelper.getInstantDaysOffsetFromNow(-2)),
-                    cb.equal(root.get("isOpeningSoonEmailSent"), false)));
+                    cb.equal(root.get("isOpeningSoonEmailSent"), false),
+                    cb.isNull(root.get("deletedAt"))
+                ));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
@@ -202,12 +197,6 @@ public final class FeedbackSessionsDb {
      * and possibly need a closing soon email to be sent.
      */
     public List<FeedbackSession> getFeedbackSessionsPossiblyNeedingClosingSoonEmail() {
-        return getFeedbackSessionEntitiesPossiblyNeedingClosingSoonEmail().stream()
-                .filter(session -> session.getDeletedAt() == null)
-                .collect(Collectors.toList());
-    }
-
-    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosingSoonEmail() {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
         Root<FeedbackSession> root = cr.from(FeedbackSession.class);
@@ -220,7 +209,8 @@ public final class FeedbackSessionsDb {
                         cb.and(
                                 cb.equal(root.get("isClosingSoonEmailSent"), false),
                                 cb.equal(root.get("isClosingSoonEmailEnabled"), true),
-                                cb.equal(root.get("isClosedEmailSent"), false))
+                                cb.equal(root.get("isClosedEmailSent"), false),
+                                cb.isNull(root.get("deletedAt")))
                ));
 
         return HibernateUtil.createQuery(cr).getResultList();
@@ -251,12 +241,6 @@ public final class FeedbackSessionsDb {
      * to be sent.
      */
     public List<FeedbackSession> getFeedbackSessionsPossiblyNeedingPublishedEmail() {
-        return getFeedbackSessionEntitiesPossiblyNeedingPublishedEmail().stream()
-                .filter(session -> session.getDeletedAt() == null)
-                .collect(Collectors.toList());
-    }
-
-    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingPublishedEmail() {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
         Root<FeedbackSession> root = cr.from(FeedbackSession.class);
@@ -266,7 +250,8 @@ public final class FeedbackSessionsDb {
                         cb.greaterThan(root.get("resultsVisibleFromTime"), TimeHelper.getInstantDaysOffsetFromNow(-2)),
                         cb.and(
                                 cb.equal(root.get("isPublishedEmailSent"), false),
-                                cb.equal(root.get("isPublishedEmailEnabled"), true))
+                                cb.equal(root.get("isPublishedEmailEnabled"), true),
+                                cb.isNull(root.get("deletedAt")))
                ));
 
         return HibernateUtil.createQuery(cr).getResultList();
