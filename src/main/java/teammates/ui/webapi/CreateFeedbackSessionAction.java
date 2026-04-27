@@ -59,7 +59,8 @@ public class CreateFeedbackSessionAction extends Action {
         String timeZone = course.getTimeZone();
 
         // TODO: Refactor to reuse the validation logic in FeedbackSessionsLogic.
-        // See UpdateFeedbackSessionAction for reference.
+        // and to move business logic to logic layer.
+        // See UpdateFeedbackSessionAction and updateFeedbackSession for reference.
         Instant startTime = createRequest.getAdjustedSubmissionStartTime(timeZone);
         String startTimeError = FieldValidator.getInvalidityInfoForNewStartTime(startTime, timeZone);
         if (!startTimeError.isEmpty()) {

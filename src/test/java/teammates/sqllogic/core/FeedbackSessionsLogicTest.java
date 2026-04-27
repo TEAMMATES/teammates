@@ -491,7 +491,10 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
         // Start time more than 2 hours in the past
-        updateRequest.setSubmissionStartTimestamp(TimeHelper.getInstantHoursOffsetFromNow(-3).toEpochMilli());
+        Instant newStartTime = TimeHelper.getInstantNearestHourBefore(
+                TimeHelper.getInstantHoursOffsetFromNow(-3)
+        );
+        updateRequest.setSubmissionStartTimestamp(newStartTime.toEpochMilli());
         when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
 
         InvalidParametersException ex = assertThrows(InvalidParametersException.class,
@@ -507,7 +510,10 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
         // End time more than 1 hour in the past
-        updateRequest.setSubmissionEndTimestamp(TimeHelper.getInstantHoursOffsetFromNow(-2).toEpochMilli());
+        Instant newEndTime = TimeHelper.getInstantNearestHourBefore(
+                TimeHelper.getInstantHoursOffsetFromNow(-2)
+        );
+        updateRequest.setSubmissionEndTimestamp(newEndTime.toEpochMilli());
         when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
 
         InvalidParametersException ex = assertThrows(InvalidParametersException.class,
@@ -523,7 +529,10 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
         // Session visible time more than 30 days before start time
-        updateRequest.setCustomSessionVisibleTimestamp(TimeHelper.getInstantDaysOffsetFromNow(-40).toEpochMilli());
+        Instant newSessionVisibleTime = TimeHelper.getInstantNearestHourBefore(
+                TimeHelper.getInstantDaysOffsetFromNow(-40)
+        );
+        updateRequest.setCustomSessionVisibleTimestamp(newSessionVisibleTime.toEpochMilli());
         when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
 
         InvalidParametersException ex = assertThrows(InvalidParametersException.class,
@@ -539,7 +548,14 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
         // End time before start time
-        updateRequest.setSubmissionEndTimestamp(TimeHelper.getInstantHoursOffsetFromNow(-1).toEpochMilli());
+        Instant newStartTime = TimeHelper.getInstantNearestHourBefore(
+                TimeHelper.getInstantHoursOffsetFromNow(1)
+        );
+        Instant newEndTime = TimeHelper.getInstantNearestHourBefore(
+                TimeHelper.getInstantHoursOffsetFromNow(-1)
+        );
+        updateRequest.setSubmissionEndTimestamp(newEndTime.toEpochMilli());
+        updateRequest.setSubmissionStartTimestamp(newStartTime.toEpochMilli());
         when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
 
         InvalidParametersException ex = assertThrows(InvalidParametersException.class,
