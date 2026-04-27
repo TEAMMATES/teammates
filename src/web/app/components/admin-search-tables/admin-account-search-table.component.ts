@@ -1,14 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { NgbModalRef, NgbModal, NgbTooltip, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { AccountRequestTableRowModel } from './account-search-table-model';
-import { EditRequestModalComponentResult } from './admin-edit-request-modal/admin-edit-request-modal-model';
-import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
+import { EditRequestModalComponentResult } from '../account-requests-table/admin-edit-request-modal/admin-edit-request-modal-model';
+import { EditRequestModalComponent } from '../account-requests-table/admin-edit-request-modal/admin-edit-request-modal.component';
 import {
   RejectWithReasonModalComponentResult,
-} from './admin-reject-with-reason-modal/admin-reject-with-reason-modal-model';
+} from '../account-requests-table/admin-reject-with-reason-modal/admin-reject-with-reason-modal-model';
 import {
   RejectWithReasonModalComponent,
-} from './admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
+} from '../account-requests-table/admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
 import { AccountService } from '../../../services/account.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
