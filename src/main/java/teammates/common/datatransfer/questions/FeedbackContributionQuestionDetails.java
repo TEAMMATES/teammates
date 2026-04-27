@@ -149,7 +149,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             for (Map.Entry<String, int[]> entry : studentResults.entrySet()) {
                 int[] summary = entry.getValue();
                 String email = entry.getKey();
-                String team = bundle.getRoster().getStudentForEmail(email).getTeam().getName();
+                String team = bundle.getRoster().getStudentForEmail(email).getTeamName();
                 List<String> teamEmails = teamMembersEmail.get(team);
                 TeamEvalResult teamResult = teamResults.get(team);
                 int studentIndex = teamEmails.indexOf(email);

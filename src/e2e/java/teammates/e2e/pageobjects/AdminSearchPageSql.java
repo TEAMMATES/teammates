@@ -152,9 +152,7 @@ public class AdminSearchPageSql extends AppPage {
 
     public WebElement getStudentRow(Student student) {
         String details = String.format("%s [%s] (%s)", student.getCourseId(),
-                student.getSection() == null
-                        ? Const.DEFAULT_SECTION
-                        : student.getSection().getName(), student.getTeam().getName());
+                student.getSectionName(), student.getTeamName());
         WebElement table = browser.driver.findElement(By.id("search-table-student"));
         List<WebElement> rows = table.findElements(By.tagName("tr"));
         for (WebElement row : rows) {

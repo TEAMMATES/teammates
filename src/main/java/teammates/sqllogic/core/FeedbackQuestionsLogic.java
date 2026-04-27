@@ -338,7 +338,7 @@ public final class FeedbackQuestionsLogic {
         case NONE -> null;
         case STUDENTS -> usersLogic.getStudentsForCourse(courseId)
                 .stream()
-                .map(s -> s.getName() + " (" + s.getTeam().getName() + ")")
+                .map(s -> s.getName() + " (" + s.getTeamName() + ")")
                 .sorted()
                 .toList();
         case STUDENTS_IN_SAME_SECTION -> {
@@ -348,14 +348,14 @@ public final class FeedbackQuestionsLogic {
             }
             yield usersLogic.getStudentsForSection(student.getSectionName(), courseId)
                     .stream()
-                    .map(s -> s.getName() + " (" + s.getTeam().getName() + ")")
+                    .map(s -> s.getName() + " (" + s.getTeamName() + ")")
                     .sorted()
                     .toList();
         }
         case STUDENTS_EXCLUDING_SELF -> usersLogic.getStudentsForCourse(courseId)
                 .stream()
                 .filter(s -> student == null || !s.getId().equals(student.getId()))
-                .map(s -> s.getName() + " (" + s.getTeam().getName() + ")")
+                .map(s -> s.getName() + " (" + s.getTeamName() + ")")
                 .sorted()
                 .toList();
         case TEAMS -> coursesLogic.getTeamsForCourse(courseId)

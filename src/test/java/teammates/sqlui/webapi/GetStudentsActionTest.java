@@ -235,12 +235,12 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     @Test
     void testExecute_student_success() {
         loginAsStudent(stubStudentOne.getGoogleId());
-        when(mockLogic.getStudentsByTeamName(stubStudentOne.getTeam().getName(),
+        when(mockLogic.getStudentsByTeamName(stubStudentOne.getTeamName(),
                 stubStudentOne.getCourseId())).thenReturn(stubStudentListSectionOneTeamOne);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubStudentOne.getCourseId(),
-                Const.ParamsNames.TEAM_NAME, stubStudentOne.getTeam().getName(),
+                Const.ParamsNames.TEAM_NAME, stubStudentOne.getTeamName(),
         };
         GetStudentsAction action = getAction(params);
         JsonResult jsonResult = getJsonResult(action);
@@ -296,7 +296,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
         verifyStudentsCanAccess(
                 Const.ParamsNames.COURSE_ID, stubStudentOne.getCourseId(),
-                Const.ParamsNames.TEAM_NAME, stubStudentOne.getTeam().getName()
+                Const.ParamsNames.TEAM_NAME, stubStudentOne.getTeamName()
         );
     }
 
@@ -306,7 +306,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
                 .thenReturn(stubStudentOne);
         verifyStudentsCannotAccess(
                 Const.ParamsNames.COURSE_ID, stubStudentOne.getCourseId(),
-                Const.ParamsNames.TEAM_NAME, stubStudentTwo.getTeam().getName()
+                Const.ParamsNames.TEAM_NAME, stubStudentTwo.getTeamName()
         );
     }
 
@@ -316,7 +316,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
                 .thenReturn(null);
         verifyStudentsCannotAccess(
                 Const.ParamsNames.COURSE_ID, "another-course-id",
-                Const.ParamsNames.TEAM_NAME, stubStudentTwo.getTeam().getName()
+                Const.ParamsNames.TEAM_NAME, stubStudentTwo.getTeamName()
         );
     }
 
@@ -335,7 +335,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     void testGetStudents_adminWithTeamParams_cannotAccess() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubStudentOne.getCourseId(),
-                Const.ParamsNames.TEAM_NAME, stubStudentTwo.getTeam().getName(),
+                Const.ParamsNames.TEAM_NAME, stubStudentTwo.getTeamName(),
         };
         verifyAdminsCannotAccess(params);
         verifyWithoutLoginCannotAccess(params);
@@ -348,7 +348,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubStudentOne.getCourseId(),
-                Const.ParamsNames.TEAM_NAME, stubStudentOne.getTeam().getName(),
+                Const.ParamsNames.TEAM_NAME, stubStudentOne.getTeamName(),
         };
         verifyOnlyLoggedInUsersCanAccess(params);
     }
@@ -360,7 +360,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubStudentOne.getCourseId(),
-                Const.ParamsNames.TEAM_NAME, stubStudentOne.getTeam().getName(),
+                Const.ParamsNames.TEAM_NAME, stubStudentOne.getTeamName(),
         };
         verifyUnregisteredCannotAccess(params);
         verifyWithoutLoginCannotAccess(params);
