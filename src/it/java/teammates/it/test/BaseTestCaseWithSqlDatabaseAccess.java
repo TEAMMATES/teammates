@@ -95,9 +95,9 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     /**
      * Persist data bundle into the db.
      */
-    protected void persistDataBundle(DataBundle dataBundle)
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        logic.persistDataBundle(dataBundle);
+    protected DataBundle persistDataBundle(DataBundle dataBundle)
+            throws InvalidParametersException {
+        return logic.persistDataBundle(dataBundle);
     }
 
     /**

@@ -27,7 +27,7 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalBundle);
+        typicalBundle = persistDataBundle(getTypicalDataBundle());
         HibernateUtil.flushSession();
         prepareSession();
     }
