@@ -81,26 +81,22 @@ describe('FeedbackSessionsService', () => {
 
   it('should call post when publishing', () => {
     const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
+      fsid: model.feedbackSession.feedbackSessionId,
     };
 
     service.publishFeedbackSession(
-        model.feedbackSession.courseId,
-        model.feedbackSession.feedbackSessionName,
+        model.feedbackSession.feedbackSessionId,
     );
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.SESSION_PUBLISH, paramMap);
   });
 
   it('should call delete when unpublishing', () => {
     const paramMap: Record<string, string> = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
+      fsid: model.feedbackSession.feedbackSessionId,
     };
 
     service.unpublishFeedbackSession(
-        model.feedbackSession.courseId,
-        model.feedbackSession.feedbackSessionName,
+        model.feedbackSession.feedbackSessionId,
     );
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.SESSION_PUBLISH, paramMap);
   });

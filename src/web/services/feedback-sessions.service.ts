@@ -322,10 +322,9 @@ export class FeedbackSessionsService {
   /**
    * publishes a feedback session.
    */
-  publishFeedbackSession(courseId: string, feedbackSessionName: string): Observable<FeedbackSession> {
+  publishFeedbackSession(feedbackSessionId: string): Observable<FeedbackSession> {
     const paramMap: Record<string, string> = {
-      courseid: courseId,
-      fsname: feedbackSessionName,
+      fsid: feedbackSessionId,
     };
 
     return this.httpRequestService.post(ResourceEndpoints.SESSION_PUBLISH, paramMap);
@@ -334,10 +333,9 @@ export class FeedbackSessionsService {
   /**
    * Unpublishes a feedback session.
    */
-  unpublishFeedbackSession(courseId: string, feedbackSessionName: string): Observable<FeedbackSession> {
+  unpublishFeedbackSession(feedbackSessionId: string): Observable<FeedbackSession> {
     const paramMap: Record<string, string> = {
-      courseid: courseId,
-      fsname: feedbackSessionName,
+      fsid: feedbackSessionId,
     };
 
     return this.httpRequestService.delete(ResourceEndpoints.SESSION_PUBLISH, paramMap);

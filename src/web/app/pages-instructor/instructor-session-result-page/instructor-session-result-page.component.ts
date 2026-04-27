@@ -505,10 +505,10 @@ export class InstructorSessionResultPageComponent implements OnInit {
     modalRef.result.then(() => {
       const response: Observable<any> = isPublished
           ? this.feedbackSessionsService.unpublishFeedbackSession(
-            this.session.courseId, this.session.feedbackSessionName,
+            this.session.feedbackSessionId,
           )
           : this.feedbackSessionsService.publishFeedbackSession(
-            this.session.courseId, this.session.feedbackSessionName,
+            this.session.feedbackSessionId,
           );
 
       response.subscribe({
