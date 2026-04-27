@@ -42,17 +42,13 @@
                   <span [innerHtml]="accountRequest.name | highlighter:searchString:true"></span>
                 </div>
               </td>
-              <td [innerHtml]="accountRequest.email | highlighter:searchString:true">{{ accountRequest.email }}</td>
-              <td [innerHtml]="accountRequest.status | highlighter:searchString:true">{{ accountRequest.status }}</td>
-              <td [innerHtml]="accountRequest.instituteAndCountry | highlighter:searchString:true">
-                {{ accountRequest.instituteAndCountry }}
-              </td>
+              <td [innerHtml]="accountRequest.email | highlighter:searchString:true"></td>
+              <td [innerHtml]="accountRequest.status | highlighter:searchString:true"></td>
+              <td [innerHtml]="accountRequest.instituteAndCountry | highlighter:searchString:true"></td>
               <td id="timestamp-box">{{ accountRequest.createdAtText }}</td>
               <td id="timestamp-box">{{ accountRequest.registeredAtText || 'Not Registered Yet' }}</td>
               <td>
-                <div id="comment-box" [innerHtml]="accountRequest.comments | highlighter:searchString:true">
-                  {{ accountRequest.comments }}
-                </div>
+                <div id="comment-box" [innerHtml]="accountRequest.comments | highlighter:searchString:true"></div>
               </td>
               <td class="align-middle">
                 <div class="d-flex flex-row align-items-center justify-content-center gap-2">
