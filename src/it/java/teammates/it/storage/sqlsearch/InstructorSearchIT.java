@@ -17,7 +17,7 @@ import teammates.test.AssertHelper;
  * SUT: {@link UsersDb}.
  */
 public class InstructorSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
-    
+
     private final UsersDb usersDb = UsersDb.inst();
 
     private DataBundle typicalBundle;

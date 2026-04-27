@@ -299,19 +299,19 @@ public final class DataBundleLogic {
         }
 
         dataBundle.courses.values().forEach(course ->
-            coursesLogic.deleteCourseCascade(course.getId())
+                coursesLogic.deleteCourseCascade(course.getId())
         );
         dataBundle.readNotifications.values().forEach(readNotification ->
-            notificationsLogic.deleteReadNotification(readNotification.getId())
+                notificationsLogic.deleteReadNotification(readNotification.getId())
         );
         dataBundle.notifications.values().forEach(notification ->
-            notificationsLogic.deleteNotification(notification.getId())
+                notificationsLogic.deleteNotification(notification.getId())
         );
         dataBundle.accounts.values().forEach(account ->
-            accountsLogic.deleteAccount(account.getGoogleId())
+                accountsLogic.deleteAccount(account.getGoogleId())
         );
         dataBundle.accountRequests.values().forEach(accountRequest ->
-            accountRequestsLogic.deleteAccountRequest(accountRequest.getId())
+                accountRequestsLogic.deleteAccountRequest(accountRequest.getId())
         );
     }
 

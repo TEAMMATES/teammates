@@ -30,8 +30,6 @@ import teammates.ui.webapi.RejectAccountRequestAction;
  * SUT: {@link RejectAccountRequestAction}.
  */
 public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequestAction> {
-    private DataBundle typicalBundle;
-
     private static final String TYPICAL_TITLE = "We are Unable to Create an Account for you";
     private static final String TYPICAL_BODY = new StringBuilder()
             .append("<p>Hi, Example</p>\n")
@@ -47,6 +45,8 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
             .append("please feel free to contact us at teammates@comp.nus.edu.sg.</p>\n")
             .append("<p>Regards,<br />TEAMMATES Team.</p>\n")
             .toString();
+
+    private DataBundle typicalBundle;
 
     @Override
     @BeforeMethod

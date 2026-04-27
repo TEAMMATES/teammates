@@ -40,7 +40,7 @@ import teammates.ui.webapi.SubmitFeedbackResponsesAction;
  */
 public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedbackResponsesAction> {
     private DataBundle typicalBundle;
-    
+
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
