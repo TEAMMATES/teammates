@@ -573,8 +573,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.hasLoadingFeedbackQuestionsFailed = false;
     this.isLoadingFeedbackQuestions = true;
     this.feedbackQuestionsService.getFeedbackQuestions({
-      courseId: this.courseId,
-      feedbackSessionName: this.feedbackSessionName,
+      feedbackSessionId: this.feedbackSessionId,
       intent: Intent.FULL_DETAIL,
     })
         .pipe(finalize(() => {
@@ -1061,6 +1060,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       next: (response: FeedbackSessions) => {
         response.feedbackSessions.forEach((feedbackSession: FeedbackSession) => {
           const model: FeedbackSessionTabModel = {
+            feedbackSessionId: feedbackSession.feedbackSessionId,
             courseId: feedbackSession.courseId,
             feedbackSessionName: feedbackSession.feedbackSessionName,
             createdAtTimestamp: feedbackSession.createdAtTimestamp,

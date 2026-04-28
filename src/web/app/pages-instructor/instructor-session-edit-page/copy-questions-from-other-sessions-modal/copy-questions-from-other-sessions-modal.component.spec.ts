@@ -98,6 +98,7 @@ describe('CopyQuestionsFromOtherSessionsModalComponent', () => {
   };
 
   const testFeedbackSessionTabModel1: FeedbackSessionTabModel = {
+    feedbackSessionId: '19121dae-0753-471d-be3f-ced887102ecf',
     courseId: 'testId1',
     feedbackSessionName: 'Test Session 1',
     createdAtTimestamp: 1644458400, // Thursday, 10 February 2022 10:00:00 GMT+08:00
@@ -111,6 +112,7 @@ describe('CopyQuestionsFromOtherSessionsModalComponent', () => {
   };
 
   const testFeedbackSessionTabModel2: FeedbackSessionTabModel = {
+    feedbackSessionId: 'c6487c2a-61be-4574-b366-9c7b56e66ec2',
     courseId: 'testId2',
     feedbackSessionName: 'Test Session 2',
     createdAtTimestamp: 1645063200, // Thursday, 17 February 2022 10:00:00 GMT+08:00

@@ -300,8 +300,7 @@ export class SessionResultPageComponent implements OnInit {
         this.logStudentView();
 
         this.feedbackQuestionsService.getFeedbackQuestions({
-          courseId: this.courseId,
-          feedbackSessionName: this.feedbackSessionName,
+          feedbackSessionId: this.feedbackSessionId,
           intent: this.intent,
           key: this.regKey,
           previewAs: this.previewAsPerson,

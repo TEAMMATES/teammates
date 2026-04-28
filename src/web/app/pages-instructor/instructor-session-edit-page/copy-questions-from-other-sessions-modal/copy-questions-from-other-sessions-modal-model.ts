@@ -5,6 +5,7 @@ import { SortBy, SortOrder } from '../../../../types/sort-properties';
  * The model for a feedback session tab.
  */
 export interface FeedbackSessionTabModel {
+  feedbackSessionId: string;
   courseId: string;
   feedbackSessionName: string;
   createdAtTimestamp: number;

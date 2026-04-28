@@ -384,11 +384,9 @@ public abstract class AbstractBackDoor {
     /**
      * Get feedback question data from database.
      */
-    public FeedbackQuestionData getFeedbackQuestionData(String courseId, String feedbackSessionName,
-                                                                int qnNumber) {
+    public FeedbackQuestionData getFeedbackQuestionData(UUID questionId, UUID feedbackSessionId) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.COURSE_ID, courseId);
-        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId.toString());
         params.put(Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString());
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.QUESTIONS, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
@@ -398,7 +396,7 @@ public abstract class AbstractBackDoor {
         FeedbackQuestionsData questionsData = JsonUtils.fromJson(response.responseBody, FeedbackQuestionsData.class);
         return questionsData.getQuestions()
                 .stream()
-                .filter(fq -> fq.getQuestionNumber() == qnNumber)
+                .filter(fq -> fq.getFeedbackQuestionId().equals(questionId))
                 .findFirst()
                 .orElse(null);
     }

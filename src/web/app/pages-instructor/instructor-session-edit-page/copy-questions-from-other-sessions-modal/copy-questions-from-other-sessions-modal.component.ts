@@ -62,8 +62,7 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
     model.hasLoadingFailed = false;
     model.questionsTableRowModels = [];
     this.feedbackQuestionsService.getFeedbackQuestions({
-      courseId: model.courseId,
-      feedbackSessionName: model.feedbackSessionName,
+      feedbackSessionId: model.feedbackSessionId,
       intent: Intent.FULL_DETAIL,
     })
     .subscribe({

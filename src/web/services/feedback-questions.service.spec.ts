@@ -30,13 +30,11 @@ describe('FeedbackQuestionsService', () => {
   it('should execute GET when getting all feedback questions', () => {
     const paramMap: Record<string, string> = {
       intent: Intent.FULL_DETAIL,
-      courseid: 'CS3281',
-      fsname: 'feedback session',
+      fsid: 'fc829c15-3b56-43c1-b932-cc0513cf04d9',
     };
 
     service.getFeedbackQuestions({
-      courseId: paramMap['courseid'],
-      feedbackSessionName: paramMap['fsname'],
+      feedbackSessionId: 'fc829c15-3b56-43c1-b932-cc0513cf04d9',
       intent: Intent.FULL_DETAIL,
     });
 

@@ -494,8 +494,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     this.isFeedbackSessionQuestionsLoading = true;
     this.questionSubmissionForms = [];
     this.feedbackQuestionsService.getFeedbackQuestions({
-      courseId: this.courseId,
-      feedbackSessionName: this.feedbackSessionName,
+      feedbackSessionId: this.feedbackSessionId,
       intent: this.intent,
       key: this.regKey,
       moderatedPerson: this.moderatedPerson,
