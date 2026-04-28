@@ -14,6 +14,7 @@ import jakarta.persistence.Table;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.UserType;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -50,6 +51,11 @@ public class Instructor extends User {
         this.setDisplayName(displayName);
         this.setRole(role);
         this.setPrivileges(privileges);
+    }
+
+    @Override
+    public UserType getUserType() {
+        return UserType.INSTRUCTOR;
     }
 
     public boolean isDisplayedToStudents() {

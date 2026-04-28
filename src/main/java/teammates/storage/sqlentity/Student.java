@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+import teammates.common.datatransfer.UserType;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -40,6 +41,11 @@ public class Student extends User {
         super(course, name, email);
         this.setComments(comments);
         this.setTeam(team);
+    }
+
+    @Override
+    public UserType getUserType() {
+        return UserType.STUDENT;
     }
 
     /**
