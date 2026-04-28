@@ -355,7 +355,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                   class="list-group-item list-group-item-light"
                 >
                   <strong>
-                    sessionName startTime - endTime
+                    undefined startTime - endTime
                   </strong>
                   <button
                     class="btn btn-primary margin-left-5px btn-sm"
@@ -373,7 +373,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                   class="list-group-item list-group-item-warning"
                 >
                   <strong>
-                    sessionName startTime - endTime
+                    undefined startTime - endTime
                   </strong>
                   <button
                     class="btn btn-primary margin-left-5px btn-sm"
@@ -391,7 +391,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                   class="list-group-item list-group-item-danger"
                 >
                   <strong>
-                    sessionName startTime - endTime
+                    undefined startTime - endTime
                   </strong>
                   <button
                     class="btn btn-primary margin-left-5px btn-sm"
@@ -409,7 +409,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                   class="list-group-item list-group-item-success"
                 >
                   <strong>
-                    sessionName startTime - endTime
+                    undefined startTime - endTime
                   </strong>
                   <button
                     class="btn btn-primary margin-left-5px btn-sm"
@@ -958,7 +958,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                   class="list-group-item list-group-item-light"
                 >
                   <strong>
-                    sessionName startTime - endTime
+                    undefined startTime - endTime
                   </strong>
                   <button
                     class="btn btn-primary margin-left-5px btn-sm"
@@ -976,7 +976,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                   class="list-group-item list-group-item-warning"
                 >
                   <strong>
-                    sessionName startTime - endTime
+                    undefined startTime - endTime
                   </strong>
                   <button
                     class="btn btn-primary margin-left-5px btn-sm"
@@ -994,7 +994,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                   class="list-group-item list-group-item-danger"
                 >
                   <strong>
-                    sessionName startTime - endTime
+                    undefined startTime - endTime
                   </strong>
                   <button
                     class="btn btn-primary margin-left-5px btn-sm"
@@ -1012,7 +1012,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                   class="list-group-item list-group-item-success"
                 >
                   <strong>
-                    sessionName startTime - endTime
+                    undefined startTime - endTime
                   </strong>
                   <button
                     class="btn btn-primary margin-left-5px btn-sm"

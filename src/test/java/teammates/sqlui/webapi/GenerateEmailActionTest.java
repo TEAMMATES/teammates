@@ -1,5 +1,6 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
@@ -56,13 +57,12 @@ public class GenerateEmailActionTest
     public void testExecute_studentCourseJoinEmailType_success() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
+                Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
                 Const.ParamsNames.EMAIL_TYPE, EmailType.STUDENT_COURSE_JOIN.name(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
         };
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getStudentForEmail(course.getId(), student.getEmail())).thenReturn(student);
+        when(mockLogic.getStudent(student.getId())).thenReturn(student);
 
         EmailWrapper email = new EmailWrapper();
         email.setRecipient(student.getEmail());
@@ -85,15 +85,13 @@ public class GenerateEmailActionTest
     @Test
     public void testExecute_feedbackSessionReminderEmailType_success() {
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
+                Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
                 Const.ParamsNames.EMAIL_TYPE, EmailType.FEEDBACK_SESSION_REMINDER.name(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, session.getId().toString(),
         };
 
-        when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getStudentForEmail(course.getId(), student.getEmail())).thenReturn(student);
-        when(mockLogic.getFeedbackSession(session.getName(), course.getId())).thenReturn(session);
+        when(mockLogic.getStudent(student.getId())).thenReturn(student);
+        when(mockLogic.getFeedbackSession(session.getId())).thenReturn(session);
 
         EmailWrapper email = new EmailWrapper();
         email.setRecipient(student.getEmail());
@@ -123,9 +121,8 @@ public class GenerateEmailActionTest
         String nonExistCourseId = "non-exist-course-id";
         String[] params = {
                 Const.ParamsNames.COURSE_ID, nonExistCourseId,
-                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
+                Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
                 Const.ParamsNames.EMAIL_TYPE, EmailType.STUDENT_COURSE_JOIN.name(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
         };
 
         when(mockLogic.getCourse(nonExistCourseId)).thenReturn(null);
@@ -135,32 +132,30 @@ public class GenerateEmailActionTest
 
     @Test
     public void testExecute_studentDoesNotExist_throwsEntityNotFoundException() {
-        String nonExistStudentEmail = "nonExistStudent@tm.tmt";
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, nonExistStudentEmail,
+                Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
                 Const.ParamsNames.EMAIL_TYPE, EmailType.STUDENT_COURSE_JOIN.name(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
         };
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getStudentForEmail(course.getId(), nonExistStudentEmail)).thenReturn(null);
+        when(mockLogic.getStudent(student.getId())).thenReturn(null);
 
         verifyEntityNotFound(params);
     }
 
     @Test
-    public void testExecute_invalidFeedbackSessionname_throwsInvalidHttpParameterException() {
+    public void testExecute_invalidFeedbackSession_throwsEntityNotFoundException() {
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
+                Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
                 Const.ParamsNames.EMAIL_TYPE, EmailType.FEEDBACK_SESSION_REMINDER.name(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, "e06ef8a3-d693-40a9-b80c-4560860c3d09",
         };
 
-        when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getStudentForEmail(course.getId(), student.getEmail())).thenReturn(student);
+        when(mockLogic.getStudent(student.getId())).thenReturn(student);
+        when(mockLogic.getFeedbackSession(any())).thenReturn(null);
 
-        verifyHttpParameterFailure(params);
+        verifyEntityNotFound(params);
     }
 
     @Test

@@ -28,6 +28,7 @@ export class RejectWithReasonModalComponent implements OnInit {
   accountRequestEmail: string = '';
 
   existingAccount: InstructorAccountSearchResult = {
+    userId: '',
     name: '',
     email: '',
     googleId: '',

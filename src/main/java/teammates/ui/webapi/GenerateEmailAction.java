@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.UUID;
 
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
@@ -18,36 +19,42 @@ public class GenerateEmailAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Course course = sqlLogic.getCourse(courseId);
-
-        if (course == null) {
-            throw new EntityNotFoundException("Course with ID " + courseId + " does not exist!");
-        }
-
-        String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-        Student student = sqlLogic.getStudentForEmail(courseId, studentEmail);
+        UUID studentId = getUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
+        Student student = sqlLogic.getStudent(studentId);
         if (student == null) {
             throw new EntityNotFoundException("Student does not exist.");
         }
 
-        String emailType = getNonNullRequestParamValue(Const.ParamsNames.EMAIL_TYPE);
-        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-
-        EmailWrapper email;
-
-        if (emailType.equals(EmailType.STUDENT_COURSE_JOIN.name())) {
-            email = sqlEmailGenerator.generateStudentCourseJoinEmail(course, student);
-        } else if (emailType.equals(EmailType.FEEDBACK_SESSION_REMINDER.name())) {
-            if (feedbackSessionName == null) {
-                throw new InvalidHttpParameterException("Feedback session name not specified");
-            }
-            FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-            email = sqlEmailGenerator.generateFeedbackSessionReminderEmails(
-                    feedbackSession, Collections.singletonList(student), new ArrayList<>(), null).get(0);
-        } else {
-            throw new InvalidHttpParameterException("Email type " + emailType + " not accepted");
+        EmailType emailType;
+        try {
+            emailType = EmailType.valueOf(getNonNullRequestParamValue(Const.ParamsNames.EMAIL_TYPE));
+        } catch (IllegalArgumentException e) {
+            throw new InvalidHttpParameterException("Inavalid email type "
+                    + getNonNullRequestParamValue(Const.ParamsNames.EMAIL_TYPE), e);
         }
+
+        EmailWrapper email = switch (emailType) {
+        case STUDENT_COURSE_JOIN -> {
+            String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+            Course course = sqlLogic.getCourse(courseId);
+            if (course == null) {
+                throw new EntityNotFoundException("Course with ID " + courseId + " does not exist!");
+            }
+            yield sqlEmailGenerator.generateStudentCourseJoinEmail(course, student);
+        }
+        case FEEDBACK_SESSION_REMINDER -> {
+            UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
+            FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+            if (feedbackSession == null) {
+                throw new EntityNotFoundException(
+                        "Feedback session with ID " + feedbackSessionId + " does not exist!");
+            }
+
+            yield sqlEmailGenerator.generateFeedbackSessionReminderEmails(
+                    feedbackSession, Collections.singletonList(student), new ArrayList<>(), null).get(0);
+        }
+        default -> throw new InvalidHttpParameterException("Inavalid Email type for this action: " + emailType);
+        };
 
         return new JsonResult(new EmailData(email));
     }
