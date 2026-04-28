@@ -51,19 +51,7 @@ public class GetHasResponsesAction extends Action {
 
         // A student can check whether he has submitted responses for a feedback session in his course.
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-
-        if (feedbackSessionName != null) {
-            gateKeeper.verifyAccessible(
-                    sqlLogic.getStudentByGoogleId(courseId, userInfo.getId()),
-                    getNonNullFeedbackSession(feedbackSessionName, courseId));
-        }
-
         List<FeedbackSession> feedbackSessions = sqlLogic.getFeedbackSessionsForCourse(courseId);
-        if (feedbackSessions.isEmpty()) {
-            // Course has no sessions and therefore no response; access to responses is safe for all.
-            return;
-        }
 
         // Verify that all sessions are accessible to the user.
         for (FeedbackSession feedbackSession : feedbackSessions) {
@@ -87,33 +75,27 @@ public class GetHasResponsesAction extends Action {
         }
 
         // Default path for student and admin
+        return handleStudentReq();
+    }
+
+    private JsonResult handleStudentReq() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-
-        if (feedbackSessionName == null) {
-            // check all sessions in the course
-            List<FeedbackSession> feedbackSessions = sqlLogic.getFeedbackSessionsForCourse(courseId);
-            Student student = sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
-
-            Map<String, Boolean> sessionsHasResponses = new HashMap<>();
-            for (FeedbackSession feedbackSession : feedbackSessions) {
-                if (!feedbackSession.isVisible()) {
-                    // Skip invisible sessions.
-                    continue;
-                }
-                boolean hasResponses = sqlLogic.isFeedbackSessionAttemptedByStudent(
-                        feedbackSession, student.getEmail(), student.getTeamName());
-                sessionsHasResponses.put(feedbackSession.getName(), hasResponses);
-            }
-            return new JsonResult(new HasResponsesData(sessionsHasResponses));
-        }
-
-        FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-
+    
+        // check all sessions in the course
+        List<FeedbackSession> feedbackSessions = sqlLogic.getFeedbackSessionsForCourse(courseId);
         Student student = sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
-        return new JsonResult(new HasResponsesData(
-                sqlLogic.isFeedbackSessionAttemptedByStudent(
-                        feedbackSession, student.getEmail(), student.getTeamName())));
+
+        Map<String, Boolean> sessionsHasResponses = new HashMap<>();
+        for (FeedbackSession feedbackSession : feedbackSessions) {
+            if (!feedbackSession.isVisible()) {
+                // Skip invisible sessions.
+                continue;
+            }
+            boolean hasResponses = sqlLogic.isFeedbackSessionAttemptedByStudent(
+                    feedbackSession, student.getEmail(), student.getTeamName());
+            sessionsHasResponses.put(feedbackSession.getName(), hasResponses);
+        }
+        return new JsonResult(new HasResponsesData(sessionsHasResponses));
     }
 
     private JsonResult handleInstructorReq() {
