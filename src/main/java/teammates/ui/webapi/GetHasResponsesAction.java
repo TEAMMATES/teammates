@@ -73,7 +73,6 @@ public class GetHasResponsesAction extends Action {
             return handleInstructorReq();
         }
 
-        // Default path for student and admin
         return handleStudentReq();
     }
 
