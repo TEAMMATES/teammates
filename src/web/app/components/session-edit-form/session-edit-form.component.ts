@@ -67,6 +67,7 @@ export class SessionEditFormComponent {
 
   @Input()
   model: SessionEditFormModel = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: 'UTC',
     courseName: '',

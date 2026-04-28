@@ -3879,7 +3879,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   >
                     <a
                       class="ps-3 pt-2"
-                      href="/web/instructor/sessions/individual-extension?courseid=&fsname=&preselectnonsubmitters=false"
+                      href="/web/instructor/sessions/individual-extension?courseid=&fsname=&fsid=&preselectnonsubmitters=false"
                       tmrouterlink="/web/instructor/sessions/individual-extension"
                     >
                        Individual Deadline Extensions 

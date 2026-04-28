@@ -323,6 +323,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
     const model: SessionEditFormModel = {
       isEditable,
+      feedbackSessionId: feedbackSession.feedbackSessionId,
       courseId: feedbackSession.courseId,
       timeZone: feedbackSession.timeZone,
       courseName: this.courseName,
