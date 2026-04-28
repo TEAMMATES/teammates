@@ -4,7 +4,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Map;
-import java.util.UUID;
 
 import org.testng.annotations.Test;
 
@@ -72,8 +71,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
 
         verifyUpdatedDeadlinesMap(updatedStudentDeadlines, testEmail, "charlie.tmms@gmail.tmt");
         verifyUpdatedDeadlinesMap(updatedInstructorDeadlines, "instructor1.tmms@gmail.tmt");
-        verifyDeadlineExtensionsPresentOrAbsent(feedbackSession.getId(), updatedStudentDeadlines,
-                updatedInstructorDeadlines, expectedDeadline);
+        verifyDeadlineExtensionsPresentOrAbsent(updatedStudentDeadlines, updatedInstructorDeadlines, expectedDeadline);
 
         String expectedSubject = "TEAMMATES: Deadline extension given [Course: "
                 + course.getName() + "][Feedback Session: "
@@ -97,8 +95,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
 
         verifyUpdatedDeadlinesMap(updatedStudentDeadlines, testEmail, "charlie.tmms@gmail.tmt");
         verifyUpdatedDeadlinesMap(updatedInstructorDeadlines, "instructor1.tmms@gmail.tmt");
-        verifyDeadlineExtensionsPresentOrAbsent(feedbackSession.getId(), updatedStudentDeadlines,
-                updatedInstructorDeadlines, expectedDeadline);
+        verifyDeadlineExtensionsPresentOrAbsent(updatedStudentDeadlines, updatedInstructorDeadlines, expectedDeadline);
 
         expectedSubject = "TEAMMATES: Deadline extension updated [Course: "
                 + course.getName() + "][Feedback Session: "
@@ -120,8 +117,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
         assertTrue(updatedStudentDeadlines.isEmpty());
         assertTrue(updatedInstructorDeadlines.isEmpty());
 
-        verifyDeadlineExtensionsPresentOrAbsent(feedbackSession.getId(), updatedStudentDeadlines,
-                updatedInstructorDeadlines, expectedDeadline);
+        verifyDeadlineExtensionsPresentOrAbsent(updatedStudentDeadlines, updatedInstructorDeadlines, expectedDeadline);
 
         expectedSubject = "TEAMMATES: Deadline extension revoked [Course: "
                 + course.getName() + "][Feedback Session: "
@@ -143,8 +139,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
         assertEquals(5, updatedStudentDeadlines.size());
         assertEquals(2, updatedInstructorDeadlines.size());
 
-        verifyDeadlineExtensionsPresentOrAbsent(feedbackSession.getId(), updatedStudentDeadlines,
-                updatedInstructorDeadlines, expectedDeadline);
+        verifyDeadlineExtensionsPresentOrAbsent(updatedStudentDeadlines, updatedInstructorDeadlines, expectedDeadline);
 
         ______TS("verify delete all deadlines, notifyUsers disabled");
 
@@ -161,8 +156,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
         assertTrue(updatedStudentDeadlines.isEmpty());
         assertTrue(updatedInstructorDeadlines.isEmpty());
 
-        verifyDeadlineExtensionsPresentOrAbsent(feedbackSession.getId(), updatedStudentDeadlines,
-                updatedInstructorDeadlines, expectedDeadline);
+        verifyDeadlineExtensionsPresentOrAbsent(updatedStudentDeadlines, updatedInstructorDeadlines, expectedDeadline);
     }
 
     private void verifyUpdatedDeadlinesMap(Map<String, Long> updatedDeadlines, String... emails) {
@@ -172,31 +166,26 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
         }
     }
 
-    private void verifyDeadlineExtensionsPresentOrAbsent(UUID feedbackSessionId,
-                                                         Map<String, Long> updatedStudentDeadlines,
+    private void verifyDeadlineExtensionsPresentOrAbsent(Map<String, Long> updatedStudentDeadlines,
                                                          Map<String, Long> updatedInstructorDeadlines,
                                                          Instant extendedDeadline) {
-        DeadlineExtensionsData extensionsData = getDeadlineExtensions(feedbackSessionId);
-
-        Map<String, Long> studentDeadlines = extensionsData.getStudentDeadlines();
         for (var s : students) {
             String email = s.getEmail();
             if (updatedStudentDeadlines.containsKey(email)) {
-                assertTrue(studentDeadlines.containsKey(email));
-                assertEquals(extendedDeadline, Instant.ofEpochMilli(studentDeadlines.get(email)));
+                assertTrue(updatedStudentDeadlines.containsKey(email));
+                assertEquals(extendedDeadline, Instant.ofEpochMilli(updatedStudentDeadlines.get(email)));
             } else {
-                assertFalse(studentDeadlines.containsKey(email));
+                assertFalse(updatedStudentDeadlines.containsKey(email));
             }
         }
 
-        Map<String, Long> instructorDeadlines = extensionsData.getInstructorDeadlines();
         for (var i : instructors) {
             String email = i.getEmail();
             if (updatedInstructorDeadlines.containsKey(email)) {
-                assertTrue(instructorDeadlines.containsKey(email));
-                assertEquals(extendedDeadline, Instant.ofEpochMilli(instructorDeadlines.get(email)));
+                assertTrue(updatedInstructorDeadlines.containsKey(email));
+                assertEquals(extendedDeadline, Instant.ofEpochMilli(updatedInstructorDeadlines.get(email)));
             } else {
-                assertFalse(instructorDeadlines.containsKey(email));
+                assertFalse(updatedInstructorDeadlines.containsKey(email));
             }
         }
     }
