@@ -2,7 +2,6 @@ package teammates.sqllogic.core;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -179,28 +178,15 @@ public final class FeedbackSessionsLogic {
                 String.format("Feedback session with id %s not found.", feedbackSessionId));
         }
 
+        return getGiverSetThatAnsweredFeedbackSession(feedbackSession);
+    }
+
+    private Set<String> getGiverSetThatAnsweredFeedbackSession(FeedbackSession feedbackSession) {
         return fqLogic.getFeedbackQuestionsForSession(feedbackSession).stream()
                 .flatMap(question ->
                         frLogic.getFeedbackResponsesForQuestion(question.getId()).stream())
                 .map(FeedbackResponse::getGiver)
                 .collect(Collectors.toUnmodifiableSet());
-    }
-
-    /**
-     * Gets a set of giver identifiers that has at least one response under a feedback session.
-     */
-    public Set<String> getGiverSetThatAnsweredFeedbackSession(FeedbackSession fs) {
-        assert fs != null;
-
-        Set<String> giverSet = new HashSet<>();
-
-        fqLogic.getFeedbackQuestionsForSession(fs).forEach(question -> {
-            frLogic.getFeedbackResponsesForQuestion(question.getId()).forEach(response -> {
-                giverSet.add(response.getGiver());
-            });
-        });
-
-        return giverSet;
     }
 
     /**
