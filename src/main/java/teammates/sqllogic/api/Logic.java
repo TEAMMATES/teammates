@@ -546,14 +546,13 @@ public class Logic {
     }
 
     /**
-     * Gets a set of giver identifiers that has at least one response under a
-     * feedback session.
+     * Gets a set of giver identifiers that has at least one response under a feedback session.
+     *
+     * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
-    public Set<String> getGiverSetThatAnsweredFeedbackSession(String feedbackSessionName, String courseId) {
-        assert feedbackSessionName != null;
-        assert courseId != null;
-
-        return feedbackSessionsLogic.getGiverSetThatAnsweredFeedbackSession(feedbackSessionName, courseId);
+    public Set<String> getGiverSetThatAnsweredFeedbackSession(
+            UUID feedbackSessionId) throws EntityDoesNotExistException {
+        return feedbackSessionsLogic.getGiverSetThatAnsweredFeedbackSession(feedbackSessionId);
     }
 
     /**

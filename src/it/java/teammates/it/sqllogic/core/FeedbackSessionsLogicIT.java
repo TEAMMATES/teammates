@@ -44,7 +44,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testGiverSetThatAnsweredFeedbackQuestion_hasGivers_findsGivers() {
+    public void testGiverSetThatAnsweredFeedbackQuestion_hasGivers_findsGivers() throws EntityDoesNotExistException {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         Set<String> expectedGivers = new HashSet<>();
 
@@ -52,7 +52,7 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         expectedGivers.add(typicalDataBundle.students.get("student2InCourse1").getEmail());
         expectedGivers.add(typicalDataBundle.students.get("student3InCourse1").getEmail());
 
-        Set<String> givers = fsLogic.getGiverSetThatAnsweredFeedbackSession(fs.getName(), fs.getCourseId());
+        Set<String> givers = fsLogic.getGiverSetThatAnsweredFeedbackSession(fs.getId());
         assertEquals(expectedGivers.size(), givers.size());
         assertEquals(expectedGivers, givers);
     }

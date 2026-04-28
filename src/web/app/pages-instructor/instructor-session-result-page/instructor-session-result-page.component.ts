@@ -175,11 +175,11 @@ export class InstructorSessionResultPageComponent implements OnInit {
       this.courseId = queryParams.courseid;
       this.fsName = queryParams.fsname;
       this.feedbackSessionId = queryParams.fsid;
-      this.loadFeedbackSessionResults(this.courseId, this.fsName, this.feedbackSessionId);
+      this.loadFeedbackSessionResults(this.courseId, this.feedbackSessionId);
     });
   }
 
-  loadFeedbackSessionResults(courseId: string, feedbackSessionName: string, feedbackSessionId: string): void {
+  loadFeedbackSessionResults(courseId: string, feedbackSessionId: string): void {
     this.hasQuestionsLoadingFailed = false;
     this.hasSectionsLoadingFailed = false;
     this.hasFeedbackSessionLoadingFailed = false;
@@ -279,7 +279,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
               this.emailOfStudentToPreview = this.allStudentsInCourse[0].email;
             }
 
-            this.loadNoResponseStudents(courseId, feedbackSessionName);
+            this.loadNoResponseStudents(feedbackSessionId);
           },
           error: (resp: ErrorMessageOutput) => {
             this.statusMessageService.showErrorToast(resp.error.message);
@@ -325,12 +325,11 @@ export class InstructorSessionResultPageComponent implements OnInit {
     });
   }
 
-  loadNoResponseStudents(courseId: string, feedbackSessionName: string): void {
+  loadNoResponseStudents(feedbackSessionId: string): void {
     this.hasNoResponseLoadingFailed = false;
     // load no response students
     this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({
-      courseId,
-      feedbackSessionName,
+      feedbackSessionId,
     }).subscribe({
       next: (feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
         // TODO team is missing

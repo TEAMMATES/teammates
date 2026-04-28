@@ -8,7 +8,6 @@ import com.google.common.collect.Sets;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
-import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.FeedbackSessionSubmittedGiverSet;
@@ -44,7 +43,6 @@ public class GetFeedbackSessionSubmittedGiverSetActionIT extends BaseActionIT<Ge
     protected void testExecute() {
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.getGoogleId();
-        Course course = typicalBundle.courses.get("course1");
         FeedbackSession fsa = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         loginAsInstructor(instructorId);
@@ -54,8 +52,7 @@ public class GetFeedbackSessionSubmittedGiverSetActionIT extends BaseActionIT<Ge
 
         ______TS("Typical case");
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fsa.getId().toString(),
         };
 
         GetFeedbackSessionSubmittedGiverSetAction pageAction = getAction(submissionParams);
@@ -69,12 +66,10 @@ public class GetFeedbackSessionSubmittedGiverSetActionIT extends BaseActionIT<Ge
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        Course course = typicalBundle.courses.get("course1");
         FeedbackSession fsa = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fsa.getId().toString(),
         };
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(course, submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseCanAccess(fsa.getCourse(), submissionParams);
     }
 }

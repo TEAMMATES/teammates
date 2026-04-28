@@ -20,6 +20,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
@@ -167,22 +168,22 @@ public final class FeedbackSessionsLogic {
 
     /**
      * Gets a set of giver identifiers that has at least one response under a feedback session.
+     *
+     * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
-    public Set<String> getGiverSetThatAnsweredFeedbackSession(String feedbackSessionName, String courseId) {
-        assert courseId != null;
-        assert feedbackSessionName != null;
+    public Set<String> getGiverSetThatAnsweredFeedbackSession(
+            UUID feedbackSessionId) throws EntityDoesNotExistException {
+        FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityDoesNotExistException(
+                String.format("Feedback session with id %s not found.", feedbackSessionId));
+        }
 
-        FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionName, courseId);
-
-        Set<String> giverSet = new HashSet<>();
-
-        fqLogic.getFeedbackQuestionsForSession(feedbackSession).forEach(question -> {
-            frLogic.getFeedbackResponsesForQuestion(question.getId()).forEach(response -> {
-                giverSet.add(response.getGiver());
-            });
-        });
-
-        return giverSet;
+        return fqLogic.getFeedbackQuestionsForSession(feedbackSession).stream()
+                .flatMap(question ->
+                        frLogic.getFeedbackResponsesForQuestion(question.getId()).stream())
+                .map(FeedbackResponse::getGiver)
+                .collect(Collectors.toUnmodifiableSet());
     }
 
     /**
