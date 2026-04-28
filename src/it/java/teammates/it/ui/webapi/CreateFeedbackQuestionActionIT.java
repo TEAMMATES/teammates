@@ -55,12 +55,9 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
         ______TS("Not enough parameters");
 
         verifyHttpParameterFailure();
-        verifyHttpParameterFailure(Const.ParamsNames.COURSE_ID, session.getCourseId());
-        verifyHttpParameterFailure(Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName());
 
         String[] params = {
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, session.getId().toString(),
         };
 
         ______TS("null question type");
@@ -129,8 +126,7 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
         ______TS("non-existent feedback session");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "abcRandomSession",
+                Const.ParamsNames.FEEDBACK_SESSION_ID, "00000000-0000-4000-8000-000000000001",
         };
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
@@ -139,8 +135,7 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
         ______TS("inaccessible without ModifySessionPrivilege");
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, fs.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fs.getId().toString(),
         };
 
         verifyInaccessibleWithoutModifySessionPrivilege(fs.getCourse(), submissionParams);

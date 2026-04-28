@@ -572,11 +572,10 @@ export class FeedbackQuestionsService {
   /**
    * Creates a feedback question by calling API.
    */
-  createFeedbackQuestion(courseId: string, feedbackSessionName: string,
-    request: FeedbackQuestionCreateRequest): Observable<FeedbackQuestion> {
+  createFeedbackQuestion(
+    feedbackSessionId: string, request: FeedbackQuestionCreateRequest): Observable<FeedbackQuestion> {
     const paramMap: Record<string, string> = {
-      courseid: courseId,
-      fsname: feedbackSessionName,
+      fsid: feedbackSessionId,
     };
 
     return this.httpRequestService.post(ResourceEndpoints.QUESTION, paramMap, request);
