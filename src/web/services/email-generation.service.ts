@@ -15,19 +15,18 @@ export class EmailGenerationService {
 
   constructor(private httpRequestService: HttpRequestService) { }
 
-  getCourseJoinEmail(courseid: string, studentid: string): Observable<Email> {
+  getCourseJoinEmail(studentId: string): Observable<Email> {
     return this.getEmail({
-      courseid,
-      studentid,
-      emailtype: EmailType.STUDENT_COURSE_JOIN,
+      studentId,
+      emailType: EmailType.STUDENT_COURSE_JOIN,
     });
   }
 
-  getFeedbackSessionReminderEmail(studentid: string, fsid: string): Observable<Email> {
+  getFeedbackSessionReminderEmail(studentId: string, fsId: string): Observable<Email> {
     return this.getEmail({
-      studentid,
-      emailtype: EmailType.FEEDBACK_SESSION_REMINDER,
-      fsid,
+      studentId,
+      emailType: EmailType.FEEDBACK_SESSION_REMINDER,
+      fsId,
     });
   }
 
@@ -35,16 +34,14 @@ export class EmailGenerationService {
    * Get email contents by calling API.
    */
   private getEmail(params: {
-    studentid: string,
-    emailtype: EmailType,
-    courseid?: string,
-    fsid?: string,
+    studentId: string,
+    emailType: EmailType,
+    fsId?: string,
   }): Observable<Email> {
     const paramsMap: Record<string, string> = {
-      studentid: params.studentid,
-      emailtype: params.emailtype,
-      ...(params.courseid && { courseid: params.courseid }),
-      ...(params.fsid && { fsid: params.fsid }),
+      studentid: params.studentId,
+      emailtype: params.emailType,
+      ...(params.fsId && { fsid: params.fsId }),
     };
     return this.httpRequestService.get(ResourceEndpoints.EMAIL, paramsMap);
   }

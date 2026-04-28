@@ -56,12 +56,10 @@ public class GenerateEmailActionTest
     @Test
     public void testExecute_studentCourseJoinEmailType_success() {
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
                 Const.ParamsNames.EMAIL_TYPE, EmailType.STUDENT_COURSE_JOIN.name(),
         };
 
-        when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getStudent(student.getId())).thenReturn(student);
 
         EmailWrapper email = new EmailWrapper();
@@ -117,28 +115,12 @@ public class GenerateEmailActionTest
     }
 
     @Test
-    public void testExecute_courseDoesNotExist_throwsEntityNotFoundException() {
-        String nonExistCourseId = "non-exist-course-id";
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, nonExistCourseId,
-                Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
-                Const.ParamsNames.EMAIL_TYPE, EmailType.STUDENT_COURSE_JOIN.name(),
-        };
-
-        when(mockLogic.getCourse(nonExistCourseId)).thenReturn(null);
-
-        verifyEntityNotFound(params);
-    }
-
-    @Test
     public void testExecute_studentDoesNotExist_throwsEntityNotFoundException() {
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
                 Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
                 Const.ParamsNames.EMAIL_TYPE, EmailType.STUDENT_COURSE_JOIN.name(),
         };
 
-        when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getStudent(student.getId())).thenReturn(null);
 
         verifyEntityNotFound(params);

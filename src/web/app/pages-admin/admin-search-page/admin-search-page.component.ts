@@ -349,8 +349,8 @@ export class AdminSearchPageComponent {
   /**
    * Open up an email populated with content for course join invitation.
    */
-  openCourseJoinEmail(courseId: string, studentid: string): void {
-    this.emailGenerationService.getCourseJoinEmail(courseId, studentid)
+  openCourseJoinEmail(studentId: string): void {
+    this.emailGenerationService.getCourseJoinEmail(studentId)
         .subscribe({
           next: (email: Email) => {
             window.location.href = `mailto:${email.recipient}`
@@ -366,8 +366,8 @@ export class AdminSearchPageComponent {
   /**
    * Open up an email populated with content for feedback session reminder.
    */
-  openFeedbackSessionReminderEmail(studentid: string, fsid: string): void {
-    this.emailGenerationService.getFeedbackSessionReminderEmail(studentid, fsid)
+  openFeedbackSessionReminderEmail(studentId: string, fsId: string): void {
+    this.emailGenerationService.getFeedbackSessionReminderEmail(studentId, fsId)
         .subscribe({
           next: (email: Email) => {
             window.location.href = `mailto:${email.recipient}`

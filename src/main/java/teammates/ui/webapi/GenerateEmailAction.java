@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.UUID;
 
 import teammates.common.util.Const;
@@ -22,7 +23,7 @@ public class GenerateEmailAction extends AdminOnlyAction {
         UUID studentId = getUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
         Student student = sqlLogic.getStudent(studentId);
         if (student == null) {
-            throw new EntityNotFoundException("Student does not exist.");
+            throw new EntityNotFoundException("Student does not exist");
         }
 
         EmailType emailType;
@@ -35,11 +36,7 @@ public class GenerateEmailAction extends AdminOnlyAction {
 
         EmailWrapper email = switch (emailType) {
         case STUDENT_COURSE_JOIN -> {
-            String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-            Course course = sqlLogic.getCourse(courseId);
-            if (course == null) {
-                throw new EntityNotFoundException("Course with ID " + courseId + " does not exist!");
-            }
+            Course course = student.getCourse();
             yield sqlEmailGenerator.generateStudentCourseJoinEmail(course, student);
         }
         case FEEDBACK_SESSION_REMINDER -> {
@@ -47,7 +44,12 @@ public class GenerateEmailAction extends AdminOnlyAction {
             FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
             if (feedbackSession == null) {
                 throw new EntityNotFoundException(
-                        "Feedback session with ID " + feedbackSessionId + " does not exist!");
+                        "Feedback session with ID " + feedbackSessionId + " does not exist");
+            }
+
+            if (!Objects.equals(feedbackSession.getCourseId(), student.getCourseId())) {
+                throw new InvalidHttpParameterException(
+                        "Feedback session does not belong to the same course as the student");
             }
 
             yield sqlEmailGenerator.generateFeedbackSessionReminderEmails(
