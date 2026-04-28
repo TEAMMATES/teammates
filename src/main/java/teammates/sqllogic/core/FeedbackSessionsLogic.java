@@ -183,8 +183,7 @@ public final class FeedbackSessionsLogic {
 
     private Set<String> getGiverSetThatAnsweredFeedbackSession(FeedbackSession feedbackSession) {
         return fqLogic.getFeedbackQuestionsForSession(feedbackSession).stream()
-                .flatMap(question ->
-                        frLogic.getFeedbackResponsesForQuestion(question.getId()).stream())
+                .flatMap(question -> question.getFeedbackResponses().stream())
                 .map(FeedbackResponse::getGiver)
                 .collect(Collectors.toUnmodifiableSet());
     }
