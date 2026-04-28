@@ -340,8 +340,7 @@ export class FeedbackSessionsService {
   /**
    * Download session results.
    */
-  downloadSessionResults(courseId: string,
-                         feedbackSessionName: string,
+  downloadSessionResults(feedbackSessionId: string,
                          intent: Intent,
                          indicateMissingResponses: boolean,
                          showStatistics: boolean,
@@ -349,8 +348,7 @@ export class FeedbackSessionsService {
                          groupBySection?: string,
                          sectionDetail?: InstructorSessionResultSectionType): Observable<string> {
     return this.getFeedbackSessionResults({
-      courseId,
-      feedbackSessionName,
+      feedbackSessionId,
       intent,
       questionId,
       groupBySection,
@@ -368,8 +366,7 @@ export class FeedbackSessionsService {
    * Retrieves the results for a feedback session.
    */
   getFeedbackSessionResults(queryParams: {
-    courseId: string,
-    feedbackSessionName: string,
+    feedbackSessionId: string,
     intent: Intent,
     questionId?: string,
     groupBySection?: string,
@@ -378,8 +375,7 @@ export class FeedbackSessionsService {
     previewAs?: string,
   }): Observable<SessionResults> {
     const paramMap: Record<string, string> = {
-      courseid: queryParams.courseId,
-      fsname: queryParams.feedbackSessionName,
+      fsid: queryParams.feedbackSessionId,
       intent: queryParams.intent,
     };
 

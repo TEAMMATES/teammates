@@ -1262,22 +1262,17 @@ public class Logic {
      * Gets the session result for a feedback session.
      *
      * @param feedbackSession the feedback session
-     * @param courseId the ID of the course
      * @param instructorEmail the email of the instructor requesting for the session result
      * @param questionId if not null, will only return partial bundle for the question
      * @param sectionName if not null, will only return partial bundle for the section
      * @param fetchType if not null, will fetch responses by giver, receiver sections, or both
      * @return the session result bundle
      */
-    public SessionResultsBundle getSessionResultsForCourse(
-            FeedbackSession feedbackSession, String courseId, String instructorEmail,
+    public SessionResultsBundle getSessionResults(
+            FeedbackSession feedbackSession, String instructorEmail,
             @Nullable UUID questionId, @Nullable String sectionName, @Nullable FeedbackResultFetchType fetchType) {
-        assert feedbackSession != null;
-        assert courseId != null;
-        assert instructorEmail != null;
-
-        return feedbackResponsesLogic.getSessionResultsForCourse(
-                feedbackSession, courseId, instructorEmail, questionId, sectionName, fetchType);
+        return feedbackResponsesLogic.getSessionResults(
+                feedbackSession, instructorEmail, questionId, sectionName, fetchType);
     }
 
     /**
@@ -1287,14 +1282,10 @@ public class Logic {
      *      String, boolean, String)
      */
     public SessionResultsBundle getSessionResultsForUser(
-            FeedbackSession feedbackSession, String courseId, String userEmail, boolean isInstructor,
+            FeedbackSession feedbackSession, String userEmail, boolean isInstructor,
             @Nullable UUID questionId, boolean isPreviewResults) {
-        assert feedbackSession != null;
-        assert courseId != null;
-        assert userEmail != null;
-
         return feedbackResponsesLogic.getSessionResultsForUser(
-                feedbackSession, courseId, userEmail, isInstructor, questionId, isPreviewResults);
+                feedbackSession, userEmail, isInstructor, questionId, isPreviewResults);
     }
 
     /**

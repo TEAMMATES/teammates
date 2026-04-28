@@ -59,8 +59,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
 
         FeedbackSession accessibleFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, accessibleFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.name(),
         };
 
@@ -70,8 +69,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         SessionResultsData output = (SessionResultsData) r.getOutput();
 
         SessionResultsData expectedResults = SessionResultsData.initForInstructor(
-                logic.getSessionResultsForCourse(accessibleFeedbackSession,
-                        accessibleFeedbackSession.getCourseId(),
+                logic.getSessionResults(accessibleFeedbackSession,
                         instructor.getEmail(),
                         null, null, FeedbackResultFetchType.BOTH));
 
@@ -88,8 +86,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         for (FeedbackResultFetchType fetchType : FeedbackResultFetchType.values()) {
             for (Section section : sections) {
                 submissionParams = new String[] {
-                        Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getName(),
-                        Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
+                        Const.ParamsNames.FEEDBACK_SESSION_ID, accessibleFeedbackSession.getId().toString(),
                         Const.ParamsNames.INTENT, Intent.FULL_DETAIL.name(),
                         Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, section.getName(),
                         Const.ParamsNames.FEEDBACK_RESULTS_SECTION_BY_GIVER_RECEIVER, fetchType.name(),
@@ -101,8 +98,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
                 output = (SessionResultsData) r.getOutput();
 
                 expectedResults = SessionResultsData.initForInstructor(
-                        logic.getSessionResultsForCourse(accessibleFeedbackSession,
-                                accessibleFeedbackSession.getCourseId(),
+                        logic.getSessionResults(accessibleFeedbackSession,
                                 instructor.getEmail(),
                                 null, section.getName(), fetchType));
 
@@ -115,8 +111,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         Student student = typicalBundle.students.get("student1InCourse1");
 
         submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, accessibleFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
                 Const.ParamsNames.PREVIEWAS, student.getEmail(),
         };
@@ -127,7 +122,6 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         output = (SessionResultsData) r.getOutput();
         expectedResults = SessionResultsData.initForStudent(
                 logic.getSessionResultsForUser(accessibleFeedbackSession,
-                        accessibleFeedbackSession.getCourseId(),
                         student.getEmail(),
                         false, null, true),
                 student);
@@ -139,8 +133,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         loginAsStudent(student.getGoogleId());
 
         submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, accessibleFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
         };
 
@@ -150,7 +143,6 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         output = (SessionResultsData) r.getOutput();
         expectedResults = SessionResultsData.initForStudent(
                 logic.getSessionResultsForUser(accessibleFeedbackSession,
-                        accessibleFeedbackSession.getCourseId(),
                         student.getEmail(),
                         false, null, false),
                 student);
@@ -164,8 +156,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         FeedbackQuestion question = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1");
 
         submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, accessibleFeedbackSession.getId().toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
         };
@@ -176,7 +167,6 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         output = (SessionResultsData) r.getOutput();
         expectedResults = SessionResultsData.initForStudent(
                 logic.getSessionResultsForUser(accessibleFeedbackSession,
-                        accessibleFeedbackSession.getCourseId(),
                         student.getEmail(),
                         false, question.getId(), false),
                 student);
@@ -194,16 +184,14 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
 
         ______TS("Inaccessible for authenticated instructor when unpublished");
         submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, inaccessibleFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, inaccessibleFeedbackSession.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, inaccessibleFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.name(),
         };
         verifyCannotAccess(submissionParams);
 
         ______TS("Inaccessible for authenticated student when unpublished");
         submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, inaccessibleFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, inaccessibleFeedbackSession.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, inaccessibleFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
         };
         Student student1InCourse1 = typicalBundle.students.get("student1InCourse1");
@@ -212,8 +200,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
 
         ______TS("Accessible for authenticated instructor when published");
         submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, publishedFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, publishedFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.name(),
         };
         verifyAccessibleForInstructorsOfTheSameCourse(course, submissionParams);
@@ -221,8 +208,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
 
         ______TS("Accessible for authenticated student when published");
         submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, publishedFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, publishedFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
         };
         verifyAccessibleForStudentsOfTheSameCourse(course, submissionParams);
@@ -230,14 +216,12 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
 
         ______TS("Invalid intent");
         submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, publishedFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, publishedFeedbackSession.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, publishedFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.name(),
         };
         verifyHttpParameterFailure(submissionParams);
         submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, publishedFeedbackSession.getName(),
-                Const.ParamsNames.COURSE_ID, publishedFeedbackSession.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, publishedFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.name(),
         };
         verifyHttpParameterFailure(submissionParams);
@@ -294,13 +278,11 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
     }
 
     @Test
-    public void testAccessControl_withoutCorrectAuthInfoAccessStudentResult_shouldFail() throws Exception {
-        Course typicalCourse1 = typicalBundle.courses.get("course1");
+    public void testAccessControl_withoutCorrectAuthInfoAccessStudentResult_shouldFail() {
         FeedbackSession feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
         };
 
@@ -308,14 +290,12 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
     }
 
     @Test
-    public void testAccessControl_studentAccessOwnCourseSessionResult_shouldPass() throws Exception {
+    public void testAccessControl_studentAccessOwnCourseSessionResult_shouldPass() {
         Student student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        Course typicalCourse1 = typicalBundle.courses.get("course1");
         FeedbackSession feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
         };
 
@@ -326,12 +306,10 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
     @Test
     public void testAccessControl_studentAccessUnpublishedSessionStudentResult_shouldFail() {
         Student student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        Course typicalCourse = typicalBundle.courses.get("course1");
         FeedbackSession unpublishedFeedbackSession = typicalBundle.feedbackSessions.get("session2InTypicalCourse");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, unpublishedFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, unpublishedFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
         };
         loginAsStudent(student1InCourse1.getGoogleId());
@@ -339,13 +317,11 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
     }
 
     @Test
-    public void testAccessControl_accessStudentSessionResultWithMasqueradeMode_shouldPass() throws Exception {
+    public void testAccessControl_accessStudentSessionResultWithMasqueradeMode_shouldPass() {
         Student student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        Course typicalCourse1 = typicalBundle.courses.get("course1");
         FeedbackSession feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
         };
 
@@ -354,34 +330,12 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
     }
 
     @Test
-    public void testAccessControl_studentAccessOtherCourseSessionResult_shouldFail() {
-        Student studentInOtherCourse = typicalBundle.students.get("student2InCourse1");
-        Course otherCourse = typicalBundle.courses.get("course1");
-        Course course = typicalBundle.courses.get("course3");
-        FeedbackSession feedbackSession = typicalBundle.feedbackSessions.get("ongoingSession1InCourse3");
-
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
-                Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
-        };
-
-        loginAsStudent(studentInOtherCourse.getGoogleId());
-        verifyCannotAccess(submissionParams);
-
-        // Malicious api call using course Id of the student to bypass the check
-        submissionParams[1] = otherCourse.getId();
-        verifyEntityNotFoundAcl(submissionParams);
-    }
-
-    @Test
     public void testAccessControl_instructorAccessHisCourseFullDetail_shouldPass() throws Exception {
         Course typicalCourse1 = typicalBundle.courses.get("course1");
         FeedbackSession feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
         verifyOnlyInstructorsOfTheSameCourseCanAccess(typicalCourse1, submissionParams);

@@ -40,6 +40,7 @@ export class FeedbackSessionActionsService {
   downloadSessionResult(
     courseId: string,
     feedbackSessionName: string,
+    feedbackSessionId: string,
     intent: Intent,
     indicateMissingResponses: boolean,
     showStatistics: boolean,
@@ -64,8 +65,7 @@ export class FeedbackSessionActionsService {
     concat(
       ...questions.map((question: FeedbackQuestion) =>
         this.feedbackSessionsService.downloadSessionResults(
-            courseId,
-            feedbackSessionName,
+            feedbackSessionId,
             intent,
             indicateMissingResponses,
             showStatistics,
