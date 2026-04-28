@@ -1,7 +1,15 @@
 @if (accountRequests.length) {
   <div class="card bg-light top-padded">
     <div class="card-header bg-primary text-white">
-      <strong>Pending Account Requests</strong>
+      <div>
+        <strong>Account Requests Found</strong>
+      </div>
+      <div class="card-header-btn-toolbar">
+        <button id="show-account-request-links" class="btn btn-light btn-sm" style="margin-right: 10px;" type="button"
+        (click)="showAllAccountRequestsLinks()">Expand All</button>
+        <button id="hide-account-request-links" class="btn btn-light btn-sm" type="button"
+        (click)="hideAllAccountRequestsLinks()">Collapse All</button>
+      </div>
     </div>
     <div class="table-responsive">
       <table class="table table-striped data-table" id="search-table-account-request">
@@ -12,22 +20,35 @@
             <th>Status</th>
             <th>Institute, Country</th>
             <th>Created At</th>
+            <th>Registered At</th>
             <th>Comments</th>
             <th>Options</th>
           </tr>
         </thead>
         <tbody>
           @for (accountRequest of accountRequests; track trackAccountRequest(i, accountRequest); let i = $index) {
-            <tr>
-              <td>{{ accountRequest.name }}</td>
-              <td>{{ accountRequest.email }}</td>
-              <td>{{ accountRequest.status }}</td>
-              <td>{{ accountRequest.instituteAndCountry }}</td>
-              <td id="timestamp-box">{{ accountRequest.createdAtText }}</td>
+            <tr (click)="toggleAccountRequestLinks(accountRequest)">
               <td>
-                <div id="comment-box">
-                  {{ accountRequest.comments }}
+                <div class="d-flex align-items-center gap-2">
+                  <button class="btn p-0" aria-label="Toggle expansion"
+                    (click)="$event.stopPropagation(); toggleAccountRequestLinks(accountRequest)">
+                    @if (!accountRequest.showLinks) {
+                      <i class="fas fa-circle-chevron-down" style="color: blue;"></i>
+                    }
+                    @if (accountRequest.showLinks) {
+                      <i class="fas fa-circle-chevron-up" style="color: blue;"></i>
+                    }
+                  </button>
+                  <span [innerHtml]="accountRequest.name | highlighter:searchString:true"></span>
                 </div>
+              </td>
+              <td [innerHtml]="accountRequest.email | highlighter:searchString:true"></td>
+              <td [innerHtml]="accountRequest.status | highlighter:searchString:true"></td>
+              <td [innerHtml]="accountRequest.instituteAndCountry | highlighter:searchString:true"></td>
+              <td id="timestamp-box">{{ accountRequest.createdAtText }}</td>
+              <td id="timestamp-box">{{ accountRequest.registeredAtText || 'Not Registered Yet' }}</td>
+              <td>
+                <div id="comment-box" [innerHtml]="accountRequest.comments | highlighter:searchString:true"></div>
               </td>
               <td class="align-middle">
                 <div class="d-flex flex-row align-items-center justify-content-center gap-2">
@@ -75,9 +96,31 @@
                       Reason </button>
                     </div>
                   </span>
+                  <div class="ngb-tooltip-class"
+                    [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'"
+                    placement="top">
+                    <button id="reset-account-request-{{i}}" class="btn btn-primary"
+                      [disabled]="!accountRequest.registeredAtText || isResettingAccount[i]"
+                      (click)="$event.stopPropagation(); resetAccountRequest(accountRequest, i);"> @if (isResettingAccount[i]) {
+                      <tm-ajax-loading
+                      ></tm-ajax-loading>
+                    }Reset</button>
+                  </div>
                 </div>
               </td>
             </tr>
+            @if (accountRequest.showLinks) {
+              <tr>
+                <td colspan="100">
+                  <ul class="list-group" @collapseAnim>
+                    <li class="list-group-item list-group-item-info">
+                      <strong>Account Registration Link</strong>
+                      <input [value]="accountRequest.registrationLink" disabled class="form-control">
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            }
           }
         </tbody>
       </table>

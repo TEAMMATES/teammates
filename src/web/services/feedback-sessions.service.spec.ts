@@ -162,4 +162,14 @@ describe('FeedbackSessionsService', () => {
   it('should return true if the feedback session has been published', () => {
     expect(service.isFeedbackSessionPublished(mockFeedbackSession)).toBeTruthy();
   });
+
+  it('should execute GET to check responses for all feedback sessions in a course', () => {
+    const courseId: string = 'test-id';
+    const paramMap: { [key: string]: string } = {
+      entitytype: 'instructor',
+      courseid: courseId,
+    };
+    service.hasResponsesForAllFeedbackSessionsInCourse(courseId, 'instructor');
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.HAS_RESPONSES, paramMap);
+  });
 });

@@ -60,6 +60,7 @@ export abstract class InstructorSessionBasePageComponent {
   private publishStatusName: PublishStatusNamePipe = new PublishStatusNamePipe();
 
   sessionEditFormModel: SessionEditFormModel = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: 'UTC',
     courseName: '',

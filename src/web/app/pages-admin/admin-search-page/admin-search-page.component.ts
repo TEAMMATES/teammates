@@ -23,7 +23,9 @@ import { Email, RegenerateKey } from '../../../types/api-output';
 import {
   AccountRequestTableRowModel,
 } from '../../components/account-requests-table/account-request-table-model';
-import { AccountRequestTableComponent } from '../../components/account-requests-table/account-request-table.component';
+import {
+  AdminAccountSearchTableComponent,
+} from '../../components/admin-search-tables/admin-account-search-table.component';
 import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -41,7 +43,7 @@ import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter
     NgClass,
     NgbTooltip,
     AjaxLoadingComponent,
-    AccountRequestTableComponent,
+    AdminAccountSearchTableComponent,
     KeyValuePipe,
     SearchTermsHighlighterPipe,
     NgbCollapse,

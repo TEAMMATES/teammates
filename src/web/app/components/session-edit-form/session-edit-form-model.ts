@@ -27,6 +27,7 @@ export enum SessionEditFormMode {
  * The form model of session edit form.
  */
 export interface SessionEditFormModel {
+  feedbackSessionId: string;
   courseId: string;
   timeZone: string;
   courseName: string;

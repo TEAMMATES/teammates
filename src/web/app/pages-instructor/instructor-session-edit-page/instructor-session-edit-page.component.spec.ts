@@ -74,6 +74,7 @@ describe('InstructorSessionEditPageComponent', () => {
   };
 
   const testFeedbackSession: FeedbackSession = {
+    feedbackSessionId: 'fbd91470-8378-4b43-9f82-0b81fb2e9f1b',
     courseId: 'testId1',
     timeZone: 'Asia/Singapore',
     feedbackSessionName: 'Test Session',
@@ -208,6 +209,7 @@ describe('InstructorSessionEditPageComponent', () => {
   };
 
   const sessionEditFormModel: SessionEditFormModel = {
+    feedbackSessionId: 'ee47e471-fbd8-478e-a350-51152802215b',
     courseId: 'testId',
     timeZone: 'Asia/Singapore',
     courseName: 'Test Course',
@@ -707,7 +709,7 @@ describe('InstructorSessionEditPageComponent', () => {
     expect(mockModalRef.componentInstance.sessionToCopyCourseId).toEqual(testCourse1.courseId);
     expect(navSpy).toHaveBeenLastCalledWith('/web/instructor/sessions/edit',
         'The feedback session has been copied. Please modify settings/questions as necessary.',
-        { courseid: 'testId2', fsname: 'Test Session' });
+        { courseid: 'testId2', fsid: 'fbd91470-8378-4b43-9f82-0b81fb2e9f1b', fsname: 'Test Session' });
   });
 
   it('should open danger modal if session end time updates end time after any extensions deadline', () => {

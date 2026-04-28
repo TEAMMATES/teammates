@@ -1,12 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AccountRequestTableComponent should display account requests with no reset or expand links button 1`] = `
-<tm-account-request-table
+exports[`AdminAccountSearchTableComponent should display account requests with no reset or expand links button 1`] = `
+<tm-admin-account-search-table
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   isApprovingAccount={[Function Array]}
   isRejectingAccount={[Function Array]}
+  isResettingAccount={[Function Array]}
   ngbModal={[Function _NgbModal]}
+  searchString=""
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
 >
@@ -16,9 +18,30 @@ exports[`AccountRequestTableComponent should display account requests with no re
     <div
       class="card-header bg-primary text-white"
     >
-      <strong>
-        Pending Account Requests
-      </strong>
+      <div>
+        <strong>
+          Account Requests Found
+        </strong>
+      </div>
+      <div
+        class="card-header-btn-toolbar"
+      >
+        <button
+          class="btn btn-light btn-sm"
+          id="show-account-request-links"
+          style="margin-right: 10px;"
+          type="button"
+        >
+          Expand All
+        </button>
+        <button
+          class="btn btn-light btn-sm"
+          id="hide-account-request-links"
+          type="button"
+        >
+          Collapse All
+        </button>
+      </div>
     </div>
     <div
       class="table-responsive"
@@ -45,6 +68,9 @@ exports[`AccountRequestTableComponent should display account requests with no re
               Created At
             </th>
             <th>
+              Registered At
+            </th>
+            <th>
               Comments
             </th>
             <th>
@@ -55,7 +81,22 @@ exports[`AccountRequestTableComponent should display account requests with no re
         <tbody>
           <tr>
             <td>
-              name
+              <div
+                class="d-flex align-items-center gap-2"
+              >
+                <button
+                  aria-label="Toggle expansion"
+                  class="btn p-0"
+                >
+                  <i
+                    class="fas fa-circle-chevron-down"
+                    style="color: blue;"
+                  />
+                </button>
+                <span>
+                  name
+                </span>
+              </div>
             </td>
             <td>
               email
@@ -71,11 +112,16 @@ exports[`AccountRequestTableComponent should display account requests with no re
             >
               Tue, 08 Feb 2022, 08:23 AM +00:00
             </td>
+            <td
+              id="timestamp-box"
+            >
+              Not Registered Yet
+            </td>
             <td>
               <div
                 id="comment-box"
               >
-                 comment 
+                comment
               </div>
             </td>
             <td
@@ -161,12 +207,39 @@ exports[`AccountRequestTableComponent should display account requests with no re
                     </button>
                   </div>
                 </span>
+                <div
+                  class="ngb-tooltip-class"
+                  placement="top"
+                >
+                  <button
+                    class="btn btn-primary"
+                    disabled=""
+                    id="reset-account-request-0"
+                  >
+                    Reset
+                  </button>
+                </div>
               </div>
             </td>
           </tr>
           <tr>
             <td>
-              name
+              <div
+                class="d-flex align-items-center gap-2"
+              >
+                <button
+                  aria-label="Toggle expansion"
+                  class="btn p-0"
+                >
+                  <i
+                    class="fas fa-circle-chevron-down"
+                    style="color: blue;"
+                  />
+                </button>
+                <span>
+                  name
+                </span>
+              </div>
             </td>
             <td>
               email
@@ -182,11 +255,16 @@ exports[`AccountRequestTableComponent should display account requests with no re
             >
               Tue, 08 Feb 2022, 08:23 AM +00:00
             </td>
+            <td
+              id="timestamp-box"
+            >
+              Not Registered Yet
+            </td>
             <td>
               <div
                 id="comment-box"
               >
-                 comment 
+                comment
               </div>
             </td>
             <td
@@ -272,6 +350,18 @@ exports[`AccountRequestTableComponent should display account requests with no re
                     </button>
                   </div>
                 </span>
+                <div
+                  class="ngb-tooltip-class"
+                  placement="top"
+                >
+                  <button
+                    class="btn btn-primary"
+                    disabled=""
+                    id="reset-account-request-1"
+                  >
+                    Reset
+                  </button>
+                </div>
               </div>
             </td>
           </tr>
@@ -279,15 +369,16 @@ exports[`AccountRequestTableComponent should display account requests with no re
       </table>
     </div>
   </div>
-</tm-account-request-table>
+</tm-admin-account-search-table>
 `;
 
-exports[`AccountRequestTableComponent should display account requests with reset button and expandable links buttons 1`] = `
-<tm-account-request-table
+exports[`AdminAccountSearchTableComponent should display account requests with reset button and expandable links buttons 1`] = `
+<tm-admin-account-search-table
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   isApprovingAccount={[Function Array]}
   isRejectingAccount={[Function Array]}
+  isResettingAccount={[Function Array]}
   ngbModal={[Function _NgbModal]}
   searchString={[Function String]}
   simpleModalService={[Function SimpleModalService]}
@@ -299,9 +390,30 @@ exports[`AccountRequestTableComponent should display account requests with reset
     <div
       class="card-header bg-primary text-white"
     >
-      <strong>
-        Pending Account Requests
-      </strong>
+      <div>
+        <strong>
+          Account Requests Found
+        </strong>
+      </div>
+      <div
+        class="card-header-btn-toolbar"
+      >
+        <button
+          class="btn btn-light btn-sm"
+          id="show-account-request-links"
+          style="margin-right: 10px;"
+          type="button"
+        >
+          Expand All
+        </button>
+        <button
+          class="btn btn-light btn-sm"
+          id="hide-account-request-links"
+          type="button"
+        >
+          Collapse All
+        </button>
+      </div>
     </div>
     <div
       class="table-responsive"
@@ -328,6 +440,9 @@ exports[`AccountRequestTableComponent should display account requests with reset
               Created At
             </th>
             <th>
+              Registered At
+            </th>
+            <th>
               Comments
             </th>
             <th>
@@ -338,7 +453,22 @@ exports[`AccountRequestTableComponent should display account requests with reset
         <tbody>
           <tr>
             <td>
-              name
+              <div
+                class="d-flex align-items-center gap-2"
+              >
+                <button
+                  aria-label="Toggle expansion"
+                  class="btn p-0"
+                >
+                  <i
+                    class="fas fa-circle-chevron-down"
+                    style="color: blue;"
+                  />
+                </button>
+                <span>
+                  name
+                </span>
+              </div>
             </td>
             <td>
               email
@@ -354,11 +484,16 @@ exports[`AccountRequestTableComponent should display account requests with reset
             >
               Tue, 08 Feb 2022, 08:23 AM +00:00
             </td>
+            <td
+              id="timestamp-box"
+            >
+              Not Registered Yet
+            </td>
             <td>
               <div
                 id="comment-box"
               >
-                 comment 
+                comment
               </div>
             </td>
             <td
@@ -446,12 +581,39 @@ exports[`AccountRequestTableComponent should display account requests with reset
                     </button>
                   </div>
                 </span>
+                <div
+                  class="ngb-tooltip-class"
+                  placement="top"
+                >
+                  <button
+                    class="btn btn-primary"
+                    disabled=""
+                    id="reset-account-request-0"
+                  >
+                    Reset
+                  </button>
+                </div>
               </div>
             </td>
           </tr>
           <tr>
             <td>
-              name
+              <div
+                class="d-flex align-items-center gap-2"
+              >
+                <button
+                  aria-label="Toggle expansion"
+                  class="btn p-0"
+                >
+                  <i
+                    class="fas fa-circle-chevron-down"
+                    style="color: blue;"
+                  />
+                </button>
+                <span>
+                  name
+                </span>
+              </div>
             </td>
             <td>
               email
@@ -467,11 +629,16 @@ exports[`AccountRequestTableComponent should display account requests with reset
             >
               Tue, 08 Feb 2022, 08:23 AM +00:00
             </td>
+            <td
+              id="timestamp-box"
+            >
+              Not Registered Yet
+            </td>
             <td>
               <div
                 id="comment-box"
               >
-                 comment 
+                comment
               </div>
             </td>
             <td
@@ -559,6 +726,18 @@ exports[`AccountRequestTableComponent should display account requests with reset
                     </button>
                   </div>
                 </span>
+                <div
+                  class="ngb-tooltip-class"
+                  placement="top"
+                >
+                  <button
+                    class="btn btn-primary"
+                    disabled=""
+                    id="reset-account-request-1"
+                  >
+                    Reset
+                  </button>
+                </div>
               </div>
             </td>
           </tr>
@@ -566,16 +745,18 @@ exports[`AccountRequestTableComponent should display account requests with reset
       </table>
     </div>
   </div>
-</tm-account-request-table>
+</tm-admin-account-search-table>
 `;
 
-exports[`AccountRequestTableComponent should snap with an expanded account requests table 1`] = `
-<tm-account-request-table
+exports[`AdminAccountSearchTableComponent should snap with an expanded account requests table 1`] = `
+<tm-admin-account-search-table
   accountRequests={[Function Array]}
   accountService={[Function AccountService]}
   isApprovingAccount={[Function Array]}
   isRejectingAccount={[Function Array]}
+  isResettingAccount={[Function Array]}
   ngbModal={[Function _NgbModal]}
+  searchString=""
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
 >
@@ -585,9 +766,30 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
     <div
       class="card-header bg-primary text-white"
     >
-      <strong>
-        Pending Account Requests
-      </strong>
+      <div>
+        <strong>
+          Account Requests Found
+        </strong>
+      </div>
+      <div
+        class="card-header-btn-toolbar"
+      >
+        <button
+          class="btn btn-light btn-sm"
+          id="show-account-request-links"
+          style="margin-right: 10px;"
+          type="button"
+        >
+          Expand All
+        </button>
+        <button
+          class="btn btn-light btn-sm"
+          id="hide-account-request-links"
+          type="button"
+        >
+          Collapse All
+        </button>
+      </div>
     </div>
     <div
       class="table-responsive"
@@ -614,6 +816,9 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
               Created At
             </th>
             <th>
+              Registered At
+            </th>
+            <th>
               Comments
             </th>
             <th>
@@ -624,7 +829,22 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
         <tbody>
           <tr>
             <td>
-              name
+              <div
+                class="d-flex align-items-center gap-2"
+              >
+                <button
+                  aria-label="Toggle expansion"
+                  class="btn p-0"
+                >
+                  <i
+                    class="fas fa-circle-chevron-down"
+                    style="color: blue;"
+                  />
+                </button>
+                <span>
+                  name
+                </span>
+              </div>
             </td>
             <td>
               email
@@ -640,11 +860,16 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
             >
               Tue, 08 Feb 2022, 08:23 AM +00:00
             </td>
+            <td
+              id="timestamp-box"
+            >
+              Not Registered Yet
+            </td>
             <td>
               <div
                 id="comment-box"
               >
-                 comment 
+                comment
               </div>
             </td>
             <td
@@ -730,6 +955,18 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
                     </button>
                   </div>
                 </span>
+                <div
+                  class="ngb-tooltip-class"
+                  placement="top"
+                >
+                  <button
+                    class="btn btn-primary"
+                    disabled=""
+                    id="reset-account-request-0"
+                  >
+                    Reset
+                  </button>
+                </div>
               </div>
             </td>
           </tr>
@@ -737,5 +974,5 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
       </table>
     </div>
   </div>
-</tm-account-request-table>
+</tm-admin-account-search-table>
 `;
