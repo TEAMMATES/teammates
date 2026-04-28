@@ -327,10 +327,9 @@ export class FeedbackSessionsService {
   /**
    * Load session statistics.
    */
-  loadSessionStatistics(courseId: string, feedbackSessionName: string): Observable<FeedbackSessionStats> {
+  loadSessionStatistics(feedbackSessionId: string): Observable<FeedbackSessionStats> {
     const paramMap: Record<string, string> = {
-      courseid: courseId,
-      fsname: feedbackSessionName,
+      fsid: feedbackSessionId,
     };
 
     return this.httpRequestService.get(ResourceEndpoints.SESSION_STATS, paramMap);

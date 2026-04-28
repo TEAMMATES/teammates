@@ -177,17 +177,16 @@ export class AdminSessionsPageComponent implements OnInit {
   /**
    * Gets the response rate of a feedback session.
    */
-  getResponseRate(institute: string, courseId: string, feedbackSessionName: string, event: any): void {
+  getResponseRate(institute: string, feedbackSessionId: string, event: any): void {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
     }
-    this.feedbackSessionsService.loadSessionStatistics(courseId, feedbackSessionName)
+    this.feedbackSessionsService.loadSessionStatistics(feedbackSessionId)
         .subscribe({
           next: (resp: FeedbackSessionStats) => {
             const sessions: OngoingSessionModel[] = this.sessions[institute].filter((session: OngoingSessionModel) =>
-                session.ongoingSession.courseId === courseId
-                && session.ongoingSession.feedbackSessionName === feedbackSessionName,
+                session.ongoingSession.feedbackSessionId === feedbackSessionId,
             );
             if (sessions.length) {
               sessions[0].responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;

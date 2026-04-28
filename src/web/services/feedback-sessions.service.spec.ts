@@ -103,12 +103,10 @@ describe('FeedbackSessionsService', () => {
 
   it('should call get when loading session statistics', () => {
     const paramMap: Record<string, string> = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
+      fsid: model.feedbackSession.feedbackSessionId,
     };
     service.loadSessionStatistics(
-        model.feedbackSession.courseId,
-        model.feedbackSession.feedbackSessionName,
+        model.feedbackSession.feedbackSessionId,
     );
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SESSION_STATS, paramMap);
   });
