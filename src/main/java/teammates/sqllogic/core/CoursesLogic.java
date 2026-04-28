@@ -166,21 +166,20 @@ public final class CoursesLogic {
             return;
         }
 
-        usersLogic.deleteStudentsInCourseCascade(courseId);
-        List<FeedbackSession> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
-        feedbackSessions.forEach(feedbackSession -> {
-            fsLogic.deleteFeedbackSessionCascade(feedbackSession.getName(), courseId);
-        });
+        List<FeedbackSession> feedbackSessions = course.getFeedbackSessions();
+        feedbackSessions.forEach(feedbackSession ->
+                fsLogic.deleteFeedbackSessionCascade(feedbackSession.getId())
+        );
 
-        List<FeedbackSession> softDeletedFeedbackSessions = fsLogic.getSoftDeletedFeedbackSessionsForCourse(courseId);
-        softDeletedFeedbackSessions.forEach(feedbackSession -> {
-            fsLogic.deleteFeedbackSessionCascade(feedbackSession.getName(), courseId);
-        });
-        coursesDb.deleteSectionsByCourseId(courseId);
         List<Instructor> instructors = usersLogic.getInstructorsForCourse(courseId);
-        instructors.forEach(instructor -> {
-            usersLogic.deleteInstructorCascade(courseId, instructor.getEmail());
-        });
+        instructors.forEach(instructor ->
+                usersLogic.deleteInstructorCascade(courseId, instructor.getEmail())
+        );
+
+        List<Student> students = usersLogic.getStudentsForCourse(courseId);
+        students.forEach(student ->
+                usersLogic.deleteStudentCascade(courseId, student.getEmail())
+        );
 
         coursesDb.deleteCourse(course);
     }
@@ -239,7 +238,20 @@ public final class CoursesLogic {
     /**
      * Creates a section.
      */
-    public Section createSection(Section section) throws InvalidParametersException, EntityAlreadyExistsException {
+    public Section createSection(Course course, String sectionName)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        if (coursesDb.getSectionByName(course.getId(), sectionName) != null) {
+            throw new EntityAlreadyExistsException("Section with name "
+                    + sectionName + " already exists in course " + course.getId());
+        }
+
+        Section section = new Section(course, sectionName);
+        course.addSection(section);
+
+        if (!section.isValid()) {
+            throw new InvalidParametersException(section.getInvalidityInfo());
+        }
+
         return coursesDb.createSection(section);
     }
 
@@ -271,18 +283,22 @@ public final class CoursesLogic {
     }
 
     /**
-     * Gets the institute of the course.
-     */
-    public String getCourseInstitute(String courseId) {
-        Course course = getCourse(courseId);
-        assert course != null : "Trying to getCourseInstitute for inexistent course with id " + courseId;
-        return course.getInstitute();
-    }
-
-    /**
      * Creates a team.
      */
-    public Team createTeam(Team team) throws InvalidParametersException, EntityAlreadyExistsException {
+    public Team createTeam(Section section, String teamName)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        if (coursesDb.getTeamByName(section.getId(), teamName) != null) {
+            throw new EntityAlreadyExistsException("Team with name "
+                    + teamName + " already exists in section " + section.getId());
+        }
+
+        Team team = new Team(section, teamName);
+        section.addTeam(team);
+
+        if (!team.isValid()) {
+            throw new InvalidParametersException(team.getInvalidityInfo());
+        }
+
         return coursesDb.createTeam(team);
     }
 

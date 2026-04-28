@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
@@ -38,11 +39,13 @@ import teammates.ui.webapi.SubmitFeedbackResponsesAction;
  * SUT: {@link SubmitFeedbackResponsesAction}.
  */
 public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedbackResponsesAction> {
+    private DataBundle typicalBundle;
+
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalBundle);
+        typicalBundle = persistDataBundle(getTypicalDataBundle());
         HibernateUtil.flushSession();
     }
 
@@ -94,26 +97,26 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     private FeedbackQuestion getQuestion(
             FeedbackSession session, int questionNumber) {
-        return logic.getFeedbackQuestionForSessionQuestionNumber(session.getId(), questionNumber);
+        List<FeedbackQuestion> questions = session.getFeedbackQuestions();
+        return questions.stream()
+                .filter(question -> question.getQuestionNumber() == questionNumber)
+                .findFirst()
+                .orElse(null);
     }
 
-    private void setStartTime(FeedbackSession session, int days)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    private void setStartTime(FeedbackSession session, int days) {
         Instant startTime = TimeHelper.getInstantDaysOffsetFromNow(days);
 
         session.setStartTime(startTime);
 
-        logic.updateFeedbackSession(session);
         HibernateUtil.flushSession();
     }
 
-    private void setEndTime(FeedbackSession session, int days)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    private void setEndTime(FeedbackSession session, int days) {
         Instant endTime = TimeHelper.getInstantDaysOffsetFromNow(days);
 
         session.setEndTime(endTime);
 
-        logic.updateFeedbackSession(session);
         HibernateUtil.flushSession();
     }
 
@@ -140,6 +143,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
             return;
         }
 
+        session.getDeadlineExtensions().remove(existingDeadlineEndTime);
         logic.deleteDeadlineExtension(existingDeadlineEndTime);
     }
 
@@ -170,11 +174,11 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     }
 
     private List<String> extractStudentEmails(List<Student> students) {
-        return students.stream().map(recipient -> recipient.getEmail()).collect(Collectors.toList());
+        return students.stream().map(User::getEmail).collect(Collectors.toList());
     }
 
     private List<String> extractStudentTeams(List<Student> students) {
-        return students.stream().map(recipient -> recipient.getTeam().getName()).collect(Collectors.toList());
+        return students.stream().map(Student::getTeamName).collect(Collectors.toList());
     }
 
     private FeedbackResponsesRequest buildRequestBodyWithStudentRecipientsEmail(
@@ -296,8 +300,10 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
         for (String recipientEmail : recipientEmails) {
             List<FeedbackResponse> feedbackResponses =
-                    logic.getFeedbackResponsesFromGiverAndRecipientForCourse(
-                            session.getCourseId(), giverEmail, recipientEmail);
+                    logic.getFeedbackResponsesFromGiverForCourse(session.getCourseId(), giverEmail)
+                            .stream()
+                            .filter(response -> response.getRecipient().equals(recipientEmail))
+                            .toList();
 
             for (FeedbackResponse feedbackResponse : feedbackResponses) {
                 FeedbackQuestion frFeedbackQuestion = feedbackResponse.getFeedbackQuestion();

@@ -270,7 +270,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
                 // invisible session is skipped
                 continue;
             }
-            verify(mockLogic, times(3)).isFeedbackSessionAttemptedByStudent(
+            verify(mockLogic, times(1)).isFeedbackSessionAttemptedByStudent(
                     feedbackSession, typicalStudent.getEmail(), typicalStudent.getTeamName());
         }
     }
@@ -455,17 +455,15 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
                 endTime,
                 Duration.ofMinutes(5),
                 false,
-                false,
                 false);
     }
 
     private List<FeedbackSession> getTypicalFeedbackSessions(Course course) {
-        FeedbackSession feedbackSessionTemplate = getTypicalFeedbackSession(course);
-        FeedbackSession feedbackSession1 = feedbackSessionTemplate.getCopy();
+        FeedbackSession feedbackSession1 = getTypicalFeedbackSession(course);
         feedbackSession1.setName("First feedback session");
-        FeedbackSession feedbackSession2 = feedbackSessionTemplate.getCopy();
+        FeedbackSession feedbackSession2 = getTypicalFeedbackSession(course);
         feedbackSession2.setName("Second feedback session");
-        FeedbackSession feedbackSession3 = feedbackSessionTemplate.getCopy();
+        FeedbackSession feedbackSession3 = getTypicalFeedbackSession(course);
         feedbackSession3.setName("Third feedback session");
         FeedbackSession invisibleSession = getTypicalFeedbackSessionForCourse(course);
         invisibleSession.setName("invisible session");

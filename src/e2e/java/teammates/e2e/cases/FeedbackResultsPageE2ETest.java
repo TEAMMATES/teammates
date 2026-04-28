@@ -32,7 +32,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = removeAndRestoreDataBundle(loadDataBundle("/FeedbackResultsPageE2ESqlTest.json"));
+        testData = removeAndRestoreDataBundle(loadDataBundle("/FeedbackResultsPageE2ETest.json"));
 
         course = testData.courses.get("FRes.CS2104");
         openSession = testData.feedbackSessions.get("Open Session");
@@ -77,7 +77,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         questions.forEach(question -> verifyResponseDetails(student, question));
 
         ______TS("verify statistics - numscale");
-        String[] expectedNumScaleStats = { student.getTeam().getName(), "You", "3.83", "4.5", "3", "3.5" };
+        String[] expectedNumScaleStats = { student.getTeamName(), "You", "3.83", "4.5", "3", "3.5" };
 
         resultsPage.verifyNumScaleStatistics(5, expectedNumScaleStats);
 
@@ -437,7 +437,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         if (Const.GENERAL_QUESTION.equals(user)) {
             return Const.USER_NOBODY_TEXT;
         }
-        if (user.equals(currentStudent.getTeam().getName())) {
+        if (user.equals(currentStudent.getTeamName())) {
             return "Your Team (" + user + ")";
         }
         String identifier = getInstructorName(user);

@@ -56,18 +56,14 @@
       "endTime": "2012-05-01T22:00:00Z",
       "sessionVisibleFromTime": "2012-03-28T22:00:00Z",
       "resultsVisibleFromTime": "2012-05-01T22:00:00Z",
-      "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
       "isOpeningSoonEmailSent": true,
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true,
-      "studentDeadlines": {},
-      "instructorDeadlines": {}
+      "isPublishedEmailEnabled": true
     },
     "session2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000702",
@@ -80,18 +76,14 @@
       "endTime": "2012-05-01T22:00:00Z",
       "sessionVisibleFromTime": "2012-03-28T22:00:00Z",
       "resultsVisibleFromTime": "2012-05-01T22:00:00Z",
-      "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
       "isOpeningSoonEmailSent": true,
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true,
-      "studentDeadlines": {},
-      "instructorDeadlines": {}
+      "isPublishedEmailEnabled": true
     },
     "session3InCourse1": {
       "id": "00000000-0000-4000-8000-000000000703",
@@ -104,18 +96,14 @@
       "endTime": "2012-05-01T22:00:00Z",
       "sessionVisibleFromTime": "2012-03-28T22:00:00Z",
       "resultsVisibleFromTime": "2012-05-01T22:00:00Z",
-      "timeZone": "Asia/Singapore",
       "gracePeriod": 10,
       "isOpeningSoonEmailSent": true,
       "isOpenedEmailSent": true,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true,
-      "studentDeadlines": {},
-      "instructorDeadlines": {}
+      "isPublishedEmailEnabled": true
     }
   }
 }

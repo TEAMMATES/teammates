@@ -145,7 +145,7 @@ public class RemindFeedbackSessionSubmissionActionTest
                 instructor.getEmail(), "generic instructions",
                 beforeNow, afterNow,
                 beforeNow, afterNow,
-                Duration.ofHours(0), true, false, false);
+                Duration.ofHours(0), false, false);
         fs.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
 
@@ -159,7 +159,7 @@ public class RemindFeedbackSessionSubmissionActionTest
                 beforeNow,
                 beforeNow,
                 beforeNow, beforeNow,
-                Duration.ofHours(0), true, false, false);
+                Duration.ofHours(0), false, false);
         fs.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
 

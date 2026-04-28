@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
+import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -38,6 +39,11 @@ public class FeedbackRubricQuestion extends FeedbackQuestion {
         super(feedbackSession, questionNumber, description, giverType, recipientType,
                 numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo);
         setFeedBackQuestionDetails((FeedbackRubricQuestionDetails) feedbackQuestionDetails);
+    }
+
+    @Override
+    public FeedbackQuestionType getQuestionType() {
+        return FeedbackQuestionType.RUBRIC;
     }
 
     @Override

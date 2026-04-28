@@ -24,7 +24,7 @@ import teammates.storage.sqlentity.Student;
 public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
     @Override
     protected void prepareTestData() {
-        testData = removeAndRestoreDataBundle(loadDataBundle("/FeedbackMsqQuestionE2ESqlTest.json"));
+        testData = removeAndRestoreDataBundle(loadDataBundle("/FeedbackMsqQuestionE2ETest.json"));
 
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");
@@ -130,7 +130,7 @@ public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
     private List<String> getGeneratedTeams() {
         return testData.students.values().stream()
                 .filter(s -> s.getCourse().equals(student.getCourse()))
-                .map(s -> s.getTeam().getName())
+                .map(s -> s.getTeamName())
                 .distinct()
                 .collect(Collectors.toList());
     }

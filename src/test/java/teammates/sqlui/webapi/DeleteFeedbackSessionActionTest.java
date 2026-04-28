@@ -5,6 +5,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -47,82 +48,49 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
                 Instant.parse("2020-11-01T00:00:00.000Z"),
                 null,
                 false,
-                false,
                 false);
         loginAsInstructor(googleId);
     }
 
     @Test
     public void testExecute_sessionDoesNotExist_failSilently() {
-        String sessionName = "incorrect-name";
+        UUID sessionId = UUID.fromString("eeaed43c-9111-42da-bcbc-83f1a963b41b");
         String[] params = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, sessionName,
-                Const.ParamsNames.COURSE_ID, course.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, sessionId.toString(),
         };
         DeleteFeedbackSessionAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
         assertEquals("The feedback session is deleted.", actionOutput.getMessage());
         verify(mockLogic, times(1))
-                .deleteFeedbackSessionCascade(sessionName, course.getId());
+                .deleteFeedbackSessionCascade(sessionId);
     }
 
     @Test
     public void testExecute_sessionExists_success() {
         String[] params = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, session.getId().toString(),
         };
 
         DeleteFeedbackSessionAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
         assertEquals("The feedback session is deleted.", actionOutput.getMessage());
         verify(mockLogic, times(1))
-                .deleteFeedbackSessionCascade(session.getName(), session.getCourseId());
+                .deleteFeedbackSessionCascade(session.getId());
     }
 
     @Test
     public void testExecute_missingParameters_throwsInvalidHttpParameterException() {
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "session-name",
-        };
+        String[] params = {};
 
         verifyHttpParameterFailure(params);
-
-        String[] params2 = {
-                Const.ParamsNames.COURSE_ID, "course-id",
-        };
-
-        verifyHttpParameterFailure(params2);
-
-        String[] params3 = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, null,
-                Const.ParamsNames.COURSE_ID, course.getId(),
-        };
-
-        verifyHttpParameterFailure(params3);
-
-        String[] params4 = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-                Const.ParamsNames.COURSE_ID, null,
-        };
-
-        verifyHttpParameterFailure(params4);
-
-        String[] params5 = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, null,
-                Const.ParamsNames.COURSE_ID, null,
-        };
-
-        verifyHttpParameterFailure(params5);
     }
 
     @Test
     void testAccessControl() {
-        when(mockLogic.getFeedbackSessionFromRecycleBin(session.getName(), course.getId())).thenReturn(session);
+        when(mockLogic.getFeedbackSession(session.getId())).thenReturn(session);
 
         String[] params = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
-                Const.ParamsNames.COURSE_ID, session.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, session.getId().toString(),
         };
 
         verifyAccessibleWithModifySessionPrivilege(course, params);

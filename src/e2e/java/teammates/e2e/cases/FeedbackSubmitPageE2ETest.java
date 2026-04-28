@@ -22,6 +22,7 @@ import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.User;
 
 /**
  * SUT: {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}.
@@ -36,7 +37,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = removeAndRestoreDataBundle(loadDataBundle("/FeedbackSubmitPageE2ETestSql.json"));
+        testData = removeAndRestoreDataBundle(loadDataBundle("/FeedbackSubmitPageE2ETest.json"));
         testData.feedbackSessions.get("Grace Period Session").setEndTime(Instant.now());
         student = testData.students.get("alice.tmms@FSubmit.CS2104");
         student.setEmail(TestProperties.TEST_EMAIL);
@@ -213,27 +214,27 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
     private List<String> getOtherStudents(Student currentStudent) {
         return testData.students.values().stream()
                 .filter(s -> !s.equals(currentStudent))
-                .map(s -> s.getName())
+                .map(User::getName)
                 .collect(Collectors.toList());
     }
 
     private List<String> getInstructors() {
         return testData.instructors.values().stream()
-                .map(i -> i.getName())
+                .map(User::getName)
                 .collect(Collectors.toList());
     }
 
     private List<String> getTeammates(Student currentStudent) {
         return testData.students.values().stream()
                 .filter(s -> !s.equals(currentStudent) && s.getTeam().equals(currentStudent.getTeam()))
-                .map(s -> s.getName())
+                .map(Student::getName)
                 .collect(Collectors.toList());
     }
 
     private List<String> getOtherTeams(Student currentStudent) {
         return new ArrayList<>(testData.students.values().stream()
                 .filter(s -> !s.getTeam().equals(currentStudent.getTeam()))
-                .map(s -> s.getTeam().getName())
+                .map(Student::getTeamName)
                 .collect(Collectors.toSet()));
     }
 

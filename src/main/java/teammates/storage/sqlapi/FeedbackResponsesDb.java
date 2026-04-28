@@ -7,12 +7,10 @@ import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import jakarta.persistence.criteria.Subquery;
 
 import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -91,27 +89,6 @@ public final class FeedbackResponsesDb {
     }
 
     /**
-     * Gets all responses with a specific giver and recipient in a course.
-     */
-    public List<FeedbackResponse> getFeedbackResponsesForGiverAndRecipientForCourse(String courseId, String giver,
-            String recipient) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<FeedbackResponse> cr = cb.createQuery(FeedbackResponse.class);
-        Root<FeedbackResponse> frRoot = cr.from(FeedbackResponse.class);
-        Join<FeedbackResponse, FeedbackQuestion> fqJoin = frRoot.join("feedbackQuestion");
-        Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
-        Join<FeedbackSession, Course> cJoin = fsJoin.join("course");
-
-        cr.select(frRoot)
-                .where(cb.and(
-                    cb.equal(cJoin.get("id"), courseId),
-                    cb.equal(frRoot.get("recipient"), recipient),
-                    cb.equal(frRoot.get("giver"), giver)));
-
-        return HibernateUtil.createQuery(cr).getResultList();
-    }
-
-    /**
      * Creates a feedbackResponse.
      */
     public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse)
@@ -156,22 +133,6 @@ public final class FeedbackResponsesDb {
                         cb.equal(frJoin.get("id"), feedbackQuestionId),
                         cb.equal(root.get("giver"), giverEmail)));
         return HibernateUtil.createQuery(cq).getResultList();
-    }
-
-    /**
-     * Deletes all feedback responses of a question cascade its associated comments.
-     */
-    public void deleteFeedbackResponsesForQuestionCascade(UUID feedbackQuestionId) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaDelete<FeedbackResponse> cd = cb.createCriteriaDelete(FeedbackResponse.class);
-        Root<FeedbackResponse> frRoot = cd.from(FeedbackResponse.class);
-        Subquery<UUID> subquery = cd.subquery(UUID.class);
-        Root<FeedbackResponse> subqueryRoot = subquery.from(FeedbackResponse.class);
-        Join<FeedbackResponse, FeedbackQuestion> sqJoin = subqueryRoot.join("feedbackQuestion");
-        subquery.select(subqueryRoot.get("id"));
-        subquery.where(cb.equal(sqJoin.get("id"), feedbackQuestionId));
-        cd.where(cb.in(frRoot.get("id")).value(subquery));
-        HibernateUtil.createMutationQuery(cd).executeUpdate();
     }
 
     /**

@@ -18,19 +18,20 @@ import teammates.test.AssertHelper;
  */
 public class InstructorSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
 
-    private final DataBundle typicalBundle = getTypicalDataBundle();
     private final UsersDb usersDb = UsersDb.inst();
+
+    private DataBundle typicalBundle;
 
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalBundle);
+        typicalBundle = persistDataBundle(getTypicalDataBundle());
         HibernateUtil.flushSession();
     }
 
     @Test
-    public void testSearchInstructorsInWholeSystem_typicalCase_success() throws Exception {
+    public void testSearchInstructorsInWholeSystem_typicalCase_success() {
         Instructor ins1InCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         Instructor ins2InCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
         Instructor ins1InCourse3 = typicalBundle.instructors.get("instructor1OfCourse3");
@@ -87,7 +88,7 @@ public class InstructorSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testSearchInstructorsInWholeSystem_deleteAfterSearch_shouldNotBeSearchable() throws Exception {
+    public void testSearchInstructorsInWholeSystem_deleteAfterSearch_shouldNotBeSearchable() {
         Instructor ins1InCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         Instructor ins2InCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
         Instructor unregisteredInsInCourse1 = typicalBundle.instructors.get("unregisteredInstructorOfCourse1");
@@ -109,7 +110,7 @@ public class InstructorSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testSearchInstructorsInWholeSystem_wildcardCharacters_shouldBeTreatedLiterally() throws Exception {
+    public void testSearchInstructorsInWholeSystem_wildcardCharacters_shouldBeTreatedLiterally() {
         List<Instructor> results = usersDb.searchInstructorsInWholeSystem("_");
 
         List<Instructor> expectedUnderscoreMatches = usersDb

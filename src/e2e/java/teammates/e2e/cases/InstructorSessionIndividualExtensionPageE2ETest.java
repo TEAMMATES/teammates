@@ -32,7 +32,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(
-                loadDataBundle("/InstructorSessionIndividualExtensionPageE2ETestSql.json"));
+                loadDataBundle("/InstructorSessionIndividualExtensionPageE2ETest.json"));
 
         testEmail = TestProperties.TEST_EMAIL;
         Student alice = testData.students.get("alice.tmms@ISesIe.CS2104");
@@ -65,7 +65,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
         individualExtensionPage.extendDeadlineByTwelveHours(true);
 
         FeedbackSessionDeadlineExtensionsData updatedExtensionsData =
-                getFeedbackSessionDeadlineExtensions(feedbackSession.getCourseId(), feedbackSession.getName());
+                getFeedbackSessionDeadlineExtensions(feedbackSession.getId());
         Map<String, Long> updatedStudentDeadlines = updatedExtensionsData.getStudentDeadlines();
         Map<String, Long> updatedInstructorDeadlines = updatedExtensionsData.getInstructorDeadlines();
         Instant expectedDeadline = feedbackSession.getEndTime().plus(Duration.ofHours(12));
@@ -90,7 +90,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
         individualExtensionPage.extendDeadlineByOneDay(true);
 
         updatedExtensionsData =
-                getFeedbackSessionDeadlineExtensions(feedbackSession.getCourseId(), feedbackSession.getName());
+                getFeedbackSessionDeadlineExtensions(feedbackSession.getId());
         updatedStudentDeadlines = updatedExtensionsData.getStudentDeadlines();
         updatedInstructorDeadlines = updatedExtensionsData.getInstructorDeadlines();
 
@@ -111,7 +111,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
         individualExtensionPage.deleteDeadlines(true);
 
         updatedExtensionsData =
-                getFeedbackSessionDeadlineExtensions(feedbackSession.getCourseId(), feedbackSession.getName());
+                getFeedbackSessionDeadlineExtensions(feedbackSession.getId());
         updatedStudentDeadlines = updatedExtensionsData.getStudentDeadlines();
         updatedInstructorDeadlines = updatedExtensionsData.getInstructorDeadlines();
 
@@ -133,7 +133,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
         individualExtensionPage.extendDeadlineToOneDayAway(feedbackSession, false);
 
         updatedExtensionsData =
-                getFeedbackSessionDeadlineExtensions(feedbackSession.getCourseId(), feedbackSession.getName());
+                getFeedbackSessionDeadlineExtensions(feedbackSession.getId());
         updatedStudentDeadlines = updatedExtensionsData.getStudentDeadlines();
         updatedInstructorDeadlines = updatedExtensionsData.getInstructorDeadlines();
 
@@ -150,7 +150,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
         individualExtensionPage.deleteDeadlines(false);
 
         updatedExtensionsData =
-                getFeedbackSessionDeadlineExtensions(feedbackSession.getCourseId(), feedbackSession.getName());
+                getFeedbackSessionDeadlineExtensions(feedbackSession.getId());
         updatedStudentDeadlines = updatedExtensionsData.getStudentDeadlines();
         updatedInstructorDeadlines = updatedExtensionsData.getInstructorDeadlines();
 

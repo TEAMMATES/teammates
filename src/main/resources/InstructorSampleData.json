@@ -200,11 +200,8 @@
       "isClosingSoonEmailSent": true,
       "isClosedEmailSent": true,
       "isPublishedEmailSent": true,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true,
-      "studentDeadlines": {},
-      "instructorDeadlines": {}
+      "isPublishedEmailEnabled": true
     },
     "session2": {
       "id": "00000000-0000-4000-8000-000000000502",
@@ -223,11 +220,8 @@
       "isClosingSoonEmailSent": true,
       "isClosedEmailSent": true,
       "isPublishedEmailSent": true,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true,
-      "studentDeadlines": {},
-      "instructorDeadlines": {}
+      "isPublishedEmailEnabled": true
     },
     "session3": {
       "id": "00000000-0000-4000-8000-000000000503",
@@ -246,11 +240,8 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true,
-      "studentDeadlines": {},
-      "instructorDeadlines": {}
+      "isPublishedEmailEnabled": true
     }
   },
   "feedbackQuestions": {

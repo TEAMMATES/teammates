@@ -22,6 +22,7 @@ describe('FeedbackSessionsService', () => {
   let model: SessionsTableRowModel;
 
   const mockFeedbackSession: FeedbackSession = {
+    feedbackSessionId: 'c64aa0ca-beba-412d-94c3-58134feb6822',
     courseId: 'dog.gma-demo',
     timeZone: 'Asia/Singapore',
     feedbackSessionName: 'First team feedback session',
@@ -50,6 +51,7 @@ describe('FeedbackSessionsService', () => {
     service = TestBed.inject(FeedbackSessionsService);
     model = {
       feedbackSession: {
+        feedbackSessionId: '248b1915-5f52-4730-b5b2-3ec25a2caabc',
         courseId: 'CS3281',
         timeZone: '',
         feedbackSessionName: '',
@@ -79,26 +81,22 @@ describe('FeedbackSessionsService', () => {
 
   it('should call post when publishing', () => {
     const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
+      fsid: model.feedbackSession.feedbackSessionId,
     };
 
     service.publishFeedbackSession(
-        model.feedbackSession.courseId,
-        model.feedbackSession.feedbackSessionName,
+        model.feedbackSession.feedbackSessionId,
     );
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.SESSION_PUBLISH, paramMap);
   });
 
   it('should call delete when unpublishing', () => {
     const paramMap: Record<string, string> = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
+      fsid: model.feedbackSession.feedbackSessionId,
     };
 
     service.unpublishFeedbackSession(
-        model.feedbackSession.courseId,
-        model.feedbackSession.feedbackSessionName,
+        model.feedbackSession.feedbackSessionId,
     );
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.SESSION_PUBLISH, paramMap);
   });
@@ -132,31 +130,28 @@ describe('FeedbackSessionsService', () => {
 
   it('should call put when moving session to recycle bin', () => {
     const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
-      fsname: 'test feedback session',
+      fsid: '213bccdb-1c83-45b6-8643-2c9ab7b03837',
     };
 
-    service.moveSessionToRecycleBin(paramMap['courseid'], paramMap['fsname']);
+    service.moveSessionToRecycleBin(paramMap['fsid']);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.BIN_SESSION, paramMap);
   });
 
-  it('should call delete when removing session from recycle bin', () => {
+  it('should call delete when restoring session from recycle bin', () => {
     const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
-      fsname: 'test feedback session',
+      fsid: '213bccdb-1c83-45b6-8643-2c9ab7b03837',
     };
 
-    service.deleteSessionFromRecycleBin(paramMap['courseid'], paramMap['fsname']);
+    service.restoreSessionFromRecycleBin(paramMap['fsid']);
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.BIN_SESSION, paramMap);
   });
 
-  it('should call delete when deleting session from recycle bin', () => {
+  it('should call delete when deleting feedback session', () => {
     const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
-      fsname: 'test feedback session',
+      fsid: 'bae3cb90-13dd-45f5-882e-250a43b1ee6f',
     };
 
-    service.deleteFeedbackSession(paramMap['courseid'], paramMap['fsname']);
+    service.deleteFeedbackSession(paramMap['fsid']);
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.SESSION, paramMap);
   });
 

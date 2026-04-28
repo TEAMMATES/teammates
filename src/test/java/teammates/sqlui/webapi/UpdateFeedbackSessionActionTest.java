@@ -1,6 +1,7 @@
 package teammates.sqlui.webapi;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -13,7 +14,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelperExtension;
@@ -50,7 +51,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
     }
 
     @BeforeMethod
-    void setUp() throws InvalidParametersException, EntityAlreadyExistsException {
+    void setUp() {
         Instant now = Instant.now();
         nearestHour = now.truncatedTo(ChronoUnit.HOURS);
         endHour = now.plus(2, ChronoUnit.HOURS).truncatedTo(ChronoUnit.HOURS);
@@ -62,7 +63,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
-        when(mockLogic.getFeedbackSession(feedbackSession.getName(), course.getId())).thenReturn(feedbackSession);
+        when(mockLogic.getFeedbackSession(feedbackSession.getId())).thenReturn(feedbackSession);
     }
 
     @Test
@@ -71,19 +72,17 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest(feedbackSession);
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSession.getId().toString(),
         };
 
-        when(mockLogic.updateFeedbackSession(any())).thenReturn(feedbackSession);
+        when(mockLogic.updateFeedbackSession(eq(feedbackSession.getId()), any())).thenReturn(feedbackSession);
 
         UpdateFeedbackSessionAction a = getAction(updateRequest, params);
         JsonResult r = getJsonResult(a);
         FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
-        assertEquals(feedbackSession.getName(), response.getFeedbackSessionName());
-        assertEquals(feedbackSession.getCourseId(), response.getCourseId());
-        verify(mockLogic, times(1)).updateFeedbackSession(any());
+        assertEquals(feedbackSession.getId(), response.getFeedbackSessionId());
+        verify(mockLogic, times(1)).updateFeedbackSession(eq(feedbackSession.getId()), any());
     }
 
     @Test
@@ -93,61 +92,35 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest(feedbackSession);
 
         verifyHttpParameterFailure(updateRequest);
-        verifyHttpParameterFailure(updateRequest, Const.ParamsNames.COURSE_ID, course.getId());
-        verifyHttpParameterFailure(updateRequest,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName());
     }
 
     @Test
-    void testExecute_invalidStartTime_throwsInvalidHttpRequestBodyException() {
+    void testExecute_updateThrowsInvalidParametersException_throwsInvalidHttpRequestBodyException() throws Exception {
         loginAsInstructor(instructor.getGoogleId());
 
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest(feedbackSession);
-        // Start time more than 2 hours in the past triggers validation failure
-        updateRequest.setSubmissionStartTimestamp(
-                Instant.now().minus(Duration.ofHours(3)).truncatedTo(ChronoUnit.HOURS).toEpochMilli());
-
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSession.getId().toString(),
         };
+
+        when(mockLogic.updateFeedbackSession(eq(feedbackSession.getId()), any()))
+                .thenThrow(new InvalidParametersException("invalid parameters"));
 
         verifyHttpRequestBodyFailure(updateRequest, params);
     }
 
     @Test
-    void testExecute_invalidEndTime_throwsInvalidHttpRequestBodyException() {
+    void testExecute_updateThrowsEntityDoesNotExistException_throwsEntityNotFoundException() throws Exception {
         loginAsInstructor(instructor.getGoogleId());
-
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest(feedbackSession);
-        // End time more than 1 hour in the past triggers validation failure
-        updateRequest.setSubmissionEndTimestamp(
-                Instant.now().minus(Duration.ofHours(2)).truncatedTo(ChronoUnit.HOURS).toEpochMilli());
-
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSession.getId().toString(),
         };
 
-        verifyHttpRequestBodyFailure(updateRequest, params);
-    }
+        when(mockLogic.updateFeedbackSession(eq(feedbackSession.getId()), any()))
+                .thenThrow(new EntityDoesNotExistException("entity does not exist"));
 
-    @Test
-    void testExecute_sessionVisibleTimeTooEarly_throwsInvalidHttpRequestBodyException() {
-        loginAsInstructor(instructor.getGoogleId());
-
-        // Typical request sets start time to 2 days from now; visibility must be at most 30 days before that
-        FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest(feedbackSession);
-        updateRequest.setSessionVisibleSetting(SessionVisibleSetting.CUSTOM);
-        updateRequest.setCustomSessionVisibleTimestamp(
-                Instant.now().minus(Duration.ofDays(35)).truncatedTo(ChronoUnit.HOURS).toEpochMilli());
-
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
-        };
-
-        verifyHttpRequestBodyFailure(updateRequest, params);
+        verifyEntityNotFound(updateRequest, params);
     }
 
     @Test
@@ -155,8 +128,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         loginAsInstructor(instructor.getGoogleId());
 
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "nonExistentSession",
+                Const.ParamsNames.FEEDBACK_SESSION_ID, "cde128d8-14fe-43a7-b6bd-afa816f5b1f4",
         };
 
         verifyEntityNotFoundAcl(params);
@@ -168,8 +140,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
 
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSession.getId().toString(),
         };
 
         verifyInaccessibleWithoutCorrectSameCoursePrivilege(course, observerPrivileges, params);
@@ -178,8 +149,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
     @Test
     void testAccessControl_instructorOfOtherCourse_cannotAccess() {
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSession.getId().toString(),
         };
 
         verifyInstructorsOfOtherCoursesCannotAccess(params);
@@ -188,8 +158,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
     @Test
     void testAccessControl_nonInstructor_cannotAccess() {
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSession.getId().toString(),
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(course, params);
@@ -240,7 +209,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
                 inst.getEmail(), "generic instructions",
                 nearestHour, endHour,
                 nearestHour, responseVisibleHour,
-                Duration.ofHours(10), true, false, false);
+                Duration.ofHours(10), false, false);
         fs.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         return fs;

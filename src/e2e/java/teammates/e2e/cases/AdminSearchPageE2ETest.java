@@ -24,7 +24,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = removeAndRestoreDataBundle(loadDataBundle("/AdminSearchPageE2ESqlTest.json"));
+        testData = removeAndRestoreDataBundle(loadDataBundle("/AdminSearchPageE2ETest.json"));
     }
 
     @Test
@@ -217,10 +217,8 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
 
     private String getExpectedStudentDetails(Student student) {
         return String.format("%s [%s] (%s)", student.getCourseId(),
-                student.getSection() == null
-                        ? Const.DEFAULT_SECTION
-                        : student.getSection().getName(),
-                student.getTeam().getName());
+                student.getSectionName(),
+                student.getTeamName());
     }
 
     private String getExpectedStudentHomePageLink(Student student) {

@@ -16,14 +16,14 @@ import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.ui.output.FeedbackSessionDeadlineExtensionsData;
-import teammates.ui.webapi.GetFeedbackSessionDeadlineExtensionsAction;
+import teammates.ui.webapi.GetDeadlineExtensionsAction;
 import teammates.ui.webapi.JsonResult;
 
 /**
- * SUT: {@link GetFeedbackSessionDeadlineExtensionsAction}.
+ * SUT: {@link GetDeadlineExtensionsAction}.
  */
-public class GetFeedbackSessionDeadlineExtensionsActionTest
-        extends BaseActionTest<GetFeedbackSessionDeadlineExtensionsAction> {
+public class GetDeadlineExtensionsActionTest
+        extends BaseActionTest<GetDeadlineExtensionsAction> {
 
     private static final String COURSE_ID = "course-id";
     private static final String FEEDBACK_SESSION_NAME = "feedback-session-name";
@@ -54,7 +54,7 @@ public class GetFeedbackSessionDeadlineExtensionsActionTest
         typicalInstructor = getTypicalInstructor();
         typicalStudent = getTypicalStudent();
 
-        when(mockLogic.getFeedbackSession(FEEDBACK_SESSION_NAME, COURSE_ID)).thenReturn(typicalFeedbackSession);
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId())).thenReturn(typicalFeedbackSession);
         when(mockLogic.getStudentsForCourse(COURSE_ID)).thenReturn(new ArrayList<>());
         when(mockLogic.getInstructorsByCourse(COURSE_ID)).thenReturn(new ArrayList<>());
     }
@@ -78,7 +78,7 @@ public class GetFeedbackSessionDeadlineExtensionsActionTest
 
     @Test
     void testExecute_sessionNotFound_throwsEntityNotFoundException() {
-        when(mockLogic.getFeedbackSession(FEEDBACK_SESSION_NAME, COURSE_ID)).thenReturn(null);
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId())).thenReturn(null);
         loginAsInstructor(typicalInstructor.getGoogleId());
 
         verifyEntityNotFoundAcl(getTypicalParams());
@@ -90,7 +90,7 @@ public class GetFeedbackSessionDeadlineExtensionsActionTest
         when(mockLogic.getInstructorByGoogleId(COURSE_ID, typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
 
-        GetFeedbackSessionDeadlineExtensionsAction action = getAction(getTypicalParams());
+        GetDeadlineExtensionsAction action = getAction(getTypicalParams());
         JsonResult result = getJsonResult(action);
 
         FeedbackSessionDeadlineExtensionsData response =
@@ -110,7 +110,7 @@ public class GetFeedbackSessionDeadlineExtensionsActionTest
         when(mockLogic.getInstructorByGoogleId(COURSE_ID, typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
 
-        GetFeedbackSessionDeadlineExtensionsAction action = getAction(getTypicalParams());
+        GetDeadlineExtensionsAction action = getAction(getTypicalParams());
         JsonResult result = getJsonResult(action);
 
         FeedbackSessionDeadlineExtensionsData response =
@@ -132,7 +132,7 @@ public class GetFeedbackSessionDeadlineExtensionsActionTest
         when(mockLogic.getInstructorByGoogleId(COURSE_ID, typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
 
-        GetFeedbackSessionDeadlineExtensionsAction action = getAction(getTypicalParams());
+        GetDeadlineExtensionsAction action = getAction(getTypicalParams());
         JsonResult result = getJsonResult(action);
 
         FeedbackSessionDeadlineExtensionsData response =
@@ -144,8 +144,7 @@ public class GetFeedbackSessionDeadlineExtensionsActionTest
 
     private String[] getTypicalParams() {
         return new String[] {
-                Const.ParamsNames.COURSE_ID, COURSE_ID,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, FEEDBACK_SESSION_NAME,
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
     }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
@@ -23,11 +24,13 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link GetFeedbackSessionLogsAction}.
  */
 public class GetFeedbackSessionLogsActionIT extends BaseActionIT<GetFeedbackSessionLogsAction> {
+    private DataBundle typicalBundle;
+
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalBundle);
+        typicalBundle = persistDataBundle(getTypicalDataBundle());
         HibernateUtil.flushSession();
     }
 

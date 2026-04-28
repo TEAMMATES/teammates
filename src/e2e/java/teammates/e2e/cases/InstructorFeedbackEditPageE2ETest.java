@@ -14,6 +14,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
+import teammates.e2e.util.EntityCopyUtil;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -30,7 +31,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = removeAndRestoreDataBundle(loadDataBundle("/InstructorFeedbackEditPageE2ETestSql.json"));
+        testData = removeAndRestoreDataBundle(loadDataBundle("/InstructorFeedbackEditPageE2ETest.json"));
         course = testData.courses.get("InstFEP.CS2104");
         instructor = testData.instructors.get("InstFEP.instr");
         feedbackSession = testData.feedbackSessions.get("openSession");
@@ -138,8 +139,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         previewPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("copy session to other course");
-        FeedbackSession copiedSession = feedbackSession.getCopy();
-        copiedSession.setId(null);
+        FeedbackSession copiedSession = EntityCopyUtil.copyFeedbackSession(feedbackSession);
         copiedSession.setCourse(copiedCourse);
         String copiedSessionName = "Copied Session";
         copiedSession.setName(copiedSessionName);

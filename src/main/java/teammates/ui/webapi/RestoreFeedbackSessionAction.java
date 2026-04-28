@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import java.util.UUID;
+
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
@@ -19,38 +21,34 @@ public class RestoreFeedbackSessionAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
+        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityNotFoundException("The feedback session does not exist.");
+        }
 
         gateKeeper.verifyAccessible(
-                sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()),
+                sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
                 feedbackSession,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
     @Override
     public JsonResult execute() {
-
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
-        if (feedbackSession == null) {
-            throw new EntityNotFoundException("Feedback session is not in recycle bin");
-        }
+        UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
+        FeedbackSession feedbackSession;
 
         try {
-            sqlLogic.restoreFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
+            feedbackSession = sqlLogic.restoreFeedbackSessionFromRecycleBin(feedbackSessionId);
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         }
 
-        FeedbackSession restoredFs = getNonNullFeedbackSession(feedbackSessionName, courseId);
-        FeedbackSessionData output = new FeedbackSessionData(restoredFs);
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
-        InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, feedbackSessionName);
+        FeedbackSessionData output = new FeedbackSessionData(feedbackSession);
+
+        Instructor instructor = sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
+        InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, feedbackSession.getName());
         output.setPrivileges(privilege);
 
         return new JsonResult(output);

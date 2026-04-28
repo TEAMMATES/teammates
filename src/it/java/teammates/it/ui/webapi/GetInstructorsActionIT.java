@@ -5,6 +5,7 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Instructor;
@@ -19,12 +20,13 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link GetInstructorsAction}.
  */
 public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
+    private DataBundle typicalBundle;
 
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalBundle);
+        typicalBundle = persistDataBundle(getTypicalDataBundle());
         HibernateUtil.flushSession();
     }
 
@@ -89,81 +91,111 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         verifyHttpParameterFailure(params);
     }
 
-    @Test
     @Override
     protected void testAccessControl() throws Exception {
-        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        Student student = typicalBundle.students.get("student1InCourse1");
+        // Tested separately
+    }
 
-        ______TS("Course not found, logged in as instructor, intent FULL_DETAIL");
+    @Test
+    public void courseNotFound_loggedInAsInstructor_fullDetailIntent() {
+        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
 
-        String[] params = new String[] {
+        String[] params = {
                 Const.ParamsNames.COURSE_ID, "does-not-exist-id",
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
 
         verifyEntityNotFoundAcl(params);
+    }
 
-        ______TS("Course not found, logged in as student, intent undefined");
+    @Test
+    public void courseNotFound_loggedInAsStudent_intentUndefined() {
+        Student student = typicalBundle.students.get("student1InCourse1");
         loginAsStudent(student.getGoogleId());
 
-        params = new String[] {
+        String[] params = {
                 Const.ParamsNames.COURSE_ID, "does-not-exist-id",
         };
 
         verifyEntityNotFoundAcl(params);
+    }
 
-        ______TS("Unknown login entity, intent FULL_DETAIL");
+    @Test
+    public void unknownUser_fullDetailIntent_cannotAccess() {
         loginAsUnregistered("unregistered");
 
-        params = new String[] {
+        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+
+        String[] params = {
                 Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
 
         verifyCannotAccess(params);
+    }
 
-        ______TS("Unknown login entity, intent undefined");
-        params = new String[] {
+    @Test
+    public void unknownUser_intentUndefined_cannotAccess() {
+        loginAsUnregistered("unregistered");
+
+        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+
+        String[] params = {
                 Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
         };
 
         verifyCannotAccess(params);
+    }
 
-        ______TS("Unknown intent, logged in as instructor");
+    @Test
+    public void instructor_invalidIntent_shouldFailParameterCheck() {
+        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
 
-        params = new String[] {
+        String[] params = {
                 Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
                 Const.ParamsNames.INTENT, "Unknown",
         };
 
         verifyHttpParameterFailureAcl(params);
+    }
 
-        ______TS("Intent FULL_DETAIL, should authenticate as instructor");
-        params = new String[] {
+    @Test
+    public void instructor_fullDetailIntent_canAccessOwnCourse() throws Exception {
+        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        loginAsInstructor(instructor.getGoogleId());
+
+        String[] params = {
                 Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(instructor.getCourse(), params);
+    }
 
-        ______TS("Intent undefined, should authenticate as student, access own course");
+    @Test
+    public void student_intentUndefined_canAccessOwnCourse() {
+        Student student = typicalBundle.students.get("student1InCourse1");
         loginAsStudent(student.getGoogleId());
 
-        params = new String[] {
+        String[] params = {
                 Const.ParamsNames.COURSE_ID, student.getCourseId(),
         };
 
         verifyCanAccess(params);
+    }
 
-        ______TS("Intent undefined, should authenticate as student, access other course");
+    @Test
+    public void student_intentUndefined_cannotAccessOtherCourse() {
+        Student student = typicalBundle.students.get("student1InCourse1");
         Student otherStudent = typicalBundle.students.get("student1InCourse2");
 
         assertNotEquals(otherStudent.getCourse(), student.getCourse());
 
-        params = new String[] {
+        loginAsStudent(student.getGoogleId());
+
+        String[] params = {
                 Const.ParamsNames.COURSE_ID, otherStudent.getCourseId(),
         };
 

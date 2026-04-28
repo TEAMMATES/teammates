@@ -112,46 +112,6 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetExtendedDeadlineForUser_hasExtension_returnsExtendedDeadline() {
-        Course course = getTypicalCourse();
-        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-        UUID sessionId = UUID.randomUUID();
-        session.setId(sessionId);
-        Student student = getTypicalStudent();
-        UUID studentId = UUID.randomUUID();
-        student.setId(studentId);
-        Instant extendedDeadline = Instant.now().plusSeconds(86400);
-
-        DeadlineExtension de = new DeadlineExtension(student, session, extendedDeadline);
-
-        when(deDb.getDeadlineExtension(studentId, sessionId)).thenReturn(de);
-
-        Instant result = deLogic.getExtendedDeadlineForUser(session, student);
-
-        assertNotNull(result);
-        assertEquals(extendedDeadline, result);
-        verify(deDb, times(1)).getDeadlineExtension(studentId, sessionId);
-    }
-
-    @Test
-    public void testGetExtendedDeadlineForUser_noExtension_returnsNull() {
-        Course course = getTypicalCourse();
-        FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-        UUID sessionId = UUID.randomUUID();
-        session.setId(sessionId);
-        Student student = getTypicalStudent();
-        UUID studentId = UUID.randomUUID();
-        student.setId(studentId);
-
-        when(deDb.getDeadlineExtension(studentId, sessionId)).thenReturn(null);
-
-        Instant result = deLogic.getExtendedDeadlineForUser(session, student);
-
-        assertNull(result);
-        verify(deDb, times(1)).getDeadlineExtension(studentId, sessionId);
-    }
-
-    @Test
     public void testGetDeadlineExtensionEntityForUser_extensionExists_returnsExtension() {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);

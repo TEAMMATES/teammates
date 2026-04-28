@@ -123,19 +123,19 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback
     class="modal-footer"
   >
     <button
+      class="btn btn-light"
+      id="btn-cancel-copy-instructor"
+      type="button"
+    >
+       Cancel 
+    </button>
+    <button
       class="btn btn-primary"
       disabled=""
       id="btn-confirm-copy-instructor"
       type="button"
     >
        Copy 
-    </button>
-    <button
-      class="btn btn-light"
-      id="btn-cancel-copy-instructor"
-      type="button"
-    >
-       Cancel 
     </button>
   </div>
 </tm-copy-instructors-from-other-courses-modal>
@@ -387,19 +387,19 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
     class="modal-footer"
   >
     <button
+      class="btn btn-light"
+      id="btn-cancel-copy-instructor"
+      type="button"
+    >
+       Cancel 
+    </button>
+    <button
       class="btn btn-primary"
       disabled=""
       id="btn-confirm-copy-instructor"
       type="button"
     >
        Copy 
-    </button>
-    <button
-      class="btn btn-light"
-      id="btn-cancel-copy-instructor"
-      type="button"
-    >
-       Cancel 
     </button>
   </div>
 </tm-copy-instructors-from-other-courses-modal>
@@ -525,19 +525,19 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
     class="modal-footer"
   >
     <button
+      class="btn btn-light"
+      id="btn-cancel-copy-instructor"
+      type="button"
+    >
+       Cancel 
+    </button>
+    <button
       class="btn btn-primary"
       disabled=""
       id="btn-confirm-copy-instructor"
       type="button"
     >
        Copy 
-    </button>
-    <button
-      class="btn btn-light"
-      id="btn-cancel-copy-instructor"
-      type="button"
-    >
-       Cancel 
     </button>
   </div>
 </tm-copy-instructors-from-other-courses-modal>
@@ -676,19 +676,19 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
     class="modal-footer"
   >
     <button
+      class="btn btn-light"
+      id="btn-cancel-copy-instructor"
+      type="button"
+    >
+       Cancel 
+    </button>
+    <button
       class="btn btn-primary"
       disabled=""
       id="btn-confirm-copy-instructor"
       type="button"
     >
        Copy 
-    </button>
-    <button
-      class="btn btn-light"
-      id="btn-cancel-copy-instructor"
-      type="button"
-    >
-       Cancel 
     </button>
   </div>
 </tm-copy-instructors-from-other-courses-modal>
@@ -737,19 +737,19 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with default 
     class="modal-footer"
   >
     <button
+      class="btn btn-light"
+      id="btn-cancel-copy-instructor"
+      type="button"
+    >
+       Cancel 
+    </button>
+    <button
       class="btn btn-primary"
       disabled=""
       id="btn-confirm-copy-instructor"
       type="button"
     >
        Copy 
-    </button>
-    <button
-      class="btn btn-light"
-      id="btn-cancel-copy-instructor"
-      type="button"
-    >
-       Cancel 
     </button>
   </div>
 </tm-copy-instructors-from-other-courses-modal>

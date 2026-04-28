@@ -19,9 +19,8 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.sqllogic.core.DataBundleLogic;
 import teammates.storage.sqlentity.Account;
@@ -172,7 +171,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
                 "instr1@teammates.tmt", "Please please fill in the following questions.",
                 Instant.parse("2012-04-01T22:00:00Z"), Instant.parse("2027-04-30T22:00:00Z"),
                 Instant.parse("2012-03-28T22:00:00Z"), Instant.parse("2027-05-01T22:00:00Z"), Duration.ofMinutes(10),
-                true, true, true);
+                true, true);
         expectedSession1.setId(actualSession1.getId());
         expectedSession1.setOpenedEmailSent(actualSession1.isOpenedEmailSent());
         expectedSession1.setOpeningSoonEmailSent(actualSession1.isOpeningSoonEmailSent());
@@ -240,9 +239,10 @@ public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testRemoveDataBundle_typicalValues_removedCorrectly()
-                throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+                throws InvalidParametersException {
         DataBundle dataBundle = loadDataBundle("/DataBundleLogicIT.json");
         dataBundleLogic.persistDataBundle(dataBundle);
+        HibernateUtil.flushSession();
 
         ______TS("verify notifications persisted correctly");
         Notification notification1 = dataBundle.notifications.get("notification1");

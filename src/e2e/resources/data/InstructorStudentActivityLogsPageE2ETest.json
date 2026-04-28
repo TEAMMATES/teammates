@@ -80,9 +80,6 @@
         "id": "00000000-0000-4000-8000-000000000002"
       },
       "courseId": "tm.e2e.ISActLogs.CS2104",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
       "team": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
@@ -96,9 +93,6 @@
         "id": "00000000-0000-4000-8000-000000000003"
       },
       "courseId": "tm.e2e.ISActLogs.CS2104",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
       "team": {
         "id": "00000000-0000-4000-8000-000000000201"
       },
@@ -119,7 +113,6 @@
       "sessionVisibleFromTime": "2012-04-01T22:00:00Z",
       "resultsVisibleFromTime": "2026-05-01T22:00:00Z",
       "gracePeriod": 10,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": false,

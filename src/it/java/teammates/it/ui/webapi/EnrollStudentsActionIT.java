@@ -7,6 +7,7 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
@@ -27,12 +28,13 @@ import teammates.ui.webapi.JsonResult;
  */
 
 public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
+    private DataBundle typicalBundle;
 
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalBundle);
+        typicalBundle = persistDataBundle(getTypicalDataBundle());
         HibernateUtil.flushSession();
     }
 
@@ -50,7 +52,7 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         List<StudentsEnrollRequest.StudentEnrollRequest> studentEnrollRequests = new ArrayList<>();
         students.forEach(student -> {
             studentEnrollRequests.add(new StudentsEnrollRequest.StudentEnrollRequest(student.getName(),
-                    student.getEmail(), student.getTeam().getName(), student.getSection().getName(), student.getComments()));
+                    student.getEmail(), student.getTeamName(), student.getSectionName(), student.getComments()));
         });
 
         return new StudentsEnrollRequest(studentEnrollRequests);
@@ -128,7 +130,7 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
 
         for (FeedbackResponse response : responsesToUser) {
             assertEquals(logic.getSection(courseId, "Section 3"), response.getRecipientSection());
-            List<FeedbackResponseComment> commentsFromUser = logic.getFeedbackResponseCommentsForResponse(response.getId());
+            List<FeedbackResponseComment> commentsFromUser = response.getFeedbackResponseComments();
             for (FeedbackResponseComment comment : commentsFromUser) {
                 if (comment.getGiver().equals(giverEmail)) {
                     assertEquals(logic.getSection(courseId, "Section 3"), comment.getGiverSection());

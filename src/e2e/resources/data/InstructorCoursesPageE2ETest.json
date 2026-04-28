@@ -241,17 +241,13 @@
       "endTime": "2012-05-01T00:00:00Z",
       "sessionVisibleFromTime": "2012-04-02T00:00:00Z",
       "resultsVisibleFromTime": "2012-05-02T00:00:00Z",
-      "timeZone": "UTC",
       "gracePeriod": 10,
       "isOpenedEmailSent": false,
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true,
-      "studentDeadlines": {},
-      "instructorDeadlines": {}
+      "isPublishedEmailEnabled": true
     }
   },
   "feedbackQuestions": {
@@ -264,7 +260,7 @@
         "questionType": "TEXT",
         "questionText": "Testing question text"
       },
-      "questionDescription": "Testing description",
+      "description": "Testing description",
       "questionNumber": 1,
       "giverType": "STUDENTS",
       "recipientType": "TEAMS",

@@ -1,0 +1,53 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="samuelfangjw" id="1777317669480-1">
+        <addColumn tableName="students">
+            <column name="team_id" type="UUID"/>
+        </addColumn>
+        <rollback>
+            <dropColumn tableName="students" columnName="team_id"/>
+        </rollback>
+    </changeSet>
+    <changeSet author="samuelfangjw" id="1777317669480-2">
+        <sql>
+            UPDATE students s
+            SET team_id = u.team_id
+            FROM users u
+            WHERE s.id = u.id;
+        </sql>
+        <rollback>
+            <sql>
+                UPDATE users u
+                SET team_id = s.team_id
+                FROM students s
+                WHERE s.id = u.id;
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet author="samuelfangjw" id="1777317669480-3">
+        <addNotNullConstraint tableName="students" columnName="team_id" columnDataType="UUID"/>
+        <rollback>
+            <dropNotNullConstraint tableName="students" columnName="team_id" columnDataType="UUID"/>
+        </rollback>
+    </changeSet>
+    <changeSet author="samuelfangjw" id="1777317669480-4">
+        <addForeignKeyConstraint baseColumnNames="team_id" baseTableName="students" constraintName="FKjgyxg2x86o4me9gr70elinthr" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="teams" validate="true"/>
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="students" constraintName="FKjgyxg2x86o4me9gr70elinthr"/>
+        </rollback>
+    </changeSet>
+    <changeSet author="samuelfangjw" id="1777317669480-5">
+        <dropForeignKeyConstraint baseTableName="users" constraintName="FKfjws1rdruab2bqg7qipoqf65r"/>
+        <rollback>
+            <addForeignKeyConstraint baseTableName="users" baseColumnNames="team_id" constraintName="FKfjws1rdruab2bqg7qipoqf65r" referencedTableName="teams" referencedColumnNames="id"/>
+        </rollback>
+    </changeSet>
+    <changeSet author="samuelfangjw" id="1777317669480-6">
+        <dropColumn columnName="team_id" tableName="users"/>
+        <rollback>
+            <addColumn tableName="users">
+                <column name="team_id" type="UUID"/>
+            </addColumn>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

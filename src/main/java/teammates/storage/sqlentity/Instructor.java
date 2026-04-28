@@ -14,6 +14,7 @@ import jakarta.persistence.Table;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.UserType;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -52,6 +53,11 @@ public class Instructor extends User {
         this.setPrivileges(privileges);
     }
 
+    @Override
+    public UserType getUserType() {
+        return UserType.INSTRUCTOR;
+    }
+
     public boolean isDisplayedToStudents() {
         return isDisplayedToStudents;
     }
@@ -82,21 +88,6 @@ public class Instructor extends User {
 
     public void setPrivileges(InstructorPrivileges instructorPrivileges) {
         this.privileges = instructorPrivileges;
-    }
-
-    @Override
-    public String getTeamName() {
-        return Const.USER_TEAM_FOR_INSTRUCTOR;
-    }
-
-    @Override
-    public String getSectionName() {
-        return Const.DEFAULT_SECTION;
-    }
-
-    @Override
-    public Section getSection() {
-        return null;
     }
 
     @Override

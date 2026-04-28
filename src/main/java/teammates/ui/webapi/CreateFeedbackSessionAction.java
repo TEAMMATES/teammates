@@ -10,7 +10,6 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -59,28 +58,27 @@ public class CreateFeedbackSessionAction extends Action {
 
         String timeZone = course.getTimeZone();
 
-        Instant startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                createRequest.getSubmissionStartTime(), timeZone, true);
+        // TODO: Refactor to reuse the validation logic in FeedbackSessionsLogic.
+        // and to move business logic to logic layer.
+        // See UpdateFeedbackSessionAction and updateFeedbackSession for reference.
+        Instant startTime = createRequest.getAdjustedSubmissionStartTime(timeZone);
         String startTimeError = FieldValidator.getInvalidityInfoForNewStartTime(startTime, timeZone);
         if (!startTimeError.isEmpty()) {
             throw new InvalidHttpRequestBodyException("Invalid submission opening time: " + startTimeError);
         }
-        Instant endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                createRequest.getSubmissionEndTime(), timeZone, true);
+        Instant endTime = createRequest.getAdjustedSubmissionEndTime(timeZone);
         String endTimeError = FieldValidator.getInvalidityInfoForNewEndTime(endTime, timeZone);
         if (!endTimeError.isEmpty()) {
             throw new InvalidHttpRequestBodyException("Invalid submission closing time: " + endTimeError);
         }
-        Instant sessionVisibleTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                createRequest.getSessionVisibleFromTime(), timeZone, true);
+        Instant sessionVisibleTime = createRequest.getAdjustedSessionVisibleFromTime(timeZone);
         String visibilityStartAndSessionStartTimeError =
                 FieldValidator.getInvalidityInfoForTimeForNewVisibilityStart(sessionVisibleTime, startTime);
         if (!visibilityStartAndSessionStartTimeError.isEmpty()) {
             throw new InvalidHttpRequestBodyException("Invalid session visible time: "
                     + visibilityStartAndSessionStartTimeError);
         }
-        Instant resultsVisibleTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                createRequest.getResultsVisibleFromTime(), timeZone, true);
+        Instant resultsVisibleTime = createRequest.getAdjustedResultsVisibleFromTime(timeZone);
 
         FeedbackSession feedbackSession = new FeedbackSession(
                 feedbackSessionName,
@@ -92,7 +90,6 @@ public class CreateFeedbackSessionAction extends Action {
                 sessionVisibleTime,
                 resultsVisibleTime,
                 createRequest.getGracePeriod(),
-                true,
                 createRequest.isClosingSoonEmailEnabled(),
                 createRequest.isPublishedEmailEnabled()
         );

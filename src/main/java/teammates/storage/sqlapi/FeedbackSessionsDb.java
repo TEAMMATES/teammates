@@ -1,12 +1,10 @@
 package teammates.storage.sqlapi;
 
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
-import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -14,7 +12,6 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.Logger;
@@ -46,8 +43,6 @@ public final class FeedbackSessionsDb {
      * @return null if not found
      */
     public FeedbackSession getFeedbackSession(UUID fsId) {
-        assert fsId != null;
-
         return HibernateUtil.get(FeedbackSession.class, fsId);
     }
 
@@ -65,17 +60,6 @@ public final class FeedbackSessionsDb {
                 cb.equal(fsRoot.get("name"), feedbackSessionName),
                 cb.equal(fsJoin.get("id"), courseId)));
         return HibernateUtil.createQuery(cq).getResultStream().findFirst().orElse(null);
-    }
-
-    /**
-     * Gets a feedback session reference.
-     *
-     * @return Returns a proxy for the feedback session.
-     */
-    public FeedbackSession getFeedbackSessionReference(UUID id) {
-        assert id != null;
-
-        return HibernateUtil.getReference(FeedbackSession.class, id);
     }
 
     /**
@@ -128,24 +112,6 @@ public final class FeedbackSessionsDb {
     }
 
     /**
-     * Restores a specific soft deleted feedback session.
-     */
-    public void restoreDeletedFeedbackSession(String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException {
-        assert courseId != null;
-        assert feedbackSessionName != null;
-
-        FeedbackSession sessionEntity = getFeedbackSession(feedbackSessionName, courseId);
-
-        if (sessionEntity == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        sessionEntity.setDeletedAt(null);
-        HibernateUtil.merge(sessionEntity);
-    }
-
-    /**
      * Creates a feedback session.
      */
     public FeedbackSession createFeedbackSession(FeedbackSession session)
@@ -166,56 +132,10 @@ public final class FeedbackSessionsDb {
     }
 
     /**
-     * Saves an updated {@code FeedbackSession} to the db.
-     *
-     * @return updated feedback session
-     * @throws InvalidParametersException  if attributes to update are not valid
-     * @throws EntityDoesNotExistException if the feedback session cannot be found
-     */
-    public FeedbackSession updateFeedbackSession(FeedbackSession feedbackSession)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        assert feedbackSession != null;
-
-        if (!feedbackSession.isValid()) {
-            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
-        }
-
-        if (getFeedbackSession(feedbackSession.getId()) == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        return HibernateUtil.merge(feedbackSession);
-    }
-
-    /**
      * Deletes a feedback session.
      */
     public void deleteFeedbackSession(FeedbackSession feedbackSession) {
-        if (feedbackSession != null) {
-            HibernateUtil.remove(feedbackSession);
-        }
-    }
-
-    /**
-     * Soft-deletes a specific feedback session by its name and course id.
-     *
-     * @return the feedback session.
-     */
-    public FeedbackSession softDeleteFeedbackSession(String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException {
-        assert courseId != null;
-        assert feedbackSessionName != null;
-
-        FeedbackSession feedbackSessionEntity = getFeedbackSession(feedbackSessionName, courseId);
-
-        if (feedbackSessionEntity == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        feedbackSessionEntity.setDeletedAt(Instant.now());
-        HibernateUtil.merge(feedbackSessionEntity);
-
-        return feedbackSessionEntity;
+        HibernateUtil.remove(feedbackSession);
     }
 
     /**
@@ -258,12 +178,6 @@ public final class FeedbackSessionsDb {
      * and possibly need a opening soon email to be sent.
      */
     public List<FeedbackSession> getFeedbackSessionsPossiblyNeedingOpeningSoonEmail() {
-        return getFeedbackSessionEntitiesPossiblyNeedingOpeningSoonEmail().stream()
-                .filter(session -> session.getDeletedAt() == null)
-                .collect(Collectors.toList());
-    }
-
-    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpeningSoonEmail() {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
         Root<FeedbackSession> root = cr.from(FeedbackSession.class);
@@ -271,7 +185,9 @@ public final class FeedbackSessionsDb {
         cr.select(root)
                 .where(cb.and(
                     cb.greaterThan(root.get("startTime"), TimeHelper.getInstantDaysOffsetFromNow(-2)),
-                    cb.equal(root.get("isOpeningSoonEmailSent"), false)));
+                    cb.equal(root.get("isOpeningSoonEmailSent"), false),
+                    cb.isNull(root.get("deletedAt"))
+                ));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }
@@ -281,12 +197,6 @@ public final class FeedbackSessionsDb {
      * and possibly need a closing soon email to be sent.
      */
     public List<FeedbackSession> getFeedbackSessionsPossiblyNeedingClosingSoonEmail() {
-        return getFeedbackSessionEntitiesPossiblyNeedingClosingSoonEmail().stream()
-                .filter(session -> session.getDeletedAt() == null)
-                .collect(Collectors.toList());
-    }
-
-    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingClosingSoonEmail() {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
         Root<FeedbackSession> root = cr.from(FeedbackSession.class);
@@ -299,7 +209,8 @@ public final class FeedbackSessionsDb {
                         cb.and(
                                 cb.equal(root.get("isClosingSoonEmailSent"), false),
                                 cb.equal(root.get("isClosingSoonEmailEnabled"), true),
-                                cb.equal(root.get("isClosedEmailSent"), false))
+                                cb.equal(root.get("isClosedEmailSent"), false),
+                                cb.isNull(root.get("deletedAt")))
                ));
 
         return HibernateUtil.createQuery(cr).getResultList();
@@ -330,12 +241,6 @@ public final class FeedbackSessionsDb {
      * to be sent.
      */
     public List<FeedbackSession> getFeedbackSessionsPossiblyNeedingPublishedEmail() {
-        return getFeedbackSessionEntitiesPossiblyNeedingPublishedEmail().stream()
-                .filter(session -> session.getDeletedAt() == null)
-                .collect(Collectors.toList());
-    }
-
-    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingPublishedEmail() {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackSession> cr = cb.createQuery(FeedbackSession.class);
         Root<FeedbackSession> root = cr.from(FeedbackSession.class);
@@ -345,7 +250,8 @@ public final class FeedbackSessionsDb {
                         cb.greaterThan(root.get("resultsVisibleFromTime"), TimeHelper.getInstantDaysOffsetFromNow(-2)),
                         cb.and(
                                 cb.equal(root.get("isPublishedEmailSent"), false),
-                                cb.equal(root.get("isPublishedEmailEnabled"), true))
+                                cb.equal(root.get("isPublishedEmailEnabled"), true),
+                                cb.isNull(root.get("deletedAt")))
                ));
 
         return HibernateUtil.createQuery(cr).getResultList();

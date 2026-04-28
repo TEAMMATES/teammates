@@ -236,8 +236,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             feedbackSessionId: this.feedbackSessionId,
             intent: Intent.FULL_DETAIL,
           }),
-          this.feedbackSessionsService.getFeedbackSessionDeadlineExtensions(
-            this.courseId, this.feedbackSessionName),
+          this.feedbackSessionsService.getFeedbackSessionDeadlineExtensions(this.feedbackSessionId),
         ]).pipe(finalize(() => {
           this.isLoadingFeedbackSession = false;
         }))
@@ -416,7 +415,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     responseVisibleTime: number): void {
     this.sessionEditFormModel.isSaving = true;
     this.sessionEditFormModel.isEditable = false;
-    this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, {
+    this.feedbackSessionsService.updateFeedbackSession(this.feedbackSessionId, {
       instructions: this.sessionEditFormModel.instructions,
 
       submissionStartTimestamp: submissionStartTime,
@@ -477,7 +476,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         const updatedInstructorDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
           affectedInstructorModels, this.instructorDeadlines);
         this.feedbackSessionsService.updateFeedbackSessionDeadlineExtensions(
-          this.courseId, this.feedbackSessionName,
+          this.feedbackSessionId,
           { studentDeadlines: updatedStudentDeadlines, instructorDeadlines: updatedInstructorDeadlines },
           isNotifyDeadlines,
         ).subscribe({
@@ -550,7 +549,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   deleteExistingSessionHandler(): void {
     this.sessionEditFormModel.isDeleting = true;
-    this.feedbackSessionsService.moveSessionToRecycleBin(this.courseId, this.feedbackSessionName)
+    this.feedbackSessionsService.moveSessionToRecycleBin(this.feedbackSessionId)
       .pipe(finalize(() => {
         this.sessionEditFormModel.isDeleting = false;
       }))
