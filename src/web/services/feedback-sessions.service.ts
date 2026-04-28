@@ -218,24 +218,11 @@ export class FeedbackSessionsService {
   }
 
   /**
-   * Checks if there is response of a student for a feedback session (request sent by student).
+   * Checks if there is response of a student for an array of feedback sessions.
    */
-  hasStudentResponseForFeedbackSession(courseId: string, feedbackSessionName: string): Observable<HasResponses> {
+  hasResponsesForAllFeedbackSessionsInCourse(courseId: string, entityType: 'student' | 'instructor'): Observable<HasResponses> {
     const paramMap: Record<string, string> = {
-      entitytype: 'student',
-      courseid: courseId,
-      fsname: feedbackSessionName,
-
-    };
-    return this.httpRequestService.get(ResourceEndpoints.HAS_RESPONSES, paramMap);
-  }
-
-  /**
-   * Checks if there is response of a student for an array of feedback sessions (request sent by student).
-   */
-  hasStudentResponseForAllFeedbackSessionsInCourse(courseId: string): Observable<HasResponses> {
-    const paramMap: Record<string, string> = {
-      entitytype: 'student',
+      entitytype: entityType,
       courseid: courseId,
     };
 

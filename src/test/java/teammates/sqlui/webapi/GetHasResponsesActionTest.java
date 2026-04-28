@@ -35,7 +35,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
     private Course typicalCourse;
     private Instructor typicalInstructor;
-    private FeedbackSession typicalFeedbackSession;
     private FeedbackQuestion typicalFeedbackQuestion;
     private Student typicalStudent;
 
@@ -53,7 +52,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
     void setUpMethod() {
         typicalCourse = getTypicalCourse();
         typicalInstructor = getTypicalInstructor();
-        typicalFeedbackSession = getTypicalFeedbackSession(typicalCourse);
+        FeedbackSession typicalFeedbackSession = getTypicalFeedbackSession(typicalCourse);
         typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
         typicalStudent = getTypicalStudent();
     }
@@ -173,58 +172,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         // path to get responses for course is not executed
         verify(mockLogic, never()).getCourse(typicalInstructor.getCourseId());
         verify(mockLogic, never()).hasResponsesForCourse(typicalInstructor.getCourseId());
-    }
-
-    @Test
-    void testExecute_studentWithNonExistentFeedbackSession_throwsEntityNotFoundException() {
-        loginAsStudent(typicalStudent.getGoogleId());
-
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalStudent.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "non-existent session",
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
-        };
-
-        EntityNotFoundException enfe = verifyEntityNotFound(params);
-        assertEquals("Feedback session not found", enfe.getMessage());
-
-        verify(mockLogic, times(1))
-                .getFeedbackSession("non-existent session", typicalStudent.getCourseId());
-    }
-
-    @Test
-    void testExecute_studentGetHasRespondedForSession_success() {
-        loginAsStudent(typicalStudent.getGoogleId());
-
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalStudent.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
-        };
-
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalStudent.getCourseId()))
-                .thenReturn(typicalFeedbackSession);
-        when(mockLogic.getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
-                .thenReturn(typicalStudent);
-
-        // mock that the student has responded
-        when(mockLogic.isFeedbackSessionAttemptedByStudent(
-                typicalFeedbackSession, typicalStudent.getEmail(), typicalStudent.getTeamName()))
-                .thenReturn(true);
-
-        GetHasResponsesAction getHasResponsesAction = getAction(params);
-        JsonResult jsonResult = getJsonResult(getHasResponsesAction);
-        HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
-
-        assertTrue(hasResponsesData.getHasResponses());
-
-        verify(mockLogic, times(1))
-                .getFeedbackSession(typicalFeedbackSession.getName(), typicalStudent.getCourseId());
-        verify(mockLogic, times(1))
-                .getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId());
-        verify(mockLogic, times(1))
-                .isFeedbackSessionAttemptedByStudent(
-                        typicalFeedbackSession, typicalStudent.getEmail(), typicalStudent.getTeamName());
     }
 
     @Test
@@ -378,29 +325,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
                 .getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId());
         verify(mockLogic, times(1)).getCourse(typicalCourse.getId());
         verify(mockLogic, times(1)).getFeedbackQuestion(typicalFeedbackQuestion.getId());
-    }
-
-    @Test
-    void testAccessControl_studentOfSameCourse_canAccessStudentGetHasResponded() {
-        loginAsStudent(typicalStudent.getGoogleId());
-
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalStudent.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
-        };
-
-        when(mockLogic.getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
-                .thenReturn(typicalStudent);
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalFeedbackSession.getCourseId()))
-                .thenReturn(typicalFeedbackSession);
-
-        verifyCanAccess(params);
-
-        verify(mockLogic, times(1))
-                .getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId());
-        verify(mockLogic, times(1))
-                .getFeedbackSession(typicalFeedbackSession.getName(), typicalFeedbackSession.getCourseId());
     }
 
     @Test

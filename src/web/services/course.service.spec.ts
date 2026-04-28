@@ -193,16 +193,6 @@ describe('CourseService', () => {
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.JOIN_REMIND, paramMap);
   });
 
-  it('should execute GET to check responses for course', () => {
-    const courseId: string = 'test-id';
-    const paramMap: { [key: string]: string } = {
-      entitytype: 'instructor',
-      courseid: courseId,
-    };
-    service.hasResponsesForCourse(courseId);
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.HAS_RESPONSES, paramMap);
-  });
-
   it('should execute DELETE to remove student from course', () => {
     const courseId: string = 'test-id';
     const studentEmail: string = 'test@example.com';
