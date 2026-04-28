@@ -93,16 +93,16 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
             when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructorStub);
             when(mockLogic.getSessionResultsForUser(argThat(
                             argument -> Objects.equals(argument.getName(), session.getName())),
-                    eq(course.getId()), eq(instructorStub.getEmail()),
-                    eq(true), isNull(), eq(false))).thenReturn(resultsStub);
+                            eq(instructorStub.getEmail()), eq(true), isNull(), eq(false)))
+                    .thenReturn(resultsStub);
             break;
         case STUDENT_RESULT:
             Student studentStub = getTypicalStudent();
             when(mockLogic.getStudentByGoogleId(session.getCourseId(), googleId)).thenReturn(studentStub);
             when(mockLogic.getSessionResultsForUser(argThat(
                             argument -> Objects.equals(argument.getName(), session.getName())),
-                    eq(course.getId()), eq(studentStub.getEmail()),
-                    eq(false), isNull(), eq(false))).thenReturn(resultsStub);
+                            eq(studentStub.getEmail()), eq(false), isNull(), eq(false)))
+                    .thenReturn(resultsStub);
             break;
         case INSTRUCTOR_SUBMISSION, STUDENT_SUBMISSION:
         default:
@@ -223,7 +223,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructorStub);
         when(mockLogic.getSessionResultsForUser(argThat(
                         argument -> Objects.equals(argument.getName(), session.getName())),
-                eq(course.getId()), eq(instructorStub.getEmail()),
+                eq(instructorStub.getEmail()),
                 eq(true), eq(questionStub.getId()), eq(true))).thenReturn(resultsStub);
 
         String[] params = {
@@ -249,7 +249,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         when(mockLogic.getStudentByGoogleId(session.getCourseId(), googleId)).thenReturn(studentStub);
         when(mockLogic.getSessionResultsForUser(argThat(
                         argument -> Objects.equals(argument.getName(), session.getName())),
-                eq(course.getId()), eq(studentStub.getEmail()),
+                eq(studentStub.getEmail()),
                 eq(false), eq(questionStub.getId()), eq(true))).thenReturn(resultsStub);
 
         String[] params = {

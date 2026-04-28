@@ -108,7 +108,7 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
             // Section name filter is not applicable here
             instructor = getSqlInstructorOfCourseFromRequest(courseId);
 
-            bundle = sqlLogic.getSessionResultsForUser(feedbackSession, courseId, instructor.getEmail(),
+            bundle = sqlLogic.getSessionResultsForUser(feedbackSession, instructor.getEmail(),
                     true, questionUuid, isPreviewResults);
 
             // Build a fake student object, as the results will be displayed as if they are displayed to a student
@@ -120,7 +120,7 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
             // Section name filter is not applicable here
             student = getSqlStudentOfCourseFromRequest(courseId);
 
-            bundle = sqlLogic.getSessionResultsForUser(feedbackSession, courseId, student.getEmail(),
+            bundle = sqlLogic.getSessionResultsForUser(feedbackSession, student.getEmail(),
                     false, questionUuid, isPreviewResults);
 
             return new JsonResult(SessionResultsData.initForStudent(bundle, student));

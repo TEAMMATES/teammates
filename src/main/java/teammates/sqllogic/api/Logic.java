@@ -1287,14 +1287,10 @@ public class Logic {
      *      String, boolean, String)
      */
     public SessionResultsBundle getSessionResultsForUser(
-            FeedbackSession feedbackSession, String courseId, String userEmail, boolean isInstructor,
+            FeedbackSession feedbackSession, String userEmail, boolean isInstructor,
             @Nullable UUID questionId, boolean isPreviewResults) {
-        assert feedbackSession != null;
-        assert courseId != null;
-        assert userEmail != null;
-
         return feedbackResponsesLogic.getSessionResultsForUser(
-                feedbackSession, courseId, userEmail, isInstructor, questionId, isPreviewResults);
+                feedbackSession, userEmail, isInstructor, questionId, isPreviewResults);
     }
 
     /**

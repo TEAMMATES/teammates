@@ -731,7 +731,6 @@ public final class FeedbackResponsesLogic {
      * Gets the session result for a feedback session for the given user.
      *
      * @param feedbackSession the feedback session
-     * @param courseId the ID of the course
      * @param userEmail the user viewing the feedback session
      * @param isInstructor true if the user is an instructor
      * @param questionId if not null, will only return partial bundle for the question
@@ -739,8 +738,9 @@ public final class FeedbackResponsesLogic {
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResultsForUser(
-            FeedbackSession feedbackSession, String courseId, String userEmail, boolean isInstructor,
+            FeedbackSession feedbackSession, String userEmail, boolean isInstructor,
             @Nullable UUID questionId, boolean isPreviewResults) {
+        String courseId = feedbackSession.getCourseId();
         CourseRoster roster = new CourseRoster(
                 usersLogic.getStudentsForCourse(courseId),
                 usersLogic.getInstructorsForCourse(courseId));
