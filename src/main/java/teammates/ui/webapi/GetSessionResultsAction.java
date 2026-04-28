@@ -25,20 +25,18 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
         boolean isPreviewResults = !StringHelper.isEmpty(previewAsPerson);
 
-        checkSpecificAccessControl(courseId, feedbackSessionName, intent, isPreviewResults);
-    }
+        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityNotFoundException("Feedback session not found");
+        }
 
-    private void checkSpecificAccessControl(
-            String courseId, String feedbackSessionName, Intent intent, boolean isPreviewResults)
-            throws UnauthorizedAccessException {
-        FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
+        String courseId = feedbackSession.getCourseId();
 
         switch (intent) {
         case FULL_DETAIL:
@@ -60,8 +58,7 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
             Student student = getSqlStudentOfCourseFromRequest(courseId);
             checkAccessControlForStudentFeedbackResult(student, feedbackSession);
             break;
-        case INSTRUCTOR_SUBMISSION:
-        case STUDENT_SUBMISSION:
+        case INSTRUCTOR_SUBMISSION, STUDENT_SUBMISSION:
             throw new InvalidHttpParameterException("Invalid intent for this action");
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
@@ -70,11 +67,10 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
 
     @Override
     public JsonResult execute() {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
         // Allow additional filter by question ID and section name
-        String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+        UUID questionId = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
         FeedbackResultFetchType fetchType = FeedbackResultFetchType.parseFetchType(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SECTION_BY_GIVER_RECEIVER));
@@ -84,34 +80,35 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
-        if (questionId != null) {
-            UUID questionUuid = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-            return execute(courseId, feedbackSessionName, questionUuid,
-                    selectedSection, fetchType, intent, isPreviewResults);
-        }
-        return execute(courseId, feedbackSessionName, null, selectedSection,
+        return execute(feedbackSessionId, questionId, selectedSection,
                 fetchType, intent, isPreviewResults);
     }
 
     private JsonResult execute(
-            String courseId, String feedbackSessionName, UUID questionUuid, String selectedSection,
+            UUID feedbackSessionId, UUID questionUuid, String selectedSection,
             FeedbackResultFetchType fetchType, Intent intent, boolean isPreviewResults) {
+        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityNotFoundException("Feedback session not found");
+        }
+
+        String courseId = feedbackSession.getCourseId();
         Instructor instructor;
         Student student;
-        FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
         SessionResultsBundle bundle;
+
         switch (intent) {
         case FULL_DETAIL:
             instructor = getSqlInstructorOfCourseFromRequest(courseId);
 
-            bundle = sqlLogic.getSessionResultsForCourse(feedbackSession, courseId, instructor.getEmail(),
+            bundle = sqlLogic.getSessionResults(feedbackSession, instructor.getEmail(),
                     questionUuid, selectedSection, fetchType);
             return new JsonResult(SessionResultsData.initForInstructor(bundle));
         case INSTRUCTOR_RESULT:
             // Section name filter is not applicable here
             instructor = getSqlInstructorOfCourseFromRequest(courseId);
 
-            bundle = sqlLogic.getSessionResultsForUser(feedbackSession, courseId, instructor.getEmail(),
+            bundle = sqlLogic.getSessionResultsForUser(feedbackSession, instructor.getEmail(),
                     true, questionUuid, isPreviewResults);
 
             // Build a fake student object, as the results will be displayed as if they are displayed to a student
@@ -123,12 +120,11 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
             // Section name filter is not applicable here
             student = getSqlStudentOfCourseFromRequest(courseId);
 
-            bundle = sqlLogic.getSessionResultsForUser(feedbackSession, courseId, student.getEmail(),
+            bundle = sqlLogic.getSessionResultsForUser(feedbackSession, student.getEmail(),
                     false, questionUuid, isPreviewResults);
 
             return new JsonResult(SessionResultsData.initForStudent(bundle, student));
-        case INSTRUCTOR_SUBMISSION:
-        case STUDENT_SUBMISSION:
+        case INSTRUCTOR_SUBMISSION, STUDENT_SUBMISSION:
             throw new InvalidHttpParameterException("Invalid intent for this action");
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);

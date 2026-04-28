@@ -25,6 +25,7 @@ import { FeedbackQuestionModel } from '../../pages-session/session-result-page/f
 describe('QuestionResponsePanelComponent', () => {
 
   const testFeedbackSession: FeedbackSession = {
+    feedbackSessionId: 'c64aa0ca-beba-412d-94c3-58134feb6822',
     feedbackSessionName: 'First Session',
     courseId: 'CS1231',
     timeZone: 'Asia/Singapore',
@@ -624,8 +625,7 @@ describe('QuestionResponsePanelComponent', () => {
     expect(fsSpy).toHaveBeenCalledTimes(1);
     expect(fsSpy).toHaveBeenLastCalledWith({
       intent: 'STUDENT_RESULT',
-      courseId: 'CS1231',
-      feedbackSessionName: 'First Session',
+      feedbackSessionId: testFeedbackSession.feedbackSessionId,
       questionId: testQuestion1.feedbackQuestionId,
       key: '',
       previewAs: '',

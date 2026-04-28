@@ -377,8 +377,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
         concatMap((sectionName: string) => {
           return this.feedbackSessionsService.getFeedbackSessionResults({
             questionId,
-            courseId: this.session.courseId,
-            feedbackSessionName: this.session.feedbackSessionName,
+            feedbackSessionId: this.session.feedbackSessionId,
             intent: Intent.FULL_DETAIL,
             groupBySection: sectionName,
             sectionByGiverReceiver: 'both',
@@ -436,8 +435,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
       return;
     }
     this.feedbackSessionsService.getFeedbackSessionResults({
-      courseId: this.session.courseId,
-      feedbackSessionName: this.session.feedbackSessionName,
+      feedbackSessionId: this.session.feedbackSessionId,
       intent: Intent.FULL_DETAIL,
       groupBySection: sectionName,
     })
@@ -546,6 +544,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
     of(this.feedbackSessionActionsService.downloadSessionResult(
       this.courseId,
       this.session.feedbackSessionName,
+      this.session.feedbackSessionId,
       Intent.FULL_DETAIL,
       this.indicateMissingResponses,
       this.showStatistics,
@@ -563,8 +562,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
         `${this.session.courseId}_${this.session.feedbackSessionName}_question${question.questionNumber}.csv`;
 
     this.feedbackSessionsService.downloadSessionResults(
-        this.session.courseId,
-        this.session.feedbackSessionName,
+        this.session.feedbackSessionId,
         Intent.FULL_DETAIL,
         this.indicateMissingResponses,
         this.showStatistics,

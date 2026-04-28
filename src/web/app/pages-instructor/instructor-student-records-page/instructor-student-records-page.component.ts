@@ -172,8 +172,7 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
       Observable<{ results: SessionResults, feedbackSession: FeedbackSession }> {
     return this.feedbackSessionsService
         .getFeedbackSessionResults({
-          courseId: this.courseId,
-          feedbackSessionName: feedbackSession.feedbackSessionName,
+          feedbackSessionId: feedbackSession.feedbackSessionId,
           groupBySection,
           intent: Intent.FULL_DETAIL,
         })
