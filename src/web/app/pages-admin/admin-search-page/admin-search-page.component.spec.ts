@@ -17,8 +17,10 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 
+const DEFAULT_SESSION_ID = '17681c09-f4e5-40c2-be77-eeccf0c221c2';
 const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
-  sessionName: {
+  [DEFAULT_SESSION_ID]: {
+    name: 'sessionName',
     feedbackSessionUrl: 'sessionUrl',
     startTime: 'startTime',
     endTime: 'endTime',
@@ -26,6 +28,7 @@ const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
 };
 
 const DEFAULT_STUDENT_SEARCH_RESULT: StudentAccountSearchResult = {
+  userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
   name: 'name',
   email: 'email',
   googleId: 'googleId',
@@ -48,6 +51,7 @@ const DEFAULT_STUDENT_SEARCH_RESULT: StudentAccountSearchResult = {
 };
 
 const DEFAULT_INSTRUCTOR_SEARCH_RESULT: InstructorAccountSearchResult = {
+  userId: '42aca1be-044d-48c8-b27c-26c29daf512c',
   name: 'name',
   email: 'email',
   googleId: 'googleId',
@@ -117,6 +121,7 @@ describe('AdminSearchPageComponent', () => {
   it('should snap with a deleted course', () => {
     component.instructors = [
       {
+        userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
         name: 'instructor',
         email: 'instructor@tester.com',
         googleId: 'ins-google-id',
@@ -136,6 +141,7 @@ describe('AdminSearchPageComponent', () => {
     ];
     component.students = [
       {
+        userId: '42aca1be-044d-48c8-b27c-26c29daf512c',
         name: 'student',
         email: 'student@gmail.tmt',
         googleId: 'student-google-id',
@@ -165,6 +171,7 @@ describe('AdminSearchPageComponent', () => {
   it('should snap with an expanded instructor table', () => {
     component.instructors = [
       {
+        userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
         name: 'tester',
         email: 'tester@tester.com',
         googleId: 'instructor-google-id',
@@ -190,6 +197,7 @@ describe('AdminSearchPageComponent', () => {
   it('should snap with an expanded student table', () => {
     component.students = [
       {
+        userId: '42aca1be-044d-48c8-b27c-26c29daf512c',
         name: 'Alice Betsy',
         email: 'alice.b.tmms@gmail.tmt',
         googleId: 'student-google-id',
@@ -255,6 +263,7 @@ describe('AdminSearchPageComponent', () => {
   it('should display instructor results', () => {
     const instructorResults: InstructorAccountSearchResult[] = [
       {
+        userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
         name: 'name1',
         email: 'email1',
         googleId: 'googleId1',
@@ -272,6 +281,7 @@ describe('AdminSearchPageComponent', () => {
         publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       },
       {
+        userId: '42aca1be-044d-48c8-a8c2-2bac0e287eb4',
         name: 'name2',
         email: 'email2',
         googleId: 'googleId2',
@@ -310,6 +320,7 @@ describe('AdminSearchPageComponent', () => {
   it('should display student results', () => {
     const studentResults: StudentAccountSearchResult[] = [
       {
+        userId: '42aca1be-044d-48c8-b27c-26c29daf512c',
         name: 'name1',
         email: 'email1',
         googleId: 'googleId1',
@@ -330,6 +341,7 @@ describe('AdminSearchPageComponent', () => {
         notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
         publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       }, {
+        userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
         name: 'name2',
         email: 'email2',
         googleId: 'googleId2',
@@ -371,6 +383,7 @@ describe('AdminSearchPageComponent', () => {
 
   it('should show instructor links when expand all button clicked', () => {
     const instructorResult: InstructorAccountSearchResult = {
+      userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
       name: 'name',
       email: 'email',
       googleId: 'googleId',
@@ -407,6 +420,7 @@ describe('AdminSearchPageComponent', () => {
 
   it('should show success message if successfully reset instructor google id', () => {
     const instructorResult: InstructorAccountSearchResult = {
+      userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
       name: 'name',
       email: 'email',
       googleId: 'googleId',
@@ -448,6 +462,7 @@ describe('AdminSearchPageComponent', () => {
 
   it('should show error message if fail to reset instructor google id', () => {
     const instructorResult: InstructorAccountSearchResult = {
+      userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
       name: 'name',
       email: 'email',
       googleId: 'googleId',
@@ -518,6 +533,7 @@ describe('AdminSearchPageComponent', () => {
 
   it('should show error message if fail to reset student google id', () => {
     const studentResult: StudentAccountSearchResult = {
+      userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
       name: 'name',
       email: 'email',
       googleId: 'googleId',
@@ -529,7 +545,6 @@ describe('AdminSearchPageComponent', () => {
       homePageLink: 'homePageLink',
       manageAccountLink: 'manageAccountLink',
       showLinks: false,
-
       section: 'section',
       team: 'team',
       comments: 'comments',
@@ -571,29 +586,29 @@ describe('AdminSearchPageComponent', () => {
       courseJoinLink: 'courseJoinLink?key=oldKey',
       awaitingSessions: {
         ...DEFAULT_FEEDBACK_SESSION_GROUP,
-        sessionName: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP['sessionName'],
+        [DEFAULT_SESSION_ID]: {
+          ...DEFAULT_FEEDBACK_SESSION_GROUP[DEFAULT_SESSION_ID],
           feedbackSessionUrl: 'awaitingSession?key=oldKey',
         },
       },
       openSessions: {
         ...DEFAULT_FEEDBACK_SESSION_GROUP,
-        sessionName: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP['sessionName'],
+        [DEFAULT_SESSION_ID]: {
+          ...DEFAULT_FEEDBACK_SESSION_GROUP[DEFAULT_SESSION_ID],
           feedbackSessionUrl: 'openSession?key=oldKey',
         },
       },
       notOpenSessions: {
         ...DEFAULT_FEEDBACK_SESSION_GROUP,
-        sessionName: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP['sessionName'],
+        [DEFAULT_SESSION_ID]: {
+          ...DEFAULT_FEEDBACK_SESSION_GROUP[DEFAULT_SESSION_ID],
           feedbackSessionUrl: 'notOpenSession?key=oldKey',
         },
       },
       publishedSessions: {
         ...DEFAULT_FEEDBACK_SESSION_GROUP,
-        sessionName: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP['sessionName'],
+        [DEFAULT_SESSION_ID]: {
+          ...DEFAULT_FEEDBACK_SESSION_GROUP[DEFAULT_SESSION_ID],
           feedbackSessionUrl: 'publishedSession?key=oldKey',
         },
       },
@@ -627,10 +642,10 @@ describe('AdminSearchPageComponent', () => {
     expect(spyStatusMessageService).toHaveBeenCalled();
 
     expect(studentResult.courseJoinLink).toEqual('courseJoinLink?key=newKey');
-    expect(studentResult.awaitingSessions['sessionName'].feedbackSessionUrl).toEqual('awaitingSession?key=newKey');
-    expect(studentResult.openSessions['sessionName'].feedbackSessionUrl).toEqual('openSession?key=newKey');
-    expect(studentResult.notOpenSessions['sessionName'].feedbackSessionUrl).toEqual('notOpenSession?key=newKey');
-    expect(studentResult.publishedSessions['sessionName'].feedbackSessionUrl).toEqual('publishedSession?key=newKey');
+    expect(studentResult.awaitingSessions[DEFAULT_SESSION_ID].feedbackSessionUrl).toEqual('awaitingSession?key=newKey');
+    expect(studentResult.openSessions[DEFAULT_SESSION_ID].feedbackSessionUrl).toEqual('openSession?key=newKey');
+    expect(studentResult.notOpenSessions[DEFAULT_SESSION_ID].feedbackSessionUrl).toEqual('notOpenSession?key=newKey');
+    expect(studentResult.publishedSessions[DEFAULT_SESSION_ID].feedbackSessionUrl).toEqual('publishedSession?key=newKey');
   });
 
   it('should show error message if fail to regenerate registration key for student in a course', () => {
@@ -639,29 +654,29 @@ describe('AdminSearchPageComponent', () => {
       courseJoinLink: 'courseJoinLink?key=oldKey',
       awaitingSessions: {
         ...DEFAULT_FEEDBACK_SESSION_GROUP,
-        sessionName: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP['sessionName'],
+        [DEFAULT_SESSION_ID]: {
+          ...DEFAULT_FEEDBACK_SESSION_GROUP[DEFAULT_SESSION_ID],
           feedbackSessionUrl: 'awaitingSession?key=oldKey',
         },
       },
       openSessions: {
         ...DEFAULT_FEEDBACK_SESSION_GROUP,
-        sessionName: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP['sessionName'],
+        [DEFAULT_SESSION_ID]: {
+          ...DEFAULT_FEEDBACK_SESSION_GROUP[DEFAULT_SESSION_ID],
           feedbackSessionUrl: 'openSession?key=oldKey',
         },
       },
       notOpenSessions: {
         ...DEFAULT_FEEDBACK_SESSION_GROUP,
-        sessionName: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP['sessionName'],
+        [DEFAULT_SESSION_ID]: {
+          ...DEFAULT_FEEDBACK_SESSION_GROUP[DEFAULT_SESSION_ID],
           feedbackSessionUrl: 'notOpenSession?key=oldKey',
         },
       },
       publishedSessions: {
         ...DEFAULT_FEEDBACK_SESSION_GROUP,
-        sessionName: {
-          ...DEFAULT_FEEDBACK_SESSION_GROUP['sessionName'],
+        [DEFAULT_SESSION_ID]: {
+          ...DEFAULT_FEEDBACK_SESSION_GROUP[DEFAULT_SESSION_ID],
           feedbackSessionUrl: 'publishedSession?key=oldKey',
         },
       },
