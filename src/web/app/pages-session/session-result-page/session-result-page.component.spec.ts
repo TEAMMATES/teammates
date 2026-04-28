@@ -380,8 +380,7 @@ describe('SessionResultPageComponent', () => {
 
     component.ngOnInit();
     expect(getQuestionsSpy).toHaveBeenLastCalledWith({
-      courseId: testQueryParams['courseid'],
-      feedbackSessionName: testQueryParams['fsname'],
+      feedbackSessionId: testQueryParams['fsid'],
       intent: Intent.STUDENT_RESULT,
       key: testQueryParams['key'],
       previewAs: testQueryParams['previewas'],

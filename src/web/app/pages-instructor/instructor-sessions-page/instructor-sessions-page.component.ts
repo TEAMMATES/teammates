@@ -339,7 +339,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
         of(...templateSession.questions).pipe(
             concatMap((question: FeedbackQuestion) => {
               return this.feedbackQuestionsService.createFeedbackQuestion(
-                  feedbackSession.courseId, feedbackSession.feedbackSessionName, {
+                  feedbackSession.feedbackSessionId, {
                     questionNumber: question.questionNumber,
                     questionBrief: question.questionBrief,
                     questionDescription: question.questionDescription,

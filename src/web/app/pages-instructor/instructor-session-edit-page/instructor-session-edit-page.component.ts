@@ -573,8 +573,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.hasLoadingFeedbackQuestionsFailed = false;
     this.isLoadingFeedbackQuestions = true;
     this.feedbackQuestionsService.getFeedbackQuestions({
-      courseId: this.courseId,
-      feedbackSessionName: this.feedbackSessionName,
+      feedbackSessionId: this.feedbackSessionId,
       intent: Intent.FULL_DETAIL,
     })
         .pipe(finalize(() => {
@@ -766,7 +765,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
 
     questionEditFormModel.isDuplicating = true;
-    this.feedbackQuestionsService.createFeedbackQuestion(this.courseId, this.feedbackSessionName, {
+    this.feedbackQuestionsService.createFeedbackQuestion(this.feedbackSessionId, {
       questionNumber: this.questionEditFormModels.length + 1, // add the duplicated question at the end
       questionBrief: questionEditFormModel.questionBrief,
       questionDescription: questionEditFormModel.questionDescription,
@@ -843,7 +842,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       of(...questions).pipe(
           concatMap((question: FeedbackQuestion) => {
             questionNumber += 1;
-            return this.feedbackQuestionsService.createFeedbackQuestion(this.courseId, this.feedbackSessionName, {
+            return this.feedbackQuestionsService.createFeedbackQuestion(this.feedbackSessionId, {
               questionNumber,
               questionBrief: question.questionBrief,
               questionDescription: question.questionDescription,
@@ -1005,7 +1004,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   createNewQuestionHandler(): void {
     this.newQuestionEditFormModel.isSaving = true;
-    this.feedbackQuestionsService.createFeedbackQuestion(this.courseId, this.feedbackSessionName, {
+    this.feedbackQuestionsService.createFeedbackQuestion(this.feedbackSessionId, {
       questionNumber: this.newQuestionEditFormModel.questionNumber,
       questionBrief: this.newQuestionEditFormModel.questionBrief,
       questionDescription: this.newQuestionEditFormModel.questionDescription,
@@ -1061,6 +1060,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       next: (response: FeedbackSessions) => {
         response.feedbackSessions.forEach((feedbackSession: FeedbackSession) => {
           const model: FeedbackSessionTabModel = {
+            feedbackSessionId: feedbackSession.feedbackSessionId,
             courseId: feedbackSession.courseId,
             feedbackSessionName: feedbackSession.feedbackSessionName,
             createdAtTimestamp: feedbackSession.createdAtTimestamp,
@@ -1085,7 +1085,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.isCopyingQuestion = true;
           of(...questionsToCopy).pipe(
               concatMap((questionToCopy: FeedbackQuestion) => {
-                return this.feedbackQuestionsService.createFeedbackQuestion(this.courseId, this.feedbackSessionName, {
+                return this.feedbackQuestionsService.createFeedbackQuestion(this.feedbackSessionId, {
                   questionNumber: this.questionEditFormModels.length + 1, // add the copied question at the end
                   questionBrief: questionToCopy.questionBrief,
                   questionDescription: questionToCopy.questionDescription,

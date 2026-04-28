@@ -465,8 +465,7 @@ export abstract class InstructorSessionBasePageComponent {
    */
   downloadSessionResult(model: SessionsTableRowModel): void {
     this.feedbackQuestionsService.getFeedbackQuestions({
-      courseId: model.feedbackSession.courseId,
-      feedbackSessionName: model.feedbackSession.feedbackSessionName,
+      feedbackSessionId: model.feedbackSession.feedbackSessionId,
       intent: Intent.INSTRUCTOR_RESULT,
     }).pipe(
       switchMap((feedbackQuestions: FeedbackQuestions) => {

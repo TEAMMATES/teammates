@@ -237,8 +237,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
 
         // load question tabs
         this.feedbackQuestionsService.getFeedbackQuestions({
-          courseId,
-          feedbackSessionName,
+          feedbackSessionId,
           intent: Intent.INSTRUCTOR_RESULT,
         }).subscribe({
           next: (feedbackQuestions: FeedbackQuestions) => {

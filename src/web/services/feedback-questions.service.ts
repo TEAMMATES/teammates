@@ -535,8 +535,7 @@ export class FeedbackQuestionsService {
    * Gets feedback questions.
    */
   getFeedbackQuestions(queryParams: {
-    courseId: string,
-    feedbackSessionName: string,
+    feedbackSessionId: string,
     intent: Intent,
     key?: string,
     moderatedPerson?: string,
@@ -544,8 +543,7 @@ export class FeedbackQuestionsService {
   }): Observable<FeedbackQuestions> {
     const paramMap: Record<string, string> = {
       intent: queryParams.intent,
-      courseid: queryParams.courseId,
-      fsname: queryParams.feedbackSessionName,
+      fsid: queryParams.feedbackSessionId,
     };
 
     if (queryParams.key) {
@@ -574,11 +572,10 @@ export class FeedbackQuestionsService {
   /**
    * Creates a feedback question by calling API.
    */
-  createFeedbackQuestion(courseId: string, feedbackSessionName: string,
-    request: FeedbackQuestionCreateRequest): Observable<FeedbackQuestion> {
+  createFeedbackQuestion(
+    feedbackSessionId: string, request: FeedbackQuestionCreateRequest): Observable<FeedbackQuestion> {
     const paramMap: Record<string, string> = {
-      courseid: courseId,
-      fsname: feedbackSessionName,
+      fsid: feedbackSessionId,
     };
 
     return this.httpRequestService.post(ResourceEndpoints.QUESTION, paramMap, request);

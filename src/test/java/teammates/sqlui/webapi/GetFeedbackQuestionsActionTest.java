@@ -53,20 +53,9 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
     }
 
     @Test
-    void testExecute_invalidCourseId_throwsInvalidHttpParameterException() {
+    void testExecute_invalidSessionId_throwsInvalidHttpParameterException() {
         String[] params = {
-                Const.ParamsNames.COURSE_ID, null,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
-                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
-        };
-        verifyHttpParameterFailure(params);
-    }
-
-    @Test
-    void testExecute_invalidSessionName_throwsInvalidHttpParameterException() {
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, null,
+                Const.ParamsNames.FEEDBACK_SESSION_ID, null,
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
         verifyHttpParameterFailure(params);
@@ -74,11 +63,10 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
 
     @Test
     void testExecute_success() {
-        when(mockLogic.getFeedbackSession(feedbackSession.getName(), course.getId())).thenReturn(feedbackSession);
+        when(mockLogic.getFeedbackSession(feedbackSession.getId())).thenReturn(feedbackSession);
         when(mockLogic.getFeedbackQuestionsForSession(feedbackSession)).thenReturn(feedbackQuestions);
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
 
