@@ -233,11 +233,10 @@ export class FeedbackSessionsService {
    * Sends e-mails to remind respondents who have not submitted their feedback.
    */
   remindFeedbackSessionSubmissionForRespondents(
-      courseId: string, feedbackSessionName: string, request: FeedbackSessionRespondentRemindRequest)
+      feedbackSessionId: string, request: FeedbackSessionRespondentRemindRequest)
       : Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
-      courseid: courseId,
-      fsname: feedbackSessionName,
+      fsid: feedbackSessionId,
     };
 
     return this.httpRequestService.post(ResourceEndpoints.SESSION_REMIND_SUBMISSION, paramMap, request);
@@ -247,11 +246,10 @@ export class FeedbackSessionsService {
    * Sends e-mails to remind respondents on the published results link.
    */
   remindResultsLinkToRespondents(
-      courseId: string, feedbackSessionName: string, request: FeedbackSessionRespondentRemindRequest)
+      feedbackSessionId: string, request: FeedbackSessionRespondentRemindRequest)
       : Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
-      courseid: courseId,
-      fsname: feedbackSessionName,
+      fsid: feedbackSessionId,
     };
 
     return this.httpRequestService.post(ResourceEndpoints.SESSION_REMIND_RESULT, paramMap, request);

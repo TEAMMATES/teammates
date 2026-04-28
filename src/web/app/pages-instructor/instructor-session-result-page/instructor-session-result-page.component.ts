@@ -642,8 +642,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
    */
   sendReminderToStudents(reminderResponse: ReminderResponseModel): void {
     this.feedbackSessionsService
-      .remindFeedbackSessionSubmissionForRespondents(this.session.courseId, this.session.feedbackSessionName, {
-        usersToRemind: reminderResponse.respondentsToSend.map((m) => m.email),
+      .remindFeedbackSessionSubmissionForRespondents(this.session.feedbackSessionId, {
+        usersToRemind: reminderResponse.respondentsToSend.map((m) => m.id),
         isSendingCopyToInstructor: reminderResponse.isSendingCopyToInstructor,
       })
         .subscribe({

@@ -2,6 +2,7 @@
  * The model for a row of the student list info table.
  */
 export interface StudentListInfoTableRowModel {
+  id: string;
   email: string;
   name: string;
   teamName: string;
@@ -16,6 +17,7 @@ export interface StudentListInfoTableRowModel {
  * The model for a row of the instructor list info table.
  */
 export interface InstructorListInfoTableRowModel {
+  id: string;
   email: string;
   name: string;
 
