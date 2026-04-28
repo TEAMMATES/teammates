@@ -13,15 +13,15 @@ import teammates.storage.sqlentity.Student;
 /**
  * The API output format for deadline extensions.
  */
-public class FeedbackSessionDeadlineExtensionsData extends ApiOutput {
+public class DeadlineExtensionsData extends ApiOutput {
     private Map<String, Long> studentDeadlines;
     private Map<String, Long> instructorDeadlines;
 
-    private FeedbackSessionDeadlineExtensionsData() {
+    private DeadlineExtensionsData() {
         // for Jackson deserialization
     }
 
-    public FeedbackSessionDeadlineExtensionsData(String timeZone, List<DeadlineExtension> deadlineExtensions,
+    public DeadlineExtensionsData(String timeZone, List<DeadlineExtension> deadlineExtensions,
             Map<UUID, Student> studentsByUserId, Map<UUID, Instructor> instructorsByUserId) {
         this.studentDeadlines = new HashMap<>();
         this.instructorDeadlines = new HashMap<>();

@@ -10,9 +10,9 @@ import {
 import { default as templateSessions } from '../data/template-sessions.json';
 import { ResourceEndpoints } from '../types/api-const';
 import {
+  DeadlineExtensions,
   FeedbackQuestion,
   FeedbackSession,
-  FeedbackSessionDeadlineExtensions,
   FeedbackSessionPublishStatus,
   FeedbackSessions,
   FeedbackSessionStats,
@@ -26,8 +26,8 @@ import {
   Students,
 } from '../types/api-output';
 import {
+  DeadlineExtensionsUpdateRequest,
   FeedbackSessionCreateRequest,
-  FeedbackSessionDeadlineExtensionsUpdateRequest,
   FeedbackSessionRespondentRemindRequest,
   FeedbackSessionUpdateRequest,
   Intent,
@@ -113,7 +113,7 @@ export class FeedbackSessionsService {
   /**
    * Gets the deadline extensions for a feedback session by calling API.
    */
-  getFeedbackSessionDeadlineExtensions(feedbackSessionId: string): Observable<FeedbackSessionDeadlineExtensions> {
+  getFeedbackSessionDeadlineExtensions(feedbackSessionId: string): Observable<DeadlineExtensions> {
     const paramMap: Record<string, string> = {
       fsid: feedbackSessionId,
     };
@@ -124,8 +124,8 @@ export class FeedbackSessionsService {
    * Updates the deadline extensions for a feedback session by calling API.
    */
   updateFeedbackSessionDeadlineExtensions(feedbackSessionId: string,
-    request: FeedbackSessionDeadlineExtensionsUpdateRequest,
-    isNotifyDeadlines: boolean): Observable<FeedbackSessionDeadlineExtensions> {
+    request: DeadlineExtensionsUpdateRequest,
+    isNotifyDeadlines: boolean): Observable<DeadlineExtensions> {
     const paramMap: Record<string, string> = {
       fsid: feedbackSessionId,
       notifydeadlines: String(isNotifyDeadlines),
