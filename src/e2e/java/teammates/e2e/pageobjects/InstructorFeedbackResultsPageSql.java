@@ -125,6 +125,10 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
     }
 
     public void verifyNoResponsePanelDetails(List<Student> noResponseStudents) {
+        By toggleButtonLocator = By.cssSelector("#no-response-panel .card-header");
+        WebElement toggleButton = browser.driver.findElement(toggleButtonLocator);
+        click(toggleButton);
+        waitUntilAnimationFinish();
         verifyTableBodyValues(getNoResponseTable(), getExpectedNoResponseDetails(noResponseStudents));
     }
 

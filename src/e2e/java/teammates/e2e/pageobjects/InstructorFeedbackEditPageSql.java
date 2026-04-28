@@ -958,7 +958,10 @@ public class InstructorFeedbackEditPageSql extends AppPage {
     }
 
     private int getNumQuestions() {
-        return browser.driver.findElements(By.tagName("tm-question-edit-form")).size();
+        return (int) browser.driver.findElements(By.tagName("tm-question-edit-form"))
+            .stream()
+            .filter(WebElement::isDisplayed)
+            .count();
     }
 
     private WebElement getQuestionForm(int questionNum) {

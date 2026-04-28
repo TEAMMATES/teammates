@@ -12,18 +12,16 @@
   </button>
 </div>
 
-@if (isSessionEditFormExpanded && !isCoursesLoading) {
-  <div id="add-session-section" class="margin-top-30px"
-    @collapseAnim>
-    <div>
-      <tm-session-edit-form [formMode]="SessionEditFormMode.ADD" [(model)]="sessionEditFormModel" (modelChange)="triggerModelChange($event)"
-        [courseCandidates]="courseCandidates" [templateSessions]="templateSessions"
-        [isCopyOtherSessionLoading]="isCopyOtherSessionLoading" (addNewSessionEvent)="addNewSessionHandler()"
-        (copyOtherSessionsEvent)="copyFromOtherSessionsHandler()"
-      (closeEditFormEvent)="isSessionEditFormExpanded = false"></tm-session-edit-form>
-    </div>
+<div id="add-session-section" class="margin-top-30px"
+  [ngbCollapse]="!isSessionEditFormExpanded || isCoursesLoading">
+  <div>
+    <tm-session-edit-form [formMode]="SessionEditFormMode.ADD" [(model)]="sessionEditFormModel" (modelChange)="triggerModelChange($event)"
+      [courseCandidates]="courseCandidates" [templateSessions]="templateSessions"
+      [isCopyOtherSessionLoading]="isCopyOtherSessionLoading" (addNewSessionEvent)="addNewSessionHandler()"
+      (copyOtherSessionsEvent)="copyFromOtherSessionsHandler()"
+    (closeEditFormEvent)="isSessionEditFormExpanded = false"></tm-session-edit-form>
   </div>
-}
+</div>
 
 <tm-loading-retry [shouldShowRetry]="hasCourseLoadingFailed || hasFeedbackSessionLoadingFailed"
   [message]="'Failed to load data'" (retryEvent)="retryLoadingAllData()">

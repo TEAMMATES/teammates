@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackQuestionsService, TemplateQuestion } from '../../../../services/feedback-questions.service';
 import { FeedbackQuestion } from '../../../../types/api-output';
 import {
   QuestionEditFormModel,
 } from '../../../components/question-edit-form/question-edit-form-model';
 import { QuestionEditFormComponent } from '../../../components/question-edit-form/question-edit-form.component';
-import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 
 interface TemplateQuestionModel {
   description: string;
@@ -22,10 +21,10 @@ interface TemplateQuestionModel {
 @Component({
   templateUrl: './template-question-modal.component.html',
   styleUrls: ['./template-question-modal.component.scss'],
-  animations: [collapseAnim],
   imports: [
     FormsModule,
     QuestionEditFormComponent,
+    NgbCollapse,
 ],
 })
 export class TemplateQuestionModalComponent {
