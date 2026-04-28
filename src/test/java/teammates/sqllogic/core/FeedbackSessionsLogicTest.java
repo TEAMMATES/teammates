@@ -39,7 +39,6 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
     private FeedbackSessionsDb fsDb;
     private CoursesLogic coursesLogic;
-    private FeedbackResponsesLogic frLogic;
     private FeedbackQuestionsLogic fqLogic;
     private UsersLogic usersLogic;
 
@@ -47,7 +46,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
     public void setUpMethod() {
         fsDb = mock(FeedbackSessionsDb.class);
         coursesLogic = mock(CoursesLogic.class);
-        frLogic = mock(FeedbackResponsesLogic.class);
+        FeedbackResponsesLogic frLogic = mock(FeedbackResponsesLogic.class);
         fqLogic = mock(FeedbackQuestionsLogic.class);
         usersLogic = mock(UsersLogic.class);
         fsLogic.initLogicDependencies(fsDb, coursesLogic, frLogic, fqLogic, usersLogic);
@@ -326,8 +325,8 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         Student student1 = getTypicalStudent();
         Student student2 = getTypicalStudent();
         List<Student> students = List.of(student1, student2);
+        session.setFeedbackQuestions(questions);
 
-        when(fqLogic.getFeedbackQuestionsForSession(session)).thenReturn(questions);
         when(fqLogic.hasFeedbackQuestionsForStudents(questions)).thenReturn(true);
         when(usersLogic.getStudentsForCourse(courseId)).thenReturn(students);
         when(fqLogic.hasFeedbackQuestionsForInstructors(questions, true)).thenReturn(false);
@@ -335,7 +334,6 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         int result = fsLogic.getExpectedTotalSubmission(session);
 
         assertEquals(2, result);
-        verify(fqLogic, times(1)).getFeedbackQuestionsForSession(session);
         verify(fqLogic, times(1)).hasFeedbackQuestionsForStudents(questions);
         verify(usersLogic, times(1)).getStudentsForCourse(courseId);
         verify(fqLogic, times(1)).hasFeedbackQuestionsForInstructors(questions, true);
@@ -352,8 +350,8 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         Instructor instructor1 = getTypicalInstructor();
         Instructor instructor2 = getTypicalInstructor();
         List<Instructor> instructors = List.of(instructor1, instructor2);
+        session.setFeedbackQuestions(questions);
 
-        when(fqLogic.getFeedbackQuestionsForSession(session)).thenReturn(questions);
         when(fqLogic.hasFeedbackQuestionsForStudents(questions)).thenReturn(true);
         when(usersLogic.getStudentsForCourse(courseId)).thenReturn(students);
         when(fqLogic.hasFeedbackQuestionsForInstructors(questions, true)).thenReturn(true);
@@ -382,19 +380,13 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         FeedbackResponse response3 = getTypicalFeedbackResponseForQuestion(question2);
         response3.setGiver("student1@email.com"); // Same giver as response1
 
-        when(fqLogic.getFeedbackQuestionsForSession(session)).thenReturn(List.of(question1, question2));
-        when(frLogic.getFeedbackResponsesForQuestion(question1.getId()))
-                .thenReturn(List.of(response1, response2));
-        when(frLogic.getFeedbackResponsesForQuestion(question2.getId()))
-                .thenReturn(List.of(response3));
+        question1.setFeedbackResponses(List.of(response1, response2));
+        question2.setFeedbackResponses(List.of(response3));
 
         int result = fsLogic.getActualTotalSubmission(session);
 
         // Should return unique givers: student1@email.com and student2@email.com = 2
         assertEquals(2, result);
-        verify(fqLogic, times(1)).getFeedbackQuestionsForSession(session);
-        verify(frLogic, times(1)).getFeedbackResponsesForQuestion(question1.getId());
-        verify(frLogic, times(1)).getFeedbackResponsesForQuestion(question2.getId());
     }
 
     @Test
@@ -403,14 +395,11 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
         session.setFeedbackQuestions(List.of(question));
-
-        when(fqLogic.getFeedbackQuestionsForSession(session)).thenReturn(List.of(question));
-        when(frLogic.getFeedbackResponsesForQuestion(question.getId())).thenReturn(new ArrayList<>());
+        question.setFeedbackResponses(new ArrayList<>());
 
         int result = fsLogic.getActualTotalSubmission(session);
 
         assertEquals(0, result);
-        verify(frLogic, times(1)).getFeedbackResponsesForQuestion(question.getId());
     }
 
     @Test

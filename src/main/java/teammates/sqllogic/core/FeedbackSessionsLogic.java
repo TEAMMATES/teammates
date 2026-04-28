@@ -182,7 +182,7 @@ public final class FeedbackSessionsLogic {
     }
 
     private Set<String> getGiverSetThatAnsweredFeedbackSession(FeedbackSession feedbackSession) {
-        return fqLogic.getFeedbackQuestionsForSession(feedbackSession).stream()
+        return feedbackSession.getFeedbackQuestions().stream()
                 .flatMap(question -> question.getFeedbackResponses().stream())
                 .map(FeedbackResponse::getGiver)
                 .collect(Collectors.toUnmodifiableSet());
@@ -573,7 +573,7 @@ public final class FeedbackSessionsLogic {
      */
     public int getExpectedTotalSubmission(FeedbackSession fs) {
         int expectedTotal = 0;
-        List<FeedbackQuestion> questions = fqLogic.getFeedbackQuestionsForSession(fs);
+        List<FeedbackQuestion> questions = fs.getFeedbackQuestions();
         if (fqLogic.hasFeedbackQuestionsForStudents(questions)) {
             expectedTotal += usersLogic.getStudentsForCourse(fs.getCourseId()).size();
         }
