@@ -52,7 +52,6 @@ import teammates.ui.webapi.GetCourseAction;
 import teammates.ui.webapi.GetCourseJoinStatusAction;
 import teammates.ui.webapi.GetCourseSectionNamesAction;
 import teammates.ui.webapi.GetCoursesAction;
-import teammates.ui.webapi.GetDeadlineExtensionAction;
 import teammates.ui.webapi.GetDeadlineExtensionsAction;
 import teammates.ui.webapi.GetFeedbackQuestionRecipientsAction;
 import teammates.ui.webapi.GetFeedbackQuestionsAction;
@@ -228,7 +227,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 GetNotificationsAction.class,
                 MarkNotificationAsReadAction.class,
                 GetReadNotificationsAction.class,
-                GetDeadlineExtensionAction.class,
                 SendLoginEmailAction.class,
                 PutDataBundleAction.class,
                 DeleteDataBundleAction.class,

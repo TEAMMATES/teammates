@@ -10,7 +10,7 @@ import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
-import teammates.ui.output.FeedbackSessionDeadlineExtensionsData;
+import teammates.ui.output.DeadlineExtensionsData;
 
 /**
  * Gets the deadline extensions for a feedback session.
@@ -52,7 +52,7 @@ public class GetDeadlineExtensionsAction extends Action {
         List<DeadlineExtension> deadlineExtensions = feedbackSession.getDeadlineExtensions();
         String timeZone = feedbackSession.getCourse().getTimeZone();
 
-        FeedbackSessionDeadlineExtensionsData responseData = new FeedbackSessionDeadlineExtensionsData(
+        DeadlineExtensionsData responseData = new DeadlineExtensionsData(
                 timeZone, deadlineExtensions, studentsByUserId, instructorsByUserId);
 
         return new JsonResult(responseData);

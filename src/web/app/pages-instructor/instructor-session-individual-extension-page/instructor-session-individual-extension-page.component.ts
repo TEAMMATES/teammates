@@ -18,15 +18,15 @@ import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   Course,
+  DeadlineExtensions,
   FeedbackSession,
-  FeedbackSessionDeadlineExtensions,
   FeedbackSessionSubmittedGiverSet,
   Instructors,
   Students,
 } from '../../../types/api-output';
 import {
+  DeadlineExtensionsUpdateRequest,
   FeedbackSessionBasicRequest,
-  FeedbackSessionDeadlineExtensionsUpdateRequest,
   Intent,
   ResponseVisibleSetting,
   SessionVisibleSetting,
@@ -153,7 +153,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       }))
       .subscribe({
         next: ([course, feedbackSession, deadlineExtensions]:
-            [Course, FeedbackSession, FeedbackSessionDeadlineExtensions]) => {
+            [Course, FeedbackSession, DeadlineExtensions]) => {
           this.courseName = course.courseName;
           this.setFeedbackSessionDetails(feedbackSession);
           this.studentDeadlines = deadlineExtensions.studentDeadlines;
@@ -393,7 +393,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   }
 
   private handleUpdateDeadlines(
-    request: FeedbackSessionDeadlineExtensionsUpdateRequest,
+    request: DeadlineExtensionsUpdateRequest,
     numStudentsUpdated: number,
     numInstructorsUpdated: number,
     isNotifyDeadlines: boolean,

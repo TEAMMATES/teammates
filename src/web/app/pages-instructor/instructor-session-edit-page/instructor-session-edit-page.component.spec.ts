@@ -23,6 +23,7 @@ import { TimezoneService } from '../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import {
   Course,
+  DeadlineExtensions,
   FeedbackMcqQuestionDetails,
   FeedbackParticipantType,
   FeedbackQuestion,
@@ -30,7 +31,6 @@ import {
   FeedbackQuestionType,
   FeedbackRankRecipientsQuestionDetails,
   FeedbackSession,
-  FeedbackSessionDeadlineExtensions,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   FeedbackTextQuestionDetails,
@@ -351,7 +351,7 @@ describe('InstructorSessionEditPageComponent', () => {
   });
 
   it('should load correct feedback session for a given API output', () => {
-    const testDeadlineExtensions: FeedbackSessionDeadlineExtensions = { studentDeadlines: {}, instructorDeadlines: {} };
+    const testDeadlineExtensions: DeadlineExtensions = { studentDeadlines: {}, instructorDeadlines: {} };
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse1));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
