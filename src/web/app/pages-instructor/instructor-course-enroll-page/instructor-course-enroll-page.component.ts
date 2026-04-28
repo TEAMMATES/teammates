@@ -5,6 +5,7 @@ import { type CellValue } from 'handsontable/common';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { concat, finalize, Observable } from 'rxjs';
 import { EnrollStatus } from './enroll-status';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { ProgressBarService } from '../../../services/progress-bar.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -23,7 +24,6 @@ import { StatusMessage } from '../../components/status-message/status-message';
 import { StatusMessageComponent } from '../../components/status-message/status-message.component';
 import { areEmailsEqual, normalizeEmail } from '../../components/teammates-common/email-utils';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 
 interface EnrollResultPanel {
   status: EnrollStatus;
