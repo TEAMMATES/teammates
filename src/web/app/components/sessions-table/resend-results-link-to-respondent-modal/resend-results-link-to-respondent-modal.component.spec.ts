@@ -66,9 +66,9 @@ describe('ResendResultsLinkToRespondentModalComponent', () => {
     ];
 
     const expectedModels = [
-      studentModelBuilder.id('61aa0796-9513-49ae-9c48-eac426625b04').email('student1@gmail.com').isSelected(true).build(),
-      studentModelBuilder.id('446f0b3f-d8f2-4afa-95bd-f703f5f3db5e').email('student3@gmail.com').isSelected(true).build(),
-      instructorModelBuilder.id('24a0b376-0bd7-4ca4-8ed9-3f362b7176bd').email('instructor2@gmail.com').isSelected(true).build(),
+      studentModelBuilder.id('ddd32f6b-e86e-42a1-868b-0e9da107fce6').email('student1@gmail.com').isSelected(true).build(),
+      studentModelBuilder.id('c0bb4887-99c0-46fb-9bb2-b8ed8305021c').email('student3@gmail.com').isSelected(true).build(),
+      instructorModelBuilder.id('246f2052-1c08-48e7-b0cd-a4c052d0dda1').email('instructor2@gmail.com').isSelected(true).build(),
     ];
 
     component.studentListInfoTableRowModels = studentListInfoTableRowModels;
