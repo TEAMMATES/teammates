@@ -30,7 +30,7 @@ public class GenerateEmailAction extends AdminOnlyAction {
         try {
             emailType = EmailType.valueOf(getNonNullRequestParamValue(Const.ParamsNames.EMAIL_TYPE));
         } catch (IllegalArgumentException e) {
-            throw new InvalidHttpParameterException("Inavalid email type "
+            throw new InvalidHttpParameterException("Invalid email type "
                     + getNonNullRequestParamValue(Const.ParamsNames.EMAIL_TYPE), e);
         }
 
@@ -55,7 +55,7 @@ public class GenerateEmailAction extends AdminOnlyAction {
             yield sqlEmailGenerator.generateFeedbackSessionReminderEmails(
                     feedbackSession, Collections.singletonList(student), new ArrayList<>(), null).get(0);
         }
-        default -> throw new InvalidHttpParameterException("Inavalid Email type for this action: " + emailType);
+        default -> throw new InvalidHttpParameterException("Invalid Email type for this action: " + emailType);
         };
 
         return new JsonResult(new EmailData(email));
