@@ -453,17 +453,17 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     }
 
     /**
-     * Gets the feedback question data for the given question ID and feedback session ID .
+     * Gets the feedback question data for the given question number and feedback session ID.
      */
-    protected FeedbackQuestionData getFeedbackQuestion(UUID questionId, UUID feedbackSessionId) {
-        return BACKDOOR.getFeedbackQuestionData(questionId, feedbackSessionId);
+    protected FeedbackQuestionData getFeedbackQuestion(int questionNumber, UUID feedbackSessionId) {
+        return BACKDOOR.getFeedbackQuestionData(questionNumber, feedbackSessionId);
     }
 
     /**
      * Gets the feedback question data for the given feedback question.
      */
     protected FeedbackQuestionData getFeedbackQuestion(FeedbackQuestion fq) {
-        return getFeedbackQuestion(fq.getId(), fq.getFeedbackSession().getId());
+        return getFeedbackQuestion(fq.getQuestionNumber(), fq.getFeedbackSession().getId());
     }
 
     /**
