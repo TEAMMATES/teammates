@@ -590,7 +590,7 @@ public final class FeedbackSessionsLogic {
         }
 
         // Check presence of questions for instructors.
-        if (fqLogic.hasFeedbackQuestionsForInstructors(fqLogic.getFeedbackQuestionsForSession(fs), false)) {
+        if (fqLogic.hasFeedbackQuestionsForInstructors(questions, false)) {
             expectedTotal += instructors.size();
         } else {
             // No questions for instructors. There must be questions for creator.
