@@ -110,6 +110,7 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
     modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
     modalRef.componentInstance.studentListInfoTableRowModels =
       this.allStudents.map((student: Student) => ({
+        id: student.userId,
         email: student.email,
         name: student.name,
         teamName: student.teamName,
@@ -117,7 +118,7 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
 
         hasSubmittedSession: !nonResponseStudentEmailSet.has(student.email),
         isSelected: nonResponseStudentEmailSet.has(student.email),
-      } as StudentListInfoTableRowModel));
+      } satisfies StudentListInfoTableRowModel));
 
     modalRef.result.then((reminderResponse: ReminderResponseModel) => {
       this.studentsToRemindEvent.emit(reminderResponse);

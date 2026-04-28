@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import teammates.common.util.Const;
@@ -69,6 +70,11 @@ public class RemindFeedbackSessionSubmissionAction extends Action {
             User user = sqlLogic.getUser(userId);
             if (user == null) {
                 throw new EntityNotFoundException("User with ID " + userId + " not found");
+            }
+
+            if (!Objects.equals(user.getCourseId(), feedbackSession.getCourseId())) {
+                throw new InvalidOperationException("User with ID "
+                    + userId + " does not belong to the same course as the feedback session");
             }
 
             if (user instanceof Student student) {
