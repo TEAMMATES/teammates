@@ -32,12 +32,12 @@ import { VisibilityStateMachine } from '../../../services/visibility-state-machi
 import {
   Course,
   Courses,
+  DeadlineExtensions,
   FeedbackParticipantType,
   FeedbackQuestion,
   FeedbackQuestions,
   FeedbackQuestionType,
   FeedbackSession,
-  FeedbackSessionDeadlineExtensions,
   FeedbackSessionPublishStatus,
   FeedbackSessions,
   FeedbackTextQuestionDetails, FeedbackVisibilityType,
@@ -241,7 +241,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.isLoadingFeedbackSession = false;
         }))
             .subscribe({
-              next: ([feedbackSession, deadlineExtensions]: [FeedbackSession, FeedbackSessionDeadlineExtensions]) => {
+              next: ([feedbackSession, deadlineExtensions]: [FeedbackSession, DeadlineExtensions]) => {
                 this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession, this.isEditingMode);
                 this.feedbackSessionModelBeforeEditing = this.getSessionEditFormModel(feedbackSession);
                 this.studentDeadlines = deadlineExtensions.studentDeadlines;

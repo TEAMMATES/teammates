@@ -18,8 +18,8 @@ import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   Course,
+  DeadlineExtensions,
   FeedbackSession,
-  FeedbackSessionDeadlineExtensions,
   FeedbackSessionSubmittedGiverSet,
   Instructors,
   Students,
@@ -153,7 +153,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       }))
       .subscribe({
         next: ([course, feedbackSession, deadlineExtensions]:
-            [Course, FeedbackSession, FeedbackSessionDeadlineExtensions]) => {
+            [Course, FeedbackSession, DeadlineExtensions]) => {
           this.courseName = course.courseName;
           this.setFeedbackSessionDetails(feedbackSession);
           this.studentDeadlines = deadlineExtensions.studentDeadlines;
