@@ -2,7 +2,6 @@ package teammates.sqlui.webapi;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -12,7 +11,6 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -154,15 +152,12 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     }
 
     @Test
-    void testExecute_missingFeedbackSession_shouldFail() throws Exception {
-        doThrow(new InvalidParametersException("Feedback session for feedback session log does not exist"))
-                .when(mockLogic)
-                .createFeedbackSessionLog(any(), any(), any(), any());
-
+    void testExecute_missingFeedbackSession_shouldFail() {
         String[] paramsMissingFeedbackSession = {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, "00000000-0000-0000-0000-000000000000",
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
         };
+
         assertThrows(teammates.ui.webapi.InvalidHttpParameterException.class,
                 () -> getAction(paramsMissingFeedbackSession).execute());
     }

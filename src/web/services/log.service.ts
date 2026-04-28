@@ -27,7 +27,7 @@ export class LogService {
   }): Observable<string> {
     const paramMap: Record<string, string> = {
       fsltype: queryParams.logType.toString(),
-      fsid: queryParams.feedbackSessionId
+      fsid: queryParams.feedbackSessionId,
     };
 
     if (queryParams.key) {

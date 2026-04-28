@@ -26,12 +26,18 @@ public class CreateFeedbackSessionLogAction extends Action {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
         FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
-            throw new UnauthorizedAccessException("The feedback session does not exist.");
+            throw new EntityNotFoundException("The feedback session does not exist.");
         }
 
         Student authenticatedStudent = getPossiblyUnregisteredSqlStudent(feedbackSession.getCourseId());
         if (authenticatedStudent == null) {
             throw new UnauthorizedAccessException("No authenticated student found for the course.");
+        }
+
+        if (authenticatedStudent.getAccount() != null
+                && (userInfo == null || !userInfo.getId().equals(authenticatedStudent.getAccount().getGoogleId()))) {
+            throw new UnauthorizedAccessException(
+                    "Login is required to create a feedback session log for a student with an associated account.");
         }
 
         if (!authenticatedStudent.getCourseId().equals(feedbackSession.getCourseId())) {
