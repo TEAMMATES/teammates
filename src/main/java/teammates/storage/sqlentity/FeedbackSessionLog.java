@@ -30,12 +30,12 @@ public class FeedbackSessionLog extends BaseEntity {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "studentId")
+    @JoinColumn(name = "studentId", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Student student;
 
     @ManyToOne
-    @JoinColumn(name = "sessionId")
+    @JoinColumn(name = "sessionId", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private FeedbackSession feedbackSession;
 
@@ -126,6 +126,28 @@ public class FeedbackSessionLog extends BaseEntity {
 
     @Override
     public List<String> getInvalidityInfo() {
-        return new ArrayList<>();
+        List<String> errors = new ArrayList<>();
+
+        if (this.student == null) {
+            errors.add("Student for feedback session log does not exist");
+        }
+
+        if (this.feedbackSession == null) {
+            errors.add("Feedback session for feedback session log does not exist");
+        }
+
+        if (this.timestamp == null) {
+            errors.add("Timestamp for feedback session log does not exist");
+        }
+
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+
+        if (!Objects.equals(this.student.getCourseId(), this.feedbackSession.getCourseId())) {
+            errors.add("Student and feedback session for feedback session log do not belong to the same course");
+        }
+
+        return errors;
     }
 }

@@ -1,6 +1,7 @@
 package teammates.sqlui.webapi;
 
-import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
@@ -35,19 +36,10 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     FeedbackSession fsaCourse1;
     FeedbackSession fsaCourseNoStudent;
     String fsaCourse1Id;
-    String fsaCourse1Name;
-    String fsaCourseNoStudentId;
-    String fsaCourseNoStudentName;
 
     Student student1InCourse1;
     Student student2InCourse2;
     Student student3InCourse2;
-    String student1Email;
-    String student2Email;
-    String student3Email;
-    String student1Id;
-    String student2Id;
-    String student3Id;
     String student1RegKey;
 
     @Override
@@ -72,9 +64,6 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         fsaCourse1 = getTypicalFeedbackSessionForCourse(course1);
         fsaCourseNoStudent = getTypicalFeedbackSessionForCourse(courseNoStudent);
         fsaCourse1Id = fsaCourse1.getId().toString();
-        fsaCourseNoStudentId = fsaCourseNoStudent.getId().toString();
-        fsaCourse1Name = fsaCourse1.getName();
-        fsaCourseNoStudentName = fsaCourseNoStudent.getName();
 
         student1InCourse1 = getTypicalStudent();
         student2InCourse2 = getTypicalStudent();
@@ -82,12 +71,6 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         student1InCourse1.setCourse(course1);
         student2InCourse2.setCourse(courseNoStudent);
         student3InCourse2.setCourse(course2);
-        student1Email = student1InCourse1.getEmail();
-        student2Email = student2InCourse2.getEmail();
-        student3Email = student3InCourse2.getEmail();
-        student1Id = student1InCourse1.getId().toString();
-        student2Id = student2InCourse2.getId().toString();
-        student3Id = student3InCourse2.getId().toString();
         student1RegKey = student1InCourse1.getRegKey();
     }
 
@@ -99,7 +82,8 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         when(mockLogic.getStudent(student3InCourse2.getId())).thenReturn(student3InCourse2);
         when(mockLogic.getStudentByRegistrationKey(student1RegKey)).thenReturn(student1InCourse1);
         when(mockLogic.getStudentByGoogleId(courseId1, MATCHING_STUDENT_USER_ID)).thenReturn(student1InCourse1);
-        when(mockLogic.getStudentByGoogleId(courseId1, NON_MATCHING_STUDENT_USER_ID)).thenReturn(student2InCourse2);
+        when(mockLogic.getStudentByGoogleId(courseId1, NON_MATCHING_STUDENT_USER_ID))
+                .thenReturn(student2InCourse2);
         when(mockLogic.getFeedbackSession(fsaCourse1.getId())).thenReturn(fsaCourse1);
         when(mockLogic.getFeedbackSession(fsaCourseNoStudent.getId())).thenReturn(fsaCourseNoStudent);
     }
@@ -107,12 +91,8 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
     @Test
     void testAccessControl() {
         String[] params = {
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.name(),
-                Const.ParamsNames.STUDENT_EMAIL, student1Email,
-                Const.ParamsNames.STUDENT_SQL_ID, student1Id,
         };
 
         loginAsStudent(MATCHING_STUDENT_USER_ID);
@@ -134,218 +114,74 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         verifyCannotAccess(params);
 
         String[] paramsWithRegKey = {
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.name(),
-                Const.ParamsNames.STUDENT_EMAIL, student1Email,
-                Const.ParamsNames.STUDENT_SQL_ID, student1Id,
                 Const.ParamsNames.REGKEY, student1RegKey,
         };
         verifyCanAccess(paramsWithRegKey);
     }
 
     @Test
-        void testExecute_typicalAccess_shouldSucceed() throws Exception {
+    void testExecute_typicalAccess_shouldSucceed() throws Exception {
+        loginAsStudent(MATCHING_STUDENT_USER_ID);
         String[] paramsSuccessfulAccess = {
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.name(),
-                Const.ParamsNames.STUDENT_EMAIL, student1Email,
-                Const.ParamsNames.STUDENT_SQL_ID, student1Id,
         };
+
         CreateFeedbackSessionLogAction action = getAction(paramsSuccessfulAccess);
         JsonResult response = getJsonResult(action);
         MessageOutput output = (MessageOutput) response.getOutput();
+
         assertEquals("Successful", output.getMessage());
-        verify(mockLogic).createFeedbackSessionLog(argThat(log ->
-                student1InCourse1.equals(log.getStudent())
-                        && fsaCourse1.equals(log.getFeedbackSession())
-                        && FeedbackSessionLogType.ACCESS == log.getFeedbackSessionLogType()));
+        verify(mockLogic).createFeedbackSessionLog(eq(fsaCourse1), eq(student1InCourse1),
+                eq(FeedbackSessionLogType.ACCESS), any());
     }
 
     @Test
-        void testExecute_duplicateLog_shouldStillPersist() throws Exception {
-        String[] paramsSuccessfulAccess = {
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
-                Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.name(),
-                Const.ParamsNames.STUDENT_EMAIL, student1Email,
-                Const.ParamsNames.STUDENT_SQL_ID, student1Id,
-        };
-
-        JsonResult response = getJsonResult(getAction(paramsSuccessfulAccess));
-        MessageOutput output = (MessageOutput) response.getOutput();
-        assertEquals("Successful", output.getMessage());
-        verify(mockLogic).createFeedbackSessionLog(argThat(log ->
-                student1InCourse1.equals(log.getStudent())
-                        && fsaCourse1.equals(log.getFeedbackSession())
-                        && FeedbackSessionLogType.ACCESS == log.getFeedbackSessionLogType()));
-    }
-
-    @Test
-        void testExecute_duplicateLogWithDifferentType_shouldPersist() throws Exception {
+    void testExecute_typicalSubmission_shouldSucceed() throws Exception {
+        loginAsStudent(MATCHING_STUDENT_USER_ID);
         String[] paramsSuccessfulSubmission = {
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
-                Const.ParamsNames.STUDENT_EMAIL, student1Email,
-                Const.ParamsNames.STUDENT_SQL_ID, student1Id,
         };
 
         JsonResult response = getJsonResult(getAction(paramsSuccessfulSubmission));
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
-        verify(mockLogic).createFeedbackSessionLog(argThat(log ->
-                student1InCourse1.equals(log.getStudent())
-                        && fsaCourse1.equals(log.getFeedbackSession())
-                        && FeedbackSessionLogType.SUBMISSION == log.getFeedbackSessionLogType()));
-    }
-
-    @Test
-        void testExecute_typicalSubmission_shouldSucceed() throws Exception {
-        String[] paramsSuccessfulSubmission = {
-                Const.ParamsNames.COURSE_ID, courseNoStudent.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourseNoStudentName,
-                Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourseNoStudentId,
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
-                Const.ParamsNames.STUDENT_EMAIL, student2Email,
-                Const.ParamsNames.STUDENT_SQL_ID, student2Id,
-
-        };
-        JsonResult response = getJsonResult(getAction(paramsSuccessfulSubmission));
-        MessageOutput output = (MessageOutput) response.getOutput();
-        assertEquals("Successful", output.getMessage());
-        verify(mockLogic).createFeedbackSessionLog(argThat(log ->
-                student2InCourse2.equals(log.getStudent())
-                        && fsaCourseNoStudent.equals(log.getFeedbackSession())
-                        && FeedbackSessionLogType.SUBMISSION == log.getFeedbackSessionLogType()));
-    }
-
-    @Test
-        void testExecute_invalidSessionName_shouldStillSucceed() throws Exception {
-        String nonExistentSessionName = "non-existent-feedback-session-name";
-        String[] paramsNonExistentFsName = {
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, nonExistentSessionName,
-                Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
-                Const.ParamsNames.STUDENT_EMAIL, student1Email,
-                Const.ParamsNames.STUDENT_SQL_ID, student1Id,
-        };
-        JsonResult response = getJsonResult(getAction(paramsNonExistentFsName));
-        MessageOutput output = (MessageOutput) response.getOutput();
-        assertEquals("Successful", output.getMessage());
-        verify(mockLogic).createFeedbackSessionLog(argThat(log ->
-                student1InCourse1.equals(log.getStudent())
-                        && fsaCourse1.equals(log.getFeedbackSession())
-                        && FeedbackSessionLogType.SUBMISSION == log.getFeedbackSessionLogType()));
-    }
-
-    @Test
-        void testExecute_invalidEmail_shouldStillSucceed() throws Exception {
-        String nonExistentEmail = "non-existent-student@email.com";
-        String[] paramsNonExistentStudentEmail = {
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
-                Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
-                Const.ParamsNames.STUDENT_EMAIL, nonExistentEmail,
-                Const.ParamsNames.STUDENT_SQL_ID, student1Id,
-        };
-        JsonResult response = getJsonResult(getAction(paramsNonExistentStudentEmail));
-        MessageOutput output = (MessageOutput) response.getOutput();
-        assertEquals("Successful", output.getMessage());
-        verify(mockLogic).createFeedbackSessionLog(argThat(log ->
-                student1InCourse1.equals(log.getStudent())
-                        && fsaCourse1.equals(log.getFeedbackSession())
-                        && FeedbackSessionLogType.SUBMISSION == log.getFeedbackSessionLogType()));
-    }
-
-    @Test
-    void testExecute_studentHasNoAccessToCourseFeedback_shouldFail() throws Exception {
-        doThrow(new InvalidParametersException("Student and feedback session belong to different courses"))
-                .when(mockLogic).createFeedbackSessionLog(argThat(log ->
-                        student3InCourse2.equals(log.getStudent())
-                                && fsaCourse1.equals(log.getFeedbackSession())));
-
-        String[] paramsWithoutAccess = {
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
-                Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
-                Const.ParamsNames.STUDENT_EMAIL, student3Email,
-                Const.ParamsNames.STUDENT_SQL_ID, student3Id,
-        };
-        assertThrows(teammates.ui.webapi.InvalidHttpParameterException.class,
-                () -> getAction(paramsWithoutAccess).execute());
+        verify(mockLogic).createFeedbackSessionLog(eq(fsaCourse1), eq(student1InCourse1),
+                eq(FeedbackSessionLogType.SUBMISSION), any());
     }
 
     @Test
     void testExecute_missingFeedbackSession_shouldFail() throws Exception {
         doThrow(new InvalidParametersException("Feedback session for feedback session log does not exist"))
-                .when(mockLogic).createFeedbackSessionLog(argThat(log ->
-                        student1InCourse1.equals(log.getStudent())
-                                && log.getFeedbackSession() == null));
+                .when(mockLogic)
+                .createFeedbackSessionLog(any(), any(), any(), any());
 
         String[] paramsMissingFeedbackSession = {
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
                 Const.ParamsNames.FEEDBACK_SESSION_ID, "00000000-0000-0000-0000-000000000000",
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
-                Const.ParamsNames.STUDENT_EMAIL, student1Email,
-                Const.ParamsNames.STUDENT_SQL_ID, student1Id,
         };
         assertThrows(teammates.ui.webapi.InvalidHttpParameterException.class,
                 () -> getAction(paramsMissingFeedbackSession).execute());
     }
 
     @Test
-    void testExecute_missingStudent_shouldFail() throws Exception {
-        doThrow(new InvalidParametersException("Student for feedback session log does not exist"))
-                .when(mockLogic).createFeedbackSessionLog(argThat(log ->
-                        log.getStudent() == null
-                                && fsaCourse1.equals(log.getFeedbackSession())));
-
-        String[] paramsMissingStudent = {
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
-                Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
-                Const.ParamsNames.STUDENT_EMAIL, student1Email,
-                Const.ParamsNames.STUDENT_SQL_ID, "00000000-0000-0000-0000-000000000000",
-        };
-        assertThrows(teammates.ui.webapi.InvalidHttpParameterException.class,
-                () -> getAction(paramsMissingStudent).execute());
-    }
-
-    @Test
     void testExecute_notEnoughParameters_shouldFail() {
-        verifyHttpParameterFailure(Const.ParamsNames.COURSE_ID, courseId1);
+        verifyHttpParameterFailure();
         verifyHttpParameterFailure(
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name
-        );
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id);
         verifyHttpParameterFailure(
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
-                Const.ParamsNames.STUDENT_EMAIL, student1Email
-        );
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name());
     }
 
     @Test
     void testExecute_invalidLogType_shouldFail() {
         String invalidLogType = "invalid log type";
         String[] paramsInvalid = {
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fsaCourse1Name,
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fsaCourse1Id,
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, invalidLogType,
-                Const.ParamsNames.STUDENT_EMAIL, student1Email,
-                Const.ParamsNames.STUDENT_SQL_ID, student1Id,
         };
         verifyHttpParameterFailure(paramsInvalid);
     }

@@ -16,6 +16,7 @@ import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SessionResultsBundle;
+import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -1592,10 +1593,12 @@ public class Logic {
     }
 
     /**
-     * Create feedback session log.
+     * Creates feedback session log.
      */
-    public void createFeedbackSessionLog(FeedbackSessionLog feedbackSessionLog) throws InvalidParametersException {
-        feedbackSessionLogsLogic.createFeedbackSessionLog(feedbackSessionLog);
+    public FeedbackSessionLog createFeedbackSessionLog(
+            FeedbackSession feedbackSession, Student student,
+            FeedbackSessionLogType logType, Instant timestamp) throws InvalidParametersException {
+        return feedbackSessionLogsLogic.createFeedbackSessionLog(feedbackSession, student, logType, timestamp);
     }
 
     /**

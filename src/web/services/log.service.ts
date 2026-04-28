@@ -21,31 +21,17 @@ export class LogService {
    * Creates a log for feedback session by calling API.
    */
   createFeedbackSessionLog(queryParams: {
-    courseId: string,
-    feedbackSessionName: string,
-    studentEmail: string,
     logType: FeedbackSessionLogType,
+    feedbackSessionId: string,
     key?: string,
-    feedbackSessionId?: string,
-    studentId?: string,
   }): Observable<string> {
     const paramMap: Record<string, string> = {
-      courseid: queryParams.courseId,
-      fsname: queryParams.feedbackSessionName,
-      studentemail: queryParams.studentEmail,
       fsltype: queryParams.logType.toString(),
+      fsid: queryParams.feedbackSessionId
     };
 
     if (queryParams.key) {
       paramMap['key'] = queryParams.key;
-    }
-
-    if (queryParams.feedbackSessionId) {
-      paramMap['fsid'] = queryParams.feedbackSessionId;
-    }
-
-    if (queryParams.studentId) {
-      paramMap['studentid'] = queryParams.studentId;
     }
 
     return this.httpRequestService.post(ResourceEndpoints.SESSION_LOGS, paramMap);
