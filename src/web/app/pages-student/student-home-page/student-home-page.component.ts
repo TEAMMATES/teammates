@@ -167,7 +167,7 @@ export class StudentHomePageComponent implements OnInit {
         const sortedFss: FeedbackSession[] = this.sortFeedbackSessions(fss);
 
         this.feedbackSessionsService
-          .hasStudentResponseForAllFeedbackSessionsInCourse(courseId)
+          .hasResponsesForAllFeedbackSessionsInCourse(courseId, 'student')
           .pipe(
             finalize(() => {
               courseRef.isFeedbackSessionsLoading = false;
