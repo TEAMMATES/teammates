@@ -1157,13 +1157,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     }
 
     this.logService.createFeedbackSessionLog({
-      courseId: this.courseId,
-      feedbackSessionName: this.feedbackSessionName,
-      studentEmail: this.personEmail,
       logType: FeedbackSessionLogType.ACCESS,
       key: this.regKey,
       feedbackSessionId: this.feedbackSessionId,
-      studentId: this.studentId,
     }).subscribe();
   }
 }

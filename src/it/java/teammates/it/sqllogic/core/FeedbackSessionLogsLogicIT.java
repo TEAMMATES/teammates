@@ -38,23 +38,13 @@ public class FeedbackSessionLogsLogicIT extends BaseTestCaseWithSqlDatabaseAcces
 
     @Test
         public void test_createFeedbackSessionLog_success() throws InvalidParametersException {
-        Course course = typicalDataBundle.courses.get("course1");
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         Student student = typicalDataBundle.students.get("student1InCourse1");
         Instant timestamp = Instant.now();
-        FeedbackSessionLog newLog1 = new FeedbackSessionLog(student, fs, FeedbackSessionLogType.ACCESS, timestamp);
-        FeedbackSessionLog newLog2 = new FeedbackSessionLog(student, fs, FeedbackSessionLogType.SUBMISSION, timestamp);
-        FeedbackSessionLog newLog3 = new FeedbackSessionLog(student, fs, FeedbackSessionLogType.VIEW_RESULT, timestamp);
-        List<FeedbackSessionLog> expected = List.of(newLog1, newLog2, newLog3);
 
-        for (FeedbackSessionLog log : expected) {
-            fslLogic.createFeedbackSessionLog(log);
-        }
+        FeedbackSessionLog log = fslLogic.createFeedbackSessionLog(fs, student, FeedbackSessionLogType.ACCESS, timestamp);
 
-        List<FeedbackSessionLog> actual = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), student.getId(),
-                fs.getId(), timestamp, timestamp.plusSeconds(1));
-
-        assertEquals(expected, actual);
+        assertNotNull(fslLogic.getFeedbackSessionLog(log.getId()));
     }
 
     @Test

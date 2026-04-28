@@ -35,6 +35,13 @@ public final class FeedbackSessionLogsDb {
     }
 
     /**
+     * Gets a feedback session log by its id.
+     */
+    public FeedbackSessionLog getFeedbackSessionLog(UUID id) {
+        return HibernateUtil.get(FeedbackSessionLog.class, id);
+    }
+
+    /**
      * Gets the feedback session logs as filtered by the given parameters ordered by
      * ascending timestamp. Logs with the same timestamp will be ordered by the
      * student's email.
@@ -78,10 +85,7 @@ public final class FeedbackSessionLogsDb {
      * Creates feedback session logs.
      */
     public FeedbackSessionLog createFeedbackSessionLog(FeedbackSessionLog log) {
-        assert log != null;
-
         HibernateUtil.persist(log);
-
         return log;
     }
 

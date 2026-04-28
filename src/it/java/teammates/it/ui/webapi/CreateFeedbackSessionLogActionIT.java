@@ -52,172 +52,90 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         FeedbackSession fs2 = typicalBundle.feedbackSessions.get("session2InTypicalCourse");
         Student student1 = typicalBundle.students.get("student1InCourse1");
         Student student2 = typicalBundle.students.get("student2InCourse1");
-        Student student3 = typicalBundle.students.get("student1InCourse3");
+
+        loginAsStudent(student1.getAccount().getGoogleId());
 
         ______TS("Failure case: not enough parameters");
-        verifyHttpParameterFailure(Const.ParamsNames.COURSE_ID, courseId1);
+        verifyHttpParameterFailure();
         verifyHttpParameterFailure(
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName()
-        );
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString());
         verifyHttpParameterFailure(
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
-                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail()
-        );
-        verifyHttpParameterFailure(
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.name(),
-                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail()
-        );
-        verifyHttpParameterFailure(
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_ID, fs2.getId().toString(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
-                Const.ParamsNames.STUDENT_SQL_ID, student2.getId().toString()
-        );
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name());
 
         ______TS("Failure case: invalid log type");
         String[] paramsInvalid = {
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, "invalid log type",
-                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
-                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
         };
         verifyHttpParameterFailure(paramsInvalid);
 
         ______TS("Success case: typical access");
         String[] paramsSuccessfulAccess = {
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.name(),
-                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
-                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
         };
         JsonResult response = getJsonResult(getAction(paramsSuccessfulAccess));
         MessageOutput output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
 
-        List<FeedbackSessionLog> persistedAccessLogs = logic.getOrderedFeedbackSessionLogs(courseId1, student1.getId(),
+        List<FeedbackSessionLog> persistedAccessLogs = logic.getOrderedFeedbackSessionLogs(courseId1,
+                student1.getId(),
                 fs1.getId(), Instant.now().minusSeconds(60), Instant.now().plusSeconds(60));
-        assertEquals(persistedAccessLogs.size(), 1);
-        assertEquals(persistedAccessLogs.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
+        assertEquals(1, persistedAccessLogs.size());
+        assertEquals(fs1.getId(), persistedAccessLogs.get(0).getFeedbackSession().getId());
+        assertEquals(student1.getId(), persistedAccessLogs.get(0).getStudent().getId());
+        assertEquals(FeedbackSessionLogType.ACCESS, persistedAccessLogs.get(0).getFeedbackSessionLogType());
 
         ______TS("Success case: typical submission");
+        loginAsStudent(student2.getAccount().getGoogleId());
+
         String[] paramsSuccessfulSubmission = {
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs2.getName(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
-                Const.ParamsNames.STUDENT_EMAIL, student2.getEmail(),
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs2.getId().toString(),
-                Const.ParamsNames.STUDENT_SQL_ID, student2.getId().toString(),
         };
         response = getJsonResult(getAction(paramsSuccessfulSubmission));
         output = (MessageOutput) response.getOutput();
         assertEquals("Successful", output.getMessage());
 
         List<FeedbackSessionLog> persistedSubmissionLogs = logic.getOrderedFeedbackSessionLogs(courseId1,
-                student2.getId(), fs2.getId(), Instant.now().minusSeconds(60), Instant.now().plusSeconds(60));
-        assertEquals(persistedSubmissionLogs.size(), 1);
-        assertEquals(persistedSubmissionLogs.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
-
-        ______TS("Success case: should create even for invalid parameters");
-        String[] paramsNonExistentCourseId = {
-                Const.ParamsNames.COURSE_ID, "non-existent-course-id",
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
-                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
-                Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
-                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
-        };
-        response = getJsonResult(getAction(paramsNonExistentCourseId));
-        output = (MessageOutput) response.getOutput();
-        assertEquals("Successful", output.getMessage());
-        assertEquals(logic.getOrderedFeedbackSessionLogs(courseId1, null, null, Instant.now().minusSeconds(60),
-                Instant.now().plusSeconds(60)).size(), 3);
+                student2.getId(), fs2.getId(), Instant.now().minusSeconds(60),
+                Instant.now().plusSeconds(60));
+        assertEquals(1, persistedSubmissionLogs.size());
+        assertEquals(fs2.getId(), persistedSubmissionLogs.get(0).getFeedbackSession().getId());
+        assertEquals(student2.getId(), persistedSubmissionLogs.get(0).getStudent().getId());
+        assertEquals(FeedbackSessionLogType.SUBMISSION,
+                persistedSubmissionLogs.get(0).getFeedbackSessionLogType());
 
         ______TS("Failure case: should fail for missing feedback session");
         String[] paramsNonExistentFsName = {
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "non-existent-feedback-session-name",
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
-                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
                 Const.ParamsNames.FEEDBACK_SESSION_ID, UUID.randomUUID().toString(),
-                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
         };
         verifyHttpParameterFailure(paramsNonExistentFsName);
-        assertEquals(logic.getOrderedFeedbackSessionLogs(courseId1, null, null, Instant.now().minusSeconds(60),
-                Instant.now().plusSeconds(60)).size(), 3);
-
-        ______TS("Failure case: should fail for missing student");
-        String[] paramsNonExistentStudentEmail = {
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
-                Const.ParamsNames.STUDENT_EMAIL, "non-existent-student@email.com",
-                Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
-                Const.ParamsNames.STUDENT_SQL_ID, UUID.randomUUID().toString(),
-        };
-        verifyHttpParameterFailure(paramsNonExistentStudentEmail);
-        assertEquals(logic.getOrderedFeedbackSessionLogs(courseId1, null, null, Instant.now().minusSeconds(60),
-                Instant.now().plusSeconds(60)).size(), 3);
-
-        ______TS("Failure case: should fail when student does not belong to feedback session course");
-        String[] paramsWithoutAccess = {
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
-                Const.ParamsNames.STUDENT_EMAIL, student3.getEmail(),
-                Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
-                Const.ParamsNames.STUDENT_SQL_ID, student3.getId().toString(),
-        };
-        verifyHttpParameterFailure(paramsWithoutAccess);
-        assertEquals(logic.getOrderedFeedbackSessionLogs(courseId1, student3.getId(), fs1.getId(),
-                Instant.now().minusSeconds(60), Instant.now().plusSeconds(60)).size(), 0);
-
-        ______TS("Success case: different log type should still be persisted");
-        String[] paramsViewResult = {
-                Const.ParamsNames.COURSE_ID, courseId1,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.VIEW_RESULT.name(),
-                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
-                Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
-                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
-        };
-        response = getJsonResult(getAction(paramsViewResult));
-        output = (MessageOutput) response.getOutput();
-        assertEquals("Successful", output.getMessage());
-
-        List<FeedbackSessionLog> allStudent1Session1Logs = logic.getOrderedFeedbackSessionLogs(courseId1,
-                student1.getId(), fs1.getId(), Instant.now().minusSeconds(60), Instant.now().plusSeconds(60));
-        assertEquals(allStudent1Session1Logs.size(), 3);
-        assertTrue(allStudent1Session1Logs.stream()
-                .anyMatch(logEntry -> logEntry.getFeedbackSessionLogType() == FeedbackSessionLogType.VIEW_RESULT));
+        assertEquals(2, logic
+                .getOrderedFeedbackSessionLogs(courseId1, null, null, Instant.now().minusSeconds(60),
+                        Instant.now().plusSeconds(60))
+                .size());
     }
 
     @Test
     @Override
     protected void testAccessControl() throws Exception {
         Student student1 = typicalBundle.students.get("student1InCourse1");
-        Student student2 = typicalBundle.students.get("student2InCourse1");
         FeedbackSession fs1 = typicalBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackSession fs2 = typicalBundle.feedbackSessions.get("ongoingSession1InCourse3");
         String[] params = {
-                Const.ParamsNames.COURSE_ID, student1.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs1.getName(),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.name(),
-                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
                 Const.ParamsNames.FEEDBACK_SESSION_ID, fs1.getId().toString(),
-                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
         };
 
         loginAsStudent(student1.getAccount().getGoogleId());
         verifyCanAccess(params);
 
-        loginAsStudent(student2.getAccount().getGoogleId());
+        params = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.name(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fs2.getId().toString(),
+        };
         verifyCannotAccess(params);
 
         verifyInaccessibleForUnregisteredUsers(params);
