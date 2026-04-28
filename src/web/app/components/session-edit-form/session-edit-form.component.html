@@ -236,7 +236,7 @@
                     @if (formMode !== SessionEditFormMode.ADD) {
                       <a class="ps-3 pt-2"
                         tmRouterLink="/web/instructor/sessions/individual-extension"
-                        [queryParams]="{ courseid: model.courseId, fsname: model.feedbackSessionName, preselectnonsubmitters: false }">
+                        [queryParams]="{ courseid: model.courseId, fsname: model.feedbackSessionName, fsid: model.feedbackSessionId, preselectnonsubmitters: false }">
                         Individual Deadline Extensions
                         <i class="fas fa-edit"></i>
                       </a>

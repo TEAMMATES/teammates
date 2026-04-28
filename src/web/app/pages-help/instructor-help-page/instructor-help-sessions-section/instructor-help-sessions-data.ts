@@ -35,6 +35,7 @@ import { FeedbackQuestionModel } from '../../../pages-session/session-result-pag
  * Structure of example session edit form model
  */
 export const EXAMPLE_SESSION_EDIT_FORM_MODEL: SessionEditFormModel = {
+  feedbackSessionId: '',
   courseId: 'CS2103T',
   timeZone: 'UTC',
   courseName: 'Software Engineering',
