@@ -5,7 +5,7 @@ import { type CellValue } from 'handsontable/common';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { concat, finalize, Observable } from 'rxjs';
 import { EnrollStatus } from './enroll-status';
-import { CourseService } from '../../../services/course.service';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { ProgressBarService } from '../../../services/progress-bar.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -53,7 +53,7 @@ interface EnrollResultPanel {
 export class InstructorCourseEnrollPageComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly statusMessageService = inject(StatusMessageService);
-  private readonly courseService = inject(CourseService);
+  private readonly feedbackSessionService = inject(FeedbackSessionsService);
   private readonly studentService = inject(StudentService);
   private readonly progressBarService = inject(ProgressBarService);
   private readonly simpleModalService = inject(SimpleModalService);
@@ -541,7 +541,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    */
   getCourseEnrollPageData(courseid: string): void {
     this.isLoadingCourseEnrollPage = true;
-    this.courseService.hasResponsesForCourse(courseid).subscribe({
+    this.feedbackSessionService.hasResponsesForAllFeedbackSessionsInCourse(courseid, 'instructor').subscribe({
       next: (resp: HasResponses) => {
         this.coursePresent = true;
         this.courseId = courseid;
