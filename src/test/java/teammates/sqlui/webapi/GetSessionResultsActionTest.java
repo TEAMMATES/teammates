@@ -84,9 +84,9 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         switch (intent) {
         case FULL_DETAIL:
             when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructorStub);
-            when(mockLogic.getSessionResultsForCourse(argThat(
+            when(mockLogic.getSessionResults(argThat(
                     argument -> Objects.equals(argument.getName(), session.getName())),
-                    eq(course.getId()), eq(instructorStub.getEmail()), isNull(), isNull(),
+                    eq(instructorStub.getEmail()), isNull(), isNull(),
                     eq(FeedbackResultFetchType.BOTH))).thenReturn(resultsStub);
             break;
         case INSTRUCTOR_RESULT:
@@ -193,9 +193,9 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         when(mockLogic.getFeedbackSession(session.getId())).thenReturn(session);
         when(mockLogic.getInstructorForEmail(course.getId(), instructorStub.getEmail())).thenReturn(instructorStub);
         when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructorStub);
-        when(mockLogic.getSessionResultsForCourse(argThat(
+        when(mockLogic.getSessionResults(argThat(
                         argument -> Objects.equals(argument.getName(), session.getName())),
-                eq(course.getId()), eq(instructorStub.getEmail()), eq(questionStub.getId()), eq("sectionName"),
+                eq(instructorStub.getEmail()), eq(questionStub.getId()), eq("sectionName"),
                 eq(FeedbackResultFetchType.RECEIVER))).thenReturn(resultsStub);
 
         String[] params = {

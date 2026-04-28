@@ -69,8 +69,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         SessionResultsData output = (SessionResultsData) r.getOutput();
 
         SessionResultsData expectedResults = SessionResultsData.initForInstructor(
-                logic.getSessionResultsForCourse(accessibleFeedbackSession,
-                        accessibleFeedbackSession.getCourseId(),
+                logic.getSessionResults(accessibleFeedbackSession,
                         instructor.getEmail(),
                         null, null, FeedbackResultFetchType.BOTH));
 
@@ -99,8 +98,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
                 output = (SessionResultsData) r.getOutput();
 
                 expectedResults = SessionResultsData.initForInstructor(
-                        logic.getSessionResultsForCourse(accessibleFeedbackSession,
-                                accessibleFeedbackSession.getCourseId(),
+                        logic.getSessionResults(accessibleFeedbackSession,
                                 instructor.getEmail(),
                                 null, section.getName(), fetchType));
 
@@ -124,7 +122,6 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         output = (SessionResultsData) r.getOutput();
         expectedResults = SessionResultsData.initForStudent(
                 logic.getSessionResultsForUser(accessibleFeedbackSession,
-                        accessibleFeedbackSession.getCourseId(),
                         student.getEmail(),
                         false, null, true),
                 student);
@@ -146,7 +143,6 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         output = (SessionResultsData) r.getOutput();
         expectedResults = SessionResultsData.initForStudent(
                 logic.getSessionResultsForUser(accessibleFeedbackSession,
-                        accessibleFeedbackSession.getCourseId(),
                         student.getEmail(),
                         false, null, false),
                 student);
@@ -171,7 +167,6 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         output = (SessionResultsData) r.getOutput();
         expectedResults = SessionResultsData.initForStudent(
                 logic.getSessionResultsForUser(accessibleFeedbackSession,
-                        accessibleFeedbackSession.getCourseId(),
                         student.getEmail(),
                         false, question.getId(), false),
                 student);

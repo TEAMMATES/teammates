@@ -691,17 +691,17 @@ public final class FeedbackResponsesLogic {
      * Gets the session result for a feedback session.
      *
      * @param feedbackSession the feedback session
-     * @param courseId the ID of the course
      * @param instructorEmail the instructor viewing the feedback session
      * @param questionId if not null, will only return partial bundle for the question
      * @param sectionName if not null, will only return partial bundle for the section
      * @param fetchType if not null, will fetch responses by giver, receiver sections, or both
      * @return the session result bundle
      */
-    public SessionResultsBundle getSessionResultsForCourse(
-            FeedbackSession feedbackSession, String courseId, String instructorEmail,
+    public SessionResultsBundle getSessionResults(
+            FeedbackSession feedbackSession, String instructorEmail,
             @Nullable UUID questionId, @Nullable String sectionName, @Nullable FeedbackResultFetchType fetchType) {
 
+        String courseId = feedbackSession.getCourseId();
         CourseRoster roster = new CourseRoster(
                 usersLogic.getStudentsForCourse(courseId),
                 usersLogic.getInstructorsForCourse(courseId));

@@ -101,7 +101,7 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
         case FULL_DETAIL:
             instructor = getSqlInstructorOfCourseFromRequest(courseId);
 
-            bundle = sqlLogic.getSessionResultsForCourse(feedbackSession, courseId, instructor.getEmail(),
+            bundle = sqlLogic.getSessionResults(feedbackSession, instructor.getEmail(),
                     questionUuid, selectedSection, fetchType);
             return new JsonResult(SessionResultsData.initForInstructor(bundle));
         case INSTRUCTOR_RESULT:
