@@ -25,8 +25,8 @@ import {
   Students,
 } from '../../../types/api-output';
 import {
+  DeadlineExtensionsUpdateRequest,
   FeedbackSessionBasicRequest,
-  FeedbackSessionDeadlineExtensionsUpdateRequest,
   Intent,
   ResponseVisibleSetting,
   SessionVisibleSetting,
@@ -393,7 +393,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   }
 
   private handleUpdateDeadlines(
-    request: FeedbackSessionDeadlineExtensionsUpdateRequest,
+    request: DeadlineExtensionsUpdateRequest,
     numStudentsUpdated: number,
     numInstructorsUpdated: number,
     isNotifyDeadlines: boolean,

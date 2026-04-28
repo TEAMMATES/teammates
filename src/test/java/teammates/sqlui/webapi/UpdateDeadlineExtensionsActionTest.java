@@ -27,7 +27,7 @@ import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
-import teammates.ui.request.FeedbackSessionDeadlineExtensionsUpdateRequest;
+import teammates.ui.request.DeadlineExtensionsUpdateRequest;
 import teammates.ui.webapi.UpdateDeadlineExtensionsAction;
 
 /**
@@ -89,7 +89,7 @@ public class UpdateDeadlineExtensionsActionTest
 
         when(mockLogic.getFeedbackSession(originalFeedbackSession.getId())).thenReturn(originalFeedbackSession);
 
-        FeedbackSessionDeadlineExtensionsUpdateRequest updateRequest =
+        DeadlineExtensionsUpdateRequest updateRequest =
                 buildUpdateRequest(instructor.getEmail(), endHour);
         UpdateDeadlineExtensionsAction a = getAction(updateRequest, param);
         getJsonResult(a);
@@ -115,7 +115,7 @@ public class UpdateDeadlineExtensionsActionTest
         when(mockLogic.getInstructorForEmail(originalFeedbackSession.getCourseId(), instructor.getEmail()))
                 .thenReturn(instructor);
 
-        FeedbackSessionDeadlineExtensionsUpdateRequest updateRequest =
+        DeadlineExtensionsUpdateRequest updateRequest =
                 buildUpdateRequest(instructor.getEmail(), nearestHour);
         UpdateDeadlineExtensionsAction a = getAction(updateRequest, param);
         getJsonResult(a);
@@ -125,13 +125,13 @@ public class UpdateDeadlineExtensionsActionTest
     }
 
     /**
-     * Builds a {@link FeedbackSessionDeadlineExtensionsUpdateRequest} with the given deadline values.
+     * Builds a {@link DeadlineExtensionsUpdateRequest} with the given deadline values.
      * Pass null for an email to omit that user from the request.
      */
-    private FeedbackSessionDeadlineExtensionsUpdateRequest buildUpdateRequest(
+    private DeadlineExtensionsUpdateRequest buildUpdateRequest(
             String instructorEmail, Instant instructorDeadlineInstant) {
-        FeedbackSessionDeadlineExtensionsUpdateRequest request =
-                new FeedbackSessionDeadlineExtensionsUpdateRequest();
+        DeadlineExtensionsUpdateRequest request =
+                new DeadlineExtensionsUpdateRequest();
 
         Map<String, Long> instructorDeadlines = new HashMap<>();
         if (instructorEmail != null && instructorDeadlineInstant != null) {

@@ -26,8 +26,8 @@ import {
   Students,
 } from '../types/api-output';
 import {
+  DeadlineExtensionsUpdateRequest,
   FeedbackSessionCreateRequest,
-  FeedbackSessionDeadlineExtensionsUpdateRequest,
   FeedbackSessionRespondentRemindRequest,
   FeedbackSessionUpdateRequest,
   Intent,
@@ -124,7 +124,7 @@ export class FeedbackSessionsService {
    * Updates the deadline extensions for a feedback session by calling API.
    */
   updateFeedbackSessionDeadlineExtensions(feedbackSessionId: string,
-    request: FeedbackSessionDeadlineExtensionsUpdateRequest,
+    request: DeadlineExtensionsUpdateRequest,
     isNotifyDeadlines: boolean): Observable<DeadlineExtensions> {
     const paramMap: Record<string, string> = {
       fsid: feedbackSessionId,

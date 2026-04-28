@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 /**
  * The update request for deadline extensions of a feedback session.
  */
-public class FeedbackSessionDeadlineExtensionsUpdateRequest extends BasicRequest {
+public class DeadlineExtensionsUpdateRequest extends BasicRequest {
 
     private Map<String, Long> studentDeadlines;
     private Map<String, Long> instructorDeadlines;

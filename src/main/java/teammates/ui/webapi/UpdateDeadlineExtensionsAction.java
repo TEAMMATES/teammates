@@ -25,7 +25,7 @@ import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.User;
 import teammates.ui.output.DeadlineExtensionsData;
-import teammates.ui.request.FeedbackSessionDeadlineExtensionsUpdateRequest;
+import teammates.ui.request.DeadlineExtensionsUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
@@ -63,8 +63,8 @@ public class UpdateDeadlineExtensionsAction extends Action {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
-        FeedbackSessionDeadlineExtensionsUpdateRequest updateRequest =
-                getAndValidateRequestBody(FeedbackSessionDeadlineExtensionsUpdateRequest.class);
+        DeadlineExtensionsUpdateRequest updateRequest =
+                getAndValidateRequestBody(DeadlineExtensionsUpdateRequest.class);
 
         List<DeadlineExtension> prevDeadlineExtensions = feedbackSession.getDeadlineExtensions();
         String courseId = feedbackSession.getCourseId();
