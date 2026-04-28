@@ -4,23 +4,23 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
-import { AccountRequestTableRowModel } from './account-request-table-model';
-import { AccountRequestTableComponent } from './account-request-table.component';
-import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
-import {
-  RejectWithReasonModalComponent,
-} from './admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
+import { AccountRequestTableRowModel } from './account-search-table-model';
+import { AdminAccountSearchTableComponent } from './admin-account-search-table.component';
 import { AccountService } from '../../../services/account.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { createBuilder } from '../../../test-helpers/generic-builder';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import { AccountRequest, AccountRequestStatus } from '../../../types/api-output';
+import { EditRequestModalComponent } from '../account-requests-table/admin-edit-request-modal/admin-edit-request-modal.component';
+import {
+  RejectWithReasonModalComponent,
+} from '../account-requests-table/admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 
-describe('AccountRequestTableComponent', () => {
-    let component: AccountRequestTableComponent;
-    let fixture: ComponentFixture<AccountRequestTableComponent>;
+describe('AdminAccountSearchTableComponent', () => {
+    let component: AdminAccountSearchTableComponent;
+    let fixture: ComponentFixture<AdminAccountSearchTableComponent>;
     let accountService: AccountService;
     let statusMessageService: StatusMessageService;
     let simpleModalService: SimpleModalService;
@@ -47,6 +47,11 @@ describe('AccountRequestTableComponent', () => {
         .createdAtText('Tue, 08 Feb 2022, 08:23 AM +00:00')
         .comments('comment');
 
+    const resetModalContent = `Are you sure you want to reset the account request for
+        <strong>name</strong> with email <strong>email</strong> from
+        <strong>institute</strong>?
+        An email with the account registration link will also be sent to the instructor.`;
+    const resetModalTitle = 'Reset account request for <strong>name</strong>?';
     const deleteModalContent = `Are you sure you want to <strong>delete</strong> the account request for
         <strong>name</strong> with email <strong>email</strong> from
         <strong>institute</strong>?`;
@@ -65,7 +70,7 @@ describe('AccountRequestTableComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(AccountRequestTableComponent);
+        fixture = TestBed.createComponent(AdminAccountSearchTableComponent);
         component = fixture.componentInstance;
         accountService = TestBed.inject(AccountService);
         statusMessageService = TestBed.inject(StatusMessageService);
@@ -86,6 +91,21 @@ describe('AccountRequestTableComponent', () => {
 
         fixture.detectChanges();
         expect(fixture).toMatchSnapshot();
+      });
+
+      it('should show account request links when expand all button clicked', () => {
+        const accountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
+        accountRequestResult.status = AccountRequestStatus.APPROVED;
+        accountRequestResult.registrationLink = 'registrationLink';
+        component.accountRequests = [
+          accountRequestResult,
+        ];
+        component.searchString = 'test';
+        fixture.detectChanges();
+
+        const button: any = fixture.debugElement.nativeElement.querySelector('#show-account-request-links');
+        button.click();
+        expect(component.accountRequests[0].showLinks).toEqual(true);
       });
 
       it('should display account requests with no reset or expand links button', () => {
@@ -175,6 +195,87 @@ describe('AccountRequestTableComponent', () => {
         expect(spyStatusMessageService).toHaveBeenCalled();
         expect(modalSpy).toHaveBeenCalledTimes(1);
         expect(modalSpy).toHaveBeenCalledWith(deleteModalTitle, SimpleModalType.DANGER, deleteModalContent);
+      });
+
+      it('should show success message when resetting account request is successful', () => {
+        const registeredAccountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
+        registeredAccountRequestResult.status = AccountRequestStatus.REGISTERED;
+        registeredAccountRequestResult.registrationLink = 'registrationLink';
+        registeredAccountRequestResult.registeredAtText = 'registeredTime';
+        component.accountRequests = [
+            registeredAccountRequestResult,
+        ];
+
+        component.searchString = 'test';
+        fixture.detectChanges();
+
+        const mockModalRef = {
+          componentInstance: {},
+          result: Promise.resolve({}),
+          dismissed: {
+            subscribe: jest.fn(),
+          },
+        };
+
+        const modalSpy = jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(mockModalRef as any);
+
+        jest.spyOn(accountService, 'resetAccountRequest').mockReturnValue(of({
+          joinLink: 'joinlink',
+        }));
+
+        const spyStatusMessageService = jest.spyOn(statusMessageService, 'showSuccessToast')
+          .mockImplementation((args: string) => {
+            expect(args)
+                .toEqual('Reset successful. An email has been sent to email.');
+          });
+
+        const resetButton = fixture.debugElement.nativeElement.querySelector('#reset-account-request-0');
+        resetButton.click();
+
+        expect(spyStatusMessageService).toHaveBeenCalled();
+        expect(modalSpy).toHaveBeenCalledTimes(1);
+        expect(modalSpy).toHaveBeenCalledWith(resetModalTitle, SimpleModalType.WARNING, resetModalContent);
+      });
+
+      it('should show error message when resetting account request is unsuccessful', () => {
+        const registeredAccountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
+        registeredAccountRequestResult.status = AccountRequestStatus.REGISTERED;
+        registeredAccountRequestResult.registrationLink = 'registrationLink';
+        registeredAccountRequestResult.registeredAtText = 'registeredTime';
+        component.accountRequests = [
+            registeredAccountRequestResult,
+        ];
+
+        component.searchString = 'test';
+        fixture.detectChanges();
+
+        const mockModalRef = {
+          componentInstance: {},
+          result: Promise.resolve({}),
+          dismissed: {
+            subscribe: jest.fn(),
+          },
+        };
+
+        const modalSpy = jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(mockModalRef as any);
+
+        jest.spyOn(accountService, 'resetAccountRequest').mockReturnValue(throwError(() => ({
+          error: {
+            message: 'This is the error message.',
+          },
+        })));
+
+        const spyStatusMessageService = jest.spyOn(statusMessageService, 'showErrorToast')
+          .mockImplementation((args: string) => {
+            expect(args).toEqual('This is the error message.');
+          });
+
+        const resetButton = fixture.debugElement.nativeElement.querySelector('#reset-account-request-0');
+        resetButton.click();
+
+        expect(spyStatusMessageService).toHaveBeenCalled();
+        expect(modalSpy).toHaveBeenCalledTimes(1);
+        expect(modalSpy).toHaveBeenCalledWith(resetModalTitle, SimpleModalType.WARNING, resetModalContent);
       });
 
       it('should display comment modal', () => {

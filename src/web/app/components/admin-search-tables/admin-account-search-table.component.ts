@@ -1,45 +1,53 @@
 import { Component, Input } from '@angular/core';
 import { NgbModalRef, NgbModal, NgbTooltip, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
-import { AccountRequestTableRowModel } from './account-request-table-model';
-import { EditRequestModalComponentResult } from './admin-edit-request-modal/admin-edit-request-modal-model';
-import { EditRequestModalComponent } from './admin-edit-request-modal/admin-edit-request-modal.component';
-import {
-  RejectWithReasonModalComponentResult,
-} from './admin-reject-with-reason-modal/admin-reject-with-reason-modal-model';
-import {
-  RejectWithReasonModalComponent,
-} from './admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
+import { AccountRequestTableRowModel } from './account-search-table-model';
 import { AccountService } from '../../../services/account.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { AccountRequest, MessageOutput } from '../../../types/api-output';
 import { AccountRequestUpdateRequest } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
+import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter.pipe';
+import { EditRequestModalComponentResult } from '../account-requests-table/admin-edit-request-modal/admin-edit-request-modal-model';
+import { EditRequestModalComponent } from '../account-requests-table/admin-edit-request-modal/admin-edit-request-modal.component';
+import {
+  RejectWithReasonModalComponentResult,
+} from '../account-requests-table/admin-reject-with-reason-modal/admin-reject-with-reason-modal-model';
+import {
+  RejectWithReasonModalComponent,
+} from '../account-requests-table/admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
+import { collapseAnim } from '../teammates-common/collapse-anim';
 
 /**
- * Pending account requests table component for approval workflow.
+ * Account requests table component for admin search.
  */
 @Component({
-  selector: 'tm-account-request-table',
-  templateUrl: './account-request-table.component.html',
-  styleUrls: ['./account-request-table.component.scss'],
+  selector: 'tm-admin-account-search-table',
+  templateUrl: './admin-account-search-table.component.html',
+  styleUrls: ['./admin-account-search-table.component.scss'],
+  animations: [collapseAnim],
   imports: [
     NgbTooltip,
     AjaxLoadingComponent,
     NgbDropdown,
     NgbDropdownToggle,
     NgbDropdownMenu,
+    SearchTermsHighlighterPipe,
   ],
 })
-export class AccountRequestTableComponent {
+export class AdminAccountSearchTableComponent {
 
   @Input()
   accountRequests: AccountRequestTableRowModel[] = [];
 
+  @Input()
+  searchString = '';
+
   isRejectingAccount: boolean[] = new Array(this.accountRequests.length).fill(false);
   isApprovingAccount: boolean[] = new Array(this.accountRequests.length).fill(false);
+  isResettingAccount: boolean[] = new Array(this.accountRequests.length).fill(false);
 
   constructor(
     private statusMessageService: StatusMessageService,
@@ -47,6 +55,28 @@ export class AccountRequestTableComponent {
     private accountService: AccountService,
     private ngbModal: NgbModal,
   ) {}
+
+  /**
+   * Shows all account requests' links in the page.
+   */
+  showAllAccountRequestsLinks(): void {
+    for (const accountRequest of this.accountRequests) {
+      accountRequest.showLinks = true;
+    }
+  }
+
+  /**
+   * Hides all account requests' links in the page.
+   */
+  hideAllAccountRequestsLinks(): void {
+    for (const accountRequest of this.accountRequests) {
+      accountRequest.showLinks = false;
+    }
+  }
+
+  toggleAccountRequestLinks(accountRequest: AccountRequestTableRowModel): void {
+    accountRequest.showLinks = !accountRequest.showLinks;
+  }
 
   editAccountRequest(accountRequest: AccountRequestTableRowModel): void {
     const modalRef: NgbModalRef = this.ngbModal.open(EditRequestModalComponent);
@@ -97,6 +127,36 @@ export class AccountRequestTableComponent {
         this.isApprovingAccount[index] = false;
       },
     });
+  }
+
+  resetAccountRequest(accountRequest: AccountRequestTableRowModel, index: number): void {
+    this.isResettingAccount[index] = true;
+    const modalContent = `Are you sure you want to reset the account request for
+        <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
+        <strong>${accountRequest.instituteAndCountry}</strong>?
+        An email with the account registration link will also be sent to the instructor.`;
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+        `Reset account request for <strong>${accountRequest.name}</strong>?`, SimpleModalType.WARNING, modalContent);
+
+    modalRef.dismissed.subscribe(() => {
+      this.isResettingAccount[index] = false;
+    });
+
+    modalRef.result.then(() => {
+      this.accountService.resetAccountRequest(accountRequest.id)
+        .subscribe({
+          next: () => {
+            this.statusMessageService
+                .showSuccessToast(`Reset successful. An email has been sent to ${accountRequest.email}.`);
+            accountRequest.registeredAtText = '';
+            this.isResettingAccount[index] = false;
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+            this.isResettingAccount[index] = false;
+          },
+        });
+    }, () => {});
   }
 
   deleteAccountRequest(accountRequest: AccountRequestTableRowModel): void {
