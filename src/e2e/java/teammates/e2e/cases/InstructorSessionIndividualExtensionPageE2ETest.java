@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Map;
+import java.util.UUID;
 
 import org.testng.annotations.Test;
 
@@ -15,8 +16,7 @@ import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
-import teammates.ui.output.DeadlineExtensionData;
-import teammates.ui.output.FeedbackSessionDeadlineExtensionsData;
+import teammates.ui.output.DeadlineExtensionsData;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_INDIVIDUAL_EXTENSION_PAGE}.
@@ -64,15 +64,16 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
 
         individualExtensionPage.extendDeadlineByTwelveHours(true);
 
-        FeedbackSessionDeadlineExtensionsData updatedExtensionsData =
-                getFeedbackSessionDeadlineExtensions(feedbackSession.getId());
+        DeadlineExtensionsData updatedExtensionsData =
+                getDeadlineExtensions(feedbackSession.getId());
         Map<String, Long> updatedStudentDeadlines = updatedExtensionsData.getStudentDeadlines();
         Map<String, Long> updatedInstructorDeadlines = updatedExtensionsData.getInstructorDeadlines();
         Instant expectedDeadline = feedbackSession.getEndTime().plus(Duration.ofHours(12));
 
         verifyUpdatedDeadlinesMap(updatedStudentDeadlines, testEmail, "charlie.tmms@gmail.tmt");
         verifyUpdatedDeadlinesMap(updatedInstructorDeadlines, "instructor1.tmms@gmail.tmt");
-        verifyDeadlineExtensionsPresentOrAbsent(updatedStudentDeadlines, updatedInstructorDeadlines, expectedDeadline);
+        verifyDeadlineExtensionsPresentOrAbsent(feedbackSession.getId(), updatedStudentDeadlines,
+                updatedInstructorDeadlines, expectedDeadline);
 
         String expectedSubject = "TEAMMATES: Deadline extension given [Course: "
                 + course.getName() + "][Feedback Session: "
@@ -90,13 +91,14 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
         individualExtensionPage.extendDeadlineByOneDay(true);
 
         updatedExtensionsData =
-                getFeedbackSessionDeadlineExtensions(feedbackSession.getId());
+                getDeadlineExtensions(feedbackSession.getId());
         updatedStudentDeadlines = updatedExtensionsData.getStudentDeadlines();
         updatedInstructorDeadlines = updatedExtensionsData.getInstructorDeadlines();
 
         verifyUpdatedDeadlinesMap(updatedStudentDeadlines, testEmail, "charlie.tmms@gmail.tmt");
         verifyUpdatedDeadlinesMap(updatedInstructorDeadlines, "instructor1.tmms@gmail.tmt");
-        verifyDeadlineExtensionsPresentOrAbsent(updatedStudentDeadlines, updatedInstructorDeadlines, expectedDeadline);
+        verifyDeadlineExtensionsPresentOrAbsent(feedbackSession.getId(), updatedStudentDeadlines,
+                updatedInstructorDeadlines, expectedDeadline);
 
         expectedSubject = "TEAMMATES: Deadline extension updated [Course: "
                 + course.getName() + "][Feedback Session: "
@@ -111,14 +113,15 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
         individualExtensionPage.deleteDeadlines(true);
 
         updatedExtensionsData =
-                getFeedbackSessionDeadlineExtensions(feedbackSession.getId());
+                getDeadlineExtensions(feedbackSession.getId());
         updatedStudentDeadlines = updatedExtensionsData.getStudentDeadlines();
         updatedInstructorDeadlines = updatedExtensionsData.getInstructorDeadlines();
 
         assertTrue(updatedStudentDeadlines.isEmpty());
         assertTrue(updatedInstructorDeadlines.isEmpty());
 
-        verifyDeadlineExtensionsPresentOrAbsent(updatedStudentDeadlines, updatedInstructorDeadlines, expectedDeadline);
+        verifyDeadlineExtensionsPresentOrAbsent(feedbackSession.getId(), updatedStudentDeadlines,
+                updatedInstructorDeadlines, expectedDeadline);
 
         expectedSubject = "TEAMMATES: Deadline extension revoked [Course: "
                 + course.getName() + "][Feedback Session: "
@@ -133,14 +136,15 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
         individualExtensionPage.extendDeadlineToOneDayAway(feedbackSession, false);
 
         updatedExtensionsData =
-                getFeedbackSessionDeadlineExtensions(feedbackSession.getId());
+                getDeadlineExtensions(feedbackSession.getId());
         updatedStudentDeadlines = updatedExtensionsData.getStudentDeadlines();
         updatedInstructorDeadlines = updatedExtensionsData.getInstructorDeadlines();
 
         assertEquals(5, updatedStudentDeadlines.size());
         assertEquals(2, updatedInstructorDeadlines.size());
 
-        verifyDeadlineExtensionsPresentOrAbsent(updatedStudentDeadlines, updatedInstructorDeadlines, expectedDeadline);
+        verifyDeadlineExtensionsPresentOrAbsent(feedbackSession.getId(), updatedStudentDeadlines,
+                updatedInstructorDeadlines, expectedDeadline);
 
         ______TS("verify delete all deadlines, notifyUsers disabled");
 
@@ -150,14 +154,15 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
         individualExtensionPage.deleteDeadlines(false);
 
         updatedExtensionsData =
-                getFeedbackSessionDeadlineExtensions(feedbackSession.getId());
+                getDeadlineExtensions(feedbackSession.getId());
         updatedStudentDeadlines = updatedExtensionsData.getStudentDeadlines();
         updatedInstructorDeadlines = updatedExtensionsData.getInstructorDeadlines();
 
         assertTrue(updatedStudentDeadlines.isEmpty());
         assertTrue(updatedInstructorDeadlines.isEmpty());
 
-        verifyDeadlineExtensionsPresentOrAbsent(updatedStudentDeadlines, updatedInstructorDeadlines, expectedDeadline);
+        verifyDeadlineExtensionsPresentOrAbsent(feedbackSession.getId(), updatedStudentDeadlines,
+                updatedInstructorDeadlines, expectedDeadline);
     }
 
     private void verifyUpdatedDeadlinesMap(Map<String, Long> updatedDeadlines, String... emails) {
@@ -167,34 +172,31 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
         }
     }
 
-    private void verifyDeadlineExtensionsPresentOrAbsent(Map<String, Long> updatedStudentDeadlines,
+    private void verifyDeadlineExtensionsPresentOrAbsent(UUID feedbackSessionId,
+                                                         Map<String, Long> updatedStudentDeadlines,
                                                          Map<String, Long> updatedInstructorDeadlines,
                                                          Instant extendedDeadline) {
-        for (var student : students) {
-            String email = student.getEmail();
+        DeadlineExtensionsData extensionsData = getDeadlineExtensions(feedbackSessionId);
+
+        Map<String, Long> studentDeadlines = extensionsData.getStudentDeadlines();
+        for (var s : students) {
+            String email = s.getEmail();
             if (updatedStudentDeadlines.containsKey(email)) {
-                DeadlineExtensionData extension = getDeadlineExtension(
-                        course.getId(), feedbackSession.getName(), email, false);
-                assertNotNull(extension);
-                assertEquals(extendedDeadline, Instant.ofEpochMilli(extension.getEndTime()));
+                assertTrue(studentDeadlines.containsKey(email));
+                assertEquals(extendedDeadline, Instant.ofEpochMilli(studentDeadlines.get(email)));
             } else {
-                DeadlineExtensionData extension = getDeadlineExtension(
-                        course.getId(), feedbackSession.getName(), email, false);
-                assertNull(extension);
+                assertFalse(studentDeadlines.containsKey(email));
             }
         }
 
-        for (var instructor : instructors) {
-            String email = instructor.getEmail();
+        Map<String, Long> instructorDeadlines = extensionsData.getInstructorDeadlines();
+        for (var i : instructors) {
+            String email = i.getEmail();
             if (updatedInstructorDeadlines.containsKey(email)) {
-                DeadlineExtensionData extension = getDeadlineExtension(
-                        course.getId(), feedbackSession.getName(), email, true);
-                assertNotNull(extension);
-                assertEquals(extendedDeadline, Instant.ofEpochMilli(extension.getEndTime()));
+                assertTrue(instructorDeadlines.containsKey(email));
+                assertEquals(extendedDeadline, Instant.ofEpochMilli(instructorDeadlines.get(email)));
             } else {
-                DeadlineExtensionData extension = getDeadlineExtension(
-                        course.getId(), feedbackSession.getName(), email, true);
-                assertNull(extension);
+                assertFalse(instructorDeadlines.containsKey(email));
             }
         }
     }

@@ -35,14 +35,13 @@ import teammates.common.util.JsonUtils;
 import teammates.ui.output.AccountData;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.output.CourseData;
-import teammates.ui.output.DeadlineExtensionData;
+import teammates.ui.output.DeadlineExtensionsData;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackQuestionsData;
 import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.output.FeedbackSessionData;
-import teammates.ui.output.FeedbackSessionDeadlineExtensionsData;
 import teammates.ui.output.FeedbackSessionsData;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
@@ -546,7 +545,7 @@ public abstract class AbstractBackDoor {
     /**
      * Gets feedback session deadline extensions data from the database.
      */
-    public FeedbackSessionDeadlineExtensionsData getFeedbackSessionDeadlineExtensionsData(
+    public DeadlineExtensionsData getDeadlineExtensionsData(
             String feedbackSessionId) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId);
@@ -556,26 +555,7 @@ public abstract class AbstractBackDoor {
             return null;
         }
 
-        return JsonUtils.fromJson(response.responseBody, FeedbackSessionDeadlineExtensionsData.class);
-    }
-
-    /**
-     * Gets deadline extension data from the database.
-     */
-    public DeadlineExtensionData getDeadlineExtensionData(
-            String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
-        Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.COURSE_ID, courseId);
-        params.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        params.put(Const.ParamsNames.USER_EMAIL, userEmail);
-        params.put(Const.ParamsNames.IS_INSTRUCTOR, Boolean.toString(isInstructor));
-
-        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.DEADLINE_EXTENSION, params);
-        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
-            return null;
-        }
-
-        return JsonUtils.fromJson(response.responseBody, DeadlineExtensionData.class);
+        return JsonUtils.fromJson(response.responseBody, DeadlineExtensionsData.class);
     }
 
     private static final class ResponseBodyAndCode {

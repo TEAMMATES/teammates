@@ -15,7 +15,7 @@ import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
-import teammates.ui.output.FeedbackSessionDeadlineExtensionsData;
+import teammates.ui.output.DeadlineExtensionsData;
 import teammates.ui.webapi.GetDeadlineExtensionsAction;
 import teammates.ui.webapi.JsonResult;
 
@@ -93,8 +93,8 @@ public class GetDeadlineExtensionsActionTest
         GetDeadlineExtensionsAction action = getAction(getTypicalParams());
         JsonResult result = getJsonResult(action);
 
-        FeedbackSessionDeadlineExtensionsData response =
-                (FeedbackSessionDeadlineExtensionsData) result.getOutput();
+        DeadlineExtensionsData response =
+                (DeadlineExtensionsData) result.getOutput();
         assertTrue(response.getStudentDeadlines().isEmpty());
         assertTrue(response.getInstructorDeadlines().isEmpty());
     }
@@ -113,8 +113,8 @@ public class GetDeadlineExtensionsActionTest
         GetDeadlineExtensionsAction action = getAction(getTypicalParams());
         JsonResult result = getJsonResult(action);
 
-        FeedbackSessionDeadlineExtensionsData response =
-                (FeedbackSessionDeadlineExtensionsData) result.getOutput();
+        DeadlineExtensionsData response =
+                (DeadlineExtensionsData) result.getOutput();
         assertTrue(response.getInstructorDeadlines().isEmpty());
         assertEquals(1, response.getStudentDeadlines().size());
         assertTrue(response.getStudentDeadlines().containsKey(typicalStudent.getEmail()));
@@ -135,8 +135,8 @@ public class GetDeadlineExtensionsActionTest
         GetDeadlineExtensionsAction action = getAction(getTypicalParams());
         JsonResult result = getJsonResult(action);
 
-        FeedbackSessionDeadlineExtensionsData response =
-                (FeedbackSessionDeadlineExtensionsData) result.getOutput();
+        DeadlineExtensionsData response =
+                (DeadlineExtensionsData) result.getOutput();
         assertTrue(response.getStudentDeadlines().isEmpty());
         assertEquals(1, response.getInstructorDeadlines().size());
         assertTrue(response.getInstructorDeadlines().containsKey(typicalInstructor.getEmail()));
