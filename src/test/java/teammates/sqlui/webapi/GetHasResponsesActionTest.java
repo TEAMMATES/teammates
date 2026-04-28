@@ -35,7 +35,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
     private Course typicalCourse;
     private Instructor typicalInstructor;
-    private FeedbackSession typicalFeedbackSession;
     private FeedbackQuestion typicalFeedbackQuestion;
     private Student typicalStudent;
 
@@ -53,7 +52,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
     void setUpMethod() {
         typicalCourse = getTypicalCourse();
         typicalInstructor = getTypicalInstructor();
-        typicalFeedbackSession = getTypicalFeedbackSession(typicalCourse);
+        FeedbackSession typicalFeedbackSession = getTypicalFeedbackSession(typicalCourse);
         typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
         typicalStudent = getTypicalStudent();
     }
