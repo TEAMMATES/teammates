@@ -102,7 +102,6 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         AppUrl gracePeriodSessionUrl = getStudentSubmitPageUrl(student, gracePeriodSession);
         submitPage = getNewPageInstance(gracePeriodSessionUrl, FeedbackSubmitPageSql.class);
         FeedbackQuestion question = testData.feedbackQuestions.get("qn1InGracePeriodSession");
-        UUID questionId = getFeedbackQuestion(question).getFeedbackQuestionId();
         String recipient = "Team 2";
         FeedbackResponse response = getMcqResponse(question, recipient, false, "UI");
         submitPage.fillMcqResponse(1, recipient, response);
@@ -188,7 +187,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
                 .withFeedbackSessionId(gracePeriodSession.getId().toString())
                 .withSessionName(gracePeriodSession.getName())
                 .withParam("moderatedperson", student.getEmail())
-                .withParam("moderatedquestionId", questionId.toString());
+                .withParam("moderatedquestionId", question.getId().toString());
         submitPage = getNewPageInstance(url, FeedbackSubmitPageSql.class);
 
         submitPage.verifyFeedbackSessionDetails(gracePeriodSession, course);
