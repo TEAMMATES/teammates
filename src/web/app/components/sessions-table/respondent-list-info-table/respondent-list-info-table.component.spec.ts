@@ -16,6 +16,7 @@ describe('StudentListInfoTableComponent', () => {
   const instructorTableId = '#instructor-list-table';
 
   const studentModelBuilder = createBuilder<StudentListInfoTableRowModel>({
+    id: 'bd7e9a08-39cd-4a6c-87d1-a8bb63c3304a',
     email: 'student@gmail.com',
     name: 'Student',
     teamName: 'Team A',
@@ -25,6 +26,7 @@ describe('StudentListInfoTableComponent', () => {
   });
 
   const instructorModelBuilder = createBuilder<InstructorListInfoTableRowModel>({
+    id: 'd9c8b955-c01f-4085-84f1-18cc48446b2e',
     email: 'instructor@gmail.com',
     name: 'Instructor',
     hasSubmittedSession: false,

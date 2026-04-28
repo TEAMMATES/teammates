@@ -48,6 +48,13 @@ public final class UsersDb {
     }
 
     /**
+     * Gets a user by its {@code id}.
+     */
+    public User getUser(UUID id) {
+        return HibernateUtil.get(User.class, id);
+    }
+
+    /**
      * Creates an instructor.
      */
     public Instructor createInstructor(Instructor instructor)

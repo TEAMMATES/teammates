@@ -225,6 +225,13 @@ public class Logic {
     }
 
     /**
+     * Gets user associated with {@code id}.
+     */
+    public User getUser(UUID id) {
+        return usersLogic.getUser(id);
+    }
+
+    /**
      * Gets all students associated with a googleId.
      */
     public List<Student> getStudentsByGoogleId(String googleId) {

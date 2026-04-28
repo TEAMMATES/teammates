@@ -84,6 +84,13 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets user associated with {@code id}.
+     */
+    public User getUser(UUID id) {
+        return usersDb.getUser(id);
+    }
+
+    /**
      * Create an instructor.
      *
      * @return the created instructor

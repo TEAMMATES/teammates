@@ -14,6 +14,7 @@ describe('SendRemindersToRespondentsModalComponent', () => {
   let fixture: ComponentFixture<SendRemindersToRespondentsModalComponent>;
 
   const studentModelBuilder = createBuilder<StudentListInfoTableRowModel>({
+    id: 'd6a66c69-6ea6-4d7b-84f0-7701277503e4',
     email: 'student@gmail.com',
     name: 'Student',
     teamName: 'Team A',
@@ -23,6 +24,7 @@ describe('SendRemindersToRespondentsModalComponent', () => {
   });
 
   const instructorModelBuilder = createBuilder<InstructorListInfoTableRowModel>({
+    id: '76a78858-f8bd-4b30-81b7-7a0c541cc0b0',
     email: 'instructor@gmail.com',
     name: 'Instructor',
     hasSubmittedSession: false,
