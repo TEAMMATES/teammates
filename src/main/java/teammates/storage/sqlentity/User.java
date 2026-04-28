@@ -20,6 +20,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import teammates.common.datatransfer.UserType;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
@@ -74,6 +75,11 @@ public abstract class User extends BaseEntity {
         this.setEmail(email);
         this.generateNewRegistrationKey();
     }
+
+    /**
+     * Gets the user type of the user.
+     */
+    public abstract UserType getUserType();
 
     public UUID getId() {
         return id;
