@@ -123,7 +123,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   isAddingNewInstructor: boolean = false;
   isCopyingInstructor: boolean = false;
   newInstructorPanel: InstructorEditPanel = this.getDefaultInstructorPanel({
-        isEditing: true
+        isEditing: true,
   });
 
   courseFormModel: CourseEditFormModel = DEFAULT_COURSE_EDIT_FORM_MODEL();
@@ -305,7 +305,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     /**
      * Generates a default InstructorEditPanel with optional overrides.
-     * 
+     *
      * @param overrides Properties to overwrite the base model.
      * @param defaultPrivileges Boolean to set all nested privileges to true or false.
      */
@@ -340,7 +340,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
             isEditing: false,
             isSavingInstructorEdit: false,
             ...overrides, // Applies any specific value passed in
-        }; 
+        };
     }
 
     // new course tab helper function
