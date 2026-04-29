@@ -31,7 +31,7 @@ describe('ConstsumRecipientsQuestionStatisticsComponent', () => {
       responseDetails: {
         answers: [2],
         questionType: FeedbackQuestionType.CONSTSUM,
-      } as FeedbackConstantSumResponseDetails,
+      },
     },
     {
       giver: 'Charles',
@@ -45,7 +45,7 @@ describe('ConstsumRecipientsQuestionStatisticsComponent', () => {
       responseDetails: {
         answers: [3],
         questionType: FeedbackQuestionType.CONSTSUM,
-      } as FeedbackConstantSumResponseDetails,
+      },
     },
     {
       giver: 'David',
@@ -59,7 +59,7 @@ describe('ConstsumRecipientsQuestionStatisticsComponent', () => {
       responseDetails: {
         answers: [5],
         questionType: FeedbackQuestionType.CONSTSUM,
-      } as FeedbackConstantSumResponseDetails,
+      },
     },
     {
       giver: 'Bob',
@@ -73,7 +73,7 @@ describe('ConstsumRecipientsQuestionStatisticsComponent', () => {
       responseDetails: {
         answers: [5],
         questionType: FeedbackQuestionType.CONSTSUM,
-      } as FeedbackConstantSumResponseDetails,
+      },
     },
     {
       giver: 'Alice',
@@ -87,7 +87,7 @@ describe('ConstsumRecipientsQuestionStatisticsComponent', () => {
       responseDetails: {
         answers: [9],
         questionType: FeedbackQuestionType.CONSTSUM,
-      } as FeedbackConstantSumResponseDetails,
+      },
     },
     {
       giver: 'Charles',
@@ -101,7 +101,7 @@ describe('ConstsumRecipientsQuestionStatisticsComponent', () => {
       responseDetails: {
         answers: [6],
         questionType: FeedbackQuestionType.CONSTSUM,
-      } as FeedbackConstantSumResponseDetails,
+      },
     },
     {
       giver: 'David',
@@ -115,7 +115,7 @@ describe('ConstsumRecipientsQuestionStatisticsComponent', () => {
       responseDetails: {
         answers: [4],
         questionType: FeedbackQuestionType.CONSTSUM,
-      } as FeedbackConstantSumResponseDetails,
+      },
     },
     {
       giver: 'Emma',
@@ -129,7 +129,7 @@ describe('ConstsumRecipientsQuestionStatisticsComponent', () => {
       responseDetails: {
         answers: [7],
         questionType: FeedbackQuestionType.CONSTSUM,
-      } as FeedbackConstantSumResponseDetails,
+      },
     },
     // Fred has self-review and is the only review
     {
@@ -144,7 +144,7 @@ describe('ConstsumRecipientsQuestionStatisticsComponent', () => {
       responseDetails: {
         answers: [2],
         questionType: FeedbackQuestionType.CONSTSUM,
-      } as FeedbackConstantSumResponseDetails,
+      },
     },
     // Henry has no self-review and has only one review
     {
@@ -159,7 +159,7 @@ describe('ConstsumRecipientsQuestionStatisticsComponent', () => {
       responseDetails: {
         answers: [5],
         questionType: FeedbackQuestionType.CONSTSUM,
-      } as FeedbackConstantSumResponseDetails,
+      },
     },
     // Greg has no self-review and has more than one review
     {
@@ -174,7 +174,7 @@ describe('ConstsumRecipientsQuestionStatisticsComponent', () => {
       responseDetails: {
         answers: [7],
         questionType: FeedbackQuestionType.CONSTSUM,
-      } as FeedbackConstantSumResponseDetails,
+      },
     },
     {
       giver: 'Henry',
@@ -188,7 +188,7 @@ describe('ConstsumRecipientsQuestionStatisticsComponent', () => {
       responseDetails: {
         answers: [9],
         questionType: FeedbackQuestionType.CONSTSUM,
-      } as FeedbackConstantSumResponseDetails,
+      },
     },
   ];
 

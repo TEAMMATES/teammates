@@ -215,7 +215,7 @@ describe('CourseEditFormComponent', () => {
     expect(mockModalRef.componentInstance.courseToFeedbackSession[testCourse1.courseId]).toEqual([testFeedbackSession]);
   });
 
-  it('should handle errors in copyCourseHandler when promise is rejected', async () => {
+  it('should handle errors in copyCourseHandler when promise is rejected', () => {
     component.formModel = DEFAULT_COURSE_ADD_FORM_MODEL();
     component.formMode = CourseEditFormMode.ADD;
     fixture.detectChanges();
@@ -230,7 +230,7 @@ describe('CourseEditFormComponent', () => {
 
     component.copyCourseHandler();
 
-    expect(await spyStatusMessageService.showErrorToast).toHaveBeenCalledWith(errorMssg);
+    expect(spyStatusMessageService.showErrorToast).toHaveBeenCalledWith(errorMssg);
   });
 
   it('should handle errors in copyCourseHandler when observable throws an error', () => {
@@ -280,7 +280,7 @@ describe('CourseEditFormComponent', () => {
   });
 
   it('should update institutes when addModel is defined and when there is only one institute', () => {
-    component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL() as CourseAddFormModel;
+    component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL();
     component.addModel.allCourses = [testCourse1];
     component.addModel.course = testCourse1;
 
@@ -291,7 +291,7 @@ describe('CourseEditFormComponent', () => {
   });
 
   it('should update institutes when addModel is defined and when there is more than one institute', () => {
-    component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL() as CourseAddFormModel;
+    component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL();
     component.addModel.allCourses = [testCourse1, testCourse2];
     component.addModel.course = testCourse1;
 
@@ -302,7 +302,7 @@ describe('CourseEditFormComponent', () => {
   });
 
   it('should not update institutes when allCourses of the component is empty', () => {
-    component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL() as CourseAddFormModel;
+    component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL();
     component.addModel.allCourses = [];
     component.addModel.course = testCourse2;
 

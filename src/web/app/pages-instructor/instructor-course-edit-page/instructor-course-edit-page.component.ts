@@ -408,7 +408,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       role: panelDetail.editPanel.role,
       displayName: panelDetail.editPanel.displayedToStudentsAs,
       isDisplayedToStudent: panelDetail.editPanel.isDisplayedToStudents,
-    } as InstructorCreateRequest;
+    };
 
     this.instructorService.updateInstructor({
       courseId: panelDetail.originalInstructor.courseId,
@@ -510,7 +510,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       role: this.newInstructorPanel.role,
       displayName: this.newInstructorPanel.displayedToStudentsAs,
       isDisplayedToStudent: this.newInstructorPanel.isDisplayedToStudents,
-    } as InstructorCreateRequest;
+    };
 
     this.instructorService.createInstructor({ courseId: this.courseId, requestBody: reqBody })
         .pipe(finalize(() => {
@@ -573,7 +573,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
         this.allSessions.forEach((sessionName: string) => {
           const sessionLevelPermission: InstructorSessionLevelPermission = {
             sessionName,
-            privilege: (resp.privileges.sessionLevel[sectionName] || {})[sessionName]
+            privilege: resp.privileges.sessionLevel[sectionName]?.[sessionName]
                 || sectionLevelPermission.privilege,
           };
           sectionLevelPermission.sessionLevel.push(sessionLevelPermission);

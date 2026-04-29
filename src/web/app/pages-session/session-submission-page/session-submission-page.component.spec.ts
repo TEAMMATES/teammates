@@ -746,7 +746,7 @@ describe('SessionSubmissionPageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should snap with feedback session question submission forms', async () => {
+  it('should snap with feedback session question submission forms', () => {
     component.questionSubmissionForms = [
       testMcqQuestionSubmissionForm,
       testTextQuestionSubmissionForm,

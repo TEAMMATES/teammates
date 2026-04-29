@@ -177,8 +177,7 @@ export class SearchService {
     if (masqueradeGoogleId === '') {
       for (const instructor of instructors.instructors) {
         const instructorPrivilege: InstructorPrivilege | undefined = instructorPrivileges.shift();
-        if (instructor.googleId
-            && (instructorPrivilege && instructorPrivilege.privileges.courseLevel.canModifyInstructor)) {
+        if (instructor.googleId && instructorPrivilege?.privileges.courseLevel.canModifyInstructor) {
           masqueradeGoogleId = instructor.googleId;
           break;
         }

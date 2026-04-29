@@ -129,7 +129,7 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
         if (this.isGrq) {
           this.teamsToUsers[response.giverTeam] = this.teamsToUsers[response.giverTeam] || [];
           this.usersToTeams[response.giver] = this.usersToTeams[response.giver] || '';
-          if (this.teamsToUsers[response.giverTeam].indexOf(response.giver) === -1) {
+          if (!this.teamsToUsers[response.giverTeam].includes(response.giver)) {
             this.teamsToUsers[response.giverTeam].push(response.giver);
             this.usersToTeams[response.giver] = response.giverTeam;
             this.teamExpanded[response.giverTeam] = this.isExpandAll;
@@ -145,7 +145,7 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
           this.userExpanded[response.recipient] = this.isExpandAll;
           if (response.recipientTeam) {
             this.teamsToUsers[response.recipientTeam] = this.teamsToUsers[response.recipientTeam] || [];
-            if (this.teamsToUsers[response.recipientTeam].indexOf(response.recipient) === -1) {
+            if (!this.teamsToUsers[response.recipientTeam].includes(response.recipient)) {
               this.teamsToUsers[response.recipientTeam].push(response.recipient);
               this.usersToTeams[response.recipient] = response.recipientTeam;
               this.teamExpanded[response.recipientTeam] = this.isExpandAll;
@@ -153,7 +153,7 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
           } else {
             // Recipient is team
             this.teamsToUsers[response.recipient] = this.teamsToUsers[response.recipient] || [];
-            if (this.teamsToUsers[response.recipient].indexOf(response.recipient) === -1) {
+            if (!this.teamsToUsers[response.recipient].includes(response.recipient)) {
               this.teamsToUsers[response.recipient].push(response.recipient);
               this.teamExpanded[response.recipient] = this.isExpandAll;
             }

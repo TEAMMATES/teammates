@@ -33,7 +33,7 @@ describe('StudentListComponent', () => {
       const studentRows = studentListDebugElement.queryAll(By.css('tbody tr'));
       for (const row of studentRows) {
         const emailSpan = row.query(By.css('td:nth-child(5) span'));
-        if (emailSpan && emailSpan.nativeElement.textContent.trim() === email) {
+        if (emailSpan?.nativeElement.textContent.trim() === email) {
           return row.query(By.css('tm-group-buttons'));
         }
       }

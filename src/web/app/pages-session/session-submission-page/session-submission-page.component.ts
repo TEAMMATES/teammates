@@ -679,7 +679,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 isValid: true,
                 isModified: false,
               };
-              if (matchedExistingResponse && matchedExistingResponse.giverComment) {
+              if (matchedExistingResponse?.giverComment) {
                 submissionForm.commentByGiver = this.getCommentModel(
                     matchedExistingResponse.giverComment, recipient.recipientIdentifier);
               }
@@ -961,7 +961,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     const recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel =
         this.questionSubmissionForms[questionIndex].recipientSubmissionForms[responseIdx];
 
-    if (!recipientSubmissionFormModel.commentByGiver || !recipientSubmissionFormModel.commentByGiver.originalComment) {
+    if (!recipientSubmissionFormModel.commentByGiver?.originalComment) {
       return;
     }
 
@@ -1001,7 +1001,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   }
 
   loadRecipientsAndResponses(event: any, questionSubmissionForm: QuestionSubmissionFormModel): void {
-    if (event && event.visible && !questionSubmissionForm.isLoaded && !questionSubmissionForm.isLoading) {
+    if (event?.visible && !questionSubmissionForm.isLoaded && !questionSubmissionForm.isLoading) {
       questionSubmissionForm.isLoading = true;
       this.loadFeedbackQuestionRecipientsForQuestion(questionSubmissionForm);
     }
@@ -1137,7 +1137,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     }
 
     const recipient: FeedbackResponseRecipient | undefined =
-        question!.recipientList.find(
+        question.recipientList.find(
             (r: FeedbackResponseRecipient) => r.recipientIdentifier === recipientIdentifier);
 
     return recipient ? recipient.recipientName : 'Unknown';

@@ -28,7 +28,7 @@ describe('ModifiedTimestampModalComponent', () => {
     },
   };
 
-  beforeEach(async () => {
+  beforeEach(() => {
     fixture = TestBed.createComponent(ModifiedTimestampModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -253,7 +253,7 @@ export class StudentListComponent implements OnInit {
    * Determines which row in the studentTable should be hidden.
    */
   isStudentToHide(studentEmail: string): boolean {
-    return this.listOfStudentsToHide.indexOf(studentEmail) > -1;
+    return this.listOfStudentsToHide.includes(studentEmail);
   }
 
   /**

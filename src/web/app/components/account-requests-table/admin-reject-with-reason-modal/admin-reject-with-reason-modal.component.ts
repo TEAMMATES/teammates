@@ -88,7 +88,7 @@ export class RejectWithReasonModalComponent implements OnInit {
     this.searchService.searchAdmin(this.accountRequestEmail)
     .subscribe({
       next: (resp: AdminSearchResult) => {
-        const hasInstructors: boolean = !!(resp.instructors && resp.instructors.length);
+        const hasInstructors: boolean = !!(resp.instructors?.length);
 
         if (!hasInstructors) {
           this.rejectionReasonBody = this.rejectionReasonBody.replace('{googleId}', 'NO_GOOGLEID');

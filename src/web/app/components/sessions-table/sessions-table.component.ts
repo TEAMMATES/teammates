@@ -155,7 +155,7 @@ export class SessionsTableComponent implements OnInit {
    *  if the column is to be shown, otherwise an empty array.
    */
   createColumnData(config: SessionsTableColumnData): ColumnData[] {
-    if (!(config?.columnType === undefined) && !this.columnsToShow.includes(config.columnType!)) {
+    if (!(config?.columnType === undefined) && !this.columnsToShow.includes(config.columnType)) {
       return [];
     }
 
@@ -178,7 +178,7 @@ export class SessionsTableComponent implements OnInit {
    * otherwise an empty array.
    */
   createRowData(config: SessionsTableRowData): SortableTableCellData[] {
-    if (!(config?.columnType === undefined) && !this.columnsToShow.includes(config.columnType!)) {
+    if (!(config?.columnType === undefined) && !this.columnsToShow.includes(config.columnType)) {
       return [];
     }
 

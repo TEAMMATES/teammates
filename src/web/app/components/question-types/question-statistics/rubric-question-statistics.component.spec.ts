@@ -44,7 +44,7 @@ describe('RubricQuestionStatisticsComponent', () => {
     ];
 
     const expectedPerRecpientStatsMap: Record<string, PerRecipientStats> =
-        ResponseTestData.expectedStatsMap as Record<string, PerRecipientStats>;
+        ResponseTestData.expectedStatsMap;
 
     component.calculateStatistics();
 

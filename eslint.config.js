@@ -6,6 +6,13 @@ const angular = require("angular-eslint");
 
 module.exports = defineConfig(
   {
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+      },
+    },
+  },
+  {
     ignores: [
       "src/web/dist/**",
       "src/web/types/api-const.ts",
@@ -17,8 +24,8 @@ module.exports = defineConfig(
     files: ["**/*.ts"],
     extends: [
       eslint.configs.recommended,
-      ...tseslint.configs.recommended,
-      ...tseslint.configs.stylistic,
+      ...tseslint.configs.recommendedTypeChecked,
+      ...tseslint.configs.stylisticTypeChecked,
       ...angular.configs.tsRecommended,
     ],
     processor: angular.processInlineTemplates,
@@ -51,9 +58,10 @@ module.exports = defineConfig(
           style: "camelCase",
         },
       ],
-      "@angular-eslint/prefer-inject": "off", // temporarily disabled until migration to inject syntax is complete
+      "@typescript-eslint/no-deprecated": "warn",
       // The rules below are temporarily disabled to allow gradual migration to the recommended ruleset.
       // They will be re-enabled in the future.
+      "@angular-eslint/prefer-inject": "off",
       "@typescript-eslint/no-inferrable-types": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/consistent-indexed-object-style": "off",
@@ -61,8 +69,25 @@ module.exports = defineConfig(
       "@typescript-eslint/no-empty-function": "off",
       "@typescript-eslint/consistent-generic-constructors": "off",
       "@typescript-eslint/consistent-type-definitions": "off",
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/prefer-nullish-coalescing': 'off',
+      '@typescript-eslint/no-floating-promises': 'off',
+      '@typescript-eslint/unbound-method': 'off',
+      '@typescript-eslint/no-misused-promises': 'off',
+      '@typescript-eslint/no-unsafe-enum-comparison': 'off',
+      '@typescript-eslint/prefer-promise-reject-errors': 'off',
     },
   },
+  // {
+  //   files: ["**/*.spec.ts"],
+  //   rules: {
+  //     // Add test file specific rules here if needed. This is commented out for now as there are no specific rules for test files at the moment.
+  //   }
+  // },
   {
     files: ["**/*.html"],
     extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility],

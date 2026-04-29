@@ -175,8 +175,8 @@ describe('InstructorSearchPageComponent', () => {
         Array.from(
             new Set(
                 coursesWithStudents
-                    .filter((t: SearchStudentsListRowTable) => t.courseId === students[0].courseId)[0]
-                    .students.map((studentModel: StudentListRowModel) => studentModel.student.sectionName),
+                    .find((t: SearchStudentsListRowTable) => t.courseId === students[0].courseId)
+                    ?.students.map((studentModel: StudentListRowModel) => studentModel.student.sectionName),
             ),
         ).length,
     ).toEqual(
@@ -192,8 +192,8 @@ describe('InstructorSearchPageComponent', () => {
     // Number of students in a section should match
     expect(
         coursesWithStudents
-            .filter((t: SearchStudentsListRowTable) => t.courseId === students[0].courseId)[0]
-            .students.filter((s: StudentListRowModel) => s.student.sectionName === students[0].sectionName)
+            .find((t: SearchStudentsListRowTable) => t.courseId === students[0].courseId)
+            ?.students.filter((s: StudentListRowModel) => s.student.sectionName === students[0].sectionName)
             .length,
     ).toEqual(
         students.filter((s: Student) => s.sectionName === students[0].sectionName).length,

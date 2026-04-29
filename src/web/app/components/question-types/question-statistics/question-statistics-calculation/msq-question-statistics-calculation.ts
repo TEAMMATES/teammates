@@ -152,7 +152,7 @@ export class MsqQuestionStatisticsCalculation
         // ignore 'None of the above' answer
         continue;
       }
-      if (this.question.msqChoices.indexOf(answer) === -1
+      if (!this.question.msqChoices.includes(answer)
           && this.question.generateOptionsFor === FeedbackParticipantType.NONE) {
         // ignore other answer if any
         continue;

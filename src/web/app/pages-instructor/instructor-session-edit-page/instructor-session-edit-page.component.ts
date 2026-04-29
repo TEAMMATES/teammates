@@ -40,7 +40,7 @@ import {
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessions,
-  FeedbackTextQuestionDetails, FeedbackVisibilityType,
+  FeedbackVisibilityType,
   HasResponses,
   Instructor,
   Instructors,
@@ -140,7 +140,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     questionDetails: {
       questionType: FeedbackQuestionType.TEXT,
       questionText: '',
-    } as FeedbackTextQuestionDetails,
+    },
 
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.STUDENTS_EXCLUDING_SELF,
@@ -933,7 +933,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       // inherit feedback path if applicable
       if (newQuestionAllowedFeedbackPaths.has(lastQuestionEditFormModel.giverType)
           && newQuestionAllowedFeedbackPaths.get(lastQuestionEditFormModel.giverType)!
-              .indexOf(lastQuestionEditFormModel.recipientType) !== -1) {
+              .includes(lastQuestionEditFormModel.recipientType)) {
         this.newQuestionEditFormModel.giverType = lastQuestionEditFormModel.giverType;
         this.newQuestionEditFormModel.recipientType = lastQuestionEditFormModel.recipientType;
         this.newQuestionEditFormModel.numberOfEntitiesToGiveFeedbackToSetting =

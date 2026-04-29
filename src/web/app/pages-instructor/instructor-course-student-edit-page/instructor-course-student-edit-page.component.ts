@@ -1,7 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
-  AbstractControl,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
@@ -91,10 +90,10 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
 
   ngOnDestroy(): void {
     if (this.emailFieldSubscription) {
-      (this.emailFieldSubscription as Subscription).unsubscribe();
+      (this.emailFieldSubscription).unsubscribe();
     }
     if (this.teamFieldSubscription) {
-      (this.teamFieldSubscription as Subscription).unsubscribe();
+      (this.teamFieldSubscription).unsubscribe();
     }
   }
 
@@ -137,13 +136,13 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
       comments: new UntypedFormControl(this.student.comments),
     });
     this.teamFieldSubscription =
-        (this.editForm.get('team-name') as AbstractControl).valueChanges
+        (this.editForm.get('team-name')!).valueChanges
             .subscribe(() => {
               this.isTeamnameFieldChanged = true;
             });
 
     this.emailFieldSubscription =
-        (this.editForm.get('new-student-email') as AbstractControl).valueChanges
+        (this.editForm.get('new-student-email')!).valueChanges
             .subscribe(() => {
               this.isEmailFieldChanged = true;
             });

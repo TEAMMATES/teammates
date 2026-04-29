@@ -65,7 +65,7 @@ export class HttpRequestService {
       }
     }
 
-    if (this.masqueradeModeService.isInMasqueradingMode() && params.keys().indexOf('user') === -1) {
+    if (this.masqueradeModeService.isInMasqueradingMode() && !params.keys().includes('user')) {
       params = params.append('user', this.masqueradeModeService.getMasqueradeUser());
     }
     return params;

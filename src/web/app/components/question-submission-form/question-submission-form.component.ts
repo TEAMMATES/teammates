@@ -23,7 +23,6 @@ import {
   FeedbackRankOptionsResponseDetails,
   FeedbackResponseDetails,
   FeedbackRubricResponseDetails,
-  FeedbackTextQuestionDetails,
   FeedbackTextResponseDetails,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
@@ -213,7 +212,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     questionDetails: {
       questionText: '',
       questionType: FeedbackQuestionType.TEXT,
-    } as FeedbackTextQuestionDetails,
+    },
 
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 0,
@@ -442,7 +441,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   discardEditedParticipantComment(index: number): void {
     const commentModel: CommentRowModel | undefined = this.model.recipientSubmissionForms[index].commentByGiver;
-    if (!commentModel || !commentModel.originalComment) {
+    if (!commentModel?.originalComment) {
       return;
     }
     this.triggerRecipientSubmissionFormChange(index, 'commentByGiver',

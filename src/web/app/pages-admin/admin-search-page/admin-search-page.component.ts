@@ -83,9 +83,9 @@ export class AdminSearchPageComponent {
       this.loadingBarService.hideLoadingBar();
     })).subscribe({
       next: (resp: AdminSearchResult) => {
-        const hasStudents: boolean = !!(resp.students && resp.students.length);
-        const hasInstructors: boolean = !!(resp.instructors && resp.instructors.length);
-        const hasAccountRequests: boolean = !!(resp.accountRequests && resp.accountRequests.length);
+        const hasStudents: boolean = !!(resp.students?.length);
+        const hasInstructors: boolean = !!(resp.instructors?.length);
+        const hasAccountRequests: boolean = !!(resp.accountRequests?.length);
 
         if (!hasStudents && !hasInstructors && !hasAccountRequests) {
           this.statusMessageService.showWarningToast('No results found.');

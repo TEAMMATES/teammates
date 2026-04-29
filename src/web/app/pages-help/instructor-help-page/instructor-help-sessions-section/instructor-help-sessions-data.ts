@@ -341,6 +341,7 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: FeedbackQuestionModel[] = [{
     questionNumber: 1,
     questionBrief: 'How well did this team member perform?',
     questionDescription: '',
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     questionDetails: {
       ...DEFAULT_MCQ_QUESTION_DETAILS(),
       questionText: 'How well did this team member perform?',
@@ -371,6 +372,7 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: FeedbackQuestionModel[] = [{
       recipient: 'You',
       recipientTeam: 'Team A',
       recipientSection: 'Section A',
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       responseDetails: {
         ...DEFAULT_MCQ_RESPONSE_DETAILS(),
         answer: '<p>Good</p>',
@@ -389,6 +391,7 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: FeedbackQuestionModel[] = [{
       recipient: 'You',
       recipientSection: 'Section A',
       recipientTeam: 'Team A',
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       responseDetails: {
         ...DEFAULT_MCQ_RESPONSE_DETAILS(),
         answer: '<p>Good</p>',
@@ -405,6 +408,7 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: FeedbackQuestionModel[] = [{
       recipient: 'Benny Charles',
       recipientTeam: 'Team A',
       recipientSection: 'Section A',
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       responseDetails: {
         ...DEFAULT_MCQ_RESPONSE_DETAILS(),
         answer: '<p>Bad</p>',

@@ -205,7 +205,7 @@ export abstract class InstructorSessionBasePageComponent {
           submissionEndTimestamp: this.formatTimestamp(copiedSubmissionEndTimestamp, fromFeedbackSession.timeZone),
           sessionVisibleTimestamp: copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN
               ? 'On submission opening time'
-              : this.formatTimestamp(copiedCustomSessionVisibleTimestamp!, fromFeedbackSession.timeZone),
+              : this.formatTimestamp(copiedCustomSessionVisibleTimestamp, fromFeedbackSession.timeZone),
           responseVisibleTimestamp: '',
         },
       };
@@ -229,7 +229,7 @@ export abstract class InstructorSessionBasePageComponent {
             'Not now (publish manually)';
       } else {
         this.modifiedSession[newSessionName].newTimestamp.responseVisibleTimestamp =
-            this.formatTimestamp(copiedCustomResponseVisibleTimestamp!, fromFeedbackSession.timeZone);
+            this.formatTimestamp(copiedCustomResponseVisibleTimestamp, fromFeedbackSession.timeZone);
       }
 
     }

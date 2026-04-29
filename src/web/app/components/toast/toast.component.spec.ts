@@ -6,7 +6,8 @@ import { ToastComponent } from './toast.component';
 
 class MockTemplateRef extends TemplateRef<any> {
   override elementRef!: ElementRef<any>;
-  override createEmbeddedView(context: any, injector?: Injector | undefined): EmbeddedViewRef<any> {
+  override createEmbeddedView(context: any, injector?: Injector): EmbeddedViewRef<any> {
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/restrict-template-expressions
     throw new Error(`Method not implemented with context ${context} & injector ${injector}.`);
   }
 }

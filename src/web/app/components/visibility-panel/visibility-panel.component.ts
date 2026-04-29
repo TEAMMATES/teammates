@@ -7,7 +7,6 @@ import { VisibilityStateMachine } from '../../../services/visibility-state-machi
 import {
   FeedbackParticipantType,
   FeedbackQuestionType,
-  FeedbackTextQuestionDetails,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
@@ -69,7 +68,7 @@ export class VisibilityPanelComponent {
     questionDetails: {
       questionType: FeedbackQuestionType.TEXT,
       questionText: '',
-    } as FeedbackTextQuestionDetails,
+    },
 
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.STUDENTS_EXCLUDING_SELF,

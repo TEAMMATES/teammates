@@ -69,9 +69,7 @@ export class InstructorSearchPageComponent {
     ).subscribe({
       next: (resp: TransformedInstructorSearchResult) => {
         const searchStudentsTable: SearchStudentsListRowTable[] = resp.searchStudentTables;
-        const hasStudents: boolean = !!(
-            searchStudentsTable && searchStudentsTable.length
-        );
+        const hasStudents: boolean = !!(searchStudentsTable?.length);
 
         if (hasStudents) {
           this.studentsListRowTables = searchStudentsTable;

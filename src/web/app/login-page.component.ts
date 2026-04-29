@@ -77,7 +77,7 @@ export class LoginPageComponent implements OnInit {
         .then((authResult) => {
           if (authResult.user) {
             // is redirection from Google login
-            authResult.user!.getIdToken()
+            authResult.user.getIdToken()
                 .then((idToken) => {
                   window.location.href = `${this.backendUrl}/oauth2callback${window.location.search}`
                       + `&idToken=${idToken}`;
