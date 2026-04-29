@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute, provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
+import { StudentExtensionTableColumnModel } from './extension-table-column-model';
 import {
   InstructorSessionIndividualExtensionPageComponent,
 } from './instructor-session-individual-extension-page.component';
@@ -31,6 +32,7 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-request';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 
 describe('InstructorSessionIndividualExtensionPageComponent', () => {
   const testCourse: Course = {
@@ -710,5 +712,69 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     expect(component.isAllYetToSubmitStudentsSelected).toBeFalsy();
     expect(instructorOneCheckBox.checked).toBeFalsy();
     expect(instructorTwoCheckBox.checked).toBeTruthy();
+  });
+
+  describe('sortStudentColumnsBy team name', () => {
+    const makeStudent = (
+      teamName: string,
+      sectionName: string,
+      name: string,
+    ): StudentExtensionTableColumnModel => ({
+      teamName,
+      sectionName,
+      name,
+      email: `${name.toLowerCase()}@test.com`,
+      extensionDeadline: 0,
+      hasExtension: false,
+      isSelected: false,
+    });
+
+    beforeEach(() => {
+      component.studentsOfCourse = [
+        makeStudent('Team B', 'Section 1', 'Alice'),
+        makeStudent('Team A', 'Section 1', 'Bob'),
+        makeStudent('Team C', 'Section 1', 'Charlie'),
+      ];
+      component.sortStudentOrder = SortOrder.DESC;
+    });
+
+    it('should sort students by team name ascending on first click', () => {
+      component.sortStudentColumnsBy(SortBy.TEAM_NAME);
+      expect(component.studentsOfCourse.map((s: StudentExtensionTableColumnModel) => s.teamName))
+        .toEqual(['Team A', 'Team B', 'Team C']);
+    });
+
+    it('should sort students by team name descending on second click', () => {
+      component.sortStudentColumnsBy(SortBy.TEAM_NAME);
+      component.sortStudentColumnsBy(SortBy.TEAM_NAME);
+      expect(component.studentsOfCourse.map((s: StudentExtensionTableColumnModel) => s.teamName))
+        .toEqual(['Team C', 'Team B', 'Team A']);
+    });
+
+    it('should sort by team name, not section name', () => {
+      component.studentsOfCourse = [
+        makeStudent('Team Z', 'Section A', 'Alice'),
+        makeStudent('Team A', 'Section Z', 'Bob'),
+      ];
+      component.sortStudentColumnsBy(SortBy.TEAM_NAME);
+      expect(component.studentsOfCourse[0].teamName).toBe('Team A');
+      expect(component.studentsOfCourse[1].teamName).toBe('Team Z');
+    });
+
+    it('should set sortStudentsBy to TEAM_NAME', () => {
+      component.sortStudentColumnsBy(SortBy.TEAM_NAME);
+      expect(component.sortStudentsBy).toBe(SortBy.TEAM_NAME);
+    });
+
+    it('should toggle sortStudentOrder from DESC to ASC on first click', () => {
+      component.sortStudentColumnsBy(SortBy.TEAM_NAME);
+      expect(component.sortStudentOrder).toBe(SortOrder.ASC);
+    });
+
+    it('should toggle sortStudentOrder back to DESC on second click', () => {
+      component.sortStudentColumnsBy(SortBy.TEAM_NAME);
+      component.sortStudentColumnsBy(SortBy.TEAM_NAME);
+      expect(component.sortStudentOrder).toBe(SortOrder.DESC);
+    });
   });
 });
