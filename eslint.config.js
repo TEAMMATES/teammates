@@ -60,15 +60,17 @@ module.exports = defineConfig(
         },
       ],
       "@typescript-eslint/no-deprecated": "warn",
-      // The rules below are temporarily disabled to allow gradual migration to the recommended ruleset.
-      // They will be re-enabled in the future.
-      "@angular-eslint/prefer-inject": "off",
-      "@typescript-eslint/no-explicit-any": "off",
-      "@typescript-eslint/consistent-indexed-object-style": "off",
+      // The rules below are mostly stylistic rules that are deemed reasonable to be disabled.
+      // They can be re-enabled in the future if desired.
       "@typescript-eslint/prefer-for-of": "off",
       "@typescript-eslint/no-empty-function": "off",
-      "@typescript-eslint/consistent-generic-constructors": "off",
       "@typescript-eslint/consistent-type-definitions": "off",
+      "@typescript-eslint/consistent-indexed-object-style": "off",
+      "@typescript-eslint/consistent-generic-constructors": "off",
+      // The rules below are temporarily disabled to allow gradual migration to the recommended ruleset.
+      // They should be re-enabled in the future.
+      "@angular-eslint/prefer-inject": "off",
+      "@typescript-eslint/no-explicit-any": "off",
       '@typescript-eslint/no-unsafe-return': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unsafe-assignment': 'off',
