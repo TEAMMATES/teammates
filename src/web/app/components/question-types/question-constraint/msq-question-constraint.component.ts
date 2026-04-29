@@ -21,7 +21,7 @@ export class MsqQuestionConstraintComponent extends QuestionConstraintComponent<
     super(DEFAULT_MSQ_QUESTION_DETAILS());
   }
 
-  get isValid(): boolean {
+  override get isValid(): boolean {
     return true;
   }
 }

@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/component-selector */
 import { Component, Input, NgModule } from '@angular/core';
 
 /**
@@ -9,6 +8,7 @@ import { Component, Input, NgModule } from '@angular/core';
 export const NON_COMMERCIAL_LICENSE = 'non-commercial-and-evaluation';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'hot-table',
   template: '',
   standalone: true,

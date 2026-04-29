@@ -12,7 +12,6 @@ import { QuestionStatistics } from '../question-statistics';
  * Class to calculate stats for msq question.
  */
 @Directive()
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export class MsqQuestionStatisticsCalculation
     extends QuestionStatistics<FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails>
     implements McqMsqQuestionStatisticsCalculation {
@@ -24,7 +23,6 @@ export class MsqQuestionStatisticsCalculation
   perRecipientResponses: Record<string, any> = {};
   hasAnswers: boolean = false;
 
-  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
   constructor(question: FeedbackMsqQuestionDetails) {
     super(question);
   }

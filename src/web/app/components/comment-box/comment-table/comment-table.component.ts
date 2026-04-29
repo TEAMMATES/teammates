@@ -112,7 +112,6 @@ export class CommentTableComponent {
    */
   handleCloseEditingCommentRowEvent(index: number): void {
     const newRowModel: CommentRowModel = JSON.parse(JSON.stringify(this.model.commentRows[index]));
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const originalComment: FeedbackResponseComment = newRowModel.originalComment!;
     newRowModel.commentEditFormModel = {
       commentText: originalComment.commentText,

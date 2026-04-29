@@ -91,7 +91,7 @@ export class ContributionQuestionConstraintComponent
     return this.totalAnsweredContributions > this.totalRequiredContributions;
   }
 
-  get isValid(): boolean {
+  override get isValid(): boolean {
     return !this.questionDetails.isZeroSum || !this.questionDetails.isNotSureAllowed
       || this.isAllFormsNotAnswered
       || (this.isAllFormsAnswered && this.isAllContributionsDistributed);

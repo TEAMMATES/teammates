@@ -10,7 +10,6 @@ import { QuestionStatistics } from '../question-statistics';
  * Class to calculate stats for rank recipients question.
  */
 @Directive()
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export class RankRecipientsQuestionStatisticsCalculation
     extends QuestionStatistics<FeedbackRankRecipientsQuestionDetails, FeedbackRankRecipientsResponseDetails> {
 
@@ -23,7 +22,6 @@ export class RankRecipientsQuestionStatisticsCalculation
   rankPerOptionInTeam: Record<string, number> = {};
   rankPerOptionInTeamExcludeSelf: Record<string, number> = {};
 
-  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
   constructor(question: FeedbackRankRecipientsQuestionDetails) {
     super(question);
   }

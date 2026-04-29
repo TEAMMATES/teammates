@@ -15,7 +15,7 @@ export class TextQuestionConstraintComponent extends QuestionConstraintComponent
     super(null);
   }
 
-  get isValid(): boolean {
+  override get isValid(): boolean {
     return true;
   }
 }

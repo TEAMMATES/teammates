@@ -10,7 +10,6 @@ import { QuestionStatistics } from '../question-statistics';
  * Class to calculate stats for constsum recipients question.
  */
 @Directive()
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export class ConstsumRecipientsQuestionStatisticsCalculation
     extends QuestionStatistics<FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails> {
 
@@ -21,7 +20,6 @@ export class ConstsumRecipientsQuestionStatisticsCalculation
   averagePointsPerOption: Record<string, number> = {};
   averagePointsExcludingSelf: Record<string, number> = {};
 
-  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
   constructor(question: FeedbackConstantSumQuestionDetails) {
     super(question);
   }

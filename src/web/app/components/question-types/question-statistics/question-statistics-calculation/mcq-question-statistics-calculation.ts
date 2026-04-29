@@ -7,7 +7,6 @@ import { QuestionStatistics } from '../question-statistics';
  * Class to calculate stats for mcq question.
  */
 @Directive()
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export class McqQuestionStatisticsCalculation
     extends QuestionStatistics<FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails>
     implements McqMsqQuestionStatisticsCalculation {
@@ -18,7 +17,6 @@ export class McqQuestionStatisticsCalculation
   weightedPercentagePerOption: Record<string, number> = {};
   perRecipientResponses: Record<string, any> = {};
 
-  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
   constructor(question: FeedbackMcqQuestionDetails) {
     super(question);
   }

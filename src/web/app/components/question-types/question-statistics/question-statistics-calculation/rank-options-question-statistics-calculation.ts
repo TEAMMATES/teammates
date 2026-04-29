@@ -10,14 +10,12 @@ import { QuestionStatistics } from '../question-statistics';
  * Class to calculate stats for rank options question.
  */
 @Directive()
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export class RankOptionsQuestionStatisticsCalculation
     extends QuestionStatistics<FeedbackRankOptionsQuestionDetails, FeedbackRankOptionsResponseDetails> {
 
   ranksReceivedPerOption: Record<string, number[]> = {};
   rankPerOption: Record<string, number> = {};
 
-  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
   constructor(question: FeedbackRankOptionsQuestionDetails) {
     super(question);
   }

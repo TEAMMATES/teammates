@@ -9,14 +9,12 @@ import { QuestionStatistics } from '../question-statistics';
  * Class to calculate stats for num scale question.
  */
 @Directive()
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export class NumScaleQuestionStatisticsCalculation
     extends QuestionStatistics<FeedbackNumericalScaleQuestionDetails, FeedbackNumericalScaleResponseDetails> {
 
   teamToRecipientToScores: Record<string, Record<string, any>> = {};
   recipientEmails: Record<string, string> = {};
 
-  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
   constructor(question: FeedbackNumericalScaleQuestionDetails) {
     super(question);
   }

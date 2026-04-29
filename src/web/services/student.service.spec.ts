@@ -21,7 +21,7 @@ const defaultStudentUpdateRequest: StudentUpdateRequest = {
 const studentCsvListTester:
     (courseId: string, service: StudentService, spyCourseService: any, testFn: (str: string) => void) => void =
     (courseId: string, service: StudentService, spyCourseService: any, testFn: (str: string) => void): void => {
-      // eslint-disable-next-line import/no-dynamic-require,global-require,@typescript-eslint/no-var-requires
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const testData: any = require(`./test-data/${courseId}`);
       const course: Course = testData.course;
       const students: Students = testData.students;

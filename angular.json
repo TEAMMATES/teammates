@@ -115,8 +115,8 @@
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
+              "src/web/**/*.ts",
+              "src/web/**/*.html"
             ]
           }
         }

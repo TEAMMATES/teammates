@@ -158,7 +158,7 @@ export class ConstsumRecipientsQuestionConstraintComponent
         && this.isSomePointsUneven;
   }
 
-  get isValid(): boolean {
+  override get isValid(): boolean {
     return this.isAllPointsDistributed && !this.isAnyPointsNegative
         && (this.isCorrectlyAllUneven || this.isCorrectlySomeUneven
         || this.questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.NONE);

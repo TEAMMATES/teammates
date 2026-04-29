@@ -14,7 +14,6 @@ import { CommentTableModel } from '../../components/comment-box/comment-table/co
  * Abstract component for all different view type components of instructor sessions result page.
  */
 @Directive()
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class InstructorSessionResultView {
 
   @Input() section: string = '';

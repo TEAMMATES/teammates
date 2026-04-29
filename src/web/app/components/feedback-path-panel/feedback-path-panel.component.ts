@@ -133,7 +133,6 @@ export class FeedbackPathPanelComponent {
   changeGiverRecipientType(giverType: FeedbackParticipantType, recipientType: FeedbackParticipantType): void {
     // check if current recipientType is allowed for giverType,
     // if not, set default recipientType to the first allowed type as default.
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const allowedRecipientTypes: FeedbackParticipantType[] = this.allowedFeedbackPaths.get(giverType)!;
     let newRecipientType: FeedbackParticipantType = recipientType;
     if (allowedRecipientTypes.indexOf(recipientType) === -1) {

@@ -5,7 +5,6 @@ import { FeedbackQuestionDetails, FeedbackResponseDetails } from '../../../../ty
  * The abstract recipient submission form.
  */
 @Directive()
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class QuestionEditAnswerFormComponent<
     Q extends FeedbackQuestionDetails, R extends FeedbackResponseDetails> {
 

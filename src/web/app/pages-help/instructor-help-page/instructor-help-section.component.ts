@@ -19,7 +19,6 @@ interface QuestionDetail {
  * Base section for instructor help page.
  */
 @Directive()
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class InstructorHelpSectionComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input() key: string;

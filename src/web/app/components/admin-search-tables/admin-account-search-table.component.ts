@@ -5,7 +5,6 @@ import { AccountService } from '../../../services/account.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { AccountRequest, MessageOutput } from '../../../types/api-output';
-import { AccountRequestUpdateRequest } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter.pipe';
 import { EditRequestModalComponentResult } from '../account-requests-table/admin-edit-request-modal/admin-edit-request-modal-model';
@@ -88,13 +87,13 @@ export class AdminAccountSearchTableComponent {
     modalRef.result.then((res: EditRequestModalComponentResult) => {
       this.accountService.editAccountRequest(
         accountRequest.id,
-        <AccountRequestUpdateRequest>({
+        {
             name: res.accountRequestName,
             email: res.accountRequestEmail,
             institute: res.accountRequestInstitution,
             status: accountRequest.status,
             comments: res.accountRequestComment,
-        }),
+        },
       )
       .subscribe({
         next: (resp: AccountRequest) => {

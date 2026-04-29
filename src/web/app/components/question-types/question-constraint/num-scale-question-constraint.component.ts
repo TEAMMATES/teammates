@@ -15,7 +15,7 @@ export class NumScaleQuestionConstraintComponent extends QuestionConstraintCompo
     super(null);
   }
 
-  get isValid(): boolean {
+  override get isValid(): boolean {
     return true;
   }
 }

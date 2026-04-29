@@ -109,7 +109,7 @@ export class RankRecipientsQuestionConstraintComponent
     return numberOfRecipientsRanked > this.questionDetails.maxOptionsToBeRanked;
   }
 
-  get isValid(): boolean {
+  override get isValid(): boolean {
     return !((!this.questionDetails.areDuplicatesAllowed && this.isSameRanksAssigned)
         || (this.isMinRecipientsEnabled && this.isRecipientsRankedLessThanMin)
         || (this.isMaxRecipientsEnabled && this.isRecipientsRankedMoreThanMax)

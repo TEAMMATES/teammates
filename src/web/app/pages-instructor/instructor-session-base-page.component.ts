@@ -52,7 +52,7 @@ export abstract class InstructorSessionBasePageComponent {
   isResultActionLoading: boolean = false;
 
   protected failedToCopySessions: Record<string, string> = {}; // Map of failed session copy to error message
-  coursesOfModifiedSession: Array<string> = [];
+  coursesOfModifiedSession: string[] = [];
   modifiedSession: Record<string, TweakedTimestampData> = {};
 
   private publishUnpublishRetryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
@@ -513,16 +513,16 @@ export abstract class InstructorSessionBasePageComponent {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
 
-          rowData[colIdx].customComponent!.componentData! = () => {
+          rowData[colIdx].customComponent!.componentData = () => {
             return {
-              ...rowData[colIdx].customComponent!.componentData!,
+              ...rowData[colIdx].customComponent!.componentData,
               value: this.publishStatusName.transform(FeedbackSessionPublishStatus.PUBLISHED),
             };
           };
 
-          rowData[actionsColIdx].customComponent!.componentData! = () => {
+          rowData[actionsColIdx].customComponent!.componentData = () => {
             return {
-              ...rowData[actionsColIdx].customComponent!.componentData!,
+              ...rowData[actionsColIdx].customComponent!.componentData,
               publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
             };
           };
@@ -569,16 +569,16 @@ export abstract class InstructorSessionBasePageComponent {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
 
-          rowData[responseColIdx].customComponent!.componentData! = () => {
+          rowData[responseColIdx].customComponent!.componentData = () => {
             return {
-              ...rowData[responseColIdx].customComponent!.componentData!,
+              ...rowData[responseColIdx].customComponent!.componentData,
               value: this.publishStatusName.transform(FeedbackSessionPublishStatus.NOT_PUBLISHED),
             };
           };
 
-          rowData[actionsColIdx].customComponent!.componentData! = () => {
+          rowData[actionsColIdx].customComponent!.componentData = () => {
             return {
-              ...rowData[actionsColIdx].customComponent!.componentData!,
+              ...rowData[actionsColIdx].customComponent!.componentData,
               publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
             };
           };

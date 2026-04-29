@@ -11,7 +11,7 @@ import { SessionResults } from '../types/api-output';
  * Loads data for testing.
  */
 const loadTestData: (filename: string) => SessionResults = (filename: string): SessionResults => {
-  // eslint-disable-next-line import/no-dynamic-require,global-require
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   return require(`./test-data/${filename}`);
 };
 
@@ -19,7 +19,6 @@ const loadTestData: (filename: string) => SessionResults = (filename: string): S
  * Substitutes values that are different across different properties configuration.
  */
 const replaceUnpredictableValuesWithPlaceholders: (str: string) => string = (str: string): string => {
-  // eslint-disable-next-line no-template-curly-in-string
   return str.replace(/Anonymous (student|instructor|team) [0-9]{1,10}/g, 'Anonymous $1 ${participant.hash}');
 };
 
