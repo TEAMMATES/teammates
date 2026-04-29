@@ -1,0 +1,7 @@
+# Ignore artifacts:
+build
+coverage
+
+# Ignore email templates:
+src/test/resources/emails/*.html
+src/main/resources/*.html

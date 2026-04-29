@@ -4,6 +4,7 @@ const { defineConfig } = require("eslint/config");
 const tseslint = require("typescript-eslint");
 const angular = require("angular-eslint");
 const jest = require('eslint-plugin-jest');
+const eslintConfigPrettier = require("eslint-config-prettier/flat");
 
 module.exports = defineConfig(
   {
@@ -102,4 +103,5 @@ module.exports = defineConfig(
       "@angular-eslint/template/mouse-events-have-key-events": "off",
     },
   },
+  eslintConfigPrettier,
 );
