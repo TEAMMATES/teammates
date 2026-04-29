@@ -212,8 +212,10 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   }
 
   private initialSortOfStudents(): void {
+    this.sortStudentOrder = SortOrder.ASC;
     this.studentsOfCourse.sort(this.sortStudentPanelsBy(SortBy.TEAM_NAME));
     this.studentsOfCourse.sort(this.sortStudentPanelsBy(SortBy.SECTION_NAME));
+    this.sortStudentOrder = SortOrder.DESC;
     this.studentsOfCourse.sort(this.sortStudentPanelsBy(SortBy.SESSION_END_DATE));
   }
 
@@ -275,7 +277,9 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   }
 
   private initialSortOfInstructors(): void {
-    this.instructorsOfCourse.sort(this.sortInstructorPanelsBy(SortBy.INSTRUCTOR_PERMISSION_ROLE));
+    this.sortInstructorOrder = SortOrder.ASC;
+    this.instructorsOfCourse.sort(this.sortInstructorPanelsBy(SortBy.RESPONDENT_NAME));
+    this.sortInstructorOrder = SortOrder.DESC;
     this.instructorsOfCourse.sort(this.sortInstructorPanelsBy(SortBy.SESSION_END_DATE));
   }
 
