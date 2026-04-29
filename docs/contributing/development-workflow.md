@@ -73,6 +73,7 @@ Before submitting, make sure:
 
 ```sh
 ./gradlew lint --continue
+npm run format
 npm run lint
 ```
 </tab>
@@ -80,6 +81,7 @@ npm run lint
 
 ```sh
 gradlew.bat lint --continue
+npm run format
 npm run lint
 ```
 </tab>

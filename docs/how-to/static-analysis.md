@@ -35,32 +35,36 @@ To run all static analysis tools:
 
 ```sh
 ./gradlew lint --continue
+npm run format
 npm run lint
 ```
+
 | Tool name  | Command                                                |
 | ---------- | ------------------------------------------------------ |
 | CheckStyle | `./gradlew checkstyleMain`, `./gradlew checkstyleTest` |
 | PMD        | `./gradlew pmdMain`, `./gradlew pmdTest`               |
 | SpotBugs   | `./gradlew spotbugsMain`, `./gradlew spotbugsTest`     |
 | ArchUnit   | `./gradlew architectureTest`                           |
-| ESLint     | `npm run lint:ts`                                      |
-| stylelint  | `npm run lint:css:syntax`                              |
-| prettier   | `npm run lint:css:styles`                              |
+| ESLint     | `npm run lint:eslint`                                  |
+| Stylelint  | `npm run lint:css`                                     |
+| Prettier   | `npm run format`                                       |
 </tab>
 <tab header="Windows">
 
 ```sh
 gradlew.bat lint --continue
+npm run format
 npm run lint
 ```
+
 | Tool name  | Command                                                    |
 | ---------- | ---------------------------------------------------------- |
 | CheckStyle | `gradlew.bat checkstyleMain`, `gradlew.bat checkstyleTest` |
 | PMD        | `gradlew.bat pmdMain`, `gradlew.bat pmdTest`               |
 | SpotBugs   | `gradlew.bat spotbugsMain`, `gradlew.bat spotbugsTest`     |
 | ArchUnit   | `gradlew.bat architectureTest`                             |
-| ESLint     | `npm run lint:ts`                                          |
-| stylelint  | `npm run lint:css:syntax`                                  |
-| prettier   | `npm run lint:css:styles`                                  |
+| ESLint     | `npm run lint:eslint`                                      |
+| Stylelint  | `npm run lint:css`                                         |
+| Prettier   | `npm run format`                                           |
 </tab>
 </tabs>

@@ -6,10 +6,12 @@
     "build:stats": "ng build --configuration production --stats-json",
     "test": "ng test --watch",
     "coverage": "rimraf coverage && ng test --coverage",
-    "lint:ts": "ng lint --cache",
-    "lint:css:syntax": "stylelint \"src/web/**/*.css\" \"src/web/**/*.scss\" --ignore-pattern \"src/web/dist/**/*\" --cache",
-    "lint:css:styles": "prettier --check --print-width=120 --single-quote=true \"src/web/**/*.css\" \"src/web/**/*.scss\"",
-    "lint": "npm-run-all -c lint:ts lint:css:syntax lint:css:styles"
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "lint:eslint": "ng lint --cache",
+    "lint:eslint:fix": "ng lint --fix --cache",
+    "lint:css": "stylelint \"src/web/**/*.css\" \"src/web/**/*.scss\" --ignore-pattern \"src/web/dist/**/*\" --cache",
+    "lint": "npm-run-all -c lint:eslint lint:css format:check"
   },
   "private": true,
   "dependencies": {
