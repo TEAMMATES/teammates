@@ -122,33 +122,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
   isAddingNewInstructor: boolean = false;
   isCopyingInstructor: boolean = false;
-  newInstructorPanel: InstructorEditPanel = {
-    googleId: '',
-    courseId: '',
-    email: '',
-    isDisplayedToStudents: true,
-    displayedToStudentsAs: 'Instructor',
-    name: '',
-    role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-    joinState: JoinState.NOT_JOINED,
-
-    permission: {
-      privilege: {
-        canModifyCourse: false,
-        canModifySession: false,
-        canModifyStudent: false,
-        canModifyInstructor: false,
-        canViewStudentInSections: false,
-        canModifySessionCommentsInSections: false,
-        canViewSessionInSections: false,
-        canSubmitSessionInSections: false,
-      },
-      sectionLevel: [],
-    },
-
-    isEditing: true,
-    isSavingInstructorEdit: false,
-  };
+  newInstructorPanel: InstructorEditPanel = this.getDefaultInstructorPanel({
+        isEditing: true,
+  });
 
   courseFormModel: CourseEditFormModel = DEFAULT_COURSE_EDIT_FORM_MODEL();
   resetCourseFormEvent: EventEmitter<void> = new EventEmitter();
@@ -303,50 +279,85 @@ export class InstructorCourseEditPageComponent implements OnInit {
         });
   }
 
-  /**
-   * Gets the default edit panel model of an instructor.
-   */
-  getInstructorEditPanelModel(i: Instructor): InstructorEditPanel {
     /**
-     * The non-null assertion operator (!) is used below in `isDisplayedToStudents`,
-     * `displayedToStudentsAs` and `role`. These attributes should never be undefined and are only
-     * typed as such to accommodate for a use case in SearchService.
+     * Gets the default edit panel model of an instructor.
      */
-    return {
-      googleId: i.googleId,
-      courseId: i.courseId,
-      email: i.email,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      isDisplayedToStudents: i.isDisplayedToStudents!,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      displayedToStudentsAs: i.displayedToStudentsAs!,
-      name: i.name,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      role: i.role!,
-      joinState: i.joinState,
+    getInstructorEditPanelModel(i: Instructor): InstructorEditPanel {
+        return this.getDefaultInstructorPanel({
+            googleId: i.googleId,
+            courseId: i.courseId,
+            email: i.email,
+            isDisplayedToStudents: i.isDisplayedToStudents,
+            displayedToStudentsAs: i.displayedToStudentsAs,
+            name: i.name,
+            role: i.role,
+            joinState: i.joinState,
+        });
+    }
 
-      permission: {
-        privilege: {
-          canModifyCourse: false,
-          canModifySession: false,
-          canModifyStudent: false,
-          canModifyInstructor: false,
-          canViewStudentInSections: false,
-          canModifySessionCommentsInSections: false,
-          canViewSessionInSections: false,
-          canSubmitSessionInSections: false,
-        },
-        sectionLevel: [],
-      },
+    /**
+     * Gets a default InstructorEditPanel with optional overrides.
+     *
+     * @param overrides Properties to overwrite the base model.
+     * @param defaultPrivileges Boolean to set all nested privileges to true or false.
+     */
+    private getDefaultInstructorPanel(
+        overrides: Partial<InstructorEditPanel> = {},
+        defaultPrivileges: boolean = false,
+    ): InstructorEditPanel {
+        return {
+            googleId: '',
+            courseId: '',
+            email: '',
+            isDisplayedToStudents: true,
+            displayedToStudentsAs: 'Instructor',
+            name: '',
+            role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+            joinState: JoinState.NOT_JOINED,
 
-      isEditing: false,
-      isSavingInstructorEdit: false,
-    };
-  }
+            permission: {
+                privilege: {
+                    canModifyCourse: defaultPrivileges,
+                    canModifySession: defaultPrivileges,
+                    canModifyStudent: defaultPrivileges,
+                    canModifyInstructor: defaultPrivileges,
+                    canViewStudentInSections: defaultPrivileges,
+                    canModifySessionCommentsInSections: defaultPrivileges,
+                    canViewSessionInSections: defaultPrivileges,
+                    canSubmitSessionInSections: defaultPrivileges,
+                },
+                sectionLevel: [],
+            },
 
-  /**
-   * Shows the model of details permission for a role.
-   */
+            isEditing: false,
+            isSavingInstructorEdit: false,
+            ...overrides,
+        };
+    }
+
+    /**
+     * Gets the default CourseTabModel with optional overrides.
+     *
+     * @param overrides Properties to overwrite the base model.
+     */
+    private getDefaultCourseTab(overrides: Partial<CourseTabModel> = {}): CourseTabModel {
+        return {
+            courseId: '',
+            courseName: '',
+            creationTimestamp: 0,
+            instructorCandidates: [],
+            instructorCandidatesSortBy: SortBy.NONE,
+            instructorCandidatesSortOrder: SortOrder.ASC,
+            hasInstructorsLoaded: false,
+            isTabExpanded: false,
+            hasLoadingFailed: false,
+            ...overrides,
+        };
+    }
+
+    /**
+     * Shows the model of details permission for a role.
+     */
   viewRolePrivilegeModel(role: InstructorPermissionRole): void {
     const modalRef: NgbModalRef = this.ngbModal.open(ViewRolePrivilegesModalComponent);
     modalRef.result.then(() => {}, () => {});
@@ -522,36 +533,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
             this.updatePrivilegeForInstructor(newDetailPanels.originalInstructor, newDetailPanels.editPanel.permission);
 
             this.isAddingNewInstructor = false;
-            this.newInstructorPanel = {
-              googleId: '',
-              courseId: '',
-              email: '',
-              isDisplayedToStudents: true,
-              displayedToStudentsAs: '',
-              name: '',
-              role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-              joinState: JoinState.NOT_JOINED,
 
-              permission: {
-                privilege: {
-                  canModifyCourse: true,
-                  canModifySession: true,
-                  canModifyStudent: true,
-                  canModifyInstructor: true,
-                  canViewStudentInSections: true,
-                  canModifySessionCommentsInSections: true,
-                  canViewSessionInSections: true,
-                  canSubmitSessionInSections: true,
-                },
-                sectionLevel: [],
-              },
-
-              isEditing: true,
-              isSavingInstructorEdit: false,
-            };
+            this.newInstructorPanel = this.getDefaultInstructorPanel({
+              displayedToStudentsAs: '', // override the default 'Instructor'
+              isEditing: true, // keeping the form open
+            }, true);
           },
           error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
+              this.statusMessageService.showErrorToast(resp.error.message);
           },
         });
   }
@@ -695,20 +684,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
         const activeCourses: Courses = values[0];
 
         activeCourses.courses.forEach((course: Course) => {
-          if (course.courseId !== this.courseId && course.institute === this.courseFormModel.course.institute) {
-            const model: CourseTabModel = {
-              courseId: course.courseId,
-              courseName: course.courseName,
-              creationTimestamp: course.creationTimestamp,
-              instructorCandidates: [],
-              instructorCandidatesSortBy: SortBy.NONE,
-              instructorCandidatesSortOrder: SortOrder.ASC,
-              hasInstructorsLoaded: false,
-              isTabExpanded: false,
-              hasLoadingFailed: false,
-            };
-            courseTabModels.push(model);
-          }
+            if (course.courseId !== this.courseId && course.institute === this.courseFormModel.course.institute) {
+                const model: CourseTabModel = this.getDefaultCourseTab({
+                    courseId: course.courseId,
+                    courseName: course.courseName,
+                    creationTimestamp: course.creationTimestamp,
+                });
+                courseTabModels.push(model);
+            }
         });
       },
       error: (err: ErrorMessageOutput) => {
