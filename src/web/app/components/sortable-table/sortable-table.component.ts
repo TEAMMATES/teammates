@@ -84,13 +84,13 @@ export class SortableTableComponent implements OnInit, OnChanges {
   SortOrder: typeof SortOrder = SortOrder;
 
   @Input()
-  tableId: string = '';
+  tableId = '';
 
   @Input()
   headerColorScheme: SortableTableHeaderColorScheme = SortableTableHeaderColorScheme.BLUE;
 
   @Input()
-  customHeaderStyle: string = '';
+  customHeaderStyle = '';
 
   @Input()
   columns: ColumnData[] = [];
@@ -107,9 +107,9 @@ export class SortableTableComponent implements OnInit, OnChanges {
   @Output()
   sortEvent: EventEmitter<SortableEvent> = new EventEmitter();
 
-  columnToSortBy: string = '';
+  columnToSortBy = '';
   tableRows: SortableTableCellData[][] = [];
-  setMainTableStyle: boolean = true;
+  setMainTableStyle = true;
 
   constructor(private tableComparatorService: TableComparatorService) { }
 

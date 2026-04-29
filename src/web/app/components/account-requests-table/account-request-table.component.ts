@@ -13,7 +13,6 @@ import { AccountService } from '../../../services/account.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { AccountRequest, MessageOutput } from '../../../types/api-output';
-import { AccountRequestUpdateRequest } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
@@ -58,13 +57,13 @@ export class AccountRequestTableComponent {
     modalRef.result.then((res: EditRequestModalComponentResult) => {
       this.accountService.editAccountRequest(
         accountRequest.id,
-        <AccountRequestUpdateRequest>({
+        {
             name: res.accountRequestName,
             email: res.accountRequestEmail,
             institute: res.accountRequestInstitution,
             status: accountRequest.status,
             comments: res.accountRequestComment,
-        }),
+        },
       )
       .subscribe({
         next: (resp: AccountRequest) => {
@@ -100,7 +99,7 @@ export class AccountRequestTableComponent {
   }
 
   deleteAccountRequest(accountRequest: AccountRequestTableRowModel): void {
-    const modalContent: string = `Are you sure you want to <strong>delete</strong> the account request for
+    const modalContent = `Are you sure you want to <strong>delete</strong> the account request for
         <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
         <strong>${accountRequest.instituteAndCountry}</strong>?`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
@@ -121,7 +120,7 @@ export class AccountRequestTableComponent {
   }
 
   viewAccountRequest(accountRequest: AccountRequestTableRowModel): void {
-    const modalContent: string = `<strong>Comment:</strong> ${accountRequest.comments || 'No comments'}`;
+    const modalContent = `<strong>Comment:</strong> ${accountRequest.comments || 'No comments'}`;
     const modalRef: NgbModalRef = this.simpleModalService.openInformationModal(
         `Comments for <strong>${accountRequest.name}</strong> Request`, SimpleModalType.INFO, modalContent);
 

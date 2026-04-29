@@ -28,12 +28,12 @@ import { ErrorMessageOutput } from '../../error-message-output';
 })
 export class AdminHomePageComponent implements OnInit {
 
-  instructorDetails: string = '';
-  instructorName: string = '';
-  instructorEmail: string = '';
-  instructorInstitution: string = '';
-  isAddingMultipleInstructors: boolean = false;
-  isAddingSingleInstructor: boolean = false;
+  instructorDetails = '';
+  instructorName = '';
+  instructorEmail = '';
+  instructorInstitution = '';
+  isAddingMultipleInstructors = false;
+  isAddingSingleInstructor = false;
 
   accountReqs: AccountRequestTableRowModel[] = [];
 

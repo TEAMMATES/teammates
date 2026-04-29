@@ -6,14 +6,13 @@ import { castAsInputElement } from '../../../../types/event-target-caster';
  * The abstract question details edit form component.
  */
 @Directive()
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestionDetails> {
   readonly castAsInputElement = castAsInputElement;
 
   model: D;
 
   @Input()
-  isEditable: boolean = true;
+  isEditable = true;
 
   @Input()
   set details(details: FeedbackQuestionDetails) {

@@ -41,7 +41,7 @@ export class InstructorSessionResultQuestionViewComponent
   loadQuestion: EventEmitter<string> = new EventEmitter();
 
   @Input() questions: Record<string, QuestionTabModel> = {};
-  @Input() isDisplayOnly: boolean = false;
+  @Input() isDisplayOnly = false;
 
   @Output() downloadQuestionResult: EventEmitter<{
     questionNumber: number,

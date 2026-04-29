@@ -11,7 +11,7 @@ export class FeedbackTextQuestionDetailsImpl extends AbstractFeedbackQuestionDet
     implements FeedbackTextQuestionDetails {
 
   recommendedLength?: number;
-  questionText: string = '';
+  questionText = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.TEXT;
   shouldAllowRichText: boolean;
 

@@ -40,7 +40,7 @@ describe('SearchTermsHighlighterPipe', () => {
                 expected: '<span class="highlighted-text">Student</span>',
             },
         ];
-        for (let i: number = 0; i < consolidatedSamples.length; i += 1) {
+        for (let i = 0; i < consolidatedSamples.length; i += 1) {
             expect(highlighterPipe.transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch))
             .toEqual(consolidatedSamples[i].expected);
         }
@@ -61,7 +61,7 @@ describe('SearchTermsHighlighterPipe', () => {
                 sampleValue: 'Student',
             },
         ];
-        for (let i: number = 0; i < consolidatedSamples.length; i += 1) {
+        for (let i = 0; i < consolidatedSamples.length; i += 1) {
             expect(highlighterPipe.transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch))
                 .toEqual(consolidatedSamples[i].sampleValue);
         }
@@ -118,7 +118,7 @@ describe('SearchTermsHighlighterPipe', () => {
                 + ' <span class="highlighted-text">team</span> a',
             },
         ];
-        for (let i: number = 0; i < consolidatedSamples.length; i += 1) {
+        for (let i = 0; i < consolidatedSamples.length; i += 1) {
             expect(highlighterPipe
             .transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch))
             .toEqual(consolidatedSamples[i].expected);
@@ -160,7 +160,7 @@ describe('SearchTermsHighlighterPipe', () => {
                 + 'r</span>s<span class="highlighted-text">e</span>',
             },
         ];
-        for (let i: number = 0; i < consolidatedSamples.length; i += 1) {
+        for (let i = 0; i < consolidatedSamples.length; i += 1) {
             expect(highlighterPipe
             .transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch, true))
             .toEqual(consolidatedSamples[i].expected);
@@ -195,7 +195,7 @@ describe('SearchTermsHighlighterPipe', () => {
                 expected: '',
             },
         ];
-        for (let i: number = 0; i < consolidatedSamples.length; i += 1) {
+        for (let i = 0; i < consolidatedSamples.length; i += 1) {
             expect(highlighterPipe
                 .transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch, true))
                 .toEqual(consolidatedSamples[i].expected);
@@ -252,7 +252,7 @@ describe('SearchTermsHighlighterPipe', () => {
                     expected: 'Test<span class="highlighted-text"> Course</span>',
                 },
             ];
-            for (let i: number = 0; i < consolidatedSamples.length; i += 1) {
+            for (let i = 0; i < consolidatedSamples.length; i += 1) {
                 expect(highlighterPipe
                     .transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch, true))
                     .toEqual(consolidatedSamples[i].expected);
@@ -272,7 +272,7 @@ describe('SearchTermsHighlighterPipe', () => {
                 expected: 'Test Course',
             },
         ];
-        for (let i: number = 0; i < consolidatedSamples.length; i += 1) {
+        for (let i = 0; i < consolidatedSamples.length; i += 1) {
             expect(highlighterPipe
                 .transform(consolidatedSamples[i].sampleValue, consolidatedSamples[i].sampleSearch, true))
                 .toEqual(consolidatedSamples[i].expected);

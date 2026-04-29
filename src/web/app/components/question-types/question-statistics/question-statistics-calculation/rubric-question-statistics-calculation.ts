@@ -29,16 +29,15 @@ export interface PerRecipientStats {
  * Class to calculate stats for rubric question.
  */
 @Directive()
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export class RubricQuestionStatisticsCalculation
     extends QuestionStatistics<FeedbackRubricQuestionDetails, FeedbackRubricResponseDetails> {
 
   subQuestions: string[] = [];
   choices: string[] = [];
-  hasWeights: boolean = false;
+  hasWeights = false;
   weights: number[][] = [];
   answers: number[][] = [];
-  isWeightStatsVisible: boolean = false;
+  isWeightStatsVisible = false;
 
   percentages: number[][] = [];
   subQuestionWeightAverage: number[] = [];
@@ -48,7 +47,6 @@ export class RubricQuestionStatisticsCalculation
 
   perRecipientStatsMap: Record<string, PerRecipientStats> = {};
 
-  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
   constructor(question: FeedbackRubricQuestionDetails) {
     super(question);
   }
@@ -81,7 +79,7 @@ export class RubricQuestionStatisticsCalculation
     this.answersExcludeSelf = JSON.parse(JSON.stringify(emptyAnswers));
 
     for (const response of this.responses) {
-      for (let i: number = 0; i < response.responseDetails.answer.length; i += 1) {
+      for (let i = 0; i < response.responseDetails.answer.length; i += 1) {
         const subAnswer: number = response.responseDetails.answer[i];
         if (subAnswer === RUBRIC_ANSWER_NOT_CHOSEN || (this.isStudent && response.recipient !== 'You')) {
           continue;
@@ -123,7 +121,7 @@ export class RubricQuestionStatisticsCalculation
           subQuestionTotalChosenWeight: this.subQuestions.map(() => 0),
           subQuestionWeightAverage: [],
         };
-      for (let i: number = 0; i < response.responseDetails.answer.length; i += 1) {
+      for (let i = 0; i < response.responseDetails.answer.length; i += 1) {
         const subAnswer: number = response.responseDetails.answer[i];
         if (subAnswer === RUBRIC_ANSWER_NOT_CHOSEN) {
           continue;
@@ -165,9 +163,9 @@ export class RubricQuestionStatisticsCalculation
   // Number of responses for each sub question with non-null weights
   private countResponsesByRowWithValidWeight(answers: number[][]): number[] {
     const sums: number[] = [];
-    for (let r: number = 0; r < answers.length; r += 1) {
-        let sum: number = 0;
-        for (let c: number = 0; c < answers[0].length; c += 1) {
+    for (let r = 0; r < answers.length; r += 1) {
+        let sum = 0;
+        for (let c = 0; c < answers[0].length; c += 1) {
             if (this.weights[r][c] === null) {
                 continue;
             }
@@ -203,8 +201,8 @@ export class RubricQuestionStatisticsCalculation
         weightedAnswers.reduce((a: number, b: number) => a + b, 0));
 
     // Calculate the percentages based on the entry of each cell and the sum of each row
-    for (let i: number = 0; i < answers.length; i += 1) {
-      for (let j: number = 0; j < answers[i].length; j += 1) {
+    for (let i = 0; i < answers.length; i += 1) {
+      for (let j = 0; j < answers[i].length; j += 1) {
         percentages[i][j] = sums[i] === 0 ? 0 : +(percentages[i][j] / sums[i] * 100).toFixed(2);
       }
     }
@@ -215,9 +213,9 @@ export class RubricQuestionStatisticsCalculation
   // Calculate sum of non-null values for each column
   private sumValidValuesByColumn(matrix: number[][]): number[] {
     const sums: number[] = [];
-    for (let c: number = 0; c < matrix[0].length; c += 1) {
-      let sum: number = 0;
-      for (let r: number = 0; r < matrix.length; r += 1) {
+    for (let c = 0; c < matrix[0].length; c += 1) {
+      let sum = 0;
+      for (let r = 0; r < matrix.length; r += 1) {
         sum += matrix[r][c] === null ? 0 : matrix[r][c];
       }
       sums[c] = sum;
@@ -228,9 +226,9 @@ export class RubricQuestionStatisticsCalculation
   // Count number of non-null values for each column
   private countValidValuesByColumn(matrix: number[][]): number[] {
     const counts: number[] = [];
-    for (let c: number = 0; c < matrix[0].length; c += 1) {
-      let count: number = 0;
-      for (let r: number = 0; r < matrix.length; r += 1) {
+    for (let c = 0; c < matrix[0].length; c += 1) {
+      let count = 0;
+      for (let r = 0; r < matrix.length; r += 1) {
         count += matrix[r][c] === null ? 0 : 1;
       }
       counts[c] = count;
@@ -244,7 +242,7 @@ export class RubricQuestionStatisticsCalculation
     const counts: number[] = this.countValidValuesByColumn(weights);
     const averages: number[] = [];
     // Divide each weight sum by number of non-null weights
-    for (let i: number = 0; i < sums.length; i += 1) {
+    for (let i = 0; i < sums.length; i += 1) {
       averages[i] = counts[i] ? +(sums[i] / counts[i]).toFixed(2) : NO_VALUE;
     }
     return averages;
@@ -256,7 +254,7 @@ export class RubricQuestionStatisticsCalculation
     const numResponses = this.calculateNumResponses(answersSum);
     const averages: number[] = [];
     // Divide each column sum by total number of responses, then convert to percentage
-    for (let i: number = 0; i < answersSum.length; i += 1) {
+    for (let i = 0; i < answersSum.length; i += 1) {
       averages[i] = numResponses === 0 ? 0 : +(answersSum[i] * 100 / numResponses).toFixed(2);
     }
     return averages;
@@ -272,7 +270,7 @@ export class RubricQuestionStatisticsCalculation
     if (areChosenWeightsAllNull.every(Boolean)) {
         return NO_VALUE;
     }
-    let sum: number = 0;
+    let sum = 0;
     for (const totalChosenWeight of totalChosenWeights) {
         sum += totalChosenWeight === NO_VALUE ? 0 : totalChosenWeight;
     }

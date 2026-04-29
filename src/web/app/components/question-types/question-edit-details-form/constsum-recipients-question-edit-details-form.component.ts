@@ -31,8 +31,8 @@ export class ConstsumRecipientsQuestionEditDetailsFormComponent
     super(DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS());
   }
 
-  @Input() questionNumber: number = 0;
-  pointsRadioGroupName: string = '';
+  @Input() questionNumber = 0;
+  pointsRadioGroupName = '';
   ngOnChanges(): void {
     this.pointsRadioGroupName = `constsum-recipients-${this.questionNumber}`;
   }

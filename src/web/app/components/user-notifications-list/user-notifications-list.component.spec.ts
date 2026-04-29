@@ -43,8 +43,8 @@ describe('UserNotificationsListComponent', () => {
     shown: false,
   };
 
-  const timezone: string = 'UTC';
-  const DATE_FORMAT: string = 'DD MMM YYYY';
+  const timezone = 'UTC';
+  const DATE_FORMAT = 'DD MMM YYYY';
 
   const getNotificationTabs = (notifications: Notification[], readNotifications: string[] = []): NotificationTab[] => {
     const notificationTabs: NotificationTab[] = [];

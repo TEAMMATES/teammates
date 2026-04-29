@@ -12,8 +12,8 @@ export class FeedbackMsqResponseDetailsImpl extends AbstractFeedbackResponseDeta
     implements FeedbackMsqResponseDetails {
 
   answers: string[] = [];
-  isOther: boolean = false;
-  otherFieldContent: string = '';
+  isOther = false;
+  otherFieldContent = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.MSQ;
 
   constructor(apiOutput: FeedbackMsqResponseDetails) {
@@ -30,10 +30,10 @@ export class FeedbackMsqResponseDetailsImpl extends AbstractFeedbackResponseDeta
     }
     const answers: string[] = [];
     for (const choice of correspondingQuestionDetails.msqChoices) {
-      if (this.answers.indexOf(choice) === -1) {
-        answers.push('');
-      } else {
+      if (this.answers.includes(choice)) {
         answers.push(choice);
+      } else {
+        answers.push('');
       }
     }
     return [['', ...answers]];

@@ -49,7 +49,7 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
 
   readonly notDisplayedToStudentText: string = '(NOT displayed to students)';
   coursesSortBy: SortBy | undefined;
-  isCopyingSelectedInstructors: boolean = false;
+  isCopyingSelectedInstructors = false;
 
   constructor(public activeModal: NgbActiveModal,
               public statusMessageService: StatusMessageService,

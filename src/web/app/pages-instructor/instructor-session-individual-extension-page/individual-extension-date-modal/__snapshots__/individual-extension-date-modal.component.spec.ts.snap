@@ -32,6 +32,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
       Select the new deadline for extension
     </h5>
     <button
+      aria-label="Close"
       class="btn-close"
       type="button"
     />
@@ -181,6 +182,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
       Select the new deadline for extension
     </h5>
     <button
+      aria-label="Close"
       class="btn-close"
       type="button"
     />
@@ -375,6 +377,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
       Select the new deadline for extension
     </h5>
     <button
+      aria-label="Close"
       class="btn-close"
       type="button"
     />
@@ -644,6 +647,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
       Select the new deadline for extension
     </h5>
     <button
+      aria-label="Close"
       class="btn-close"
       type="button"
     />
@@ -795,6 +799,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the warning moda
       Select the new deadline for extension
     </h5>
     <button
+      aria-label="Close"
       class="btn-close"
       type="button"
     />

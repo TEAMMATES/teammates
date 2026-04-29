@@ -20,7 +20,7 @@ const defaultRequestBody: InstructorCreateRequest = {
   role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
   displayName: 'John Doe',
   isDisplayedToStudent: true,
-} as InstructorCreateRequest;
+};
 
 const defaultInstructors: Instructors = {
   instructors: [{

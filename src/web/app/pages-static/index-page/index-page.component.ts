@@ -14,13 +14,13 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
 export class IndexPageComponent implements OnInit {
 
   testimonial: any;
-  submissionsNumber: string = '10,000,000+';
+  submissionsNumber = '10,000,000+';
   private testimonials: any[] = [];
-  private testimonialIndex: number = -1;
+  private testimonialIndex = -1;
 
   ngOnInit(): void {
     const formatNumber: (n: number) => string = (n: number): string => {
-      let number: string = String(n);
+      let number = String(n);
       const expression: any = /(\d+)(\d{3})/;
       while (expression.test(number)) {
         number = number.replace(expression, '$1,$2');

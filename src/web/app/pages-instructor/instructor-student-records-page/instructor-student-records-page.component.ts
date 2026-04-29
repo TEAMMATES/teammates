@@ -60,14 +60,14 @@ interface SessionTab {
 })
 export class InstructorStudentRecordsPageComponent implements OnInit {
 
-  courseId: string = '';
-  studentName: string = '';
-  studentEmail: string = '';
-  studentTeam: string = '';
+  courseId = '';
+  studentName = '';
+  studentEmail = '';
+  studentTeam = '';
 
   sessionTabs: SessionTab[] = [];
-  isStudentResultsLoading: boolean = false;
-  hasStudentResultsLoadingFailed: boolean = false;
+  isStudentResultsLoading = false;
+  hasStudentResultsLoadingFailed = false;
 
   constructor(private route: ActivatedRoute,
               private feedbackSessionsService: FeedbackSessionsService,

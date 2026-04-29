@@ -81,7 +81,7 @@ export class RankRecipientsQuestionConstraintComponent
    * Checks if the recipients Ranked is less than the minimum required.
    */
   get isRecipientsRankedLessThanMin(): boolean {
-    let numberOfRecipientsRanked: number = 0;
+    let numberOfRecipientsRanked = 0;
     for (const submissionForm of this.recipientSubmissionForms) {
       const details: FeedbackRankRecipientsResponseDetails =
           submissionForm.responseDetails as FeedbackRankRecipientsResponseDetails;
@@ -97,7 +97,7 @@ export class RankRecipientsQuestionConstraintComponent
    * Checks if the recipients Ranked is more than the maximum required.
    */
   get isRecipientsRankedMoreThanMax(): boolean {
-    let numberOfRecipientsRanked: number = 0;
+    let numberOfRecipientsRanked = 0;
     for (const submissionForm of this.recipientSubmissionForms) {
       const details: FeedbackRankRecipientsResponseDetails =
           submissionForm.responseDetails as FeedbackRankRecipientsResponseDetails;
@@ -109,7 +109,7 @@ export class RankRecipientsQuestionConstraintComponent
     return numberOfRecipientsRanked > this.questionDetails.maxOptionsToBeRanked;
   }
 
-  get isValid(): boolean {
+  override get isValid(): boolean {
     return !((!this.questionDetails.areDuplicatesAllowed && this.isSameRanksAssigned)
         || (this.isMinRecipientsEnabled && this.isRecipientsRankedLessThanMin)
         || (this.isMaxRecipientsEnabled && this.isRecipientsRankedMoreThanMax)

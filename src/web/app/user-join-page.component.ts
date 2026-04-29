@@ -26,13 +26,13 @@ import { LoadingSpinnerDirective } from './components/loading-spinner/loading-sp
 })
 export class UserJoinPageComponent implements OnInit {
 
-  isLoading: boolean = true;
-  isCreatingAccount: boolean = false;
-  hasJoined: boolean = false;
-  validUrl: boolean = true;
-  entityType: string = '';
-  key: string = '';
-  userId: string = '';
+  isLoading = true;
+  isCreatingAccount = false;
+  hasJoined = false;
+  validUrl = true;
+  entityType = '';
+  key = '';
+  userId = '';
 
   private backendUrl: string = environment.backendUrl;
 
@@ -56,7 +56,7 @@ export class UserJoinPageComponent implements OnInit {
         this.entityType = 'instructor';
       }
 
-      const nextUrl: string = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
+      const nextUrl = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
       this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
         if (!auth.user) {
           this.isLoading = false;

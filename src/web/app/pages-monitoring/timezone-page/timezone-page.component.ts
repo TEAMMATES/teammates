@@ -19,12 +19,12 @@ import { LoadingSpinnerDirective } from '../../components/loading-spinner/loadin
 })
 export class TimezonePageComponent implements OnInit {
 
-  javaTzVersion: string = '';
+  javaTzVersion = '';
   javaTimezones: Record<string, number> = {};
-  momentTzVersion: string = '';
+  momentTzVersion = '';
   momentTimezones: Record<string, number> = {};
 
-  isTimezonesLoading: boolean = false;
+  isTimezonesLoading = false;
 
   constructor(private timezoneService: TimezoneService) {}
 

@@ -33,7 +33,6 @@ import {
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
-  FeedbackTextQuestionDetails,
   FeedbackVisibilityType,
   Instructor,
   Instructors,
@@ -100,7 +99,7 @@ describe('InstructorSessionEditPageComponent', () => {
     questionDetails: {
       questionType: FeedbackQuestionType.TEXT,
       questionText: 'question text',
-    } as FeedbackTextQuestionDetails,
+    },
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.INSTRUCTORS,
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
@@ -162,7 +161,7 @@ describe('InstructorSessionEditPageComponent', () => {
     questionDetails: {
       questionType: FeedbackQuestionType.TEXT,
       questionText: 'question text',
-    } as FeedbackTextQuestionDetails,
+    },
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.INSTRUCTORS,
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
@@ -190,7 +189,7 @@ describe('InstructorSessionEditPageComponent', () => {
     questionDetails: {
       questionType: FeedbackQuestionType.TEXT,
       questionText: 'question text',
-    } as FeedbackTextQuestionDetails,
+    },
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.INSTRUCTORS,
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,

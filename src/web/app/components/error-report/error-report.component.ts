@@ -18,13 +18,13 @@ import { ErrorMessageOutput } from '../../error-message-output';
 })
 export class ErrorReportComponent implements OnInit {
 
-  errorMessage: string = '';
-  subject: string = 'User-submitted Error Report';
-  content: string = '';
-  requestId: string = '';
-  sendButtonEnabled: boolean = true;
-  errorReportEnabled: boolean = true;
-  errorReportSubmitted: boolean = false;
+  errorMessage = '';
+  subject = 'User-submitted Error Report';
+  content = '';
+  requestId = '';
+  sendButtonEnabled = true;
+  errorReportEnabled = true;
+  errorReportSubmitted = false;
   csrfErrorMessages: string[] = ['Missing CSRF token.', 'Invalid CSRF token.'];
   readonly supportEmail: string = environment.supportEmail;
 

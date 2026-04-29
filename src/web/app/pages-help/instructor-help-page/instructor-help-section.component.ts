@@ -19,7 +19,6 @@ interface QuestionDetail {
  * Base section for instructor help page.
  */
 @Directive()
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class InstructorHelpSectionComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input() key: string;
@@ -106,7 +105,7 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
       const terms: string[] = questionDetail.keywords;
 
       if (searchTermSplit.length) {
-        let hasMatch: boolean = false;
+        let hasMatch = false;
         for (const term of searchTermSplit) {
           if (term.includes(' ') && fullText.includes(term)) {
             hasMatch = true;

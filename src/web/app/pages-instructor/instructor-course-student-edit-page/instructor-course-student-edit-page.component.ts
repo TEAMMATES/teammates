@@ -1,7 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
-  AbstractControl,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
@@ -44,16 +43,16 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
 
   FormValidator: typeof FormValidator = FormValidator; // enum
 
-  @Input() isEnabled: boolean = true;
-  courseId: string = '';
-  studentEmail: string = '';
+  @Input() isEnabled = true;
+  courseId = '';
+  studentEmail = '';
   student!: Student;
 
-  isTeamnameFieldChanged: boolean = false;
-  isEmailFieldChanged: boolean = false;
-  isStudentLoading: boolean = false;
-  hasStudentLoadingFailed: boolean = false;
-  isFormSaving: boolean = false;
+  isTeamnameFieldChanged = false;
+  isEmailFieldChanged = false;
+  isStudentLoading = false;
+  hasStudentLoadingFailed = false;
+  isFormSaving = false;
 
   editForm!: UntypedFormGroup;
   teamFieldSubscription?: Subscription;
@@ -91,10 +90,10 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
 
   ngOnDestroy(): void {
     if (this.emailFieldSubscription) {
-      (this.emailFieldSubscription as Subscription).unsubscribe();
+      (this.emailFieldSubscription).unsubscribe();
     }
     if (this.teamFieldSubscription) {
-      (this.teamFieldSubscription as Subscription).unsubscribe();
+      (this.teamFieldSubscription).unsubscribe();
     }
   }
 
@@ -137,13 +136,13 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
       comments: new UntypedFormControl(this.student.comments),
     });
     this.teamFieldSubscription =
-        (this.editForm.get('team-name') as AbstractControl).valueChanges
+        (this.editForm.get('team-name')!).valueChanges
             .subscribe(() => {
               this.isTeamnameFieldChanged = true;
             });
 
     this.emailFieldSubscription =
-        (this.editForm.get('new-student-email') as AbstractControl).valueChanges
+        (this.editForm.get('new-student-email')!).valueChanges
             .subscribe(() => {
               this.isEmailFieldChanged = true;
             });
@@ -173,7 +172,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
     }
 
     if (this.isTeamnameFieldChanged) {
-      const modalContent: string =
+      const modalContent =
           `Editing these fields will result in some existing responses from this student to be deleted.
           You may download the data before you make the changes.`;
       const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(

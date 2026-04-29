@@ -93,7 +93,7 @@ export class CommentVisibilityTypesJointNamePipe implements PipeTransform {
     }
 
     const commentVisibilityTypeNamePipe: CommentVisibilityTypeNamePipe = new CommentVisibilityTypeNamePipe();
-    let hint: string = '';
+    let hint = '';
 
     types.forEach((commentVisibilityType: CommentVisibilityType, i: number) => {
       hint += commentVisibilityTypeNamePipe.transform(commentVisibilityType).toLowerCase();

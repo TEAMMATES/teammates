@@ -31,7 +31,6 @@ export class InstructorCommentService {
   deleteComment(data: { responseId: string, index: number }): void {
     const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
     const commentToDelete: FeedbackResponseComment =
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.instructorCommentTableModel[data.responseId].commentRows[data.index].originalComment!;
 
     this.commentService.deleteComment(commentToDelete.feedbackResponseCommentId, Intent.INSTRUCTOR_RESULT)
@@ -54,7 +53,6 @@ export class InstructorCommentService {
   updateComment(data: { responseId: string, index: number }, timezone: string): void {
     const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
     const commentRowToUpdate: CommentRowModel = commentTableModel.commentRows[data.index];
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const commentToUpdate: FeedbackResponseComment = commentRowToUpdate.originalComment!;
 
     this.commentService.updateComment({

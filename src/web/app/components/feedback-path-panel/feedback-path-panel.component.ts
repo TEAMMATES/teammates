@@ -5,7 +5,6 @@ import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/n
 import {
   FeedbackParticipantType,
   FeedbackQuestionType,
-  FeedbackTextQuestionDetails,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
 import { QuestionEditFormModel } from '../question-edit-form/question-edit-form-model';
@@ -51,7 +50,7 @@ export class FeedbackPathPanelComponent {
     questionDetails: {
       questionType: FeedbackQuestionType.TEXT,
       questionText: '',
-    } as FeedbackTextQuestionDetails,
+    },
 
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
@@ -133,10 +132,9 @@ export class FeedbackPathPanelComponent {
   changeGiverRecipientType(giverType: FeedbackParticipantType, recipientType: FeedbackParticipantType): void {
     // check if current recipientType is allowed for giverType,
     // if not, set default recipientType to the first allowed type as default.
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const allowedRecipientTypes: FeedbackParticipantType[] = this.allowedFeedbackPaths.get(giverType)!;
     let newRecipientType: FeedbackParticipantType = recipientType;
-    if (allowedRecipientTypes.indexOf(recipientType) === -1) {
+    if (!allowedRecipientTypes.includes(recipientType)) {
       newRecipientType = allowedRecipientTypes[0];
     }
     if (this.model.giverType === giverType && this.model.recipientType === newRecipientType) {

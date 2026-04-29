@@ -97,49 +97,49 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
   Intent: typeof Intent = Intent;
 
-  courseId: string = '';
-  feedbackSessionName: string = '';
-  feedbackSessionId: string = '';
-  regKey: string = '';
-  entityType: string = 'student';
-  loggedInUser: string = '';
+  courseId = '';
+  feedbackSessionName = '';
+  feedbackSessionId = '';
+  regKey = '';
+  entityType = 'student';
+  loggedInUser = '';
 
-  moderatedPerson: string = '';
-  previewAsPerson: string = '';
+  moderatedPerson = '';
+  previewAsPerson = '';
   // the name of the person involved
   // (e.g. the student name for unregistered student, the name of instructor being moderated)
-  personName: string = '';
-  personEmail: string = '';
+  personName = '';
+  personEmail = '';
 
-  courseName: string = '';
-  courseInstitute: string = '';
-  formattedSessionOpeningTime: string = '';
-  formattedSessionClosingTime: string = '';
-  feedbackSessionInstructions: string = '';
-  feedbackSessionTimezone: string = '';
+  courseName = '';
+  courseInstitute = '';
+  formattedSessionOpeningTime = '';
+  formattedSessionClosingTime = '';
+  feedbackSessionInstructions = '';
+  feedbackSessionTimezone = '';
   feedbackSessionSubmissionStatus: FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus.OPEN;
 
   intent: Intent = Intent.STUDENT_SUBMISSION;
 
   questionSubmissionForms: QuestionSubmissionFormModel[] = [];
 
-  isSavingResponses: boolean = false;
-  isSubmissionFormsDisabled: boolean = false;
+  isSavingResponses = false;
+  isSubmissionFormsDisabled = false;
 
-  isModerationHintExpanded: boolean = false;
-  moderatedQuestionId: string = '';
+  isModerationHintExpanded = false;
+  moderatedQuestionId = '';
 
-  isCourseLoading: boolean = true;
-  isFeedbackSessionLoading: boolean = true;
-  isFeedbackSessionQuestionsLoading: boolean = true;
-  hasFeedbackSessionQuestionsLoadingFailed: boolean = false;
+  isCourseLoading = true;
+  isFeedbackSessionLoading = true;
+  isFeedbackSessionQuestionsLoading = true;
+  hasFeedbackSessionQuestionsLoadingFailed = false;
   retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
-  isQuestionCountOne: boolean = false;
+  isQuestionCountOne = false;
 
   allSessionViews = SessionView;
   currentSelectedSessionView: SessionView = SessionView.DEFAULT;
-  hasLoadedAllRecipients: boolean = false;
+  hasLoadedAllRecipients = false;
   // Records the recipient to groupable questions mapping used in grouping questions by recipients view
   recipientQuestionMap: Map<string, Set<number>> = new Map<string, Set<number>>();
   ungroupableQuestions: Set<number> = new Set();
@@ -194,10 +194,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         this.isSubmissionFormsDisabled = true;
       }
 
-      const nextUrl: string = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
+      const nextUrl = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
       this.authService.getAuthUser(undefined, nextUrl).subscribe({
         next: (auth: AuthInfo) => {
-          const isPreviewOrModeration: boolean = !!(auth.user && (this.moderatedPerson || this.previewAsPerson));
+          const isPreviewOrModeration = !!(auth.user && (this.moderatedPerson || this.previewAsPerson));
           if (auth.user) {
             this.loggedInUser = auth.user.id;
           }
@@ -382,7 +382,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    */
   loadFeedbackSession(loginRequired: boolean, auth: AuthInfo): void {
     this.isFeedbackSessionLoading = true;
-    const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
+    const TIME_FORMAT = 'ddd, DD MMM, YYYY, hh:mm A zz';
     this.feedbackSessionsService.getFeedbackSession({
       feedbackSessionId: this.feedbackSessionId,
       intent: this.intent,
@@ -441,10 +441,10 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           this.loadFeedbackQuestions();
 
           // Display note on submission on mobile device
-          const mobileDeviceWidth: number = 768;
+          const mobileDeviceWidth = 768;
           if (this.feedbackSessionSubmissionStatus === FeedbackSessionSubmissionStatus.OPEN
               && window.innerWidth < mobileDeviceWidth) {
-            const modalContent: string = `Note that you can use the Submit button to save responses already entered,
+            const modalContent = `Note that you can use the Submit button to save responses already entered,
               and continue to answer remaining questions after that.
               You may also edit your submission any number of times before the closing time of this session.`;
             this.simpleModalService.openInformationModal(
@@ -599,7 +599,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               return;
             }
 
-            let recipientIdentifier: string = '';
+            let recipientIdentifier = '';
             if (formMode !== QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT) {
               recipientIdentifier = recipient.recipientIdentifier;
             }
@@ -679,7 +679,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 isValid: true,
                 isModified: false,
               };
-              if (matchedExistingResponse && matchedExistingResponse.giverComment) {
+              if (matchedExistingResponse?.giverComment) {
                 submissionForm.commentByGiver = this.getCommentModel(
                     matchedExistingResponse.giverComment, recipient.recipientIdentifier);
               }
@@ -769,7 +769,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     const savingRequests: Observable<any>[] = [];
 
     questionSubmissionForms.forEach((questionSubmissionFormModel: QuestionSubmissionFormModel) => {
-      let isQuestionFullyAnswered: boolean = true;
+      let isQuestionFullyAnswered = true;
 
       const responses: FeedbackResponseRequest[] = [];
 
@@ -961,7 +961,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     const recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel =
         this.questionSubmissionForms[questionIndex].recipientSubmissionForms[responseIdx];
 
-    if (!recipientSubmissionFormModel.commentByGiver || !recipientSubmissionFormModel.commentByGiver.originalComment) {
+    if (!recipientSubmissionFormModel.commentByGiver?.originalComment) {
       return;
     }
 
@@ -1001,7 +1001,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   }
 
   loadRecipientsAndResponses(event: any, questionSubmissionForm: QuestionSubmissionFormModel): void {
-    if (event && event.visible && !questionSubmissionForm.isLoaded && !questionSubmissionForm.isLoading) {
+    if (event?.visible && !questionSubmissionForm.isLoaded && !questionSubmissionForm.isLoading) {
       questionSubmissionForm.isLoading = true;
       this.loadFeedbackQuestionRecipientsForQuestion(questionSubmissionForm);
     }
@@ -1137,7 +1137,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     }
 
     const recipient: FeedbackResponseRecipient | undefined =
-        question!.recipientList.find(
+        question.recipientList.find(
             (r: FeedbackResponseRecipient) => r.recipientIdentifier === recipientIdentifier);
 
     return recipient ? recipient.recipientName : 'Unknown';

@@ -26,9 +26,9 @@ export class CopySessionModalComponent {
   courseCandidates: Course[] = [];
 
   @Input()
-  sessionToCopyCourseId: string = '';
+  sessionToCopyCourseId = '';
 
-  newFeedbackSessionName: string = '';
+  newFeedbackSessionName = '';
   copyToCourseSet: Set<string> = new Set<string>();
 
   constructor(public activeModal: NgbActiveModal) {}

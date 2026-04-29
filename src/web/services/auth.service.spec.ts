@@ -32,7 +32,7 @@ describe('AuthService', () => {
   });
 
   it('should execute getAuthRegkeyValidity', () => {
-    const key: string = 'key';
+    const key = 'key';
     const intent: Intent = Intent.FULL_DETAIL;
     const paramMap: Record<string, string> = { key, intent };
     service.getAuthRegkeyValidity(key, intent);
@@ -40,9 +40,9 @@ describe('AuthService', () => {
   });
 
   it('should execute sendLoginEmail', () => {
-    const userEmail: string = 'abc@gmail.com';
-    const continueUrl: string = 'continueUrl';
-    const captchaResponse: string = 'captchaResponse';
+    const userEmail = 'abc@gmail.com';
+    const continueUrl = 'continueUrl';
+    const captchaResponse = 'captchaResponse';
     const queryParam = { userEmail, continueUrl, captchaResponse };
     const paramMap: Record<string, string> = {
       useremail: queryParam.userEmail,

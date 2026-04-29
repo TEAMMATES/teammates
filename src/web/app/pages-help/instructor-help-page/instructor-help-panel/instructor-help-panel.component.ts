@@ -14,11 +14,11 @@ import { PanelChevronComponent } from '../../../components/panel-chevron/panel-c
 })
 export class InstructorHelpPanelComponent {
 
-  @Input() id: string = '';
-  @Input() section: string = '';
-  @Input() headerText: string = '';
+  @Input() id = '';
+  @Input() section = '';
+  @Input() headerText = '';
 
-  isPanelExpandedValue: boolean = false;
+  isPanelExpandedValue = false;
   @Output() isPanelExpandedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Input() get isPanelExpanded(): boolean {

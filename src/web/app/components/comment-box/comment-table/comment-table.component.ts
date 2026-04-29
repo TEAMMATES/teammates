@@ -37,7 +37,7 @@ export class CommentTableComponent {
   questionShowResponsesTo: FeedbackVisibilityType[] = [];
 
   @Input()
-  displayAddCommentButton: boolean = false;
+  displayAddCommentButton = false;
 
   @Input()
   model: CommentTableModel = {
@@ -56,7 +56,7 @@ export class CommentTableComponent {
   };
 
   @Input()
-  shouldHideClosingButtonForNewComment: boolean = false;
+  shouldHideClosingButtonForNewComment = false;
 
   @Output()
   modelChange: EventEmitter<CommentTableModel> = new EventEmitter();
@@ -112,7 +112,6 @@ export class CommentTableComponent {
    */
   handleCloseEditingCommentRowEvent(index: number): void {
     const newRowModel: CommentRowModel = JSON.parse(JSON.stringify(this.model.commentRows[index]));
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const originalComment: FeedbackResponseComment = newRowModel.originalComment!;
     newRowModel.commentEditFormModel = {
       commentText: originalComment.commentText,

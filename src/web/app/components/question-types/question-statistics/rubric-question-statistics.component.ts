@@ -31,7 +31,7 @@ import {
 export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsCalculation
     implements OnChanges {
 
-  excludeSelf: boolean = false;
+  excludeSelf = false;
 
   summaryColumnsData: ColumnData[] = [];
   summaryRowsData: SortableTableCellData[][] = [];

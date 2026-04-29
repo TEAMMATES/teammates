@@ -40,7 +40,7 @@ import {
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessions,
-  FeedbackTextQuestionDetails, FeedbackVisibilityType,
+  FeedbackVisibilityType,
   HasResponses,
   Instructor,
   Instructors,
@@ -111,12 +111,12 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
 
   // url param
-  courseId: string = '';
-  feedbackSessionName: string = '';
-  feedbackSessionId: string = '';
-  isEditingMode: boolean = false;
+  courseId = '';
+  feedbackSessionName = '';
+  feedbackSessionId = '';
+  isEditingMode = false;
 
-  courseName: string = '';
+  courseName = '';
   studentDeadlines: Record<string, number> = {};
   instructorDeadlines: Record<string, number> = {};
 
@@ -140,7 +140,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     questionDetails: {
       questionType: FeedbackQuestionType.TEXT,
       questionText: '',
-    } as FeedbackTextQuestionDetails,
+    },
 
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.STUDENTS_EXCLUDING_SELF,
@@ -162,20 +162,20 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     isQuestionDetailsChanged: false,
   };
 
-  isAddingFromTemplate: boolean = false;
-  isAddingQuestionPanelExpanded: boolean = false;
-  isLoadingFeedbackSession: boolean = false;
-  hasLoadingFeedbackSessionFailed: boolean = false;
-  isLoadingFeedbackQuestions: boolean = false;
-  hasLoadingFeedbackQuestionsFailed: boolean = false;
-  isCopyingQuestion: boolean = false;
+  isAddingFromTemplate = false;
+  isAddingQuestionPanelExpanded = false;
+  isLoadingFeedbackSession = false;
+  hasLoadingFeedbackSessionFailed = false;
+  isLoadingFeedbackQuestions = false;
+  hasLoadingFeedbackQuestionsFailed = false;
+  isCopyingQuestion = false;
 
   // all students of the course
   studentsOfCourse: Student[] = [];
-  emailOfStudentToPreview: string = '';
+  emailOfStudentToPreview = '';
   // all instructors of the course
   instructorsOfCourse: Instructor[] = [];
-  emailOfInstructorToPreview: string = '';
+  emailOfInstructorToPreview = '';
 
   get isAllCollapsed(): boolean {
     return this.questionEditFormModels.some((model: QuestionEditFormModel) => {
@@ -312,7 +312,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   /**
    * Gets the {@code sessionEditFormModel} with {@link FeedbackSession} entity.
    */
-  getSessionEditFormModel(feedbackSession: FeedbackSession, isEditable: boolean = false): SessionEditFormModel {
+  getSessionEditFormModel(feedbackSession: FeedbackSession, isEditable = false): SessionEditFormModel {
     const submissionStart: { date: DateFormat, time: TimeFormat } =
         this.datetimeService.getDateTimeAtTimezone(feedbackSession.submissionStartTimestamp,
           feedbackSession.timeZone, true);
@@ -392,13 +392,13 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     const submissionEndTime: number = this.timezoneService.resolveLocalDateTime(
         this.sessionEditFormModel.submissionEndDate, this.sessionEditFormModel.submissionEndTime,
         this.sessionEditFormModel.timeZone, true);
-    let sessionVisibleTime: number = 0;
+    let sessionVisibleTime = 0;
     if (this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
       sessionVisibleTime = this.timezoneService.resolveLocalDateTime(
           this.sessionEditFormModel.customSessionVisibleDate, this.sessionEditFormModel.customSessionVisibleTime,
           this.sessionEditFormModel.timeZone, true);
     }
-    let responseVisibleTime: number = 0;
+    let responseVisibleTime = 0;
     if (this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM) {
       responseVisibleTime = this.timezoneService.resolveLocalDateTime(
           this.sessionEditFormModel.customResponseVisibleDate, this.sessionEditFormModel.customResponseVisibleTime,
@@ -664,7 +664,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   saveExistingQuestionHandler(index: number): void {
     const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
     const originalQuestionNumber: number =
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.feedbackQuestionModels.get(questionEditFormModel.feedbackQuestionId)!.questionNumber;
 
     questionEditFormModel.isSaving = true;
@@ -738,10 +737,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Normalizes question number in question forms by setting question number in sequence (i.e. 1, 2, 3, 4 ...).
    */
   private normalizeQuestionNumberInQuestionForms(): void {
-    for (let i: number = 1; i <= this.questionEditFormModels.length; i += 1) {
+    for (let i = 1; i <= this.questionEditFormModels.length; i += 1) {
       const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[i - 1];
       questionEditFormModel.questionNumber = i;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.feedbackQuestionModels.get(questionEditFormModel.feedbackQuestionId)!.questionNumber = i;
     }
   }
@@ -752,7 +750,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   discardExistingQuestionHandler(index: number): void {
     const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
     const feedbackQuestion: FeedbackQuestion =
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.feedbackQuestionModels.get(questionEditFormModel.feedbackQuestionId)!;
     this.questionEditFormModels[index] = this.getQuestionEditFormModel(feedbackQuestion);
     this.questionEditFormModels[index].isQuestionHasResponses = questionEditFormModel.isQuestionHasResponses;
@@ -835,7 +832,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles display of template question modal.
    */
   templateQuestionModalHandler(): void {
-    const windowClass: string = 'modal-large';
+    const windowClass = 'modal-large';
     this.ngbModal.open(TemplateQuestionModalComponent, { windowClass }).result.then((questions: FeedbackQuestion[]) => {
       let questionNumber: number = this.questionEditFormModels.length; // append the questions at the end
       this.isAddingFromTemplate = true;
@@ -935,9 +932,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.feedbackQuestionsService.getAllowedFeedbackPaths(type);
       // inherit feedback path if applicable
       if (newQuestionAllowedFeedbackPaths.has(lastQuestionEditFormModel.giverType)
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           && newQuestionAllowedFeedbackPaths.get(lastQuestionEditFormModel.giverType)!
-              .indexOf(lastQuestionEditFormModel.recipientType) !== -1) {
+              .includes(lastQuestionEditFormModel.recipientType)) {
         this.newQuestionEditFormModel.giverType = lastQuestionEditFormModel.giverType;
         this.newQuestionEditFormModel.recipientType = lastQuestionEditFormModel.recipientType;
         this.newQuestionEditFormModel.numberOfEntitiesToGiveFeedbackToSetting =
@@ -963,7 +959,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           newQuestionVisibilityStateMachine
               .getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_RECIPIENT_NAME);
 
-      let isAllowedToUseInheritedVisibility: boolean = false;
+      let isAllowedToUseInheritedVisibility = false;
       if (this.feedbackQuestionsService
           .isCustomFeedbackVisibilitySettingAllowed(this.newQuestionEditFormModel.questionType)) {
         isAllowedToUseInheritedVisibility = true;
@@ -1203,7 +1199,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     setTimeout(() => {
       const allEditForms: NodeListOf<Element> = document.querySelectorAll('tm-question-edit-form');
       const newEditForm: Element = allEditForms[allEditForms.length - 1];
-      const yOffset: number = -70; // Need offset because of the navBar
+      const yOffset = -70; // Need offset because of the navBar
       const y: number = newEditForm.getBoundingClientRect().top + window.scrollY + yOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }, 0);

@@ -29,13 +29,12 @@ export interface Response<R extends FeedbackResponseDetails> {
  * The abstract question statistics.
  */
 @Directive()
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export class QuestionStatistics<Q extends FeedbackQuestionDetails, R extends FeedbackResponseDetails> {
 
   @Input() responses: Response<R>[] = [];
   @Input() question: Q;
   @Input() recipientType: FeedbackParticipantType = FeedbackParticipantType.NONE;
-  @Input() isStudent: boolean = false;
+  @Input() isStudent = false;
 
   constructor(question: Q) {
     this.question = question;

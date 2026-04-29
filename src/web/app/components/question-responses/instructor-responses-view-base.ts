@@ -11,7 +11,6 @@ import { CommentTableModel } from '../comment-box/comment-table/comment-table.mo
  * Abstract component for instructor related views.
  */
 @Directive()
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class InstructorResponsesViewBase {
   @Input() question: FeedbackQuestion = {
     feedbackQuestionId: '',
@@ -33,7 +32,7 @@ export abstract class InstructorResponsesViewBase {
   };
 
   @Input() instructorCommentTableModel: Record<string, CommentTableModel> = {};
-  @Input() isExpandAll: boolean = false;
+  @Input() isExpandAll = false;
 
   @Output() instructorCommentTableModelChange: EventEmitter<Record<string, CommentTableModel>> = new EventEmitter();
   @Output() saveNewCommentEvent: EventEmitter<string> = new EventEmitter();

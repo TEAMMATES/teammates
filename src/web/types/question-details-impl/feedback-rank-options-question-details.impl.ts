@@ -16,9 +16,9 @@ export class FeedbackRankOptionsQuestionDetailsImpl extends AbstractFeedbackQues
 
   minOptionsToBeRanked: number = NO_VALUE;
   maxOptionsToBeRanked: number = NO_VALUE;
-  areDuplicatesAllowed: boolean = false;
+  areDuplicatesAllowed = false;
   options: string[] = [];
-  questionText: string = '';
+  questionText = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.RANK_OPTIONS;
 
   constructor(apiOutput: FeedbackRankOptionsQuestionDetails) {

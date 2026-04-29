@@ -13,10 +13,10 @@ import {
 export class FeedbackNumericalScaleQuestionDetailsImpl extends AbstractFeedbackQuestionDetails
     implements FeedbackNumericalScaleQuestionDetails {
 
-  minScale: number = 1;
-  maxScale: number = 5;
-  step: number = 0.5;
-  questionText: string = '';
+  minScale = 1;
+  maxScale = 5;
+  step = 0.5;
+  questionText = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.NUMSCALE;
 
   constructor(apiOutput: FeedbackNumericalScaleQuestionDetails) {

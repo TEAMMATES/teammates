@@ -14,16 +14,16 @@ import { StatusMessageService } from '../../../../../services/status-message.ser
 export class MsqFieldComponent {
 
   @Input()
-  isEditable: boolean = false;
+  isEditable = false;
 
   @Input()
-  numberOfMsqChoices: number = 1;
+  numberOfMsqChoices = 1;
 
   @Input()
-  text: string = '';
+  text = '';
 
   @Input()
-  index: number = 0;
+  index = 0;
 
   @Output()
   elementDeleted: EventEmitter<any> = new EventEmitter();

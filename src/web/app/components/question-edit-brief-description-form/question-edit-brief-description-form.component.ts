@@ -14,16 +14,16 @@ import { RichTextEditorComponent } from '../rich-text-editor/rich-text-editor.co
 export class QuestionEditBriefDescriptionFormComponent {
 
   @Input()
-  isBriefDisabled: boolean = false;
+  isBriefDisabled = false;
 
   @Input()
-  isDescriptionDisabled: boolean = false;
+  isDescriptionDisabled = false;
 
   @Input()
-  brief: string = '';
+  brief = '';
 
   @Input()
-  description: string = '';
+  description = '';
 
   @Output()
   briefChange: EventEmitter<string> = new EventEmitter();

@@ -40,8 +40,8 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
     super(DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS());
   }
 
-  @Input() questionNumber: number = 0;
-  pointsRadioGroupName: string = '';
+  @Input() questionNumber = 0;
+  pointsRadioGroupName = '';
   ngOnChanges(): void {
     this.pointsRadioGroupName = `constsum-options-${this.questionNumber}`;
   }

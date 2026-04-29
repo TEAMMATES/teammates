@@ -14,7 +14,7 @@ export class VisibilityCapabilityPipe implements PipeTransform {
    * and the value indicates whether the visibility control is granted or not.
    */
   transform(controls: { [TKey in VisibilityControl]: boolean }): string {
-    let message: string = 'can see your response';
+    let message = 'can see your response';
 
     if (controls.SHOW_RECIPIENT_NAME) {
       message += ', the name of the recipient';

@@ -8,10 +8,10 @@ import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
     imports: [AjaxLoadingComponent],
 })
 export class ResponseRateComponent {
-  @Input() responseRate: string = '';
-  @Input() idx: number = 0;
-  @Input() empty: boolean = false;
-  @Input() isLoading: boolean = false;
+  @Input() responseRate = '';
+  @Input() idx = 0;
+  @Input() empty = false;
+  @Input() isLoading = false;
   @Input() onClick: () => void = () => { };
 
 }

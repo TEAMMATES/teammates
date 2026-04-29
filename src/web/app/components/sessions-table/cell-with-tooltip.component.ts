@@ -7,8 +7,8 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
     imports: [NgbTooltipModule],
 })
 export class CellWithToolTipComponent implements OnChanges {
-  @Input() toolTip: string = '';
-  @Input() value: string = '';
+  @Input() toolTip = '';
+  @Input() value = '';
 
   ngOnChanges(changes: SimpleChanges): void {
     this.toolTip = changes['toolTip']?.currentValue;

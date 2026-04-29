@@ -38,10 +38,10 @@ export class SessionsRecycleBinTableComponent {
   SortOrder: typeof SortOrder = SortOrder;
 
   // variable
-  rowClicked: number = -1;
+  rowClicked = -1;
 
   @Input()
-  isRecycleBinExpanded: boolean = false;
+  isRecycleBinExpanded = false;
 
   @Input()
   recycleBinFeedbackSessionRowModels: RecycleBinFeedbackSessionRowModel[] = [];
@@ -53,7 +53,7 @@ export class SessionsRecycleBinTableComponent {
   recycleBinFeedbackSessionRowModelsSortOrder: SortOrder = SortOrder.ASC;
 
   @Input()
-  isPermanentDeleteLoading: boolean = false;
+  isPermanentDeleteLoading = false;
 
   @Output()
   restoreSessionEvent: EventEmitter<RecycleBinFeedbackSessionRowModel> = new EventEmitter();

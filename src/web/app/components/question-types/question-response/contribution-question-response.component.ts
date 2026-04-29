@@ -30,11 +30,11 @@ export class ContributionQuestionResponseComponent
     extends QuestionResponse<FeedbackContributionResponseDetails, FeedbackContributionQuestionDetails>
     implements OnInit {
 
-  @Input() statistics: string = '';
-  @Input() giverEmail: string = '';
-  @Input() recipientEmail: string = '';
+  @Input() statistics = '';
+  @Input() giverEmail = '';
+  @Input() recipientEmail = '';
 
-  answer: number = 100;
+  answer = 100;
 
   CONTRIBUTION_POINT_EQUAL_SHARE: number = CONTRIBUTION_POINT_EQUAL_SHARE;
   CONTRIBUTION_POINT_NOT_SUBMITTED: number = CONTRIBUTION_POINT_NOT_SUBMITTED;

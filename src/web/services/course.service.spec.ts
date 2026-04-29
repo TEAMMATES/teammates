@@ -28,7 +28,7 @@ describe('CourseService', () => {
   });
 
   it('should execute GET on courses endpoint with course status as an instructor', () => {
-    const courseStatus: string = 'active';
+    const courseStatus = 'active';
     const paramMap: { [key: string]: string } = {
       entitytype: 'instructor',
       coursestatus: courseStatus,
@@ -38,7 +38,7 @@ describe('CourseService', () => {
   });
 
   it('should execute GET on course endpoint with course id as an instructor', () => {
-    const courseId: string = 'test-id';
+    const courseId = 'test-id';
     const paramMap: { [key: string]: string } = {
       entitytype: 'instructor',
       courseid: courseId,
@@ -56,7 +56,7 @@ describe('CourseService', () => {
   });
 
   it('should execute GET when getting specific course as student', () => {
-    const courseId: string = 'test-id';
+    const courseId = 'test-id';
     const paramMap: Record<string, string> = {
       entitytype: 'student',
       courseid: courseId,
@@ -66,7 +66,7 @@ describe('CourseService', () => {
   });
 
   it('should GET student courses data of a given google id in masquerade mode', () => {
-    const googleId: string = 'test-id';
+    const googleId = 'test-id';
     const paramMap: { [key: string]: string } = {
       entitytype: 'student',
       user: googleId,
@@ -76,7 +76,7 @@ describe('CourseService', () => {
   });
 
   it('should GET instructor courses data of a given google id in masquerade mode', () => {
-    const googleId: string = 'test-id';
+    const googleId = 'test-id';
     const activeCoursesParamMap: { [key: string]: string } = {
       coursestatus: 'active',
       entitytype: 'instructor',
@@ -109,7 +109,7 @@ describe('CourseService', () => {
   });
 
   it('should execute PUT to update course', () => {
-    const courseid: string = 'test-id';
+    const courseid = 'test-id';
     const request: CourseUpdateRequest = {
       courseName: 'test-name',
       timeZone: 'test-zone',
@@ -120,29 +120,29 @@ describe('CourseService', () => {
   });
 
   it('should execute DELETE to delete course', () => {
-    const courseid: string = 'test-id';
+    const courseid = 'test-id';
     const paramMap: { [key: string]: string } = { courseid };
     service.deleteCourse(courseid);
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.COURSE, paramMap);
   });
 
   it('should execute PUT to bin course', () => {
-    const courseid: string = 'test-id';
+    const courseid = 'test-id';
     const paramMap: { [key: string]: string } = { courseid };
     service.binCourse(courseid);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.BIN_COURSE, paramMap);
   });
 
   it('should execute DELETE to restore course', () => {
-    const courseid: string = 'test-id';
+    const courseid = 'test-id';
     const paramMap: { [key: string]: string } = { courseid };
     service.restoreCourse(courseid);
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.BIN_COURSE, paramMap);
   });
 
   it('should execute GET to retrieve join course status', () => {
-    const regKey: string = 'ABC';
-    const entityType: string = 'instructor';
+    const regKey = 'ABC';
+    const entityType = 'instructor';
     const paramMap: { [key: string]: string } = {
       key: regKey,
       entitytype: entityType,
@@ -165,15 +165,15 @@ describe('CourseService', () => {
   });
 
   it('should execute POST to remind unregistered students of a course', () => {
-    const courseid: string = 'test-id';
+    const courseid = 'test-id';
     const paramMap: { [key: string]: string } = { courseid };
     service.remindUnregisteredStudentsForJoin(courseid);
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.JOIN_REMIND, paramMap);
   });
 
   it('should execute POST to remind particular student', () => {
-    const courseId: string = 'test-id';
-    const studentEmail: string = 'test@example.com';
+    const courseId = 'test-id';
+    const studentEmail = 'test@example.com';
     const paramMap: { [key: string]: string } = {
       courseid: courseId,
       studentemail: studentEmail,
@@ -183,8 +183,8 @@ describe('CourseService', () => {
   });
 
   it('should execute POST to remind particular instructor', () => {
-    const courseId: string = 'test-id';
-    const instructorEmail: string = 'test@example.com';
+    const courseId = 'test-id';
+    const instructorEmail = 'test@example.com';
     const paramMap: { [key: string]: string } = {
       courseid: courseId,
       instructoremail: instructorEmail,
@@ -194,8 +194,8 @@ describe('CourseService', () => {
   });
 
   it('should execute DELETE to remove student from course', () => {
-    const courseId: string = 'test-id';
-    const studentEmail: string = 'test@example.com';
+    const courseId = 'test-id';
+    const studentEmail = 'test@example.com';
     const paramsMap: { [key: string]: string } = {
       courseid: courseId,
       studentemail: studentEmail,

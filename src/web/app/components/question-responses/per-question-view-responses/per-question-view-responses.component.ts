@@ -38,12 +38,12 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
   SortOrder: typeof SortOrder = SortOrder;
 
   @Input() responses: ResponseOutput[] = [];
-  @Input() section: string = '';
+  @Input() section = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
-  @Input() groupByTeam: boolean = true;
-  @Input() indicateMissingResponses: boolean = true;
-  @Input() showGiver: boolean = true;
-  @Input() showRecipient: boolean = true;
+  @Input() groupByTeam = true;
+  @Input() indicateMissingResponses = true;
+  @Input() showGiver = true;
+  @Input() showRecipient = true;
   @Input() session: FeedbackSession = {
     feedbackSessionId: '',
     courseId: '',
@@ -61,8 +61,8 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
   };
-  @Input() isDisplayOnly: boolean = false;
-  @Input() statistics: string = '';
+  @Input() isDisplayOnly = false;
+  @Input() statistics = '';
 
   responsesToShow: ResponseOutput[] = [];
   sortBy: SortBy = SortBy.NONE;

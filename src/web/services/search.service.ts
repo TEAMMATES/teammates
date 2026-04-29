@@ -164,7 +164,7 @@ export class SearchService {
     const { courseId, courseName, deletionTimestamp }: Course = course;
     studentResult = { ...studentResult, courseId, courseName, isCourseDeleted: Boolean(deletionTimestamp) };
 
-    let masqueradeGoogleId: string = '';
+    let masqueradeGoogleId = '';
     for (const instructor of instructors.instructors) {
       if (instructor.googleId
           && instructor.role === InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER) {
@@ -177,8 +177,7 @@ export class SearchService {
     if (masqueradeGoogleId === '') {
       for (const instructor of instructors.instructors) {
         const instructorPrivilege: InstructorPrivilege | undefined = instructorPrivileges.shift();
-        if (instructor.googleId
-            && (instructorPrivilege && instructorPrivilege.privileges.courseLevel.canModifyInstructor)) {
+        if (instructor.googleId && instructorPrivilege?.privileges.courseLevel.canModifyInstructor) {
           masqueradeGoogleId = instructor.googleId;
           break;
         }
@@ -452,7 +451,7 @@ export class SearchService {
   }
 
   private formatTimestampAsString(timestamp: number, timezone: string): string {
-    const dateFormatWithZoneInfo: string = 'ddd, DD MMM YYYY, hh:mm A Z';
+    const dateFormatWithZoneInfo = 'ddd, DD MMM YYYY, hh:mm A Z';
 
     return this.timezoneService
         .formatToString(timestamp, timezone, dateFormatWithZoneInfo);

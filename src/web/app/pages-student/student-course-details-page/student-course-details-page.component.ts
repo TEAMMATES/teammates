@@ -53,15 +53,15 @@ export class StudentCourseDetailsPageComponent implements OnInit {
     deletionTimestamp: 0,
   };
 
-  courseId: string = '';
+  courseId = '';
   instructorDetails: Instructor[] = [];
   teammateProfiles: Student[] = [];
 
-  isLoadingCourse: boolean = false;
-  isLoadingStudent: boolean = false;
-  isLoadingInstructor: boolean = false;
-  isLoadingTeammates: boolean = false;
-  hasLoadingFailed: boolean = false;
+  isLoadingCourse = false;
+  isLoadingStudent = false;
+  isLoadingInstructor = false;
+  isLoadingTeammates = false;
+  hasLoadingFailed = false;
 
   constructor(private tableComparatorService: TableComparatorService,
               private route: ActivatedRoute,

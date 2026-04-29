@@ -39,30 +39,30 @@ interface OngoingSessionModel {
 })
 export class AdminSessionsPageComponent implements OnInit {
 
-  totalOngoingSessions: number = 0;
-  totalOpenSessions: number = 0;
-  totalClosedSessions: number = 0;
-  totalAwaitingSessions: number = 0;
-  totalInstitutes: number = 0;
+  totalOngoingSessions = 0;
+  totalOpenSessions = 0;
+  totalClosedSessions = 0;
+  totalAwaitingSessions = 0;
+  totalInstitutes = 0;
   sessions: Record<string, OngoingSessionModel[]> = {};
 
   // Tracks the whether the panel of an institute has been opened
   institutionPanelsStatus: Record<string, boolean> = {};
 
-  showFilter: boolean = false;
+  showFilter = false;
   timezones: string[] = [];
-  filterTimezone: string = '';
-  tableTimezone: string = '';
+  filterTimezone = '';
+  tableTimezone = '';
   startDate: DateFormat = getDefaultDateFormat();
   startTime: TimeFormat = getLatestTimeFormat();
   endDate: DateFormat = getDefaultDateFormat();
   endTime: TimeFormat = getLatestTimeFormat();
 
-  timezoneString: string = '';
-  startTimeString: string = '';
-  endTimeString: string = '';
+  timezoneString = '';
+  startTimeString = '';
+  endTimeString = '';
 
-  isLoadingOngoingSessions: boolean = false;
+  isLoadingOngoingSessions = false;
 
   constructor(private timezoneService: TimezoneService,
               private statusMessageService: StatusMessageService,
@@ -136,7 +136,7 @@ export class AdminSessionsPageComponent implements OnInit {
         { year: this.endDate.year, month: this.endDate.month, day: this.endDate.day },
         { hour: this.endTime.hour, minute: this.endTime.minute },
         timezone);
-    const displayFormat: string = 'ddd, DD MMM YYYY, hh:mm a';
+    const displayFormat = 'ddd, DD MMM YYYY, hh:mm a';
     this.startTimeString = this.timezoneService.formatToString(startTime, timezone, displayFormat);
     this.endTimeString = this.timezoneService.formatToString(endTime, timezone, displayFormat);
     this.timezoneString = this.filterTimezone;

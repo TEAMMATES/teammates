@@ -23,7 +23,7 @@ export class FeedbackContributionResponseDetailsImpl
 
   getResponseCsvAnswers(): string[][] {
     const answer: number = this.answer;
-    let answerStr: string = '';
+    let answerStr = '';
     if (answer > 100) {
       answerStr = `Equal share + ${answer - 100}%`; // Do more
     } else if (answer === 100) {

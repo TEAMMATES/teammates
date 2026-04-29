@@ -15,12 +15,12 @@ export class FeedbackConstantSumRecipientsQuestionDetailsImpl extends AbstractFe
     implements FeedbackConstantSumQuestionDetails {
 
   constSumOptions: string[] = [];
-  distributeToRecipients: boolean = true;
-  pointsPerOption: boolean = false;
-  forceUnevenDistribution: boolean = false;
+  distributeToRecipients = true;
+  pointsPerOption = false;
+  forceUnevenDistribution = false;
   distributePointsFor: string = FeedbackConstantSumDistributePointsType.NONE;
-  points: number = 100;
-  questionText: string = '';
+  points = 100;
+  questionText = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.CONSTSUM_RECIPIENTS;
   minPoint: number | undefined = undefined;
   maxPoint: number | undefined = undefined;

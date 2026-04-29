@@ -14,14 +14,14 @@ import {
 export class FeedbackMcqQuestionDetailsImpl extends AbstractFeedbackMcqMsqQuestionDetails
     implements FeedbackMcqQuestionDetails {
 
-  hasAssignedWeights: boolean = false;
+  hasAssignedWeights = false;
   mcqWeights: number[] = [];
-  mcqOtherWeight: number = 0;
+  mcqOtherWeight = 0;
   mcqChoices: string[] = [];
-  otherEnabled: boolean = false;
-  questionDropdownEnabled: boolean = false;
+  otherEnabled = false;
+  questionDropdownEnabled = false;
   generateOptionsFor: FeedbackParticipantType = FeedbackParticipantType.NONE;
-  questionText: string = '';
+  questionText = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.MCQ;
 
   constructor(apiOutput: FeedbackMcqQuestionDetails) {

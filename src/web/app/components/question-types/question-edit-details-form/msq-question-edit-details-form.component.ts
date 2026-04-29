@@ -180,7 +180,11 @@ export class MsqQuestionEditDetailsFormComponent
       });
     } else {
       // Exclude maxSelectableChoices and minSelectableChoices because the checkbox shouldn't affect them
-      const { maxSelectableChoices, minSelectableChoices, ...others }: FeedbackMsqQuestionDetails = this.storageModel;
+      const { 
+        maxSelectableChoices: _maxSelectableChoices,
+        minSelectableChoices: _minSelectableChoices,
+        ...others
+      }: FeedbackMsqQuestionDetails = this.storageModel;
       this.triggerModelChangeBatch(others);
     }
   }

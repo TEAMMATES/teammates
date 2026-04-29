@@ -2,7 +2,6 @@ import { CommentVisibilityType, FeedbackVisibilityType } from '../types/api-outp
 import { CommentVisibilityControl } from '../types/comment-visibility-control';
 import { VisibilityControl } from '../types/visibility-control';
 
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /**
  * The state machine for visibility settings for comments.
  */
@@ -161,4 +160,3 @@ export class CommentVisibilityStateMachine {
     return visibilityTypes;
   }
 }
-/* eslint-enable @typescript-eslint/no-non-null-assertion */

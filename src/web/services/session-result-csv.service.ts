@@ -122,7 +122,7 @@ export class SessionResultCsvService {
       const maxNumOfInstructorComments: number = question.allResponses
         .map((response: ResponseOutput) => response.instructorComments.length)
         .reduce((prev: number, cur: number) => Math.max(prev, cur), 0);
-      for (let i: number = 0; i < maxNumOfInstructorComments; i += 1) {
+      for (let i = 0; i < maxNumOfInstructorComments; i += 1) {
         header.push('Comment From', 'Comment');
       }
     }

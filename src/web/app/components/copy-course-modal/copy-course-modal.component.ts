@@ -43,18 +43,18 @@ export class CopyCourseModalComponent implements OnInit {
 
   fetchFeedbackSessionsEvent: EventEmitter<string> = new EventEmitter<string>();
 
-  isCopyFromOtherSession: boolean = false;
-  newCourseIdIsConflicting: boolean = false;
-  newCourseIdTouched: boolean = false;
-  newCourseNameTouched: boolean = false;
+  isCopyFromOtherSession = false;
+  newCourseIdIsConflicting = false;
+  newCourseIdTouched = false;
+  newCourseNameTouched = false;
   institutes: string[] = [];
   timezones: Timezone[] = [];
-  newTimezone: string = '';
-  newCourseId: string = '';
-  newCourseName: string = '';
-  newCourseInstitute: string = '';
-  oldCourseId: string = '';
-  oldCourseName: string = '';
+  newTimezone = '';
+  newCourseId = '';
+  newCourseName = '';
+  newCourseInstitute = '';
+  oldCourseId = '';
+  oldCourseName = '';
 
   selectedFeedbackSessions: Set<FeedbackSession> = new Set<FeedbackSession>();
 

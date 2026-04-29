@@ -1014,6 +1014,7 @@ export const EXAMPLE_RUBRIC_QUESTION_MODEL: QuestionEditFormModel = {
   questionBrief: '',
   questionDescription: '',
   questionType: FeedbackQuestionType.RUBRIC,
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
   questionDetails: {
     ...DEFAULT_RUBRIC_QUESTION_DETAILS(),
     rubricChoices: ['Strongly Disagree', 'Disagree', 'Agree', 'Strongly Agree'],
@@ -1546,6 +1547,7 @@ export const EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL: QuestionSubmissionF
   showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
   questionDetails: {
     ...DEFAULT_RUBRIC_QUESTION_DETAILS(),
     rubricChoices: ['Strongly Disagree', 'Disagree', 'Agree', 'Strongly Agree'],

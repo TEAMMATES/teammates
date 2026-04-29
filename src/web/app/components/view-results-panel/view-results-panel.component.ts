@@ -45,7 +45,7 @@ export class ViewResultsPanelComponent {
   InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
   InstructorSessionResultViewType: typeof InstructorSessionResultViewType = InstructorSessionResultViewType;
 
-  viewTooltipText: string = 'View results in different formats';
+  viewTooltipText = 'View results in different formats';
 
   @Input()
   session: FeedbackSession = {
@@ -70,7 +70,7 @@ export class ViewResultsPanelComponent {
   viewType: string = InstructorSessionResultViewType.QUESTION;
 
   @Input()
-  section: string = '';
+  section = '';
 
   @Input()
   sectionsModel: Record<string, SectionTabModel> = {};
@@ -79,13 +79,13 @@ export class ViewResultsPanelComponent {
   sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
 
   @Input()
-  groupByTeam: boolean = true;
+  groupByTeam = true;
 
   @Input()
-  showStatistics: boolean = true;
+  showStatistics = true;
 
   @Input()
-  indicateMissingResponses: boolean = true;
+  indicateMissingResponses = true;
 
   @Output()
   sectionChange: EventEmitter<string> = new EventEmitter<string>();

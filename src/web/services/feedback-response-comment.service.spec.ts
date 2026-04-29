@@ -37,7 +37,7 @@ describe('FeedbackResponseCommentService', () => {
       showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.GIVER_TEAM_MEMBERS],
       showGiverNameTo: [CommentVisibilityType.GIVER, CommentVisibilityType.GIVER_TEAM_MEMBERS],
     };
-    const responseid: string = 'resp-id-1';
+    const responseid = 'resp-id-1';
     const intent: Intent = Intent.INSTRUCTOR_RESULT;
 
     service.createComment(createRequest, responseid, intent);

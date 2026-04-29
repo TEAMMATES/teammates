@@ -38,7 +38,7 @@ export class RankOptionsQuestionResponseComponent
 
   ngOnInit(): void {
     let arrayOfRanks: RankOption[][] = [];
-    for (let i: number = 0; i < this.questionDetails.options.length; i += 1) {
+    for (let i = 0; i < this.questionDetails.options.length; i += 1) {
       const rank: number = this.responseDetails.answers[i];
       if (rank === RANK_OPTIONS_ANSWER_NOT_SUBMITTED) {
         continue;

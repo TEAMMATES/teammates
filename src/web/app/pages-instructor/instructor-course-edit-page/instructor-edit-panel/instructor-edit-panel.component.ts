@@ -73,7 +73,7 @@ export class InstructorEditPanelComponent {
   editMode: EditMode = EditMode.EDIT;
 
   @Input()
-  instructorIndex: number = 0;
+  instructorIndex = 0;
 
   @Input()
   instructor: InstructorEditPanel = {
@@ -125,7 +125,7 @@ export class InstructorEditPanelComponent {
   allSessions: string[] = [];
 
   @Input()
-  isSavingNewInstructor: boolean = false;
+  isSavingNewInstructor = false;
 
   @Output()
   sendRemindJoinEmail: EventEmitter<void> = new EventEmitter();

@@ -78,11 +78,11 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   instructors: Instructor[] = [];
   students: StudentListRowModel[] = [];
 
-  isLoadingCsv: boolean = false;
-  isStudentsLoading: boolean = false;
-  sectionsLoaded: number = 0;
-  hasLoadingStudentsFailed: boolean = false;
-  isDeleting: boolean = false;
+  isLoadingCsv = false;
+  isStudentsLoading = false;
+  sectionsLoaded = 0;
+  hasLoadingStudentsFailed = false;
+  isDeleting = false;
 
   studentSortBy: SortBy = SortBy.NONE;
   studentSortOrder: SortOrder = SortOrder.ASC;
@@ -218,7 +218,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   }
 
   openRemindStudentModal(): void {
-    const modalContent: string = `Usually, there is no need to use this feature because
+    const modalContent = `Usually, there is no need to use this feature because
       TEAMMATES sends an automatic invite to students at the opening time of each session.
       Send a join request to all yet-to-join students in ${this.courseDetails.course.courseId} anyway?`;
     this.simpleModalService.openConfirmationModal(
@@ -315,7 +315,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    */
   downloadAllStudentsFromCourse(courseId: string): void {
     this.isLoadingCsv = true;
-    const filename: string = `${courseId.concat('_studentList')}.csv`;
+    const filename = `${courseId.concat('_studentList')}.csv`;
     let blob: any;
 
     this.studentService.loadStudentListAsCsv({ courseId })
@@ -352,12 +352,12 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    */
   getTableData(line: string): string[] {
     const output: string[] = [];
-    let inquote: boolean = false;
+    let inquote = false;
 
-    let buffer: string = '';
+    let buffer = '';
     const data: string[] = line.split('');
 
-    for (let i: number = 0; i < data.length; i += 1) {
+    for (let i = 0; i < data.length; i += 1) {
       if (data[i] === '"') {
         if (i + 1 < data.length && data[i + 1] === '"') {
           i += 1;

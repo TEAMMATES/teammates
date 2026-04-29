@@ -56,7 +56,7 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
 import { ViewResultsPanelComponent } from '../../components/view-results-panel/view-results-panel.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
-const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
+const TIME_FORMAT = 'ddd, DD MMM, YYYY, hh:mm A zz';
 
 /**
  * Instructor feedback session result page.
@@ -92,45 +92,45 @@ export class InstructorSessionResultPageComponent implements OnInit {
   InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
   InstructorSessionResultViewType: typeof InstructorSessionResultViewType = InstructorSessionResultViewType;
 
-  formattedSessionOpeningTime: string = '';
-  formattedSessionClosingTime: string = '';
-  formattedResultVisibleFromTime: string = '';
+  formattedSessionOpeningTime = '';
+  formattedSessionClosingTime = '';
+  formattedResultVisibleFromTime = '';
 
-  courseId: string = '';
-  fsName: string = '';
-  feedbackSessionId: string = '';
+  courseId = '';
+  fsName = '';
+  feedbackSessionId = '';
   viewType: string = InstructorSessionResultViewType.QUESTION;
-  section: string = '';
+  section = '';
   sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
-  groupByTeam: boolean = true;
-  showStatistics: boolean = true;
-  indicateMissingResponses: boolean = true;
+  groupByTeam = true;
+  showStatistics = true;
+  indicateMissingResponses = true;
 
   // below are two models contain similar and duplicate data
   // they are for different views
   sectionsModel: Record<string, SectionTabModel> = {};
-  isSectionsLoaded: boolean = false;
-  hasSectionsLoadingFailed: boolean = false;
+  isSectionsLoaded = false;
+  hasSectionsLoadingFailed = false;
   questionsModel: Record<string, QuestionTabModel> = {};
-  isQuestionsLoaded: boolean = false;
-  hasQuestionsLoadingFailed: boolean = false;
-  isNoResponseStudentsLoaded: boolean = false;
+  isQuestionsLoaded = false;
+  hasQuestionsLoadingFailed = false;
+  isNoResponseStudentsLoaded = false;
 
-  isFeedbackSessionLoading: boolean = false;
-  hasFeedbackSessionLoadingFailed: boolean = false;
-  isDownloadingResults: boolean = false;
+  isFeedbackSessionLoading = false;
+  hasFeedbackSessionLoadingFailed = false;
+  isDownloadingResults = false;
 
   noResponseStudents: Student[] = [];
-  isNoResponsePanelLoaded: boolean = false;
-  hasNoResponseLoadingFailed: boolean = false;
+  isNoResponsePanelLoaded = false;
+  hasNoResponseLoadingFailed = false;
 
   allStudentsInCourse: Student[] = [];
-  emailOfStudentToPreview: string = '';
+  emailOfStudentToPreview = '';
   allInstructorsInCourse: Instructor[] = [];
-  emailOfInstructorToPreview: string = '';
+  emailOfInstructorToPreview = '';
 
   FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
-  isExpandAll: boolean = false;
+  isExpandAll = false;
 
   session: FeedbackSession = {
     feedbackSessionId: '',
@@ -484,14 +484,14 @@ export class InstructorSessionResultPageComponent implements OnInit {
     const isPublished: boolean = this.session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
     let modalRef: NgbModalRef;
     if (isPublished) {
-      const modalContent: string =
+      const modalContent =
           `An email will be sent to students to inform them that the session has been unpublished
           and the session responses will no longer be viewable by students.`;
       modalRef = this.simpleModalService.openConfirmationModal(
           `Unpublish this session <strong>${this.session.feedbackSessionName}</strong>?`,
           SimpleModalType.WARNING, modalContent);
     } else {
-      const modalContent: string =
+      const modalContent =
           'An email will be sent to students to inform them that the responses are ready for viewing.';
       modalRef = this.simpleModalService.openConfirmationModal(
           `Publish this session <strong>${this.session.feedbackSessionName}</strong>?`,
@@ -556,7 +556,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
   }
 
   downloadQuestionResultHandler(question: { questionNumber: number, questionId: string }): void {
-    const filename: string =
+    const filename =
         `${this.session.courseId}_${this.session.feedbackSessionName}_question${question.questionNumber}.csv`;
 
     this.feedbackSessionsService.downloadSessionResults(

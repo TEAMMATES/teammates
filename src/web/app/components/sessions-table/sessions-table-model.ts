@@ -1,5 +1,4 @@
 import { FeedbackSession, InstructorPermissionSet } from '../../../types/api-output';
-/* eslint-disable-next-line import/no-cycle */
 import { ColumnData, SortableTableCellData } from '../sortable-table/sortable-table.component';
 
 /**

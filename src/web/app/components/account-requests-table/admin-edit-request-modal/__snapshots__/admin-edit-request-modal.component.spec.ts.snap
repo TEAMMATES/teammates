@@ -21,6 +21,7 @@ exports[`RejectWithReasonModal should show empty fields 1`] = `
       </div>
     </h5>
     <button
+      aria-label="Close"
       class="btn-close"
       type="button"
     />
@@ -130,6 +131,7 @@ exports[`RejectWithReasonModal should show populated data 1`] = `
       </div>
     </h5>
     <button
+      aria-label="Close"
       class="btn-close"
       type="button"
     />

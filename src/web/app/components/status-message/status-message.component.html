@@ -1,6 +1,6 @@
 @for (statusMessage of messages; track statusMessage) {
   <div class="alert alert-{{ statusMessage.color }}">
-    <button class="btn-close" (click)="dismiss(statusMessage)"></button>
+    <button class="btn-close" aria-label="Close" (click)="dismiss(statusMessage)"></button>
     <div style="padding-right: 30px;" [innerHtml]="statusMessage.message"></div>
   </div>
 }

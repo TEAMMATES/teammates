@@ -59,8 +59,8 @@ export interface CourseTab {
 export class InstructorStudentListPageComponent implements OnInit {
 
   courseTabList: CourseTab[] = [];
-  hasLoadingFailed: boolean = false;
-  isLoadingCourses: boolean = false;
+  hasLoadingFailed = false;
+  isLoadingCourses = false;
 
   // enum
   SortBy: typeof SortBy = SortBy;

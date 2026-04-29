@@ -23,7 +23,7 @@ export class NewInstructorDataRowComponent implements OnInit {
   @Output() removeInstructorEvent: EventEmitter<void> = new EventEmitter();
   @Output() toggleEditModeEvent: EventEmitter<boolean> = new EventEmitter();
 
-  isBeingEdited: boolean = false;
+  isBeingEdited = false;
   editedInstructorName!: string;
   editedInstructorEmail!: string;
   editedInstructorInstitution!: string;

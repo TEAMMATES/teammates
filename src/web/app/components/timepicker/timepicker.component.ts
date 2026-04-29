@@ -15,7 +15,7 @@ import { DateFormat, TimeFormat, getDefaultTimeFormat, getDefaultDateFormat } fr
 })
 export class TimepickerComponent {
   @Input()
-  isDisabled: boolean = false;
+  isDisabled = false;
 
   @Input()
   time: TimeFormat = getDefaultTimeFormat();
@@ -62,6 +62,7 @@ export class TimepickerComponent {
    * <p>Checks whether they are equal or not.
    */
   timeCompareFn(t1: TimeFormat, t2: TimeFormat): boolean {
+    // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
     return t1 && t2 && t1.hour === t2.hour && t1.minute === t2.minute;
   }
 

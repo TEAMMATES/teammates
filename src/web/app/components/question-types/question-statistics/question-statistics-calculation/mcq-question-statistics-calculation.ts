@@ -7,7 +7,6 @@ import { QuestionStatistics } from '../question-statistics';
  * Class to calculate stats for mcq question.
  */
 @Directive()
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export class McqQuestionStatisticsCalculation
     extends QuestionStatistics<FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails>
     implements McqMsqQuestionStatisticsCalculation {
@@ -18,7 +17,6 @@ export class McqQuestionStatisticsCalculation
   weightedPercentagePerOption: Record<string, number> = {};
   perRecipientResponses: Record<string, any> = {};
 
-  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
   constructor(question: FeedbackMcqQuestionDetails) {
     super(question);
   }
@@ -43,7 +41,7 @@ export class McqQuestionStatisticsCalculation
     }
 
     if (this.question.hasAssignedWeights) {
-      for (let i: number = 0; i < this.question.mcqChoices.length; i += 1) {
+      for (let i = 0; i < this.question.mcqChoices.length; i += 1) {
         const option: string = this.question.mcqChoices[i];
         const weight: number = this.question.mcqWeights[i];
         this.weightPerOption[option] = weight;
@@ -52,7 +50,7 @@ export class McqQuestionStatisticsCalculation
         this.weightPerOption['Other'] = this.question.mcqOtherWeight;
       }
 
-      let totalWeightedResponseCount: number = 0;
+      let totalWeightedResponseCount = 0;
       for (const answer of Object.keys(this.answerFrequency)) {
         const weight: number = this.weightPerOption[answer];
         const weightedAnswer: number = weight * this.answerFrequency[answer];
@@ -96,9 +94,9 @@ export class McqQuestionStatisticsCalculation
 
       for (const recipient of Object.keys(perRecipientResponse)) {
         const responses: Record<string, number> = perRecipientResponse[recipient];
-        let total: number = 0;
-        let average: number = 0;
-        let numOfResponsesForRecipient: number = 0;
+        let total = 0;
+        let average = 0;
+        let numOfResponsesForRecipient = 0;
         for (const answer of Object.keys(responses)) {
           const responseCount: number = responses[answer];
           const weight: number = this.weightPerOption[answer];

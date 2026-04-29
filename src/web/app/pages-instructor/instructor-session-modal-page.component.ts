@@ -43,7 +43,7 @@ import { ErrorMessageOutput } from '../error-message-output';
  */
 export abstract class InstructorSessionModalPageComponent extends InstructorSessionBasePageComponent {
 
-  isSendReminderLoading: boolean = false;
+  isSendReminderLoading = false;
 
   protected constructor(instructorService: InstructorService,
                         statusMessageService: StatusMessageService,

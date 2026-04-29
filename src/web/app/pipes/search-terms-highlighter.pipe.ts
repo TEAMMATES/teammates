@@ -44,7 +44,7 @@ export class SearchTermsHighlighterPipe implements PipeTransform {
     }
 
     checkIsExactPhrase(term: string): boolean {
-        return term.charAt(0) === '"' && term.charAt(term.length - 1) === '"';
+        return term.startsWith('"') && term.endsWith('"');
     }
 
     findAllExactPhrases(searchValue: string): string[] {

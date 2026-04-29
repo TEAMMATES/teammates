@@ -39,7 +39,7 @@
             @if (enrollErrorMessage) {
             <div class="card card-default">
               <div class="card-body bg-danger text-white">
-                <button class="float-end fas fa-times close" (click)="enrollErrorMessage = ''"></button>
+                <button class="float-end fas fa-times close" aria-label="Close" (click)="enrollErrorMessage = ''"></button>
                 {{ enrollErrorMessage }}
               </div>
             </div>

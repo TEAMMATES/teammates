@@ -14,14 +14,13 @@ import { CommentTableModel } from '../../components/comment-box/comment-table/co
  * Abstract component for all different view type components of instructor sessions result page.
  */
 @Directive()
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class InstructorSessionResultView {
 
-  @Input() section: string = '';
+  @Input() section = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
-  @Input() groupByTeam: boolean = true;
-  @Input() showStatistics: boolean = true;
-  @Input() indicateMissingResponses: boolean = true;
+  @Input() groupByTeam = true;
+  @Input() showStatistics = true;
+  @Input() indicateMissingResponses = true;
   @Input() session: FeedbackSession = {
     feedbackSessionId: '',
     courseId: '',
@@ -41,7 +40,7 @@ export abstract class InstructorSessionResultView {
   };
   @Input() instructorCommentTableModel: Record<string, CommentTableModel> = {};
 
-  @Input() isExpandAll: boolean = false;
+  @Input() isExpandAll = false;
 
   @Output() toggleAndLoadTab: EventEmitter<string> = new EventEmitter<string>();
   @Output() loadTab: EventEmitter<string> = new EventEmitter<string>();

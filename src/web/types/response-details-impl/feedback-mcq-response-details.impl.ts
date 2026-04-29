@@ -7,9 +7,9 @@ import { FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails, FeedbackQuestio
 export class FeedbackMcqResponseDetailsImpl extends AbstractFeedbackResponseDetails<FeedbackMcqQuestionDetails>
     implements FeedbackMcqResponseDetails {
 
-  answer: string = '';
-  isOther: boolean = false;
-  otherFieldContent: string = '';
+  answer = '';
+  isOther = false;
+  otherFieldContent = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.MCQ;
 
   constructor(apiOutput: FeedbackMcqResponseDetails) {

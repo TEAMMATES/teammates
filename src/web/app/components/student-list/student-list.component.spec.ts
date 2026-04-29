@@ -33,7 +33,7 @@ describe('StudentListComponent', () => {
       const studentRows = studentListDebugElement.queryAll(By.css('tbody tr'));
       for (const row of studentRows) {
         const emailSpan = row.query(By.css('td:nth-child(5) span'));
-        if (emailSpan && emailSpan.nativeElement.textContent.trim() === email) {
+        if (emailSpan?.nativeElement.textContent.trim() === email) {
           return row.query(By.css('tm-group-buttons'));
         }
       }
@@ -462,7 +462,7 @@ describe('StudentListComponent', () => {
 
     await promise;
 
-    const expectedModalContent: string = `Usually, there is no need to use this feature because
+    const expectedModalContent = `Usually, there is no need to use this feature because
           TEAMMATES sends an automatic invite to students at the opening time of each session.
           Send a join request to <strong>${studentModel.student.email}</strong> anyway?`;
     expect(modalSpy).toHaveBeenCalledTimes(1);

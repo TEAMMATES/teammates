@@ -26,19 +26,19 @@ import {
 export class SavingCompleteModalComponent {
 
   @Input()
-  courseId: string = '';
+  courseId = '';
 
   @Input()
-  feedbackSessionName: string = '';
+  feedbackSessionName = '';
 
   @Input()
-  feedbackSessionTimezone: string = '';
+  feedbackSessionTimezone = '';
 
   @Input()
-  personEmail: string = '';
+  personEmail = '';
 
   @Input()
-  personName: string = '';
+  personName = '';
 
   @Input()
   requestIds: Record<string, string> = {};

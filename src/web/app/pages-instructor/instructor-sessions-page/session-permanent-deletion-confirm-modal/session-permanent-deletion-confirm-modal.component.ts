@@ -12,10 +12,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class SessionPermanentDeletionConfirmModalComponent {
 
   @Input()
-  courseId: string = '';
+  courseId = '';
 
   @Input()
-  feedbackSessionName: string = '';
+  feedbackSessionName = '';
 
   constructor(public activeModal: NgbActiveModal) {}
 

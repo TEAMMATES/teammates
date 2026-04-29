@@ -14,6 +14,6 @@ import { TeammatesRouterDirective } from '../teammates-router/teammates-router.d
 export class CourseRelatedInfoComponent {
 
   @Input() student?: Student;
-  @Input() isDisplayOnly: boolean = false;
+  @Input() isDisplayOnly = false;
 
 }

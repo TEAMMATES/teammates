@@ -40,11 +40,11 @@ describe('CourseEditFormComponent', () => {
   let feedbackSessionsService: FeedbackSessionsService;
   let ngbModal: NgbModal;
 
-  const validCourseId: string = 'CS1101S';
-  const validTimeZone: string = 'Asia/Singapore';
-  const validInstitute1: string = 'Test Institute1';
-  const validInstitute2: string = 'Test Institute2';
-  const testTimeZone: string = 'Australia/Adelaide';
+  const validCourseId = 'CS1101S';
+  const validTimeZone = 'Asia/Singapore';
+  const validInstitute1 = 'Test Institute1';
+  const validInstitute2 = 'Test Institute2';
+  const testTimeZone = 'Australia/Adelaide';
   const timeZoneOffsets1: Record<string, number> = { GMT: 570 };
   const testCourse1: Course = {
     courseId: 'testId1',
@@ -62,17 +62,17 @@ describe('CourseEditFormComponent', () => {
     creationTimestamp: 0,
     deletionTimestamp: 1000,
   };
-  const errorMssg = 'Error occured';
+  const errorMsg = 'Error occured';
 
   const customError: ErrorMessageOutput = {
     error: {
-      message: errorMssg,
+      message: errorMsg,
     },
     status: 0,
   };
 
   const spyStatusMessageService = createSpyFromClass(StatusMessageService);
-  spyStatusMessageService.showErrorToast.mockReturnValue(errorMssg);
+  spyStatusMessageService.showErrorToast.mockReturnValue(errorMsg);
 
   const timezoneServiceStub = createSpyFromClass(TimezoneService);
   timezoneServiceStub.getTzOffsets.mockReturnValue(timeZoneOffsets1);
@@ -230,7 +230,8 @@ describe('CourseEditFormComponent', () => {
 
     component.copyCourseHandler();
 
-    expect(await spyStatusMessageService.showErrorToast).toHaveBeenCalledWith(errorMssg);
+    // eslint-disable-next-line @typescript-eslint/await-thenable
+    expect(await spyStatusMessageService.showErrorToast).toHaveBeenCalledWith(errorMsg);
   });
 
   it('should handle errors in copyCourseHandler when observable throws an error', () => {
@@ -250,7 +251,7 @@ describe('CourseEditFormComponent', () => {
 
     component.copyCourseHandler();
 
-    expect(spyStatusMessageService.showErrorToast).toHaveBeenCalledWith(errorMssg);
+    expect(spyStatusMessageService.showErrorToast).toHaveBeenCalledWith(errorMsg);
   });
 
   it('should set isEditing to true when editModel exists', () => {
@@ -280,7 +281,7 @@ describe('CourseEditFormComponent', () => {
   });
 
   it('should update institutes when addModel is defined and when there is only one institute', () => {
-    component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL() as CourseAddFormModel;
+    component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL();
     component.addModel.allCourses = [testCourse1];
     component.addModel.course = testCourse1;
 
@@ -291,7 +292,7 @@ describe('CourseEditFormComponent', () => {
   });
 
   it('should update institutes when addModel is defined and when there is more than one institute', () => {
-    component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL() as CourseAddFormModel;
+    component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL();
     component.addModel.allCourses = [testCourse1, testCourse2];
     component.addModel.course = testCourse1;
 
@@ -302,7 +303,7 @@ describe('CourseEditFormComponent', () => {
   });
 
   it('should not update institutes when allCourses of the component is empty', () => {
-    component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL() as CourseAddFormModel;
+    component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL();
     component.addModel.allCourses = [];
     component.addModel.course = testCourse2;
 

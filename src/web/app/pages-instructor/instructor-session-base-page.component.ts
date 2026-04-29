@@ -49,10 +49,10 @@ import { ErrorMessageOutput } from '../error-message-output';
  */
 export abstract class InstructorSessionBasePageComponent {
 
-  isResultActionLoading: boolean = false;
+  isResultActionLoading = false;
 
   protected failedToCopySessions: Record<string, string> = {}; // Map of failed session copy to error message
-  coursesOfModifiedSession: Array<string> = [];
+  coursesOfModifiedSession: string[] = [];
   modifiedSession: Record<string, TweakedTimestampData> = {};
 
   private publishUnpublishRetryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
@@ -138,7 +138,7 @@ export abstract class InstructorSessionBasePageComponent {
         .valueOf();
 
     // Preprocess timestamps to adhere to feedback session timestamps constraints
-    let isModified: boolean = false;
+    let isModified = false;
 
     let copiedSubmissionStartTimestamp = fromFeedbackSession.submissionStartTimestamp;
     if (copiedSubmissionStartTimestamp < twoHoursBeforeNow) {
@@ -205,7 +205,7 @@ export abstract class InstructorSessionBasePageComponent {
           submissionEndTimestamp: this.formatTimestamp(copiedSubmissionEndTimestamp, fromFeedbackSession.timeZone),
           sessionVisibleTimestamp: copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN
               ? 'On submission opening time'
-              : this.formatTimestamp(copiedCustomSessionVisibleTimestamp!, fromFeedbackSession.timeZone),
+              : this.formatTimestamp(copiedCustomSessionVisibleTimestamp, fromFeedbackSession.timeZone),
           responseVisibleTimestamp: '',
         },
       };
@@ -229,7 +229,7 @@ export abstract class InstructorSessionBasePageComponent {
             'Not now (publish manually)';
       } else {
         this.modifiedSession[newSessionName].newTimestamp.responseVisibleTimestamp =
-            this.formatTimestamp(copiedCustomResponseVisibleTimestamp!, fromFeedbackSession.timeZone);
+            this.formatTimestamp(copiedCustomResponseVisibleTimestamp, fromFeedbackSession.timeZone);
       }
 
     }
@@ -513,16 +513,16 @@ export abstract class InstructorSessionBasePageComponent {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
 
-          rowData[colIdx].customComponent!.componentData! = () => {
+          rowData[colIdx].customComponent!.componentData = () => {
             return {
-              ...rowData[colIdx].customComponent!.componentData!,
+              ...rowData[colIdx].customComponent!.componentData,
               value: this.publishStatusName.transform(FeedbackSessionPublishStatus.PUBLISHED),
             };
           };
 
-          rowData[actionsColIdx].customComponent!.componentData! = () => {
+          rowData[actionsColIdx].customComponent!.componentData = () => {
             return {
-              ...rowData[actionsColIdx].customComponent!.componentData!,
+              ...rowData[actionsColIdx].customComponent!.componentData,
               publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
             };
           };
@@ -569,16 +569,16 @@ export abstract class InstructorSessionBasePageComponent {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
 
-          rowData[responseColIdx].customComponent!.componentData! = () => {
+          rowData[responseColIdx].customComponent!.componentData = () => {
             return {
-              ...rowData[responseColIdx].customComponent!.componentData!,
+              ...rowData[responseColIdx].customComponent!.componentData,
               value: this.publishStatusName.transform(FeedbackSessionPublishStatus.NOT_PUBLISHED),
             };
           };
 
-          rowData[actionsColIdx].customComponent!.componentData! = () => {
+          rowData[actionsColIdx].customComponent!.componentData = () => {
             return {
-              ...rowData[actionsColIdx].customComponent!.componentData!,
+              ...rowData[actionsColIdx].customComponent!.componentData,
               publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
             };
           };

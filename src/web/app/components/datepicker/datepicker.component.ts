@@ -18,7 +18,7 @@ export class DatepickerComponent {
   date: DateFormat | undefined;
 
   @Input()
-  isDisabled: boolean = false;
+  isDisabled = false;
 
   @Input()
   maxDate?: NgbDateStruct;

@@ -18,8 +18,8 @@ import { RespondentListInfoTableComponent } from '../respondent-list-info-table/
 export class ResendResultsLinkToRespondentModalComponent {
 
   // values below will be injected by other component
-  courseId: string = '';
-  feedbackSessionName: string = '';
+  courseId = '';
+  feedbackSessionName = '';
   studentListInfoTableRowModels: StudentListInfoTableRowModel[] = [];
   instructorListInfoTableRowModels: InstructorListInfoTableRowModel[] = [];
 

@@ -23,7 +23,6 @@ import {
   FeedbackRankOptionsResponseDetails,
   FeedbackResponseDetails,
   FeedbackRubricResponseDetails,
-  FeedbackTextQuestionDetails,
   FeedbackTextResponseDetails,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
@@ -126,7 +125,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   FeedbackVisibilityType: typeof FeedbackVisibilityType = FeedbackVisibilityType;
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
 
-  isMCQDropDownEnabled: boolean = false;
+  isMCQDropDownEnabled = false;
 
   get hasResponseChanged(): boolean {
     return this.model.recipientSubmissionForms.some((form) => form.isModified);
@@ -140,13 +139,13 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
 
   @Input()
-  isFormsDisabled: boolean = false;
+  isFormsDisabled = false;
 
   @Input()
-  isSubmissionDisabled: boolean = false;
+  isSubmissionDisabled = false;
 
   @Input()
-  isSavingResponses: boolean = false;
+  isSavingResponses = false;
 
   @Input()
   set formModel(model: QuestionSubmissionFormModel) {
@@ -169,7 +168,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   @Input()
-  isQuestionCountOne: boolean = false;
+  isQuestionCountOne = false;
 
   allSessionViews = SessionView;
 
@@ -177,7 +176,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   currentSelectedSessionView: SessionView = SessionView.DEFAULT;
 
   @Input()
-  recipientId: string = '';
+  recipientId = '';
 
   @Output()
   formModelChange: EventEmitter<QuestionSubmissionFormModel> = new EventEmitter();
@@ -213,7 +212,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     questionDetails: {
       questionText: '',
       questionType: FeedbackQuestionType.TEXT,
-    } as FeedbackTextQuestionDetails,
+    },
 
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 0,
@@ -226,13 +225,13 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   };
 
   recipientLabelType: FeedbackRecipientLabelType = FeedbackRecipientLabelType.INCLUDE_NAME;
-  isSectionTeamShown: boolean = false;
+  isSectionTeamShown = false;
 
   @Output()
   deleteCommentEvent: EventEmitter<number> = new EventEmitter();
 
   visibilityStateMachine: VisibilityStateMachine;
-  isEveryRecipientSorted: boolean = false;
+  isEveryRecipientSorted = false;
 
   constructor(private feedbackQuestionsService: FeedbackQuestionsService,
     private feedbackResponseService: FeedbackResponsesService) {
@@ -395,7 +394,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   updateIsValidByQuestionConstraint(): void {
-    let isValid: boolean = false;
+    let isValid = false;
     const questionType: string = this.model.questionType;
     if (questionType === FeedbackQuestionType.CONTRIB) {
       isValid = this.contributionQuestionConstraint.isValid;
@@ -442,7 +441,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
    */
   discardEditedParticipantComment(index: number): void {
     const commentModel: CommentRowModel | undefined = this.model.recipientSubmissionForms[index].commentByGiver;
-    if (!commentModel || !commentModel.originalComment) {
+    if (!commentModel?.originalComment) {
       return;
     }
     this.triggerRecipientSubmissionFormChange(index, 'commentByGiver',

@@ -13,7 +13,6 @@ import {
   FeedbackQuestions,
   FeedbackQuestionType,
   FeedbackRankRecipientsQuestionDetails,
-  FeedbackTextQuestionDetails,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../../types/api-output';
@@ -30,7 +29,7 @@ describe('CopyQuestionsFromOtherSessionsModalComponent', () => {
     questionDetails: {
       questionType: FeedbackQuestionType.TEXT,
       questionText: 'question text',
-    } as FeedbackTextQuestionDetails,
+    },
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.INSTRUCTORS,
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,

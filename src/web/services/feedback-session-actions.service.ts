@@ -48,12 +48,12 @@ export class FeedbackSessionActionsService {
     groupBySection?: string,
     sectionDetail?: InstructorSessionResultSectionType,
   ): void {
-    const filename: string =
+    const filename =
       `${courseId}_${feedbackSessionName}_result.csv`;
     let blob: any;
-    let downloadAborted: boolean = false;
+    let downloadAborted = false;
     const outputData: string[] = [];
-    const modalContent: string = 'Downloading the results of your feedback session...';
+    const modalContent = 'Downloading the results of your feedback session...';
     const loadingModal: NgbModalRef = this.simpleModalService.openLoadingModal(
         'Download Progress', SimpleModalType.LOAD, modalContent);
     loadingModal.result.then(() => {

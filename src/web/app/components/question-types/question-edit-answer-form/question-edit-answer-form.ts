@@ -5,12 +5,11 @@ import { FeedbackQuestionDetails, FeedbackResponseDetails } from '../../../../ty
  * The abstract recipient submission form.
  */
 @Directive()
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class QuestionEditAnswerFormComponent<
     Q extends FeedbackQuestionDetails, R extends FeedbackResponseDetails> {
 
   @Input()
-  isDisabled: boolean = false;
+  isDisabled = false;
 
   @Input()
   questionDetails: Q;
@@ -19,7 +18,7 @@ export abstract class QuestionEditAnswerFormComponent<
   responseDetails: R;
 
   @Input()
-  recipient: string = '';
+  recipient = '';
 
   @Output()
   responseDetailsChange: EventEmitter<FeedbackResponseDetails> = new EventEmitter();

@@ -16,9 +16,9 @@ import { DateFormat, TimeFormat } from '../types/datetime-const';
 })
 export class TimezoneService {
 
-  tzVersion: string = '';
+  tzVersion = '';
   tzOffsets: Record<string, number> = {};
-  guessedTimezone: string = '';
+  guessedTimezone = '';
 
   // These short timezones are not supported by Java
   private readonly badZones: Record<string, boolean> = {
@@ -92,7 +92,7 @@ export class TimezoneService {
    * Resolves the local date time to a UNIX timestamp.
    */
   resolveLocalDateTime(date: DateFormat, time: TimeFormat, timeZone?: string,
-      resolveMidnightTo0000: boolean = false): number {
+      resolveMidnightTo0000 = false): number {
     const inst: moment.Moment = this.getMomentInstance(null, timeZone || this.guessTimezone());
     inst.set('year', date.year);
     inst.set('month', date.month - 1); // moment month is from 0-11

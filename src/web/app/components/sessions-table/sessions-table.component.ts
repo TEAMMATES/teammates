@@ -65,7 +65,7 @@ export class SessionsTableComponent implements OnInit {
   SortableTableHeaderColorScheme: typeof SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
 
   // variable
-  rowClicked: number = -1;
+  rowClicked = -1;
 
   @Input()
   initialSortBy: SortBy = SortBy.COURSE_ID;
@@ -83,7 +83,7 @@ export class SessionsTableComponent implements OnInit {
   headerColorScheme: SortableTableHeaderColorScheme = SortableTableHeaderColorScheme.BLUE;
 
   @Input()
-  isSendReminderLoading: boolean = false;
+  isSendReminderLoading = false;
 
   @Output()
   sortSessionsTableRowModelsEvent: EventEmitter<SortableEvent> = new EventEmitter();
@@ -155,7 +155,7 @@ export class SessionsTableComponent implements OnInit {
    *  if the column is to be shown, otherwise an empty array.
    */
   createColumnData(config: SessionsTableColumnData): ColumnData[] {
-    if (!(config?.columnType === undefined) && !this.columnsToShow.includes(config.columnType!)) {
+    if (!(config?.columnType === undefined) && !this.columnsToShow.includes(config.columnType)) {
       return [];
     }
 
@@ -178,7 +178,7 @@ export class SessionsTableComponent implements OnInit {
    * otherwise an empty array.
    */
   createRowData(config: SessionsTableRowData): SortableTableCellData[] {
-    if (!(config?.columnType === undefined) && !this.columnsToShow.includes(config.columnType!)) {
+    if (!(config?.columnType === undefined) && !this.columnsToShow.includes(config.columnType)) {
       return [];
     }
 
@@ -417,7 +417,7 @@ export class SessionsTableComponent implements OnInit {
    */
   unpublishSession(rowIndex: number, rowData: SortableTableCellData[], columnsData: ColumnData[]): void {
     const model: SessionsTableRowModel = this.sessionsTableRowModelsVar[rowIndex];
-    const modalContent: string = `An email will be sent to students to inform them that the session 
+    const modalContent = `An email will be sent to students to inform them that the session 
       has been unpublished and the session responses will no longer be viewable by students.`;
 
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(

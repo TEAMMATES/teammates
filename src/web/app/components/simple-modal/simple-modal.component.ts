@@ -22,12 +22,12 @@ export class SimpleModalComponent {
   // enum
   SimpleModalType: typeof SimpleModalType = SimpleModalType;
 
-  @Input() header: string = '';
+  @Input() header = '';
   @Input() content: string | TemplateRef<any> = '';
   @Input() type: SimpleModalType = SimpleModalType.NEUTRAL;
-  @Input() isInformationOnly: boolean = false; // true will cause modal to only have 1 button
-  @Input() confirmMessage: string = 'Yes'; // custom text message for confirm button
-  @Input() cancelMessage: string = 'No, cancel the operation'; // custom text message for cancel button
+  @Input() isInformationOnly = false; // true will cause modal to only have 1 button
+  @Input() confirmMessage = 'Yes'; // custom text message for confirm button
+  @Input() cancelMessage = 'No, cancel the operation'; // custom text message for cancel button
 
   get isTemplate(): boolean {
     return this.content instanceof TemplateRef;

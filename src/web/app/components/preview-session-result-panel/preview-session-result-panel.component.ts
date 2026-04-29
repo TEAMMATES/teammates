@@ -25,27 +25,27 @@ import { TeammatesRouterDirective } from '../teammates-router/teammates-router.d
 export class PreviewSessionResultPanelComponent {
 
   @Input()
-  courseId: string = '';
+  courseId = '';
 
   @Input()
-  feedbackSessionName: string = '';
+  feedbackSessionName = '';
 
   @Input()
-  feedbackSessionId: string = '';
+  feedbackSessionId = '';
 
   @Input()
   studentsOfCourse: Student[] = [];
 
   @Input()
-  emailOfStudentToPreview: string = '';
+  emailOfStudentToPreview = '';
 
   @Input()
   instructorsOfCourse: Instructor[] = [];
 
   @Input()
-  emailOfInstructorToPreview: string = '';
+  emailOfInstructorToPreview = '';
 
   @Input()
-  forDisplayOnly: boolean = false;
+  forDisplayOnly = false;
 
 }

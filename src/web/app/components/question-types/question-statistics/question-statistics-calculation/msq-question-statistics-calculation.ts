@@ -12,7 +12,6 @@ import { QuestionStatistics } from '../question-statistics';
  * Class to calculate stats for msq question.
  */
 @Directive()
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export class MsqQuestionStatisticsCalculation
     extends QuestionStatistics<FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails>
     implements McqMsqQuestionStatisticsCalculation {
@@ -22,9 +21,8 @@ export class MsqQuestionStatisticsCalculation
   weightPerOption: Record<string, number> = {};
   weightedPercentagePerOption: Record<string, number> = {};
   perRecipientResponses: Record<string, any> = {};
-  hasAnswers: boolean = false;
+  hasAnswers = false;
 
-  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
   constructor(question: FeedbackMsqQuestionDetails) {
     super(question);
   }
@@ -53,7 +51,7 @@ export class MsqQuestionStatisticsCalculation
     }
 
     if (this.question.hasAssignedWeights) {
-      for (let i: number = 0; i < this.question.msqChoices.length; i += 1) {
+      for (let i = 0; i < this.question.msqChoices.length; i += 1) {
         const option: string = this.question.msqChoices[i];
         const weight: number = this.question.msqWeights[i];
         this.weightPerOption[option] = weight;
@@ -62,7 +60,7 @@ export class MsqQuestionStatisticsCalculation
         this.weightPerOption['Other'] = this.question.msqOtherWeight;
       }
 
-      let totalWeightedResponseCount: number = 0;
+      let totalWeightedResponseCount = 0;
       for (const answer of Object.keys(this.answerFrequency)) {
         const weight: number = this.weightPerOption[answer];
         const weightedAnswer: number = weight * this.answerFrequency[answer];
@@ -118,9 +116,9 @@ export class MsqQuestionStatisticsCalculation
 
     for (const recipient of Object.keys(perRecipientResponse)) {
       const responses: Record<string, number> = perRecipientResponse[recipient];
-      let total: number = 0;
-      let average: number = 0;
-      let numOfResponsesForRecipient: number = 0;
+      let total = 0;
+      let average = 0;
+      let numOfResponsesForRecipient = 0;
       for (const answer of Object.keys(responses)) {
         const responseCount: number = responses[answer];
         const weight: number = this.weightPerOption[answer];
@@ -154,7 +152,7 @@ export class MsqQuestionStatisticsCalculation
         // ignore 'None of the above' answer
         continue;
       }
-      if (this.question.msqChoices.indexOf(answer) === -1
+      if (!this.question.msqChoices.includes(answer)
           && this.question.generateOptionsFor === FeedbackParticipantType.NONE) {
         // ignore other answer if any
         continue;

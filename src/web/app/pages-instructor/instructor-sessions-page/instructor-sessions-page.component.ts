@@ -95,31 +95,31 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   SortableTableHeaderColorScheme: typeof SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
 
   // url params
-  courseId: string = '';
+  courseId = '';
 
   // data
   courseCandidates: Course[] = [];
   templateSessions: TemplateSession[] = [];
 
-  isSessionEditFormExpanded: boolean = false;
+  isSessionEditFormExpanded = false;
 
   sessionsTableRowModels: SessionsTableRowModel[] = [];
 
-  isRecycleBinExpanded: boolean = false;
+  isRecycleBinExpanded = false;
   recycleBinFeedbackSessionRowModels: RecycleBinFeedbackSessionRowModel[] = [];
   recycleBinFeedbackSessionRowModelsSortBy: SortBy = SortBy.NONE;
   recycleBinFeedbackSessionRowModelsSortOrder: SortOrder = SortOrder.ASC;
 
-  isCopyOtherSessionLoading: boolean = false;
-  isCoursesLoading: boolean = true;
-  isFeedbackSessionsLoading: boolean = true;
-  isMoveToRecycleBinLoading: boolean = false;
-  isCopySessionLoading: boolean = false;
-  isRecycleBinLoading: boolean = true;
-  isRestoreFeedbackSessionLoading: boolean = false;
-  isPermanentDeleteLoading: boolean = false;
-  hasCourseLoadingFailed: boolean = false;
-  hasFeedbackSessionLoadingFailed: boolean = false;
+  isCopyOtherSessionLoading = false;
+  isCoursesLoading = true;
+  isFeedbackSessionsLoading = true;
+  isMoveToRecycleBinLoading = false;
+  isCopySessionLoading = false;
+  isRecycleBinLoading = true;
+  isRestoreFeedbackSessionLoading = false;
+  isPermanentDeleteLoading = false;
+  hasCourseLoadingFailed = false;
+  hasFeedbackSessionLoadingFailed = false;
 
   @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
 
@@ -297,13 +297,13 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     const submissionEndTime: number = this.timezoneService.resolveLocalDateTime(
         this.sessionEditFormModel.submissionEndDate, this.sessionEditFormModel.submissionEndTime,
         this.sessionEditFormModel.timeZone, true);
-    let sessionVisibleTime: number = 0;
+    let sessionVisibleTime = 0;
     if (this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
       sessionVisibleTime = this.timezoneService.resolveLocalDateTime(
           this.sessionEditFormModel.customSessionVisibleDate, this.sessionEditFormModel.customSessionVisibleTime,
           this.sessionEditFormModel.timeZone, true);
     }
-    let responseVisibleTime: number = 0;
+    let responseVisibleTime = 0;
     if (this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM) {
       responseVisibleTime = this.timezoneService.resolveLocalDateTime(
           this.sessionEditFormModel.customResponseVisibleDate, this.sessionEditFormModel.customResponseVisibleTime,
@@ -393,7 +393,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   }
 
   formatErrorMessage(errorMessage: string): string {
-    if (errorMessage.match('exists already in the course')) {
+    if (/exists already in the course/.exec(errorMessage)) {
       return `${errorMessage}
           Tip: If you can't find such a session in that course, also check the 'Recycle bin'
           (shown at the bottom of the 'Sessions' page).`;

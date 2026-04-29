@@ -31,10 +31,10 @@ export class AddingQuestionPanelComponent {
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
 
   @Input()
-  isCopyingQuestion: boolean = false;
+  isCopyingQuestion = false;
 
   @Input()
-  isLinkDisabled: boolean = false;
+  isLinkDisabled = false;
 
   @Output()
   templateQuestionModalEvent: EventEmitter<void> = new EventEmitter<void>();

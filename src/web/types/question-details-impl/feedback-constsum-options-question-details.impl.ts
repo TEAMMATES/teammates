@@ -16,12 +16,12 @@ export class FeedbackConstantSumOptionsQuestionDetailsImpl extends AbstractFeedb
     implements FeedbackConstantSumQuestionDetails {
 
   constSumOptions: string[] = ['', ''];
-  distributeToRecipients: boolean = false;
-  pointsPerOption: boolean = false;
-  forceUnevenDistribution: boolean = false;
+  distributeToRecipients = false;
+  pointsPerOption = false;
+  forceUnevenDistribution = false;
   distributePointsFor: string = FeedbackConstantSumDistributePointsType.NONE;
-  points: number = 100;
-  questionText: string = '';
+  points = 100;
+  questionText = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.CONSTSUM_OPTIONS;
   minPoint: number | undefined = undefined;
   maxPoint: number | undefined = undefined;

@@ -50,7 +50,7 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
   @ViewChild('courseForm') form!: UntypedFormGroup;
 
   @Input()
-  isDisplayOnly: boolean = false;
+  isDisplayOnly = false;
 
   @Input()
   formMode: CourseEditFormMode = CourseEditFormMode.EDIT;

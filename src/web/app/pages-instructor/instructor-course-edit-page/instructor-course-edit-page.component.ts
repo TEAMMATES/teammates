@@ -105,8 +105,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
   Sections: typeof Sections = Sections;
   CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
 
-  courseId: string = '';
-  currInstructorGoogleId: string = '';
+  courseId = '';
+  currInstructorGoogleId = '';
   currInstructorCoursePrivilege: InstructorPermissionSet = {
     canModifyCourse: true,
     canModifySession: true,
@@ -120,8 +120,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
   instructorDetailPanels: InstructorEditPanelDetail[] = [];
 
-  isAddingNewInstructor: boolean = false;
-  isCopyingInstructor: boolean = false;
+  isAddingNewInstructor = false;
+  isCopyingInstructor = false;
   newInstructorPanel: InstructorEditPanel = this.getDefaultInstructorPanel({
         isEditing: true,
   });
@@ -133,11 +133,11 @@ export class InstructorCourseEditPageComponent implements OnInit {
   allSections: string[] = [];
   allSessions: string[] = [];
 
-  isCourseLoading: boolean = false;
-  hasCourseLoadingFailed: boolean = false;
-  isInstructorsLoading: boolean = false;
-  hasInstructorsLoadingFailed: boolean = false;
-  isSavingNewInstructor: boolean = false;
+  isCourseLoading = false;
+  hasCourseLoadingFailed = false;
+  isInstructorsLoading = false;
+  hasInstructorsLoadingFailed = false;
+  isSavingNewInstructor = false;
 
   constructor(private route: ActivatedRoute,
               private navigationService: NavigationService,
@@ -303,7 +303,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
      */
     private getDefaultInstructorPanel(
         overrides: Partial<InstructorEditPanel> = {},
-        defaultPrivileges: boolean = false,
+        defaultPrivileges = false,
     ): InstructorEditPanel {
         return {
             googleId: '',
@@ -408,7 +408,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       role: panelDetail.editPanel.role,
       displayName: panelDetail.editPanel.displayedToStudentsAs,
       isDisplayedToStudent: panelDetail.editPanel.isDisplayedToStudents,
-    } as InstructorCreateRequest;
+    };
 
     this.instructorService.updateInstructor({
       courseId: panelDetail.originalInstructor.courseId,
@@ -480,7 +480,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   resendReminderEmail(index: number): void {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
-    const modalContent: string = `Do you wish to re-send the invitation email to instructor
+    const modalContent = `Do you wish to re-send the invitation email to instructor
       ${panelDetail.originalInstructor.name} from course ${panelDetail.originalInstructor.courseId}?`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         'Re-send invitation email?', SimpleModalType.INFO, modalContent);
@@ -510,7 +510,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       role: this.newInstructorPanel.role,
       displayName: this.newInstructorPanel.displayedToStudentsAs,
       isDisplayedToStudent: this.newInstructorPanel.isDisplayedToStudents,
-    } as InstructorCreateRequest;
+    };
 
     this.instructorService.createInstructor({ courseId: this.courseId, requestBody: reqBody })
         .pipe(finalize(() => {
@@ -573,7 +573,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
         this.allSessions.forEach((sessionName: string) => {
           const sessionLevelPermission: InstructorSessionLevelPermission = {
             sessionName,
-            privilege: (resp.privileges.sessionLevel[sectionName] || {})[sessionName]
+            privilege: resp.privileges.sessionLevel[sectionName]?.[sessionName]
                 || sectionLevelPermission.privilege,
           };
           sectionLevelPermission.sessionLevel.push(sessionLevelPermission);

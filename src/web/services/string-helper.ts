@@ -25,8 +25,8 @@ export class StringHelper {
       return '';
     }
 
-    let imgLinks: string = ' Images Link: ';
-    for (let i: number = 0; i < imgElements.length; i += 1) {
+    let imgLinks = ' Images Link: ';
+    for (let i = 0; i < imgElements.length; i += 1) {
       const img: HTMLImageElement | null = imgElements.item(i);
       if (!img) {
         continue;
@@ -61,7 +61,7 @@ export class StringHelper {
    * @param n - number to convert
    */
   static integerToLowerCaseAlphabeticalIndex(n: number): string {
-    let result: string = '';
+    let result = '';
     let n0: number = n;
     while (n0 > 0) {
       n0 -= 1; // 1 => a, not 0 => a

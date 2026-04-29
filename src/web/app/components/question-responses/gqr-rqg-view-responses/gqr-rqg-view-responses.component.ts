@@ -46,12 +46,12 @@ interface QuestionTab {
 export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
 
   @Input() responses: QuestionOutput[] = [];
-  @Input() sectionOfView: string = '';
-  @Input() section: string = '';
+  @Input() sectionOfView = '';
+  @Input() section = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
-  @Input() groupByTeam: boolean = true;
-  @Input() showStatistics: boolean = true;
-  @Input() indicateMissingResponses: boolean = true;
+  @Input() groupByTeam = true;
+  @Input() showStatistics = true;
+  @Input() indicateMissingResponses = true;
   @Input() session: FeedbackSession = {
     feedbackSessionId: '',
     courseId: '',
@@ -70,7 +70,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
     createdAtTimestamp: 0,
   };
 
-  @Input() isGqr: boolean = true;
+  @Input() isGqr = true;
 
   teamsToUsers: Record<string, string[]> = {};
   userToEmail: Record<string, string> = {};
@@ -132,7 +132,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
 
         if (this.isGqr) {
           this.teamsToUsers[response.giverTeam] = this.teamsToUsers[response.giverTeam] || [];
-          if (this.teamsToUsers[response.giverTeam].indexOf(response.giver) === -1) {
+          if (!this.teamsToUsers[response.giverTeam].includes(response.giver)) {
             this.teamsToUsers[response.giverTeam].push(response.giver);
             this.teamExpanded[response.giverTeam] = this.isExpandAll;
           }
@@ -147,7 +147,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
           if (!response.recipientTeam) {
             // Recipient is team
             this.teamsToUsers[response.recipient] = this.teamsToUsers[response.recipient] || [];
-            if (this.teamsToUsers[response.recipient].indexOf(response.recipient) === -1) {
+            if (!this.teamsToUsers[response.recipient].includes(response.recipient)) {
               this.teamsToUsers[response.recipient].push(response.recipient);
               this.teamExpanded[response.recipient] = this.isExpandAll;
             }
@@ -155,7 +155,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
             continue;
           }
           this.teamsToUsers[response.recipientTeam] = this.teamsToUsers[response.recipientTeam] || [];
-          if (this.teamsToUsers[response.recipientTeam].indexOf(response.recipient) === -1) {
+          if (!this.teamsToUsers[response.recipientTeam].includes(response.recipient)) {
             this.teamsToUsers[response.recipientTeam].push(response.recipient);
             this.teamExpanded[response.recipientTeam] = this.isExpandAll;
           }

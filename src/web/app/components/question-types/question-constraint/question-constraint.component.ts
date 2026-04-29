@@ -8,7 +8,6 @@ import {
  * Base class for constraint components.
  */
 @Directive()
-// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class QuestionConstraintComponent<Q extends FeedbackQuestionDetails> implements OnInit {
 
   @Input()

@@ -34,9 +34,9 @@ export class InstructorSearchPageComponent {
   searchParams: SearchParams = {
     searchKey: '',
   };
-  searchString: string = '';
+  searchString = '';
   studentsListRowTables: SearchStudentsListRowTable[] = [];
-  isSearching: boolean = false;
+  isSearching = false;
 
   constructor(
     private statusMessageService: StatusMessageService,
@@ -69,9 +69,7 @@ export class InstructorSearchPageComponent {
     ).subscribe({
       next: (resp: TransformedInstructorSearchResult) => {
         const searchStudentsTable: SearchStudentsListRowTable[] = resp.searchStudentTables;
-        const hasStudents: boolean = !!(
-            searchStudentsTable && searchStudentsTable.length
-        );
+        const hasStudents = !!(searchStudentsTable?.length);
 
         if (hasStudents) {
           this.studentsListRowTables = searchStudentsTable;

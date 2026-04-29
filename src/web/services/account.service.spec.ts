@@ -11,7 +11,7 @@ import { AccountCreateRequest, AccountRequestUpdateRequest } from '../types/api-
 describe('AccountService', () => {
   let spyHttpRequestService: any;
   let service: AccountService;
-  const id: string = 'TestID';
+  const id = 'TestID';
 
   beforeEach(() => {
     spyHttpRequestService = createSpyFromClass(HttpRequestService);
@@ -47,8 +47,8 @@ describe('AccountService', () => {
   });
 
   it('should execute POST on account endpoint with timezone string', () => {
-    const testKey: string = 'testKey';
-    const testTimezone: string = 'UTC';
+    const testKey = 'testKey';
+    const testTimezone = 'UTC';
     const paramMap: Record<string, string> = {
       key: testKey,
       timezone: testTimezone,
@@ -58,7 +58,7 @@ describe('AccountService', () => {
   });
 
   it('should execute POST on account endpoint with empty timezone string', () => {
-    const testKey: string = 'testKey';
+    const testKey = 'testKey';
     const paramMap: Record<string, string> = {
       key: testKey,
     };

@@ -65,25 +65,25 @@ export class CommentRowComponent implements OnChanges {
   mode: CommentRowMode = CommentRowMode.ADD;
 
   @Input()
-  isVisibilityOptionEnabled: boolean = true;
+  isVisibilityOptionEnabled = true;
 
   @Input()
-  isDisabled: boolean = false;
+  isDisabled = false;
 
   @Input()
-  shouldHideSavingButton: boolean = false;
+  shouldHideSavingButton = false;
 
   @Input()
-  shouldHideClosingButton: boolean = false;
+  shouldHideClosingButton = false;
 
   @Input()
-  shouldHideEditButton: boolean = false;
+  shouldHideEditButton = false;
 
   @Input()
-  shouldHideDeleteButton: boolean = false;
+  shouldHideDeleteButton = false;
 
   @Input()
-  isFeedbackParticipantComment: boolean = false;
+  isFeedbackParticipantComment = false;
 
   @Input()
   response?: ResponseOutput;

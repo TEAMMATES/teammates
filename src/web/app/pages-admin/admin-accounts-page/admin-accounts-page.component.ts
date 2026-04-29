@@ -33,9 +33,9 @@ export class AdminAccountsPageComponent implements OnInit {
     email: '',
   };
 
-  isLoadingAccountInfo: boolean = false;
-  isLoadingStudentCourses: boolean = false;
-  isLoadingInstructorCourses: boolean = false;
+  isLoadingAccountInfo = false;
+  isLoadingStudentCourses = false;
+  isLoadingInstructorCourses = false;
 
   constructor(private route: ActivatedRoute,
               private instructorService: InstructorService,

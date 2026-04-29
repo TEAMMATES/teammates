@@ -22,10 +22,10 @@ export class RejectWithReasonModalComponent implements OnInit {
   readonly castAsInputElement = castAsInputElement;
 
   @Input()
-  accountRequestName: string = '';
+  accountRequestName = '';
 
   @Input()
-  accountRequestEmail: string = '';
+  accountRequestEmail = '';
 
   existingAccount: InstructorAccountSearchResult = {
     userId: '',
@@ -64,7 +64,7 @@ export class RejectWithReasonModalComponent implements OnInit {
   + '<p>If you need further clarification or would like to appeal this decision, please '
   + 'feel free to contact us at {supportEmail}</p>'
   + '<p>Regards,<br />TEAMMATES Team.</p>';
-  rejectionReasonTitle: string = 'We are Unable to Create an Account for you';
+  rejectionReasonTitle = 'We are Unable to Create an Account for you';
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -88,7 +88,7 @@ export class RejectWithReasonModalComponent implements OnInit {
     this.searchService.searchAdmin(this.accountRequestEmail)
     .subscribe({
       next: (resp: AdminSearchResult) => {
-        const hasInstructors: boolean = !!(resp.instructors && resp.instructors.length);
+        const hasInstructors = !!(resp.instructors?.length);
 
         if (!hasInstructors) {
           this.rejectionReasonBody = this.rejectionReasonBody.replace('{googleId}', 'NO_GOOGLEID');

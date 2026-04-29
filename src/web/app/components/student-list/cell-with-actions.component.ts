@@ -20,12 +20,12 @@ import { TeammatesRouterDirective } from '../teammates-router/teammates-router.d
 })
 
 export class CellWithActionsComponent {
-  @Input() idx: number = 0;
-  @Input() courseId: string = '';
-  @Input() email: string = '';
-  @Input() isSendReminderLoading: boolean = false;
-  @Input() enableRemindButton: boolean = false;
-  @Input() isActionButtonsEnabled: boolean = true;
+  @Input() idx = 0;
+  @Input() courseId = '';
+  @Input() email = '';
+  @Input() isSendReminderLoading = false;
+  @Input() enableRemindButton = false;
+  @Input() isActionButtonsEnabled = true;
 
   @Input() instructorPrivileges: InstructorPermissionSet = {
     canModifyCourse: false,

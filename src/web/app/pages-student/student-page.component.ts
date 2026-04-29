@@ -15,11 +15,11 @@ import { PageComponent } from '../page.component';
 })
 export class StudentPageComponent implements OnInit {
 
-  user: string = '';
-  isInstructor: boolean = false;
-  isStudent: boolean = false;
-  isAdmin: boolean = false;
-  isMaintainer: boolean = false;
+  user = '';
+  isInstructor = false;
+  isStudent = false;
+  isAdmin = false;
+  isMaintainer = false;
   navItems: any[] = [
     {
       url: '/web/student',
@@ -34,7 +34,7 @@ export class StudentPageComponent implements OnInit {
       display: 'Help',
     },
   ];
-  isFetchingAuthDetails: boolean = false;
+  isFetchingAuthDetails = false;
   notificationTargetUser: NotificationTargetUser = NotificationTargetUser.STUDENT;
 
   private backendUrl: string = environment.backendUrl;

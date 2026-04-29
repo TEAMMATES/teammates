@@ -73,10 +73,10 @@ export class QuestionResponsePanelComponent {
   intent: Intent = Intent.STUDENT_RESULT;
 
   @Input()
-  regKey: string = '';
+  regKey = '';
 
   @Input()
-  previewAsPerson: string = '';
+  previewAsPerson = '';
 
   canUserSeeResponses(question: FeedbackQuestionModel): boolean {
     const showResponsesTo: FeedbackVisibilityType[] = question.feedbackQuestion.showResponsesTo;
@@ -140,7 +140,7 @@ export class QuestionResponsePanelComponent {
   }
 
   loadQuestion(event: any, question: FeedbackQuestionModel): void {
-    if (event && event.visible && !question.isLoaded && !question.isLoading) {
+    if (event?.visible && !question.isLoaded && !question.isLoading) {
       question.isLoading = true;
       this.loadQuestionResults(question);
     }

@@ -107,11 +107,11 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   courseTabModels: CourseTabModel[] = [];
   allCoursesList: Course[] = [];
 
-  hasCoursesLoaded: boolean = false;
-  hasCoursesLoadingFailed: boolean = false;
-  isNewUser: boolean = false;
-  isCopyLoading: boolean = false;
-  isCopyingCourse: boolean = false;
+  hasCoursesLoaded = false;
+  hasCoursesLoadingFailed = false;
+  isNewUser = false;
+  isCopyLoading = false;
+  isCopyingCourse = false;
 
   numberOfSessionsCopied = 0;
   totalNumberOfSessionsToCopy = 0;
@@ -279,7 +279,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Deletes the entire course from the instructor
    */
   deleteCourse(courseId: string): void {
-    const modalContent: string =
+    const modalContent =
         'This action can be reverted by going to the "Courses" tab and restoring the desired course(s).';
 
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
@@ -393,7 +393,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Loads and expand the latest number of courses.
    */
   loadLatestCourses(): void {
-    for (let i: number = 0; i < this.courseTabModels.length; i += 1) {
+    for (let i = 0; i < this.courseTabModels.length; i += 1) {
       if (i >= InstructorHomePageComponent.coursesToLoad) {
         break;
       }
@@ -507,7 +507,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               };
               const courseModel: CourseTabModel | undefined = this.courseTabModels.find((tabModel: CourseTabModel) =>
                   tabModel.course.courseId === session.courseId);
-              if (courseModel && courseModel.hasPopulated) {
+              if (courseModel?.hasPopulated) {
                 courseModel.sessionsTableRowModels.push(model);
               }
             });

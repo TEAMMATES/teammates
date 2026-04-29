@@ -281,7 +281,7 @@ describe('FeedbackResponsesService', () => {
       giverSection: 'giver section',
       recipientSection: 'recipient section',
     } as ResponseOutput;
-    let section: string = 'giver section';
+    let section = 'giver section';
     const sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
     expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType))
       .toBeTruthy();
@@ -300,7 +300,7 @@ describe('FeedbackResponsesService', () => {
       giverSection: 'giver section',
       recipientSection: 'recipient section',
     } as ResponseOutput;
-    let section: string = 'giver section';
+    let section = 'giver section';
     const sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.GIVER;
     expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType))
       .toBeTruthy();
@@ -319,7 +319,7 @@ describe('FeedbackResponsesService', () => {
       giverSection: 'giver section',
       recipientSection: 'recipient section',
     } as ResponseOutput;
-    let section: string = 'giver section';
+    let section = 'giver section';
     const sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EVALUEE;
     expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType))
       .toBeFalsy();
@@ -338,7 +338,7 @@ describe('FeedbackResponsesService', () => {
       giverSection: 'section',
       recipientSection: 'section',
     } as ResponseOutput;
-    let section: string = 'section';
+    let section = 'section';
     const sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.BOTH;
     expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType))
       .toBeTruthy();
@@ -353,7 +353,7 @@ describe('FeedbackResponsesService', () => {
       giverSection: 'giver section',
       recipientSection: 'recipient section',
     } as ResponseOutput;
-    let section: string = '';
+    let section = '';
     const sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
     expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType))
       .toBeTruthy();
@@ -372,7 +372,7 @@ describe('FeedbackResponsesService', () => {
       giverSection: 'giver section',
       recipientSection: 'recipient section',
     } as ResponseOutput;
-    const section: string = 'giver section';
+    const section = 'giver section';
     const sectionType: InstructorSessionResultSectionType = 'UNKNOWN' as InstructorSessionResultSectionType;
     expect(service.isFeedbackResponsesDisplayedOnSection(response, section, sectionType))
       .toBeTruthy();

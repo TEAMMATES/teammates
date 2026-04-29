@@ -75,8 +75,8 @@ export class TableComparatorService {
    * If both strings cannot be parsed into number, strA will always be seen as 'larger'
    */
   compareNumbers(strA: string, strB: string, order: SortOrder): number {
-    const numA: number = Number(strA);
-    const numB: number = Number(strB);
+    const numA = Number(strA);
+    const numB = Number(strB);
 
     if (Number.isNaN(numA)) {
       return 1;

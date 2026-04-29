@@ -44,11 +44,11 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
 
-  @Input() isNoResponseStudentsLoaded: boolean = false;
-  @Input() isDisplayOnly: boolean = false;
+  @Input() isNoResponseStudentsLoaded = false;
+  @Input() isDisplayOnly = false;
   @Input() allStudents: Student[] = [];
   @Input() noResponseStudents: Student[] = [];
-  @Input() section: string = '';
+  @Input() section = '';
   @Input() session: FeedbackSession = {
     feedbackSessionId: '',
     courseId: '',
@@ -66,7 +66,7 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
     isPublishedEmailEnabled: true,
     createdAtTimestamp: 0,
   };
-  isTabExpanded: boolean = false;
+  isTabExpanded = false;
 
   sortBy: SortBy = SortBy.NONE;
   sortOrder: SortOrder = SortOrder.ASC;

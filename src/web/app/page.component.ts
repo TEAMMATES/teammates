@@ -17,7 +17,7 @@ import { TeammatesRouterDirective } from './components/teammates-router/teammate
 import { Toast } from './components/toast/toast';
 import { ToastComponent } from './components/toast/toast.component';
 
-const DEFAULT_TITLE: string = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
+const DEFAULT_TITLE = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
 /**
  * Directive to emit an event if a click occurred outside the element.
@@ -69,27 +69,27 @@ export class PageComponent {
   // enum
   NotificationTargetUser: typeof NotificationTargetUser = NotificationTargetUser;
 
-  @Input() isFetchingAuthDetails: boolean = false;
-  @Input() studentLoginUrl: string = '';
-  @Input() instructorLoginUrl: string = '';
-  @Input() user: string = '';
-  @Input() isStudent: boolean = false;
-  @Input() isInstructor: boolean = false;
-  @Input() isAdmin: boolean = false;
-  @Input() isMaintainer: boolean = false;
-  @Input() isValidUser: boolean = false;
+  @Input() isFetchingAuthDetails = false;
+  @Input() studentLoginUrl = '';
+  @Input() instructorLoginUrl = '';
+  @Input() user = '';
+  @Input() isStudent = false;
+  @Input() isInstructor = false;
+  @Input() isAdmin = false;
+  @Input() isMaintainer = false;
+  @Input() isValidUser = false;
   @Input() notificationTargetUser: NotificationTargetUser = NotificationTargetUser.GENERAL;
-  @Input() pageTitle: string = '';
-  @Input() hideAuthInfo: boolean = false;
+  @Input() pageTitle = '';
+  @Input() hideAuthInfo = false;
   @Input() navItems: any[] = [];
 
-  isCollapsed: boolean = true;
-  isUnsupportedBrowser: boolean = false;
-  isCookieDisabled: boolean = false;
-  browser: string = '';
+  isCollapsed = true;
+  isUnsupportedBrowser = false;
+  isCookieDisabled = false;
+  browser = '';
   isNetworkOnline$: Observable<boolean>;
   version: string = environment.version;
-  logoutUrl: string = `${environment.backendUrl}/logout`;
+  logoutUrl = `${environment.backendUrl}/logout`;
   toast: Toast | null = null;
 
   /**

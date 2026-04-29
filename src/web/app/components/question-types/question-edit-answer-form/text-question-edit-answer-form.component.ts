@@ -42,7 +42,7 @@ export class TextQuestionEditAnswerFormComponent
 
   get wordCount(): number {
     return this.responseDetails.answer.split(/\s/g)
-        .filter((item: string) => item.match(/\w/)).length;
+        .filter((item: string) => /\w/.exec(item)).length;
   }
 
   get isWordCountWithinRecommendedBound(): boolean {

@@ -43,16 +43,16 @@ export class IndividualExtensionDateModalComponent {
   private readonly timeZoneService = inject(TimezoneService);
 
   @Input()
-  numStudents: number = 0;
+  numStudents = 0;
 
   @Input()
-  numInstructors: number = 0;
+  numInstructors = 0;
 
   @Input()
-  feedbackSessionEndingTimestamp: number = 0;
+  feedbackSessionEndingTimestamp = 0;
 
   @Input()
-  feedbackSessionTimeZone: string = '';
+  feedbackSessionTimeZone = '';
 
   @Output()
   confirmCallbackEvent: EventEmitter<number> = new EventEmitter();
@@ -66,7 +66,7 @@ export class IndividualExtensionDateModalComponent {
   radioOption: RadioOptions = RadioOptions.EXTEND_BY;
   DateTime: typeof DateTime = DateTime;
 
-  extendByDeadlineKey: string = '';
+  extendByDeadlineKey = '';
   extendByDeadlineOptions: Map<string, number> = new Map([
     ['12 hours', Hours.TWELVE],
     ['1 day', Hours.IN_ONE_DAY],

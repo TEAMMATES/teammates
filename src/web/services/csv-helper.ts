@@ -1,4 +1,4 @@
-const LINE_SEPARATOR: string = '\r\n';
+const LINE_SEPARATOR = '\r\n';
 
 /**
  * CSV related utility functions.
@@ -13,8 +13,8 @@ export class CsvHelper {
    */
   static convertCsvContentsToCsvString(rows: string[][]): string {
     return rows.map((columns: string[]) => columns.map((entry: string) => {
-      if (entry.indexOf('\r') >= 0 || entry.indexOf('\n') >= 0 || entry.indexOf(',') >= 0 || entry.indexOf('"') >= 0) {
-        return `"${entry.replace(/"/g, '""')}"`;
+      if (entry.includes('\r') || entry.includes('\n') || entry.includes(',') || entry.includes('"')) {
+        return `"${entry.replaceAll('"', '""')}"`;
       }
       return entry;
     }).join(',')).join(LINE_SEPARATOR);

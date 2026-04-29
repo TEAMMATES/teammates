@@ -160,7 +160,7 @@ describe('FeedbackSessionsService', () => {
   });
 
   it('should execute GET to check responses for all feedback sessions in a course', () => {
-    const courseId: string = 'test-id';
+    const courseId = 'test-id';
     const paramMap: { [key: string]: string } = {
       entitytype: 'instructor',
       courseid: courseId,

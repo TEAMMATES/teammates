@@ -27,8 +27,8 @@ export class FeedbackRubricResponseDetailsImpl extends AbstractFeedbackResponseD
       const currentAnswer: string[] = [];
 
       const currSubQuestionAbbr: string = StringHelper.integerToLowerCaseAlphabeticalIndex(currSubQuestionIndex + 1);
-      let currChoiceStr: string = 'No Response';
-      let currChoiceNumberStr: string = '';
+      let currChoiceStr = 'No Response';
+      let currChoiceNumberStr = '';
       if (chosenIndex !== RUBRIC_ANSWER_NOT_CHOSEN) {
         currChoiceStr = correspondingQuestionDetails.rubricChoices[chosenIndex];
         currChoiceNumberStr = String(chosenIndex + 1);
