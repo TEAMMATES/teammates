@@ -24,5 +24,14 @@
     "strictTemplates": true,
     "typeCheckHostBindings": true,
     "strictStandalone": true
-  }
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
 }
