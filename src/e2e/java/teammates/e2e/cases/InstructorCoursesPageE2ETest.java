@@ -31,11 +31,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        BACKDOOR.deleteCourse("tm.e2e.ICs.CS4100");
-        BACKDOOR.deleteCourse("tm.e2e.ICs.CS5000");
-        BACKDOOR.deleteCourse("tm.e2e.ICs.CS6000");
-
-        testData = loadDataBundle("/InstructorCoursesPageE2ETestSql.json");
+        testData = loadDataBundle("/InstructorCoursesPageE2ETest.json");
         testData = removeAndRestoreDataBundle(testData);
 
         courses[0] = testData.courses.get("ICs.CS1101");
@@ -88,7 +84,6 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                     .toInstant(),
                 Const.TIME_REPRESENTS_LATER,
                 session.getGracePeriod(),
-                session.isOpenedEmailEnabled(),
                 session.isClosingSoonEmailEnabled(),
                 session.isPublishedEmailEnabled()
         );
@@ -104,7 +99,6 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 copySession.getSessionVisibleFromTime(),
                 copySession.getResultsVisibleFromTime(),
                 copySession.getGracePeriod(),
-                copySession.isOpenedEmailEnabled(),
                 copySession.isClosingSoonEmailEnabled(),
                 copySession.isPublishedEmailEnabled()
         );
@@ -225,7 +219,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         Set<String> teams = new HashSet<>();
 
         for (Student student : testData.students.values()) {
-            if (!student.getCourse().getId().equals(course.getId())) {
+            if (!student.getCourseId().equals(course.getId())) {
                 continue;
             }
             if (!sections.contains(student.getSectionName())) {

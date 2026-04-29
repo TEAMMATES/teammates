@@ -55,7 +55,6 @@ public final class ActionFactory {
         map(ResourceURIs.COURSE, DELETE, DeleteCourseAction.class);
         map(ResourceURIs.COURSE, POST, CreateCourseAction.class);
         map(ResourceURIs.COURSE, PUT, UpdateCourseAction.class);
-        map(ResourceURIs.DEADLINE_EXTENSION, GET, GetDeadlineExtensionAction.class);
         map(ResourceURIs.BIN_COURSE, PUT, BinCourseAction.class);
         map(ResourceURIs.BIN_COURSE, DELETE, RestoreCourseAction.class);
         map(ResourceURIs.COURSES, GET, GetCoursesAction.class);
@@ -71,6 +70,7 @@ public final class ActionFactory {
         map(ResourceURIs.RESPONSE_COMMENT, DELETE, DeleteFeedbackResponseCommentAction.class);
         map(ResourceURIs.RESULT, GET, GetSessionResultsAction.class);
         map(ResourceURIs.LOGIN_EMAIL, POST, SendLoginEmailAction.class);
+        map(ResourceURIs.EMAIL, GET, GenerateEmailAction.class);
 
         //STUDENTS APIs
         map(ResourceURIs.STUDENTS, GET, GetStudentsAction.class);
@@ -97,7 +97,6 @@ public final class ActionFactory {
         map(ResourceURIs.SEARCH_INSTRUCTORS, GET, SearchInstructorsAction.class);
         map(ResourceURIs.SEARCH_STUDENTS, GET, SearchStudentsAction.class);
         map(ResourceURIs.SEARCH_ACCOUNT_REQUESTS, GET, SearchAccountRequestsAction.class);
-        map(ResourceURIs.EMAIL, GET, GenerateEmailAction.class);
 
         map(ResourceURIs.SESSIONS_ONGOING, GET, GetOngoingSessionsAction.class);
         map(ResourceURIs.SESSION_STATS, GET, GetSessionResponseStatsAction.class);
@@ -105,8 +104,8 @@ public final class ActionFactory {
         map(ResourceURIs.SESSION, PUT, UpdateFeedbackSessionAction.class);
         map(ResourceURIs.SESSION, POST, CreateFeedbackSessionAction.class);
         map(ResourceURIs.SESSION, DELETE, DeleteFeedbackSessionAction.class);
-        map(ResourceURIs.SESSION_DEADLINE_EXTENSIONS, GET, GetFeedbackSessionDeadlineExtensionsAction.class);
-        map(ResourceURIs.SESSION_DEADLINE_EXTENSIONS, PUT, UpdateFeedbackSessionDeadlineExtensionsAction.class);
+        map(ResourceURIs.SESSION_DEADLINE_EXTENSIONS, GET, GetDeadlineExtensionsAction.class);
+        map(ResourceURIs.SESSION_DEADLINE_EXTENSIONS, PUT, UpdateDeadlineExtensionsAction.class);
         map(ResourceURIs.SESSION_PUBLISH, POST, PublishFeedbackSessionAction.class);
         map(ResourceURIs.SESSION_PUBLISH, DELETE, UnpublishFeedbackSessionAction.class);
         map(ResourceURIs.SESSION_SUBMITTED_GIVER_SET, GET, GetFeedbackSessionSubmittedGiverSetAction.class);

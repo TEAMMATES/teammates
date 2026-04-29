@@ -128,6 +128,7 @@ export class SearchService {
     instructorPrivileges: InstructorPrivilege[],
   ): StudentAccountSearchResult {
     let studentResult: StudentAccountSearchResult = {
+      userId: '',
       email: '',
       name: '',
       comments: '',
@@ -149,6 +150,7 @@ export class SearchService {
       showLinks: false,
     };
     const {
+      userId,
       email,
       name,
       comments = '',
@@ -157,7 +159,7 @@ export class SearchService {
       googleId = '',
       institute = '',
     }: Student = student;
-    studentResult = { ...studentResult, email, name, comments, team, section, googleId, institute };
+    studentResult = { ...studentResult, userId, email, name, comments, team, section, googleId, institute };
 
     const { courseId, courseName, deletionTimestamp }: Course = course;
     studentResult = { ...studentResult, courseId, courseName, isCourseDeleted: Boolean(deletionTimestamp) };
@@ -215,6 +217,7 @@ export class SearchService {
     feedbackSessions: FeedbackSessions,
   ): InstructorAccountSearchResult {
     let instructorResult: InstructorAccountSearchResult = {
+      userId: '',
       email: '',
       name: '',
       courseId: '',
@@ -231,8 +234,8 @@ export class SearchService {
       notOpenSessions: {},
       publishedSessions: {},
     };
-    const { email, name, googleId = '', institute = '' }: Instructor = instructor;
-    instructorResult = { ...instructorResult, email, name, googleId, institute };
+    const { userId, email, name, googleId = '', institute = '' }: Instructor = instructor;
+    instructorResult = { ...instructorResult, userId, email, name, googleId, institute };
 
     const { courseId, courseName, deletionTimestamp }: Course = course;
     instructorResult = { ...instructorResult, courseId, courseName, isCourseDeleted: Boolean(deletionTimestamp) };
@@ -262,28 +265,32 @@ export class SearchService {
     };
     for (const feedbackSession of feedbackSessions.feedbackSessions) {
       if (this.feedbackSessionService.isFeedbackSessionOpen(feedbackSession)) {
-        feedbackSessionLinks.openSessions[feedbackSession.feedbackSessionName] = {
+        feedbackSessionLinks.openSessions[feedbackSession.feedbackSessionId] = {
           ...this.formatProperties(feedbackSession),
+          name: feedbackSession.feedbackSessionName,
           feedbackSessionUrl: this.linkService.generateSubmitUrl(
               entity, feedbackSession.feedbackSessionName, isInstructor, feedbackSession.feedbackSessionId),
         };
       } else if (this.feedbackSessionService.isFeedbackSessionAwaiting(feedbackSession)) {
-        feedbackSessionLinks.awaitingSessions[feedbackSession.feedbackSessionName] = {
+        feedbackSessionLinks.awaitingSessions[feedbackSession.feedbackSessionId] = {
           ...this.formatProperties(feedbackSession),
+          name: feedbackSession.feedbackSessionName,
           feedbackSessionUrl: this.linkService.generateSubmitUrl(
               entity, feedbackSession.feedbackSessionName, isInstructor, feedbackSession.feedbackSessionId),
         };
       } else {
-        feedbackSessionLinks.notOpenSessions[feedbackSession.feedbackSessionName] = {
+        feedbackSessionLinks.notOpenSessions[feedbackSession.feedbackSessionId] = {
           ...this.formatProperties(feedbackSession),
+          name: feedbackSession.feedbackSessionName,
           feedbackSessionUrl: this.linkService.generateSubmitUrl(
               entity, feedbackSession.feedbackSessionName, isInstructor, feedbackSession.feedbackSessionId),
         };
       }
 
       if (this.feedbackSessionService.isFeedbackSessionPublished(feedbackSession)) {
-        feedbackSessionLinks.publishedSessions[feedbackSession.feedbackSessionName] = {
+        feedbackSessionLinks.publishedSessions[feedbackSession.feedbackSessionId] = {
           ...this.formatProperties(feedbackSession),
+          name: feedbackSession.feedbackSessionName,
           feedbackSessionUrl: this.linkService.generateResultUrl(
               entity, feedbackSession.feedbackSessionName, isInstructor, feedbackSession.feedbackSessionId),
         };
@@ -488,6 +495,7 @@ export interface AccountRequestSearchResult {
  * Search results for instructors for the admin endpoint
  */
 export interface InstructorAccountSearchResult {
+  userId: string;
   name: string;
   email: string;
   googleId: string;
@@ -519,7 +527,8 @@ export interface StudentAccountSearchResult extends InstructorAccountSearchResul
  * Feedback session information for search result.
  */
 export interface FeedbackSessionsGroup {
-  [name: string]: {
+  [id: string]: {
+    name: string,
     startTime: string,
     endTime: string,
     feedbackSessionUrl: string,

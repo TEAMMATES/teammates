@@ -57,11 +57,6 @@ public class TestDataValidityTest extends BaseTestCase {
             paths.filter(Files::isRegularFile).forEach(path -> {
                 String pathString = path.toString();
 
-                // TODO: Remove after we are left with only *_Sql.json files
-                if (!pathString.contains("Sql") || pathString.contains("SqlEntities")) {
-                    return;
-                }
-
                 String jsonString;
                 try {
                     jsonString = FileHelper.readFile(pathString);
@@ -187,12 +182,9 @@ public class TestDataValidityTest extends BaseTestCase {
         if (courseId == null) {
             return false;
         }
-        // Some legacy SQL fixtures still use UUID course IDs.
-        boolean isUuidCourseId = courseId.matches("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-"
-                + "[0-9a-fA-F]{4}-[0-9a-fA-F]{12}");
+
         return (courseId.matches(constructIdRegex(testPage))
-                || courseId.startsWith("tm.e2e.")
-                || isUuidCourseId) && courseId.length() < 64;
+                || courseId.startsWith("tm.e2e.")) && courseId.length() < 64;
     }
 
     private boolean isValidTestGoogleId(String googleId, String testPage) {
@@ -200,7 +192,7 @@ public class TestDataValidityTest extends BaseTestCase {
             // Empty google ID is always acceptable
             return true;
         }
-        // SQL fixtures include both page-derived IDs and some legacy tm.e2e.* variants.
+
         return (googleId.matches(constructIdRegex(testPage)) || googleId.startsWith("tm.e2e."))
                 && googleId.length() < 64;
     }
@@ -208,9 +200,6 @@ public class TestDataValidityTest extends BaseTestCase {
     private String extractTestPage(String fileName) {
         return fileName
                 .replaceFirst("\\.json$", "")
-                .replaceFirst("_SqlEntities$", "")
-                .replaceFirst("E2ESqlTest$", "E2ETest")
-                .replaceFirst("Sql$", "")
                 .replaceFirst("E2ETest$", "");
     }
 

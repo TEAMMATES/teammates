@@ -21,7 +21,7 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(
-                        loadDataBundle("/InstructorCourseStudentDetailsEditPageE2ETestSql.json"));
+                        loadDataBundle("/InstructorCourseStudentDetailsEditPageE2ETest.json"));
 
         student = testData.students.get("ICSDetEdit.jose.tmms");
         otherStudent = testData.students.get("ICSDetEdit.benny.c");

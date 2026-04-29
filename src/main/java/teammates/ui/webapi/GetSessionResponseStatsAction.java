@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import java.util.UUID;
+
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
@@ -21,21 +23,26 @@ public class GetSessionResponseStatsAction extends Action {
             return;
         }
 
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        FeedbackSession fs = getNonNullFeedbackSession(feedbackSessionName, courseId);
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
-        gateKeeper.verifyAccessible(instructor, fs);
+        UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
+        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityNotFoundException("Feedback session not found");
+        }
+
+        Instructor instructor = sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
+        gateKeeper.verifyAccessible(instructor, feedbackSession);
     }
 
     @Override
     public JsonResult execute() {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
+        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityNotFoundException("Feedback session not found");
+        }
 
-        FeedbackSession fsa = getNonNullFeedbackSession(feedbackSessionName, courseId);
-        int expectedTotal = sqlLogic.getExpectedTotalSubmission(fsa);
-        int actualTotal = sqlLogic.getActualTotalSubmission(fsa);
+        int expectedTotal = sqlLogic.getExpectedTotalSubmission(feedbackSession);
+        int actualTotal = sqlLogic.getActualTotalSubmission(feedbackSession);
         FeedbackSessionStatsData output = new FeedbackSessionStatsData(actualTotal, expectedTotal);
         return new JsonResult(output);
     }

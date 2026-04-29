@@ -3,6 +3,7 @@ package teammates.it.ui.webapi;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -17,14 +18,16 @@ import teammates.ui.webapi.SearchInstructorsAction;
  * SUT: {@link SearchInstructorsAction}.
  */
 public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAction> {
+    private DataBundle typicalBundle;
 
-    private final Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+    private Instructor instructor;
 
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalBundle);
+        typicalBundle = persistDataBundle(getTypicalDataBundle());
+        instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         HibernateUtil.flushSession();
     }
 

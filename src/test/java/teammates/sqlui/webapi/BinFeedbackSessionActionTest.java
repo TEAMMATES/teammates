@@ -7,8 +7,6 @@ import static org.mockito.Mockito.when;
 import java.time.Duration;
 import java.time.Instant;
 
-import org.mockito.Mockito;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -47,13 +45,8 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
         typicalFeedbackSession = getTypicalFeedbackSessionForCourse(typicalCourse);
         typicalFeedbackSession.setCreatedAt(Instant.now().minus(Duration.ofMinutes(15)));
 
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalFeedbackSession.getCourseId()))
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId()))
                 .thenReturn(typicalFeedbackSession);
-    }
-
-    @AfterMethod
-    void tearDownMethod() {
-        Mockito.reset(mockLogic);
     }
 
     @Test
@@ -61,12 +54,11 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
         loginAsInstructor(typicalInstructor.getGoogleId());
 
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalFeedbackSession.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
 
-        when(mockLogic.moveFeedbackSessionToRecycleBin(typicalFeedbackSession.getName(),
-                typicalFeedbackSession.getCourseId())).thenReturn(typicalFeedbackSession);
+        when(mockLogic.moveFeedbackSessionToRecycleBin(typicalFeedbackSession.getId()))
+                .thenReturn(typicalFeedbackSession);
 
         typicalFeedbackSession.setDeletedAt(Instant.now());
 
@@ -79,7 +71,7 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
         assertEquals(typicalFeedbackSession.getId(), response.getFeedbackSessionId());
 
         verify(mockLogic, times(1))
-                .moveFeedbackSessionToRecycleBin(typicalFeedbackSession.getName(), typicalFeedbackSession.getCourseId());
+                .moveFeedbackSessionToRecycleBin(typicalFeedbackSession.getId());
     }
 
     @Test
@@ -87,8 +79,7 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
         loginAsInstructor(typicalInstructor.getGoogleId());
 
         verifyHttpParameterFailure();
-        verifyHttpParameterFailure(Const.ParamsNames.COURSE_ID, typicalFeedbackSession.getCourseId());
-        verifyHttpParameterFailure(Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName());
+        verifyHttpParameterFailure(Const.ParamsNames.FEEDBACK_SESSION_ID, "invalid-uuid");
     }
 
     @Test
@@ -96,13 +87,10 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
         loginAsInstructor(typicalInstructor.getGoogleId());
 
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalFeedbackSession.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "randomName",
+                Const.ParamsNames.FEEDBACK_SESSION_ID, "213bccdb-1c83-45b6-8643-2c9ab7b03837",
         };
 
         verifyEntityNotFoundAcl(params);
-        verify(mockLogic, times(1))
-                .getFeedbackSession("randomName", typicalFeedbackSession.getCourseId());
     }
 
     @Test
@@ -111,35 +99,25 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
 
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalFeedbackSession.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
 
         verifyInaccessibleWithoutCorrectSameCoursePrivilege(typicalCourse, instructorPrivileges, params);
-
-        verify(mockLogic, times(6))
-                .getFeedbackSession(typicalFeedbackSession.getName(), typicalFeedbackSession.getCourseId());
     }
 
     @Test
     void testAccessControl_instructorOfOtherCourse_cannotAccess() {
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalFeedbackSession.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
 
         verifyInstructorsOfOtherCoursesCannotAccess(params);
-
-        verify(mockLogic, times(1))
-                .getFeedbackSession(typicalFeedbackSession.getName(), typicalFeedbackSession.getCourseId());
     }
 
     @Test
     void testAccessControl_nonInstructor_cannotAccess() {
         String[] params = new String[] {
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
-                Const.ParamsNames.COURSE_ID, typicalFeedbackSession.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(typicalCourse, params);

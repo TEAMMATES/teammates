@@ -1,8 +1,8 @@
 package teammates.it.sqllogic.core;
 
 import java.util.List;
+import java.util.UUID;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -24,16 +24,11 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
 
     private DataBundle typicalDataBundle;
 
-    @BeforeClass
-    public void setupClass() {
-        typicalDataBundle = getTypicalDataBundle();
-    }
-
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalDataBundle);
+        typicalDataBundle = persistDataBundle(getTypicalDataBundle());
         HibernateUtil.flushSession();
         HibernateUtil.clearSession();
     }
@@ -43,13 +38,14 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
         ______TS("success: typical case");
         FeedbackResponse fr1 = typicalDataBundle.feedbackResponses.get("response1ForQ1");
         fr1 = frLogic.getFeedbackResponse(fr1.getId());
+        UUID frcId = fr1.getFeedbackResponseComments().get(0).getId();
         assertNotNull(fr1);
-        assertFalse(frcLogic.getFeedbackResponseCommentsForResponse(fr1.getId()).isEmpty());
+        assertFalse(fr1.getFeedbackResponseComments().isEmpty());
 
         frLogic.deleteFeedbackResponsesAndCommentsCascade(fr1);
 
         assertNull(frLogic.getFeedbackResponse(fr1.getId()));
-        assertTrue(frcLogic.getFeedbackResponseCommentsForResponse(fr1.getId()).isEmpty());
+        assertNull(frcLogic.getFeedbackResponseComment(frcId));
     }
 
     @Test

@@ -2,9 +2,9 @@ package teammates.sqllogic.core;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
+import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.sqlapi.FeedbackSessionLogsDb;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -36,27 +36,25 @@ public final class FeedbackSessionLogsLogic {
     }
 
     /**
-     * Creates feedback session logs.
+     * Gets the feedback session log with the given id.
      */
-    public void createFeedbackSessionLogs(List<FeedbackSessionLog> fsLogs) throws InvalidParametersException {
-        if (fsLogs == null) {
-            throw new InvalidParametersException("Feedback session logs list does not exist");
-        }
-
-        for (FeedbackSessionLog fsLog : fsLogs) {
-            createFeedbackSessionLog(fsLog);
-        }
+    public FeedbackSessionLog getFeedbackSessionLog(UUID id) {
+        return fslDb.getFeedbackSessionLog(id);
     }
 
     /**
      * Creates feedback session log.
      */
-    public void createFeedbackSessionLog(FeedbackSessionLog fsLog) throws InvalidParametersException {
-        if (fsLog == null) {
-            throw new InvalidParametersException("Feedback session log does not exist");
+    public FeedbackSessionLog createFeedbackSessionLog(
+            FeedbackSession feedbackSession, Student student,
+            FeedbackSessionLogType logType, Instant timestamp) throws InvalidParametersException {
+        FeedbackSessionLog fsLog = new FeedbackSessionLog(student, feedbackSession, logType, timestamp);
+
+        if (!fsLog.isValid()) {
+            throw new InvalidParametersException("Invalid feedback session log: " + fsLog.getInvalidityInfo());
         }
-        validateFeedbackSessionLogContext(fsLog.getStudent(), fsLog.getFeedbackSession());
-        fslDb.createFeedbackSessionLog(fsLog);
+
+        return fslDb.createFeedbackSessionLog(fsLog);
     }
 
     /**
@@ -64,25 +62,6 @@ public final class FeedbackSessionLogsLogic {
      */
     public int deleteFeedbackSessionLogsOlderThan(Instant cutoffTime) {
         return fslDb.deleteFeedbackSessionLogsOlderThan(cutoffTime);
-    }
-
-    /**
-     * Validates that feedback session log entities belong to the same course.
-     */
-    private void validateFeedbackSessionLogContext(Student student, FeedbackSession feedbackSession)
-            throws InvalidParametersException {
-        if (student == null) {
-            throw new InvalidParametersException("Student for feedback session log does not exist");
-        }
-        if (feedbackSession == null) {
-            throw new InvalidParametersException("Feedback session for feedback session log does not exist");
-        }
-
-        String studentCourseId = student.getCourse().getId();
-        String feedbackSessionCourseId = feedbackSession.getCourse().getId();
-        if (!Objects.equals(studentCourseId, feedbackSessionCourseId)) {
-            throw new InvalidParametersException("Student and feedback session belong to different courses");
-        }
     }
 
     /**

@@ -2,7 +2,6 @@ package teammates.sqllogic.core;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -11,15 +10,19 @@ import java.util.stream.Collectors;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
+import teammates.ui.request.FeedbackSessionUpdateRequest;
 
 /**
  * Handles operations related to feedback sessions.
@@ -30,13 +33,6 @@ import teammates.storage.sqlentity.Instructor;
 public final class FeedbackSessionsLogic {
 
     private static final Logger log = Logger.getLogger();
-
-    private static final String ERROR_NON_EXISTENT_FS_STRING_FORMAT = "Trying to %s a non-existent feedback session: ";
-    private static final String ERROR_NON_EXISTENT_FS_UPDATE = String.format(ERROR_NON_EXISTENT_FS_STRING_FORMAT, "update");
-    private static final String ERROR_FS_ALREADY_PUBLISH = "Error publishing feedback session: "
-            + "Session has already been published.";
-    private static final String ERROR_FS_ALREADY_UNPUBLISH = "Error unpublishing feedback session: "
-            + "Session has already been unpublished.";
 
     private static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
     private static final int NUMBER_OF_HOURS_BEFORE_OPENING_SOON_ALERT = 24;
@@ -86,16 +82,6 @@ public final class FeedbackSessionsLogic {
         assert courseId != null;
 
         return fsDb.getFeedbackSession(feedbackSessionName, courseId);
-    }
-
-    /**
-     * Gets a feedback session reference.
-     *
-     * @return Returns a proxy for the feedback session.
-     */
-    public FeedbackSession getFeedbackSessionReference(UUID id) {
-        assert id != null;
-        return fsDb.getFeedbackSessionReference(id);
     }
 
     /**
@@ -181,39 +167,25 @@ public final class FeedbackSessionsLogic {
 
     /**
      * Gets a set of giver identifiers that has at least one response under a feedback session.
+     *
+     * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
-    public Set<String> getGiverSetThatAnsweredFeedbackSession(String feedbackSessionName, String courseId) {
-        assert courseId != null;
-        assert feedbackSessionName != null;
+    public Set<String> getGiverSetThatAnsweredFeedbackSession(
+            UUID feedbackSessionId) throws EntityDoesNotExistException {
+        FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityDoesNotExistException(
+                String.format("Feedback session with id %s not found.", feedbackSessionId));
+        }
 
-        FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionName, courseId);
-
-        Set<String> giverSet = new HashSet<>();
-
-        fqLogic.getFeedbackQuestionsForSession(feedbackSession).forEach(question -> {
-            frLogic.getFeedbackResponsesForQuestion(question.getId()).forEach(response -> {
-                giverSet.add(response.getGiver());
-            });
-        });
-
-        return giverSet;
+        return getGiverSetThatAnsweredFeedbackSession(feedbackSession);
     }
 
-    /**
-     * Gets a set of giver identifiers that has at least one response under a feedback session.
-     */
-    public Set<String> getGiverSetThatAnsweredFeedbackSession(FeedbackSession fs) {
-        assert fs != null;
-
-        Set<String> giverSet = new HashSet<>();
-
-        fqLogic.getFeedbackQuestionsForSession(fs).forEach(question -> {
-            frLogic.getFeedbackResponsesForQuestion(question.getId()).forEach(response -> {
-                giverSet.add(response.getGiver());
-            });
-        });
-
-        return giverSet;
+    private Set<String> getGiverSetThatAnsweredFeedbackSession(FeedbackSession feedbackSession) {
+        return feedbackSession.getFeedbackQuestions().stream()
+                .flatMap(question -> question.getFeedbackResponses().stream())
+                .map(FeedbackResponse::getGiver)
+                .collect(Collectors.toUnmodifiableSet());
     }
 
     /**
@@ -236,31 +208,94 @@ public final class FeedbackSessionsLogic {
      * @throws EntityDoesNotExistException if the feedback session does not exist
      * @throws InvalidParametersException if the new fields for feedback session are invalid
      */
-    public FeedbackSession updateFeedbackSession(FeedbackSession session)
+    public FeedbackSession updateFeedbackSession(UUID feedbackSessionId, FeedbackSessionUpdateRequest updateRequest)
             throws InvalidParametersException, EntityDoesNotExistException {
-        return fsDb.updateFeedbackSession(session);
+        FeedbackSession session = getFeedbackSession(feedbackSessionId);
+        if (session == null) {
+            throw new EntityDoesNotExistException(
+                String.format("Feedback session with id %s not found.", feedbackSessionId));
+        }
+
+        String timeZone = session.getCourse().getTimeZone();
+        Instant startTime = updateRequest.getAdjustedSubmissionStartTime(timeZone);
+        Instant endTime = updateRequest.getAdjustedSubmissionEndTime(timeZone);
+        Instant sessionVisibleTime = updateRequest.getAdjustedSessionVisibleFromTime(timeZone);
+        Instant resultsVisibleTime = updateRequest.getAdjustedResultsVisibleFromTime(timeZone);
+
+        validateNewFeedbackSessionTiming(session, timeZone, startTime, endTime, sessionVisibleTime);
+
+        session.setInstructions(updateRequest.getInstructions());
+        session.setStartTime(startTime);
+        session.setEndTime(endTime);
+        session.setGracePeriod(updateRequest.getGracePeriod());
+        session.setSessionVisibleFromTime(sessionVisibleTime);
+        session.setResultsVisibleFromTime(resultsVisibleTime);
+        session.setClosingSoonEmailEnabled(updateRequest.isClosingSoonEmailEnabled());
+        session.setPublishedEmailEnabled(updateRequest.isPublishedEmailEnabled());
+
+        if (!session.isValid()) {
+            throw new InvalidParametersException(session.getInvalidityInfo());
+        }
+
+        return session;
+    }
+
+    /**
+     * Validates that the new timing fields of the feedback session are valid.
+     */
+    private void validateNewFeedbackSessionTiming(FeedbackSession session, String timeZone,
+            Instant newStartTime, Instant newEndTime, Instant newSessionVisibleTime) throws InvalidParametersException {
+        boolean isStartTimeChanged = session == null || !newStartTime.equals(session.getStartTime());
+        boolean isEndTimeChanged = session == null || !newEndTime.equals(session.getEndTime());
+        boolean isSessionVisibleTimeChanged = session == null
+                || !newSessionVisibleTime.equals(session.getSessionVisibleFromTime());
+
+        if (isStartTimeChanged) {
+            String startTimeError = FieldValidator.getInvalidityInfoForNewStartTime(newStartTime, timeZone);
+            if (!startTimeError.isEmpty()) {
+                throw new InvalidParametersException("Invalid submission opening time: " + startTimeError);
+            }
+        }
+
+        if (isEndTimeChanged) {
+            String endTimeError = FieldValidator.getInvalidityInfoForNewEndTime(newEndTime, timeZone);
+            if (!endTimeError.isEmpty()) {
+                throw new InvalidParametersException("Invalid submission closing time: " + endTimeError);
+            }
+        }
+
+        if (isSessionVisibleTimeChanged) {
+            String visibilityStartAndSessionStartTimeError = FieldValidator
+                    .getInvalidityInfoForTimeForNewVisibilityStart(newSessionVisibleTime, newStartTime);
+            if (!visibilityStartAndSessionStartTimeError.isEmpty()) {
+                throw new InvalidParametersException("Invalid session visible time: "
+                        + visibilityStartAndSessionStartTimeError);
+            }
+        }
     }
 
     /**
      * Unpublishes a feedback session.
      *
      * @return the unpublished feedback session
-     * @throws InvalidParametersException if session is already unpublished
+     * @throws InvalidFeedbackSessionStateException if session is already unpublished
      * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
-    public FeedbackSession unpublishFeedbackSession(String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException, InvalidParametersException {
+    public FeedbackSession unpublishFeedbackSession(UUID feedbackSessionId)
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
 
-        FeedbackSession sessionToUnpublish = getFeedbackSession(feedbackSessionName, courseId);
-
+        FeedbackSession sessionToUnpublish = getFeedbackSession(feedbackSessionId);
         if (sessionToUnpublish == null) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_UPDATE + courseId + "/" + feedbackSessionName);
+            throw new EntityDoesNotExistException(
+                String.format("Feedback session with id %s not found.", feedbackSessionId));
         }
+
         if (!sessionToUnpublish.isPublished()) {
-            throw new InvalidParametersException(ERROR_FS_ALREADY_UNPUBLISH);
+            throw new InvalidFeedbackSessionStateException("Feedback Session is already unpublished.");
         }
 
         sessionToUnpublish.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
+        sessionToUnpublish.setPublishedEmailSent(false);
 
         return sessionToUnpublish;
     }
@@ -269,31 +304,40 @@ public final class FeedbackSessionsLogic {
      * Publishes a feedback session.
      *
      * @return the published feedback session
-     * @throws InvalidParametersException if session is already published
+     * @throws InvalidFeedbackSessionStateException if session is already published
      * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
-    public FeedbackSession publishFeedbackSession(String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException, InvalidParametersException {
+    public FeedbackSession publishFeedbackSession(UUID feedbackSessionId)
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
 
-        FeedbackSession sessionToPublish = getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSession sessionToPublish = getFeedbackSession(feedbackSessionId);
 
         if (sessionToPublish == null) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_UPDATE + courseId + "/" + feedbackSessionName);
+            throw new EntityDoesNotExistException(
+                String.format("Feedback session with id %s not found.", feedbackSessionId));
         }
+
         if (sessionToPublish.isPublished()) {
-            throw new InvalidParametersException(ERROR_FS_ALREADY_PUBLISH);
+            throw new InvalidFeedbackSessionStateException("Feedback Session is already published.");
         }
 
         sessionToPublish.setResultsVisibleFromTime(Instant.now());
+        sessionToPublish.setPublishedEmailSent(false);
 
         return sessionToPublish;
     }
 
     /**
      * Deletes a feedback session cascade to its associated questions, responses, deadline extensions and comments.
+     *
+     * <p>Fails silently if the feedback session doesn't exist.</p>
      */
-    public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
-        FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionName, courseId);
+    public void deleteFeedbackSessionCascade(UUID feedbackSessionId) {
+        FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            return;
+        }
+
         fsDb.deleteFeedbackSession(feedbackSession);
     }
 
@@ -301,18 +345,33 @@ public final class FeedbackSessionsLogic {
      * Soft-deletes a specific feedback session to Recycle Bin.
      * @return the feedback session
      */
-    public FeedbackSession moveFeedbackSessionToRecycleBin(String feedbackSessionName, String courseId)
+    public FeedbackSession moveFeedbackSessionToRecycleBin(UUID feedbackSessionId)
             throws EntityDoesNotExistException {
+        FeedbackSession feedbackSession = getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityDoesNotExistException(
+                String.format("Feedback Session with id %s does not exist.", feedbackSessionId));
+        }
 
-        return fsDb.softDeleteFeedbackSession(feedbackSessionName, courseId);
+        feedbackSession.setDeletedAt(Instant.now());
+
+        return feedbackSession;
     }
 
     /**
      * Restores a specific feedback session from Recycle Bin.
      */
-    public void restoreFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId)
+    public FeedbackSession restoreFeedbackSessionFromRecycleBin(UUID feedbackSessionId)
             throws EntityDoesNotExistException {
-        fsDb.restoreDeletedFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSession feedbackSession = getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityDoesNotExistException(
+                String.format("Feedback Session with id %s does not exist.", feedbackSessionId));
+        }
+
+        feedbackSession.setDeletedAt(null);
+
+        return feedbackSession;
     }
 
     /**
@@ -379,23 +438,6 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Checks whether an instructor has attempted a feedback session.
-     *
-     * <p>If there is no question for instructors, the feedback session is considered as attempted.</p>
-     */
-    public boolean isFeedbackSessionAttemptedByInstructor(FeedbackSession session, String userEmail) {
-        assert session != null;
-        assert userEmail != null;
-
-        if (frLogic.hasGiverRespondedForSession(userEmail, session.getFeedbackQuestions())) {
-            return true;
-        }
-
-        // if there is no question for instructor, session is attempted
-        return !fqLogic.hasFeedbackQuestionsForInstructors(session.getFeedbackQuestions(), session.isCreator(userEmail));
-    }
-
-    /**
      * After an update to feedback session's fields, may need to adjust the email status of the session.
      * @param session recently updated session.
      */
@@ -418,12 +460,6 @@ public final class FeedbackSessionsLogic {
             // also reset isClosingSoonEmailSent
             session.setClosingSoonEmailSent(
                     session.isClosed() || session.isClosedAfter(NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT));
-        }
-
-        // reset isPublishedEmailSent if the session has been published but is
-        // going to be unpublished now, or else leave it as sent if so.
-        if (session.isPublishedEmailSent()) {
-            session.setPublishedEmailSent(session.isPublished());
         }
     }
 
@@ -537,9 +573,9 @@ public final class FeedbackSessionsLogic {
      */
     public int getExpectedTotalSubmission(FeedbackSession fs) {
         int expectedTotal = 0;
-        List<FeedbackQuestion> questions = fqLogic.getFeedbackQuestionsForSession(fs);
+        List<FeedbackQuestion> questions = fs.getFeedbackQuestions();
         if (fqLogic.hasFeedbackQuestionsForStudents(questions)) {
-            expectedTotal += usersLogic.getStudentsForCourse(fs.getCourse().getId()).size();
+            expectedTotal += usersLogic.getStudentsForCourse(fs.getCourseId()).size();
         }
 
         // Pre-flight check to ensure there are questions for instructors.
@@ -547,13 +583,13 @@ public final class FeedbackSessionsLogic {
             return expectedTotal;
         }
 
-        List<Instructor> instructors = usersLogic.getInstructorsForCourse(fs.getCourse().getId());
+        List<Instructor> instructors = usersLogic.getInstructorsForCourse(fs.getCourseId());
         if (instructors.isEmpty()) {
             return expectedTotal;
         }
 
         // Check presence of questions for instructors.
-        if (fqLogic.hasFeedbackQuestionsForInstructors(fqLogic.getFeedbackQuestionsForSession(fs), false)) {
+        if (fqLogic.hasFeedbackQuestionsForInstructors(questions, false)) {
             expectedTotal += instructors.size();
         } else {
             // No questions for instructors. There must be questions for creator.

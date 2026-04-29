@@ -1,5 +1,9 @@
 package teammates.ui.webapi;
 
+import java.util.Set;
+import java.util.UUID;
+
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
@@ -17,25 +21,30 @@ public class GetFeedbackSessionSubmittedGiverSetAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityNotFoundException("Feedback session not found");
+        }
+
+        Instructor instructor = sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
 
         gateKeeper.verifyAccessible(instructor, feedbackSession);
     }
 
     @Override
     public JsonResult execute() {
+        UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        Set<String> giverSet;
+        try {
+            giverSet = sqlLogic.getGiverSetThatAnsweredFeedbackSession(feedbackSessionId);
+        } catch (EntityDoesNotExistException e) {
+            throw new EntityNotFoundException(e);
+        }
 
-        FeedbackSessionSubmittedGiverSet output = new FeedbackSessionSubmittedGiverSet(
-                sqlLogic.getGiverSetThatAnsweredFeedbackSession(feedbackSessionName, courseId)
-        );
-
+        FeedbackSessionSubmittedGiverSet output = new FeedbackSessionSubmittedGiverSet(giverSet);
         return new JsonResult(output);
     }
 }

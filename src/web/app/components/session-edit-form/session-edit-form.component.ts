@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbCalendar, NgbDateParserFormatter, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbCollapse, NgbDateParserFormatter, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { SessionEditFormMode, SessionEditFormModel } from './session-edit-form-model';
 import { DateTimeService } from '../../../services/datetime.service';
@@ -27,7 +27,6 @@ import { DatePickerFormatter } from '../datepicker/datepicker-formatter';
 import { DatepickerComponent } from '../datepicker/datepicker.component';
 import { RichTextEditorComponent } from '../rich-text-editor/rich-text-editor.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
-import { collapseAnim } from '../teammates-common/collapse-anim';
 import { PublishStatusNamePipe } from '../teammates-common/publish-status-name.pipe';
 import { SubmissionStatusNamePipe } from '../teammates-common/submission-status-name.pipe';
 import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
@@ -41,7 +40,6 @@ import { TimepickerComponent } from '../timepicker/timepicker.component';
   templateUrl: './session-edit-form.component.html',
   styleUrls: ['./session-edit-form.component.scss'],
   providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
-  animations: [collapseAnim],
   imports: [
     FormsModule,
     TeammatesRouterDirective,
@@ -53,6 +51,7 @@ import { TimepickerComponent } from '../timepicker/timepicker.component';
     TimepickerComponent,
     SubmissionStatusNamePipe,
     PublishStatusNamePipe,
+    NgbCollapse,
 ],
 })
 export class SessionEditFormComponent {
@@ -67,6 +66,7 @@ export class SessionEditFormComponent {
 
   @Input()
   model: SessionEditFormModel = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: 'UTC',
     courseName: '',

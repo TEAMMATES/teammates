@@ -93,7 +93,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
             Mockito.verify(mockLogic, times(1)).createFeedbackSession(isA(FeedbackSession.class));
             mockedHibernate.verify(HibernateUtil::flushSession, times(1));
 
-            assertEquals(createdFeedbackSession.getCourse().getId(), response.getCourseId());
+            assertEquals(createdFeedbackSession.getCourseId(), response.getCourseId());
             assertEquals(createdFeedbackSession.getCourse().getTimeZone(), response.getTimeZone());
             assertEquals(createdFeedbackSession.getName(), response.getFeedbackSessionName());
 
@@ -179,7 +179,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
                 instructor.getEmail(), "generic instructions",
                 nearestHour, endHour,
                 nearestHour, responseVisibleHour,
-                Duration.ofHours(10), true, false, false);
+                Duration.ofHours(10), false, false);
         fs.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
 

@@ -1,8 +1,11 @@
 package teammates.it.ui.webapi;
 
+import java.util.UUID;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
@@ -16,12 +19,13 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link GetSessionResponseStatsAction}.
  */
 public class GetSessionResponseStatsActionIT extends BaseActionIT<GetSessionResponseStatsAction> {
+    private DataBundle typicalBundle;
 
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalBundle);
+        typicalBundle = persistDataBundle(getTypicalDataBundle());
         HibernateUtil.flushSession();
     }
 
@@ -45,8 +49,7 @@ public class GetSessionResponseStatsActionIT extends BaseActionIT<GetSessionResp
 
         FeedbackSession accessibleFs = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFs.getName(),
-                Const.ParamsNames.COURSE_ID, accessibleFs.getCourse().getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, accessibleFs.getId().toString(),
         };
 
         GetSessionResponseStatsAction a = getAction(submissionParams);
@@ -58,14 +61,12 @@ public class GetSessionResponseStatsActionIT extends BaseActionIT<GetSessionResp
 
         ______TS("fail: instructor accesses stats of non-existent feedback session");
 
-        String nonexistentFeedbackSession = "nonexistentFeedbackSession";
+        UUID nonExistentFeedbackSessionId = UUID.randomUUID();
         submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, nonexistentFeedbackSession,
-                Const.ParamsNames.COURSE_ID, accessibleFs.getCourse().getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, nonExistentFeedbackSessionId.toString(),
         };
 
         verifyEntityNotFound(submissionParams);
-
     }
 
     @Override
@@ -78,8 +79,7 @@ public class GetSessionResponseStatsActionIT extends BaseActionIT<GetSessionResp
         Course course1 = typicalBundle.courses.get("course1");
         FeedbackSession accessibleFs = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] submissionParams = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFs.getName(),
-                Const.ParamsNames.COURSE_ID, accessibleFs.getCourse().getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, accessibleFs.getId().toString(),
         };
         verifyOnlyInstructorsOfTheSameCourseCanAccess(course1, submissionParams);
     }

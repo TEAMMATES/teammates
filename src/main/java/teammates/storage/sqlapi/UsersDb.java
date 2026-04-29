@@ -48,6 +48,13 @@ public final class UsersDb {
     }
 
     /**
+     * Gets a user by its {@code id}.
+     */
+    public User getUser(UUID id) {
+        return HibernateUtil.get(User.class, id);
+    }
+
+    /**
      * Creates an instructor.
      */
     public Instructor createInstructor(Instructor instructor)
@@ -65,8 +72,7 @@ public final class UsersDb {
     /**
      * Creates a student.
      */
-    public Student createStudent(Student student)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public Student createStudent(Student student) throws InvalidParametersException {
         assert student != null;
 
         if (!student.isValid()) {
@@ -137,15 +143,6 @@ public final class UsersDb {
         assert id != null;
 
         return HibernateUtil.get(Student.class, id);
-    }
-
-    /**
-     * Gets a student reference by its {@code id}.
-     */
-    public Student getStudentReference(UUID id) {
-        assert id != null;
-
-        return HibernateUtil.getReference(Student.class, id);
     }
 
     /**
@@ -397,9 +394,7 @@ public final class UsersDb {
      * Deletes a user.
      */
     public <T extends User> void deleteUser(T user) {
-        if (user != null) {
-            HibernateUtil.remove(user);
-        }
+        HibernateUtil.remove(user);
     }
 
     /**

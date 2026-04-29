@@ -1,18 +1,17 @@
 package teammates.sqllogic.core;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
+import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -40,14 +39,7 @@ public final class DataBundleLogic {
     private AccountsLogic accountsLogic;
     private AccountRequestsLogic accountRequestsLogic;
     private CoursesLogic coursesLogic;
-    private DeadlineExtensionsLogic deadlineExtensionsLogic;
-    private FeedbackSessionsLogic fsLogic;
-    private FeedbackSessionLogsLogic fslLogic;
-    private FeedbackQuestionsLogic fqLogic;
-    private FeedbackResponsesLogic frLogic;
-    private FeedbackResponseCommentsLogic frcLogic;
     private NotificationsLogic notificationsLogic;
-    private UsersLogic usersLogic;
 
     private DataBundleLogic() {
         // prevent initialization
@@ -58,20 +50,11 @@ public final class DataBundleLogic {
     }
 
     void initLogicDependencies(AccountsLogic accountsLogic, AccountRequestsLogic accountRequestsLogic,
-            CoursesLogic coursesLogic, DeadlineExtensionsLogic deadlineExtensionsLogic, FeedbackSessionsLogic fsLogic,
-            FeedbackSessionLogsLogic fslLogic, FeedbackQuestionsLogic fqLogic, FeedbackResponsesLogic frLogic,
-            FeedbackResponseCommentsLogic frcLogic, NotificationsLogic notificationsLogic, UsersLogic usersLogic) {
+            CoursesLogic coursesLogic, NotificationsLogic notificationsLogic) {
         this.accountsLogic = accountsLogic;
         this.accountRequestsLogic = accountRequestsLogic;
         this.coursesLogic = coursesLogic;
-        this.deadlineExtensionsLogic = deadlineExtensionsLogic;
-        this.fsLogic = fsLogic;
-        this.fslLogic = fslLogic;
-        this.fqLogic = fqLogic;
-        this.frLogic = frLogic;
-        this.frcLogic = frcLogic;
         this.notificationsLogic = notificationsLogic;
-        this.usersLogic = usersLogic;
     }
 
     /**
@@ -135,6 +118,7 @@ public final class DataBundleLogic {
             sectionsMap.put(placeholderId, section);
             Course course = coursesMap.get(section.getCourse().getId());
             section.setCourse(course);
+            course.addSection(section);
         }
 
         for (Team team : teams) {
@@ -143,6 +127,7 @@ public final class DataBundleLogic {
             teamsMap.put(placeholderId, team);
             Section section = sectionsMap.get(team.getSection().getId());
             team.setSection(section);
+            section.addTeam(team);
         }
 
         for (FeedbackSession session : sessions) {
@@ -151,6 +136,7 @@ public final class DataBundleLogic {
             sessionsMap.put(placeholderId, session);
             Course course = coursesMap.get(session.getCourseId());
             session.setCourse(course);
+            course.addFeedbackSession(session);
         }
 
         for (FeedbackQuestion question : questions) {
@@ -159,6 +145,7 @@ public final class DataBundleLogic {
             questionMap.put(placeholderId, question);
             FeedbackSession fs = sessionsMap.get(question.getFeedbackSession().getId());
             question.setFeedbackSession(fs);
+            fs.addFeedbackQuestion(question);
         }
 
         for (FeedbackResponse response : responses) {
@@ -172,19 +159,18 @@ public final class DataBundleLogic {
             response.setFeedbackQuestion(fq);
             response.setGiverSection(giverSection);
             response.setRecipientSection(recipientSection);
+            fq.addFeedbackResponse(response);
         }
 
         for (FeedbackResponseComment responseComment : responseComments) {
             responseComment.setId(UUID.randomUUID());
-        }
-
-        for (FeedbackResponseComment responseComment : responseComments) {
             FeedbackResponse fr = responseMap.get(responseComment.getFeedbackResponse().getId());
             Section giverSection = sectionsMap.get(responseComment.getGiverSection().getId());
             Section recipientSection = sectionsMap.get(responseComment.getRecipientSection().getId());
             responseComment.setFeedbackResponse(fr);
             responseComment.setGiverSection(giverSection);
             responseComment.setRecipientSection(recipientSection);
+            fr.addFeedbackResponseComment(responseComment);
         }
 
         for (Account account : accounts) {
@@ -197,7 +183,7 @@ public final class DataBundleLogic {
             UUID placeholderId = instructor.getId();
             instructor.setId(UUID.randomUUID());
             usersMap.put(placeholderId, instructor);
-            Course course = coursesMap.get(instructor.getCourse().getId());
+            Course course = coursesMap.get(instructor.getCourseId());
             instructor.setCourse(course);
             if (instructor.getAccount() != null) {
                 Account account = accountsMap.get(instructor.getAccount().getId());
@@ -210,7 +196,7 @@ public final class DataBundleLogic {
             UUID placeholderId = student.getId();
             student.setId(UUID.randomUUID());
             usersMap.put(placeholderId, student);
-            Course course = coursesMap.get(student.getCourse().getId());
+            Course course = coursesMap.get(student.getCourseId());
             student.setCourse(course);
             Team team = teamsMap.get(student.getTeam().getId());
             student.setTeam(team);
@@ -250,6 +236,7 @@ public final class DataBundleLogic {
             deadlineExtension.setId(UUID.randomUUID());
             FeedbackSession session = sessionsMap.get(deadlineExtension.getFeedbackSession().getId());
             deadlineExtension.setFeedbackSession(session);
+            session.addDeadlineExtension(deadlineExtension);
             User user = usersMap.get(deadlineExtension.getUser().getId());
             deadlineExtension.setUser(user);
         }
@@ -263,12 +250,10 @@ public final class DataBundleLogic {
      * @throws InvalidParametersException if invalid data is encountered.
      */
     public DataBundle persistDataBundle(DataBundle dataBundle)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException {
         if (dataBundle == null) {
             throw new InvalidParametersException("Null data bundle");
         }
-
-        linkEntities(dataBundle);
 
         Collection<Account> accounts = dataBundle.accounts.values();
         Collection<AccountRequest> accountRequests = dataBundle.accountRequests.values();
@@ -286,66 +271,21 @@ public final class DataBundleLogic {
         Collection<Notification> notifications = dataBundle.notifications.values();
         Collection<ReadNotification> readNotifications = dataBundle.readNotifications.values();
 
-        for (AccountRequest accountRequest : accountRequests) {
-            accountRequestsLogic.createAccountRequest(accountRequest);
-        }
-
-        for (Notification notification : notifications) {
-            notificationsLogic.createNotification(notification);
-        }
-
-        for (Course course : courses) {
-            coursesLogic.createCourse(course);
-        }
-
-        for (Section section : sections) {
-            coursesLogic.createSection(section);
-        }
-
-        for (Team team : teams) {
-            coursesLogic.createTeam(team);
-        }
-
-        for (FeedbackSession session : sessions) {
-            fsLogic.createFeedbackSession(session);
-        }
-
-        for (FeedbackQuestion question : questions) {
-            fqLogic.createFeedbackQuestion(question);
-        }
-
-        for (FeedbackResponse response : responses) {
-            frLogic.createFeedbackResponse(response);
-        }
-
-        for (FeedbackResponseComment responseComment : responseComments) {
-            frcLogic.createFeedbackResponseComment(responseComment);
-        }
-
-        for (Account account : accounts) {
-            accountsLogic.createAccount(account);
-        }
-
-        for (Instructor instructor : instructors) {
-            usersLogic.createInstructor(instructor);
-        }
-
-        for (Student student : students) {
-            usersLogic.createStudent(student);
-        }
-
-        fslLogic.createFeedbackSessionLogs(new ArrayList<>(sessionLogs));
-
-        for (ReadNotification readNotification : readNotifications) {
-            if (!readNotification.isValid()) {
-                throw new InvalidParametersException(readNotification.getInvalidityInfo());
-            }
-            HibernateUtil.persist(readNotification);
-        }
-
-        for (DeadlineExtension deadlineExtension : deadlineExtensions) {
-            deadlineExtensionsLogic.createDeadlineExtension(deadlineExtension);
-        }
+        persistEntities(accountRequests);
+        persistEntities(notifications);
+        persistEntities(accounts);
+        persistEntities(courses);
+        persistEntities(sections);
+        persistEntities(teams);
+        persistEntities(sessions);
+        persistEntities(questions);
+        persistEntities(responses);
+        persistEntities(responseComments);
+        persistEntities(instructors);
+        persistEntities(students);
+        persistEntities(sessionLogs);
+        persistEntities(deadlineExtensions);
+        persistEntities(readNotifications);
 
         return dataBundle;
     }
@@ -358,153 +298,30 @@ public final class DataBundleLogic {
             throw new InvalidParametersException("Data bundle is null");
         }
 
-        linkEntities(dataBundle);
-        dataBundle.courses.values().forEach(course -> {
-            coursesLogic.deleteCourseCascade(course.getId());
-        });
-        dataBundle.readNotifications.values().forEach(readNotification -> {
-            notificationsLogic.deleteReadNotification(readNotification.getId());
-        });
-        dataBundle.notifications.values().forEach(notification -> {
-            notificationsLogic.deleteNotification(notification.getId());
-        });
-        dataBundle.accounts.values().forEach(account -> {
-            accountsLogic.deleteAccount(account.getGoogleId());
-        });
-        dataBundle.accountRequests.values().forEach(accountRequest -> {
-            accountRequestsLogic.deleteAccountRequest(accountRequest.getId());
-        });
+        dataBundle.courses.values().forEach(course ->
+                coursesLogic.deleteCourseCascade(course.getId())
+        );
+        dataBundle.readNotifications.values().forEach(readNotification ->
+                notificationsLogic.deleteReadNotification(readNotification.getId())
+        );
+        dataBundle.notifications.values().forEach(notification ->
+                notificationsLogic.deleteNotification(notification.getId())
+        );
+        dataBundle.accounts.values().forEach(account ->
+                accountsLogic.deleteAccount(account.getGoogleId())
+        );
+        dataBundle.accountRequests.values().forEach(accountRequest ->
+                accountRequestsLogic.deleteAccountRequest(accountRequest.getId())
+        );
     }
 
-    private static void linkEntities(DataBundle dataBundle) {
-        Collection<Account> accounts = dataBundle.accounts.values();
-        Collection<Course> courses = dataBundle.courses.values();
-        Collection<Section> sections = dataBundle.sections.values();
-        Collection<Team> teams = dataBundle.teams.values();
-        Collection<Instructor> instructors = dataBundle.instructors.values();
-        Collection<Student> students = dataBundle.students.values();
-        Collection<FeedbackSession> sessions = dataBundle.feedbackSessions.values();
-        Collection<FeedbackSessionLog> sessionLogs = dataBundle.feedbackSessionLogs.values();
-        Collection<FeedbackQuestion> questions = dataBundle.feedbackQuestions.values();
-        Collection<FeedbackResponse> responses = dataBundle.feedbackResponses.values();
-        Collection<FeedbackResponseComment> responseComments = dataBundle.feedbackResponseComments.values();
-        Collection<DeadlineExtension> deadlineExtensions = dataBundle.deadlineExtensions.values();
-        Collection<Notification> notifications = dataBundle.notifications.values();
-        Collection<ReadNotification> readNotifications = dataBundle.readNotifications.values();
-
-        // Mapping of IDs or placeholder IDs to actual entity
-        Map<String, Course> coursesMap = new HashMap<>();
-        Map<UUID, Section> sectionsMap = new HashMap<>();
-        Map<UUID, Team> teamsMap = new HashMap<>();
-        Map<UUID, FeedbackSession> sessionsMap = new HashMap<>();
-        Map<UUID, FeedbackQuestion> questionMap = new HashMap<>();
-        Map<UUID, FeedbackResponse> responseMap = new HashMap<>();
-        Map<UUID, Account> accountsMap = new HashMap<>();
-        Map<UUID, User> usersMap = new HashMap<>();
-        Map<UUID, Notification> notificationsMap = new HashMap<>();
-
-        for (Course course : courses) {
-            coursesMap.put(course.getId(), course);
-        }
-
-        for (Section section : sections) {
-            sectionsMap.put(section.getId(), section);
-            Course course = coursesMap.get(section.getCourse().getId());
-            section.setCourse(course);
-        }
-
-        for (Team team : teams) {
-            teamsMap.put(team.getId(), team);
-            Section section = sectionsMap.get(team.getSection().getId());
-            team.setSection(section);
-        }
-
-        for (FeedbackSession session : sessions) {
-            sessionsMap.put(session.getId(), session);
-            Course course = coursesMap.get(session.getCourseId());
-            session.setCourse(course);
-        }
-
-        for (FeedbackQuestion question : questions) {
-            questionMap.put(question.getId(), question);
-            FeedbackSession fs = sessionsMap.get(question.getFeedbackSession().getId());
-            question.setFeedbackSession(fs);
-        }
-
-        for (FeedbackResponse response : responses) {
-            UUID placeholderId = response.getId();
-            responseMap.put(placeholderId, response);
-            FeedbackQuestion fq = questionMap.get(response.getFeedbackQuestion().getId());
-            Section giverSection = sectionsMap.get(response.getGiverSection().getId());
-            Section recipientSection = response.getRecipientSection() != null
-                    ? sectionsMap.get(response.getRecipientSection().getId()) : null;
-            response.setFeedbackQuestion(fq);
-            response.setGiverSection(giverSection);
-            response.setRecipientSection(recipientSection);
-        }
-
-        for (FeedbackResponseComment responseComment : responseComments) {
-            FeedbackResponse fr = responseMap.get(responseComment.getFeedbackResponse().getId());
-            Section giverSection = sectionsMap.get(responseComment.getGiverSection().getId());
-            Section recipientSection = sectionsMap.get(responseComment.getRecipientSection().getId());
-            responseComment.setFeedbackResponse(fr);
-            responseComment.setGiverSection(giverSection);
-            responseComment.setRecipientSection(recipientSection);
-        }
-
-        for (Account account : accounts) {
-            accountsMap.put(account.getId(), account);
-        }
-
-        for (Instructor instructor : instructors) {
-            usersMap.put(instructor.getId(), instructor);
-            Course course = coursesMap.get(instructor.getCourse().getId());
-            instructor.setCourse(course);
-            if (instructor.getAccount() != null) {
-                Account account = accountsMap.get(instructor.getAccount().getId());
-                instructor.setAccount(account);
+    private void persistEntities(Collection<? extends BaseEntity> entities) throws InvalidParametersException {
+        for (BaseEntity entity : entities) {
+            if (!entity.isValid()) {
+                throw new InvalidParametersException(entity.getInvalidityInfo());
             }
-            instructor.generateNewRegistrationKey();
+            HibernateUtil.persist(entity);
         }
-
-        for (Student student : students) {
-            usersMap.put(student.getId(), student);
-            Course course = coursesMap.get(student.getCourse().getId());
-            student.setCourse(course);
-            Team team = teamsMap.get(student.getTeam().getId());
-            student.setTeam(team);
-            if (student.getAccount() != null) {
-                Account account = accountsMap.get(student.getAccount().getId());
-                student.setAccount(account);
-            }
-            student.generateNewRegistrationKey();
-        }
-
-        for (FeedbackSessionLog log : sessionLogs) {
-            FeedbackSession fs = log.getFeedbackSession() == null
-                    ? null : sessionsMap.get(log.getFeedbackSession().getId());
-            log.setFeedbackSession(fs);
-            Student student = log.getStudent() == null
-                    ? null : (Student) usersMap.get(log.getStudent().getId());
-            log.setStudent(student);
-        }
-
-        for (Notification notification : notifications) {
-            notificationsMap.put(notification.getId(), notification);
-        }
-
-        for (ReadNotification readNotification : readNotifications) {
-            Account account = accountsMap.get(readNotification.getAccount().getId());
-            readNotification.setAccount(account);
-            Notification notification = notificationsMap.get(readNotification.getNotification().getId());
-            readNotification.setNotification(notification);
-        }
-
-        for (DeadlineExtension deadlineExtension : deadlineExtensions) {
-            FeedbackSession session = sessionsMap.get(deadlineExtension.getFeedbackSession().getId());
-            deadlineExtension.setFeedbackSession(session);
-            User user = usersMap.get(deadlineExtension.getUser().getId());
-            deadlineExtension.setUser(user);
-        }
+        HibernateUtil.flushSession();
     }
 }

@@ -67,8 +67,9 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
    */
   resendResultsLinkToRespondentsEventHandler(model: SessionsTableRowModel): void {
     this.isSendReminderLoading = true;
-    const courseId: string = model.feedbackSession.courseId;
-    const feedbackSessionName: string = model.feedbackSession.feedbackSessionName;
+    const courseId = model.feedbackSession.courseId;
+    const feedbackSessionName = model.feedbackSession.feedbackSessionName;
+    const feedbackSessionId = model.feedbackSession.feedbackSessionId;
 
     forkJoin([
       this.studentService.getStudentsFromCourse({ courseId }),
@@ -86,6 +87,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
           modalRef.componentInstance.courseId = courseId;
           modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
           modalRef.componentInstance.studentListInfoTableRowModels = students.map((student: Student) => ({
+            id: student.userId,
             email: student.email,
             name: student.name,
             teamName: student.teamName,
@@ -94,20 +96,22 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
             hasSubmittedSession: false,
 
             isSelected: false,
-          } as StudentListInfoTableRowModel));
+          } satisfies StudentListInfoTableRowModel));
           modalRef.componentInstance.instructorListInfoTableRowModels = instructors.map((instructor: Instructor) => ({
+            id: instructor.userId,
             email: instructor.email,
             name: instructor.name,
 
             hasSubmittedSession: false,
 
             isSelected: false,
-          } as InstructorListInfoTableRowModel));
+          } satisfies InstructorListInfoTableRowModel));
 
-          modalRef.result.then((respondentsToRemind: any[]) => {
+          modalRef.result.then(
+              (respondentsToRemind: (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[]) => {
             this.isSendReminderLoading = true;
-            this.feedbackSessionsService.remindResultsLinkToRespondents(courseId, feedbackSessionName, {
-              usersToRemind: respondentsToRemind.map((m: any) => m.email), isSendingCopyToInstructor: true,
+            this.feedbackSessionsService.remindResultsLinkToRespondents(feedbackSessionId, {
+              usersToRemind: respondentsToRemind.map((m) => m.id), isSendingCopyToInstructor: true,
             }).pipe(finalize(() => {
               this.isSendReminderLoading = false;
             }))
@@ -134,12 +138,13 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
    */
   sendRemindersToRespondentsEventHandler(model: SessionsTableRowModel, selectAllRespondents: boolean): void {
     this.isSendReminderLoading = true;
-    const courseId: string = model.feedbackSession.courseId;
-    const feedbackSessionName: string = model.feedbackSession.feedbackSessionName;
+    const courseId = model.feedbackSession.courseId;
+    const feedbackSessionName = model.feedbackSession.feedbackSessionName;
+    const feedbackSessionId = model.feedbackSession.feedbackSessionId;
 
     forkJoin([
       this.studentService.getStudentsFromCourse({ courseId }),
-      this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({ courseId, feedbackSessionName }),
+      this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({ feedbackSessionId }),
       this.instructorService.loadInstructors({ courseId, intent: Intent.FULL_DETAIL }),
     ]).pipe(finalize(() => {
       this.isSendReminderLoading = false;
@@ -154,6 +159,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
         modalRef.componentInstance.courseId = courseId;
         modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
         modalRef.componentInstance.studentListInfoTableRowModels = students.map((student: Student) => ({
+          id: student.userId,
           email: student.email,
           name: student.name,
           teamName: student.teamName,
@@ -162,20 +168,21 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
           hasSubmittedSession: giverSet.has(student.email),
 
           isSelected: selectAllRespondents && !giverSet.has(student.email),
-        } as StudentListInfoTableRowModel));
+        } satisfies StudentListInfoTableRowModel));
         modalRef.componentInstance.instructorListInfoTableRowModels = instructors.map((instructor: Instructor) => ({
+          id: instructor.userId,
           email: instructor.email,
           name: instructor.name,
 
           hasSubmittedSession: giverSet.has(instructor.email),
 
           isSelected: selectAllRespondents && !giverSet.has(instructor.email),
-        } as InstructorListInfoTableRowModel));
+        } satisfies InstructorListInfoTableRowModel));
 
         modalRef.result.then((reminderResponse: ReminderResponseModel) => {
           this.isSendReminderLoading = true;
-          this.feedbackSessionsService.remindFeedbackSessionSubmissionForRespondents(courseId, feedbackSessionName, {
-            usersToRemind: reminderResponse.respondentsToSend.map((m) => m.email),
+          this.feedbackSessionsService.remindFeedbackSessionSubmissionForRespondents(feedbackSessionId, {
+            usersToRemind: reminderResponse.respondentsToSend.map((m) => m.id),
             isSendingCopyToInstructor: reminderResponse.isSendingCopyToInstructor,
           }).pipe(finalize(() => {
             this.isSendReminderLoading = false;

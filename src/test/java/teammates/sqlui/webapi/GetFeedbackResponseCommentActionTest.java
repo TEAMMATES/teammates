@@ -319,7 +319,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
                 "instructor1@gmail.com", "generic instructions",
                 Instant.parse("2012-04-01T22:00:00Z"), Instant.parse("2027-04-30T22:00:00Z"),
                 Instant.parse("2012-03-28T22:00:00Z"), Instant.parse("2027-05-01T22:00:00Z"),
-                Duration.ofHours(10), true, true, true);
+                Duration.ofHours(10), true, true);
         fs.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
 

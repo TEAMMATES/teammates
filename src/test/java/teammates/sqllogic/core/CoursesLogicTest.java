@@ -1,5 +1,7 @@
 package teammates.sqllogic.core;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -130,8 +132,7 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetSectionNamesForCourse_courseDoesNotExist_throwEntityDoesNotExistException()
-            throws EntityDoesNotExistException {
+    public void testGetSectionNamesForCourse_courseDoesNotExist_throwEntityDoesNotExistException() {
         String courseId = getTypicalCourse().getId();
 
         when(coursesDb.getCourse(courseId)).thenReturn(null);
@@ -187,38 +188,29 @@ public class CoursesLogicTest extends BaseTestCase {
     public void testDeleteCourseCascade_shouldDeleteCourse_success() {
         Course course = getTypicalCourse();
         List<Instructor> instructors = new ArrayList<>();
-        List<FeedbackSession> feedbackSessions = new ArrayList<>();
-        List<FeedbackSession> softDeletedFeedbackSessions = new ArrayList<>();
 
         FeedbackSession fs = new FeedbackSession("test-fs", course, "test@email.com",
                 "test", Instant.now(), Instant.now(), Instant.now(), Instant.now(), Duration.ofSeconds(60),
-                false, false, false);
-        feedbackSessions.add(fs);
+                false, false);
+        course.addFeedbackSession(fs);
 
         FeedbackSession softDeletedFs = new FeedbackSession("soft-deleted-fs", course, "test@email.com",
                 "test", Instant.now(), Instant.now(), Instant.now(), Instant.now(), Duration.ofSeconds(60),
-                false, false, false);
+                false, false);
         softDeletedFs.setDeletedAt(Instant.now());
-        softDeletedFeedbackSessions.add(softDeletedFs);
+        course.addFeedbackSession(softDeletedFs);
         instructors.add(getTypicalInstructor());
 
-        when(fsLogic.getFeedbackSessionsForCourse(course.getId())).thenReturn(feedbackSessions);
-        when(fsLogic.getSoftDeletedFeedbackSessionsForCourse(course.getId()))
-                .thenReturn(softDeletedFeedbackSessions);
         when(usersLogic.getInstructorsForCourse(course.getId())).thenReturn(instructors);
         when(coursesDb.getCourse(course.getId())).thenReturn(course);
 
         coursesLogic.deleteCourseCascade(course.getId());
 
-        verify(usersLogic, times(1)).deleteStudentsInCourseCascade(course.getId());
         verify(usersLogic, times(1)).getInstructorsForCourse(course.getId());
         verify(usersLogic, times(1)).deleteInstructorCascade(course.getId(), instructors.get(0).getEmail());
-        verify(fsLogic, times(1)).deleteFeedbackSessionCascade(fs.getName(), course.getId());
-        verify(fsLogic, times(1)).deleteFeedbackSessionCascade(softDeletedFs.getName(), course.getId());
-        verify(fsLogic, times(1)).getFeedbackSessionsForCourse(course.getId());
-        verify(fsLogic, times(1)).getSoftDeletedFeedbackSessionsForCourse(course.getId());
+        verify(fsLogic, times(1)).deleteFeedbackSessionCascade(fs.getId());
+        verify(fsLogic, times(1)).deleteFeedbackSessionCascade(softDeletedFs.getId());
         verify(coursesDb, times(1)).deleteCourse(course);
-        verify(coursesDb, times(1)).deleteSectionsByCourseId(course.getId());
     }
 
     @Test
@@ -238,8 +230,7 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpdateCourse_throwEntityDoesNotExistException()
-            throws InvalidParametersException, EntityDoesNotExistException {
+    public void testUpdateCourse_throwEntityDoesNotExistException() {
         Course course = getTypicalCourse();
         String courseId = course.getId();
 
@@ -252,8 +243,7 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpdateCourse_throwInvalidParametersException()
-            throws InvalidParametersException, EntityDoesNotExistException {
+    public void testUpdateCourse_throwInvalidParametersException() {
         Course course = getTypicalCourse();
         String courseId = course.getId();
 
@@ -272,41 +262,41 @@ public class CoursesLogicTest extends BaseTestCase {
     @Test
     public void testCreateSection_shouldReturnCreatedSection_success()
             throws EntityAlreadyExistsException, InvalidParametersException {
-        Section section = getTypicalSection();
+        Course course = getTypicalCourse();
 
-        when(coursesDb.createSection(section)).thenReturn(section);
+        doAnswer(invocation -> invocation.getArgument(0))
+                .when(coursesDb)
+                .createSection(any(Section.class));
+        when(coursesDb.getSectionByName(course.getId(), "section-name")).thenReturn(null);
 
-        Section createdSection = coursesLogic.createSection(section);
+        Section createdSection = coursesLogic.createSection(course, "section-name");
 
-        verify(coursesDb, times(1)).createSection(section);
+        verify(coursesDb, times(1)).createSection(any(Section.class));
         assertNotNull(createdSection);
+        assertEquals("section-name", createdSection.getName());
     }
 
     @Test
-    public void testCreateDuplicateSection_throwEntityAlreadyExistsException()
-            throws EntityAlreadyExistsException, InvalidParametersException {
-        Section section = getTypicalSection();
+    public void testCreateDuplicateSection_throwEntityAlreadyExistsException() {
+        Course course = getTypicalCourse();
 
-        when(coursesDb.createSection(section))
-                .thenThrow(new EntityAlreadyExistsException(
-                    String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, section.toString())));
+        when(coursesDb.getSectionByName(course.getId(), "section-name")).thenReturn(getTypicalSection());
 
         EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
-                () -> coursesLogic.createSection(section));
+                () -> coursesLogic.createSection(course, "section-name"));
 
-        assertEquals(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, section.toString()), ex.getMessage());
+        assertEquals(String.format("Section with name %s already exists in course %s",
+                "section-name", course.getId()), ex.getMessage());
     }
 
     @Test
-    public void testCreateSectionInvalidName_throwInvalidParametersException()
-            throws EntityAlreadyExistsException, InvalidParametersException {
-        Section section = getTypicalSection();
-        section.setName(null);
+    public void testCreateSectionInvalidName_throwInvalidParametersException() {
+        Course course = getTypicalCourse();
 
-        when(coursesDb.createSection(section)).thenThrow(new InvalidParametersException(section.getInvalidityInfo()));
+        when(coursesDb.getSectionByName(course.getId(), "")).thenReturn(null);
 
         InvalidParametersException ex = assertThrows(InvalidParametersException.class,
-                () -> coursesLogic.createSection(section));
+                () -> coursesLogic.createSection(course, null));
 
         assertEquals("The provided section name is not acceptable to TEAMMATES as it cannot be empty.", ex.getMessage());
     }
@@ -339,69 +329,43 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetCourseInstitute_shouldReturnInstitute_success() {
-        Course course = getTypicalCourse();
-        String courseId = course.getId();
-
-        when(coursesDb.getCourse(courseId)).thenReturn(course);
-
-        String institute = coursesLogic.getCourseInstitute(courseId);
-
-        verify(coursesDb, times(1)).getCourse(courseId);
-        assertNotNull(institute);
-    }
-
-    @Test
-    public void testGetCourseInstituteNonExistentCourse_throwAssertionError() {
-        Course course = getTypicalCourse();
-        String courseId = course.getId();
-
-        when(coursesDb.getCourse(courseId)).thenReturn(null);
-
-        AssertionError ex = assertThrows(AssertionError.class,
-                () -> coursesLogic.getCourseInstitute(courseId));
-
-        assertEquals("Trying to getCourseInstitute for inexistent course with id " + courseId, ex.getMessage());
-    }
-
-    @Test
     public void testCreateTeam_shouldReturnCreatedTeam_success()
             throws EntityAlreadyExistsException, InvalidParametersException {
-        Team team = getTypicalTeam();
+        Section section = getTypicalSection();
 
-        when(coursesDb.createTeam(team)).thenReturn(team);
+        doAnswer(invocation -> invocation.getArgument(0))
+                .when(coursesDb)
+                .createTeam(any(Team.class));
+        when(coursesDb.getTeamByName(section.getId(), "team-name")).thenReturn(null);
 
-        Team createdTeam = coursesLogic.createTeam(team);
+        Team createdTeam = coursesLogic.createTeam(section, "team-name");
 
-        verify(coursesDb, times(1)).createTeam(team);
+        verify(coursesDb, times(1)).createTeam(any(Team.class));
         assertNotNull(createdTeam);
+        assertEquals("team-name", createdTeam.getName());
     }
 
     @Test
-    public void testCreateDuplicateTeam_throwEntityAlreadyExistsException()
-            throws EntityAlreadyExistsException, InvalidParametersException {
-        Team team = getTypicalTeam();
+    public void testCreateDuplicateTeam_throwEntityAlreadyExistsException() {
+        Section section = getTypicalSection();
 
-        when(coursesDb.createTeam(team)).thenThrow(
-                new EntityAlreadyExistsException(
-                    String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, team.toString())));
+        when(coursesDb.getTeamByName(section.getId(), "team-name")).thenReturn(getTypicalTeam());
 
         EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
-                () -> coursesLogic.createTeam(team));
+                () -> coursesLogic.createTeam(section, "team-name"));
 
-        assertEquals(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, team.toString()), ex.getMessage());
+        assertEquals(String.format("Team with name %s already exists in section %s",
+                "team-name", section.getId()), ex.getMessage());
     }
 
     @Test
-    public void testCreateTeamInvalidName_throwInvalidParametersException()
-            throws EntityAlreadyExistsException, InvalidParametersException {
-        Team team = getTypicalTeam();
-        team.setName(null);
+    public void testCreateTeamInvalidName_throwInvalidParametersException() {
+        Section section = getTypicalSection();
 
-        when(coursesDb.createTeam(team)).thenThrow(new InvalidParametersException(team.getInvalidityInfo()));
+        when(coursesDb.getTeamByName(section.getId(), "team-name")).thenReturn(null);
 
         InvalidParametersException ex = assertThrows(InvalidParametersException.class,
-                () -> coursesLogic.createTeam(team));
+                () -> coursesLogic.createTeam(section, null));
 
         assertEquals("The provided team name is not acceptable to TEAMMATES as it cannot be empty.", ex.getMessage());
     }

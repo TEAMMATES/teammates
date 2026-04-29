@@ -447,9 +447,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
-      "course": {
-        "id": "CS1101S"
-      },
+      "courseId": "CS1101S",
       "name": "Alice",
       "email": "alice@teammates.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -475,9 +473,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000002"
       },
-      "course": {
-        "id": "CS1101S"
-      },
+      "courseId": "CS1101S",
       "name": "Hiroshi Tanaka",
       "email": "tanaka@teammates.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_TUTOR",
@@ -503,9 +499,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000003"
       },
-      "course": {
-        "id": "CS2103T"
-      },
+      "courseId": "CS2103T",
       "name": "Elena Vasquez",
       "email": "elena@teammates.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -531,9 +525,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000004"
       },
-      "course": {
-        "id": "CS2103T"
-      },
+      "courseId": "CS2103T",
       "name": "Marcus Okonkwo",
       "email": "marcus.okonkwo@teammates.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_OBSERVER",
@@ -559,9 +551,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000005"
       },
-      "course": {
-        "id": "CS2040DE"
-      },
+      "courseId": "CS2040DE",
       "name": "Priya Sharma",
       "email": "priya.sharma@teammates.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -587,9 +577,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000006"
       },
-      "course": {
-        "id": "CS2040DE"
-      },
+      "courseId": "CS2040DE",
       "name": "Lars Eriksson",
       "email": "lars.eriksson@teammates.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_MANAGER",
@@ -614,9 +602,7 @@
   "students": {
     "student1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000601",
-      "course": {
-        "id": "CS1101S"
-      },
+      "courseId": "CS1101S",
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -629,9 +615,7 @@
     },
     "student2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000602",
-      "course": {
-        "id": "CS1101S"
-      },
+      "courseId": "CS1101S",
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -644,9 +628,7 @@
     },
     "student3InCourse1": {
       "id": "00000000-0000-4000-8000-000000000603",
-      "course": {
-        "id": "CS1101S"
-      },
+      "courseId": "CS1101S",
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -659,9 +641,7 @@
     },
     "student4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000604",
-      "course": {
-        "id": "CS1101S"
-      },
+      "courseId": "CS1101S",
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"
       },
@@ -674,9 +654,7 @@
     },
     "student5InCourse1": {
       "id": "00000000-0000-4000-8000-000000000605",
-      "course": {
-        "id": "CS1101S"
-      },
+      "courseId": "CS1101S",
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"
       },
@@ -689,9 +667,7 @@
     },
     "student6InCourse1": {
       "id": "00000000-0000-4000-8000-000000000606",
-      "course": {
-        "id": "CS1101S"
-      },
+      "courseId": "CS1101S",
       "team": {
         "id": "00000000-0000-4000-8000-000000000303"
       },
@@ -704,9 +680,7 @@
     },
     "student7InCourse1": {
       "id": "00000000-0000-4000-8000-000000000607",
-      "course": {
-        "id": "CS1101S"
-      },
+      "courseId": "CS1101S",
       "team": {
         "id": "00000000-0000-4000-8000-000000000303"
       },
@@ -719,9 +693,7 @@
     },
     "student8InCourse1": {
       "id": "00000000-0000-4000-8000-000000000608",
-      "course": {
-        "id": "CS1101S"
-      },
+      "courseId": "CS1101S",
       "team": {
         "id": "00000000-0000-4000-8000-000000000303"
       },
@@ -734,9 +706,7 @@
     },
     "student9InCourse1": {
       "id": "00000000-0000-4000-8000-000000000609",
-      "course": {
-        "id": "CS1101S"
-      },
+      "courseId": "CS1101S",
       "team": {
         "id": "00000000-0000-4000-8000-000000000304"
       },
@@ -746,9 +716,7 @@
     },
     "student10InCourse1": {
       "id": "00000000-0000-4000-8000-000000000610",
-      "course": {
-        "id": "CS1101S"
-      },
+      "courseId": "CS1101S",
       "team": {
         "id": "00000000-0000-4000-8000-000000000304"
       },
@@ -758,9 +726,7 @@
     },
     "student1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000611",
-      "course": {
-        "id": "CS2103T"
-      },
+      "courseId": "CS2103T",
       "team": {
         "id": "00000000-0000-4000-8000-000000000305"
       },
@@ -773,9 +739,7 @@
     },
     "student2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000612",
-      "course": {
-        "id": "CS2103T"
-      },
+      "courseId": "CS2103T",
       "team": {
         "id": "00000000-0000-4000-8000-000000000305"
       },
@@ -788,9 +752,7 @@
     },
     "student3InCourse2": {
       "id": "00000000-0000-4000-8000-000000000613",
-      "course": {
-        "id": "CS2103T"
-      },
+      "courseId": "CS2103T",
       "team": {
         "id": "00000000-0000-4000-8000-000000000305"
       },
@@ -803,9 +765,7 @@
     },
     "student4InCourse2": {
       "id": "00000000-0000-4000-8000-000000000614",
-      "course": {
-        "id": "CS2103T"
-      },
+      "courseId": "CS2103T",
       "team": {
         "id": "00000000-0000-4000-8000-000000000306"
       },
@@ -818,9 +778,7 @@
     },
     "student5InCourse2": {
       "id": "00000000-0000-4000-8000-000000000615",
-      "course": {
-        "id": "CS2103T"
-      },
+      "courseId": "CS2103T",
       "team": {
         "id": "00000000-0000-4000-8000-000000000306"
       },
@@ -833,9 +791,7 @@
     },
     "student6InCourse2": {
       "id": "00000000-0000-4000-8000-000000000616",
-      "course": {
-        "id": "CS2103T"
-      },
+      "courseId": "CS2103T",
       "team": {
         "id": "00000000-0000-4000-8000-000000000307"
       },
@@ -848,9 +804,7 @@
     },
     "student7InCourse2": {
       "id": "00000000-0000-4000-8000-000000000617",
-      "course": {
-        "id": "CS2103T"
-      },
+      "courseId": "CS2103T",
       "team": {
         "id": "00000000-0000-4000-8000-000000000307"
       },
@@ -863,9 +817,7 @@
     },
     "student8InCourse2": {
       "id": "00000000-0000-4000-8000-000000000618",
-      "course": {
-        "id": "CS2103T"
-      },
+      "courseId": "CS2103T",
       "team": {
         "id": "00000000-0000-4000-8000-000000000307"
       },
@@ -878,9 +830,7 @@
     },
     "student9InCourse2": {
       "id": "00000000-0000-4000-8000-000000000619",
-      "course": {
-        "id": "CS2103T"
-      },
+      "courseId": "CS2103T",
       "team": {
         "id": "00000000-0000-4000-8000-000000000308"
       },
@@ -890,9 +840,7 @@
     },
     "student10InCourse2": {
       "id": "00000000-0000-4000-8000-000000000620",
-      "course": {
-        "id": "CS2103T"
-      },
+      "courseId": "CS2103T",
       "team": {
         "id": "00000000-0000-4000-8000-000000000308"
       },
@@ -902,9 +850,7 @@
     },
     "student1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000621",
-      "course": {
-        "id": "CS2040DE"
-      },
+      "courseId": "CS2040DE",
       "team": {
         "id": "00000000-0000-4000-8000-000000000309"
       },
@@ -917,9 +863,7 @@
     },
     "student2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000622",
-      "course": {
-        "id": "CS2040DE"
-      },
+      "courseId": "CS2040DE",
       "team": {
         "id": "00000000-0000-4000-8000-000000000309"
       },
@@ -932,9 +876,7 @@
     },
     "student3InCourse3": {
       "id": "00000000-0000-4000-8000-000000000623",
-      "course": {
-        "id": "CS2040DE"
-      },
+      "courseId": "CS2040DE",
       "team": {
         "id": "00000000-0000-4000-8000-000000000309"
       },
@@ -947,9 +889,7 @@
     },
     "student4InCourse3": {
       "id": "00000000-0000-4000-8000-000000000624",
-      "course": {
-        "id": "CS2040DE"
-      },
+      "courseId": "CS2040DE",
       "team": {
         "id": "00000000-0000-4000-8000-000000000310"
       },
@@ -962,9 +902,7 @@
     },
     "student5InCourse3": {
       "id": "00000000-0000-4000-8000-000000000625",
-      "course": {
-        "id": "CS2040DE"
-      },
+      "courseId": "CS2040DE",
       "team": {
         "id": "00000000-0000-4000-8000-000000000310"
       },
@@ -977,9 +915,7 @@
     },
     "student6InCourse3": {
       "id": "00000000-0000-4000-8000-000000000626",
-      "course": {
-        "id": "CS2040DE"
-      },
+      "courseId": "CS2040DE",
       "team": {
         "id": "00000000-0000-4000-8000-000000000311"
       },
@@ -992,9 +928,7 @@
     },
     "student7InCourse3": {
       "id": "00000000-0000-4000-8000-000000000627",
-      "course": {
-        "id": "CS2040DE"
-      },
+      "courseId": "CS2040DE",
       "team": {
         "id": "00000000-0000-4000-8000-000000000311"
       },
@@ -1007,9 +941,7 @@
     },
     "student8InCourse3": {
       "id": "00000000-0000-4000-8000-000000000628",
-      "course": {
-        "id": "CS2040DE"
-      },
+      "courseId": "CS2040DE",
       "team": {
         "id": "00000000-0000-4000-8000-000000000311"
       },
@@ -1022,9 +954,7 @@
     },
     "student9InCourse3": {
       "id": "00000000-0000-4000-8000-000000000629",
-      "course": {
-        "id": "CS2040DE"
-      },
+      "courseId": "CS2040DE",
       "team": {
         "id": "00000000-0000-4000-8000-000000000312"
       },
@@ -1034,9 +964,7 @@
     },
     "student10InCourse3": {
       "id": "00000000-0000-4000-8000-000000000630",
-      "course": {
-        "id": "CS2040DE"
-      },
+      "courseId": "CS2040DE",
       "team": {
         "id": "00000000-0000-4000-8000-000000000312"
       },
@@ -1057,7 +985,6 @@
       "sessionVisibleFromTime": "seed.d(-17)T08:00:00Z",
       "resultsVisibleFromTime": "seed.d(+35)T22:00:00Z",
       "gracePeriod": 10,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": true,
@@ -1077,7 +1004,6 @@
       "sessionVisibleFromTime": "seed.d(-35)T08:00:00Z",
       "resultsVisibleFromTime": "seed.d(+21)T22:00:00Z",
       "gracePeriod": 15,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": true,
@@ -1097,7 +1023,6 @@
       "sessionVisibleFromTime": "seed.d(+40)T08:00:00Z",
       "resultsVisibleFromTime": "seed.d(+80)T22:00:00Z",
       "gracePeriod": 10,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": false,
@@ -1117,7 +1042,6 @@
       "sessionVisibleFromTime": "seed.d(-65)T08:00:00Z",
       "resultsVisibleFromTime": "seed.d(-25)T22:00:00Z",
       "gracePeriod": 5,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": true,
@@ -1137,7 +1061,6 @@
       "sessionVisibleFromTime": "seed.d(-17)T08:00:00Z",
       "resultsVisibleFromTime": "seed.d(+35)T22:00:00Z",
       "gracePeriod": 10,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": true,
@@ -1157,7 +1080,6 @@
       "sessionVisibleFromTime": "seed.d(-35)T08:00:00Z",
       "resultsVisibleFromTime": "seed.d(+21)T22:00:00Z",
       "gracePeriod": 10,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": true,
@@ -1177,7 +1099,6 @@
       "sessionVisibleFromTime": "seed.d(+40)T08:00:00Z",
       "resultsVisibleFromTime": "seed.d(+80)T22:00:00Z",
       "gracePeriod": 15,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": false,
@@ -1197,7 +1118,6 @@
       "sessionVisibleFromTime": "seed.d(-17)T12:00:00Z",
       "resultsVisibleFromTime": "seed.d(+35)T22:00:00Z",
       "gracePeriod": 10,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": true,
@@ -1217,7 +1137,6 @@
       "sessionVisibleFromTime": "seed.d(-65)T12:00:00Z",
       "resultsVisibleFromTime": "seed.d(-25)T12:00:00Z",
       "gracePeriod": 5,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": true,
@@ -1237,7 +1156,6 @@
       "sessionVisibleFromTime": "seed.d(+40)T08:00:00Z",
       "resultsVisibleFromTime": "seed.d(+80)T22:00:00Z",
       "gracePeriod": 10,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": false,

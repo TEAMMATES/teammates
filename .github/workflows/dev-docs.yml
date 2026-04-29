@@ -22,6 +22,8 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24
+          cache: 'npm'
+          cache-dependency-path: docs/package-lock.json
       - uses: actions/setup-java@v5
         with:
           java-version: 21

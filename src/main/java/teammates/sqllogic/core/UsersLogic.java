@@ -84,6 +84,13 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets user associated with {@code id}.
+     */
+    public User getUser(UUID id) {
+        return usersDb.getUser(id);
+    }
+
+    /**
      * Create an instructor.
      *
      * @return the created instructor
@@ -262,8 +269,14 @@ public final class UsersLogic {
 
     /**
      * Deletes an instructor or student.
+     *
+     * <p>Fails silently if the user doesn't exist.</p>
      */
     public <T extends User> void deleteUser(T user) {
+        if (user == null) {
+            return;
+        }
+
         usersDb.deleteUser(user);
     }
 
@@ -464,18 +477,6 @@ public final class UsersLogic {
         assert id != null;
 
         return usersDb.getStudent(id);
-    }
-
-    /**
-     * Gets student reference associated with {@code id}.
-     *
-     * @param id Id of Student.
-     * @return Returns a proxy for the Student.
-     */
-    public Student getStudentReference(UUID id) {
-        assert id != null;
-
-        return usersDb.getStudentReference(id);
     }
 
     /**
@@ -690,7 +691,7 @@ public final class UsersLogic {
             // the student is the only student in the team, delete responses related to the team
             feedbackResponsesLogic
                     .deleteFeedbackResponsesForCourseCascade(
-                            student.getCourse().getId(), student.getTeamName());
+                            student.getCourseId(), student.getTeamName());
         }
 
         deadlineExtensionsLogic.deleteDeadlineExtensionsForUser(student);
@@ -807,7 +808,7 @@ public final class UsersLogic {
         instructor.setAccount(null);
 
         if (usersDb.getAllUsersByGoogleId(googleId).isEmpty()) {
-            accountsLogic.deleteAccountCascade(googleId);
+            accountsLogic.deleteAccount(googleId);
         }
     }
 
@@ -946,7 +947,7 @@ public final class UsersLogic {
         student.setAccount(null);
 
         if (usersDb.getAllUsersByGoogleId(googleId).isEmpty()) {
-            accountsLogic.deleteAccountCascade(googleId);
+            accountsLogic.deleteAccount(googleId);
         }
     }
 
@@ -955,23 +956,6 @@ public final class UsersLogic {
      */
     public static <T extends User> void sortByName(List<T> users) {
         users.sort(Comparator.comparing(user -> user.getName().toLowerCase()));
-    }
-
-    /**
-     * Checks if an instructor with {@code googleId} can create a course with
-     * {@code institute}
-     * (ie. has an existing course(s) with the same {@code institute}).
-     */
-    public boolean canInstructorCreateCourse(String googleId, String institute) {
-        assert googleId != null;
-        assert institute != null;
-
-        List<Instructor> existingInstructors = getInstructorsForGoogleId(googleId);
-        return existingInstructors
-                .stream()
-                .filter(Instructor::hasCoownerPrivileges)
-                .map(instructor -> instructor.getCourse())
-                .anyMatch(course -> institute.equals(course.getInstitute()));
     }
 
     /**

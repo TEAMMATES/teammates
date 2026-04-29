@@ -52,7 +52,6 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             if (student == null) {
                 throw new EntityNotFoundException("Student does not exist.");
             }
-            session = session.getCopyForUser(student.getEmail());
 
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
             verifySessionOpenExceptForModeration(session, student);
@@ -61,14 +60,13 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
             checkAccessControlForStudentFeedbackSubmission(student, session);
 
-            verifyResponseOwnerShipForStudent(student, feedbackResponse, feedbackQuestion);
+            verifyResponseOwnershipForStudent(student, feedbackResponse, feedbackQuestion);
             break;
         case INSTRUCTOR_SUBMISSION:
             Instructor instructorAsFeedbackParticipant = getSqlInstructorOfCourseFromRequest(courseId);
             if (instructorAsFeedbackParticipant == null) {
                 throw new EntityNotFoundException("Instructor does not exist.");
             }
-            session = session.getCopyForUser(instructorAsFeedbackParticipant.getEmail());
 
             gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
             verifySessionOpenExceptForModeration(session, instructorAsFeedbackParticipant);

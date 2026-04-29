@@ -53,13 +53,12 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
     void testExecute_typicalCase_success() throws Exception {
         FeedbackQuestion createdQuestion = getCreatedFeedbackQuestion();
 
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId()))
                 .thenReturn(typicalFeedbackSession);
         when(mockLogic.createFeedbackQuestion(any(FeedbackQuestion.class))).thenReturn(createdQuestion);
 
         String[] params = {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
 
         FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
@@ -78,7 +77,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         assertEquals(response.getQuestionBrief(), createdQuestion.getQuestionDetailsCopy().getQuestionText());
 
         assertEquals(response.getQuestionType(), FeedbackQuestionType.TEXT);
-        assertEquals(response.getQuestionType(), createdQuestion.getQuestionDetailsCopy().getQuestionType());
+        assertEquals(response.getQuestionType(), createdQuestion.getQuestionType());
 
         assertEquals(response.getGiverType(), FeedbackParticipantType.STUDENTS);
         assertEquals(response.getGiverType(), createdQuestion.getGiverType());
@@ -105,29 +104,13 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
     }
 
     @Test
-    void testExecute_missingCourseId_throwsInvalidHttpParameterException() {
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
-        };
-
-        verifyHttpParameterFailure(params);
-    }
-
-    @Test
-    void testExecute_missingFeedbackSessionName_throwsInvalidHttpParameterException() {
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
-
-        verifyHttpParameterFailure(params);
-    }
-
-    @Test
     void testExecute_nullQuestionType_throwsInvalidHttpRequestBodyException() {
         String[] params = {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
+
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId()))
+                .thenReturn(typicalFeedbackSession);
 
         FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
         createRequest.setQuestionType(null);
@@ -137,9 +120,11 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
     @Test
     void testExecute_invalidQuestionNumber_throwsInvalidHttpRequestBodyException() {
         String[] params = {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
+
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId()))
+                .thenReturn(typicalFeedbackSession);
 
         FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
         createRequest.setQuestionNumber(-1);
@@ -149,12 +134,11 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
 
     @Test
     void testExecute_invalidGiverType_throwsInvalidHttpRequestBodyException() {
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId()))
                 .thenReturn(typicalFeedbackSession);
 
         String[] params = {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
 
         FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
@@ -167,12 +151,11 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
 
     @Test
     void testExecute_invalidRecommendedLength_throwsInvalidHttpRequestBodyException() {
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId()))
                 .thenReturn(typicalFeedbackSession);
 
         String[] params = {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
 
         FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
@@ -186,9 +169,11 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
     @Test
     void testExecute_emptyQuestionBrief_throwsInvalidHttpRequestBodyException() {
         String[] params = {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
+
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId()))
+                .thenReturn(typicalFeedbackSession);
 
         FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
         createRequest.setQuestionBrief("");
@@ -198,11 +183,10 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
 
     @Test
     void testExecute_nonExistentFeedbackSession_throwsEntityNotFoundException() {
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId())).thenReturn(null);
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId())).thenReturn(null);
 
         String[] params = {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
         loginAsInstructor(typicalInstructor.getGoogleId());
 
@@ -212,12 +196,10 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
     @Test
     void testAccessControl() {
         String[] params = {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
 
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
-                .thenReturn(typicalFeedbackSession);
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId())).thenReturn(typicalFeedbackSession);
 
         verifyInaccessibleWithoutModifySessionPrivilege(typicalCourse, params);
         verifyAccessibleWithModifySessionPrivilege(typicalCourse, params);

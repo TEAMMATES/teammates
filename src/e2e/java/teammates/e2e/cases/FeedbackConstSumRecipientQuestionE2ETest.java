@@ -22,7 +22,7 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(
-                loadDataBundle("/FeedbackConstSumRecipientQuestionE2ETestSql.json"));
+                loadDataBundle("/FeedbackConstSumRecipientQuestionE2ETest.json"));
 
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");

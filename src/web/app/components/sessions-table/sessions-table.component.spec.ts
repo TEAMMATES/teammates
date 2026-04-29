@@ -3,7 +3,10 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 
-import { SessionsTableColumn, SessionsTableRowModel } from './sessions-table-model';
+import {
+  SessionsTableColumn,
+  SessionsTableRowModel,
+} from './sessions-table-model';
 import { SessionsTableComponent } from './sessions-table.component';
 import {
   FeedbackSession,
@@ -25,8 +28,7 @@ describe('SessionsTableComponent', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
       ],
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -114,7 +116,10 @@ describe('SessionsTableComponent', () => {
   };
 
   it('should snap like in home page with 2 sessions sorted by start date', () => {
-    component.columnsToShow = [SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE];
+    component.columnsToShow = [
+      SessionsTableColumn.START_DATE,
+      SessionsTableColumn.END_DATE,
+    ];
     component.sessionsTableRowModels = [sessionTable1, sessionTable2];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -125,5 +130,184 @@ describe('SessionsTableComponent', () => {
     component.sessionsTableRowModels = [sessionTable1, sessionTable2];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
+  });
+
+  it('should create column data when column is included', () => {
+    component.columnsToShow = [SessionsTableColumn.COURSE_ID];
+
+    const result = component.createColumnData({
+      columnType: SessionsTableColumn.COURSE_ID,
+      header: 'Course ID',
+    });
+
+    expect(result.length).toBe(1);
+    expect(result[0].header).toBe('Course ID');
+  });
+
+  it('should return empty column data when column is not included', () => {
+    component.columnsToShow = [];
+
+    const result = component.createColumnData({
+      columnType: SessionsTableColumn.COURSE_ID,
+      header: 'Course ID',
+    });
+
+    expect(result).toEqual([]);
+  });
+
+  it('should create row data when column is included', () => {
+    component.columnsToShow = [SessionsTableColumn.COURSE_ID];
+
+    const result = component.createRowData({
+      columnType: SessionsTableColumn.COURSE_ID,
+      value: 'CS101',
+    });
+
+    expect(result.length).toBe(1);
+    expect(result[0].value).toBe('CS101');
+  });
+
+  it('should return empty row data when column is not included', () => {
+    component.columnsToShow = [];
+
+    const result = component.createRowData({
+      columnType: SessionsTableColumn.COURSE_ID,
+      value: 'CS101',
+    });
+
+    expect(result).toEqual([]);
+  });
+
+  it('should emit sort event', () => {
+    jest.spyOn(component.sortSessionsTableRowModelsEvent, 'emit');
+
+    component.sortSessionsTableRowModelsEventHandler({
+      sortBy: component.SortBy.COURSE_ID,
+      sortOrder: component.SortOrder.ASC,
+    });
+
+    expect(component.sortSessionsTableRowModelsEvent.emit).toHaveBeenCalledWith(
+      {
+        sortBy: component.SortBy.COURSE_ID,
+        sortOrder: component.SortOrder.ASC,
+      },
+    );
+  });
+
+  it('should set row clicked', () => {
+    component.setRowClicked(1);
+
+    expect(component.rowClicked).toBe(1);
+  });
+
+  it('should emit reminder event for all non-submitters', () => {
+    jest.spyOn(component.sendRemindersToAllNonSubmittersEvent, 'emit');
+
+    component.sendRemindersToAllNonSubmitters(0);
+
+    expect(
+      component.sendRemindersToAllNonSubmittersEvent.emit,
+    ).toHaveBeenCalledWith(0);
+  });
+
+  it('should emit reminder event for selected non-submitters', () => {
+    jest.spyOn(component.sendRemindersToSelectedNonSubmittersEvent, 'emit');
+
+    component.sendRemindersToSelectedNonSubmitters(1);
+
+    expect(
+      component.sendRemindersToSelectedNonSubmittersEvent.emit,
+    ).toHaveBeenCalledWith(1);
+  });
+
+  it('should emit download session results event', () => {
+    jest.spyOn(component.downloadSessionResultsEvent, 'emit');
+
+    component.downloadSessionResults(0);
+
+    expect(component.downloadSessionResultsEvent.emit).toHaveBeenCalledWith(0);
+  });
+
+  it('should emit resend results link event', () => {
+    jest.spyOn(component.resendResultsLinkToStudentsEvent, 'emit');
+
+    component.remindResultsLinkToStudent(1);
+
+    expect(
+      component.resendResultsLinkToStudentsEvent.emit,
+    ).toHaveBeenCalledWith(1);
+  });
+
+  it('should include optional fields in column data when provided', () => {
+    component.columnsToShow = [SessionsTableColumn.COURSE_ID];
+
+    const result = component.createColumnData({
+      columnType: SessionsTableColumn.COURSE_ID,
+      header: 'Course ID',
+      sortBy: component.SortBy.COURSE_ID,
+      headerToolTip: 'tooltip',
+      alignment: 'center',
+      headerClass: 'test-class',
+    });
+
+    expect(result).toHaveLength(1);
+    expect(result[0].sortBy).toBe(component.SortBy.COURSE_ID);
+    expect(result[0].headerToolTip).toBe('tooltip');
+    expect(result[0].alignment).toBe('center');
+    expect(result[0].headerClass).toBe('test-class');
+  });
+
+  it('should include optional fields in row data when provided', () => {
+    component.columnsToShow = [SessionsTableColumn.COURSE_ID];
+
+    const customComponent = { component: {} as never };
+    const result = component.createRowData({
+      columnType: SessionsTableColumn.COURSE_ID,
+      value: 'CS101',
+      displayValue: 'Display CS101',
+      customComponent,
+      style: { color: 'red' },
+    });
+
+    expect(result).toHaveLength(1);
+    expect(result[0].value).toBe('CS101');
+    expect(result[0].displayValue).toBe('Display CS101');
+    expect(result[0].customComponent).toBe(customComponent);
+    expect(result[0].style).toEqual({ color: 'red' });
+  });
+
+  it('should create response rate component data and emit on click', () => {
+    jest.spyOn(component.loadResponseRateEvent, 'emit');
+
+    const result = (component as any).createCellWithResponseRateComponent(
+      sessionTable1,
+    );
+    const data = result.customComponent.componentData(0);
+
+    expect(data.idx).toBe(0);
+    expect(data.responseRate).toBe('8 / 9');
+    expect(data.empty).toBe(false);
+    expect(data.isLoading).toBe(false);
+
+    data.onClick();
+
+    expect(component.loadResponseRateEvent.emit).toHaveBeenCalledWith(0);
+  });
+
+  it('should create group button data and call setRowClicked callback', () => {
+    const setRowClickedSpy = jest.spyOn(component, 'setRowClicked');
+
+    component.sessionsTableRowModels = [sessionTable1];
+    component.rowsData = [[]];
+    component.columnsData = [];
+
+    const result = (component as any).createCellWithGroupButtonsComponent(
+      sessionTable1,
+    );
+    const data = result.customComponent.componentData(0);
+
+    data.setRowClicked();
+
+    expect(setRowClickedSpy).toHaveBeenCalledWith(0);
   });
 });

@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
@@ -60,7 +60,6 @@ import {
   SortableEvent,
   SortableTableHeaderColorScheme,
 } from '../../components/sortable-table/sortable-table.component';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
@@ -75,7 +74,6 @@ interface RecycleBinFeedbackSessionRowModel {
   selector: 'tm-instructor-sessions-page',
   templateUrl: './instructor-sessions-page.component.html',
   styleUrls: ['./instructor-sessions-page.component.scss'],
-  animations: [collapseAnim],
   imports: [
     TeammatesRouterDirective,
     SessionEditFormComponent,
@@ -84,6 +82,7 @@ interface RecycleBinFeedbackSessionRowModel {
     SessionsTableComponent,
     SessionsRecycleBinTableComponent,
     ModifiedTimestampModalComponent,
+    NgbCollapse,
 ],
 })
 export class InstructorSessionsPageComponent extends InstructorSessionModalPageComponent implements OnInit {
@@ -340,7 +339,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
         of(...templateSession.questions).pipe(
             concatMap((question: FeedbackQuestion) => {
               return this.feedbackQuestionsService.createFeedbackQuestion(
-                  feedbackSession.courseId, feedbackSession.feedbackSessionName, {
+                  feedbackSession.feedbackSessionId, {
                     questionNumber: question.questionNumber,
                     questionBrief: question.questionBrief,
                     questionDescription: question.questionDescription,
@@ -464,9 +463,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    */
   restoreRecycleBinFeedbackSession(model: RecycleBinFeedbackSessionRowModel): void {
     this.isRestoreFeedbackSessionLoading = true;
-    this.feedbackSessionsService.deleteSessionFromRecycleBin(
-        model.feedbackSession.courseId,
-        model.feedbackSession.feedbackSessionName,
+    this.feedbackSessionsService.restoreSessionFromRecycleBin(
+        model.feedbackSession.feedbackSessionId,
     )
         .pipe(finalize(() => {
           this.isRestoreFeedbackSessionLoading = false;
@@ -497,8 +495,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     this.isMoveToRecycleBinLoading = true;
     const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
     this.feedbackSessionsService.moveSessionToRecycleBin(
-        model.feedbackSession.courseId,
-        model.feedbackSession.feedbackSessionName,
+        model.feedbackSession.feedbackSessionId,
     )
         .pipe(finalize(() => {
           this.isMoveToRecycleBinLoading = false;
@@ -616,9 +613,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     const restoreRequests: Observable<FeedbackSession>[] = [];
     this.recycleBinFeedbackSessionRowModels.forEach((model: RecycleBinFeedbackSessionRowModel) => {
       restoreRequests.push(
-          this.feedbackSessionsService.deleteSessionFromRecycleBin(
-              model.feedbackSession.courseId,
-              model.feedbackSession.feedbackSessionName,
+          this.feedbackSessionsService.restoreSessionFromRecycleBin(
+              model.feedbackSession.feedbackSessionId,
           ));
     });
 
@@ -656,8 +652,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
 
     modalRef.result.then(() => {
       this.feedbackSessionsService.deleteFeedbackSession(
-          model.feedbackSession.courseId,
-          model.feedbackSession.feedbackSessionName,
+          model.feedbackSession.feedbackSessionId,
       )
         .pipe(finalize(() => {
           this.isPermanentDeleteLoading = false;
@@ -692,8 +687,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
 
       this.recycleBinFeedbackSessionRowModels.forEach((model: RecycleBinFeedbackSessionRowModel) => {
         deleteRequests.push(this.feedbackSessionsService.deleteFeedbackSession(
-            model.feedbackSession.courseId,
-            model.feedbackSession.feedbackSessionName,
+            model.feedbackSession.feedbackSessionId,
         ));
       });
 

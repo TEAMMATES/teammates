@@ -95,8 +95,7 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCase {
     public void testDeleteComment_commentExists_success() {
         FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
 
-        mockHibernateUtil.when(() -> HibernateUtil.get(FeedbackResponseComment.class, TYPICAL_ID)).thenReturn(comment);
-        feedbackResponseCommentsDb.deleteFeedbackResponseComment(TYPICAL_ID);
+        feedbackResponseCommentsDb.deleteFeedbackResponseComment(comment);
 
         mockHibernateUtil.verify(() -> HibernateUtil.remove(comment));
     }

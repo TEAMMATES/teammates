@@ -7,7 +7,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
@@ -45,10 +44,11 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         coursesDb.createCourse(course);
 
         Section section = new Section(course, "test-section");
+        coursesDb.createSection(section);
         course.addSection(section);
         Team team = new Team(section, "test-team");
+        coursesDb.createTeam(team);
         section.addTeam(team);
-        coursesDb.updateCourse(course);
 
         Account instructorAccount = new Account("instructor-account", "instructor-name", "valid-instructor@email.tmt");
         accountsDb.createAccount(instructorAccount);
@@ -157,12 +157,23 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         usersDb.createInstructor(secondInstructor);
         secondInstructor.setAccount(userSharedAccount);
 
+        Section section = new Section(course, "section-name");
+        coursesDb.createSection(section);
+        course.addSection(section);
+        Team team = new Team(section, "team-name");
+        coursesDb.createTeam(team);
+        section.addTeam(team);
+
         Student firstStudent = getTypicalStudent();
+        firstStudent.setTeam(team);
+        team.addUser(firstStudent);
         firstStudent.setEmail("valid-student-1@email.tmt");
         usersDb.createStudent(firstStudent);
         firstStudent.setAccount(userSharedAccount);
 
         Student secondStudent = getTypicalStudent();
+        secondStudent.setTeam(team);
+        team.addUser(secondStudent);
         secondStudent.setEmail("valid-student-2@email.tmt");
         usersDb.createStudent(secondStudent);
         secondStudent.setAccount(userSharedAccount);
@@ -187,19 +198,21 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testGetStudentsForSection()
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         ______TS("success: typical case");
         Section firstSection = new Section(course, "section-name1");
+        coursesDb.createSection(firstSection);
         course.addSection(firstSection);
         Team firstTeam = new Team(firstSection, "team-name1");
+        coursesDb.createTeam(firstTeam);
         firstSection.addTeam(firstTeam);
 
         Section secondSection = new Section(course, "section-name2");
+        coursesDb.createSection(secondSection);
         course.addSection(secondSection);
         Team secondTeam = new Team(secondSection, "team-name2");
+        coursesDb.createTeam(secondTeam);
         secondSection.addTeam(secondTeam);
-
-        coursesDb.updateCourse(course);
 
         Student firstStudent = getTypicalStudent();
         firstStudent.setEmail("valid-student-1@email.tmt");
@@ -226,19 +239,21 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     @Test
     public void testGetStudentsForTeam()
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws InvalidParametersException, EntityAlreadyExistsException {
         ______TS("success: typical case");
         Section firstSection = new Section(course, "section-name1");
+        coursesDb.createSection(firstSection);
         course.addSection(firstSection);
         Team firstTeam = new Team(firstSection, "team-name1");
+        coursesDb.createTeam(firstTeam);
         firstSection.addTeam(firstTeam);
 
         Section secondSection = new Section(course, "section-name2");
+        coursesDb.createSection(secondSection);
         course.addSection(secondSection);
         Team secondTeam = new Team(secondSection, "team-name2");
+        coursesDb.createTeam(secondTeam);
         secondSection.addTeam(secondTeam);
-
-        coursesDb.updateCourse(course);
 
         Student firstStudent = getTypicalStudent();
         firstStudent.setEmail("valid-student-1@email.tmt");
@@ -267,11 +282,20 @@ public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     public void testGetStudentsByGoogleId()
             throws EntityAlreadyExistsException, InvalidParametersException {
         Course course2 = new Course("course-id-2", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
+        coursesDb.createCourse(course2);
+        Section section = new Section(course2, "section-name");
+        coursesDb.createSection(section);
+        course2.addSection(section);
+        Team team = new Team(section, "team-name");
+        coursesDb.createTeam(team);
+        section.addTeam(team);
+
         Student student2 = getTypicalStudent();
         Account account = new Account("google-id", student.getName(), student.getEmail());
 
+        student2.setTeam(team);
+        team.addUser(student2);
         accountsDb.createAccount(account);
-        coursesDb.createCourse(course2);
         student.setAccount(account);
         student2.setAccount(account);
         student2.setCourse(course2);

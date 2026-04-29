@@ -843,7 +843,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Instant.now().minus(Duration.ofHours(1)),
                 Duration.ofMinutes(15),
                 false,
-                false,
                 false);
     }
 

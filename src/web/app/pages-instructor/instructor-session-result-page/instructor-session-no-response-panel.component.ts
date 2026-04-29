@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   FeedbackSession,
@@ -21,7 +21,6 @@ import {
 import {
   ReminderResponseModel,
 } from '../../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-model';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 
 /**
@@ -31,11 +30,11 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
   selector: 'tm-instructor-session-no-response-panel',
   templateUrl: './instructor-session-no-response-panel.component.html',
   styleUrls: ['./instructor-session-no-response-panel.component.scss'],
-  animations: [collapseAnim],
   imports: [
     TeammatesRouterDirective,
     PanelChevronComponent,
     LoadingSpinnerDirective,
+    NgbCollapse,
 ],
 })
 export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChanges {
@@ -110,6 +109,7 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
     modalRef.componentInstance.feedbackSessionName = feedbackSessionName;
     modalRef.componentInstance.studentListInfoTableRowModels =
       this.allStudents.map((student: Student) => ({
+        id: student.userId,
         email: student.email,
         name: student.name,
         teamName: student.teamName,
@@ -117,7 +117,7 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
 
         hasSubmittedSession: !nonResponseStudentEmailSet.has(student.email),
         isSelected: nonResponseStudentEmailSet.has(student.email),
-      } as StudentListInfoTableRowModel));
+      } satisfies StudentListInfoTableRowModel));
 
     modalRef.result.then((reminderResponse: ReminderResponseModel) => {
       this.studentsToRemindEvent.emit(reminderResponse);

@@ -121,9 +121,6 @@ public class InstructorFeedbackEditPageSql extends AppPage {
     @FindBy(id = "btn-change-email")
     private WebElement changeEmailButton;
 
-    @FindBy(id = "email-opening")
-    private WebElement openedSessionEmailCheckbox;
-
     @FindBy(id = "email-closing")
     private WebElement closingSoonSessionEmailCheckbox;
 
@@ -239,17 +236,13 @@ public class InstructorFeedbackEditPageSql extends AppPage {
     }
 
     private void verifyEmailSettings(FeedbackSession feedbackSession) {
-        boolean isOpenedEmailEnabled = feedbackSession.isOpenedEmailEnabled();
         boolean isClosingSoonEmailEnabled = feedbackSession.isClosingSoonEmailEnabled();
         boolean isPublishedEmailEnabled = feedbackSession.isPublishedEmailEnabled();
 
         // Default settings, assert setting section not expanded
-        if (isOpenedEmailEnabled && isClosingSoonEmailEnabled && isPublishedEmailEnabled) {
+        if (isClosingSoonEmailEnabled && isPublishedEmailEnabled) {
             assertTrue(isElementPresent("btn-change-email"));
             return;
-        }
-        if (isOpenedEmailEnabled) {
-            assertTrue(openedSessionEmailCheckbox.isSelected());
         }
         if (isClosingSoonEmailEnabled) {
             assertTrue(closingSoonSessionEmailCheckbox.isSelected());
@@ -321,7 +314,7 @@ public class InstructorFeedbackEditPageSql extends AppPage {
 
     public void verifyQuestionDetails(int questionNum, FeedbackQuestion feedbackQuestion) {
         scrollElementToCenter(getQuestionForm(questionNum));
-        assertEquals(feedbackQuestion.getQuestionDetailsCopy().getQuestionType(), getQuestionType(questionNum));
+        assertEquals(feedbackQuestion.getQuestionType(), getQuestionType(questionNum));
         assertEquals(feedbackQuestion.getQuestionNumber(), getQuestionNumber(questionNum));
         assertEquals(feedbackQuestion.getQuestionDetailsCopy().getQuestionText(), getQuestionBrief(questionNum));
         assertEquals(getQuestionDescription(questionNum), feedbackQuestion.getDescription());
@@ -532,7 +525,7 @@ public class InstructorFeedbackEditPageSql extends AppPage {
     private void inputQuestionDetails(int questionNum, FeedbackQuestion feedbackQuestion) {
         setQuestionBrief(questionNum, feedbackQuestion.getQuestionDetailsCopy().getQuestionText());
         setQuestionDescription(questionNum, feedbackQuestion.getDescription());
-        FeedbackQuestionType questionType = feedbackQuestion.getQuestionDetailsCopy().getQuestionType();
+        FeedbackQuestionType questionType = feedbackQuestion.getQuestionType();
         if (questionType != FeedbackQuestionType.CONTRIB) {
             setFeedbackPath(questionNum, feedbackQuestion);
             setQuestionVisibility(questionNum, feedbackQuestion);
@@ -944,9 +937,6 @@ public class InstructorFeedbackEditPageSql extends AppPage {
 
     private void setEmailSettings(FeedbackSession newFeedbackSessionDetails) {
         showEmailSettings();
-        if (newFeedbackSessionDetails.isOpenedEmailEnabled() != openedSessionEmailCheckbox.isSelected()) {
-            click(openedSessionEmailCheckbox);
-        }
         if (newFeedbackSessionDetails.isClosingSoonEmailEnabled() != closingSoonSessionEmailCheckbox.isSelected()) {
             click(closingSoonSessionEmailCheckbox);
         }
@@ -968,7 +958,10 @@ public class InstructorFeedbackEditPageSql extends AppPage {
     }
 
     private int getNumQuestions() {
-        return browser.driver.findElements(By.tagName("tm-question-edit-form")).size();
+        return (int) browser.driver.findElements(By.tagName("tm-question-edit-form"))
+            .stream()
+            .filter(WebElement::isDisplayed)
+            .count();
     }
 
     private WebElement getQuestionForm(int questionNum) {

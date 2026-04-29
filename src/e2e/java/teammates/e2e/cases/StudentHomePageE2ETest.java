@@ -18,7 +18,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/StudentHomePageE2ESqlTest.json");
+        testData = loadDataBundle("/StudentHomePageE2ETest.json");
         removeAndRestoreDataBundle(testData);
     }
 
@@ -36,7 +36,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
             int panelIndex = homePage.getStudentHomeCoursePanelIndex(courseId);
 
             String feedbackSessionName = testData.feedbackSessions.entrySet().stream()
-                    .filter(feedbackSession -> courseId.equals(feedbackSession.getValue().getCourse().getId()))
+                    .filter(feedbackSession -> courseId.equals(feedbackSession.getValue().getCourseId()))
                     .map(x -> x.getValue().getName())
                     .collect(Collectors.joining());
 
@@ -49,7 +49,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
 
         for (Student student : testData.students.values()) {
             if ("tm.e2e.SHome.student".equals(student.getGoogleId())) {
-                courseIds.add(student.getCourse().getId());
+                courseIds.add(student.getCourseId());
             }
         }
         return courseIds;

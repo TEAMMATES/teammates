@@ -18,15 +18,15 @@ import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   Course,
+  DeadlineExtensions,
   FeedbackSession,
-  FeedbackSessionDeadlineExtensions,
   FeedbackSessionSubmittedGiverSet,
   Instructors,
   Students,
 } from '../../../types/api-output';
 import {
+  DeadlineExtensionsUpdateRequest,
   FeedbackSessionBasicRequest,
-  FeedbackSessionDeadlineExtensionsUpdateRequest,
   Intent,
   ResponseVisibleSetting,
   SessionVisibleSetting,
@@ -144,8 +144,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         feedbackSessionId: this.feedbackSessionId,
         intent: Intent.FULL_DETAIL,
       }),
-      this.feedbackSessionsService.getFeedbackSessionDeadlineExtensions(
-        this.courseId, this.feedbackSessionName),
+      this.feedbackSessionsService.getFeedbackSessionDeadlineExtensions(this.feedbackSessionId),
     ])
       .pipe(finalize(() => {
         this.isLoadingFeedbackSession = false;
@@ -154,7 +153,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       }))
       .subscribe({
         next: ([course, feedbackSession, deadlineExtensions]:
-            [Course, FeedbackSession, FeedbackSessionDeadlineExtensions]) => {
+            [Course, FeedbackSession, DeadlineExtensions]) => {
           this.courseName = course.courseName;
           this.setFeedbackSessionDetails(feedbackSession);
           this.studentDeadlines = deadlineExtensions.studentDeadlines;
@@ -220,8 +219,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
   private getNonSubmitterStudents(): void {
     this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({
-      courseId: this.courseId,
-      feedbackSessionName: this.feedbackSessionName,
+      feedbackSessionId: this.feedbackSessionId,
     }).subscribe({
       next: (feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
         this.studentsOfCourse
@@ -283,8 +281,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
   private getNonSubmitterInstructors(): void {
     this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({
-      courseId: this.courseId,
-      feedbackSessionName: this.feedbackSessionName,
+      feedbackSessionId: this.feedbackSessionId,
     }).subscribe({
       next: (feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
         this.instructorsOfCourse
@@ -394,7 +391,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   }
 
   private handleUpdateDeadlines(
-    request: FeedbackSessionDeadlineExtensionsUpdateRequest,
+    request: DeadlineExtensionsUpdateRequest,
     numStudentsUpdated: number,
     numInstructorsUpdated: number,
     isNotifyDeadlines: boolean,
@@ -402,7 +399,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   ): void {
     this.isSubmittingDeadlines = true;
     this.feedbackSessionsService
-      .updateFeedbackSessionDeadlineExtensions(this.courseId, this.feedbackSessionName, request, isNotifyDeadlines)
+      .updateFeedbackSessionDeadlineExtensions(this.feedbackSessionId, request, isNotifyDeadlines)
       .pipe(finalize(() => { this.isSubmittingDeadlines = false; }))
       .subscribe({
         next: () => {

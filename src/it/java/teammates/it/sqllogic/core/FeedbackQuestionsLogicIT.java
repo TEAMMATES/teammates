@@ -3,7 +3,6 @@ package teammates.it.sqllogic.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -33,16 +32,11 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
 
     private DataBundle typicalDataBundle;
 
-    @BeforeClass
-    public void setupClass() {
-        typicalDataBundle = getTypicalDataBundle();
-    }
-
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalDataBundle);
+        typicalDataBundle = persistDataBundle(getTypicalDataBundle());
         HibernateUtil.flushSession();
     }
 
@@ -92,7 +86,7 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess 
                 fq1.getQuestionNumber(),
                 fq1.getDescription(),
                 fq1.getQuestionDetailsCopy(),
-                fq1.getQuestionDetailsCopy().getQuestionType(),
+                fq1.getQuestionType(),
                 fq1.getGiverType(),
                 fq1.getRecipientType(),
                 fq1.getNumOfEntitiesToGiveFeedbackTo(),

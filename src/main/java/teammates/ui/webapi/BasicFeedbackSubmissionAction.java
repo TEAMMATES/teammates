@@ -74,13 +74,13 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         if (!StringHelper.isEmpty(moderatedPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             gateKeeper.verifyAccessible(
-                    sqlLogic.getInstructorByGoogleId(feedbackSession.getCourse().getId(), userInfo.getId()), feedbackSession,
+                    sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
                     student.getSectionName(),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             gateKeeper.verifyAccessible(
-                    sqlLogic.getInstructorByGoogleId(feedbackSession.getCourse().getId(), userInfo.getId()), feedbackSession,
+                    sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
             gateKeeper.verifyAccessible(student, feedbackSession);
@@ -146,12 +146,12 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         if (!StringHelper.isEmpty(moderatedPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             gateKeeper.verifyAccessible(
-                    sqlLogic.getInstructorByGoogleId(feedbackSession.getCourse().getId(), userInfo.getId()),
+                    sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
                     feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             gateKeeper.verifyAccessible(
-                    sqlLogic.getInstructorByGoogleId(feedbackSession.getCourse().getId(), userInfo.getId()),
+                    sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
                     feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
             gateKeeper.verifySessionSubmissionPrivilegeForInstructor(feedbackSession, instructor);
@@ -207,11 +207,11 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         gateKeeper.verifyLoggedInUserPrivileges(userInfo);
         if (isInstructor) {
             gateKeeper.verifyAccessible(
-                    sqlLogic.getInstructorByGoogleId(feedbackSession.getCourse().getId(), userInfo.getId()), feedbackSession,
+                    sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
             gateKeeper.verifyAccessible(
-                    sqlLogic.getInstructorByGoogleId(feedbackSession.getCourse().getId(), userInfo.getId()), feedbackSession,
+                    sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION);
         }
     }

@@ -1,11 +1,8 @@
-::ng-deep .highlighted-text {
-  background-color: yellow;
-}
-
 /* stylelint-disable declaration-block-no-redundant-longhand-properties */
 .table-responsive {
   overflow-y: visible;
-  overflow-x: -moz-scrollbars-horizontal; 
+  overflow-x: auto;
+  max-width: 100%;
 }
 
 .table-responsive > table > thead > tr > th {
@@ -24,13 +21,11 @@
   box-shadow: 0 0 1px rgb(255 255 255 / 50%);
 }
 
-
 #search-table-account-request {
   border-collapse: collapse;
 }
 
-
-#search-table-account-request th:last-child, 
+#search-table-account-request th:last-child,
 #search-table-account-request td:last-child {
   min-width: 10vw;
   position: sticky;
@@ -57,7 +52,6 @@
   max-width: max-content;
   word-break: break-word;
   word-wrap: break-all;
-
 }
 
 .dropdown-item {

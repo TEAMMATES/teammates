@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
@@ -67,15 +68,14 @@ public class RemindFeedbackSessionSubmissionActionTest
     protected void testExecute_feedbackSessionNotPublished_warningMessage() {
         FeedbackSession closedFeedbackSession = generateClosedSessionInCourse(course, instructor);
 
-        when(mockLogic.getFeedbackSession(isA(String.class), isA(String.class)))
+        when(mockLogic.getFeedbackSession(closedFeedbackSession.getId()))
                 .thenReturn(closedFeedbackSession);
 
         String[] paramsFeedbackSessionNotOpen = new String[] {
-                Const.ParamsNames.COURSE_ID, closedFeedbackSession.getCourse().getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, closedFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, closedFeedbackSession.getId().toString(),
         };
 
-        String[] usersToRemind = {instructor.getEmail(), student.getEmail()};
+        UUID[] usersToRemind = {instructor.getId(), student.getId()};
         FeedbackSessionRespondentRemindRequest remindRequest = new FeedbackSessionRespondentRemindRequest();
         remindRequest.setUsersToRemind(usersToRemind);
 
@@ -91,21 +91,20 @@ public class RemindFeedbackSessionSubmissionActionTest
         FeedbackSession openedFeedbackSession = generateOpenedSessionInCourse(course, instructor);
         EmailWrapper mockEmail = mock(EmailWrapper.class);
 
-        when(mockLogic.getFeedbackSession(isA(String.class), isA(String.class)))
+        when(mockLogic.getFeedbackSession(openedFeedbackSession.getId()))
                 .thenReturn(openedFeedbackSession);
-        when(mockLogic.getStudentForEmail(course.getId(), student.getEmail())).thenReturn(student);
-        when(mockLogic.getInstructorForEmail(course.getId(), instructor.getEmail())).thenReturn(instructor);
+        when(mockLogic.getUser(student.getId())).thenReturn(student);
+        when(mockLogic.getUser(instructor.getId())).thenReturn(instructor);
         when(mockSqlEmailGenerator.generateFeedbackSessionReminderEmails(
                 isA(FeedbackSession.class), anyList(), anyList(), isNull()))
                 .thenReturn(List.of(mockEmail));
 
-        String[] usersToRemind = {instructor.getEmail(), student.getEmail()};
+        UUID[] usersToRemind = {instructor.getId(), student.getId()};
         FeedbackSessionRespondentRemindRequest remindRequest = new FeedbackSessionRespondentRemindRequest();
         remindRequest.setUsersToRemind(usersToRemind);
 
         String[] paramsTypical = new String[] {
-                Const.ParamsNames.COURSE_ID, openedFeedbackSession.getCourse().getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, openedFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, openedFeedbackSession.getId().toString(),
         };
 
         RemindFeedbackSessionSubmissionAction validAction = getAction(remindRequest, paramsTypical);
@@ -145,7 +144,7 @@ public class RemindFeedbackSessionSubmissionActionTest
                 instructor.getEmail(), "generic instructions",
                 beforeNow, afterNow,
                 beforeNow, afterNow,
-                Duration.ofHours(0), true, false, false);
+                Duration.ofHours(0), false, false);
         fs.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
 
@@ -159,7 +158,7 @@ public class RemindFeedbackSessionSubmissionActionTest
                 beforeNow,
                 beforeNow,
                 beforeNow, beforeNow,
-                Duration.ofHours(0), true, false, false);
+                Duration.ofHours(0), false, false);
         fs.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
 

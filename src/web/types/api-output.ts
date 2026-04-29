@@ -83,14 +83,9 @@ export interface CourseSectionNames extends ApiOutput {
   sectionNames: string[];
 }
 
-export interface DeadlineExtension extends ApiOutput {
-  deadlineExtensionId: string;
-  courseId: string;
-  feedbackSessionName: string;
-  userEmail: string;
-  isInstructor: boolean;
-  sentClosingSoonEmail: boolean;
-  endTime: number;
+export interface DeadlineExtensions extends ApiOutput {
+  studentDeadlines: { [index: string]: number };
+  instructorDeadlines: { [index: string]: number };
 }
 
 export interface DefaultLogDetails extends LogDetails {
@@ -325,11 +320,6 @@ export interface FeedbackSessionAuditLogDetails extends LogDetails {
   studentId?: string;
   studentEmail?: string;
   accessType: string;
-}
-
-export interface FeedbackSessionDeadlineExtensions extends ApiOutput {
-  studentDeadlines: { [index: string]: number };
-  instructorDeadlines: { [index: string]: number };
 }
 
 export interface FeedbackSessionLog {

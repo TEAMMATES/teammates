@@ -584,13 +584,13 @@ public final class SqlEmailGenerator {
         boolean isEmailNeededForStudents = fsLogic.isFeedbackSessionViewableToUserType(session, false);
         boolean isEmailNeededForInstructors = fsLogic.isFeedbackSessionViewableToUserType(session, true);
         List<Instructor> instructorsToNotify = isEmailNeededForStudents
-                ? usersLogic.getCoOwnersForCourse(session.getCourse().getId())
+                ? usersLogic.getCoOwnersForCourse(session.getCourseId())
                 : new ArrayList<>();
         List<Student> students = isEmailNeededForStudents
-                ? usersLogic.getStudentsForCourse(session.getCourse().getId())
+                ? usersLogic.getStudentsForCourse(session.getCourseId())
                 : new ArrayList<>();
         List<Instructor> instructors = isEmailNeededForInstructors
-                ? usersLogic.getInstructorsForCourse(session.getCourse().getId())
+                ? usersLogic.getInstructorsForCourse(session.getCourseId())
                 : new ArrayList<>();
 
         return generateFeedbackSessionPublishedOrUnpublishedEmails(

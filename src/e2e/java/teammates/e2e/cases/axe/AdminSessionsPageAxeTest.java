@@ -25,7 +25,7 @@ public class AdminSessionsPageAxeTest extends BaseAxeTestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/AdminSessionsPageE2ETestSql.json");
+        testData = loadDataBundle("/AdminSessionsPageE2ETest.json");
 
         // To guarantee that there will always be some "ongoing sessions" listed,
         // the test data is injected with date/time values relative to the time where the test runs.

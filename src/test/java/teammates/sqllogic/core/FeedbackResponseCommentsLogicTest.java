@@ -51,18 +51,6 @@ public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetCommentForResponse_commentAlreadyExists_success() {
-        List<FeedbackResponseComment> expectedReturn = new ArrayList<>();
-        expectedReturn.add(getTypicalResponseComment(TYPICAL_ID));
-
-        when(frcDb.getFeedbackResponseCommentsForResponse(TYPICAL_UUID)).thenReturn(expectedReturn);
-
-        List<FeedbackResponseComment> fetchedReturn = frcLogic.getFeedbackResponseCommentsForResponse(TYPICAL_UUID);
-
-        assertEquals(expectedReturn, fetchedReturn);
-    }
-
-    @Test
     public void testGetCommentForResponseFromParticipant_commentAlreadyExists_success() {
         FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
 
@@ -108,9 +96,12 @@ public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
 
     @Test
     public void testDeleteComment_commentExists_success() {
+        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
+        when(frcDb.getFeedbackResponseComment(TYPICAL_ID)).thenReturn(comment);
+
         frcLogic.deleteFeedbackResponseComment(TYPICAL_ID);
 
-        verify(frcDb, times(1)).deleteFeedbackResponseComment(TYPICAL_ID);
+        verify(frcDb, times(1)).deleteFeedbackResponseComment(comment);
     }
 
     @Test

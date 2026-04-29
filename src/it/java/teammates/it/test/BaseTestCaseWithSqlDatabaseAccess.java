@@ -9,8 +9,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
@@ -95,9 +93,9 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     /**
      * Persist data bundle into the db.
      */
-    protected void persistDataBundle(DataBundle dataBundle)
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        logic.persistDataBundle(dataBundle);
+    protected DataBundle persistDataBundle(DataBundle dataBundle)
+            throws InvalidParametersException {
+        return logic.persistDataBundle(dataBundle);
     }
 
     /**
@@ -195,10 +193,16 @@ public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
     private BaseEntity getEntity(BaseEntity entity) {
         if (entity instanceof Course) {
             return logic.getCourse(((Course) entity).getId());
+        } else if (entity instanceof DeadlineExtension) {
+            return logic.getDeadlineExtension(((DeadlineExtension) entity).getId());
         } else if (entity instanceof FeedbackSession) {
             return logic.getFeedbackSession(((FeedbackSession) entity).getId());
         } else if (entity instanceof FeedbackQuestion) {
             return logic.getFeedbackQuestion(((FeedbackQuestion) entity).getId());
+        } else if (entity instanceof FeedbackResponse) {
+            return logic.getFeedbackResponse(((FeedbackResponse) entity).getId());
+        } else if (entity instanceof FeedbackResponseComment) {
+            return logic.getFeedbackResponseComment(((FeedbackResponseComment) entity).getId());
         } else if (entity instanceof Account) {
             return logic.getAccount(((Account) entity).getId());
         } else if (entity instanceof Notification) {

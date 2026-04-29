@@ -12,8 +12,7 @@ import teammates.storage.sqlentity.Student;
 import teammates.ui.output.HasResponsesData;
 
 /**
- * Checks whether a course or question has responses for instructor.
- * Checks whether a student has responded a feedback session.
+ * Checks whether a course or question has responses.
  */
 public class GetHasResponsesAction extends Action {
 
@@ -51,19 +50,7 @@ public class GetHasResponsesAction extends Action {
 
         // A student can check whether he has submitted responses for a feedback session in his course.
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-
-        if (feedbackSessionName != null) {
-            gateKeeper.verifyAccessible(
-                    sqlLogic.getStudentByGoogleId(courseId, userInfo.getId()),
-                    getNonNullFeedbackSession(feedbackSessionName, courseId));
-        }
-
         List<FeedbackSession> feedbackSessions = sqlLogic.getFeedbackSessionsForCourse(courseId);
-        if (feedbackSessions.isEmpty()) {
-            // Course has no sessions and therefore no response; access to responses is safe for all.
-            return;
-        }
 
         // Verify that all sessions are accessible to the user.
         for (FeedbackSession feedbackSession : feedbackSessions) {
@@ -86,48 +73,35 @@ public class GetHasResponsesAction extends Action {
             return handleInstructorReq();
         }
 
-        // Default path for student and admin
+        return handleStudentReq();
+    }
+
+    private JsonResult handleStudentReq() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        if (feedbackSessionName == null) {
-            // check all sessions in the course
-            List<FeedbackSession> feedbackSessions = sqlLogic.getFeedbackSessionsForCourse(courseId);
-            Student student = sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
-
-            Map<String, Boolean> sessionsHasResponses = new HashMap<>();
-            for (FeedbackSession feedbackSession : feedbackSessions) {
-                if (!feedbackSession.isVisible()) {
-                    // Skip invisible sessions.
-                    continue;
-                }
-                boolean hasResponses = sqlLogic.isFeedbackSessionAttemptedByStudent(
-                        feedbackSession, student.getEmail(), student.getTeamName());
-                sessionsHasResponses.put(feedbackSession.getName(), hasResponses);
-            }
-            return new JsonResult(new HasResponsesData(sessionsHasResponses));
-        }
-
-        FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-
+        List<FeedbackSession> feedbackSessions = sqlLogic.getFeedbackSessionsForCourse(courseId);
         Student student = sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
-        return new JsonResult(new HasResponsesData(
-                sqlLogic.isFeedbackSessionAttemptedByStudent(
-                        feedbackSession, student.getEmail(), student.getTeamName())));
+
+        Map<String, Boolean> sessionsHasResponses = new HashMap<>();
+        for (FeedbackSession feedbackSession : feedbackSessions) {
+            if (!feedbackSession.isVisible()) {
+                // Skip invisible sessions.
+                continue;
+            }
+
+            boolean hasResponses = sqlLogic.isFeedbackSessionAttemptedByStudent(
+                    feedbackSession, student.getEmail(), student.getTeamName());
+            sessionsHasResponses.put(feedbackSession.getName(), hasResponses);
+        }
+        return new JsonResult(new HasResponsesData(sessionsHasResponses));
     }
 
     private JsonResult handleInstructorReq() {
-        String feedbackQuestionID = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        if (feedbackQuestionID != null) {
-            FeedbackQuestion sqlFeedbackQuestion = null;
-
-            UUID feedbackQuestionId = null;
-
-            feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-            sqlFeedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionId);
-
-            if (sqlFeedbackQuestion == null) {
-                throw new EntityNotFoundException("No feedback question with id: " + feedbackQuestionID);
+        UUID feedbackQuestionId = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+        if (feedbackQuestionId != null) {
+            FeedbackQuestion feedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionId);
+            if (feedbackQuestion == null) {
+                throw new EntityNotFoundException("No feedback question with id: " + feedbackQuestionId);
             }
 
             boolean hasResponses = sqlLogic.areThereResponsesForQuestion(feedbackQuestionId);
@@ -135,7 +109,6 @@ public class GetHasResponsesAction extends Action {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
         if (sqlLogic.getCourse(courseId) == null) {
             throw new EntityNotFoundException("No course with id: " + courseId);
         }
@@ -145,20 +118,13 @@ public class GetHasResponsesAction extends Action {
     }
 
     private void checkInstructorAccessControlUsingQuestion() throws UnauthorizedAccessException {
-        FeedbackQuestion feedbackQuestion = null;
-        String courseId;
-
-        UUID feedbackQuestionId;
-
-        feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        feedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionId);
-
-        if (feedbackQuestion != null) {
-            courseId = feedbackQuestion.getCourseId();
-        } else {
+        UUID feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+        FeedbackQuestion feedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionId);
+        if (feedbackQuestion == null) {
             throw new EntityNotFoundException("Feedback Question not found");
         }
 
+        String courseId = feedbackQuestion.getCourseId();
         FeedbackSession feedbackSession = feedbackQuestion.getFeedbackSession();
         gateKeeper.verifyAccessible(
                 sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()),

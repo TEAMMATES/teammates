@@ -1,17 +1,19 @@
 package teammates.ui.request;
 
+import java.util.UUID;
+
 /**
  * Sends a reminder email each to a list of respondents from a feedback session.
  */
 public class FeedbackSessionRespondentRemindRequest extends BasicRequest {
-    private String[] usersToRemind;
+    private UUID[] usersToRemind;
     private boolean isSendingCopyToInstructor;
 
-    public String[] getUsersToRemind() {
+    public UUID[] getUsersToRemind() {
         return usersToRemind;
     }
 
-    public void setUsersToRemind(String[] usersToRemind) {
+    public void setUsersToRemind(UUID[] usersToRemind) {
         this.usersToRemind = usersToRemind;
     }
 

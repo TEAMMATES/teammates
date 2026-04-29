@@ -1,6 +1,5 @@
 package teammates.storage.sqlapi;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
@@ -151,13 +150,6 @@ public class DeadlineExtensionsDbTest extends BaseTestCase {
         deadlineExtensionsDb.deleteDeadlineExtension(de);
 
         mockHibernateUtil.verify(() -> HibernateUtil.remove(de), times(1));
-    }
-
-    @Test
-    public void testDeleteDeadlineExtension_nullDeadlineExtension_nothingHappens() {
-        deadlineExtensionsDb.deleteDeadlineExtension(null);
-
-        mockHibernateUtil.verify(() -> HibernateUtil.remove(any()), never());
     }
 
     /**

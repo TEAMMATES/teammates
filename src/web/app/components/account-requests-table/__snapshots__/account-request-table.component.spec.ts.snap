@@ -6,9 +6,7 @@ exports[`AccountRequestTableComponent should display account requests with no re
   accountService={[Function AccountService]}
   isApprovingAccount={[Function Array]}
   isRejectingAccount={[Function Array]}
-  isResettingAccount={[Function Array]}
   ngbModal={[Function _NgbModal]}
-  searchString=""
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
 >
@@ -77,7 +75,7 @@ exports[`AccountRequestTableComponent should display account requests with no re
               <div
                 id="comment-box"
               >
-                comment
+                 comment 
               </div>
             </td>
             <td
@@ -188,7 +186,7 @@ exports[`AccountRequestTableComponent should display account requests with no re
               <div
                 id="comment-box"
               >
-                comment
+                 comment 
               </div>
             </td>
             <td
@@ -290,7 +288,6 @@ exports[`AccountRequestTableComponent should display account requests with reset
   accountService={[Function AccountService]}
   isApprovingAccount={[Function Array]}
   isRejectingAccount={[Function Array]}
-  isResettingAccount={[Function Array]}
   ngbModal={[Function _NgbModal]}
   searchString={[Function String]}
   simpleModalService={[Function SimpleModalService]}
@@ -302,30 +299,9 @@ exports[`AccountRequestTableComponent should display account requests with reset
     <div
       class="card-header bg-primary text-white"
     >
-      <div>
-        <strong>
-          Account Requests Found
-        </strong>
-      </div>
-      <div
-        class="card-header-btn-toolbar"
-      >
-        <button
-          class="btn btn-light btn-sm"
-          id="show-account-request-links"
-          style="margin-right: 10px;"
-          type="button"
-        >
-          Expand All
-        </button>
-        <button
-          class="btn btn-light btn-sm"
-          id="hide-account-request-links"
-          type="button"
-        >
-          Collapse All
-        </button>
-      </div>
+      <strong>
+        Pending Account Requests
+      </strong>
     </div>
     <div
       class="table-responsive"
@@ -350,9 +326,6 @@ exports[`AccountRequestTableComponent should display account requests with reset
             </th>
             <th>
               Created At
-            </th>
-            <th>
-              Registered At
             </th>
             <th>
               Comments
@@ -381,16 +354,11 @@ exports[`AccountRequestTableComponent should display account requests with reset
             >
               Tue, 08 Feb 2022, 08:23 AM +00:00
             </td>
-            <td
-              id="timestamp-box"
-            >
-              Not Registered Yet 
-            </td>
             <td>
               <div
                 id="comment-box"
               >
-                comment
+                 comment 
               </div>
             </td>
             <td
@@ -478,18 +446,6 @@ exports[`AccountRequestTableComponent should display account requests with reset
                     </button>
                   </div>
                 </span>
-                <div
-                  class="ngb-tooltip-class"
-                  placement="top"
-                >
-                  <button
-                    class="btn btn-primary"
-                    disabled=""
-                    id="reset-account-request-0"
-                  >
-                    Reset
-                  </button>
-                </div>
               </div>
             </td>
           </tr>
@@ -511,16 +467,11 @@ exports[`AccountRequestTableComponent should display account requests with reset
             >
               Tue, 08 Feb 2022, 08:23 AM +00:00
             </td>
-            <td
-              id="timestamp-box"
-            >
-              Not Registered Yet 
-            </td>
             <td>
               <div
                 id="comment-box"
               >
-                comment
+                 comment 
               </div>
             </td>
             <td
@@ -608,18 +559,6 @@ exports[`AccountRequestTableComponent should display account requests with reset
                     </button>
                   </div>
                 </span>
-                <div
-                  class="ngb-tooltip-class"
-                  placement="top"
-                >
-                  <button
-                    class="btn btn-primary"
-                    disabled=""
-                    id="reset-account-request-1"
-                  >
-                    Reset
-                  </button>
-                </div>
               </div>
             </td>
           </tr>
@@ -636,9 +575,7 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
   accountService={[Function AccountService]}
   isApprovingAccount={[Function Array]}
   isRejectingAccount={[Function Array]}
-  isResettingAccount={[Function Array]}
   ngbModal={[Function _NgbModal]}
-  searchString=""
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
 >
@@ -707,7 +644,7 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
               <div
                 id="comment-box"
               >
-                comment
+                 comment 
               </div>
             </td>
             <td

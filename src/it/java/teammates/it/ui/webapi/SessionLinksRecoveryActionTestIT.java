@@ -1,10 +1,13 @@
 package teammates.it.ui.webapi;
 
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Student;
 import teammates.ui.output.SessionLinksRecoveryResponseData;
 import teammates.ui.webapi.InvalidHttpParameterException;
@@ -15,6 +18,7 @@ import teammates.ui.webapi.SessionLinksRecoveryAction;
  * SUT: {@link SessionLinksRecoveryActionTestIT}.
  */
 public class SessionLinksRecoveryActionTestIT extends BaseActionIT<SessionLinksRecoveryAction> {
+    private DataBundle typicalBundle;
 
     @Override
     String getActionUri() {
@@ -24,6 +28,14 @@ public class SessionLinksRecoveryActionTestIT extends BaseActionIT<SessionLinksR
     @Override
     String getRequestMethod() {
         return POST;
+    }
+
+    @Override
+    @BeforeMethod
+    protected void setUp() throws Exception {
+        super.setUp();
+        typicalBundle = persistDataBundle(getTypicalDataBundle());
+        HibernateUtil.flushSession();
     }
 
     @Test

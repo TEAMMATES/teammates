@@ -175,11 +175,11 @@ export class InstructorSessionResultPageComponent implements OnInit {
       this.courseId = queryParams.courseid;
       this.fsName = queryParams.fsname;
       this.feedbackSessionId = queryParams.fsid;
-      this.loadFeedbackSessionResults(this.courseId, this.fsName, this.feedbackSessionId);
+      this.loadFeedbackSessionResults(this.courseId, this.feedbackSessionId);
     });
   }
 
-  loadFeedbackSessionResults(courseId: string, feedbackSessionName: string, feedbackSessionId: string): void {
+  loadFeedbackSessionResults(courseId: string, feedbackSessionId: string): void {
     this.hasQuestionsLoadingFailed = false;
     this.hasSectionsLoadingFailed = false;
     this.hasFeedbackSessionLoadingFailed = false;
@@ -237,8 +237,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
 
         // load question tabs
         this.feedbackQuestionsService.getFeedbackQuestions({
-          courseId,
-          feedbackSessionName,
+          feedbackSessionId,
           intent: Intent.INSTRUCTOR_RESULT,
         }).subscribe({
           next: (feedbackQuestions: FeedbackQuestions) => {
@@ -280,7 +279,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
               this.emailOfStudentToPreview = this.allStudentsInCourse[0].email;
             }
 
-            this.loadNoResponseStudents(courseId, feedbackSessionName);
+            this.loadNoResponseStudents(feedbackSessionId);
           },
           error: (resp: ErrorMessageOutput) => {
             this.statusMessageService.showErrorToast(resp.error.message);
@@ -326,12 +325,11 @@ export class InstructorSessionResultPageComponent implements OnInit {
     });
   }
 
-  loadNoResponseStudents(courseId: string, feedbackSessionName: string): void {
+  loadNoResponseStudents(feedbackSessionId: string): void {
     this.hasNoResponseLoadingFailed = false;
     // load no response students
     this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({
-      courseId,
-      feedbackSessionName,
+      feedbackSessionId,
     }).subscribe({
       next: (feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
         // TODO team is missing
@@ -377,8 +375,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
         concatMap((sectionName: string) => {
           return this.feedbackSessionsService.getFeedbackSessionResults({
             questionId,
-            courseId: this.session.courseId,
-            feedbackSessionName: this.session.feedbackSessionName,
+            feedbackSessionId: this.session.feedbackSessionId,
             intent: Intent.FULL_DETAIL,
             groupBySection: sectionName,
             sectionByGiverReceiver: 'both',
@@ -436,8 +433,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
       return;
     }
     this.feedbackSessionsService.getFeedbackSessionResults({
-      courseId: this.session.courseId,
-      feedbackSessionName: this.session.feedbackSessionName,
+      feedbackSessionId: this.session.feedbackSessionId,
       intent: Intent.FULL_DETAIL,
       groupBySection: sectionName,
     })
@@ -505,10 +501,10 @@ export class InstructorSessionResultPageComponent implements OnInit {
     modalRef.result.then(() => {
       const response: Observable<any> = isPublished
           ? this.feedbackSessionsService.unpublishFeedbackSession(
-            this.session.courseId, this.session.feedbackSessionName,
+            this.session.feedbackSessionId,
           )
           : this.feedbackSessionsService.publishFeedbackSession(
-            this.session.courseId, this.session.feedbackSessionName,
+            this.session.feedbackSessionId,
           );
 
       response.subscribe({
@@ -546,6 +542,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
     of(this.feedbackSessionActionsService.downloadSessionResult(
       this.courseId,
       this.session.feedbackSessionName,
+      this.session.feedbackSessionId,
       Intent.FULL_DETAIL,
       this.indicateMissingResponses,
       this.showStatistics,
@@ -563,8 +560,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
         `${this.session.courseId}_${this.session.feedbackSessionName}_question${question.questionNumber}.csv`;
 
     this.feedbackSessionsService.downloadSessionResults(
-        this.session.courseId,
-        this.session.feedbackSessionName,
+        this.session.feedbackSessionId,
         Intent.FULL_DETAIL,
         this.indicateMissingResponses,
         this.showStatistics,
@@ -642,8 +638,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
    */
   sendReminderToStudents(reminderResponse: ReminderResponseModel): void {
     this.feedbackSessionsService
-      .remindFeedbackSessionSubmissionForRespondents(this.session.courseId, this.session.feedbackSessionName, {
-        usersToRemind: reminderResponse.respondentsToSend.map((m) => m.email),
+      .remindFeedbackSessionSubmissionForRespondents(this.session.feedbackSessionId, {
+        usersToRemind: reminderResponse.respondentsToSend.map((m) => m.id),
         isSendingCopyToInstructor: reminderResponse.isSendingCopyToInstructor,
       })
         .subscribe({

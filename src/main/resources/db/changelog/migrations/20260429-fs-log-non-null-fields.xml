@@ -1,0 +1,15 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="samuelfangjw" id="1777405915134-1">
+        <addNotNullConstraint columnDataType="uuid" columnName="session_id" tableName="feedback_session_logs" validate="true"/>
+        <rollback>
+            <dropNotNullConstraint tableName="feedback_session_logs" columnName="session_id" columnDataType="uuid"/>
+        </rollback>
+    </changeSet>
+    <changeSet author="samuelfangjw" id="1777405915134-2">
+        <addNotNullConstraint columnDataType="uuid" columnName="student_id" tableName="feedback_session_logs" validate="true"/>
+        <rollback>
+            <dropNotNullConstraint tableName="feedback_session_logs" columnName="student_id" columnDataType="uuid"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

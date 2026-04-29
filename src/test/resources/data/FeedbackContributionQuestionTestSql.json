@@ -250,9 +250,6 @@
         "id": "00000000-0000-4000-8000-000000000001"
       },
       "courseId": "idOfTypicalCourse1",
-      "course": {
-        "id": "idOfTypicalCourse1"
-      },
       "name": "Instructor1 Course1",
       "email": "instructor1@course1.tmt",
       "regKey": "1BE825FD60150723BA754A9A8AC16A69EA7549319F77AFA6FE3A7D414B3EAC0B90BF03999B51566B66401AF873CF99AFD4852F5D8CE0526B971AB962CE33B6C0"
@@ -280,9 +277,6 @@
         "id": "00000000-0000-4000-8000-000000000002"
       },
       "courseId": "idOfTypicalCourse1",
-      "course": {
-        "id": "idOfTypicalCourse1"
-      },
       "name": "Instructor2 Course1",
       "email": "instructor2@course1.tmt",
       "regKey": "00FDB97D39D75C427A8D59294C0A3A9DEA7549319F77AFA6FE3A7D414B3EAC0B51919F0FD03E886B1F737C38043372BB0DA8CD324606402A9FEF6F18D3CA37E6"
@@ -310,9 +304,6 @@
         "id": "00000000-0000-4000-8000-000000000003"
       },
       "courseId": "idOfTypicalCourse1",
-      "course": {
-        "id": "idOfTypicalCourse1"
-      },
       "name": "Helper Course1",
       "email": "helper@course1.tmt",
       "regKey": "E78B8BE1C98B6C9C38A18EB8C11B9D4FBD5346A074C37B92491045C387E148517E25B04B0D429622236434D1D11903A0C89A7046D807814E294A39DF1D149867"
@@ -337,9 +328,6 @@
       },
       "id": "00000000-0000-4000-8000-000000000504",
       "courseId": "idOfTypicalCourse1",
-      "course": {
-        "id": "idOfTypicalCourse1"
-      },
       "name": "Instructor Not Yet Joined Course 1",
       "email": "instructornotyetjoinedcourse1@email.tmt",
       "regKey": "242E2ADAB346AC55A800B5612100D6DBEDA48640F2DCCB9D786343D2B6EBE609B64BD2FE11E947A1D10B3FA2230C4B2BAA111C03E85887E11C4DFC6B82E3BB6862F51BBC938FA59DFD2C7F80E749F6CC"
@@ -367,9 +355,6 @@
         "id": "00000000-0000-4000-8000-000000000004"
       },
       "courseId": "idOfTypicalCourse2",
-      "course": {
-        "id": "idOfTypicalCourse2"
-      },
       "name": "Instructor1 Course2",
       "email": "instructor1@course2.tmt",
       "regKey": "1BE825FD60150723BA754A9A8AC16A6960C42852D490FAD210C04FDD531D0DB5CE5DE5318D4C91888CCC19B9AE72B6355D66FBAC608005FD0AFF0275AB30EE5D"
@@ -397,9 +382,6 @@
         "id": "00000000-0000-4000-8000-000000000005"
       },
       "courseId": "idOfTypicalCourse2",
-      "course": {
-        "id": "idOfTypicalCourse2"
-      },
       "name": "Instructor2 Course2",
       "email": "instructor2@course2.tmt",
       "regKey": "00FDB97D39D75C427A8D59294C0A3A9D60C42852D490FAD210C04FDD531D0DB5AD65C0B08D10FF35866F552ABA0CB4086E4C115EFADF2CB109779020A89E5148"
@@ -427,9 +409,6 @@
         "id": "00000000-0000-4000-8000-000000000006"
       },
       "courseId": "idOfTypicalCourse3",
-      "course": {
-        "id": "idOfTypicalCourse3"
-      },
       "name": "Instructor1 Course3",
       "email": "instructor1@course3.tmt",
       "regKey": "1BE825FD60150723BA754A9A8AC16A698E034EFE9CAB8C85873A13B9BCF450DE7D0D50DE6751F0CAC9D7D765580CFCF973F7E0F590648C0734AE59FE507B630A"
@@ -457,9 +436,6 @@
         "id": "00000000-0000-4000-8000-000000000007"
       },
       "courseId": "idOfTypicalCourse3",
-      "course": {
-        "id": "idOfTypicalCourse3"
-      },
       "name": "Instructor2 Course3",
       "email": "instructor2@course3.tmt",
       "regKey": "00FDB97D39D75C427A8D59294C0A3A9D8E034EFE9CAB8C85873A13B9BCF450DE090F0CBA5F52491132580F5F9E56F6BA42D572B99E6402A6499D44F8C6D8AEEB"
@@ -487,9 +463,6 @@
         "id": "00000000-0000-4000-8000-000000000006"
       },
       "courseId": "idOfTypicalCourse4",
-      "course": {
-        "id": "idOfTypicalCourse4"
-      },
       "name": "Instructor1 Course4",
       "email": "instructor1@course3.tmt",
       "regKey": "1BE825FD60150723BA754A9A8AC16A698E034EFE9CAB8C85873A13B9BCF450DE1682D1378E93C2BCE5741D85927860BE1312F4F1CAF434DB5971F1DE56C04F88"
@@ -517,9 +490,6 @@
         "id": "00000000-0000-4000-8000-000000000008"
       },
       "courseId": "idOfTypicalCourse1",
-      "course": {
-        "id": "idOfTypicalCourse1"
-      },
       "name": "Instructor3 Course1",
       "email": "instructor3@course1.tmt",
       "regKey": "35403B1A86176F032E6358DC81A7E4BAEA7549319F77AFA6FE3A7D414B3EAC0B700587EBCFC3811102C9B8D7752B89E39ADBB1601C7D1BF9D5040F28FFB679E8"
@@ -547,9 +517,6 @@
         "id": "00000000-0000-4000-8000-000000000008"
       },
       "courseId": "idOfTypicalCourse2",
-      "course": {
-        "id": "idOfTypicalCourse2"
-      },
       "name": "Instructor3 Course2",
       "email": "instructor3@course2.tmt",
       "regKey": "35403B1A86176F032E6358DC81A7E4BA60C42852D490FAD210C04FDD531D0DB5B99A17570BE374FA0CC183B0F7E943F86EAA7C3B59A7BF4C4121E0DD19321281"
@@ -577,9 +544,6 @@
         "id": "00000000-0000-4000-8000-000000000009"
       },
       "courseId": "idOfCourseNoEvals",
-      "course": {
-        "id": "idOfCourseNoEvals"
-      },
       "name": "Instructor4 name",
       "email": "instructor4@coursenoevals.tmt",
       "regKey": "25B73622704B00D696D59E76BC19224216790CB126FB9F960DD677CD7E77C40CBD3E2A6BB8BF12CA2CBBFEF783EF7356300961DED10D5DA38222F03A102D4C96"
@@ -607,9 +571,6 @@
         "id": "00000000-0000-4000-8000-000000000010"
       },
       "courseId": "idOfUnregisteredCourse",
-      "course": {
-        "id": "idOfUnregisteredCourse"
-      },
       "name": "Instructor 5 of CourseNoRegister",
       "email": "instructor5@coursenoregister.tmt",
       "regKey": "46BBB8EFABAB52FFB84582CEDD93946625FD94CA2FBF54552E7D1B9CFC28D7DD912C9534360F208C46ED9A2E7F6881EB6BFAD0DBD46F6B00DE9C3C9CAA8017E7F797655139A2ACBBAF0DE05016DCC338"
@@ -637,9 +598,6 @@
         "id": "00000000-0000-4000-8000-000000000012"
       },
       "courseId": "idOfSampleCourse-demo",
-      "course": {
-        "id": "idOfSampleCourse-demo"
-      },
       "name": "Instructor With Only One Sample Course",
       "email": "iwosc@yahoo.tmt",
       "regKey": "697E55515E376074F4C2C55490CEEA2265BA0D197F975664AE7ACCEB8C53CF6263E1E4AE1FE73F85A11A7803AB5FC4B2C89A7046D807814E294A39DF1D149867"
@@ -667,9 +625,6 @@
         "id": "00000000-0000-4000-8000-000000000013"
       },
       "courseId": "idOfArchivedCourse",
-      "course": {
-        "id": "idOfArchivedCourse"
-      },
       "name": "InstructorOfArchiveCourse name",
       "email": "instructorofarchivecourse@archivecourse.tmt",
       "regKey": "CA31E9D6C04A525C8C8A9215731666342F9351B6937C1759F2CC4FD4594E3B683462A9A635F21C558A7917C87FBDD5DDDC94973078A00B2A79786EE9969109F480DC2B5F2449B6C8E51C1ED8355F89A9"
@@ -694,9 +649,6 @@
       },
       "id": "00000000-0000-4000-8000-000000000516",
       "courseId": "idOfTestingInstructorsDisplayedCourse",
-      "course": {
-        "id": "idOfTestingInstructorsDisplayedCourse"
-      },
       "name": "name1",
       "email": "instructornotdisplayed@notdisplayed.tmt",
       "regKey": "4D79AC7E93AD943A5295A38506EF2AC2D5B0BD660999C961DB6710BBCAD87A7CFE84657B1340A725AB66BB5E7E239697BA0E59854753DF67113106128A3340C979D31A4BA6768ACFF40EC711DF505407AD428B22126C28E8D6D94BA40F5C1666"
@@ -721,9 +673,6 @@
       },
       "id": "00000000-0000-4000-8000-000000000517",
       "courseId": "idOfTestingInstructorsDisplayedCourse",
-      "course": {
-        "id": "idOfTestingInstructorsDisplayedCourse"
-      },
       "name": "name2",
       "email": "secondinstructornotdisplayed@notdisplayed.tmt",
       "regKey": "3783E41EEB6A3CA07A457D7F593DBC28B5529A51540C7FDE19FDC5B1818C9FC93E06BAE6D4BAB46D30F761917EC5DB236BD13F8C72BAEEB91E357ABEE6203431F8D743DDDB28353DEEF2C58E1988CD153511D0EFE24424AE09E7CFD0182749DA"
@@ -748,9 +697,6 @@
       },
       "id": "00000000-0000-4000-8000-000000000518",
       "courseId": "idOfSampleCourse-demo",
-      "course": {
-        "id": "idOfSampleCourse-demo"
-      },
       "name": "Instructor Not Yet Joined Course",
       "email": "instructornotyetjoined@email.tmt",
       "regKey": "242E2ADAB346AC55A800B5612100D6DB4A2C6590D4E80B95442E137D4F645DD7EBB11B1887F9131F75C7C2D665B7E85AEA79DD8A0929F0DFC9D405790E8357B98EAE7E8128AC0F9336D55AF9C5A4147B"
@@ -778,9 +724,6 @@
         "id": "00000000-0000-4000-8000-000000000014"
       },
       "courseId": "idOfTestingSanitizationCourse",
-      "course": {
-        "id": "idOfTestingSanitizationCourse"
-      },
       "name": "Instructor<script> alert('hi!'); </script>",
       "email": "instructor1@sanitization.tmt",
       "regKey": "D4AAB9DE0EBA50263D1AD824A756699B6DCC102E1DF2102B20DD4C8862066F4A6C814323594D7E2D76FD1334DC0425024C07521ACA119034AE8A51EB5EA319341D53445610494A54652BE3CD07C073BE"
@@ -794,9 +737,6 @@
         "id": "00000000-0000-4000-8000-000000000015"
       },
       "courseId": "idOfTypicalCourse1",
-      "course": {
-        "id": "idOfTypicalCourse1"
-      },
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -811,9 +751,6 @@
         "id": "00000000-0000-4000-8000-000000000016"
       },
       "courseId": "idOfTypicalCourse1",
-      "course": {
-        "id": "idOfTypicalCourse1"
-      },
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -825,9 +762,6 @@
       "comments": "",
       "id": "00000000-0000-4000-8000-000000000603",
       "courseId": "idOfTypicalCourse1",
-      "course": {
-        "id": "idOfTypicalCourse1"
-      },
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -839,9 +773,6 @@
       "comments": "",
       "id": "00000000-0000-4000-8000-000000000604",
       "courseId": "idOfTypicalCourse1",
-      "course": {
-        "id": "idOfTypicalCourse1"
-      },
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"
       },
@@ -853,9 +784,6 @@
       "comments": "",
       "id": "00000000-0000-4000-8000-000000000605",
       "courseId": "idOfTypicalCourse1",
-      "course": {
-        "id": "idOfTypicalCourse1"
-      },
       "team": {
         "id": "00000000-0000-4000-8000-000000000303"
       },
@@ -867,9 +795,6 @@
       "comments": "",
       "id": "00000000-0000-4000-8000-000000000606",
       "courseId": "idOfTypicalCourse1",
-      "course": {
-        "id": "idOfTypicalCourse1"
-      },
       "team": {
         "id": "00000000-0000-4000-8000-000000000303"
       },
@@ -881,9 +806,6 @@
       "comments": "",
       "id": "00000000-0000-4000-8000-000000000607",
       "courseId": "idOfTypicalCourse1",
-      "course": {
-        "id": "idOfTypicalCourse1"
-      },
       "team": {
         "id": "00000000-0000-4000-8000-000000000304"
       },
@@ -895,9 +817,6 @@
       "comments": "",
       "id": "00000000-0000-4000-8000-000000000608",
       "courseId": "idOfTypicalCourse1",
-      "course": {
-        "id": "idOfTypicalCourse1"
-      },
       "team": {
         "id": "00000000-0000-4000-8000-000000000304"
       },
@@ -918,7 +837,6 @@
       "sessionVisibleFromTime": "2012-03-28T22:00:00Z",
       "resultsVisibleFromTime": "2027-05-01T22:00:00Z",
       "gracePeriod": 10,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": false,
@@ -939,7 +857,6 @@
       "sessionVisibleFromTime": "2013-03-20T22:00:00Z",
       "resultsVisibleFromTime": "2026-04-29T22:00:00Z",
       "gracePeriod": 5,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": false,
@@ -960,7 +877,6 @@
       "sessionVisibleFromTime": "2013-03-20T22:00:00Z",
       "resultsVisibleFromTime": "2026-04-29T22:00:00Z",
       "gracePeriod": 1440,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": false,
@@ -981,7 +897,6 @@
       "sessionVisibleFromTime": "2013-03-20T22:00:00Z",
       "resultsVisibleFromTime": "2013-04-29T22:00:00Z",
       "gracePeriod": 5,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": false,
@@ -1002,7 +917,6 @@
       "sessionVisibleFromTime": "2013-01-21T00:00:00Z",
       "resultsVisibleFromTime": "2013-04-30T00:00:00Z",
       "gracePeriod": 5,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": false,
@@ -1023,7 +937,6 @@
       "sessionVisibleFromTime": "2026-04-01T23:00:00Z",
       "resultsVisibleFromTime": "2026-04-29T23:00:00Z",
       "gracePeriod": 5,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": false,
@@ -1044,7 +957,6 @@
       "sessionVisibleFromTime": "2013-02-20T23:00:00Z",
       "resultsVisibleFromTime": "2026-04-29T23:00:00Z",
       "gracePeriod": 5,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": false,
@@ -1065,7 +977,6 @@
       "sessionVisibleFromTime": "2012-03-28T16:00:00Z",
       "resultsVisibleFromTime": "2027-05-01T16:00:00Z",
       "gracePeriod": 0,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": false,
@@ -1086,7 +997,6 @@
       "sessionVisibleFromTime": "1970-11-27T00:00:00Z",
       "resultsVisibleFromTime": "1970-01-01T00:00:00Z",
       "gracePeriod": 0,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": false,
@@ -1107,7 +1017,6 @@
       "sessionVisibleFromTime": "2012-03-28T22:00:00Z",
       "resultsVisibleFromTime": "2027-05-01T22:00:00Z",
       "gracePeriod": 10,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": false,
@@ -1128,7 +1037,6 @@
       "sessionVisibleFromTime": "2012-03-28T22:00:00Z",
       "resultsVisibleFromTime": "2027-05-01T22:00:00Z",
       "gracePeriod": 10,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": false,
@@ -1150,7 +1058,6 @@
       "sessionVisibleFromTime": "2012-03-28T22:00:00Z",
       "resultsVisibleFromTime": "2027-05-01T22:00:00Z",
       "gracePeriod": 10,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": false,
@@ -1172,7 +1079,6 @@
       "sessionVisibleFromTime": "2012-03-28T22:00:00Z",
       "resultsVisibleFromTime": "2027-05-01T22:00:00Z",
       "gracePeriod": 10,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": false,

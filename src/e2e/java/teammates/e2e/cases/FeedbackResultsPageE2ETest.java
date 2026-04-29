@@ -32,7 +32,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = removeAndRestoreDataBundle(loadDataBundle("/FeedbackResultsPageE2ESqlTest.json"));
+        testData = removeAndRestoreDataBundle(loadDataBundle("/FeedbackResultsPageE2ETest.json"));
 
         course = testData.courses.get("FRes.CS2104");
         openSession = testData.feedbackSessions.get("Open Session");
@@ -48,7 +48,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         ______TS("unregistered student: can access results");
         Student unregistered = testData.students.get("Unregistered");
         AppUrl url = createFrontendUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
-                .withCourseId(unregistered.getCourse().getId())
+                .withCourseId(unregistered.getCourseId())
                 .withStudentEmail(unregistered.getEmail())
                 .withFeedbackSessionId(openSession.getId().toString())
                 .withSessionName(openSession.getName())
@@ -63,7 +63,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         ______TS("registered student: can access results");
         Student student = testData.students.get("Alice");
         url = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_RESULTS_PAGE)
-                .withCourseId(openSession.getCourse().getId())
+                .withCourseId(openSession.getCourseId())
                 .withFeedbackSessionId(openSession.getId().toString())
                 .withSessionName(openSession.getName());
         resultsPage = loginToPage(url, FeedbackResultsPageSql.class, student.getGoogleId());
@@ -77,7 +77,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         questions.forEach(question -> verifyResponseDetails(student, question));
 
         ______TS("verify statistics - numscale");
-        String[] expectedNumScaleStats = { student.getTeam().getName(), "You", "3.83", "4.5", "3", "3.5" };
+        String[] expectedNumScaleStats = { student.getTeamName(), "You", "3.83", "4.5", "3", "3.5" };
 
         resultsPage.verifyNumScaleStatistics(5, expectedNumScaleStats);
 
@@ -107,7 +107,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         logout();
         Instructor instructor = testData.instructors.get("FRes.instr");
         url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
-                .withCourseId(openSession.getCourse().getId())
+                .withCourseId(openSession.getCourseId())
                 .withFeedbackSessionId(openSession.getId().toString())
                 .withSessionName(openSession.getName());
         resultsPage = loginToPage(url, FeedbackResultsPageSql.class, instructor.getGoogleId());
@@ -122,7 +122,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("preview results as student: can access results");
         url = createFrontendUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
-                .withCourseId(openSession.getCourse().getId())
+                .withCourseId(openSession.getCourseId())
                 .withFeedbackSessionId(openSession.getId().toString())
                 .withSessionName(openSession.getName())
                 .withParam("previewas", student.getEmail());
@@ -150,7 +150,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("preview results as instructor: can access results");
         url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
-                .withCourseId(openSession.getCourse().getId())
+                .withCourseId(openSession.getCourseId())
                 .withFeedbackSessionId(openSession.getId().toString())
                 .withSessionName(openSession.getName())
                 .withParam("previewas", instructor.getEmail());
@@ -437,7 +437,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         if (Const.GENERAL_QUESTION.equals(user)) {
             return Const.USER_NOBODY_TEXT;
         }
-        if (user.equals(currentStudent.getTeam().getName())) {
+        if (user.equals(currentStudent.getTeamName())) {
             return "Your Team (" + user + ")";
         }
         String identifier = getInstructorName(user);

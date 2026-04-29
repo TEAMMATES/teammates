@@ -81,7 +81,7 @@ public class UsersLogicTest extends BaseTestCase {
         usersLogic.resetInstructorGoogleId(email, courseId, googleId);
 
         assertEquals(null, instructor.getAccount());
-        verify(accountsLogic, times(1)).deleteAccountCascade(googleId);
+        verify(accountsLogic, times(1)).deleteAccount(googleId);
     }
 
     @Test
@@ -114,7 +114,7 @@ public class UsersLogicTest extends BaseTestCase {
         usersLogic.resetStudentGoogleId(email, courseId, googleId);
 
         assertNull(student.getAccount());
-        verify(accountsLogic, times(1)).deleteAccountCascade(googleId);
+        verify(accountsLogic, times(1)).deleteAccount(googleId);
     }
 
     @Test
