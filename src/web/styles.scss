@@ -28,7 +28,7 @@ h2,
 
 h3,
 .h3 {
-  font-size: 1.53125rem;
+  font-size: 1.5313rem;
 }
 
 h4,
@@ -38,7 +38,7 @@ h4,
 
 h5,
 .h5 {
-  font-size: 1.09375rem;
+  font-size: 1.0938rem;
 }
 
 h6,
@@ -77,14 +77,12 @@ h6,
 
 .modal-header {
   padding: 0.75rem 1rem;
-  word-break: break-word !important;
-  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
 }
 
 .modal-body {
   padding: 1rem 1.25rem;
-  word-break: break-word !important;
-  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
 }
 
 .modal-footer {

@@ -50,8 +50,7 @@
   min-height: 5vh;
   width: max(800px, 35vw);
   max-width: max-content;
-  word-break: break-word;
-  word-wrap: break-all;
+  overflow-wrap: break-word;
 }
 
 .dropdown-item {

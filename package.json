@@ -7,7 +7,7 @@
     "test": "ng test --watch",
     "coverage": "rimraf coverage && ng test --coverage",
     "lint:ts": "ng lint --cache",
-    "lint:css:syntax": "stylelint \"src/web/**/*.css\" \"src/web/**/*.scss\" \"src/web/**/*.html\" --ignore-pattern \"src/web/dist/**/*.css\" --cache --config static-analysis/teammates-stylelint.yml",
+    "lint:css:syntax": "stylelint \"src/web/**/*.css\" \"src/web/**/*.scss\" --ignore-pattern \"src/web/dist/**/*\" --cache",
     "lint:css:styles": "prettier --check --print-width=120 --single-quote=true \"src/web/**/*.css\" \"src/web/**/*.scss\"",
     "lint": "npm-run-all -c lint:ts lint:css:syntax lint:css:styles"
   },
@@ -57,11 +57,10 @@
     "eslint-plugin-jest": "^29.15.2",
     "jest": "^29.7.0",
     "npm-run-all": "^4.1.5",
-    "postcss-html": "^1.6.0",
     "prettier": "^3.2.4",
     "rimraf": "^5.0.10",
-    "stylelint": "^16.26.1",
-    "stylelint-config-standard-scss": "^13.1.0",
+    "stylelint": "^17.9.1",
+    "stylelint-config-standard-scss": "^17.0.0",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.59.1"
   }
