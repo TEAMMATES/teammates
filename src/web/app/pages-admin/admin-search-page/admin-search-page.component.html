@@ -117,6 +117,7 @@
                 <br />
                 <button
                   id="regenerate-instructor-key-{{ i }}"
+                  data-testid="regenerate-instructor-key"
                   class="btn btn-danger"
                   [disabled]="isRegeneratingInstructorKeys[i]"
                   (click)="instructor.showLinks = !instructor.showLinks; regenerateInstructorKey(instructor, i)"
@@ -291,6 +292,7 @@
                 <br />
                 <button
                   id="regenerate-student-key-{{ i }}"
+                  data-testid="regenerate-student-key"
                   class="btn btn-danger"
                   [disabled]="isRegeneratingStudentKeys[i]"
                   (click)="student.showLinks = !student.showLinks; regenerateStudentKey(student, i)"
