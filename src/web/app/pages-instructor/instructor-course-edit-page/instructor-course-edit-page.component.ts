@@ -3,12 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize, map } from 'rxjs/operators';
-import {
-  CourseTabModel,
-} from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal-model';
-import {
-  CopyInstructorsFromOtherCoursesModalComponent,
-} from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal.component';
+import { CourseTabModel } from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal-model';
+import { CopyInstructorsFromOtherCoursesModalComponent } from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal.component';
 import {
   InstructorOverallPermission,
   InstructorSectionLevelPermission,
@@ -68,9 +64,7 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
-import {
-  CoursesSectionQuestions,
-} from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
+import { CoursesSectionQuestions } from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
 import { Sections } from '../../pages-help/instructor-help-page/sections';
 
 interface InstructorEditPanelDetail {
@@ -94,10 +88,9 @@ interface InstructorEditPanelDetail {
     TeammatesRouterDirective,
     InstructorEditPanelComponent,
     AjaxLoadingComponent,
-],
+  ],
 })
 export class InstructorCourseEditPageComponent implements OnInit {
-
   // enum
   EditMode: typeof EditMode = EditMode;
   FormValidator: typeof FormValidator = FormValidator;
@@ -123,7 +116,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
   isAddingNewInstructor = false;
   isCopyingInstructor = false;
   newInstructorPanel: InstructorEditPanel = this.getDefaultInstructorPanel({
-        isEditing: true,
+    isEditing: true,
   });
 
   courseFormModel: CourseEditFormModel = DEFAULT_COURSE_EDIT_FORM_MODEL();
@@ -139,16 +132,18 @@ export class InstructorCourseEditPageComponent implements OnInit {
   hasInstructorsLoadingFailed = false;
   isSavingNewInstructor = false;
 
-  constructor(private route: ActivatedRoute,
-              private navigationService: NavigationService,
-              private studentService: StudentService,
-              private instructorService: InstructorService,
-              private feedbackSessionsService: FeedbackSessionsService,
-              private statusMessageService: StatusMessageService,
-              private courseService: CourseService,
-              private authService: AuthService,
-              private ngbModal: NgbModal,
-              private simpleModalService: SimpleModalService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private navigationService: NavigationService,
+    private studentService: StudentService,
+    private instructorService: InstructorService,
+    private feedbackSessionsService: FeedbackSessionsService,
+    private statusMessageService: StatusMessageService,
+    private courseService: CourseService,
+    private authService: AuthService,
+    private ngbModal: NgbModal,
+    private simpleModalService: SimpleModalService,
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -165,10 +160,8 @@ export class InstructorCourseEditPageComponent implements OnInit {
         const students: Students = vals[0] as Students;
         const sessions: FeedbackSessions = vals[1] as FeedbackSessions;
 
-        this.allSections =
-            Array.from(new Set(students.students.map((value: Student) => value.sectionName)));
-        this.allSessions =
-            sessions.feedbackSessions.map((session: FeedbackSession) => session.feedbackSessionName);
+        this.allSections = Array.from(new Set(students.students.map((value: Student) => value.sectionName)));
+        this.allSessions = sessions.feedbackSessions.map((session: FeedbackSession) => session.feedbackSessionName);
 
         this.loadCourseInstructors();
       });
@@ -181,20 +174,25 @@ export class InstructorCourseEditPageComponent implements OnInit {
   loadCourseInfo(): void {
     this.hasCourseLoadingFailed = false;
     this.isCourseLoading = true;
-    this.courseService.getCourseAsInstructor(this.courseId).pipe(finalize(() => {
-      this.isCourseLoading = false;
-    })).subscribe({
-      next: (resp: Course) => {
-        this.courseFormModel.course = resp;
-        this.courseFormModel.originalCourse = { ...resp };
-        this.currInstructorCoursePrivilege = resp.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE();
-        this.courseFormModel.canModifyCourse = this.currInstructorCoursePrivilege.canModifyCourse;
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.hasCourseLoadingFailed = true;
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
+    this.courseService
+      .getCourseAsInstructor(this.courseId)
+      .pipe(
+        finalize(() => {
+          this.isCourseLoading = false;
+        }),
+      )
+      .subscribe({
+        next: (resp: Course) => {
+          this.courseFormModel.course = resp;
+          this.courseFormModel.originalCourse = { ...resp };
+          this.currInstructorCoursePrivilege = resp.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE();
+          this.courseFormModel.canModifyCourse = this.currInstructorCoursePrivilege.canModifyCourse;
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.hasCourseLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**
@@ -217,8 +215,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
   deleteCourse(): void {
     this.courseService.binCourse(this.courseId).subscribe({
       next: (course: Course) => {
-        this.navigationService.navigateWithSuccessMessage('/web/instructor/courses',
-            `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
+        this.navigationService.navigateWithSuccessMessage(
+          '/web/instructor/courses',
+          `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`,
+        );
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
@@ -231,22 +231,27 @@ export class InstructorCourseEditPageComponent implements OnInit {
    */
   onSaveCourse(): void {
     this.courseFormModel.isSaving = true;
-    this.courseService.updateCourse(this.courseId, {
-      courseName: this.courseFormModel.course.courseName,
-      timeZone: this.courseFormModel.course.timeZone,
-    }).pipe(finalize(() => {
-      this.courseFormModel.isSaving = false;
-    })).subscribe({
-      next: (resp: Course) => {
-        this.statusMessageService.showSuccessToast('The course has been edited.');
-        this.courseFormModel.isEditing = false;
-        this.courseFormModel.course = resp;
-        this.courseFormModel.originalCourse = { ...resp };
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
+    this.courseService
+      .updateCourse(this.courseId, {
+        courseName: this.courseFormModel.course.courseName,
+        timeZone: this.courseFormModel.course.timeZone,
+      })
+      .pipe(
+        finalize(() => {
+          this.courseFormModel.isSaving = false;
+        }),
+      )
+      .subscribe({
+        next: (resp: Course) => {
+          this.statusMessageService.showSuccessToast('The course has been edited.');
+          this.courseFormModel.isEditing = false;
+          this.courseFormModel.course = resp;
+          this.courseFormModel.originalCourse = { ...resp };
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
     this.resetCourseFormEvent.emit();
   }
 
@@ -256,111 +261,115 @@ export class InstructorCourseEditPageComponent implements OnInit {
   loadCourseInstructors(): void {
     this.hasInstructorsLoadingFailed = false;
     this.isInstructorsLoading = true;
-    this.instructorService.loadInstructors({
-      courseId: this.courseId,
-      intent: Intent.FULL_DETAIL,
-    })
-        .subscribe({
-          next: (resp: Instructors) => {
-            this.instructorDetailPanels = resp.instructors.map((i: Instructor) => ({
-              originalInstructor: { ...i },
-              originalPanel: this.getInstructorEditPanelModel(i),
-              editPanel: this.getInstructorEditPanelModel(i),
-              isSavingInstructorEdit: false,
-            }));
-            this.instructorDetailPanels.forEach((panel: InstructorEditPanelDetail) => {
-              this.loadPermissionForInstructor(panel);
-            });
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.hasInstructorsLoadingFailed = true;
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
+    this.instructorService
+      .loadInstructors({
+        courseId: this.courseId,
+        intent: Intent.FULL_DETAIL,
+      })
+      .subscribe({
+        next: (resp: Instructors) => {
+          this.instructorDetailPanels = resp.instructors.map((i: Instructor) => ({
+            originalInstructor: { ...i },
+            originalPanel: this.getInstructorEditPanelModel(i),
+            editPanel: this.getInstructorEditPanelModel(i),
+            isSavingInstructorEdit: false,
+          }));
+          this.instructorDetailPanels.forEach((panel: InstructorEditPanelDetail) => {
+            this.loadPermissionForInstructor(panel);
+          });
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.hasInstructorsLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
-    /**
-     * Gets the default edit panel model of an instructor.
-     */
-    getInstructorEditPanelModel(i: Instructor): InstructorEditPanel {
-        return this.getDefaultInstructorPanel({
-            googleId: i.googleId,
-            courseId: i.courseId,
-            email: i.email,
-            isDisplayedToStudents: i.isDisplayedToStudents,
-            displayedToStudentsAs: i.displayedToStudentsAs,
-            name: i.name,
-            role: i.role,
-            joinState: i.joinState,
-        });
-    }
+  /**
+   * Gets the default edit panel model of an instructor.
+   */
+  getInstructorEditPanelModel(i: Instructor): InstructorEditPanel {
+    return this.getDefaultInstructorPanel({
+      googleId: i.googleId,
+      courseId: i.courseId,
+      email: i.email,
+      isDisplayedToStudents: i.isDisplayedToStudents,
+      displayedToStudentsAs: i.displayedToStudentsAs,
+      name: i.name,
+      role: i.role,
+      joinState: i.joinState,
+    });
+  }
 
-    /**
-     * Gets a default InstructorEditPanel with optional overrides.
-     *
-     * @param overrides Properties to overwrite the base model.
-     * @param defaultPrivileges Boolean to set all nested privileges to true or false.
-     */
-    private getDefaultInstructorPanel(
-        overrides: Partial<InstructorEditPanel> = {},
-        defaultPrivileges = false,
-    ): InstructorEditPanel {
-        return {
-            googleId: '',
-            courseId: '',
-            email: '',
-            isDisplayedToStudents: true,
-            displayedToStudentsAs: 'Instructor',
-            name: '',
-            role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-            joinState: JoinState.NOT_JOINED,
+  /**
+   * Gets a default InstructorEditPanel with optional overrides.
+   *
+   * @param overrides Properties to overwrite the base model.
+   * @param defaultPrivileges Boolean to set all nested privileges to true or false.
+   */
+  private getDefaultInstructorPanel(
+    overrides: Partial<InstructorEditPanel> = {},
+    defaultPrivileges = false,
+  ): InstructorEditPanel {
+    return {
+      googleId: '',
+      courseId: '',
+      email: '',
+      isDisplayedToStudents: true,
+      displayedToStudentsAs: 'Instructor',
+      name: '',
+      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+      joinState: JoinState.NOT_JOINED,
 
-            permission: {
-                privilege: {
-                    canModifyCourse: defaultPrivileges,
-                    canModifySession: defaultPrivileges,
-                    canModifyStudent: defaultPrivileges,
-                    canModifyInstructor: defaultPrivileges,
-                    canViewStudentInSections: defaultPrivileges,
-                    canModifySessionCommentsInSections: defaultPrivileges,
-                    canViewSessionInSections: defaultPrivileges,
-                    canSubmitSessionInSections: defaultPrivileges,
-                },
-                sectionLevel: [],
-            },
+      permission: {
+        privilege: {
+          canModifyCourse: defaultPrivileges,
+          canModifySession: defaultPrivileges,
+          canModifyStudent: defaultPrivileges,
+          canModifyInstructor: defaultPrivileges,
+          canViewStudentInSections: defaultPrivileges,
+          canModifySessionCommentsInSections: defaultPrivileges,
+          canViewSessionInSections: defaultPrivileges,
+          canSubmitSessionInSections: defaultPrivileges,
+        },
+        sectionLevel: [],
+      },
 
-            isEditing: false,
-            isSavingInstructorEdit: false,
-            ...overrides,
-        };
-    }
+      isEditing: false,
+      isSavingInstructorEdit: false,
+      ...overrides,
+    };
+  }
 
-    /**
-     * Gets the default CourseTabModel with optional overrides.
-     *
-     * @param overrides Properties to overwrite the base model.
-     */
-    private getDefaultCourseTab(overrides: Partial<CourseTabModel> = {}): CourseTabModel {
-        return {
-            courseId: '',
-            courseName: '',
-            creationTimestamp: 0,
-            instructorCandidates: [],
-            instructorCandidatesSortBy: SortBy.NONE,
-            instructorCandidatesSortOrder: SortOrder.ASC,
-            hasInstructorsLoaded: false,
-            isTabExpanded: false,
-            hasLoadingFailed: false,
-            ...overrides,
-        };
-    }
+  /**
+   * Gets the default CourseTabModel with optional overrides.
+   *
+   * @param overrides Properties to overwrite the base model.
+   */
+  private getDefaultCourseTab(overrides: Partial<CourseTabModel> = {}): CourseTabModel {
+    return {
+      courseId: '',
+      courseName: '',
+      creationTimestamp: 0,
+      instructorCandidates: [],
+      instructorCandidatesSortBy: SortBy.NONE,
+      instructorCandidatesSortOrder: SortOrder.ASC,
+      hasInstructorsLoaded: false,
+      isTabExpanded: false,
+      hasLoadingFailed: false,
+      ...overrides,
+    };
+  }
 
-    /**
-     * Shows the model of details permission for a role.
-     */
+  /**
+   * Shows the model of details permission for a role.
+   */
   viewRolePrivilegeModel(role: InstructorPermissionRole): void {
     const modalRef: NgbModalRef = this.ngbModal.open(ViewRolePrivilegesModalComponent);
-    modalRef.result.then(() => {}, () => {});
+    modalRef.result.then(
+      () => {},
+      () => {},
+    );
     let privilege: InstructorPermissionSet;
     switch (role) {
       case InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
@@ -400,39 +409,47 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
     panelDetail.editPanel.isSavingInstructorEdit = true;
     const reqBody: InstructorCreateRequest = {
-      id: panelDetail.originalInstructor.joinState === JoinState.JOINED
-          ? panelDetail.originalInstructor.googleId : undefined,
+      id:
+        panelDetail.originalInstructor.joinState === JoinState.JOINED
+          ? panelDetail.originalInstructor.googleId
+          : undefined,
       name: panelDetail.editPanel.name,
-      email: panelDetail.originalInstructor.joinState === JoinState.JOINED
-          ? panelDetail.editPanel.email : panelDetail.originalInstructor.email,
+      email:
+        panelDetail.originalInstructor.joinState === JoinState.JOINED
+          ? panelDetail.editPanel.email
+          : panelDetail.originalInstructor.email,
       role: panelDetail.editPanel.role,
       displayName: panelDetail.editPanel.displayedToStudentsAs,
       isDisplayedToStudent: panelDetail.editPanel.isDisplayedToStudents,
     };
 
-    this.instructorService.updateInstructor({
-      courseId: panelDetail.originalInstructor.courseId,
-      requestBody: reqBody,
-    }).pipe(finalize(() => {
-      panelDetail.editPanel.isSavingInstructorEdit = false;
-    })).subscribe({
-      next: (resp: Instructor) => {
-        panelDetail.editPanel.isEditing = false;
-        panelDetail.originalInstructor = { ...resp };
-        const permission: InstructorOverallPermission = panelDetail.editPanel.permission;
+    this.instructorService
+      .updateInstructor({
+        courseId: panelDetail.originalInstructor.courseId,
+        requestBody: reqBody,
+      })
+      .pipe(
+        finalize(() => {
+          panelDetail.editPanel.isSavingInstructorEdit = false;
+        }),
+      )
+      .subscribe({
+        next: (resp: Instructor) => {
+          panelDetail.editPanel.isEditing = false;
+          panelDetail.originalInstructor = { ...resp };
+          const permission: InstructorOverallPermission = panelDetail.editPanel.permission;
 
-        panelDetail.editPanel = this.getInstructorEditPanelModel(resp);
-        panelDetail.editPanel.permission = permission;
+          panelDetail.editPanel = this.getInstructorEditPanelModel(resp);
+          panelDetail.editPanel.permission = permission;
 
-        this.updatePrivilegeForInstructor(panelDetail.originalInstructor, panelDetail.editPanel.permission);
+          this.updatePrivilegeForInstructor(panelDetail.originalInstructor, panelDetail.editPanel.permission);
 
-        this.statusMessageService.showSuccessToast(`The instructor ${resp.name} has been updated.`);
-
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
+          this.statusMessageService.showSuccessToast(`The instructor ${resp.name} has been updated.`);
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
 
     panelDetail.originalPanel = JSON.parse(JSON.stringify(panelDetail.editPanel));
   }
@@ -444,35 +461,44 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const panelDetail: InstructorEditPanelDetail = this.instructorDetailPanels[index];
     const isDeletingSelf: boolean = panelDetail.originalInstructor.googleId === this.currInstructorGoogleId;
     const modalContent: string = isDeletingSelf
-        ? `Are you sure you want to delete your instructor role
+      ? `Are you sure you want to delete your instructor role
         from the course <strong>${panelDetail.originalInstructor.courseId}</strong>?
         You will not be able to access the course anymore.`
-        : `Are you sure you want to delete the instructor <strong>${panelDetail.originalInstructor.name}</strong>
+      : `Are you sure you want to delete the instructor <strong>${panelDetail.originalInstructor.name}</strong>
         from the course <strong>${panelDetail.originalInstructor.courseId}</strong>?
         He/she will not be able to access the course anymore.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Delete instructor <strong>${panelDetail.originalInstructor.name}</strong>?`,
-        SimpleModalType.DANGER, modalContent);
+      `Delete instructor <strong>${panelDetail.originalInstructor.name}</strong>?`,
+      SimpleModalType.DANGER,
+      modalContent,
+    );
 
-    modalRef.result.then(() => {
-      this.instructorService.deleteInstructor({
-        courseId: panelDetail.originalInstructor.courseId,
-        instructorEmail: panelDetail.originalInstructor.email,
-      }).subscribe({
-        next: () => {
-          if (panelDetail.originalInstructor.googleId === this.currInstructorGoogleId) {
-            this.navigationService.navigateWithSuccessMessage(
-                '/web/instructor/courses', 'Instructor is successfully deleted.');
-          } else {
-            this.instructorDetailPanels.splice(index, 1);
-            this.statusMessageService.showSuccessToast('Instructor is successfully deleted.');
-          }
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
-    }, () => {});
+    modalRef.result.then(
+      () => {
+        this.instructorService
+          .deleteInstructor({
+            courseId: panelDetail.originalInstructor.courseId,
+            instructorEmail: panelDetail.originalInstructor.email,
+          })
+          .subscribe({
+            next: () => {
+              if (panelDetail.originalInstructor.googleId === this.currInstructorGoogleId) {
+                this.navigationService.navigateWithSuccessMessage(
+                  '/web/instructor/courses',
+                  'Instructor is successfully deleted.',
+                );
+              } else {
+                this.instructorDetailPanels.splice(index, 1);
+                this.statusMessageService.showSuccessToast('Instructor is successfully deleted.');
+              }
+            },
+            error: (resp: ErrorMessageOutput) => {
+              this.statusMessageService.showErrorToast(resp.error.message);
+            },
+          });
+      },
+      () => {},
+    );
   }
 
   /**
@@ -483,10 +509,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
     const modalContent = `Do you wish to re-send the invitation email to instructor
       ${panelDetail.originalInstructor.name} from course ${panelDetail.originalInstructor.courseId}?`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        'Re-send invitation email?', SimpleModalType.INFO, modalContent);
+      'Re-send invitation email?',
+      SimpleModalType.INFO,
+      modalContent,
+    );
 
-    modalRef.result.then(() => {
-      this.courseService
+    modalRef.result.then(
+      () => {
+        this.courseService
           .remindInstructorForJoin(panelDetail.originalInstructor.courseId, panelDetail.originalInstructor.email)
           .subscribe({
             next: (resp: MessageOutput) => {
@@ -496,7 +526,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
               this.statusMessageService.showErrorToast(resp.error.message);
             },
           });
-    }, () => {});
+      },
+      () => {},
+    );
   }
 
   /**
@@ -512,37 +544,45 @@ export class InstructorCourseEditPageComponent implements OnInit {
       isDisplayedToStudent: this.newInstructorPanel.isDisplayedToStudents,
     };
 
-    this.instructorService.createInstructor({ courseId: this.courseId, requestBody: reqBody })
-        .pipe(finalize(() => {
+    this.instructorService
+      .createInstructor({ courseId: this.courseId, requestBody: reqBody })
+      .pipe(
+        finalize(() => {
           this.isSavingNewInstructor = false;
-        }))
-        .subscribe({
-          next: (resp: Instructor) => {
-            const newDetailPanels: InstructorEditPanelDetail = {
-              originalInstructor: { ...resp },
-              originalPanel: this.getInstructorEditPanelModel(resp),
-              editPanel: this.getInstructorEditPanelModel(resp),
-            };
-            newDetailPanels.editPanel.permission = this.newInstructorPanel.permission;
-            newDetailPanels.originalPanel = JSON.parse(JSON.stringify(newDetailPanels.editPanel));
+        }),
+      )
+      .subscribe({
+        next: (resp: Instructor) => {
+          const newDetailPanels: InstructorEditPanelDetail = {
+            originalInstructor: { ...resp },
+            originalPanel: this.getInstructorEditPanelModel(resp),
+            editPanel: this.getInstructorEditPanelModel(resp),
+          };
+          newDetailPanels.editPanel.permission = this.newInstructorPanel.permission;
+          newDetailPanels.originalPanel = JSON.parse(JSON.stringify(newDetailPanels.editPanel));
 
-            this.instructorDetailPanels.push(newDetailPanels);
-            this.statusMessageService.showSuccessToast(`The instructor ${resp.name} has been added successfully. `
-            + `An email containing how to 'join' this course will be sent to ${resp.email} in a few minutes.`);
+          this.instructorDetailPanels.push(newDetailPanels);
+          this.statusMessageService.showSuccessToast(
+            `The instructor ${resp.name} has been added successfully. ` +
+              `An email containing how to 'join' this course will be sent to ${resp.email} in a few minutes.`,
+          );
 
-            this.updatePrivilegeForInstructor(newDetailPanels.originalInstructor, newDetailPanels.editPanel.permission);
+          this.updatePrivilegeForInstructor(newDetailPanels.originalInstructor, newDetailPanels.editPanel.permission);
 
-            this.isAddingNewInstructor = false;
+          this.isAddingNewInstructor = false;
 
-            this.newInstructorPanel = this.getDefaultInstructorPanel({
+          this.newInstructorPanel = this.getDefaultInstructorPanel(
+            {
               displayedToStudentsAs: '', // override the default 'Instructor'
               isEditing: true, // keeping the form open
-            }, true);
-          },
-          error: (resp: ErrorMessageOutput) => {
-              this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
+            },
+            true,
+          );
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**
@@ -557,76 +597,91 @@ export class InstructorCourseEditPageComponent implements OnInit {
       return;
     }
 
-    this.instructorService.loadInstructorPrivilege({
-      courseId: instructor.courseId,
-      instructorEmail: instructor.email,
-    }).subscribe((resp: InstructorPrivilege) => {
-      permission.privilege = resp.privileges.courseLevel;
+    this.instructorService
+      .loadInstructorPrivilege({
+        courseId: instructor.courseId,
+        instructorEmail: instructor.email,
+      })
+      .subscribe((resp: InstructorPrivilege) => {
+        permission.privilege = resp.privileges.courseLevel;
 
-      this.allSections.forEach((sectionName: string) => {
-        const sectionLevelPermission: InstructorSectionLevelPermission = {
-          sectionNames: [sectionName],
-          privilege: resp.privileges.sectionLevel[sectionName] || permission.privilege,
-          sessionLevel: [],
-        };
-
-        this.allSessions.forEach((sessionName: string) => {
-          const sessionLevelPermission: InstructorSessionLevelPermission = {
-            sessionName,
-            privilege: resp.privileges.sessionLevel[sectionName]?.[sessionName]
-                || sectionLevelPermission.privilege,
+        this.allSections.forEach((sectionName: string) => {
+          const sectionLevelPermission: InstructorSectionLevelPermission = {
+            sectionNames: [sectionName],
+            privilege: resp.privileges.sectionLevel[sectionName] || permission.privilege,
+            sessionLevel: [],
           };
-          sectionLevelPermission.sessionLevel.push(sessionLevelPermission);
-        });
-        permission.sectionLevel.push(sectionLevelPermission);
-      });
 
-      permission.sectionLevel = permission.sectionLevel
-          .filter((sectionLevelPermission: InstructorSectionLevelPermission) => {
-            // discard section level permission that is consistent with the overall permission
-            if (sectionLevelPermission.privilege.canViewStudentInSections
-                !== permission.privilege.canViewStudentInSections) {
-              return true;
-            }
-            if (sectionLevelPermission.privilege.canModifySessionCommentsInSections
-                !== permission.privilege.canModifySessionCommentsInSections) {
-              return true;
-            }
-            if (sectionLevelPermission.privilege.canViewSessionInSections
-                !== permission.privilege.canViewSessionInSections) {
-              return true;
-            }
-            if (sectionLevelPermission.privilege.canSubmitSessionInSections
-                !== permission.privilege.canSubmitSessionInSections) {
-              return true;
-            }
-
-            return sectionLevelPermission.sessionLevel
-                .some((sessionLevelPermission: InstructorSessionLevelPermission) => {
-                  return sectionLevelPermission.privilege.canModifySessionCommentsInSections
-                          !== sessionLevelPermission.privilege.canModifySessionCommentsInSections
-                      || sectionLevelPermission.privilege.canViewSessionInSections
-                          !== sessionLevelPermission.privilege.canViewSessionInSections
-                      || sectionLevelPermission.privilege.canSubmitSessionInSections
-                          !== sessionLevelPermission.privilege.canSubmitSessionInSections;
-                });
+          this.allSessions.forEach((sessionName: string) => {
+            const sessionLevelPermission: InstructorSessionLevelPermission = {
+              sessionName,
+              privilege: resp.privileges.sessionLevel[sectionName]?.[sessionName] || sectionLevelPermission.privilege,
+            };
+            sectionLevelPermission.sessionLevel.push(sessionLevelPermission);
           });
+          permission.sectionLevel.push(sectionLevelPermission);
+        });
 
-      permission.sectionLevel.forEach((sectionLevel: InstructorSectionLevelPermission) => {
-        if (sectionLevel.sessionLevel.every((sessionLevel: InstructorSessionLevelPermission) => {
-          return sectionLevel.privilege.canModifySessionCommentsInSections
-                  === sessionLevel.privilege.canModifySessionCommentsInSections
-              && sectionLevel.privilege.canViewSessionInSections
-                  === sessionLevel.privilege.canViewSessionInSections
-              && sectionLevel.privilege.canSubmitSessionInSections
-                  === sessionLevel.privilege.canSubmitSessionInSections;
-        })) {
-          // session level is consistent with the section level, we can remove it.
-          sectionLevel.sessionLevel = [];
-        }
+        permission.sectionLevel = permission.sectionLevel.filter(
+          (sectionLevelPermission: InstructorSectionLevelPermission) => {
+            // discard section level permission that is consistent with the overall permission
+            if (
+              sectionLevelPermission.privilege.canViewStudentInSections !==
+              permission.privilege.canViewStudentInSections
+            ) {
+              return true;
+            }
+            if (
+              sectionLevelPermission.privilege.canModifySessionCommentsInSections !==
+              permission.privilege.canModifySessionCommentsInSections
+            ) {
+              return true;
+            }
+            if (
+              sectionLevelPermission.privilege.canViewSessionInSections !==
+              permission.privilege.canViewSessionInSections
+            ) {
+              return true;
+            }
+            if (
+              sectionLevelPermission.privilege.canSubmitSessionInSections !==
+              permission.privilege.canSubmitSessionInSections
+            ) {
+              return true;
+            }
+
+            return sectionLevelPermission.sessionLevel.some(
+              (sessionLevelPermission: InstructorSessionLevelPermission) => {
+                return (
+                  sectionLevelPermission.privilege.canModifySessionCommentsInSections !==
+                    sessionLevelPermission.privilege.canModifySessionCommentsInSections ||
+                  sectionLevelPermission.privilege.canViewSessionInSections !==
+                    sessionLevelPermission.privilege.canViewSessionInSections ||
+                  sectionLevelPermission.privilege.canSubmitSessionInSections !==
+                    sessionLevelPermission.privilege.canSubmitSessionInSections
+                );
+              },
+            );
+          },
+        );
+
+        permission.sectionLevel.forEach((sectionLevel: InstructorSectionLevelPermission) => {
+          if (
+            sectionLevel.sessionLevel.every((sessionLevel: InstructorSessionLevelPermission) => {
+              return (
+                sectionLevel.privilege.canModifySessionCommentsInSections ===
+                  sessionLevel.privilege.canModifySessionCommentsInSections &&
+                sectionLevel.privilege.canViewSessionInSections === sessionLevel.privilege.canViewSessionInSections &&
+                sectionLevel.privilege.canSubmitSessionInSections === sessionLevel.privilege.canSubmitSessionInSections
+              );
+            })
+          ) {
+            // session level is consistent with the section level, we can remove it.
+            sectionLevel.sessionLevel = [];
+          }
+        });
+        panel.originalPanel = JSON.parse(JSON.stringify(panel.editPanel));
       });
-      panel.originalPanel = JSON.parse(JSON.stringify(panel.editPanel));
-    });
   }
 
   /**
@@ -653,21 +708,24 @@ export class InstructorCourseEditPageComponent implements OnInit {
       });
     });
 
-    this.instructorService.updateInstructorPrivilege({
-      courseId: instructor.courseId,
-      instructorEmail: instructor.email,
-      requestBody: { privileges },
-    }).subscribe({
-      next: () => {
-        // privileges updated
-        // filter out empty permission setting
-        permission.sectionLevel = permission.sectionLevel.filter(
-            (sectionLevel: InstructorSectionLevelPermission) => sectionLevel.sectionNames.length !== 0);
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
+    this.instructorService
+      .updateInstructorPrivilege({
+        courseId: instructor.courseId,
+        instructorEmail: instructor.email,
+        requestBody: { privileges },
+      })
+      .subscribe({
+        next: () => {
+          // privileges updated
+          // filter out empty permission setting
+          permission.sectionLevel = permission.sectionLevel.filter(
+            (sectionLevel: InstructorSectionLevelPermission) => sectionLevel.sectionNames.length !== 0,
+          );
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**
@@ -677,21 +735,19 @@ export class InstructorCourseEditPageComponent implements OnInit {
     this.isCopyingInstructor = true;
     const courseTabModels: CourseTabModel[] = [];
 
-    forkJoin([
-      this.courseService.getAllCoursesAsInstructor('active'),
-    ]).subscribe({
+    forkJoin([this.courseService.getAllCoursesAsInstructor('active')]).subscribe({
       next: (values: Courses[]) => {
         const activeCourses: Courses = values[0];
 
         activeCourses.courses.forEach((course: Course) => {
-            if (course.courseId !== this.courseId && course.institute === this.courseFormModel.course.institute) {
-                const model: CourseTabModel = this.getDefaultCourseTab({
-                    courseId: course.courseId,
-                    courseName: course.courseName,
-                    creationTimestamp: course.creationTimestamp,
-                });
-                courseTabModels.push(model);
-            }
+          if (course.courseId !== this.courseId && course.institute === this.courseFormModel.course.institute) {
+            const model: CourseTabModel = this.getDefaultCourseTab({
+              courseId: course.courseId,
+              courseName: course.courseName,
+              creationTimestamp: course.creationTimestamp,
+            });
+            courseTabModels.push(model);
+          }
         });
       },
       error: (err: ErrorMessageOutput) => {
@@ -724,45 +780,49 @@ export class InstructorCourseEditPageComponent implements OnInit {
    * Adds new instructors.
    */
   addNewInstructors(instructors: Instructor[], modalRef: NgbModalRef): void {
-    of(...instructors).pipe(
-      concatMap((instructor: Instructor) => {
-        return this.instructorService.createInstructor({
-          courseId: this.courseId,
-          requestBody: {
-            name: instructor.name,
-            email: instructor.email,
-            role: instructor.role!,
-            displayName: instructor.displayedToStudentsAs,
-            isDisplayedToStudent: instructor.isDisplayedToStudents!,
-          },
-        });
-      }),
-      // always close the modal after it enters the last step no matter adding succeeds or fails
-      finalize(() => {
-        this.isCopyingInstructor = false;
-        modalRef.componentInstance.isCopyingSelectedInstructors = false;
-        modalRef.close();
-      }),
-    ).subscribe({
-      next: (newInstructor: Instructor) => {
-        const newDetailPanels: InstructorEditPanelDetail = {
-          originalInstructor: { ...newInstructor },
-          originalPanel: this.getInstructorEditPanelModel(newInstructor),
-          editPanel: this.getInstructorEditPanelModel(newInstructor),
-        };
-        newDetailPanels.editPanel.permission = this.newInstructorPanel.permission;
-        newDetailPanels.originalPanel = JSON.parse(JSON.stringify(newDetailPanels.editPanel));
+    of(...instructors)
+      .pipe(
+        concatMap((instructor: Instructor) => {
+          return this.instructorService.createInstructor({
+            courseId: this.courseId,
+            requestBody: {
+              name: instructor.name,
+              email: instructor.email,
+              role: instructor.role!,
+              displayName: instructor.displayedToStudentsAs,
+              isDisplayedToStudent: instructor.isDisplayedToStudents!,
+            },
+          });
+        }),
+        // always close the modal after it enters the last step no matter adding succeeds or fails
+        finalize(() => {
+          this.isCopyingInstructor = false;
+          modalRef.componentInstance.isCopyingSelectedInstructors = false;
+          modalRef.close();
+        }),
+      )
+      .subscribe({
+        next: (newInstructor: Instructor) => {
+          const newDetailPanels: InstructorEditPanelDetail = {
+            originalInstructor: { ...newInstructor },
+            originalPanel: this.getInstructorEditPanelModel(newInstructor),
+            editPanel: this.getInstructorEditPanelModel(newInstructor),
+          };
+          newDetailPanels.editPanel.permission = this.newInstructorPanel.permission;
+          newDetailPanels.originalPanel = JSON.parse(JSON.stringify(newDetailPanels.editPanel));
 
-        this.instructorDetailPanels.push(newDetailPanels);
-      },
-      error: (err: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(err.error.message);
-      },
-      complete: () => {
-        this.statusMessageService.showSuccessToast('The selected instructor(s) have been added successfully. '
-        + 'An email containing how to \'join\' this course will be sent to them in a few minutes.');
-      },
-    });
+          this.instructorDetailPanels.push(newDetailPanels);
+        },
+        error: (err: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(err.error.message);
+        },
+        complete: () => {
+          this.statusMessageService.showSuccessToast(
+            'The selected instructor(s) have been added successfully. ' +
+              "An email containing how to 'join' this course will be sent to them in a few minutes.",
+          );
+        },
+      });
   }
 
   /**
@@ -781,8 +841,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
         const emailSet: Set<string> = new Set();
         for (const instructor of allInstructorsAfterCopy) {
           if (emailSet.has(instructor.email)) {
-            this.statusMessageService.showErrorToast(`An instructor with email address ${instructor.email} already `
-            + 'exists in the course and/or you have selected more than one instructor with this email address.');
+            this.statusMessageService.showErrorToast(
+              `An instructor with email address ${instructor.email} already ` +
+                'exists in the course and/or you have selected more than one instructor with this email address.',
+            );
             return false;
           }
           emailSet.add(instructor.email);
@@ -791,5 +853,4 @@ export class InstructorCourseEditPageComponent implements OnInit {
       }),
     );
   }
-
 }

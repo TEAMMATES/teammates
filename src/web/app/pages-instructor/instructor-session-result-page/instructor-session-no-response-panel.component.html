@@ -1,25 +1,30 @@
 <div id="no-response-panel" class="card">
   <div class="card-header bg-secondary text-white cursor-pointer border-0" (click)="toggleTab()">
     <div class="d-flex w-100 flex-fill flex-md-row flex-column align-items-md-center align-items-start">
-      <div class="text-start">
-        Participants who have not responded to any question
-      </div>
+      <div class="text-start">Participants who have not responded to any question</div>
       <div class="card-header-btn-toolbar ms-0 ms-md-auto align-self-md-end">
         @if (session.submissionStatus === FeedbackSessionSubmissionStatus.OPEN) {
           <a
             tmRouterLink="/web/instructor/sessions/individual-extension"
-            [queryParams]="{ courseid: session.courseId, fsname: session.feedbackSessionName, fsid: session.feedbackSessionId, preselectnonsubmitters: true }">
-            <button type="button" class="btn btn-secondary btn-sm button">
-              Extend Deadline for All
-            </button>
+            [queryParams]="{
+              courseid: session.courseId,
+              fsname: session.feedbackSessionName,
+              fsid: session.feedbackSessionId,
+              preselectnonsubmitters: true,
+            }"
+          >
+            <button type="button" class="btn btn-secondary btn-sm button">Extend Deadline for All</button>
           </a>
         } @else {
-          <button type="button" class="btn btn-secondary btn-sm button" disabled>
-            Extend Deadline for All
-          </button>
+          <button type="button" class="btn btn-secondary btn-sm button" disabled>Extend Deadline for All</button>
         }
-        <button id="btn-remind-all" class="btn btn-secondary btn-sm button" type="button" (click)="!isDisplayOnly && openSendReminderModal($event); $event.stopPropagation();"
-          [disabled]="session.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN">
+        <button
+          id="btn-remind-all"
+          class="btn btn-secondary btn-sm button"
+          type="button"
+          (click)="!isDisplayOnly && openSendReminderModal($event); $event.stopPropagation()"
+          [disabled]="session.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN"
+        >
           Remind All
         </button>
       </div>
@@ -29,15 +34,16 @@
     </div>
   </div>
   <div [ngbCollapse]="!isTabExpanded">
-      <div *tmIsLoading="!isNoResponseStudentsLoaded" class="card-body">
-        @if (noResponseStudentsInSection.length) {
-          <div>
-            <table id="no-response-table" class="table table-striped">
-              <thead>
-                <tr>
-                  <th class="cursor-pointer" (click)="sortParticipantsBy(SortBy.TEAM_NAME)">
-                    Team
-                    <span class="fa-stack"><i class="fas fa-sort"></i>
+    <div *tmIsLoading="!isNoResponseStudentsLoaded" class="card-body">
+      @if (noResponseStudentsInSection.length) {
+        <div>
+          <table id="no-response-table" class="table table-striped">
+            <thead>
+              <tr>
+                <th class="cursor-pointer" (click)="sortParticipantsBy(SortBy.TEAM_NAME)">
+                  Team
+                  <span class="fa-stack"
+                    ><i class="fas fa-sort"></i>
                     @if (sortBy === SortBy.TEAM_NAME && sortOrder === SortOrder.DESC) {
                       <i class="fas fa-sort-down"></i>
                     }
@@ -48,45 +54,55 @@
                 </th>
                 <th id="sort-by-name" class="cursor-pointer" (click)="sortParticipantsBy(SortBy.RESPONDENT_NAME)">
                   Name
-                  <span class="fa-stack"><i class="fas fa-sort"></i>
-                  @if (sortBy === SortBy.RESPONDENT_NAME && sortOrder === SortOrder.DESC) {
-                    <i class="fas fa-sort-down"></i>
-                  }
-                  @if (sortBy === SortBy.RESPONDENT_NAME && sortOrder === SortOrder.ASC) {
-                    <i class="fas fa-sort-up"></i>
-                  }
-                </span>
-              </th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (noResponseStudent of noResponseStudentsInSection; track noResponseStudent) {
-              <tr>
-                <td>{{ noResponseStudent.teamName }}</td>
-                <td>{{ noResponseStudent.name }} ({{noResponseStudent.email}})</td>
-                <td>
-                  @if (!isDisplayOnly) {
-                    <a tmRouterLink="/web/sessions/submission" rel="noopener noreferrer" target="_blank"
-                      [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, fsid: session.feedbackSessionId, moderatedperson: noResponseStudent.email}"
-                      class="btn btn-light btn-sm button">
-                      Submit responses
-                    </a>
-                  } @else {
-                    <a class="btn btn-light btn-sm button">Submit response</a>
-                  }
-                </td>
+                  <span class="fa-stack"
+                    ><i class="fas fa-sort"></i>
+                    @if (sortBy === SortBy.RESPONDENT_NAME && sortOrder === SortOrder.DESC) {
+                      <i class="fas fa-sort-down"></i>
+                    }
+                    @if (sortBy === SortBy.RESPONDENT_NAME && sortOrder === SortOrder.ASC) {
+                      <i class="fas fa-sort-up"></i>
+                    }
+                  </span>
+                </th>
+                <th>Actions</th>
               </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-    }
-    @if (!noResponseStudentsInSection.length) {
-      <div>
-        <i>All students have responded to some questions in this session.</i>
-      </div>
-    }
+            </thead>
+            <tbody>
+              @for (noResponseStudent of noResponseStudentsInSection; track noResponseStudent) {
+                <tr>
+                  <td>{{ noResponseStudent.teamName }}</td>
+                  <td>{{ noResponseStudent.name }} ({{ noResponseStudent.email }})</td>
+                  <td>
+                    @if (!isDisplayOnly) {
+                      <a
+                        tmRouterLink="/web/sessions/submission"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        [queryParams]="{
+                          courseid: session.courseId,
+                          fsname: session.feedbackSessionName,
+                          fsid: session.feedbackSessionId,
+                          moderatedperson: noResponseStudent.email,
+                        }"
+                        class="btn btn-light btn-sm button"
+                      >
+                        Submit responses
+                      </a>
+                    } @else {
+                      <a class="btn btn-light btn-sm button">Submit response</a>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+      @if (!noResponseStudentsInSection.length) {
+        <div>
+          <i>All students have responded to some questions in this session.</i>
+        </div>
+      }
+    </div>
   </div>
-</div>
 </div>

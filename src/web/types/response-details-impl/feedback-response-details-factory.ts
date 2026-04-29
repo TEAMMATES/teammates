@@ -27,13 +27,11 @@ import {
  * Factory to generate frontend response details implementation classes.
  */
 export class FeedbackResponseDetailsFactory {
-
   /**
    * Converts API output ({@link FeedbackResponseDetails})
    * to frontend implementation class {@link AbstractFeedbackResponseDetails}.
    */
-  static fromApiOutput(details: FeedbackResponseDetails):
-      AbstractFeedbackResponseDetails<FeedbackQuestionDetails> {
+  static fromApiOutput(details: FeedbackResponseDetails): AbstractFeedbackResponseDetails<FeedbackQuestionDetails> {
     switch (details.questionType) {
       case FeedbackQuestionType.CONSTSUM:
         return new FeedbackConstantSumResponseDetailsImpl(details as FeedbackConstantSumResponseDetails);
@@ -57,5 +55,4 @@ export class FeedbackResponseDetailsFactory {
         throw new Error(`Unknown question type: ${details.questionType}`);
     }
   }
-
 }

@@ -42,16 +42,20 @@ const routes: Routes = [
         children: [
           {
             path: 'result',
-            loadComponent: () => import('./pages-session/session-result-page/session-result-page.component')
-              .then((m) => m.SessionResultPageComponent),
+            loadComponent: () =>
+              import('./pages-session/session-result-page/session-result-page.component').then(
+                (m) => m.SessionResultPageComponent,
+              ),
             data: {
               intent: Intent.STUDENT_RESULT,
             },
           },
           {
             path: 'submission',
-            loadComponent: () => import('./pages-session/session-submission-page/session-submission-page.component')
-              .then((m) => m.SessionSubmissionPageComponent),
+            loadComponent: () =>
+              import('./pages-session/session-submission-page/session-submission-page.component').then(
+                (m) => m.SessionSubmissionPageComponent,
+              ),
             data: {
               pageTitle: 'Submit Feedback',
               intent: Intent.STUDENT_SUBMISSION,

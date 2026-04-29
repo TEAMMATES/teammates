@@ -3,8 +3,9 @@ import { CsvHelper } from './csv-helper';
 describe('CsvHelper', () => {
   it('should escape " in csv properly', () => {
     expect(CsvHelper.convertCsvContentsToCsvString([['aaa ', ' bb"b', ' c""cc']])).toEqual('aaa ," bb""b"," c""""cc"');
-    expect(CsvHelper.convertCsvContentsToCsvString([['aaa'], ['bb"b', 'c""cc'], []]))
-        .toEqual('aaa\r\n"bb""b","c""""cc"\r\n');
+    expect(CsvHelper.convertCsvContentsToCsvString([['aaa'], ['bb"b', 'c""cc'], []])).toEqual(
+      'aaa\r\n"bb""b","c""""cc"\r\n',
+    );
   });
 
   it('should escape , in csv properly', () => {

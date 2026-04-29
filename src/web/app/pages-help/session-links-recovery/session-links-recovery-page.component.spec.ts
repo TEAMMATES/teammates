@@ -24,7 +24,7 @@ function setValidEmail(component: SessionLinksRecoveryPageComponent): void {
  */
 function setCaptchaState(
   component: SessionLinksRecoveryPageComponent,
-  state: { loaded: boolean, error: boolean },
+  state: { loaded: boolean; error: boolean },
 ): void {
   component.captchaLoaded = state.loaded;
   component.captchaError = state.error;
@@ -43,12 +43,12 @@ describe('SessionLinksRecoveryPageComponent', () => {
         { provide: FeedbackSessionsService, useValue: mockFeedbackSessionsService },
       ],
     })
-    .overrideComponent(SessionLinksRecoveryPageComponent, {
-      set: {
-        imports: [FormsModule, ReactiveFormsModule],
-      },
-    })
-    .compileComponents();
+      .overrideComponent(SessionLinksRecoveryPageComponent, {
+        set: {
+          imports: [FormsModule, ReactiveFormsModule],
+        },
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -78,6 +78,8 @@ describe('SessionLinksRecoveryPageComponent', () => {
 
     component.onSubmitFormSessionLinksRecovery(component.formSessionLinksRecovery);
 
-    expect(mockStatusMessageService.showErrorToast).toHaveBeenCalledWith('Please complete the "I\'m not a robot" checkbox before submitting.');
+    expect(mockStatusMessageService.showErrorToast).toHaveBeenCalledWith(
+      'Please complete the "I\'m not a robot" checkbox before submitting.',
+    );
   });
 });

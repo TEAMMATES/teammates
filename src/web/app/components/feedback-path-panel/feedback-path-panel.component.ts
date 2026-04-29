@@ -8,7 +8,11 @@ import {
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
 import { QuestionEditFormModel } from '../question-edit-form/question-edit-form-model';
-import { GiverTypeDescriptionPipe, RecipientTypeDescriptionPipe, RecipientTypeSimplifiedDescriptionPipe } from '../teammates-common/feedback-path.pipe';
+import {
+  GiverTypeDescriptionPipe,
+  RecipientTypeDescriptionPipe,
+  RecipientTypeSimplifiedDescriptionPipe,
+} from '../teammates-common/feedback-path.pipe';
 
 /**
  * Displaying the feedback path panel.
@@ -26,15 +30,14 @@ import { GiverTypeDescriptionPipe, RecipientTypeDescriptionPipe, RecipientTypeSi
     GiverTypeDescriptionPipe,
     RecipientTypeDescriptionPipe,
     RecipientTypeSimplifiedDescriptionPipe,
-],
+  ],
 })
 export class FeedbackPathPanelComponent {
-
   // enum
   FeedbackParticipantType: typeof FeedbackParticipantType = FeedbackParticipantType;
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
   NumberOfEntitiesToGiveFeedbackToSetting: typeof NumberOfEntitiesToGiveFeedbackToSetting =
-      NumberOfEntitiesToGiveFeedbackToSetting;
+    NumberOfEntitiesToGiveFeedbackToSetting;
 
   @Input()
   model: QuestionEditFormModel = {
@@ -93,8 +96,9 @@ export class FeedbackPathPanelComponent {
     new EventEmitter<NumberOfEntitiesToGiveFeedbackToSetting>();
 
   @Output()
-  triggerModelChangeBatch: EventEmitter<Partial<QuestionEditFormModel>> =
-    new EventEmitter<Partial<QuestionEditFormModel>>();
+  triggerModelChangeBatch: EventEmitter<Partial<QuestionEditFormModel>> = new EventEmitter<
+    Partial<QuestionEditFormModel>
+  >();
 
   subMenuStatuses: Map<FeedbackParticipantType, boolean> = new Map();
 

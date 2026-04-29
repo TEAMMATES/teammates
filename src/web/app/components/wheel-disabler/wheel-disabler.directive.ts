@@ -5,10 +5,8 @@ import { Directive, HostListener } from '@angular/core';
  */
 @Directive({ selector: '[tmDisableWheel]' })
 export class WheelDisablerDirective {
-
   @HostListener('wheel', ['$event'])
   onWheel(e: Event): void {
     e.preventDefault();
   }
-
 }

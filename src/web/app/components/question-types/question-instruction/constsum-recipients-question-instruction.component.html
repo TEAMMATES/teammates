@@ -1,16 +1,25 @@
 <div class="text-info">
   <p class="fw-bold">Note:</p>
   <p id="total-points-message">
-    <span class="fa fa-info-circle"></span> Total points distributed should <strong>add up to {{ totalPoints }}.</strong>
+    <span class="fa fa-info-circle"></span> Total points distributed should
+    <strong>add up to {{ totalPoints }}.</strong>
   </p>
-  @if (questionDetails.forceUnevenDistribution && questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY) {
+  @if (
+    questionDetails.forceUnevenDistribution &&
+    questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY
+  ) {
     <p id="one-uneven-message">
-      <span class="fa fa-info-circle"></span> At least one recipient should be allocated <strong>different number of points.</strong>
+      <span class="fa fa-info-circle"></span> At least one recipient should be allocated
+      <strong>different number of points.</strong>
     </p>
   }
-  @if (questionDetails.forceUnevenDistribution && questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY) {
+  @if (
+    questionDetails.forceUnevenDistribution &&
+    questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY
+  ) {
     <p id="all-uneven-message">
-      <span class="fa fa-info-circle"></span> Every recipient should be allocated <strong>different number of points.</strong>
+      <span class="fa fa-info-circle"></span> Every recipient should be allocated
+      <strong>different number of points.</strong>
     </p>
   }
 </div>

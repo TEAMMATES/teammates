@@ -19,14 +19,9 @@ import { Sections } from '../sections';
   selector: 'tm-instructor-help-getting-started',
   templateUrl: './instructor-help-getting-started.component.html',
   styleUrls: ['./instructor-help-getting-started.component.scss'],
-  imports: [
-    TeammatesRouterDirective,
-    ExampleBoxComponent,
-    CourseEditFormComponent,
-  ],
+  imports: [TeammatesRouterDirective, ExampleBoxComponent, CourseEditFormComponent],
 })
 export class InstructorHelpGettingStartedComponent {
-
   // enum
   StudentsSectionQuestions: typeof StudentsSectionQuestions = StudentsSectionQuestions;
   CoursesSectionQuestions: typeof CoursesSectionQuestions = CoursesSectionQuestions;
@@ -38,9 +33,11 @@ export class InstructorHelpGettingStartedComponent {
   readonly supportEmail: string = environment.supportEmail;
   instructorHelpPath = '';
 
-  constructor(private route: ActivatedRoute,
-              private pageScrollService: PageScrollService,
-              @Inject(DOCUMENT) private document: any) {
+  constructor(
+    private route: ActivatedRoute,
+    private pageScrollService: PageScrollService,
+    @Inject(DOCUMENT) private document: any,
+  ) {
     let r: ActivatedRoute = this.route;
     while (r.firstChild) {
       r = r.firstChild;
@@ -64,5 +61,4 @@ export class InstructorHelpGettingStartedComponent {
     }
     return false;
   }
-
 }

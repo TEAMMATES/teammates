@@ -42,7 +42,7 @@ exports[`SessionResultPageComponent should snap when previewing results 1`] = `
   visibilityRecipient={[Function String]}
 >
   <h1>
-     Feedback Session Results
+    Feedback Session Results
   </h1><div
     class="bg-light"
   >
@@ -50,7 +50,7 @@ exports[`SessionResultPageComponent should snap when previewing results 1`] = `
       class="col-12 text-center text-break"
     >
       <h4>
-        Previewing Session Results as 
+         Previewing Session Results as 
         <span>
           student
         </span>
@@ -136,7 +136,7 @@ exports[`SessionResultPageComponent should snap when previewing results 1`] = `
         <div
           class="alert alert-primary d-flex align-items-center justify-content-center"
           role="alert"
-          style="background-color: #D1ECF1;"
+          style="background-color: #d1ecf1;"
         >
            Nothing to show. The responses are either not configured to be visible or there are no responses. 
         </div>
@@ -190,7 +190,7 @@ exports[`SessionResultPageComponent should snap when session results failed to l
   visibilityRecipient={[Function String]}
 >
   <h1>
-     Feedback Session Results
+    Feedback Session Results
   </h1><div
     class="row"
   >
@@ -293,7 +293,7 @@ exports[`SessionResultPageComponent should snap when session results failed to l
           aria-hidden="true"
           class="fas fa-redo"
         />
-         Retry
+         Retry 
       </button>
     </div>
   </tm-loading-retry>
@@ -342,7 +342,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
   visibilityRecipient={[Function String]}
 >
   <h1>
-     Feedback Session Results
+    Feedback Session Results
   </h1><div
     class="row"
   >
@@ -437,7 +437,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
         <div
           class="alert alert-primary d-flex align-items-center justify-content-center"
           role="alert"
-          style="background-color: #D1ECF1;"
+          style="background-color: #d1ecf1;"
         >
            Nothing to show. The responses are either not configured to be visible or there are no responses. 
         </div>
@@ -491,7 +491,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
   visibilityRecipient={[Function String]}
 >
   <h1>
-     Feedback Session Results
+    Feedback Session Results
   </h1><div
     class="row"
   >
@@ -586,7 +586,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
         <div
           class="alert alert-primary d-flex align-items-center justify-content-center"
           role="alert"
-          style="background-color: #D1ECF1;"
+          style="background-color: #d1ecf1;"
         >
            Nothing to show. The responses are either not configured to be visible or there are no responses. 
         </div>
@@ -640,7 +640,7 @@ exports[`SessionResultPageComponent should snap with session details and results
   visibilityRecipient={[Function String]}
 >
   <h1>
-     Feedback Session Results
+    Feedback Session Results
   </h1><div
     class="row"
   >
@@ -722,7 +722,7 @@ exports[`SessionResultPageComponent should snap with session details loaded and 
   visibilityRecipient={[Function String]}
 >
   <h1>
-     Feedback Session Results
+    Feedback Session Results
   </h1><div
     class="row"
   >
@@ -871,7 +871,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
   visibilityRecipient={[Function String]}
 >
   <h1>
-     Feedback Session Results
+    Feedback Session Results
   </h1><div
     class="row"
   >
@@ -967,7 +967,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
         <div
           class="alert alert-primary d-flex align-items-center justify-content-center"
           role="alert"
-          style="background-color: #D1ECF1;"
+          style="background-color: #d1ecf1;"
         >
            Nothing to show. The responses are either not configured to be visible or there are no responses. 
         </div>
@@ -1021,7 +1021,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
   visibilityRecipient={[Function String]}
 >
   <h1>
-     Feedback Session Results
+    Feedback Session Results
   </h1><div
     class="row"
   >
@@ -1116,7 +1116,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
         <div
           class="alert alert-primary d-flex align-items-center justify-content-center"
           role="alert"
-          style="background-color: #D1ECF1;"
+          style="background-color: #d1ecf1;"
         >
            Nothing to show. The responses are either not configured to be visible or there are no responses. 
         </div>

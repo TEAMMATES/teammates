@@ -19,7 +19,6 @@ import {
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 
 describe('CopyQuestionsFromOtherSessionsModalComponent', () => {
-
   const testFeedbackQuestion1: FeedbackQuestion = {
     feedbackQuestionId: 'feedback-question-1',
     questionNumber: 1,
@@ -130,13 +129,8 @@ describe('CopyQuestionsFromOtherSessionsModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        NgbActiveModal,
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -197,10 +191,12 @@ describe('CopyQuestionsFromOtherSessionsModalComponent', () => {
     expect(component.feedbackSessionTabModels[0].hasQuestionsLoaded).toBeTruthy();
     expect(component.feedbackSessionTabModels[0].hasLoadingFailed).toBeFalsy();
     expect(component.feedbackSessionTabModels[0].questionsTableRowModels.length).toBe(2);
-    expect(component.feedbackSessionTabModels[0].questionsTableRowModels[0].question.feedbackQuestionId)
-      .toBe(testFeedbackQuestion1.feedbackQuestionId);
-    expect(component.feedbackSessionTabModels[0].questionsTableRowModels[1].question.feedbackQuestionId)
-      .toBe(testFeedbackQuestion2.feedbackQuestionId);
+    expect(component.feedbackSessionTabModels[0].questionsTableRowModels[0].question.feedbackQuestionId).toBe(
+      testFeedbackQuestion1.feedbackQuestionId,
+    );
+    expect(component.feedbackSessionTabModels[0].questionsTableRowModels[1].question.feedbackQuestionId).toBe(
+      testFeedbackQuestion2.feedbackQuestionId,
+    );
   });
 
   it('should not allow copying when no questions are selected', () => {

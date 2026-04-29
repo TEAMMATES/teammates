@@ -4,7 +4,7 @@ var nTries = 25;
 
 var loadTinyMceInstance = function () {
   var tinyMceInstance = tinyMCE.get(id);
-  if (tinyMceInstance && tinyMceInstance.initialized || nTries < 0) {
+  if ((tinyMceInstance && tinyMceInstance.initialized) || nTries < 0) {
     callback(tinyMceInstance.getContent());
   } else {
     nTries--;

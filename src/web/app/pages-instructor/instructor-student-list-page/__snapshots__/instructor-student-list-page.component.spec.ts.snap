@@ -48,20 +48,20 @@ exports[`InstructorStudentListPageComponent should snap with a course with stude
               class="btn btn-light"
               id="sort-course-id"
             >
-              Course ID
+               Course ID 
             </button>
             <button
               class="btn btn-light"
               id="sort-course-name"
             >
-              Course Name
+               Course Name 
             </button>
             <button
               class="btn btn-light"
               disabled=""
               id="sort-course-date"
             >
-              Creation Date
+               Creation Date 
             </button>
           </div>
         </div>

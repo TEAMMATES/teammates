@@ -34,7 +34,7 @@ import { TextQuestionResponseComponent } from '../../question-types/question-res
     RankRecipientsQuestionResponseComponent,
     MsqQuestionResponseComponent,
     McqQuestionResponseComponent,
-],
+  ],
 })
 export class SingleResponseComponent {
   readonly QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;
@@ -57,5 +57,4 @@ export class SingleResponseComponent {
   castAsTextQuestion(d: FeedbackQuestionDetails): FeedbackTextQuestionDetails {
     return d as FeedbackTextQuestionDetails;
   }
-
 }

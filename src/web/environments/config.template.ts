@@ -32,5 +32,4 @@ export const config: any = {
   allowFirebaseLogin: false,
 
   firebaseConfig: {},
-
 };

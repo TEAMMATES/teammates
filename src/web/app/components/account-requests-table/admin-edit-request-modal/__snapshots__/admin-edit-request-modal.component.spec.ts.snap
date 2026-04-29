@@ -102,7 +102,7 @@ exports[`RejectWithReasonModal should show empty fields 1`] = `
           id="btn-confirm-edit-request"
           type="button"
         >
-           Save 
+          Save
         </button>
       </div>
     </div>
@@ -212,7 +212,7 @@ exports[`RejectWithReasonModal should show populated data 1`] = `
           id="btn-confirm-edit-request"
           type="button"
         >
-           Save 
+          Save
         </button>
       </div>
     </div>

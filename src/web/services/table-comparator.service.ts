@@ -10,7 +10,6 @@ import { SortBy, SortOrder } from '../types/sort-properties';
   providedIn: 'root',
 })
 export class TableComparatorService {
-
   /**
    * Compares two strings which are expected to be dates depending on order given.
    * If either string cannot be parsed into a date, it will be seen as 'smaller'.
@@ -89,11 +88,11 @@ export class TableComparatorService {
     return (order === SortOrder.DESC ? -1 : 1) * Math.sign(numA - numB);
   }
 
-    /**
-     * Compares two permission roles of instructors.
-     * If either role is invalid, it will be seen as 'smaller'
-     * If both roles are invalid, roleA will always be seen as 'larger'
-     */
+  /**
+   * Compares two permission roles of instructors.
+   * If either role is invalid, it will be seen as 'smaller'
+   * If both roles are invalid, roleA will always be seen as 'larger'
+   */
   compareRoles(roleA: string, roleB: string, order: SortOrder): number {
     const roles = Object.keys(InstructorPermissionRole);
     const numA = roles.indexOf(roleA);

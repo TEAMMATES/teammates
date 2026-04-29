@@ -14,7 +14,6 @@ import { SimpleModalType } from '../../simple-modal/simple-modal-type';
   imports: [],
 })
 export class ContributionQuestionInstructionComponent {
-
   @Input()
   questionDetails: FeedbackContributionQuestionDetails = DEFAULT_CONTRIBUTION_QUESTION_DETAILS();
 

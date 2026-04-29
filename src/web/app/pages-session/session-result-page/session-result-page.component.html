@@ -1,10 +1,9 @@
-<h1>
-  Feedback Session Results
-</h1>
+<h1>Feedback Session Results</h1>
 @if (previewAsPerson) {
   <div class="bg-light">
     <div class="col-12 text-center text-break">
-      <h4>Previewing Session Results as
+      <h4>
+        Previewing Session Results as
         @if (intent === Intent.STUDENT_RESULT) {
           <span>student</span>
         }
@@ -21,12 +20,11 @@
       </h4>
       @if (isPreviewHintExpanded) {
         <div class="text-start">
+          <p>The page below resembles the session results page as seen by {{ personName }} ({{ previewAsPerson }}).</p>
           <p>
-            The page below resembles the session results page as seen by {{ personName }} ({{ previewAsPerson }}).
-          </p>
-          <p>
-            Note that due to visibility settings, contents that are not supposed to be shown to instructors (e.g. yourself) but can be seen by the respondent will not be shown in the page below.
-            Instead, you will see a message box (not seen by the actual respondent) in their place.
+            Note that due to visibility settings, contents that are not supposed to be shown to instructors (e.g.
+            yourself) but can be seen by the respondent will not be shown in the page below. Instead, you will see a
+            message box (not seen by the actual respondent) in their place.
           </p>
         </div>
       }
@@ -39,14 +37,22 @@
       <div class="alert alert-primary" role="alert">
         @if (loggedInUser) {
           <div>
-            You are viewing feedback results as {{ personName }}. If you wish to link your Google account ({{ loggedInUser }}) with this user,
-            <a href="#" id="join-course-btn" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()">click here</a>.
+            You are viewing feedback results as {{ personName }}. If you wish to link your Google account ({{
+              loggedInUser
+            }}) with this user,
+            <a href="#" id="join-course-btn" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()"
+              >click here</a
+            >.
           </div>
         }
         @if (!loggedInUser) {
           <div>
-            You are viewing feedback results as {{ personName }}. You may submit feedback for sessions that are currently open and view results without logging in.
-            To access other features you need to <a href="#" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()">log in using a Google account</a> (recommended).
+            You are viewing feedback results as {{ personName }}. You may submit feedback for sessions that are
+            currently open and view results without logging in. To access other features you need to
+            <a href="#" (click)="joinCourseForUnregisteredEntity(); $event.preventDefault()"
+              >log in using a Google account</a
+            >
+            (recommended).
           </div>
         }
       </div>
@@ -55,7 +61,8 @@
 }
 @if (!isFeedbackSessionResultsLoading && questions.length !== 0) {
   <div class="alert alert-primary" role="alert">
-    <i class="fas fa-exclamation-circle"></i> Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
+    <i class="fas fa-exclamation-circle"></i> Note: Questions without responses (i.e., no responses received or
+    responses are not meant to be visible to you) are not shown below.
   </div>
 }
 <div *tmIsLoading="isCourseLoading || isFeedbackSessionDetailsLoading" class="card card-plain mt-3">
@@ -92,16 +99,18 @@
 </div>
 
 @if (intent === Intent.INSTRUCTOR_RESULT && !isCourseLoading && !isFeedbackSessionDetailsLoading) {
-  <div class="card bg-light" style="margin-bottom: 20px;">
+  <div class="card bg-light" style="margin-bottom: 20px">
     <div class="card-body">
-      If you wish to view the feedback results of the entire course, <a href="javascript:;" (click)="navigateToSessionReportPage(); $event.preventDefault()">click here</a>.
+      If you wish to view the feedback results of the entire course,
+      <a href="javascript:;" (click)="navigateToSessionReportPage(); $event.preventDefault()">click here</a>.
     </div>
   </div>
 }
 
 @if (!isFeedbackSessionDetailsLoading && !isSessionPublished()) {
   <div class="alert alert-warning" role="alert">
-    <i class="fas fa-exclamation-triangle"></i> This feedback session result has not been published yet. Responses will only be visible once the result is published.
+    <i class="fas fa-exclamation-triangle"></i> This feedback session result has not been published yet. Responses will
+    only be visible once the result is published.
   </div>
 }
 
@@ -109,17 +118,26 @@
   <tm-loading-retry
     [shouldShowRetry]="hasFeedbackSessionResultsLoadingFailed"
     [message]="'Failed to load results'"
-    (retryEvent)="retryLoadingFeedbackSessionResults()">
+    (retryEvent)="retryLoadingFeedbackSessionResults()"
+  >
     <div *tmIsLoading="isFeedbackSessionResultsLoading">
       @if (questions.length === 0) {
         <div class="mt-4">
-          <div class="alert alert-primary d-flex align-items-center justify-content-center" style="background-color: #D1ECF1;" role="alert">
+          <div
+            class="alert alert-primary d-flex align-items-center justify-content-center"
+            style="background-color: #d1ecf1"
+            role="alert"
+          >
             Nothing to show. The responses are either not configured to be visible or there are no responses.
           </div>
         </div>
       }
-      <tm-question-response-panel [questions]="questions" [session]="session"
-        [intent]="intent" [regKey]="regKey" [previewAsPerson]="previewAsPerson"
+      <tm-question-response-panel
+        [questions]="questions"
+        [session]="session"
+        [intent]="intent"
+        [regKey]="regKey"
+        [previewAsPerson]="previewAsPerson"
       ></tm-question-response-panel>
     </div>
   </tm-loading-retry>

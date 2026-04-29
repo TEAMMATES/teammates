@@ -1105,15 +1105,9 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ]
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"]
     },
     "qn2InSession1InCourse1": {
       "questionDetails": {
@@ -1130,17 +1124,9 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ]
+      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
     },
     "qn3InSession1InCourse1": {
       "questionDetails": {
@@ -1157,24 +1143,9 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "RECEIVER",
-        "OWN_TEAM_MEMBERS",
-        "STUDENTS",
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "RECEIVER",
-        "OWN_TEAM_MEMBERS",
-        "STUDENTS",
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "RECEIVER",
-        "OWN_TEAM_MEMBERS",
-        "STUDENTS",
-        "INSTRUCTORS"
-      ]
+      "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "showGiverNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "showRecipientNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"]
     },
     "qn4InSession1InCourse1": {
       "questionDetails": {
@@ -1191,24 +1162,9 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "RECEIVER",
-        "OWN_TEAM_MEMBERS",
-        "STUDENTS",
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "RECEIVER",
-        "OWN_TEAM_MEMBERS",
-        "STUDENTS",
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "RECEIVER",
-        "OWN_TEAM_MEMBERS",
-        "STUDENTS",
-        "INSTRUCTORS"
-      ]
+      "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "showGiverNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "showRecipientNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"]
     },
     "qn5InSession1InCourse1": {
       "questionDetails": {
@@ -1225,15 +1181,9 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ]
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"]
     }
   },
   "feedbackResponses": {

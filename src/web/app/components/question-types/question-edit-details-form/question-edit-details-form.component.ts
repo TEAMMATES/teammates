@@ -71,7 +71,7 @@ export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestio
     }
   }
 
-  restrictIntegerInputLength(event: Event, field: keyof D) : void {
+  restrictIntegerInputLength(event: Event, field: keyof D): void {
     const target = castAsInputElement(event.target);
     if (target.value != null && target.value.length > 9) {
       target.value = target.value.substring(0, 9);
@@ -79,12 +79,11 @@ export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestio
     }
   }
 
-  restrictFloatInputLength(event: Event, field: keyof D) : void {
+  restrictFloatInputLength(event: Event, field: keyof D): void {
     const target = castAsInputElement(event.target);
     if (target.value != null && target.value.length > 9) {
       target.value = target.value.substring(0, 9);
       this.triggerModelChange(field, parseFloat(target.value) as any);
     }
   }
-
 }

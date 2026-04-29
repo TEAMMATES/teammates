@@ -12,17 +12,9 @@ describe('InstructorHelpGeneralSectionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NgxPageScrollCoreModule,
-        NoopAnimationsModule,
-      ],
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      imports: [NgxPageScrollCoreModule, NoopAnimationsModule],
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

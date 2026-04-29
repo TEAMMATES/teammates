@@ -14,8 +14,11 @@ import { first } from 'rxjs/operators';
  * component.eventEmitter.emit(true);
  * expect(isInEditMode).toBeTruthy();
  */
-export default function testEventEmission<T>(eventEmitter: EventEmitter<T>,
-      callback: (value: T) => void, takeOnlyFirst = true): void {
+export default function testEventEmission<T>(
+  eventEmitter: EventEmitter<T>,
+  callback: (value: T) => void,
+  takeOnlyFirst = true,
+): void {
   if (takeOnlyFirst) {
     eventEmitter.pipe(first()).subscribe((value: T) => {
       callback(value);

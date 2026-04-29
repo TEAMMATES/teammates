@@ -32,12 +32,7 @@ enum DateTime {
   selector: 'tm-individual-extension-date-modal',
   templateUrl: './individual-extension-date-modal.component.html',
   styleUrls: ['./individual-extension-date-modal.component.scss'],
-  imports: [
-    FormsModule,
-    DatepickerComponent,
-    TimepickerComponent,
-    KeyValuePipe,
-],
+  imports: [FormsModule, DatepickerComponent, TimepickerComponent, KeyValuePipe],
 })
 export class IndividualExtensionDateModalComponent {
   private readonly timeZoneService = inject(TimezoneService);
@@ -97,11 +92,14 @@ export class IndividualExtensionDateModalComponent {
       .openConfirmationModal(
         'Are you sure you wish to set the new deadline to before the current time?',
         SimpleModalType.WARNING,
-        '<b>Any users affected will have their sessions closed immediately.</b>'
-          + ` The current time now is ${currentTimeString} and you are extending to`
-          + ` ${extensionTimeString}. Do you wish to proceed?`,
+        '<b>Any users affected will have their sessions closed immediately.</b>' +
+          ` The current time now is ${currentTimeString} and you are extending to` +
+          ` ${extensionTimeString}. Do you wish to proceed?`,
       )
-      .result.then(() => this.confirmCallbackEvent.emit(this.getExtensionTimestamp()), () => {});
+      .result.then(
+        () => this.confirmCallbackEvent.emit(this.getExtensionTimestamp()),
+        () => {},
+      );
   }
 
   onChangeDateTime(data: DateFormat | TimeFormat, field: DateTime): void {
@@ -127,20 +125,27 @@ export class IndividualExtensionDateModalComponent {
   getExtensionTimestamp(): number {
     if (this.isRadioExtendBy()) {
       if (this.isCustomize()) {
-        return this.addTime(this.feedbackSessionEndingTimestamp,
-          this.extendByDatePicker.hours, this.extendByDatePicker.days);
+        return this.addTime(
+          this.feedbackSessionEndingTimestamp,
+          this.extendByDatePicker.hours,
+          this.extendByDatePicker.days,
+        );
       }
       if (this.extendByDeadlineOptions.has(this.extendByDeadlineKey)) {
-        return this.addTime(this.feedbackSessionEndingTimestamp,
-          this.extendByDeadlineOptions.get(this.extendByDeadlineKey)!.valueOf(), 0,
+        return this.addTime(
+          this.feedbackSessionEndingTimestamp,
+          this.extendByDeadlineOptions.get(this.extendByDeadlineKey)!.valueOf(),
+          0,
         );
       }
     }
     if (this.isRadioExtendTo()) {
       return this.timeZoneService.resolveLocalDateTime(
         this.extendToDatePicker,
-        this.extendToTimePicker, this.feedbackSessionTimeZone,
-        true);
+        this.extendToTimePicker,
+        this.feedbackSessionTimeZone,
+        true,
+      );
     }
     return this.feedbackSessionEndingTimestamp;
   }
@@ -183,8 +188,11 @@ export class IndividualExtensionDateModalComponent {
       return true;
     }
 
-    const timeSelected = this.addTime(this.feedbackSessionEndingTimestamp,
-      this.extendByDatePicker.hours, this.extendByDatePicker.days);
+    const timeSelected = this.addTime(
+      this.feedbackSessionEndingTimestamp,
+      this.extendByDatePicker.hours,
+      this.extendByDatePicker.days,
+    );
     return timeSelected < this.MAX_EPOCH_TIME_IN_MILLISECONDS;
   }
 

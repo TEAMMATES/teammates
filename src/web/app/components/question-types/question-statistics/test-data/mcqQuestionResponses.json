@@ -1,5 +1,5 @@
 {
- "responsesNoOther": [
+  "responsesNoOther": [
     {
       "giver": "Alice",
       "giverTeam": "Team 1",
@@ -99,85 +99,83 @@
       }
     }
   ],
-  "expectedPerRecipientResponses":
-    {
-      "Alice": {
-        "average": 1,
-        "recipient": "Alice",
-        "recipientEmail": "alice@gmail.com",
-        "recipientTeam": "Team 1",
-        "responses": {
-          "optionA": 1,
-          "optionB": 0,
-          "optionC": 0
-        },
-        "total": 1
+  "expectedPerRecipientResponses": {
+    "Alice": {
+      "average": 1,
+      "recipient": "Alice",
+      "recipientEmail": "alice@gmail.com",
+      "recipientTeam": "Team 1",
+      "responses": {
+        "optionA": 1,
+        "optionB": 0,
+        "optionC": 0
       },
-      "Bob": {
-        "average": 1,
-        "recipient": "Bob",
-        "recipientEmail": "bob@gmail.com",
-        "recipientTeam": "Team 2",
-        "responses": {
-          "optionA": 1,
-          "optionB": 0,
-          "optionC": 0
-        },
-        "total": 1
-      },
-      "Charles": {
-        "average": 2,
-        "recipient": "Charles",
-        "recipientEmail": "charles@gmail.com",
-        "recipientTeam": "Team 1",
-        "responses": {
-          "optionA": 0,
-          "optionB": 1,
-          "optionC": 0
-        },
-        "total": 2
-      }
+      "total": 1
     },
-    "expectedPerRecipientResponsesWithOther":
-    {
-      "Alice": {
-        "average": 4,
-        "recipient": "Alice",
-        "recipientEmail": "alice@gmail.com",
-        "recipientTeam": "Team 1",
-        "responses": {
-          "Other": 1,
-          "optionA": 0,
-          "optionB": 0,
-          "optionC": 0
-        },
-        "total": 4
+    "Bob": {
+      "average": 1,
+      "recipient": "Bob",
+      "recipientEmail": "bob@gmail.com",
+      "recipientTeam": "Team 2",
+      "responses": {
+        "optionA": 1,
+        "optionB": 0,
+        "optionC": 0
       },
-      "Bob": {
-        "average": 1,
-        "recipient": "Bob",
-        "recipientEmail": "bob@gmail.com",
-        "recipientTeam": "Team 2",
-        "responses": {
-          "Other": 0,
-          "optionA": 1,
-          "optionB": 0,
-          "optionC": 0
-        },
-        "total": 1
+      "total": 1
+    },
+    "Charles": {
+      "average": 2,
+      "recipient": "Charles",
+      "recipientEmail": "charles@gmail.com",
+      "recipientTeam": "Team 1",
+      "responses": {
+        "optionA": 0,
+        "optionB": 1,
+        "optionC": 0
       },
-      "Charles": {
-        "average": 2,
-        "recipient": "Charles",
-        "recipientEmail": "charles@gmail.com",
-        "recipientTeam": "Team 1",
-        "responses": {
-          "Other": 0,
-          "optionA": 0,
-          "optionB": 1,
-          "optionC": 0
-        },
-        "total": 2
-      }
+      "total": 2
     }
+  },
+  "expectedPerRecipientResponsesWithOther": {
+    "Alice": {
+      "average": 4,
+      "recipient": "Alice",
+      "recipientEmail": "alice@gmail.com",
+      "recipientTeam": "Team 1",
+      "responses": {
+        "Other": 1,
+        "optionA": 0,
+        "optionB": 0,
+        "optionC": 0
+      },
+      "total": 4
+    },
+    "Bob": {
+      "average": 1,
+      "recipient": "Bob",
+      "recipientEmail": "bob@gmail.com",
+      "recipientTeam": "Team 2",
+      "responses": {
+        "Other": 0,
+        "optionA": 1,
+        "optionB": 0,
+        "optionC": 0
+      },
+      "total": 1
+    },
+    "Charles": {
+      "average": 2,
+      "recipient": "Charles",
+      "recipientEmail": "charles@gmail.com",
+      "recipientTeam": "Team 1",
+      "responses": {
+        "Other": 0,
+        "optionA": 0,
+        "optionB": 1,
+        "optionC": 0
+      },
+      "total": 2
+    }
+  }
 }

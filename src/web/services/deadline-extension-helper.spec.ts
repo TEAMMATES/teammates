@@ -13,10 +13,13 @@ const ongoingExtension: Record<string, number> = { ongoingExtension1: timeNow + 
 const notOngoingExtension1: Record<string, number> = { notOngoingExtension1: timeNow - fixedLengthOfTime };
 const notOngoingExtension2: Record<string, number> = { notOngoingExtension2: timeNow };
 const hasOngoingDeadlines: Record<string, number> = {
-    ...ongoingExtension, ...notOngoingExtension1, ...notOngoingExtension2,
+  ...ongoingExtension,
+  ...notOngoingExtension1,
+  ...notOngoingExtension2,
 };
 const hasNoOngoingDeadlines: Record<string, number> = {
-    ...notOngoingExtension1, ...notOngoingExtension2,
+  ...notOngoingExtension1,
+  ...notOngoingExtension2,
 };
 
 const student1: Student = {
@@ -86,45 +89,60 @@ describe('DeadlineExtensionHelper', () => {
   beforeEach(() => jest.useFakeTimers().setSystemTime(timeNow));
 
   it('should detect ongoing extensions correctly', () => {
-    expect(DeadlineExtensionHelper.hasOngoingExtension({
+    expect(
+      DeadlineExtensionHelper.hasOngoingExtension({
         studentDeadlines: hasOngoingDeadlines,
         instructorDeadlines: hasNoOngoingDeadlines,
-    })).toBeTruthy();
+      }),
+    ).toBeTruthy();
 
-    expect(DeadlineExtensionHelper.hasOngoingExtension({
+    expect(
+      DeadlineExtensionHelper.hasOngoingExtension({
         studentDeadlines: hasNoOngoingDeadlines,
         instructorDeadlines: hasOngoingDeadlines,
-    })).toBeTruthy();
+      }),
+    ).toBeTruthy();
 
-    expect(DeadlineExtensionHelper.hasOngoingExtension({
+    expect(
+      DeadlineExtensionHelper.hasOngoingExtension({
         studentDeadlines: hasOngoingDeadlines,
         instructorDeadlines: hasOngoingDeadlines,
-    })).toBeTruthy();
+      }),
+    ).toBeTruthy();
 
-    expect(DeadlineExtensionHelper.hasOngoingExtension({
+    expect(
+      DeadlineExtensionHelper.hasOngoingExtension({
         studentDeadlines: hasNoOngoingDeadlines,
         instructorDeadlines: {},
-    })).toBeFalsy();
+      }),
+    ).toBeFalsy();
 
-    expect(DeadlineExtensionHelper.hasOngoingExtension({
+    expect(
+      DeadlineExtensionHelper.hasOngoingExtension({
         studentDeadlines: {},
         instructorDeadlines: hasNoOngoingDeadlines,
-    })).toBeFalsy();
+      }),
+    ).toBeFalsy();
 
-    expect(DeadlineExtensionHelper.hasOngoingExtension({
+    expect(
+      DeadlineExtensionHelper.hasOngoingExtension({
         studentDeadlines: hasNoOngoingDeadlines,
         instructorDeadlines: hasNoOngoingDeadlines,
-    })).toBeFalsy();
+      }),
+    ).toBeFalsy();
 
-    expect(DeadlineExtensionHelper.hasOngoingExtension({
+    expect(
+      DeadlineExtensionHelper.hasOngoingExtension({
         studentDeadlines: {},
         instructorDeadlines: {},
-    })).toBeFalsy();
+      }),
+    ).toBeFalsy();
   });
 
   it('should filter and set deadlines before given end time correctly', () => {
-    expect(Object.keys(DeadlineExtensionHelper.getDeadlinesBeforeOrEqualToEndTime(hasOngoingDeadlines, timeNow)).length)
-      .toEqual(2);
+    expect(
+      Object.keys(DeadlineExtensionHelper.getDeadlinesBeforeOrEqualToEndTime(hasOngoingDeadlines, timeNow)).length,
+    ).toEqual(2);
     expect(
       Object.keys(DeadlineExtensionHelper.getDeadlinesBeforeOrEqualToEndTime(hasNoOngoingDeadlines, timeNow)).length,
     ).toEqual(2);
@@ -133,8 +151,11 @@ describe('DeadlineExtensionHelper', () => {
   it('should map students correctly', () => {
     const student1Extension: Record<string, number> = { 'student1Model@example.com': 0 };
     const student2Extension: Record<string, number> = { 'student2Model@example.com': 0 };
-    const studentModels = DeadlineExtensionHelper
-      .mapStudentsToStudentModels([student1, student2], { ...student1Extension, ...student2Extension }, timeNow);
+    const studentModels = DeadlineExtensionHelper.mapStudentsToStudentModels(
+      [student1, student2],
+      { ...student1Extension, ...student2Extension },
+      timeNow,
+    );
 
     expect(studentModels).toEqual([student1Model, student2Model]);
   });
@@ -142,9 +163,11 @@ describe('DeadlineExtensionHelper', () => {
   it('should map instructors correctly', () => {
     const instructor1Extension: Record<string, number> = { 'instructor1Model@example.com': 3 };
     const instructor2Extension: Record<string, number> = { 'instructor2Model@example.com': 3 };
-    const instructorModels = DeadlineExtensionHelper
-      .mapInstructorsToInstructorModels([instructor1, instructor2],
-        { ...instructor1Extension, ...instructor2Extension }, timeNow);
+    const instructorModels = DeadlineExtensionHelper.mapInstructorsToInstructorModels(
+      [instructor1, instructor2],
+      { ...instructor1Extension, ...instructor2Extension },
+      timeNow,
+    );
 
     expect(instructorModels).toEqual([instructor1ModelWithExtension, instructor2ModelWithExtension]);
   });
@@ -155,14 +178,20 @@ describe('DeadlineExtensionHelper', () => {
     const hasOngoingDeadlinesWithStudent = { ...hasOngoingDeadlines, ...existingExtensionForStudentModel1 };
     const hasOngoingDeadlinesWithInstructor = { ...hasOngoingDeadlines, ...existingExtensionForInstructorModel1 };
 
-    const updatedStudentDeadlines = DeadlineExtensionHelper
-      .getUpdatedDeadlinesForCreation([student1Model, student2Model], hasOngoingDeadlinesWithStudent, 100);
+    const updatedStudentDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForCreation(
+      [student1Model, student2Model],
+      hasOngoingDeadlinesWithStudent,
+      100,
+    );
     expect(Object.keys(updatedStudentDeadlines).length).toEqual(5);
     expect(updatedStudentDeadlines['student1Model@example.com']).toEqual(100);
     expect(updatedStudentDeadlines['student2Model@example.com']).toEqual(100);
 
     const updatedInstructorDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForCreation(
-      [instructor1ModelWithExtension, instructor2ModelWithExtension], hasOngoingDeadlinesWithInstructor, 200);
+      [instructor1ModelWithExtension, instructor2ModelWithExtension],
+      hasOngoingDeadlinesWithInstructor,
+      200,
+    );
     expect(Object.keys(updatedInstructorDeadlines).length).toEqual(5);
     expect(updatedInstructorDeadlines['instructor1Model@example.com']).toEqual(200);
     expect(updatedInstructorDeadlines['instructor2Model@example.com']).toEqual(200);
@@ -174,10 +203,21 @@ describe('DeadlineExtensionHelper', () => {
     const hasOngoingDeadlinesWithStudent = { ...hasOngoingDeadlines, ...student1ModelExtension };
     const hasOngoingDeadlinesWithInstructor = { ...hasOngoingDeadlines, ...instructor1ModelExtension };
 
-    expect(Object.keys(DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion([student1Model, student2Model],
-      hasOngoingDeadlinesWithStudent)).length).toEqual(3);
-    expect(Object.keys(DeadlineExtensionHelper
-      .getUpdatedDeadlinesForDeletion([instructor1ModelWithExtension, instructor2ModelWithExtension],
-        hasOngoingDeadlinesWithInstructor)).length).toEqual(3);
+    expect(
+      Object.keys(
+        DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
+          [student1Model, student2Model],
+          hasOngoingDeadlinesWithStudent,
+        ),
+      ).length,
+    ).toEqual(3);
+    expect(
+      Object.keys(
+        DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
+          [instructor1ModelWithExtension, instructor2ModelWithExtension],
+          hasOngoingDeadlinesWithInstructor,
+        ),
+      ).length,
+    ).toEqual(3);
   });
 });

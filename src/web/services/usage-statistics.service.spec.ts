@@ -8,10 +8,7 @@ describe('UsageStatisticsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     });
     service = TestBed.inject(UsageStatisticsService);
   });
@@ -19,5 +16,4 @@ describe('UsageStatisticsService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-
 });

@@ -12,14 +12,9 @@ import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-que
   selector: 'tm-num-scale-question-edit-details-form',
   templateUrl: './num-scale-question-edit-details-form.component.html',
   styleUrls: ['./num-scale-question-edit-details-form.component.scss'],
-  imports: [
-    NgbTooltip,
-    FormsModule,
-],
+  imports: [NgbTooltip, FormsModule],
 })
-export class NumScaleQuestionEditDetailsFormComponent
-    extends QuestionEditDetailsFormComponent<FeedbackNumericalScaleQuestionDetails> {
-
+export class NumScaleQuestionEditDetailsFormComponent extends QuestionEditDetailsFormComponent<FeedbackNumericalScaleQuestionDetails> {
   Math: typeof Math = Math;
 
   constructor() {
@@ -42,10 +37,8 @@ export class NumScaleQuestionEditDetailsFormComponent
    * Returns the possible answers for the given max and min values.
    */
   get possibleValues(): string {
-
     if (this.numberOfPossibleValues > 6) {
-      const maxAcceptableValue: number =
-          this.model.minScale + ((this.numberOfPossibleValues - 1) * this.model.step);
+      const maxAcceptableValue: number = this.model.minScale + (this.numberOfPossibleValues - 1) * this.model.step;
       return `[${this.model.minScale},
            ${+(this.model.minScale + this.model.step).toFixed(3)},
            ${+(this.model.minScale + 2 * this.model.step).toFixed(3)}, ...,

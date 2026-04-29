@@ -13,19 +13,20 @@ import { StatusMessageService } from './status-message.service';
   providedIn: 'root',
 })
 export class NavigationService {
-
-  constructor(private statusMessageService: StatusMessageService,
-              private masqueradeModeService: MasqueradeModeService,
-              private activatedRoute: ActivatedRoute,
-              private router: Router,
-              private location: Location,
+  constructor(
+    private statusMessageService: StatusMessageService,
+    private masqueradeModeService: MasqueradeModeService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private location: Location,
   ) {}
 
   encodeParams(params: Record<string, string>): string {
     if (Object.values(params).length === 0) {
       return '';
     }
-    return `?${Object.keys(params).map(((key: string): string => `${key}=${encodeURIComponent(params[key])}`))
+    return `?${Object.keys(params)
+      .map((key: string): string => `${key}=${encodeURIComponent(params[key])}`)
       .join('&')}`;
   }
 
@@ -33,16 +34,16 @@ export class NavigationService {
    * Appends queryParams at the end of the current URL.
    */
   changeBrowserUrl(queryParams: Params): void {
-    const newUrl = this.router.createUrlTree(
-        [],
-        { relativeTo: this.activatedRoute, queryParams },
-    ).toString();
+    const newUrl = this.router.createUrlTree([], { relativeTo: this.activatedRoute, queryParams }).toString();
 
     this.location.go(newUrl);
   }
 
-  navigateByURL(urlWithoutParams: string, params: Record<string, string> = {},
-                extras: NavigationExtras = {}): Promise<boolean> {
+  navigateByURL(
+    urlWithoutParams: string,
+    params: Record<string, string> = {},
+    extras: NavigationExtras = {},
+  ): Promise<boolean> {
     const masqueradeUser: string = this.masqueradeModeService.getMasqueradeUser();
     if (masqueradeUser !== '') {
       params['user'] = masqueradeUser;

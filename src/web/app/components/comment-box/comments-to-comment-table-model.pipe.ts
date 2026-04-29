@@ -8,8 +8,7 @@ import { CommentOutput } from '../../../types/api-output';
  */
 @Pipe({ name: 'commentsToCommentTableModel' })
 export class CommentsToCommentTableModelPipe implements PipeTransform {
-  constructor(private commentToCommentRowModel: CommentToCommentRowModelPipe) {
-  }
+  constructor(private commentToCommentRowModel: CommentToCommentRowModelPipe) {}
   transform(comments: CommentOutput[], isReadOnly: boolean, timezone?: string): CommentTableModel {
     return {
       isReadOnly,
@@ -28,5 +27,4 @@ export class CommentsToCommentTableModelPipe implements PipeTransform {
       isAddingNewComment: false,
     };
   }
-
 }

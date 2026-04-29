@@ -5,9 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 import { InstructorCourseEditPageComponent } from './instructor-course-edit-page.component';
-import {
-  InstructorEditPanel,
-} from './instructor-edit-panel/instructor-edit-panel.component';
+import { InstructorEditPanel } from './instructor-edit-panel/instructor-edit-panel.component';
 import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -76,16 +74,9 @@ describe('InstructorCourseEditPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-      ],
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      imports: [BrowserAnimationsModule],
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -140,15 +131,17 @@ describe('InstructorCourseEditPageComponent', () => {
     component.courseFormModel.course.courseName = 'Example Course Changed';
     fixture.detectChanges();
 
-    jest.spyOn(courseService, 'updateCourse').mockReturnValue(of({
-      courseId: 'exampleId',
-      courseName: 'Example Course Changed',
-      isCourseDeleted: false,
-      timeZone: 'UTC (UTC)',
-      institute: 'Test institute',
-      creationTimestamp: 0,
-      deletionTimestamp: 1000,
-    }));
+    jest.spyOn(courseService, 'updateCourse').mockReturnValue(
+      of({
+        courseId: 'exampleId',
+        courseName: 'Example Course Changed',
+        isCourseDeleted: false,
+        timeZone: 'UTC (UTC)',
+        institute: 'Test institute',
+        creationTimestamp: 0,
+        deletionTimestamp: 1000,
+      }),
+    );
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#btn-save-course');
     button.click();
@@ -158,9 +151,11 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should update instructor details if SAVE is requested', () => {
-    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of({
-      instructors: [testInstructor1],
-    }));
+    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(
+      of({
+        instructors: [testInstructor1],
+      }),
+    );
 
     component.loadCourseInstructors();
 
@@ -171,12 +166,14 @@ describe('InstructorCourseEditPageComponent', () => {
     component.instructorDetailPanels[0].editPanel.name = 'Example Instructor Changed';
     fixture.detectChanges();
 
-    jest.spyOn(instructorService, 'updateInstructor').mockReturnValue(of({
-      courseId: 'exampleId',
-      email: 'instructor1@gmail.com',
-      joinState: JoinState.JOINED,
-      name: 'Example Instructor Changed',
-    }));
+    jest.spyOn(instructorService, 'updateInstructor').mockReturnValue(
+      of({
+        courseId: 'exampleId',
+        email: 'instructor1@gmail.com',
+        joinState: JoinState.JOINED,
+        name: 'Example Instructor Changed',
+      }),
+    );
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#btn-save-instructor-1');
     button.click();
@@ -186,9 +183,11 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should load correct instructors details for given API output', () => {
-    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of({
-      instructors: [testInstructor1, testInstructor2],
-    }));
+    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(
+      of({
+        instructors: [testInstructor1, testInstructor2],
+      }),
+    );
 
     component.loadCourseInstructors();
 
@@ -217,21 +216,25 @@ describe('InstructorCourseEditPageComponent', () => {
     component.newInstructorPanel.isEditing = true;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement
-        .querySelector(`#btn-cancel-instructor-${component.instructorDetailPanels.length + 1}`);
+    const button: any = fixture.debugElement.nativeElement.querySelector(
+      `#btn-cancel-instructor-${component.instructorDetailPanels.length + 1}`,
+    );
     button.click();
 
     expect(component.isAddingNewInstructor).toBeFalsy();
   });
 
   it('should add instructor details', () => {
-    jest.spyOn(instructorService, 'createInstructor')
-      .mockImplementation((params: { courseId: string, requestBody: InstructorCreateRequest }) => of({
-        courseId: params.courseId,
-        email: params.requestBody.email,
-        joinState: JoinState.NOT_JOINED,
-        name: params.requestBody.name,
-      }));
+    jest
+      .spyOn(instructorService, 'createInstructor')
+      .mockImplementation((params: { courseId: string; requestBody: InstructorCreateRequest }) =>
+        of({
+          courseId: params.courseId,
+          email: params.requestBody.email,
+          joinState: JoinState.NOT_JOINED,
+          name: params.requestBody.name,
+        }),
+      );
 
     component.courseFormModel.course = testCourse;
     component.courseId = testCourse.courseId;
@@ -253,8 +256,9 @@ describe('InstructorCourseEditPageComponent', () => {
     component.newInstructorPanel.isEditing = true;
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement
-        .querySelector(`#btn-save-instructor-${component.instructorDetailPanels.length + 1}`);
+    const button: any = fixture.debugElement.nativeElement.querySelector(
+      `#btn-save-instructor-${component.instructorDetailPanels.length + 1}`,
+    );
     button.click();
 
     expect(component.isAddingNewInstructor).toBeFalsy();
@@ -267,8 +271,7 @@ describe('InstructorCourseEditPageComponent', () => {
   it('should re-order if instructor is deleted', async () => {
     jest.spyOn(instructorService, 'deleteInstructor').mockReturnValue(of({}));
 
-    jest.spyOn(simpleModalService, 'openConfirmationModal')
-        .mockReturnValue(createMockNgbModalRef());
+    jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef());
 
     component.courseFormModel.course = testCourse;
     component.isCourseLoading = false;
@@ -295,13 +298,14 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should re-send reminder email for new instructors', () => {
-    const mockReminderFunction: jest.MockedFunction<any> = jest.fn((_: string, email: string) => of({
-      message: `An email has been sent to ${email}`,
-    }));
+    const mockReminderFunction: jest.MockedFunction<any> = jest.fn((_: string, email: string) =>
+      of({
+        message: `An email has been sent to ${email}`,
+      }),
+    );
     jest.spyOn(courseService, 'remindInstructorForJoin').mockImplementation(mockReminderFunction);
 
-    jest.spyOn(simpleModalService, 'openConfirmationModal')
-        .mockReturnValue(createMockNgbModalRef());
+    jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef());
 
     component.courseFormModel.course = testCourse;
     component.isCourseLoading = false;
@@ -319,8 +323,9 @@ describe('InstructorCourseEditPageComponent', () => {
     ];
     fixture.detectChanges();
 
-    const button: any = fixture.debugElement.nativeElement
-        .querySelector(`#btn-resend-invite-${component.instructorDetailPanels.length}`);
+    const button: any = fixture.debugElement.nativeElement.querySelector(
+      `#btn-resend-invite-${component.instructorDetailPanels.length}`,
+    );
     button.click();
 
     expect(mockReminderFunction).toHaveBeenCalledWith(testCourse.courseId, testInstructor2.email);

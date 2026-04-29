@@ -27,7 +27,6 @@ import {
  * Factory to generate frontend question details implementation classes.
  */
 export class FeedbackQuestionDetailsFactory {
-
   /**
    * Converts API output ({@link FeedbackQuestionDetails})
    * to frontend implementation class {@link AbstractFeedbackQuestionDetails}.
@@ -58,5 +57,4 @@ export class FeedbackQuestionDetailsFactory {
         throw new Error(`Unknown question type: ${details.questionType}`);
     }
   }
-
 }

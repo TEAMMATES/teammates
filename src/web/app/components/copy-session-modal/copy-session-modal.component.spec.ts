@@ -19,9 +19,7 @@ describe('CopySessionModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        NgbActiveModal,
-      ],
+      providers: [NgbActiveModal],
     }).compileComponents();
   }));
 
@@ -143,5 +141,4 @@ describe('CopySessionModalComponent', () => {
     component.select(courseId);
     expect(component.copyToCourseSet.has(courseId)).toBe(false);
   });
-
 });

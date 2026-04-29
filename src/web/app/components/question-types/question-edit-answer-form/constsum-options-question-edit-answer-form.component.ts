@@ -19,17 +19,15 @@ import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.dire
   selector: 'tm-constsum-options-question-edit-answer-form',
   templateUrl: './constsum-options-question-edit-answer-form.component.html',
   styleUrls: ['./constsum-options-question-edit-answer-form.component.scss'],
-  imports: [
-    FormsModule,
-    WheelDisablerDirective,
-],
+  imports: [FormsModule, WheelDisablerDirective],
 })
-export class ConstsumOptionsQuestionEditAnswerFormComponent
-    extends QuestionEditAnswerFormComponent<FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails> {
-
+export class ConstsumOptionsQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent<
+  FeedbackConstantSumQuestionDetails,
+  FeedbackConstantSumResponseDetails
+> {
   // enum
   FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =
-      FeedbackConstantSumDistributePointsType;
+    FeedbackConstantSumDistributePointsType;
 
   constructor() {
     super(DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS(), DEFAULT_CONSTSUM_RESPONSE_DETAILS());
@@ -100,27 +98,28 @@ export class ConstsumOptionsQuestionEditAnswerFormComponent
    * Checks if any of the points are negative.
    */
   get isAnyPointsNegative(): boolean {
-    return this.responseDetails.answers.reduce((isNegative: boolean, curr: number) => isNegative || (curr < 0), false);
+    return this.responseDetails.answers.reduce((isNegative: boolean, curr: number) => isNegative || curr < 0, false);
   }
 
   /**
    * Checks if any of the points are below the minPoint.
    */
   get isAnyPointBelowMinimum(): boolean {
-    const comparator : number = this.questionDetails.minPoint ? this.questionDetails.minPoint : 0;
-    return this.responseDetails.answers.reduce((isBelowMinimum: boolean, curr: number) =>
-      isBelowMinimum || (curr < comparator), false);
+    const comparator: number = this.questionDetails.minPoint ? this.questionDetails.minPoint : 0;
+    return this.responseDetails.answers.reduce(
+      (isBelowMinimum: boolean, curr: number) => isBelowMinimum || curr < comparator,
+      false,
+    );
   }
 
   /**
    * Checks if any of the points are above the maxPoint.
    */
   get isAnyPointAboveMaximum(): boolean {
-    const comparator : number = this.questionDetails.maxPoint
-      ? this.questionDetails.maxPoint
-      : this.totalRequiredPoints;
-    return this.responseDetails.answers.reduce((isAboveMaximum: boolean, curr: number) =>
-      isAboveMaximum || (curr > comparator), false);
+    const comparator: number = this.questionDetails.maxPoint ? this.questionDetails.maxPoint : this.totalRequiredPoints;
+    return this.responseDetails.answers.reduce(
+      (isAboveMaximum: boolean, curr: number) => isAboveMaximum || curr > comparator,
+      false,
+    );
   }
-
 }

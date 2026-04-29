@@ -7,10 +7,7 @@ import { TimezoneService } from '../../../services/timezone.service';
 describe('FormatDateDetailPipe', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     });
   });
 

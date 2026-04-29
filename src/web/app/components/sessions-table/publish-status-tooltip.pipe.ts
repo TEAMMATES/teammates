@@ -6,7 +6,6 @@ import { FeedbackSessionPublishStatus } from '../../../types/api-output';
  */
 @Pipe({ name: 'publishStatusTooltip' })
 export class PublishStatusTooltipPipe implements PipeTransform {
-
   /**
    * Transforms {@link FeedbackSessionPublishStatus} to a tooltip description.
    */
@@ -20,5 +19,4 @@ export class PublishStatusTooltipPipe implements PipeTransform {
         return 'Unknown';
     }
   }
-
 }

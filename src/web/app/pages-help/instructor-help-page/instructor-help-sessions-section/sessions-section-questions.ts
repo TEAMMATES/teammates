@@ -122,5 +122,4 @@ export enum SessionsSectionQuestions {
    * even after I published the session responses?
    */
   STUDENT_DID_NOT_RECEIVE_RESULT_LINK = 'student-did-not-receive-session-link',
-
 }

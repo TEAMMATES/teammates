@@ -1,4 +1,7 @@
-<div class="card" [class.no-border]="!displayAddCommentButton && !model.isAddingNewComment && !model.commentRows.length">
+<div
+  class="card"
+  [class.no-border]="!displayAddCommentButton && !model.isAddingNewComment && !model.commentRows.length"
+>
   @if (!model.isReadOnly && !model.isAddingNewComment && displayAddCommentButton) {
     <div class="card-header comment-table-header">
       <button (click)="handleAddingNewCommentEvent()" type="button" class="btn btn-light btn-sm float-end">
@@ -7,7 +10,7 @@
     </div>
   }
 
-  <ul class="list-group list-group-flush" >
+  <ul class="list-group list-group-flush">
     @for (comment of model.commentRows; track $index; let i = $index) {
       <li class="list-group-item">
         @if (comment.originalComment) {
@@ -33,7 +36,10 @@
     <!-- "Add new comment" row -->
     @if (!model.isReadOnly && model.isAddingNewComment) {
       <li class="list-group-item" @collapseAnim>
-        <tm-comment-row [model]="model.newCommentRow" [isDisabled]="false" [isVisibilityOptionEnabled]="true"
+        <tm-comment-row
+          [model]="model.newCommentRow"
+          [isDisabled]="false"
+          [isVisibilityOptionEnabled]="true"
           [mode]="CommentRowMode.ADD"
           [questionShowResponsesTo]="questionShowResponsesTo"
           [response]="response"

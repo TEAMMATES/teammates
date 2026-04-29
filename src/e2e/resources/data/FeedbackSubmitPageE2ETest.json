@@ -407,12 +407,7 @@
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": [
-        "RECEIVER",
-        "OWN_TEAM_MEMBERS",
-        "STUDENTS",
-        "INSTRUCTORS"
-      ],
+      "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
       "showGiverNameTo": ["RECEIVER", "INSTRUCTORS"],
       "showRecipientNameTo": ["INSTRUCTORS"]
     }

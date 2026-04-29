@@ -6,8 +6,9 @@ import { FeedbackQuestionDetails, FeedbackResponseDetails } from '../../../../ty
  */
 @Directive()
 export abstract class QuestionEditAnswerFormComponent<
-    Q extends FeedbackQuestionDetails, R extends FeedbackResponseDetails> {
-
+  Q extends FeedbackQuestionDetails,
+  R extends FeedbackResponseDetails,
+> {
   @Input()
   isDisabled = false;
 

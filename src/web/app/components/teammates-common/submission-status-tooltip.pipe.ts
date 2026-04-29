@@ -7,13 +7,16 @@ import { FeedbackSessionSubmissionStatus } from '../../../types/api-output';
  */
 @Pipe({ name: 'submissionStatusTooltip' })
 export class SubmissionStatusTooltipPipe implements PipeTransform {
-
   /**
    * Transforms {@link FeedbackSessionSubmissionStatus} to a tooltip description.
    */
-  transform(status: FeedbackSessionSubmissionStatus, deadlines?: {
-    studentDeadlines: Record<string, number>, instructorDeadlines: Record<string, number>,
-  }): string {
+  transform(
+    status: FeedbackSessionSubmissionStatus,
+    deadlines?: {
+      studentDeadlines: Record<string, number>;
+      instructorDeadlines: Record<string, number>;
+    },
+  ): string {
     let msg = 'The feedback session';
 
     switch (status) {

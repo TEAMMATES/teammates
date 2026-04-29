@@ -16,10 +16,10 @@ describe('InstructorHelpGettingStartedComponent', () => {
       providers: [
         {
           provide: DomSanitizer,
-                   useValue: {
-                     bypassSecurityTrustHtml: () => '',
-                     sanitize: () => '',
-                   },
+          useValue: {
+            bypassSecurityTrustHtml: () => '',
+            sanitize: () => '',
+          },
         },
         { provide: DOCUMENT, useValue: document },
         PageScrollService,
@@ -28,8 +28,7 @@ describe('InstructorHelpGettingStartedComponent', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
       ],
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {

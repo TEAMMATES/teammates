@@ -12,7 +12,6 @@ import { Component, Input } from '@angular/core';
   imports: [],
 })
 export class PanelChevronComponent {
-
   @Input() isExpanded = false;
 
   @Input() chevronColor = 'white';

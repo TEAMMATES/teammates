@@ -30,11 +30,11 @@ export interface StudentListRowModel {
  * A table displaying a list of students from a course, with buttons to view/edit/delete students etc.
  */
 @Component({
-    selector: 'tm-student-list',
-    templateUrl: './student-list.component.html',
-    styleUrls: ['./student-list.component.scss'],
-    imports: [SortableTableComponent],
-    providers: [SearchTermsHighlighterPipe],
+  selector: 'tm-student-list',
+  templateUrl: './student-list.component.html',
+  styleUrls: ['./student-list.component.scss'],
+  imports: [SortableTableComponent],
+  providers: [SearchTermsHighlighterPipe],
 })
 export class StudentListComponent implements OnInit {
   @Input() courseId = '';
@@ -73,18 +73,18 @@ export class StudentListComponent implements OnInit {
   JoinState: typeof JoinState = JoinState;
   SortableTableHeaderColorScheme: typeof SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
 
-  constructor(private statusMessageService: StatusMessageService,
-              private courseService: CourseService,
-              private simpleModalService: SimpleModalService,
-              private searchTermsHighlighterPipe: SearchTermsHighlighterPipe) {
-  }
+  constructor(
+    private statusMessageService: StatusMessageService,
+    private courseService: CourseService,
+    private simpleModalService: SimpleModalService,
+    private searchTermsHighlighterPipe: SearchTermsHighlighterPipe,
+  ) {}
 
   /**
    * Returns whether this course are divided into sections
    */
   hasSection(): boolean {
-    return (this.students.some((studentModel: StudentListRowModel) =>
-        studentModel.student.sectionName !== 'None'));
+    return this.students.some((studentModel: StudentListRowModel) => studentModel.student.sectionName !== 'None');
   }
 
   ngOnInit(): void {
@@ -99,91 +99,102 @@ export class StudentListComponent implements OnInit {
 
   setColumnData(): void {
     this.columnsData = [
-        {
-            header: 'Section',
-            sortBy: SortBy.SECTION_NAME,
-            headerClass: 'sort-by-section',
-        },
-        {
-            header: 'Team',
-            sortBy: SortBy.TEAM_NAME,
-            headerClass: 'sort-by-team',
-        },
-        {
-            header: 'Student Name',
-            sortBy: SortBy.RESPONDENT_NAME,
-            headerClass: 'sort-by-name',
-        },
-        {
-            header: 'Status',
-            sortBy: SortBy.JOIN_STATUS,
-            headerClass: 'sort-by-status',
-        },
-        {
-            header: 'Email',
-            sortBy: SortBy.RESPONDENT_EMAIL,
-            headerClass: 'sort-by-email',
-
-        },
-        {
-            header: 'Action(s)',
-            alignment: 'center',
-        },
+      {
+        header: 'Section',
+        sortBy: SortBy.SECTION_NAME,
+        headerClass: 'sort-by-section',
+      },
+      {
+        header: 'Team',
+        sortBy: SortBy.TEAM_NAME,
+        headerClass: 'sort-by-team',
+      },
+      {
+        header: 'Student Name',
+        sortBy: SortBy.RESPONDENT_NAME,
+        headerClass: 'sort-by-name',
+      },
+      {
+        header: 'Status',
+        sortBy: SortBy.JOIN_STATUS,
+        headerClass: 'sort-by-status',
+      },
+      {
+        header: 'Email',
+        sortBy: SortBy.RESPONDENT_EMAIL,
+        headerClass: 'sort-by-email',
+      },
+      {
+        header: 'Action(s)',
+        alignment: 'center',
+      },
     ];
   }
 
   setRowData(): void {
     this.rowsData = this.students
-    .filter((studentModel: StudentListRowModel) => !this.isStudentToHide(studentModel.student.email))
-    .map((studentModel: StudentListRowModel) => {
-      const rowData: SortableTableCellData[] = [
-        {
-          value: studentModel.student.sectionName,
-          displayValue: this.searchTermsHighlighterPipe.transform(
-            studentModel.student.sectionName, this.searchString, this.isPartialMatchHighlightingEnabled),
-        },
-        {
-          value: studentModel.student.teamName,
-          displayValue: this.searchTermsHighlighterPipe.transform(
-            studentModel.student.teamName, this.searchString, this.isPartialMatchHighlightingEnabled),
-        },
-        {
-          value: studentModel.student.name,
-          displayValue: this.searchTermsHighlighterPipe.transform(
-            studentModel.student.name, this.searchString, this.isPartialMatchHighlightingEnabled),
-        },
-        {
-          value: studentModel.student.joinState === JoinState.JOINED ? 'Joined' : 'Yet to Join',
-        },
-        {
-          value: studentModel.student.email,
-          displayValue: this.searchTermsHighlighterPipe.transform(
-            studentModel.student.email, this.searchString, this.isPartialMatchHighlightingEnabled),
-        },
-        this.createActionsCell(studentModel),
-      ];
+      .filter((studentModel: StudentListRowModel) => !this.isStudentToHide(studentModel.student.email))
+      .map((studentModel: StudentListRowModel) => {
+        const rowData: SortableTableCellData[] = [
+          {
+            value: studentModel.student.sectionName,
+            displayValue: this.searchTermsHighlighterPipe.transform(
+              studentModel.student.sectionName,
+              this.searchString,
+              this.isPartialMatchHighlightingEnabled,
+            ),
+          },
+          {
+            value: studentModel.student.teamName,
+            displayValue: this.searchTermsHighlighterPipe.transform(
+              studentModel.student.teamName,
+              this.searchString,
+              this.isPartialMatchHighlightingEnabled,
+            ),
+          },
+          {
+            value: studentModel.student.name,
+            displayValue: this.searchTermsHighlighterPipe.transform(
+              studentModel.student.name,
+              this.searchString,
+              this.isPartialMatchHighlightingEnabled,
+            ),
+          },
+          {
+            value: studentModel.student.joinState === JoinState.JOINED ? 'Joined' : 'Yet to Join',
+          },
+          {
+            value: studentModel.student.email,
+            displayValue: this.searchTermsHighlighterPipe.transform(
+              studentModel.student.email,
+              this.searchString,
+              this.isPartialMatchHighlightingEnabled,
+            ),
+          },
+          this.createActionsCell(studentModel),
+        ];
 
-      return rowData;
-    });
+        return rowData;
+      });
   }
 
   createActionsCell(studentModel: StudentListRowModel): SortableTableCellData {
     const actionsCell: SortableTableCellData = {
       customComponent: {
-      component: CellWithActionsComponent,
-      componentData: (idx: number) => ({
-        idx,
-        courseId: this.courseId,
-        email: studentModel.student.email,
-        enableRemindButton: studentModel.student.joinState === JoinState.NOT_JOINED,
-        instructorPrivileges: {
+        component: CellWithActionsComponent,
+        componentData: (idx: number) => ({
+          idx,
+          courseId: this.courseId,
+          email: studentModel.student.email,
+          enableRemindButton: studentModel.student.joinState === JoinState.NOT_JOINED,
+          instructorPrivileges: {
             canModifyStudent: studentModel.isAllowedToModifyStudent,
             canViewStudentInSections: studentModel.isAllowedToViewStudentInSection,
-        },
-        isActionButtonsEnabled: this.isActionButtonsEnabled,
-        removeStudentFromCourse: () => this.openDeleteModal(studentModel),
-        remindStudentFromCourse: () => this.openRemindModal(studentModel),
-      }),
+          },
+          isActionButtonsEnabled: this.isActionButtonsEnabled,
+          removeStudentFromCourse: () => this.openDeleteModal(studentModel),
+          remindStudentFromCourse: () => this.openRemindModal(studentModel),
+        }),
       },
     };
 
@@ -205,41 +216,54 @@ export class StudentListComponent implements OnInit {
           TEAMMATES sends an automatic invite to students at the opening time of each session.
           Send a join request to <strong>${studentModel.student.email}</strong> anyway?`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        'Send join request?', SimpleModalType.INFO, modalContent);
-    modalRef.result.then(() => {
-      this.remindStudentFromCourse(studentModel.student.email);
-    }, () => {});
+      'Send join request?',
+      SimpleModalType.INFO,
+      modalContent,
+    );
+    modalRef.result.then(
+      () => {
+        this.remindStudentFromCourse(studentModel.student.email);
+      },
+      () => {},
+    );
   }
 
   /**
    * Open the delete student confirmation modal.
    */
   openDeleteModal(studentModel: StudentListRowModel): void {
-    const modalContent: string = `Are you sure you want to remove <strong>${studentModel.student.name}</strong> `
-        + `from the course <strong>${this.courseId}?</strong>`;
+    const modalContent: string =
+      `Are you sure you want to remove <strong>${studentModel.student.name}</strong> ` +
+      `from the course <strong>${this.courseId}?</strong>`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Delete student <strong>${studentModel.student.name}</strong>?`, SimpleModalType.DANGER, modalContent);
-    modalRef.result.then(() => {
-      this.removeStudentFromCourse(studentModel.student.email);
-      this.students = this.students.filter((student: StudentListRowModel) =>
-      student.student.email !== studentModel.student.email);
-      this.setRowData();
-    }, () => {});
+      `Delete student <strong>${studentModel.student.name}</strong>?`,
+      SimpleModalType.DANGER,
+      modalContent,
+    );
+    modalRef.result.then(
+      () => {
+        this.removeStudentFromCourse(studentModel.student.email);
+        this.students = this.students.filter(
+          (student: StudentListRowModel) => student.student.email !== studentModel.student.email,
+        );
+        this.setRowData();
+      },
+      () => {},
+    );
   }
 
   /**
    * Remind the student from course.
    */
   remindStudentFromCourse(studentEmail: string): void {
-    this.courseService.remindStudentForJoin(this.courseId, studentEmail)
-      .subscribe({
-        next: (resp: MessageOutput) => {
-          this.statusMessageService.showSuccessToast(resp.message);
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
+    this.courseService.remindStudentForJoin(this.courseId, studentEmail).subscribe({
+      next: (resp: MessageOutput) => {
+        this.statusMessageService.showSuccessToast(resp.message);
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
   }
 
   /**
@@ -259,7 +283,7 @@ export class StudentListComponent implements OnInit {
   /**
    * Sorts the student list
    */
-  sortStudentListEventHandler(event: { sortBy: SortBy, sortOrder: SortOrder }): void {
+  sortStudentListEventHandler(event: { sortBy: SortBy; sortOrder: SortOrder }): void {
     this.sortStudentListEvent.emit(event);
   }
 }

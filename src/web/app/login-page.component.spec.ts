@@ -16,13 +16,8 @@ describe('LoginPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-        .compileComponents();
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -41,10 +36,9 @@ describe('LoginPageComponent', () => {
     window.localStorage.removeItem('emailForSignIn');
     jest.spyOn(authService, 'isLogInWithEmailLink').mockResolvedValue(true);
     jest.spyOn(authService, 'logInWithEmailLink').mockRejectedValue(new Error());
-    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('Login link has already been used. If not, kindly login using the same device.');
-        });
+    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
+      expect(args).toEqual('Login link has already been used. If not, kindly login using the same device.');
+    });
     fixture.detectChanges();
     await component.handleEmailRedirection();
     expect(spy).toHaveBeenCalled();
@@ -54,10 +48,9 @@ describe('LoginPageComponent', () => {
     window.localStorage.setItem('emailForSignIn', 'abc@gmail.com');
     jest.spyOn(authService, 'isLogInWithEmailLink').mockResolvedValue(true);
     jest.spyOn(authService, 'logInWithEmailLink').mockRejectedValue(new Error());
-    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('Login with email is unsuccessful. Please try again.');
-        });
+    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
+      expect(args).toEqual('Login with email is unsuccessful. Please try again.');
+    });
     fixture.detectChanges();
     await component.handleEmailRedirection();
     expect(spy).toHaveBeenCalled();
@@ -65,10 +58,9 @@ describe('LoginPageComponent', () => {
 
   it('should show error toast if login with Google is unsuccessful', async () => {
     jest.spyOn(authService, 'getRedirectResult').mockRejectedValue(new Error());
-    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('Login with Google is unsuccessful. Please try again.');
-        });
+    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
+      expect(args).toEqual('Login with Google is unsuccessful. Please try again.');
+    });
     fixture.detectChanges();
     await component.handleGoogleRedirection();
     expect(spy).toHaveBeenCalled();
@@ -76,10 +68,9 @@ describe('LoginPageComponent', () => {
 
   it('should show error toast if cannot redirect to Google login page', async () => {
     jest.spyOn(authService, 'logInWithRedirect').mockRejectedValue(new Error());
-    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('Cannot redirect to Google login page. Please try again.');
-        });
+    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
+      expect(args).toEqual('Cannot redirect to Google login page. Please try again.');
+    });
     fixture.detectChanges();
     await component.logInWithGoogle();
     expect(spy).toHaveBeenCalled();
@@ -90,30 +81,30 @@ describe('LoginPageComponent', () => {
       email: '',
       recaptcha: '',
     });
-    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('Please enter a valid email address and click the reCAPTCHA before submitting.');
-        });
+    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
+      expect(args).toEqual('Please enter a valid email address and click the reCAPTCHA before submitting.');
+    });
     fixture.detectChanges();
     component.logInWithEmail(component.formLogin);
     expect(spy).toHaveBeenCalled();
   });
 
   it('should show error toast if cannot send login email', () => {
-    jest.spyOn(authService, 'sendLoginEmail').mockReturnValue(throwError(() => ({
-      error: {
-        message: 'This is the error message.',
-      },
-    })));
+    jest.spyOn(authService, 'sendLoginEmail').mockReturnValue(
+      throwError(() => ({
+        error: {
+          message: 'This is the error message.',
+        },
+      })),
+    );
     component.captchaResponse = 'captchaResponse';
     component.formLogin.setValue({
       email: 'abc@gmail.com',
       recaptcha: 'recaptcha',
     });
-    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('This is the error message.');
-        });
+    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
+      expect(args).toEqual('This is the error message.');
+    });
     fixture.detectChanges();
     component.logInWithEmail(component.formLogin);
     expect(spy).toHaveBeenCalled();

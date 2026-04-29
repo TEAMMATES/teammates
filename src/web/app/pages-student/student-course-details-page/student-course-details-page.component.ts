@@ -6,9 +6,7 @@ import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
-import {
-  Course, Instructor, Instructors, JoinState, Student, Students,
-} from '../../../types/api-output';
+import { Course, Instructor, Instructors, JoinState, Student, Students } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
@@ -22,10 +20,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
   selector: 'tm-student-course-details-page',
   templateUrl: './student-course-details-page.component.html',
   styleUrls: ['./student-course-details-page.component.scss'],
-  imports: [
-    LoadingRetryComponent,
-    LoadingSpinnerDirective,
-],
+  imports: [LoadingRetryComponent, LoadingSpinnerDirective],
 })
 export class StudentCourseDetailsPageComponent implements OnInit {
   // enum
@@ -63,12 +58,14 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   isLoadingTeammates = false;
   hasLoadingFailed = false;
 
-  constructor(private tableComparatorService: TableComparatorService,
-              private route: ActivatedRoute,
-              private instructorService: InstructorService,
-              private studentService: StudentService,
-              private courseService: CourseService,
-              private statusMessageService: StatusMessageService) { }
+  constructor(
+    private tableComparatorService: TableComparatorService,
+    private route: ActivatedRoute,
+    private instructorService: InstructorService,
+    private studentService: StudentService,
+    private courseService: CourseService,
+    private statusMessageService: StatusMessageService,
+  ) {}
 
   /**
    * Fetches relevant data to be displayed on page.
@@ -89,19 +86,22 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    */
   loadCourse(courseId: string): void {
     this.isLoadingCourse = true;
-    this.courseService.getCourseAsStudent(courseId)
-        .pipe(finalize(() => {
+    this.courseService
+      .getCourseAsStudent(courseId)
+      .pipe(
+        finalize(() => {
           this.isLoadingCourse = false;
-        }))
-        .subscribe({
-          next: (course: Course) => {
-            this.course = course;
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.hasLoadingFailed = true;
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
+        }),
+      )
+      .subscribe({
+        next: (course: Course) => {
+          this.course = course;
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.hasLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**
@@ -111,20 +111,23 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    */
   loadStudent(courseId: string): void {
     this.isLoadingStudent = true;
-    this.studentService.getStudent(courseId)
-        .pipe(finalize(() => {
+    this.studentService
+      .getStudent(courseId)
+      .pipe(
+        finalize(() => {
           this.isLoadingStudent = false;
-        }))
-        .subscribe({
-          next: (student: Student) => {
-            this.student = student;
-            this.loadTeammates(courseId, student.teamName);
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.hasLoadingFailed = true;
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
+        }),
+      )
+      .subscribe({
+        next: (student: Student) => {
+          this.student = student;
+          this.loadTeammates(courseId, student.teamName);
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.hasLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**
@@ -136,28 +139,27 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   loadTeammates(courseId: string, teamName: string): void {
     this.isLoadingTeammates = true;
     this.teammateProfiles = [];
-    this.studentService.getStudentsFromCourseAndTeam(courseId, teamName)
-      .subscribe({
-        next: (students: Students) => {
-          // No teammates
-          if (students.students.length === 1 && areEmailsEqual(students.students[0].email, this.student.email)) {
-            this.isLoadingTeammates = false;
+    this.studentService.getStudentsFromCourseAndTeam(courseId, teamName).subscribe({
+      next: (students: Students) => {
+        // No teammates
+        if (students.students.length === 1 && areEmailsEqual(students.students[0].email, this.student.email)) {
+          this.isLoadingTeammates = false;
+        }
+        students.students.forEach((student: Student) => {
+          // filter away current user
+          if (areEmailsEqual(student.email, this.student.email)) {
+            return;
           }
-          students.students.forEach((student: Student) => {
-            // filter away current user
-            if (areEmailsEqual(student.email, this.student.email)) {
-              return;
-            }
-            this.teammateProfiles.push(student);
-          });
-          this.isLoadingTeammates = false;
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.isLoadingTeammates = false;
-          this.hasLoadingFailed = true;
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
+          this.teammateProfiles.push(student);
+        });
+        this.isLoadingTeammates = false;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.isLoadingTeammates = false;
+        this.hasLoadingFailed = true;
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
   }
 
   /**
@@ -167,19 +169,22 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    */
   loadInstructors(courseId: string): void {
     this.isLoadingInstructor = true;
-    this.instructorService.loadInstructors({ courseId })
-        .pipe(finalize(() => {
+    this.instructorService
+      .loadInstructors({ courseId })
+      .pipe(
+        finalize(() => {
           this.isLoadingInstructor = false;
-        }))
-        .subscribe({
-          next: (instructors: Instructors) => {
-            this.instructorDetails = instructors.instructors;
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.hasLoadingFailed = true;
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
+        }),
+      )
+      .subscribe({
+        next: (instructors: Instructors) => {
+          this.instructorDetails = instructors.instructors;
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.hasLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**
@@ -209,9 +214,8 @@ export class StudentCourseDetailsPageComponent implements OnInit {
    *
    * @param sortOption option for sorting
    */
-  sortPanelsBy(sortOption: SortBy):
-      ((a: Student, b: Student) => number) {
-    return ((a: Student, b: Student): number => {
+  sortPanelsBy(sortOption: SortBy): (a: Student, b: Student) => number {
+    return (a: Student, b: Student): number => {
       let strA: string;
       let strB: string;
       switch (sortOption) {
@@ -228,7 +232,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
           strB = '';
       }
       return this.tableComparatorService.compare(sortOption, SortOrder.ASC, strA, strB);
-    });
+    };
   }
 
   retryLoading(): void {

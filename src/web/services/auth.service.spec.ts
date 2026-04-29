@@ -15,9 +15,7 @@ describe('AuthService', () => {
   beforeEach(() => {
     spyHttpRequestService = createSpyFromClass(HttpRequestService);
     TestBed.configureTestingModule({
-      providers: [
-        { provide: HttpRequestService, useValue: spyHttpRequestService },
-      ],
+      providers: [{ provide: HttpRequestService, useValue: spyHttpRequestService }],
     });
     service = TestBed.inject(AuthService);
   });
@@ -52,5 +50,4 @@ describe('AuthService', () => {
     service.sendLoginEmail(queryParam);
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.LOGIN_EMAIL, paramMap);
   });
-
 });

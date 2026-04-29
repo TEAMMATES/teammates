@@ -9,16 +9,26 @@
         <label>Create in course</label>
         <select id="copy-course-id" class="form-control form-select" [(ngModel)]="copyToCourseId">
           @for (course of courseCandidates; track course) {
-            <option
-            [ngValue]="course.courseId">{{ course.courseId }}</option>
+            <option [ngValue]="course.courseId">{{ course.courseId }}</option>
           }
         </select>
       </div>
       <div class="form-group">
         <label><b>Name for new session*</b></label>
-        <input id="copy-session-name" type="text" class="form-control" [(ngModel)]="newFeedbackSessionName" maxlength="64"
-          placeholder="e.g. Feedback for Project Presentation 1" required #newSessionName="ngModel">
-        <div [hidden]="newSessionName.valid || (newSessionName.pristine && newSessionName.untouched)" class="invalid-field">
+        <input
+          id="copy-session-name"
+          type="text"
+          class="form-control"
+          [(ngModel)]="newFeedbackSessionName"
+          maxlength="64"
+          placeholder="e.g. Feedback for Project Presentation 1"
+          required
+          #newSessionName="ngModel"
+        />
+        <div
+          [hidden]="newSessionName.valid || (newSessionName.pristine && newSessionName.untouched)"
+          class="invalid-field"
+        >
           <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
           The field "Name for new session" should not be empty.
         </div>
@@ -26,7 +36,7 @@
       </div>
       <div class="form-group">
         <label><b>Copy settings and questions from</b></label>
-        <table id="copy-selection-table"  class="table-responsive-lg table table-bordered table-hover">
+        <table id="copy-selection-table" class="table-responsive-lg table table-bordered table-hover">
           <thead class="bg-primary text-white">
             <tr>
               <th>&nbsp;</th>
@@ -36,8 +46,14 @@
           </thead>
           @for (feedbackSession of existingFeedbackSession; track feedbackSession) {
             <tr>
-              <td><input type="radio" name="copySessionFrom" [(ngModel)]="copyFromFeedbackSession"
-              [value]="feedbackSession"></td>
+              <td>
+                <input
+                  type="radio"
+                  name="copySessionFrom"
+                  [(ngModel)]="copyFromFeedbackSession"
+                  [value]="feedbackSession"
+                />
+              </td>
               <td class="text-break">{{ feedbackSession.courseId }}</td>
               <td class="text-break">{{ feedbackSession.feedbackSessionName }}</td>
             </tr>
@@ -48,7 +64,14 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button id="btn-confirm-copy"  type="button" class="btn btn-primary" (click)="copy()"
-  [disabled]="!copyFromFeedbackSession || !copyToCourseId || !newFeedbackSessionName">Copy</button>
+  <button
+    id="btn-confirm-copy"
+    type="button"
+    class="btn btn-primary"
+    (click)="copy()"
+    [disabled]="!copyFromFeedbackSession || !copyToCourseId || !newFeedbackSessionName"
+  >
+    Copy
+  </button>
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
 </div>

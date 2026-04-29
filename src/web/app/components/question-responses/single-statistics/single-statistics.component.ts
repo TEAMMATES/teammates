@@ -8,9 +8,7 @@ import {
 } from '../../../../types/api-output';
 import { QuestionDetailsTypeChecker } from '../../../../types/question-details-impl/question-details-caster';
 import { ResponseOutputCaster } from '../../../../types/response-details-impl/response-details-caster';
-import {
-  InstructorSessionResultSectionType,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { InstructorSessionResultSectionType } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { ConstsumOptionsQuestionStatisticsComponent } from '../../question-types/question-statistics/constsum-options-question-statistics.component';
 import { ConstsumRecipientsQuestionStatisticsComponent } from '../../question-types/question-statistics/constsum-recipients-question-statistics.component';
 import { ContributionQuestionStatisticsComponent } from '../../question-types/question-statistics/contribution-question-statistics/contribution-question-statistics.component';
@@ -40,7 +38,7 @@ import { TextQuestionStatisticsComponent } from '../../question-types/question-s
     RankRecipientsQuestionStatisticsComponent,
     MsqQuestionStatisticsComponent,
     McqQuestionStatisticsComponent,
-],
+  ],
 })
 export class SingleStatisticsComponent implements OnInit, OnChanges {
   readonly QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;
@@ -60,7 +58,7 @@ export class SingleStatisticsComponent implements OnInit, OnChanges {
 
   responsesToUse: ResponseOutput[] = [];
 
-  constructor(private feedbackResponsesService: FeedbackResponsesService) { }
+  constructor(private feedbackResponsesService: FeedbackResponsesService) {}
 
   ngOnInit(): void {
     this.filterResponses();
@@ -83,15 +81,20 @@ export class SingleStatisticsComponent implements OnInit, OnChanges {
         return false;
       }
 
-      return this.feedbackResponsesService
-          .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
+      return this.feedbackResponsesService.isFeedbackResponsesDisplayedOnSection(
+        response,
+        this.section,
+        this.sectionType,
+      );
     });
   }
 
   private isUsingResponsesToSelf(): boolean {
-    return this.isStudent
-      && (this.question.questionType === FeedbackQuestionType.NUMSCALE
-      || this.question.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS
-      || this.question.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS);
+    return (
+      this.isStudent &&
+      (this.question.questionType === FeedbackQuestionType.NUMSCALE ||
+        this.question.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS ||
+        this.question.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS)
+    );
   }
 }

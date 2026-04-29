@@ -8,32 +8,14 @@
         "questionDetails": {
           "hasAssignedWeights": true,
           "rubricWeightsForEachCell": [
-            [
-              1.25,
-              -1.7
-            ],
-            [
-              1.25,
-              -1.7
-            ]
+            [1.25, -1.7],
+            [1.25, -1.7]
           ],
-          "rubricChoices": [
-            "Yes",
-            "No"
-          ],
-          "rubricSubQuestions": [
-            "This student has done a good job.",
-            "This student has tried his/her best."
-          ],
+          "rubricChoices": ["Yes", "No"],
+          "rubricSubQuestions": ["This student has done a good job.", "This student has tried his/her best."],
           "rubricDescriptions": [
-            [
-              "",
-              ""
-            ],
-            [
-              "Most of the time",
-              "Less than half the time"
-            ]
+            ["", ""],
+            ["Most of the time", "Less than half the time"]
           ],
           "questionType": "RUBRIC",
           "questionText": "Please choose the best choice for the following sub-questions."
@@ -42,15 +24,9 @@
         "giverType": "STUDENTS",
         "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
         "numberOfEntitiesToGiveFeedbackToSetting": "UNLIMITED",
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
       },
       "questionStatistics": "",
       "allResponses": [
@@ -67,10 +43,7 @@
           "recipientEmail": "student1InCourse1@gmail.tmt",
           "recipientSection": "None",
           "responseDetails": {
-            "answer": [
-              0,
-              1
-            ],
+            "answer": [0, 1],
             "questionType": "RUBRIC"
           },
           "instructorComments": []
@@ -88,10 +61,7 @@
           "recipientEmail": "student3InCourse1@gmail.tmt",
           "recipientSection": "None",
           "responseDetails": {
-            "answer": [
-              0,
-              0
-            ],
+            "answer": [0, 0],
             "questionType": "RUBRIC"
           },
           "instructorComments": []
@@ -109,10 +79,7 @@
           "recipientEmail": "student4InCourse1@gmail.tmt",
           "recipientSection": "None",
           "responseDetails": {
-            "answer": [
-              -1,
-              0
-            ],
+            "answer": [-1, 0],
             "questionType": "RUBRIC"
           },
           "instructorComments": []
@@ -130,10 +97,7 @@
           "recipientEmail": "student2InCourse1@gmail.tmt",
           "recipientSection": "None",
           "responseDetails": {
-            "answer": [
-              1,
-              0
-            ],
+            "answer": [1, 0],
             "questionType": "RUBRIC"
           },
           "instructorComments": []
@@ -394,32 +358,14 @@
         "questionDetails": {
           "hasAssignedWeights": true,
           "rubricWeightsForEachCell": [
-            [
-              1.25,
-              1.0
-            ],
-            [
-              1.25,
-              1.0
-            ]
+            [1.25, 1.0],
+            [1.25, 1.0]
           ],
-          "rubricChoices": [
-            "Yes",
-            "No"
-          ],
-          "rubricSubQuestions": [
-            "This student has done a good job.",
-            "This student has tried his/her best."
-          ],
+          "rubricChoices": ["Yes", "No"],
+          "rubricSubQuestions": ["This student has done a good job.", "This student has tried his/her best."],
           "rubricDescriptions": [
-            [
-              "",
-              ""
-            ],
-            [
-              "Most of the time",
-              "Less than half the time"
-            ]
+            ["", ""],
+            ["Most of the time", "Less than half the time"]
           ],
           "questionType": "RUBRIC",
           "questionText": "Please choose the best choice for the following sub-questions. Only first subquestion has responses"
@@ -428,15 +374,9 @@
         "giverType": "STUDENTS",
         "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
         "numberOfEntitiesToGiveFeedbackToSetting": "UNLIMITED",
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
       },
       "questionStatistics": "",
       "allResponses": [
@@ -453,10 +393,7 @@
           "recipientEmail": "student2InCourse1@gmail.tmt",
           "recipientSection": "None",
           "responseDetails": {
-            "answer": [
-              0,
-              -1
-            ],
+            "answer": [0, -1],
             "questionType": "RUBRIC"
           },
           "instructorComments": []
@@ -474,10 +411,7 @@
           "recipientEmail": "student4InCourse1@gmail.tmt",
           "recipientSection": "None",
           "responseDetails": {
-            "answer": [
-              0,
-              -1
-            ],
+            "answer": [0, -1],
             "questionType": "RUBRIC"
           },
           "instructorComments": []
@@ -495,10 +429,7 @@
           "recipientEmail": "student3InCourse1@gmail.tmt",
           "recipientSection": "None",
           "responseDetails": {
-            "answer": [
-              1,
-              -1
-            ],
+            "answer": [1, -1],
             "questionType": "RUBRIC"
           },
           "instructorComments": []

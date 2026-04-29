@@ -12,13 +12,9 @@ import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator
   selector: 'tm-copy-session-modal',
   templateUrl: './copy-session-modal.component.html',
   styleUrls: ['./copy-session-modal.component.scss'],
-  imports: [
-    FormsModule,
-    NgClass,
-],
+  imports: [FormsModule, NgClass],
 })
 export class CopySessionModalComponent {
-
   // const
   FEEDBACK_SESSION_NAME_MAX_LENGTH: number = FEEDBACK_SESSION_NAME_MAX_LENGTH;
 

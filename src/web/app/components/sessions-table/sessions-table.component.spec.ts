@@ -3,10 +3,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 
-import {
-  SessionsTableColumn,
-  SessionsTableRowModel,
-} from './sessions-table-model';
+import { SessionsTableColumn, SessionsTableRowModel } from './sessions-table-model';
 import { SessionsTableComponent } from './sessions-table.component';
 import {
   FeedbackSession,
@@ -23,11 +20,7 @@ describe('SessionsTableComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
   }));
 
@@ -116,10 +109,7 @@ describe('SessionsTableComponent', () => {
   };
 
   it('should snap like in home page with 2 sessions sorted by start date', () => {
-    component.columnsToShow = [
-      SessionsTableColumn.START_DATE,
-      SessionsTableColumn.END_DATE,
-    ];
+    component.columnsToShow = [SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE];
     component.sessionsTableRowModels = [sessionTable1, sessionTable2];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -186,12 +176,10 @@ describe('SessionsTableComponent', () => {
       sortOrder: component.SortOrder.ASC,
     });
 
-    expect(component.sortSessionsTableRowModelsEvent.emit).toHaveBeenCalledWith(
-      {
-        sortBy: component.SortBy.COURSE_ID,
-        sortOrder: component.SortOrder.ASC,
-      },
-    );
+    expect(component.sortSessionsTableRowModelsEvent.emit).toHaveBeenCalledWith({
+      sortBy: component.SortBy.COURSE_ID,
+      sortOrder: component.SortOrder.ASC,
+    });
   });
 
   it('should set row clicked', () => {
@@ -205,9 +193,7 @@ describe('SessionsTableComponent', () => {
 
     component.sendRemindersToAllNonSubmitters(0);
 
-    expect(
-      component.sendRemindersToAllNonSubmittersEvent.emit,
-    ).toHaveBeenCalledWith(0);
+    expect(component.sendRemindersToAllNonSubmittersEvent.emit).toHaveBeenCalledWith(0);
   });
 
   it('should emit reminder event for selected non-submitters', () => {
@@ -215,9 +201,7 @@ describe('SessionsTableComponent', () => {
 
     component.sendRemindersToSelectedNonSubmitters(1);
 
-    expect(
-      component.sendRemindersToSelectedNonSubmittersEvent.emit,
-    ).toHaveBeenCalledWith(1);
+    expect(component.sendRemindersToSelectedNonSubmittersEvent.emit).toHaveBeenCalledWith(1);
   });
 
   it('should emit download session results event', () => {
@@ -233,9 +217,7 @@ describe('SessionsTableComponent', () => {
 
     component.remindResultsLinkToStudent(1);
 
-    expect(
-      component.resendResultsLinkToStudentsEvent.emit,
-    ).toHaveBeenCalledWith(1);
+    expect(component.resendResultsLinkToStudentsEvent.emit).toHaveBeenCalledWith(1);
   });
 
   it('should include optional fields in column data when provided', () => {
@@ -279,9 +261,7 @@ describe('SessionsTableComponent', () => {
   it('should create response rate component data and emit on click', () => {
     jest.spyOn(component.loadResponseRateEvent, 'emit');
 
-    const result = (component as any).createCellWithResponseRateComponent(
-      sessionTable1,
-    );
+    const result = (component as any).createCellWithResponseRateComponent(sessionTable1);
     const data = result.customComponent.componentData(0);
 
     expect(data.idx).toBe(0);
@@ -301,9 +281,7 @@ describe('SessionsTableComponent', () => {
     component.rowsData = [[]];
     component.columnsData = [];
 
-    const result = (component as any).createCellWithGroupButtonsComponent(
-      sessionTable1,
-    );
+    const result = (component as any).createCellWithGroupButtonsComponent(sessionTable1);
     const data = result.customComponent.componentData(0);
 
     data.setRowClicked();

@@ -27,16 +27,9 @@ describe('CommentTableModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-      ],
-      providers: [
-        NgbActiveModal,
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      imports: [BrowserAnimationsModule],
+      providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

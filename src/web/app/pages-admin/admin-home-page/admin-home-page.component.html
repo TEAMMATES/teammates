@@ -5,12 +5,23 @@
       <p class="text-muted">
         <i class="fas fa-exclamation-circle"></i> Add Instructor Details in the format: Name | Email | Institution
       </p>
-      <textarea class="form-control" id="instructor-details-single-line" [(ngModel)]="instructorDetails" aria-label="Add multiple instructors"></textarea>
+      <textarea
+        class="form-control"
+        id="instructor-details-single-line"
+        [(ngModel)]="instructorDetails"
+        aria-label="Add multiple instructors"
+      ></textarea>
     </div>
 
     <div class="top-padded">
-      <button class="btn btn-primary" id="add-instructor-single-line"
-        (click)="validateAndAddInstructorDetails()" [disabled]="isAddingMultipleInstructors">Add Instructors</button>
+      <button
+        class="btn btn-primary"
+        id="add-instructor-single-line"
+        (click)="validateAndAddInstructorDetails()"
+        [disabled]="isAddingMultipleInstructors"
+      >
+        Add Instructors
+      </button>
     </div>
   </div>
 </div>
@@ -25,26 +36,32 @@
       <label for="instructor-name">
         <strong>Name:</strong>
       </label>
-      <input class="form-control" type="text" id="instructor-name" [(ngModel)]="instructorName">
+      <input class="form-control" type="text" id="instructor-name" [(ngModel)]="instructorName" />
     </div>
 
     <div class="top-padded">
       <label for="instructor-email">
         <strong>Email:</strong>
       </label>
-      <input class="form-control" type="text" id="instructor-email" [(ngModel)]="instructorEmail">
+      <input class="form-control" type="text" id="instructor-email" [(ngModel)]="instructorEmail" />
     </div>
 
     <div class="top-padded">
       <label for="instructor-institution">
         <strong>Institution:</strong>
       </label>
-      <input class="form-control" type="text" id="instructor-institution" [(ngModel)]="instructorInstitution">
+      <input class="form-control" type="text" id="instructor-institution" [(ngModel)]="instructorInstitution" />
     </div>
 
     <div class="top-padded">
-      <button class="btn btn-primary" id="add-instructor"
-        (click)="validateAndAddInstructorDetail()" [disabled]="isAddingSingleInstructor">Add Instructor</button>
+      <button
+        class="btn btn-primary"
+        id="add-instructor"
+        (click)="validateAndAddInstructorDetail()"
+        [disabled]="isAddingSingleInstructor"
+      >
+        Add Instructor
+      </button>
     </div>
   </div>
 </div>

@@ -173,7 +173,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
                 type="text"
               />
               <div>
-                 80 characters left 
+                80 characters left
               </div>
             </div>
           </div>
@@ -626,7 +626,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
               id="btn-create-notification"
               type="button"
             >
-              Create Notification 
+               Create Notification 
             </button>
           </div>
         </div>
@@ -809,7 +809,7 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
                 type="text"
               />
               <div>
-                 69 characters left 
+                69 characters left
               </div>
             </div>
           </div>
@@ -1262,7 +1262,7 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
               id="btn-create-notification"
               type="button"
             >
-              Create Notification 
+               Create Notification 
             </button>
           </div>
         </div>
@@ -1462,7 +1462,7 @@ exports[`NotificationEditFormComponent should snap with notification that has be
                 type="text"
               />
               <div>
-                 69 characters left 
+                69 characters left
               </div>
             </div>
           </div>
@@ -1915,7 +1915,7 @@ exports[`NotificationEditFormComponent should snap with notification that has be
               id="btn-create-notification"
               type="button"
             >
-              Create Notification 
+               Create Notification 
             </button>
           </div>
         </div>

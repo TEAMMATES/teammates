@@ -22,9 +22,7 @@ export interface SimpleModalOptions {
   providedIn: 'root',
 })
 export class SimpleModalService {
-
-  constructor(private ngbModal: NgbModal) {
-  }
+  constructor(private ngbModal: NgbModal) {}
 
   /**
    * Opens a confirmation modal.
@@ -35,8 +33,13 @@ export class SimpleModalService {
    * @param simpleModalOptions See {@code SimpleModalOptions}
    * @param ngbModalOptions See {@code NgbModalOptions}
    */
-  private open(header: string, type: SimpleModalType, content: string | TemplateRef<any>,
-      simpleModalOptions?: SimpleModalOptions, ngbModalOptions?: NgbModalOptions): NgbModalRef {
+  private open(
+    header: string,
+    type: SimpleModalType,
+    content: string | TemplateRef<any>,
+    simpleModalOptions?: SimpleModalOptions,
+    ngbModalOptions?: NgbModalOptions,
+  ): NgbModalRef {
     const modalRef: NgbModalRef = this.ngbModal.open(SimpleModalComponent, ngbModalOptions);
     modalRef.componentInstance.header = header;
     modalRef.componentInstance.content = content;
@@ -57,8 +60,13 @@ export class SimpleModalService {
     return modalRef;
   }
 
-  openConfirmationModal(header: string, type: SimpleModalType, content: string | TemplateRef<any>,
-      simpleModalOptions?: SimpleModalOptions, ngbModalOptions?: NgbModalOptions): NgbModalRef {
+  openConfirmationModal(
+    header: string,
+    type: SimpleModalType,
+    content: string | TemplateRef<any>,
+    simpleModalOptions?: SimpleModalOptions,
+    ngbModalOptions?: NgbModalOptions,
+  ): NgbModalRef {
     const modalOptions: SimpleModalOptions = {
       isInformationOnly: false,
       confirmMessage: 'Yes',
@@ -68,8 +76,13 @@ export class SimpleModalService {
     return this.open(header, type, content, modalOptions, ngbModalOptions);
   }
 
-  openInformationModal(header: string, type: SimpleModalType, content: string | TemplateRef<any>,
-      simpleModalOptions?: SimpleModalOptions, ngbModalOptions?: NgbModalOptions): NgbModalRef {
+  openInformationModal(
+    header: string,
+    type: SimpleModalType,
+    content: string | TemplateRef<any>,
+    simpleModalOptions?: SimpleModalOptions,
+    ngbModalOptions?: NgbModalOptions,
+  ): NgbModalRef {
     const modalOptions: SimpleModalOptions = {
       isInformationOnly: true,
       confirmMessage: 'OK',
@@ -78,8 +91,13 @@ export class SimpleModalService {
     return this.open(header, type, content, modalOptions, ngbModalOptions);
   }
 
-  openLoadingModal(header: string, type: SimpleModalType, content: string | TemplateRef<any>,
-      simpleModalOptions?: SimpleModalOptions, ngbModalOptions?: NgbModalOptions): NgbModalRef {
+  openLoadingModal(
+    header: string,
+    type: SimpleModalType,
+    content: string | TemplateRef<any>,
+    simpleModalOptions?: SimpleModalOptions,
+    ngbModalOptions?: NgbModalOptions,
+  ): NgbModalRef {
     const modalOptions: SimpleModalOptions = {
       isInformationOnly: true,
       confirmMessage: 'Abort',

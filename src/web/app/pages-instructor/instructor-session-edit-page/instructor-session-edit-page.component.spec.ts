@@ -6,9 +6,7 @@ import { provideRouter } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
-import {
-  CopyQuestionsFromOtherSessionsModalComponent,
-} from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
+import { CopyQuestionsFromOtherSessionsModalComponent } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
 import { InstructorSessionEditPageComponent } from './instructor-session-edit-page.component';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
 import { CourseService } from '../../../services/course.service';
@@ -46,14 +44,11 @@ import {
 import { getDefaultDateFormat, getLatestTimeFormat } from '../../../types/datetime-const';
 import { CopySessionModalResult } from '../../components/copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
-import {
-  ExtensionConfirmModalComponent,
-} from '../../components/extension-confirm-modal/extension-confirm-modal.component';
+import { ExtensionConfirmModalComponent } from '../../components/extension-confirm-modal/extension-confirm-modal.component';
 import { QuestionEditFormModel } from '../../components/question-edit-form/question-edit-form-model';
 import { SessionEditFormModel } from '../../components/session-edit-form/session-edit-form-model';
 
 describe('InstructorSessionEditPageComponent', () => {
-
   const testCourse1: Course = {
     courseId: 'testId1',
     courseName: 'Test Course 1',
@@ -269,16 +264,9 @@ describe('InstructorSessionEditPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-      ],
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      imports: [BrowserAnimationsModule],
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -353,7 +341,9 @@ describe('InstructorSessionEditPageComponent', () => {
     const testDeadlineExtensions: DeadlineExtensions = { studentDeadlines: {}, instructorDeadlines: {} };
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse1));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
+    jest
+      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
+      .mockReturnValue(of(testDeadlineExtensions));
 
     component.loadFeedbackSession();
 
@@ -371,15 +361,16 @@ describe('InstructorSessionEditPageComponent', () => {
   it('should display error message when feedback session failed to load', () => {
     component.hasLoadingFeedbackSessionFailed = false;
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse1));
-    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(throwError(() => ({
-      error: {
-        message: 'This is the error message.',
-      },
-    })));
-    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-      .mockImplementation((args: string) => {
-        expect(args).toEqual('This is the error message.');
-      });
+    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(
+      throwError(() => ({
+        error: {
+          message: 'This is the error message.',
+        },
+      })),
+    );
+    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
+      expect(args).toEqual('This is the error message.');
+    });
 
     component.loadFeedbackSession();
 
@@ -402,15 +393,16 @@ describe('InstructorSessionEditPageComponent', () => {
 
   it('should display error message when feedback question failed to load', () => {
     component.hasLoadingFeedbackQuestionsFailed = false;
-    jest.spyOn(feedbackQuestionsService, 'getFeedbackQuestions').mockReturnValue(throwError(() => ({
-      error: {
-        message: 'This is the error message.',
-      },
-    })));
-    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-      .mockImplementation((args: string) => {
-        expect(args).toEqual('This is the error message.');
-      });
+    jest.spyOn(feedbackQuestionsService, 'getFeedbackQuestions').mockReturnValue(
+      throwError(() => ({
+        error: {
+          message: 'This is the error message.',
+        },
+      })),
+    );
+    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
+      expect(args).toEqual('This is the error message.');
+    });
 
     component.loadFeedbackQuestions();
 
@@ -446,15 +438,16 @@ describe('InstructorSessionEditPageComponent', () => {
   });
 
   it('should display error message when failed to get student', () => {
-    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(throwError(() => ({
-      error: {
-        message: 'This is the error message.',
-      },
-    })));
-    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-      .mockImplementation((args: string) => {
-        expect(args).toEqual('This is the error message.');
-      });
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
+      throwError(() => ({
+        error: {
+          message: 'This is the error message.',
+        },
+      })),
+    );
+    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
+      expect(args).toEqual('This is the error message.');
+    });
 
     component.getAllStudentsOfCourse();
 
@@ -486,15 +479,16 @@ describe('InstructorSessionEditPageComponent', () => {
   });
 
   it('should display error message when failed to get instructor', () => {
-    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(throwError(() => ({
-      error: {
-        message: 'This is the error message.',
-      },
-    })));
-    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-      .mockImplementation((args: string) => {
-        expect(args).toEqual('This is the error message.');
-      });
+    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(
+      throwError(() => ({
+        error: {
+          message: 'This is the error message.',
+        },
+      })),
+    );
+    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
+      expect(args).toEqual('This is the error message.');
+    });
 
     component.getAllInstructors();
 
@@ -557,8 +551,10 @@ describe('InstructorSessionEditPageComponent', () => {
     component.deleteExistingSessionHandler();
 
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith('/web/instructor/sessions',
-        'The feedback session has been deleted. You can restore it from the deleted sessions table below.');
+    expect(navSpy).toHaveBeenLastCalledWith(
+      '/web/instructor/sessions',
+      'The feedback session has been deleted. You can restore it from the deleted sessions table below.',
+    );
   });
 
   it('should create new question', () => {
@@ -578,7 +574,8 @@ describe('InstructorSessionEditPageComponent', () => {
     const updatedFeedbackQuestion: FeedbackQuestion = JSON.parse(JSON.stringify(testFeedbackQuestion1));
     updatedFeedbackQuestion.questionDescription = 'new description';
     updatedFeedbackQuestion.questionNumber = 2;
-    const feedbackQuestionSpy: SpyInstance = jest.spyOn(feedbackQuestionsService, 'saveFeedbackQuestion')
+    const feedbackQuestionSpy: SpyInstance = jest
+      .spyOn(feedbackQuestionsService, 'saveFeedbackQuestion')
       .mockReturnValue(of(updatedFeedbackQuestion));
     component.questionEditFormModels = [questionEditFormModel, testQuestionEditFormModel2];
     component.feedbackQuestionModels.set(testFeedbackQuestion1.feedbackQuestionId, testFeedbackQuestion1);
@@ -587,11 +584,13 @@ describe('InstructorSessionEditPageComponent', () => {
     component.saveExistingQuestionHandler(0);
 
     expect(feedbackQuestionSpy).toHaveBeenLastCalledWith(testFeedbackQuestion1.feedbackQuestionId, expect.anything());
-    expect(component.feedbackQuestionModels.get(testFeedbackQuestion1.feedbackQuestionId))
-      .toEqual(updatedFeedbackQuestion);
+    expect(component.feedbackQuestionModels.get(testFeedbackQuestion1.feedbackQuestionId)).toEqual(
+      updatedFeedbackQuestion,
+    );
     expect(component.questionEditFormModels[1].feedbackQuestionId).toEqual(questionEditFormModel.feedbackQuestionId);
-    expect(component.questionEditFormModels[0].feedbackQuestionId)
-      .toEqual(testQuestionEditFormModel2.feedbackQuestionId);
+    expect(component.questionEditFormModels[0].feedbackQuestionId).toEqual(
+      testQuestionEditFormModel2.feedbackQuestionId,
+    );
   });
 
   it('should discard the changes made to the existing question', () => {
@@ -602,8 +601,9 @@ describe('InstructorSessionEditPageComponent', () => {
 
     component.discardExistingQuestionHandler(0);
 
-    expect(component.questionEditFormModels[0].questionDescription)
-      .toEqual(testQuestionEditFormModel1.questionDescription);
+    expect(component.questionEditFormModels[0].questionDescription).toEqual(
+      testQuestionEditFormModel1.questionDescription,
+    );
   });
 
   it('should duplicate question', () => {
@@ -611,14 +611,16 @@ describe('InstructorSessionEditPageComponent', () => {
     duplicateFeedbackQuestion.questionNumber = 2;
     duplicateFeedbackQuestion.feedbackQuestionId = 'duplicate question id';
     component.questionEditFormModels = [testQuestionEditFormModel1];
-    const feedbackQuestionSpy: SpyInstance = jest.spyOn(feedbackQuestionsService, 'createFeedbackQuestion')
+    const feedbackQuestionSpy: SpyInstance = jest
+      .spyOn(feedbackQuestionsService, 'createFeedbackQuestion')
       .mockReturnValue(of(duplicateFeedbackQuestion));
 
     component.duplicateCurrentQuestionHandler(0);
 
     expect(feedbackQuestionSpy).toHaveBeenCalledTimes(1);
-    expect(component.feedbackQuestionModels.get(duplicateFeedbackQuestion.feedbackQuestionId))
-      .toEqual(duplicateFeedbackQuestion);
+    expect(component.feedbackQuestionModels.get(duplicateFeedbackQuestion.feedbackQuestionId)).toEqual(
+      duplicateFeedbackQuestion,
+    );
   });
 
   it('should delete existing question', async () => {
@@ -626,7 +628,8 @@ describe('InstructorSessionEditPageComponent', () => {
     jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef({}, promise));
     component.questionEditFormModels = [testQuestionEditFormModel1];
     component.feedbackQuestionModels.set(testFeedbackQuestion1.feedbackQuestionId, testFeedbackQuestion1);
-    const feedbackQuestionSpy: SpyInstance = jest.spyOn(feedbackQuestionsService, 'deleteFeedbackQuestion')
+    const feedbackQuestionSpy: SpyInstance = jest
+      .spyOn(feedbackQuestionsService, 'deleteFeedbackQuestion')
       .mockReturnValue(of(true));
 
     component.deleteExistingQuestionHandler(0);
@@ -640,7 +643,8 @@ describe('InstructorSessionEditPageComponent', () => {
   it('should display template questions', async () => {
     const promise: Promise<FeedbackQuestion[]> = Promise.resolve([testFeedbackQuestion1]);
     jest.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef({}, promise));
-    const feedbackQuestionSpy: SpyInstance = jest.spyOn(feedbackQuestionsService, 'createFeedbackQuestion')
+    const feedbackQuestionSpy: SpyInstance = jest
+      .spyOn(feedbackQuestionsService, 'createFeedbackQuestion')
       .mockReturnValue(of(testFeedbackQuestion1));
 
     component.templateQuestionModalHandler();
@@ -649,19 +653,19 @@ describe('InstructorSessionEditPageComponent', () => {
     expect(ngbModal.open).toHaveBeenCalledWith(TemplateQuestionModalComponent, { windowClass: 'modal-large' });
     expect(feedbackQuestionSpy).toHaveBeenCalledTimes(1);
     expect(component.questionEditFormModels[0].feedbackQuestionId).toEqual(testFeedbackQuestion1.feedbackQuestionId);
-    expect(component.feedbackQuestionModels.get(testFeedbackQuestion1.feedbackQuestionId))
-      .toEqual(testFeedbackQuestion1);
+    expect(component.feedbackQuestionModels.get(testFeedbackQuestion1.feedbackQuestionId)).toEqual(
+      testFeedbackQuestion1,
+    );
   });
 
   it('should copy question from other session', async () => {
     const promise: Promise<FeedbackQuestion[]> = Promise.resolve([testFeedbackQuestion1]);
-    jest.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef(
-      { questionToCopyCandidates: [] },
-      promise,
-    ));
-    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor')
+    jest.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef({ questionToCopyCandidates: [] }, promise));
+    jest
+      .spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor')
       .mockReturnValue(of({ feedbackSessions: [testFeedbackSession] }));
-    jest.spyOn(feedbackQuestionsService, 'getFeedbackQuestions')
+    jest
+      .spyOn(feedbackQuestionsService, 'getFeedbackQuestions')
       .mockReturnValue(of({ questions: [testFeedbackQuestion1, testFeedbackQuestion2] }));
     jest.spyOn(feedbackQuestionsService, 'createFeedbackQuestion').mockReturnValue(of(testFeedbackQuestion1));
 
@@ -670,8 +674,9 @@ describe('InstructorSessionEditPageComponent', () => {
 
     expect(ngbModal.open).toHaveBeenCalledWith(CopyQuestionsFromOtherSessionsModalComponent);
     expect(component.questionEditFormModels.length).toEqual(1);
-    expect(component.feedbackQuestionModels.get(testFeedbackQuestion1.feedbackQuestionId))
-      .toEqual(testFeedbackQuestion1);
+    expect(component.feedbackQuestionModels.get(testFeedbackQuestion1.feedbackQuestionId)).toEqual(
+      testFeedbackQuestion1,
+    );
   });
 
   it('should open modal and copy current session', async () => {
@@ -681,11 +686,14 @@ describe('InstructorSessionEditPageComponent', () => {
       copyToCourseList: ['testId2'],
     });
 
-    const mockModalRef: any = createMockNgbModalRef({
-      newFeedbackSessionName: '',
-      courseCandidates: [],
-      sessionToCopyCourseId: '',
-    }, promise);
+    const mockModalRef: any = createMockNgbModalRef(
+      {
+        newFeedbackSessionName: '',
+        courseCandidates: [],
+        sessionToCopyCourseId: '',
+      },
+      promise,
+    );
     const copiedFeedbackSession: FeedbackSession = JSON.parse(JSON.stringify(testFeedbackSession));
     copiedFeedbackSession.courseId = 'testId2';
 
@@ -695,7 +703,8 @@ describe('InstructorSessionEditPageComponent', () => {
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     jest.spyOn(feedbackSessionsService, 'createFeedbackSession').mockReturnValue(of(copiedFeedbackSession));
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
-    jest.spyOn(InstructorSessionEditPageComponent.prototype, 'createSessionCopyRequestsFromModal')
+    jest
+      .spyOn(InstructorSessionEditPageComponent.prototype, 'createSessionCopyRequestsFromModal')
       .mockReturnValue([of(copiedFeedbackSession)]);
     const navSpy: SpyInstance = jest.spyOn(navigationService, 'navigateWithSuccessMessage').mockImplementation();
 
@@ -706,16 +715,17 @@ describe('InstructorSessionEditPageComponent', () => {
     expect(mockModalRef.componentInstance.newFeedbackSessionName).toEqual(testFeedbackSession.feedbackSessionName);
     expect(mockModalRef.componentInstance.courseCandidates[0]).toEqual(testCourse2);
     expect(mockModalRef.componentInstance.sessionToCopyCourseId).toEqual(testCourse1.courseId);
-    expect(navSpy).toHaveBeenLastCalledWith('/web/instructor/sessions/edit',
-        'The feedback session has been copied. Please modify settings/questions as necessary.',
-        { courseid: 'testId2', fsid: 'fbd91470-8378-4b43-9f82-0b81fb2e9f1b', fsname: 'Test Session' });
+    expect(navSpy).toHaveBeenLastCalledWith(
+      '/web/instructor/sessions/edit',
+      'The feedback session has been copied. Please modify settings/questions as necessary.',
+      { courseid: 'testId2', fsid: 'fbd91470-8378-4b43-9f82-0b81fb2e9f1b', fsname: 'Test Session' },
+    );
   });
 
   it('should open danger modal if session end time updates end time after any extensions deadline', () => {
     jest.spyOn(ngbModal, 'open');
     jest.spyOn(timeZoneService, 'resolveLocalDateTime').mockReturnValue(testFeedbackSession.submissionEndTimestamp);
-    const validateSpy = jest.spyOn(InstructorSessionEditPageComponent.prototype,
-      'deleteDeadlineExtensionsHandler');
+    const validateSpy = jest.spyOn(InstructorSessionEditPageComponent.prototype, 'deleteDeadlineExtensionsHandler');
     component.studentDeadlines = testStudentDeadlines;
     component.instructorDeadlines = testInstructorDeadlines;
     component.sessionEditFormModel = sessionEditFormModel;

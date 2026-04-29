@@ -15,6 +15,7 @@ If you encounter any issues, refer to the [Troubleshooting Guide](../troubleshoo
 ## Running the Frontend Server
 
 Start the frontend server:
+
 ```sh
 npm run start
 ```
@@ -22,6 +23,7 @@ npm run start
 The server will be available at `http://localhost:4200`. It runs in watch and live reload mode by default — any saved changes will be reflected immediately.
 
 To disable live reload:
+
 ```sh
 npm run start -- --no-live-reload
 ```
@@ -34,18 +36,21 @@ Type definitions for the frontend are generated from backend API types and must 
 ```sh
 ./gradlew generateTypes
 ```
+
 </tab>
 <tab header="Windows">
 
 ```sh
 gradlew.bat generateTypes
 ```
+
 </tab>
 </tabs>
 
 ## Running the Backend Server
 
 Start the database if it is not already running:
+
 ```sh
 docker compose up -d
 ```
@@ -58,12 +63,14 @@ Apply database migrations if necessary:
 ```sh
 ./gradlew liquibaseUpdate
 ```
+
 </tab>
 <tab header="Windows">
 
 ```sh
 gradlew.bat liquibaseUpdate
 ```
+
 </tab>
 </tabs>
 
@@ -75,12 +82,14 @@ Then start the backend server:
 ```sh
 ./gradlew serverRun
 ```
+
 </tab>
 <tab header="Windows">
 
 ```sh
 gradlew.bat serverRun
 ```
+
 </tab>
 </tabs>
 
@@ -97,6 +106,7 @@ To run the backend server in the background, append `&` to the command. To stop 
 ## Serving frontend files from the backend
 
 To serve the frontend from the backend server (e.g. for production environments or E2E tests):
+
 ```sh
 npm run build
 ```
@@ -114,6 +124,7 @@ To run component tests:
 ./gradlew componentTests
 npm run test
 ```
+
 </tab>
 <tab header="Windows">
 
@@ -121,6 +132,7 @@ npm run test
 gradlew.bat componentTests
 npm run test
 ```
+
 </tab>
 </tabs>
 
@@ -133,6 +145,7 @@ To run static analysis tools:
 ./gradlew lint --continue
 npm run lint
 ```
+
 </tab>
 <tab header="Windows">
 
@@ -140,6 +153,7 @@ npm run lint
 gradlew.bat lint --continue
 npm run lint
 ```
+
 </tab>
 </tabs>
 
@@ -151,17 +165,17 @@ TEAMMATES also includes end-to-end and accessibility tests. For more information
 
 | File                   | Purpose                                                                        |
 | ---------------------- | ------------------------------------------------------------------------------ |
-| `build.properties`     | Configuration for the Backend                                                 |
+| `build.properties`     | Configuration for the Backend                                                  |
 | `build-dev.properties` | Local development overrides for `build.properties`                             |
-| `config.ts`            | Configuration for the Frontend                                                |
+| `config.ts`            | Configuration for the Frontend                                                 |
 | `test.properties`      | Configuration for the test driver (separate files for component and E2E tests) |
 
 **Build config files** — manage dependencies and automated tasks:
 
-| File           | Purpose                                |
-| -------------- | -------------------------------------- |
+| File           | Purpose                               |
+| -------------- | ------------------------------------- |
 | `build.gradle` | Backend dependencies and Gradle tasks |
 | `package.json` | Frontend dependencies and NPM tasks   |
-| `angular.json` | Angular application configuration      |
+| `angular.json` | Angular application configuration     |
 
 **Static analysis** — configuration files under `static-analysis/`. See [static analysis guide](../how-to/static-analysis.md).

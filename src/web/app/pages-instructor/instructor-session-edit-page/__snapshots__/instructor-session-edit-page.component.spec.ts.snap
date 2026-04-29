@@ -85,7 +85,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
           aria-hidden="true"
           class="fas fa-redo"
         />
-         Retry
+         Retry 
       </button>
     </div>
   </tm-loading-retry>
@@ -253,7 +253,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
           aria-hidden="true"
           class="fas fa-redo"
         />
-         Retry
+         Retry 
       </button>
     </div>
   </tm-loading-retry><tm-loading-retry>
@@ -539,7 +539,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 <i
                   class="fas fa-pencil-alt"
                 />
-                 Edit
+                 Edit 
               </button>
               <button
                 class="btn btn-primary"
@@ -550,7 +550,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 <i
                   class="fas fa-trash"
                 />
-                 Delete
+                 Delete 
               </button>
               <button
                 class="btn btn-primary"
@@ -561,7 +561,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 <i
                   class="far fa-copy"
                 />
-                 Copy
+                 Copy 
               </button>
             </div>
           </div>
@@ -590,7 +590,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   <div
                     id="edit-course-id"
                   >
-                     testId 
+                    testId
                   </div>
                 </div>
               </div>
@@ -622,7 +622,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 <div
                   class="col-md-2 text-md-end font-bold"
                 >
-                   Course Name 
+                  Course Name
                 </div>
                 <div
                   class="col-md-10 text-md-start"
@@ -648,7 +648,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   <div
                     id="edit-session-name"
                   >
-                     test session 
+                    test session
                   </div>
                 </div>
               </div>
@@ -689,7 +689,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 <div
                   class="col-md-2 text-md-end font-bold"
                 >
-                   Submission Status 
+                  Submission Status
                 </div>
                 <div
                   class="col-md-4 text-md-start"
@@ -700,7 +700,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 <div
                   class="col-md-2 text-md-end font-bold mt-3 mt-md-0"
                 >
-                   Published Status 
+                  Published Status
                 </div>
                 <div
                   class="col-md-4 text-md-start"
@@ -1230,7 +1230,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               id="btn-change-visibility"
               type="button"
             >
-              [Change]
+               [Change] 
             </button>
           </div>
           <div
@@ -1751,7 +1751,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               id="btn-change-email"
               type="button"
             >
-              [Change]
+               [Change] 
             </button>
           </div>
           <div
@@ -1763,7 +1763,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               <div
                 class="col-12 font-bold"
               >
-                 Send emails for 
+                Send emails for
               </div>
               <div
                 class="row ms-md-1 mt-md-3"
@@ -1845,7 +1845,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   disabled=""
                   type="button"
                 >
-                  Save Changes 
+                   Save Changes 
                 </button>
               </div>
             </div>
@@ -1904,7 +1904,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     <h2
                       class="question-number fw-bold me-1"
                     >
-                      Question 
+                       Question 
                       <select
                         class="form-control form-select question-number-select ng-untouched ng-pristine ng-valid"
                         id="question-number-dropdown"
@@ -2108,7 +2108,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                       >
                         Feedback Path
                       </b>
-                       (Who is giving feedback about whom?) 
+                       (Who is giving feedback about whom?)
                     </div>
                     <div
                       autoclose="outside"
@@ -2202,7 +2202,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           <button
                             class="dropdown-button"
                           >
-                            Custom feedback path...
+                             Custom feedback path... 
                           </button>
                         </li>
                       </ul>
@@ -2305,7 +2305,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           <button
                             class="dropdown-button"
                           >
-                            Shown anonymously to recipient and instructors
+                             Shown anonymously to recipient and instructors 
                           </button>
                         </li>
                         <li
@@ -2315,7 +2315,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           <button
                             class="dropdown-button"
                           >
-                            Shown anonymously to recipient, visible to instructors
+                             Shown anonymously to recipient, visible to instructors 
                           </button>
                         </li>
                         <li
@@ -2325,7 +2325,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           <button
                             class="dropdown-button"
                           >
-                            Shown anonymously to recipient and giver's team members, visible to instructors
+                             Shown anonymously to recipient and giver's team members, visible to instructors 
                           </button>
                         </li>
                         <li
@@ -2335,7 +2335,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           <button
                             class="dropdown-button"
                           >
-                            Visible to instructors only
+                             Visible to instructors only 
                           </button>
                         </li>
                         <li
@@ -2345,7 +2345,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           <button
                             class="dropdown-button"
                           >
-                            Visible to recipient and instructors
+                             Visible to recipient and instructors 
                           </button>
                         </li>
                         <li
@@ -2360,7 +2360,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           <button
                             class="dropdown-button"
                           >
-                            Custom visibility options...
+                             Custom visibility options... 
                           </button>
                         </li>
                       </ul>
@@ -2637,7 +2637,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     <h2
                       class="question-number fw-bold me-1"
                     >
-                      Question 
+                       Question 
                       <select
                         class="form-control form-select question-number-select ng-untouched ng-pristine ng-valid"
                         id="question-number-dropdown"
@@ -2841,7 +2841,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                       >
                         Feedback Path
                       </b>
-                       (Who is giving feedback about whom?) 
+                       (Who is giving feedback about whom?)
                     </div>
                     <div
                       autoclose="outside"
@@ -2935,7 +2935,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           <button
                             class="dropdown-button"
                           >
-                            Custom feedback path...
+                             Custom feedback path... 
                           </button>
                         </li>
                       </ul>
@@ -3038,7 +3038,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           <button
                             class="dropdown-button"
                           >
-                            Shown anonymously to recipient and instructors
+                             Shown anonymously to recipient and instructors 
                           </button>
                         </li>
                         <li
@@ -3048,7 +3048,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           <button
                             class="dropdown-button"
                           >
-                            Shown anonymously to recipient, visible to instructors
+                             Shown anonymously to recipient, visible to instructors 
                           </button>
                         </li>
                         <li
@@ -3058,7 +3058,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           <button
                             class="dropdown-button"
                           >
-                            Shown anonymously to recipient and giver's team members, visible to instructors
+                             Shown anonymously to recipient and giver's team members, visible to instructors 
                           </button>
                         </li>
                         <li
@@ -3068,7 +3068,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           <button
                             class="dropdown-button"
                           >
-                            Visible to instructors only
+                             Visible to instructors only 
                           </button>
                         </li>
                         <li
@@ -3078,7 +3078,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           <button
                             class="dropdown-button"
                           >
-                            Visible to recipient and instructors
+                             Visible to recipient and instructors 
                           </button>
                         </li>
                         <li
@@ -3093,7 +3093,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           <button
                             class="dropdown-button"
                           >
-                            Custom visibility options...
+                             Custom visibility options... 
                           </button>
                         </li>
                       </ul>
@@ -3643,7 +3643,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
             class="btn btn-primary btn-small-padding"
             id="btn-copy-question"
           >
-            Copy Question
+             Copy Question 
           </button>
         </div>
       </tm-adding-question-panel>
@@ -3800,7 +3800,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 <i
                   class="fas fa-pencil-alt"
                 />
-                 Edit
+                 Edit 
               </button>
               <button
                 class="btn btn-primary"
@@ -3811,7 +3811,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 <i
                   class="fas fa-trash"
                 />
-                 Delete
+                 Delete 
               </button>
               <button
                 class="btn btn-primary"
@@ -3822,7 +3822,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 <i
                   class="far fa-copy"
                 />
-                 Copy
+                 Copy 
               </button>
             </div>
           </div>
@@ -3882,7 +3882,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 <div
                   class="col-md-2 text-md-end font-bold"
                 >
-                   Course Name 
+                  Course Name
                 </div>
                 <div
                   class="col-md-10 text-md-start"
@@ -3947,7 +3947,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 <div
                   class="col-md-2 text-md-end font-bold"
                 >
-                   Submission Status 
+                  Submission Status
                 </div>
                 <div
                   class="col-md-4 text-md-start"
@@ -3958,7 +3958,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 <div
                   class="col-md-2 text-md-end font-bold mt-3 mt-md-0"
                 >
-                   Published Status 
+                  Published Status
                 </div>
                 <div
                   class="col-md-4 text-md-start"
@@ -4488,7 +4488,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
               id="btn-change-visibility"
               type="button"
             >
-              [Change]
+               [Change] 
             </button>
           </div>
           <div
@@ -5009,7 +5009,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
               id="btn-change-email"
               type="button"
             >
-              [Change]
+               [Change] 
             </button>
           </div>
           <div
@@ -5021,7 +5021,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
               <div
                 class="col-12 font-bold"
               >
-                 Send emails for 
+                Send emails for
               </div>
               <div
                 class="row ms-md-1 mt-md-3"
@@ -5103,7 +5103,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   disabled=""
                   type="button"
                 >
-                  Save Changes 
+                   Save Changes 
                 </button>
               </div>
             </div>
@@ -5162,7 +5162,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 <h2
                   class="question-number fw-bold me-1"
                 >
-                  Question 
+                   Question 
                   <select
                     class="form-control form-select question-number-select ng-untouched ng-pristine ng-valid"
                     id="question-number-dropdown"
@@ -5329,7 +5329,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   >
                     Feedback Path
                   </b>
-                   (Who is giving feedback about whom?) 
+                   (Who is giving feedback about whom?)
                 </div>
                 <div
                   autoclose="outside"
@@ -5418,7 +5418,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       <button
                         class="dropdown-button"
                       >
-                        Custom feedback path...
+                         Custom feedback path... 
                       </button>
                     </li>
                   </ul>
@@ -5662,7 +5662,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       <button
                         class="dropdown-button"
                       >
-                        Shown anonymously to recipient and instructors
+                         Shown anonymously to recipient and instructors 
                       </button>
                     </li>
                     <li
@@ -5672,7 +5672,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       <button
                         class="dropdown-button"
                       >
-                        Shown anonymously to recipient, visible to instructors
+                         Shown anonymously to recipient, visible to instructors 
                       </button>
                     </li>
                     <li
@@ -5682,7 +5682,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       <button
                         class="dropdown-button"
                       >
-                        Shown anonymously to recipient and giver/recipient's team members, visible to instructors
+                         Shown anonymously to recipient and giver/recipient's team members, visible to instructors 
                       </button>
                     </li>
                     <li
@@ -5692,7 +5692,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       <button
                         class="dropdown-button"
                       >
-                        Shown anonymously to recipient and giver's team members, visible to instructors
+                         Shown anonymously to recipient and giver's team members, visible to instructors 
                       </button>
                     </li>
                     <li
@@ -5702,7 +5702,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       <button
                         class="dropdown-button"
                       >
-                        Visible to instructors only
+                         Visible to instructors only 
                       </button>
                     </li>
                     <li
@@ -5712,7 +5712,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       <button
                         class="dropdown-button"
                       >
-                        Visible to recipient and instructors
+                         Visible to recipient and instructors 
                       </button>
                     </li>
                     <li
@@ -5727,7 +5727,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       <button
                         class="dropdown-button"
                       >
-                        Custom visibility options...
+                         Custom visibility options... 
                       </button>
                     </li>
                   </ul>

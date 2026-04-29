@@ -209,7 +209,7 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
       id="btn-confirm-copy-course"
       type="button"
     >
-      Copy
+       Copy 
     </button>
   </div>
 </tm-copy-course-modal>
@@ -413,7 +413,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
       id="btn-confirm-copy-course"
       type="button"
     >
-      Copy
+       Copy 
     </button>
   </div>
 </tm-copy-course-modal>
@@ -617,7 +617,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
       id="btn-confirm-copy-course"
       type="button"
     >
-      Copy
+       Copy 
     </button>
   </div>
 </tm-copy-course-modal>

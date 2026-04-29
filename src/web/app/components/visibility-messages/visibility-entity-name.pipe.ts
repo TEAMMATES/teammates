@@ -10,7 +10,6 @@ import {
  */
 @Pipe({ name: 'visibilityEntityName' })
 export class VisibilityEntityNamePipe implements PipeTransform {
-
   /**
    * Transform the {@code FeedbackVisibilityType} to a name.
    *
@@ -20,10 +19,12 @@ export class VisibilityEntityNamePipe implements PipeTransform {
    * @param numberOfEntitiesToGiveFeedbackToSetting used to determines the plural form of the name
    * @param customNumberOfEntitiesToGiveFeedbackTo used to determines the plural form of the name
    */
-  transform(visibilityType: FeedbackVisibilityType,
-            questionRecipientType?: FeedbackParticipantType,
-            numberOfEntitiesToGiveFeedbackToSetting?: NumberOfEntitiesToGiveFeedbackToSetting,
-            customNumberOfEntitiesToGiveFeedbackTo?: number): string {
+  transform(
+    visibilityType: FeedbackVisibilityType,
+    questionRecipientType?: FeedbackParticipantType,
+    numberOfEntitiesToGiveFeedbackToSetting?: NumberOfEntitiesToGiveFeedbackToSetting,
+    customNumberOfEntitiesToGiveFeedbackTo?: number,
+  ): string {
     switch (visibilityType) {
       case FeedbackVisibilityType.RECIPIENT: {
         // get entity name
@@ -49,15 +50,22 @@ export class VisibilityEntityNamePipe implements PipeTransform {
             return 'unknown';
         }
 
-        if ([FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.STUDENTS,
-          FeedbackParticipantType.STUDENTS_EXCLUDING_SELF, FeedbackParticipantType.TEAMS,
-          FeedbackParticipantType.TEAMS_EXCLUDING_SELF]
-            .includes(questionRecipientType)) {
+        if (
+          [
+            FeedbackParticipantType.INSTRUCTORS,
+            FeedbackParticipantType.STUDENTS,
+            FeedbackParticipantType.STUDENTS_EXCLUDING_SELF,
+            FeedbackParticipantType.TEAMS,
+            FeedbackParticipantType.TEAMS_EXCLUDING_SELF,
+          ].includes(questionRecipientType)
+        ) {
           // if questionRecipientType is one of certain participant type, add the plural form
-          if (numberOfEntitiesToGiveFeedbackToSetting === NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED
-              || (numberOfEntitiesToGiveFeedbackToSetting === NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM
-                  && customNumberOfEntitiesToGiveFeedbackTo !== undefined
-                  && customNumberOfEntitiesToGiveFeedbackTo > 1)) {
+          if (
+            numberOfEntitiesToGiveFeedbackToSetting === NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED ||
+            (numberOfEntitiesToGiveFeedbackToSetting === NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM &&
+              customNumberOfEntitiesToGiveFeedbackTo !== undefined &&
+              customNumberOfEntitiesToGiveFeedbackTo > 1)
+          ) {
             recipientEntityName = `${recipientEntityName}s`;
           }
         }
@@ -76,5 +84,4 @@ export class VisibilityEntityNamePipe implements PipeTransform {
         return 'Unknown';
     }
   }
-
 }

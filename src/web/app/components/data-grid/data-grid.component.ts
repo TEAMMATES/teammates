@@ -7,8 +7,7 @@ import { GridSettings } from 'handsontable/settings';
 import { mainTheme, registerTheme } from 'handsontable/themes';
 
 registerAllModules();
-const theme = registerTheme(mainTheme)
-  .setColorScheme('light');
+const theme = registerTheme(mainTheme).setColorScheme('light');
 
 @Component({
   selector: 'tm-data-grid',
@@ -40,9 +39,7 @@ export class DataGridComponent {
     autoWrapCol: true,
     autoColumnSize: true,
     autoRowSize: true,
-    contextMenu: this.isReadOnly()
-      ? ['copy']
-      : ['row_above', 'row_below', 'remove_row', 'undo', 'redo', 'copy', 'cut'],
+    contextMenu: this.isReadOnly() ? ['copy'] : ['row_above', 'row_below', 'remove_row', 'undo', 'redo', 'copy', 'cut'],
     colHeaders: this.colHeaders().length > 0 ? this.colHeaders() : true,
     columnSorting: true,
     height: 'auto',

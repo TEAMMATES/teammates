@@ -37,5 +37,4 @@ describe('RankOptionsQuestionAdditionalInfoComponent', () => {
 
     expect(fixture).toMatchSnapshot();
   });
-
 });

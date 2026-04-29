@@ -45,19 +45,19 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
           disabled=""
           id="sort-course-id"
         >
-          Course ID
+           Course ID 
         </button>
         <button
           class="btn btn-light"
           id="sort-session-name"
         >
-          Session Name
+           Session Name 
         </button>
         <button
           class="btn btn-light"
           id="sort-creation-date"
         >
-          Creation Date
+           Creation Date 
         </button>
       </div>
     </div>
@@ -199,7 +199,7 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
       id="btn-confirm-copy-question"
       type="button"
     >
-      Copy
+       Copy 
     </button>
     <button
       class="btn btn-light"
@@ -256,19 +256,19 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
           disabled=""
           id="sort-course-id"
         >
-          Course ID
+           Course ID 
         </button>
         <button
           class="btn btn-light"
           id="sort-session-name"
         >
-          Session Name
+           Session Name 
         </button>
         <button
           class="btn btn-light"
           id="sort-creation-date"
         >
-          Creation Date
+           Creation Date 
         </button>
       </div>
     </div>
@@ -334,7 +334,7 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
       id="btn-confirm-copy-question"
       type="button"
     >
-      Copy
+       Copy 
     </button>
     <button
       class="btn btn-light"
@@ -391,19 +391,19 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
           disabled=""
           id="sort-course-id"
         >
-          Course ID
+           Course ID 
         </button>
         <button
           class="btn btn-light"
           id="sort-session-name"
         >
-          Session Name
+           Session Name 
         </button>
         <button
           class="btn btn-light"
           id="sort-creation-date"
         >
-          Creation Date
+           Creation Date 
         </button>
       </div>
     </div>
@@ -456,7 +456,7 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
                   aria-hidden="true"
                   class="fas fa-redo"
                 />
-                 Retry
+                 Retry 
               </button>
             </div>
           </tm-loading-retry>
@@ -472,7 +472,7 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
       id="btn-confirm-copy-question"
       type="button"
     >
-      Copy
+       Copy 
     </button>
     <button
       class="btn btn-light"
@@ -529,19 +529,19 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap with default f
           disabled=""
           id="sort-course-id"
         >
-          Course ID
+           Course ID 
         </button>
         <button
           class="btn btn-light"
           id="sort-session-name"
         >
-          Session Name
+           Session Name 
         </button>
         <button
           class="btn btn-light"
           id="sort-creation-date"
         >
-          Creation Date
+           Creation Date 
         </button>
       </div>
     </div>
@@ -554,7 +554,7 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap with default f
       id="btn-confirm-copy-question"
       type="button"
     >
-      Copy
+       Copy 
     </button>
     <button
       class="btn btn-light"
@@ -611,19 +611,19 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap with feedback 
           disabled=""
           id="sort-course-id"
         >
-          Course ID
+           Course ID 
         </button>
         <button
           class="btn btn-light"
           id="sort-session-name"
         >
-          Session Name
+           Session Name 
         </button>
         <button
           class="btn btn-light"
           id="sort-creation-date"
         >
-          Creation Date
+           Creation Date 
         </button>
       </div>
     </div>
@@ -704,7 +704,7 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap with feedback 
       id="btn-confirm-copy-question"
       type="button"
     >
-      Copy
+       Copy 
     </button>
     <button
       class="btn btn-light"

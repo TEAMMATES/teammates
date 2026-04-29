@@ -3,8 +3,13 @@
     @for (num of questionDetails.msqChoices; track num; let i = $index) {
       <div class="check-box">
         <label class="margin-right-15px">
-          <input type="checkbox" class="margin-right-15px" [checked]="isMsqOptionSelected[i]"
-            (click)="updateSelectedAnswers(i)" [disabled]="isDisabled">
+          <input
+            type="checkbox"
+            class="margin-right-15px"
+            [checked]="isMsqOptionSelected[i]"
+            (click)="updateSelectedAnswers(i)"
+            [disabled]="isDisabled"
+          />
           <strong>{{ questionDetails.msqChoices[i] }}</strong>
         </label>
       </div>
@@ -12,20 +17,36 @@
     @if (questionDetails.otherEnabled) {
       <div id="other-option" class="check-box">
         <label class="margin-right-15px">
-          <input type="checkbox" class="margin-right-15px" [checked]="responseDetails.isOther"
-            (click)="updateIsOtherOption()" [disabled]="isDisabled">
+          <input
+            type="checkbox"
+            class="margin-right-15px"
+            [checked]="responseDetails.isOther"
+            (click)="updateIsOtherOption()"
+            [disabled]="isDisabled"
+          />
           <strong>Other</strong>
         </label>
-        <input #inputTextBoxOther class="form-control" style="display: inline; width: 60%;" type="text" [disabled]="!responseDetails.isOther || isDisabled"
+        <input
+          #inputTextBoxOther
+          class="form-control"
+          style="display: inline; width: 60%"
+          type="text"
+          [disabled]="!responseDetails.isOther || isDisabled"
           [ngModel]="responseDetails.otherFieldContent"
-          (ngModelChange)="updateOtherAnswerField($event)">
+          (ngModelChange)="updateOtherAnswerField($event)"
+        />
       </div>
     }
     @if (questionDetails.minSelectableChoices === NO_VALUE) {
       <div class="check-box">
         <label class="margin-right-15px">
-          <input type="checkbox" class="margin-right-15px" [checked]="isNoneOfTheAboveEnabled"
-            (click)="updateNoneOfTheAbove()" [disabled]="isDisabled">
+          <input
+            type="checkbox"
+            class="margin-right-15px"
+            [checked]="isNoneOfTheAboveEnabled"
+            (click)="updateNoneOfTheAbove()"
+            [disabled]="isDisabled"
+          />
           <strong>None of the above</strong>
         </label>
       </div>

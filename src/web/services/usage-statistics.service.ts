@@ -11,8 +11,7 @@ import { UsageStatisticsRange } from '../types/api-output';
   providedIn: 'root',
 })
 export class UsageStatisticsService {
-
-  constructor(private httpRequestService: HttpRequestService) { }
+  constructor(private httpRequestService: HttpRequestService) {}
 
   getUsageStatistics(startTime: number, endTime: number): Observable<UsageStatisticsRange> {
     const paramMap: Record<string, string> = {
@@ -22,5 +21,4 @@ export class UsageStatisticsService {
 
     return this.httpRequestService.get(ResourceEndpoints.USAGE_STATISTICS, paramMap);
   }
-
 }

@@ -1,8 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
-  FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
-  QuestionOutput, ResponseOutput,
+  FeedbackSession,
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus,
+  QuestionOutput,
+  ResponseOutput,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../../types/api-output';
@@ -31,10 +34,9 @@ import { SingleResponseComponent } from '../single-response/single-response.comp
     CommentRowComponent,
     CommentTableComponent,
     CommentToCommentRowModelPipe,
-],
+  ],
 })
 export class GroupedResponsesComponent extends InstructorResponsesViewBase implements OnInit {
-
   // enum
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
 
@@ -65,7 +67,8 @@ export class GroupedResponsesComponent extends InstructorResponsesViewBase imple
 
   ngOnInit(): void {
     this.hasRealResponses = this.responses.some((question: QuestionOutput) =>
-        question.allResponses.some((response: ResponseOutput) => !response.isMissingResponse));
+      question.allResponses.some((response: ResponseOutput) => !response.isMissingResponse),
+    );
   }
 
   get teamInfo(): Record<string, string> {
@@ -74,7 +77,7 @@ export class GroupedResponsesComponent extends InstructorResponsesViewBase imple
     if (recipientTeamName === '') {
       team['recipient'] = '';
     } else {
-      team['recipient'] = (recipientTeamName === '-') ? '(No Specific Team)' : `(${recipientTeamName})`;
+      team['recipient'] = recipientTeamName === '-' ? '(No Specific Team)' : `(${recipientTeamName})`;
     }
     team['giver'] = `(${this.responses[0].allResponses[0].giverTeam})`;
     return team;
@@ -85,5 +88,4 @@ export class GroupedResponsesComponent extends InstructorResponsesViewBase imple
     commentTable.isAddingNewComment = !commentTable.isAddingNewComment;
     this.triggerModelChangeForSingleResponse(responseId, commentTable);
   }
-
 }

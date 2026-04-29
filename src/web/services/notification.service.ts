@@ -22,8 +22,7 @@ import {
   providedIn: 'root',
 })
 export class NotificationService {
-
-  constructor(private httpRequestService: HttpRequestService) { }
+  constructor(private httpRequestService: HttpRequestService) {}
 
   /**
    * Creates a notification by calling API.

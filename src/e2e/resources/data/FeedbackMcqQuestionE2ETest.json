@@ -64,7 +64,7 @@
     "instructor2": {
       "id": "00000000-0000-4000-8000-000000000502",
       "account": {
-          "id": "00000000-0000-4000-8000-000000000001"
+        "id": "00000000-0000-4000-8000-000000000001"
       },
       "courseId": "tm.e2e.FMcqQn.CS1101",
       "displayName": "Co-owner",
@@ -72,20 +72,18 @@
       "isDisplayedToStudents": true,
       "name": "Teammates Test",
       "privileges": {
-          "courseLevel": {
-              "canModifyCourse": true,
-              "canModifyInstructor": true,
-              "canModifySession": true,
-              "canModifySessionCommentsInSections": true,
-              "canModifyStudent": true,
-              "canSubmitSessionInSections": true,
-              "canViewSessionInSections": true,
-              "canViewStudentInSections": true
-          },
-          "sectionLevel": {
-          },
-          "sessionLevel": {
-          }
+        "courseLevel": {
+          "canModifyCourse": true,
+          "canModifyInstructor": true,
+          "canModifySession": true,
+          "canModifySessionCommentsInSections": true,
+          "canModifyStudent": true,
+          "canSubmitSessionInSections": true,
+          "canViewSessionInSections": true,
+          "canViewStudentInSections": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
       },
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER"
     }
@@ -185,18 +183,10 @@
       "questionDetails": {
         "questionType": "MCQ",
         "questionText": "Which area did you work on the most?",
-        "mcqChoices": [
-          "UI",
-          "Algo",
-          "Testing"
-        ],
+        "mcqChoices": ["UI", "Algo", "Testing"],
         "otherEnabled": true,
         "hasAssignedWeights": true,
-        "mcqWeights": [
-          30.61,
-          29.4,
-          20
-        ],
+        "mcqWeights": [30.61, 29.4, 20],
         "mcqOtherWeight": 60
       },
       "description": "<p>Testing description for first session</p>",
@@ -204,15 +194,9 @@
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ]
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"]
     },
     "qn1ForSecondSession": {
       "id": "00000000-0000-4000-8000-000000000802",
@@ -231,15 +215,9 @@
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ]
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"]
     }
   },
   "feedbackResponseComments": {},

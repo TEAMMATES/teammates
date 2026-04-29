@@ -1,10 +1,4 @@
-import {
-  ComponentRef,
-  Directive,
-  Input,
-  TemplateRef,
-  ViewContainerRef,
-} from '@angular/core';
+import { ComponentRef, Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { LoadingSpinnerComponent } from './loading-spinner.component';
 
 /**
@@ -14,8 +8,10 @@ import { LoadingSpinnerComponent } from './loading-spinner.component';
 export class LoadingSpinnerDirective {
   loadingComponent: ComponentRef<LoadingSpinnerComponent>;
 
-  constructor(private templateRef: TemplateRef<any>,
-              private viewContainer: ViewContainerRef) {
+  constructor(
+    private templateRef: TemplateRef<any>,
+    private viewContainer: ViewContainerRef,
+  ) {
     this.loadingComponent = this.viewContainer.createComponent(LoadingSpinnerComponent);
   }
 

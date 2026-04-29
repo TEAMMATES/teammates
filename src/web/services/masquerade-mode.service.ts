@@ -7,7 +7,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class MasqueradeModeService {
-
   /**
    * Gets the masquerade user.
    */
@@ -23,5 +22,4 @@ export class MasqueradeModeService {
   isInMasqueradingMode(): boolean {
     return this.getMasqueradeUser() !== '';
   }
-
 }

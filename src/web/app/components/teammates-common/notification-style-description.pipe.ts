@@ -20,9 +20,7 @@ const descriptionMapping: Record<NotificationStyle, string> = {
  */
 @Pipe({ name: 'notificationStyleDescription' })
 export class NotificationStyleDescriptionPipe implements PipeTransform {
-
   transform(style: NotificationStyle): string {
     return descriptionMapping[style];
   }
-
 }

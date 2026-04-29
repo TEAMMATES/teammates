@@ -13,15 +13,15 @@ import {
  * Rank recipients question response.
  */
 @Component({
-    selector: 'tm-rank-recipients-question-response',
-    templateUrl: './rank-recipients-question-response.component.html',
-    styleUrls: ['./rank-recipients-question-response.component.scss'],
+  selector: 'tm-rank-recipients-question-response',
+  templateUrl: './rank-recipients-question-response.component.html',
+  styleUrls: ['./rank-recipients-question-response.component.scss'],
 })
-export class RankRecipientsQuestionResponseComponent
-    extends QuestionResponse<FeedbackRankRecipientsResponseDetails, FeedbackRankRecipientsQuestionDetails> {
-
+export class RankRecipientsQuestionResponseComponent extends QuestionResponse<
+  FeedbackRankRecipientsResponseDetails,
+  FeedbackRankRecipientsQuestionDetails
+> {
   constructor() {
     super(DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS(), DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS());
   }
-
 }

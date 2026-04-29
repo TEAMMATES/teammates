@@ -253,17 +253,9 @@
       "giverType": "STUDENTS",
       "recipientType": "TEAMS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ]
+      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
     },
     "qn1ForSecondSession": {
       "id": "00000000-0000-4000-8000-000000000802",
@@ -285,17 +277,9 @@
       "giverType": "STUDENTS",
       "recipientType": "TEAMS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ]
+      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
     }
   },
   "feedbackResponses": {},

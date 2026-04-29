@@ -27,9 +27,9 @@ import { areEmailsEqual } from '../../teammates-common/email-utils';
   imports: [],
 })
 export class ContributionQuestionResponseComponent
-    extends QuestionResponse<FeedbackContributionResponseDetails, FeedbackContributionQuestionDetails>
-    implements OnInit {
-
+  extends QuestionResponse<FeedbackContributionResponseDetails, FeedbackContributionQuestionDetails>
+  implements OnInit
+{
   @Input() statistics = '';
   @Input() giverEmail = '';
   @Input() recipientEmail = '';
@@ -56,5 +56,4 @@ export class ContributionQuestionResponseComponent
       }
     }
   }
-
 }

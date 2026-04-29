@@ -6,9 +6,7 @@ import {
   FeedbackConstantSumDistributePointsType,
   FeedbackConstantSumQuestionDetails,
 } from '../../../../types/api-output';
-import {
-  DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
-} from '../../../../types/default-question-structs';
+import { DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 
 /**
  * Question details edit form component for constsum recipients question.
@@ -20,12 +18,12 @@ import {
   imports: [FormsModule, NgbTooltip],
 })
 export class ConstsumRecipientsQuestionEditDetailsFormComponent
-    extends QuestionEditDetailsFormComponent<FeedbackConstantSumQuestionDetails>
-    implements OnChanges {
-
+  extends QuestionEditDetailsFormComponent<FeedbackConstantSumQuestionDetails>
+  implements OnChanges
+{
   // enum
   FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =
-      FeedbackConstantSumDistributePointsType;
+    FeedbackConstantSumDistributePointsType;
 
   constructor() {
     super(DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS());
@@ -43,8 +41,9 @@ export class ConstsumRecipientsQuestionEditDetailsFormComponent
   onForceUnevenDistribution(event: boolean): void {
     this.triggerModelChangeBatch({
       forceUnevenDistribution: event,
-      distributePointsFor: event ? FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY
-          : FeedbackConstantSumDistributePointsType.NONE,
+      distributePointsFor: event
+        ? FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY
+        : FeedbackConstantSumDistributePointsType.NONE,
     });
   }
 }

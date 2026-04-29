@@ -63,15 +63,9 @@ describe('UserNotificationsListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-      ],
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      imports: [BrowserAnimationsModule],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -92,32 +86,35 @@ describe('UserNotificationsListComponent', () => {
 
   it('should load notifications from APIs correctly', () => {
     // two notifications, only first one has been read
-    const getNotificationSpy = jest.spyOn(notificationService, 'getAllNotificationsForTargetUser').mockReturnValue(of({
-      notifications: [testNotificationOne, testNotificationTwo],
-    }));
-    const getReadNotificationSpy = jest.spyOn(notificationService, 'getReadNotifications').mockReturnValue(of({
-      readNotifications: [
-        testNotificationOne.notificationId,
-      ],
-    }));
+    const getNotificationSpy = jest.spyOn(notificationService, 'getAllNotificationsForTargetUser').mockReturnValue(
+      of({
+        notifications: [testNotificationOne, testNotificationTwo],
+      }),
+    );
+    const getReadNotificationSpy = jest.spyOn(notificationService, 'getReadNotifications').mockReturnValue(
+      of({
+        readNotifications: [testNotificationOne.notificationId],
+      }),
+    );
     component.loadNotifications();
     expect(getNotificationSpy).toHaveBeenCalledTimes(1);
     expect(getReadNotificationSpy).toHaveBeenCalledTimes(1);
-    expect(component.notificationTabs).toEqual(getNotificationTabs(
-      [testNotificationOne, testNotificationTwo],
-      [testNotificationOne.notificationId],
-    ));
+    expect(component.notificationTabs).toEqual(
+      getNotificationTabs([testNotificationOne, testNotificationTwo], [testNotificationOne.notificationId]),
+    );
   });
 
   it('should mark notification as read when button is clicked', () => {
-    const apiSpy: SpyInstance = jest.spyOn(notificationService, 'markNotificationAsRead')
+    const apiSpy: SpyInstance = jest
+      .spyOn(notificationService, 'markNotificationAsRead')
       .mockImplementation((request: MarkNotificationAsReadRequest) => {
         expect(request.notificationId).toEqual(testNotificationOne.notificationId);
         return of({
           readNotifications: [request.notificationId],
         });
       });
-    const messageSpy: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
+    const messageSpy: SpyInstance = jest
+      .spyOn(statusMessageService, 'showSuccessToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('Notification marked as read.');
       });
@@ -147,12 +144,16 @@ describe('UserNotificationsListComponent', () => {
 
     // default order already checked above
     component.sortNotificationsBy(SortBy.NOTIFICATION_START_TIME);
-    expect(component.notificationTabs[0].notification.startTimestamp
-      >= component.notificationTabs[1].notification.startTimestamp).toBeTruthy();
+    expect(
+      component.notificationTabs[0].notification.startTimestamp >=
+        component.notificationTabs[1].notification.startTimestamp,
+    ).toBeTruthy();
 
     component.sortNotificationsBy(SortBy.NOTIFICATION_END_TIME);
-    expect(component.notificationTabs[0].notification.endTimestamp
-      <= component.notificationTabs[1].notification.endTimestamp).toBeTruthy();
+    expect(
+      component.notificationTabs[0].notification.endTimestamp <=
+        component.notificationTabs[1].notification.endTimestamp,
+    ).toBeTruthy();
   });
 
   it('should snap with default fields when loading', () => {
@@ -180,10 +181,7 @@ describe('UserNotificationsListComponent', () => {
   it('should snap when all loaded notifications are read', () => {
     component.notificationTabs = getNotificationTabs(
       [testNotificationOne, testNotificationTwo],
-      [
-        testNotificationOne.notificationId,
-        testNotificationTwo.notificationId,
-      ],
+      [testNotificationOne.notificationId, testNotificationTwo.notificationId],
     );
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();

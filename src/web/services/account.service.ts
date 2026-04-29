@@ -24,8 +24,7 @@ import {
   providedIn: 'root',
 })
 export class AccountService {
-  constructor(private httpRequestService: HttpRequestService) {
-  }
+  constructor(private httpRequestService: HttpRequestService) {}
 
   /**
    * Creates an account by calling API.
@@ -168,5 +167,4 @@ export class AccountService {
 
     return this.httpRequestService.post(ResourceEndpoints.ACCOUNT_REQUEST_REJECT, paramMap, accountReqRejectRequest);
   }
-
 }

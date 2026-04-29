@@ -5,15 +5,13 @@ import { Pipe, PipeTransform } from '@angular/core';
  */
 @Pipe({ name: 'stripHtmlTags' })
 export class StripHtmlTagsPipe implements PipeTransform {
-
   /**
    * Transforms HTML to plain text.
    */
   transform(html: string): any {
     return html
-        .replace(/(<img([^>]+)>)/ig, '[Image]')
-        .replace(/(<table((.|\s)*)<\/table>)/ig, '[Table]')
-        .replace(/(<([^>]+)>)/ig, '');
+      .replace(/(<img([^>]+)>)/gi, '[Image]')
+      .replace(/(<table((.|\s)*)<\/table>)/gi, '[Table]')
+      .replace(/(<([^>]+)>)/gi, '');
   }
-
 }

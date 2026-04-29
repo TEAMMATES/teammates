@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  ConstsumRecipientsQuestionAdditionalInfoComponent,
-} from './constsum-recipients-question-additional-info.component';
+import { ConstsumRecipientsQuestionAdditionalInfoComponent } from './constsum-recipients-question-additional-info.component';
 
 describe('ConstsumRecipientsQuestionAdditionalInfoComponent', () => {
   let component: ConstsumRecipientsQuestionAdditionalInfoComponent;

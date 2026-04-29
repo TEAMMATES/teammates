@@ -1,16 +1,13 @@
 import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
-import {
-  FeedbackMsqQuestionDetails,
-  FeedbackMsqResponseDetails,
-  FeedbackQuestionType,
-} from '../api-output';
+import { FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails, FeedbackQuestionType } from '../api-output';
 
 /**
  * Concrete implementation of {@link FeedbackMsqResponseDetails}.
  */
-export class FeedbackMsqResponseDetailsImpl extends AbstractFeedbackResponseDetails<FeedbackMsqQuestionDetails>
-    implements FeedbackMsqResponseDetails {
-
+export class FeedbackMsqResponseDetailsImpl
+  extends AbstractFeedbackResponseDetails<FeedbackMsqQuestionDetails>
+  implements FeedbackMsqResponseDetails
+{
   answers: string[] = [];
   isOther = false;
   otherFieldContent = '';
@@ -38,5 +35,4 @@ export class FeedbackMsqResponseDetailsImpl extends AbstractFeedbackResponseDeta
     }
     return [['', ...answers]];
   }
-
 }

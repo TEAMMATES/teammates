@@ -3,8 +3,13 @@
     @for (teamInfo of teamsToUsers | keyvalue; track teamInfo) {
       <div id="team-panel">
         <div class="card top-padded">
-          <h6 id="team-header" class="card-header alert alert-warning alert-no-bottom cursor-pointer" role="button" (click)="teamExpanded[teamInfo.key] = !teamExpanded[teamInfo.key]">
-            {{ teamInfo.key === '-' ? 'No Specific Team': teamInfo.key }}
+          <h6
+            id="team-header"
+            class="card-header alert alert-warning alert-no-bottom cursor-pointer"
+            role="button"
+            (click)="teamExpanded[teamInfo.key] = !teamExpanded[teamInfo.key]"
+          >
+            {{ teamInfo.key === '-' ? 'No Specific Team' : teamInfo.key }}
             <div class="card-header-btn-toolbar">
               <tm-panel-chevron [isExpanded]="teamExpanded[teamInfo.key]"></tm-panel-chevron>
             </div>
@@ -18,12 +23,14 @@
                     @for (question of teamsToQuestions[teamInfo.key]; track question) {
                       <div id="team-statistics" class="card top-padded alert-primary-border">
                         <div class="card-header alert alert-primary alert-no-bottom">
-                          <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber"
+                          <tm-question-text-with-info
+                            [questionNumber]="question.feedbackQuestion.questionNumber"
                             [questionDetails]="question.feedbackQuestion.questionDetails"
                           ></tm-question-text-with-info>
                         </div>
                         <div class="card-body top-padded-small">
-                          <tm-single-statistics [responses]="question.allResponses"
+                          <tm-single-statistics
+                            [responses]="question.allResponses"
                             [question]="question.feedbackQuestion.questionDetails"
                             [statistics]="question.questionStatistics"
                             [recipientType]="question.feedbackQuestion.recipientType"
@@ -37,9 +44,7 @@
                 <h3 class="top-padded">{{ teamInfo.key }} Detailed Responses</h3>
                 @for (userInfo of teamInfo.value; track userInfo) {
                   <div>
-                    <ng-container
-                      [ngTemplateOutlet]="userTab"
-                      [ngTemplateOutletContext]="{userInfo:userInfo}">
+                    <ng-container [ngTemplateOutlet]="userTab" [ngTemplateOutletContext]="{ userInfo: userInfo }">
                     </ng-container>
                   </div>
                 }
@@ -55,9 +60,7 @@
   <div>
     @for (userInfo of userExpanded | keyvalue; track userInfo) {
       <div>
-        <ng-container
-          [ngTemplateOutlet]="userTab"
-          [ngTemplateOutletContext]="{userInfo:userInfo.key}">
+        <ng-container [ngTemplateOutlet]="userTab" [ngTemplateOutletContext]="{ userInfo: userInfo.key }">
         </ng-container>
       </div>
     }
@@ -69,9 +72,14 @@
   </div>
 }
 
-<ng-template #userTab let-userInfo='userInfo'>
+<ng-template #userTab let-userInfo="userInfo">
   <div id="user-panel" class="card top-padded border-primary">
-    <h6 id="user-header" class="card-header bg-primary text-white cursor-pointer" role="button" (click)="userExpanded[userInfo] = !userExpanded[userInfo]">
+    <h6
+      id="user-header"
+      class="card-header bg-primary text-white cursor-pointer"
+      role="button"
+      (click)="userExpanded[userInfo] = !userExpanded[userInfo]"
+    >
       <div>
         {{ isGqr ? 'From' : 'To' }}:
         {{ userInfo === '-' ? 'No Specific User' : userInfo }}
@@ -83,9 +91,13 @@
       </div>
       <div class="card-header-btn-toolbar">
         @if (isGqr && userToRelatedEmail[userInfo]) {
-          <tm-response-moderation-button class="btn-margin-right" [session]="session"
+          <tm-response-moderation-button
+            class="btn-margin-right"
+            [session]="session"
             [relatedGiverEmail]="userToRelatedEmail[userInfo]"
-          [isGiverInstructor]="userIsInstructor[userInfo]" btnStyle="PRIMARY"></tm-response-moderation-button>
+            [isGiverInstructor]="userIsInstructor[userInfo]"
+            btnStyle="PRIMARY"
+          ></tm-response-moderation-button>
         }
         <tm-panel-chevron [isExpanded]="userExpanded[userInfo]"></tm-panel-chevron>
       </div>
@@ -94,9 +106,16 @@
       <div @collapseAnim>
         <div class="card-body top-padded-0">
           @for (question of responsesToShow[userInfo]; track question) {
-            <div id="question-panel-{{ question.questionOutput.feedbackQuestion.questionNumber }}" class="card top-padded alert-primary-border">
-              <div class="card-header alert alert-primary alert-no-bottom cursor-pointer" (click)="question.isTabExpanded = !question.isTabExpanded">
-                <tm-question-text-with-info [questionNumber]="question.questionOutput.feedbackQuestion.questionNumber"
+            <div
+              id="question-panel-{{ question.questionOutput.feedbackQuestion.questionNumber }}"
+              class="card top-padded alert-primary-border"
+            >
+              <div
+                class="card-header alert alert-primary alert-no-bottom cursor-pointer"
+                (click)="question.isTabExpanded = !question.isTabExpanded"
+              >
+                <tm-question-text-with-info
+                  [questionNumber]="question.questionOutput.feedbackQuestion.questionNumber"
                   [questionDetails]="question.questionOutput.feedbackQuestion.questionDetails"
                 ></tm-question-text-with-info>
                 <div class="card-header-btn-toolbar">
@@ -115,9 +134,16 @@
                         [displayContributionStats]="false"
                       ></tm-single-statistics>
                     }
-                    <tm-per-question-view-responses [responses]="question.questionOutput.allResponses" [section]="section" [sectionType]="sectionType" [session]="session"
+                    <tm-per-question-view-responses
+                      [responses]="question.questionOutput.allResponses"
+                      [section]="section"
+                      [sectionType]="sectionType"
+                      [session]="session"
                       [statistics]="question.questionOutput.questionStatistics"
-                      [indicateMissingResponses]="indicateMissingResponses" [showGiver]="!isGqr" [showRecipient]="isGqr" [question]="question.questionOutput.feedbackQuestion"
+                      [indicateMissingResponses]="indicateMissingResponses"
+                      [showGiver]="!isGqr"
+                      [showRecipient]="isGqr"
+                      [question]="question.questionOutput.feedbackQuestion"
                       [instructorCommentTableModel]="instructorCommentTableModel"
                       (instructorCommentTableModelChange)="triggerModelChange($event)"
                       (saveNewCommentEvent)="triggerSaveNewCommentEvent($event)"

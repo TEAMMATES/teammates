@@ -230,7 +230,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             <div
               class="col-9"
               id="instructors"
-              style="margin-bottom: .5rem;"
+              style="margin-bottom: 0.5rem;"
             >
               <div>
                  Instructor: 
@@ -344,12 +344,12 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
             class="btn btn-light"
             id="sort-name"
           >
-            Name
+             Name 
           </button>
           <button
             class="btn btn-light"
           >
-            Email
+             Email 
           </button>
         </div>
       </div>
@@ -381,7 +381,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
                   <label>
                     Name:
                   </label>
-                   2 
+                   2
                 </div>
                 <div>
                   <label>

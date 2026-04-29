@@ -6,7 +6,7 @@
     "build:stats": "ng build --configuration production --stats-json",
     "test": "ng test --watch",
     "coverage": "rimraf coverage && ng test --coverage",
-    "format": "prettier . --write",
+    "format": "prettier . --write --log-level warn",
     "format:check": "prettier . --check",
     "lint:eslint": "ng lint --cache",
     "lint:eslint:fix": "ng lint --fix --cache",

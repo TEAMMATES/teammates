@@ -27,19 +27,29 @@ describe('McqQuestionStatisticsComponent', () => {
     component.responses = ResponseTestData.responsesNoOther as Response<FeedbackMcqResponseDetails>[];
 
     const expectedAnswerFrequency: Record<string, number> = {
-      optionA: 2, optionB: 1, optionC: 0,
+      optionA: 2,
+      optionB: 1,
+      optionC: 0,
     };
     const expectedPercentagePerOption: Record<string, number> = {
-      optionA: 66.67, optionB: 33.33, optionC: 0,
+      optionA: 66.67,
+      optionB: 33.33,
+      optionC: 0,
     };
     const expectedWeightPerOption: Record<string, number> = {
-      optionA: 1, optionB: 2, optionC: 3,
+      optionA: 1,
+      optionB: 2,
+      optionC: 3,
     };
     const expectedWeightedPrecentagePerOption: Record<string, number> = {
-      optionA: 50, optionB: 50, optionC: 0,
+      optionA: 50,
+      optionB: 50,
+      optionC: 0,
     };
-    const expectedPerRecipientResponses: Record<string, any> =
-        ResponseTestData.expectedPerRecipientResponses as Record<string, any>;
+    const expectedPerRecipientResponses: Record<string, any> = ResponseTestData.expectedPerRecipientResponses as Record<
+      string,
+      any
+    >;
 
     component.calculateStatistics();
 
@@ -59,19 +69,31 @@ describe('McqQuestionStatisticsComponent', () => {
     component.responses = ResponseTestData.responsesWithOther as Response<FeedbackMcqResponseDetails>[];
 
     const expectedAnswerFrequency: Record<string, number> = {
-      optionA: 1, optionB: 1, optionC: 0, Other: 1,
+      optionA: 1,
+      optionB: 1,
+      optionC: 0,
+      Other: 1,
     };
     const expectedPercentagePerOption: Record<string, number> = {
-      optionA: 33.33, optionB: 33.33, optionC: 0, Other: 33.33,
+      optionA: 33.33,
+      optionB: 33.33,
+      optionC: 0,
+      Other: 33.33,
     };
     const expectedWeightPerOption: Record<string, number> = {
-      optionA: 1, optionB: 2, optionC: 3, Other: 4,
+      optionA: 1,
+      optionB: 2,
+      optionC: 3,
+      Other: 4,
     };
     const expectedWeightedPrecentagePerOption: Record<string, number> = {
-      optionA: 14.29, optionB: 28.57, optionC: 0, Other: 57.14,
+      optionA: 14.29,
+      optionB: 28.57,
+      optionC: 0,
+      Other: 57.14,
     };
     const expectedPerRecipientResponses: Record<string, any> =
-        ResponseTestData.expectedPerRecipientResponsesWithOther as Record<string, any>;
+      ResponseTestData.expectedPerRecipientResponsesWithOther as Record<string, any>;
 
     component.calculateStatistics();
 
@@ -89,10 +111,14 @@ describe('McqQuestionStatisticsComponent', () => {
     component.responses = ResponseTestData.responsesNoOther as Response<FeedbackMcqResponseDetails>[];
 
     const expectedAnswerFrequency: Record<string, number> = {
-      optionA: 2, optionB: 1, optionC: 0,
+      optionA: 2,
+      optionB: 1,
+      optionC: 0,
     };
     const expectedPercentagePerOption: Record<string, number> = {
-      optionA: 66.67, optionB: 33.33, optionC: 0,
+      optionA: 66.67,
+      optionB: 33.33,
+      optionC: 0,
     };
     const expectedPerRecipientResponses: Record<string, any> = {};
 
@@ -110,10 +136,16 @@ describe('McqQuestionStatisticsComponent', () => {
     component.responses = ResponseTestData.responsesWithOther as Response<FeedbackMcqResponseDetails>[];
 
     const expectedAnswerFrequency: Record<string, number> = {
-      optionA: 1, optionB: 1, optionC: 0, Other: 1,
+      optionA: 1,
+      optionB: 1,
+      optionC: 0,
+      Other: 1,
     };
     const expectedPercentagePerOption: Record<string, number> = {
-      optionA: 33.33, optionB: 33.33, optionC: 0, Other: 33.33,
+      optionA: 33.33,
+      optionB: 33.33,
+      optionC: 0,
+      Other: 33.33,
     };
     const expectedPerRecipientResponses: Record<string, any> = {};
 
@@ -123,5 +155,4 @@ describe('McqQuestionStatisticsComponent', () => {
     expect(component.percentagePerOption).toEqual(expectedPercentagePerOption);
     expect(component.perRecipientResponses).toEqual(expectedPerRecipientResponses);
   });
-
 });

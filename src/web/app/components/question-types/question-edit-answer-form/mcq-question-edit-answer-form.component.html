@@ -5,23 +5,42 @@
         @for (num of questionDetails.mcqChoices; track num; let i = $index) {
           <div class="radio">
             <label class="margin-right-15px">
-              <input type="radio" class="margin-right-15px" name="mcq-{{ id }}" [checked]="isMcqOptionSelected[i]"
-                (click)="updateSelectedMcqOption(i)" [disabled]="isDisabled">
-              <span class="option-text" id="radioOptionSpan" [innerHTML]="questionDetails.mcqChoices[i] | safeHtml"></span>
+              <input
+                type="radio"
+                class="margin-right-15px"
+                name="mcq-{{ id }}"
+                [checked]="isMcqOptionSelected[i]"
+                (click)="updateSelectedMcqOption(i)"
+                [disabled]="isDisabled"
+              />
+              <span
+                class="option-text"
+                id="radioOptionSpan"
+                [innerHTML]="questionDetails.mcqChoices[i] | safeHtml"
+              ></span>
             </label>
           </div>
         }
       </div>
     }
     @if (questionDetails.questionDropdownEnabled) {
-      <div >
-        {{updateParentCss(true)}}
-        <select id="dropdown-option-select" class="form-control form-select margin-bottom-8px" [(ngModel)]="valueSelected" (change)="updateSelectedMcqDropdownOption()">
+      <div>
+        {{ updateParentCss(true) }}
+        <select
+          id="dropdown-option-select"
+          class="form-control form-select margin-bottom-8px"
+          [(ngModel)]="valueSelected"
+          (change)="updateSelectedMcqDropdownOption()"
+        >
           <option value=""></option>
           @for (num of questionDetails.mcqChoices; track num; let i = $index) {
             <option
               [ngValue]="questionDetails.mcqChoices[i]"
-            [selected]="isMcqOptionSelected[i]" [disabled]="isDisabled">{{ questionDetails.mcqChoices[i] }}</option>
+              [selected]="isMcqOptionSelected[i]"
+              [disabled]="isDisabled"
+            >
+              {{ questionDetails.mcqChoices[i] }}
+            </option>
           }
         </select>
       </div>
@@ -29,13 +48,25 @@
     @if (questionDetails.otherEnabled) {
       <div id="other-option" class="radio">
         <label class="margin-right-15px">
-          <input type="radio" class="margin-right-15px" name="mcq-{{ id }}" [checked]="responseDetails.isOther"
-            (click)="updateIsOtherOption()" [disabled]="isDisabled">
+          <input
+            type="radio"
+            class="margin-right-15px"
+            name="mcq-{{ id }}"
+            [checked]="responseDetails.isOther"
+            (click)="updateIsOtherOption()"
+            [disabled]="isDisabled"
+          />
           <strong>Other</strong>
         </label>
-        <input  #inputTextBoxOther class="form-control" style="display: inline; width: 60%;" type="text" [disabled]="!responseDetails.isOther || isDisabled"
+        <input
+          #inputTextBoxOther
+          class="form-control"
+          style="display: inline; width: 60%"
+          type="text"
+          [disabled]="!responseDetails.isOther || isDisabled"
           [ngModel]="responseDetails.otherFieldContent"
-          (ngModelChange)="triggerResponseDetailsChange('otherFieldContent', $event)">
+          (ngModelChange)="triggerResponseDetailsChange('otherFieldContent', $event)"
+        />
       </div>
     }
   </td>

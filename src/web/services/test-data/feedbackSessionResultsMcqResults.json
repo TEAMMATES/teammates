@@ -9,10 +9,7 @@
           "hasAssignedWeights": false,
           "mcqWeights": [],
           "mcqOtherWeight": 0.0,
-          "mcqChoices": [
-            "It's good",
-            "It's perfect"
-          ],
+          "mcqChoices": ["It's good", "It's perfect"],
           "otherEnabled": false,
           "generateOptionsFor": "NONE",
           "questionType": "MCQ",
@@ -23,15 +20,9 @@
         "recipientType": "SELF",
         "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
         "customNumberOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
       },
       "questionStatistics": "",
       "allResponses": [
@@ -102,16 +93,8 @@
               "createdAt": 1451692740000,
               "lastEditedAt": 1451692740000,
               "isVisibilityFollowingFeedbackQuestion": false,
-              "showGiverNameTo": [
-                "INSTRUCTORS",
-                "RECIPIENT_TEAM_MEMBERS"
-              ],
-              "showCommentTo": [
-                "GIVER",
-                "RECIPIENT",
-                "STUDENTS",
-                "INSTRUCTORS"
-              ]
+              "showGiverNameTo": ["INSTRUCTORS", "RECIPIENT_TEAM_MEMBERS"],
+              "showCommentTo": ["GIVER", "RECIPIENT", "STUDENTS", "INSTRUCTORS"]
             }
           ]
         },
@@ -192,15 +175,9 @@
         "questionBrief": "What do you like best about our product?",
         "questionDetails": {
           "hasAssignedWeights": true,
-          "mcqWeights": [
-            1.25,
-            1.7
-          ],
+          "mcqWeights": [1.25, 1.7],
           "mcqOtherWeight": 3.0,
-          "mcqChoices": [
-            "It's good",
-            "It's perfect"
-          ],
+          "mcqChoices": ["It's good", "It's perfect"],
           "otherEnabled": true,
           "generateOptionsFor": "NONE",
           "questionType": "MCQ",
@@ -211,15 +188,9 @@
         "recipientType": "SELF",
         "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
         "customNumberOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
       },
       "questionStatistics": "",
       "allResponses": [
@@ -329,10 +300,7 @@
           "hasAssignedWeights": false,
           "mcqWeights": [],
           "mcqOtherWeight": 0.0,
-          "mcqChoices": [
-            "Content",
-            "Teaching style"
-          ],
+          "mcqChoices": ["Content", "Teaching style"],
           "otherEnabled": true,
           "generateOptionsFor": "NONE",
           "questionType": "MCQ",
@@ -343,15 +311,9 @@
         "recipientType": "SELF",
         "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
         "customNumberOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
       },
       "questionStatistics": "",
       "allResponses": [
@@ -461,10 +423,7 @@
           "hasAssignedWeights": false,
           "mcqWeights": [],
           "mcqOtherWeight": 0.0,
-          "mcqChoices": [
-            "It's good",
-            "It's perfect"
-          ],
+          "mcqChoices": ["It's good", "It's perfect"],
           "otherEnabled": false,
           "generateOptionsFor": "NONE",
           "questionType": "MCQ",
@@ -475,15 +434,9 @@
         "recipientType": "SELF",
         "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
         "customNumberOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
       },
       "questionStatistics": "",
       "allResponses": [

@@ -11,7 +11,8 @@
     [isFeedbackParticipantComment]="isFeedbackParticipantComment"
     [shouldHideClosingButton]="shouldHideClosingButton"
     (closeCommentBoxEvent)="triggerCloseEditing()"
-  (saveCommentEvent)="triggerSaveCommentEvent()"></tm-comment-edit-form>
+    (saveCommentEvent)="triggerSaveCommentEvent()"
+  ></tm-comment-edit-form>
 }
 
 @if (!model.isEditing && mode === CommentRowMode.EDIT && model.originalComment) {
@@ -20,36 +21,73 @@
       <div class="row comment-row">
         <div class="col-12">
           @if (isFeedbackParticipantComment) {
-            <span class="by-response-giver text-secondary">
-              Comment by response giver.
-            </span>
+            <span class="by-response-giver text-secondary"> Comment by response giver. </span>
           }
           @if (!isFeedbackParticipantComment) {
             <ng-container class="text-secondary">
-              <span class="comment-giver-name">{{ model.commentGiverName ? model.commentGiverName : model.originalComment.commentGiver }} commented at </span>
-              <span class="ngb-tooltip-class" style="margin-right: .25rem;" [ngbTooltip]="model.originalComment.createdAt | formatDateDetail: model.timezone!">
-              {{ model.originalComment.createdAt | formatDateBrief: model.timezone! }}</span>
-              @if (model.originalComment.lastEditedAt && model.originalComment.lastEditedAt !== model.originalComment.createdAt) {
-                <i class="fas fa-circle dot-xs align-middle" style="margin-right: .25rem;"></i>
-                <span id="last-editor-name" style="margin-right: .25rem;" class="ngb-tooltip-class"
-                [ngbTooltip]="model.originalComment.lastEditedAt | formatDateDetail: model.timezone!">edited by {{ model.lastEditorName ? model.lastEditorName : model.originalComment.lastEditorEmail }}</span>
+              <span class="comment-giver-name"
+                >{{ model.commentGiverName ? model.commentGiverName : model.originalComment.commentGiver }} commented at
+              </span>
+              <span
+                class="ngb-tooltip-class"
+                style="margin-right: 0.25rem"
+                [ngbTooltip]="model.originalComment.createdAt | formatDateDetail: model.timezone!"
+              >
+                {{ model.originalComment.createdAt | formatDateBrief: model.timezone! }}</span
+              >
+              @if (
+                model.originalComment.lastEditedAt &&
+                model.originalComment.lastEditedAt !== model.originalComment.createdAt
+              ) {
+                <i class="fas fa-circle dot-xs align-middle" style="margin-right: 0.25rem"></i>
+                <span
+                  id="last-editor-name"
+                  style="margin-right: 0.25rem"
+                  class="ngb-tooltip-class"
+                  [ngbTooltip]="model.originalComment.lastEditedAt | formatDateDetail: model.timezone!"
+                  >edited by
+                  {{ model.lastEditorName ? model.lastEditorName : model.originalComment.lastEditorEmail }}</span
+                >
               }
             </ng-container>
           }
-          <i class="fa fa-eye" aria-hidden="true" ngbTooltip="This response comment is visible to {{ visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(CommentVisibilityControl.SHOW_COMMENT) | commentVisibilityTypesJointName }}"></i>
+          <i
+            class="fa fa-eye"
+            aria-hidden="true"
+            ngbTooltip="This response comment is visible to {{
+              visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(CommentVisibilityControl.SHOW_COMMENT)
+                | commentVisibilityTypesJointName
+            }}"
+          ></i>
           <div class="float-end">
             @if (!shouldHideEditButton) {
-              <button type="button" class="btn-edit-comment btn btn-outline-primary btn-sm" ngbTooltip='Edit this comment'
-                (click)="triggerModelChange('isEditing', true)" [disabled]="isDisabled" aria-label="Edit comment"><i class="fas fa-pencil-alt"></i></button>
-              }
-              @if (!shouldHideDeleteButton) {
-                <button type="button" class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left" ngbTooltip='Delete this comment'
-                  (click)="triggerDeleteCommentEvent()" [disabled]="isDisabled" aria-label="Delete comment"><i class="fas fa-trash"></i></button>
-                }
-              </div>
-            </div>
-            <div class="comment-text col-12" [innerHTML]="model.originalComment.commentText | safeHtml"></div>
+              <button
+                type="button"
+                class="btn-edit-comment btn btn-outline-primary btn-sm"
+                ngbTooltip="Edit this comment"
+                (click)="triggerModelChange('isEditing', true)"
+                [disabled]="isDisabled"
+                aria-label="Edit comment"
+              >
+                <i class="fas fa-pencil-alt"></i>
+              </button>
+            }
+            @if (!shouldHideDeleteButton) {
+              <button
+                type="button"
+                class="btn-delete-comment btn btn-outline-primary btn-sm btn-margin-left"
+                ngbTooltip="Delete this comment"
+                (click)="triggerDeleteCommentEvent()"
+                [disabled]="isDisabled"
+                aria-label="Delete comment"
+              >
+                <i class="fas fa-trash"></i>
+              </button>
+            }
           </div>
         </div>
+        <div class="comment-text col-12" [innerHTML]="model.originalComment.commentText | safeHtml"></div>
       </div>
-    }
+    </div>
+  </div>
+}

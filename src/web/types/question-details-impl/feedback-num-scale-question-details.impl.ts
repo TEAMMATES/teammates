@@ -1,18 +1,19 @@
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
+import { NumScaleQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/num-scale-question-statistics-calculation';
 import {
-  NumScaleQuestionStatisticsCalculation,
-} from '../../app/components/question-types/question-statistics/question-statistics-calculation/num-scale-question-statistics-calculation';
-import {
-  FeedbackNumericalScaleQuestionDetails, FeedbackParticipantType,
-  FeedbackQuestionType, QuestionOutput,
+  FeedbackNumericalScaleQuestionDetails,
+  FeedbackParticipantType,
+  FeedbackQuestionType,
+  QuestionOutput,
 } from '../api-output';
 
 /**
  * Concrete implementation of {@link FeedbackNumericalScaleQuestionDetails}.
  */
-export class FeedbackNumericalScaleQuestionDetailsImpl extends AbstractFeedbackQuestionDetails
-    implements FeedbackNumericalScaleQuestionDetails {
-
+export class FeedbackNumericalScaleQuestionDetailsImpl
+  extends AbstractFeedbackQuestionDetails
+  implements FeedbackNumericalScaleQuestionDetails
+{
   minScale = 1;
   maxScale = 5;
   step = 0.5;
@@ -39,8 +40,10 @@ export class FeedbackNumericalScaleQuestionDetailsImpl extends AbstractFeedbackQ
     statsCalculation.calculateStatistics();
 
     const header: string[] = ['Team', 'Recipient', 'Recipient Email', 'Average', 'Minimum', 'Maximum'];
-    const shouldShowAvgExcludingSelf: boolean =
-        this.shouldShowAverageExcludingSelfInCsvStats(question, statsCalculation);
+    const shouldShowAvgExcludingSelf: boolean = this.shouldShowAverageExcludingSelfInCsvStats(
+      question,
+      statsCalculation,
+    );
     if (shouldShowAvgExcludingSelf) {
       header.push('Average excluding self response');
     }
@@ -71,7 +74,9 @@ export class FeedbackNumericalScaleQuestionDetailsImpl extends AbstractFeedbackQ
    * Checks whether AverageExcludingSelf should appear as a CSV header.
    */
   shouldShowAverageExcludingSelfInCsvStats(
-      question: QuestionOutput, statsCalculation: NumScaleQuestionStatisticsCalculation): boolean {
+    question: QuestionOutput,
+    statsCalculation: NumScaleQuestionStatisticsCalculation,
+  ): boolean {
     if (question.feedbackQuestion.recipientType === FeedbackParticipantType.NONE) {
       // General recipient type would not give self response
       // Therefore average exclude self response will always be hidden
@@ -79,10 +84,9 @@ export class FeedbackNumericalScaleQuestionDetailsImpl extends AbstractFeedbackQ
     }
 
     // There should exist at least one average score exclude self
-    return Object.values(statsCalculation.teamToRecipientToScores)
-        .some((recipientStats: Record<string, any>) => Object.values(recipientStats)
-            .some((stats: any) => stats.averageExcludingSelf));
-
+    return Object.values(statsCalculation.teamToRecipientToScores).some((recipientStats: Record<string, any>) =>
+      Object.values(recipientStats).some((stats: any) => stats.averageExcludingSelf),
+    );
   }
 
   isParticipantCommentsOnResponsesAllowed(): boolean {

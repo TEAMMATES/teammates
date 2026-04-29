@@ -40,8 +40,7 @@ describe('UserJoinPageComponent', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
       ],
-    })
-        .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -108,39 +107,38 @@ describe('UserJoinPageComponent', () => {
 
   it('should show error message if 4xx is returned when joining course', () => {
     const errorMessage = '404 ERROR';
-    jest.spyOn(courseService, 'joinCourse').mockReturnValue(throwError(() => ({
-      error: {
-        message: errorMessage,
-      },
-      status: 404,
-    })));
+    jest.spyOn(courseService, 'joinCourse').mockReturnValue(
+      throwError(() => ({
+        error: {
+          message: errorMessage,
+        },
+        status: 404,
+      })),
+    );
 
-    const modalSpy = jest
-        .spyOn(simpleModalService, 'openInformationModal')
-        .mockReturnValue(createMockNgbModalRef());
+    const modalSpy = jest.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
 
     component.joinCourse();
 
     expect(modalSpy).toHaveBeenCalledTimes(1);
-    expect(modalSpy).toHaveBeenCalledWith('ERROR',
-        SimpleModalType.DANGER, errorMessage);
+    expect(modalSpy).toHaveBeenCalledWith('ERROR', SimpleModalType.DANGER, errorMessage);
   });
 
   it('should show error message if 5xx is returned when joining course', () => {
     const errorMessage = '502 ERROR';
     const requestId = 'requestId';
-    jest.spyOn(courseService, 'joinCourse').mockReturnValue(throwError(() => ({
-      error: {
-        message: errorMessage,
-        requestId,
-      },
-      status: 502,
-    })));
+    jest.spyOn(courseService, 'joinCourse').mockReturnValue(
+      throwError(() => ({
+        error: {
+          message: errorMessage,
+          requestId,
+        },
+        status: 502,
+      })),
+    );
 
     const mockModalRef = createMockNgbModalRef();
-    const modalSpy = jest
-        .spyOn(ngbModal, 'open')
-        .mockReturnValue(mockModalRef);
+    const modalSpy = jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     component.joinCourse();
 
@@ -173,19 +171,23 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should redirect user to home page if user is logged in and join URL has been used', () => {
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of({
-      user: {
-        id: 'user',
-        isAdmin: false,
-        isInstructor: false,
-        isStudent: false,
-        isMaintainer: false,
-      },
-      masquerade: false,
-    }));
-    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(of({
-      hasJoined: true,
-    }));
+    jest.spyOn(authService, 'getAuthUser').mockReturnValue(
+      of({
+        user: {
+          id: 'user',
+          isAdmin: false,
+          isInstructor: false,
+          isStudent: false,
+          isMaintainer: false,
+        },
+        masquerade: false,
+      }),
+    );
+    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(
+      of({
+        hasJoined: true,
+      }),
+    );
     const navSpy: SpyInstance = jest.spyOn(navService, 'navigateByURL').mockImplementation();
 
     component.ngOnInit();
@@ -197,19 +199,23 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should stop loading and show error message if 404 is returned', () => {
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of({
-      user: {
-        id: 'user',
-        isAdmin: false,
-        isInstructor: false,
-        isStudent: false,
-        isMaintainer: false,
-      },
-      masquerade: false,
-    }));
-    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(throwError(() => ({
-      status: 404,
-    })));
+    jest.spyOn(authService, 'getAuthUser').mockReturnValue(
+      of({
+        user: {
+          id: 'user',
+          isAdmin: false,
+          isInstructor: false,
+          isStudent: false,
+          isMaintainer: false,
+        },
+        masquerade: false,
+      }),
+    );
+    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(
+      throwError(() => ({
+        status: 404,
+      })),
+    );
 
     component.ngOnInit();
 
@@ -218,12 +224,16 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should stop loading and redirect if user is not logged in', () => {
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of({
-      masquerade: false,
-    }));
-    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(of({
-      hasJoined: true,
-    }));
+    jest.spyOn(authService, 'getAuthUser').mockReturnValue(
+      of({
+        masquerade: false,
+      }),
+    );
+    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(
+      of({
+        hasJoined: true,
+      }),
+    );
 
     component.ngOnInit();
 
@@ -240,7 +250,7 @@ describe('UserJoinPageComponent creating account', () => {
   let courseService: CourseService;
   let timezoneService: TimezoneService;
 
-  beforeEach((() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         provideRouter([]),
@@ -257,7 +267,7 @@ describe('UserJoinPageComponent creating account', () => {
         provideHttpClientTesting(),
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UserJoinPageComponent);
@@ -279,9 +289,11 @@ describe('UserJoinPageComponent creating account', () => {
     component.entityType = 'instructor';
     component.validUrl = true;
 
-    const accountSpy: SpyInstance = jest.spyOn(accountService, 'createAccount').mockReturnValue(of({
-      message: 'test message',
-    }));
+    const accountSpy: SpyInstance = jest.spyOn(accountService, 'createAccount').mockReturnValue(
+      of({
+        message: 'test message',
+      }),
+    );
     const navSpy: SpyInstance = jest.spyOn(navService, 'navigateByURL').mockImplementation();
     jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('UTC');
 
@@ -297,19 +309,23 @@ describe('UserJoinPageComponent creating account', () => {
   });
 
   it('should redirect user to home page if user is logged in and URL has been used', () => {
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of({
-      user: {
-        id: 'user',
-        isAdmin: false,
-        isInstructor: false,
-        isStudent: false,
-        isMaintainer: false,
-      },
-      masquerade: false,
-    }));
-    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(of({
-      hasJoined: true,
-    }));
+    jest.spyOn(authService, 'getAuthUser').mockReturnValue(
+      of({
+        user: {
+          id: 'user',
+          isAdmin: false,
+          isInstructor: false,
+          isStudent: false,
+          isMaintainer: false,
+        },
+        masquerade: false,
+      }),
+    );
+    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(
+      of({
+        hasJoined: true,
+      }),
+    );
     const navSpy: SpyInstance = jest.spyOn(navService, 'navigateByURL').mockImplementation();
 
     component.ngOnInit();
@@ -321,19 +337,23 @@ describe('UserJoinPageComponent creating account', () => {
   });
 
   it('should stop loading and show error message if 404 is returned when creating new account', () => {
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of({
-      user: {
-        id: 'user',
-        isAdmin: false,
-        isInstructor: false,
-        isStudent: false,
-        isMaintainer: false,
-      },
-      masquerade: false,
-    }));
-    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(throwError(() => ({
-      status: 404,
-    })));
+    jest.spyOn(authService, 'getAuthUser').mockReturnValue(
+      of({
+        user: {
+          id: 'user',
+          isAdmin: false,
+          isInstructor: false,
+          isStudent: false,
+          isMaintainer: false,
+        },
+        masquerade: false,
+      }),
+    );
+    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(
+      throwError(() => ({
+        status: 404,
+      })),
+    );
 
     component.ngOnInit();
 

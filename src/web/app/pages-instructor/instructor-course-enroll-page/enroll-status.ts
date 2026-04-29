@@ -2,7 +2,6 @@
  * Represents the status of enrolling a student.
  */
 export enum EnrollStatus {
-
   /**
    * There are some exceptions thrown when enrolling the student.
    */

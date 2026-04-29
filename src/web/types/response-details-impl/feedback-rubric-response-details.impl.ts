@@ -1,17 +1,15 @@
 import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
 import { StringHelper } from '../../services/string-helper';
-import {
-  FeedbackQuestionType, FeedbackRubricQuestionDetails,
-  FeedbackRubricResponseDetails,
-} from '../api-output';
+import { FeedbackQuestionType, FeedbackRubricQuestionDetails, FeedbackRubricResponseDetails } from '../api-output';
 import { RUBRIC_ANSWER_NOT_CHOSEN } from '../feedback-response-details';
 
 /**
  * Concrete implementation of {@link FeedbackRubricResponseDetails}.
  */
-export class FeedbackRubricResponseDetailsImpl extends AbstractFeedbackResponseDetails<FeedbackRubricQuestionDetails>
-    implements FeedbackRubricResponseDetails {
-
+export class FeedbackRubricResponseDetailsImpl
+  extends AbstractFeedbackResponseDetails<FeedbackRubricQuestionDetails>
+  implements FeedbackRubricResponseDetails
+{
   answer: number[] = [];
   questionType: FeedbackQuestionType = FeedbackQuestionType.RUBRIC;
 
@@ -42,5 +40,4 @@ export class FeedbackRubricResponseDetailsImpl extends AbstractFeedbackResponseD
 
     return answers;
   }
-
 }

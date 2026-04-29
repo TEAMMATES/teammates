@@ -3,10 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ContributionPointDescriptionPipe } from './contribution-point-description.pipe';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
-import {
-  FeedbackContributionQuestionDetails,
-  FeedbackContributionResponseDetails,
-} from '../../../../types/api-output';
+import { FeedbackContributionQuestionDetails, FeedbackContributionResponseDetails } from '../../../../types/api-output';
 import {
   DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
   DEFAULT_CONTRIBUTION_RESPONSE_DETAILS,
@@ -23,16 +20,12 @@ import {
   selector: 'tm-contribution-question-edit-answer-form',
   templateUrl: './contribution-question-edit-answer-form.component.html',
   styleUrls: ['./contribution-question-edit-answer-form.component.scss'],
-  imports: [
-    FormsModule,
-    NgClass,
-    ContributionPointDescriptionPipe,
-],
+  imports: [FormsModule, NgClass, ContributionPointDescriptionPipe],
 })
-export class ContributionQuestionEditAnswerFormComponent
-    extends QuestionEditAnswerFormComponent
-        <FeedbackContributionQuestionDetails, FeedbackContributionResponseDetails> {
-
+export class ContributionQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent<
+  FeedbackContributionQuestionDetails,
+  FeedbackContributionResponseDetails
+> {
   CONTRIBUTION_POINT_NOT_SUBMITTED: number = CONTRIBUTION_POINT_NOT_SUBMITTED;
   CONTRIBUTION_POINT_NOT_SURE: number = CONTRIBUTION_POINT_NOT_SURE;
 

@@ -22,8 +22,7 @@ describe('InstructorStudentRecordsPageComponent', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
       ],
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -56,5 +55,4 @@ describe('InstructorStudentRecordsPageComponent', () => {
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
-
 });

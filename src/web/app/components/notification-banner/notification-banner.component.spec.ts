@@ -42,12 +42,8 @@ describe('NotificationBannerComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      providers: [provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -66,9 +62,11 @@ describe('NotificationBannerComponent', () => {
   });
 
   it('should load data correctly', () => {
-    const spy = jest.spyOn(notificationService, 'getUnreadNotificationsForTargetUser').mockReturnValue(of({
-      notifications: [testNotificationOne, testNotificationTwo],
-    }));
+    const spy = jest.spyOn(notificationService, 'getUnreadNotificationsForTargetUser').mockReturnValue(
+      of({
+        notifications: [testNotificationOne, testNotificationTwo],
+      }),
+    );
     component.ngOnInit();
     expect(spy).toHaveBeenCalledTimes(1);
     expect(component.notifications).toEqual([testNotificationOne, testNotificationTwo]);
@@ -85,14 +83,16 @@ describe('NotificationBannerComponent', () => {
   });
 
   it('should close after clicking mark as read when no more unread notifications remain', () => {
-    const apiSpy: SpyInstance = jest.spyOn(notificationService, 'markNotificationAsRead')
+    const apiSpy: SpyInstance = jest
+      .spyOn(notificationService, 'markNotificationAsRead')
       .mockImplementation((request: MarkNotificationAsReadRequest) => {
         expect(request.notificationId).toEqual(testNotificationOne.notificationId);
         return of({
           readNotifications: [request.notificationId],
         });
       });
-    const messageSpy: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
+    const messageSpy: SpyInstance = jest
+      .spyOn(statusMessageService, 'showSuccessToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('Notification marked as read.');
       });
@@ -109,14 +109,16 @@ describe('NotificationBannerComponent', () => {
   });
 
   it('should show next unread notification after clicking mark as read', () => {
-    const apiSpy: SpyInstance = jest.spyOn(notificationService, 'markNotificationAsRead')
+    const apiSpy: SpyInstance = jest
+      .spyOn(notificationService, 'markNotificationAsRead')
       .mockImplementation((request: MarkNotificationAsReadRequest) => {
         expect(request.notificationId).toEqual(testNotificationOne.notificationId);
         return of({
           readNotifications: [request.notificationId],
         });
       });
-    const messageSpy: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
+    const messageSpy: SpyInstance = jest
+      .spyOn(statusMessageService, 'showSuccessToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('Notification marked as read.');
       });

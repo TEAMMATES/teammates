@@ -7,13 +7,16 @@ import { FeedbackSessionSubmissionStatus } from '../../../types/api-output';
  */
 @Pipe({ name: 'submissionStatusName' })
 export class SubmissionStatusNamePipe implements PipeTransform {
-
   /**
    * Transforms {@link FeedbackSessionSubmissionStatus} to a simple name.
    */
-  transform(status: FeedbackSessionSubmissionStatus, deadlines?: {
-    studentDeadlines: Record<string, number>, instructorDeadlines: Record<string, number>,
-  }): string {
+  transform(
+    status: FeedbackSessionSubmissionStatus,
+    deadlines?: {
+      studentDeadlines: Record<string, number>;
+      instructorDeadlines: Record<string, number>;
+    },
+  ): string {
     let string = '';
     switch (status) {
       case FeedbackSessionSubmissionStatus.NOT_VISIBLE:

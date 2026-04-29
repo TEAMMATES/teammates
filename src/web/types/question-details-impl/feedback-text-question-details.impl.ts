@@ -1,15 +1,13 @@
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
-import {
-  FeedbackQuestionType,
-  FeedbackTextQuestionDetails,
-} from '../api-output';
+import { FeedbackQuestionType, FeedbackTextQuestionDetails } from '../api-output';
 
 /**
  * Concrete implementation of {@link FeedbackTextQuestionDetails}.
  */
-export class FeedbackTextQuestionDetailsImpl extends AbstractFeedbackQuestionDetails
-    implements FeedbackTextQuestionDetails {
-
+export class FeedbackTextQuestionDetailsImpl
+  extends AbstractFeedbackQuestionDetails
+  implements FeedbackTextQuestionDetails
+{
   recommendedLength?: number;
   questionText = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.TEXT;

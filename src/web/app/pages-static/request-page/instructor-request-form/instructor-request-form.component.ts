@@ -15,16 +15,9 @@ import { ErrorMessageOutput } from '../../../error-message-output';
   selector: 'tm-instructor-request-form',
   templateUrl: './instructor-request-form.component.html',
   styleUrls: ['./instructor-request-form.component.scss'],
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    NgxCaptchaModule,
-    NgbAlert,
-    TeammatesRouterDirective,
-],
+  imports: [FormsModule, ReactiveFormsModule, NgxCaptchaModule, NgbAlert, TeammatesRouterDirective],
 })
 export class InstructorRequestFormComponent {
-
   constructor(private accountService: AccountService) {}
 
   // Create members to be accessed in template
@@ -40,30 +33,33 @@ export class InstructorRequestFormComponent {
   size: 'compact' | 'normal' = 'normal';
   lang = 'en';
 
-  arf = new FormGroup({
-    name: new FormControl('', [
-      Validators.required,
-      Validators.maxLength(FormValidator.STUDENT_NAME_MAX_LENGTH),
-      Validators.pattern(FormValidator.NAME_REGEX),
-    ]),
-    institution: new FormControl('', [
-      Validators.required,
-      Validators.maxLength(FormValidator.INSTITUTION_NAME_MAX_LENGTH),
-      Validators.pattern(FormValidator.NAME_REGEX),
-    ]),
-    country: new FormControl('', [
-      Validators.required,
-      Validators.maxLength(FormValidator.COUNTRY_NAME_MAX_LENGTH),
-      Validators.pattern(FormValidator.NAME_REGEX),
-    ]),
-    email: new FormControl('', [
-      Validators.required,
-      Validators.pattern(FormValidator.EMAIL_REGEX),
-      Validators.maxLength(FormValidator.EMAIL_MAX_LENGTH),
-    ]),
-    comments: new FormControl(''),
-    recaptcha: new FormControl(''),
-  }, { updateOn: 'submit' });
+  arf = new FormGroup(
+    {
+      name: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(FormValidator.STUDENT_NAME_MAX_LENGTH),
+        Validators.pattern(FormValidator.NAME_REGEX),
+      ]),
+      institution: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(FormValidator.INSTITUTION_NAME_MAX_LENGTH),
+        Validators.pattern(FormValidator.NAME_REGEX),
+      ]),
+      country: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(FormValidator.COUNTRY_NAME_MAX_LENGTH),
+        Validators.pattern(FormValidator.NAME_REGEX),
+      ]),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.pattern(FormValidator.EMAIL_REGEX),
+        Validators.maxLength(FormValidator.EMAIL_MAX_LENGTH),
+      ]),
+      comments: new FormControl(''),
+      recaptcha: new FormControl(''),
+    },
+    { updateOn: 'submit' },
+  );
 
   // Create members for easier access of arf controls
   name = this.arf.controls.name;
@@ -219,8 +215,13 @@ export class InstructorRequestFormComponent {
       requestData.instructorComments = comments;
     }
 
-    this.accountService.createAccountRequest(requestData)
-      .pipe(finalize(() => { this.isLoading = false; }))
+    this.accountService
+      .createAccountRequest(requestData)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        }),
+      )
       .subscribe({
         next: () => {
           // Pass form input to parent to display confirmation

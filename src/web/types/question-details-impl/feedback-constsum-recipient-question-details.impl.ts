@@ -1,19 +1,19 @@
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
-import {
-  ConstsumRecipientsQuestionStatisticsCalculation,
-} from '../../app/components/question-types/question-statistics/question-statistics-calculation/constsum-recipients-question-statistics-calculation';
+import { ConstsumRecipientsQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/constsum-recipients-question-statistics-calculation';
 import {
   FeedbackConstantSumDistributePointsType,
   FeedbackConstantSumQuestionDetails,
-  FeedbackQuestionType, QuestionOutput,
+  FeedbackQuestionType,
+  QuestionOutput,
 } from '../api-output';
 
 /**
  * Concrete implementation of {@link FeedbackConstantSumQuestionDetails}.
  */
-export class FeedbackConstantSumRecipientsQuestionDetailsImpl extends AbstractFeedbackQuestionDetails
-    implements FeedbackConstantSumQuestionDetails {
-
+export class FeedbackConstantSumRecipientsQuestionDetailsImpl
+  extends AbstractFeedbackQuestionDetails
+  implements FeedbackConstantSumQuestionDetails
+{
   constSumOptions: string[] = [];
   distributeToRecipients = true;
   pointsPerOption = false;
@@ -41,7 +41,7 @@ export class FeedbackConstantSumRecipientsQuestionDetailsImpl extends AbstractFe
     const statsRows: string[][] = [];
 
     const statsCalculation: ConstsumRecipientsQuestionStatisticsCalculation =
-        new ConstsumRecipientsQuestionStatisticsCalculation(this);
+      new ConstsumRecipientsQuestionStatisticsCalculation(this);
     this.populateQuestionStatistics(statsCalculation, question);
     if (statsCalculation.responses.length === 0) {
       // skip stats for no response
@@ -51,16 +51,18 @@ export class FeedbackConstantSumRecipientsQuestionDetailsImpl extends AbstractFe
 
     statsRows.push(['Team', 'Recipient', 'Recipient Email', 'Total Points', 'Average Points', 'Points Received']);
 
-    Object.keys(statsCalculation.pointsPerOption).sort().forEach((recipient: string) => {
-      statsRows.push([
-        statsCalculation.emailToTeamName[recipient],
-        statsCalculation.emailToName[recipient],
-        recipient,
-        String(statsCalculation.totalPointsPerOption[recipient]),
-        String(statsCalculation.averagePointsPerOption[recipient]),
-        ...statsCalculation.pointsPerOption[recipient].map(String),
-      ]);
-    });
+    Object.keys(statsCalculation.pointsPerOption)
+      .sort()
+      .forEach((recipient: string) => {
+        statsRows.push([
+          statsCalculation.emailToTeamName[recipient],
+          statsCalculation.emailToName[recipient],
+          recipient,
+          String(statsCalculation.totalPointsPerOption[recipient]),
+          String(statsCalculation.averagePointsPerOption[recipient]),
+          ...statsCalculation.pointsPerOption[recipient].map(String),
+        ]);
+      });
 
     return statsRows;
   }

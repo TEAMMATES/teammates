@@ -6,7 +6,6 @@ import { FeedbackParticipantType } from '../../../types/api-output';
  */
 @Pipe({ name: 'giverTypeDescription' })
 export class GiverTypeDescriptionPipe implements PipeTransform {
-
   /**
    * Transforms {@link FeedbackParticipantType} to a simple description from giver's perspective.
    */
@@ -24,7 +23,6 @@ export class GiverTypeDescriptionPipe implements PipeTransform {
         return 'Unknown';
     }
   }
-
 }
 
 /**
@@ -32,7 +30,6 @@ export class GiverTypeDescriptionPipe implements PipeTransform {
  */
 @Pipe({ name: 'recipientTypeDescription' })
 export class RecipientTypeDescriptionPipe implements PipeTransform {
-
   /**
    * Transforms {@link FeedbackParticipantType} to a simple description from recipient's perspective.
    */
@@ -66,7 +63,6 @@ export class RecipientTypeDescriptionPipe implements PipeTransform {
         return 'Unknown';
     }
   }
-
 }
 
 /**
@@ -74,7 +70,6 @@ export class RecipientTypeDescriptionPipe implements PipeTransform {
  */
 @Pipe({ name: 'recipientTypeSimplifiedDescription' })
 export class RecipientTypeSimplifiedDescriptionPipe implements PipeTransform {
-
   /**
    * Transforms {@link FeedbackParticipantType} to a simple description from recipient's perspective.
    */
@@ -94,5 +89,4 @@ export class RecipientTypeSimplifiedDescriptionPipe implements PipeTransform {
         return 'Unknown';
     }
   }
-
 }

@@ -1,19 +1,19 @@
 import { AbstractFeedbackMcqMsqQuestionDetails } from './abstract-feedback-mcq-msq-question-details';
-import {
-  McqQuestionStatisticsCalculation,
-} from '../../app/components/question-types/question-statistics/question-statistics-calculation/mcq-question-statistics-calculation';
+import { McqQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/mcq-question-statistics-calculation';
 import {
   FeedbackMcqQuestionDetails,
   FeedbackParticipantType,
-  FeedbackQuestionType, QuestionOutput,
+  FeedbackQuestionType,
+  QuestionOutput,
 } from '../api-output';
 
 /**
  * Concrete implementation of {@link FeedbackMcqQuestionDetails}.
  */
-export class FeedbackMcqQuestionDetailsImpl extends AbstractFeedbackMcqMsqQuestionDetails
-    implements FeedbackMcqQuestionDetails {
-
+export class FeedbackMcqQuestionDetailsImpl
+  extends AbstractFeedbackMcqMsqQuestionDetails
+  implements FeedbackMcqQuestionDetails
+{
   hasAssignedWeights = false;
   mcqWeights: number[] = [];
   mcqOtherWeight = 0;

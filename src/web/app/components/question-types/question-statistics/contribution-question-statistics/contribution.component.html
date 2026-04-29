@@ -10,8 +10,12 @@
       <span class="negative">{{ value }}%</span>
     }
     @if (value === CONTRIBUTION_POINT_NOT_SUBMITTED || value === CONTRIBUTION_POINT_NOT_INITIALIZED) {
-      <span class="ngb-tooltip-class neutral" container="body" ngbTooltip="Not Available: There is no data for this or the data is not enough"
-      >N/A</span>
+      <span
+        class="ngb-tooltip-class neutral"
+        container="body"
+        ngbTooltip="Not Available: There is no data for this or the data is not enough"
+        >N/A</span
+      >
     }
   </span>
 }
@@ -27,8 +31,12 @@
       <span class="negative">E -{{ 100 - value }}%</span>
     }
     @if (value === CONTRIBUTION_POINT_NOT_SUBMITTED || value === CONTRIBUTION_POINT_NOT_INITIALIZED) {
-      <span class="ngb-tooltip-class neutral" container="body" ngbTooltip="Not Available: There is no data for this or the data is not enough"
-      >N/A</span>
+      <span
+        class="ngb-tooltip-class neutral"
+        container="body"
+        ngbTooltip="Not Available: There is no data for this or the data is not enough"
+        >N/A</span
+      >
     }
   </span>
 }

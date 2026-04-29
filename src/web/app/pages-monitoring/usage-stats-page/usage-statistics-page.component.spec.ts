@@ -34,12 +34,8 @@ describe('UsageStatisticsPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      providers: [provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -68,31 +64,36 @@ describe('UsageStatisticsPageComponent', () => {
       aggregationType: AggregationType.HOURLY,
     };
 
-    const statsObjects: UsageStatistics[] = [{
-      startTime: new Date('2022-03-27T23:00:00Z').getTime(),
-      timePeriod: 60,
-      numResponses: 100,
-      numCourses: 3,
-      numStudents: 2,
-      numInstructors: 2,
-      numAccountRequests: 1,
-      numEmails: 50,
-      numSubmissions: 99,
-    }, {
-      startTime: new Date('2022-03-28T00:00:00Z').getTime(),
-      timePeriod: 60,
-      numResponses: 400,
-      numCourses: 1,
-      numStudents: 1,
-      numInstructors: 5,
-      numAccountRequests: 2,
-      numEmails: 61,
-      numSubmissions: 71,
-    }];
+    const statsObjects: UsageStatistics[] = [
+      {
+        startTime: new Date('2022-03-27T23:00:00Z').getTime(),
+        timePeriod: 60,
+        numResponses: 100,
+        numCourses: 3,
+        numStudents: 2,
+        numInstructors: 2,
+        numAccountRequests: 1,
+        numEmails: 50,
+        numSubmissions: 99,
+      },
+      {
+        startTime: new Date('2022-03-28T00:00:00Z').getTime(),
+        timePeriod: 60,
+        numResponses: 400,
+        numCourses: 1,
+        numStudents: 1,
+        numInstructors: 5,
+        numAccountRequests: 2,
+        numEmails: 61,
+        numSubmissions: 71,
+      },
+    ];
 
-    const spy = jest.spyOn(usageStatisticsService, 'getUsageStatistics').mockReturnValue(of({
-      result: statsObjects,
-    }));
+    const spy = jest.spyOn(usageStatisticsService, 'getUsageStatistics').mockReturnValue(
+      of({
+        result: statsObjects,
+      }),
+    );
 
     fixture.detectChanges();
 
@@ -120,10 +121,12 @@ describe('UsageStatisticsPageComponent', () => {
     component.drawLineChart();
 
     expect(component.itemName).toEqual('responses');
-    expect(component.dataToDraw).toEqual(generatedData.map((us: UsageStatistics) => ({
-      value: us.numResponses,
-      date: new Date(us.startTime).toISOString(),
-    })));
+    expect(component.dataToDraw).toEqual(
+      generatedData.map((us: UsageStatistics) => ({
+        value: us.numResponses,
+        date: new Date(us.startTime).toISOString(),
+      })),
+    );
   });
 
   it('should aggregate data by day correctly', () => {
@@ -214,5 +217,4 @@ describe('UsageStatisticsPageComponent', () => {
     expect(component.itemName).toEqual('courses');
     expect(component.dataToDraw.length).toEqual(144);
   });
-
 });

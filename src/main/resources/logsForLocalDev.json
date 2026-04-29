@@ -4,9 +4,7 @@
     "details": {
       "message": "UnsupportedOperationException caught by WebApiServlet",
       "event": "EXCEPTION_LOG",
-      "exceptionMessages": [
-        "remove"
-      ],
+      "exceptionMessages": ["remove"],
       "exceptionStackTraces": [
         [
           "java.base/java.util.Iterator.remove(Iterator.java:102)",
@@ -20,9 +18,7 @@
         ]
       ],
       "exceptionClass": "UnsupportedOperationException",
-      "exceptionClasses": [
-        "java.lang.UnsupportedOperationException"
-      ],
+      "exceptionClasses": ["java.lang.UnsupportedOperationException"],
       "loggerSourceLocation": {
         "file": "teammates.ui.webapi.WebApiServlet",
         "line": "97",
@@ -49,9 +45,7 @@
     "details": {
       "message": "UnsupportedOperationException caught by WebApiServlet",
       "event": "EXCEPTION_LOG",
-      "exceptionMessages": [
-        "remove"
-      ],
+      "exceptionMessages": ["remove"],
       "exceptionStackTraces": [
         [
           "java.base/java.util.Iterator.remove(Iterator.java:102)",
@@ -65,9 +59,7 @@
         ]
       ],
       "exceptionClass": "UnsupportedOperationException",
-      "exceptionClasses": [
-        "java.lang.UnsupportedOperationException"
-      ],
+      "exceptionClasses": ["java.lang.UnsupportedOperationException"],
       "loggerSourceLocation": {
         "file": "teammates.ui.webapi.WebApiServlet",
         "line": "97",
@@ -94,9 +86,7 @@
     "details": {
       "message": "NullPointerException caught by WebApiServlet",
       "event": "EXCEPTION_LOG",
-      "exceptionMessages": [
-        ""
-      ],
+      "exceptionMessages": [""],
       "exceptionStackTraces": [
         [
           "teammates.logic.core.GoogleCloudLoggingService.getLogEntries(GoogleCloudLoggingService.java:304)",
@@ -112,9 +102,7 @@
         ]
       ],
       "exceptionClass": "NullPointerException",
-      "exceptionClasses": [
-        "java.lang.NullPointerException"
-      ],
+      "exceptionClasses": ["java.lang.NullPointerException"],
       "loggerSourceLocation": {
         "file": "teammates.ui.webapi.WebApiServlet",
         "line": "97",
@@ -141,9 +129,7 @@
     "details": {
       "message": "NullPointerException caught by WebApiServlet",
       "event": "EXCEPTION_LOG",
-      "exceptionMessages": [
-        ""
-      ],
+      "exceptionMessages": [""],
       "exceptionStackTraces": [
         [
           "teammates.logic.core.GoogleCloudLoggingService.getLogEntries(GoogleCloudLoggingService.java:304)",
@@ -159,9 +145,7 @@
         ]
       ],
       "exceptionClass": "NullPointerException",
-      "exceptionClasses": [
-        "java.lang.NullPointerException"
-      ],
+      "exceptionClasses": ["java.lang.NullPointerException"],
       "loggerSourceLocation": {
         "file": "teammates.ui.webapi.WebApiServlet",
         "line": "97",
@@ -188,9 +172,7 @@
     "details": {
       "message": "NullPointerException caught by WebApiServlet",
       "event": "EXCEPTION_LOG",
-      "exceptionMessages": [
-        ""
-      ],
+      "exceptionMessages": [""],
       "exceptionStackTraces": [
         [
           "teammates.logic.core.GoogleCloudLoggingService.getLogEntries(GoogleCloudLoggingService.java:304)",
@@ -206,9 +188,7 @@
         ]
       ],
       "exceptionClass": "NullPointerException",
-      "exceptionClasses": [
-        "java.lang.NullPointerException"
-      ],
+      "exceptionClasses": ["java.lang.NullPointerException"],
       "loggerSourceLocation": {
         "file": "teammates.ui.webapi.WebApiServlet",
         "line": "97",
@@ -235,9 +215,7 @@
     "details": {
       "message": "ActionMappingException caught by WebApiServlet",
       "event": "EXCEPTION_LOG",
-      "exceptionMessages": [
-        "Resource with URI /webapi/actionclass is not found."
-      ],
+      "exceptionMessages": ["Resource with URI /webapi/actionclass is not found."],
       "exceptionStackTraces": [
         [
           "teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:168)",
@@ -251,9 +229,7 @@
         ]
       ],
       "exceptionClass": "ActionMappingException",
-      "exceptionClasses": [
-        "teammates.common.exception.ActionMappingException"
-      ],
+      "exceptionClasses": ["teammates.common.exception.ActionMappingException"],
       "loggerSourceLocation": {
         "file": "teammates.ui.webapi.WebApiServlet",
         "line": "141",
@@ -280,9 +256,7 @@
     "details": {
       "message": "ActionMappingException caught by WebApiServlet",
       "event": "EXCEPTION_LOG",
-      "exceptionMessages": [
-        "Resource with URI /webapi/actionclass is not found."
-      ],
+      "exceptionMessages": ["Resource with URI /webapi/actionclass is not found."],
       "exceptionStackTraces": [
         [
           "teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:168)",
@@ -296,9 +270,7 @@
         ]
       ],
       "exceptionClass": "ActionMappingException",
-      "exceptionClasses": [
-        "teammates.common.exception.ActionMappingException"
-      ],
+      "exceptionClasses": ["teammates.common.exception.ActionMappingException"],
       "loggerSourceLocation": {
         "file": "teammates.ui.webapi.WebApiServlet",
         "line": "141",

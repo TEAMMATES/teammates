@@ -180,7 +180,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               id="instructors"
             >
               <div>
-                 Co-owner: Hodor (hodor@gmail.com) 
+                Co-owner: Hodor (hodor@gmail.com)
               </div>
             </div>
           </div>
@@ -343,7 +343,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               id="instructors"
             >
               <div>
-                 Co-owner: Bran (bran@gmail.com) 
+                Co-owner: Bran (bran@gmail.com)
               </div>
             </div>
           </div>

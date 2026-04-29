@@ -83,7 +83,7 @@ exports[`InstructorRequestFormComponent should render correctly 1`] = `
       <p
         class="help-block"
       >
-         Please give full name of the university/institution. 
+        Please give full name of the university/institution.
       </p>
       <input
         aria-invalid="true"
@@ -116,7 +116,7 @@ exports[`InstructorRequestFormComponent should render correctly 1`] = `
       <p
         class="help-block"
       >
-         Which country is your university/institution based in? 
+        Which country is your university/institution based in?
       </p>
       <input
         aria-invalid="true"

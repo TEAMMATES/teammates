@@ -1,27 +1,20 @@
 import { Component } from '@angular/core';
 import { QuestionConstraintComponent } from './question-constraint.component';
-import {
-  FeedbackContributionQuestionDetails,
-  FeedbackContributionResponseDetails,
-} from '../../../../types/api-output';
+import { FeedbackContributionQuestionDetails, FeedbackContributionResponseDetails } from '../../../../types/api-output';
 import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { CONTRIBUTION_POINT_NOT_SUBMITTED } from '../../../../types/feedback-response-details';
-import {
-  FeedbackResponseRecipientSubmissionFormModel,
-} from '../../question-submission-form/question-submission-form-model';
+import { FeedbackResponseRecipientSubmissionFormModel } from '../../question-submission-form/question-submission-form-model';
 
 /**
  * Constraint of contribution question.
  */
 @Component({
-    selector: 'tm-contribution-question-constraint',
-    templateUrl: './contribution-question-constraint.component.html',
-    styleUrls: ['./contribution-question-constraint.component.scss'],
-    imports: [],
+  selector: 'tm-contribution-question-constraint',
+  templateUrl: './contribution-question-constraint.component.html',
+  styleUrls: ['./contribution-question-constraint.component.scss'],
+  imports: [],
 })
-export class ContributionQuestionConstraintComponent
-  extends QuestionConstraintComponent<FeedbackContributionQuestionDetails> {
-
+export class ContributionQuestionConstraintComponent extends QuestionConstraintComponent<FeedbackContributionQuestionDetails> {
   constructor() {
     super(DEFAULT_CONTRIBUTION_QUESTION_DETAILS());
   }
@@ -92,9 +85,12 @@ export class ContributionQuestionConstraintComponent
   }
 
   override get isValid(): boolean {
-    return !this.questionDetails.isZeroSum || !this.questionDetails.isNotSureAllowed
-      || this.isAllFormsNotAnswered
-      || (this.isAllFormsAnswered && this.isAllContributionsDistributed);
+    return (
+      !this.questionDetails.isZeroSum ||
+      !this.questionDetails.isNotSureAllowed ||
+      this.isAllFormsNotAnswered ||
+      (this.isAllFormsAnswered && this.isAllContributionsDistributed)
+    );
   }
 
   get currentTotalString(): string {
@@ -103,7 +99,7 @@ export class ContributionQuestionConstraintComponent
     }
 
     if (this.totalAnsweredContributions / 100 < 1) {
-      return `1 x Equal Share - ${100 - this.totalAnsweredContributions % 100}%`;
+      return `1 x Equal Share - ${100 - (this.totalAnsweredContributions % 100)}%`;
     }
 
     const membersCount = this.totalRequiredContributions / 100;
@@ -125,5 +121,4 @@ export class ContributionQuestionConstraintComponent
   get expectedTotalString(): string {
     return `${this.totalRequiredContributions / 100} x Equal Share`;
   }
-
 }

@@ -6,7 +6,6 @@ import { TimezoneService } from '../../../services/timezone.service';
  */
 @Pipe({ name: 'recycleBinTableFormatDate' })
 export class RecycleBinTableFormatDatePipe implements PipeTransform {
-
   constructor(private timezoneService: TimezoneService) {}
 
   /**
@@ -15,5 +14,4 @@ export class RecycleBinTableFormatDatePipe implements PipeTransform {
   transform(timestamp: number, timeZone: string): string {
     return this.timezoneService.formatToString(timestamp, timeZone, 'DD MMM, YYYY');
   }
-
 }

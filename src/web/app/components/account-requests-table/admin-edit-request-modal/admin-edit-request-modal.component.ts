@@ -7,11 +7,10 @@ import { castAsInputElement, castAsTextAreaElement } from '../../../../types/eve
  * Modal to select reject account requests with reason.
  */
 @Component({
-    selector: 'tm-edit-request-modal',
-    templateUrl: './admin-edit-request-modal.component.html',
-    styleUrls: ['./admin-edit-request-modal.component.scss'],
+  selector: 'tm-edit-request-modal',
+  templateUrl: './admin-edit-request-modal.component.html',
+  styleUrls: ['./admin-edit-request-modal.component.scss'],
 })
-
 export class EditRequestModalComponent {
   readonly castAsInputElement = castAsInputElement;
   readonly castAsTextAreaElement = castAsTextAreaElement;
@@ -31,13 +30,13 @@ export class EditRequestModalComponent {
    * Fires the edit event.
    */
   edit(): void {
-      const result: EditRequestModalComponentResult = {
-        accountRequestName: this.accountRequestName,
-        accountRequestEmail: this.accountRequestEmail,
-        accountRequestInstitution: this.accountRequestInstitution,
-        accountRequestComment: this.accountRequestComments,
-      };
+    const result: EditRequestModalComponentResult = {
+      accountRequestName: this.accountRequestName,
+      accountRequestEmail: this.accountRequestEmail,
+      accountRequestInstitution: this.accountRequestInstitution,
+      accountRequestComment: this.accountRequestComments,
+    };
 
-      this.activeModal.close(result);
+    this.activeModal.close(result);
   }
 }

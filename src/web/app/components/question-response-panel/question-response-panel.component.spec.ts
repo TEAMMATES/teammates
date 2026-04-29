@@ -9,21 +9,30 @@ import { FeedbackSessionsService } from '../../../services/feedback-sessions.ser
 import { StatusMessageService } from '../../../services/status-message.service';
 import {
   FeedbackContributionQuestionDetails,
-  FeedbackContributionResponseDetails, FeedbackMcqQuestionDetails,
-  FeedbackMcqResponseDetails, FeedbackParticipantType,
-  FeedbackQuestion, FeedbackQuestionType,
-  FeedbackRubricQuestionDetails, FeedbackRubricResponseDetails,
-  FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
-  FeedbackTextQuestionDetails, FeedbackTextResponseDetails, FeedbackVisibilityType,
-  NumberOfEntitiesToGiveFeedbackToSetting, ResponseVisibleSetting,
-  SessionResults, SessionVisibleSetting,
+  FeedbackContributionResponseDetails,
+  FeedbackMcqQuestionDetails,
+  FeedbackMcqResponseDetails,
+  FeedbackParticipantType,
+  FeedbackQuestion,
+  FeedbackQuestionType,
+  FeedbackRubricQuestionDetails,
+  FeedbackRubricResponseDetails,
+  FeedbackSession,
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus,
+  FeedbackTextQuestionDetails,
+  FeedbackTextResponseDetails,
+  FeedbackVisibilityType,
+  NumberOfEntitiesToGiveFeedbackToSetting,
+  ResponseVisibleSetting,
+  SessionResults,
+  SessionVisibleSetting,
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { FeedbackQuestionModel } from '../../pages-session/session-result-page/feedback-question.model';
 
 describe('QuestionResponsePanelComponent', () => {
-
   const testFeedbackSession: FeedbackSession = {
     feedbackSessionId: 'c64aa0ca-beba-412d-94c3-58134feb6822',
     feedbackSessionName: 'First Session',
@@ -51,11 +60,7 @@ describe('QuestionResponsePanelComponent', () => {
       hasAssignedWeights: false,
       mcqWeights: [],
       mcqOtherWeight: 0,
-      mcqChoices: [
-        '<p>Good</p>',
-        '<p>Normal</p>',
-        '<p>Bad</p>',
-      ],
+      mcqChoices: ['<p>Good</p>', '<p>Normal</p>', '<p>Bad</p>'],
       otherEnabled: false,
       questionDropdownEnabled: false,
       generateOptionsFor: 'NONE',
@@ -139,14 +144,16 @@ describe('QuestionResponsePanelComponent', () => {
   const testQuestionAnonymousResponse1: FeedbackQuestion = {
     feedbackQuestionId: 'feedbackQuestionAnonymousResponse1',
     questionNumber: 1,
-    questionBrief: 'What comments do you have regarding each of your team members? '
-        + '(response is confidential and will only be shown to the instructor).',
+    questionBrief:
+      'What comments do you have regarding each of your team members? ' +
+      '(response is confidential and will only be shown to the instructor).',
     questionDescription: '',
     questionDetails: {
       shouldAllowRichText: true,
       questionType: FeedbackQuestionType.TEXT,
-      questionText: 'What comments do you have regarding each of your team members? '
-          + '(response is confidential and will only be shown to the instructor).',
+      questionText:
+        'What comments do you have regarding each of your team members? ' +
+        '(response is confidential and will only be shown to the instructor).',
     } as FeedbackTextQuestionDetails,
     questionType: FeedbackQuestionType.TEXT,
     giverType: FeedbackParticipantType.STUDENTS,
@@ -161,14 +168,14 @@ describe('QuestionResponsePanelComponent', () => {
   const testQuestionAnonymousResponse2: FeedbackQuestion = {
     feedbackQuestionId: 'feedbackQuestionAnonymousResponse2',
     questionNumber: 2,
-    questionBrief: 'How are the team dynamics thus far? '
-        + '(response is confidential and will only be shown to the instructor).',
+    questionBrief:
+      'How are the team dynamics thus far? ' + '(response is confidential and will only be shown to the instructor).',
     questionDescription: '',
     questionDetails: {
       shouldAllowRichText: true,
       questionType: FeedbackQuestionType.TEXT,
-      questionText: 'How are the team dynamics thus far? '
-          + '(response is confidential and will only be shown to the instructor).',
+      questionText:
+        'How are the team dynamics thus far? ' + '(response is confidential and will only be shown to the instructor).',
     } as FeedbackTextQuestionDetails,
     questionType: FeedbackQuestionType.TEXT,
     giverType: FeedbackParticipantType.STUDENTS,
@@ -201,13 +208,8 @@ describe('QuestionResponsePanelComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -618,8 +620,9 @@ describe('QuestionResponsePanelComponent', () => {
       ],
     };
 
-    const fsSpy: SpyInstance = jest.spyOn(feedbackSessionsService, 'getFeedbackSessionResults')
-        .mockReturnValue(of(testFeedbackSessionResult));
+    const fsSpy: SpyInstance = jest
+      .spyOn(feedbackSessionsService, 'getFeedbackSessionResults')
+      .mockReturnValue(of(testFeedbackSessionResult));
     component.loadQuestion({ visible: true }, testFeedbackQuestionModel);
 
     expect(fsSpy).toHaveBeenCalledTimes(1);
@@ -666,8 +669,8 @@ describe('QuestionResponsePanelComponent', () => {
     const fsSpy: SpyInstance = jest.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
 
     const testQuestionModel: FeedbackQuestionModel = {
-        ...testFeedbackQuestionModel,
-        isLoaded: true,
+      ...testFeedbackQuestionModel,
+      isLoaded: true,
     };
     component.loadQuestionResults(testQuestionModel);
 
@@ -680,9 +683,11 @@ describe('QuestionResponsePanelComponent', () => {
 
     testFeedbackQuestionModel.isLoaded = false;
 
-    fsSpy.mockReturnValue(of({
-      questions: [],
-    } as SessionResults));
+    fsSpy.mockReturnValue(
+      of({
+        questions: [],
+      } as SessionResults),
+    );
 
     component.loadQuestionResults(testFeedbackQuestionModel);
 
@@ -697,23 +702,26 @@ describe('QuestionResponsePanelComponent', () => {
     testFeedbackQuestionModel.isLoaded = false;
     testFeedbackQuestionModel.errorMessage = 'Error occurred';
 
-    fsSpy.mockReturnValue(of({
-      questions: [],
-    } as SessionResults));
+    fsSpy.mockReturnValue(
+      of({
+        questions: [],
+      } as SessionResults),
+    );
 
     component.loadQuestionResults(testFeedbackQuestionModel);
 
     expect(testFeedbackQuestionModel.hasResponse).toBe(false);
     expect(toastSpy).toHaveBeenCalledWith(
-      `Question ${testFeedbackQuestionModel.feedbackQuestion.questionNumber} has no responses.`);
+      `Question ${testFeedbackQuestionModel.feedbackQuestion.questionNumber} has no responses.`,
+    );
   });
 
   it('loadQuestionResults: should handle errors correctly by setting errorMessage and showing a toast', () => {
     const errorMessage = 'An error occurred';
     testFeedbackQuestionModel.isLoaded = false;
-    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionResults').mockReturnValue(
-      throwError(() => ({ error: { message: errorMessage }, status: 400 } as ErrorMessageOutput)),
-    );
+    jest
+      .spyOn(feedbackSessionsService, 'getFeedbackSessionResults')
+      .mockReturnValue(throwError(() => ({ error: { message: errorMessage }, status: 400 }) as ErrorMessageOutput));
     const showErrorToastSpy = jest.spyOn(statusMessageService, 'showErrorToast');
 
     component.loadQuestionResults(testFeedbackQuestionModel);

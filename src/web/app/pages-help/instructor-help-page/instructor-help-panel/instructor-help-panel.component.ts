@@ -13,7 +13,6 @@ import { PanelChevronComponent } from '../../../components/panel-chevron/panel-c
   imports: [PanelChevronComponent, NgbCollapse],
 })
 export class InstructorHelpPanelComponent {
-
   @Input() id = '';
   @Input() section = '';
   @Input() headerText = '';
@@ -30,9 +29,10 @@ export class InstructorHelpPanelComponent {
     this.isPanelExpandedChange.emit(value);
   }
 
-  constructor(public elementRef: ElementRef,
-              private navigationService: NavigationService,
-  ) { }
+  constructor(
+    public elementRef: ElementRef,
+    private navigationService: NavigationService,
+  ) {}
 
   changeBrowserUrl(event: Event): void {
     // Prevent panel from changing state

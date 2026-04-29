@@ -17,7 +17,6 @@ import { ErrorMessageOutput } from '../../error-message-output';
   imports: [FormsModule],
 })
 export class ErrorReportComponent implements OnInit {
-
   errorMessage = '';
   subject = 'User-submitted Error Report';
   content = '';
@@ -28,9 +27,11 @@ export class ErrorReportComponent implements OnInit {
   csrfErrorMessages: string[] = ['Missing CSRF token.', 'Invalid CSRF token.'];
   readonly supportEmail: string = environment.supportEmail;
 
-  constructor(private errorReportService: ErrorReportService,
-              private ngbActiveModal: NgbActiveModal,
-              private statusMessageService: StatusMessageService) {}
+  constructor(
+    private errorReportService: ErrorReportService,
+    private ngbActiveModal: NgbActiveModal,
+    private statusMessageService: StatusMessageService,
+  ) {}
 
   ngOnInit(): void {
     if (this.csrfErrorMessages.includes(this.errorMessage)) {
@@ -61,5 +62,4 @@ export class ErrorReportComponent implements OnInit {
       },
     });
   }
-
 }

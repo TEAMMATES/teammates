@@ -68,11 +68,7 @@ describe('SessionResultPageComponent', () => {
       hasAssignedWeights: false,
       mcqWeights: [],
       mcqOtherWeight: 0,
-      mcqChoices: [
-        '<p>Good</p>',
-        '<p>Normal</p>',
-        '<p>Bad</p>',
-      ],
+      mcqChoices: ['<p>Good</p>', '<p>Normal</p>', '<p>Bad</p>'],
       otherEnabled: false,
       questionDropdownEnabled: false,
       generateOptionsFor: 'NONE',
@@ -126,8 +122,7 @@ describe('SessionResultPageComponent', () => {
           },
         },
       ],
-    })
-        .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -253,8 +248,10 @@ describe('SessionResultPageComponent', () => {
     component.ngOnInit();
 
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith('/web/student/sessions/result',
-        { courseid: 'CS3281', fsname: 'Peer Feedback' });
+    expect(navSpy).toHaveBeenLastCalledWith('/web/student/sessions/result', {
+      courseid: 'CS3281',
+      fsname: 'Peer Feedback',
+    });
   });
 
   it('should load info and create log for unused reg key that is allowed', () => {
@@ -265,13 +262,15 @@ describe('SessionResultPageComponent', () => {
     };
     jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
     jest.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    jest.spyOn(studentService, 'getStudent').mockReturnValue(of({
-      name: 'student-name',
-      email: 'student@tmt.tmt',
-      courseId: '',
-      sectionName: '',
-      teamName: '',
-    }));
+    jest.spyOn(studentService, 'getStudent').mockReturnValue(
+      of({
+        name: 'student-name',
+        email: 'student@tmt.tmt',
+        courseId: '',
+        sectionName: '',
+        teamName: '',
+      }),
+    );
     jest.spyOn(feedbackSessionService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     const logSpy: SpyInstance = jest.spyOn(logService, 'createFeedbackSessionLog').mockReturnValue(of('log created'));
 
@@ -295,12 +294,14 @@ describe('SessionResultPageComponent', () => {
     component.ngOnInit();
 
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith('/web/front',
-        `You are trying to access TEAMMATES using the Google account user-id, which
+    expect(navSpy).toHaveBeenLastCalledWith(
+      '/web/front',
+      `You are trying to access TEAMMATES using the Google account user-id, which
                         is not linked to this TEAMMATES account. If you used a different Google account to
                         join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
                         cannot remember which Google account you used before, please email us at
-                        ${environment.supportEmail} for help.`);
+                        ${environment.supportEmail} for help.`,
+    );
   });
 
   it('should deny access for invalid reg key', () => {
@@ -316,22 +317,22 @@ describe('SessionResultPageComponent', () => {
     component.ngOnInit();
 
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith('/web/front',
-        'You are not authorized to view this page.');
+    expect(navSpy).toHaveBeenLastCalledWith('/web/front', 'You are not authorized to view this page.');
   });
 
   it('should navigate away when error occurs', () => {
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(throwError(() => ({
-      error: { message: 'This is error' },
-    })));
+    jest.spyOn(authService, 'getAuthUser').mockReturnValue(
+      throwError(() => ({
+        error: { message: 'This is error' },
+      })),
+    );
     const navSpy: SpyInstance = jest.spyOn(navService, 'navigateWithErrorMessage').mockImplementation();
 
     fixture.detectChanges();
     component.ngOnInit();
 
     expect(navSpy).toHaveBeenCalledTimes(1);
-    expect(navSpy).toHaveBeenLastCalledWith('/web/front',
-        'You are not authorized to view this page.');
+    expect(navSpy).toHaveBeenLastCalledWith('/web/front', 'You are not authorized to view this page.');
   });
 
   it('should navigate to join course when user click on join course link', () => {
@@ -341,8 +342,7 @@ describe('SessionResultPageComponent', () => {
 
     fixture.detectChanges();
 
-    const btn: any = fixture.debugElement.nativeElement
-        .querySelector('#join-course-btn');
+    const btn: any = fixture.debugElement.nativeElement.querySelector('#join-course-btn');
     btn.click();
 
     expect(navSpy).toHaveBeenCalledTimes(1);
@@ -375,8 +375,9 @@ describe('SessionResultPageComponent', () => {
     jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
     jest.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
     jest.spyOn(feedbackSessionService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    const getQuestionsSpy: SpyInstance = jest.spyOn(feedbackQuestionsService, 'getFeedbackQuestions')
-        .mockReturnValue(of(testFeedbackQuestions));
+    const getQuestionsSpy: SpyInstance = jest
+      .spyOn(feedbackQuestionsService, 'getFeedbackQuestions')
+      .mockReturnValue(of(testFeedbackQuestions));
 
     component.ngOnInit();
     expect(getQuestionsSpy).toHaveBeenLastCalledWith({

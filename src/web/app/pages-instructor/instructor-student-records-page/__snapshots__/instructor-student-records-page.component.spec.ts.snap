@@ -21,7 +21,7 @@ exports[`InstructorStudentRecordsPageComponent should snap when student results 
   <h1
     id="records-header"
   >
-    John Doe's Records
+     John Doe's Records
     <small
       class="text-muted text-break"
     >
@@ -70,7 +70,7 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
   <h1
     id="records-header"
   >
-    's Records
+     's Records
     <small
       class="text-muted text-break"
     >
@@ -119,7 +119,7 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
   <h1
     id="records-header"
   >
-    Not John Doe's Records
+     Not John Doe's Records
     <small
       class="text-muted text-break"
     >

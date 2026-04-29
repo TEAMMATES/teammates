@@ -36,7 +36,7 @@ exports[`UserJoinPageComponent should snap if user is not logged in and has a va
       <div
         class="card-body"
       >
-         You are not logged in. Please log in first. 
+        You are not logged in. Please log in first.
       </div>
     </div>
   </div>
@@ -159,7 +159,7 @@ exports[`UserJoinPageComponent should snap with valid course join link that has 
       <div
         class="card-body"
       >
-         The course join link has been used and is no longer valid. 
+        The course join link has been used and is no longer valid.
       </div>
     </div>
   </div>
@@ -222,7 +222,7 @@ exports[`UserJoinPageComponent should snap with valid course join link that has 
             class="btn btn-success"
             id="btn-confirm"
           >
-            Register for course
+             Register for course 
           </button>
         </div>
       </div>

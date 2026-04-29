@@ -127,7 +127,7 @@ exports[`AccountRequestTableComponent should display account requests with no re
                   class="btn btn-success"
                   id="approve-account-request-0"
                 >
-                  Approve
+                   Approve 
                 </button>
                 <span
                   class="dropdown"
@@ -238,7 +238,7 @@ exports[`AccountRequestTableComponent should display account requests with no re
                   class="btn btn-success"
                   id="approve-account-request-1"
                 >
-                  Approve
+                   Approve 
                 </button>
                 <span
                   class="dropdown"
@@ -411,7 +411,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
                   disabled=""
                   id="approve-account-request-0"
                 >
-                  Approve
+                   Approve 
                 </button>
                 <span
                   class="dropdown"
@@ -524,7 +524,7 @@ exports[`AccountRequestTableComponent should display account requests with reset
                   disabled=""
                   id="approve-account-request-1"
                 >
-                  Approve
+                   Approve 
                 </button>
                 <span
                   class="dropdown"
@@ -696,7 +696,7 @@ exports[`AccountRequestTableComponent should snap with an expanded account reque
                   class="btn btn-success"
                   id="approve-account-request-0"
                 >
-                  Approve
+                   Approve 
                 </button>
                 <span
                   class="dropdown"

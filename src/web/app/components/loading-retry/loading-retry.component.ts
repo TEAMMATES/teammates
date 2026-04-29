@@ -10,7 +10,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   imports: [],
 })
 export class LoadingRetryComponent {
-
   @Input() message?: string;
 
   @Input() shouldShowRetry = false;
@@ -18,5 +17,4 @@ export class LoadingRetryComponent {
   @Input() retryButtonDisabled = false;
 
   @Output() retryEvent: EventEmitter<any> = new EventEmitter<any>();
-
 }

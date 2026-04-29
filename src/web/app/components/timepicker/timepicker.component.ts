@@ -9,9 +9,7 @@ import { DateFormat, TimeFormat, getDefaultTimeFormat, getDefaultDateFormat } fr
   selector: 'tm-timepicker',
   templateUrl: './timepicker.component.html',
   styleUrls: ['./timepicker.component.scss'],
-  imports: [
-    FormsModule,
-],
+  imports: [FormsModule],
 })
 export class TimepickerComponent {
   @Input()
@@ -94,21 +92,14 @@ export class TimepickerComponent {
   }
 
   private toJsDate(date: DateFormat, time: TimeFormat): Date {
-    return new Date(
-      date.year,
-      date.month - 1,
-      date.day,
-      time.hour,
-      time.minute,
-    );
+    return new Date(date.year, date.month - 1, date.day, time.hour, time.minute);
   }
 
   /**
    * Checks whether the time is in the fixed list to select.
    */
   isInFixedList(time: TimeFormat): boolean {
-    return (time.hour >= 1 && time.hour <= 23 && time.minute === 0)
-        || (time.hour === 23 && time.minute === 59);
+    return (time.hour >= 1 && time.hour <= 23 && time.minute === 0) || (time.hour === 23 && time.minute === 59);
   }
 
   /**

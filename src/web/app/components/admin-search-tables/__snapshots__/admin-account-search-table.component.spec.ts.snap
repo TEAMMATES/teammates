@@ -32,14 +32,14 @@ exports[`AdminAccountSearchTableComponent should display account requests with n
           style="margin-right: 10px;"
           type="button"
         >
-          Expand All
+           Expand All 
         </button>
         <button
           class="btn btn-light btn-sm"
           id="hide-account-request-links"
           type="button"
         >
-          Collapse All
+           Collapse All 
         </button>
       </div>
     </div>
@@ -173,7 +173,7 @@ exports[`AdminAccountSearchTableComponent should display account requests with n
                   class="btn btn-success"
                   id="approve-account-request-0"
                 >
-                  Approve
+                   Approve 
                 </button>
                 <span
                   class="dropdown"
@@ -216,7 +216,7 @@ exports[`AdminAccountSearchTableComponent should display account requests with n
                     disabled=""
                     id="reset-account-request-0"
                   >
-                    Reset
+                     Reset 
                   </button>
                 </div>
               </div>
@@ -316,7 +316,7 @@ exports[`AdminAccountSearchTableComponent should display account requests with n
                   class="btn btn-success"
                   id="approve-account-request-1"
                 >
-                  Approve
+                   Approve 
                 </button>
                 <span
                   class="dropdown"
@@ -359,7 +359,7 @@ exports[`AdminAccountSearchTableComponent should display account requests with n
                     disabled=""
                     id="reset-account-request-1"
                   >
-                    Reset
+                     Reset 
                   </button>
                 </div>
               </div>
@@ -404,14 +404,14 @@ exports[`AdminAccountSearchTableComponent should display account requests with r
           style="margin-right: 10px;"
           type="button"
         >
-          Expand All
+           Expand All 
         </button>
         <button
           class="btn btn-light btn-sm"
           id="hide-account-request-links"
           type="button"
         >
-          Collapse All
+           Collapse All 
         </button>
       </div>
     </div>
@@ -546,7 +546,7 @@ exports[`AdminAccountSearchTableComponent should display account requests with r
                   disabled=""
                   id="approve-account-request-0"
                 >
-                  Approve
+                   Approve 
                 </button>
                 <span
                   class="dropdown"
@@ -590,7 +590,7 @@ exports[`AdminAccountSearchTableComponent should display account requests with r
                     disabled=""
                     id="reset-account-request-0"
                   >
-                    Reset
+                     Reset 
                   </button>
                 </div>
               </div>
@@ -691,7 +691,7 @@ exports[`AdminAccountSearchTableComponent should display account requests with r
                   disabled=""
                   id="approve-account-request-1"
                 >
-                  Approve
+                   Approve 
                 </button>
                 <span
                   class="dropdown"
@@ -735,7 +735,7 @@ exports[`AdminAccountSearchTableComponent should display account requests with r
                     disabled=""
                     id="reset-account-request-1"
                   >
-                    Reset
+                     Reset 
                   </button>
                 </div>
               </div>
@@ -780,14 +780,14 @@ exports[`AdminAccountSearchTableComponent should snap with an expanded account r
           style="margin-right: 10px;"
           type="button"
         >
-          Expand All
+           Expand All 
         </button>
         <button
           class="btn btn-light btn-sm"
           id="hide-account-request-links"
           type="button"
         >
-          Collapse All
+           Collapse All 
         </button>
       </div>
     </div>
@@ -921,7 +921,7 @@ exports[`AdminAccountSearchTableComponent should snap with an expanded account r
                   class="btn btn-success"
                   id="approve-account-request-0"
                 >
-                  Approve
+                   Approve 
                 </button>
                 <span
                   class="dropdown"
@@ -964,7 +964,7 @@ exports[`AdminAccountSearchTableComponent should snap with an expanded account r
                     disabled=""
                     id="reset-account-request-0"
                   >
-                    Reset
+                     Reset 
                   </button>
                 </div>
               </div>

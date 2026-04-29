@@ -21,9 +21,7 @@ export interface CourseStatistics {
   providedIn: 'root',
 })
 export class CourseService {
-
-  constructor(private httpRequestService: HttpRequestService) {
-  }
+  constructor(private httpRequestService: HttpRequestService) {}
 
   /**
    * Gets all course data for an instructor by calling API.

@@ -12,70 +12,101 @@
     <h4>Enrolling Students in Courses</h4>
   }
   <!-- Question -->
-  <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_ADD_STUDENTS)"
+  <tm-instructor-help-panel
+    class="instr-help-qn-first"
+    #question
+    [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_ADD_STUDENTS)"
     [id]="CoursesSectionQuestions.COURSE_ADD_STUDENTS"
     [section]="Sections.courses"
     headerText="How do I add students to a course?"
-    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_STUDENTS]">
-    <p>
-      There are two ways to enroll students in a course:
-    </p>
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_STUDENTS]"
+  >
+    <p>There are two ways to enroll students in a course:</p>
     <ul>
       <li>
-        From the <span class="ui-text">Home</span> page, click on the <button class="btn btn-primary btn-sm dropdown-toggle">Students</button> button of the corresponding course, and choose <span class="ui-text">Enroll</span>.
+        From the <span class="ui-text">Home</span> page, click on the
+        <button class="btn btn-primary btn-sm dropdown-toggle">Students</button> button of the corresponding course, and
+        choose <span class="ui-text">Enroll</span>.
       </li>
       <li>
-        From the <span class="ui-text">Courses</span> page, click on the <button class="btn btn-light btn-sm">Enroll</button> button of the corresponding course.
+        From the <span class="ui-text">Courses</span> page, click on the
+        <button class="btn btn-light btn-sm">Enroll</button> button of the corresponding course.
       </li>
     </ul>
   </tm-instructor-help-panel>
   <!--Question-->
-  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.SIZE_LIMIT)"
+  <tm-instructor-help-panel
+    #question
+    [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.SIZE_LIMIT)"
     [id]="CoursesSectionQuestions.SIZE_LIMIT"
     [section]="Sections.courses"
     headerText="Is there a size limit for a course?"
-    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.SIZE_LIMIT]">
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.SIZE_LIMIT]"
+  >
     <p>
-      No. However, if courses with an enrollment of more than 100 students need to be <a (click)="jumpTo(CoursesSectionQuestions.ENROLL_SECTIONS); questionsToCollapsed[CoursesSectionQuestions.ENROLL_SECTIONS] = true" [tmRouterLink]="">divided into sections</a>.<br>
+      No. However, if courses with an enrollment of more than 100 students need to be
+      <a
+        (click)="
+          jumpTo(CoursesSectionQuestions.ENROLL_SECTIONS);
+          questionsToCollapsed[CoursesSectionQuestions.ENROLL_SECTIONS] = true
+        "
+        [tmRouterLink]=""
+        >divided into sections</a
+      >.<br />
       TEAMMATES uses section information to organize the results of your sessions into a downloadable report.
     </p>
   </tm-instructor-help-panel>
   <!--Question-->
-  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.NO_TEAMS)"
+  <tm-instructor-help-panel
+    #question
+    [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.NO_TEAMS)"
     [id]="CoursesSectionQuestions.NO_TEAMS"
     [section]="Sections.courses"
     headerText="What should I do if my course doesn't have teams?"
-    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.NO_TEAMS]">
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.NO_TEAMS]"
+  >
     <p>
-      When you enroll students in a course, TEAMMATES requires you to specify a <span class="ui-text">Team</span> for each student.<br>
+      When you enroll students in a course, TEAMMATES requires you to specify a <span class="ui-text">Team</span> for
+      each student.<br />
       If your class does not use groups or teams, simply provide a dummy value in the Team column.
     </p>
   </tm-instructor-help-panel>
   <!--Question-->
-  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.SECTIONS)"
+  <tm-instructor-help-panel
+    #question
+    [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.SECTIONS)"
     [id]="CoursesSectionQuestions.SECTIONS"
     [section]="Sections.courses"
     headerText="What are sections meant for?"
-    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.SECTIONS]">
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.SECTIONS]"
+  >
     <p>
-      Sections are used to organize students in courses with significantly large numbers of students.
-      It is mandatory for courses with more than 100 students to organize students into sections.
-      Courses with less than 100 students do not need to be split into sections.
+      Sections are used to organize students in courses with significantly large numbers of students. It is mandatory
+      for courses with more than 100 students to organize students into sections. Courses with less than 100 students do
+      not need to be split into sections.
     </p>
     <p>
-      Section information is used to paginate the downloadable report of a session's results.
-      When you download the results of a session as an Excel spreadsheet, each section will be given its own page in the file.
+      Section information is used to paginate the downloadable report of a session's results. When you download the
+      results of a session as an Excel spreadsheet, each section will be given its own page in the file.
     </p>
   </tm-instructor-help-panel>
   <!--Question-->
-  <tm-instructor-help-panel #question class="instr-help-qn-last" [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.ENROLL_SECTIONS)"
+  <tm-instructor-help-panel
+    #question
+    class="instr-help-qn-last"
+    [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.ENROLL_SECTIONS)"
     [id]="CoursesSectionQuestions.ENROLL_SECTIONS"
     [section]="Sections.courses"
     headerText="How do I enroll students into sections?"
-    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.ENROLL_SECTIONS]">
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.ENROLL_SECTIONS]"
+  >
     <p>
-      To specify a section for each student at the time of enrollment, include a <span class="ui-text">Section</span> column in the spreadsheet and ensure it is copied over to the student data text box, together with the rest of the data.
-      To view more information, go to the <span class="ui-text">Courses</span> page, click on the <button class="btn btn-light btn-sm" type="button">Enroll</button> button for any course and scroll down to the <span class="ui-text">More Info</span> section.
+      To specify a section for each student at the time of enrollment, include a
+      <span class="ui-text">Section</span> column in the spreadsheet and ensure it is copied over to the student data
+      text box, together with the rest of the data. To view more information, go to the
+      <span class="ui-text">Courses</span> page, click on the
+      <button class="btn btn-light btn-sm" type="button">Enroll</button> button for any course and scroll down to the
+      <span class="ui-text">More Info</span> section.
     </p>
   </tm-instructor-help-panel>
   <!-- Section -->
@@ -83,100 +114,135 @@
     <h4>Adding Instructors to Courses</h4>
   }
   <!--Question -->
-  <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR)"
+  <tm-instructor-help-panel
+    class="instr-help-qn-first"
+    #question
+    [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR)"
     [id]="CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR"
     [section]="Sections.courses"
     headerText="How do I add instructors to my course?"
-    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR]">
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR]"
+  >
     <p>
-      From your <span class="ui-text">Home</span> page, click on the <button class="btn btn-primary btn-sm dropdown-toggle">Instructors</button> button of the corresponding course, and choose <span class="ui-text">View / Edit</span>. You will be directed to the <span class="ui-text">Edit Course Details</span> page.<br>
-      Here, you can add new instructors to the course, edit existing instructors' details, and delete instructors from the course, depending on your access privileges.
+      From your <span class="ui-text">Home</span> page, click on the
+      <button class="btn btn-primary btn-sm dropdown-toggle">Instructors</button> button of the corresponding course,
+      and choose <span class="ui-text">View / Edit</span>. You will be directed to the
+      <span class="ui-text">Edit Course Details</span> page.<br />
+      Here, you can add new instructors to the course, edit existing instructors' details, and delete instructors from
+      the course, depending on your access privileges.
     </p>
-    <p>
-      To add an instructor:
-    </p>
+    <p>To add an instructor:</p>
     <ol>
       <li>
-        Click the <button class="btn btn-success btn-sm" type="button">Add New Instructor</button> button at the bottom of the page. A form will appear for you to specify the necessary information about the new instructor.
+        Click the <button class="btn btn-success btn-sm" type="button">Add New Instructor</button> button at the bottom
+        of the page. A form will appear for you to specify the necessary information about the new instructor.
       </li>
       <li>
-        Fill in the name, email, role, and access level of the instructor you want to add. If you are not clear about certain input field, hover your cursor over the input field to view the tooltip for explanation of the field.<br>
+        Fill in the name, email, role, and access level of the instructor you want to add. If you are not clear about
+        certain input field, hover your cursor over the input field to view the tooltip for explanation of the field.<br />
       </li>
-      <li>
-        Click <button class="btn btn-success btn-sm" type="button">Add Instructor</button> to add the instructor.
-      </li>
+      <li>Click <button class="btn btn-success btn-sm" type="button">Add Instructor</button> to add the instructor.</li>
     </ol>
   </tm-instructor-help-panel>
   <!--Question-->
-  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR)"
+  <tm-instructor-help-panel
+    #question
+    [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR)"
     [id]="CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR"
     [section]="Sections.courses"
     headerText="How do I edit the information of an instructor in my course?"
-    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR]">
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR]"
+  >
     <p>
-      From your <span class="ui-text">Home</span> page, click on the <button class="btn btn-primary btn-sm dropdown-toggle">Instructors</button> button of the corresponding course, and choose <span class="ui-text">View / Edit</span>. You will be directed to the <span class="ui-text">Edit Course Details</span> page.<br>
+      From your <span class="ui-text">Home</span> page, click on the
+      <button class="btn btn-primary btn-sm dropdown-toggle">Instructors</button> button of the corresponding course,
+      and choose <span class="ui-text">View / Edit</span>. You will be directed to the
+      <span class="ui-text">Edit Course Details</span> page.<br />
     </p>
-    <p>
-      To edit Instructor A's information:
-    </p>
+    <p>To edit Instructor A's information:</p>
     <ol>
+      <li>Scroll to the panel showing Instructor A's information.<br /></li>
       <li>
-        Scroll to the panel showing Instructor A's information.<br>
+        Click the
+        <button class="btn btn-primary btn-sm" type="button"><span class="fa fa-pen"></span> Edit</button> button in the
+        top right hand corner of Instructor A's information panel. <br />
       </li>
+      <li>Update the relevant fields with Instructor A's new information.</li>
       <li>
-        Click the <button class="btn btn-primary btn-sm" type="button"><span class="fa fa-pen"></span> Edit</button> button in the top right hand corner of Instructor A's information panel. <br>
-      </li>
-      <li>
-        Update the relevant fields with Instructor A's new information.
-      </li>
-      <li>
-        Click <button class="btn btn-success btn-sm" type="button">Save changes</button> to save the changes and complete the edit process.
+        Click <button class="btn btn-success btn-sm" type="button">Save changes</button> to save the changes and
+        complete the edit process.
       </li>
     </ol>
   </tm-instructor-help-panel>
   <!--Question-->
-  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS)"
+  <tm-instructor-help-panel
+    #question
+    [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS)"
     [id]="CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS"
     [section]="Sections.courses"
     headerText="How do I set an instructor's access level?"
-    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS]">
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS]"
+  >
     <p>
-      When <a (click)="jumpTo(CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR); questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR] = true" [tmRouterLink]="">adding an instructor</a> or <a (click)="jumpTo(CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR); questionsToCollapsed[CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR] = true" [tmRouterLink]="">editing an instructor's information</a>, you can set the instructor's access level.
-      There are 4 pre-defined privilege options for you to choose from:
+      When
+      <a
+        (click)="
+          jumpTo(CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR);
+          questionsToCollapsed[CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR] = true
+        "
+        [tmRouterLink]=""
+        >adding an instructor</a
+      >
+      or
+      <a
+        (click)="
+          jumpTo(CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR);
+          questionsToCollapsed[CoursesSectionQuestions.COURSE_EDIT_INSTRUCTOR] = true
+        "
+        [tmRouterLink]=""
+        >editing an instructor's information</a
+      >, you can set the instructor's access level. There are 4 pre-defined privilege options for you to choose from:
     </p>
     <ul>
       <li>
-        <b>Co-owner</b>: is able to perform any action on the course, including deleting the course. When you create a new course, your access level is Co-owner. This is the highest access level.
+        <b>Co-owner</b>: is able to perform any action on the course, including deleting the course. When you create a
+        new course, your access level is Co-owner. This is the highest access level.
       </li>
       <li>
         <b>Manager</b>: has the same privileges as a Co-owner except that s/he is not allowed to delete the course.
       </li>
-      <li>
-        <b>Observer</b>: can view the course's information, but cannot edit or submit information.
-      </li>
-      <li>
-        <b>Tutor</b>: can view student details, give/view comments, and submit/view responses for sessions.
-      </li>
+      <li><b>Observer</b>: can view the course's information, but cannot edit or submit information.</li>
+      <li><b>Tutor</b>: can view student details, give/view comments, and submit/view responses for sessions.</li>
     </ul>
     <p>
-      All the access levels listed above have pre-defined privileges which you can view by clicking the 'View details' link next to the access level description.<br>
-      To set custom privileges for an instructor, select the <span class="ui-text">Custom</span> access level, and specify which privileges the instructor should get.
+      All the access levels listed above have pre-defined privileges which you can view by clicking the 'View details'
+      link next to the access level description.<br />
+      To set custom privileges for an instructor, select the <span class="ui-text">Custom</span> access level, and
+      specify which privileges the instructor should get.
     </p>
   </tm-instructor-help-panel>
   <!--Question-->
-  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.PRIVILEGES)"
+  <tm-instructor-help-panel
+    class="instr-help-qn-last"
+    #question
+    [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.PRIVILEGES)"
     [id]="CoursesSectionQuestions.PRIVILEGES"
     [section]="Sections.courses"
     headerText="How do I set custom privileges for an instructor?"
-    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.PRIVILEGES]">
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.PRIVILEGES]"
+  >
     <p>
-      When you set the access level for an instructor to <span class="ui-text">Custom</span>, detailed privilege settings will appear.<br>
+      When you set the access level for an instructor to <span class="ui-text">Custom</span>, detailed privilege
+      settings will appear.<br />
       Use the checkboxes to give instructors specific privileges.
     </p>
     <p>
-      If a course has sections, you can customize an instructor's permissions for each section by clicking 'Give different permissions for a specific section'.<br>
-      In the panel for section-level privilege settings, use the section checkboxes to apply your chosen settings to more than one section.<br>
-      You can also change the degree of access the instructor has to specific sessions in that section by clicking 'Give different permissions for sessions in this section'.
+      If a course has sections, you can customize an instructor's permissions for each section by clicking 'Give
+      different permissions for a specific section'.<br />
+      In the panel for section-level privilege settings, use the section checkboxes to apply your chosen settings to
+      more than one section.<br />
+      You can also change the degree of access the instructor has to specific sessions in that section by clicking 'Give
+      different permissions for sessions in this section'.
     </p>
   </tm-instructor-help-panel>
   <!-- Section -->
@@ -184,80 +250,103 @@
     <h4>Managing Courses</h4>
   }
   <!--Question-->
-  <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_VIEW_STUDENTS)"
+  <tm-instructor-help-panel
+    class="instr-help-qn-first"
+    #question
+    [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_VIEW_STUDENTS)"
     [id]="CoursesSectionQuestions.COURSE_VIEW_STUDENTS"
     [section]="Sections.courses"
     headerText="How do I view a list of students in a course?"
-    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_STUDENTS]">
-    <p>
-      There are two ways to access the list of students in a course.
-    </p>
-    <p>
-      To view the list of students in Course A:
-    </p>
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_STUDENTS]"
+  >
+    <p>There are two ways to access the list of students in a course.</p>
+    <p>To view the list of students in Course A:</p>
     <ul>
       <li>
-        From the <span class="ui-text">Home</span> page, find the panel corresponding to Course A. On the right hand side, click <button class="btn btn-primary btn-sm dropdown-toggle">Students</button> and then select <span class="ui-text">View / Edit</span>.
+        From the <span class="ui-text">Home</span> page, find the panel corresponding to Course A. On the right hand
+        side, click <button class="btn btn-primary btn-sm dropdown-toggle">Students</button> and then select
+        <span class="ui-text">View / Edit</span>.
       </li>
       <li>
-        From the <span class="ui-text">Courses</span> page, click the <button class="btn btn-light btn-sm dropdown-toggle">Other Actions</button> button in the row corresponding to Course A, and select <span class="ui-text">View</span> in the drop-down menu.
+        From the <span class="ui-text">Courses</span> page, click the
+        <button class="btn btn-light btn-sm dropdown-toggle">Other Actions</button> button in the row corresponding to
+        Course A, and select <span class="ui-text">View</span> in the drop-down menu.
       </li>
     </ul>
   </tm-instructor-help-panel>
   <!--Question-->
-  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.CHANGE_SECTION)"
+  <tm-instructor-help-panel
+    #question
+    [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.CHANGE_SECTION)"
     [id]="CoursesSectionQuestions.CHANGE_SECTION"
     [section]="Sections.courses"
     headerText="How do I change a student's section?"
-    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.CHANGE_SECTION]">
-    <p>
-      To edit the section Student A from Course B is enrolled in:
-    </p>
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.CHANGE_SECTION]"
+  >
+    <p>To edit the section Student A from Course B is enrolled in:</p>
     <ol>
       <li>
-        Go to the <span class="ui-text">Students</span> page and click Course B's panel heading. You will see a list of students enrolled in Course B.
+        Go to the <span class="ui-text">Students</span> page and click Course B's panel heading. You will see a list of
+        students enrolled in Course B.
       </li>
       <li>
-        Click the <button class="btn btn-light btn-sm">Edit</button> button in the last column in the row corresponding to Student A.
+        Click the <button class="btn btn-light btn-sm">Edit</button> button in the last column in the row corresponding
+        to Student A.
       </li>
       <li>
-        A new page will open that allows you to <a (click)="collapseStudentEditDetails.emit(true);" [tmRouterLink]="">edit the student's profile</a>, including a field to edit the student's section.<br>
+        A new page will open that allows you to
+        <a (click)="collapseStudentEditDetails.emit(true)" [tmRouterLink]="">edit the student's profile</a>, including a
+        field to edit the student's section.<br />
       </li>
       <li>
-        After editing the section name, click <button class="btn btn-success btn-sm"><i class="fas fa-save"></i> Save Changes</button> to confirm Student A's new section.
+        After editing the section name, click
+        <button class="btn btn-success btn-sm"><i class="fas fa-save"></i> Save Changes</button> to confirm Student A's
+        new section.
       </li>
     </ol>
   </tm-instructor-help-panel>
   <!--Question-->
-  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.DISAPPEARED_COURSE)"
+  <tm-instructor-help-panel
+    #question
+    [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.DISAPPEARED_COURSE)"
     [id]="CoursesSectionQuestions.DISAPPEARED_COURSE"
     [section]="Sections.courses"
     headerText="What should I do if a student says his/her courses have disappeared from the system?"
-    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.DISAPPEARED_COURSE]">
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.DISAPPEARED_COURSE]"
+  >
     <p>
-      The most likely reason for this is that the student has changed the primary email address associated with his/her Google ID. Please ask the student to email
+      The most likely reason for this is that the student has changed the primary email address associated with his/her
+      Google ID. Please ask the student to email
       <a href="mailto:{{ supportEmail }}">{{ supportEmail }}</a> so that we help to rectify the problem.
     </p>
   </tm-instructor-help-panel>
   <!--Question-->
-  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.DEL_STUDENTS)"
+  <tm-instructor-help-panel
+    class="instr-help-qn-last"
+    #question
+    [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.DEL_STUDENTS)"
     [id]="CoursesSectionQuestions.DEL_STUDENTS"
     [section]="Sections.courses"
     headerText="How do I delete students from a course?"
-    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.DEL_STUDENTS]">
-    <p>
-      To remove Student A from Course B:
-    </p>
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.DEL_STUDENTS]"
+  >
+    <p>To remove Student A from Course B:</p>
     <ol>
       <li>
-        <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_STUDENTS); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_STUDENTS] = true" [tmRouterLink]="">View the student list</a> of Course B.
+        <a
+          (click)="
+            jumpTo(CoursesSectionQuestions.COURSE_VIEW_STUDENTS);
+            questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_STUDENTS] = true
+          "
+          [tmRouterLink]=""
+          >View the student list</a
+        >
+        of Course B.
       </li>
       <li>
         In the row corresponding to Student A, click the <button class="btn btn-light btn-sm">Delete</button> button.
       </li>
-      <li>
-        Click <span class="ui-text">OK</span> to confirm that you would like to delete Student A from Course B.
-      </li>
+      <li>Click <span class="ui-text">OK</span> to confirm that you would like to delete Student A from Course B.</li>
     </ol>
   </tm-instructor-help-panel>
   <!-- Section -->
@@ -265,58 +354,114 @@
     <h4>Restoring Deleted Courses</h4>
   }
   <!--Question-->
-  <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_VIEW_DELETED)"
+  <tm-instructor-help-panel
+    class="instr-help-qn-first"
+    #question
+    [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_VIEW_DELETED)"
     [id]="CoursesSectionQuestions.COURSE_VIEW_DELETED"
     [section]="Sections.courses"
     headerText="How do I view courses I have deleted?"
-    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED]">
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED]"
+  >
     <p>
-      You can view all your deleted courses by navigating to the <span class="ui-text">Courses</span> page.<br>
+      You can view all your deleted courses by navigating to the <span class="ui-text">Courses</span> page.<br />
       Scroll to the <span class="ui-text">Deleted courses</span> heading.
     </p>
     <p>
-      The courses you have previously deleted are listed here.
-      In order to access information in a deleted course, <a (click)="jumpTo(CoursesSectionQuestions.COURSE_RESTORE); questionsToCollapsed[CoursesSectionQuestions.COURSE_RESTORE] = true" [tmRouterLink]="">restore the course</a>.
+      The courses you have previously deleted are listed here. In order to access information in a deleted course,
+      <a
+        (click)="
+          jumpTo(CoursesSectionQuestions.COURSE_RESTORE);
+          questionsToCollapsed[CoursesSectionQuestions.COURSE_RESTORE] = true
+        "
+        [tmRouterLink]=""
+        >restore the course</a
+      >.
     </p>
   </tm-instructor-help-panel>
   <!--Question-->
-  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_RESTORE)"
+  <tm-instructor-help-panel
+    #question
+    [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.COURSE_RESTORE)"
     [id]="CoursesSectionQuestions.COURSE_RESTORE"
     [section]="Sections.courses"
     headerText="How do I restore a deleted course?"
-    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_RESTORE]">
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.COURSE_RESTORE]"
+  >
     <p>
-      To restore a deleted course, first <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_DELETED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = true" [tmRouterLink]="">view the course</a> that you would like to restore in the <span class="ui-text">Courses</span> page.<br>
-      Then, click on the <button class="btn btn-light btn-sm" type="button">Restore</button> button corresponding to the course you want to restore.
+      To restore a deleted course, first
+      <a
+        (click)="
+          jumpTo(CoursesSectionQuestions.COURSE_VIEW_DELETED);
+          questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = true
+        "
+        [tmRouterLink]=""
+        >view the course</a
+      >
+      that you would like to restore in the <span class="ui-text">Courses</span> page.<br />
+      Then, click on the <button class="btn btn-light btn-sm" type="button">Restore</button> button corresponding to the
+      course you want to restore.
     </p>
     <p>
-      After restoring the course, all the information relevant to the course (e.g. instructors, sessions, students) will also be restored.
+      After restoring the course, all the information relevant to the course (e.g. instructors, sessions, students) will
+      also be restored.
     </p>
   </tm-instructor-help-panel>
   <!--Question-->
-  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.PERM_DEL)"
+  <tm-instructor-help-panel
+    #question
+    [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.PERM_DEL)"
     [id]="CoursesSectionQuestions.PERM_DEL"
     [section]="Sections.courses"
     headerText="How do I permanently delete a course?"
-    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.PERM_DEL]">
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.PERM_DEL]"
+  >
     <p>
-      To permanently delete a course, first <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_DELETED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = true" [tmRouterLink]="">view the course</a> that you would like to permanently delete in the <span class="ui-text">Courses</span> page.<br>
-      Then, click on the <button class="btn btn-light btn-sm text-danger" type="button">Delete Permanently</button> button corresponding to the course you want to delete.
+      To permanently delete a course, first
+      <a
+        (click)="
+          jumpTo(CoursesSectionQuestions.COURSE_VIEW_DELETED);
+          questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = true
+        "
+        [tmRouterLink]=""
+        >view the course</a
+      >
+      that you would like to permanently delete in the <span class="ui-text">Courses</span> page.<br />
+      Then, click on the
+      <button class="btn btn-light btn-sm text-danger" type="button">Delete Permanently</button> button corresponding to
+      the course you want to delete.
     </p>
     <p>
-      After deleting the course, all the information relevant to the course (e.g. instructors, sessions, students) will also be permanently deleted.
+      After deleting the course, all the information relevant to the course (e.g. instructors, sessions, students) will
+      also be permanently deleted.
     </p>
   </tm-instructor-help-panel>
   <!--Question-->
-  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.RESTORE_ALL)"
+  <tm-instructor-help-panel
+    class="instr-help-qn-last"
+    #question
+    [hidden]="key && !showQuestion.includes(CoursesSectionQuestions.RESTORE_ALL)"
     [id]="CoursesSectionQuestions.RESTORE_ALL"
     [section]="Sections.courses"
     headerText="How do I restore/delete all courses from Recycle Bin?"
-    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.RESTORE_ALL]">
+    [(isPanelExpanded)]="questionsToCollapsed[CoursesSectionQuestions.RESTORE_ALL]"
+  >
     <p>
-      First <a (click)="jumpTo(CoursesSectionQuestions.COURSE_VIEW_DELETED); questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = true" [tmRouterLink]="">view the course</a> and check for courses in Recycle Bin.<br>
-      To restore all courses, click on the <button class="btn btn-secondary btn-sm"><i class="fas fa-check"></i> Restore All</button> button in <span class="ui-text">Deleted courses</span> heading;
-      to delete all courses, click on the <button class="btn btn-secondary btn-sm"><i class="fas fa-times"></i> Delete All</button> button in <span class="ui-text">Deleted courses</span> heading.
+      First
+      <a
+        (click)="
+          jumpTo(CoursesSectionQuestions.COURSE_VIEW_DELETED);
+          questionsToCollapsed[CoursesSectionQuestions.COURSE_VIEW_DELETED] = true
+        "
+        [tmRouterLink]=""
+        >view the course</a
+      >
+      and check for courses in Recycle Bin.<br />
+      To restore all courses, click on the
+      <button class="btn btn-secondary btn-sm"><i class="fas fa-check"></i> Restore All</button> button in
+      <span class="ui-text">Deleted courses</span> heading; to delete all courses, click on the
+      <button class="btn btn-secondary btn-sm"><i class="fas fa-times"></i> Delete All</button> button in
+      <span class="ui-text">Deleted courses</span> heading.
     </p>
   </tm-instructor-help-panel>
 </div>

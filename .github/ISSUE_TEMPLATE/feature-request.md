@@ -1,7 +1,6 @@
 ---
 name: Feature request
 about: Request a new or a change to existing user-facing feature
-
 ---
 
 <!-- Issue title: [brief description of feature/enhancement] -->
@@ -10,13 +9,11 @@ about: Request a new or a change to existing user-facing feature
 
 **Description of feature/enhancement**
 
-
-
 **Justification**
+
 <!-- Explain who will benefit (instructors, students, developers, etc.) and in what way. -->
 
-
-
 **Existing similar features and their shortcomings**
+
 <!-- Explain why existing similar features fall short of your expectation. -->
 <!-- This section can be skipped if there are no existing similar features. -->

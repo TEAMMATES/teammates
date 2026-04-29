@@ -1,19 +1,15 @@
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
-import {
-  RankRecipientsQuestionStatisticsCalculation,
-} from '../../app/components/question-types/question-statistics/question-statistics-calculation/rank-recipients-question-statistics-calculation';
-import {
-  FeedbackQuestionType,
-  FeedbackRankRecipientsQuestionDetails, QuestionOutput,
-} from '../api-output';
+import { RankRecipientsQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/rank-recipients-question-statistics-calculation';
+import { FeedbackQuestionType, FeedbackRankRecipientsQuestionDetails, QuestionOutput } from '../api-output';
 import { NO_VALUE } from '../feedback-response-details';
 
 /**
  * Concrete implementation of {@link FeedbackRankRecipientsQuestionDetails}.
  */
-export class FeedbackRankRecipientsQuestionDetailsImpl extends AbstractFeedbackQuestionDetails
-    implements FeedbackRankRecipientsQuestionDetails {
-
+export class FeedbackRankRecipientsQuestionDetailsImpl
+  extends AbstractFeedbackQuestionDetails
+  implements FeedbackRankRecipientsQuestionDetails
+{
   maxOptionsToBeRanked: number = NO_VALUE;
   minOptionsToBeRanked: number = NO_VALUE;
   areDuplicatesAllowed = false;
@@ -33,7 +29,7 @@ export class FeedbackRankRecipientsQuestionDetailsImpl extends AbstractFeedbackQ
     const emptyStr = '-';
 
     const statsCalculation: RankRecipientsQuestionStatisticsCalculation =
-        new RankRecipientsQuestionStatisticsCalculation(this);
+      new RankRecipientsQuestionStatisticsCalculation(this);
     this.populateQuestionStatistics(statsCalculation, question);
     if (statsCalculation.responses.length === 0) {
       // skip stats for no response
@@ -53,23 +49,29 @@ export class FeedbackRankRecipientsQuestionDetailsImpl extends AbstractFeedbackQ
       'Ranks Received',
     ]);
 
-    Object.keys(statsCalculation.ranksReceivedPerOption).sort().forEach((recipient: string) => {
-      statsRows.push([
-        statsCalculation.emailToTeamName[recipient],
-        statsCalculation.emailToName[recipient],
-        recipient,
-        statsCalculation.selfRankPerOption[recipient]
-            ? String(statsCalculation.selfRankPerOption[recipient]) : emptyStr,
-        statsCalculation.rankPerOption[recipient] ? String(statsCalculation.rankPerOption[recipient]) : emptyStr,
-        statsCalculation.rankPerOptionExcludeSelf[recipient]
-            ? String(statsCalculation.rankPerOptionExcludeSelf[recipient]) : emptyStr,
-        statsCalculation.rankPerOptionInTeam[recipient]
-            ? String(statsCalculation.rankPerOptionInTeam[recipient]) : emptyStr,
-        statsCalculation.rankPerOptionInTeamExcludeSelf[recipient]
-            ? String(statsCalculation.rankPerOptionInTeamExcludeSelf[recipient]) : emptyStr,
-        ...statsCalculation.ranksReceivedPerOption[recipient].map(String),
-      ]);
-    });
+    Object.keys(statsCalculation.ranksReceivedPerOption)
+      .sort()
+      .forEach((recipient: string) => {
+        statsRows.push([
+          statsCalculation.emailToTeamName[recipient],
+          statsCalculation.emailToName[recipient],
+          recipient,
+          statsCalculation.selfRankPerOption[recipient]
+            ? String(statsCalculation.selfRankPerOption[recipient])
+            : emptyStr,
+          statsCalculation.rankPerOption[recipient] ? String(statsCalculation.rankPerOption[recipient]) : emptyStr,
+          statsCalculation.rankPerOptionExcludeSelf[recipient]
+            ? String(statsCalculation.rankPerOptionExcludeSelf[recipient])
+            : emptyStr,
+          statsCalculation.rankPerOptionInTeam[recipient]
+            ? String(statsCalculation.rankPerOptionInTeam[recipient])
+            : emptyStr,
+          statsCalculation.rankPerOptionInTeamExcludeSelf[recipient]
+            ? String(statsCalculation.rankPerOptionInTeamExcludeSelf[recipient])
+            : emptyStr,
+          ...statsCalculation.ranksReceivedPerOption[recipient].map(String),
+        ]);
+      });
 
     return statsRows;
   }

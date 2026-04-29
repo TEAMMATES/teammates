@@ -15,13 +15,18 @@
       ></tm-respondent-list-info-table>
     </div>
   } @else {
-    <h4 class="p-2 bg-info">
-      There are no participants to email.
-    </h4>
+    <h4 class="p-2 bg-info">There are no participants to email.</h4>
   }
 </div>
 
 <div class="modal-footer">
-  <button type="button" class="btn " (click)="activeModal.dismiss()">Cancel</button>
-  <button id="btn-confirm-resend-results" type="button" class="btn btn-primary" (click)="activeModal.close(collateRespondentsToSendHandler())">Send</button>
+  <button type="button" class="btn" (click)="activeModal.dismiss()">Cancel</button>
+  <button
+    id="btn-confirm-resend-results"
+    type="button"
+    class="btn btn-primary"
+    (click)="activeModal.close(collateRespondentsToSendHandler())"
+  >
+    Send
+  </button>
 </div>

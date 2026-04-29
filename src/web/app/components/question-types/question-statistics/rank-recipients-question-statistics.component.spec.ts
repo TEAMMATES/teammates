@@ -134,7 +134,5 @@ describe('RankRecipientsQuestionStatisticsComponent', () => {
     expect(component.rankPerOptionInTeam[charlie]).toBe(2);
     expect(component.rankPerOptionInTeam[delta]).toBe(1);
     expect(component.rankPerOptionInTeamExcludeSelf[delta]).toBe(2);
-
   });
-
 });

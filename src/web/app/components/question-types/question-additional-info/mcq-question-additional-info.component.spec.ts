@@ -81,5 +81,4 @@ describe('McqQuestionAdditionalInfoComponent', () => {
 
     expect(fixture).toMatchSnapshot();
   });
-
 });

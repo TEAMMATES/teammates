@@ -5,23 +5,18 @@ import {
   FeedbackRankRecipientsResponseDetails,
 } from '../../../../types/api-output';
 import { DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
-import {
-  NO_VALUE,
-  RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED,
-} from '../../../../types/feedback-response-details';
+import { NO_VALUE, RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED } from '../../../../types/feedback-response-details';
 
 /**
  * Constraint of rank recipients question.
  */
 @Component({
-    selector: 'tm-rank-recipients-question-constraint',
-    templateUrl: './rank-recipients-question-constraint.component.html',
-    styleUrls: ['./rank-recipients-question-constraint.component.scss'],
-    imports: [],
+  selector: 'tm-rank-recipients-question-constraint',
+  templateUrl: './rank-recipients-question-constraint.component.html',
+  styleUrls: ['./rank-recipients-question-constraint.component.scss'],
+  imports: [],
 })
-export class RankRecipientsQuestionConstraintComponent
-    extends QuestionConstraintComponent<FeedbackRankRecipientsQuestionDetails> {
-
+export class RankRecipientsQuestionConstraintComponent extends QuestionConstraintComponent<FeedbackRankRecipientsQuestionDetails> {
   constructor() {
     super(DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS());
   }
@@ -34,7 +29,7 @@ export class RankRecipientsQuestionConstraintComponent
 
     for (const submissionForm of this.recipientSubmissionForms) {
       const details: FeedbackRankRecipientsResponseDetails =
-          submissionForm.responseDetails as FeedbackRankRecipientsResponseDetails;
+        submissionForm.responseDetails as FeedbackRankRecipientsResponseDetails;
       if (details.answer === RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED) {
         // ignore not submitted
         continue;
@@ -54,7 +49,7 @@ export class RankRecipientsQuestionConstraintComponent
   get isNoRecipientRanked(): boolean {
     for (const submissionForm of this.recipientSubmissionForms) {
       const details: FeedbackRankRecipientsResponseDetails =
-          submissionForm.responseDetails as FeedbackRankRecipientsResponseDetails;
+        submissionForm.responseDetails as FeedbackRankRecipientsResponseDetails;
       if (details.answer !== RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED) {
         return false;
       }
@@ -84,13 +79,13 @@ export class RankRecipientsQuestionConstraintComponent
     let numberOfRecipientsRanked = 0;
     for (const submissionForm of this.recipientSubmissionForms) {
       const details: FeedbackRankRecipientsResponseDetails =
-          submissionForm.responseDetails as FeedbackRankRecipientsResponseDetails;
+        submissionForm.responseDetails as FeedbackRankRecipientsResponseDetails;
       if (details.answer !== RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED) {
         numberOfRecipientsRanked += 1;
       }
     }
 
-    return (numberOfRecipientsRanked < this.questionDetails.minOptionsToBeRanked && numberOfRecipientsRanked > 0);
+    return numberOfRecipientsRanked < this.questionDetails.minOptionsToBeRanked && numberOfRecipientsRanked > 0;
   }
 
   /**
@@ -100,7 +95,7 @@ export class RankRecipientsQuestionConstraintComponent
     let numberOfRecipientsRanked = 0;
     for (const submissionForm of this.recipientSubmissionForms) {
       const details: FeedbackRankRecipientsResponseDetails =
-          submissionForm.responseDetails as FeedbackRankRecipientsResponseDetails;
+        submissionForm.responseDetails as FeedbackRankRecipientsResponseDetails;
       if (details.answer !== RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED) {
         numberOfRecipientsRanked += 1;
       }
@@ -110,9 +105,11 @@ export class RankRecipientsQuestionConstraintComponent
   }
 
   override get isValid(): boolean {
-    return !((!this.questionDetails.areDuplicatesAllowed && this.isSameRanksAssigned)
-        || (this.isMinRecipientsEnabled && this.isRecipientsRankedLessThanMin)
-        || (this.isMaxRecipientsEnabled && this.isRecipientsRankedMoreThanMax)
-        || (this.isNoRecipientRanked));
+    return !(
+      (!this.questionDetails.areDuplicatesAllowed && this.isSameRanksAssigned) ||
+      (this.isMinRecipientsEnabled && this.isRecipientsRankedLessThanMin) ||
+      (this.isMaxRecipientsEnabled && this.isRecipientsRankedMoreThanMax) ||
+      this.isNoRecipientRanked
+    );
   }
 }

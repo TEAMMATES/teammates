@@ -16,15 +16,9 @@ import { ErrorMessageOutput } from '../../error-message-output';
   selector: 'tm-session-links-recovery-page',
   templateUrl: './session-links-recovery-page.component.html',
   styleUrls: ['./session-links-recovery-page.component.scss'],
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    NgxCaptchaModule,
-    AjaxLoadingComponent,
-],
+  imports: [FormsModule, ReactiveFormsModule, NgxCaptchaModule, AjaxLoadingComponent],
 })
 export class SessionLinksRecoveryPageComponent implements OnInit {
-
   // ngx-recaptcha2 element properties
   captchaSuccess = false;
   captchaResponse?: string;
@@ -39,9 +33,11 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
 
   @ViewChild('captchaElem') captchaElem!: ReCaptcha2Component;
 
-  constructor(private feedbackSessionsService: FeedbackSessionsService,
-              private statusMessageService: StatusMessageService,
-              private formBuilder: UntypedFormBuilder) {}
+  constructor(
+    private feedbackSessionsService: FeedbackSessionsService,
+    private statusMessageService: StatusMessageService,
+    private formBuilder: UntypedFormBuilder,
+  ) {}
 
   ngOnInit(): void {
     this.formSessionLinksRecovery = this.formBuilder.group({
@@ -70,23 +66,28 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
 
     this.isFormSubmitting = true;
 
-    this.feedbackSessionsService.sendFeedbackSessionLinkToRecoveryEmail({
-      sessionLinksRecoveryEmail: sessionLinksRecoveryForm.controls['email'].value,
-      captchaResponse: this.captchaResponse,
-    }).pipe(finalize(() => {
-      this.isFormSubmitting = false;
-    })).subscribe({
-      next: (resp: SessionLinksRecoveryResponse) => {
-        if (resp.isEmailSent) {
-          this.statusMessageService.showSuccessToast(resp.message);
-        } else {
-          this.statusMessageService.showErrorToast(resp.message);
-        }
-      },
-      error: (response: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(response.error.message);
-      },
-    });
+    this.feedbackSessionsService
+      .sendFeedbackSessionLinkToRecoveryEmail({
+        sessionLinksRecoveryEmail: sessionLinksRecoveryForm.controls['email'].value,
+        captchaResponse: this.captchaResponse,
+      })
+      .pipe(
+        finalize(() => {
+          this.isFormSubmitting = false;
+        }),
+      )
+      .subscribe({
+        next: (resp: SessionLinksRecoveryResponse) => {
+          if (resp.isEmailSent) {
+            this.statusMessageService.showSuccessToast(resp.message);
+          } else {
+            this.statusMessageService.showErrorToast(resp.message);
+          }
+        },
+        error: (response: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(response.error.message);
+        },
+      });
     this.resetFormGroups();
   }
 
@@ -94,10 +95,10 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
    * Resets the email and reCAPTCHA input fields in the form.
    */
   resetFormGroups(): void {
-    (this.formSessionLinksRecovery = this.formBuilder.group({
+    this.formSessionLinksRecovery = this.formBuilder.group({
       email: ['', Validators.required],
       recaptcha: [''],
-    }));
+    });
 
     this.reloadCaptcha();
   }

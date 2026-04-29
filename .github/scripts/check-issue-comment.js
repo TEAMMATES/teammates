@@ -17,16 +17,16 @@ Please review our [Contributing Guidelines](https://teammates.github.io/teammate
   // No word boundaries are used so that run-together typos (e.g. "assignme",
   // "pleasassign") are still matched. ass?i?g[nm] fuzzy-matches "assign"
   const ASSIGNMENT_REQUEST_PATTERNS = [
-      // Intent marker before "assign": "pls assgn", "can I be assigned", "kindly assign"
-      /(please|pl[sz]|can|could|may|would|want|like|love|be|get|kindly|wish).*ass?i?g[nm]/,
+    // Intent marker before "assign": "pls assgn", "can I be assigned", "kindly assign"
+    /(please|pl[sz]|can|could|may|would|want|like|love|be|get|kindly|wish).*ass?i?g[nm]/,
 
-      // "assign" before pronoun: "assign me", "assign to myself", "assignme"
-      /ass?i?g[nm].*(me|myself)/,
+    // "assign" before pronoun: "assign me", "assign to myself", "assignme"
+    /ass?i?g[nm].*(me|myself)/,
   ];
 
   function isAssignmentRequest(commentBody) {
     const normalizedComment = commentBody.toLowerCase();
-    return ASSIGNMENT_REQUEST_PATTERNS.some(pattern => pattern.test(normalizedComment));
+    return ASSIGNMENT_REQUEST_PATTERNS.some((pattern) => pattern.test(normalizedComment));
   }
 
   function createReplyMessage(username) {

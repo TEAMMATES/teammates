@@ -10,13 +10,9 @@ import { Toast } from './toast';
   selector: 'tm-toast',
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.scss'],
-  imports: [
-    NgbToast,
-    NgTemplateOutlet,
-],
+  imports: [NgbToast, NgTemplateOutlet],
 })
 export class ToastComponent implements OnChanges {
-
   @Input() toast: Toast | null = null;
   @Output() toastChange: EventEmitter<Toast | null> = new EventEmitter<Toast | null>();
 
@@ -55,5 +51,4 @@ export class ToastComponent implements OnChanges {
   get contentAsTemplateRef(): TemplateRef<any> {
     return this.toast!.message as TemplateRef<any>;
   }
-
 }

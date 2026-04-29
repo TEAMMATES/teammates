@@ -2,15 +2,17 @@ import { NgTemplateOutlet, KeyValuePipe } from '@angular/common';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
-  FeedbackParticipantType, FeedbackQuestionType,
-  FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
-  QuestionOutput, ResponseOutput,
+  FeedbackParticipantType,
+  FeedbackQuestionType,
+  FeedbackSession,
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus,
+  QuestionOutput,
+  ResponseOutput,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../../types/api-output';
-import {
-  InstructorSessionResultSectionType,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { InstructorSessionResultSectionType } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { ResponseModerationButtonComponent } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.component';
 import { PanelChevronComponent } from '../../panel-chevron/panel-chevron.component';
 import { QuestionTextWithInfoComponent } from '../../question-text-with-info/question-text-with-info.component';
@@ -41,10 +43,9 @@ interface QuestionTab {
     ResponseModerationButtonComponent,
     PerQuestionViewResponsesComponent,
     KeyValuePipe,
-],
+  ],
 })
 export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
-
   @Input() responses: QuestionOutput[] = [];
   @Input() sectionOfView = '';
   @Input() section = '';
@@ -112,13 +113,15 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
         }
 
         if (this.sectionOfView) {
-          if (this.isGqr && response.giverSection !== this.sectionOfView
-              || !this.isGqr && response.recipientSection !== this.sectionOfView) {
+          if (
+            (this.isGqr && response.giverSection !== this.sectionOfView) ||
+            (!this.isGqr && response.recipientSection !== this.sectionOfView)
+          ) {
             continue;
           }
         }
-        const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
-            .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
+        const shouldDisplayBasedOnSection: boolean =
+          this.feedbackResponsesService.isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
         if (!shouldDisplayBasedOnSection) {
           continue;
         }
@@ -142,7 +145,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
 
           this.userExpanded[response.giver] = this.isExpandAll;
           this.userIsInstructor[response.giver] =
-              question.feedbackQuestion.giverType === FeedbackParticipantType.INSTRUCTORS;
+            question.feedbackQuestion.giverType === FeedbackParticipantType.INSTRUCTORS;
         } else {
           if (!response.recipientTeam) {
             // Recipient is team
@@ -179,8 +182,12 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
             return false;
           }
 
-          const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
-            .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
+          const shouldDisplayBasedOnSection: boolean =
+            this.feedbackResponsesService.isFeedbackResponsesDisplayedOnSection(
+              response,
+              this.section,
+              this.sectionType,
+            );
 
           if (!shouldDisplayBasedOnSection) {
             return false;
@@ -201,8 +208,10 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
 
     for (const team of Object.keys(this.teamExpanded)) {
       for (const question of this.responses) {
-        if (question.feedbackQuestion.questionType === FeedbackQuestionType.CONTRIB
-            || question.feedbackQuestion.questionType === FeedbackQuestionType.TEXT) {
+        if (
+          question.feedbackQuestion.questionType === FeedbackQuestionType.CONTRIB ||
+          question.feedbackQuestion.questionType === FeedbackQuestionType.TEXT
+        ) {
           // Should not display anything for contribution and text questions
           continue;
         }
@@ -219,8 +228,12 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
             return false;
           }
 
-          const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
-              .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
+          const shouldDisplayBasedOnSection: boolean =
+            this.feedbackResponsesService.isFeedbackResponsesDisplayedOnSection(
+              response,
+              this.section,
+              this.sectionType,
+            );
 
           if (!shouldDisplayBasedOnSection) {
             return false;

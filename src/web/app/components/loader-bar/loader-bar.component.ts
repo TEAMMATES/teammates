@@ -12,14 +12,13 @@ import { LoadingBarService } from '../../../services/loading-bar.service';
   imports: [NgbProgressbar],
 })
 export class LoaderBarComponent implements OnInit {
-
   isShown = false;
 
-  constructor(private loadingBarService: LoadingBarService) {
-  }
+  constructor(private loadingBarService: LoadingBarService) {}
 
   ngOnInit(): void {
-    this.loadingBarService.isShown.subscribe((isShown: boolean) => { this.isShown = isShown; });
+    this.loadingBarService.isShown.subscribe((isShown: boolean) => {
+      this.isShown = isShown;
+    });
   }
-
 }

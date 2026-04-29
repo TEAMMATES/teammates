@@ -10,7 +10,8 @@ import { FeedbackSessionsService } from '../../../services/feedback-sessions.ser
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import {
-  Course, Courses,
+  Course,
+  Courses,
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessions,
@@ -130,16 +131,9 @@ describe('InstructorHomePageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-      ],
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      imports: [BrowserAnimationsModule],
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -189,10 +183,12 @@ describe('InstructorHomePageComponent', () => {
     expect(component.courseTabModels[0].course.courseId).toEqual('CS1231');
     expect(component.courseTabModels[0].course.courseName).toEqual('Discrete Structures');
 
-    jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(
-        () => createMockNgbModalRef({
-          header: 'mock header', content: 'mock content', type: SimpleModalType.WARNING,
-        }),
+    jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() =>
+      createMockNgbModalRef({
+        header: 'mock header',
+        content: 'mock content',
+        type: SimpleModalType.WARNING,
+      }),
     );
     jest.spyOn(courseService, 'binCourse').mockReturnValue(of(courseToDelete));
 
@@ -239,10 +235,12 @@ describe('InstructorHomePageComponent', () => {
     expect(component.courseTabModels[0].isAjaxSuccess).toBeTruthy();
     expect(component.courseTabModels[0].sessionsTableRowModels.length).toEqual(2);
 
-    expect(component.courseTabModels[0].sessionsTableRowModels[0]
-            .feedbackSession.feedbackSessionName).toEqual('First Session');
-    expect(component.courseTabModels[0].sessionsTableRowModels[1]
-            .feedbackSession.feedbackSessionName).toEqual('Second Session');
+    expect(component.courseTabModels[0].sessionsTableRowModels[0].feedbackSession.feedbackSessionName).toEqual(
+      'First Session',
+    );
+    expect(component.courseTabModels[0].sessionsTableRowModels[1].feedbackSession.feedbackSessionName).toEqual(
+      'Second Session',
+    );
   });
 
   it('should sort courseTabModels by courseId in ascending order', () => {

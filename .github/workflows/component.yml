@@ -10,7 +10,7 @@ on:
       - master
       - release
   schedule:
-    - cron: "0 0 * * *" #end of every day
+    - cron: '0 0 * * *' #end of every day
   workflow_dispatch:
 
 concurrency:

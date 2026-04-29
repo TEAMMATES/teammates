@@ -1,6 +1,4 @@
-<h1 class="color-orange">
-  Recovering Session Links for Students
-</h1>
+<h1 class="color-orange">Recovering Session Links for Students</h1>
 
 <p>
   If you cannot find your feedback session links, enter your course registered email below. Links to all your feedback
@@ -8,21 +6,37 @@
 </p>
 
 <div class="card bg-light col-sm-9 col-md-6">
-  <form class="card-body" [formGroup]="formSessionLinksRecovery" (ngSubmit)="onSubmitFormSessionLinksRecovery(formSessionLinksRecovery)">
-
+  <form
+    class="card-body"
+    [formGroup]="formSessionLinksRecovery"
+    (ngSubmit)="onSubmitFormSessionLinksRecovery(formSessionLinksRecovery)"
+  >
     <div class="form-group">
       <label class="control-label">
         <strong>Email:</strong>
       </label>
-      <input class="form-control" type="email" formControlName="email" maxlength="254" email="true" spellcheck="false">
+      <input
+        class="form-control"
+        type="email"
+        formControlName="email"
+        maxlength="254"
+        email="true"
+        spellcheck="false"
+      />
     </div>
     @if (captchaSiteKey !== '') {
       <div class="form-group">
-        <ngx-recaptcha2 #captchaElem [siteKey]="captchaSiteKey"
+        <ngx-recaptcha2
+          #captchaElem
+          [siteKey]="captchaSiteKey"
           (success)="handleSuccess($event)"
           (load)="handleLoad()"
           (error)="handleError()"
-          [useGlobalDomain]="false" [size]="size" [hl]="lang" formControlName="recaptcha">
+          [useGlobalDomain]="false"
+          [size]="size"
+          [hl]="lang"
+          formControlName="recaptcha"
+        >
         </ngx-recaptcha2>
 
         @if (captchaError) {
@@ -41,8 +55,8 @@
     <button class="btn btn-primary" type="submit" [disabled]="isFormSubmitting || !isCaptchaReady()">
       @if (isFormSubmitting) {
         <tm-ajax-loading></tm-ajax-loading>
-        }Submit
-      </button>
-
-    </form>
-  </div>
+      }
+      Submit
+    </button>
+  </form>
+</div>

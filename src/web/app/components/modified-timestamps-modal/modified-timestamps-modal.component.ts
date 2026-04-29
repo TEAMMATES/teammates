@@ -6,10 +6,7 @@ import { TweakedTimestampData } from '../../pages-instructor/instructor-session-
   selector: 'tm-modified-timestamps-modal',
   templateUrl: './modified-timestamps-modal.component.html',
   styleUrls: ['./modified-timestamps-modal.component.scss'],
-  imports: [
-    NgClass,
-    KeyValuePipe,
-],
+  imports: [NgClass, KeyValuePipe],
 })
 export class ModifiedTimestampModalComponent {
   @Input()

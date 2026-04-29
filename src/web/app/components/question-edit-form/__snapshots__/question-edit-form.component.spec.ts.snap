@@ -64,7 +64,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             <h2
               class="question-number fw-bold me-1"
             >
-              Question 
+               Question 
               <span
                 id="question-number"
               >
@@ -252,7 +252,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
               >
                 Feedback Path
               </b>
-               (Who is giving feedback about whom?) 
+               (Who is giving feedback about whom?)
             </div>
             <div
               autoclose="outside"
@@ -296,7 +296,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   <button
                     class="dropdown-button"
                   >
-                    Custom feedback path...
+                     Custom feedback path... 
                   </button>
                 </li>
               </ul>
@@ -407,7 +407,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
                   <button
                     class="dropdown-button"
                   >
-                    Custom visibility options...
+                     Custom visibility options... 
                   </button>
                 </li>
               </ul>

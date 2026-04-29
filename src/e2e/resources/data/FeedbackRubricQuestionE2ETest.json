@@ -213,32 +213,14 @@
       "questionDetails": {
         "hasAssignedWeights": true,
         "rubricWeightsForEachCell": [
-          [
-            1.01,
-            -0.99
-          ],
-          [
-            100.0,
-            -200.0
-          ]
+          [1.01, -0.99],
+          [100.0, -200.0]
         ],
-        "rubricChoices": [
-          "Yes",
-          "No"
-        ],
-        "rubricSubQuestions": [
-          "This student has done a good job.",
-          "This student has tried his/her best."
-        ],
+        "rubricChoices": ["Yes", "No"],
+        "rubricSubQuestions": ["This student has done a good job.", "This student has tried his/her best."],
         "rubricDescriptions": [
-          [
-            "",
-            ""
-          ],
-          [
-            "Most of the time",
-            "Less than half the time"
-          ]
+          ["", ""],
+          ["Most of the time", "Less than half the time"]
         ],
         "questionType": "RUBRIC",
         "questionText": "Please choose the best choice for the following sub-questions."
@@ -252,49 +234,23 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ]
+      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
     },
     "qn1ForSecondSession": {
       "questionDetails": {
         "hasAssignedWeights": false,
         "rubricWeightsForEachCell": [],
-        "rubricChoices": [
-          "Strongly Agree",
-          "Agree",
-          "Neutral",
-          "Disagree",
-          "Strongly Disagree"
-        ],
+        "rubricChoices": ["Strongly Agree", "Agree", "Neutral", "Disagree", "Strongly Disagree"],
         "rubricSubQuestions": [
           "The content of the class was interesting.",
           "The professor was engaging.",
           "The duration of the lessons too short."
         ],
         "rubricDescriptions": [
-          [
-            "",
-            "",
-            "",
-            "",
-            ""
-          ],
-          [
-            "Most of the time",
-            "",
-            "",
-            "",
-            "Less than half the time"
-          ],
+          ["", "", "", "", ""],
+          ["Most of the time", "", "", "", "Less than half the time"],
           [
             "The class should be 1 hour longer.",
             "The class should be 30 min longer.",
@@ -315,15 +271,9 @@
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ]
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"]
     }
   },
   "feedbackResponses": {},

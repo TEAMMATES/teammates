@@ -10,7 +10,6 @@ import { Milliseconds } from '../types/datetime-const';
   providedIn: 'root',
 })
 export class StatusMessageService {
-
   private toast: Subject<Toast> = new Subject();
 
   getToastEvent(): Observable<any> {
@@ -62,5 +61,4 @@ export class StatusMessageService {
       autohide: true,
     });
   }
-
 }

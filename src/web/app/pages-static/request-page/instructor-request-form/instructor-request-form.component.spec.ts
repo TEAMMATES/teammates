@@ -35,7 +35,8 @@ describe('InstructorRequestFormComponent', () => {
   };
 
   const accountServiceStub: Partial<AccountService> = {
-    createAccountRequest: () => new Observable((subscriber) => {
+    createAccountRequest: () =>
+      new Observable((subscriber) => {
         subscriber.next(typicalAccountRequest);
       }),
   };
@@ -55,12 +56,8 @@ describe('InstructorRequestFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        { provide: AccountService, useValue: accountServiceStub },
-        provideRouter([]),
-      ],
-    })
-    .compileComponents();
+      providers: [{ provide: AccountService, useValue: accountServiceStub }, provideRouter([])],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -96,12 +93,16 @@ describe('InstructorRequestFormComponent', () => {
 
   it('should emit requestSubmissionEvent with the correct data when form is submitted', () => {
     jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
-      new Observable((subscriber) => { subscriber.next(typicalAccountRequest); }));
+      new Observable((subscriber) => {
+        subscriber.next(typicalAccountRequest);
+      }),
+    );
 
     // Listen for emitted value
     let actualModel: InstructorRequestFormModel | null = null;
-    component.requestSubmissionEvent.pipe(first())
-        .subscribe((data: InstructorRequestFormModel) => { actualModel = data; });
+    component.requestSubmissionEvent.pipe(first()).subscribe((data: InstructorRequestFormModel) => {
+      actualModel = data;
+    });
 
     fillFormWith(typicalModel);
     component.onSubmit();
@@ -116,7 +117,10 @@ describe('InstructorRequestFormComponent', () => {
 
   it('should send the correct request data when form is submitted', () => {
     jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
-      new Observable((subscriber) => { subscriber.next(typicalAccountRequest); }));
+      new Observable((subscriber) => {
+        subscriber.next(typicalAccountRequest);
+      }),
+    );
 
     fillFormWith(typicalModel);
     component.onSubmit();
@@ -127,7 +131,10 @@ describe('InstructorRequestFormComponent', () => {
 
   it('should auto-unify country when applicable', () => {
     jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
-        new Observable((subscriber) => { subscriber.next(typicalAccountRequest); }));
+      new Observable((subscriber) => {
+        subscriber.next(typicalAccountRequest);
+      }),
+    );
     const unitedStatesModel: InstructorRequestFormModel = {
       ...typicalModel,
       country: 'españa',
@@ -141,7 +148,7 @@ describe('InstructorRequestFormComponent', () => {
 
     expect(accountService.createAccountRequest).toHaveBeenCalledTimes(1);
     expect(accountService.createAccountRequest).toHaveBeenCalledWith(
-        expect.objectContaining(unitedStatesCreateRequest));
+      expect.objectContaining(unitedStatesCreateRequest),
+    );
   });
-
 });

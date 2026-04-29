@@ -47,21 +47,13 @@ import {
   QuestionEditFormModel,
 } from '../../../components/question-edit-form/question-edit-form-model';
 import { QuestionEditFormComponent } from '../../../components/question-edit-form/question-edit-form.component';
-import {
-  QuestionSubmissionFormModel,
-} from '../../../components/question-submission-form/question-submission-form-model';
-import {
-  QuestionSubmissionFormComponent,
-} from '../../../components/question-submission-form/question-submission-form.component';
+import { QuestionSubmissionFormModel } from '../../../components/question-submission-form/question-submission-form-model';
+import { QuestionSubmissionFormComponent } from '../../../components/question-submission-form/question-submission-form.component';
 import { Response } from '../../../components/question-types/question-statistics/question-statistics';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
-import {
-  InstructorSessionResultQuestionViewComponent,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-question-view.component';
-import {
-  InstructorSessionResultSectionType,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { InstructorSessionResultQuestionViewComponent } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-question-view.component';
+import { InstructorSessionResultSectionType } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { QuestionTabModel } from '../../../pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 import { ExampleBoxComponent } from '../example-box/example-box.component';
 import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
@@ -84,10 +76,9 @@ import { Sections } from '../sections';
     NgbTooltip,
     QuestionSubmissionFormComponent,
     NgbCollapse,
-],
+  ],
 })
 export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
-
   // enums
   QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
   InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
@@ -156,16 +147,13 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
    * Opens modal for contribution info.
    */
   openContribInfoModal(modal: TemplateRef<any>): void {
-    this.simpleModalService.openInformationModal(
-        'Team contribution calculation', SimpleModalType.NEUTRAL, modal);
+    this.simpleModalService.openInformationModal('Team contribution calculation', SimpleModalType.NEUTRAL, modal);
   }
 
   /**
    * Opens modal for rank info.
    */
   openRankInfoModal(modal: TemplateRef<any>): void {
-    this.simpleModalService.openInformationModal(
-        'Rank calculation', SimpleModalType.NEUTRAL, modal);
+    this.simpleModalService.openInformationModal('Rank calculation', SimpleModalType.NEUTRAL, modal);
   }
-
 }

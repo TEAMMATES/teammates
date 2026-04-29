@@ -2,9 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import {
-  InstructorCourseStudentDetailsPageComponent,
-} from './instructor-course-student-details-page.component';
+import { InstructorCourseStudentDetailsPageComponent } from './instructor-course-student-details-page.component';
 import { JoinState } from '../../../types/api-output';
 
 describe('InstructorCourseStudentDetailsPageComponent', () => {
@@ -13,13 +11,8 @@ describe('InstructorCourseStudentDetailsPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

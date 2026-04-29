@@ -2,12 +2,11 @@
   <div class="row align-items-center">
     <div
       [ngClass]="{ 'col-lg-2': !forDisplayOnly, 'text-lg-end': !forDisplayOnly, 'mb-lg-3': forDisplayOnly }"
-      class="mb-3 mb-lg-0">
+      class="mb-3 mb-lg-0"
+    >
       <b>Preview Session:</b>
     </div>
-    <div
-      [ngClass]="{'col-lg-5': !forDisplayOnly, 'col-lg-6': forDisplayOnly}"
-      class="col-12 mb-3 mb-lg-0">
+    <div [ngClass]="{ 'col-lg-5': !forDisplayOnly, 'col-lg-6': forDisplayOnly }" class="col-12 mb-3 mb-lg-0">
       <div class="row align-items-center justify-content-center">
         <select
           id="preview-student"
@@ -15,31 +14,29 @@
           class="col-12 col-sm-8 col-lg-6 form-control form-select preview-select"
           [(ngModel)]="emailOfStudentToPreview"
           aria-label="Select student to preview as"
-          >
+        >
           @for (student of studentsOfCourse; track student) {
-            <option [ngValue]="student.email">
-              [{{ student.teamName }}] {{ student.name }}
-            </option>
+            <option [ngValue]="student.email">[{{ student.teamName }}] {{ student.name }}</option>
           }
         </select>
         <div class="mt-1 mt-lg-0 col-sm-4 col-lg-6 w-max-content">
           @if (emailOfStudentToPreview.length !== 0) {
             <a
               tmRouterLink="/web/sessions/submission"
-            [queryParams]="{
-              courseid: courseId,
-              fsname: feedbackSessionName,
-              fsid: feedbackSessionId,
-              previewas: emailOfStudentToPreview
-            }"
+              [queryParams]="{
+                courseid: courseId,
+                fsname: feedbackSessionName,
+                fsid: feedbackSessionId,
+                previewas: emailOfStudentToPreview,
+              }"
               target="_blank"
               rel="noopener noreferrer"
-            [ngbTooltip]="
-            emailOfStudentToPreview.length !== 0
-            ? 'View how this session would look like to a student who is submitting feedback.'
-            : 'Preview is unavailable if the course has yet to have any student enrolled.'
-            "
-              >
+              [ngbTooltip]="
+                emailOfStudentToPreview.length !== 0
+                  ? 'View how this session would look like to a student who is submitting feedback.'
+                  : 'Preview is unavailable if the course has yet to have any student enrolled.'
+              "
+            >
               <ng-container *ngTemplateOutlet="previewStudentBtn"></ng-container>
             </a>
           } @else {
@@ -47,7 +44,7 @@
               id="btn-preview-student"
               class="btn btn-primary"
               [disabled]="emailOfStudentToPreview.length === 0 || forDisplayOnly"
-              >
+            >
               Preview as Student
             </button>
           }
@@ -57,15 +54,13 @@
             id="btn-preview-student"
             class="btn btn-primary"
             [disabled]="emailOfStudentToPreview.length === 0 || forDisplayOnly"
-            >
+          >
             Preview as Student
           </button>
         </ng-template>
       </div>
     </div>
-    <div
-      [ngClass]="{'col-lg-5': !forDisplayOnly, 'col-lg-6': forDisplayOnly}"
-      class="col-12">
+    <div [ngClass]="{ 'col-lg-5': !forDisplayOnly, 'col-lg-6': forDisplayOnly }" class="col-12">
       <div class="row align-items-center justify-content-center">
         <select
           id="preview-instructor"
@@ -73,7 +68,7 @@
           class="col-12 col-sm-8 col-lg-6 form-control form-select preview-select"
           [(ngModel)]="emailOfInstructorToPreview"
           aria-label="Select instructor to preview as"
-          >
+        >
           @for (instructor of instructorsCanBePreviewedAs; track instructor) {
             <option [ngValue]="instructor.email">
               {{ instructor.name }}
@@ -84,16 +79,16 @@
           @if (emailOfInstructorToPreview.length !== 0) {
             <a
               tmRouterLink="/web/instructor/sessions/submission"
-            [queryParams]="{
-              courseid: courseId,
-              fsname: feedbackSessionName,
-              fsid: feedbackSessionId,
-              previewas: emailOfInstructorToPreview
-            }"
+              [queryParams]="{
+                courseid: courseId,
+                fsname: feedbackSessionName,
+                fsid: feedbackSessionId,
+                previewas: emailOfInstructorToPreview,
+              }"
               target="_blank"
               rel="noopener noreferrer"
               ngbTooltip="View how this session would look like to an instructor who is submitting feedback. Only instructors with submit privileges are included in the list."
-              >
+            >
               <ng-container *ngTemplateOutlet="previewInstructorBtn"></ng-container>
             </a>
           } @else {
@@ -101,7 +96,7 @@
               id="btn-preview-instructor"
               class="btn btn-primary"
               [disabled]="emailOfInstructorToPreview.length === 0 || forDisplayOnly"
-              >
+            >
               Preview as Instructor
             </button>
           }
@@ -111,7 +106,7 @@
             id="btn-preview-instructor"
             class="btn btn-primary"
             [disabled]="emailOfInstructorToPreview.length === 0 || forDisplayOnly"
-            >
+          >
             Preview as Instructor
           </button>
         </ng-template>

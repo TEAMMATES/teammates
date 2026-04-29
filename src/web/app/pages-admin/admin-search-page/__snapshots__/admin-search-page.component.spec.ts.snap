@@ -64,14 +64,14 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
           style="margin-right: 10px;"
           type="button"
         >
-          Expand All
+           Expand All 
         </button>
         <button
           class="btn btn-light btn-sm"
           id="hide-instructor-links"
           type="button"
         >
-          Collapse All
+           Collapse All 
         </button>
       </div>
     </div>
@@ -170,7 +170,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                 class="btn btn-danger"
                 id="regenerate-instructor-key-0"
               >
-                Regenerate key
+                 Regenerate key 
               </button>
             </td>
           </tr>
@@ -195,14 +195,14 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
           style="margin-right: 10px;"
           type="button"
         >
-          Expand All
+           Expand All 
         </button>
         <button
           class="btn btn-light btn-sm"
           id="hide-student-links"
           type="button"
         >
-          Collapse All
+           Collapse All 
         </button>
       </div>
     </div>
@@ -311,7 +311,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                 class="btn btn-danger"
                 id="regenerate-student-key-0"
               >
-                Regenerate key
+                 Regenerate key 
               </button>
             </td>
           </tr>
@@ -344,7 +344,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                     data-testid="send-course-join-button"
                     type="button"
                   >
-                    Send mail
+                     Send mail 
                   </button>
                   <input
                     class="form-control"
@@ -362,7 +362,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                     data-testid="send-awaiting-session-reminder-button"
                     type="button"
                   >
-                    Send mail
+                     Send mail 
                   </button>
                   <input
                     class="form-control"
@@ -380,7 +380,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                     data-testid="send-open-session-reminder-button"
                     type="button"
                   >
-                    Send mail
+                     Send mail 
                   </button>
                   <input
                     class="form-control"
@@ -398,7 +398,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                     data-testid="send-not-open-session-reminder-button"
                     type="button"
                   >
-                    Send mail
+                     Send mail 
                   </button>
                   <input
                     class="form-control"
@@ -416,7 +416,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                     data-testid="send-published-session-reminder-button"
                     type="button"
                   >
-                    Send mail
+                     Send mail 
                   </button>
                   <input
                     class="form-control"
@@ -547,14 +547,14 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
           style="margin-right: 10px;"
           type="button"
         >
-          Expand All
+           Expand All 
         </button>
         <button
           class="btn btn-light btn-sm"
           id="hide-instructor-links"
           type="button"
         >
-          Collapse All
+           Collapse All 
         </button>
       </div>
     </div>
@@ -650,7 +650,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
                 class="btn btn-danger"
                 id="regenerate-instructor-key-0"
               >
-                Regenerate key
+                 Regenerate key 
               </button>
             </td>
           </tr>
@@ -801,14 +801,14 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
           style="margin-right: 10px;"
           type="button"
         >
-          Expand All
+           Expand All 
         </button>
         <button
           class="btn btn-light btn-sm"
           id="hide-student-links"
           type="button"
         >
-          Collapse All
+           Collapse All 
         </button>
       </div>
     </div>
@@ -914,7 +914,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                 class="btn btn-danger"
                 id="regenerate-student-key-0"
               >
-                Regenerate key
+                 Regenerate key 
               </button>
             </td>
           </tr>
@@ -947,7 +947,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                     data-testid="send-course-join-button"
                     type="button"
                   >
-                    Send mail
+                     Send mail 
                   </button>
                   <input
                     class="form-control"
@@ -965,7 +965,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                     data-testid="send-awaiting-session-reminder-button"
                     type="button"
                   >
-                    Send mail
+                     Send mail 
                   </button>
                   <input
                     class="form-control"
@@ -983,7 +983,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                     data-testid="send-open-session-reminder-button"
                     type="button"
                   >
-                    Send mail
+                     Send mail 
                   </button>
                   <input
                     class="form-control"
@@ -1001,7 +1001,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                     data-testid="send-not-open-session-reminder-button"
                     type="button"
                   >
-                    Send mail
+                     Send mail 
                   </button>
                   <input
                     class="form-control"
@@ -1019,7 +1019,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                     data-testid="send-published-session-reminder-button"
                     type="button"
                   >
-                    Send mail
+                     Send mail 
                   </button>
                   <input
                     class="form-control"

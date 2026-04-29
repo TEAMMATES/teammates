@@ -15,7 +15,7 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "strict": true,
-    "target": "es2022",
+    "target": "es2022"
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
@@ -23,6 +23,6 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true,
     "typeCheckHostBindings": true,
-    "strictStandalone": true,
+    "strictStandalone": true
   }
 }

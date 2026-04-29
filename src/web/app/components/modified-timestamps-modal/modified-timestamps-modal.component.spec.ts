@@ -7,9 +7,7 @@ describe('ModifiedTimestampModalComponent', () => {
   let component: ModifiedTimestampModalComponent;
   let fixture: ComponentFixture<ModifiedTimestampModalComponent>;
 
-  const coursesOfModifiedSession: string[] = [
-    'CS315-Semester12023',
-  ];
+  const coursesOfModifiedSession: string[] = ['CS315-Semester12023'];
 
   const modifiedSessions: Record<string, TweakedTimestampData> = {
     'Instructor Feedback Session': {
@@ -56,5 +54,4 @@ describe('ModifiedTimestampModalComponent', () => {
 
     expect(fixture).toMatchSnapshot();
   });
-
 });

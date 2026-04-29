@@ -75,16 +75,9 @@ describe('InstructorStudentListPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-      ],
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      imports: [BrowserAnimationsModule],
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -99,12 +92,14 @@ describe('InstructorStudentListPageComponent', () => {
   });
 
   it('should block instructors from viewing student details if they do not have the permission', () => {
-    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(throwError(() => ({
-      status: HttpStatusCode.Forbidden,
-      error: {
-        message: 'You are not authorized to access this resource.',
-      },
-    })));
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
+      throwError(() => ({
+        status: HttpStatusCode.Forbidden,
+        error: {
+          message: 'You are not authorized to access this resource.',
+        },
+      })),
+    );
     component.loadStudents(course1Tab);
     expect(course1Tab.isAbleToViewStudents).toBeFalsy();
     expect(course1Tab.hasStudentLoaded).toBeTruthy();

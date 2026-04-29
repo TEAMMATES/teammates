@@ -8,4 +8,4 @@ Due to the system's nature as a Software-as-a-Service (instead of installable li
 
 You may submit vulnerability reports to teammates@comp.nus.edu.sg.
 
-We will strive to respond in 24 hours, and in the event of an accepted report, no more than 72 hours before providing an estimate resolution time. 
+We will strive to respond in 24 hours, and in the event of an accepted report, no more than 72 hours before providing an estimate resolution time.

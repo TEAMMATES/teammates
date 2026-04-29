@@ -7,12 +7,25 @@
 </div>
 
 <div class="container ms-1">
-
   <div class="row ps-3">
-    <label class="me-2"><input id="extend-deadline-by" type="radio" name="optradio" [value]="RadioOptions.EXTEND_BY" [(ngModel)]="radioOption">
+    <label class="me-2"
+      ><input
+        id="extend-deadline-by"
+        type="radio"
+        name="optradio"
+        [value]="RadioOptions.EXTEND_BY"
+        [(ngModel)]="radioOption"
+      />
       Extend deadline by
     </label>
-    <label><input id="extend-deadline-to" type="radio" name="optradio" [(ngModel)]="radioOption" [value]="RadioOptions.EXTEND_TO">
+    <label
+      ><input
+        id="extend-deadline-to"
+        type="radio"
+        name="optradio"
+        [(ngModel)]="radioOption"
+        [value]="RadioOptions.EXTEND_TO"
+      />
       Extend deadline to
     </label>
   </div>
@@ -24,13 +37,10 @@
         <div class="input-group w-75">
           <select id="extend-by-dropdown" class="form-control form-select" [(ngModel)]="extendByDeadlineKey">
             @for (deadlineOption of extendByDeadlineOptions | keyvalue: sortMapByOriginalOrder; track deadlineOption) {
-              <option
-                [value]="deadlineOption.key">
+              <option [value]="deadlineOption.key">
                 {{ deadlineOption.key }}
                 @if (deadlineOption.key !== 'Customize') {
-                  <div>
-                    ({{ extendAndFormatEndTimeBy(deadlineOption.value, 0) }})
-                  </div>
+                  <div>({{ extendAndFormatEndTimeBy(deadlineOption.value, 0) }})</div>
                 }
               </option>
             }
@@ -49,10 +59,15 @@
             id="submission-end-date"
             [date]="extendToDatePicker"
             (dateChangeCallback)="onChangeDateTime($event, DateTime.DATE)"
-            [minDate]="getDateFormat(feedbackSessionEndingTimestamp)">
+            [minDate]="getDateFormat(feedbackSessionEndingTimestamp)"
+          >
           </tm-datepicker>
           <div class="col-md-5">
-            <tm-timepicker id="submission-end-time" [time]="extendToTimePicker" (timeChange)="onChangeDateTime($event, DateTime.TIME)">
+            <tm-timepicker
+              id="submission-end-time"
+              [time]="extendToTimePicker"
+              (timeChange)="onChangeDateTime($event, DateTime.TIME)"
+            >
             </tm-timepicker>
           </div>
         </div>
@@ -66,37 +81,53 @@
         <div class="row">
           <div class="col-sm ps-0">
             <small>Hours</small>
-            <input class="form-control" id="form-hours" name="form-hours" type="number" placeholder="Hours"
-              [(ngModel)]="extendByDatePicker.hours">
+            <input
+              class="form-control"
+              id="form-hours"
+              name="form-hours"
+              type="number"
+              placeholder="Hours"
+              [(ngModel)]="extendByDatePicker.hours"
+            />
           </div>
           <div class="col-sm">
             <small>Days</small>
-            <input class="form-control" id="form-days" name="form-days" type="number" placeholder="Days"
-              [(ngModel)]="extendByDatePicker.days">
+            <input
+              class="form-control"
+              id="form-days"
+              name="form-days"
+              type="number"
+              placeholder="Days"
+              [(ngModel)]="extendByDatePicker.days"
+            />
           </div>
         </div>
       </form>
-      <br>
-        @if (!isCustomizeDateTimeIntegers()) {
-          <p class="text-danger m-0"><span class="fa fa-times"></span> Please input only integers into both blanks.</p>
-        }
-        @if (!isDateSelectedLaterThanCurrentEndingTimestamp()) {
-          <p class="text-danger m-0"><span class="fa fa-times"></span> Please input a date later than the current session ending date.</p>
-        }
-        @if (!isCustomizeBeforeMaxDate()) {
-          <p class="text-danger m-0"><span class="fa fa-times"></span> Please input a valid date.</p>
-        }
-        <p class="mb-0">
-          The new extended deadline will be: {{ extendAndFormatEndTimeBy(extendByDatePicker.hours, extendByDatePicker.days) }}
+      <br />
+      @if (!isCustomizeDateTimeIntegers()) {
+        <p class="text-danger m-0"><span class="fa fa-times"></span> Please input only integers into both blanks.</p>
+      }
+      @if (!isDateSelectedLaterThanCurrentEndingTimestamp()) {
+        <p class="text-danger m-0">
+          <span class="fa fa-times"></span> Please input a date later than the current session ending date.
         </p>
-      </div>
-    }
-
-    <br>
+      }
+      @if (!isCustomizeBeforeMaxDate()) {
+        <p class="text-danger m-0"><span class="fa fa-times"></span> Please input a valid date.</p>
+      }
+      <p class="mb-0">
+        The new extended deadline will be:
+        {{ extendAndFormatEndTimeBy(extendByDatePicker.hours, extendByDatePicker.days) }}
+      </p>
     </div>
+  }
 
-    <div class="modal-footer">
-      <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, cancel the Operation</button>
-      <button type="button" class="btn btn-success modal-btn-ok" (click)="onConfirm()" [disabled]="!isValidForm()">
-      Save Changes</button>
-    </div>
+  <br />
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, cancel the Operation</button>
+  <button type="button" class="btn btn-success modal-btn-ok" (click)="onConfirm()" [disabled]="!isValidForm()">
+    Save Changes
+  </button>
+</div>

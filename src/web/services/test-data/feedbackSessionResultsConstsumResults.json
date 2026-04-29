@@ -20,15 +20,9 @@
         "recipientType": "TEAMS",
         "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
         "customNumberOfEntitiesToGiveFeedbackTo": 2,
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
       },
       "questionStatistics": "",
       "allResponses": [
@@ -44,9 +38,7 @@
           "recipientTeam": "Team 1.2",
           "recipientSection": "None",
           "responseDetails": {
-            "answers": [
-              20
-            ],
+            "answers": [20],
             "questionType": "CONSTSUM"
           },
           "instructorComments": []
@@ -63,9 +55,7 @@
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientSection": "None",
           "responseDetails": {
-            "answers": [
-              80
-            ],
+            "answers": [80],
             "questionType": "CONSTSUM"
           },
           "participantComment": {
@@ -104,15 +94,9 @@
         "recipientType": "STUDENTS",
         "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
         "customNumberOfEntitiesToGiveFeedbackTo": 5,
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
       },
       "questionStatistics": "",
       "allResponses": [
@@ -129,9 +113,7 @@
           "recipientEmail": "student3InCourse1@gmail.tmt",
           "recipientSection": "None",
           "responseDetails": {
-            "answers": [
-              30
-            ],
+            "answers": [30],
             "questionType": "CONSTSUM"
           },
           "instructorComments": []
@@ -149,9 +131,7 @@
           "recipientEmail": "student2InCourse1@gmail.tmt",
           "recipientSection": "None",
           "responseDetails": {
-            "answers": [
-              20
-            ],
+            "answers": [20],
             "questionType": "CONSTSUM"
           },
           "instructorComments": []
@@ -169,9 +149,7 @@
           "recipientEmail": "student1InCourse1@gmail.tmt",
           "recipientSection": "None",
           "responseDetails": {
-            "answers": [
-              30
-            ],
+            "answers": [30],
             "questionType": "CONSTSUM"
           },
           "instructorComments": []
@@ -189,9 +167,7 @@
           "recipientEmail": "student5InCourse1@gmail.tmt",
           "recipientSection": "None",
           "responseDetails": {
-            "answers": [
-              10
-            ],
+            "answers": [10],
             "questionType": "CONSTSUM"
           },
           "instructorComments": []
@@ -209,9 +185,7 @@
           "recipientEmail": "student4InCourse1@gmail.tmt",
           "recipientSection": "None",
           "responseDetails": {
-            "answers": [
-              10
-            ],
+            "answers": [10],
             "questionType": "CONSTSUM"
           },
           "instructorComments": []
@@ -407,10 +381,7 @@
         "questionNumber": 1,
         "questionBrief": "How important are the following factors to you? Give points accordingly.",
         "questionDetails": {
-          "constSumOptions": [
-            "Grades",
-            "Fun"
-          ],
+          "constSumOptions": ["Grades", "Fun"],
           "distributeToRecipients": false,
           "pointsPerOption": false,
           "forceUnevenDistribution": false,
@@ -424,15 +395,9 @@
         "recipientType": "SELF",
         "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
         "customNumberOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
       },
       "questionStatistics": "",
       "allResponses": [
@@ -449,10 +414,7 @@
           "recipientEmail": "student2InCourse1@gmail.tmt",
           "recipientSection": "None",
           "responseDetails": {
-            "answers": [
-              80,
-              20
-            ],
+            "answers": [80, 20],
             "questionType": "CONSTSUM"
           },
           "participantComment": {
@@ -479,10 +441,7 @@
           "recipientEmail": "student1InCourse1@gmail.tmt",
           "recipientSection": "None",
           "responseDetails": {
-            "answers": [
-              19,
-              81
-            ],
+            "answers": [19, 81],
             "questionType": "CONSTSUM"
           },
           "instructorComments": []

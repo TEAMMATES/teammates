@@ -12,14 +12,12 @@ import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest, Intent } fro
   providedIn: 'root',
 })
 export class InstructorService {
-
-  constructor(private httpRequestService: HttpRequestService) { }
+  constructor(private httpRequestService: HttpRequestService) {}
 
   /**
    * Get a list of instructors of a course by calling API.
    */
-  loadInstructors(queryParams: { courseId: string, intent?: Intent }): Observable<Instructors> {
-
+  loadInstructors(queryParams: { courseId: string; intent?: Intent }): Observable<Instructors> {
     const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
     };
@@ -35,12 +33,12 @@ export class InstructorService {
    * Get an instructor in a course by calling API.
    */
   getInstructor(queryParams: {
-    courseId: string,
-    feedbackSessionName?: string,
-    intent: Intent,
-    key?: string,
-    moderatedPerson?: string,
-    previewAs?: string,
+    courseId: string;
+    feedbackSessionName?: string;
+    intent: Intent;
+    key?: string;
+    moderatedPerson?: string;
+    previewAs?: string;
   }): Observable<Instructor> {
     const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
@@ -64,7 +62,7 @@ export class InstructorService {
   /**
    * Creates an instructor in a course by calling API.
    */
-  createInstructor(queryParams: { courseId: string, requestBody: InstructorCreateRequest }): Observable<Instructor> {
+  createInstructor(queryParams: { courseId: string; requestBody: InstructorCreateRequest }): Observable<Instructor> {
     const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
     };
@@ -74,7 +72,7 @@ export class InstructorService {
   /**
    * Updates an instructor in a course by calling API.
    */
-  updateInstructor(queryParams: { courseId: string, requestBody: InstructorCreateRequest }): Observable<Instructor> {
+  updateInstructor(queryParams: { courseId: string; requestBody: InstructorCreateRequest }): Observable<Instructor> {
     const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
     };
@@ -85,9 +83,9 @@ export class InstructorService {
    * Deletes an instructor from a course by calling API.
    */
   deleteInstructor(queryParams: {
-    courseId: string,
-    instructorEmail?: string,
-    instructorId?: string,
+    courseId: string;
+    instructorEmail?: string;
+    instructorId?: string;
   }): Observable<any> {
     const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
@@ -108,11 +106,10 @@ export class InstructorService {
    * Loads privilege of an instructor for a specified course.
    */
   loadInstructorPrivilege(queryParams: {
-    courseId: string,
-    instructorEmail?: string,
-    instructorId?: string,
+    courseId: string;
+    instructorEmail?: string;
+    instructorId?: string;
   }): Observable<InstructorPrivilege> {
-
     const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
     };
@@ -132,9 +129,9 @@ export class InstructorService {
    * Updates the privilege of an instructor for a specified course.
    */
   updateInstructorPrivilege(queryParams: {
-    courseId: string,
-    instructorEmail: string,
-    requestBody: InstructorPrivilegeUpdateRequest,
+    courseId: string;
+    instructorEmail: string;
+    requestBody: InstructorPrivilegeUpdateRequest;
   }): Observable<InstructorPrivilege> {
     const paramMap: any = {
       courseid: queryParams.courseId,
@@ -153,5 +150,4 @@ export class InstructorService {
     };
     return this.httpRequestService.post(ResourceEndpoints.INSTRUCTOR_KEY, paramsMap);
   }
-
 }

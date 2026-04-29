@@ -21,7 +21,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
   <h1>
     Notifications
   </h1><p>
-    This page allows you to create and manage notifications which are shown to respective target users when they access TEAMMATES.
+     This page allows you to create and manage notifications which are shown to respective target users when they access TEAMMATES.
   </p><div
     id="notifications-timezone"
   >
@@ -203,7 +203,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                     type="text"
                   />
                   <div>
-                     80 characters left 
+                    80 characters left
                   </div>
                 </div>
               </div>
@@ -646,7 +646,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                   id="btn-create-notification"
                   type="button"
                 >
-                  Create Notification 
+                   Create Notification 
                 </button>
               </div>
             </div>
@@ -693,7 +693,7 @@ exports[`AdminNotificationsPageComponent should snap when notifications are load
   <h1>
     Notifications
   </h1><p>
-    This page allows you to create and manage notifications which are shown to respective target users when they access TEAMMATES.
+     This page allows you to create and manage notifications which are shown to respective target users when they access TEAMMATES.
   </p><div
     id="notifications-timezone"
   >
@@ -874,7 +874,7 @@ exports[`AdminNotificationsPageComponent should snap when notifications are load
                     type="text"
                   />
                   <div>
-                     80 characters left 
+                    80 characters left
                   </div>
                 </div>
               </div>
@@ -1317,7 +1317,7 @@ exports[`AdminNotificationsPageComponent should snap when notifications are load
                   id="btn-create-notification"
                   type="button"
                 >
-                  Create Notification 
+                   Create Notification 
                 </button>
               </div>
             </div>
@@ -1371,7 +1371,7 @@ exports[`AdminNotificationsPageComponent should snap when notifications failed t
   <h1>
     Notifications
   </h1><p>
-    This page allows you to create and manage notifications which are shown to respective target users when they access TEAMMATES.
+     This page allows you to create and manage notifications which are shown to respective target users when they access TEAMMATES.
   </p><div
     id="notifications-timezone"
   >
@@ -1552,7 +1552,7 @@ exports[`AdminNotificationsPageComponent should snap when notifications failed t
                     type="text"
                   />
                   <div>
-                     80 characters left 
+                    80 characters left
                   </div>
                 </div>
               </div>
@@ -1995,7 +1995,7 @@ exports[`AdminNotificationsPageComponent should snap when notifications failed t
                   id="btn-create-notification"
                   type="button"
                 >
-                  Create Notification 
+                   Create Notification 
                 </button>
               </div>
             </div>
@@ -2019,7 +2019,7 @@ exports[`AdminNotificationsPageComponent should snap when notifications failed t
           aria-hidden="true"
           class="fas fa-redo"
         />
-         Retry
+         Retry 
       </button>
     </div>
   </tm-loading-retry>
@@ -2047,7 +2047,7 @@ exports[`AdminNotificationsPageComponent should snap with default view 1`] = `
   <h1>
     Notifications
   </h1><p>
-    This page allows you to create and manage notifications which are shown to respective target users when they access TEAMMATES.
+     This page allows you to create and manage notifications which are shown to respective target users when they access TEAMMATES.
   </p><div
     id="notifications-timezone"
   >
@@ -2228,7 +2228,7 @@ exports[`AdminNotificationsPageComponent should snap with default view 1`] = `
                     type="text"
                   />
                   <div>
-                     80 characters left 
+                    80 characters left
                   </div>
                 </div>
               </div>
@@ -2671,7 +2671,7 @@ exports[`AdminNotificationsPageComponent should snap with default view 1`] = `
                   id="btn-create-notification"
                   type="button"
                 >
-                  Create Notification 
+                   Create Notification 
                 </button>
               </div>
             </div>

@@ -17,7 +17,6 @@ import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor
   styleUrls: ['./admin-reject-with-reason-modal.component.scss'],
   imports: [RichTextEditorComponent],
 })
-
 export class RejectWithReasonModalComponent implements OnInit {
   readonly castAsInputElement = castAsInputElement;
 
@@ -46,24 +45,25 @@ export class RejectWithReasonModalComponent implements OnInit {
     publishedSessions: {},
   };
 
-  rejectionReasonBody: string = '<p>Hi, {accountRequestName} </p>\n\n'
-  + '<p>Thanks for your interest in using TEAMMATES. '
-  + 'We are unable to create a TEAMMATES instructor account for you.</p>'
-  + '<p><strong>Reason:</strong> The email address you provided is not an &#39;official&#39; '
-  + 'email address provided by your institution.<br />'
-  + '<strong>Remedy:</strong> Please re-submit an account request with your &#39;official&#39; '
-  + 'institution email address.</p>\n\n'
-  + '<p><strong>Reason:</strong> The email address you have provided seems like it belongs to a student '
-  + '(i.e., not a staff member) of your institution.<br />'
-  + '<strong>Remedy:</strong> If you are a student but you still need an instructor account, '
-  + 'please send your justification to {supportEmail}</p>\n\n'
-  + '<p><strong>Reason:</strong> You already have an account for this email address and this institution.<br />'
-  + '<strong>Remedy:</strong> You can login to TEAMMATES using your Google account: {googleId} </p>\n\n'
-  + '<p>If you are logged into multiple Google accounts, remember to logout from other Google accounts first, '
-  + 'or use an incognito Browser window. Let us know (with a screenshot) if that doesn\'t work.</p>'
-  + '<p>If you need further clarification or would like to appeal this decision, please '
-  + 'feel free to contact us at {supportEmail}</p>'
-  + '<p>Regards,<br />TEAMMATES Team.</p>';
+  rejectionReasonBody: string =
+    '<p>Hi, {accountRequestName} </p>\n\n' +
+    '<p>Thanks for your interest in using TEAMMATES. ' +
+    'We are unable to create a TEAMMATES instructor account for you.</p>' +
+    '<p><strong>Reason:</strong> The email address you provided is not an &#39;official&#39; ' +
+    'email address provided by your institution.<br />' +
+    '<strong>Remedy:</strong> Please re-submit an account request with your &#39;official&#39; ' +
+    'institution email address.</p>\n\n' +
+    '<p><strong>Reason:</strong> The email address you have provided seems like it belongs to a student ' +
+    '(i.e., not a staff member) of your institution.<br />' +
+    '<strong>Remedy:</strong> If you are a student but you still need an instructor account, ' +
+    'please send your justification to {supportEmail}</p>\n\n' +
+    '<p><strong>Reason:</strong> You already have an account for this email address and this institution.<br />' +
+    '<strong>Remedy:</strong> You can login to TEAMMATES using your Google account: {googleId} </p>\n\n' +
+    '<p>If you are logged into multiple Google accounts, remember to logout from other Google accounts first, ' +
+    "or use an incognito Browser window. Let us know (with a screenshot) if that doesn't work.</p>" +
+    '<p>If you need further clarification or would like to appeal this decision, please ' +
+    'feel free to contact us at {supportEmail}</p>' +
+    '<p>Regards,<br />TEAMMATES Team.</p>';
   rejectionReasonTitle = 'We are Unable to Create an Account for you';
 
   constructor(
@@ -85,10 +85,9 @@ export class RejectWithReasonModalComponent implements OnInit {
   }
 
   replaceGoogleId(): void {
-    this.searchService.searchAdmin(this.accountRequestEmail)
-    .subscribe({
+    this.searchService.searchAdmin(this.accountRequestEmail).subscribe({
       next: (resp: AdminSearchResult) => {
-        const hasInstructors = !!(resp.instructors?.length);
+        const hasInstructors = !!resp.instructors?.length;
 
         if (!hasInstructors) {
           this.rejectionReasonBody = this.rejectionReasonBody.replace('{googleId}', 'NO_GOOGLEID');
@@ -118,7 +117,6 @@ export class RejectWithReasonModalComponent implements OnInit {
    * Fires the reject event.
    */
   reject(): void {
-
     if (!this.rejectionReasonBody || this.rejectionReasonBody.length === 0) {
       this.statusMessageService.showErrorToast('Please provide an email body for the rejection email.');
       return;
@@ -129,11 +127,11 @@ export class RejectWithReasonModalComponent implements OnInit {
       return;
     }
 
-      const result: RejectWithReasonModalComponentResult = {
-        rejectionReasonTitle: this.rejectionReasonTitle,
-        rejectionReasonBody: this.rejectionReasonBody,
-      };
+    const result: RejectWithReasonModalComponentResult = {
+      rejectionReasonTitle: this.rejectionReasonTitle,
+      rejectionReasonBody: this.rejectionReasonBody,
+    };
 
-      this.activeModal.close(result);
+    this.activeModal.close(result);
   }
 }

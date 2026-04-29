@@ -2,19 +2,9 @@ import { Injectable } from '@angular/core';
 import { CsvHelper } from './csv-helper';
 import { FeedbackResponsesService } from './feedback-responses.service';
 import { StringHelper } from './string-helper';
-import {
-  InstructorSessionResultSectionType,
-} from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import {
-  SectionTypeDescriptionPipe,
-} from '../app/pages-instructor/instructor-session-result-page/section-type-description.pipe';
-import {
-  FeedbackQuestion,
-  QuestionOutput,
-  ResponseOutput,
-  SessionResults,
-  Student,
-} from '../types/api-output';
+import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { SectionTypeDescriptionPipe } from '../app/pages-instructor/instructor-session-result-page/section-type-description.pipe';
+import { FeedbackQuestion, QuestionOutput, ResponseOutput, SessionResults, Student } from '../types/api-output';
 import { FeedbackQuestionDetailsFactory } from '../types/question-details-impl/feedback-question-details-factory';
 import { FeedbackResponseDetailsFactory } from '../types/response-details-impl/feedback-response-details-factory';
 
@@ -25,8 +15,7 @@ import { FeedbackResponseDetailsFactory } from '../types/response-details-impl/f
   providedIn: 'root',
 })
 export class SessionResultCsvService {
-
-  constructor(private feedbackResponsesService: FeedbackResponsesService) { }
+  constructor(private feedbackResponsesService: FeedbackResponsesService) {}
 
   /**
    * Generates CSV string for non-responders.
@@ -50,9 +39,13 @@ export class SessionResultCsvService {
   /**
    * Generates CSV string for a session result.
    */
-  getCsvForSessionResult(result: SessionResults,
-    isIndicatingMissingResponses: boolean, isShownStats: boolean,
-    sectionName?: string, sectionDetail?: InstructorSessionResultSectionType): string {
+  getCsvForSessionResult(
+    result: SessionResults,
+    isIndicatingMissingResponses: boolean,
+    isShownStats: boolean,
+    sectionName?: string,
+    sectionDetail?: InstructorSessionResultSectionType,
+  ): string {
     const csvRows: string[][] = [];
 
     if (sectionName) {
@@ -67,15 +60,19 @@ export class SessionResultCsvService {
     this.generateEmptyRow(csvRows);
 
     // sort questions by question number
-    result.questions.sort((a: QuestionOutput, b: QuestionOutput) =>
-      a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
+    result.questions.sort(
+      (a: QuestionOutput, b: QuestionOutput) => a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber,
+    );
     // filter responses based on settings
     for (const question of result.questions) {
       const currQuestion: QuestionOutput = JSON.parse(JSON.stringify(question));
       currQuestion.allResponses = currQuestion.allResponses.filter((response: ResponseOutput) => {
         if (sectionName && sectionDetail) {
           return this.feedbackResponsesService.isFeedbackResponsesDisplayedOnSection(
-            response, sectionName, sectionDetail);
+            response,
+            sectionName,
+            sectionDetail,
+          );
         }
         return true;
       });
@@ -88,8 +85,11 @@ export class SessionResultCsvService {
   /**
    * Generates CSV rows for a question.
    */
-  private generateCsvRowsForQuestion(question: QuestionOutput,
-    isIndicatingMissingResponses: boolean, isShownStats: boolean): string[][] {
+  private generateCsvRowsForQuestion(
+    question: QuestionOutput,
+    isIndicatingMissingResponses: boolean,
+    isShownStats: boolean,
+  ): string[][] {
     const csvRows: string[][] = [];
 
     csvRows.push([`Question ${question.feedbackQuestion.questionNumber}`, question.feedbackQuestion.questionBrief]);
@@ -112,12 +112,20 @@ export class SessionResultCsvService {
     }
 
     const questionSpecificHeaders: string[] = this.getQuestionSpecificHeaders(question.feedbackQuestion);
-    const header: string[] = ['Team', "Giver's Name", "Giver's Email", "Recipient's Team",
-      "Recipient's Name", "Recipient's Email",
-      ...questionSpecificHeaders, "Giver's Comment"];
+    const header: string[] = [
+      'Team',
+      "Giver's Name",
+      "Giver's Email",
+      "Recipient's Team",
+      "Recipient's Name",
+      "Recipient's Email",
+      ...questionSpecificHeaders,
+      "Giver's Comment",
+    ];
 
-    const isInstructorCommentsOnResponsesAllowed: boolean =
-      this.getIsInstructorCommentsOnResponsesAllowed(question.feedbackQuestion);
+    const isInstructorCommentsOnResponsesAllowed: boolean = this.getIsInstructorCommentsOnResponsesAllowed(
+      question.feedbackQuestion,
+    );
     if (isInstructorCommentsOnResponsesAllowed) {
       const maxNumOfInstructorComments: number = question.allResponses
         .map((response: ResponseOutput) => response.instructorComments.length)
@@ -131,8 +139,7 @@ export class SessionResultCsvService {
 
     // sort the responses by giver then recipient
     question.allResponses.sort((responseA: ResponseOutput, responseB: ResponseOutput): number => {
-      return responseA.giver.localeCompare(responseB.giver)
-        || responseA.recipient.localeCompare(responseB.recipient);
+      return responseA.giver.localeCompare(responseB.giver) || responseA.recipient.localeCompare(responseB.recipient);
     });
 
     for (const response of question.allResponses) {
@@ -141,8 +148,9 @@ export class SessionResultCsvService {
       const giverEmail: string = response.giverEmail ? StringHelper.removeExtraSpace(response.giverEmail) : '';
       const recipientTeamName: string = StringHelper.removeExtraSpace(response.recipientTeam);
       const recipientName: string = StringHelper.removeExtraSpace(response.recipient);
-      const recipientEmail: string =
-        response.recipientEmail ? StringHelper.removeExtraSpace(response.recipientEmail) : '';
+      const recipientEmail: string = response.recipientEmail
+        ? StringHelper.removeExtraSpace(response.recipientEmail)
+        : '';
 
       let responseAnswers: string[][] = [];
       if (response.isMissingResponse) {
@@ -153,16 +161,25 @@ export class SessionResultCsvService {
 
       // Pad responseAnswers so that responseAnswers and questionSpecificHeaders
       // are always the same length.
-      const responseAnswersPadding: string[] =
-        Array(questionSpecificHeaders.length - responseAnswers[0].length).fill('');
+      const responseAnswersPadding: string[] = Array(questionSpecificHeaders.length - responseAnswers[0].length).fill(
+        '',
+      );
       responseAnswers[0] = responseAnswers[0].concat(responseAnswersPadding);
 
       for (const responseAnswer of responseAnswers) {
-        const currRow: string[] = [giverTeamName, giverName, giverEmail,
-          recipientTeamName, recipientName, recipientEmail, ...responseAnswer];
+        const currRow: string[] = [
+          giverTeamName,
+          giverName,
+          giverEmail,
+          recipientTeamName,
+          recipientName,
+          recipientEmail,
+          ...responseAnswer,
+        ];
 
-        const participantCommentHtml: string =
-          response.participantComment ? response.participantComment.commentText : '';
+        const participantCommentHtml: string = response.participantComment
+          ? response.participantComment.commentText
+          : '';
         const participantComment: string = StringHelper.getTextFromHtml(participantCommentHtml);
         const participantImgLinks: string = StringHelper.convertImageToLinkInHtml(participantCommentHtml);
         currRow.push(participantComment + participantImgLinks);
@@ -190,45 +207,41 @@ export class SessionResultCsvService {
    * Gets question stats for a question.
    */
   private getQuestionStats(question: QuestionOutput): string[][] {
-    return FeedbackQuestionDetailsFactory
-      .fromApiOutput(question.feedbackQuestion.questionDetails)
-      .getQuestionCsvStats(question);
+    return FeedbackQuestionDetailsFactory.fromApiOutput(question.feedbackQuestion.questionDetails).getQuestionCsvStats(
+      question,
+    );
   }
 
   /**
    * Gets answer(s) for a missing response in CSV version.
    */
   private getMissingResponseAnswers(question: FeedbackQuestion): string[][] {
-    return FeedbackQuestionDetailsFactory
-      .fromApiOutput(question.questionDetails)
-      .getMissingResponseCsvAnswers();
+    return FeedbackQuestionDetailsFactory.fromApiOutput(question.questionDetails).getMissingResponseCsvAnswers();
   }
 
   /**
    * Gets answer(s) for a response in CSV version.
    */
   private getResponseAnswers(response: ResponseOutput, question: FeedbackQuestion): string[][] {
-    return FeedbackResponseDetailsFactory
-      .fromApiOutput(response.responseDetails)
-      .getResponseCsvAnswers(question.questionDetails);
+    return FeedbackResponseDetailsFactory.fromApiOutput(response.responseDetails).getResponseCsvAnswers(
+      question.questionDetails,
+    );
   }
 
   /**
    * Gets specific header names according to the question.
    */
   private getQuestionSpecificHeaders(question: FeedbackQuestion): string[] {
-    return FeedbackQuestionDetailsFactory
-      .fromApiOutput(question.questionDetails)
-      .getQuestionCsvHeaders();
+    return FeedbackQuestionDetailsFactory.fromApiOutput(question.questionDetails).getQuestionCsvHeaders();
   }
 
   /**
    * Gets whether an instructor can comment on the question
    */
   private getIsInstructorCommentsOnResponsesAllowed(question: FeedbackQuestion): boolean {
-    return FeedbackQuestionDetailsFactory
-      .fromApiOutput(question.questionDetails)
-      .isInstructorCommentsOnResponsesAllowed();
+    return FeedbackQuestionDetailsFactory.fromApiOutput(
+      question.questionDetails,
+    ).isInstructorCommentsOnResponsesAllowed();
   }
 
   /**

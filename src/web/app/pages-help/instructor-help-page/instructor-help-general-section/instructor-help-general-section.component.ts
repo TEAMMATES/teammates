@@ -12,13 +12,9 @@ import { Sections } from '../sections';
   selector: 'tm-instructor-help-general-section',
   templateUrl: './instructor-help-general-section.component.html',
   styleUrls: ['./instructor-help-general-section.component.scss'],
-  imports: [
-    InstructorHelpPanelComponent,
-    TeammatesRouterDirective,
-],
+  imports: [InstructorHelpPanelComponent, TeammatesRouterDirective],
 })
 export class InstructorHelpGeneralSectionComponent extends InstructorHelpSectionComponent implements OnInit {
-
   // enums
   GeneralSectionQuestions: typeof GeneralSectionQuestions = GeneralSectionQuestions;
   Sections: typeof Sections = Sections;
@@ -32,5 +28,4 @@ export class InstructorHelpGeneralSectionComponent extends InstructorHelpSection
   getQuestionsOrder(): string[] {
     return this.questionsOrder;
   }
-
 }

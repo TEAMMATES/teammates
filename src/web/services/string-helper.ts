@@ -2,7 +2,6 @@
  * String related utility functions.
  */
 export class StringHelper {
-
   /**
    * Get the human-readable text from a HTML string.
    */

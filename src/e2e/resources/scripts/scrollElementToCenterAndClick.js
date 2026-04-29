@@ -9,7 +9,7 @@ var targetTop = Math.max(safeTop, centeredTop);
 var targetScrollTop = elementRect.top + window.pageYOffset - targetTop;
 var maxScrollTop = Math.max(
   0,
-  Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) - viewportHeight
+  Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) - viewportHeight,
 );
 
 window.scrollTo(0, Math.min(Math.max(0, targetScrollTop), maxScrollTop));

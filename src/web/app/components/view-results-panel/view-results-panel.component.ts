@@ -10,18 +10,10 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
-import {
-  InstructorSessionResultSectionType,
-} from '../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import {
-  InstructorSessionResultViewType,
-} from '../../pages-instructor/instructor-session-result-page/instructor-session-result-view-type.enum';
-import {
-  SectionTabModel,
-} from '../../pages-instructor/instructor-session-result-page/instructor-session-tab.model';
-import {
-  SectionTypeDescriptionPipe,
-} from '../../pages-instructor/instructor-session-result-page/section-type-description.pipe';
+import { InstructorSessionResultSectionType } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { InstructorSessionResultViewType } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-view-type.enum';
+import { SectionTabModel } from '../../pages-instructor/instructor-session-result-page/instructor-session-tab.model';
+import { SectionTypeDescriptionPipe } from '../../pages-instructor/instructor-session-result-page/section-type-description.pipe';
 import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
 
 /**
@@ -31,16 +23,9 @@ import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
   selector: 'tm-view-results-panel',
   templateUrl: './view-results-panel.component.html',
   styleUrls: ['./view-results-panel.component.scss'],
-  imports: [
-    NgbTooltip,
-    FormsModule,
-    KeyValuePipe,
-    SectionTypeDescriptionPipe,
-    EnumToArrayPipe,
-],
+  imports: [NgbTooltip, FormsModule, KeyValuePipe, SectionTypeDescriptionPipe, EnumToArrayPipe],
 })
 export class ViewResultsPanelComponent {
-
   // enum
   InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
   InstructorSessionResultViewType: typeof InstructorSessionResultViewType = InstructorSessionResultViewType;

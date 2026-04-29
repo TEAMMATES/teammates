@@ -1,6 +1,7 @@
 import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
 import {
-  FeedbackQuestionType, FeedbackRankRecipientsQuestionDetails,
+  FeedbackQuestionType,
+  FeedbackRankRecipientsQuestionDetails,
   FeedbackRankRecipientsResponseDetails,
 } from '../api-output';
 import { RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED } from '../feedback-response-details';
@@ -9,9 +10,9 @@ import { RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED } from '../feedback-response-detai
  * Concrete implementation of {@link FeedbackRankRecipientsResponseDetails}.
  */
 export class FeedbackRankRecipientsResponseDetailsImpl
-    extends AbstractFeedbackResponseDetails<FeedbackRankRecipientsQuestionDetails>
-    implements FeedbackRankRecipientsResponseDetails {
-
+  extends AbstractFeedbackResponseDetails<FeedbackRankRecipientsQuestionDetails>
+  implements FeedbackRankRecipientsResponseDetails
+{
   answer: number = RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED;
   questionType: FeedbackQuestionType = FeedbackQuestionType.RANK_RECIPIENTS;
 
@@ -23,5 +24,4 @@ export class FeedbackRankRecipientsResponseDetailsImpl
   getResponseCsvAnswers(): string[][] {
     return [[String(this.answer)]];
   }
-
 }

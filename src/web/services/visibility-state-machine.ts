@@ -5,7 +5,6 @@ import { VisibilityControl } from '../types/visibility-control';
  * The state machine for visibility settings for responses.
  */
 export class VisibilityStateMachine {
-
   private visibility: Map<FeedbackVisibilityType, Map<VisibilityControl, boolean>> = new Map();
 
   private editability: Map<FeedbackVisibilityType, Map<VisibilityControl, boolean>> = new Map();
@@ -26,13 +25,13 @@ export class VisibilityStateMachine {
     // set all fields as applicable
     for (const visibilityTypeStr of Object.keys(FeedbackVisibilityType)) {
       const visibilityType: FeedbackVisibilityType =
-          FeedbackVisibilityType[visibilityTypeStr as keyof typeof FeedbackVisibilityType];
+        FeedbackVisibilityType[visibilityTypeStr as keyof typeof FeedbackVisibilityType];
       this.visibility.set(visibilityType, new Map());
       this.editability.set(visibilityType, new Map());
       this.applicability.add(visibilityType);
       for (const visibilityControlStr of Object.keys(VisibilityControl)) {
         const visibilityControl: VisibilityControl =
-            VisibilityControl[visibilityControlStr as keyof typeof VisibilityControl];
+          VisibilityControl[visibilityControlStr as keyof typeof VisibilityControl];
         this.visibility.get(visibilityType)!.set(visibilityControl, false);
         this.editability.get(visibilityType)!.set(visibilityControl, true);
       }
@@ -112,14 +111,18 @@ export class VisibilityStateMachine {
         throw new Error('Unexpected recipientType');
     }
     // disable according to combination
-    if ((giverType === FeedbackParticipantType.SELF || giverType === FeedbackParticipantType.INSTRUCTORS)
-        && recipientType === FeedbackParticipantType.SELF) {
+    if (
+      (giverType === FeedbackParticipantType.SELF || giverType === FeedbackParticipantType.INSTRUCTORS) &&
+      recipientType === FeedbackParticipantType.SELF
+    ) {
       // RECIPIENT_TEAM_MEMBERS is disabled because it is the same as INSTRUCTORS
       this.applicability.delete(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS);
     }
 
-    if (giverType === FeedbackParticipantType.TEAMS
-        && recipientType === FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
+    if (
+      giverType === FeedbackParticipantType.TEAMS &&
+      recipientType === FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF
+    ) {
       // RECIPIENT is disabled because this is almost like a self-feedback where giver can always see the response
       this.applicability.delete(FeedbackVisibilityType.RECIPIENT);
     }
@@ -203,7 +206,7 @@ export class VisibilityStateMachine {
   hasAnyVisibilityControlForAll(): boolean {
     for (const feedbackVisibilityTypeStr of Object.keys(FeedbackVisibilityType)) {
       const feedbackVisibilityType: FeedbackVisibilityType =
-          FeedbackVisibilityType[feedbackVisibilityTypeStr as keyof typeof FeedbackVisibilityType];
+        FeedbackVisibilityType[feedbackVisibilityTypeStr as keyof typeof FeedbackVisibilityType];
       if (this.hasAnyVisibilityControl(feedbackVisibilityType)) {
         return true;
       }
@@ -233,7 +236,7 @@ export class VisibilityStateMachine {
     const visibilityTypes: FeedbackVisibilityType[] = [];
     for (const visibilityTypeStr of Object.keys(FeedbackVisibilityType)) {
       const visibilityType: FeedbackVisibilityType =
-          FeedbackVisibilityType[visibilityTypeStr as keyof typeof FeedbackVisibilityType];
+        FeedbackVisibilityType[visibilityTypeStr as keyof typeof FeedbackVisibilityType];
       if (this.isVisible(visibilityType, visibilityControl)) {
         visibilityTypes.push(visibilityType);
       }
@@ -244,8 +247,9 @@ export class VisibilityStateMachine {
   /**
    * Gets the visibility control for a certain {@code visibilityType}.
    */
-  getVisibilityControlUnderVisibilityType(visibilityType: FeedbackVisibilityType)
-      : { [TKey in VisibilityControl]: boolean } {
+  getVisibilityControlUnderVisibilityType(visibilityType: FeedbackVisibilityType): {
+    [TKey in VisibilityControl]: boolean;
+  } {
     return {
       SHOW_RESPONSE: this.isVisible(visibilityType, VisibilityControl.SHOW_RESPONSE),
       SHOW_GIVER_NAME: this.isVisible(visibilityType, VisibilityControl.SHOW_GIVER_NAME),

@@ -40,62 +40,76 @@ describe('Link Service', () => {
   };
 
   it('should generate the course join link of the student', () => {
-    expect(service.generateCourseJoinLink(mockStudent, 'student'))
-      .toBe(`${window.location.origin}/web/join?key=keyheehee&entitytype=student`);
+    expect(service.generateCourseJoinLink(mockStudent, 'student')).toBe(
+      `${window.location.origin}/web/join?key=keyheehee&entitytype=student`,
+    );
   });
 
   it('should generate the course join link for instructors', () => {
-    expect(service.generateCourseJoinLink(mockInstructor, 'instructor'))
-      .toBe(`${window.location.origin}/web/join?key=impicklerick&entitytype=instructor`);
+    expect(service.generateCourseJoinLink(mockInstructor, 'instructor')).toBe(
+      `${window.location.origin}/web/join?key=impicklerick&entitytype=instructor`,
+    );
   });
 
   it('should generate the account registration link of the instructor', () => {
-    expect(service.generateAccountRegistrationLink('keyheehee'))
-      .toBe(`${window.location.origin}/web/join?iscreatingaccount=true&key=keyheehee`);
+    expect(service.generateAccountRegistrationLink('keyheehee')).toBe(
+      `${window.location.origin}/web/join?iscreatingaccount=true&key=keyheehee`,
+    );
   });
 
   it('should generate the home page link', () => {
-    expect(service.generateHomePageLink('blahblah', '/comeseetheopressioninherentinthesystem'))
-      .toBe('/web/comeseetheopressioninherentinthesystem?user=blahblah');
+    expect(service.generateHomePageLink('blahblah', '/comeseetheopressioninherentinthesystem')).toBe(
+      '/web/comeseetheopressioninherentinthesystem?user=blahblah',
+    );
   });
 
   it('should generate the manage account link', () => {
-    expect(service.generateManageAccountLink('hello there', '/generalkenobiyouareaboldone'))
-      .toBe('/web/generalkenobiyouareaboldone?instructorid=hello%20there');
+    expect(service.generateManageAccountLink('hello there', '/generalkenobiyouareaboldone')).toBe(
+      '/web/generalkenobiyouareaboldone?instructorid=hello%20there',
+    );
   });
 
   it('should generate the student profile page link', () => {
-    expect(service.generateProfilePageLink(mockStudent, 'from my point of view the jedi are evil'))
-      .toBe('/web/instructor/courses/student/details?courseid=dog.gma-demo&studentemail=alice.'
-            + 'b.tmms%40gmail.tmt&user=from%20my%20point%20of%20view%20the%20jedi%20are%20evil');
+    expect(service.generateProfilePageLink(mockStudent, 'from my point of view the jedi are evil')).toBe(
+      '/web/instructor/courses/student/details?courseid=dog.gma-demo&studentemail=alice.' +
+        'b.tmms%40gmail.tmt&user=from%20my%20point%20of%20view%20the%20jedi%20are%20evil',
+    );
   });
 
   it('should generate the submit url', () => {
-    expect(service.generateSubmitUrl(mockStudent, 'another happy landing', false,
-        '00000000-0000-4000-8000-000000000001'))
-      .toBe(`${window.location.origin}/web/sessions/submission?key=keyheehee`
-            + '&fsname=another%20happy%20landing&courseid=dog.gma-demo'
-            + '&fsid=00000000-0000-4000-8000-000000000001');
+    expect(
+      service.generateSubmitUrl(mockStudent, 'another happy landing', false, '00000000-0000-4000-8000-000000000001'),
+    ).toBe(
+      `${window.location.origin}/web/sessions/submission?key=keyheehee` +
+        '&fsname=another%20happy%20landing&courseid=dog.gma-demo' +
+        '&fsid=00000000-0000-4000-8000-000000000001',
+    );
 
-    expect(service.generateSubmitUrl(mockInstructor, 'another happy landing', true,
-        '00000000-0000-4000-8000-000000000002'))
-      .toBe(`${window.location.origin}/web/sessions/submission?key=impicklerick`
-            + '&fsname=another%20happy%20landing&courseid=dog.gma-demo'
-            + '&fsid=00000000-0000-4000-8000-000000000002&entitytype=instructor');
+    expect(
+      service.generateSubmitUrl(mockInstructor, 'another happy landing', true, '00000000-0000-4000-8000-000000000002'),
+    ).toBe(
+      `${window.location.origin}/web/sessions/submission?key=impicklerick` +
+        '&fsname=another%20happy%20landing&courseid=dog.gma-demo' +
+        '&fsid=00000000-0000-4000-8000-000000000002&entitytype=instructor',
+    );
   });
 
   it('should generate the result url', () => {
-    expect(service.generateResultUrl(mockStudent, 'another happy landing', false,
-        '00000000-0000-4000-8000-000000000001'))
-      .toBe(`${window.location.origin}/web/sessions/result?`
-            + 'key=keyheehee&fsname=another%20happy%20landing&courseid=dog.gma-demo'
-            + '&fsid=00000000-0000-4000-8000-000000000001');
+    expect(
+      service.generateResultUrl(mockStudent, 'another happy landing', false, '00000000-0000-4000-8000-000000000001'),
+    ).toBe(
+      `${window.location.origin}/web/sessions/result?` +
+        'key=keyheehee&fsname=another%20happy%20landing&courseid=dog.gma-demo' +
+        '&fsid=00000000-0000-4000-8000-000000000001',
+    );
 
-    expect(service.generateResultUrl(mockInstructor, 'another happy landing', true,
-        '00000000-0000-4000-8000-000000000002'))
-      .toBe(`${window.location.origin}/web/sessions/result?`
-            + 'key=impicklerick&fsname=another%20happy%20landing&courseid=dog.gma-demo'
-            + '&fsid=00000000-0000-4000-8000-000000000002&entitytype=instructor');
+    expect(
+      service.generateResultUrl(mockInstructor, 'another happy landing', true, '00000000-0000-4000-8000-000000000002'),
+    ).toBe(
+      `${window.location.origin}/web/sessions/result?` +
+        'key=impicklerick&fsname=another%20happy%20landing&courseid=dog.gma-demo' +
+        '&fsid=00000000-0000-4000-8000-000000000002&entitytype=instructor',
+    );
   });
 
   it('filterEmptyParams should filter empty params', () => {

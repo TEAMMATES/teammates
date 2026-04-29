@@ -15,7 +15,6 @@ import { CommentTableModel } from '../../components/comment-box/comment-table/co
  */
 @Directive()
 export abstract class InstructorSessionResultView {
-
   @Input() section = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
   @Input() groupByTeam = true;
@@ -48,12 +47,12 @@ export abstract class InstructorSessionResultView {
   @Output() instructorCommentTableModelChange: EventEmitter<Record<string, CommentTableModel>> = new EventEmitter();
   @Output() saveNewCommentEvent: EventEmitter<string> = new EventEmitter();
   @Output() deleteCommentEvent: EventEmitter<{
-    responseId: string,
-    index: number,
+    responseId: string;
+    index: number;
   }> = new EventEmitter();
   @Output() updateCommentEvent: EventEmitter<{
-    responseId: string,
-    index: number,
+    responseId: string;
+    index: number;
   }> = new EventEmitter();
 
   constructor(protected viewType: InstructorSessionResultViewType) {}
@@ -68,14 +67,14 @@ export abstract class InstructorSessionResultView {
   /**
    * Triggers the delete comment event.
    */
-  triggerDeleteCommentEvent($event: { responseId: string, index: number }): void {
+  triggerDeleteCommentEvent($event: { responseId: string; index: number }): void {
     this.deleteCommentEvent.emit($event);
   }
 
   /**
    * Triggers the update comment event.
    */
-  triggerUpdateCommentEvent($event: { responseId: string, index: number }): void {
+  triggerUpdateCommentEvent($event: { responseId: string; index: number }): void {
     this.updateCommentEvent.emit($event);
   }
 
@@ -85,5 +84,4 @@ export abstract class InstructorSessionResultView {
   triggerSaveNewCommentEvent(responseId: string): void {
     this.saveNewCommentEvent.emit(responseId);
   }
-
 }

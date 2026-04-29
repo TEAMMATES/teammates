@@ -12,7 +12,6 @@ import { RichTextEditorComponent } from '../rich-text-editor/rich-text-editor.co
   imports: [FormsModule, RichTextEditorComponent],
 })
 export class QuestionEditBriefDescriptionFormComponent {
-
   @Input()
   isBriefDisabled = false;
 
@@ -44,5 +43,4 @@ export class QuestionEditBriefDescriptionFormComponent {
   triggerDescriptionChange(data: string): void {
     this.descriptionChange.emit(data);
   }
-
 }

@@ -1,15 +1,14 @@
 import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
 import { StringHelper } from '../../services/string-helper';
-import {
-  FeedbackQuestionType, FeedbackTextQuestionDetails, FeedbackTextResponseDetails,
-} from '../api-output';
+import { FeedbackQuestionType, FeedbackTextQuestionDetails, FeedbackTextResponseDetails } from '../api-output';
 
 /**
  * Concrete implementation of {@link FeedbackTextResponseDetails}.
  */
-export class FeedbackTextResponseDetailsImpl extends AbstractFeedbackResponseDetails<FeedbackTextQuestionDetails>
-    implements FeedbackTextResponseDetails {
-
+export class FeedbackTextResponseDetailsImpl
+  extends AbstractFeedbackResponseDetails<FeedbackTextQuestionDetails>
+  implements FeedbackTextResponseDetails
+{
   answer = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.TEXT;
 
@@ -21,5 +20,4 @@ export class FeedbackTextResponseDetailsImpl extends AbstractFeedbackResponseDet
   getResponseCsvAnswers(): string[][] {
     return [[StringHelper.getTextFromHtml(this.answer)]];
   }
-
 }

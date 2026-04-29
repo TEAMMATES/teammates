@@ -57,7 +57,12 @@ describe('InstructorStudentActivityLogsComponent', () => {
     },
   };
   const emptyStudent: Student = {
-    courseId: '', email: '', name: '', sectionName: '', teamName: '', userId: '',
+    courseId: '',
+    email: '',
+    name: '',
+    sectionName: '',
+    teamName: '',
+    userId: '',
   };
   const testStudent: Student = {
     userId: '00000000-0000-4000-8000-000000000001',
@@ -109,11 +114,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
   }));
 
@@ -166,14 +167,16 @@ describe('InstructorStudentActivityLogsComponent', () => {
       {
         feedbackSessionName: 'Feedback session 1',
         logColumnsData: resultColumns,
-        logRowsData: [[
-          { value: '15 January 2021' },
-          { value: 'Doe John' },
-          { value: 'Viewed the submission page' },
-          { value: 'doejohn@email.com' },
-          { value: 'section 1' },
-          { value: 'team 1' },
-        ]],
+        logRowsData: [
+          [
+            { value: '15 January 2021' },
+            { value: 'Doe John' },
+            { value: 'Viewed the submission page' },
+            { value: 'doejohn@email.com' },
+            { value: 'section 1' },
+            { value: 'team 1' },
+          ],
+        ],
         isTabExpanded: true,
       },
       {
@@ -191,12 +194,11 @@ describe('InstructorStudentActivityLogsComponent', () => {
   });
 
   it('should load all students of selected course has on select', () => {
-    const studentSpy: SpyInstance = jest.spyOn(studentService, 'getStudentsFromCourse')
-        .mockReturnValue(of({
-          students: [
-            testStudent,
-          ],
-        }));
+    const studentSpy: SpyInstance = jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
+      of({
+        students: [testStudent],
+      }),
+    );
 
     component.loadStudents(testCourse1.courseId);
 
@@ -206,12 +208,11 @@ describe('InstructorStudentActivityLogsComponent', () => {
   });
 
   it('should load students from cache if present', () => {
-    const studentSpy: SpyInstance = jest.spyOn(studentService, 'getStudentsFromCourse')
-        .mockReturnValue(of({
-          students: [
-            testStudent,
-          ],
-        }));
+    const studentSpy: SpyInstance = jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
+      of({
+        students: [testStudent],
+      }),
+    );
 
     component.students = [emptyStudent];
     component.loadStudents(testCourse1.courseId);
@@ -222,8 +223,9 @@ describe('InstructorStudentActivityLogsComponent', () => {
   });
 
   it('should search for logs using feedback course timezone when search button is clicked', () => {
-    const logSpy: SpyInstance = jest.spyOn(logService, 'searchFeedbackSessionLog')
-        .mockReturnValue(of({ feedbackSessionLogs: [testLogs1, testLogs2] }));
+    const logSpy: SpyInstance = jest
+      .spyOn(logService, 'searchFeedbackSessionLog')
+      .mockReturnValue(of({ feedbackSessionLogs: [testLogs1, testLogs2] }));
     const timeSpy: SpyInstance = jest.spyOn(timezoneService, 'resolveLocalDateTime');
     const tzOffset: number = timezoneService.getTzOffsets()[testCourse1.timeZone];
 
@@ -256,10 +258,8 @@ describe('InstructorStudentActivityLogsComponent', () => {
     expect(logSpy).toHaveBeenCalled();
     expect(logSpy).toHaveBeenCalledWith({
       courseId: testCourse1.courseId,
-      searchFrom: (new Date('2020-12-31T00:00+00:00').getTime()
-        - tzOffset * Milliseconds.IN_ONE_MINUTE),
-      searchUntil: (new Date('2021-01-01T00:00+00:00').getTime()
-        - tzOffset * Milliseconds.IN_ONE_MINUTE),
+      searchFrom: new Date('2020-12-31T00:00+00:00').getTime() - tzOffset * Milliseconds.IN_ONE_MINUTE,
+      searchUntil: new Date('2021-01-01T00:00+00:00').getTime() - tzOffset * Milliseconds.IN_ONE_MINUTE,
       logTypes: [FeedbackSessionLogType.SUBMISSION],
       studentId: '',
       sessionId: '',
@@ -267,8 +267,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
 
     expect(component.searchResults.length).toEqual(2);
 
-    const timestamp: string = timezoneService.formatToString(
-        0, testFeedbackSession.timeZone, LOGS_DATE_TIME_FORMAT);
+    const timestamp: string = timezoneService.formatToString(0, testFeedbackSession.timeZone, LOGS_DATE_TIME_FORMAT);
 
     for (let i = 0; i < 2; i += 1) {
       expect(component.searchResults[i].isTabExpanded).toBeTruthy();

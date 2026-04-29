@@ -94,10 +94,8 @@
           "canViewSessionInSections": true,
           "canViewStudentInSections": true
         },
-        "sectionLevel": {
-        },
-        "sessionLevel": {
-        }
+        "sectionLevel": {},
+        "sessionLevel": {}
       },
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER"
     }
@@ -220,7 +218,6 @@
       "isPublishedEmailEnabled": true,
       "courseId": "tm.e2e.FRankOptQn.CS1101"
     }
-
   },
   "feedbackQuestions": {
     "qn1ForFirstSession": {
@@ -232,30 +229,17 @@
         "areDuplicatesAllowed": false,
         "questionType": "RANK_OPTIONS",
         "questionText": "As a student, rank for every teammate, the areas of improvement that they should work on",
-        "maxOptionsToBeRanked" : 3,
-        "options": [
-          "Teamwork",
-          "Time management",
-          "Quality Control",
-          "Quality Assurance"
-        ]
+        "maxOptionsToBeRanked": 3,
+        "options": ["Teamwork", "Time management", "Quality Control", "Quality Assurance"]
       },
       "description": "<p>Testing description for first session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ]
+      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
     },
     "qn1ForSecondSession": {
       "id": "00000000-0000-4000-8000-000000000802",
@@ -267,29 +251,16 @@
         "questionText": "As an student, rank for every team, the areas of improvement that they should work on",
         "questionType": "RANK_OPTIONS",
         "minOptionsToBeRanked": 1,
-        "options": [
-          "Teamwork",
-          "Time management",
-          "Quality Control",
-          "Quality Assurance"
-        ]
+        "options": ["Teamwork", "Time management", "Quality Control", "Quality Assurance"]
       },
       "description": "<p>Testing description for second session</p>",
       "questionNumber": 1,
       "giverType": "STUDENTS",
       "recipientType": "TEAMS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ]
+      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
     }
   },
   "feedbackResponseComments": {},

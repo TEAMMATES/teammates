@@ -33,13 +33,8 @@ describe('ResendResultsLinkToRespondentModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        NgbActiveModal,
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -52,30 +47,65 @@ describe('ResendResultsLinkToRespondentModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('collateRespondentsToSendHandler: should return an array containing only selected rows'
-    + 'from student and instructor lists', () => {
-    const studentListInfoTableRowModels: StudentListInfoTableRowModel[] = [
-      studentModelBuilder.id('ddd32f6b-e86e-42a1-868b-0e9da107fce6').email('student1@gmail.com').isSelected(true).build(),
-      studentModelBuilder.id('94e6a227-c731-482b-bd8d-acdbc74e3e53').email('student2@gmail.com').isSelected(false).build(),
-      studentModelBuilder.id('c0bb4887-99c0-46fb-9bb2-b8ed8305021c').email('student3@gmail.com').isSelected(true).build(),
-    ];
+  it(
+    'collateRespondentsToSendHandler: should return an array containing only selected rows' +
+      'from student and instructor lists',
+    () => {
+      const studentListInfoTableRowModels: StudentListInfoTableRowModel[] = [
+        studentModelBuilder
+          .id('ddd32f6b-e86e-42a1-868b-0e9da107fce6')
+          .email('student1@gmail.com')
+          .isSelected(true)
+          .build(),
+        studentModelBuilder
+          .id('94e6a227-c731-482b-bd8d-acdbc74e3e53')
+          .email('student2@gmail.com')
+          .isSelected(false)
+          .build(),
+        studentModelBuilder
+          .id('c0bb4887-99c0-46fb-9bb2-b8ed8305021c')
+          .email('student3@gmail.com')
+          .isSelected(true)
+          .build(),
+      ];
 
-    const instructorListInfoTableRowModels: InstructorListInfoTableRowModel[] = [
-      instructorModelBuilder.id('95404edf-53f6-4f93-9100-ac82beb651ea').email('instructor1@gmail.com').isSelected(false).build(),
-      instructorModelBuilder.id('246f2052-1c08-48e7-b0cd-a4c052d0dda1').email('instructor2@gmail.com').isSelected(true).build(),
-    ];
+      const instructorListInfoTableRowModels: InstructorListInfoTableRowModel[] = [
+        instructorModelBuilder
+          .id('95404edf-53f6-4f93-9100-ac82beb651ea')
+          .email('instructor1@gmail.com')
+          .isSelected(false)
+          .build(),
+        instructorModelBuilder
+          .id('246f2052-1c08-48e7-b0cd-a4c052d0dda1')
+          .email('instructor2@gmail.com')
+          .isSelected(true)
+          .build(),
+      ];
 
-    const expectedModels = [
-      studentModelBuilder.id('ddd32f6b-e86e-42a1-868b-0e9da107fce6').email('student1@gmail.com').isSelected(true).build(),
-      studentModelBuilder.id('c0bb4887-99c0-46fb-9bb2-b8ed8305021c').email('student3@gmail.com').isSelected(true).build(),
-      instructorModelBuilder.id('246f2052-1c08-48e7-b0cd-a4c052d0dda1').email('instructor2@gmail.com').isSelected(true).build(),
-    ];
+      const expectedModels = [
+        studentModelBuilder
+          .id('ddd32f6b-e86e-42a1-868b-0e9da107fce6')
+          .email('student1@gmail.com')
+          .isSelected(true)
+          .build(),
+        studentModelBuilder
+          .id('c0bb4887-99c0-46fb-9bb2-b8ed8305021c')
+          .email('student3@gmail.com')
+          .isSelected(true)
+          .build(),
+        instructorModelBuilder
+          .id('246f2052-1c08-48e7-b0cd-a4c052d0dda1')
+          .email('instructor2@gmail.com')
+          .isSelected(true)
+          .build(),
+      ];
 
-    component.studentListInfoTableRowModels = studentListInfoTableRowModels;
-    component.instructorListInfoTableRowModels = instructorListInfoTableRowModels;
+      component.studentListInfoTableRowModels = studentListInfoTableRowModels;
+      component.instructorListInfoTableRowModels = instructorListInfoTableRowModels;
 
-    const result = component.collateRespondentsToSendHandler();
+      const result = component.collateRespondentsToSendHandler();
 
-    expect(result).toEqual(expectedModels);
-  });
+      expect(result).toEqual(expectedModels);
+    },
+  );
 });

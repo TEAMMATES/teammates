@@ -15,13 +15,12 @@ import { NO_VALUE, RANK_OPTIONS_ANSWER_NOT_SUBMITTED } from '../../../../types/f
   selector: 'tm-rank-options-question-edit-answer-form',
   templateUrl: './rank-options-question-edit-answer-form.component.html',
   styleUrls: ['./rank-options-question-edit-answer-form.component.scss'],
-  imports: [
-    FormsModule,
-],
+  imports: [FormsModule],
 })
-export class RankOptionsQuestionEditAnswerFormComponent
-    extends QuestionEditAnswerFormComponent<FeedbackRankOptionsQuestionDetails, FeedbackRankOptionsResponseDetails> {
-
+export class RankOptionsQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent<
+  FeedbackRankOptionsQuestionDetails,
+  FeedbackRankOptionsResponseDetails
+> {
   readonly RANK_OPTIONS_ANSWER_NOT_SUBMITTED: number = RANK_OPTIONS_ANSWER_NOT_SUBMITTED;
 
   constructor() {
@@ -43,8 +42,9 @@ export class RankOptionsQuestionEditAnswerFormComponent
    * Checks if any one option has been Ranked.
    */
   get isNoOptionRanked(): boolean {
-    const isAtLeastOneOptionRanked: boolean = this.responseDetails.answers
-        .some((rank: number) => rank !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED);
+    const isAtLeastOneOptionRanked: boolean = this.responseDetails.answers.some(
+      (rank: number) => rank !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED,
+    );
     return !isAtLeastOneOptionRanked;
   }
 
@@ -72,7 +72,7 @@ export class RankOptionsQuestionEditAnswerFormComponent
         responseCopy.push(response);
       }
     }
-    return (new Set(responseCopy)).size !== responseCopy.length && responseCopy.length !== 0;
+    return new Set(responseCopy).size !== responseCopy.length && responseCopy.length !== 0;
   }
 
   /**
@@ -93,17 +93,19 @@ export class RankOptionsQuestionEditAnswerFormComponent
    * Checks if the options Ranked is less than the minimum required.
    */
   get isOptionsRankedLessThanMin(): boolean {
-    const numberOfOptionsRanked: number = this.responseDetails.answers
-        .filter((rank: number) => rank !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED).length;
-    return (numberOfOptionsRanked < this.questionDetails.minOptionsToBeRanked && numberOfOptionsRanked > 0);
+    const numberOfOptionsRanked: number = this.responseDetails.answers.filter(
+      (rank: number) => rank !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED,
+    ).length;
+    return numberOfOptionsRanked < this.questionDetails.minOptionsToBeRanked && numberOfOptionsRanked > 0;
   }
 
   /**
    * Checks if the options Ranked is more than the maximum required.
    */
   get isOptionsRankedMoreThanMax(): boolean {
-    const numberOfOptionsRanked: number = this.responseDetails.answers
-        .filter((rank: number) => rank !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED).length;
+    const numberOfOptionsRanked: number = this.responseDetails.answers.filter(
+      (rank: number) => rank !== RANK_OPTIONS_ANSWER_NOT_SUBMITTED,
+    ).length;
     return numberOfOptionsRanked > this.questionDetails.maxOptionsToBeRanked;
   }
 

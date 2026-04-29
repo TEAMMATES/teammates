@@ -37,8 +37,8 @@ export interface ColumnData {
 }
 
 export type SortableEvent = {
-  sortBy: SortBy,
-  sortOrder: SortOrder,
+  sortBy: SortBy;
+  sortOrder: SortOrder;
 };
 
 /**
@@ -53,8 +53,8 @@ export interface SortableTableCellData {
   displayValue?: string; // Raw string to be display in the cell
   style?: string; // Optional value used to set style of data
   customComponent?: {
-    component: Type<any>,
-    componentData: (idx: number) => Record<string, any>, // @Input values for component
+    component: Type<any>;
+    componentData: (idx: number) => Record<string, any>; // @Input values for component
   };
 }
 
@@ -76,10 +76,9 @@ export interface SortableTableCellData {
     NgComponentOutlet,
     ComponentOutletInjectorDirective,
     DynamicIoDirective,
-],
+  ],
 })
 export class SortableTableComponent implements OnInit, OnChanges {
-
   // enum
   SortOrder: typeof SortOrder = SortOrder;
 
@@ -111,7 +110,7 @@ export class SortableTableComponent implements OnInit, OnChanges {
   tableRows: SortableTableCellData[][] = [];
   setMainTableStyle = true;
 
-  constructor(private tableComparatorService: TableComparatorService) { }
+  constructor(private tableComparatorService: TableComparatorService) {}
 
   ngOnInit(): void {
     this.tableRows = this.rows;
@@ -125,8 +124,8 @@ export class SortableTableComponent implements OnInit, OnChanges {
   }
 
   onClickHeader(columnHeader: string): void {
-    this.sortOrder = this.columnToSortBy === columnHeader && this.sortOrder === SortOrder.ASC
-        ? SortOrder.DESC : SortOrder.ASC;
+    this.sortOrder =
+      this.columnToSortBy === columnHeader && this.sortOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC;
     this.columnToSortBy = columnHeader;
     this.sortRows();
   }
@@ -142,8 +141,7 @@ export class SortableTableComponent implements OnInit, OnChanges {
     if (!this.columnToSortBy) {
       return;
     }
-    const columnIndex: number = this.columns.findIndex(
-        (column: ColumnData) => column.header === this.columnToSortBy);
+    const columnIndex: number = this.columns.findIndex((column: ColumnData) => column.header === this.columnToSortBy);
     if (columnIndex < 0) {
       return;
     }
@@ -154,7 +152,11 @@ export class SortableTableComponent implements OnInit, OnChanges {
     this.sortEvent.emit({ sortBy, sortOrder: this.sortOrder });
     this.tableRows.sort((row1: any[], row2: any[]) => {
       return this.tableComparatorService.compare(
-          sortBy, this.sortOrder, String(row1[columnIndex].value), String(row2[columnIndex].value));
+        sortBy,
+        this.sortOrder,
+        String(row1[columnIndex].value),
+        String(row2[columnIndex].value),
+      );
     });
   }
 
@@ -162,8 +164,9 @@ export class SortableTableComponent implements OnInit, OnChanges {
    * Sorts the table with an initial SortBy
    */
   initialSort(): void {
-    const indexOfColumnToSort: number =
-        this.columns.findIndex((column: ColumnData) => column.sortBy === this.initialSortBy);
+    const indexOfColumnToSort: number = this.columns.findIndex(
+      (column: ColumnData) => column.sortBy === this.initialSortBy,
+    );
     if (indexOfColumnToSort < 0) {
       return;
     }

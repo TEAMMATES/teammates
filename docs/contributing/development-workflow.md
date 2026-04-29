@@ -35,6 +35,7 @@ The following labels can help you find suitable issues to work on.
 ## Step 2: Create Branch
 
 Start from an up-to-date `master` branch and create a new branch for your fix:
+
 ```sh
 git checkout master
 git pull
@@ -49,6 +50,7 @@ For example: `3942-remove-unnecessary-println`.
 ## Step 3: Fix and Commit
 
 Make your changes and commit them:
+
 ```sh
 git add -A
 git commit
@@ -58,6 +60,7 @@ A few things to keep in mind:
 
 - Use meaningful commit messages, e.g. `Add tests for the truncate method`. [This guide](http://chris.beams.io/posts/git-commit/) is a good reference.
 - Sync with the main repository frequently to avoid large merge conflicts:
+
 ```sh
 git checkout master
 git pull upstream master
@@ -66,6 +69,7 @@ git merge master
 ```
 
 Before submitting, make sure:
+
 - Code passes static analysis:
 
 <tabs>
@@ -76,6 +80,7 @@ Before submitting, make sure:
 npm run format
 npm run lint
 ```
+
 </tab>
 <tab header="Windows">
 
@@ -84,6 +89,7 @@ gradlew.bat lint --continue
 npm run format
 npm run lint
 ```
+
 </tab>
 </tabs>
 

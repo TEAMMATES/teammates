@@ -20,15 +20,9 @@
         "recipientType": "TEAMS",
         "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
         "customNumberOfEntitiesToGiveFeedbackTo": 2,
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
       },
       "questionStatistics": "",
       "allResponses": [],
@@ -56,15 +50,9 @@
         "recipientType": "STUDENTS",
         "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
         "customNumberOfEntitiesToGiveFeedbackTo": 5,
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
       },
       "questionStatistics": "",
       "allResponses": [],
@@ -78,10 +66,7 @@
         "questionNumber": 1,
         "questionBrief": "How important are the following factors to you? Give points accordingly.",
         "questionDetails": {
-          "constSumOptions": [
-            "Grades",
-            "Fun"
-          ],
+          "constSumOptions": ["Grades", "Fun"],
           "distributeToRecipients": false,
           "pointsPerOption": false,
           "forceUnevenDistribution": false,
@@ -95,15 +80,9 @@
         "recipientType": "SELF",
         "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
         "customNumberOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
       },
       "questionStatistics": "",
       "allResponses": [],

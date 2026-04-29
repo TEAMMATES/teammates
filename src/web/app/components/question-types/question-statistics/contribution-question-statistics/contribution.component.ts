@@ -15,11 +15,9 @@ import {
   imports: [NgbTooltip],
 })
 export class ContributionComponent {
-
   CONTRIBUTION_POINT_NOT_INITIALIZED: number = CONTRIBUTION_POINT_NOT_INITIALIZED;
   CONTRIBUTION_POINT_NOT_SUBMITTED: number = CONTRIBUTION_POINT_NOT_SUBMITTED;
 
   @Input() value = 100;
   @Input() diffOnly = false;
-
 }

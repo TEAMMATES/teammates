@@ -94,7 +94,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
             >
                12 hours 
               <div>
-                 (Sat, 5 Apr 2000 2:00 +08) 
+                (Sat, 5 Apr 2000 2:00 +08)
               </div>
             </option>
             <option
@@ -102,7 +102,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
             >
                1 day 
               <div>
-                 (Sat, 5 Apr 2000 2:00 +08) 
+                (Sat, 5 Apr 2000 2:00 +08)
               </div>
             </option>
             <option
@@ -110,7 +110,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
             >
                3 days 
               <div>
-                 (Sat, 5 Apr 2000 2:00 +08) 
+                (Sat, 5 Apr 2000 2:00 +08)
               </div>
             </option>
             <option
@@ -118,7 +118,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
             >
                1 week 
               <div>
-                 (Sat, 5 Apr 2000 2:00 +08) 
+                (Sat, 5 Apr 2000 2:00 +08)
               </div>
             </option>
             <option
@@ -144,7 +144,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
       class="btn btn-success modal-btn-ok"
       type="button"
     >
-       Save Changes
+       Save Changes 
     </button>
   </div>
 </tm-individual-extension-date-modal>
@@ -244,7 +244,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
             >
                12 hours 
               <div>
-                 (Sat, 5 Apr 2000 2:00 +08) 
+                (Sat, 5 Apr 2000 2:00 +08)
               </div>
             </option>
             <option
@@ -252,7 +252,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
             >
                1 day 
               <div>
-                 (Sat, 5 Apr 2000 2:00 +08) 
+                (Sat, 5 Apr 2000 2:00 +08)
               </div>
             </option>
             <option
@@ -260,7 +260,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
             >
                3 days 
               <div>
-                 (Sat, 5 Apr 2000 2:00 +08) 
+                (Sat, 5 Apr 2000 2:00 +08)
               </div>
             </option>
             <option
@@ -268,7 +268,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
             >
                1 week 
               <div>
-                 (Sat, 5 Apr 2000 2:00 +08) 
+                (Sat, 5 Apr 2000 2:00 +08)
               </div>
             </option>
             <option
@@ -339,7 +339,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
       class="btn btn-success modal-btn-ok"
       type="button"
     >
-       Save Changes
+       Save Changes 
     </button>
   </div>
 </tm-individual-extension-date-modal>
@@ -609,7 +609,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
       class="btn btn-success modal-btn-ok"
       type="button"
     >
-       Save Changes
+       Save Changes 
     </button>
   </div>
 </tm-individual-extension-date-modal>
@@ -709,7 +709,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
             >
                12 hours 
               <div>
-                 (Sat, 5 Apr 2000 2:00 +08) 
+                (Sat, 5 Apr 2000 2:00 +08)
               </div>
             </option>
             <option
@@ -717,7 +717,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
             >
                1 day 
               <div>
-                 (Sat, 5 Apr 2000 2:00 +08) 
+                (Sat, 5 Apr 2000 2:00 +08)
               </div>
             </option>
             <option
@@ -725,7 +725,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
             >
                3 days 
               <div>
-                 (Sat, 5 Apr 2000 2:00 +08) 
+                (Sat, 5 Apr 2000 2:00 +08)
               </div>
             </option>
             <option
@@ -733,7 +733,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
             >
                1 week 
               <div>
-                 (Sat, 5 Apr 2000 2:00 +08) 
+                (Sat, 5 Apr 2000 2:00 +08)
               </div>
             </option>
             <option
@@ -760,7 +760,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
       disabled=""
       type="button"
     >
-       Save Changes
+       Save Changes 
     </button>
   </div>
 </tm-individual-extension-date-modal>
@@ -861,7 +861,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the warning moda
             >
                12 hours 
               <div>
-                 (Sat, 5 Apr 2000 2:00 +08) 
+                (Sat, 5 Apr 2000 2:00 +08)
               </div>
             </option>
             <option
@@ -869,7 +869,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the warning moda
             >
                1 day 
               <div>
-                 (Sat, 5 Apr 2000 2:00 +08) 
+                (Sat, 5 Apr 2000 2:00 +08)
               </div>
             </option>
             <option
@@ -877,7 +877,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the warning moda
             >
                3 days 
               <div>
-                 (Sat, 5 Apr 2000 2:00 +08) 
+                (Sat, 5 Apr 2000 2:00 +08)
               </div>
             </option>
             <option
@@ -885,7 +885,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the warning moda
             >
                1 week 
               <div>
-                 (Sat, 5 Apr 2000 2:00 +08) 
+                (Sat, 5 Apr 2000 2:00 +08)
               </div>
             </option>
             <option
@@ -911,7 +911,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the warning moda
       class="btn btn-success modal-btn-ok"
       type="button"
     >
-       Save Changes
+       Save Changes 
     </button>
   </div>
 </tm-individual-extension-date-modal>

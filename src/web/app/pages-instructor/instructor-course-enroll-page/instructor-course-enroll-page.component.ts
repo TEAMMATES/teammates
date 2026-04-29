@@ -113,13 +113,13 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       return [];
     }
 
-    return students.map((student: Student) => ([
+    return students.map((student: Student) => [
       student.sectionName,
       student.teamName,
       student.name,
       student.email,
       student.comments || '',
-    ]));
+    ]);
   }
 
   /**
@@ -182,78 +182,90 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
     // Use concat because we cannot afford to parallelize with forkJoin when there's data dependency
     const enrollRequests: Observable<EnrollStudents> = concat(
-        ...this.allStudentChunks.map((studentChunk: StudentEnrollRequest[]) => {
-          const request: StudentsEnrollRequest = {
-            studentEnrollRequests: studentChunk,
-          };
-          return this.studentService.enrollStudents(
-              this.courseId, request,
-          );
-        }),
+      ...this.allStudentChunks.map((studentChunk: StudentEnrollRequest[]) => {
+        const request: StudentsEnrollRequest = {
+          studentEnrollRequests: studentChunk,
+        };
+        return this.studentService.enrollStudents(this.courseId, request);
+      }),
     );
 
     this.progressBarService.updateProgress(0);
-    enrollRequests.pipe(finalize(() => {
-      this.isEnrolling = false;
-    })).subscribe({
-      next: (resp: EnrollStudents) => {
-        enrolledStudents.push(...resp.studentsData.students);
+    enrollRequests
+      .pipe(
+        finalize(() => {
+          this.isEnrolling = false;
+        }),
+      )
+      .subscribe({
+        next: (resp: EnrollStudents) => {
+          enrolledStudents.push(...resp.studentsData.students);
 
-        if (resp.unsuccessfulEnrolls != null) {
-          for (const unsuccessfulEnroll of resp.unsuccessfulEnrolls) {
-            const normalizedEmail: string = normalizeEmail(unsuccessfulEnroll.studentEmail);
-            this.unsuccessfulEnrolls[normalizedEmail] = unsuccessfulEnroll.errorMessage;
+          if (resp.unsuccessfulEnrolls != null) {
+            for (const unsuccessfulEnroll of resp.unsuccessfulEnrolls) {
+              const normalizedEmail: string = normalizeEmail(unsuccessfulEnroll.studentEmail);
+              this.unsuccessfulEnrolls[normalizedEmail] = unsuccessfulEnroll.errorMessage;
 
-            for (const index of studentEnrollRequests.keys()) {
-              if (normalizeEmail(studentEnrollRequests.get(index)?.email) === normalizedEmail) {
-                this.invalidRowsIndex.add(index);
-                break;
+              for (const index of studentEnrollRequests.keys()) {
+                if (normalizeEmail(studentEnrollRequests.get(index)?.email) === normalizedEmail) {
+                  this.invalidRowsIndex.add(index);
+                  break;
+                }
               }
             }
           }
-        }
-        const percentage: number = Math.round(100 * enrolledStudents.length / studentEnrollRequests.size);
-        this.progressBarService.updateProgress(percentage);
-      },
-      complete: () => {
-        this.showEnrollResults = true;
-        this.statusMessage.pop(); // removes any existing error status message
-        this.statusMessageService.showSuccessToast('Enrollment successful. Summary given below.');
-        this.prepareEnrollmentResults(enrolledStudents, studentEnrollRequests);
-
-        if (this.invalidRowsIndex.size > 0
-          || this.newStudentRowsIndex.size > 0
-          || this.modifiedStudentRowsIndex.size > 0
-          || this.unchangedStudentRowsIndex.size > 0) {
-          this.setTableStyleBasedOnFieldChecks();
-        }
-      },
-      error: (resp: ErrorMessageOutput) => {
-        if (enrolledStudents.length > 0) {
+          const percentage: number = Math.round((100 * enrolledStudents.length) / studentEnrollRequests.size);
+          this.progressBarService.updateProgress(percentage);
+        },
+        complete: () => {
           this.showEnrollResults = true;
+          this.statusMessage.pop(); // removes any existing error status message
+          this.statusMessageService.showSuccessToast('Enrollment successful. Summary given below.');
           this.prepareEnrollmentResults(enrolledStudents, studentEnrollRequests);
-        }
 
-        // Set error message after populating result panels to avoid it being overridden
-        this.enrollErrorMessage = resp.error.message;
-      },
-    });
+          if (
+            this.invalidRowsIndex.size > 0 ||
+            this.newStudentRowsIndex.size > 0 ||
+            this.modifiedStudentRowsIndex.size > 0 ||
+            this.unchangedStudentRowsIndex.size > 0
+          ) {
+            this.setTableStyleBasedOnFieldChecks();
+          }
+        },
+        error: (resp: ErrorMessageOutput) => {
+          if (enrolledStudents.length > 0) {
+            this.showEnrollResults = true;
+            this.prepareEnrollmentResults(enrolledStudents, studentEnrollRequests);
+          }
+
+          // Set error message after populating result panels to avoid it being overridden
+          this.enrollErrorMessage = resp.error.message;
+        },
+      });
   }
 
-  private prepareEnrollmentResults(enrolledStudents: Student[],
-                                   studentEnrollRequests: Map<number, StudentEnrollRequest>): void {
-    this.enrollResultPanelList = this.populateEnrollResultPanelList(this.existingStudents,
-        enrolledStudents, studentEnrollRequests);
+  private prepareEnrollmentResults(
+    enrolledStudents: Student[],
+    studentEnrollRequests: Map<number, StudentEnrollRequest>,
+  ): void {
+    this.enrollResultPanelList = this.populateEnrollResultPanelList(
+      this.existingStudents,
+      enrolledStudents,
+      studentEnrollRequests,
+    );
     this.getExistingStudents(this.courseId);
   }
 
   private getExistingStudents(courseId: string): void {
     this.isLoadingExistingStudents = true;
     this.hasLoadingStudentsFailed = false;
-    this.studentService.getStudentsFromCourse({ courseId })
-      .pipe(finalize(() => {
-        this.isLoadingExistingStudents = false;
-      }))
+    this.studentService
+      .getStudentsFromCourse({ courseId })
+      .pipe(
+        finalize(() => {
+          this.isLoadingExistingStudents = false;
+        }),
+      )
       .subscribe({
         next: (resp: Students) => {
           this.existingStudents = resp.students;
@@ -320,8 +332,12 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         return;
       }
 
-      if ((studentEnrollRequests.size >= 100 && request.section === '')
-          || request.team === '' || request.name === '' || request.email === '') {
+      if (
+        (studentEnrollRequests.size >= 100 && request.section === '') ||
+        request.team === '' ||
+        request.name === '' ||
+        request.email === ''
+      ) {
         this.invalidRowsIndex.add(key);
       }
     });
@@ -375,13 +391,16 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.newStudentsGrid().styleRows(rowIdxToClass);
   }
 
-  private populateEnrollResultPanelList(existingStudents: Student[], enrolledStudents: Student[],
-                                        enrollRequests: Map<number, StudentEnrollRequest>): EnrollResultPanel[] {
-
+  private populateEnrollResultPanelList(
+    existingStudents: Student[],
+    enrolledStudents: Student[],
+    enrollRequests: Map<number, StudentEnrollRequest>,
+  ): EnrollResultPanel[] {
     const panels: EnrollResultPanel[] = [];
     const studentLists: Student[][] = [];
-    const statuses: (string | EnrollStatus)[] = Object.values(EnrollStatus)
-        .filter((value: string | EnrollStatus) => typeof value === 'string');
+    const statuses: (string | EnrollStatus)[] = Object.values(EnrollStatus).filter(
+      (value: string | EnrollStatus) => typeof value === 'string',
+    );
 
     for (let i = 0; i < statuses.length; i += 1) {
       studentLists.push([]);
@@ -474,11 +493,13 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   }
 
   private isSameEnrollInformation(enrolledStudent: Student, existingStudent: Student): boolean {
-    return areEmailsEqual(enrolledStudent.email, existingStudent.email)
-        && enrolledStudent.name === existingStudent.name
-        && enrolledStudent.teamName === existingStudent.teamName
-        && enrolledStudent.sectionName === existingStudent.sectionName
-        && enrolledStudent.comments === existingStudent.comments;
+    return (
+      areEmailsEqual(enrolledStudent.email, existingStudent.email) &&
+      enrolledStudent.name === existingStudent.name &&
+      enrolledStudent.teamName === existingStudent.teamName &&
+      enrolledStudent.sectionName === existingStudent.sectionName &&
+      enrolledStudent.comments === existingStudent.comments
+    );
   }
 
   getUnsuccessfulEnrollError(email: string): string | undefined {
@@ -516,17 +537,17 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    */
   studentListDataToHandsontableData(studentsData: Student[], handsontableColHeader: any[]): string[][] {
     const headers: string[] = handsontableColHeader.map(this.unCapitalizeFirstLetter);
-    return studentsData.map((student: Student) => (headers.map(
-        (header: string) => {
-          if (header === 'team') {
-            return (student as any).teamName;
-          }
-          if (header === 'section') {
-            return (student as any).sectionName;
-          }
-          return (student as any)[header];
-        },
-    )));
+    return studentsData.map((student: Student) =>
+      headers.map((header: string) => {
+        if (header === 'team') {
+          return (student as any).teamName;
+        }
+        if (header === 'section') {
+          return (student as any).sectionName;
+        }
+        return (student as any)[header];
+      }),
+    );
   }
 
   /**
@@ -555,7 +576,10 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
           from those modified students to be deleted. You may wish to download the data
           before you make the changes.`;
             this.simpleModalService.openInformationModal(
-                'Existing feedback responses', SimpleModalType.WARNING, modalContent);
+              'Existing feedback responses',
+              SimpleModalType.WARNING,
+              modalContent,
+            );
           }
         }
       },

@@ -42,20 +42,20 @@ exports[`NewInstructorDataRowComponent should snap with default view 1`] = `
         id="add-instructor-0"
         style="margin-right: 10px;"
       >
-        Add
+         Add 
       </button>
       <button
         class="action-btn btn btn-sm btn-info text-nowrap"
         id="edit-instructor-0"
         style="margin-right: 10px;"
       >
-        Edit
+         Edit 
       </button>
       <button
         class="action-btn btn btn-sm btn-danger"
         id="remove-instructor-0"
       >
-        Remove
+         Remove 
       </button>
     </div>
   </td><td
@@ -111,20 +111,20 @@ exports[`NewInstructorDataRowComponent should snap with edit cancelled 1`] = `
         id="add-instructor-0"
         style="margin-right: 10px;"
       >
-        Add
+         Add 
       </button>
       <button
         class="action-btn btn btn-sm btn-info text-nowrap"
         id="edit-instructor-0"
         style="margin-right: 10px;"
       >
-        Edit
+         Edit 
       </button>
       <button
         class="action-btn btn btn-sm btn-danger"
         id="remove-instructor-0"
       >
-        Remove
+         Remove 
       </button>
     </div>
   </td><td
@@ -180,20 +180,20 @@ exports[`NewInstructorDataRowComponent should snap with edit confirmed 1`] = `
         id="add-instructor-0"
         style="margin-right: 10px;"
       >
-        Add
+         Add 
       </button>
       <button
         class="action-btn btn btn-sm btn-info text-nowrap"
         id="edit-instructor-0"
         style="margin-right: 10px;"
       >
-        Edit
+         Edit 
       </button>
       <button
         class="action-btn btn btn-sm btn-danger"
         id="remove-instructor-0"
       >
-        Remove
+         Remove 
       </button>
     </div>
   </td><td
@@ -249,14 +249,14 @@ exports[`NewInstructorDataRowComponent should snap with instructor details edite
         id="confirm-edit-instructor-0"
         style="margin-right: 10px;"
       >
-        Confirm
+         Confirm 
       </button>
       <button
         class="action-btn btn btn-sm btn-danger text-nowrap"
         id="cancel-edit-instructor-0"
         style="margin-right: 10px;"
       >
-        Cancel
+         Cancel 
       </button>
     </div>
   </td><td
@@ -312,14 +312,14 @@ exports[`NewInstructorDataRowComponent should snap with start of edit 1`] = `
         id="confirm-edit-instructor-0"
         style="margin-right: 10px;"
       >
-        Confirm
+         Confirm 
       </button>
       <button
         class="action-btn btn btn-sm btn-danger text-nowrap"
         id="cancel-edit-instructor-0"
         style="margin-right: 10px;"
       >
-        Cancel
+         Cancel 
       </button>
     </div>
   </td><td

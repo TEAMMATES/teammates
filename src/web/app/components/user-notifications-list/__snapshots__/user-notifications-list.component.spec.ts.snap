@@ -44,13 +44,13 @@ exports[`UserNotificationsListComponent should snap when all loaded notification
             class="btn btn-light"
             id="sort-end-time"
           >
-            End Time
+             End Time 
           </button>
           <button
             class="btn btn-light"
             id="sort-start-time"
           >
-            Start Time
+             Start Time 
           </button>
         </div>
       </div>
@@ -196,7 +196,7 @@ exports[`UserNotificationsListComponent should snap when it fails to load 1`] = 
           aria-hidden="true"
           class="fas fa-redo"
         />
-         Retry
+         Retry 
       </button>
     </div>
   </tm-loading-retry>
@@ -247,13 +247,13 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
             class="btn btn-light"
             id="sort-end-time"
           >
-            End Time
+             End Time 
           </button>
           <button
             class="btn btn-light"
             id="sort-start-time"
           >
-            Start Time
+             Start Time 
           </button>
         </div>
       </div>
@@ -426,13 +426,13 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
             disabled=""
             id="sort-end-time"
           >
-            End Time
+             End Time 
           </button>
           <button
             class="btn btn-light"
             id="sort-start-time"
           >
-            Start Time
+             Start Time 
           </button>
         </div>
       </div>
@@ -604,14 +604,14 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
             class="btn btn-light"
             id="sort-end-time"
           >
-            End Time
+             End Time 
           </button>
           <button
             class="btn btn-light"
             disabled=""
             id="sort-start-time"
           >
-            Start Time
+             Start Time 
           </button>
         </div>
       </div>
@@ -813,7 +813,7 @@ exports[`UserNotificationsListComponent should snap with no notifications 1`] = 
         class="alert alert-warning margin-top-30px"
         role="alert"
       >
-         There are no active notifications. 
+        There are no active notifications.
       </div>
     </div>
     <div

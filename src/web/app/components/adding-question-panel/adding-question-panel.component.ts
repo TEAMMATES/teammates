@@ -23,10 +23,9 @@ import { TeammatesRouterDirective } from '../teammates-router/teammates-router.d
     EnumToArrayPipe,
     QuestionTypeNamePipe,
     QuestionTypeHelpPathPipe,
-],
+  ],
 })
 export class AddingQuestionPanelComponent {
-
   // enum
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
 
@@ -65,5 +64,4 @@ export class AddingQuestionPanelComponent {
   copyQuestionsFromOtherSessionsHandler(): void {
     this.copyQuestionsFromOtherSessionsEvent.emit();
   }
-
 }

@@ -6,30 +6,17 @@
       "name": "app",
       "installMode": "prefetch",
       "resources": {
-        "files": [
-          "/assets/icons/**",
-          "/index.html",
-          "/manifest.webmanifest",
-          "/*.css"
-        ]
+        "files": ["/assets/icons/**", "/index.html", "/manifest.webmanifest", "/*.css"]
       }
-    }, {
+    },
+    {
       "name": "assets",
       "installMode": "lazy",
       "updateMode": "prefetch",
       "resources": {
-        "files": [
-          "/assets/**",
-          "/*.js",
-          "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
-        ]
+        "files": ["/assets/**", "/*.js", "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"]
       }
     }
   ],
-  "navigationUrls": [
-    "/web/**",
-    "!/**/*.*",
-    "!/**/*__*",
-    "!/**/*__*/**"
-  ]
+  "navigationUrls": ["/web/**", "!/**/*.*", "!/**/*__*", "!/**/*__*/**"]
 }

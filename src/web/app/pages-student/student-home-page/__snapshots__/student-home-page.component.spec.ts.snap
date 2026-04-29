@@ -84,7 +84,7 @@ exports[`StudentHomePageComponent should snap when there is course loading faile
           aria-hidden="true"
           class="fas fa-redo"
         />
-         Retry
+         Retry 
       </button>
     </div>
   </tm-loading-retry>
@@ -139,13 +139,13 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
                 class="btn btn-light"
                 id="sort-course-id-btn"
               >
-                Course ID
+                 Course ID 
               </button>
               <button
                 class="btn btn-light"
                 id="sort-course-name-btn"
               >
-                Course Name
+                 Course Name 
               </button>
               <button
                 class="btn btn-light"
@@ -823,13 +823,13 @@ exports[`StudentHomePageComponent should snap with no feedback session over 2 co
                 class="btn btn-light"
                 id="sort-course-id-btn"
               >
-                Course ID
+                 Course ID 
               </button>
               <button
                 class="btn btn-light"
                 id="sort-course-name-btn"
               >
-                Course Name
+                 Course Name 
               </button>
               <button
                 class="btn btn-light"

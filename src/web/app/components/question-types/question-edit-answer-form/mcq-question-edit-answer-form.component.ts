@@ -2,10 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, 
 
 import { FormsModule } from '@angular/forms';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
-import {
-  FeedbackMcqQuestionDetails,
-  FeedbackMcqResponseDetails,
-} from '../../../../types/api-output';
+import { FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails } from '../../../../types/api-output';
 import { DEFAULT_MCQ_QUESTION_DETAILS, DEFAULT_MCQ_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
 import { SafeHtmlPipe } from '../../teammates-common/safe-html.pipe';
 
@@ -16,15 +13,12 @@ import { SafeHtmlPipe } from '../../teammates-common/safe-html.pipe';
   selector: 'tm-mcq-question-edit-answer-form',
   templateUrl: './mcq-question-edit-answer-form.component.html',
   styleUrls: ['./mcq-question-edit-answer-form.component.scss'],
-  imports: [
-    FormsModule,
-    SafeHtmlPipe,
-],
+  imports: [FormsModule, SafeHtmlPipe],
 })
 export class McqQuestionEditAnswerFormComponent
-    extends QuestionEditAnswerFormComponent<FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails>
-    implements OnChanges, OnInit {
-
+  extends QuestionEditAnswerFormComponent<FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails>
+  implements OnChanges, OnInit
+{
   /**
    * The unique ID in the page where the component is used.
    *
@@ -47,10 +41,10 @@ export class McqQuestionEditAnswerFormComponent
   }
 
   ngOnInit(): void {
-      this.valueSelected = this.responseDetails.answer;
+    this.valueSelected = this.responseDetails.answer;
   }
 
-  updateParentCss(refresh : boolean): void {
+  updateParentCss(refresh: boolean): void {
     this.cssRefresh.emit(refresh);
   }
 
@@ -58,8 +52,9 @@ export class McqQuestionEditAnswerFormComponent
   ngOnChanges(): void {
     this.isMcqOptionSelected = Array(this.questionDetails.mcqChoices.length).fill(false);
     if (this.responseDetails.answer !== '' && !this.responseDetails.isOther) {
-      const indexOfAnswerInPreviousSubmission: number =
-          this.questionDetails.mcqChoices.indexOf(this.responseDetails.answer);
+      const indexOfAnswerInPreviousSubmission: number = this.questionDetails.mcqChoices.indexOf(
+        this.responseDetails.answer,
+      );
       this.isMcqOptionSelected[indexOfAnswerInPreviousSubmission] = true;
     }
   }
@@ -73,8 +68,9 @@ export class McqQuestionEditAnswerFormComponent
     fieldsToUpdate.isOther = !this.responseDetails.isOther;
     if (fieldsToUpdate.isOther) {
       fieldsToUpdate.answer = '';
-      setTimeout(() => { // focus on the text box after the isOther field is updated to enable the text box
-        (this.inputTextBoxOther!).nativeElement.focus();
+      setTimeout(() => {
+        // focus on the text box after the isOther field is updated to enable the text box
+        this.inputTextBoxOther!.nativeElement.focus();
       }, 0);
     } else {
       fieldsToUpdate.otherFieldContent = '';
@@ -111,5 +107,4 @@ export class McqQuestionEditAnswerFormComponent
       otherFieldContent: '',
     });
   }
-
 }

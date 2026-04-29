@@ -151,7 +151,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
           aria-hidden="true"
           class="fas fa-redo"
         />
-         Retry
+         Retry 
       </button>
     </div>
   </tm-loading-retry>
@@ -1029,7 +1029,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <b>
                 Question 1: 
               </b>
-              question brief
+              question brief 
             </h2>
           </div>
           <div
@@ -1061,7 +1061,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 <p
                   class="text-secondary"
                 >
-                  Only the following persons can see your responses: 
+                  Only the following persons can see your responses:
                 </p>
                 <ul
                   class="visibility-list text-secondary"
@@ -1192,7 +1192,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         <p
                           class="text-secondary"
                         >
-                          Only the following persons can see your comments: 
+                          Only the following persons can see your comments:
                         </p>
                         <ul
                           class="visibility-list text-secondary"
@@ -1336,7 +1336,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <b>
                 Question 3: 
               </b>
-              question brief
+              question brief 
             </h2>
           </div>
           <div
@@ -1368,7 +1368,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 <p
                   class="text-secondary"
                 >
-                  Only the following persons can see your responses: 
+                  Only the following persons can see your responses:
                 </p>
                 <ul
                   class="visibility-list text-secondary"
@@ -1448,7 +1448,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         <p
                           class="text-secondary"
                         >
-                          Only the following persons can see your comments: 
+                          Only the following persons can see your comments:
                         </p>
                         <ul
                           class="visibility-list text-secondary"
@@ -1479,7 +1479,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               <div
                                 class="col-6"
                               >
-                                 Your comment about the above response 
+                                Your comment about the above response
                               </div>
                               <div
                                 class="col-6"
@@ -1594,7 +1594,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <b>
                 Question 2: 
               </b>
-              question brief
+              question brief 
             </h2>
           </div>
           <div
@@ -1626,7 +1626,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 <p
                   class="text-secondary"
                 >
-                  Only the following persons can see your responses: 
+                  Only the following persons can see your responses:
                 </p>
                 <ul
                   class="visibility-list text-secondary"
@@ -1705,7 +1705,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <b>
                 Question 4: 
               </b>
-              MSQ question
+              MSQ question 
             </h2>
           </div>
           <div
@@ -1737,7 +1737,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 <p
                   class="text-secondary"
                 >
-                  Only the following persons can see your responses: 
+                  Only the following persons can see your responses:
                 </p>
                 <ul
                   class="visibility-list text-secondary"
@@ -1889,7 +1889,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         <p
                           class="text-secondary"
                         >
-                          Only the following persons can see your comments: 
+                          Only the following persons can see your comments:
                         </p>
                         <ul
                           class="visibility-list text-secondary"
@@ -2033,7 +2033,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <b>
                 Question 5: 
               </b>
-              numerical scale question
+              numerical scale question 
             </h2>
           </div>
           <div
@@ -2065,7 +2065,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 <p
                   class="text-secondary"
                 >
-                  Only the following persons can see your responses: 
+                  Only the following persons can see your responses:
                 </p>
                 <ul
                   class="visibility-list text-secondary"
@@ -2140,13 +2140,13 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           class="col-md-9 col-xs-6 text-secondary"
                           id="possible-values"
                         >
-                           Possible values: [1,
+                          Possible values: [1,
              2,
              3,
              ...,
              8,
              9,
-             10] 
+             10]
                         </div>
                       </div>
                       <div
@@ -2248,7 +2248,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <b>
                 Question 6: 
               </b>
-              constant sum question
+              constant sum question 
             </h2>
           </div>
           <div
@@ -2280,7 +2280,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 <p
                   class="text-secondary"
                 >
-                  Only the following persons can see your responses: 
+                  Only the following persons can see your responses:
                 </p>
                 <ul
                   class="visibility-list text-secondary"
@@ -2411,7 +2411,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         <span
                           class="fa fa-times"
                         />
-                         Actual total is 7! Distribute the remaining 13 points.
+                         Actual total is 7! Distribute the remaining 13 points. 
                       </p>
                     </div>
                   </div>
@@ -2477,7 +2477,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <b>
                 Question 7: 
               </b>
-              contribution question
+              contribution question 
             </h2>
           </div>
           <div
@@ -2509,7 +2509,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 <p
                   class="text-secondary"
                 >
-                  Only the following persons can see your responses: 
+                  Only the following persons can see your responses:
                 </p>
                 <ul
                   class="visibility-list text-secondary"
@@ -2599,247 +2599,247 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               class="color-positive fw-bold"
                               value="1: 100"
                             >
-                              Equal share
+                               Equal share 
                             </option>
                             <option
                               class="color-positive"
                               value="2: 200"
                             >
-                              Equal share + 100%
+                               Equal share + 100% 
                             </option>
                             <option
                               class="color-positive"
                               value="3: 195"
                             >
-                              Equal share + 95%
+                               Equal share + 95% 
                             </option>
                             <option
                               class="color-positive"
                               value="4: 190"
                             >
-                              Equal share + 90%
+                               Equal share + 90% 
                             </option>
                             <option
                               class="color-positive"
                               value="5: 185"
                             >
-                              Equal share + 85%
+                               Equal share + 85% 
                             </option>
                             <option
                               class="color-positive"
                               value="6: 180"
                             >
-                              Equal share + 80%
+                               Equal share + 80% 
                             </option>
                             <option
                               class="color-positive"
                               value="7: 175"
                             >
-                              Equal share + 75%
+                               Equal share + 75% 
                             </option>
                             <option
                               class="color-positive"
                               value="8: 170"
                             >
-                              Equal share + 70%
+                               Equal share + 70% 
                             </option>
                             <option
                               class="color-positive"
                               value="9: 165"
                             >
-                              Equal share + 65%
+                               Equal share + 65% 
                             </option>
                             <option
                               class="color-positive"
                               value="10: 160"
                             >
-                              Equal share + 60%
+                               Equal share + 60% 
                             </option>
                             <option
                               class="color-positive"
                               value="11: 155"
                             >
-                              Equal share + 55%
+                               Equal share + 55% 
                             </option>
                             <option
                               class="color-positive"
                               value="12: 150"
                             >
-                              Equal share + 50%
+                               Equal share + 50% 
                             </option>
                             <option
                               class="color-positive"
                               value="13: 145"
                             >
-                              Equal share + 45%
+                               Equal share + 45% 
                             </option>
                             <option
                               class="color-positive"
                               value="14: 140"
                             >
-                              Equal share + 40%
+                               Equal share + 40% 
                             </option>
                             <option
                               class="color-positive"
                               value="15: 135"
                             >
-                              Equal share + 35%
+                               Equal share + 35% 
                             </option>
                             <option
                               class="color-positive"
                               value="16: 130"
                             >
-                              Equal share + 30%
+                               Equal share + 30% 
                             </option>
                             <option
                               class="color-positive"
                               value="17: 125"
                             >
-                              Equal share + 25%
+                               Equal share + 25% 
                             </option>
                             <option
                               class="color-positive"
                               value="18: 120"
                             >
-                              Equal share + 20%
+                               Equal share + 20% 
                             </option>
                             <option
                               class="color-positive"
                               value="19: 115"
                             >
-                              Equal share + 15%
+                               Equal share + 15% 
                             </option>
                             <option
                               class="color-positive"
                               value="20: 110"
                             >
-                              Equal share + 10%
+                               Equal share + 10% 
                             </option>
                             <option
                               class="color-positive"
                               value="21: 105"
                             >
-                              Equal share + 5%
+                               Equal share + 5% 
                             </option>
                             <option
                               class="color-negative"
                               value="22: 95"
                             >
-                              Equal share - 5%
+                               Equal share - 5% 
                             </option>
                             <option
                               class="color-negative"
                               value="23: 90"
                             >
-                              Equal share - 10%
+                               Equal share - 10% 
                             </option>
                             <option
                               class="color-negative"
                               value="24: 85"
                             >
-                              Equal share - 15%
+                               Equal share - 15% 
                             </option>
                             <option
                               class="color-negative"
                               value="25: 80"
                             >
-                              Equal share - 20%
+                               Equal share - 20% 
                             </option>
                             <option
                               class="color-negative"
                               value="26: 75"
                             >
-                              Equal share - 25%
+                               Equal share - 25% 
                             </option>
                             <option
                               class="color-negative"
                               value="27: 70"
                             >
-                              Equal share - 30%
+                               Equal share - 30% 
                             </option>
                             <option
                               class="color-negative"
                               value="28: 65"
                             >
-                              Equal share - 35%
+                               Equal share - 35% 
                             </option>
                             <option
                               class="color-negative"
                               value="29: 60"
                             >
-                              Equal share - 40%
+                               Equal share - 40% 
                             </option>
                             <option
                               class="color-negative"
                               value="30: 55"
                             >
-                              Equal share - 45%
+                               Equal share - 45% 
                             </option>
                             <option
                               class="color-negative"
                               value="31: 50"
                             >
-                              Equal share - 50%
+                               Equal share - 50% 
                             </option>
                             <option
                               class="color-negative"
                               value="32: 45"
                             >
-                              Equal share - 55%
+                               Equal share - 55% 
                             </option>
                             <option
                               class="color-negative"
                               value="33: 40"
                             >
-                              Equal share - 60%
+                               Equal share - 60% 
                             </option>
                             <option
                               class="color-negative"
                               value="34: 35"
                             >
-                              Equal share - 65%
+                               Equal share - 65% 
                             </option>
                             <option
                               class="color-negative"
                               value="35: 30"
                             >
-                              Equal share - 70%
+                               Equal share - 70% 
                             </option>
                             <option
                               class="color-negative"
                               value="36: 25"
                             >
-                              Equal share - 75%
+                               Equal share - 75% 
                             </option>
                             <option
                               class="color-negative"
                               value="37: 20"
                             >
-                              Equal share - 80%
+                               Equal share - 80% 
                             </option>
                             <option
                               class="color-negative"
                               value="38: 15"
                             >
-                              Equal share - 85%
+                               Equal share - 85% 
                             </option>
                             <option
                               class="color-negative"
                               value="39: 10"
                             >
-                              Equal share - 90%
+                               Equal share - 90% 
                             </option>
                             <option
                               class="color-negative"
                               value="40: 5"
                             >
-                              Equal share - 95%
+                               Equal share - 95% 
                             </option>
                             <option
                               class="color-negative"
                               value="41: 0"
                             >
-                              0%
+                               0% 
                             </option>
                           </select>
                         </div>
@@ -2936,7 +2936,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <b>
                 Question 8: 
               </b>
-              question brief
+              question brief 
             </h2>
           </div>
           <div
@@ -2968,7 +2968,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 <p
                   class="text-secondary"
                 >
-                  Only the following persons can see your responses: 
+                  Only the following persons can see your responses:
                 </p>
                 <ul
                   class="visibility-list text-secondary"
@@ -3295,7 +3295,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <b>
                 Question 9: 
               </b>
-              question brief
+              question brief 
             </h2>
           </div>
           <div
@@ -3327,7 +3327,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 <p
                   class="text-secondary"
                 >
-                  Only the following persons can see your responses: 
+                  Only the following persons can see your responses:
                 </p>
                 <ul
                   class="visibility-list text-secondary"
@@ -3577,7 +3577,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <b>
                 Question 10: 
               </b>
-              question brief
+              question brief 
             </h2>
           </div>
           <div
@@ -3609,7 +3609,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 <p
                   class="text-secondary"
                 >
-                  Only the following persons can see your responses: 
+                  Only the following persons can see your responses:
                 </p>
                 <ul
                   class="visibility-list text-secondary"
@@ -3782,7 +3782,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             ngbtooltip="You can save your responses at any time and come back later to continue."
             type="submit"
           >
-            Submit Responses for All Questions
+             Submit Responses for All Questions 
           </button>
         </div>
       </div>
@@ -4064,7 +4064,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <b>
                 Question 1: 
               </b>
-              question brief
+              question brief 
             </h2>
           </div>
           <div
@@ -4096,7 +4096,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 <p
                   class="text-secondary"
                 >
-                  Only the following persons can see your responses: 
+                  Only the following persons can see your responses:
                 </p>
                 <ul
                   class="visibility-list text-secondary"
@@ -4230,7 +4230,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         <p
                           class="text-secondary"
                         >
-                          Only the following persons can see your comments: 
+                          Only the following persons can see your comments:
                         </p>
                         <ul
                           class="visibility-list text-secondary"
@@ -4377,7 +4377,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <b>
                 Question 3: 
               </b>
-              question brief
+              question brief 
             </h2>
           </div>
           <div
@@ -4409,7 +4409,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 <p
                   class="text-secondary"
                 >
-                  Only the following persons can see your responses: 
+                  Only the following persons can see your responses:
                 </p>
                 <ul
                   class="visibility-list text-secondary"
@@ -4489,7 +4489,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         <p
                           class="text-secondary"
                         >
-                          Only the following persons can see your comments: 
+                          Only the following persons can see your comments:
                         </p>
                         <ul
                           class="visibility-list text-secondary"
@@ -4520,7 +4520,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               <div
                                 class="col-6"
                               >
-                                 Your comment about the above response 
+                                Your comment about the above response
                               </div>
                               <div
                                 class="col-6"
@@ -4637,7 +4637,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <b>
                 Question 2: 
               </b>
-              question brief
+              question brief 
             </h2>
           </div>
           <div
@@ -4669,7 +4669,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 <p
                   class="text-secondary"
                 >
-                  Only the following persons can see your responses: 
+                  Only the following persons can see your responses:
                 </p>
                 <ul
                   class="visibility-list text-secondary"
@@ -4748,7 +4748,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <b>
                 Question 4: 
               </b>
-              MSQ question
+              MSQ question 
             </h2>
           </div>
           <div
@@ -4780,7 +4780,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 <p
                   class="text-secondary"
                 >
-                  Only the following persons can see your responses: 
+                  Only the following persons can see your responses:
                 </p>
                 <ul
                   class="visibility-list text-secondary"
@@ -4935,7 +4935,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         <p
                           class="text-secondary"
                         >
-                          Only the following persons can see your comments: 
+                          Only the following persons can see your comments:
                         </p>
                         <ul
                           class="visibility-list text-secondary"
@@ -5082,7 +5082,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <b>
                 Question 5: 
               </b>
-              numerical scale question
+              numerical scale question 
             </h2>
           </div>
           <div
@@ -5114,7 +5114,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 <p
                   class="text-secondary"
                 >
-                  Only the following persons can see your responses: 
+                  Only the following persons can see your responses:
                 </p>
                 <ul
                   class="visibility-list text-secondary"
@@ -5189,13 +5189,13 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                           class="col-md-9 col-xs-6 text-secondary"
                           id="possible-values"
                         >
-                           Possible values: [1,
+                          Possible values: [1,
              2,
              3,
              ...,
              8,
              9,
-             10] 
+             10]
                         </div>
                       </div>
                       <div
@@ -5299,7 +5299,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <b>
                 Question 6: 
               </b>
-              constant sum question
+              constant sum question 
             </h2>
           </div>
           <div
@@ -5331,7 +5331,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 <p
                   class="text-secondary"
                 >
-                  Only the following persons can see your responses: 
+                  Only the following persons can see your responses:
                 </p>
                 <ul
                   class="visibility-list text-secondary"
@@ -5463,7 +5463,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                         <span
                           class="fa fa-times"
                         />
-                         Actual total is 7! Distribute the remaining 13 points.
+                         Actual total is 7! Distribute the remaining 13 points. 
                       </p>
                     </div>
                   </div>
@@ -5530,7 +5530,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <b>
                 Question 7: 
               </b>
-              contribution question
+              contribution question 
             </h2>
           </div>
           <div
@@ -5562,7 +5562,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 <p
                   class="text-secondary"
                 >
-                  Only the following persons can see your responses: 
+                  Only the following persons can see your responses:
                 </p>
                 <ul
                   class="visibility-list text-secondary"
@@ -5652,247 +5652,247 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               class="color-positive fw-bold"
                               value="1: 100"
                             >
-                              Equal share
+                               Equal share 
                             </option>
                             <option
                               class="color-positive"
                               value="2: 200"
                             >
-                              Equal share + 100%
+                               Equal share + 100% 
                             </option>
                             <option
                               class="color-positive"
                               value="3: 195"
                             >
-                              Equal share + 95%
+                               Equal share + 95% 
                             </option>
                             <option
                               class="color-positive"
                               value="4: 190"
                             >
-                              Equal share + 90%
+                               Equal share + 90% 
                             </option>
                             <option
                               class="color-positive"
                               value="5: 185"
                             >
-                              Equal share + 85%
+                               Equal share + 85% 
                             </option>
                             <option
                               class="color-positive"
                               value="6: 180"
                             >
-                              Equal share + 80%
+                               Equal share + 80% 
                             </option>
                             <option
                               class="color-positive"
                               value="7: 175"
                             >
-                              Equal share + 75%
+                               Equal share + 75% 
                             </option>
                             <option
                               class="color-positive"
                               value="8: 170"
                             >
-                              Equal share + 70%
+                               Equal share + 70% 
                             </option>
                             <option
                               class="color-positive"
                               value="9: 165"
                             >
-                              Equal share + 65%
+                               Equal share + 65% 
                             </option>
                             <option
                               class="color-positive"
                               value="10: 160"
                             >
-                              Equal share + 60%
+                               Equal share + 60% 
                             </option>
                             <option
                               class="color-positive"
                               value="11: 155"
                             >
-                              Equal share + 55%
+                               Equal share + 55% 
                             </option>
                             <option
                               class="color-positive"
                               value="12: 150"
                             >
-                              Equal share + 50%
+                               Equal share + 50% 
                             </option>
                             <option
                               class="color-positive"
                               value="13: 145"
                             >
-                              Equal share + 45%
+                               Equal share + 45% 
                             </option>
                             <option
                               class="color-positive"
                               value="14: 140"
                             >
-                              Equal share + 40%
+                               Equal share + 40% 
                             </option>
                             <option
                               class="color-positive"
                               value="15: 135"
                             >
-                              Equal share + 35%
+                               Equal share + 35% 
                             </option>
                             <option
                               class="color-positive"
                               value="16: 130"
                             >
-                              Equal share + 30%
+                               Equal share + 30% 
                             </option>
                             <option
                               class="color-positive"
                               value="17: 125"
                             >
-                              Equal share + 25%
+                               Equal share + 25% 
                             </option>
                             <option
                               class="color-positive"
                               value="18: 120"
                             >
-                              Equal share + 20%
+                               Equal share + 20% 
                             </option>
                             <option
                               class="color-positive"
                               value="19: 115"
                             >
-                              Equal share + 15%
+                               Equal share + 15% 
                             </option>
                             <option
                               class="color-positive"
                               value="20: 110"
                             >
-                              Equal share + 10%
+                               Equal share + 10% 
                             </option>
                             <option
                               class="color-positive"
                               value="21: 105"
                             >
-                              Equal share + 5%
+                               Equal share + 5% 
                             </option>
                             <option
                               class="color-negative"
                               value="22: 95"
                             >
-                              Equal share - 5%
+                               Equal share - 5% 
                             </option>
                             <option
                               class="color-negative"
                               value="23: 90"
                             >
-                              Equal share - 10%
+                               Equal share - 10% 
                             </option>
                             <option
                               class="color-negative"
                               value="24: 85"
                             >
-                              Equal share - 15%
+                               Equal share - 15% 
                             </option>
                             <option
                               class="color-negative"
                               value="25: 80"
                             >
-                              Equal share - 20%
+                               Equal share - 20% 
                             </option>
                             <option
                               class="color-negative"
                               value="26: 75"
                             >
-                              Equal share - 25%
+                               Equal share - 25% 
                             </option>
                             <option
                               class="color-negative"
                               value="27: 70"
                             >
-                              Equal share - 30%
+                               Equal share - 30% 
                             </option>
                             <option
                               class="color-negative"
                               value="28: 65"
                             >
-                              Equal share - 35%
+                               Equal share - 35% 
                             </option>
                             <option
                               class="color-negative"
                               value="29: 60"
                             >
-                              Equal share - 40%
+                               Equal share - 40% 
                             </option>
                             <option
                               class="color-negative"
                               value="30: 55"
                             >
-                              Equal share - 45%
+                               Equal share - 45% 
                             </option>
                             <option
                               class="color-negative"
                               value="31: 50"
                             >
-                              Equal share - 50%
+                               Equal share - 50% 
                             </option>
                             <option
                               class="color-negative"
                               value="32: 45"
                             >
-                              Equal share - 55%
+                               Equal share - 55% 
                             </option>
                             <option
                               class="color-negative"
                               value="33: 40"
                             >
-                              Equal share - 60%
+                               Equal share - 60% 
                             </option>
                             <option
                               class="color-negative"
                               value="34: 35"
                             >
-                              Equal share - 65%
+                               Equal share - 65% 
                             </option>
                             <option
                               class="color-negative"
                               value="35: 30"
                             >
-                              Equal share - 70%
+                               Equal share - 70% 
                             </option>
                             <option
                               class="color-negative"
                               value="36: 25"
                             >
-                              Equal share - 75%
+                               Equal share - 75% 
                             </option>
                             <option
                               class="color-negative"
                               value="37: 20"
                             >
-                              Equal share - 80%
+                               Equal share - 80% 
                             </option>
                             <option
                               class="color-negative"
                               value="38: 15"
                             >
-                              Equal share - 85%
+                               Equal share - 85% 
                             </option>
                             <option
                               class="color-negative"
                               value="39: 10"
                             >
-                              Equal share - 90%
+                               Equal share - 90% 
                             </option>
                             <option
                               class="color-negative"
                               value="40: 5"
                             >
-                              Equal share - 95%
+                               Equal share - 95% 
                             </option>
                             <option
                               class="color-negative"
                               value="41: 0"
                             >
-                              0%
+                               0% 
                             </option>
                           </select>
                         </div>
@@ -5991,7 +5991,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <b>
                 Question 8: 
               </b>
-              question brief
+              question brief 
             </h2>
           </div>
           <div
@@ -6023,7 +6023,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 <p
                   class="text-secondary"
                 >
-                  Only the following persons can see your responses: 
+                  Only the following persons can see your responses:
                 </p>
                 <ul
                   class="visibility-list text-secondary"
@@ -6361,7 +6361,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <b>
                 Question 9: 
               </b>
-              question brief
+              question brief 
             </h2>
           </div>
           <div
@@ -6393,7 +6393,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 <p
                   class="text-secondary"
                 >
-                  Only the following persons can see your responses: 
+                  Only the following persons can see your responses:
                 </p>
                 <ul
                   class="visibility-list text-secondary"
@@ -6645,7 +6645,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               <b>
                 Question 10: 
               </b>
-              question brief
+              question brief 
             </h2>
           </div>
           <div
@@ -6677,7 +6677,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 <p
                   class="text-secondary"
                 >
-                  Only the following persons can see your responses: 
+                  Only the following persons can see your responses:
                 </p>
                 <ul
                   class="visibility-list text-secondary"
@@ -6853,7 +6853,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             ngbtooltip="You can save your responses at any time and come back later to continue."
             type="submit"
           >
-            Submit Responses for All Questions
+             Submit Responses for All Questions 
           </button>
         </div>
       </div>

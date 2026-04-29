@@ -8,17 +8,16 @@ import { DataPoint } from '../data-point.model';
  * Adapted from: https://medium.com/weekly-webtips/build-a-simple-line-chart-with-d3-js-in-angular-ccd06e328bff
  */
 @Component({
-    selector: 'tm-stats-line-chart',
-    templateUrl: './stats-line-chart.component.html',
-    styleUrls: ['./stats-line-chart.component.scss'],
+  selector: 'tm-stats-line-chart',
+  templateUrl: './stats-line-chart.component.html',
+  styleUrls: ['./stats-line-chart.component.scss'],
 })
 export class StatsLineChartComponent implements OnChanges {
-
   @Input()
   data!: DataPoint[];
 
   @Input()
-  timeRange: { startTime: number, endTime: number } = { startTime: 0, endTime: 0 };
+  timeRange: { startTime: number; endTime: number } = { startTime: 0, endTime: 0 };
 
   @Input()
   dataName!: string;
@@ -34,7 +33,7 @@ export class StatsLineChartComponent implements OnChanges {
   private yAxis: any;
   private lineGroup: any;
 
-  constructor(private chartElem: ElementRef) { }
+  constructor(private chartElem: ElementRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data'] && this.data && this.timeRange) {
@@ -51,32 +50,21 @@ export class StatsLineChartComponent implements OnChanges {
     }
     const startTime = new Date(this.timeRange.startTime);
     const endTime = new Date(this.timeRange.endTime);
-    this.svg = d3
-      .select(this.chartElem.nativeElement)
-      .select('.line-chart')
-      .append('svg')
-      .attr('height', this.height);
+    this.svg = d3.select(this.chartElem.nativeElement).select('.line-chart').append('svg').attr('height', this.height);
 
-    this.svgInner = this.svg
-      .append('g')
-      .style('transform', `translate(${this.margin}px, ${this.margin}px)`);
+    this.svgInner = this.svg.append('g').style('transform', `translate(${this.margin}px, ${this.margin}px)`);
 
     this.yScale = d3
       .scaleLinear()
       .domain([
-          (d3.max(this.data, (d: DataPoint) => d.value) || 0) + 1,
-          (d3.min(this.data, (d: DataPoint) => d.value) || 0) - 1,
+        (d3.max(this.data, (d: DataPoint) => d.value) || 0) + 1,
+        (d3.min(this.data, (d: DataPoint) => d.value) || 0) - 1,
       ])
       .range([0, this.height - 2 * this.margin]);
 
-    this.xScale = d3
-      .scaleTime()
-      .domain([startTime, endTime]);
+    this.xScale = d3.scaleTime().domain([startTime, endTime]);
 
-    this.yAxis = this.svgInner
-      .append('g')
-      .attr('id', 'y-axis')
-      .style('transform', `translate(${this.margin}px, 0)`);
+    this.yAxis = this.svgInner.append('g').attr('id', 'y-axis').style('transform', `translate(${this.margin}px, 0)`);
 
     this.xAxis = this.svgInner
       .append('g')
@@ -105,8 +93,7 @@ export class StatsLineChartComponent implements OnChanges {
 
     this.xAxis.call(xAxis);
 
-    const yAxis = d3
-      .axisLeft(this.yScale);
+    const yAxis = d3.axisLeft(this.yScale);
 
     this.yAxis.call(yAxis);
 
@@ -133,18 +120,14 @@ export class StatsLineChartComponent implements OnChanges {
       .attr('cy', (d: DataPoint) => this.yScale(d.value))
       .attr('fill', '#FFC107')
       .on('mouseover', (event: any, d: DataPoint) => {
-        div.transition()
-          .duration(200)
-          .style('opacity', 0.9);
-        div.html(`Time: ${new Date(d.date).toString()}<br>New ${this.dataName} count: ${d.value}`)
+        div.transition().duration(200).style('opacity', 0.9);
+        div
+          .html(`Time: ${new Date(d.date).toString()}<br>New ${this.dataName} count: ${d.value}`)
           .style('left', `${event.pageX}px`)
           .style('top', `${event.pageY - 32}px`);
       })
       .on('mouseout', () => {
-        div.transition()
-          .duration(500)
-          .style('opacity', 0);
+        div.transition().duration(500).style('opacity', 0);
       });
   }
-
 }

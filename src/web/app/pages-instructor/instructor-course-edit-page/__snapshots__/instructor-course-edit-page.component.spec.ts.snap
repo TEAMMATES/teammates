@@ -85,7 +85,7 @@ exports[`InstructorCourseEditPageComponent should snap when editing course detai
       id="btn-copy-instructor"
       type="button"
     >
-      Copy Instructors from Other Courses 
+       Copy Instructors from Other Courses 
     </button>
   </div>
 </tm-instructor-course-edit-page>
@@ -176,7 +176,7 @@ exports[`InstructorCourseEditPageComponent should snap with course details 1`] =
       id="btn-copy-instructor"
       type="button"
     >
-      Copy Instructors from Other Courses 
+       Copy Instructors from Other Courses 
     </button>
   </div>
 </tm-instructor-course-edit-page>
@@ -267,7 +267,7 @@ exports[`InstructorCourseEditPageComponent should snap with default fields 1`] =
       id="btn-copy-instructor"
       type="button"
     >
-      Copy Instructors from Other Courses 
+       Copy Instructors from Other Courses 
     </button>
   </div>
 </tm-instructor-course-edit-page>
@@ -493,7 +493,7 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
                   class="btn btn-link padding-0"
                   type="button"
                 >
-                  View Details
+                   View Details 
                 </button>
               </div>
             </div>
@@ -517,7 +517,7 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
       id="btn-copy-instructor"
       type="button"
     >
-      Copy Instructors from Other Courses 
+       Copy Instructors from Other Courses 
     </button>
   </div>
 </tm-instructor-course-edit-page>

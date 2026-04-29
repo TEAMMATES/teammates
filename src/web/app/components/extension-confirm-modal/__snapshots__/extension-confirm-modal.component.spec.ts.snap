@@ -368,7 +368,7 @@ exports[`ExtensionConfirmModalComponent Test ExtentionModalType.DELETE branch 1`
         id="delete-extension-btn"
         type="button"
       >
-        Delete Extension(s)
+         Delete Extension(s) 
       </button>
     </div>
   </fieldset>
@@ -731,7 +731,7 @@ exports[`ExtensionConfirmModalComponent Test ExtentionModalType.SESSION_DELETE b
         id="delete-extension-btn"
         type="button"
       >
-        Delete Extension(s)
+         Delete Extension(s) 
       </button>
     </div>
   </fieldset>

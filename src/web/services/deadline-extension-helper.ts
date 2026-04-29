@@ -9,12 +9,14 @@ import { FeedbackSession, Instructor, Student } from '../types/api-output';
  */
 export class DeadlineExtensionHelper {
   public static hasOngoingExtension(deadlines: {
-    studentDeadlines: Record<string, number>,
-    instructorDeadlines: Record<string, number>,
+    studentDeadlines: Record<string, number>;
+    instructorDeadlines: Record<string, number>;
   }): boolean {
     const timeNow = Date.now();
-    return Object.values(deadlines.studentDeadlines).some((deadlineTimestamp) => deadlineTimestamp > timeNow)
-      || Object.values(deadlines.instructorDeadlines).some((deadlineTimestamp) => deadlineTimestamp > timeNow);
+    return (
+      Object.values(deadlines.studentDeadlines).some((deadlineTimestamp) => deadlineTimestamp > timeNow) ||
+      Object.values(deadlines.instructorDeadlines).some((deadlineTimestamp) => deadlineTimestamp > timeNow)
+    );
   }
 
   public static getDeadlinesBeforeOrEqualToEndTime(
@@ -30,7 +32,8 @@ export class DeadlineExtensionHelper {
     return deadlinesBeforeOrEqualToEndTime;
   }
 
-  public static mapStudentsToStudentModels(students: Student[],
+  public static mapStudentsToStudentModels(
+    students: Student[],
     studentDeadlines: Record<string, number>,
     feedbackSessionEndingTimestamp: number,
   ): StudentExtensionTableColumnModel[] {
@@ -53,7 +56,8 @@ export class DeadlineExtensionHelper {
     });
   }
 
-  public static mapInstructorsToInstructorModels(instructors: Instructor[],
+  public static mapInstructorsToInstructorModels(
+    instructors: Instructor[],
     instructorDeadlines: Record<string, number>,
     feedbackSessionEndingTimestamp: number,
   ): InstructorExtensionTableColumnModel[] {

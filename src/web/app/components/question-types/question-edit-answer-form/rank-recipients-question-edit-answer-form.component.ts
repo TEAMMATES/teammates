@@ -6,7 +6,8 @@ import {
   FeedbackRankRecipientsResponseDetails,
 } from '../../../../types/api-output';
 import {
-  DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS, DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS,
+  DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS,
+  DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
 import { RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED } from '../../../../types/feedback-response-details';
 
@@ -19,10 +20,10 @@ import { RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED } from '../../../../types/feedback
   styleUrls: ['./rank-recipients-question-edit-answer-form.component.scss'],
   imports: [FormsModule],
 })
-export class RankRecipientsQuestionEditAnswerFormComponent
-    extends
-        QuestionEditAnswerFormComponent<FeedbackRankRecipientsQuestionDetails, FeedbackRankRecipientsResponseDetails> {
-
+export class RankRecipientsQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent<
+  FeedbackRankRecipientsQuestionDetails,
+  FeedbackRankRecipientsResponseDetails
+> {
   readonly RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED: number = RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED;
 
   @Input()
@@ -42,5 +43,4 @@ export class RankRecipientsQuestionEditAnswerFormComponent
     }
     return ranks;
   }
-
 }

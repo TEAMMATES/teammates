@@ -7,16 +7,14 @@ import { NO_VALUE } from '../../../../types/feedback-response-details';
  * Instructions for Rank options question.
  */
 @Component({
-    selector: 'tm-rank-options-question-instruction',
-    templateUrl: './rank-options-question-instruction.component.html',
-    styleUrls: ['./rank-options-question-instruction.component.scss'],
-    imports: [],
+  selector: 'tm-rank-options-question-instruction',
+  templateUrl: './rank-options-question-instruction.component.html',
+  styleUrls: ['./rank-options-question-instruction.component.scss'],
+  imports: [],
 })
 export class RankOptionsQuestionInstructionComponent {
-
   @Input()
   questionDetails: FeedbackRankOptionsQuestionDetails = DEFAULT_RANK_OPTIONS_QUESTION_DETAILS();
 
   readonly NO_VALUE: number = NO_VALUE;
-
 }

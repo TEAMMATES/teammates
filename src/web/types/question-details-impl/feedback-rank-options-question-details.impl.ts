@@ -1,19 +1,15 @@
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
-import {
-  RankOptionsQuestionStatisticsCalculation,
-} from '../../app/components/question-types/question-statistics/question-statistics-calculation/rank-options-question-statistics-calculation';
-import {
-  FeedbackQuestionType,
-  FeedbackRankOptionsQuestionDetails, QuestionOutput,
-} from '../api-output';
+import { RankOptionsQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/rank-options-question-statistics-calculation';
+import { FeedbackQuestionType, FeedbackRankOptionsQuestionDetails, QuestionOutput } from '../api-output';
 import { NO_VALUE } from '../feedback-response-details';
 
 /**
  * Concrete implementation of {@link FeedbackRankOptionsQuestionDetails}.
  */
-export class FeedbackRankOptionsQuestionDetailsImpl extends AbstractFeedbackQuestionDetails
-    implements FeedbackRankOptionsQuestionDetails {
-
+export class FeedbackRankOptionsQuestionDetailsImpl
+  extends AbstractFeedbackQuestionDetails
+  implements FeedbackRankOptionsQuestionDetails
+{
   minOptionsToBeRanked: number = NO_VALUE;
   maxOptionsToBeRanked: number = NO_VALUE;
   areDuplicatesAllowed = false;
@@ -38,8 +34,9 @@ export class FeedbackRankOptionsQuestionDetailsImpl extends AbstractFeedbackQues
   getQuestionCsvStats(question: QuestionOutput): string[][] {
     const statsRows: string[][] = [];
 
-    const statsCalculation: RankOptionsQuestionStatisticsCalculation =
-        new RankOptionsQuestionStatisticsCalculation(this);
+    const statsCalculation: RankOptionsQuestionStatisticsCalculation = new RankOptionsQuestionStatisticsCalculation(
+      this,
+    );
     this.populateQuestionStatistics(statsCalculation, question);
     if (statsCalculation.responses.length === 0) {
       // skip stats for no response
@@ -49,13 +46,15 @@ export class FeedbackRankOptionsQuestionDetailsImpl extends AbstractFeedbackQues
 
     statsRows.push(['Option', 'Overall Rank', 'Ranks Received']);
 
-    Object.keys(statsCalculation.ranksReceivedPerOption).sort().forEach((option: string) => {
-      statsRows.push([
-        option,
-        statsCalculation.rankPerOption[option] ? String(statsCalculation.rankPerOption[option]) : '',
-        ...statsCalculation.ranksReceivedPerOption[option].map(String),
-      ]);
-    });
+    Object.keys(statsCalculation.ranksReceivedPerOption)
+      .sort()
+      .forEach((option: string) => {
+        statsRows.push([
+          option,
+          statsCalculation.rankPerOption[option] ? String(statsCalculation.rankPerOption[option]) : '',
+          ...statsCalculation.ranksReceivedPerOption[option].map(String),
+        ]);
+      });
 
     return statsRows;
   }

@@ -1,22 +1,23 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
-import {
-  MsqQuestionStatisticsCalculation,
-} from './question-statistics-calculation/msq-question-statistics-calculation';
+import { MsqQuestionStatisticsCalculation } from './question-statistics-calculation/msq-question-statistics-calculation';
 import { DEFAULT_MSQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
-import { ColumnData, SortableTableCellData, SortableTableComponent } from '../../sortable-table/sortable-table.component';
+import {
+  ColumnData,
+  SortableTableCellData,
+  SortableTableComponent,
+} from '../../sortable-table/sortable-table.component';
 
 /**
  * Statistics for MSQ questions.
  */
 @Component({
-    selector: 'tm-msq-question-statistics',
-    templateUrl: './msq-question-statistics.component.html',
-    styleUrls: ['./msq-question-statistics.component.scss'],
-    imports: [SortableTableComponent],
+  selector: 'tm-msq-question-statistics',
+  templateUrl: './msq-question-statistics.component.html',
+  styleUrls: ['./msq-question-statistics.component.scss'],
+  imports: [SortableTableComponent],
 })
 export class MsqQuestionStatisticsComponent extends MsqQuestionStatisticsCalculation implements OnInit, OnChanges {
-
   // enum
   SortBy: typeof SortBy = SortBy;
 
@@ -51,10 +52,10 @@ export class MsqQuestionStatisticsComponent extends MsqQuestionStatisticsCalcula
     this.summaryRowsData = Object.keys(this.answerFrequency).map((key: string) => {
       return [
         { value: key },
-        { value: this.weightPerOption[key] === 0 ? 0 : (this.weightPerOption[key] || '-') },
+        { value: this.weightPerOption[key] === 0 ? 0 : this.weightPerOption[key] || '-' },
         { value: this.answerFrequency[key] },
         { value: this.percentagePerOption[key] },
-        { value: this.weightedPercentagePerOption[key] === 0 ? 0 : (this.weightedPercentagePerOption[key] || '-') },
+        { value: this.weightedPercentagePerOption[key] === 0 ? 0 : this.weightedPercentagePerOption[key] || '-' },
       ];
     });
 
@@ -63,7 +64,7 @@ export class MsqQuestionStatisticsComponent extends MsqQuestionStatisticsCalcula
       { header: 'Recipient Name', sortBy: SortBy.MSQ_RECIPIENT_NAME },
       ...Object.keys(this.weightPerOption).map((key: string) => {
         return {
-          header: `${key} [${(this.weightPerOption[key]).toFixed(2)}]`,
+          header: `${key} [${this.weightPerOption[key].toFixed(2)}]`,
           sortBy: SortBy.MSQ_OPTION_SELECTED_TIMES,
         };
       }),
@@ -76,18 +77,16 @@ export class MsqQuestionStatisticsComponent extends MsqQuestionStatisticsCalcula
       return [
         { value: this.perRecipientResponses[key].recipientTeam },
         {
-          value: this.perRecipientResponses[key].recipient
-          + (recipientEmail ? ` (${recipientEmail})` : ''),
+          value: this.perRecipientResponses[key].recipient + (recipientEmail ? ` (${recipientEmail})` : ''),
         },
         ...Object.keys(this.weightPerOption).map((option: string) => {
           return {
             value: this.perRecipientResponses[key].responses[option],
           };
         }),
-        { value: (this.perRecipientResponses[key].total).toFixed(2) },
-        { value: (this.perRecipientResponses[key].average).toFixed(2) },
+        { value: this.perRecipientResponses[key].total.toFixed(2) },
+        { value: this.perRecipientResponses[key].average.toFixed(2) },
       ];
     });
   }
-
 }

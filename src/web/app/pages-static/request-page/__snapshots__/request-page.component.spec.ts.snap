@@ -10,13 +10,13 @@ exports[`RequestPageComponent should render correctly after form is submitted 1`
   <h1
     class="color-orange"
   >
-     Request for an Instructor Account
+    Request for an Instructor Account
   </h1><div
     class="col-xs-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6"
   >
     <div>
       <p>
-         Your request has been submitted successfully: 
+        Your request has been submitted successfully:
       </p>
       <table
         class="table table-bordered my-3"
@@ -106,7 +106,7 @@ exports[`RequestPageComponent should render correctly after instructor declarati
   <h1
     class="color-orange"
   >
-     Request for an Instructor Account
+    Request for an Instructor Account
   </h1><div
     class="col-xs-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6"
   >
@@ -178,7 +178,7 @@ exports[`RequestPageComponent should render correctly after instructor declarati
               <p
                 class="help-block"
               >
-                 Please give full name of the university/institution. 
+                Please give full name of the university/institution.
               </p>
               <input
                 aria-invalid="true"
@@ -211,7 +211,7 @@ exports[`RequestPageComponent should render correctly after instructor declarati
               <p
                 class="help-block"
               >
-                 Which country is your university/institution based in? 
+                Which country is your university/institution based in?
               </p>
               <input
                 aria-invalid="true"
@@ -321,7 +321,7 @@ exports[`RequestPageComponent should render correctly before instructor declarat
   <h1
     class="color-orange"
   >
-     Request for an Instructor Account
+    Request for an Instructor Account
   </h1><div
     class="col-xs-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6"
   >
@@ -351,7 +351,7 @@ exports[`RequestPageComponent should render correctly before instructor declarat
           id="btn-am-instructor"
           type="button"
         >
-          I am an instructor
+           I am an instructor 
         </button>
       </div>
       <hr />

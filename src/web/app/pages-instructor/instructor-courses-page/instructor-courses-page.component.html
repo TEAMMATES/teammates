@@ -1,14 +1,24 @@
 <div>
-  <button id="btn-add-course" class="btn btn-success" (click)="isAddNewCourseFormExpanded = true"
-    [disabled]="isAddNewCourseFormExpanded || isLoadingCourses"><i class="fas fa-plus"></i> Add New Course
+  <button
+    id="btn-add-course"
+    class="btn btn-success"
+    (click)="isAddNewCourseFormExpanded = true"
+    [disabled]="isAddNewCourseFormExpanded || isLoadingCourses"
+  >
+    <i class="fas fa-plus"></i> Add New Course
   </button>
 </div>
 
 @if (isAddNewCourseFormExpanded && !isLoadingCourses) {
   <div id="add-course-section" class="course-section" @collapseAnim>
-    <tm-course-edit-form [formMode]="CourseEditFormMode.ADD" [formModel]="courseFormModel"
-      [resetFormEvent]="resetCourseForm" (closeFormEvent)="isAddNewCourseFormExpanded = false"
-      (createNewCourseEvent)="createNewCourse()" (copyCourseEvent)="createCopiedCourse($event)">
+    <tm-course-edit-form
+      [formMode]="CourseEditFormMode.ADD"
+      [formModel]="courseFormModel"
+      [resetFormEvent]="resetCourseForm"
+      (closeFormEvent)="isAddNewCourseFormExpanded = false"
+      (createNewCourseEvent)="createNewCourse()"
+      (copyCourseEvent)="createCopiedCourse($event)"
+    >
     </tm-course-edit-form>
   </div>
 }
@@ -20,8 +30,11 @@
   </div>
 }
 
-<tm-loading-retry [shouldShowRetry]="hasLoadingFailed" [message]="'Failed to load courses'"
-  (retryEvent)="loadInstructorCourses()">
+<tm-loading-retry
+  [shouldShowRetry]="hasLoadingFailed"
+  [message]="'Failed to load courses'"
+  (retryEvent)="loadInstructorCourses()"
+>
   <div class="course-section">
     <h2 class="h3">Active courses</h2>
     <div *tmIsLoading="isLoadingActiveCourses">
@@ -36,54 +49,63 @@
             <table id="active-courses-table" class="table table-striped table-bordered margin-0">
               <thead>
                 <tr class="bg-primary text-white">
-                  <th id="sort-course-id" class="sortable-header" (click)="sortCoursesEvent(SortBy.COURSE_ID)"
-                    [attr.aria-sort]="getAriaSortActive(SortBy.COURSE_ID)">
+                  <th
+                    id="sort-course-id"
+                    class="sortable-header"
+                    (click)="sortCoursesEvent(SortBy.COURSE_ID)"
+                    [attr.aria-sort]="getAriaSortActive(SortBy.COURSE_ID)"
+                  >
                     <button>
                       Course ID
                       <span class="fa-stack" aria-hidden="true">
                         <i class="fas fa-sort"></i>
                         @if (activeTableSortBy === SortBy.COURSE_ID && activeTableSortOrder === SortOrder.DESC) {
-                          <i class="fas fa-sort-down"
-                          ></i>
+                          <i class="fas fa-sort-down"></i>
                         }
                         @if (activeTableSortBy === SortBy.COURSE_ID && activeTableSortOrder === SortOrder.ASC) {
-                          <i class="fas fa-sort-up"
-                          ></i>
+                          <i class="fas fa-sort-up"></i>
                         }
                       </span>
                     </button>
                   </th>
-                  <th id="sort-course-name" class="sortable-header" (click)="sortCoursesEvent(SortBy.COURSE_NAME)"
-                    [attr.aria-sort]="getAriaSortActive(SortBy.COURSE_NAME)">
+                  <th
+                    id="sort-course-name"
+                    class="sortable-header"
+                    (click)="sortCoursesEvent(SortBy.COURSE_NAME)"
+                    [attr.aria-sort]="getAriaSortActive(SortBy.COURSE_NAME)"
+                  >
                     <button>
                       Course Name
                       <span class="fa-stack" aria-hidden="true">
                         <i class="fas fa-sort"></i>
                         @if (activeTableSortBy === SortBy.COURSE_NAME && activeTableSortOrder === SortOrder.DESC) {
-                          <i class="fas fa-sort-down"
-                          ></i>
+                          <i class="fas fa-sort-down"></i>
                         }
                         @if (activeTableSortBy === SortBy.COURSE_NAME && activeTableSortOrder === SortOrder.ASC) {
-                          <i class="fas fa-sort-up"
-                          ></i>
+                          <i class="fas fa-sort-up"></i>
                         }
                       </span>
                     </button>
                   </th>
-                  <th id="sort-creation-date" class="sortable-header"
+                  <th
+                    id="sort-creation-date"
+                    class="sortable-header"
                     (click)="sortCoursesEvent(SortBy.COURSE_CREATION_DATE)"
-                    [attr.aria-sort]="getAriaSortActive(SortBy.COURSE_CREATION_DATE)">
+                    [attr.aria-sort]="getAriaSortActive(SortBy.COURSE_CREATION_DATE)"
+                  >
                     <button>
                       Creation Date
                       <span class="fa-stack" aria-hidden="true">
                         <i class="fas fa-sort"></i>
-                        @if (activeTableSortBy === SortBy.COURSE_CREATION_DATE && activeTableSortOrder === SortOrder.DESC) {
-                          <i class="fas fa-sort-down"
-                          ></i>
+                        @if (
+                          activeTableSortBy === SortBy.COURSE_CREATION_DATE && activeTableSortOrder === SortOrder.DESC
+                        ) {
+                          <i class="fas fa-sort-down"></i>
                         }
-                        @if (activeTableSortBy === SortBy.COURSE_CREATION_DATE && activeTableSortOrder === SortOrder.ASC) {
-                          <i class="fas fa-sort-up"
-                          ></i>
+                        @if (
+                          activeTableSortBy === SortBy.COURSE_CREATION_DATE && activeTableSortOrder === SortOrder.ASC
+                        ) {
+                          <i class="fas fa-sort-up"></i>
                         }
                       </span>
                     </button>
@@ -101,21 +123,22 @@
                 </ng-template>
                 @for (course of activeCourses; track course; let i = $index) {
                   <tr>
-                    <td id="course-id-{{ i }}" class="text-break">{{course.course.courseId}}</td>
-                    <td class="text-break">{{course.course.courseName}}</td>
+                    <td id="course-id-{{ i }}" class="text-break">{{ course.course.courseId }}</td>
+                    <td class="text-break">{{ course.course.courseName }}</td>
                     <td>
-                      <span class="ngb-tooltip-class" container="body"
-                        [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
-                        {{course.course.creationTimestamp | date:'d MMM yyyy'}}
+                      <span
+                        class="ngb-tooltip-class"
+                        container="body"
+                        [ngbTooltip]="course.course.creationTimestamp | date: 'EEE, dd MMM yyyy, h:mma'"
+                      >
+                        {{ course.course.creationTimestamp | date: 'd MMM yyyy' }}
                       </span>
                     </td>
                     <td>
                       @if (!courseStats[course.course.courseId]) {
                         <span>
                           @if (!course.isLoadingCourseStats) {
-                            <button
-                              (click)="getCourseStats(i)" class="link-button" > Show
-                            </button>
+                            <button (click)="getCourseStats(i)" class="link-button">Show</button>
                           } @else {
                             <tm-ajax-loading [useBlueSpinner]="true"></tm-ajax-loading>
                           }
@@ -131,8 +154,8 @@
                       @if (!courseStats[course.course.courseId]) {
                         <span>
                           @if (!course.isLoadingCourseStats) {
-                            <button id="show-statistics-{{ i }}"
-                              (click)="getCourseStats(i)" class="link-button" > Show
+                            <button id="show-statistics-{{ i }}" (click)="getCourseStats(i)" class="link-button">
+                              Show
                             </button>
                           } @else {
                             <tm-ajax-loading [useBlueSpinner]="true"></tm-ajax-loading>
@@ -149,9 +172,7 @@
                       @if (!courseStats[course.course.courseId]) {
                         <span>
                           @if (!course.isLoadingCourseStats) {
-                            <button
-                              (click)="getCourseStats(i)" class="link-button" > Show
-                            </button>
+                            <button (click)="getCourseStats(i)" class="link-button">Show</button>
                           } @else {
                             <tm-ajax-loading [useBlueSpinner]="true"></tm-ajax-loading>
                           }
@@ -167,9 +188,7 @@
                       @if (!courseStats[course.course.courseId]) {
                         <span>
                           @if (!course.isLoadingCourseStats) {
-                            <button
-                              (click)="getCourseStats(i)" class="link-button" > Show
-                            </button>
+                            <button (click)="getCourseStats(i)" class="link-button">Show</button>
                           } @else {
                             <tm-ajax-loading [useBlueSpinner]="true"></tm-ajax-loading>
                           }
@@ -183,55 +202,81 @@
                     </td>
                     <td class="text-center actions-cell">
                       @if (course.canModifyStudent) {
-                        <a id="btn-enroll-{{ i }}" class="btn btn-light btn-sm custom-button-active"
-                          ngbTooltip="Enroll student into the course" tmRouterLink="/web/instructor/courses/enroll"
-                          [queryParams]="{courseid: course.course.courseId}">
+                        <a
+                          id="btn-enroll-{{ i }}"
+                          class="btn btn-light btn-sm custom-button-active"
+                          ngbTooltip="Enroll student into the course"
+                          tmRouterLink="/web/instructor/courses/enroll"
+                          [queryParams]="{ courseid: course.course.courseId }"
+                        >
                           Enroll
                         </a>
                       }
                       @if (!course.canModifyStudent) {
-                        <button id="btn-enroll-disabled-{{ i }}" class="btn btn-light btn-sm disabled"
-                          >
-                          Enroll
-                        </button>
+                        <button id="btn-enroll-disabled-{{ i }}" class="btn btn-light btn-sm disabled">Enroll</button>
                       }
                       <div ngbDropdown class="d-inline-block">
-                        <button id="btn-other-actions-{{ i }}" class="btn btn-light btn-sm custom-button-active" ngbDropdownToggle>Other
-                        Actions</button>
+                        <button
+                          id="btn-other-actions-{{ i }}"
+                          class="btn btn-light btn-sm custom-button-active"
+                          ngbDropdownToggle
+                        >
+                          Other Actions
+                        </button>
                         <div ngbDropdownMenu>
-                          <a class="btn btn-primary btn-sm dropdown-item clickable"
-                            tmRouterLink="/web/instructor/courses/details" [queryParams]="{courseid: course.course.courseId}">
+                          <a
+                            class="btn btn-primary btn-sm dropdown-item clickable"
+                            tmRouterLink="/web/instructor/courses/details"
+                            [queryParams]="{ courseid: course.course.courseId }"
+                          >
                             View
                           </a>
-                          <a class="btn btn-primary btn-sm dropdown-item clickable"
-                            tmRouterLink="/web/instructor/courses/edit" [queryParams]="{courseid: course.course.courseId}">
+                          <a
+                            class="btn btn-primary btn-sm dropdown-item clickable"
+                            tmRouterLink="/web/instructor/courses/edit"
+                            [queryParams]="{ courseid: course.course.courseId }"
+                          >
                             Edit
                           </a>
                           @if (course.canModifyCourse) {
-                            <button id="btn-copy-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable"
+                            <button
+                              id="btn-copy-{{ i }}"
+                              class="btn btn-primary btn-sm dropdown-item clickable"
                               (click)="onCopy(course.course.courseId, course.course.courseName, course.course.timeZone)"
-                              ngbTooltip="Copy the course and its corresponding sessions" placement="left" container="body"
-                              [disabled]="isCopyingCourse">
+                              ngbTooltip="Copy the course and its corresponding sessions"
+                              placement="left"
+                              container="body"
+                              [disabled]="isCopyingCourse"
+                            >
                               Copy
                             </button>
                           }
                           @if (course.course.privileges?.canModifyInstructor) {
-                            <a class="btn btn-primary btn-sm dropdown-item clickable"
-                              tmRouterLink='/web/instructor/courses/student-activity-logs' [queryParams]="{courseid: course.course.courseId}">
+                            <a
+                              class="btn btn-primary btn-sm dropdown-item clickable"
+                              tmRouterLink="/web/instructor/courses/student-activity-logs"
+                              [queryParams]="{ courseid: course.course.courseId }"
+                            >
                               View Logs
                             </a>
                           }
                           @if (course.canModifyCourse) {
-                            <button id="btn-soft-delete-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable"
+                            <button
+                              id="btn-soft-delete-{{ i }}"
+                              class="btn btn-primary btn-sm dropdown-item clickable"
                               (click)="onDelete(course.course.courseId)"
-                              ngbTooltip="Delete the course and its corresponding students and sessions" placement="left"
-                              container="body">
+                              ngbTooltip="Delete the course and its corresponding students and sessions"
+                              placement="left"
+                              container="body"
+                            >
                               Delete
                             </button>
                           }
                           @if (!course.canModifyCourse) {
-                            <button id="btn-soft-delete-disabled-{{ i }}" class="btn btn-primary btn-sm dropdown-item disabled"
-                              >
+                            <button
+                              id="btn-soft-delete-disabled-{{ i }}"
+                              class="btn btn-primary btn-sm dropdown-item disabled"
+                            >
                               Delete
                             </button>
                           }
@@ -270,25 +315,27 @@
 
 <div class="row course-section margin-top-30px">
   <div class="col-12">
-    <h2 class="h3 text-muted">
-      <span class="fa fa-trash-alt" aria-hidden="true"></span> Deleted courses
-    </h2>
+    <h2 class="h3 text-muted"><span class="fa fa-trash-alt" aria-hidden="true"></span> Deleted courses</h2>
     <div *tmIsLoading="isLoadingSoftDeletedCourses">
       <ng-template #emptyBinAlert>
-        <div class="alert alert-warning margin-top-30px" role="alert">
-          There are no courses in the bin.
-        </div>
+        <div class="alert alert-warning margin-top-30px" role="alert">There are no courses in the bin.</div>
       </ng-template>
       @if (softDeletedCourses.length) {
         <div class="card bg-light top-padded">
-          <div id="deleted-table-heading" class="card-header bg-secondary text-white cursor-pointer"
-            (click)="isRecycleBinExpanded = !isRecycleBinExpanded">
+          <div
+            id="deleted-table-heading"
+            class="card-header bg-secondary text-white cursor-pointer"
+            (click)="isRecycleBinExpanded = !isRecycleBinExpanded"
+          >
             <b>Recycle Bin</b>
             <div class="card-header-btn-toolbar">
               @if (canRestoreAll) {
-                <button id="btn-restore-all" class="btn btn-secondary btn-sm"
+                <button
+                  id="btn-restore-all"
+                  class="btn btn-secondary btn-sm"
                   (click)="$event.stopPropagation(); onRestoreAll()"
-                  ngbTooltip="Restore all deleted courses and their corresponding students and sessions">
+                  ngbTooltip="Restore all deleted courses and their corresponding students and sessions"
+                >
                   <i class="fas fa-check" aria-hidden="true"></i> Restore All
                 </button>
               }
@@ -298,9 +345,12 @@
                 </button>
               }
               @if (canDeleteAll) {
-                <button id="btn-delete-all" class="btn btn-secondary btn-sm"
+                <button
+                  id="btn-delete-all"
+                  class="btn btn-secondary btn-sm"
                   (click)="$event.stopPropagation(); onDeleteAll()"
-                  ngbTooltip="Permanently delete all courses and their corresponding students and sessions">
+                  ngbTooltip="Permanently delete all courses and their corresponding students and sessions"
+                >
                   <i class="fas fa-times" aria-hidden="true"></i> Delete All
                 </button>
               }
@@ -314,74 +364,92 @@
           </div>
           @if (isRecycleBinExpanded) {
             <div class="card-body recycle-bin-body table-responsive" @collapseAnim>
-              <table id="deleted-courses-table"
-                class="table table-responsive-lg table-striped table-bordered recycle-bin-table">
+              <table
+                id="deleted-courses-table"
+                class="table table-responsive-lg table-striped table-bordered recycle-bin-table"
+              >
                 <thead>
                   <tr class="background-color-medium-gray text-color-gray">
-                    <th class="sortable-header" (click)="sortDeletedCoursesEvent(SortBy.COURSE_ID)"
-                      [attr.aria-sort]="getAriaSortDeleted(SortBy.COURSE_ID)">
+                    <th
+                      class="sortable-header"
+                      (click)="sortDeletedCoursesEvent(SortBy.COURSE_ID)"
+                      [attr.aria-sort]="getAriaSortDeleted(SortBy.COURSE_ID)"
+                    >
                       <button>
                         Course ID
                         <span class="fa-stack" aria-hidden="true">
                           <i class="fas fa-sort"></i>
                           @if (deletedTableSortBy === SortBy.COURSE_ID && deletedTableSortOrder === SortOrder.DESC) {
-                            <i class="fas fa-sort-down"
-                            ></i>
+                            <i class="fas fa-sort-down"></i>
                           }
                           @if (deletedTableSortBy === SortBy.COURSE_ID && deletedTableSortOrder === SortOrder.ASC) {
-                            <i class="fas fa-sort-up"
-                            ></i>
+                            <i class="fas fa-sort-up"></i>
                           }
                         </span>
                       </button>
                     </th>
-                    <th class="sortable-header" (click)="sortDeletedCoursesEvent(SortBy.COURSE_NAME)"
-                      [attr.aria-sort]="getAriaSortDeleted(SortBy.COURSE_NAME)">
+                    <th
+                      class="sortable-header"
+                      (click)="sortDeletedCoursesEvent(SortBy.COURSE_NAME)"
+                      [attr.aria-sort]="getAriaSortDeleted(SortBy.COURSE_NAME)"
+                    >
                       <button>
                         Course Name
                         <span class="fa-stack" aria-hidden="true">
                           <i class="fas fa-sort"></i>
                           @if (deletedTableSortBy === SortBy.COURSE_NAME && deletedTableSortOrder === SortOrder.DESC) {
-                            <i class="fas fa-sort-down"
-                            ></i>
+                            <i class="fas fa-sort-down"></i>
                           }
                           @if (deletedTableSortBy === SortBy.COURSE_NAME && deletedTableSortOrder === SortOrder.ASC) {
-                            <i class="fas fa-sort-up"
-                            ></i>
+                            <i class="fas fa-sort-up"></i>
                           }
                         </span>
                       </button>
                     </th>
-                    <th class="sortable-header" (click)="sortDeletedCoursesEvent(SortBy.COURSE_CREATION_DATE)"
-                      [attr.aria-sort]="getAriaSortDeleted(SortBy.COURSE_CREATION_DATE)">
+                    <th
+                      class="sortable-header"
+                      (click)="sortDeletedCoursesEvent(SortBy.COURSE_CREATION_DATE)"
+                      [attr.aria-sort]="getAriaSortDeleted(SortBy.COURSE_CREATION_DATE)"
+                    >
                       <button>
                         Creation Date
                         <span class="fa-stack" aria-hidden="true">
                           <i class="fas fa-sort"></i>
-                          @if (deletedTableSortBy === SortBy.COURSE_CREATION_DATE && deletedTableSortOrder === SortOrder.DESC) {
-                            <i class="fas fa-sort-down"
-                            ></i>
+                          @if (
+                            deletedTableSortBy === SortBy.COURSE_CREATION_DATE &&
+                            deletedTableSortOrder === SortOrder.DESC
+                          ) {
+                            <i class="fas fa-sort-down"></i>
                           }
-                          @if (deletedTableSortBy === SortBy.COURSE_CREATION_DATE && deletedTableSortOrder === SortOrder.ASC) {
-                            <i class="fas fa-sort-up"
-                            ></i>
+                          @if (
+                            deletedTableSortBy === SortBy.COURSE_CREATION_DATE &&
+                            deletedTableSortOrder === SortOrder.ASC
+                          ) {
+                            <i class="fas fa-sort-up"></i>
                           }
                         </span>
                       </button>
                     </th>
-                    <th class="sortable-header" (click)="sortDeletedCoursesEvent(SortBy.COURSE_DELETION_DATE)"
-                      [attr.aria-sort]="getAriaSortDeleted(SortBy.COURSE_DELETION_DATE)">
+                    <th
+                      class="sortable-header"
+                      (click)="sortDeletedCoursesEvent(SortBy.COURSE_DELETION_DATE)"
+                      [attr.aria-sort]="getAriaSortDeleted(SortBy.COURSE_DELETION_DATE)"
+                    >
                       <button>
                         Deletion Date
                         <span class="fa-stack" aria-hidden="true">
                           <i class="fas fa-sort"></i>
-                          @if (deletedTableSortBy === SortBy.COURSE_DELETION_DATE && deletedTableSortOrder === SortOrder.DESC) {
-                            <i class="fas fa-sort-down"
-                            ></i>
+                          @if (
+                            deletedTableSortBy === SortBy.COURSE_DELETION_DATE &&
+                            deletedTableSortOrder === SortOrder.DESC
+                          ) {
+                            <i class="fas fa-sort-down"></i>
                           }
-                          @if (deletedTableSortBy === SortBy.COURSE_DELETION_DATE && deletedTableSortOrder === SortOrder.ASC) {
-                            <i class="fas fa-sort-up"
-                            ></i>
+                          @if (
+                            deletedTableSortBy === SortBy.COURSE_DELETION_DATE &&
+                            deletedTableSortOrder === SortOrder.ASC
+                          ) {
+                            <i class="fas fa-sort-up"></i>
                           }
                         </span>
                       </button>
@@ -392,44 +460,54 @@
                 <tbody>
                   @for (course of softDeletedCourses; track course; let i = $index) {
                     <tr>
-                      <td id="deleted-course-id-{{ i }}" class="text-break">{{course.course.courseId}}</td>
-                      <td class="text-break">{{course.course.courseName}}</td>
+                      <td id="deleted-course-id-{{ i }}" class="text-break">{{ course.course.courseId }}</td>
+                      <td class="text-break">{{ course.course.courseName }}</td>
                       <td>
-                        <span container="body" class="ngb-tooltip-class"
-                          [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
-                          {{course.course.creationTimestamp | date:'d MMM yyyy'}}
+                        <span
+                          container="body"
+                          class="ngb-tooltip-class"
+                          [ngbTooltip]="course.course.creationTimestamp | date: 'EEE, dd MMM yyyy, h:mma'"
+                        >
+                          {{ course.course.creationTimestamp | date: 'd MMM yyyy' }}
                         </span>
                       </td>
                       <td>
-                        <span container="body" class="ngb-tooltip-class"
-                          [ngbTooltip]="course.course.deletionTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
-                          {{course.course.deletionTimestamp | date:'d MMM yyyy'}}
+                        <span
+                          container="body"
+                          class="ngb-tooltip-class"
+                          [ngbTooltip]="course.course.deletionTimestamp | date: 'EEE, dd MMM yyyy, h:mma'"
+                        >
+                          {{ course.course.deletionTimestamp | date: 'd MMM yyyy' }}
                         </span>
                       </td>
                       <td class="text-center actions-cell">
                         @if (course.canModifyCourse) {
-                          <button id="btn-restore-{{ i }}" class="btn btn-light btn-sm"
+                          <button
+                            id="btn-restore-{{ i }}"
+                            class="btn btn-light btn-sm"
                             (click)="onRestore(course.course.courseId)"
-                            ngbTooltip="Restore the deleted course and its corresponding students and sessions">
+                            ngbTooltip="Restore the deleted course and its corresponding students and sessions"
+                          >
                             Restore
                           </button>
                         }
                         @if (!course.canModifyCourse) {
-                          <button id="btn-restore-disabled-{{ i }}" class="btn btn-light btn-sm disabled"
-                            >
+                          <button id="btn-restore-disabled-{{ i }}" class="btn btn-light btn-sm disabled">
                             Restore
                           </button>
                         }
                         @if (course.canModifyCourse) {
-                          <button id="btn-delete-{{ i }}" class="btn btn-light btn-sm text-danger"
+                          <button
+                            id="btn-delete-{{ i }}"
+                            class="btn btn-light btn-sm text-danger"
                             (click)="onDeletePermanently(course.course.courseId)"
-                            ngbTooltip="Permanently delete the course and its corresponding students and sessions">
+                            ngbTooltip="Permanently delete the course and its corresponding students and sessions"
+                          >
                             Delete Permanently
                           </button>
                         }
                         @if (!course.canModifyCourse) {
-                          <button id="btn-delete-disabled-{{ i }}" class="btn btn-light btn-sm disabled text-danger"
-                            >
+                          <button id="btn-delete-disabled-{{ i }}" class="btn btn-light btn-sm disabled text-danger">
                             Delete Permanently
                           </button>
                         }
@@ -442,15 +520,12 @@
           }
         </div>
       } @else {
-        <div class="alert alert-warning margin-top-30px" role="alert">
-          There are no courses in the bin.
-        </div>
+        <div class="alert alert-warning margin-top-30px" role="alert">There are no courses in the bin.</div>
       }
     </div>
   </div>
 </div>
 
 <ng-template #modifiedTimestampsModal>
-  <tm-modified-timestamps-modal [modifiedSessions]="this.modifiedSessions">
-  </tm-modified-timestamps-modal>
+  <tm-modified-timestamps-modal [modifiedSessions]="this.modifiedSessions"> </tm-modified-timestamps-modal>
 </ng-template>

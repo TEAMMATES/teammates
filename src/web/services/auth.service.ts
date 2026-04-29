@@ -16,11 +16,13 @@ import { Intent } from '../types/api-request';
   providedIn: 'root',
 })
 export class AuthService {
-
   private frontendUrl: string = environment.frontendUrl;
   private afAuth?: AngularFireAuth;
 
-  constructor(private httpRequestService: HttpRequestService, private injector: Injector) {
+  constructor(
+    private httpRequestService: HttpRequestService,
+    private injector: Injector,
+  ) {
     if (environment.firebaseConfig?.projectId) {
       this.afAuth = this.injector.get(AngularFireAuth);
     }
@@ -52,9 +54,9 @@ export class AuthService {
    * Sends login email to the specified user.
    */
   sendLoginEmail(queryParam: {
-    userEmail: string,
-    continueUrl: string,
-    captchaResponse: string,
+    userEmail: string;
+    continueUrl: string;
+    captchaResponse: string;
   }): Observable<SendLoginEmailResponse> {
     const paramMap: Record<string, string> = {
       useremail: queryParam.userEmail,
@@ -109,5 +111,4 @@ export class AuthService {
   logout(): Promise<void> {
     return this.afAuth?.signOut() || Promise.resolve();
   }
-
 }

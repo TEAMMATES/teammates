@@ -13,7 +13,6 @@ import { InstructorRoleNamePipe } from '../../../components/teammates-common/ins
   imports: [InstructorRoleNamePipe],
 })
 export class ViewRolePrivilegesModalComponent {
-
   @Input()
   role: InstructorPermissionRole = InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM;
 
@@ -29,6 +28,5 @@ export class ViewRolePrivilegesModalComponent {
     canSubmitSessionInSections: false,
   };
 
-  constructor(public activeModal: NgbActiveModal) { }
-
+  constructor(public activeModal: NgbActiveModal) {}
 }

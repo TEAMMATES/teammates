@@ -325,17 +325,9 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numOfEntitiesToGiveFeedbackTo": 5,
-      "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ]
+      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
     },
     "IHome.CS2104:Third Feedback Session:Q1": {
       "questionDetails": {
@@ -352,17 +344,9 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numOfEntitiesToGiveFeedbackTo": 5,
-      "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ]
+      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
     }
   },
   "feedbackResponses": {

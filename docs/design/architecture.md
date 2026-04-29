@@ -97,19 +97,23 @@ Many classes in this layer use environment-based implementations — connecting 
 ### Policies
 
 **API for creating entities**:
+
 - Null parameters: Causes an assertion failure.
 - Invalid parameters: Throws `InvalidParametersException`.
 - Entity already exists: Throws `EntityAlreadyExistsException` (escalated from Storage level).
 
 **API for retrieving entities**:
+
 - Null parameters: Causes an assertion failure.
 - Entity not found: Returns `null`, allowing read operations to double as existence checks.
 
 **API for updating entities**:
+
 - Entity not found: Throws `EntityDoesNotExistException`.
 - Invalid parameters: Throws `InvalidParametersException`.
 
 **API for deleting entities**:
+
 - Entity not found: Fails silently — if it does not exist, it is as good as deleted.
 - Cascade policy: When a parent entity is deleted, all entities with referential integrity to it are also deleted.
 
@@ -120,6 +124,7 @@ Many classes in this layer use environment-based implementations — connecting 
 The `Storage` component performs CRUD operations on data entities. It contains minimal logic beyond what is directly relevant to persistence. Cascade operations are handled at the database level.
 
 It is responsible for:
+
 - Enforcing database constraints on entities.
 - Hiding database complexity from the `Logic` component.
 

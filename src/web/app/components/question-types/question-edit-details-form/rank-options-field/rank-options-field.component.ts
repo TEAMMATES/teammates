@@ -12,7 +12,6 @@ import { StatusMessageService } from '../../../../../services/status-message.ser
   imports: [FormsModule],
 })
 export class RankOptionsFieldComponent {
-
   @Input()
   isEditable = false;
 
@@ -31,7 +30,7 @@ export class RankOptionsFieldComponent {
   @Output()
   rankOptionText: EventEmitter<any> = new EventEmitter();
 
-  constructor(private statusMessageService: StatusMessageService) { }
+  constructor(private statusMessageService: StatusMessageService) {}
 
   /**
    * When user enters an Rank option text, emit the change to parent component.
@@ -50,5 +49,4 @@ export class RankOptionsFieldComponent {
       this.statusMessageService.showErrorToast('There must be at least two Rank options.');
     }
   }
-
 }

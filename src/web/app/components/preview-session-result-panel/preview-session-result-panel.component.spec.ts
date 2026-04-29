@@ -9,8 +9,7 @@ describe('PreviewSessionPanelComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [provideRouter([])],
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {

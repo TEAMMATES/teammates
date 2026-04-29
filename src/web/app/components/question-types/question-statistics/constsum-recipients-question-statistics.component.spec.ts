@@ -193,7 +193,6 @@ describe('ConstsumRecipientsQuestionStatisticsComponent', () => {
   ];
 
   it('should calculate statistics correctly', () => {
-
     component.responses = responses;
 
     const expectedPointsPerOption: Record<string, number[]> = {
@@ -232,5 +231,4 @@ describe('ConstsumRecipientsQuestionStatisticsComponent', () => {
     expect(component.averagePointsPerOption).toEqual(expectedAveragePointsPerOption);
     expect(component.averagePointsExcludingSelf).toEqual(expectedAveragePointsExcludingSelf);
   });
-
 });

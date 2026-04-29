@@ -22,15 +22,9 @@ import {
   selector: 'tm-rubric-question-statistics',
   templateUrl: './rubric-question-statistics.component.html',
   styleUrls: ['./rubric-question-statistics.component.scss'],
-  imports: [
-    NgbTooltip,
-    FormsModule,
-    SortableTableComponent,
-],
+  imports: [NgbTooltip, FormsModule, SortableTableComponent],
 })
-export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsCalculation
-    implements OnChanges {
-
+export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsCalculation implements OnChanges {
   excludeSelf = false;
 
   summaryColumnsData: ColumnData[] = [];
@@ -51,7 +45,7 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
 
   getTableData(): void {
     this.summaryColumnsData = [
-        { header: 'Question', sortBy: SortBy.RUBRIC_SUBQUESTION },
+      { header: 'Question', sortBy: SortBy.RUBRIC_SUBQUESTION },
       ...this.choices.map((choice: string) => ({ header: choice, sortBy: SortBy.RUBRIC_CHOICE })),
     ];
     if (this.isWeightStatsVisible) {
@@ -64,19 +58,23 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
         ...this.choices.map((_: string, choiceIndex: number) => {
           if (this.excludeSelf) {
             return {
-              value: `${this.percentagesExcludeSelf[questionIndex][choiceIndex]}%`
-                  + ` (${this.answersExcludeSelf[questionIndex][choiceIndex]})`
-                  + `${this.isWeightStatsVisible
-                      ? ` [${this.getDisplayWeight(this.weights[questionIndex][choiceIndex])}]`
-                      : ''}`,
+              value:
+                `${this.percentagesExcludeSelf[questionIndex][choiceIndex]}%` +
+                ` (${this.answersExcludeSelf[questionIndex][choiceIndex]})` +
+                `${
+                  this.isWeightStatsVisible
+                    ? ` [${this.getDisplayWeight(this.weights[questionIndex][choiceIndex])}]`
+                    : ''
+                }`,
             };
           }
           return {
-            value: `${this.percentages[questionIndex][choiceIndex]}%`
-                + ` (${this.answers[questionIndex][choiceIndex]})`
-                + `${this.isWeightStatsVisible
-                    ? ` [${this.getDisplayWeight(this.weights[questionIndex][choiceIndex])}]`
-                    : ''}`,
+            value:
+              `${this.percentages[questionIndex][choiceIndex]}%` +
+              ` (${this.answers[questionIndex][choiceIndex]})` +
+              `${
+                this.isWeightStatsVisible ? ` [${this.getDisplayWeight(this.weights[questionIndex][choiceIndex])}]` : ''
+              }`,
           };
         }),
       ];
@@ -115,15 +113,17 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
         this.perRecipientPerCriterionRowsData.push([
           { value: perRecipientStats.recipientTeam },
           {
-            value: perRecipientStats.recipientName
-            + (perRecipientStats.recipientEmail ? ` (${perRecipientStats.recipientEmail})` : ''),
+            value:
+              perRecipientStats.recipientName +
+              (perRecipientStats.recipientEmail ? ` (${perRecipientStats.recipientEmail})` : ''),
           },
           { value: `${StringHelper.integerToLowerCaseAlphabeticalIndex(questionIndex + 1)}) ${subQuestion}` },
           ...this.choices.map((_: string, choiceIndex: number) => {
             return {
-              value: `${perRecipientStats.percentages[questionIndex][choiceIndex]}%`
-                  + ` (${perRecipientStats.answers[questionIndex][choiceIndex]})`
-                  + ` [${this.getDisplayWeight(this.weights[questionIndex][choiceIndex])}]`,
+              value:
+                `${perRecipientStats.percentages[questionIndex][choiceIndex]}%` +
+                ` (${perRecipientStats.answers[questionIndex][choiceIndex]})` +
+                ` [${this.getDisplayWeight(this.weights[questionIndex][choiceIndex])}]`,
             };
           }),
           { value: this.getDisplayWeight(perRecipientStats.subQuestionTotalChosenWeight[questionIndex]) },
@@ -144,18 +144,19 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
 
     this.perRecipientOverallRowsData = [];
     Object.values(this.perRecipientStatsMap).forEach((perRecipientStats: PerRecipientStats) => {
-      const perCriterionAverage: string =
-          perRecipientStats.subQuestionWeightAverage.map((val: number) =>
-          this.getDisplayWeight(val)).toString();
+      const perCriterionAverage: string = perRecipientStats.subQuestionWeightAverage
+        .map((val: number) => this.getDisplayWeight(val))
+        .toString();
       this.perRecipientOverallRowsData.push([
         { value: perRecipientStats.recipientTeam },
         { value: perRecipientStats.recipientName },
         { value: perRecipientStats.recipientEmail },
         ...this.choices.map((_: string, choiceIndex: number) => {
           return {
-            value: `${perRecipientStats.percentagesAverage[choiceIndex]}%`
-                + ` (${perRecipientStats.answersSum[choiceIndex]})`
-                + ` [${this.getDisplayWeight(perRecipientStats.weightsAverage[choiceIndex])}]`,
+            value:
+              `${perRecipientStats.percentagesAverage[choiceIndex]}%` +
+              ` (${perRecipientStats.answersSum[choiceIndex]})` +
+              ` [${this.getDisplayWeight(perRecipientStats.weightsAverage[choiceIndex])}]`,
           };
         }),
         { value: this.getDisplayWeight(perRecipientStats.overallWeightedSum) },

@@ -3,9 +3,7 @@ import {
   FeedbackConstantSumDistributePointsType,
   FeedbackConstantSumQuestionDetails,
 } from '../../../../types/api-output';
-import {
-  DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS,
-} from '../../../../types/default-question-structs';
+import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 
 /**
  * Instruction of constsum options question.
@@ -17,13 +15,12 @@ import {
   imports: [],
 })
 export class ConstsumOptionsQuestionInstructionComponent {
-
   @Input()
   questionDetails: FeedbackConstantSumQuestionDetails = DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS();
 
   // enum
   FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =
-      FeedbackConstantSumDistributePointsType;
+    FeedbackConstantSumDistributePointsType;
 
   /**
    * Gets the total points of the constant sum question.
@@ -35,5 +32,4 @@ export class ConstsumOptionsQuestionInstructionComponent {
 
     return this.questionDetails.points;
   }
-
 }

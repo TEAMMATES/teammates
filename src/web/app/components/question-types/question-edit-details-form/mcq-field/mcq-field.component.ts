@@ -12,7 +12,6 @@ import { StatusMessageService } from '../../../../../services/status-message.ser
   imports: [FormsModule],
 })
 export class McqFieldComponent {
-
   @Input()
   isEditable = false;
 
@@ -53,5 +52,4 @@ export class McqFieldComponent {
   onMcqOptionEntered(text: string): void {
     this.mcqText.emit(text);
   }
-
 }

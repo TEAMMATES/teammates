@@ -1,15 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { FeedbackQuestionType } from '../../../types/api-output';
-import {
-  QuestionsSectionQuestions,
- } from '../../pages-help/instructor-help-page/instructor-help-questions-section/questions-section-questions';
+import { QuestionsSectionQuestions } from '../../pages-help/instructor-help-page/instructor-help-questions-section/questions-section-questions';
 
 /**
  * Pipe to get Question ID from {@code QuestionsSectionQuestions}.
  */
 @Pipe({ name: 'questionTypeHelpPath' })
 export class QuestionTypeHelpPathPipe implements PipeTransform {
-
   transform(type: FeedbackQuestionType): string | Error {
     switch (type) {
       case FeedbackQuestionType.MCQ:
@@ -36,5 +33,4 @@ export class QuestionTypeHelpPathPipe implements PipeTransform {
         throw new Error('Invalid Question Type');
     }
   }
-
 }

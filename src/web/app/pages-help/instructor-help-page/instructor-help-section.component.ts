@@ -1,6 +1,15 @@
 import {
-  AfterViewInit, Directive, EventEmitter, Inject, Input, OnChanges, OnInit, Output, QueryList,
-  SimpleChanges, ViewChildren,
+  AfterViewInit,
+  Directive,
+  EventEmitter,
+  Inject,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  QueryList,
+  SimpleChanges,
+  ViewChildren,
   DOCUMENT,
 } from '@angular/core';
 import { PageScrollService } from 'ngx-page-scroll-core';
@@ -20,7 +29,6 @@ interface QuestionDetail {
  */
 @Directive()
 export abstract class InstructorHelpSectionComponent implements OnInit, OnChanges, AfterViewInit {
-
   @Input() key: string;
   @Output() matchFound: EventEmitter<number> = new EventEmitter<number>();
   @ViewChildren('question') questionHtml!: QueryList<InstructorHelpPanelComponent>;
@@ -29,10 +37,12 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
   questionDetails: QuestionDetail[];
   questionsToCollapsed: Record<string, boolean> = {};
 
-  constructor(protected simpleModalService: SimpleModalService,
-              private pageScrollService: PageScrollService,
-              private navigationService: NavigationService,
-              @Inject(DOCUMENT) private document: any) {
+  constructor(
+    protected simpleModalService: SimpleModalService,
+    private pageScrollService: PageScrollService,
+    private navigationService: NavigationService,
+    @Inject(DOCUMENT) private document: any,
+  ) {
     this.key = '';
     this.showQuestion = [];
     this.questionDetails = [];
@@ -73,12 +83,11 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
       const id: string = question.id;
       const text: string = (question.elementRef.nativeElement.textContent || '').toLowerCase();
 
-        // filter small words away
+      // filter small words away
       let keywords: string[] = text.split(' ').filter((word: string) => word.length > 3);
 
-        // remove punctuation
-      keywords = keywords.map((word: string) =>
-        word.replace(/\b[-.,()?&$#![\]{}']+\B|\B[-.,()&?$#![\]{}']+\b/g, ''));
+      // remove punctuation
+      keywords = keywords.map((word: string) => word.replace(/\b[-.,()?&$#![\]{}']+\B|\B[-.,()&?$#![\]{}']+\b/g, ''));
 
       const newQuestion: QuestionDetail = {
         id,
@@ -97,8 +106,8 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
   private filterFaq(searchTerm: string): void {
     this.showQuestion = [];
     const searchTermSplit: string[] = (searchTerm.match(/[^\s"]+|"([^"]*)"/gi) || [])
-        .map((term: string) => term.replace(/"/g, ''))
-        .filter((term: string) => term.length > 3);
+      .map((term: string) => term.replace(/"/g, ''))
+      .filter((term: string) => term.length > 3);
     for (const questionDetail of this.questionDetails) {
       const id: string = questionDetail.id;
       const fullText: string = questionDetail.text;
@@ -126,8 +135,12 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
    * Checks if any question in the subsection is to be displayed after the search
    */
   displaySubsection(firstPoint: number, lastPoint: number): boolean {
-    return !this.key || this.getQuestionsOrder().slice(firstPoint, lastPoint)
-        .find((question: string) => this.showQuestion.includes(question)) != null;
+    return (
+      !this.key ||
+      this.getQuestionsOrder()
+        .slice(firstPoint, lastPoint)
+        .find((question: string) => this.showQuestion.includes(question)) != null
+    );
   }
 
   expand(questionId: string): void {

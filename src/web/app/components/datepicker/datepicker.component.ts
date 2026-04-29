@@ -13,7 +13,6 @@ import { DateFormat } from '../../../types/datetime-const';
   imports: [NgbInputDatepicker, FormsModule],
 })
 export class DatepickerComponent {
-
   @Input()
   date: DateFormat | undefined;
 
@@ -29,7 +28,7 @@ export class DatepickerComponent {
   @Output()
   dateChangeCallback: EventEmitter<DateFormat> = new EventEmitter<DateFormat>();
 
-  constructor(public calendar: NgbCalendar) { }
+  constructor(public calendar: NgbCalendar) {}
 
   changeDate(date: DateFormat): void {
     this.dateChangeCallback.emit(date);
@@ -39,5 +38,4 @@ export class DatepickerComponent {
     this.dateChangeCallback.emit(this.calendar.getToday());
     dp.navigateTo(this.calendar.getToday());
   }
-
 }

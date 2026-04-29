@@ -7,7 +7,8 @@ import createSpyFromClass from '../test-helpers/create-spy-from-class';
 import { ResourceEndpoints } from '../types/api-const';
 import {
   CommentVisibilityType,
-  FeedbackResponseCommentCreateRequest, FeedbackResponseCommentUpdateRequest,
+  FeedbackResponseCommentCreateRequest,
+  FeedbackResponseCommentUpdateRequest,
   Intent,
 } from '../types/api-request';
 
@@ -42,10 +43,13 @@ describe('FeedbackResponseCommentService', () => {
 
     service.createComment(createRequest, responseid, intent);
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(
-      ResourceEndpoints.RESPONSE_COMMENT, {
-      intent,
-      responseid,
-    }, createRequest);
+      ResourceEndpoints.RESPONSE_COMMENT,
+      {
+        intent,
+        responseid,
+      },
+      createRequest,
+    );
   });
 
   it('should call put when update comment', () => {
@@ -59,11 +63,13 @@ describe('FeedbackResponseCommentService', () => {
 
     service.updateComment(updateRequest, commentId, intent);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(
-      ResourceEndpoints.RESPONSE_COMMENT, {
-      intent,
-      responsecommentid: commentId,
-    },
-      updateRequest);
+      ResourceEndpoints.RESPONSE_COMMENT,
+      {
+        intent,
+        responsecommentid: commentId,
+      },
+      updateRequest,
+    );
   });
 
   it('should call delete when delete comment', () => {
@@ -71,8 +77,7 @@ describe('FeedbackResponseCommentService', () => {
     const intent: Intent = Intent.STUDENT_RESULT;
 
     service.deleteComment(commentId, intent);
-    expect(spyHttpRequestService.delete).toHaveBeenCalledWith(
-      ResourceEndpoints.RESPONSE_COMMENT, {
+    expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.RESPONSE_COMMENT, {
       intent,
       responsecommentid: commentId,
     });

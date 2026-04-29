@@ -10,8 +10,10 @@ import { AccountService } from '../../../services/account.service';
 import { EmailGenerationService } from '../../../services/email-generation.service';
 import { InstructorService } from '../../../services/instructor.service';
 import {
-  FeedbackSessionsGroup, InstructorAccountSearchResult,
-  SearchService, StudentAccountSearchResult,
+  FeedbackSessionsGroup,
+  InstructorAccountSearchResult,
+  SearchService,
+  StudentAccountSearchResult,
 } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -82,13 +84,8 @@ describe('AdminSearchPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -108,9 +105,9 @@ describe('AdminSearchPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should snap with default fields', (() => {
+  it('should snap with default fields', () => {
     expect(fixture).toMatchSnapshot();
-  }));
+  });
 
   it('should snap with a search key', () => {
     component.searchQuery = 'TEST';
@@ -225,16 +222,19 @@ describe('AdminSearchPageComponent', () => {
   });
 
   it('should display error message for invalid input', () => {
-    jest.spyOn(searchService, 'searchAdmin').mockReturnValue(throwError(() => ({
-      error: {
-        message: 'This is the error message',
-      },
-    })));
+    jest.spyOn(searchService, 'searchAdmin').mockReturnValue(
+      throwError(() => ({
+        error: {
+          message: 'This is the error message',
+        },
+      })),
+    );
 
-    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('This is the error message');
-        });
+    const spyStatusMessageService: SpyInstance = jest
+      .spyOn(statusMessageService, 'showErrorToast')
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('This is the error message');
+      });
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#search-button');
     button.click();
@@ -243,16 +243,19 @@ describe('AdminSearchPageComponent', () => {
   });
 
   it('should display warning message for no results', () => {
-    jest.spyOn(searchService, 'searchAdmin').mockReturnValue(of({
-      students: [],
-      instructors: [],
-      accountRequests: [],
-    }));
+    jest.spyOn(searchService, 'searchAdmin').mockReturnValue(
+      of({
+        students: [],
+        instructors: [],
+        accountRequests: [],
+      }),
+    );
 
-    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showWarningToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('No results found.');
-        });
+    const spyStatusMessageService: SpyInstance = jest
+      .spyOn(statusMessageService, 'showWarningToast')
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('No results found.');
+      });
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#search-button');
     button.click();
@@ -297,13 +300,16 @@ describe('AdminSearchPageComponent', () => {
         openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
         notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
         publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      }];
+      },
+    ];
 
-    jest.spyOn(searchService, 'searchAdmin').mockReturnValue(of({
-      students: [],
-      instructors: instructorResults,
-      accountRequests: [],
-    }));
+    jest.spyOn(searchService, 'searchAdmin').mockReturnValue(
+      of({
+        students: [],
+        instructors: instructorResults,
+        accountRequests: [],
+      }),
+    );
 
     component.searchQuery = 'name';
     const button: any = fixture.debugElement.nativeElement.querySelector('#search-button');
@@ -340,7 +346,8 @@ describe('AdminSearchPageComponent', () => {
         openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
         notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
         publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      }, {
+      },
+      {
         userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
         name: 'name2',
         email: 'email2',
@@ -361,13 +368,16 @@ describe('AdminSearchPageComponent', () => {
         openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
         notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
         publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      }];
+      },
+    ];
 
-    jest.spyOn(searchService, 'searchAdmin').mockReturnValue(of({
-      students: studentResults,
-      instructors: [],
-      accountRequests: [],
-    }));
+    jest.spyOn(searchService, 'searchAdmin').mockReturnValue(
+      of({
+        students: studentResults,
+        instructors: [],
+        accountRequests: [],
+      }),
+    );
 
     component.searchQuery = 'name';
     const button: any = fixture.debugElement.nativeElement.querySelector('#search-button');
@@ -442,17 +452,21 @@ describe('AdminSearchPageComponent', () => {
 
     jest.spyOn(ngbModal, 'open').mockImplementation(() => {
       return createMockNgbModalRef({
-        name: 'dummy', course: 'dummy',
+        name: 'dummy',
+        course: 'dummy',
       });
     });
 
-    jest.spyOn(accountService, 'resetInstructorAccount').mockReturnValue(of({
-      message: 'Success',
-    }));
-    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('The instructor\'s Google ID has been reset.');
-        });
+    jest.spyOn(accountService, 'resetInstructorAccount').mockReturnValue(
+      of({
+        message: 'Success',
+      }),
+    );
+    const spyStatusMessageService: SpyInstance = jest
+      .spyOn(statusMessageService, 'showSuccessToast')
+      .mockImplementation((args: string) => {
+        expect(args).toEqual("The instructor's Google ID has been reset.");
+      });
 
     const link: any = fixture.debugElement.nativeElement.querySelector('#reset-instructor-id-0');
     link.click();
@@ -484,20 +498,24 @@ describe('AdminSearchPageComponent', () => {
 
     jest.spyOn(ngbModal, 'open').mockImplementation(() => {
       return createMockNgbModalRef({
-        name: 'dummy', course: 'dummy',
+        name: 'dummy',
+        course: 'dummy',
       });
     });
 
-    jest.spyOn(accountService, 'resetInstructorAccount').mockReturnValue(throwError(() => ({
-      error: {
-        message: 'This is the error message',
-      },
-    })));
+    jest.spyOn(accountService, 'resetInstructorAccount').mockReturnValue(
+      throwError(() => ({
+        error: {
+          message: 'This is the error message',
+        },
+      })),
+    );
 
-    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('This is the error message');
-        });
+    const spyStatusMessageService: SpyInstance = jest
+      .spyOn(statusMessageService, 'showErrorToast')
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('This is the error message');
+      });
 
     const link: any = fixture.debugElement.nativeElement.querySelector('#reset-instructor-id-0');
     link.click();
@@ -512,18 +530,22 @@ describe('AdminSearchPageComponent', () => {
 
     jest.spyOn(ngbModal, 'open').mockImplementation(() => {
       return createMockNgbModalRef({
-        name: 'dummy', course: 'dummy',
+        name: 'dummy',
+        course: 'dummy',
       });
     });
 
-    jest.spyOn(accountService, 'resetStudentAccount').mockReturnValue(of({
-      message: 'success',
-    }));
+    jest.spyOn(accountService, 'resetStudentAccount').mockReturnValue(
+      of({
+        message: 'success',
+      }),
+    );
 
-    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('The student\'s Google ID has been reset.');
-        });
+    const spyStatusMessageService: SpyInstance = jest
+      .spyOn(statusMessageService, 'showSuccessToast')
+      .mockImplementation((args: string) => {
+        expect(args).toEqual("The student's Google ID has been reset.");
+      });
 
     const link: any = fixture.debugElement.nativeElement.querySelector('#reset-student-id-0');
     link.click();
@@ -559,20 +581,24 @@ describe('AdminSearchPageComponent', () => {
 
     jest.spyOn(ngbModal, 'open').mockImplementation(() => {
       return createMockNgbModalRef({
-        name: 'dummy', course: 'dummy',
+        name: 'dummy',
+        course: 'dummy',
       });
     });
 
-    jest.spyOn(accountService, 'resetStudentAccount').mockReturnValue(throwError(() => ({
-      error: {
-        message: 'This is the error message.',
-      },
-    })));
+    jest.spyOn(accountService, 'resetStudentAccount').mockReturnValue(
+      throwError(() => ({
+        error: {
+          message: 'This is the error message.',
+        },
+      })),
+    );
 
-    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('This is the error message.');
-        });
+    const spyStatusMessageService: SpyInstance = jest
+      .spyOn(statusMessageService, 'showErrorToast')
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('This is the error message.');
+      });
 
     const link: any = fixture.debugElement.nativeElement.querySelector('#reset-student-id-0');
     link.click();
@@ -626,15 +652,18 @@ describe('AdminSearchPageComponent', () => {
 
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
-    jest.spyOn(studentService, 'regenerateStudentKey').mockReturnValue(of({
-      message: 'success',
-      newRegistrationKey: 'newKey',
-    }));
+    jest.spyOn(studentService, 'regenerateStudentKey').mockReturnValue(
+      of({
+        message: 'success',
+        newRegistrationKey: 'newKey',
+      }),
+    );
 
-    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('success');
-        });
+    const spyStatusMessageService: SpyInstance = jest
+      .spyOn(statusMessageService, 'showSuccessToast')
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('success');
+      });
 
     const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-student-key-0');
     regenerateButton.click();
@@ -645,7 +674,9 @@ describe('AdminSearchPageComponent', () => {
     expect(studentResult.awaitingSessions[DEFAULT_SESSION_ID].feedbackSessionUrl).toEqual('awaitingSession?key=newKey');
     expect(studentResult.openSessions[DEFAULT_SESSION_ID].feedbackSessionUrl).toEqual('openSession?key=newKey');
     expect(studentResult.notOpenSessions[DEFAULT_SESSION_ID].feedbackSessionUrl).toEqual('notOpenSession?key=newKey');
-    expect(studentResult.publishedSessions[DEFAULT_SESSION_ID].feedbackSessionUrl).toEqual('publishedSession?key=newKey');
+    expect(studentResult.publishedSessions[DEFAULT_SESSION_ID].feedbackSessionUrl).toEqual(
+      'publishedSession?key=newKey',
+    );
   });
 
   it('should show error message if fail to regenerate registration key for student in a course', () => {
@@ -694,16 +725,19 @@ describe('AdminSearchPageComponent', () => {
 
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
-    jest.spyOn(studentService, 'regenerateStudentKey').mockReturnValue(throwError(() => ({
-      error: {
-        message: 'This is the error message.',
-      },
-    })));
+    jest.spyOn(studentService, 'regenerateStudentKey').mockReturnValue(
+      throwError(() => ({
+        error: {
+          message: 'This is the error message.',
+        },
+      })),
+    );
 
-    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('This is the error message.');
-        });
+    const spyStatusMessageService: SpyInstance = jest
+      .spyOn(statusMessageService, 'showErrorToast')
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('This is the error message.');
+      });
 
     const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-student-key-0');
     regenerateButton.click();
@@ -729,15 +763,18 @@ describe('AdminSearchPageComponent', () => {
 
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
-    jest.spyOn(instructorService, 'regenerateInstructorKey').mockReturnValue(of({
-      message: 'success',
-      newRegistrationKey: 'newKey',
-    }));
+    jest.spyOn(instructorService, 'regenerateInstructorKey').mockReturnValue(
+      of({
+        message: 'success',
+        newRegistrationKey: 'newKey',
+      }),
+    );
 
-    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('success');
-        });
+    const spyStatusMessageService: SpyInstance = jest
+      .spyOn(statusMessageService, 'showSuccessToast')
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('success');
+      });
 
     const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-instructor-key-0');
     regenerateButton.click();
@@ -765,16 +802,19 @@ describe('AdminSearchPageComponent', () => {
 
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
-    jest.spyOn(instructorService, 'regenerateInstructorKey').mockReturnValue(throwError(() => ({
-      error: {
-        message: 'This is the error message.',
-      },
-    })));
+    jest.spyOn(instructorService, 'regenerateInstructorKey').mockReturnValue(
+      throwError(() => ({
+        error: {
+          message: 'This is the error message.',
+        },
+      })),
+    );
 
-    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('This is the error message.');
-        });
+    const spyStatusMessageService: SpyInstance = jest
+      .spyOn(statusMessageService, 'showErrorToast')
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('This is the error message.');
+      });
 
     const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-instructor-key-0');
     regenerateButton.click();
@@ -790,16 +830,19 @@ describe('AdminSearchPageComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
-    jest.spyOn(emailGenerationService, 'getCourseJoinEmail').mockReturnValue(throwError(() => ({
-      error: {
-        message: 'This is the error message.',
-      },
-    })));
+    jest.spyOn(emailGenerationService, 'getCourseJoinEmail').mockReturnValue(
+      throwError(() => ({
+        error: {
+          message: 'This is the error message.',
+        },
+      })),
+    );
 
-    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('This is the error message.');
-        });
+    const spyStatusMessageService: SpyInstance = jest
+      .spyOn(statusMessageService, 'showErrorToast')
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('This is the error message.');
+      });
 
     const sendButton: any = fixture.debugElement.nativeElement.querySelector('[data-testid="send-course-join-button"]');
     sendButton.click();
@@ -815,37 +858,44 @@ describe('AdminSearchPageComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
-    jest.spyOn(emailGenerationService, 'getFeedbackSessionReminderEmail').mockReturnValue(throwError(() => ({
-      error: {
-        message: 'This is the error message.',
-      },
-    })));
+    jest.spyOn(emailGenerationService, 'getFeedbackSessionReminderEmail').mockReturnValue(
+      throwError(() => ({
+        error: {
+          message: 'This is the error message.',
+        },
+      })),
+    );
 
-    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('This is the error message.');
-        });
+    const spyStatusMessageService: SpyInstance = jest
+      .spyOn(statusMessageService, 'showErrorToast')
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('This is the error message.');
+      });
 
-    const sendAwaitingSessionReminderButton: any =
-        fixture.debugElement.nativeElement.querySelector('[data-testid="send-awaiting-session-reminder-button"]');
+    const sendAwaitingSessionReminderButton: any = fixture.debugElement.nativeElement.querySelector(
+      '[data-testid="send-awaiting-session-reminder-button"]',
+    );
     sendAwaitingSessionReminderButton.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
 
-    const sendOpenSessionReminderButton: any =
-        fixture.debugElement.nativeElement.querySelector('[data-testid="send-open-session-reminder-button"]');
+    const sendOpenSessionReminderButton: any = fixture.debugElement.nativeElement.querySelector(
+      '[data-testid="send-open-session-reminder-button"]',
+    );
     sendOpenSessionReminderButton.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
 
-    const sendNotOpenSessionReminderButton: any =
-        fixture.debugElement.nativeElement.querySelector('[data-testid="send-not-open-session-reminder-button"]');
+    const sendNotOpenSessionReminderButton: any = fixture.debugElement.nativeElement.querySelector(
+      '[data-testid="send-not-open-session-reminder-button"]',
+    );
     sendNotOpenSessionReminderButton.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();
 
-    const sendPublishedSessionReminderButton: any =
-        fixture.debugElement.nativeElement.querySelector('[data-testid="send-published-session-reminder-button"]');
+    const sendPublishedSessionReminderButton: any = fixture.debugElement.nativeElement.querySelector(
+      '[data-testid="send-published-session-reminder-button"]',
+    );
     sendPublishedSessionReminderButton.click();
 
     expect(spyStatusMessageService).toHaveBeenCalled();

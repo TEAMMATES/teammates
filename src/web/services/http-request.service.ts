@@ -11,21 +11,20 @@ import { environment } from '../environments/environment';
  * https://github.com/angular/angular/blob/9.0.0/packages/common/http/src/params.ts#L34
  */
 class CustomEncoder extends HttpUrlEncodingCodec {
-
   override encodeValue(value: string): string {
     return this.standardEncoding(value);
   }
 
   standardEncoding(v: string): string {
     return encodeURIComponent(v)
-        .replace(/%40/gi, '@')
-        .replace(/%3A/gi, ':')
-        .replace(/%24/gi, '$')
-        .replace(/%2C/gi, ',')
-        .replace(/%3B/gi, ';')
-        .replace(/%3D/gi, '=')
-        .replace(/%3F/gi, '?')
-        .replace(/%2F/gi, '/');
+      .replace(/%40/gi, '@')
+      .replace(/%3A/gi, ':')
+      .replace(/%24/gi, '$')
+      .replace(/%2C/gi, ',')
+      .replace(/%3B/gi, ';')
+      .replace(/%3D/gi, '=')
+      .replace(/%3F/gi, '?')
+      .replace(/%2F/gi, '/');
   }
 }
 
@@ -38,12 +37,14 @@ class CustomEncoder extends HttpUrlEncodingCodec {
   providedIn: 'root',
 })
 export class HttpRequestService {
-
   private backendUrl: string = environment.backendUrl;
   private withCredentials: boolean = environment.withCredentials;
   private version: string = environment.version;
 
-  constructor(private httpClient: HttpClient, private masqueradeModeService: MasqueradeModeService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private masqueradeModeService: MasqueradeModeService,
+  ) {}
 
   /**
    * Builds an HttpParams object from a standard key-value mapping.
@@ -74,15 +75,15 @@ export class HttpRequestService {
   /**
    * Executes GET request.
    */
-  get(endpoint: string, paramsMap: Record<string, string | string[]> = {},
-      responseType: any = 'json' as 'text'): Observable<any> {
+  get(
+    endpoint: string,
+    paramsMap: Record<string, string | string[]> = {},
+    responseType: any = 'json' as 'text',
+  ): Observable<any> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
     const headers: HttpHeaders = this.getHeaders(false);
-    return this.httpClient.get(
-        `${this.backendUrl}${endpoint}`,
-        { params, headers, responseType, withCredentials },
-    );
+    return this.httpClient.get(`${this.backendUrl}${endpoint}`, { params, headers, responseType, withCredentials });
   }
 
   /**
@@ -92,10 +93,7 @@ export class HttpRequestService {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
     const headers: HttpHeaders = this.getHeaders(true);
-    return this.httpClient.post(
-        `${this.backendUrl}${endpoint}`, body,
-        { params, headers, withCredentials },
-    );
+    return this.httpClient.post(`${this.backendUrl}${endpoint}`, body, { params, headers, withCredentials });
   }
 
   /**
@@ -105,11 +103,7 @@ export class HttpRequestService {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
     const headers: HttpHeaders = this.getHeaders(true);
-    return this.httpClient.put(
-        `${this.backendUrl}${endpoint}`,
-        body,
-        { params, headers, withCredentials },
-    );
+    return this.httpClient.put(`${this.backendUrl}${endpoint}`, body, { params, headers, withCredentials });
   }
 
   /**
@@ -119,10 +113,7 @@ export class HttpRequestService {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
     const headers: HttpHeaders = this.getHeaders(true);
-    return this.httpClient.delete(
-        `${this.backendUrl}${endpoint}`,
-        { params, headers, withCredentials },
-    );
+    return this.httpClient.delete(`${this.backendUrl}${endpoint}`, { params, headers, withCredentials });
   }
 
   private getHeaders(withCsrfHeader: boolean): HttpHeaders {
@@ -138,5 +129,4 @@ export class HttpRequestService {
     }
     return new HttpHeaders(headers);
   }
-
 }

@@ -4,7 +4,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CommentEditFormComponent } from './comment-edit-form.component';
 import {
   CommentOutput,
-  CommentVisibilityType, FeedbackQuestionType,
+  CommentVisibilityType,
+  FeedbackQuestionType,
   FeedbackResponseDetails,
 } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
@@ -15,12 +16,8 @@ describe('CommentEditFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      providers: [provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -40,7 +37,7 @@ describe('CommentEditFormComponent', () => {
     });
 
     it('should remove anonymous hash from giver and recipient when response is provided', () => {
-      const feedbackResponseDetails : FeedbackResponseDetails = {
+      const feedbackResponseDetails: FeedbackResponseDetails = {
         questionType: FeedbackQuestionType.CONSTSUM,
       };
       const commentOutputs: CommentOutput[] = [];

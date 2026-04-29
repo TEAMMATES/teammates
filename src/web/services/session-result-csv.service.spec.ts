@@ -2,9 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { SessionResultCsvService } from './session-result-csv.service';
-import {
-  InstructorSessionResultSectionType,
-} from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { SessionResults } from '../types/api-output';
 
 /**
@@ -41,10 +39,7 @@ describe('SessionResultCsvService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     });
   });
 
@@ -77,32 +72,52 @@ describe('SessionResultCsvService', () => {
   it('should show responses from/to section for feedbackSessionResultsC1S1S1', () => {
     const sessionResult: SessionResults = loadTestData('feedbackSessionResultsC1S1S1.json');
 
-    const result: string = service.getCsvForSessionResult(sessionResult, false, false,
-        'Section 1', InstructorSessionResultSectionType.EITHER);
+    const result: string = service.getCsvForSessionResult(
+      sessionResult,
+      false,
+      false,
+      'Section 1',
+      InstructorSessionResultSectionType.EITHER,
+    );
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
   it('should only show responses from section for feedbackSessionResultsC1S1S1', () => {
     const sessionResult: SessionResults = loadTestData('feedbackSessionResultsC1S1S1.json');
 
-    const result: string = service.getCsvForSessionResult(sessionResult, false, false,
-        'Section 1', InstructorSessionResultSectionType.GIVER);
+    const result: string = service.getCsvForSessionResult(
+      sessionResult,
+      false,
+      false,
+      'Section 1',
+      InstructorSessionResultSectionType.GIVER,
+    );
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
   it('should only show responses to section for feedbackSessionResultsC1S1S1', () => {
     const sessionResult: SessionResults = loadTestData('feedbackSessionResultsC1S1S1.json');
 
-    const result: string = service.getCsvForSessionResult(sessionResult, false, false,
-        'Section 1', InstructorSessionResultSectionType.EVALUEE);
+    const result: string = service.getCsvForSessionResult(
+      sessionResult,
+      false,
+      false,
+      'Section 1',
+      InstructorSessionResultSectionType.EVALUEE,
+    );
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
   it('should only show responses from and to section for feedbackSessionResultsC1S1S1', () => {
     const sessionResult: SessionResults = loadTestData('feedbackSessionResultsC1S1S1.json');
 
-    const result: string = service.getCsvForSessionResult(sessionResult, false, false,
-        'Section 1', InstructorSessionResultSectionType.BOTH);
+    const result: string = service.getCsvForSessionResult(
+      sessionResult,
+      false,
+      false,
+      'Section 1',
+      InstructorSessionResultSectionType.BOTH,
+    );
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
@@ -151,32 +166,52 @@ describe('SessionResultCsvService', () => {
   it('should generate results for a specific question from/to section', () => {
     const sessionResult: SessionResults = loadTestData('feedbackSessionResultsC1S1S1Q2.json');
 
-    const result: string = service.getCsvForSessionResult(sessionResult, false, false,
-        'Section 1', InstructorSessionResultSectionType.EITHER);
+    const result: string = service.getCsvForSessionResult(
+      sessionResult,
+      false,
+      false,
+      'Section 1',
+      InstructorSessionResultSectionType.EITHER,
+    );
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
   it('should generate results for a specific question with responses from section', () => {
     const sessionResult: SessionResults = loadTestData('feedbackSessionResultsC1S1S1Q2.json');
 
-    const result: string = service.getCsvForSessionResult(sessionResult, false, false,
-        'Section 1', InstructorSessionResultSectionType.GIVER);
+    const result: string = service.getCsvForSessionResult(
+      sessionResult,
+      false,
+      false,
+      'Section 1',
+      InstructorSessionResultSectionType.GIVER,
+    );
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
   it('should generate results for a specific question with responses to section', () => {
     const sessionResult: SessionResults = loadTestData('feedbackSessionResultsC1S1S1Q2.json');
 
-    const result: string = service.getCsvForSessionResult(sessionResult, false, false,
-        'Section 1', InstructorSessionResultSectionType.EVALUEE);
+    const result: string = service.getCsvForSessionResult(
+      sessionResult,
+      false,
+      false,
+      'Section 1',
+      InstructorSessionResultSectionType.EVALUEE,
+    );
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
   it('should generate results for a specific question with responses from and to section', () => {
     const sessionResult: SessionResults = loadTestData('feedbackSessionResultsC1S1S1Q2.json');
 
-    const result: string = service.getCsvForSessionResult(sessionResult, false, false,
-        'Section 1', InstructorSessionResultSectionType.BOTH);
+    const result: string = service.getCsvForSessionResult(
+      sessionResult,
+      false,
+      false,
+      'Section 1',
+      InstructorSessionResultSectionType.BOTH,
+    );
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
@@ -209,8 +244,9 @@ describe('SessionResultCsvService', () => {
   });
 
   it('should generate results for CONSTSUM question (restricted responses)', () => {
-    const sessionResult: SessionResults =
-        loadTestData('feedbackSessionResultsConstsumResultsInstructorNoPrivilege.json');
+    const sessionResult: SessionResults = loadTestData(
+      'feedbackSessionResultsConstsumResultsInstructorNoPrivilege.json',
+    );
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();

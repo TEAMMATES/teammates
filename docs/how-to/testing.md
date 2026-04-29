@@ -20,6 +20,7 @@ Component tests are white-box tests that test the application at two levels:
 ### Running Component Tests
 
 **Frontend:**
+
 ```sh
 npm run test
 ```
@@ -27,6 +28,7 @@ npm run test
 This runs tests in watch mode — any changes to source code will automatically reload the tests.
 
 To run tests once and generate coverage data:
+
 ```sh
 npm run coverage
 ```
@@ -44,9 +46,11 @@ To run an individual test, change `it` to `fit` in the relevant `*.spec.ts` file
 | Individual test     | `./gradlew componentTests --tests TestClassName` | `build/reports/tests/componentTests/index.html` |
 
 To generate coverage data:
+
 ```sh
 ./gradlew componentTests jacocoReport
 ```
+
 </tab>
 <tab header="Windows">
 
@@ -58,9 +62,11 @@ To generate coverage data:
 | Individual test     | `gradlew.bat componentTests --tests TestClassName` | `build/reports/tests/componentTests/index.html` |
 
 To generate coverage data:
+
 ```sh
 gradlew.bat componentTests jacocoReport
 ```
+
 </tab>
 </tabs>
 
@@ -71,11 +77,13 @@ The report can be found in `build/reports/jacoco/jacocoReport/`.
 #### Naming
 
 Frontend tests should follow the format: `"<function-name>: should ... when/if ..."`
+
 ```javascript
-it("hasSection: should return false when there are no sections in the course");
+it('hasSection: should return false when there are no sections in the course');
 ```
 
 Backend tests should follow the format: `test<functionName>_<scenario>_<outcome>`
+
 ```java
 public void testGetComment_commentDoesNotExist_returnsNull()
 public void testCreateComment_commentDoesNotExist_success()
@@ -85,15 +93,19 @@ public void testCreateComment_commentAlreadyExists_throwsEntityAlreadyExistsExce
 #### Test Data
 
 **Frontend:** Use the builder in `src/web/test-helpers/generic-builder.ts` to include only relevant details:
-```javascript
-const instructorModelBuilder = createBuilder<InstructorListInfoTableRowModel>({
-  email: "instructor@gmail.com",
-  name: "Instructor",
-  hasSubmittedSession: false,
-  isSelected: false,
-});
 
-it("isAllInstructorsSelected: should return false if at least one instructor is not selected", () => {
+```javascript
+const instructorModelBuilder =
+  createBuilder <
+  InstructorListInfoTableRowModel >
+  {
+    email: 'instructor@gmail.com',
+    name: 'Instructor',
+    hasSubmittedSession: false,
+    isSelected: false,
+  };
+
+it('isAllInstructorsSelected: should return false if at least one instructor is not selected', () => {
   component.instructorListInfoTableRowModels = [
     instructorModelBuilder.isSelected(true).build(),
     instructorModelBuilder.isSelected(false).build(),
@@ -103,6 +115,7 @@ it("isAllInstructorsSelected: should return false if at least one instructor is 
 ```
 
 **Backend:** Use the `getTypicalX` functions in `BaseTestCase`:
+
 ```java
 Account account = getTypicalAccount();
 account.setEmail("newemail@teammates.com");
@@ -123,6 +136,7 @@ Snapshot testing compares large expected outputs (e.g. rendered HTML, email cont
 **Backend:** Auto-update mode is activated by setting `test.snapshot.update=true` in `test.properties`.
 
 A few things to keep in mind:
+
 - Always run tests without auto-update mode after making changes to confirm nothing unexpected changed.
 - Avoid creating or modifying snapshot files manually — always use auto-update mode.
 - Snapshot testing complements unit tests but does not replace them.
@@ -149,6 +163,7 @@ Before running E2E tests:
 npm run build
 ./gradlew serverRun
 ```
+
 <box type="important">
 If you run the frontend and backend separately update your URLs in test.properties:
 
@@ -163,6 +178,7 @@ Then start both the frontend and backend servers.
 npm run start
 ./gradlew serverRun
 ```
+
 </box>
 </tab>
 <tab header="Windows">
@@ -171,6 +187,7 @@ npm run start
 npm run build
 gradlew.bat serverRun
 ```
+
 <box type="important">
 If you run the frontend and backend separately update your URLs in test.properties:
 
@@ -185,11 +202,10 @@ Then start both the frontend and backend servers.
 npm run start
 gradlew.bat serverRun
 ```
+
 </box>
 </tab>
 </tabs>
-
-
 
 2. Configure `src/e2e/resources/test.properties`:
    - Browser to use (`test.selenium.browser`)
@@ -203,36 +219,36 @@ gradlew.bat serverRun
 
 <panel header="#### Using Firefox" no-close>
 
-* You need to use **geckodriver** for testing with Firefox.
-  * Download the latest stable geckodriver from [GitHub Releases](https://github.com/mozilla/geckodriver/releases). The site will inform which versions of Firefox can be used with the driver.
-  * Specify the path to the geckodriver executable in `test.geckodriver.path` in `test.properties`.
+- You need to use **geckodriver** for testing with Firefox.
+  - Download the latest stable geckodriver from [GitHub Releases](https://github.com/mozilla/geckodriver/releases). The site will inform which versions of Firefox can be used with the driver.
+  - Specify the path to the geckodriver executable in `test.geckodriver.path` in `test.properties`.
 
-* If you want to use a Firefox version other than your computer’s default, specify its path in `test.firefox.path`value in `test.properties`.
+- If you want to use a Firefox version other than your computer’s default, specify its path in `test.firefox.path`value in `test.properties`.
 
-* **Handling dangling processes:**  
+- **Handling dangling processes:**  
   If a test leaves Firefox open (e.g., due to failure), kill any leftover processes manually:
-  * Windows: `taskkill /f /im geckodriver.exe`
-  * macOS: `sudo killall geckodriver`
+  - Windows: `taskkill /f /im geckodriver.exe`
+  - macOS: `sudo killall geckodriver`
 
 </panel>
 
 <panel header="#### Using Chrome" no-close>
 
-* You need to use **chromedriver** for testing with Chrome.
-  * Check your Chrome version (`chrome://settings/help`).
-  * **For Chrome 115 and later (most users)**: Download from the [Chrome for Testing Dashboard](https://googlechromelabs.github.io/chrome-for-testing/).  
+- You need to use **chromedriver** for testing with Chrome.
+  - Check your Chrome version (`chrome://settings/help`).
+  - **For Chrome 115 and later (most users)**: Download from the [Chrome for Testing Dashboard](https://googlechromelabs.github.io/chrome-for-testing/).  
     Select your Chrome version and OS, then download **`chromedriver`** (not `chrome` or `chrome-headless-shell`).
-  * **For Chrome 114 and earlier:** use the [old ChromeDriver downloads page](https://chromedriver.storage.googleapis.com/index.html).
-  * Specify the path to the **chromedriver executable** (not just its folder) in `test.chromedriver.path`.
+  - **For Chrome 114 and earlier:** use the [old ChromeDriver downloads page](https://chromedriver.storage.googleapis.com/index.html).
+  - Specify the path to the **chromedriver executable** (not just its folder) in `test.chromedriver.path`.
 
-* **Mac users:**  
+- **Mac users:**  
   If chromedriver is blocked as “unverified software,” go to **System Preferences → Security & Privacy → General** and click **“Allow Anyway”**,  
   or run `xattr -d com.apple.quarantine /path/to/chromedriver`.
 
-* **Handling dangling processes:**  
+- **Handling dangling processes:**  
   If a test leaves Chrome open, kill leftover processes manually:
-  * Windows: `taskkill /f /im chromedriver.exe`
-  * macOS: `sudo killall chromedriver`
+  - Windows: `taskkill /f /im chromedriver.exe`
+  - macOS: `sudo killall chromedriver`
 
 </panel>
 
@@ -240,13 +256,13 @@ gradlew.bat serverRun
 
 Only modern **Edge (Chromium-based)** is supported.
 
-* You need to use **edgedriver** for testing with Edge.
-  * Download the version matching your Edge installation from the [Microsoft WebDriver site](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/).
-  * Specify the path to the edgedriver executable in `test.edgedriver.path`.
+- You need to use **edgedriver** for testing with Edge.
+  - Download the version matching your Edge installation from the [Microsoft WebDriver site](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/).
+  - Specify the path to the edgedriver executable in `test.edgedriver.path`.
 
-* **Handling dangling processes:**  
-  * Windows: `taskkill /f /im msedgedriver.exe`
-  * macOS: `sudo killall msedgedriver`
+- **Handling dangling processes:**
+  - Windows: `taskkill /f /im msedgedriver.exe`
+  - macOS: `sudo killall msedgedriver`
 
 </panel>
 
@@ -263,6 +279,7 @@ Only modern **Edge (Chromium-based)** is supported.
 | Individual test               | `./gradlew e2eTestTry1 --tests TestClassName` | `build/reports/e2e-test-try-1/index.html`   |
 | Accessibility tests           | `./gradlew axeTests`                          | `build/reports/axe-test/index.html`         |
 | Individual accessibility test | `./gradlew axeTests --tests TestClassName`    | `build/reports/axe-test/index.html`         |
+
 </tab>
 <tab header="Windows">
 
@@ -272,9 +289,9 @@ Only modern **Edge (Chromium-based)** is supported.
 | Individual test               | `gradlew.bat e2eTestTry1 --tests TestClassName` | `build/reports/e2e-test-try-1/index.html`   |
 | Accessibility tests           | `gradlew.bat axeTests`                          | `build/reports/axe-test/index.html`         |
 | Individual accessibility test | `gradlew.bat axeTests --tests TestClassName`    | `build/reports/axe-test/index.html`         |
+
 </tab>
 </tabs>
-
 
 Some tests may fail intermittently due to timing issues — rerun them until they pass.
 
@@ -310,4 +327,3 @@ TEAMMATES uses the [Page Object Pattern](https://martinfowler.com/bliki/PageObje
 - **Testing implementation details** — focus on user actions and workflows, not internal code.
 - **Excessive edge case testing** — leave exhaustive testing to component tests. E2E tests should focus on the happy path and common exception paths.
 - **Asking instead of telling** — follow the "Tell Don't Ask" principle. Perform assertions inside page objects rather than extracting data and asserting in the test case.
-  

@@ -6,7 +6,6 @@ import { FeedbackParticipantType } from '../../../types/api-output';
  */
 @Pipe({ name: 'recipientTypeName' })
 export class RecipientTypeNamePipe implements PipeTransform {
-
   /**
    * Transforms {@link FeedbackQuestionType} to a entity type name.
    */
@@ -39,5 +38,4 @@ export class RecipientTypeNamePipe implements PipeTransform {
         return 'Unknown';
     }
   }
-
 }

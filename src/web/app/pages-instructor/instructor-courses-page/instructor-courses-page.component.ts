@@ -45,9 +45,7 @@ import {
 import { CourseEditFormComponent } from '../../components/course-edit-form/course-edit-form.component';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
-import {
-  ModifiedTimestampModalComponent,
-} from '../../components/modified-timestamps-modal/modified-timestamps-modal.component';
+import { ModifiedTimestampModalComponent } from '../../components/modified-timestamps-modal/modified-timestamps-modal.component';
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
 import { ProgressBarComponent } from '../../components/progress-bar/progress-bar.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
@@ -84,10 +82,9 @@ interface CourseModel {
     PanelChevronComponent,
     ModifiedTimestampModalComponent,
     DatePipe,
-],
+  ],
 })
 export class InstructorCoursesPageComponent implements OnInit {
-
   activeCourses: CourseModel[] = [];
   softDeletedCourses: CourseModel[] = [];
   allCoursesList: Course[] = [];
@@ -129,16 +126,18 @@ export class InstructorCoursesPageComponent implements OnInit {
 
   @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
 
-  constructor(private ngbModal: NgbModal,
-              private route: ActivatedRoute,
-              private statusMessageService: StatusMessageService,
-              private courseService: CourseService,
-              private studentService: StudentService,
-              private simpleModalService: SimpleModalService,
-              private tableComparatorService: TableComparatorService,
-              private feedbackSessionsService: FeedbackSessionsService,
-              private progressBarService: ProgressBarService,
-              private timezoneService: TimezoneService) {}
+  constructor(
+    private ngbModal: NgbModal,
+    private route: ActivatedRoute,
+    private statusMessageService: StatusMessageService,
+    private courseService: CourseService,
+    private studentService: StudentService,
+    private simpleModalService: SimpleModalService,
+    private tableComparatorService: TableComparatorService,
+    private feedbackSessionsService: FeedbackSessionsService,
+    private progressBarService: ProgressBarService,
+    private timezoneService: TimezoneService,
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -178,7 +177,10 @@ export class InstructorCoursesPageComponent implements OnInit {
           }
           const isLoadingCourseStats = false;
           const activeCourse: CourseModel = {
-            course, canModifyCourse, canModifyStudent, isLoadingCourseStats,
+            course,
+            canModifyCourse,
+            canModifyStudent,
+            isLoadingCourseStats,
           };
           this.activeCourses.push(activeCourse);
         });
@@ -204,7 +206,10 @@ export class InstructorCoursesPageComponent implements OnInit {
           }
           const isLoadingCourseStats = false;
           const softDeletedCourse: CourseModel = {
-            course, canModifyCourse, canModifyStudent, isLoadingCourseStats,
+            course,
+            canModifyCourse,
+            canModifyStudent,
+            isLoadingCourseStats,
           };
           this.softDeletedCourses.push(softDeletedCourse);
           this.deletedCoursesDefaultSort();
@@ -237,24 +242,26 @@ export class InstructorCoursesPageComponent implements OnInit {
       return;
     }
     course.isLoadingCourseStats = true;
-    this.studentService.getStudentsFromCourse({ courseId })
-        .pipe(finalize(() => {
+    this.studentService
+      .getStudentsFromCourse({ courseId })
+      .pipe(
+        finalize(() => {
           course.isLoadingCourseStats = false;
-        }))
-        .subscribe({
-          next: (students: Students) => {
-            this.courseStats[courseId] = {
-              sections: (new Set(students.students.map((value: Student) => value.sectionName))).size,
-              teams: (new Set(students.students.map((value: Student) => value.teamName))).size,
-              students: students.students.length,
-              unregistered: students.students
-                  .filter((value: Student) => value.joinState === JoinState.NOT_JOINED).length,
-            };
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
+        }),
+      )
+      .subscribe({
+        next: (students: Students) => {
+          this.courseStats[courseId] = {
+            sections: new Set(students.students.map((value: Student) => value.sectionName)).size,
+            teams: new Set(students.students.map((value: Student) => value.teamName)).size,
+            students: students.students.length,
+            unregistered: students.students.filter((value: Student) => value.joinState === JoinState.NOT_JOINED).length,
+          };
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**
@@ -262,24 +269,29 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   createNewCourse(): void {
     this.courseFormModel.isSaving = true;
-    this.courseService.createCourse(this.courseFormModel.course.institute, {
-      courseName: this.courseFormModel.course.courseName,
-      timeZone: this.courseFormModel.course.timeZone,
-      courseId: this.courseFormModel.course.courseId,
-    }).pipe(finalize(() => {
-      this.courseFormModel.isSaving = false;
-    })).subscribe({
-      next: () => {
-        this.statusMessageService.showSuccessToast('The course has been added.');
-        this.courseFormModel.course.courseId = '';
-        this.courseFormModel.course.courseName = '';
-        this.resetCourseForm.emit();
-        this.loadInstructorCourses();
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
+    this.courseService
+      .createCourse(this.courseFormModel.course.institute, {
+        courseName: this.courseFormModel.course.courseName,
+        timeZone: this.courseFormModel.course.timeZone,
+        courseId: this.courseFormModel.course.courseId,
+      })
+      .pipe(
+        finalize(() => {
+          this.courseFormModel.isSaving = false;
+        }),
+      )
+      .subscribe({
+        next: () => {
+          this.statusMessageService.showSuccessToast('The course has been added.');
+          this.courseFormModel.course.courseId = '';
+          this.courseFormModel.course.courseName = '';
+          this.resetCourseForm.emit();
+          this.loadInstructorCourses();
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**
@@ -318,8 +330,10 @@ export class InstructorCoursesPageComponent implements OnInit {
         modalRef.componentInstance.newTimeZone = timeZone;
         modalRef.componentInstance.courseToFeedbackSession[courseId] = response.feedbackSessions;
         modalRef.componentInstance.selectedFeedbackSessions = new Set(response.feedbackSessions);
-        modalRef.result.then((result: CopyCourseModalResult) => this.createCopiedCourse(result), () => {
-        });
+        modalRef.result.then(
+          (result: CopyCourseModalResult) => this.createCopiedCourse(result),
+          () => {},
+        );
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
@@ -337,62 +351,67 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.totalNumberOfSessionsToCopy = result.totalNumberOfSessions;
     this.copyProgressPercentage = 0;
 
-    this.courseService.createCourse(result.newCourseInstitute, {
-      courseName: result.newCourseName,
-      timeZone: result.newTimeZone,
-      courseId: result.newCourseId,
-    })
-    .subscribe({
-      next: () => {
-        // Wrap in a Promise to wait for all feedback sessions to be copied
-        const promise: Promise<void> = new Promise<void>((resolve: () => void) => {
-          if (result.selectedFeedbackSessionList.size === 0) {
-            this.progressBarService.updateProgress(100);
-            resolve();
+    this.courseService
+      .createCourse(result.newCourseInstitute, {
+        courseName: result.newCourseName,
+        timeZone: result.newTimeZone,
+        courseId: result.newCourseId,
+      })
+      .subscribe({
+        next: () => {
+          // Wrap in a Promise to wait for all feedback sessions to be copied
+          const promise: Promise<void> = new Promise<void>((resolve: () => void) => {
+            if (result.selectedFeedbackSessionList.size === 0) {
+              this.progressBarService.updateProgress(100);
+              resolve();
 
-            return;
-          }
+              return;
+            }
 
-          result.selectedFeedbackSessionList.forEach((session: FeedbackSession) => {
-            this.copyFeedbackSession(session, result.newCourseId, result.newTimeZone, result.oldCourseId)
-                .pipe(finalize(() => {
-                  this.numberOfSessionsCopied += 1;
-                  this.copyProgressPercentage =
-                      Math.round(100 * this.numberOfSessionsCopied / this.totalNumberOfSessionsToCopy);
-                  this.progressBarService.updateProgress(this.copyProgressPercentage);
+            result.selectedFeedbackSessionList.forEach((session: FeedbackSession) => {
+              this.copyFeedbackSession(session, result.newCourseId, result.newTimeZone, result.oldCourseId)
+                .pipe(
+                  finalize(() => {
+                    this.numberOfSessionsCopied += 1;
+                    this.copyProgressPercentage = Math.round(
+                      (100 * this.numberOfSessionsCopied) / this.totalNumberOfSessionsToCopy,
+                    );
+                    this.progressBarService.updateProgress(this.copyProgressPercentage);
 
-                  if (this.numberOfSessionsCopied === this.totalNumberOfSessionsToCopy) {
-                    resolve();
-                  }
-                }))
+                    if (this.numberOfSessionsCopied === this.totalNumberOfSessionsToCopy) {
+                      resolve();
+                    }
+                  }),
+                )
                 .subscribe();
+            });
           });
-        });
 
-        promise.then(() => {
-          this.courseService
-              .getCourseAsInstructor(result.newCourseId)
-              .subscribe((course: Course) => {
-                this.activeCourses.push(this.getCourseModelFromCourse(course));
-                this.activeCoursesList.push(course);
-                this.allCoursesList.push(course);
-                this.activeCoursesDefaultSort();
-                this.setIsCopyingCourse(false);
-                if (Object.keys(this.modifiedSessions).length > 0) {
-                  this.simpleModalService.openInformationModal('Note On Modified Session Timings',
-                      SimpleModalType.WARNING, this.modifiedTimestampsModal);
-                } else {
-                  this.statusMessageService.showSuccessToast('The course has been added.');
-                }
-              });
-        });
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-        this.setIsCopyingCourse(false);
-        this.hasLoadingFailed = true;
-      },
-    });
+          promise.then(() => {
+            this.courseService.getCourseAsInstructor(result.newCourseId).subscribe((course: Course) => {
+              this.activeCourses.push(this.getCourseModelFromCourse(course));
+              this.activeCoursesList.push(course);
+              this.allCoursesList.push(course);
+              this.activeCoursesDefaultSort();
+              this.setIsCopyingCourse(false);
+              if (Object.keys(this.modifiedSessions).length > 0) {
+                this.simpleModalService.openInformationModal(
+                  'Note On Modified Session Timings',
+                  SimpleModalType.WARNING,
+                  this.modifiedTimestampsModal,
+                );
+              } else {
+                this.statusMessageService.showSuccessToast('The course has been added.');
+              }
+            });
+          });
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+          this.setIsCopyingCourse(false);
+          this.hasLoadingFailed = true;
+        },
+      });
   }
 
   /**
@@ -412,33 +431,34 @@ export class InstructorCoursesPageComponent implements OnInit {
   /**
    * Copies a feedback session.
    */
-  private copyFeedbackSession(fromFeedbackSession: FeedbackSession, newCourseId: string,
-                              newTimeZone: string, oldCourseId: string): Observable<FeedbackSession> {
-    return this.feedbackSessionsService.createFeedbackSession(newCourseId,
-        this.toFbSessionCreationReqWithName(fromFeedbackSession, newTimeZone, oldCourseId));
+  private copyFeedbackSession(
+    fromFeedbackSession: FeedbackSession,
+    newCourseId: string,
+    newTimeZone: string,
+    oldCourseId: string,
+  ): Observable<FeedbackSession> {
+    return this.feedbackSessionsService.createFeedbackSession(
+      newCourseId,
+      this.toFbSessionCreationReqWithName(fromFeedbackSession, newTimeZone, oldCourseId),
+    );
   }
 
   /**
    * Creates a FeedbackSessionCreateRequest with the provided name.
    */
-  private toFbSessionCreationReqWithName(fromFeedbackSession: FeedbackSession, newTimeZone: string,
-                                         oldCourseId: string): FeedbackSessionCreateRequest {
+  private toFbSessionCreationReqWithName(
+    fromFeedbackSession: FeedbackSession,
+    newTimeZone: string,
+    oldCourseId: string,
+  ): FeedbackSessionCreateRequest {
     // Local constants
-    const twoHoursBeforeNow = moment().tz(newTimeZone).subtract(2, 'hours')
-        .valueOf();
-    const twoDaysFromNowRoundedUp = moment().tz(newTimeZone).add(2, 'days').startOf('hour')
-        .valueOf();
-    const sevenDaysFromNowRoundedUp = moment().tz(newTimeZone).add(7, 'days').startOf('hour')
-        .valueOf();
-    const ninetyDaysFromNow = moment().tz(newTimeZone).add(90, 'days')
-        .valueOf();
-    const ninetyDaysFromNowRoundedUp = moment().tz(newTimeZone).add(90, 'days').startOf('hour')
-        .valueOf();
-    const oneHundredAndEightyDaysFromNow = moment().tz(newTimeZone).add(180, 'days')
-        .valueOf();
-    const oneHundredAndEightyDaysFromNowRoundedUp = moment().tz(newTimeZone).add(180, 'days')
-        .startOf('hour')
-        .valueOf();
+    const twoHoursBeforeNow = moment().tz(newTimeZone).subtract(2, 'hours').valueOf();
+    const twoDaysFromNowRoundedUp = moment().tz(newTimeZone).add(2, 'days').startOf('hour').valueOf();
+    const sevenDaysFromNowRoundedUp = moment().tz(newTimeZone).add(7, 'days').startOf('hour').valueOf();
+    const ninetyDaysFromNow = moment().tz(newTimeZone).add(90, 'days').valueOf();
+    const ninetyDaysFromNowRoundedUp = moment().tz(newTimeZone).add(90, 'days').startOf('hour').valueOf();
+    const oneHundredAndEightyDaysFromNow = moment().tz(newTimeZone).add(180, 'days').valueOf();
+    const oneHundredAndEightyDaysFromNowRoundedUp = moment().tz(newTimeZone).add(180, 'days').startOf('hour').valueOf();
 
     // Preprocess timestamps to adhere to feedback session timestamps constraints
     let isModified = false;
@@ -464,11 +484,14 @@ export class InstructorCoursesPageComponent implements OnInit {
     let copiedSessionVisibleSetting = fromFeedbackSession.sessionVisibleSetting;
     let copiedCustomSessionVisibleTimestamp = fromFeedbackSession.customSessionVisibleTimestamp!;
     const thirtyDaysBeforeSubmissionStart = moment(copiedSubmissionStartTimestamp)
-        .tz(newTimeZone).subtract(30, 'days')
-        .valueOf();
+      .tz(newTimeZone)
+      .subtract(30, 'days')
+      .valueOf();
     const thirtyDaysBeforeSubmissionStartRoundedUp = moment(copiedSubmissionStartTimestamp)
-        .tz(newTimeZone).subtract(30, 'days').startOf('hour')
-        .valueOf();
+      .tz(newTimeZone)
+      .subtract(30, 'days')
+      .startOf('hour')
+      .valueOf();
     if (copiedSessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
       if (copiedCustomSessionVisibleTimestamp < thirtyDaysBeforeSubmissionStart) {
         copiedCustomSessionVisibleTimestamp = thirtyDaysBeforeSubmissionStartRoundedUp;
@@ -481,10 +504,12 @@ export class InstructorCoursesPageComponent implements OnInit {
 
     let copiedResponseVisibleSetting = fromFeedbackSession.responseVisibleSetting;
     const copiedCustomResponseVisibleTimestamp = fromFeedbackSession.customResponseVisibleTimestamp!;
-    if (copiedResponseVisibleSetting === ResponseVisibleSetting.CUSTOM
-        && ((copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN
-            && copiedCustomResponseVisibleTimestamp < copiedSubmissionStartTimestamp)
-            || copiedCustomResponseVisibleTimestamp < copiedCustomSessionVisibleTimestamp)) {
+    if (
+      copiedResponseVisibleSetting === ResponseVisibleSetting.CUSTOM &&
+      ((copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN &&
+        copiedCustomResponseVisibleTimestamp < copiedSubmissionStartTimestamp) ||
+        copiedCustomResponseVisibleTimestamp < copiedCustomSessionVisibleTimestamp)
+    ) {
       copiedResponseVisibleSetting = ResponseVisibleSetting.LATER;
       isModified = true;
     }
@@ -492,11 +517,16 @@ export class InstructorCoursesPageComponent implements OnInit {
     if (isModified) {
       this.modifiedSessions[fromFeedbackSession.feedbackSessionName] = {
         oldTimestamp: {
-          submissionStartTimestamp: this.formatTimestamp(fromFeedbackSession.submissionStartTimestamp,
-              fromFeedbackSession.timeZone),
-          submissionEndTimestamp: this.formatTimestamp(fromFeedbackSession.submissionEndTimestamp,
-              fromFeedbackSession.timeZone),
-          sessionVisibleTimestamp: fromFeedbackSession.sessionVisibleSetting === SessionVisibleSetting.AT_OPEN
+          submissionStartTimestamp: this.formatTimestamp(
+            fromFeedbackSession.submissionStartTimestamp,
+            fromFeedbackSession.timeZone,
+          ),
+          submissionEndTimestamp: this.formatTimestamp(
+            fromFeedbackSession.submissionEndTimestamp,
+            fromFeedbackSession.timeZone,
+          ),
+          sessionVisibleTimestamp:
+            fromFeedbackSession.sessionVisibleSetting === SessionVisibleSetting.AT_OPEN
               ? 'On submission opening time'
               : this.formatTimestamp(fromFeedbackSession.customSessionVisibleTimestamp!, fromFeedbackSession.timeZone),
           responseVisibleTimestamp: '',
@@ -504,7 +534,8 @@ export class InstructorCoursesPageComponent implements OnInit {
         newTimestamp: {
           submissionStartTimestamp: this.formatTimestamp(copiedSubmissionStartTimestamp, fromFeedbackSession.timeZone),
           submissionEndTimestamp: this.formatTimestamp(copiedSubmissionEndTimestamp, fromFeedbackSession.timeZone),
-          sessionVisibleTimestamp: copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN
+          sessionVisibleTimestamp:
+            copiedSessionVisibleSetting === SessionVisibleSetting.AT_OPEN
               ? 'On submission opening time'
               : this.formatTimestamp(copiedCustomSessionVisibleTimestamp, fromFeedbackSession.timeZone),
           responseVisibleTimestamp: '',
@@ -513,24 +544,24 @@ export class InstructorCoursesPageComponent implements OnInit {
 
       if (fromFeedbackSession.responseVisibleSetting === ResponseVisibleSetting.AT_VISIBLE) {
         this.modifiedSessions[fromFeedbackSession.feedbackSessionName].oldTimestamp.responseVisibleTimestamp =
-            'On session visible time';
+          'On session visible time';
       } else if (fromFeedbackSession.responseVisibleSetting === ResponseVisibleSetting.LATER) {
         this.modifiedSessions[fromFeedbackSession.feedbackSessionName].oldTimestamp.responseVisibleTimestamp =
-            'Not now (publish manually)';
+          'Not now (publish manually)';
       } else {
         this.modifiedSessions[fromFeedbackSession.feedbackSessionName].oldTimestamp.responseVisibleTimestamp =
-            this.formatTimestamp(fromFeedbackSession.customResponseVisibleTimestamp!, fromFeedbackSession.timeZone);
+          this.formatTimestamp(fromFeedbackSession.customResponseVisibleTimestamp!, fromFeedbackSession.timeZone);
       }
 
       if (copiedResponseVisibleSetting === ResponseVisibleSetting.AT_VISIBLE) {
         this.modifiedSessions[fromFeedbackSession.feedbackSessionName].newTimestamp.responseVisibleTimestamp =
-            'On session visible time';
+          'On session visible time';
       } else if (copiedResponseVisibleSetting === ResponseVisibleSetting.LATER) {
         this.modifiedSessions[fromFeedbackSession.feedbackSessionName].newTimestamp.responseVisibleTimestamp =
-            'Not now (publish manually)';
+          'Not now (publish manually)';
       } else {
         this.modifiedSessions[fromFeedbackSession.feedbackSessionName].newTimestamp.responseVisibleTimestamp =
-            this.formatTimestamp(copiedCustomResponseVisibleTimestamp, fromFeedbackSession.timeZone);
+          this.formatTimestamp(copiedCustomResponseVisibleTimestamp, fromFeedbackSession.timeZone);
       }
     }
 
@@ -568,20 +599,25 @@ export class InstructorCoursesPageComponent implements OnInit {
       return Promise.resolve();
     }
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        'Warning: The course will be moved to the recycle bin.',
-        SimpleModalType.WARNING, 'Are you sure you want to continue?');
-    return modalRef.result.then(() => {
-      this.courseService.binCourse(courseId).subscribe({
-        next: (course: Course) => {
-          this.moveCourseToRecycleBin(courseId, course.deletionTimestamp);
-          this.statusMessageService.showSuccessToast(
-              `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`);
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
-    }).catch(() => {});
+      'Warning: The course will be moved to the recycle bin.',
+      SimpleModalType.WARNING,
+      'Are you sure you want to continue?',
+    );
+    return modalRef.result
+      .then(() => {
+        this.courseService.binCourse(courseId).subscribe({
+          next: (course: Course) => {
+            this.moveCourseToRecycleBin(courseId, course.deletionTimestamp);
+            this.statusMessageService.showSuccessToast(
+              `The course ${course.courseId} has been deleted. You can restore it from the Recycle Bin manually.`,
+            );
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
+      })
+      .catch(() => {});
   }
 
   /**
@@ -608,49 +644,59 @@ export class InstructorCoursesPageComponent implements OnInit {
       return Promise.resolve();
     }
 
-    const institute: string = this.allCoursesList.find(
-      (course: Course) => course.courseId === courseId)?.institute ?? '';
+    const institute: string =
+      this.allCoursesList.find((course: Course) => course.courseId === courseId)?.institute ?? '';
     const numTotalCourses: number = this.allCoursesList.length;
     const numCoursesFromSameInstitute: number = this.allCoursesList.filter(
-      (course: Course) => course.institute === institute).length;
+      (course: Course) => course.institute === institute,
+    ).length;
 
     const modalContent = `<strong>Are you sure you want to permanently delete ${courseId}?</strong><br>
       This operation will delete all students and sessions in these courses.
       All instructors of these courses will not be able to access them hereafter as well.`;
 
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-      `Delete course <strong>${courseId}</strong> permanently?`, SimpleModalType.DANGER, modalContent);
+      `Delete course <strong>${courseId}</strong> permanently?`,
+      SimpleModalType.DANGER,
+      modalContent,
+    );
     modalRef.componentInstance.courseId = courseId;
 
-    return modalRef.result.then(() => {
-     if (numTotalCourses === 1 || numCoursesFromSameInstitute === 1) {
-        const finalConfModalContent = numTotalCourses === 1
-          ? `This is your last course on TEAMMATES for which you have instructor access. 
+    return modalRef.result
+      .then(() => {
+        if (numTotalCourses === 1 || numCoursesFromSameInstitute === 1) {
+          const finalConfModalContent =
+            numTotalCourses === 1
+              ? `This is your last course on TEAMMATES for which you have instructor access. 
             Deleting this course will <mark><strong>remove your instructor access</strong></mark> to TEAMMATES.<br>
             Are you sure you want to delete the course <strong>${courseId}</strong>?`
-          : `If you delete all courses of institute <strong>${institute}</strong>, 
+              : `If you delete all courses of institute <strong>${institute}</strong>, 
             you will <mark><strong>lose instructor access</strong></mark> 
             to TEAMMATES under the institution <strong>${institute}</strong>. 
             To retain access, ensure you keep at least one course for each institution you are an instructor of.<br>
             Are you sure you want to delete the course <strong>${courseId}</strong> in institution
             <strong>${institute}</strong>?`;
-        return this.simpleModalService.openConfirmationModal(
-          'This action will cause you to <mark><strong>lose access</strong></mark> to TEAMMATES!',
-          SimpleModalType.DANGER, finalConfModalContent).result;
-      }
-      return Promise.resolve();
-    }).then(() => {
-      this.courseService.deleteCourse(courseId).subscribe({
-        next: () => {
-          this.softDeletedCourses = this.removeCourse(this.softDeletedCourses, courseId);
-          this.allCoursesList = this.allCoursesList.filter((course: Course) => course.courseId !== courseId);
-          this.statusMessageService.showSuccessToast(`The course ${courseId} has been permanently deleted.`);
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
-    }).catch(() => {});
+          return this.simpleModalService.openConfirmationModal(
+            'This action will cause you to <mark><strong>lose access</strong></mark> to TEAMMATES!',
+            SimpleModalType.DANGER,
+            finalConfModalContent,
+          ).result;
+        }
+        return Promise.resolve();
+      })
+      .then(() => {
+        this.courseService.deleteCourse(courseId).subscribe({
+          next: () => {
+            this.softDeletedCourses = this.removeCourse(this.softDeletedCourses, courseId);
+            this.allCoursesList = this.allCoursesList.filter((course: Course) => course.courseId !== courseId);
+            this.statusMessageService.showSuccessToast(`The course ${courseId} has been permanently deleted.`);
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
+      })
+      .catch(() => {});
   }
 
   /**
@@ -677,46 +723,52 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Permanently deletes all soft-deleted courses in Recycle Bin.
    */
   onDeleteAll(): void {
-    const modalContent =
-        `<strong>Are you sure you want to permanently delete all the courses in the Recycle Bin?</strong><br>
+    const modalContent = `<strong>Are you sure you want to permanently delete all the courses in the Recycle Bin?</strong><br>
         This operation will delete all students and sessions in these courses.
         All instructors of these courses will not be able to access them hereafter as well.`;
 
     const lastCourseRemaining: boolean = this.allCoursesList.length === this.softDeletedCourses.length;
 
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-      'Deleting all courses permanently?', SimpleModalType.DANGER, modalContent);
+      'Deleting all courses permanently?',
+      SimpleModalType.DANGER,
+      modalContent,
+    );
 
-    modalRef.result.then(() => {
-      if (lastCourseRemaining) {
-        const modalContentCnf =
-          `These are your last courses registered on TEAMMATES for which you have instructor access. 
+    modalRef.result
+      .then(() => {
+        if (lastCourseRemaining) {
+          const modalContentCnf = `These are your last courses registered on TEAMMATES for which you have instructor access. 
           Deleting these courses will <mark><strong>remove your instructor access</strong></mark> to TEAMMATES.<br>
           Are you sure you want to permanently delete these courses?`;
 
-        return this.simpleModalService.openConfirmationModal(
-          'This action will cause you to <mark><strong>lose access</strong></mark> to TEAMMATES!',
-          SimpleModalType.DANGER, modalContentCnf).result;
-      }
-      return Promise.resolve();
-    }).then(() => {
-      const deleteRequests: Observable<MessageOutput>[] = [];
-      this.softDeletedCourses.forEach((courseToDelete: CourseModel) => {
-        deleteRequests.push(this.courseService.deleteCourse(courseToDelete.course.courseId));
-      });
+          return this.simpleModalService.openConfirmationModal(
+            'This action will cause you to <mark><strong>lose access</strong></mark> to TEAMMATES!',
+            SimpleModalType.DANGER,
+            modalContentCnf,
+          ).result;
+        }
+        return Promise.resolve();
+      })
+      .then(() => {
+        const deleteRequests: Observable<MessageOutput>[] = [];
+        this.softDeletedCourses.forEach((courseToDelete: CourseModel) => {
+          deleteRequests.push(this.courseService.deleteCourse(courseToDelete.course.courseId));
+        });
 
-      forkJoin(deleteRequests).subscribe({
-        next: () => {
-          this.softDeletedCourses = [];
-          this.allCoursesList = [];
-          this.allCoursesList.push(...this.activeCourses.map((courseModel: CourseModel) => courseModel.course));
-          this.statusMessageService.showSuccessToast('All courses have been permanently deleted.');
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
-    }).catch(() => {});
+        forkJoin(deleteRequests).subscribe({
+          next: () => {
+            this.softDeletedCourses = [];
+            this.allCoursesList = [];
+            this.allCoursesList.push(...this.activeCourses.map((courseModel: CourseModel) => courseModel.course));
+            this.statusMessageService.showSuccessToast('All courses have been permanently deleted.');
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
+      })
+      .catch(() => {});
   }
 
   /**
@@ -743,8 +795,8 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Sorts the active courses table
    */
   sortCoursesEvent(by: SortBy): void {
-    this.activeTableSortOrder = this.activeTableSortBy === by && this.activeTableSortOrder === SortOrder.ASC
-        ? SortOrder.DESC : SortOrder.ASC;
+    this.activeTableSortOrder =
+      this.activeTableSortBy === by && this.activeTableSortOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC;
     this.activeTableSortBy = by;
     this.activeCourses.sort(this.sortBy(by, this.activeTableSortOrder));
   }
@@ -769,8 +821,8 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Sorts the soft-deleted courses table
    */
   sortDeletedCoursesEvent(by: SortBy): void {
-    this.deletedTableSortOrder = this.deletedTableSortBy === by && this.deletedTableSortOrder === SortOrder.ASC
-        ? SortOrder.DESC : SortOrder.ASC;
+    this.deletedTableSortOrder =
+      this.deletedTableSortBy === by && this.deletedTableSortOrder === SortOrder.ASC ? SortOrder.DESC : SortOrder.ASC;
     this.deletedTableSortBy = by;
     this.softDeletedCourses.sort(this.sortBy(by, this.deletedTableSortOrder));
   }
@@ -794,8 +846,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   /**
    * Returns a function to determine the order of sort
    */
-  sortBy(by: SortBy, order: SortOrder):
-      ((a: CourseModel, b: CourseModel) => number) {
+  sortBy(by: SortBy, order: SortOrder): (a: CourseModel, b: CourseModel) => number {
     return (a: CourseModel, b: CourseModel): number => {
       let strA: string;
       let strB: string;

@@ -12,8 +12,7 @@ import { EmailType } from '../types/api-request';
   providedIn: 'root',
 })
 export class EmailGenerationService {
-
-  constructor(private httpRequestService: HttpRequestService) { }
+  constructor(private httpRequestService: HttpRequestService) {}
 
   getCourseJoinEmail(studentId: string): Observable<Email> {
     return this.getEmail({
@@ -33,11 +32,7 @@ export class EmailGenerationService {
   /**
    * Get email contents by calling API.
    */
-  private getEmail(params: {
-    studentId: string,
-    emailType: EmailType,
-    fsId?: string,
-  }): Observable<Email> {
+  private getEmail(params: { studentId: string; emailType: EmailType; fsId?: string }): Observable<Email> {
     const paramsMap: Record<string, string> = {
       studentid: params.studentId,
       emailtype: params.emailType,

@@ -23,8 +23,7 @@ describe('CommentRowComponent', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
       ],
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -67,9 +66,7 @@ describe('CommentRowComponent', () => {
 
       expect(spyVisibilityStateMachine.allowAllApplicableTypesToSee).toHaveBeenCalled();
 
-      expect(spyCommentService.getNewVisibilityStateMachine).toHaveBeenCalledWith(
-      component.questionShowResponsesTo,
-    );
+      expect(spyCommentService.getNewVisibilityStateMachine).toHaveBeenCalledWith(component.questionShowResponsesTo);
     });
 
     it('should allow all applicable types to see when isVisibilityFollowingFeedbackQuestion is true', () => {
@@ -100,17 +97,17 @@ describe('CommentRowComponent', () => {
 
   describe('triggerCloseEditing', () => {
     it('should emit closeEditing event', () => {
-        const emitSpy = jest.spyOn(component.closeEditingEvent, 'emit');
-        component.triggerCloseEditing();
-        expect(emitSpy).toHaveBeenCalled();
+      const emitSpy = jest.spyOn(component.closeEditingEvent, 'emit');
+      component.triggerCloseEditing();
+      expect(emitSpy).toHaveBeenCalled();
     });
   });
 
   describe('triggerSaveCommentEvent', () => {
     it('should emit saveComment event', () => {
-        const spy = jest.spyOn(component.saveCommentEvent, 'emit');
-        component.triggerSaveCommentEvent();
-        expect(spy).toHaveBeenCalled();
+      const spy = jest.spyOn(component.saveCommentEvent, 'emit');
+      component.triggerSaveCommentEvent();
+      expect(spy).toHaveBeenCalled();
     });
   });
 
@@ -124,32 +121,32 @@ describe('CommentRowComponent', () => {
       expect(emitSpy).toHaveBeenCalled();
     });
 
-  it('should set visibility settings when originalComment is defined and not following feedback question', () => {
-    component.model = {
-      originalComment: {
-        isVisibilityFollowingFeedbackQuestion: false,
-        commentGiver: 'mockCommentGiver',
-        lastEditorEmail: 'mockEditor@example.com',
-        feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
-        commentText: 'Mock comment text',
-        showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
-        createdAt: new Date().getTime(),
-        lastEditedAt: new Date().getTime(),
-        showGiverNameTo: [],
-      },
-      commentEditFormModel: {
-        commentText: 'Mock comment text for form',
-        isUsingCustomVisibilities: false,
-        showCommentTo: [CommentVisibilityType.GIVER],
-        showGiverNameTo: [CommentVisibilityType.INSTRUCTORS],
-      },
-      isEditing: true,
-    };
-    component.ngOnChanges();
-    expect(spyVisibilityStateMachine.applyVisibilitySettings).toHaveBeenCalledWith({
-      SHOW_COMMENT: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
-      SHOW_GIVER_NAME: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
+    it('should set visibility settings when originalComment is defined and not following feedback question', () => {
+      component.model = {
+        originalComment: {
+          isVisibilityFollowingFeedbackQuestion: false,
+          commentGiver: 'mockCommentGiver',
+          lastEditorEmail: 'mockEditor@example.com',
+          feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
+          commentText: 'Mock comment text',
+          showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
+          createdAt: new Date().getTime(),
+          lastEditedAt: new Date().getTime(),
+          showGiverNameTo: [],
+        },
+        commentEditFormModel: {
+          commentText: 'Mock comment text for form',
+          isUsingCustomVisibilities: false,
+          showCommentTo: [CommentVisibilityType.GIVER],
+          showGiverNameTo: [CommentVisibilityType.INSTRUCTORS],
+        },
+        isEditing: true,
+      };
+      component.ngOnChanges();
+      expect(spyVisibilityStateMachine.applyVisibilitySettings).toHaveBeenCalledWith({
+        SHOW_COMMENT: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
+        SHOW_GIVER_NAME: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
+      });
     });
-  });
   });
 });

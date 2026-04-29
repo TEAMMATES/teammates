@@ -1,6 +1,8 @@
 import {
   CommentVisibilityControlNamePipe,
-  CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe, CommentVisibilityTypesJointNamePipe,
+  CommentVisibilityTypeDescriptionPipe,
+  CommentVisibilityTypeNamePipe,
+  CommentVisibilityTypesJointNamePipe,
 } from './comment-visibility-setting.pipe';
 import { CommentVisibilityType } from '../../../types/api-output';
 import { CommentVisibilityControl } from '../../../types/comment-visibility-control';
@@ -32,12 +34,13 @@ describe('CommentVisibilityTypeDescriptionPipe', () => {
     expect(pipe.transform(CommentVisibilityType.GIVER)).toBe('Control what response giver(s) can view');
     expect(pipe.transform(CommentVisibilityType.RECIPIENT)).toBe('Control what response recipient(s) can view');
     expect(pipe.transform(CommentVisibilityType.INSTRUCTORS)).toBe('Control what instructors can view');
-    expect(pipe.transform(CommentVisibilityType.GIVER_TEAM_MEMBERS))
-      .toBe('Control what team members of response giver can view');
-    expect(pipe.transform(CommentVisibilityType.RECIPIENT_TEAM_MEMBERS))
-      .toBe('Control what team members of response recipient(s) can view');
-    expect(pipe.transform(CommentVisibilityType.STUDENTS))
-      .toBe('Control what other students in this course can view');
+    expect(pipe.transform(CommentVisibilityType.GIVER_TEAM_MEMBERS)).toBe(
+      'Control what team members of response giver can view',
+    );
+    expect(pipe.transform(CommentVisibilityType.RECIPIENT_TEAM_MEMBERS)).toBe(
+      'Control what team members of response recipient(s) can view',
+    );
+    expect(pipe.transform(CommentVisibilityType.STUDENTS)).toBe('Control what other students in this course can view');
     expect(pipe.transform('INVALID_VALUE' as CommentVisibilityType)).toBe('Unknown');
   });
 });
@@ -79,17 +82,19 @@ describe('CommentVisibilityTypesJointNamePipe', () => {
 
   it('should output the correct string when given an array of CommentVisibilityTypes', () => {
     const pipe: CommentVisibilityTypesJointNamePipe = new CommentVisibilityTypesJointNamePipe();
-    expect(pipe
-      .transform([CommentVisibilityType.GIVER,
-        CommentVisibilityType.INSTRUCTORS, CommentVisibilityType.STUDENTS]))
-      .toBe('response giver(s), and instructors, and other students in this course');
+    expect(
+      pipe.transform([CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS, CommentVisibilityType.STUDENTS]),
+    ).toBe('response giver(s), and instructors, and other students in this course');
   });
 
   it('should output a string when given an array of CommentVisibilityTypes and an invalid value', () => {
     const pipe: CommentVisibilityTypesJointNamePipe = new CommentVisibilityTypesJointNamePipe();
-    expect(pipe
-      .transform(['INVALID_VALUE' as CommentVisibilityType,
-        CommentVisibilityType.INSTRUCTORS, CommentVisibilityType.STUDENTS]))
-      .toBe('unknown, and instructors, and other students in this course');
+    expect(
+      pipe.transform([
+        'INVALID_VALUE' as CommentVisibilityType,
+        CommentVisibilityType.INSTRUCTORS,
+        CommentVisibilityType.STUDENTS,
+      ]),
+    ).toBe('unknown, and instructors, and other students in this course');
   });
 });

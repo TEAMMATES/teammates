@@ -5,12 +5,11 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
  * Modal to confirm permanent deletion of a feedback session.
  */
 @Component({
-    selector: 'tm-session-permanent-deletion-confirm-modal',
-    templateUrl: './session-permanent-deletion-confirm-modal.component.html',
-    styleUrls: ['./session-permanent-deletion-confirm-modal.component.scss'],
+  selector: 'tm-session-permanent-deletion-confirm-modal',
+  templateUrl: './session-permanent-deletion-confirm-modal.component.html',
+  styleUrls: ['./session-permanent-deletion-confirm-modal.component.scss'],
 })
 export class SessionPermanentDeletionConfirmModalComponent {
-
   @Input()
   courseId = '';
 
@@ -18,5 +17,4 @@ export class SessionPermanentDeletionConfirmModalComponent {
   feedbackSessionName = '';
 
   constructor(public activeModal: NgbActiveModal) {}
-
 }

@@ -37,12 +37,12 @@ export abstract class InstructorResponsesViewBase {
   @Output() instructorCommentTableModelChange: EventEmitter<Record<string, CommentTableModel>> = new EventEmitter();
   @Output() saveNewCommentEvent: EventEmitter<string> = new EventEmitter();
   @Output() deleteCommentEvent: EventEmitter<{
-    responseId: string,
-    index: number,
+    responseId: string;
+    index: number;
   }> = new EventEmitter();
   @Output() updateCommentEvent: EventEmitter<{
-    responseId: string,
-    index: number,
+    responseId: string;
+    index: number;
   }> = new EventEmitter();
 
   /**

@@ -13,7 +13,6 @@ import { PageComponent } from '../page.component';
   imports: [PageComponent],
 })
 export class StaticPageComponent implements OnInit {
-
   studentLoginUrl = '';
   instructorLoginUrl = '';
   user = '';
@@ -94,5 +93,4 @@ export class StaticPageComponent implements OnInit {
       },
     });
   }
-
 }

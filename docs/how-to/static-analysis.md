@@ -48,6 +48,7 @@ npm run lint
 | ESLint     | `npm run lint:eslint`                                  |
 | Stylelint  | `npm run lint:css`                                     |
 | Prettier   | `npm run format`                                       |
+
 </tab>
 <tab header="Windows">
 
@@ -66,5 +67,6 @@ npm run lint
 | ESLint     | `npm run lint:eslint`                                      |
 | Stylelint  | `npm run lint:css`                                         |
 | Prettier   | `npm run format`                                           |
+
 </tab>
 </tabs>

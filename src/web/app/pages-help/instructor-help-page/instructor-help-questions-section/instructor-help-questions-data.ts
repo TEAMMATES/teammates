@@ -21,22 +21,18 @@ import {
   SessionVisibleSetting,
 } from '../../../../types/api-output';
 import {
-    DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
-    DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
-    DEFAULT_MCQ_QUESTION_DETAILS,
-    DEFAULT_NUMSCALE_QUESTION_DETAILS,
-    DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
-    DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS,
-    DEFAULT_RUBRIC_QUESTION_DETAILS,
-    DEFAULT_TEXT_QUESTION_DETAILS,
+  DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
+  DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
+  DEFAULT_MCQ_QUESTION_DETAILS,
+  DEFAULT_NUMSCALE_QUESTION_DETAILS,
+  DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
+  DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS,
+  DEFAULT_RUBRIC_QUESTION_DETAILS,
+  DEFAULT_TEXT_QUESTION_DETAILS,
 } from '../../../../types/default-question-structs';
 import { CommentTableModel } from '../../../components/comment-box/comment-table/comment-table.model';
-import {
-  QuestionEditFormModel,
-} from '../../../components/question-edit-form/question-edit-form-model';
-import {
-  QuestionSubmissionFormModel,
-} from '../../../components/question-submission-form/question-submission-form-model';
+import { QuestionEditFormModel } from '../../../components/question-edit-form/question-edit-form-model';
+import { QuestionSubmissionFormModel } from '../../../components/question-submission-form/question-submission-form-model';
 import { Response } from '../../../components/question-types/question-statistics/question-statistics';
 import { QuestionTabModel } from '../../../pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 
@@ -795,8 +791,11 @@ export const EXAMPLE_TEAM_CONTRIBUTION_QUESTION_MODEL: QuestionEditFormModel = {
   customNumberOfEntitiesToGiveFeedbackTo: 0,
   numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
 
-  showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT,
-    FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
+  showResponsesTo: [
+    FeedbackVisibilityType.INSTRUCTORS,
+    FeedbackVisibilityType.RECIPIENT,
+    FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+  ],
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
 };
@@ -1018,14 +1017,24 @@ export const EXAMPLE_RUBRIC_QUESTION_MODEL: QuestionEditFormModel = {
   questionDetails: {
     ...DEFAULT_RUBRIC_QUESTION_DETAILS(),
     rubricChoices: ['Strongly Disagree', 'Disagree', 'Agree', 'Strongly Agree'],
-    rubricSubQuestions:
-      ['This student participates well in online discussions.', 'This student completes assigned tasks on time.'],
+    rubricSubQuestions: [
+      'This student participates well in online discussions.',
+      'This student completes assigned tasks on time.',
+    ],
     rubricDescriptions: [
-      ['Rarely or never responds.', 'Occasionally responds, but never initiates discussions.',
+      [
+        'Rarely or never responds.',
+        'Occasionally responds, but never initiates discussions.',
         'Takes part in discussions and sometimes initiates discussions.',
-        'Initiates discussions frequently, and engages the team.'],
-      ['Rarely or never completes tasks.', 'Often misses deadlines.', 'Occasionally misses deadlines.',
-        'Tasks are always completed before the deadline.']],
+        'Initiates discussions frequently, and engages the team.',
+      ],
+      [
+        'Rarely or never completes tasks.',
+        'Often misses deadlines.',
+        'Occasionally misses deadlines.',
+        'Tasks are always completed before the deadline.',
+      ],
+    ],
   } as FeedbackRubricQuestionDetails,
 
   isDeleting: false,
@@ -1421,8 +1430,11 @@ export const EXAMPLE_RANK_OPTION_QUESTION_MODEL: QuestionEditFormModel = {
   customNumberOfEntitiesToGiveFeedbackTo: 0,
   numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
 
-  showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT,
-    FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
+  showResponsesTo: [
+    FeedbackVisibilityType.INSTRUCTORS,
+    FeedbackVisibilityType.RECIPIENT,
+    FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+  ],
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
 };
@@ -1459,8 +1471,11 @@ export const EXAMPLE_MCQ_QUESTION_WITHOUT_WEIGHTS_MODEL: QuestionEditFormModel =
   customNumberOfEntitiesToGiveFeedbackTo: 0,
   numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
 
-  showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT,
-    FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
+  showResponsesTo: [
+    FeedbackVisibilityType.INSTRUCTORS,
+    FeedbackVisibilityType.RECIPIENT,
+    FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+  ],
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
 };
@@ -1497,8 +1512,11 @@ export const EXAMPLE_MCQ_QUESTION_WITH_WEIGHTS_MODEL: QuestionEditFormModel = {
   customNumberOfEntitiesToGiveFeedbackTo: 0,
   numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
 
-  showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT,
-    FeedbackVisibilityType.GIVER_TEAM_MEMBERS],
+  showResponsesTo: [
+    FeedbackVisibilityType.INSTRUCTORS,
+    FeedbackVisibilityType.RECIPIENT,
+    FeedbackVisibilityType.GIVER_TEAM_MEMBERS,
+  ],
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
   showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
 };
@@ -1555,10 +1573,10 @@ export const EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL: QuestionSubmissionF
       'This student participates well in online discussions.',
       'This student completes assigned tasks on time.',
     ],
-    rubricDescriptions:
-    [
+    rubricDescriptions: [
       [
-        'Rarely or never responds.', 'Occasionally responds, but never initiates discussions.',
+        'Rarely or never responds.',
+        'Occasionally responds, but never initiates discussions.',
         'Takes part in discussions and sometimes initiates discussions.',
         'Initiates discussions frequently, and engages the team.',
       ],

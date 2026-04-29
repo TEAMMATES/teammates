@@ -221,10 +221,7 @@ describe('SearchService', () => {
       searchkey: 'Alice',
       entitytype: 'instructor',
     };
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(
-      ResourceEndpoints.SEARCH_STUDENTS,
-      paramMap,
-    );
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SEARCH_STUDENTS, paramMap);
   });
 
   it('should execute GET when searching for instructors', () => {
@@ -232,10 +229,7 @@ describe('SearchService', () => {
     const paramMap: { [key: string]: string } = {
       searchkey: 'YoyoImCoronavirus',
     };
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(
-      ResourceEndpoints.SEARCH_INSTRUCTORS,
-      paramMap,
-    );
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SEARCH_INSTRUCTORS, paramMap);
   });
 
   it('should execute GET when searching for account requests', () => {
@@ -243,10 +237,7 @@ describe('SearchService', () => {
     const paramMap: { [key: string]: string } = {
       searchkey: 'Account Request',
     };
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(
-      ResourceEndpoints.SEARCH_ACCOUNT_REQUESTS,
-      paramMap,
-    );
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SEARCH_ACCOUNT_REQUESTS, paramMap);
   });
 
   it('should join students accurately when calling as admin', () => {
@@ -273,8 +264,10 @@ describe('SearchService', () => {
       { feedbackSessions: mockSessions },
       [mockPrivilegeC, mockPrivilegeB, mockPrivilegeA],
     );
-    expect(result.profilePageLink).toBe('/web/instructor/courses/student/details?'
-      + 'courseid=dog.gma-demo&studentemail=alice.b.tmms%40gmail.tmt&user=test%40example.com');
+    expect(result.profilePageLink).toBe(
+      '/web/instructor/courses/student/details?' +
+        'courseid=dog.gma-demo&studentemail=alice.b.tmms%40gmail.tmt&user=test%40example.com',
+    );
   });
 
   it('should join students with correct profile page link when course has no co-owner', () => {
@@ -285,13 +278,16 @@ describe('SearchService', () => {
       { feedbackSessions: mockSessions },
       [mockPrivilegeB, mockPrivilegeC],
     );
-    expect(result.profilePageLink).toBe('/web/instructor/courses/student/details?'
-      + 'courseid=dog.gma-demo&studentemail=alice.b.tmms%40gmail.tmt&user=insC');
+    expect(result.profilePageLink).toBe(
+      '/web/instructor/courses/student/details?' +
+        'courseid=dog.gma-demo&studentemail=alice.b.tmms%40gmail.tmt&user=insC',
+    );
   });
 
   it('should join instructors accurately when calling as admin', () => {
-    const result: InstructorAccountSearchResult = service
-      .joinAdminInstructor(mockInstructorA, mockCourse, { feedbackSessions: mockSessions });
+    const result: InstructorAccountSearchResult = service.joinAdminInstructor(mockInstructorA, mockCourse, {
+      feedbackSessions: mockSessions,
+    });
     expect(result.courseId).toBe('dog.gma-demo');
     expect(result.courseJoinLink).toBe(`${window.location.origin}/web/join?key=impicklerick&entitytype=instructor`);
     expect(result.courseName).toBe('Sample Course 101');

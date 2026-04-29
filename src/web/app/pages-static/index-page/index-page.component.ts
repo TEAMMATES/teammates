@@ -12,7 +12,6 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
   imports: [TeammatesRouterDirective],
 })
 export class IndexPageComponent implements OnInit {
-
   testimonial: any;
   submissionsNumber = '10,000,000+';
   private testimonials: any[] = [];
@@ -30,7 +29,8 @@ export class IndexPageComponent implements OnInit {
 
     const timeElapsed: number = new Date().getTime() - new Date(index.submissionsBaseDate).getTime();
     this.submissionsNumber = formatNumber(
-        index.submissionsBase + Math.floor(timeElapsed / 60 / 60 / 1000) * index.submissionsRate);
+      index.submissionsBase + Math.floor(timeElapsed / 60 / 60 / 1000) * index.submissionsRate,
+    );
 
     this.testimonials = index.testimonials;
 
@@ -42,5 +42,4 @@ export class IndexPageComponent implements OnInit {
     cycleTestimonial();
     setInterval(cycleTestimonial, 5000);
   }
-
 }

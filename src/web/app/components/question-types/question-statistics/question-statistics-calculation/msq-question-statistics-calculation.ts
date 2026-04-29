@@ -13,9 +13,9 @@ import { QuestionStatistics } from '../question-statistics';
  */
 @Directive()
 export class MsqQuestionStatisticsCalculation
-    extends QuestionStatistics<FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails>
-    implements McqMsqQuestionStatisticsCalculation {
-
+  extends QuestionStatistics<FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails>
+  implements McqMsqQuestionStatisticsCalculation
+{
   answerFrequency: Record<string, number> = {};
   percentagePerOption: Record<string, number> = {};
   weightPerOption: Record<string, number> = {};
@@ -43,8 +43,10 @@ export class MsqQuestionStatisticsCalculation
     for (const response of this.responses) {
       this.updateResponseCountPerOptionForResponse(response.responseDetails, this.answerFrequency);
     }
-    const numOfAnswers: number =
-        Object.values(this.answerFrequency).reduce((prev: number, curr: number) => prev + curr, 0);
+    const numOfAnswers: number = Object.values(this.answerFrequency).reduce(
+      (prev: number, curr: number) => prev + curr,
+      0,
+    );
     this.hasAnswers = numOfAnswers !== 0;
     if (!this.hasAnswers) {
       return;
@@ -70,14 +72,14 @@ export class MsqQuestionStatisticsCalculation
       for (const answer of Object.keys(this.weightPerOption)) {
         const weight: number = this.weightPerOption[answer];
         const frequency: number = this.answerFrequency[answer];
-        const weightedPercentage: number = totalWeightedResponseCount === 0 ? 0
-            : 100 * ((frequency * weight) / totalWeightedResponseCount);
+        const weightedPercentage: number =
+          totalWeightedResponseCount === 0 ? 0 : 100 * ((frequency * weight) / totalWeightedResponseCount);
         this.weightedPercentagePerOption[answer] = +weightedPercentage.toFixed(2);
       }
     }
 
     for (const answer of Object.keys(this.answerFrequency)) {
-      const percentage: number = numOfAnswers ? 100 * this.answerFrequency[answer] / numOfAnswers : 0;
+      const percentage: number = numOfAnswers ? (100 * this.answerFrequency[answer]) / numOfAnswers : 0;
       this.percentagePerOption[answer] = +percentage.toFixed(2);
     }
 
@@ -141,8 +143,10 @@ export class MsqQuestionStatisticsCalculation
   /**
    * Updates the number of responses per option for each response in responseCountPerOption map.
    */
-  private updateResponseCountPerOptionForResponse(responseDetails: FeedbackMsqResponseDetails,
-                                                  responseCountPerOption: Record<string, number>): void {
+  private updateResponseCountPerOptionForResponse(
+    responseDetails: FeedbackMsqResponseDetails,
+    responseCountPerOption: Record<string, number>,
+  ): void {
     if (responseDetails.isOther) {
       responseCountPerOption['Other'] = (responseCountPerOption['Other'] || 0) + 1;
     }
@@ -152,13 +156,14 @@ export class MsqQuestionStatisticsCalculation
         // ignore 'None of the above' answer
         continue;
       }
-      if (!this.question.msqChoices.includes(answer)
-          && this.question.generateOptionsFor === FeedbackParticipantType.NONE) {
+      if (
+        !this.question.msqChoices.includes(answer) &&
+        this.question.generateOptionsFor === FeedbackParticipantType.NONE
+      ) {
         // ignore other answer if any
         continue;
       }
       responseCountPerOption[answer] = (responseCountPerOption[answer] || 0) + 1;
     }
   }
-
 }

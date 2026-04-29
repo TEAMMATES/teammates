@@ -5,13 +5,13 @@ import {
   FeedbackParticipantType,
   FeedbackSession,
   FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus, QuestionOutput, ResponseOutput,
+  FeedbackSessionSubmissionStatus,
+  QuestionOutput,
+  ResponseOutput,
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../../types/api-output';
-import {
-  InstructorSessionResultSectionType,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { InstructorSessionResultSectionType } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { ResponseModerationButtonComponent } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.component';
 import { PanelChevronComponent } from '../../panel-chevron/panel-chevron.component';
 import { collapseAnim } from '../../teammates-common/collapse-anim';
@@ -32,10 +32,9 @@ import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
     ResponseModerationButtonComponent,
     GroupedResponsesComponent,
     KeyValuePipe,
-],
+  ],
 })
 export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
-
   @Input() responses: QuestionOutput[] = [];
   @Input() sectionOfView = '';
   @Input() section = '';
@@ -108,13 +107,15 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
         }
 
         if (this.sectionOfView) {
-          if (this.isGrq && response.giverSection !== this.sectionOfView
-              || !this.isGrq && response.recipientSection !== this.sectionOfView) {
+          if (
+            (this.isGrq && response.giverSection !== this.sectionOfView) ||
+            (!this.isGrq && response.recipientSection !== this.sectionOfView)
+          ) {
             continue;
           }
         }
-        const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
-            .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
+        const shouldDisplayBasedOnSection: boolean =
+          this.feedbackResponsesService.isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
         if (!shouldDisplayBasedOnSection) {
           continue;
         }
@@ -139,7 +140,7 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
           }
           this.userExpanded[response.giver] = this.isExpandAll;
           this.userIsInstructor[response.giver] =
-              question.feedbackQuestion.giverType === FeedbackParticipantType.INSTRUCTORS;
+            question.feedbackQuestion.giverType === FeedbackParticipantType.INSTRUCTORS;
         } else {
           this.usersToTeams[response.recipient] = this.usersToTeams[response.recipient] || '';
           this.userExpanded[response.recipient] = this.isExpandAll;
@@ -179,8 +180,12 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
             return false;
           }
 
-          const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
-            .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
+          const shouldDisplayBasedOnSection: boolean =
+            this.feedbackResponsesService.isFeedbackResponsesDisplayedOnSection(
+              response,
+              this.section,
+              this.sectionType,
+            );
 
           if (!shouldDisplayBasedOnSection) {
             return false;
@@ -203,8 +208,9 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
             this.responsesToShow[user][other].push(questionCopy2);
 
             if (!this.userHasRealResponses[user]) {
-              this.userHasRealResponses[user] =
-                  questionCopy2.allResponses.some((response: ResponseOutput) => !response.isMissingResponse);
+              this.userHasRealResponses[user] = questionCopy2.allResponses.some(
+                (response: ResponseOutput) => !response.isMissingResponse,
+              );
             }
           }
         }

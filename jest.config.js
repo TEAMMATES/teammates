@@ -7,12 +7,10 @@ module.exports = {
   ],
   coverageDirectory: './coverage',
   coverageReporters: ['lcov', 'text-summary'],
-  setupFiles: [
-    './jest-setup.ts',
-  ],
+  setupFiles: ['./jest-setup.ts'],
   moduleNameMapper: {
     d3: '<rootDir>/node_modules/d3/dist/d3.min.js',
     'lodash-es': 'lodash',
-    '^@handsontable/angular-wrapper$': '<rootDir>/src/web/test-helpers/mock-handsontable.ts'
+    '^@handsontable/angular-wrapper$': '<rootDir>/src/web/test-helpers/mock-handsontable.ts',
   },
 };
