@@ -83,7 +83,12 @@ export class HttpRequestService {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
     const headers: HttpHeaders = this.getHeaders(false);
-    return this.httpClient.get<TResponse>(`${this.backendUrl}${endpoint}`, { params, headers, responseType, withCredentials });
+    return this.httpClient.get<TResponse>(`${this.backendUrl}${endpoint}`, {
+      params,
+      headers,
+      responseType,
+      withCredentials,
+    });
   }
 
   /**
