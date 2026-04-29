@@ -3,7 +3,7 @@
     @if (isTemplate()) {
       <ng-template [ngTemplateOutlet]="contentAsTemplateRef"></ng-template>
     }
-    <button type="button" class="btn-close" (click)="removeToast()"></button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="removeToast()"></button>
     @if (!isTemplate()) {
       {{ toast.message }}
     }
