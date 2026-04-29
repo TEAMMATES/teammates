@@ -2,6 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
+    "rootDir": "./src/web",
     "types": []
   },
   "include": ["src/web/**/*.ts"],
