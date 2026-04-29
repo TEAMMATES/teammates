@@ -219,8 +219,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
   private getNonSubmitterStudents(): void {
     this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({
-      courseId: this.courseId,
-      feedbackSessionName: this.feedbackSessionName,
+      feedbackSessionId: this.feedbackSessionId,
     }).subscribe({
       next: (feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
         this.studentsOfCourse
@@ -282,8 +281,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
   private getNonSubmitterInstructors(): void {
     this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({
-      courseId: this.courseId,
-      feedbackSessionName: this.feedbackSessionName,
+      feedbackSessionId: this.feedbackSessionId,
     }).subscribe({
       next: (feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
         this.instructorsOfCourse

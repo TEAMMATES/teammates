@@ -76,7 +76,7 @@ export class FeedbackSessionActionsService {
       ),
       this.feedbackSessionsService.downloadFeedbackSessionNonSubmitterList(
         courseId,
-        feedbackSessionName,
+        feedbackSessionId,
       ),
     ).pipe(
       takeWhile(() => !downloadAborted),

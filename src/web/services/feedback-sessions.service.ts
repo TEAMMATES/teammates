@@ -258,27 +258,26 @@ export class FeedbackSessionsService {
   /**
    * Gets a set of givers that has given at least one response in the feedback session.
    */
-  getFeedbackSessionSubmittedGiverSet(queryParams: { courseId: string, feedbackSessionName: string }):
+  getFeedbackSessionSubmittedGiverSet(queryParams: { feedbackSessionId: string }):
       Observable<FeedbackSessionSubmittedGiverSet> {
     const paramMap: Record<string, string> = {
-      courseid: queryParams.courseId,
-      fsname: queryParams.feedbackSessionName,
+      fsid: queryParams.feedbackSessionId,
     };
+
     return this.httpRequestService.get(ResourceEndpoints.SESSION_SUBMITTED_GIVER_SET, paramMap);
   }
 
   /**
    * Gets a list of students who have not responded to feedback session.
    */
-  getFeedbackSessionNonSubmitterList(courseId: string, feedbackSessionName: string):
+  getFeedbackSessionNonSubmitterList(courseId: string, feedbackSessionId: string):
     Observable<Student[]> {
     const allStudentsObservable: Observable<Students> = this.studentService.getStudentsFromCourse({
       courseId,
     });
     const studentsWithResponseObservable: Observable<FeedbackSessionSubmittedGiverSet> =
       this.getFeedbackSessionSubmittedGiverSet({
-        courseId,
-        feedbackSessionName,
+        feedbackSessionId,
       });
     return forkJoin([
       allStudentsObservable,
@@ -295,9 +294,9 @@ export class FeedbackSessionsService {
   /**
    * Downloads list of non-responders.
    */
-  downloadFeedbackSessionNonSubmitterList(courseId: string, feedbackSessionName: string):
+  downloadFeedbackSessionNonSubmitterList(courseId: string, feedbackSessionId: string):
     Observable<string> {
-    return this.getFeedbackSessionNonSubmitterList(courseId, feedbackSessionName)
+    return this.getFeedbackSessionNonSubmitterList(courseId, feedbackSessionId)
       .pipe(map((students: Student[]) =>
         this.sessionResultCsvService.getCsvForNonSubmitterList(students),
       ));
@@ -328,10 +327,9 @@ export class FeedbackSessionsService {
   /**
    * Load session statistics.
    */
-  loadSessionStatistics(courseId: string, feedbackSessionName: string): Observable<FeedbackSessionStats> {
+  loadSessionStatistics(feedbackSessionId: string): Observable<FeedbackSessionStats> {
     const paramMap: Record<string, string> = {
-      courseid: courseId,
-      fsname: feedbackSessionName,
+      fsid: feedbackSessionId,
     };
 
     return this.httpRequestService.get(ResourceEndpoints.SESSION_STATS, paramMap);

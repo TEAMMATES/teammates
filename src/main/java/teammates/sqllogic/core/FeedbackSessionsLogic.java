@@ -2,7 +2,6 @@ package teammates.sqllogic.core;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -20,6 +19,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
@@ -167,39 +167,25 @@ public final class FeedbackSessionsLogic {
 
     /**
      * Gets a set of giver identifiers that has at least one response under a feedback session.
+     *
+     * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
-    public Set<String> getGiverSetThatAnsweredFeedbackSession(String feedbackSessionName, String courseId) {
-        assert courseId != null;
-        assert feedbackSessionName != null;
+    public Set<String> getGiverSetThatAnsweredFeedbackSession(
+            UUID feedbackSessionId) throws EntityDoesNotExistException {
+        FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityDoesNotExistException(
+                String.format("Feedback session with id %s not found.", feedbackSessionId));
+        }
 
-        FeedbackSession feedbackSession = fsDb.getFeedbackSession(feedbackSessionName, courseId);
-
-        Set<String> giverSet = new HashSet<>();
-
-        fqLogic.getFeedbackQuestionsForSession(feedbackSession).forEach(question -> {
-            frLogic.getFeedbackResponsesForQuestion(question.getId()).forEach(response -> {
-                giverSet.add(response.getGiver());
-            });
-        });
-
-        return giverSet;
+        return getGiverSetThatAnsweredFeedbackSession(feedbackSession);
     }
 
-    /**
-     * Gets a set of giver identifiers that has at least one response under a feedback session.
-     */
-    public Set<String> getGiverSetThatAnsweredFeedbackSession(FeedbackSession fs) {
-        assert fs != null;
-
-        Set<String> giverSet = new HashSet<>();
-
-        fqLogic.getFeedbackQuestionsForSession(fs).forEach(question -> {
-            frLogic.getFeedbackResponsesForQuestion(question.getId()).forEach(response -> {
-                giverSet.add(response.getGiver());
-            });
-        });
-
-        return giverSet;
+    private Set<String> getGiverSetThatAnsweredFeedbackSession(FeedbackSession feedbackSession) {
+        return feedbackSession.getFeedbackQuestions().stream()
+                .flatMap(question -> question.getFeedbackResponses().stream())
+                .map(FeedbackResponse::getGiver)
+                .collect(Collectors.toUnmodifiableSet());
     }
 
     /**
@@ -587,7 +573,7 @@ public final class FeedbackSessionsLogic {
      */
     public int getExpectedTotalSubmission(FeedbackSession fs) {
         int expectedTotal = 0;
-        List<FeedbackQuestion> questions = fqLogic.getFeedbackQuestionsForSession(fs);
+        List<FeedbackQuestion> questions = fs.getFeedbackQuestions();
         if (fqLogic.hasFeedbackQuestionsForStudents(questions)) {
             expectedTotal += usersLogic.getStudentsForCourse(fs.getCourseId()).size();
         }
@@ -603,7 +589,7 @@ public final class FeedbackSessionsLogic {
         }
 
         // Check presence of questions for instructors.
-        if (fqLogic.hasFeedbackQuestionsForInstructors(fqLogic.getFeedbackQuestionsForSession(fs), false)) {
+        if (fqLogic.hasFeedbackQuestionsForInstructors(questions, false)) {
             expectedTotal += instructors.size();
         } else {
             // No questions for instructors. There must be questions for creator.

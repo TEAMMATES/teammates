@@ -144,7 +144,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
 
     forkJoin([
       this.studentService.getStudentsFromCourse({ courseId }),
-      this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({ courseId, feedbackSessionName }),
+      this.feedbackSessionsService.getFeedbackSessionSubmittedGiverSet({ feedbackSessionId }),
       this.instructorService.loadInstructors({ courseId, intent: Intent.FULL_DETAIL }),
     ]).pipe(finalize(() => {
       this.isSendReminderLoading = false;

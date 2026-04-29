@@ -314,7 +314,7 @@ export abstract class InstructorSessionBasePageComponent {
     cb(models);
 
     this.feedbackSessionsService
-      .loadSessionStatistics(models[idx].feedbackSession.courseId, models[idx].feedbackSession.feedbackSessionName)
+      .loadSessionStatistics(models[idx].feedbackSession.feedbackSessionId)
       .pipe(
         finalize(() => {
           models[idx] = {
