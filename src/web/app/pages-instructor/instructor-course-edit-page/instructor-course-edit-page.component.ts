@@ -283,28 +283,20 @@ export class InstructorCourseEditPageComponent implements OnInit {
      * Gets the default edit panel model of an instructor.
      */
     getInstructorEditPanelModel(i: Instructor): InstructorEditPanel {
-        /**
-         * The non-null assertion operator (!) is used below in `isDisplayedToStudents`,
-         * `displayedToStudentsAs` and `role`. These attributes should never be undefined and are only
-         * typed as such to accommodate for a use case in SearchService.
-         */
         return this.getDefaultInstructorPanel({
             googleId: i.googleId,
             courseId: i.courseId,
             email: i.email,
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            isDisplayedToStudents: i.isDisplayedToStudents!,
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            displayedToStudentsAs: i.displayedToStudentsAs!,
+            isDisplayedToStudents: i.isDisplayedToStudents,
+            displayedToStudentsAs: i.displayedToStudentsAs,
             name: i.name,
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            role: i.role!,
+            role: i.role,
             joinState: i.joinState,
         });
     }
 
     /**
-     * Generates a default InstructorEditPanel with optional overrides.
+     * Gets a default InstructorEditPanel with optional overrides.
      *
      * @param overrides Properties to overwrite the base model.
      * @param defaultPrivileges Boolean to set all nested privileges to true or false.
@@ -339,11 +331,15 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
             isEditing: false,
             isSavingInstructorEdit: false,
-            ...overrides, // Applies any specific value passed in
+            ...overrides,
         };
     }
 
-    // new course tab helper function
+    /**
+     * Gets the default CourseTabModel with optional overrides.
+     *
+     * @param overrides Properties to overwrite the base model.
+     */
     private getDefaultCourseTab(overrides: Partial<CourseTabModel> = {}): CourseTabModel {
         return {
             courseId: '',
@@ -538,14 +534,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
             this.isAddingNewInstructor = false;
 
-                this.newInstructorPanel = this.getDefaultInstructorPanel({
-                    displayedToStudentsAs: '', // override the default 'Instructor'
-                    isEditing: true, // keeping the form open
-                }, true);
-            },
-            error: (resp: ErrorMessageOutput) => {
-                this.statusMessageService.showErrorToast(resp.error.message);
-            },
+            this.newInstructorPanel = this.getDefaultInstructorPanel({
+              displayedToStudentsAs: '', // override the default 'Instructor'
+              isEditing: true, // keeping the form open
+            }, true);
+          },
+          error: (resp: ErrorMessageOutput) => {
+              this.statusMessageService.showErrorToast(resp.error.message);
+          },
         });
   }
 
