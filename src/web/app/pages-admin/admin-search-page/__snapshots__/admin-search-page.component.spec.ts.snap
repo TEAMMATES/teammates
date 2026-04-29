@@ -168,6 +168,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
               <br />
               <button
                 class="btn btn-danger"
+                data-testid="regenerate-instructor-key"
                 id="regenerate-instructor-key-0"
               >
                  Regenerate key 
@@ -309,6 +310,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
               <br />
               <button
                 class="btn btn-danger"
+                data-testid="regenerate-student-key"
                 id="regenerate-student-key-0"
               >
                  Regenerate key 
@@ -648,6 +650,7 @@ exports[`AdminSearchPageComponent should snap with an expanded instructor table 
               <br />
               <button
                 class="btn btn-danger"
+                data-testid="regenerate-instructor-key"
                 id="regenerate-instructor-key-0"
               >
                  Regenerate key 
@@ -912,6 +915,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
               <br />
               <button
                 class="btn btn-danger"
+                data-testid="regenerate-student-key"
                 id="regenerate-student-key-0"
               >
                  Regenerate key 
