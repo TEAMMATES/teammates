@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { combineLatest, Observable } from 'rxjs';
 import { finalize, map, mergeMap, tap } from 'rxjs/operators';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -25,7 +26,6 @@ import { LoadingRetryComponent } from '../../components/loading-retry/loading-re
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
 import { GrqRgqViewResponsesComponent } from '../../components/question-responses/grq-rgq-view-responses/grq-rgq-view-responses.component';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { areEmailsEqual } from '../../components/teammates-common/email-utils';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -43,8 +43,13 @@ interface SessionTab {
   selector: 'tm-instructor-student-records-page',
   templateUrl: './instructor-student-records-page.component.html',
   styleUrls: ['./instructor-student-records-page.component.scss'],
-  animations: [collapseAnim],
-  imports: [LoadingRetryComponent, LoadingSpinnerDirective, PanelChevronComponent, GrqRgqViewResponsesComponent],
+  imports: [
+    LoadingRetryComponent,
+    LoadingSpinnerDirective,
+    PanelChevronComponent,
+    GrqRgqViewResponsesComponent,
+    NgbCollapse,
+  ],
   providers: [CommentsToCommentTableModelPipe, CommentToCommentRowModelPipe, InstructorCommentService],
 })
 export class InstructorStudentRecordsPageComponent implements OnInit {

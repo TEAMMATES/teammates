@@ -1,5 +1,6 @@
 import { HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { CourseService, CourseStatistics } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -20,7 +21,6 @@ import { LoadingSpinnerDirective } from '../../components/loading-spinner/loadin
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
 import { JoinStatePipe } from '../../components/student-list/join-state.pipe';
 import { StudentListRowModel, StudentListComponent } from '../../components/student-list/student-list.component';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -47,13 +47,13 @@ export interface CourseTab {
   selector: 'tm-instructor-student-list-page',
   templateUrl: './instructor-student-list-page.component.html',
   styleUrls: ['./instructor-student-list-page.component.scss'],
-  animations: [collapseAnim],
   imports: [
     TeammatesRouterDirective,
     LoadingRetryComponent,
     LoadingSpinnerDirective,
     PanelChevronComponent,
     StudentListComponent,
+    NgbCollapse,
   ],
 })
 export class InstructorStudentListPageComponent implements OnInit {

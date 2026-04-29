@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize, map } from 'rxjs/operators';
 import { CourseTabModel } from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal-model';
@@ -61,7 +61,6 @@ import { CourseEditFormComponent } from '../../components/course-edit-form/cours
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { CoursesSectionQuestions } from '../../pages-help/instructor-help-page/instructor-help-courses-section/courses-section-questions';
@@ -80,7 +79,6 @@ interface InstructorEditPanelDetail {
   selector: 'tm-instructor-course-edit-page',
   templateUrl: './instructor-course-edit-page.component.html',
   styleUrls: ['./instructor-course-edit-page.component.scss'],
-  animations: [collapseAnim],
   imports: [
     LoadingRetryComponent,
     LoadingSpinnerDirective,
@@ -88,6 +86,7 @@ interface InstructorEditPanelDetail {
     TeammatesRouterDirective,
     InstructorEditPanelComponent,
     AjaxLoadingComponent,
+    NgbCollapse,
   ],
 })
 export class InstructorCourseEditPageComponent implements OnInit {

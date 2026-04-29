@@ -16,43 +16,41 @@
             <tm-panel-chevron [isExpanded]="!session.isCollapsed" chevronColor="black"></tm-panel-chevron>
           </div>
         </div>
-        @if (!session.isCollapsed) {
-          <div class="card-body" @collapseAnim>
-            @if (session.responsesReceivedByStudent.length > 0) {
-              <tm-grq-rgq-view-responses
-                [session]="session.feedbackSession"
-                [responses]="session.responsesReceivedByStudent"
-                [groupByTeam]="false"
-                [isGrq]="false"
-                [instructorCommentTableModel]="commentService.instructorCommentTableModel"
-                (saveNewCommentEvent)="commentService.saveNewComment($event, session.feedbackSession.timeZone)"
-                (deleteCommentEvent)="commentService.deleteComment($event)"
-                (updateCommentEvent)="commentService.updateComment($event, session.feedbackSession.timeZone)"
-                [isExpandAll]="true"
-              >
-              </tm-grq-rgq-view-responses>
-            }
-            @if (session.responsesReceivedByStudent.length === 0) {
-              <div class="mb-3">No feedback responses for {{ studentName }} ({{ studentTeam }}) found.</div>
-            }
-            @if (session.responsesGivenByStudent.length > 0) {
-              <tm-grq-rgq-view-responses
-                [session]="session.feedbackSession"
-                [responses]="session.responsesGivenByStudent"
-                [groupByTeam]="false"
-                [isGrq]="true"
-                [instructorCommentTableModel]="commentService.instructorCommentTableModel"
-                (saveNewCommentEvent)="commentService.saveNewComment($event, session.feedbackSession.timeZone)"
-                (deleteCommentEvent)="commentService.deleteComment($event)"
-                (updateCommentEvent)="commentService.updateComment($event, session.feedbackSession.timeZone)"
-                [isExpandAll]="true"
-              ></tm-grq-rgq-view-responses>
-            }
-            @if (session.responsesGivenByStudent.length === 0) {
-              <div>No feedback responses from {{ studentName }} ({{ studentTeam }}) found.</div>
-            }
-          </div>
-        }
+        <div class="card-body" [ngbCollapse]="session.isCollapsed">
+          @if (session.responsesReceivedByStudent.length > 0) {
+            <tm-grq-rgq-view-responses
+              [session]="session.feedbackSession"
+              [responses]="session.responsesReceivedByStudent"
+              [groupByTeam]="false"
+              [isGrq]="false"
+              [instructorCommentTableModel]="commentService.instructorCommentTableModel"
+              (saveNewCommentEvent)="commentService.saveNewComment($event, session.feedbackSession.timeZone)"
+              (deleteCommentEvent)="commentService.deleteComment($event)"
+              (updateCommentEvent)="commentService.updateComment($event, session.feedbackSession.timeZone)"
+              [isExpandAll]="true"
+            >
+            </tm-grq-rgq-view-responses>
+          }
+          @if (session.responsesReceivedByStudent.length === 0) {
+            <div class="mb-3">No feedback responses for {{ studentName }} ({{ studentTeam }}) found.</div>
+          }
+          @if (session.responsesGivenByStudent.length > 0) {
+            <tm-grq-rgq-view-responses
+              [session]="session.feedbackSession"
+              [responses]="session.responsesGivenByStudent"
+              [groupByTeam]="false"
+              [isGrq]="true"
+              [instructorCommentTableModel]="commentService.instructorCommentTableModel"
+              (saveNewCommentEvent)="commentService.saveNewComment($event, session.feedbackSession.timeZone)"
+              (deleteCommentEvent)="commentService.deleteComment($event)"
+              (updateCommentEvent)="commentService.updateComment($event, session.feedbackSession.timeZone)"
+              [isExpandAll]="true"
+            ></tm-grq-rgq-view-responses>
+          }
+          @if (session.responsesGivenByStudent.length === 0) {
+            <div>No feedback responses from {{ studentName }} ({{ studentTeam }}) found.</div>
+          }
+        </div>
       </div>
     }
   </div>

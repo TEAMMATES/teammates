@@ -8,6 +8,7 @@ import {
   NgbDropdown,
   NgbDropdownToggle,
   NgbDropdownMenu,
+  NgbCollapse,
 } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable } from 'rxjs';
@@ -49,7 +50,6 @@ import { ModifiedTimestampModalComponent } from '../../components/modified-times
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
 import { ProgressBarComponent } from '../../components/progress-bar/progress-bar.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -67,7 +67,6 @@ interface CourseModel {
   selector: 'tm-instructor-courses-page',
   templateUrl: './instructor-courses-page.component.html',
   styleUrls: ['./instructor-courses-page.component.scss'],
-  animations: [collapseAnim],
   imports: [
     CourseEditFormComponent,
     ProgressBarComponent,
@@ -82,6 +81,7 @@ interface CourseModel {
     PanelChevronComponent,
     ModifiedTimestampModalComponent,
     DatePipe,
+    NgbCollapse,
   ],
 })
 export class InstructorCoursesPageComponent implements OnInit {

@@ -6,6 +6,7 @@ import {
   NgbDropdownToggle,
   NgbDropdownMenu,
   NgbTooltip,
+  NgbCollapse,
 } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -42,7 +43,6 @@ import {
   SortableEvent,
   SortableTableHeaderColorScheme,
 } from '../../components/sortable-table/sortable-table.component';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
@@ -70,7 +70,6 @@ export interface CourseTabModel {
   selector: 'tm-instructor-home-page',
   templateUrl: './instructor-home-page.component.html',
   styleUrls: ['./instructor-home-page.component.scss'],
-  animations: [collapseAnim],
   imports: [
     LoadingSpinnerDirective,
     TeammatesRouterDirective,
@@ -83,6 +82,7 @@ export interface CourseTabModel {
     PanelChevronComponent,
     SessionsTableComponent,
     ModifiedTimestampModalComponent,
+    NgbCollapse,
   ],
 })
 export class InstructorHomePageComponent extends InstructorSessionModalPageComponent implements OnInit {

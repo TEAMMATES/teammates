@@ -87,6 +87,215 @@ exports[`InstructorCourseEditPageComponent should snap when editing course detai
     >
        Copy Instructors from Other Courses 
     </button>
+  </div><div
+    class="collapse"
+  >
+    <tm-instructor-edit-panel>
+      <div
+        class="card bg-light top-padded"
+      >
+        <div
+          class="card-header bg-primary text-white text-center"
+        >
+          <strong>
+            Instructor 1
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <button
+              class="btn btn-primary btn-sm"
+              id="btn-cancel-instructor-1"
+            >
+              <i
+                aria-hidden="true"
+                class="fa fa-times"
+              />
+               Cancel 
+            </button>
+          </div>
+        </div>
+        <div
+          class="card-body text-center fill-plain"
+        >
+          <div
+            class="row form-group"
+          >
+            <label
+              class="col-sm-2 control-label"
+              for="name-instructor-1"
+            >
+               Name: 
+            </label>
+            <div
+              class="col-sm-9"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="name-instructor-1"
+                maxlength="100"
+              />
+            </div>
+          </div>
+          <div
+            class="row form-group"
+          >
+            <label
+              class="col-sm-2 control-label"
+              for="email-instructor-1"
+            >
+               Email: 
+            </label>
+            <div
+              class="col-sm-9"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="email-instructor-1"
+                maxlength="254"
+              />
+            </div>
+          </div>
+          <div
+            class="row form-group"
+          >
+            <label
+              class="col-sm-2 control-label"
+              for="displayed-name-instructor-1"
+            >
+              <input
+                aria-label="Enable display name"
+                checked=""
+                class="ng-untouched ng-pristine ng-valid"
+                id="checkbox-display-instructor-1"
+                type="checkbox"
+              />
+              <span
+                class="ngb-tooltip-class"
+                ngbtooltip="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course"
+              >
+                Display to students as:
+              </span>
+            </label>
+            <div
+              class="col-sm-9"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="displayed-name-instructor-1"
+                placeholder="E.g. Co-lecturer, Teaching Assistant (default: Instructor)"
+                type="text"
+                value="Instructor"
+              />
+            </div>
+          </div>
+          <div
+            class="row form-group align-items-start text-start"
+          >
+            <label
+              class="col-sm-2 control-label text-center text-md-end"
+            >
+               Access Level: 
+            </label>
+            <div
+              class="col-sm-9"
+              id="access-levels-instructor-1"
+            >
+              <div
+                class="row"
+              >
+                <label>
+                  <input
+                    id="INSTRUCTOR_PERMISSION_ROLE_COOWNER01"
+                    type="radio"
+                  />
+                   Co-owner: Can do everything. 
+                  <button
+                    class="btn btn-link padding-0"
+                    type="button"
+                  >
+                     View Details 
+                  </button>
+                </label>
+              </div>
+              <div
+                class="row"
+              >
+                <label>
+                  <input
+                    id="INSTRUCTOR_PERMISSION_ROLE_MANAGER01"
+                    type="radio"
+                  />
+                   Manager: Can do everything except for deleting/restoring the course. 
+                  <button
+                    class="btn btn-link padding-0"
+                    type="button"
+                  >
+                     View Details 
+                  </button>
+                </label>
+              </div>
+              <div
+                class="row"
+              >
+                <label>
+                  <input
+                    id="INSTRUCTOR_PERMISSION_ROLE_OBSERVER01"
+                    type="radio"
+                  />
+                   Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything. 
+                  <button
+                    class="btn btn-link padding-0"
+                    type="button"
+                  >
+                     View Details 
+                  </button>
+                </label>
+              </div>
+              <div
+                class="row"
+              >
+                <label>
+                  <input
+                    id="INSTRUCTOR_PERMISSION_ROLE_TUTOR01"
+                    type="radio"
+                  />
+                   Tutor: Can view student details, give/view comments, submit/view responses for sessions. 
+                  <button
+                    class="btn btn-link padding-0"
+                    type="button"
+                  >
+                     View Details 
+                  </button>
+                </label>
+              </div>
+              <div
+                class="row"
+              >
+                <label>
+                  <input
+                    id="INSTRUCTOR_PERMISSION_ROLE_CUSTOM01"
+                    type="radio"
+                  />
+                   Custom: No access by default. Any access needs to be granted explicitly. 
+                </label>
+              </div>
+            </div>
+          </div>
+          <div>
+            <button
+              class="btn btn-success"
+              id="btn-save-instructor-1"
+              type="button"
+            >
+              <span>
+                Add Instructor
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </tm-instructor-edit-panel>
   </div>
 </tm-instructor-course-edit-page>
 `;
@@ -178,6 +387,215 @@ exports[`InstructorCourseEditPageComponent should snap with course details 1`] =
     >
        Copy Instructors from Other Courses 
     </button>
+  </div><div
+    class="collapse"
+  >
+    <tm-instructor-edit-panel>
+      <div
+        class="card bg-light top-padded"
+      >
+        <div
+          class="card-header bg-primary text-white text-center"
+        >
+          <strong>
+            Instructor 1
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <button
+              class="btn btn-primary btn-sm"
+              id="btn-cancel-instructor-1"
+            >
+              <i
+                aria-hidden="true"
+                class="fa fa-times"
+              />
+               Cancel 
+            </button>
+          </div>
+        </div>
+        <div
+          class="card-body text-center fill-plain"
+        >
+          <div
+            class="row form-group"
+          >
+            <label
+              class="col-sm-2 control-label"
+              for="name-instructor-1"
+            >
+               Name: 
+            </label>
+            <div
+              class="col-sm-9"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="name-instructor-1"
+                maxlength="100"
+              />
+            </div>
+          </div>
+          <div
+            class="row form-group"
+          >
+            <label
+              class="col-sm-2 control-label"
+              for="email-instructor-1"
+            >
+               Email: 
+            </label>
+            <div
+              class="col-sm-9"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="email-instructor-1"
+                maxlength="254"
+              />
+            </div>
+          </div>
+          <div
+            class="row form-group"
+          >
+            <label
+              class="col-sm-2 control-label"
+              for="displayed-name-instructor-1"
+            >
+              <input
+                aria-label="Enable display name"
+                checked=""
+                class="ng-untouched ng-pristine ng-valid"
+                id="checkbox-display-instructor-1"
+                type="checkbox"
+              />
+              <span
+                class="ngb-tooltip-class"
+                ngbtooltip="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course"
+              >
+                Display to students as:
+              </span>
+            </label>
+            <div
+              class="col-sm-9"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="displayed-name-instructor-1"
+                placeholder="E.g. Co-lecturer, Teaching Assistant (default: Instructor)"
+                type="text"
+                value="Instructor"
+              />
+            </div>
+          </div>
+          <div
+            class="row form-group align-items-start text-start"
+          >
+            <label
+              class="col-sm-2 control-label text-center text-md-end"
+            >
+               Access Level: 
+            </label>
+            <div
+              class="col-sm-9"
+              id="access-levels-instructor-1"
+            >
+              <div
+                class="row"
+              >
+                <label>
+                  <input
+                    id="INSTRUCTOR_PERMISSION_ROLE_COOWNER01"
+                    type="radio"
+                  />
+                   Co-owner: Can do everything. 
+                  <button
+                    class="btn btn-link padding-0"
+                    type="button"
+                  >
+                     View Details 
+                  </button>
+                </label>
+              </div>
+              <div
+                class="row"
+              >
+                <label>
+                  <input
+                    id="INSTRUCTOR_PERMISSION_ROLE_MANAGER01"
+                    type="radio"
+                  />
+                   Manager: Can do everything except for deleting/restoring the course. 
+                  <button
+                    class="btn btn-link padding-0"
+                    type="button"
+                  >
+                     View Details 
+                  </button>
+                </label>
+              </div>
+              <div
+                class="row"
+              >
+                <label>
+                  <input
+                    id="INSTRUCTOR_PERMISSION_ROLE_OBSERVER01"
+                    type="radio"
+                  />
+                   Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything. 
+                  <button
+                    class="btn btn-link padding-0"
+                    type="button"
+                  >
+                     View Details 
+                  </button>
+                </label>
+              </div>
+              <div
+                class="row"
+              >
+                <label>
+                  <input
+                    id="INSTRUCTOR_PERMISSION_ROLE_TUTOR01"
+                    type="radio"
+                  />
+                   Tutor: Can view student details, give/view comments, submit/view responses for sessions. 
+                  <button
+                    class="btn btn-link padding-0"
+                    type="button"
+                  >
+                     View Details 
+                  </button>
+                </label>
+              </div>
+              <div
+                class="row"
+              >
+                <label>
+                  <input
+                    id="INSTRUCTOR_PERMISSION_ROLE_CUSTOM01"
+                    type="radio"
+                  />
+                   Custom: No access by default. Any access needs to be granted explicitly. 
+                </label>
+              </div>
+            </div>
+          </div>
+          <div>
+            <button
+              class="btn btn-success"
+              id="btn-save-instructor-1"
+              type="button"
+            >
+              <span>
+                Add Instructor
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </tm-instructor-edit-panel>
   </div>
 </tm-instructor-course-edit-page>
 `;
@@ -269,6 +687,215 @@ exports[`InstructorCourseEditPageComponent should snap with default fields 1`] =
     >
        Copy Instructors from Other Courses 
     </button>
+  </div><div
+    class="collapse"
+  >
+    <tm-instructor-edit-panel>
+      <div
+        class="card bg-light top-padded"
+      >
+        <div
+          class="card-header bg-primary text-white text-center"
+        >
+          <strong>
+            Instructor 1
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <button
+              class="btn btn-primary btn-sm"
+              id="btn-cancel-instructor-1"
+            >
+              <i
+                aria-hidden="true"
+                class="fa fa-times"
+              />
+               Cancel 
+            </button>
+          </div>
+        </div>
+        <div
+          class="card-body text-center fill-plain"
+        >
+          <div
+            class="row form-group"
+          >
+            <label
+              class="col-sm-2 control-label"
+              for="name-instructor-1"
+            >
+               Name: 
+            </label>
+            <div
+              class="col-sm-9"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="name-instructor-1"
+                maxlength="100"
+              />
+            </div>
+          </div>
+          <div
+            class="row form-group"
+          >
+            <label
+              class="col-sm-2 control-label"
+              for="email-instructor-1"
+            >
+               Email: 
+            </label>
+            <div
+              class="col-sm-9"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="email-instructor-1"
+                maxlength="254"
+              />
+            </div>
+          </div>
+          <div
+            class="row form-group"
+          >
+            <label
+              class="col-sm-2 control-label"
+              for="displayed-name-instructor-1"
+            >
+              <input
+                aria-label="Enable display name"
+                checked=""
+                class="ng-untouched ng-pristine ng-valid"
+                id="checkbox-display-instructor-1"
+                type="checkbox"
+              />
+              <span
+                class="ngb-tooltip-class"
+                ngbtooltip="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course"
+              >
+                Display to students as:
+              </span>
+            </label>
+            <div
+              class="col-sm-9"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="displayed-name-instructor-1"
+                placeholder="E.g. Co-lecturer, Teaching Assistant (default: Instructor)"
+                type="text"
+                value="Instructor"
+              />
+            </div>
+          </div>
+          <div
+            class="row form-group align-items-start text-start"
+          >
+            <label
+              class="col-sm-2 control-label text-center text-md-end"
+            >
+               Access Level: 
+            </label>
+            <div
+              class="col-sm-9"
+              id="access-levels-instructor-1"
+            >
+              <div
+                class="row"
+              >
+                <label>
+                  <input
+                    id="INSTRUCTOR_PERMISSION_ROLE_COOWNER01"
+                    type="radio"
+                  />
+                   Co-owner: Can do everything. 
+                  <button
+                    class="btn btn-link padding-0"
+                    type="button"
+                  >
+                     View Details 
+                  </button>
+                </label>
+              </div>
+              <div
+                class="row"
+              >
+                <label>
+                  <input
+                    id="INSTRUCTOR_PERMISSION_ROLE_MANAGER01"
+                    type="radio"
+                  />
+                   Manager: Can do everything except for deleting/restoring the course. 
+                  <button
+                    class="btn btn-link padding-0"
+                    type="button"
+                  >
+                     View Details 
+                  </button>
+                </label>
+              </div>
+              <div
+                class="row"
+              >
+                <label>
+                  <input
+                    id="INSTRUCTOR_PERMISSION_ROLE_OBSERVER01"
+                    type="radio"
+                  />
+                   Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything. 
+                  <button
+                    class="btn btn-link padding-0"
+                    type="button"
+                  >
+                     View Details 
+                  </button>
+                </label>
+              </div>
+              <div
+                class="row"
+              >
+                <label>
+                  <input
+                    id="INSTRUCTOR_PERMISSION_ROLE_TUTOR01"
+                    type="radio"
+                  />
+                   Tutor: Can view student details, give/view comments, submit/view responses for sessions. 
+                  <button
+                    class="btn btn-link padding-0"
+                    type="button"
+                  >
+                     View Details 
+                  </button>
+                </label>
+              </div>
+              <div
+                class="row"
+              >
+                <label>
+                  <input
+                    id="INSTRUCTOR_PERMISSION_ROLE_CUSTOM01"
+                    type="radio"
+                  />
+                   Custom: No access by default. Any access needs to be granted explicitly. 
+                </label>
+              </div>
+            </div>
+          </div>
+          <div>
+            <button
+              class="btn btn-success"
+              id="btn-save-instructor-1"
+              type="button"
+            >
+              <span>
+                Add Instructor
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </tm-instructor-edit-panel>
   </div>
 </tm-instructor-course-edit-page>
 `;
@@ -519,6 +1146,215 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
     >
        Copy Instructors from Other Courses 
     </button>
+  </div><div
+    class="collapse"
+  >
+    <tm-instructor-edit-panel>
+      <div
+        class="card bg-light top-padded"
+      >
+        <div
+          class="card-header bg-primary text-white text-center"
+        >
+          <strong>
+            Instructor 2
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <button
+              class="btn btn-primary btn-sm"
+              id="btn-cancel-instructor-2"
+            >
+              <i
+                aria-hidden="true"
+                class="fa fa-times"
+              />
+               Cancel 
+            </button>
+          </div>
+        </div>
+        <div
+          class="card-body text-center fill-plain"
+        >
+          <div
+            class="row form-group"
+          >
+            <label
+              class="col-sm-2 control-label"
+              for="name-instructor-2"
+            >
+               Name: 
+            </label>
+            <div
+              class="col-sm-9"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="name-instructor-2"
+                maxlength="100"
+              />
+            </div>
+          </div>
+          <div
+            class="row form-group"
+          >
+            <label
+              class="col-sm-2 control-label"
+              for="email-instructor-2"
+            >
+               Email: 
+            </label>
+            <div
+              class="col-sm-9"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="email-instructor-2"
+                maxlength="254"
+              />
+            </div>
+          </div>
+          <div
+            class="row form-group"
+          >
+            <label
+              class="col-sm-2 control-label"
+              for="displayed-name-instructor-2"
+            >
+              <input
+                aria-label="Enable display name"
+                checked=""
+                class="ng-untouched ng-pristine ng-valid"
+                id="checkbox-display-instructor-2"
+                type="checkbox"
+              />
+              <span
+                class="ngb-tooltip-class"
+                ngbtooltip="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course"
+              >
+                Display to students as:
+              </span>
+            </label>
+            <div
+              class="col-sm-9"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="displayed-name-instructor-2"
+                placeholder="E.g. Co-lecturer, Teaching Assistant (default: Instructor)"
+                type="text"
+                value="Instructor"
+              />
+            </div>
+          </div>
+          <div
+            class="row form-group align-items-start text-start"
+          >
+            <label
+              class="col-sm-2 control-label text-center text-md-end"
+            >
+               Access Level: 
+            </label>
+            <div
+              class="col-sm-9"
+              id="access-levels-instructor-2"
+            >
+              <div
+                class="row"
+              >
+                <label>
+                  <input
+                    id="INSTRUCTOR_PERMISSION_ROLE_COOWNER11"
+                    type="radio"
+                  />
+                   Co-owner: Can do everything. 
+                  <button
+                    class="btn btn-link padding-0"
+                    type="button"
+                  >
+                     View Details 
+                  </button>
+                </label>
+              </div>
+              <div
+                class="row"
+              >
+                <label>
+                  <input
+                    id="INSTRUCTOR_PERMISSION_ROLE_MANAGER11"
+                    type="radio"
+                  />
+                   Manager: Can do everything except for deleting/restoring the course. 
+                  <button
+                    class="btn btn-link padding-0"
+                    type="button"
+                  >
+                     View Details 
+                  </button>
+                </label>
+              </div>
+              <div
+                class="row"
+              >
+                <label>
+                  <input
+                    id="INSTRUCTOR_PERMISSION_ROLE_OBSERVER11"
+                    type="radio"
+                  />
+                   Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything. 
+                  <button
+                    class="btn btn-link padding-0"
+                    type="button"
+                  >
+                     View Details 
+                  </button>
+                </label>
+              </div>
+              <div
+                class="row"
+              >
+                <label>
+                  <input
+                    id="INSTRUCTOR_PERMISSION_ROLE_TUTOR11"
+                    type="radio"
+                  />
+                   Tutor: Can view student details, give/view comments, submit/view responses for sessions. 
+                  <button
+                    class="btn btn-link padding-0"
+                    type="button"
+                  >
+                     View Details 
+                  </button>
+                </label>
+              </div>
+              <div
+                class="row"
+              >
+                <label>
+                  <input
+                    id="INSTRUCTOR_PERMISSION_ROLE_CUSTOM11"
+                    type="radio"
+                  />
+                   Custom: No access by default. Any access needs to be granted explicitly. 
+                </label>
+              </div>
+            </div>
+          </div>
+          <div>
+            <button
+              class="btn btn-success"
+              id="btn-save-instructor-2"
+              type="button"
+            >
+              <span>
+                Add Instructor
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </tm-instructor-edit-panel>
   </div>
 </tm-instructor-course-edit-page>
 `;
