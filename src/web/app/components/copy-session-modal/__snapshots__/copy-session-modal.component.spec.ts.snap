@@ -25,6 +25,7 @@ exports[`CopySessionModalComponent should snap with default fields 1`] = `
       </small>
     </h5>
     <button
+      aria-label="Close"
       class="btn-close"
       type="button"
     />
@@ -115,6 +116,7 @@ exports[`CopySessionModalComponent should snap with some session and courses can
       </small>
     </h5>
     <button
+      aria-label="Close"
       class="btn-close"
       type="button"
     />

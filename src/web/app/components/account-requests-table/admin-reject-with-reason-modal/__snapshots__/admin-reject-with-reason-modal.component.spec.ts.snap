@@ -23,6 +23,7 @@ exports[`RejectWithReasonModal should show empty title and body 1`] = `
       </div>
     </h5>
     <button
+      aria-label="Close"
       class="btn-close"
       type="button"
     />

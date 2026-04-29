@@ -62,17 +62,17 @@ describe('CourseEditFormComponent', () => {
     creationTimestamp: 0,
     deletionTimestamp: 1000,
   };
-  const errorMssg = 'Error occured';
+  const errorMsg = 'Error occured';
 
   const customError: ErrorMessageOutput = {
     error: {
-      message: errorMssg,
+      message: errorMsg,
     },
     status: 0,
   };
 
   const spyStatusMessageService = createSpyFromClass(StatusMessageService);
-  spyStatusMessageService.showErrorToast.mockReturnValue(errorMssg);
+  spyStatusMessageService.showErrorToast.mockReturnValue(errorMsg);
 
   const timezoneServiceStub = createSpyFromClass(TimezoneService);
   timezoneServiceStub.getTzOffsets.mockReturnValue(timeZoneOffsets1);
@@ -215,7 +215,7 @@ describe('CourseEditFormComponent', () => {
     expect(mockModalRef.componentInstance.courseToFeedbackSession[testCourse1.courseId]).toEqual([testFeedbackSession]);
   });
 
-  it('should handle errors in copyCourseHandler when promise is rejected', () => {
+  it('should handle errors in copyCourseHandler when promise is rejected', async () => {
     component.formModel = DEFAULT_COURSE_ADD_FORM_MODEL();
     component.formMode = CourseEditFormMode.ADD;
     fixture.detectChanges();
@@ -230,7 +230,7 @@ describe('CourseEditFormComponent', () => {
 
     component.copyCourseHandler();
 
-    expect(spyStatusMessageService.showErrorToast).toHaveBeenCalledWith(errorMssg);
+    expect(await spyStatusMessageService.showErrorToast).toHaveBeenCalledWith(errorMsg);
   });
 
   it('should handle errors in copyCourseHandler when observable throws an error', () => {
@@ -250,7 +250,7 @@ describe('CourseEditFormComponent', () => {
 
     component.copyCourseHandler();
 
-    expect(spyStatusMessageService.showErrorToast).toHaveBeenCalledWith(errorMssg);
+    expect(spyStatusMessageService.showErrorToast).toHaveBeenCalledWith(errorMsg);
   });
 
   it('should set isEditing to true when editModel exists', () => {

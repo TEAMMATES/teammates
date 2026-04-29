@@ -36,6 +36,7 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
       </div>
     </h5>
     <button
+      aria-label="Close"
       class="btn-close"
       type="button"
     />
@@ -255,6 +256,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
       </small>
     </h5>
     <button
+      aria-label="Close"
       class="btn-close"
       type="button"
     />
@@ -458,6 +460,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
       </small>
     </h5>
     <button
+      aria-label="Close"
       class="btn-close"
       type="button"
     />
