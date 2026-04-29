@@ -24,15 +24,15 @@ describe('NumScaleQuestionStatisticsComponent', () => {
     component.question.maxScale = 5;
     component.question.minScale = 0;
 
-    const expectedMin: number = 1;
-    const expectedMax: number = 5;
-    const expectedAverage: number = 2.67;
-    const expectedAverageExcludingSelf: number = 2.67;
+    const expectedMin = 1;
+    const expectedMax = 5;
+    const expectedAverage = 2.67;
+    const expectedAverageExcludingSelf = 2.67;
 
     component.calculateStatistics();
 
-    const team: string = 'Instructors';
-    const recipient: string = 'Instructor';
+    const team = 'Instructors';
+    const recipient = 'Instructor';
     expect(component.teamToRecipientToScores[team][recipient].min).toEqual(expectedMin);
     expect(component.teamToRecipientToScores[team][recipient].max).toEqual(expectedMax);
     expect(component.teamToRecipientToScores[team][recipient].average).toEqual(expectedAverage);
@@ -45,15 +45,15 @@ describe('NumScaleQuestionStatisticsComponent', () => {
     component.question.maxScale = 5;
     component.question.minScale = 0;
 
-    const expectedMin: number = 0;
-    const expectedMax: number = 0;
-    const expectedAverage: number = 0;
-    const expectedAverageExcludingSelf: number = 0;
+    const expectedMin = 0;
+    const expectedMax = 0;
+    const expectedAverage = 0;
+    const expectedAverageExcludingSelf = 0;
 
     component.calculateStatistics();
 
-    const team: string = 'Instructors';
-    const recipient: string = 'Instructor';
+    const team = 'Instructors';
+    const recipient = 'Instructor';
     expect(component.teamToRecipientToScores[team][recipient].min).toEqual(expectedMin);
     expect(component.teamToRecipientToScores[team][recipient].max).toEqual(expectedMax);
     expect(component.teamToRecipientToScores[team][recipient].average).toEqual(expectedAverage);
@@ -66,15 +66,15 @@ describe('NumScaleQuestionStatisticsComponent', () => {
     component.question.maxScale = 5;
     component.question.minScale = 0;
 
-    const expectedMin: number = 2;
-    const expectedMax: number = 5;
-    const expectedAverage: number = 3.5;
-    const expectedAverageExcludingSelf: number = 3;
+    const expectedMin = 2;
+    const expectedMax = 5;
+    const expectedAverage = 3.5;
+    const expectedAverageExcludingSelf = 3;
 
     component.calculateStatistics();
 
-    const team: string = 'Instructors';
-    const recipient: string = 'Instructor';
+    const team = 'Instructors';
+    const recipient = 'Instructor';
     expect(component.teamToRecipientToScores[team][recipient].min).toEqual(expectedMin);
     expect(component.teamToRecipientToScores[team][recipient].max).toEqual(expectedMax);
     expect(component.teamToRecipientToScores[team][recipient].average).toEqual(expectedAverage);

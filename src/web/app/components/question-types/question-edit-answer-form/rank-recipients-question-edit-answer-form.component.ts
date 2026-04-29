@@ -26,7 +26,7 @@ export class RankRecipientsQuestionEditAnswerFormComponent
   readonly RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED: number = RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED;
 
   @Input()
-  numOfRecipients: number = 0;
+  numOfRecipients = 0;
 
   constructor() {
     super(DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS(), DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS());
@@ -37,7 +37,7 @@ export class RankRecipientsQuestionEditAnswerFormComponent
    */
   get ranksToBeAssigned(): number[] {
     const ranks: number[] = [];
-    for (let i: number = 1; i <= this.numOfRecipients; i += 1) {
+    for (let i = 1; i <= this.numOfRecipients; i += 1) {
       ranks.push(i);
     }
     return ranks;

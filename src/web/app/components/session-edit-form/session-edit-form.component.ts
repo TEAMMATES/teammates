@@ -117,7 +117,7 @@ export class SessionEditFormComponent {
   templateSessions: TemplateSession[] = [];
 
   @Input()
-  isCopyOtherSessionLoading: boolean = false;
+  isCopyOtherSessionLoading = false;
 
   // event emission
   @Output()

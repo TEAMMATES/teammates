@@ -31,7 +31,7 @@ export class ConstsumOptionsQuestionStatisticsCalculation
     }
     for (const response of this.responses) {
       const answers: number[] = response.responseDetails.answers;
-      for (let i: number = 0; i < options.length; i += 1) {
+      for (let i = 0; i < options.length; i += 1) {
         const option: string = options[i];
         const answer: number = answers[i];
         this.pointsPerOption[option].push(answer);

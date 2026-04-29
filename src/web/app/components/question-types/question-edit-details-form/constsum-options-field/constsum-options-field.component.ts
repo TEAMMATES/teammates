@@ -13,10 +13,10 @@ import { FormsModule } from '@angular/forms';
 export class ConstsumOptionsFieldComponent {
 
   @Input()
-  isEditable: boolean = false;
+  isEditable = false;
 
   @Input()
-  text: string = '';
+  text = '';
 
   @Output()
   elementDeleted: EventEmitter<any> = new EventEmitter();

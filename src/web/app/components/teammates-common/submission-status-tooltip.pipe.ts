@@ -14,7 +14,7 @@ export class SubmissionStatusTooltipPipe implements PipeTransform {
   transform(status: FeedbackSessionSubmissionStatus, deadlines?: {
     studentDeadlines: Record<string, number>, instructorDeadlines: Record<string, number>,
   }): string {
-    let msg: string = 'The feedback session';
+    let msg = 'The feedback session';
 
     switch (status) {
       case FeedbackSessionSubmissionStatus.NOT_VISIBLE:

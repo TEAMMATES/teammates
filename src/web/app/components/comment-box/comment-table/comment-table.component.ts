@@ -37,7 +37,7 @@ export class CommentTableComponent {
   questionShowResponsesTo: FeedbackVisibilityType[] = [];
 
   @Input()
-  displayAddCommentButton: boolean = false;
+  displayAddCommentButton = false;
 
   @Input()
   model: CommentTableModel = {
@@ -56,7 +56,7 @@ export class CommentTableComponent {
   };
 
   @Input()
-  shouldHideClosingButtonForNewComment: boolean = false;
+  shouldHideClosingButtonForNewComment = false;
 
   @Output()
   modelChange: EventEmitter<CommentTableModel> = new EventEmitter();

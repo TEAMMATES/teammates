@@ -70,7 +70,7 @@ describe('TimezoneService', () => {
     // For this test case the date used will be March 8, 2020 in US/Central timezone,
     // where clock sprang forward from 1.59AM to 3.00AM.
 
-    const baseEpochTime: number = 1583650800000;
+    const baseEpochTime = 1583650800000;
 
     let usTime: number = service.resolveLocalDateTime(
         { year: 2020, month: 3, day: 8 },
@@ -118,7 +118,7 @@ describe('TimezoneService', () => {
     // For this test case the date used will be November 1, 2020 in US/Central timezone,
     // where clock sprang backward from 1.59AM to 1.00AM.
 
-    const baseEpochTime: number = 1604206800000;
+    const baseEpochTime = 1604206800000;
 
     let usTime: number = service.resolveLocalDateTime(
         { year: 2020, month: 11, day: 1 },

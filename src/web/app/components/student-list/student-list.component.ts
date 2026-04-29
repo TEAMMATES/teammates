@@ -37,19 +37,19 @@ export interface StudentListRowModel {
     providers: [SearchTermsHighlighterPipe],
 })
 export class StudentListComponent implements OnInit {
-  @Input() courseId: string = '';
-  @Input() useGrayHeading: boolean = true;
+  @Input() courseId = '';
+  @Input() useGrayHeading = true;
   @Input() listOfStudentsToHide: string[] = [];
-  @Input() isHideTableHead: boolean = false;
-  @Input() enableRemindButton: boolean = false;
-  @Input() isActionButtonsEnabled: boolean = true;
+  @Input() isHideTableHead = false;
+  @Input() enableRemindButton = false;
+  @Input() isActionButtonsEnabled = true;
   @Input() students: StudentListRowModel[] = [];
   @Input() tableSortBy: SortBy = SortBy.NONE;
   @Input() tableSortOrder: SortOrder = SortOrder.ASC;
-  @Input() searchString: string = '';
-  @Input() isPartialMatchHighlightingEnabled: boolean = false;
+  @Input() searchString = '';
+  @Input() isPartialMatchHighlightingEnabled = false;
   @Input() headerColorScheme: SortableTableHeaderColorScheme = SortableTableHeaderColorScheme.OTHERS;
-  @Input() customHeaderStyle: string = 'bg-light';
+  @Input() customHeaderStyle = 'bg-light';
 
   @Input() set studentModels(studentRowModels: StudentListRowModel[]) {
     this.students = studentRowModels;
@@ -201,7 +201,7 @@ export class StudentListComponent implements OnInit {
    * Open the student email reminder modal.
    */
   openRemindModal(studentModel: StudentListRowModel): void {
-    const modalContent: string = `Usually, there is no need to use this feature because
+    const modalContent = `Usually, there is no need to use this feature because
           TEAMMATES sends an automatic invite to students at the opening time of each session.
           Send a join request to <strong>${studentModel.student.email}</strong> anyway?`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(

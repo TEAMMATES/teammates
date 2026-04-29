@@ -67,7 +67,7 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
   };
 
   @Input()
-  isFeedbackParticipantComment: boolean = false;
+  isFeedbackParticipantComment = false;
 
   @Input()
   response?: ResponseOutput;
@@ -78,16 +78,16 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
   @Output() modelChange: EventEmitter<CommentEditFormModel> = new EventEmitter<CommentEditFormModel>();
 
   @Input()
-  isDisabled: boolean = false;
+  isDisabled = false;
 
   @Input()
-  shouldHideSavingButton: boolean = false;
+  shouldHideSavingButton = false;
 
   @Input()
-  shouldHideClosingButton: boolean = false;
+  shouldHideClosingButton = false;
 
   @Input()
-  isVisibilityOptionEnabled: boolean = true;
+  isVisibilityOptionEnabled = true;
 
   @Output()
   closeCommentBoxEvent: EventEmitter<void> = new EventEmitter();
@@ -95,7 +95,7 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
   @Output()
   saveCommentEvent: EventEmitter<void> = new EventEmitter();
 
-  isVisibilityTableExpanded: boolean = false;
+  isVisibilityTableExpanded = false;
   visibilityStateMachine: CommentVisibilityStateMachine;
 
   constructor(private commentService: FeedbackResponseCommentService) {

@@ -16,12 +16,12 @@ import { NO_VALUE } from '../feedback-response-details';
 export class FeedbackRubricQuestionDetailsImpl extends AbstractFeedbackQuestionDetails
     implements FeedbackRubricQuestionDetails {
 
-  hasAssignedWeights: boolean = false;
+  hasAssignedWeights = false;
   rubricChoices: string[] = [];
   rubricSubQuestions: string[] = [];
   rubricWeightsForEachCell: number[][] = [];
   rubricDescriptions: string[][] = [];
-  questionText: string = '';
+  questionText = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.RUBRIC;
 
   constructor(apiOutput: FeedbackRubricQuestionDetails) {

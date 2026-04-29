@@ -101,7 +101,7 @@ interface FeedbackSessionLogModel {
 export class InstructorStudentActivityLogsComponent implements OnInit {
   readonly castAsInputElement = castAsInputElement;
 
-  LOGS_DATE_TIME_FORMAT: string = 'ddd, DD MMM YYYY hh:mm:ss A';
+  LOGS_DATE_TIME_FORMAT = 'ddd, DD MMM YYYY hh:mm:ss A';
   STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD: number = ApiConst.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD;
   LOG_TYPES: LogType[] = [
     { label: 'Session Access', value: FeedbackSessionLogType.ACCESS },
@@ -137,8 +137,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   students: Student[] = [];
   feedbackSessions: Map<string, FeedbackSession> = new Map();
   searchResults: FeedbackSessionLogModel[] = [];
-  isLoading: boolean = true;
-  isSearching: boolean = false;
+  isLoading = true;
+  isSearching = false;
 
   constructor(private route: ActivatedRoute,
               private courseService: CourseService,
@@ -349,7 +349,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
           })
           .flatMap((student: Student) => {
             let status: string;
-            let dataStyle: string = 'font-family:monospace; white-space:pre;';
+            let dataStyle = 'font-family:monospace; white-space:pre;';
             const studentKey = this.getStudentKey(log, student.email);
 
             const entries: FeedbackSessionLogEntry[] | undefined = this.studentLogsMap.get(studentKey);

@@ -33,7 +33,7 @@ export class RankOptionsQuestionEditAnswerFormComponent
    */
   get ranksToBeAssigned(): number[] {
     const ranks: number[] = [];
-    for (let i: number = 1; i <= this.questionDetails.options.length; i += 1) {
+    for (let i = 1; i <= this.questionDetails.options.length; i += 1) {
       ranks.push(i);
     }
     return ranks;

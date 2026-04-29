@@ -73,10 +73,10 @@ export class QuestionResponsePanelComponent {
   intent: Intent = Intent.STUDENT_RESULT;
 
   @Input()
-  regKey: string = '';
+  regKey = '';
 
   @Input()
-  previewAsPerson: string = '';
+  previewAsPerson = '';
 
   canUserSeeResponses(question: FeedbackQuestionModel): boolean {
     const showResponsesTo: FeedbackVisibilityType[] = question.feedbackQuestion.showResponsesTo;

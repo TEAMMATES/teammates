@@ -52,10 +52,10 @@ export class SingleStatisticsComponent implements OnInit, OnChanges {
     questionText: '',
   };
   @Input() recipientType: FeedbackParticipantType = FeedbackParticipantType.NONE;
-  @Input() isStudent: boolean = false;
-  @Input() statistics: string = '';
-  @Input() displayContributionStats: boolean = true;
-  @Input() section: string = '';
+  @Input() isStudent = false;
+  @Input() statistics = '';
+  @Input() displayContributionStats = true;
+  @Input() section = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
 
   responsesToUse: ResponseOutput[] = [];

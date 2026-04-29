@@ -46,12 +46,12 @@ interface QuestionTab {
 export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
 
   @Input() responses: QuestionOutput[] = [];
-  @Input() sectionOfView: string = '';
-  @Input() section: string = '';
+  @Input() sectionOfView = '';
+  @Input() section = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
-  @Input() groupByTeam: boolean = true;
-  @Input() showStatistics: boolean = true;
-  @Input() indicateMissingResponses: boolean = true;
+  @Input() groupByTeam = true;
+  @Input() showStatistics = true;
+  @Input() indicateMissingResponses = true;
   @Input() session: FeedbackSession = {
     feedbackSessionId: '',
     courseId: '',
@@ -70,7 +70,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
     createdAtTimestamp: 0,
   };
 
-  @Input() isGqr: boolean = true;
+  @Input() isGqr = true;
 
   teamsToUsers: Record<string, string[]> = {};
   userToEmail: Record<string, string> = {};

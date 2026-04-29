@@ -144,7 +144,7 @@ export class QuestionEditFormComponent {
   }
 
   @Input()
-  numOfQuestions: number = 0;
+  numOfQuestions = 0;
 
   @Input()
   formMode: QuestionEditFormMode = QuestionEditFormMode.EDIT;
@@ -152,10 +152,10 @@ export class QuestionEditFormComponent {
   // if true, the question edit form is used for displaying of the question edit form only
   // no editing function will be available; the edit button will be hidden
   @Input()
-  isDisplayOnly: boolean = false;
+  isDisplayOnly = false;
 
   @Input()
-  isQuestionPublished: boolean = false;
+  isQuestionPublished = false;
 
   model: QuestionEditFormModel = {
     feedbackQuestionId: '',
@@ -277,7 +277,7 @@ export class QuestionEditFormComponent {
    */
   range(num: number): number[] {
     const ranges: number[] = [];
-    for (let i: number = 0; i < num; i += 1) {
+    for (let i = 0; i < num; i += 1) {
       ranges.push(i);
     }
     return ranges;
@@ -323,7 +323,7 @@ export class QuestionEditFormComponent {
         this.saveExistingQuestionEvent.emit();
       } else if (this.model.isFeedbackPathChanged) {
         // warn user that editing feedback path will delete all messages
-        const modalContent: string = `
+        const modalContent = `
             <p>You seem to have changed the feedback path settings of this question. Please note that changing the
             feedback path will cause <b>all existing responses to be deleted.</b> Proceed?</p>
         `;
@@ -334,7 +334,7 @@ export class QuestionEditFormComponent {
         }, () => {});
       } else if (this.model.isQuestionDetailsChanged) {
         // alert user that editing question may result in deletion of responses
-        const modalContent: string = `
+        const modalContent = `
             <p>Editing question settings in a way that potentially affects the validity of existing responses <b> may
             cause all the existing responses for this question to be deleted.</b> Proceed?</p>
         `;
@@ -345,7 +345,7 @@ export class QuestionEditFormComponent {
         }, () => {});
       } else if (this.model.isVisibilityChanged) {
         // alert user that editing visibility options will not delete responses
-        const modalContent: string = `
+        const modalContent = `
             <p>You seem to have changed the visibility settings of this question. Please note that <b>the existing
             responses will remain but their visibility will be changed as per the new visibility settings.</b>
             Proceed?</p>

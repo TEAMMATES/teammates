@@ -57,7 +57,7 @@ export class NumScaleQuestionEditAnswerFormComponent
            ${+(maxAcceptableValue - this.questionDetails.step).toFixed(3)},
            ${+maxAcceptableValue.toFixed(3)}]`;
     }
-    let possibleValuesString: string = `${this.questionDetails.minScale}`;
+    let possibleValuesString = `${this.questionDetails.minScale}`;
     let currentValue: number = this.questionDetails.minScale + this.questionDetails.step;
 
     while (this.questionDetails.maxScale - currentValue >= -1e-9) {

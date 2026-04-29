@@ -39,13 +39,13 @@ export class ResponseModerationButtonComponent {
   };
 
   @Input()
-  relatedGiverEmail: string = '';
+  relatedGiverEmail = '';
 
   @Input()
-  moderatedQuestionId: string = '';
+  moderatedQuestionId = '';
 
   @Input()
-  isGiverInstructor: boolean = false;
+  isGiverInstructor = false;
 
   @Input()
   btnStyle: 'PRIMARY' | 'LIGHT' = 'LIGHT';

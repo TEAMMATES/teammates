@@ -17,13 +17,13 @@ export class EditRequestModalComponent {
   readonly castAsTextAreaElement = castAsTextAreaElement;
 
   @Input()
-  accountRequestName: string = '';
+  accountRequestName = '';
   @Input()
-  accountRequestEmail: string = '';
+  accountRequestEmail = '';
   @Input()
-  accountRequestInstitution: string = '';
+  accountRequestInstitution = '';
   @Input()
-  accountRequestComments: string = '';
+  accountRequestComments = '';
 
   constructor(public activeModal: NgbActiveModal) {}
 

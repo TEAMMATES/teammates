@@ -9,7 +9,7 @@ export abstract class QuestionResponse<R extends FeedbackResponseDetails, Q exte
 
   @Input() responseDetails: R;
   @Input() questionDetails: Q;
-  @Input() isStudentPage: boolean = false;
+  @Input() isStudentPage = false;
 
   protected constructor(responseDetails: R, questionDetails: Q) {
     this.responseDetails = responseDetails;

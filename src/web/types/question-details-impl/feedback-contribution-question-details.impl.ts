@@ -18,9 +18,9 @@ import {
 export class FeedbackContributionQuestionDetailsImpl extends AbstractFeedbackQuestionDetails
     implements FeedbackContributionQuestionDetails {
 
-  isZeroSum: boolean = true;
-  isNotSureAllowed: boolean = false;
-  questionText: string = '';
+  isZeroSum = true;
+  isNotSureAllowed = false;
+  questionText = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.CONTRIB;
 
   constructor(apiOutput: FeedbackContributionQuestionDetails) {

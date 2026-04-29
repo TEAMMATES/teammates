@@ -26,15 +26,15 @@ import { ErrorMessageOutput } from '../../error-message-output';
 export class SessionLinksRecoveryPageComponent implements OnInit {
 
   // ngx-recaptcha2 element properties
-  captchaSuccess: boolean = false;
+  captchaSuccess = false;
   captchaResponse?: string;
   size: 'compact' | 'normal' = 'normal';
-  lang: string = 'en';
-  captchaLoaded: boolean = false;
-  captchaError: boolean = false;
+  lang = 'en';
+  captchaLoaded = false;
+  captchaError = false;
 
   formSessionLinksRecovery!: UntypedFormGroup;
-  isFormSubmitting: boolean = false;
+  isFormSubmitting = false;
   readonly captchaSiteKey: string = environment.captchaSiteKey;
 
   @ViewChild('captchaElem') captchaElem!: ReCaptcha2Component;

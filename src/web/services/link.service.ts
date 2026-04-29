@@ -11,14 +11,14 @@ import { Instructor, Student } from '../types/api-output';
 })
 export class LinkService {
 
-  URI_PREFIX: string = '/web';
-  JOIN_PAGE: string = '/join';
-  STUDENT_HOME_PAGE: string = '/student/home';
-  INSTRUCTOR_HOME_PAGE: string = '/instructor/home';
-  ADMIN_ACCOUNTS_PAGE: string = '/admin/accounts';
-  INSTRUCTOR_STUDENT_PROFILE_PAGE: string = '/instructor/courses/student/details';
-  SESSIONS_SUBMISSION_PAGE: string = '/sessions/submission';
-  SESSIONS_RESULT_PAGE: string = '/sessions/result';
+  URI_PREFIX = '/web';
+  JOIN_PAGE = '/join';
+  STUDENT_HOME_PAGE = '/student/home';
+  INSTRUCTOR_HOME_PAGE = '/instructor/home';
+  ADMIN_ACCOUNTS_PAGE = '/admin/accounts';
+  INSTRUCTOR_STUDENT_PROFILE_PAGE = '/instructor/courses/student/details';
+  SESSIONS_SUBMISSION_PAGE = '/sessions/submission';
+  SESSIONS_RESULT_PAGE = '/sessions/result';
 
   constructor(private navigationService: NavigationService) {}
 

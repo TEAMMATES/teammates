@@ -24,7 +24,7 @@ export class RespondentListInfoTableComponent {
   SortOrder: typeof SortOrder = SortOrder;
 
   @Input()
-  shouldDisplayHasSubmittedSessionColumn: boolean = false;
+  shouldDisplayHasSubmittedSessionColumn = false;
 
   @Input()
   studentListInfoTableRowModels: StudentListInfoTableRowModel[] = [];

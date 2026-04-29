@@ -19,12 +19,12 @@ export class ContributionQuestionInstructionComponent {
   questionDetails: FeedbackContributionQuestionDetails = DEFAULT_CONTRIBUTION_QUESTION_DETAILS();
 
   @Input()
-  numOfRecipients: number = 0;
+  numOfRecipients = 0;
 
   constructor(private simpleModalService: SimpleModalService) {}
 
   openHelpModal(modal: TemplateRef<any>): void {
-    const modalHeader: string = 'More info about the <code>Equal Share</code> scale';
+    const modalHeader = 'More info about the <code>Equal Share</code> scale';
     this.simpleModalService.openInformationModal(modalHeader, SimpleModalType.NEUTRAL, modal);
   }
 }

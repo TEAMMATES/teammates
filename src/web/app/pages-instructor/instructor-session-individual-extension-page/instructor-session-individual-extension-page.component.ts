@@ -72,12 +72,12 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     isPublishedEmailEnabled: false,
   };
 
-  feedbackSessionEndingTimestamp: number = 0;
-  feedbackSessionTimeZone: string = 'UTC';
-  courseId: string = '';
-  courseName: string = '';
-  feedbackSessionName: string = '';
-  feedbackSessionId: string = '';
+  feedbackSessionEndingTimestamp = 0;
+  feedbackSessionTimeZone = 'UTC';
+  courseId = '';
+  courseName = '';
+  feedbackSessionName = '';
+  feedbackSessionId = '';
 
   studentsOfCourse: StudentExtensionTableColumnModel[] = [];
   instructorsOfCourse: InstructorExtensionTableColumnModel[] = [];
@@ -91,19 +91,19 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   sortInstructorsBy: SortBy = SortBy.SESSION_END_DATE;
   sortInstructorOrder: SortOrder = SortOrder.DESC;
 
-  isAllStudentsSelected: boolean = false;
-  isAllInstructorsSelected: boolean = false;
+  isAllStudentsSelected = false;
+  isAllInstructorsSelected = false;
 
-  isAllYetToSubmitStudentsSelected: boolean = false;
-  isAllYetToSubmitInstructorsSelected: boolean = false;
+  isAllYetToSubmitStudentsSelected = false;
+  isAllYetToSubmitInstructorsSelected = false;
 
-  isLoadingAllStudents: boolean = true;
-  hasLoadedAllStudentsFailed: boolean = false;
-  isLoadingAllInstructors: boolean = true;
-  hasLoadedAllInstructorsFailed: boolean = false;
-  isLoadingFeedbackSession: boolean = true;
-  hasLoadingFeedbackSessionFailed: boolean = false;
-  isSubmittingDeadlines: boolean = false;
+  isLoadingAllStudents = true;
+  hasLoadedAllStudentsFailed = false;
+  isLoadingAllInstructors = true;
+  hasLoadedAllInstructorsFailed = false;
+  isLoadingFeedbackSession = true;
+  hasLoadingFeedbackSessionFailed = false;
+  isSubmittingDeadlines = false;
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {

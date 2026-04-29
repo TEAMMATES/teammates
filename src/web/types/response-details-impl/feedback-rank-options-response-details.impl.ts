@@ -21,7 +21,7 @@ export class FeedbackRankOptionsResponseDetailsImpl
 
   getResponseCsvAnswers(correspondingQuestionDetails: FeedbackRankOptionsQuestionDetails): string[][] {
     const answers: string[] = [];
-    for (let rank: number = 1; rank <= correspondingQuestionDetails.options.length; rank += 1) {
+    for (let rank = 1; rank <= correspondingQuestionDetails.options.length; rank += 1) {
       const selectedOptionsForCurrentRank: string[] = this.answers.reduce(
           (selectedOptions: string[], currRank: number, index: number) => {
             if (currRank === rank) {

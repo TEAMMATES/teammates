@@ -29,9 +29,9 @@ export interface SearchStudentsListRowTable {
 export class StudentResultTableComponent {
 
   @Input() studentTables: SearchStudentsListRowTable[] = [];
-  @Input() isActionButtonsEnabled: boolean = true;
-  @Input() isPartialMatchHighlightingEnabled: boolean = false;
-  @Input() searchString: string = '';
+  @Input() isActionButtonsEnabled = true;
+  @Input() isPartialMatchHighlightingEnabled = false;
+  @Input() searchString = '';
 
   @Output() removeStudentFromCourseEvent: EventEmitter<StudentListRowModel> = new EventEmitter<StudentListRowModel>();
 

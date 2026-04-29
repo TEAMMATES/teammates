@@ -9,7 +9,7 @@ export abstract class QuestionEditAnswerFormComponent<
     Q extends FeedbackQuestionDetails, R extends FeedbackResponseDetails> {
 
   @Input()
-  isDisabled: boolean = false;
+  isDisabled = false;
 
   @Input()
   questionDetails: Q;
@@ -18,7 +18,7 @@ export abstract class QuestionEditAnswerFormComponent<
   responseDetails: R;
 
   @Input()
-  recipient: string = '';
+  recipient = '';
 
   @Output()
   responseDetailsChange: EventEmitter<FeedbackResponseDetails> = new EventEmitter();

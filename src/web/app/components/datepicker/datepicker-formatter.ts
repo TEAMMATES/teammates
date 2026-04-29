@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 
-const DATE_FORMAT: string = 'ddd, DD MMM, YYYY';
+const DATE_FORMAT = 'ddd, DD MMM, YYYY';
 
 /**
  * Date formatter for date picker

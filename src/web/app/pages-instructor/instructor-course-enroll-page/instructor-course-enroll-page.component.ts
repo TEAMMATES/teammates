@@ -60,13 +60,13 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   private readonly pageScrollService = inject(PageScrollService);
   private readonly document = inject(DOCUMENT);
 
-  GENERAL_ERROR_MESSAGE: string = `You may check that: "Section" and "Comment" are optional while "Team", "Name",
+  GENERAL_ERROR_MESSAGE = `You may check that: "Section" and "Comment" are optional while "Team", "Name",
         and "Email" must be filled. "Section", "Team", "Name", and "Comment" should start with an
         alphabetical character, unless wrapped by curly brackets "{}", and should not contain vertical bar "|" and
         percentage sign "%". "Email" should contain some text followed by one "@" sign followed by some
         more text. "Team" should not have the same format as email to avoid mis-interpretation.`;
-  SECTION_ERROR_MESSAGE: string = 'Section cannot be empty if the total number of students is more than 100. ';
-  TEAM_ERROR_MESSAGE: string = 'Duplicated team detected in different sections. ';
+  SECTION_ERROR_MESSAGE = 'Section cannot be empty if the total number of students is more than 100. ';
+  TEAM_ERROR_MESSAGE = 'Duplicated team detected in different sections. ';
 
   COL_HEADERS = ['Section', 'Team', 'Name', 'Email', 'Comments'];
   ENROLL_BATCH_SIZE = 50;
@@ -75,25 +75,25 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   // enum
   EnrollStatus: typeof EnrollStatus = EnrollStatus;
-  courseId: string = '';
+  courseId = '';
   coursePresent?: boolean;
-  isLoadingCourseEnrollPage: boolean = false;
+  isLoadingCourseEnrollPage = false;
   showEnrollResults?: boolean = false;
-  enrollErrorMessage: string = '';
+  enrollErrorMessage = '';
   statusMessage: StatusMessage[] = [];
   unsuccessfulEnrolls: { [email: string]: string } = {};
 
-  isNewStudentsPanelCollapsed: boolean = false;
-  isExistingStudentsPanelCollapsed: boolean = true;
+  isNewStudentsPanelCollapsed = false;
+  isExistingStudentsPanelCollapsed = true;
 
   enrollResultPanelList?: EnrollResultPanel[];
   existingStudents: Student[] = [];
   existingStudentsData: string[][] = [];
 
-  isExistingStudentsPresent: boolean = true;
-  hasLoadingStudentsFailed: boolean = false;
-  isLoadingExistingStudents: boolean = false;
-  isEnrolling: boolean = false;
+  isExistingStudentsPresent = true;
+  hasLoadingStudentsFailed = false;
+  isLoadingExistingStudents = false;
+  isEnrolling = false;
 
   allStudentChunks: StudentEnrollRequest[][] = [];
   invalidRowsIndex: Set<number> = new Set();
@@ -550,7 +550,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         }
         for (const sessionName of Object.keys(resp.hasResponsesBySession)) {
           if (resp.hasResponsesBySession[sessionName]) {
-            const modalContent: string = `<p><strong>There are existing feedback responses for this course.</strong></p>
+            const modalContent = `<p><strong>There are existing feedback responses for this course.</strong></p>
           Modifying records of enrolled students will result in some existing responses
           from those modified students to be deleted. You may wish to download the data
           before you make the changes.`;

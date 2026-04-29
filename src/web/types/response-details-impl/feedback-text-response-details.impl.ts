@@ -10,7 +10,7 @@ import {
 export class FeedbackTextResponseDetailsImpl extends AbstractFeedbackResponseDetails<FeedbackTextQuestionDetails>
     implements FeedbackTextResponseDetails {
 
-  answer: string = '';
+  answer = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.TEXT;
 
   constructor(apiOutput: FeedbackTextResponseDetails) {

@@ -462,7 +462,7 @@ describe('StudentListComponent', () => {
 
     await promise;
 
-    const expectedModalContent: string = `Usually, there is no need to use this feature because
+    const expectedModalContent = `Usually, there is no need to use this feature because
           TEAMMATES sends an automatic invite to students at the opening time of each session.
           Send a join request to <strong>${studentModel.student.email}</strong> anyway?`;
     expect(modalSpy).toHaveBeenCalledTimes(1);

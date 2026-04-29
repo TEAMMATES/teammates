@@ -90,7 +90,7 @@ describe('NotificationEditFormComponent', () => {
     component.modelChange.subscribe((data: NotificationEditFormModel) => {
       component.model = data;
     });
-    const testStr: string = 'Hello World';
+    const testStr = 'Hello World';
     component.triggerModelChange('title', testStr);
     component.triggerModelChange('message', testStr);
     component.triggerModelChange('targetUser', NotificationTargetUser.GENERAL);

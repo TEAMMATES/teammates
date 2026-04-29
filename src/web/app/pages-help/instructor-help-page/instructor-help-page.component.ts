@@ -44,13 +44,13 @@ export class InstructorHelpPageComponent implements AfterViewInit {
   // enum
   Sections: typeof Sections = Sections;
   readonly supportEmail: string = environment.supportEmail;
-  instructorGettingStartedPath: string = '';
-  searchTerm: string = '';
-  key: string = '';
-  matchFound: number = 0;
+  instructorGettingStartedPath = '';
+  searchTerm = '';
+  key = '';
+  matchFound = 0;
 
-  questionIdToExpand: string = '';
-  section: string = '';
+  questionIdToExpand = '';
+  section = '';
 
   @ViewChild('studentsHelpSection') studentsHelpSection?: InstructorHelpStudentsSectionComponent;
   @ViewChild('coursesHelpSection') coursesHelpSection?: InstructorHelpCoursesSectionComponent;
@@ -71,7 +71,7 @@ export class InstructorHelpPageComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    let target: string = '';
+    let target = '';
     this.route.queryParams.subscribe((queryParam: Params) => {
       if (queryParam['section']) {
         this.section = queryParam['section'];

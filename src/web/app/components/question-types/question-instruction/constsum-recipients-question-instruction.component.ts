@@ -22,7 +22,7 @@ export class ConstsumRecipientsQuestionInstructionComponent {
   questionDetails: FeedbackConstantSumQuestionDetails = DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS();
 
   @Input()
-  numOfRecipients: number = 0;
+  numOfRecipients = 0;
 
   // enum
   FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =

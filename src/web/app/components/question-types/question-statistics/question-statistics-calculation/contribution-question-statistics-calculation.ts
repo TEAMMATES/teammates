@@ -19,7 +19,7 @@ interface ContributionStatisticsEntryExt extends ContributionStatisticsEntry {
 export class ContributionQuestionStatisticsCalculation
     extends QuestionStatistics<FeedbackContributionQuestionDetails, FeedbackContributionResponseDetails> {
 
-  @Input() statistics: string = '';
+  @Input() statistics = '';
 
   emailToTeamName: Record<string, string> = {};
   emailToName: Record<string, string> = {};

@@ -25,8 +25,8 @@ import { SimpleModalType } from '../../simple-modal/simple-modal-type';
 export class RubricQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackRubricQuestionDetails> {
 
-  rowToHighlight: number = -1;
-  columnToHighlight: number = -1;
+  rowToHighlight = -1;
+  columnToHighlight = -1;
 
   constructor(private simpleModalService: SimpleModalService) {
     super(DEFAULT_RUBRIC_QUESTION_DETAILS());

@@ -24,8 +24,8 @@ export class CopyFromOtherSessionsModalComponent {
   @Input()
   existingFeedbackSession: FeedbackSession[] = [];
 
-  copyToCourseId: string = '';
-  newFeedbackSessionName: string = '';
+  copyToCourseId = '';
+  newFeedbackSessionName = '';
   copyFromFeedbackSession: FeedbackSession | undefined;
 
   constructor(public activeModal: NgbActiveModal) {}

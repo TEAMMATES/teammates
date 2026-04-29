@@ -31,11 +31,11 @@ export class McqQuestionEditAnswerFormComponent
    * <p>This is to ensure that only one MCQ option can be selected.
    */
   @Input()
-  id: string = '';
+  id = '';
 
   @ViewChild('inputTextBoxOther') inputTextBoxOther?: ElementRef;
 
-  valueSelected: string = '';
+  valueSelected = '';
 
   isMcqOptionSelected: boolean[] = [];
 

@@ -51,8 +51,8 @@ import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter
 })
 export class AdminSearchPageComponent {
 
-  searchQuery: string = '';
-  searchString: string = '';
+  searchQuery = '';
+  searchString = '';
   instructors: InstructorAccountSearchResult[] = [];
   students: StudentAccountSearchResult[] = [];
   accountRequests: AccountRequestTableRowModel[] = [];
@@ -83,9 +83,9 @@ export class AdminSearchPageComponent {
       this.loadingBarService.hideLoadingBar();
     })).subscribe({
       next: (resp: AdminSearchResult) => {
-        const hasStudents: boolean = !!(resp.students?.length);
-        const hasInstructors: boolean = !!(resp.instructors?.length);
-        const hasAccountRequests: boolean = !!(resp.accountRequests?.length);
+        const hasStudents = !!(resp.students?.length);
+        const hasInstructors = !!(resp.instructors?.length);
+        const hasAccountRequests = !!(resp.accountRequests?.length);
 
         if (!hasStudents && !hasInstructors && !hasAccountRequests) {
           this.statusMessageService.showWarningToast('No results found.');
@@ -194,7 +194,7 @@ export class AdminSearchPageComponent {
       event.stopPropagation();
     }
 
-    const modalContent: string = `Are you sure you want to reset the Google account ID currently associated for
+    const modalContent = `Are you sure you want to reset the Google account ID currently associated for
         <strong>${instructor.name}</strong> in the course <strong>${instructor.courseId}</strong>?
         The user will need to re-associate their account with a new Google ID.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
@@ -221,7 +221,7 @@ export class AdminSearchPageComponent {
       event.preventDefault();
       event.stopPropagation();
     }
-    const modalContent: string = `Are you sure you want to reset the Google account ID currently associated for
+    const modalContent = `Are you sure you want to reset the Google account ID currently associated for
         <strong>${student.name}</strong> in the course <strong>${student.courseId}</strong>?
         The user will need to re-associate their account with a new Google ID.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
@@ -245,7 +245,7 @@ export class AdminSearchPageComponent {
    */
   regenerateStudentKey(student: StudentAccountSearchResult, index: number): void {
     this.isRegeneratingStudentKeys[index] = true;
-    const modalContent: string = `Are you sure you want to regenerate the registration key for
+    const modalContent = `Are you sure you want to regenerate the registration key for
         <strong>${student.name}</strong> for the course <strong>${student.courseId}</strong>?
         An email will be sent to the student with all the new course registration and feedback session links.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
@@ -276,7 +276,7 @@ export class AdminSearchPageComponent {
    */
   regenerateInstructorKey(instructor: InstructorAccountSearchResult, index: number): void {
     this.isRegeneratingInstructorKeys[index] = true;
-    const modalContent: string = `Are you sure you want to regenerate the registration key for
+    const modalContent = `Are you sure you want to regenerate the registration key for
         <strong>${instructor.name}</strong> for the course <strong>${instructor.courseId}</strong>?
         An email will be sent to the instructor with all the new course registration and feedback session links.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
@@ -340,8 +340,8 @@ export class AdminSearchPageComponent {
    * Returns the URL after replacing the value of the `key` parameter with that of the new key.
    */
   private getUpdatedUrl(link: string, newVal: string): string {
-    const param: string = 'key';
-    const regex: RegExp = new RegExp(`(${param}=)[^&]+`);
+    const param = 'key';
+    const regex = new RegExp(`(${param}=)[^&]+`);
 
     return link.replace(regex, `$1${newVal}`);
   }

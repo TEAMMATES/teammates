@@ -29,7 +29,7 @@ export class ConstsumQuestionResponseComponent
   }
 
   ngOnInit(): void {
-    for (let i: number = 0; i < this.questionDetails.constSumOptions.length; i += 1) {
+    for (let i = 0; i < this.questionDetails.constSumOptions.length; i += 1) {
       this.optionToAnswer[this.questionDetails.constSumOptions[i]] = this.responseDetails.answers[i];
     }
   }

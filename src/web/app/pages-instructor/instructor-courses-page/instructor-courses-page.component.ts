@@ -106,18 +106,18 @@ export class InstructorCoursesPageComponent implements OnInit {
   SortOrder: typeof SortOrder = SortOrder;
   CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
 
-  isLoadingActiveCourses: boolean = false;
-  isLoadingSoftDeletedCourses: boolean = false;
-  hasLoadingFailed: boolean = false;
-  isRecycleBinExpanded: boolean = false;
-  canDeleteAll: boolean = true;
-  canRestoreAll: boolean = true;
-  isAddNewCourseFormExpanded: boolean = false;
-  isCopyingCourse: boolean = false;
+  isLoadingActiveCourses = false;
+  isLoadingSoftDeletedCourses = false;
+  hasLoadingFailed = false;
+  isRecycleBinExpanded = false;
+  canDeleteAll = true;
+  canRestoreAll = true;
+  isAddNewCourseFormExpanded = false;
+  isCopyingCourse = false;
 
-  copyProgressPercentage: number = 0;
-  totalNumberOfSessionsToCopy: number = 0;
-  numberOfSessionsCopied: number = 0;
+  copyProgressPercentage = 0;
+  totalNumberOfSessionsToCopy = 0;
+  numberOfSessionsCopied = 0;
 
   modifiedSessions: Record<string, TweakedTimestampData> = {};
 
@@ -170,13 +170,13 @@ export class InstructorCoursesPageComponent implements OnInit {
         resp.courses.forEach((course: Course) => {
           this.allCoursesList.push(course);
           this.activeCoursesList.push(course);
-          let canModifyCourse: boolean = false;
-          let canModifyStudent: boolean = false;
+          let canModifyCourse = false;
+          let canModifyStudent = false;
           if (course.privileges) {
             canModifyCourse = course.privileges.canModifyCourse;
             canModifyStudent = course.privileges.canModifyStudent;
           }
-          const isLoadingCourseStats: boolean = false;
+          const isLoadingCourseStats = false;
           const activeCourse: CourseModel = {
             course, canModifyCourse, canModifyStudent, isLoadingCourseStats,
           };
@@ -196,13 +196,13 @@ export class InstructorCoursesPageComponent implements OnInit {
       next: (resp: Courses) => {
         for (const course of resp.courses) {
           this.allCoursesList.push(course);
-          let canModifyCourse: boolean = false;
-          let canModifyStudent: boolean = false;
+          let canModifyCourse = false;
+          let canModifyStudent = false;
           if (course.privileges) {
             canModifyCourse = course.privileges.canModifyCourse;
             canModifyStudent = course.privileges.canModifyStudent;
           }
-          const isLoadingCourseStats: boolean = false;
+          const isLoadingCourseStats = false;
           const softDeletedCourse: CourseModel = {
             course, canModifyCourse, canModifyStudent, isLoadingCourseStats,
           };
@@ -399,13 +399,13 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Gets a CourseModel from courseID
    */
   private getCourseModelFromCourse(course: Course): CourseModel {
-    let canModifyCourse: boolean = false;
-    let canModifyStudent: boolean = false;
+    let canModifyCourse = false;
+    let canModifyStudent = false;
     if (course.privileges) {
       canModifyCourse = course.privileges.canModifyCourse;
       canModifyStudent = course.privileges.canModifyStudent;
     }
-    const isLoadingCourseStats: boolean = false;
+    const isLoadingCourseStats = false;
     return { course, canModifyCourse, canModifyStudent, isLoadingCourseStats };
   }
 
@@ -614,7 +614,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     const numCoursesFromSameInstitute: number = this.allCoursesList.filter(
       (course: Course) => course.institute === institute).length;
 
-    const modalContent: string = `<strong>Are you sure you want to permanently delete ${courseId}?</strong><br>
+    const modalContent = `<strong>Are you sure you want to permanently delete ${courseId}?</strong><br>
       This operation will delete all students and sessions in these courses.
       All instructors of these courses will not be able to access them hereafter as well.`;
 
@@ -677,7 +677,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Permanently deletes all soft-deleted courses in Recycle Bin.
    */
   onDeleteAll(): void {
-    const modalContent: string =
+    const modalContent =
         `<strong>Are you sure you want to permanently delete all the courses in the Recycle Bin?</strong><br>
         This operation will delete all students and sessions in these courses.
         All instructors of these courses will not be able to access them hereafter as well.`;
@@ -689,7 +689,7 @@ export class InstructorCoursesPageComponent implements OnInit {
 
     modalRef.result.then(() => {
       if (lastCourseRemaining) {
-        const modalContentCnf: string =
+        const modalContentCnf =
           `These are your last courses registered on TEAMMATES for which you have instructor access. 
           Deleting these courses will <mark><strong>remove your instructor access</strong></mark> to TEAMMATES.<br>
           Are you sure you want to permanently delete these courses?`;

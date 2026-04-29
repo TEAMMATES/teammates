@@ -105,7 +105,7 @@ export abstract class InstructorHelpSectionComponent implements OnInit, OnChange
       const terms: string[] = questionDetail.keywords;
 
       if (searchTermSplit.length) {
-        let hasMatch: boolean = false;
+        let hasMatch = false;
         for (const term of searchTermSplit) {
           if (term.includes(' ') && fullText.includes(term)) {
             hasMatch = true;

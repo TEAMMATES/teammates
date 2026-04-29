@@ -35,7 +35,7 @@ import { TextQuestionAdditionalInfoComponent } from '../question-types/question-
 export class QuestionTextWithInfoComponent {
   readonly QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;
 
-  @Input() questionNumber: number = 0;
+  @Input() questionNumber = 0;
   @Input() questionDetails: FeedbackQuestionDetails = {
     questionType: FeedbackQuestionType.TEXT,
     questionText: '',
@@ -43,7 +43,7 @@ export class QuestionTextWithInfoComponent {
 
   @Output() downloadQuestionResultEvent: EventEmitter<any> = new EventEmitter();
 
-  additionalInfoIsExpanded: boolean = false;
+  additionalInfoIsExpanded = false;
 
   /**
    * Returns true if the question has additional info.

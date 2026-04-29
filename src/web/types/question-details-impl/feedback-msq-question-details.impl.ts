@@ -16,14 +16,14 @@ export class FeedbackMsqQuestionDetailsImpl extends AbstractFeedbackMcqMsqQuesti
     implements FeedbackMsqQuestionDetails {
 
   msqChoices: string[] = [];
-  otherEnabled: boolean = false;
+  otherEnabled = false;
   generateOptionsFor: FeedbackParticipantType = FeedbackParticipantType.NONE;
   maxSelectableChoices: number = NO_VALUE;
   minSelectableChoices: number = NO_VALUE;
-  hasAssignedWeights: boolean = false;
+  hasAssignedWeights = false;
   msqWeights: number[] = [];
-  msqOtherWeight: number = 0;
-  questionText: string = '';
+  msqOtherWeight = 0;
+  questionText = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.MSQ;
 
   constructor(apiOutput: FeedbackMsqQuestionDetails) {

@@ -26,11 +26,11 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
 
   student?: Student;
 
-  courseId: string = '';
-  studentEmail: string = '';
+  courseId = '';
+  studentEmail = '';
 
-  isStudentLoading: boolean = false;
-  hasStudentLoadingFailed: boolean = false;
+  isStudentLoading = false;
+  hasStudentLoadingFailed = false;
 
   constructor(private route: ActivatedRoute,
               private statusMessageService: StatusMessageService,

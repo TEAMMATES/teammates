@@ -35,10 +35,10 @@ export class InstructorRequestFormComponent {
 
   // Captcha
   captchaSiteKey: string = environment.captchaSiteKey;
-  isCaptchaSuccessful: boolean = false;
+  isCaptchaSuccessful = false;
   captchaResponse?: string;
   size: 'compact' | 'normal' = 'normal';
-  lang: string = 'en';
+  lang = 'en';
 
   arf = new FormGroup({
     name: new FormControl('', [

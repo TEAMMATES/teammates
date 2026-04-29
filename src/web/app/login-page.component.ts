@@ -29,10 +29,10 @@ import { LoadingSpinnerDirective } from './components/loading-spinner/loading-sp
 export class LoginPageComponent implements OnInit {
 
   // ngx-recaptcha2 element properties
-  captchaSuccess: boolean = false;
+  captchaSuccess = false;
   captchaResponse?: string;
   size: 'compact' | 'normal' = 'normal';
-  lang: string = 'en';
+  lang = 'en';
 
   formLogin!: FormGroup;
   readonly captchaSiteKey: string = environment.captchaSiteKey;
@@ -40,14 +40,14 @@ export class LoginPageComponent implements OnInit {
 
   private backendUrl: string = environment.backendUrl;
 
-  isLoginPage: boolean = true;
-  isLogInWithEmail: boolean = false;
-  isLoginEmailSent: boolean = false;
-  isTroubleGettingEmail: boolean = false;
+  isLoginPage = true;
+  isLogInWithEmail = false;
+  isLoginEmailSent = false;
+  isTroubleGettingEmail = false;
 
-  isLoggingInWithGoogle: boolean = false;
-  isLoggingInWithEmail: boolean = false;
-  isPageLoading: boolean = false;
+  isLoggingInWithGoogle = false;
+  isLoggingInWithEmail = false;
+  isPageLoading = false;
 
   constructor(private authService: AuthService,
               private formBuilder: FormBuilder,

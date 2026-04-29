@@ -25,7 +25,7 @@ export const CONTRIBUTION_POINT_EQUAL_SHARE: number = ApiConst.CONTRIBUTION_POIN
 /**
  * Special answer of a MSQ question indicating 'None of the above'.
  */
-export const MSQ_ANSWER_NONE_OF_THE_ABOVE: string = '';
+export const MSQ_ANSWER_NONE_OF_THE_ABOVE = '';
 
 /**
  * Special answer of a numerical scale question response to indicate the response is not submitted.
@@ -45,7 +45,7 @@ export const RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED: number = ApiConst.RANK_RECIPI
 /**
  * Special answer of a rubric question response to indicate no choice is chosen.
  */
-export const RUBRIC_ANSWER_NOT_CHOSEN: number = -1;
+export const RUBRIC_ANSWER_NOT_CHOSEN = -1;
 
 /**
  * Special value to indicate whether a value is present or not.

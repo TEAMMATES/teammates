@@ -15,7 +15,7 @@ import { DateFormat, TimeFormat, getDefaultTimeFormat, getDefaultDateFormat } fr
 })
 export class TimepickerComponent {
   @Input()
-  isDisabled: boolean = false;
+  isDisabled = false;
 
   @Input()
   time: TimeFormat = getDefaultTimeFormat();

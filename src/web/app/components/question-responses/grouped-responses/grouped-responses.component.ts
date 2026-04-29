@@ -41,8 +41,8 @@ export class GroupedResponsesComponent extends InstructorResponsesViewBase imple
   @Input() responses: QuestionOutput[] = [];
   @Input() userToEmail: Record<string, string> = {};
 
-  @Input() isLastGroupedResponses: boolean = false;
-  @Input() isGrq: boolean = true;
+  @Input() isLastGroupedResponses = false;
+  @Input() isGrq = true;
   @Input() session: FeedbackSession = {
     feedbackSessionId: '',
     courseId: '',
@@ -61,7 +61,7 @@ export class GroupedResponsesComponent extends InstructorResponsesViewBase imple
     createdAtTimestamp: 0,
   };
 
-  hasRealResponses: boolean = false;
+  hasRealResponses = false;
 
   ngOnInit(): void {
     this.hasRealResponses = this.responses.some((question: QuestionOutput) =>

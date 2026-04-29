@@ -36,7 +36,7 @@ export class InstructorHelpGettingStartedComponent {
   Sections: typeof Sections = Sections;
 
   readonly supportEmail: string = environment.supportEmail;
-  instructorHelpPath: string = '';
+  instructorHelpPath = '';
 
   constructor(private route: ActivatedRoute,
               private pageScrollService: PageScrollService,

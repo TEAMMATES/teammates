@@ -26,7 +26,7 @@ describe('DatepickerFormatter', () => {
     });
 
     it('should parse the valid date string correctly', () => {
-        const date : string = 'Tue, 12 Dec, 2023';
+        const date  = 'Tue, 12 Dec, 2023';
         const parsedDate : NgbDateStruct = formatter.parse(date);
         expect(parsedDate.day).toEqual(12);
         expect(parsedDate.month).toEqual(12);
@@ -34,7 +34,7 @@ describe('DatepickerFormatter', () => {
     });
 
     it('should return NaN for all the fields if invalid date string format is parsed', () => {
-        const date : string = '12th December 2023';
+        const date  = '12th December 2023';
         const parsedDate : NgbDateStruct = formatter.parse(date);
         expect(parsedDate.day).toEqual(NaN);
         expect(parsedDate.month).toEqual(NaN);

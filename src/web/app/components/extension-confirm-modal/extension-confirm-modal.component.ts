@@ -43,10 +43,10 @@ export class ExtensionConfirmModalComponent implements OnInit {
   selectedInstructors: InstructorExtensionTableColumnModel[] = [];
 
   @Input()
-  extensionTimestamp: number = 0;
+  extensionTimestamp = 0;
 
   @Input()
-  feedbackSessionTimeZone: string = '';
+  feedbackSessionTimeZone = '';
 
   @Input()
   headerColorScheme: SortableTableHeaderColorScheme = SortableTableHeaderColorScheme.WHITE;
@@ -90,8 +90,8 @@ export class ExtensionConfirmModalComponent implements OnInit {
   sortInstructorsBy: SortBy = SortBy.SESSION_END_DATE;
   sortInstructorOrder: SortOrder = SortOrder.DESC;
 
-  isSubmitting: boolean = false;
-  isNotifyDeadlines: boolean = false;
+  isSubmitting = false;
+  isNotifyDeadlines = false;
 
   ngOnInit(): void {
     if (this.selectedStudents.length > 0) {

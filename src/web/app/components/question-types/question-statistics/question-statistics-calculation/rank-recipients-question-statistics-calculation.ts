@@ -107,7 +107,7 @@ export class RankRecipientsQuestionStatisticsCalculation
 
     const rankPerOption: Record<string, number> = {};
 
-    for (let i: number = 0; i < optionsOrderedByRank.length; i += 1) {
+    for (let i = 0; i < optionsOrderedByRank.length; i += 1) {
       const option: string = optionsOrderedByRank[i];
       if (i === 0) {
         rankPerOption[option] = 1;

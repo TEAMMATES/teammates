@@ -123,9 +123,9 @@ describe('RankRecipientsQuestionStatisticsComponent', () => {
     component.responses = testResponses;
     component.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS;
 
-    const bob: string = 'bob';
-    const charlie: string = 'charlie';
-    const delta: string = 'delta';
+    const bob = 'bob';
+    const charlie = 'charlie';
+    const delta = 'delta';
 
     component.calculateStatistics();
 

@@ -23,12 +23,12 @@ import { RespondentListInfoTableComponent } from '../respondent-list-info-table/
 export class SendRemindersToRespondentsModalComponent {
 
   // values below will be injected by other component
-  courseId: string = '';
-  feedbackSessionName: string = '';
+  courseId = '';
+  feedbackSessionName = '';
   studentListInfoTableRowModels: StudentListInfoTableRowModel[] = [];
   instructorListInfoTableRowModels: InstructorListInfoTableRowModel[] = [];
 
-  isSendingCopyToInstructor: boolean = true;
+  isSendingCopyToInstructor = true;
 
   constructor(public activeModal: NgbActiveModal) {
   }

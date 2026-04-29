@@ -30,7 +30,7 @@ export class RankOptionsQuestionStatisticsCalculation
     }
     for (const response of this.responses) {
       const answers: number[] = this.normalizeRanks(response.responseDetails.answers);
-      for (let i: number = 0; i < options.length; i += 1) {
+      for (let i = 0; i < options.length; i += 1) {
         const option: string = options[i];
         const answer: number = answers[i];
         if (answer === RANK_OPTIONS_ANSWER_NOT_SUBMITTED) {
@@ -58,7 +58,7 @@ export class RankOptionsQuestionStatisticsCalculation
           return averageRanksReceivedPerOptions[a] - averageRanksReceivedPerOptions[b];
         });
 
-    for (let i: number = 0; i < optionsOrderedByRank.length; i += 1) {
+    for (let i = 0; i < optionsOrderedByRank.length; i += 1) {
       const option: string = optionsOrderedByRank[i];
       if (i === 0) {
         this.rankPerOption[option] = 1;
@@ -84,7 +84,7 @@ export class RankOptionsQuestionStatisticsCalculation
     const rankCopy: number[] = JSON.parse(JSON.stringify(ranks));
     rankCopy.sort((a: number, b: number) => a - b);
 
-    let normalizedRank: number = 1;
+    let normalizedRank = 1;
     for (const rank of rankCopy) {
       if (!rankMapping[rank]) {
         rankMapping[rank] = normalizedRank;

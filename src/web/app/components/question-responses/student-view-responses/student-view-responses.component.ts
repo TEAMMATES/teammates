@@ -52,11 +52,11 @@ export class StudentViewResponsesComponent implements OnInit {
     showRecipientNameTo: [],
   };
   @Input() responses: ResponseOutput[] = [];
-  @Input() statistics: string = '';
-  @Input() isSelfResponses: boolean = false;
-  @Input() timezone: string = 'UTC';
+  @Input() statistics = '';
+  @Input() isSelfResponses = false;
+  @Input() timezone = 'UTC';
 
-  recipient: string = '';
+  recipient = '';
 
   ngOnInit(): void {
     this.recipient = this.responses.length ? this.responses[0].recipient : '';

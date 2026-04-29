@@ -15,7 +15,7 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
 })
 export class AboutPageComponent implements OnInit {
 
-  nDevelopers: number = 0;
+  nDevelopers = 0;
   teamMembers: any[] = [];
   pastTeamMembers: any[] = [];
   committers: any[] = [];

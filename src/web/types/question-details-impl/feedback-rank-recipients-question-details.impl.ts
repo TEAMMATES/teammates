@@ -16,8 +16,8 @@ export class FeedbackRankRecipientsQuestionDetailsImpl extends AbstractFeedbackQ
 
   maxOptionsToBeRanked: number = NO_VALUE;
   minOptionsToBeRanked: number = NO_VALUE;
-  areDuplicatesAllowed: boolean = false;
-  questionText: string = '';
+  areDuplicatesAllowed = false;
+  questionText = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.RANK_RECIPIENTS;
 
   constructor(apiOutput: FeedbackRankRecipientsQuestionDetails) {
@@ -30,7 +30,7 @@ export class FeedbackRankRecipientsQuestionDetailsImpl extends AbstractFeedbackQ
 
   getQuestionCsvStats(question: QuestionOutput): string[][] {
     const statsRows: string[][] = [];
-    const emptyStr: string = '-';
+    const emptyStr = '-';
 
     const statsCalculation: RankRecipientsQuestionStatisticsCalculation =
         new RankRecipientsQuestionStatisticsCalculation(this);

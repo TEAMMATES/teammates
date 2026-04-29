@@ -159,7 +159,7 @@ export class AdminAccountSearchTableComponent {
   }
 
   deleteAccountRequest(accountRequest: AccountRequestTableRowModel): void {
-    const modalContent: string = `Are you sure you want to <strong>delete</strong> the account request for
+    const modalContent = `Are you sure you want to <strong>delete</strong> the account request for
         <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
         <strong>${accountRequest.instituteAndCountry}</strong>?`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
@@ -180,7 +180,7 @@ export class AdminAccountSearchTableComponent {
   }
 
   viewAccountRequest(accountRequest: AccountRequestTableRowModel): void {
-    const modalContent: string = `<strong>Comment:</strong> ${accountRequest.comments || 'No comments'}`;
+    const modalContent = `<strong>Comment:</strong> ${accountRequest.comments || 'No comments'}`;
     const modalRef: NgbModalRef = this.simpleModalService.openInformationModal(
         `Comments for <strong>${accountRequest.name}</strong> Request`, SimpleModalType.INFO, modalContent);
 

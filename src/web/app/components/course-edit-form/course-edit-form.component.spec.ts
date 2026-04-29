@@ -40,11 +40,11 @@ describe('CourseEditFormComponent', () => {
   let feedbackSessionsService: FeedbackSessionsService;
   let ngbModal: NgbModal;
 
-  const validCourseId: string = 'CS1101S';
-  const validTimeZone: string = 'Asia/Singapore';
-  const validInstitute1: string = 'Test Institute1';
-  const validInstitute2: string = 'Test Institute2';
-  const testTimeZone: string = 'Australia/Adelaide';
+  const validCourseId = 'CS1101S';
+  const validTimeZone = 'Asia/Singapore';
+  const validInstitute1 = 'Test Institute1';
+  const validInstitute2 = 'Test Institute2';
+  const testTimeZone = 'Australia/Adelaide';
   const timeZoneOffsets1: Record<string, number> = { GMT: 570 };
   const testCourse1: Course = {
     courseId: 'testId1',
@@ -230,6 +230,7 @@ describe('CourseEditFormComponent', () => {
 
     component.copyCourseHandler();
 
+    // eslint-disable-next-line @typescript-eslint/await-thenable
     expect(await spyStatusMessageService.showErrorToast).toHaveBeenCalledWith(errorMsg);
   });
 

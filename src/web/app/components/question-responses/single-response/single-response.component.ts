@@ -49,10 +49,10 @@ export class SingleResponseComponent {
     questionText: '',
   };
 
-  @Input() isStudentPage: boolean = false;
-  @Input() statistics: string = '';
-  @Input() giverEmail: string = '';
-  @Input() recipientEmail: string = '';
+  @Input() isStudentPage = false;
+  @Input() statistics = '';
+  @Input() giverEmail = '';
+  @Input() recipientEmail = '';
 
   castAsTextQuestion(d: FeedbackQuestionDetails): FeedbackTextQuestionDetails {
     return d as FeedbackTextQuestionDetails;

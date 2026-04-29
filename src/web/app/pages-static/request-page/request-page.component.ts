@@ -20,7 +20,7 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
 export class RequestPageComponent {
 
   accountRequestFormUrl: SafeResourceUrl | null;
-  isDeclarationDone: boolean = false;
+  isDeclarationDone = false;
   submittedFormData: InstructorRequestFormModel | null = null;
 
   constructor(private sanitizer: DomSanitizer) {

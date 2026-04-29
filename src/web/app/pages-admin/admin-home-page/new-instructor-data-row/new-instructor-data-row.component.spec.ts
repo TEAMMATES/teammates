@@ -82,7 +82,7 @@ describe('NewInstructorDataRowComponent', () => {
   });
 
   it('should emit addInstructorEvent when adding', () => {
-    let hasEmitted: boolean = false;
+    let hasEmitted = false;
     testEventEmission(component.addInstructorEvent, () => { hasEmitted = true; });
 
     addButtonDe.triggerEventHandler('click', null);

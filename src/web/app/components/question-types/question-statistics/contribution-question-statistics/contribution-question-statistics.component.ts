@@ -42,7 +42,7 @@ export class ContributionQuestionStatisticsComponent
   QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
   Sections: typeof Sections = Sections;
 
-  @Input() displayContributionStats: boolean = true;
+  @Input() displayContributionStats = true;
 
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];

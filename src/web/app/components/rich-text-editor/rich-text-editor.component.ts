@@ -31,29 +31,29 @@ export class RichTextEditorComponent implements OnInit {
   RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH: number = RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH;
 
   @Input()
-  isDisabled: boolean = false;
+  isDisabled = false;
 
   @Input()
-  hasCharacterLimit: boolean = false;
+  hasCharacterLimit = false;
 
   @Input()
-  minHeightInPx: number = 150;
+  minHeightInPx = 150;
 
   @Input()
-  placeholderText: string = '';
+  placeholderText = '';
 
   @Input()
-  richText: string = '';
+  richText = '';
 
   @Output()
   richTextChange: EventEmitter<string> = new EventEmitter();
 
-  characterCount: number = 0;
+  characterCount = 0;
 
   // the argument passed to tinymce.init() in native JavaScript
   init: any = {};
 
-  render: boolean = false;
+  render = false;
 
   defaultToolbar: string = 'styles | forecolor backcolor '
       + '| bold italic underline strikethrough subscript superscript '

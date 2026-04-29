@@ -24,11 +24,11 @@ const replaceUnpredictableValuesWithPlaceholders: (str: string) => string = (str
 
 describe('replaceUnpredictableValuesWithPlaceholders', () => {
   it('should replace unpredictable values with placeholders', () => {
-    const sampleCsvFile: string = `Header 1,Header 2,Header 3
+    const sampleCsvFile = `Header 1,Header 2,Header 3
 Content 1,Content 2,Content 3
 Anonymous student 1234567,Anonymous instructor 4567890,Anonymous team 87654321
 `;
-    const expectedOutput: string = `Header 1,Header 2,Header 3
+    const expectedOutput = `Header 1,Header 2,Header 3
 Content 1,Content 2,Content 3
 Anonymous student \${participant.hash},Anonymous instructor \${participant.hash},Anonymous team \${participant.hash}
 `;

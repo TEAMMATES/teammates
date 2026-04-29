@@ -29,7 +29,7 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
    * <p>This is to ensure that only one rubric answer per sub question can be selected.
    */
   @Input()
-  id: string = '';
+  id = '';
 
   // constant
   readonly RUBRIC_ANSWER_NOT_CHOSEN: number = RUBRIC_ANSWER_NOT_CHOSEN;

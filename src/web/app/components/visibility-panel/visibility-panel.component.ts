@@ -95,7 +95,7 @@ export class VisibilityPanelComponent {
   };
 
   @Input()
-  isCustomFeedbackVisibilitySettingAllowed: boolean = false;
+  isCustomFeedbackVisibilitySettingAllowed = false;
 
   @Input()
   commonFeedbackVisibilitySettings: CommonVisibilitySetting[] = [];

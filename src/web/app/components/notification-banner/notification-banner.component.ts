@@ -23,12 +23,12 @@ import { NotificationStyleClassPipe } from '../teammates-common/notification-sty
 export class NotificationBannerComponent implements OnInit, OnChanges {
 
   @Input()
-  url: string = '';
+  url = '';
 
   @Input()
   notificationTargetUser: NotificationTargetUser = NotificationTargetUser.GENERAL;
 
-  isShown: boolean = false;
+  isShown = false;
   notifications: Notification[] = [];
 
   constructor(private notificationService: NotificationService,

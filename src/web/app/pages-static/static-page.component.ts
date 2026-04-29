@@ -14,13 +14,13 @@ import { PageComponent } from '../page.component';
 })
 export class StaticPageComponent implements OnInit {
 
-  studentLoginUrl: string = '';
-  instructorLoginUrl: string = '';
-  user: string = '';
-  isInstructor: boolean = false;
-  isStudent: boolean = false;
-  isAdmin: boolean = false;
-  isMaintainer: boolean = false;
+  studentLoginUrl = '';
+  instructorLoginUrl = '';
+  user = '';
+  isInstructor = false;
+  isStudent = false;
+  isAdmin = false;
+  isMaintainer = false;
   navItems: any[] = [
     {
       url: '/web/front',
@@ -60,7 +60,7 @@ export class StaticPageComponent implements OnInit {
       ],
     },
   ];
-  isFetchingAuthDetails: boolean = false;
+  isFetchingAuthDetails = false;
 
   private backendUrl: string = environment.backendUrl;
 

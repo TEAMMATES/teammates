@@ -12,7 +12,7 @@ export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestio
   model: D;
 
   @Input()
-  isEditable: boolean = true;
+  isEditable = true;
 
   @Input()
   set details(details: FeedbackQuestionDetails) {

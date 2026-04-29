@@ -1,4 +1,4 @@
-const LINE_SEPARATOR: string = '\r\n';
+const LINE_SEPARATOR = '\r\n';
 
 /**
  * CSV related utility functions.

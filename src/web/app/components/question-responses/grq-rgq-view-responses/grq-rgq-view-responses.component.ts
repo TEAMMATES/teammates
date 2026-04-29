@@ -37,12 +37,12 @@ import { InstructorResponsesViewBase } from '../instructor-responses-view-base';
 export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
 
   @Input() responses: QuestionOutput[] = [];
-  @Input() sectionOfView: string = '';
-  @Input() section: string = '';
+  @Input() sectionOfView = '';
+  @Input() section = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
-  @Input() groupByTeam: boolean = true;
-  @Input() showStatistics: boolean = true;
-  @Input() indicateMissingResponses: boolean = true;
+  @Input() groupByTeam = true;
+  @Input() showStatistics = true;
+  @Input() indicateMissingResponses = true;
   @Input() session: FeedbackSession = {
     feedbackSessionId: '',
     courseId: '',
@@ -61,7 +61,7 @@ export class GrqRgqViewResponsesComponent extends InstructorResponsesViewBase im
     createdAtTimestamp: 0,
   };
 
-  @Input() isGrq: boolean = true;
+  @Input() isGrq = true;
 
   teamsToUsers: Record<string, string[]> = {};
   usersToTeams: Record<string, string> = {};

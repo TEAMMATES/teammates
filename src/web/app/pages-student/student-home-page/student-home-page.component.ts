@@ -70,24 +70,24 @@ export class StudentHomePageComponent implements OnInit {
   SortBy: typeof SortBy = SortBy;
 
   // Tooltip messages
-  studentFeedbackSessionStatusPublished: string =
+  studentFeedbackSessionStatusPublished =
     'The responses for the session have been published and can now be viewed.';
-  studentFeedbackSessionStatusNotPublished: string =
+  studentFeedbackSessionStatusNotPublished =
     'The responses for the session have not yet been published and cannot be viewed.';
-  studentFeedbackSessionStatusAwaiting: string =
+  studentFeedbackSessionStatusAwaiting =
     'The session is not open for submission at this time. It is expected to open later.';
-  studentFeedbackSessionStatusPending: string = 'The feedback session is yet to be completed by you.';
-  studentFeedbackSessionStatusExtension: string = ' An instructor has granted you a deadline extension.';
-  studentFeedbackSessionStatusSubmitted: string = 'You have submitted your feedback for this session.';
-  studentFeedbackSessionStatusClosed: string = ' The session is now closed for submissions.';
+  studentFeedbackSessionStatusPending = 'The feedback session is yet to be completed by you.';
+  studentFeedbackSessionStatusExtension = ' An instructor has granted you a deadline extension.';
+  studentFeedbackSessionStatusSubmitted = 'You have submitted your feedback for this session.';
+  studentFeedbackSessionStatusClosed = ' The session is now closed for submissions.';
 
   // Error messages
-  allStudentFeedbackSessionsNotReturned: string =
+  allStudentFeedbackSessionsNotReturned =
       'Something went wrong with fetching responses for all Feedback Sessions.';
 
   courses: StudentCourse[] = [];
-  isCoursesLoading: boolean = false;
-  hasCoursesLoadingFailed: boolean = false;
+  isCoursesLoading = false;
+  hasCoursesLoadingFailed = false;
 
   sortBy: SortBy = SortBy.COURSE_CREATION_DATE;
 
@@ -229,7 +229,7 @@ export class StudentHomePageComponent implements OnInit {
    * Gets the tooltip message for the submission status.
    */
   getSubmissionStatusTooltip(session: StudentSession): string {
-    let msg: string = '';
+    let msg = '';
     const hasStudentExtension = DeadlineExtensionHelper.hasUserExtension(session.session);
     const hasOngoingStudentExtension = DeadlineExtensionHelper.hasUserOngoingExtension(session.session);
 

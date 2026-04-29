@@ -13,7 +13,7 @@ import { LoadingBarService } from '../../../services/loading-bar.service';
 })
 export class LoaderBarComponent implements OnInit {
 
-  isShown: boolean = false;
+  isShown = false;
 
   constructor(private loadingBarService: LoadingBarService) {
   }

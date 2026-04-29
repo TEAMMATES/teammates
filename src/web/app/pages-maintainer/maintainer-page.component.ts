@@ -16,11 +16,11 @@ import { PageComponent } from '../page.component';
 })
 export class MaintainerPageComponent implements OnInit {
 
-  user: string = '';
-  isInstructor: boolean = false;
-  isStudent: boolean = false;
-  isAdmin: boolean = false;
-  isMaintainer: boolean = false;
+  user = '';
+  isInstructor = false;
+  isStudent = false;
+  isAdmin = false;
+  isMaintainer = false;
   navItems: any[] = [
     {
       url: '/web/maintainer',
@@ -35,7 +35,7 @@ export class MaintainerPageComponent implements OnInit {
       display: 'Usage Statistics',
     },
   ];
-  isFetchingAuthDetails: boolean = false;
+  isFetchingAuthDetails = false;
 
   private backendUrl: string = environment.backendUrl;
 

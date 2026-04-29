@@ -72,31 +72,31 @@ export class SessionResultPageComponent implements OnInit {
     createdAtTimestamp: 0,
   };
   questions: FeedbackQuestionModel[] = [];
-  courseName: string = '';
-  courseInstitute: string = '';
-  formattedSessionOpeningTime: string = '';
-  formattedSessionClosingTime: string = '';
-  personName: string = '';
-  personEmail: string = '';
-  courseId: string = '';
-  feedbackSessionName: string = '';
-  entityType: string = 'student';
-  regKey: string = '';
-  loggedInUser: string = '';
+  courseName = '';
+  courseInstitute = '';
+  formattedSessionOpeningTime = '';
+  formattedSessionClosingTime = '';
+  personName = '';
+  personEmail = '';
+  courseId = '';
+  feedbackSessionName = '';
+  entityType = 'student';
+  regKey = '';
+  loggedInUser = '';
   visibilityRecipient: FeedbackVisibilityType = FeedbackVisibilityType.RECIPIENT;
 
   intent: Intent = Intent.STUDENT_RESULT;
 
-  previewAsPerson: string = '';
-  isPreviewHintExpanded: boolean = false;
+  previewAsPerson = '';
+  isPreviewHintExpanded = false;
 
-  isCourseLoading: boolean = true;
-  isFeedbackSessionDetailsLoading: boolean = true;
-  isFeedbackSessionResultsLoading: boolean = true;
-  hasFeedbackSessionResultsLoadingFailed: boolean = false;
+  isCourseLoading = true;
+  isFeedbackSessionDetailsLoading = true;
+  isFeedbackSessionResultsLoading = true;
+  hasFeedbackSessionResultsLoadingFailed = false;
   retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
-  feedbackSessionId: string = '';
+  feedbackSessionId = '';
   studentId: string | undefined = '';
 
   private backendUrl: string = environment.backendUrl;
@@ -133,10 +133,10 @@ export class SessionResultPageComponent implements OnInit {
         this.intent = Intent.INSTRUCTOR_RESULT;
       }
 
-      const nextUrl: string = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
+      const nextUrl = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
       this.authService.getAuthUser(undefined, nextUrl).subscribe({
         next: (auth: AuthInfo) => {
-          const isPreview: boolean = !!(auth.user && this.previewAsPerson);
+          const isPreview = !!(auth.user && this.previewAsPerson);
           if (auth.user) {
             this.loggedInUser = auth.user.id;
           }
@@ -288,7 +288,7 @@ export class SessionResultPageComponent implements OnInit {
     }))
     .subscribe({
       next: (feedbackSession: FeedbackSession) => {
-        const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
+        const TIME_FORMAT = 'ddd, DD MMM, YYYY, hh:mm A zz';
         this.session = feedbackSession;
         this.feedbackSessionId = feedbackSession.feedbackSessionId;
         this.formattedSessionOpeningTime = this.timezoneService

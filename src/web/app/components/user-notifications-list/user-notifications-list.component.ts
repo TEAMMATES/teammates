@@ -59,10 +59,10 @@ export class UserNotificationsListComponent implements OnInit {
   notificationTabs: NotificationTab[] = [];
   notificationsSortBy: SortBy = SortBy.NONE;
 
-  isLoadingNotifications: boolean = false;
-  hasLoadingFailed: boolean = false;
+  isLoadingNotifications = false;
+  hasLoadingFailed = false;
 
-  DATE_FORMAT: string = 'DD MMM YYYY';
+  DATE_FORMAT = 'DD MMM YYYY';
 
   constructor(private notificationService: NotificationService,
               private statusMessageService: StatusMessageService,

@@ -13,10 +13,10 @@ import { FormsModule } from '@angular/forms';
 export class WeightFieldComponent {
 
   @Input()
-  isEditable: boolean = false;
+  isEditable = false;
 
   @Input()
-  weight: number = 1;
+  weight = 1;
 
   @Output()
   weightEntered: EventEmitter<any> = new EventEmitter();

@@ -49,7 +49,7 @@ import { ErrorMessageOutput } from '../error-message-output';
  */
 export abstract class InstructorSessionBasePageComponent {
 
-  isResultActionLoading: boolean = false;
+  isResultActionLoading = false;
 
   protected failedToCopySessions: Record<string, string> = {}; // Map of failed session copy to error message
   coursesOfModifiedSession: string[] = [];
@@ -138,7 +138,7 @@ export abstract class InstructorSessionBasePageComponent {
         .valueOf();
 
     // Preprocess timestamps to adhere to feedback session timestamps constraints
-    let isModified: boolean = false;
+    let isModified = false;
 
     let copiedSubmissionStartTimestamp = fromFeedbackSession.submissionStartTimestamp;
     if (copiedSubmissionStartTimestamp < twoHoursBeforeNow) {

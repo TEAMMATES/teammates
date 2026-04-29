@@ -12,8 +12,8 @@ export class FeedbackMsqResponseDetailsImpl extends AbstractFeedbackResponseDeta
     implements FeedbackMsqResponseDetails {
 
   answers: string[] = [];
-  isOther: boolean = false;
-  otherFieldContent: string = '';
+  isOther = false;
+  otherFieldContent = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.MSQ;
 
   constructor(apiOutput: FeedbackMsqResponseDetails) {

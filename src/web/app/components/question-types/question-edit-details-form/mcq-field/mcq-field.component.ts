@@ -14,19 +14,19 @@ import { StatusMessageService } from '../../../../../services/status-message.ser
 export class McqFieldComponent {
 
   @Input()
-  isEditable: boolean = false;
+  isEditable = false;
 
   @Input()
-  numberOfMcqChoices: number = 1;
+  numberOfMcqChoices = 1;
 
   @Input()
-  text: string = '';
+  text = '';
 
   @Input()
-  index: number = 0;
+  index = 0;
 
   @Input()
-  isQuestionDropdownEnabled: boolean = false;
+  isQuestionDropdownEnabled = false;
 
   @Output()
   elementDeleted: EventEmitter<any> = new EventEmitter();

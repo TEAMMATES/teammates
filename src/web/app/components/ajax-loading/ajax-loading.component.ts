@@ -11,9 +11,9 @@ import { Component, Input } from '@angular/core';
 export class AjaxLoadingComponent {
 
   @Input()
-  useBlueSpinner: boolean = false;
+  useBlueSpinner = false;
 
   @Input()
-  color: string = 'white';
+  color = 'white';
 
 }

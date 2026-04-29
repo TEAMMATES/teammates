@@ -151,7 +151,7 @@ export class FeedbackResponsesService {
   isFeedbackResponsesDisplayedOnSection(response: ResponseOutput, section: string,
       sectionType: InstructorSessionResultSectionType): boolean {
 
-    let isDisplayed: boolean = true;
+    let isDisplayed = true;
 
     if (section) {
       switch (sectionType) {

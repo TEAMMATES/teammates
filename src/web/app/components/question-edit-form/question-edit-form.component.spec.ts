@@ -53,7 +53,7 @@ describe('QuestionEditFormComponent', () => {
     component.formModelChange.subscribe((data: QuestionEditFormModel) => {
       component.formModel = data;
     });
-    const testStr: string = 'Hello World';
+    const testStr = 'Hello World';
     component.triggerModelChange('questionNumber', 2);
     component.triggerModelChange('questionBrief', testStr);
     component.triggerModelChange('questionDescription', testStr);
