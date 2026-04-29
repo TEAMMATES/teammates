@@ -1,7 +1,6 @@
 ---
 name: Data migration
 about: (for core team) Track the status of a data migration
-
 ---
 
 <!-- Issue title: Data Migration: [summary of affected entities and fields] -->

@@ -9,7 +9,7 @@ jobs:
   comment:
     if: github.event.label.name == 'good first issue'
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Add comment
         uses: actions/github-script@v7

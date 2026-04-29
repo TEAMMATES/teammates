@@ -13,13 +13,8 @@ describe('ErrorReportComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        NgbActiveModal,
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -38,7 +33,7 @@ describe('ErrorReportComponent', () => {
 
     expect(component.subject).toEqual('User-submitted Error Report');
     input[1].value = 'testInput';
-    input[1].dispatchEvent((new Event('input')));
+    input[1].dispatchEvent(new Event('input'));
     expect(component.subject).toEqual('testInput');
   });
 
@@ -59,11 +54,13 @@ describe('ErrorReportComponent', () => {
     expect(component.sendButtonEnabled).toBeTruthy();
     expect(component.errorReportSubmitted).toBeFalsy();
 
-    jest.spyOn(httpRequestService, 'post').mockReturnValue(throwError(() => ({
-      error: {
-        message: 'This is the error message',
-      },
-    })));
+    jest.spyOn(httpRequestService, 'post').mockReturnValue(
+      throwError(() => ({
+        error: {
+          message: 'This is the error message',
+        },
+      })),
+    );
     fixture.nativeElement.querySelector('button').click();
     fixture.detectChanges();
 
@@ -77,9 +74,8 @@ describe('ErrorReportComponent', () => {
   });
 
   it('should disable error reporting if CSRF error message is detected', () => {
-      component.errorMessage = 'Missing CSRF token.';
-      component.ngOnInit();
-      expect(component.errorReportEnabled).toBe(false);
-    });
-
+    component.errorMessage = 'Missing CSRF token.';
+    component.ngOnInit();
+    expect(component.errorReportEnabled).toBe(false);
+  });
 });

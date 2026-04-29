@@ -1,7 +1,5 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
-import {
-  NumScaleQuestionStatisticsCalculation,
-} from './question-statistics-calculation/num-scale-question-statistics-calculation';
+import { NumScaleQuestionStatisticsCalculation } from './question-statistics-calculation/num-scale-question-statistics-calculation';
 import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
 import {
@@ -14,14 +12,15 @@ import {
  * Statistics for numerical scale questions.
  */
 @Component({
-    selector: 'tm-num-scale-question-statistics',
-    templateUrl: './num-scale-question-statistics.component.html',
-    styleUrls: ['./num-scale-question-statistics.component.scss'],
-    imports: [SortableTableComponent],
+  selector: 'tm-num-scale-question-statistics',
+  templateUrl: './num-scale-question-statistics.component.html',
+  styleUrls: ['./num-scale-question-statistics.component.scss'],
+  imports: [SortableTableComponent],
 })
-export class NumScaleQuestionStatisticsComponent extends NumScaleQuestionStatisticsCalculation
-    implements OnInit, OnChanges {
-
+export class NumScaleQuestionStatisticsComponent
+  extends NumScaleQuestionStatisticsCalculation
+  implements OnInit, OnChanges
+{
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
 
@@ -49,7 +48,7 @@ export class NumScaleQuestionStatisticsComponent extends NumScaleQuestionStatist
       {
         header: 'Average excluding self response',
         sortBy: SortBy.NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF,
-        headerToolTip: 'Average of the visible responses excluding recipient\'s own response to himself/herself',
+        headerToolTip: "Average of the visible responses excluding recipient's own response to himself/herself",
       },
     ];
 
@@ -61,8 +60,7 @@ export class NumScaleQuestionStatisticsComponent extends NumScaleQuestionStatist
         this.rowsData.push([
           { value: team },
           {
-            value: recipient
-            + (recipientEmail ? ` (${recipientEmail})` : ''),
+            value: recipient + (recipientEmail ? ` (${recipientEmail})` : ''),
           },
           { value: stats.average },
           { value: stats.max },
@@ -72,5 +70,4 @@ export class NumScaleQuestionStatisticsComponent extends NumScaleQuestionStatist
       }
     }
   }
-
 }

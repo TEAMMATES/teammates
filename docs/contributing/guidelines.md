@@ -17,6 +17,7 @@ By participating in this project, you agree to uphold the [TEAMMATES Code of Con
 We use the [GitHub issue tracker](https://github.com/TEAMMATES/teammates/issues) for bug reports and feature requests.
 
 Before opening a new issue:
+
 - Search the issue tracker to ensure a similar issue does not already exist.
 - Use the provided templates when opening a new issue.
 
@@ -29,6 +30,7 @@ We welcome contributors who want to test the product and report bugs without con
 We accept contributions in the form of pull requests (PRs).
 
 Before submitting a PR:
+
 - Ensure it addresses an open issue in the issue tracker. If one does not exist, open an issue first and wait for the team to triage it before starting work.
 - Follow the [Development Workflow](development-workflow.md).
 - Do not skip steps because you think they are unimportant — we value contributors who are systematic and detail-oriented over those who are fast but careless.

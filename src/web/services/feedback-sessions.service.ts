@@ -4,9 +4,7 @@ import { map } from 'rxjs/operators';
 import { HttpRequestService } from './http-request.service';
 import { SessionResultCsvService } from './session-result-csv.service';
 import { StudentService } from './student.service';
-import {
-  InstructorSessionResultSectionType,
-} from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { default as templateSessions } from '../data/template-sessions.json';
 import { ResourceEndpoints } from '../types/api-const';
 import {
@@ -48,11 +46,11 @@ export interface TemplateSession {
   providedIn: 'root',
 })
 export class FeedbackSessionsService {
-
-  constructor(private httpRequestService: HttpRequestService,
-              private sessionResultCsvService: SessionResultCsvService,
-              private studentService: StudentService) {
-  }
+  constructor(
+    private httpRequestService: HttpRequestService,
+    private sessionResultCsvService: SessionResultCsvService,
+    private studentService: StudentService,
+  ) {}
 
   /**
    * Gets template sessions.
@@ -65,11 +63,11 @@ export class FeedbackSessionsService {
    * Retrieves a feedback session by calling API.
    */
   getFeedbackSession(queryParams: {
-    feedbackSessionId: string,
-    intent: Intent,
-    key?: string,
-    moderatedPerson?: string,
-    previewAs?: string,
+    feedbackSessionId: string;
+    intent: Intent;
+    key?: string;
+    moderatedPerson?: string;
+    previewAs?: string;
   }): Observable<FeedbackSession> {
     const paramMap: Record<string, string> = {
       intent: queryParams.intent,
@@ -102,8 +100,7 @@ export class FeedbackSessionsService {
   /**
    * Updates a feedback session by calling API.
    */
-  updateFeedbackSession(feedbackSessionId: string, request: FeedbackSessionUpdateRequest):
-      Observable<FeedbackSession> {
+  updateFeedbackSession(feedbackSessionId: string, request: FeedbackSessionUpdateRequest): Observable<FeedbackSession> {
     const paramMap: Record<string, string> = {
       fsid: feedbackSessionId,
     };
@@ -123,9 +120,11 @@ export class FeedbackSessionsService {
   /**
    * Updates the deadline extensions for a feedback session by calling API.
    */
-  updateFeedbackSessionDeadlineExtensions(feedbackSessionId: string,
+  updateFeedbackSessionDeadlineExtensions(
+    feedbackSessionId: string,
     request: DeadlineExtensionsUpdateRequest,
-    isNotifyDeadlines: boolean): Observable<DeadlineExtensions> {
+    isNotifyDeadlines: boolean,
+  ): Observable<DeadlineExtensions> {
     const paramMap: Record<string, string> = {
       fsid: feedbackSessionId,
       notifydeadlines: String(isNotifyDeadlines),
@@ -156,7 +155,6 @@ export class FeedbackSessionsService {
    * Gets all sessions for the instructor by calling API.
    */
   getFeedbackSessionsForInstructor(courseId?: string): Observable<FeedbackSessions> {
-
     let paramMap: Record<string, string>;
     if (courseId) {
       paramMap = {
@@ -177,7 +175,6 @@ export class FeedbackSessionsService {
    * Gets all sessions in the recycle bin for the instructor by calling API.
    */
   getFeedbackSessionsInRecycleBinForInstructor(): Observable<FeedbackSessions> {
-
     const paramMap: Record<string, string> = {
       entitytype: 'instructor',
       isinrecyclebin: 'true',
@@ -190,7 +187,6 @@ export class FeedbackSessionsService {
    * Gets all sessions for the student by calling API.
    */
   getFeedbackSessionsForStudent(entityType: string, courseId?: string): Observable<FeedbackSessions> {
-
     let paramMap: Record<string, string>;
     if (courseId) {
       paramMap = {
@@ -220,7 +216,10 @@ export class FeedbackSessionsService {
   /**
    * Checks if there is response of a student for an array of feedback sessions.
    */
-  hasResponsesForAllFeedbackSessionsInCourse(courseId: string, entityType: 'student' | 'instructor'): Observable<HasResponses> {
+  hasResponsesForAllFeedbackSessionsInCourse(
+    courseId: string,
+    entityType: 'student' | 'instructor',
+  ): Observable<HasResponses> {
     const paramMap: Record<string, string> = {
       entitytype: entityType,
       courseid: courseId,
@@ -233,8 +232,9 @@ export class FeedbackSessionsService {
    * Sends e-mails to remind respondents who have not submitted their feedback.
    */
   remindFeedbackSessionSubmissionForRespondents(
-      feedbackSessionId: string, request: FeedbackSessionRespondentRemindRequest)
-      : Observable<MessageOutput> {
+    feedbackSessionId: string,
+    request: FeedbackSessionRespondentRemindRequest,
+  ): Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
       fsid: feedbackSessionId,
     };
@@ -246,8 +246,9 @@ export class FeedbackSessionsService {
    * Sends e-mails to remind respondents on the published results link.
    */
   remindResultsLinkToRespondents(
-      feedbackSessionId: string, request: FeedbackSessionRespondentRemindRequest)
-      : Observable<MessageOutput> {
+    feedbackSessionId: string,
+    request: FeedbackSessionRespondentRemindRequest,
+  ): Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
       fsid: feedbackSessionId,
     };
@@ -258,8 +259,9 @@ export class FeedbackSessionsService {
   /**
    * Gets a set of givers that has given at least one response in the feedback session.
    */
-  getFeedbackSessionSubmittedGiverSet(queryParams: { feedbackSessionId: string }):
-      Observable<FeedbackSessionSubmittedGiverSet> {
+  getFeedbackSessionSubmittedGiverSet(queryParams: {
+    feedbackSessionId: string;
+  }): Observable<FeedbackSessionSubmittedGiverSet> {
     const paramMap: Record<string, string> = {
       fsid: queryParams.feedbackSessionId,
     };
@@ -270,8 +272,7 @@ export class FeedbackSessionsService {
   /**
    * Gets a list of students who have not responded to feedback session.
    */
-  getFeedbackSessionNonSubmitterList(courseId: string, feedbackSessionId: string):
-    Observable<Student[]> {
+  getFeedbackSessionNonSubmitterList(courseId: string, feedbackSessionId: string): Observable<Student[]> {
     const allStudentsObservable: Observable<Students> = this.studentService.getStudentsFromCourse({
       courseId,
     });
@@ -279,27 +280,22 @@ export class FeedbackSessionsService {
       this.getFeedbackSessionSubmittedGiverSet({
         feedbackSessionId,
       });
-    return forkJoin([
-      allStudentsObservable,
-      studentsWithResponseObservable,
-    ]).pipe(map((result: any[]) => {
-      const allStudents: Student[] = (result[0] as Students).students;
-      const studentEmailsWithResponse: string[] = (result[1] as FeedbackSessionSubmittedGiverSet).giverIdentifiers;
-      return allStudents.filter((student: Student) =>
-        !studentEmailsWithResponse.includes(student.email));
-    },
-    ));
+    return forkJoin([allStudentsObservable, studentsWithResponseObservable]).pipe(
+      map((result: any[]) => {
+        const allStudents: Student[] = (result[0] as Students).students;
+        const studentEmailsWithResponse: string[] = (result[1] as FeedbackSessionSubmittedGiverSet).giverIdentifiers;
+        return allStudents.filter((student: Student) => !studentEmailsWithResponse.includes(student.email));
+      }),
+    );
   }
 
   /**
    * Downloads list of non-responders.
    */
-  downloadFeedbackSessionNonSubmitterList(courseId: string, feedbackSessionId: string):
-    Observable<string> {
-    return this.getFeedbackSessionNonSubmitterList(courseId, feedbackSessionId)
-      .pipe(map((students: Student[]) =>
-        this.sessionResultCsvService.getCsvForNonSubmitterList(students),
-      ));
+  downloadFeedbackSessionNonSubmitterList(courseId: string, feedbackSessionId: string): Observable<string> {
+    return this.getFeedbackSessionNonSubmitterList(courseId, feedbackSessionId).pipe(
+      map((students: Student[]) => this.sessionResultCsvService.getCsvForNonSubmitterList(students)),
+    );
   }
 
   /**
@@ -338,25 +334,30 @@ export class FeedbackSessionsService {
   /**
    * Download session results.
    */
-  downloadSessionResults(feedbackSessionId: string,
-                         intent: Intent,
-                         indicateMissingResponses: boolean,
-                         showStatistics: boolean,
-                         questionId?: string,
-                         groupBySection?: string,
-                         sectionDetail?: InstructorSessionResultSectionType): Observable<string> {
+  downloadSessionResults(
+    feedbackSessionId: string,
+    intent: Intent,
+    indicateMissingResponses: boolean,
+    showStatistics: boolean,
+    questionId?: string,
+    groupBySection?: string,
+    sectionDetail?: InstructorSessionResultSectionType,
+  ): Observable<string> {
     return this.getFeedbackSessionResults({
       feedbackSessionId,
       intent,
       questionId,
       groupBySection,
     }).pipe(
-        map((results: SessionResults) =>
-            this.sessionResultCsvService.getCsvForSessionResult(
-                results, indicateMissingResponses, showStatistics,
-                groupBySection, sectionDetail,
-            ),
+      map((results: SessionResults) =>
+        this.sessionResultCsvService.getCsvForSessionResult(
+          results,
+          indicateMissingResponses,
+          showStatistics,
+          groupBySection,
+          sectionDetail,
         ),
+      ),
     );
   }
 
@@ -364,13 +365,13 @@ export class FeedbackSessionsService {
    * Retrieves the results for a feedback session.
    */
   getFeedbackSessionResults(queryParams: {
-    feedbackSessionId: string,
-    intent: Intent,
-    questionId?: string,
-    groupBySection?: string,
-    key?: string,
-    sectionByGiverReceiver?: string,
-    previewAs?: string,
+    feedbackSessionId: string;
+    intent: Intent;
+    questionId?: string;
+    groupBySection?: string;
+    key?: string;
+    sectionByGiverReceiver?: string;
+    previewAs?: string;
   }): Observable<SessionResults> {
     const paramMap: Record<string, string> = {
       fsid: queryParams.feedbackSessionId,
@@ -423,8 +424,8 @@ export class FeedbackSessionsService {
   }
 
   sendFeedbackSessionLinkToRecoveryEmail(queryParam: {
-    sessionLinksRecoveryEmail: string,
-    captchaResponse: string,
+    sessionLinksRecoveryEmail: string;
+    captchaResponse: string;
   }): Observable<SessionLinksRecoveryResponse> {
     const paramMap: Record<string, string> = {
       studentemail: queryParam.sessionLinksRecoveryEmail,
@@ -456,5 +457,4 @@ export class FeedbackSessionsService {
   isFeedbackSessionPublished(feedbackSession: FeedbackSession): boolean {
     return feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
   }
-
 }

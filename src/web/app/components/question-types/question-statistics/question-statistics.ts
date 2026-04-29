@@ -1,6 +1,7 @@
 import { Directive, Input } from '@angular/core';
 import {
-  ContributionStatistics, ContributionStatisticsEntry,
+  ContributionStatistics,
+  ContributionStatisticsEntry,
   FeedbackParticipantType,
   FeedbackQuestionDetails,
   FeedbackResponseDetails,
@@ -30,7 +31,6 @@ export interface Response<R extends FeedbackResponseDetails> {
  */
 @Directive()
 export class QuestionStatistics<Q extends FeedbackQuestionDetails, R extends FeedbackResponseDetails> {
-
   @Input() responses: Response<R>[] = [];
   @Input() question: Q;
   @Input() recipientType: FeedbackParticipantType = FeedbackParticipantType.NONE;
@@ -41,7 +41,6 @@ export class QuestionStatistics<Q extends FeedbackQuestionDetails, R extends Fee
   }
 
   static appendStats = (prevStats: string, newStats: string): string => {
-
     if (prevStats === '') {
       return newStats;
     }
@@ -65,5 +64,4 @@ export class QuestionStatistics<Q extends FeedbackQuestionDetails, R extends Fee
 
     return JSON.stringify(prevStatsJSON);
   };
-
 }

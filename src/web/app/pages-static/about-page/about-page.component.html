@@ -1,42 +1,49 @@
 <div>
   <h1 class="color-orange">About Us</h1>
   <p class="h3">Acknowledgements:</p>
-  <p>
-    TEAMMATES team wishes to thank the following invaluable contributions:
-  </p>
+  <p>TEAMMATES team wishes to thank the following invaluable contributions:</p>
   <ul>
     <li>
-      <a href="http://www.comp.nus.edu.sg/" target="_blank" rel="noopener noreferrer"><b>School of Computing, National University of Singapore (NUS)</b></a>, for providing us with the infrastructure support to run the project.
+      <a href="http://www.comp.nus.edu.sg/" target="_blank" rel="noopener noreferrer"
+        ><b>School of Computing, National University of Singapore (NUS)</b></a
+      >, for providing us with the infrastructure support to run the project.
     </li>
     <li>
-      <a href="https://nus.edu.sg/cdtl" target="_blank" rel="noopener noreferrer"><b>Centre for Development of Teaching and Learning (CDTL)</b></a> of NUS, for supporting us with several Teaching Enhancement Grants over the years.
+      <a href="https://nus.edu.sg/cdtl" target="_blank" rel="noopener noreferrer"
+        ><b>Centre for Development of Teaching and Learning (CDTL)</b></a
+      >
+      of NUS, for supporting us with several Teaching Enhancement Grants over the years.
     </li>
     <li>
       <b>Learning Innovation Fund-Technology (LIF-T)</b> initiative of NUS, for funding us for the 2015-2018 period.
     </li>
     <li>
-      <b>Google Summer of Code</b> Program, for including TEAMMATES as a mentor organization in GSoC2014, GSoC2015, GSoC2016, GSoC2017, and GSoC2018 editions.
+      <b>Google Summer of Code</b> Program, for including TEAMMATES as a mentor organization in GSoC2014, GSoC2015,
+      GSoC2016, GSoC2017, and GSoC2018 editions.
+    </li>
+    <li><b>Facebook Open Academy</b> Program, for including TEAMMATES as a mentor organization in FBOA 2016.</li>
+    <li>
+      <b>Jet Brains</b>, for the
+      <a href="https://www.jetbrains.com/idea/" target="_blank" rel="noopener noreferrer">Intellij IDEA</a> licences.
     </li>
     <li>
-      <b>Facebook Open Academy</b> Program, for including TEAMMATES as a mentor organization in FBOA 2016.
-    </li>
-    <li>
-      <b>Jet Brains</b>, for the <a href="https://www.jetbrains.com/idea/" target="_blank" rel="noopener noreferrer">Intellij IDEA</a> licences.
-    </li>
-    <li>
-      <img src="assets/images/yklogo.png" alt="" width="100">
+      <img src="assets/images/yklogo.png" alt="" width="100" />
       <span>&nbsp;&nbsp;</span>
-      <b><a href="https://www.yourkit.com" target="_blank" rel="noopener noreferrer">YourKit LLC</a></b>, for providing us with free licenses for the <a href="https://www.yourkit.com/java/profiler" target="_blank" rel="noopener noreferrer">YourKit Java Profiler</a>.
+      <b><a href="https://www.yourkit.com" target="_blank" rel="noopener noreferrer">YourKit LLC</a></b
+      >, for providing us with free licenses for the
+      <a href="https://www.yourkit.com/java/profiler" target="_blank" rel="noopener noreferrer">YourKit Java Profiler</a
+      >.
     </li>
     <li>
-      <img src="assets/images/saucelabs.png" alt="" width="100">
+      <img src="assets/images/saucelabs.png" alt="" width="100" />
       <span>&nbsp;&nbsp;</span>
-      <b><a href="https://saucelabs.com" target="_blank" rel="noopener noreferrer">SauceLabs</a></b>, for providing us with a free <a href="https://saucelabs.com/open-source" target="_blank" rel="noopener noreferrer">Open Sauce account</a> for cross-browser testing.
+      <b><a href="https://saucelabs.com" target="_blank" rel="noopener noreferrer">SauceLabs</a></b
+      >, for providing us with a free
+      <a href="https://saucelabs.com/open-source" target="_blank" rel="noopener noreferrer">Open Sauce account</a> for
+      cross-browser testing.
     </li>
   </ul>
-  <p>
-    TEAMMATES has benefitted from the work of {{ nDevelopers }} developers.
-  </p>
+  <p>TEAMMATES has benefitted from the work of {{ nDevelopers }} developers.</p>
 
   <h3>Core Team:</h3>
   <table class="core-team-table">
@@ -44,7 +51,7 @@
       <tr>
         <td class="core-team-photo-cell">
           @if (teamMember.avatarUrl) {
-            <img [src]="teamMember.avatarUrl" [alt]="teamMember.name">
+            <img [src]="teamMember.avatarUrl" [alt]="teamMember.name" />
           }
         </td>
         <td class="core-team-details-cell">
@@ -56,122 +63,126 @@
           @if (!teamMember.url) {
             <span>{{ teamMember.name }}</span>
           }
-          <br><br>
+          <br /><br />
           <strong>{{ teamMember.currentPosition }}</strong>
           @for (position of teamMember.pastPositions; track position) {
-            <br>
-              {{ position }}
+            <br />
+            {{ position }}
+          }
+        </td>
+      </tr>
+    }
+  </table>
+
+  @if (committers.length) {
+    <h3>Committers:</h3>
+  }
+  @if (committers.length) {
+    <table class="core-team-table">
+      @for (committer of committers; track committer) {
+        <tr>
+          <td class="core-team-photo-cell">
+            @if (committer.avatarUrl) {
+              <img [src]="committer.avatarUrl" [alt]="committer.name" />
             }
+          </td>
+          <td class="core-team-details-cell">
+            @if (committer.url) {
+              <span>
+                <a href="{{ committer.url }}" target="_blank" rel="noopener noreferrer">{{ committer.name }}</a>
+              </span>
+            }
+            @if (!committer.url) {
+              <span>{{ committer.name }}</span>
+            }
+            ({{ committer.startPeriod }} - )
           </td>
         </tr>
       }
     </table>
+  }
 
-    @if (committers.length) {
-      <h3>Committers:</h3>
-    }
-    @if (committers.length) {
-      <table class="core-team-table">
-        @for (committer of committers; track committer) {
-          <tr>
-            <td class="core-team-photo-cell">
-              @if (committer.avatarUrl) {
-                <img [src]="committer.avatarUrl" [alt]="committer.name">
-              }
-            </td>
-            <td class="core-team-details-cell">
-              @if (committer.url) {
-                <span>
-                  <a href="{{ committer.url }}" target="_blank" rel="noopener noreferrer">{{ committer.name }}</a>
-                </span>
-              }
-              @if (!committer.url) {
-                <span>{{ committer.name }}</span>
-              }
-              ({{ committer.startPeriod }} - )
-            </td>
-          </tr>
+  <h3>Past Team Members:</h3>
+  <ol>
+    @for (teamMember of pastTeamMembers; track teamMember) {
+      <li>
+        @if (teamMember.url) {
+          <span>
+            <a href="{{ teamMember.url }}" target="_blank" rel="noopener noreferrer">{{ teamMember.name }}</a>
+          </span>
         }
-      </table>
+        @if (!teamMember.url) {
+          <span>{{ teamMember.name }}</span>
+        }
+        <ul>
+          @for (position of teamMember.pastPositions; track position) {
+            <li>
+              {{ position }}
+            </li>
+          }
+        </ul>
+      </li>
     }
+  </ol>
 
-    <h3>Past Team Members:</h3>
-    <ol>
-      @for (teamMember of pastTeamMembers; track teamMember) {
-        <li>
-          @if (teamMember.url) {
-            <span>
-              <a href="{{ teamMember.url }}" target="_blank" rel="noopener noreferrer">{{ teamMember.name }}</a>
-            </span>
-          }
-          @if (!teamMember.url) {
-            <span>{{ teamMember.name }}</span>
-          }
-          <ul>
-            @for (position of teamMember.pastPositions; track position) {
-              <li>
-                {{ position }}
-              </li>
-            }
-          </ul>
-        </li>
-      }
-    </ol>
+  <h3>Past Committers:</h3>
+  <ol>
+    @for (committer of pastCommitters; track committer) {
+      <li>
+        <a href="{{ committer.url }}" target="_blank" rel="noopener noreferrer">{{ committer.name }}</a>
+        ({{ committer.startPeriod }} - {{ committer.endPeriod }})
+      </li>
+    }
+  </ol>
 
-    <h3>Past Committers:</h3>
-    <ol>
-      @for (committer of pastCommitters; track committer) {
-        <li>
-          <a href="{{ committer.url }}" target="_blank" rel="noopener noreferrer">{{ committer.name }}</a>
-          ({{ committer.startPeriod }} - {{ committer.endPeriod }})
-        </li>
-      }
-    </ol>
+  <h3>Contributors</h3>
 
-    <h3>Contributors</h3>
+  <h4>Major contributions:</h4>
+  <ol>
+    @for (contributor of majorContributors; track contributor) {
+      <li>
+        <a href="{{ contributor.url }}" target="_blank" rel="noopener noreferrer">{{ contributor.name }}</a>
+      </li>
+    }
+  </ol>
 
-    <h4>Major contributions:</h4>
-    <ol>
-      @for (contributor of majorContributors; track contributor) {
-        <li>
-          <a href="{{ contributor.url }}" target="_blank" rel="noopener noreferrer">{{ contributor.name }}</a>
-        </li>
-      }
-    </ol>
+  <h4>Multiple contributions:</h4>
+  <ol>
+    @for (contributor of multipleContributors; track contributor) {
+      <li>
+        @if (contributor.url) {
+          <span>
+            <a href="{{ contributor.url }}" target="_blank" rel="noopener noreferrer">{{
+              contributor.displayedName
+            }}</a>
+          </span>
+        }
+        @if (!contributor.url) {
+          <span>{{ contributor.displayedName }}</span>
+        }
+      </li>
+    }
+  </ol>
 
-    <h4>Multiple contributions:</h4>
-    <ol>
-      @for (contributor of multipleContributors; track contributor) {
-        <li>
-          @if (contributor.url) {
-            <span>
-              <a href="{{ contributor.url }}" target="_blank" rel="noopener noreferrer">{{ contributor.displayedName }}</a>
-            </span>
-          }
-          @if (!contributor.url) {
-            <span>{{ contributor.displayedName }}</span>
-          }
-        </li>
-      }
-    </ol>
+  <h4>One-time contributions:</h4>
+  <ol>
+    @for (contributor of singleContributors; track contributor) {
+      <li>
+        @if (contributor.url) {
+          <span>
+            <a href="{{ contributor.url }}" target="_blank" rel="noopener noreferrer">{{
+              contributor.displayedName
+            }}</a>
+          </span>
+        }
+        @if (!contributor.url) {
+          <span>{{ contributor.displayedName }}</span>
+        }
+      </li>
+    }
+  </ol>
 
-    <h4>One-time contributions:</h4>
-    <ol>
-      @for (contributor of singleContributors; track contributor) {
-        <li>
-          @if (contributor.url) {
-            <span>
-              <a href="{{ contributor.url }}" target="_blank" rel="noopener noreferrer">{{ contributor.displayedName }}</a>
-            </span>
-          }
-          @if (!contributor.url) {
-            <span>{{ contributor.displayedName }}</span>
-          }
-        </li>
-      }
-    </ol>
-
-    <p>
-      Would you like to join the TEAMMATES team as a contributor? <a tmRouterLink="/web/front/contact">Contact us.</a>
-    </p>
-  </div>
+  <p>
+    Would you like to join the TEAMMATES team as a contributor? <a tmRouterLink="/web/front/contact">Contact us.</a>
+  </p>
+</div>

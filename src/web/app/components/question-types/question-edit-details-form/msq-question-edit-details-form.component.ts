@@ -6,10 +6,7 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { MsqFieldComponent } from './msq-field/msq-field.component';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import { WeightFieldComponent } from './weight-field/weight-field.component';
-import {
-  FeedbackMsqQuestionDetails,
-  FeedbackParticipantType,
-} from '../../../../types/api-output';
+import { FeedbackMsqQuestionDetails, FeedbackParticipantType } from '../../../../types/api-output';
 import { DEFAULT_MSQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { NO_VALUE } from '../../../../types/feedback-response-details';
 import { GeneratedChoicePipe } from '../../teammates-common/generated-choice.pipe';
@@ -30,11 +27,9 @@ import { GeneratedChoicePipe } from '../../teammates-common/generated-choice.pip
     MsqFieldComponent,
     WeightFieldComponent,
     GeneratedChoicePipe,
-],
+  ],
 })
-export class MsqQuestionEditDetailsFormComponent
-    extends QuestionEditDetailsFormComponent<FeedbackMsqQuestionDetails> {
-
+export class MsqQuestionEditDetailsFormComponent extends QuestionEditDetailsFormComponent<FeedbackMsqQuestionDetails> {
   readonly PARTICIPANT_TYPES = [
     FeedbackParticipantType.STUDENTS,
     FeedbackParticipantType.STUDENTS_EXCLUDING_SELF,
@@ -180,7 +175,7 @@ export class MsqQuestionEditDetailsFormComponent
       });
     } else {
       // Exclude maxSelectableChoices and minSelectableChoices because the checkbox shouldn't affect them
-      const { 
+      const {
         maxSelectableChoices: _maxSelectableChoices,
         minSelectableChoices: _minSelectableChoices,
         ...others

@@ -143,8 +143,11 @@ describe('AccountService', () => {
       reasonTitle: 'Title',
       reasonBody: 'Body',
     };
-    expect(spyHttpRequestService.post)
-      .toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST_REJECT, paramMap, requestBody);
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(
+      ResourceEndpoints.ACCOUNT_REQUEST_REJECT,
+      paramMap,
+      requestBody,
+    );
   });
 
   it('should execute PUT on account request endpoint for edit', () => {
@@ -159,7 +162,6 @@ describe('AccountService', () => {
     const paramMap: Record<string, string> = {
       id: 'testId',
     };
-    expect(spyHttpRequestService.put)
-      .toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, paramMap, updateRequest);
+    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, paramMap, updateRequest);
   });
 });

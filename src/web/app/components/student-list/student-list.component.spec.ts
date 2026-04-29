@@ -52,13 +52,8 @@ describe('StudentListComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -254,64 +249,67 @@ describe('StudentListComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should snap with enable remind button set to true, one student yet to join when not allowed to modify'
-      + ' student', () => {
-    component.studentModels = [
-      {
-        student: {
-          name: 'tester',
-          teamName: 'Team 1',
-          email: 'tester@tester.com',
-          joinState: JoinState.NOT_JOINED,
-          sectionName: 'Tutorial Group 1',
-          courseId: 'text-exa.demo',
+  it(
+    'should snap with enable remind button set to true, one student yet to join when not allowed to modify' +
+      ' student',
+    () => {
+      component.studentModels = [
+        {
+          student: {
+            name: 'tester',
+            teamName: 'Team 1',
+            email: 'tester@tester.com',
+            joinState: JoinState.NOT_JOINED,
+            sectionName: 'Tutorial Group 1',
+            courseId: 'text-exa.demo',
+          },
+          isAllowedToViewStudentInSection: true,
+          isAllowedToModifyStudent: false,
         },
-        isAllowedToViewStudentInSection: true,
-        isAllowedToModifyStudent: false,
-      },
-      {
-        student: {
-          name: 'Benny Charles',
-          teamName: 'Team 1',
-          email: 'benny.c.tmms@gmail.tmt',
-          joinState: JoinState.JOINED,
-          sectionName: 'Tutorial Group 1',
-          courseId: 'text-exa.demo',
+        {
+          student: {
+            name: 'Benny Charles',
+            teamName: 'Team 1',
+            email: 'benny.c.tmms@gmail.tmt',
+            joinState: JoinState.JOINED,
+            sectionName: 'Tutorial Group 1',
+            courseId: 'text-exa.demo',
+          },
+          isAllowedToViewStudentInSection: true,
+          isAllowedToModifyStudent: true,
         },
-        isAllowedToViewStudentInSection: true,
-        isAllowedToModifyStudent: true,
-      },
-      {
-        student: {
-          name: 'Alice Betsy',
-          teamName: 'Team 1',
-          email: 'alice.b.tmms@gmail.tmt',
-          joinState: JoinState.JOINED,
-          sectionName: 'Tutorial Group 2',
-          courseId: 'text-exa.demo',
+        {
+          student: {
+            name: 'Alice Betsy',
+            teamName: 'Team 1',
+            email: 'alice.b.tmms@gmail.tmt',
+            joinState: JoinState.JOINED,
+            sectionName: 'Tutorial Group 2',
+            courseId: 'text-exa.demo',
+          },
+          isAllowedToViewStudentInSection: true,
+          isAllowedToModifyStudent: true,
         },
-        isAllowedToViewStudentInSection: true,
-        isAllowedToModifyStudent: true,
-      },
-      {
-        student: {
-          name: 'Danny Engrid',
-          teamName: 'Team 1',
-          email: 'danny.e.tmms@gmail.tmt',
-          joinState: JoinState.JOINED,
-          sectionName: 'Tutorial Group 2',
-          courseId: 'text-exa.demo',
+        {
+          student: {
+            name: 'Danny Engrid',
+            teamName: 'Team 1',
+            email: 'danny.e.tmms@gmail.tmt',
+            joinState: JoinState.JOINED,
+            sectionName: 'Tutorial Group 2',
+            courseId: 'text-exa.demo',
+          },
+          isAllowedToViewStudentInSection: true,
+          isAllowedToModifyStudent: true,
         },
-        isAllowedToViewStudentInSection: true,
-        isAllowedToModifyStudent: true,
-      },
-    ];
+      ];
 
-    component.enableRemindButton = true;
+      component.enableRemindButton = true;
 
-    fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
-  });
+      fixture.detectChanges();
+      expect(fixture).toMatchSnapshot();
+    },
+  );
 
   it('should snap with some student list data and some students to hide', () => {
     component.studentModels = [
@@ -365,10 +363,7 @@ describe('StudentListComponent', () => {
       },
     ];
 
-    component.hiddenStudents = [
-      'alice.b.tmms@gmail.tmt',
-      'tester@tester.com',
-    ];
+    component.hiddenStudents = ['alice.b.tmms@gmail.tmt', 'tester@tester.com'];
 
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -414,7 +409,7 @@ describe('StudentListComponent', () => {
     fixture.detectChanges();
 
     const buttons: any = fixture.debugElement.queryAll(By.css('button'));
-    const sendInviteButton = buttons.find((button : any) => button.nativeElement.textContent.includes('Send Invite'));
+    const sendInviteButton = buttons.find((button: any) => button.nativeElement.textContent.includes('Send Invite'));
     expect(sendInviteButton).toBeTruthy();
   });
 
@@ -466,8 +461,7 @@ describe('StudentListComponent', () => {
           TEAMMATES sends an automatic invite to students at the opening time of each session.
           Send a join request to <strong>${studentModel.student.email}</strong> anyway?`;
     expect(modalSpy).toHaveBeenCalledTimes(1);
-    expect(modalSpy).toHaveBeenLastCalledWith('Send join request?',
-        SimpleModalType.INFO, expectedModalContent);
+    expect(modalSpy).toHaveBeenLastCalledWith('Send join request?', SimpleModalType.INFO, expectedModalContent);
 
     expect(reminderStudentFromCourseSpy).toHaveBeenCalledWith(studentModel.student.email);
   });
@@ -492,37 +486,39 @@ describe('StudentListComponent', () => {
     await promise;
 
     const expectedModalHeader = `Delete student <strong>${studentModel.student.name}</strong>?`;
-    const expectedModalContent: string = 'Are you sure you want to remove '
-        + `<strong>${studentModel.student.name}</strong> `
-        + `from the course <strong>${component.courseId}?</strong>`;
+    const expectedModalContent: string =
+      'Are you sure you want to remove ' +
+      `<strong>${studentModel.student.name}</strong> ` +
+      `from the course <strong>${component.courseId}?</strong>`;
     expect(modalSpy).toHaveBeenCalledTimes(1);
-    expect(modalSpy).toHaveBeenLastCalledWith(expectedModalHeader,
-        SimpleModalType.DANGER, expectedModalContent);
+    expect(modalSpy).toHaveBeenLastCalledWith(expectedModalHeader, SimpleModalType.DANGER, expectedModalContent);
 
     expect(removeStudentFromCourseSpy).toHaveBeenCalledWith(studentModel.student.email);
     expect(component.students).not.toContain(studentModel.student.email);
   });
 
-  it('remindStudentFromCourse: should call statusMessageService.showSuccessToast with'
-    + 'correct message upon success', () => {
-    const successMessage = 'success';
-    jest.spyOn(courseService, 'remindStudentForJoin')
-        .mockReturnValue(of({ message: successMessage }));
-    const studentEmail = 'testemail@gmail.com';
+  it(
+    'remindStudentFromCourse: should call statusMessageService.showSuccessToast with' + 'correct message upon success',
+    () => {
+      const successMessage = 'success';
+      jest.spyOn(courseService, 'remindStudentForJoin').mockReturnValue(of({ message: successMessage }));
+      const studentEmail = 'testemail@gmail.com';
 
-    const statusMessageServiceSpy = jest.spyOn(statusMessageService, 'showSuccessToast');
+      const statusMessageServiceSpy = jest.spyOn(statusMessageService, 'showSuccessToast');
 
-    component.remindStudentFromCourse(studentEmail);
+      component.remindStudentFromCourse(studentEmail);
 
-    expect(statusMessageServiceSpy).toHaveBeenLastCalledWith(successMessage);
-  });
+      expect(statusMessageServiceSpy).toHaveBeenLastCalledWith(successMessage);
+    },
+  );
 
   it('remindStudentFromCourse: should call statusMessageService.showErrorToast with correct message upon error', () => {
     const errorMessage = 'error';
-    jest.spyOn(courseService, 'remindStudentForJoin')
-        .mockReturnValue(throwError(() => ({
-          error: { message: errorMessage },
-        })));
+    jest.spyOn(courseService, 'remindStudentForJoin').mockReturnValue(
+      throwError(() => ({
+        error: { message: errorMessage },
+      })),
+    );
     const studentEmail = 'testemail@gmail.com';
 
     const statusMessageServiceSpy = jest.spyOn(statusMessageService, 'showErrorToast');
@@ -550,7 +546,8 @@ describe('StudentListComponent', () => {
       },
     ];
 
-    expect(component.rowsData[0][2].displayValue)
-        .toBe('<span class="highlighted-text">Te</span>s<span class="highlighted-text">te</span>r');
+    expect(component.rowsData[0][2].displayValue).toBe(
+      '<span class="highlighted-text">Te</span>s<span class="highlighted-text">te</span>r',
+    );
   });
 });

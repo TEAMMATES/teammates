@@ -14,13 +14,11 @@ describe('getTextFromHtml', () => {
   });
 
   it('should replace line breaks \\n', () => {
-    expect(StringHelper.getTextFromHtml('<p>I am cool.\n multi-line'))
-        .toEqual('I am cool.  multi-line');
+    expect(StringHelper.getTextFromHtml('<p>I am cool.\n multi-line')).toEqual('I am cool.  multi-line');
   });
 
   it('should replace line breaks \\n\\r', () => {
-    expect(StringHelper.getTextFromHtml('<p>I am cool.\r\n multi-line </p>'))
-        .toEqual('I am cool.  multi-line ');
+    expect(StringHelper.getTextFromHtml('<p>I am cool.\r\n multi-line </p>')).toEqual('I am cool.  multi-line ');
   });
 });
 
@@ -34,8 +32,9 @@ describe('convertImageToLinkInHtml', () => {
   });
 
   it('should return image links in img tags', () => {
-    expect(StringHelper.convertImageToLinkInHtml('<img src="http://www.example.com/test.jpg">Bob</img>'))
-        .toEqual(' Images Link: http://www.example.com/test.jpg ');
+    expect(StringHelper.convertImageToLinkInHtml('<img src="http://www.example.com/test.jpg">Bob</img>')).toEqual(
+      ' Images Link: http://www.example.com/test.jpg ',
+    );
   });
 
   it('should return empty string for malformed img tags', () => {

@@ -1,7 +1,6 @@
 ---
 name: Release
 about: (for core team) Schedule and manage a release
-
 ---
 
 <!-- Issue title: Release VX.Y.Z -->

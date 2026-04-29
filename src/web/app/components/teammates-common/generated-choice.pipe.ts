@@ -6,7 +6,6 @@ import { FeedbackParticipantType } from '../../../types/api-output';
  */
 @Pipe({ name: 'generatedChoice' })
 export class GeneratedChoicePipe implements PipeTransform {
-
   transform(type: FeedbackParticipantType): string {
     switch (type) {
       case FeedbackParticipantType.STUDENTS:
@@ -27,5 +26,4 @@ export class GeneratedChoicePipe implements PipeTransform {
         return 'unknown';
     }
   }
-
 }

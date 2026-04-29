@@ -4,9 +4,10 @@ import { FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails, FeedbackQuestio
 /**
  * Concrete implementation of {@link FeedbackMcqResponseDetails}.
  */
-export class FeedbackMcqResponseDetailsImpl extends AbstractFeedbackResponseDetails<FeedbackMcqQuestionDetails>
-    implements FeedbackMcqResponseDetails {
-
+export class FeedbackMcqResponseDetailsImpl
+  extends AbstractFeedbackResponseDetails<FeedbackMcqQuestionDetails>
+  implements FeedbackMcqResponseDetails
+{
   answer = '';
   isOther = false;
   otherFieldContent = '';
@@ -26,5 +27,4 @@ export class FeedbackMcqResponseDetailsImpl extends AbstractFeedbackResponseDeta
     }
     return [[answerStr]];
   }
-
 }

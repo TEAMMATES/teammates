@@ -1,9 +1,13 @@
 import { TemplateSession } from '../../../../services/feedback-sessions.service';
 import {
   CommentVisibilityType,
-  Course, FeedbackContributionResponseDetails, FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails,
+  Course,
+  FeedbackContributionResponseDetails,
+  FeedbackMcqQuestionDetails,
+  FeedbackMcqResponseDetails,
   FeedbackParticipantType,
-  FeedbackQuestionType, FeedbackSession,
+  FeedbackQuestionType,
+  FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   FeedbackVisibilityType,
@@ -17,17 +21,14 @@ import {
   Student,
 } from '../../../../types/api-output';
 import {
-  DEFAULT_CONTRIBUTION_RESPONSE_DETAILS, DEFAULT_MCQ_QUESTION_DETAILS,
+  DEFAULT_CONTRIBUTION_RESPONSE_DETAILS,
+  DEFAULT_MCQ_QUESTION_DETAILS,
   DEFAULT_MCQ_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
 import { CommentEditFormModel } from '../../../components/comment-box/comment-edit-form/comment-edit-form.component';
 import { CommentTableModel } from '../../../components/comment-box/comment-table/comment-table.model';
-import {
-  SessionEditFormModel,
-} from '../../../components/session-edit-form/session-edit-form-model';
-import {
-  RecycleBinFeedbackSessionRowModel,
-} from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
+import { SessionEditFormModel } from '../../../components/session-edit-form/session-edit-form-model';
+import { RecycleBinFeedbackSessionRowModel } from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
 import { SectionTabModel } from '../../../pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 import { FeedbackQuestionModel } from '../../../pages-session/session-result-page/feedback-question.model';
 
@@ -112,17 +113,19 @@ export const EXAMPLE_RESPONSE_WITH_COMMENT: ResponseOutput = {
     answer: 110,
     questionType: FeedbackQuestionType.CONTRIB,
   } as FeedbackContributionResponseDetails,
-  instructorComments: [{
-    commentGiver: 'Instructor',
-    lastEditorEmail: '',
-    feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
-    commentText: 'Good to know!',
-    createdAt: 1,
-    lastEditedAt: 1,
-    isVisibilityFollowingFeedbackQuestion: true,
-    showGiverNameTo: [CommentVisibilityType.GIVER],
-    showCommentTo: [CommentVisibilityType.GIVER],
-  }],
+  instructorComments: [
+    {
+      commentGiver: 'Instructor',
+      lastEditorEmail: '',
+      feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
+      commentText: 'Good to know!',
+      createdAt: 1,
+      lastEditedAt: 1,
+      isVisibilityFollowingFeedbackQuestion: true,
+      showGiverNameTo: [CommentVisibilityType.GIVER],
+      showCommentTo: [CommentVisibilityType.GIVER],
+    },
+  ],
 };
 /**
  * Structure of example course candidates
@@ -259,11 +262,7 @@ export const EXAMPLE_GRQ_RESPONSES: Record<string, SectionTabModel> = {
             hasAssignedWeights: false,
             mcqWeights: [],
             mcqOtherWeight: 0,
-            mcqChoices: [
-              '<p>Good</p>',
-              '<p>Normal</p>',
-              '<p>Bad</p>',
-            ],
+            mcqChoices: ['<p>Good</p>', '<p>Normal</p>', '<p>Bad</p>'],
             otherEnabled: false,
             questionDropdownEnabled: false,
             generateOptionsFor: 'NONE',
@@ -335,92 +334,93 @@ export const EXAMPLE_GRQ_RESPONSES: Record<string, SectionTabModel> = {
 /**
  * Structure of example questions with responses
  */
-export const EXAMPLE_QUESTIONS_WITH_RESPONSES: FeedbackQuestionModel[] = [{
-  feedbackQuestion: {
-    feedbackQuestionId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw',
-    questionNumber: 1,
-    questionBrief: 'How well did this team member perform?',
-    questionDescription: '',
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    questionDetails: {
-      ...DEFAULT_MCQ_QUESTION_DETAILS(),
-      questionText: 'How well did this team member perform?',
-      mcqChoices: [
-        '<p>Good</p>',
-        '<p>Normal</p>',
-        '<p>Bad</p>',
-      ],
-    } as FeedbackMcqQuestionDetails,
-    questionType: FeedbackQuestionType.MCQ,
-    giverType: FeedbackParticipantType.STUDENTS,
-    recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
-    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
-    showResponsesTo: [FeedbackVisibilityType.RECIPIENT],
-    showGiverNameTo: [],
-    showRecipientNameTo: [],
-    customNumberOfEntitiesToGiveFeedbackTo: 0,
+export const EXAMPLE_QUESTIONS_WITH_RESPONSES: FeedbackQuestionModel[] = [
+  {
+    feedbackQuestion: {
+      feedbackQuestionId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw',
+      questionNumber: 1,
+      questionBrief: 'How well did this team member perform?',
+      questionDescription: '',
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+      questionDetails: {
+        ...DEFAULT_MCQ_QUESTION_DETAILS(),
+        questionText: 'How well did this team member perform?',
+        mcqChoices: ['<p>Good</p>', '<p>Normal</p>', '<p>Bad</p>'],
+      } as FeedbackMcqQuestionDetails,
+      questionType: FeedbackQuestionType.MCQ,
+      giverType: FeedbackParticipantType.STUDENTS,
+      recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
+      numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+      showResponsesTo: [FeedbackVisibilityType.RECIPIENT],
+      showGiverNameTo: [],
+      showRecipientNameTo: [],
+      customNumberOfEntitiesToGiveFeedbackTo: 0,
+    },
+    questionStatistics: '',
+    allResponses: [EXAMPLE_RESPONSE_WITH_COMMENT],
+    responsesToSelf: [
+      {
+        responseId:
+          'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw' +
+          '%benny.c.tmms@gmail.tmt%alice.b.tmms@gmail.tmt',
+        giver: 'Benny Charles',
+        giverTeam: 'Team A',
+        giverSection: 'Section A',
+        recipient: 'You',
+        recipientTeam: 'Team A',
+        recipientSection: 'Section A',
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+        responseDetails: {
+          ...DEFAULT_MCQ_RESPONSE_DETAILS(),
+          answer: '<p>Good</p>',
+        } as FeedbackMcqResponseDetails,
+        instructorComments: [],
+        isMissingResponse: false,
+      },
+    ],
+    responsesFromSelf: [
+      {
+        responseId:
+          'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw' +
+          '%alice.b.tmms@gmail.tmt%alice.b.tmms@gmail.tmt',
+        giver: 'You',
+        giverTeam: 'Team A',
+        giverSection: 'Section A',
+        recipient: 'You',
+        recipientSection: 'Section A',
+        recipientTeam: 'Team A',
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+        responseDetails: {
+          ...DEFAULT_MCQ_RESPONSE_DETAILS(),
+          answer: '<p>Good</p>',
+        } as FeedbackMcqResponseDetails,
+        instructorComments: [],
+        isMissingResponse: false,
+      },
+      {
+        responseId:
+          'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw' +
+          '     %alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt',
+        giver: 'You',
+        giverTeam: 'Team A',
+        giverSection: 'Section A',
+        recipient: 'Benny Charles',
+        recipientTeam: 'Team A',
+        recipientSection: 'Section A',
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+        responseDetails: {
+          ...DEFAULT_MCQ_RESPONSE_DETAILS(),
+          answer: '<p>Bad</p>',
+        } as FeedbackMcqResponseDetails,
+        instructorComments: [],
+        isMissingResponse: false,
+      },
+    ],
+    otherResponses: [],
+    isLoaded: true,
+    isLoading: false,
+    hasResponse: true,
+    hasResponseButNotVisibleForPreview: false,
+    hasCommentNotVisibleForPreview: false,
   },
-  questionStatistics: '',
-  allResponses: [EXAMPLE_RESPONSE_WITH_COMMENT],
-  responsesToSelf: [
-    {
-      responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw'
-          + '%benny.c.tmms@gmail.tmt%alice.b.tmms@gmail.tmt',
-      giver: 'Benny Charles',
-      giverTeam: 'Team A',
-      giverSection: 'Section A',
-      recipient: 'You',
-      recipientTeam: 'Team A',
-      recipientSection: 'Section A',
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      responseDetails: {
-        ...DEFAULT_MCQ_RESPONSE_DETAILS(),
-        answer: '<p>Good</p>',
-      } as FeedbackMcqResponseDetails,
-      instructorComments: [],
-      isMissingResponse: false,
-    },
-  ],
-  responsesFromSelf: [
-    {
-      responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw'
-          + '%alice.b.tmms@gmail.tmt%alice.b.tmms@gmail.tmt',
-      giver: 'You',
-      giverTeam: 'Team A',
-      giverSection: 'Section A',
-      recipient: 'You',
-      recipientSection: 'Section A',
-      recipientTeam: 'Team A',
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      responseDetails: {
-        ...DEFAULT_MCQ_RESPONSE_DETAILS(),
-        answer: '<p>Good</p>',
-      } as FeedbackMcqResponseDetails,
-      instructorComments: [],
-      isMissingResponse: false,
-    },
-    {
-      responseId: 'ag50ZWFtbWF0ZXMtam9obnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICAgIDICQw'
-          + '     %alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt',
-      giver: 'You',
-      giverTeam: 'Team A',
-      giverSection: 'Section A',
-      recipient: 'Benny Charles',
-      recipientTeam: 'Team A',
-      recipientSection: 'Section A',
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      responseDetails: {
-        ...DEFAULT_MCQ_RESPONSE_DETAILS(),
-        answer: '<p>Bad</p>',
-      } as FeedbackMcqResponseDetails,
-      instructorComments: [],
-      isMissingResponse: false,
-    },
-  ],
-  otherResponses: [],
-  isLoaded: true,
-  isLoading: false,
-  hasResponse: true,
-  hasResponseButNotVisibleForPreview: false,
-  hasCommentNotVisibleForPreview: false,
-}];
+];

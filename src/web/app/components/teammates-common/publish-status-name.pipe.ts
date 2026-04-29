@@ -6,7 +6,6 @@ import { FeedbackSessionPublishStatus } from '../../../types/api-output';
  */
 @Pipe({ name: 'publishStatusName' })
 export class PublishStatusNamePipe implements PipeTransform {
-
   /**
    * Transforms {@link FeedbackSessionPublishStatus} to a simple name.
    */
@@ -20,5 +19,4 @@ export class PublishStatusNamePipe implements PipeTransform {
         return 'Unknown';
     }
   }
-
 }

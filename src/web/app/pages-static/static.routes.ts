@@ -37,7 +37,9 @@ const routes: Routes = [
       {
         path: 'instructor',
         loadComponent: () =>
-          import('../pages-help/instructor-help-page/instructor-help-page.component').then((m) => m.InstructorHelpPageComponent),
+          import('../pages-help/instructor-help-page/instructor-help-page.component').then(
+            (m) => m.InstructorHelpPageComponent,
+          ),
         data: {
           instructorGettingStartedPath: '/web/front/help/getting-started',
         },
@@ -45,7 +47,9 @@ const routes: Routes = [
       {
         path: 'getting-started',
         loadComponent: () =>
-          import('../pages-help/instructor-help-page/instructor-help-getting-started/instructor-help-getting-started.component').then((m) => m.InstructorHelpGettingStartedComponent),
+          import('../pages-help/instructor-help-page/instructor-help-getting-started/instructor-help-getting-started.component').then(
+            (m) => m.InstructorHelpGettingStartedComponent,
+          ),
         data: {
           instructorHelpPath: '/web/front/help/instructor',
         },
@@ -53,7 +57,9 @@ const routes: Routes = [
       {
         path: 'session-links-recovery',
         loadComponent: () =>
-          import('../pages-help/session-links-recovery/session-links-recovery-page.component').then((m) => m.SessionLinksRecoveryPageComponent),
+          import('../pages-help/session-links-recovery/session-links-recovery-page.component').then(
+            (m) => m.SessionLinksRecoveryPageComponent,
+          ),
       },
     ],
   },

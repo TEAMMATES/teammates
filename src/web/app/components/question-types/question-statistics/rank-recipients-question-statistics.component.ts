@@ -1,10 +1,12 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
-import {
-  RankRecipientsQuestionStatisticsCalculation,
-} from './question-statistics-calculation/rank-recipients-question-statistics-calculation';
+import { RankRecipientsQuestionStatisticsCalculation } from './question-statistics-calculation/rank-recipients-question-statistics-calculation';
 import { DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
-import { ColumnData, SortableTableCellData, SortableTableComponent } from '../../sortable-table/sortable-table.component';
+import {
+  ColumnData,
+  SortableTableCellData,
+  SortableTableComponent,
+} from '../../sortable-table/sortable-table.component';
 
 /**
  * Statistics for rank recipients questions.
@@ -15,9 +17,10 @@ import { ColumnData, SortableTableCellData, SortableTableComponent } from '../..
   styleUrls: ['./rank-recipients-question-statistics.component.scss'],
   imports: [SortableTableComponent],
 })
-export class RankRecipientsQuestionStatisticsComponent extends RankRecipientsQuestionStatisticsCalculation
-    implements OnInit, OnChanges {
-
+export class RankRecipientsQuestionStatisticsComponent
+  extends RankRecipientsQuestionStatisticsCalculation
+  implements OnInit, OnChanges
+{
   // enum
   SortBy: typeof SortBy = SortBy;
 
@@ -54,8 +57,7 @@ export class RankRecipientsQuestionStatisticsComponent extends RankRecipientsQue
       return [
         { value: this.emailToTeamName[key] },
         {
-          value: this.emailToName[key]
-          + (key === this.emailToName[key] ? '' : key),
+          value: this.emailToName[key] + (key === this.emailToName[key] ? '' : key),
         },
         { value: this.ranksReceivedPerOption[key].join(', ') },
         { value: this.selfRankPerOption[key] || '-' },
@@ -66,5 +68,4 @@ export class RankRecipientsQuestionStatisticsComponent extends RankRecipientsQue
       ];
     });
   }
-
 }

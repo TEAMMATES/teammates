@@ -8,13 +8,15 @@ import { AuthService } from '../services/auth.service';
  * Component for publicly available pages.
  */
 @Component({
-    selector: 'tm-public-page',
-    template: '<tm-page [isValidUser]="true" [hideAuthInfo]="true"></tm-page>',
-    imports: [PageComponent],
+  selector: 'tm-public-page',
+  template: '<tm-page [isValidUser]="true" [hideAuthInfo]="true"></tm-page>',
+  imports: [PageComponent],
 })
 export class PublicPageComponent {
-  constructor(private route: ActivatedRoute,
-              private authService: AuthService) {
+  constructor(
+    private route: ActivatedRoute,
+    private authService: AuthService,
+  ) {
     if (environment.maintenance) {
       return;
     }
@@ -24,5 +26,4 @@ export class PublicPageComponent {
       });
     });
   }
-
 }

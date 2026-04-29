@@ -19,22 +19,15 @@ import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/def
   selector: 'tm-constsum-options-question-edit-details-form',
   templateUrl: './constsum-options-question-edit-details-form.component.html',
   styleUrls: ['./constsum-options-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
-  imports: [
-    CdkDropList,
-    CdkDrag,
-    CdkDragHandle,
-    ConstsumOptionsFieldComponent,
-    FormsModule,
-    NgbTooltip,
-],
+  imports: [CdkDropList, CdkDrag, CdkDragHandle, ConstsumOptionsFieldComponent, FormsModule, NgbTooltip],
 })
 export class ConstsumOptionsQuestionEditDetailsFormComponent
-    extends QuestionEditDetailsFormComponent<FeedbackConstantSumQuestionDetails>
-    implements OnChanges {
-
+  extends QuestionEditDetailsFormComponent<FeedbackConstantSumQuestionDetails>
+  implements OnChanges
+{
   // enum
   FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =
-      FeedbackConstantSumDistributePointsType;
+    FeedbackConstantSumDistributePointsType;
 
   constructor(private statusMessageService: StatusMessageService) {
     super(DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS());
@@ -113,8 +106,9 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
   onForceUnevenDistribution(event: boolean): void {
     this.triggerModelChangeBatch({
       forceUnevenDistribution: event,
-      distributePointsFor: event ? FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY
-          : FeedbackConstantSumDistributePointsType.NONE,
+      distributePointsFor: event
+        ? FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY
+        : FeedbackConstantSumDistributePointsType.NONE,
     });
   }
 

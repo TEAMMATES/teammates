@@ -1,4 +1,4 @@
 export interface RejectWithReasonModalComponentResult {
-    rejectionReasonTitle: string;
-    rejectionReasonBody: string;
+  rejectionReasonTitle: string;
+  rejectionReasonBody: string;
 }

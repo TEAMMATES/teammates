@@ -14,7 +14,7 @@ exports[`QuestionTextWithInfoComponent should not show control link and question
     <h2
       class="question-number"
     >
-       Question 0: 
+      Question 0:
     </h2>
     <span
       class="question-text mx-sm-2"
@@ -39,7 +39,7 @@ exports[`QuestionTextWithInfoComponent should show control link when question ty
     <h2
       class="question-number"
     >
-       Question 0: 
+      Question 0:
     </h2>
     <span
       class="question-text mx-sm-2"
@@ -69,7 +69,7 @@ exports[`QuestionTextWithInfoComponent should show question detail when click co
     <h2
       class="question-number"
     >
-       Question 0: 
+      Question 0:
     </h2>
     <span
       class="question-text mx-sm-2"

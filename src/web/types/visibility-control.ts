@@ -2,7 +2,6 @@
  * The visibility controls.
  */
 export enum VisibilityControl {
-
   /**
    * Show response visibility control.
    */

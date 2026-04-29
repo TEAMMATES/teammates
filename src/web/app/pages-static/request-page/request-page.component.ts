@@ -12,21 +12,17 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
   selector: 'tm-request-page',
   templateUrl: './request-page.component.html',
   styleUrls: ['./request-page.component.scss'],
-  imports: [
-    TeammatesRouterDirective,
-    InstructorRequestFormComponent,
-],
+  imports: [TeammatesRouterDirective, InstructorRequestFormComponent],
 })
 export class RequestPageComponent {
-
   accountRequestFormUrl: SafeResourceUrl | null;
   isDeclarationDone = false;
   submittedFormData: InstructorRequestFormModel | null = null;
 
   constructor(private sanitizer: DomSanitizer) {
     this.accountRequestFormUrl = environment.accountRequestFormUrl
-        ? this.sanitizer.bypassSecurityTrustResourceUrl(environment.accountRequestFormUrl)
-        : null;
+      ? this.sanitizer.bypassSecurityTrustResourceUrl(environment.accountRequestFormUrl)
+      : null;
   }
 
   onDeclarationButtonClicked(): void {

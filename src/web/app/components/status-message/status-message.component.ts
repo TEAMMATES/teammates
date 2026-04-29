@@ -5,13 +5,12 @@ import { StatusMessage } from './status-message';
  * List of status messages.
  */
 @Component({
-    selector: 'tm-status-message',
-    templateUrl: './status-message.component.html',
-    styleUrls: ['./status-message.component.scss'],
-    imports: [],
+  selector: 'tm-status-message',
+  templateUrl: './status-message.component.html',
+  styleUrls: ['./status-message.component.scss'],
+  imports: [],
 })
 export class StatusMessageComponent {
-
   @Input() messages: StatusMessage[] = [];
 
   /**
@@ -20,5 +19,4 @@ export class StatusMessageComponent {
   dismiss(message: StatusMessage): void {
     this.messages.splice(this.messages.indexOf(message), 1);
   }
-
 }

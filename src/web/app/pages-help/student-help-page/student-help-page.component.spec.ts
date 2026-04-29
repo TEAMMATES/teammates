@@ -8,11 +8,8 @@ describe('StudentHelpPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        provideRouter([]),
-      ],
-    })
-    .compileComponents();
+      providers: [provideRouter([])],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

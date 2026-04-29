@@ -77,14 +77,14 @@ exports[`RejectWithReasonModal should show empty title and body 1`] = `
           id="btn-cancel-reject-request"
           type="button"
         >
-          Cancel
+           Cancel 
         </button>
         <button
           class="btn btn-warning"
           id="btn-confirm-reject-request"
           type="button"
         >
-           Reject 
+          Reject
         </button>
       </div>
     </div>

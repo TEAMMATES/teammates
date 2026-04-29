@@ -1,5 +1,5 @@
 # Auto detect text files and perform LF normalization
-* text=auto
+* text eol=lf
 
 # Custom for Visual Studio
 *.cs     diff=csharp
@@ -31,11 +31,3 @@
 src/e2e/resources/data/*            linguist-vendored
 src/test/resources/data/*           linguist-vendored
 src/test/resources/emails/*         linguist-vendored
-
-# non-windows shell scripts should have LF line-endings (especially if copying those scripts to docker containers)
-*.sh text eol=lf
-
-# Generated API type definitions must be byte-identical across OSes
-src/web/types/api-output.ts  text eol=lf
-src/web/types/api-request.ts text eol=lf
-src/web/types/api-const.ts   text eol=lf

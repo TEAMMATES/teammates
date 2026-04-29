@@ -10,9 +10,10 @@ import { QuestionStatistics } from '../question-statistics';
  * Class to calculate stats for rank recipients question.
  */
 @Directive()
-export class RankRecipientsQuestionStatisticsCalculation
-    extends QuestionStatistics<FeedbackRankRecipientsQuestionDetails, FeedbackRankRecipientsResponseDetails> {
-
+export class RankRecipientsQuestionStatisticsCalculation extends QuestionStatistics<
+  FeedbackRankRecipientsQuestionDetails,
+  FeedbackRankRecipientsResponseDetails
+> {
   emailToTeamName: Record<string, string> = {};
   emailToName: Record<string, string> = {};
   ranksReceivedPerOption: Record<string, number[]> = {};
@@ -38,16 +39,18 @@ export class RankRecipientsQuestionStatisticsCalculation
 
     const ranksReceivedPerOptionExcludeSelf: Record<string, number[]> = {};
 
-    const isRecipientTeam: boolean = this.recipientType === FeedbackParticipantType.TEAMS
-        || this.recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF;
+    const isRecipientTeam: boolean =
+      this.recipientType === FeedbackParticipantType.TEAMS ||
+      this.recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF;
 
-    const isRecipientOwnTeamMember: boolean = this.recipientType === FeedbackParticipantType.OWN_TEAM_MEMBERS
-        || this.recipientType === FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
+    const isRecipientOwnTeamMember: boolean =
+      this.recipientType === FeedbackParticipantType.OWN_TEAM_MEMBERS ||
+      this.recipientType === FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
 
     const teamMembersPerTeam: Record<string, string[]> = {};
 
     for (const response of this.responses) {
-      const identifier: string = isRecipientTeam ? response.recipient : (response.recipientEmail || response.recipient);
+      const identifier: string = isRecipientTeam ? response.recipient : response.recipientEmail || response.recipient;
 
       this.ranksReceivedPerOption[identifier] = this.ranksReceivedPerOption[identifier] || [];
       this.ranksReceivedPerOption[identifier].push(response.responseDetails.answer);
@@ -72,7 +75,6 @@ export class RankRecipientsQuestionStatisticsCalculation
           teamMembersPerTeam[response.recipientTeam].push(identifier);
         }
       }
-
     }
 
     for (const option of Object.keys(this.ranksReceivedPerOption)) {
@@ -83,10 +85,11 @@ export class RankRecipientsQuestionStatisticsCalculation
 
     if (isRecipientOwnTeamMember) {
       this.rankPerOptionInTeam = this.calculateRankPerOptionInTeam(this.ranksReceivedPerOption, teamMembersPerTeam);
-      this.rankPerOptionInTeamExcludeSelf = this.calculateRankPerOptionInTeam(ranksReceivedPerOptionExcludeSelf,
-        teamMembersPerTeam);
+      this.rankPerOptionInTeamExcludeSelf = this.calculateRankPerOptionInTeam(
+        ranksReceivedPerOptionExcludeSelf,
+        teamMembersPerTeam,
+      );
     }
-
   }
 
   private calculateRankPerOption(ranksReceivedPerOption: Record<string, number[]>): Record<string, number> {
@@ -128,22 +131,23 @@ export class RankRecipientsQuestionStatisticsCalculation
     return rankPerOption;
   }
 
-  private calculateRankPerOptionInTeam(ranksReceivedPerOption: Record<string, number[]>,
-    teamMembersPerTeam: Record<string, string[]>): Record<string, number> {
-
+  private calculateRankPerOptionInTeam(
+    ranksReceivedPerOption: Record<string, number[]>,
+    teamMembersPerTeam: Record<string, string[]>,
+  ): Record<string, number> {
     const teams: string[] = Object.keys(teamMembersPerTeam);
 
     return teams
-        .map((team: string) => teamMembersPerTeam[team])
-        .map((teamMembers: string[]) => teamMembers
-            .reduce((ranksReceivedPerOptionInTeam: Record<string, number[]>, teamMember: string) => {
-              ranksReceivedPerOptionInTeam[teamMember] = ranksReceivedPerOption[teamMember] || [];
-              return ranksReceivedPerOptionInTeam;
-            }, {}))
-        .map(this.calculateRankPerOption)
-        .reduce((rankPerOptionInTeam: Record<string, number>, rankPerOptionInEachTeam: Record<string, number>) => {
-          return { ...rankPerOptionInTeam, ...rankPerOptionInEachTeam };
-        }, { });
+      .map((team: string) => teamMembersPerTeam[team])
+      .map((teamMembers: string[]) =>
+        teamMembers.reduce((ranksReceivedPerOptionInTeam: Record<string, number[]>, teamMember: string) => {
+          ranksReceivedPerOptionInTeam[teamMember] = ranksReceivedPerOption[teamMember] || [];
+          return ranksReceivedPerOptionInTeam;
+        }, {}),
+      )
+      .map(this.calculateRankPerOption)
+      .reduce((rankPerOptionInTeam: Record<string, number>, rankPerOptionInEachTeam: Record<string, number>) => {
+        return { ...rankPerOptionInTeam, ...rankPerOptionInEachTeam };
+      }, {});
   }
-
 }

@@ -3,25 +3,25 @@ if (element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA') {
   if (element.readOnly) {
     return {
       errors: {
-        detail: 'You may only edit editable elements'
-      }
+        detail: 'You may only edit editable elements',
+      },
     };
   }
   if (element.disabled) {
     return {
       errors: {
-        detail: 'You may only interact with enabled elements'
-      }
+        detail: 'You may only interact with enabled elements',
+      },
     };
   }
-  element.value='';
+  element.value = '';
 } else if (element.isContentEditable) {
-  while(element.firstChild) {
+  while (element.firstChild) {
     element.removeChild(element.firstChild);
   }
 }
 return {
   data: {
-    detail: 'Success'
-  }
+    detail: 'Success',
+  },
 };

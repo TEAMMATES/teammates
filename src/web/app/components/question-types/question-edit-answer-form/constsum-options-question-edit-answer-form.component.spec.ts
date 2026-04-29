@@ -2,8 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ConstsumOptionsQuestionEditAnswerFormComponent } from './constsum-options-question-edit-answer-form.component';
 import { createBuilder } from '../../../../test-helpers/generic-builder';
-import { FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails, FeedbackQuestionType }
-  from '../../../../types/api-output';
+import {
+  FeedbackConstantSumQuestionDetails,
+  FeedbackConstantSumResponseDetails,
+  FeedbackQuestionType,
+} from '../../../../types/api-output';
 
 describe('ConstsumOptionsQuestionEditAnswerFormComponent', () => {
   let component: ConstsumOptionsQuestionEditAnswerFormComponent;
@@ -45,16 +48,19 @@ describe('ConstsumOptionsQuestionEditAnswerFormComponent', () => {
     expect(triggerResponseDetailsChangeSpy).toHaveBeenCalledWith('answers', [0, 3, 0]);
   });
 
-  it('triggerResponse: should set newAnswers to be array of 0s when response answers is'
-    + 'not the same length as question options', () => {
-    const triggerResponseDetailsChangeSpy = jest.spyOn(component, 'triggerResponseDetailsChange');
-    component.responseDetails = feedbackConstantSumResponseDetailsBuilder.answers([5, 5]).build();
-    component.questionDetails = feedbackConstantSumQuestionDetailsBuilder.constSumOptions(['1', '2', '3']).build();
+  it(
+    'triggerResponse: should set newAnswers to be array of 0s when response answers is' +
+      'not the same length as question options',
+    () => {
+      const triggerResponseDetailsChangeSpy = jest.spyOn(component, 'triggerResponseDetailsChange');
+      component.responseDetails = feedbackConstantSumResponseDetailsBuilder.answers([5, 5]).build();
+      component.questionDetails = feedbackConstantSumQuestionDetailsBuilder.constSumOptions(['1', '2', '3']).build();
 
-    component.triggerResponse(1, 1);
+      component.triggerResponse(1, 1);
 
-    expect(triggerResponseDetailsChangeSpy).toHaveBeenCalledWith('answers', [0, 1, 0]);
-  });
+      expect(triggerResponseDetailsChangeSpy).toHaveBeenCalledWith('answers', [0, 1, 0]);
+    },
+  );
 
   it('totalRequiredPoints: returns question details.points if pointerPerOption is false', () => {
     component.questionDetails = feedbackConstantSumQuestionDetailsBuilder.pointsPerOption(false).points(242).build();
@@ -62,16 +68,18 @@ describe('ConstsumOptionsQuestionEditAnswerFormComponent', () => {
     expect(component.totalRequiredPoints).toBe(242);
   });
 
-  it('totalRequiredPoints: returns question details.points mulitplied by'
-    + 'total options if pointerPerOption is true', () => {
-    component.questionDetails = feedbackConstantSumQuestionDetailsBuilder
-                                  .pointsPerOption(true)
-                                  .points(100)
-                                  .constSumOptions(['1', '2', '3'])
-                                  .build();
+  it(
+    'totalRequiredPoints: returns question details.points mulitplied by' + 'total options if pointerPerOption is true',
+    () => {
+      component.questionDetails = feedbackConstantSumQuestionDetailsBuilder
+        .pointsPerOption(true)
+        .points(100)
+        .constSumOptions(['1', '2', '3'])
+        .build();
 
-    expect(component.totalRequiredPoints).toBe(300);
-  });
+      expect(component.totalRequiredPoints).toBe(300);
+    },
+  );
 
   it('totalAnsweredPoints: returns sum of the points in answers', () => {
     component.responseDetails = feedbackConstantSumResponseDetailsBuilder.answers([1, 2, 3]).build();
@@ -121,12 +129,15 @@ describe('ConstsumOptionsQuestionEditAnswerFormComponent', () => {
     expect(component.isAnyPointsNegative).toBeTruthy();
   });
 
-  it('isAnyPointBelowMinimum: should return false when minPoint is undefined'
-    + 'and all answers are greater than or equals to zero', () => {
-    component.responseDetails = feedbackConstantSumResponseDetailsBuilder.answers([0, 1, 2]).build();
+  it(
+    'isAnyPointBelowMinimum: should return false when minPoint is undefined' +
+      'and all answers are greater than or equals to zero',
+    () => {
+      component.responseDetails = feedbackConstantSumResponseDetailsBuilder.answers([0, 1, 2]).build();
 
-    expect(component.isAnyPointBelowMinimum).toBeFalsy();
-  });
+      expect(component.isAnyPointBelowMinimum).toBeFalsy();
+    },
+  );
 
   it('isAnyPointBelowMinimum: should return true when minPoint is undefined and one answer is below zero', () => {
     component.responseDetails = feedbackConstantSumResponseDetailsBuilder.answers([0, -1, 2]).build();
@@ -134,12 +145,15 @@ describe('ConstsumOptionsQuestionEditAnswerFormComponent', () => {
     expect(component.isAnyPointBelowMinimum).toBeTruthy();
   });
 
-  it('isAnyPointBelowMinimum: should return false when minPoint is undefined and'
-    + 'all answers are greater than or equals to zero', () => {
-    component.responseDetails = feedbackConstantSumResponseDetailsBuilder.answers([0, 1, 2]).build();
+  it(
+    'isAnyPointBelowMinimum: should return false when minPoint is undefined and' +
+      'all answers are greater than or equals to zero',
+    () => {
+      component.responseDetails = feedbackConstantSumResponseDetailsBuilder.answers([0, 1, 2]).build();
 
-    expect(component.isAnyPointBelowMinimum).toBeFalsy();
-  });
+      expect(component.isAnyPointBelowMinimum).toBeFalsy();
+    },
+  );
 
   it('isAnyPointBelowMinimum: should return true when minPoint is defined and one answer is below minPoint', () => {
     const minPoint = 5;
@@ -150,55 +164,71 @@ describe('ConstsumOptionsQuestionEditAnswerFormComponent', () => {
     expect(component.isAnyPointBelowMinimum).toBeTruthy();
   });
 
-  it('isAnyPointBelowMinimum: should return false when minPoint is defined'
-    + 'and all answers are greater than or equal to minPoint', () => {
-    const minPoint = 5;
-    component.responseDetails =
-      feedbackConstantSumResponseDetailsBuilder.answers([minPoint, minPoint + 1, minPoint + 2]).build();
-    component.questionDetails = feedbackConstantSumQuestionDetailsBuilder.build();
-    component.questionDetails.minPoint = minPoint;
+  it(
+    'isAnyPointBelowMinimum: should return false when minPoint is defined' +
+      'and all answers are greater than or equal to minPoint',
+    () => {
+      const minPoint = 5;
+      component.responseDetails = feedbackConstantSumResponseDetailsBuilder
+        .answers([minPoint, minPoint + 1, minPoint + 2])
+        .build();
+      component.questionDetails = feedbackConstantSumQuestionDetailsBuilder.build();
+      component.questionDetails.minPoint = minPoint;
 
-    expect(component.isAnyPointBelowMinimum).toBeFalsy();
-  });
+      expect(component.isAnyPointBelowMinimum).toBeFalsy();
+    },
+  );
 
-  it('isAnyPointAboveMaximum: should return true when maxPoint is undefined'
-    + 'and one answer is above totalRequiredPoints', () => {
-    component.responseDetails = feedbackConstantSumResponseDetailsBuilder.answers([1, 2, 4]).build();
+  it(
+    'isAnyPointAboveMaximum: should return true when maxPoint is undefined' +
+      'and one answer is above totalRequiredPoints',
+    () => {
+      component.responseDetails = feedbackConstantSumResponseDetailsBuilder.answers([1, 2, 4]).build();
 
-    // totalRequiredPoints = answers.length * points = 3 (calculated in component.totalRequirePoints)
-    component.questionDetails = feedbackConstantSumQuestionDetailsBuilder.points(1).build();
+      // totalRequiredPoints = answers.length * points = 3 (calculated in component.totalRequirePoints)
+      component.questionDetails = feedbackConstantSumQuestionDetailsBuilder.points(1).build();
 
-    expect(component.isAnyPointAboveMaximum).toBeTruthy();
-  });
+      expect(component.isAnyPointAboveMaximum).toBeTruthy();
+    },
+  );
 
-  it('isAnyPointAboveMaximum: should return false when maxPoint is undefined'
-    + 'and all answers are less than or equals to totalRequiredPoints', () => {
-    component.responseDetails = feedbackConstantSumResponseDetailsBuilder.answers([1, 2, 3]).build();
+  it(
+    'isAnyPointAboveMaximum: should return false when maxPoint is undefined' +
+      'and all answers are less than or equals to totalRequiredPoints',
+    () => {
+      component.responseDetails = feedbackConstantSumResponseDetailsBuilder.answers([1, 2, 3]).build();
 
-    // totalRequiredPoints = answers.length * points = 3 (calculated in component.totalRequirePoints)
-    component.questionDetails = feedbackConstantSumQuestionDetailsBuilder.points(1).build();
+      // totalRequiredPoints = answers.length * points = 3 (calculated in component.totalRequirePoints)
+      component.questionDetails = feedbackConstantSumQuestionDetailsBuilder.points(1).build();
 
-    expect(component.isAnyPointAboveMaximum).toBeFalsy();
-  });
+      expect(component.isAnyPointAboveMaximum).toBeFalsy();
+    },
+  );
 
-  it('isAnyPointAboveMaximum: should return true when maxPoint is defined'
-    + 'and one answer is aboove maxPoint', () => {
-    const maxPoint = 5;
-    component.responseDetails = feedbackConstantSumResponseDetailsBuilder.answers([maxPoint + 1, 1, 2]).build();
-    component.questionDetails = feedbackConstantSumQuestionDetailsBuilder.build();
-    component.questionDetails.maxPoint = maxPoint;
+  it(
+    'isAnyPointAboveMaximum: should return true when maxPoint is defined' + 'and one answer is aboove maxPoint',
+    () => {
+      const maxPoint = 5;
+      component.responseDetails = feedbackConstantSumResponseDetailsBuilder.answers([maxPoint + 1, 1, 2]).build();
+      component.questionDetails = feedbackConstantSumQuestionDetailsBuilder.build();
+      component.questionDetails.maxPoint = maxPoint;
 
-    expect(component.isAnyPointAboveMaximum).toBeTruthy();
-  });
+      expect(component.isAnyPointAboveMaximum).toBeTruthy();
+    },
+  );
 
-  it('isAnyPointAboveMaximum: should return false when maxPoint is defined'
-    + 'and all answers are less than or equal to maxPoint', () => {
-    const maxPoint = 5;
-    component.responseDetails =
-      feedbackConstantSumResponseDetailsBuilder.answers([maxPoint, maxPoint - 1, maxPoint - 2]).build();
-    component.questionDetails = feedbackConstantSumQuestionDetailsBuilder.build();
-    component.questionDetails.maxPoint = maxPoint;
+  it(
+    'isAnyPointAboveMaximum: should return false when maxPoint is defined' +
+      'and all answers are less than or equal to maxPoint',
+    () => {
+      const maxPoint = 5;
+      component.responseDetails = feedbackConstantSumResponseDetailsBuilder
+        .answers([maxPoint, maxPoint - 1, maxPoint - 2])
+        .build();
+      component.questionDetails = feedbackConstantSumQuestionDetailsBuilder.build();
+      component.questionDetails.maxPoint = maxPoint;
 
-    expect(component.isAnyPointAboveMaximum).toBeFalsy();
-  });
+      expect(component.isAnyPointAboveMaximum).toBeFalsy();
+    },
+  );
 });

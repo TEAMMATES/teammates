@@ -9,9 +9,7 @@ import { SimpleModalType } from '../../../components/simple-modal/simple-modal-t
 import { FormatDateBriefPipe } from '../../../components/teammates-common/format-date-brief.pipe';
 import { FormatDateDetailPipe } from '../../../components/teammates-common/format-date-detail.pipe';
 import { NotificationStyleClassPipe } from '../../../components/teammates-common/notification-style-class.pipe';
-import {
-  NotificationStyleDescriptionPipe,
-} from '../../../components/teammates-common/notification-style-description.pipe';
+import { NotificationStyleDescriptionPipe } from '../../../components/teammates-common/notification-style-description.pipe';
 
 @Component({
   selector: 'tm-notifications-table',
@@ -24,7 +22,7 @@ import {
     FormatDateBriefPipe,
     NotificationStyleDescriptionPipe,
     NotificationStyleClassPipe,
-],
+  ],
 })
 export class NotificationsTableComponent {
   SortBy = SortBy;
@@ -55,7 +53,7 @@ export class NotificationsTableComponent {
   @Output()
   loadNotificationEditFormEvent: EventEmitter<Notification> = new EventEmitter();
 
-  constructor(private simpleModalService: SimpleModalService) { }
+  constructor(private simpleModalService: SimpleModalService) {}
 
   /**
    * Sorts the list of feedback session row.

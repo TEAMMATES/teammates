@@ -1,5 +1,10 @@
 @if (toast) {
-  <ngb-toast [delay]="toast.delay || 10000" (hidden)="removeToast()" [class]="toast.classes" [autohide]="toast.autohide">
+  <ngb-toast
+    [delay]="toast.delay || 10000"
+    (hidden)="removeToast()"
+    [class]="toast.classes"
+    [autohide]="toast.autohide"
+  >
     @if (isTemplate()) {
       <ng-template [ngTemplateOutlet]="contentAsTemplateRef"></ng-template>
     }

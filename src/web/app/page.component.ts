@@ -62,10 +62,9 @@ export class ClickOutsideDirective {
     LoadingSpinnerDirective,
     RouterOutlet,
     AsyncPipe,
-],
+  ],
 })
 export class PageComponent {
-
   // enum
   NotificationTargetUser: typeof NotificationTargetUser = NotificationTargetUser;
 
@@ -106,9 +105,15 @@ export class PageComponent {
     Edge: 88,
   };
 
-  constructor(private router: Router, private route: ActivatedRoute, private title: Title,
-              private ngbModal: NgbModal, location: Location,
-              private statusMessageService: StatusMessageService, private authService: AuthService) {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private title: Title,
+    private ngbModal: NgbModal,
+    location: Location,
+    private statusMessageService: StatusMessageService,
+    private authService: AuthService,
+  ) {
     this.checkBrowserVersion();
     this.router.events.subscribe((val: any) => {
       if (val instanceof NavigationEnd) {
@@ -129,9 +134,9 @@ export class PageComponent {
     }
 
     this.isNetworkOnline$ = merge(
-        of(navigator.onLine),
-        fromEvent(window, 'online').pipe(map(() => true)),
-        fromEvent(window, 'offline').pipe(map(() => false)),
+      of(navigator.onLine),
+      fromEvent(window, 'online').pipe(map(() => true)),
+      fromEvent(window, 'offline').pipe(map(() => false)),
     );
 
     // Close open modal(s) when moving backward or forward through history in the browser page
@@ -149,8 +154,8 @@ export class PageComponent {
   private checkBrowserVersion(): void {
     const browser: any = uaParser(navigator.userAgent).browser;
     this.browser = `${browser.name} ${browser.version}`;
-    this.isUnsupportedBrowser = !this.minimumVersions[browser.name]
-        || this.minimumVersions[browser.name] > parseInt(browser.major, 10);
+    this.isUnsupportedBrowser =
+      !this.minimumVersions[browser.name] || this.minimumVersions[browser.name] > parseInt(browser.major, 10);
     this.isCookieDisabled = !navigator.cookieEnabled;
   }
 
@@ -159,7 +164,6 @@ export class PageComponent {
    * when the user is using a mobile device.
    */
   toggleCollapse(): void {
-
     // Check if the device is a mobile device
     if (window.innerWidth < 992) {
       this.isCollapsed = !this.isCollapsed;
@@ -170,7 +174,6 @@ export class PageComponent {
    * Method that checks if current page has active modals and close them.
    */
   closeModal(): void {
-
     if (this.ngbModal.hasOpenModals()) {
       this.ngbModal.dismissAll();
     }

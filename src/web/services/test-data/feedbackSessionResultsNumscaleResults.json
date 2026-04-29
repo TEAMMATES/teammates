@@ -17,15 +17,9 @@
         "recipientType": "SELF",
         "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
         "customNumberOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
       },
       "questionStatistics": "",
       "allResponses": [
@@ -81,7 +75,7 @@
             "answer": "No Response",
             "questionType": "TEXT"
           },
-           "participantComment": {
+          "participantComment": {
             "feedbackResponseCommentId": "00000000-0000-0000-0000-00000000d1a2",
             "commentText": "Instructor 3 comment",
             "createdAt": 1451692743000,
@@ -114,15 +108,9 @@
         "recipientType": "SELF",
         "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
         "customNumberOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
       },
       "questionStatistics": "",
       "allResponses": [
@@ -160,7 +148,7 @@
             "answer": 2.0,
             "questionType": "NUMSCALE"
           },
-           "participantComment": {
+          "participantComment": {
             "feedbackResponseCommentId": "00000000-0000-0000-0000-000000005b9d",
             "commentText": "Student 2 comment",
             "createdAt": 1451692740000,

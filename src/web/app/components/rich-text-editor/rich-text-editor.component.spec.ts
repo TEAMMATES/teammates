@@ -102,15 +102,10 @@ describe('RichTextEditorComponent', () => {
     component.hasCharacterLimit = true;
     component.ngOnInit();
 
-    let keypressHandler:
-      | ((event: { preventDefault: () => void }) => void)
-      | undefined;
+    let keypressHandler: ((event: { preventDefault: () => void }) => void) | undefined;
 
     const mockEditor = {
-      on: (
-        eventName: string,
-        handler: (event: { preventDefault: () => void }) => void,
-      ) => {
+      on: (eventName: string, handler: (event: { preventDefault: () => void }) => void) => {
         if (eventName === 'keypress') {
           keypressHandler = handler;
         }
@@ -138,15 +133,10 @@ describe('RichTextEditorComponent', () => {
     component.hasCharacterLimit = true;
     component.ngOnInit();
 
-    let keypressHandler:
-      | ((event: { preventDefault: () => void }) => void)
-      | undefined;
+    let keypressHandler: ((event: { preventDefault: () => void }) => void) | undefined;
 
     const mockEditor = {
-      on: (
-        eventName: string,
-        handler: (event: { preventDefault: () => void }) => void,
-      ) => {
+      on: (eventName: string, handler: (event: { preventDefault: () => void }) => void) => {
         if (eventName === 'keypress') {
           keypressHandler = handler;
         }

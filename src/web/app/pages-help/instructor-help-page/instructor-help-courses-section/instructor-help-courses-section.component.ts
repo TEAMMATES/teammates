@@ -13,13 +13,9 @@ import { Sections } from '../sections';
   selector: 'tm-instructor-help-courses-section',
   templateUrl: './instructor-help-courses-section.component.html',
   styleUrls: ['./instructor-help-courses-section.component.scss'],
-  imports: [
-    InstructorHelpPanelComponent,
-    TeammatesRouterDirective,
-],
+  imports: [InstructorHelpPanelComponent, TeammatesRouterDirective],
 })
 export class InstructorHelpCoursesSectionComponent extends InstructorHelpSectionComponent implements OnInit {
-
   // enums
   CoursesSectionQuestions: typeof CoursesSectionQuestions = CoursesSectionQuestions;
   Sections: typeof Sections = Sections;
@@ -51,5 +47,4 @@ export class InstructorHelpCoursesSectionComponent extends InstructorHelpSection
   getQuestionsOrder(): string[] {
     return this.questionsOrder;
   }
-
 }

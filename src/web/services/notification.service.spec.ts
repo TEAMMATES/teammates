@@ -38,19 +38,13 @@ describe('NotificationService', () => {
 
   it('should execute GET when retrieving notifications', () => {
     service.getNotifications();
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(
-      ResourceEndpoints.NOTIFICATIONS,
-    );
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.NOTIFICATIONS);
   });
 
   it('should execute POST when creating notifications', () => {
     const paramsMap: Record<string, string> = {};
     service.createNotification(requestBody);
-    expect(spyHttpRequestService.post).toHaveBeenCalledWith(
-      ResourceEndpoints.NOTIFICATION,
-      paramsMap,
-      requestBody,
-    );
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.NOTIFICATION, paramsMap, requestBody);
   });
 
   it('should execute PUT when updating notifications', () => {
@@ -58,11 +52,7 @@ describe('NotificationService', () => {
       notificationid: 'notification1',
     };
     service.updateNotification(requestBody, 'notification1');
-    expect(spyHttpRequestService.put).toHaveBeenCalledWith(
-      ResourceEndpoints.NOTIFICATION,
-      paramsMap,
-      requestBody,
-    );
+    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.NOTIFICATION, paramsMap, requestBody);
   });
 
   it('should execute DELETE when deleting notifications', () => {
@@ -70,9 +60,6 @@ describe('NotificationService', () => {
       notificationid: 'notification1',
     };
     service.deleteNotification('notification1');
-    expect(spyHttpRequestService.delete).toHaveBeenCalledWith(
-      ResourceEndpoints.NOTIFICATION,
-      paramsMap,
-    );
+    expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.NOTIFICATION, paramsMap);
   });
 });

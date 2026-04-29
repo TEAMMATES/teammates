@@ -10,9 +10,10 @@ import { QuestionStatistics } from '../question-statistics';
  * Class to calculate stats for constsum recipients question.
  */
 @Directive()
-export class ConstsumRecipientsQuestionStatisticsCalculation
-    extends QuestionStatistics<FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails> {
-
+export class ConstsumRecipientsQuestionStatisticsCalculation extends QuestionStatistics<
+  FeedbackConstantSumQuestionDetails,
+  FeedbackConstantSumResponseDetails
+> {
   emailToTeamName: Record<string, string> = {};
   emailToName: Record<string, string> = {};
   pointsPerOption: Record<string, number[]> = {};
@@ -34,11 +35,12 @@ export class ConstsumRecipientsQuestionStatisticsCalculation
 
     const pointsPerOptionToSelf: Record<string, number> = {};
 
-    const isRecipientTeam: boolean = this.recipientType === FeedbackParticipantType.TEAMS
-        || this.recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF;
+    const isRecipientTeam: boolean =
+      this.recipientType === FeedbackParticipantType.TEAMS ||
+      this.recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF;
 
     for (const response of this.responses) {
-      const identifier: string = isRecipientTeam ? response.recipient : (response.recipientEmail || response.recipient);
+      const identifier: string = isRecipientTeam ? response.recipient : response.recipientEmail || response.recipient;
 
       this.pointsPerOption[identifier] = this.pointsPerOption[identifier] || [];
       this.pointsPerOption[identifier].push(response.responseDetails.answers[0]);
@@ -63,11 +65,10 @@ export class ConstsumRecipientsQuestionStatisticsCalculation
       this.averagePointsPerOption[recipient] = +(answers.length === 0 ? 0 : sum / answers.length).toFixed(2);
       this.averagePointsExcludingSelf[recipient] = this.averagePointsPerOption[recipient];
       if (this.averagePointsPerOption[recipient] && pointsPerOptionToSelf[recipient] !== undefined) {
-        this.averagePointsExcludingSelf[recipient] =
-            +(answers.length === 1 ? 0 : (sum - pointsPerOptionToSelf[recipient]) / (answers.length - 1)).toFixed(2);
+        this.averagePointsExcludingSelf[recipient] = +(
+          answers.length === 1 ? 0 : (sum - pointsPerOptionToSelf[recipient]) / (answers.length - 1)
+        ).toFixed(2);
       }
     }
-
   }
-
 }

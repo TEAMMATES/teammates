@@ -1,9 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { By } from '@angular/platform-browser';
-import {
-  ConstsumRecipientsQuestionEditDetailsFormComponent,
-} from './constsum-recipients-question-edit-details-form.component';
+import { ConstsumRecipientsQuestionEditDetailsFormComponent } from './constsum-recipients-question-edit-details-form.component';
 
 describe('ConstsumRecipientsQuestionEditDetailsFormComponent', () => {
   let component: ConstsumRecipientsQuestionEditDetailsFormComponent;

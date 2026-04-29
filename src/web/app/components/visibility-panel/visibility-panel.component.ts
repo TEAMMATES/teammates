@@ -41,7 +41,7 @@ import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-enti
     VisibilityTypeNamePipe,
     VisibilityEntityNamePipe,
     VisibilityCapabilityPipe,
-],
+  ],
 })
 export class VisibilityPanelComponent {
   readonly castAsInputElement = castAsInputElement;
@@ -50,7 +50,7 @@ export class VisibilityPanelComponent {
   FeedbackParticipantType: typeof FeedbackParticipantType = FeedbackParticipantType;
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
   NumberOfEntitiesToGiveFeedbackToSetting: typeof NumberOfEntitiesToGiveFeedbackToSetting =
-        NumberOfEntitiesToGiveFeedbackToSetting;
+    NumberOfEntitiesToGiveFeedbackToSetting;
   VisibilityControl: typeof VisibilityControl = VisibilityControl;
   FeedbackVisibilityType: typeof FeedbackVisibilityType = FeedbackVisibilityType;
 
@@ -101,31 +101,34 @@ export class VisibilityPanelComponent {
   commonFeedbackVisibilitySettings: CommonVisibilitySetting[] = [];
 
   @Input()
-  visibilityStateMachine: VisibilityStateMachine =
-    new VisibilityStateMachine(this.model.giverType, this.model.recipientType);
+  visibilityStateMachine: VisibilityStateMachine = new VisibilityStateMachine(
+    this.model.giverType,
+    this.model.recipientType,
+  );
 
   @Output()
   customVisibilitySetting: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   @Output()
-  triggerModelChangeBatch: EventEmitter<Partial<QuestionEditFormModel>> =
-    new EventEmitter<Partial<QuestionEditFormModel>>();
+  triggerModelChangeBatch: EventEmitter<Partial<QuestionEditFormModel>> = new EventEmitter<
+    Partial<QuestionEditFormModel>
+  >();
 
   @Output()
   visibilityStateMachineChange: EventEmitter<VisibilityStateMachine> = new EventEmitter<VisibilityStateMachine>();
 
   visibilityTypeAriaLabels: Map<FeedbackVisibilityType, string> = new Map([
     [FeedbackVisibilityType.RECIPIENT, 'Recipient(s)'],
-    [FeedbackVisibilityType.GIVER_TEAM_MEMBERS, 'Giver\'s Team Members'],
-    [FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, 'Recipient\'s Team Members'],
+    [FeedbackVisibilityType.GIVER_TEAM_MEMBERS, "Giver's Team Members"],
+    [FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS, "Recipient's Team Members"],
     [FeedbackVisibilityType.STUDENTS, 'Other Students'],
     [FeedbackVisibilityType.INSTRUCTORS, 'Instructors'],
   ]);
 
   visibilityControlAriaLabels: Map<VisibilityControl, string> = new Map([
     [VisibilityControl.SHOW_RESPONSE, 'Answer'],
-    [VisibilityControl.SHOW_GIVER_NAME, 'Giver\'s Name'],
-    [VisibilityControl.SHOW_RECIPIENT_NAME, 'Recipient\'s Name'],
+    [VisibilityControl.SHOW_GIVER_NAME, "Giver's Name"],
+    [VisibilityControl.SHOW_RECIPIENT_NAME, "Recipient's Name"],
   ]);
 
   triggerCustomVisibilitySetting(): void {
@@ -155,7 +158,10 @@ export class VisibilityPanelComponent {
    * Modifies visibility control of visibility type based on {@code isAllowed}.
    */
   modifyVisibilityControl(
-      isAllowed: boolean, visibilityType: FeedbackVisibilityType, visibilityControl: VisibilityControl): void {
+    isAllowed: boolean,
+    visibilityType: FeedbackVisibilityType,
+    visibilityControl: VisibilityControl,
+  ): void {
     if (isAllowed) {
       this.visibilityStateMachine.allowToSee(visibilityType, visibilityControl);
       this.visibilityStateMachineChange.emit(this.visibilityStateMachine);
@@ -164,12 +170,15 @@ export class VisibilityPanelComponent {
       this.visibilityStateMachineChange.emit(this.visibilityStateMachine);
     }
     this.triggerModelChangeBatch.emit({
-      showResponsesTo:
-          this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_RESPONSE),
-      showGiverNameTo:
-          this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_GIVER_NAME),
-      showRecipientNameTo:
-          this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(VisibilityControl.SHOW_RECIPIENT_NAME),
+      showResponsesTo: this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(
+        VisibilityControl.SHOW_RESPONSE,
+      ),
+      showGiverNameTo: this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(
+        VisibilityControl.SHOW_GIVER_NAME,
+      ),
+      showRecipientNameTo: this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(
+        VisibilityControl.SHOW_RECIPIENT_NAME,
+      ),
     });
   }
 }

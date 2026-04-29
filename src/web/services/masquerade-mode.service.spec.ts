@@ -7,9 +7,7 @@ describe('MasqueradeModeService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        MasqueradeModeService,
-      ],
+      providers: [MasqueradeModeService],
     });
     service = TestBed.inject(MasqueradeModeService);
   });

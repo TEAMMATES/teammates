@@ -31,12 +31,12 @@
   position: sticky;
   right: 0;
   z-index: 1;
-  background-color: #F8F9FA;
+  background-color: #f8f9fa;
 }
 
 #search-table-account-request th:last-child::after,
 #search-table-account-request td:last-child::after {
-  content: "";
+  content: '';
   position: absolute;
   left: -1px;
   top: 0;
@@ -50,8 +50,7 @@
   min-height: 5vh;
   width: max(800px, 35vw);
   max-width: max-content;
-  word-break: break-word;
-  word-wrap: break-all;
+  overflow-wrap: break-word;
 }
 
 .dropdown-item {

@@ -15,7 +15,11 @@ import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor
 import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { EnumToArrayPipe } from '../../teammates-common/enum-to-array.pipe';
 import { CommentRowMode } from '../comment-row/comment-row.mode';
-import { CommentVisibilityControlNamePipe, CommentVisibilityTypeDescriptionPipe, CommentVisibilityTypeNamePipe } from '../comment-visibility-setting.pipe';
+import {
+  CommentVisibilityControlNamePipe,
+  CommentVisibilityTypeDescriptionPipe,
+  CommentVisibilityTypeNamePipe,
+} from '../comment-visibility-setting.pipe';
 
 /**
  * Model for comment edit form.
@@ -43,7 +47,7 @@ export interface CommentEditFormModel {
     CommentVisibilityControlNamePipe,
     CommentVisibilityTypeDescriptionPipe,
     CommentVisibilityTypeNamePipe,
-],
+  ],
 })
 export class CommentEditFormComponent implements OnInit, OnChanges {
   readonly castAsInputElement = castAsInputElement;
@@ -124,11 +128,12 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
       // automatically change the isUsingCustomVisibilities flag to true
       this.triggerModelChangeBatch({
         isUsingCustomVisibilities: true,
-        showCommentTo:
-            this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(CommentVisibilityControl.SHOW_COMMENT),
-        showGiverNameTo:
-            this.visibilityStateMachine
-                .getVisibilityTypesUnderVisibilityControl(CommentVisibilityControl.SHOW_GIVER_NAME),
+        showCommentTo: this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(
+          CommentVisibilityControl.SHOW_COMMENT,
+        ),
+        showGiverNameTo: this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(
+          CommentVisibilityControl.SHOW_GIVER_NAME,
+        ),
       });
     }
   }
@@ -175,19 +180,22 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
    * Modifies visibility control of visibility type based on {@code isAllowed}.
    */
   modifyVisibilityControl(
-      isAllowed: boolean, visibilityType: CommentVisibilityType, visibilityControl: CommentVisibilityControl): void {
+    isAllowed: boolean,
+    visibilityType: CommentVisibilityType,
+    visibilityControl: CommentVisibilityControl,
+  ): void {
     if (isAllowed) {
       this.visibilityStateMachine.allowToSee(visibilityType, visibilityControl);
     } else {
       this.visibilityStateMachine.disallowToSee(visibilityType, visibilityControl);
     }
     this.triggerModelChangeBatch({
-      showCommentTo:
-          this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(CommentVisibilityControl.SHOW_COMMENT),
-      showGiverNameTo:
-          this.visibilityStateMachine
-              .getVisibilityTypesUnderVisibilityControl(CommentVisibilityControl.SHOW_GIVER_NAME),
+      showCommentTo: this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(
+        CommentVisibilityControl.SHOW_COMMENT,
+      ),
+      showGiverNameTo: this.visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(
+        CommentVisibilityControl.SHOW_GIVER_NAME,
+      ),
     });
   }
-
 }

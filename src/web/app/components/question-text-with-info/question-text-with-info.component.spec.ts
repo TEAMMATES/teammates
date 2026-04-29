@@ -16,11 +16,8 @@ describe('QuestionTextWithInfoComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        provideRouter([]),
-      ],
-    })
-    .compileComponents();
+      providers: [provideRouter([])],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -46,7 +43,6 @@ describe('QuestionTextWithInfoComponent', () => {
     otherEnabled: false,
     questionDropdownEnabled: false,
     generateOptionsFor: FeedbackParticipantType.NONE,
-
   };
 
   it('should create', () => {

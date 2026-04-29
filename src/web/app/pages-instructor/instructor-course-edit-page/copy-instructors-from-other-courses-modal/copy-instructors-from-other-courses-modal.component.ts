@@ -32,10 +32,9 @@ import { ErrorMessageOutput } from '../../../error-message-output';
     FormsModule,
     AjaxLoadingComponent,
     InstructorRoleNamePipe,
-],
+  ],
 })
 export class CopyInstructorsFromOtherCoursesModalComponent {
-
   @Output()
   copyClickedEvent: EventEmitter<Instructor[]> = new EventEmitter();
 
@@ -51,10 +50,12 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
   coursesSortBy: SortBy | undefined;
   isCopyingSelectedInstructors = false;
 
-  constructor(public activeModal: NgbActiveModal,
-              public statusMessageService: StatusMessageService,
-              public instructorService: InstructorService,
-              private tableComparatorService: TableComparatorService) { }
+  constructor(
+    public activeModal: NgbActiveModal,
+    public statusMessageService: StatusMessageService,
+    public instructorService: InstructorService,
+    private tableComparatorService: TableComparatorService,
+  ) {}
 
   /**
    * Toggles specific card and loads instructors if needed.
@@ -73,25 +74,27 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
     course.hasInstructorsLoaded = false;
     course.hasLoadingFailed = false;
     course.instructorCandidates = [];
-    this.instructorService.loadInstructors({
-      courseId: course.courseId,
-      intent: Intent.FULL_DETAIL,
-    }).subscribe({
-      next: (response: Instructors) => {
-        response.instructors.forEach((i: Instructor) => {
-          const instructorToCopy: InstructorToCopyCandidateModel = {
-            instructor: i,
-            isSelected: false,
-          };
-          course.instructorCandidates.push(instructorToCopy);
-        });
-        course.hasInstructorsLoaded = true;
-      },
-      error: (resp: ErrorMessageOutput) => {
-        course.hasLoadingFailed = true;
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
+    this.instructorService
+      .loadInstructors({
+        courseId: course.courseId,
+        intent: Intent.FULL_DETAIL,
+      })
+      .subscribe({
+        next: (response: Instructors) => {
+          response.instructors.forEach((i: Instructor) => {
+            const instructorToCopy: InstructorToCopyCandidateModel = {
+              instructor: i,
+              isSelected: false,
+            };
+            course.instructorCandidates.push(instructorToCopy);
+          });
+          course.hasInstructorsLoaded = true;
+        },
+        error: (resp: ErrorMessageOutput) => {
+          course.hasLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**
@@ -163,9 +166,8 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
   /**
    * Generates a sorting function for courses.
    */
-  protected sortCoursesBy(by: SortBy):
-      ((a: CourseTabModel, b: CourseTabModel) => number) {
-    return ((a: CourseTabModel, b: CourseTabModel): number => {
+  protected sortCoursesBy(by: SortBy): (a: CourseTabModel, b: CourseTabModel) => number {
+    return (a: CourseTabModel, b: CourseTabModel): number => {
       let strA: string;
       let strB: string;
       let order: SortOrder;
@@ -191,14 +193,16 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
           order = SortOrder.ASC;
       }
       return this.tableComparatorService.compare(by, order, strA, strB);
-    });
+    };
   }
   /**
    * Generates a sorting function for instructors.
    */
-  protected sortInstructorsBy(by: SortBy, order: SortOrder):
-      ((a: InstructorToCopyCandidateModel, b: InstructorToCopyCandidateModel) => number) {
-    return ((a: InstructorToCopyCandidateModel, b: InstructorToCopyCandidateModel): number => {
+  protected sortInstructorsBy(
+    by: SortBy,
+    order: SortOrder,
+  ): (a: InstructorToCopyCandidateModel, b: InstructorToCopyCandidateModel) => number {
+    return (a: InstructorToCopyCandidateModel, b: InstructorToCopyCandidateModel): number => {
       let strA: string;
       let strB: string;
       switch (by) {
@@ -227,7 +231,7 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
           strB = '';
       }
       return this.tableComparatorService.compare(by, order, strA, strB);
-    });
+    };
   }
 
   /**
@@ -238,5 +242,4 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
       return a || !!b.instructorCandidates.find((c: InstructorToCopyCandidateModel) => c.isSelected);
     }, false);
   }
-
 }

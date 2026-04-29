@@ -95,7 +95,8 @@ describe('McqQuestionEditAnswerFormComponent', () => {
     select.dispatchEvent(new Event('change'));
     fixture.detectChanges();
 
-    expect(component.questionDetails.mcqChoices[select.selectedIndex])
-      .toEqual(component.questionDetails.mcqChoices[SELECTED_INDEX]);
+    expect(component.questionDetails.mcqChoices[select.selectedIndex]).toEqual(
+      component.questionDetails.mcqChoices[SELECTED_INDEX],
+    );
   });
 });

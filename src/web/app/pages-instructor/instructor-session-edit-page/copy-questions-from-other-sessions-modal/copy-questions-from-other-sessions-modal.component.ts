@@ -21,16 +21,9 @@ import { ErrorMessageOutput } from '../../../error-message-output';
   selector: 'tm-copy-questions-from-other-sessions-modal',
   templateUrl: './copy-questions-from-other-sessions-modal.component.html',
   styleUrls: ['./copy-questions-from-other-sessions-modal.component.scss'],
-  imports: [
-    PanelChevronComponent,
-    LoadingRetryComponent,
-    LoadingSpinnerDirective,
-    FormsModule,
-    QuestionTypeNamePipe,
-],
+  imports: [PanelChevronComponent, LoadingRetryComponent, LoadingSpinnerDirective, FormsModule, QuestionTypeNamePipe],
 })
 export class CopyQuestionsFromOtherSessionsModalComponent {
-
   // enum
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
@@ -39,10 +32,12 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
   feedbackSessionTabModels: FeedbackSessionTabModel[] = [];
   feedbackSessionTabModelsSortBy: SortBy = SortBy.COURSE_ID;
 
-  constructor(public activeModal: NgbActiveModal,
-              public statusMessageService: StatusMessageService,
-              public feedbackQuestionsService: FeedbackQuestionsService,
-              private tableComparatorService: TableComparatorService) { }
+  constructor(
+    public activeModal: NgbActiveModal,
+    public statusMessageService: StatusMessageService,
+    public feedbackQuestionsService: FeedbackQuestionsService,
+    private tableComparatorService: TableComparatorService,
+  ) {}
 
   /**
    * Toggles specific card and loads questions if needed.
@@ -61,26 +56,27 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
     model.hasQuestionsLoaded = false;
     model.hasLoadingFailed = false;
     model.questionsTableRowModels = [];
-    this.feedbackQuestionsService.getFeedbackQuestions({
-      feedbackSessionId: model.feedbackSessionId,
-      intent: Intent.FULL_DETAIL,
-    })
-    .subscribe({
-      next: (response: FeedbackQuestions) => {
-        response.questions.forEach((q: FeedbackQuestion) => {
-          const questionToCopy: QuestionToCopyCandidate = {
-            question: q,
-            isSelected: false,
-          };
-          model.questionsTableRowModels.push(questionToCopy);
-        });
-        model.hasQuestionsLoaded = true;
-      },
-      error: (resp: ErrorMessageOutput) => {
-        model.hasLoadingFailed = true;
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
+    this.feedbackQuestionsService
+      .getFeedbackQuestions({
+        feedbackSessionId: model.feedbackSessionId,
+        intent: Intent.FULL_DETAIL,
+      })
+      .subscribe({
+        next: (response: FeedbackQuestions) => {
+          response.questions.forEach((q: FeedbackQuestion) => {
+            const questionToCopy: QuestionToCopyCandidate = {
+              question: q,
+              isSelected: false,
+            };
+            model.questionsTableRowModels.push(questionToCopy);
+          });
+          model.hasQuestionsLoaded = true;
+        },
+        error: (resp: ErrorMessageOutput) => {
+          model.hasLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**
@@ -143,9 +139,8 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
   /**
    * Generates a sorting function for sessions.
    */
-  protected sortFeedbackSessionsBy(by: SortBy):
-      ((a: FeedbackSessionTabModel, b: FeedbackSessionTabModel) => number) {
-    return ((a: FeedbackSessionTabModel, b: FeedbackSessionTabModel): number => {
+  protected sortFeedbackSessionsBy(by: SortBy): (a: FeedbackSessionTabModel, b: FeedbackSessionTabModel) => number {
+    return (a: FeedbackSessionTabModel, b: FeedbackSessionTabModel): number => {
       let strA: string;
       let strB: string;
       let order: SortOrder;
@@ -171,14 +166,16 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
           order = SortOrder.ASC;
       }
       return this.tableComparatorService.compare(by, order, strA, strB);
-    });
+    };
   }
   /**
    * Generates a sorting function for questions.
    */
-  protected sortQuestionsBy(by: SortBy, order: SortOrder):
-      ((a: QuestionToCopyCandidate, b: QuestionToCopyCandidate) => number) {
-    return ((a: QuestionToCopyCandidate, b: QuestionToCopyCandidate): number => {
+  protected sortQuestionsBy(
+    by: SortBy,
+    order: SortOrder,
+  ): (a: QuestionToCopyCandidate, b: QuestionToCopyCandidate) => number {
+    return (a: QuestionToCopyCandidate, b: QuestionToCopyCandidate): number => {
       let strA: string;
       let strB: string;
       switch (by) {
@@ -195,7 +192,7 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
           strB = '';
       }
       return this.tableComparatorService.compare(by, order, strA, strB);
-    });
+    };
   }
 
   /**
@@ -206,5 +203,4 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
       return a || !!b.questionsTableRowModels.find((c: QuestionToCopyCandidate) => c.isSelected);
     }, false);
   }
-
 }

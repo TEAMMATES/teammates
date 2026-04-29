@@ -10,9 +10,9 @@ import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../feedback-response-detai
  * Concrete implementation of {@link FeedbackNumericalScaleResponseDetails}.
  */
 export class FeedbackNumericalScaleResponseDetailsImpl
-    extends AbstractFeedbackResponseDetails<FeedbackNumericalScaleQuestionDetails>
-    implements FeedbackNumericalScaleResponseDetails {
-
+  extends AbstractFeedbackResponseDetails<FeedbackNumericalScaleQuestionDetails>
+  implements FeedbackNumericalScaleResponseDetails
+{
   answer: number = NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED;
   questionType: FeedbackQuestionType = FeedbackQuestionType.NUMSCALE;
 
@@ -27,5 +27,4 @@ export class FeedbackNumericalScaleResponseDetailsImpl
     const roundedAnswer: number = Math.round((answer + Number.EPSILON) * 1000) / 1000;
     return [[String(roundedAnswer)]];
   }
-
 }

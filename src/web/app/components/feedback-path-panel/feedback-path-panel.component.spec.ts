@@ -44,16 +44,20 @@ describe('FeedbackPathPanelComponent', () => {
 
   it('should trigger custom number of entities', () => {
     const customNumber = 5;
-    const customNumberOfEntitiesToGiveFeedbackToEmitSpy =
-      jest.spyOn(component.customNumberOfEntitiesToGiveFeedbackTo, 'emit');
+    const customNumberOfEntitiesToGiveFeedbackToEmitSpy = jest.spyOn(
+      component.customNumberOfEntitiesToGiveFeedbackTo,
+      'emit',
+    );
     component.triggerCustomNumberOfEntities(customNumber);
     expect(customNumberOfEntitiesToGiveFeedbackToEmitSpy).toHaveBeenCalledWith(customNumber);
   });
 
   it('should trigger number of entities setting', () => {
     const setting = NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM;
-    const numberOfEntitiesToGiveFeedbackToSettingEmitSpy =
-      jest.spyOn(component.numberOfEntitiesToGiveFeedbackToSetting, 'emit');
+    const numberOfEntitiesToGiveFeedbackToSettingEmitSpy = jest.spyOn(
+      component.numberOfEntitiesToGiveFeedbackToSetting,
+      'emit',
+    );
     component.triggerNumberOfEntitiesSetting(setting);
     expect(numberOfEntitiesToGiveFeedbackToSettingEmitSpy).toHaveBeenCalledWith(setting);
   });
@@ -66,8 +70,10 @@ describe('FeedbackPathPanelComponent', () => {
 
   describe('changeGiverRecipientType', () => {
     it('should set default recipientType if recipientType is not allowed for giverType', () => {
-      component.allowedFeedbackPaths.set(FeedbackParticipantType.TEAMS,
-        [FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.STUDENTS]);
+      component.allowedFeedbackPaths.set(FeedbackParticipantType.TEAMS, [
+        FeedbackParticipantType.OWN_TEAM_MEMBERS,
+        FeedbackParticipantType.STUDENTS,
+      ]);
       component.changeGiverRecipientType(FeedbackParticipantType.TEAMS, FeedbackParticipantType.INSTRUCTORS);
       expect(component.model.recipientType).toEqual(FeedbackParticipantType.OWN_TEAM_MEMBERS);
     });

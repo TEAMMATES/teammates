@@ -16,5 +16,4 @@ export enum GeneralSectionQuestions {
    * Does TEAMMATES cater for daylight saving time (DST) adjustments?
    */
   DST_ADJUSTMENT = 'dst-adjustment',
-
 }

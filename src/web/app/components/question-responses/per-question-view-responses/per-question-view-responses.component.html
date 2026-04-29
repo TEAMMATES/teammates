@@ -4,7 +4,11 @@
       <thead>
         <tr class="header">
           @if (showGiver) {
-            <th class="sortable-header" (click)="sortResponses(SortBy.GIVER_TEAM)" [attr.aria-sort]="getAriaSort(SortBy.GIVER_TEAM)">
+            <th
+              class="sortable-header"
+              (click)="sortResponses(SortBy.GIVER_TEAM)"
+              [attr.aria-sort]="getAriaSort(SortBy.GIVER_TEAM)"
+            >
               <button>
                 Team
                 <span class="fa-stack" aria-hidden="true">
@@ -20,7 +24,11 @@
             </th>
           }
           @if (showGiver) {
-            <th class="sortable-header" (click)="sortResponses(SortBy.GIVER_NAME)" [attr.aria-sort]="getAriaSort(SortBy.GIVER_NAME)">
+            <th
+              class="sortable-header"
+              (click)="sortResponses(SortBy.GIVER_NAME)"
+              [attr.aria-sort]="getAriaSort(SortBy.GIVER_NAME)"
+            >
               <button>
                 Giver
                 <span class="fa-stack" aria-hidden="true">
@@ -36,7 +44,11 @@
             </th>
           }
           @if (showRecipient) {
-            <th class="sortable-header" (click)="sortResponses(SortBy.RECIPIENT_TEAM)" [attr.aria-sort]="getAriaSort(SortBy.RECIPIENT_TEAM)">
+            <th
+              class="sortable-header"
+              (click)="sortResponses(SortBy.RECIPIENT_TEAM)"
+              [attr.aria-sort]="getAriaSort(SortBy.RECIPIENT_TEAM)"
+            >
               <button>
                 Team
                 <span class="fa-stack" aria-hidden="true">
@@ -52,7 +64,11 @@
             </th>
           }
           @if (showRecipient) {
-            <th class="sortable-header" (click)="sortResponses(SortBy.RECIPIENT_NAME)" [attr.aria-sort]="getAriaSort(SortBy.RECIPIENT_NAME)">
+            <th
+              class="sortable-header"
+              (click)="sortResponses(SortBy.RECIPIENT_NAME)"
+              [attr.aria-sort]="getAriaSort(SortBy.RECIPIENT_NAME)"
+            >
               <button>
                 Recipient
                 <span class="fa-stack" aria-hidden="true">
@@ -69,7 +85,12 @@
           }
           <th>Response</th>
           <th>Comment for Response</th>
-          <th class="text-center no-print actions-cell" [ngClass]="{ 'actions-cell-narrow': question.questionType === 'CONTRIB' }">Actions</th>
+          <th
+            class="text-center no-print actions-cell"
+            [ngClass]="{ 'actions-cell-narrow': question.questionType === 'CONTRIB' }"
+          >
+            Actions
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -80,24 +101,29 @@
             }
             @if (showGiver) {
               <td>
-                {{ response.giver === '-' ? 'No Specific User' : response.giver}}
-                {{response.giverEmail? " (" + response.giverEmail + ")" : ""}}
+                {{ response.giver === '-' ? 'No Specific User' : response.giver }}
+                {{ response.giverEmail ? ' (' + response.giverEmail + ')' : '' }}
               </td>
             }
             @if (showRecipient) {
               <td>
-                {{ response.recipientTeam === '-' ? 'No Specific Team' : response.recipientTeam}}
+                {{ response.recipientTeam === '-' ? 'No Specific Team' : response.recipientTeam }}
               </td>
             }
             @if (showRecipient) {
               <td>
-                {{ response.recipient === '-' ? 'No Specific User' : response.recipient}}
-                {{response.recipientEmail? " (" + response.recipientEmail + ")" : ""}}
+                {{ response.recipient === '-' ? 'No Specific User' : response.recipient }}
+                {{ response.recipientEmail ? ' (' + response.recipientEmail + ')' : '' }}
               </td>
             }
             <td>
-              <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="question.questionDetails"
-              [giverEmail]="response.giverEmail!" [recipientEmail]="response.recipientEmail!" [statistics]="statistics"></tm-single-response>
+              <tm-single-response
+                [responseDetails]="response.responseDetails"
+                [questionDetails]="question.questionDetails"
+                [giverEmail]="response.giverEmail!"
+                [recipientEmail]="response.recipientEmail!"
+                [statistics]="statistics"
+              ></tm-single-response>
             </td>
             <td>
               @if (response.participantComment) {
@@ -106,14 +132,26 @@
             </td>
             <td class="text-center no-print">
               @if (response.relatedGiverEmail) {
-                <tm-response-moderation-button [session]="session" [relatedGiverEmail]="response.relatedGiverEmail"
-                [moderatedQuestionId]="question.feedbackQuestionId" [isGiverInstructor]="question.giverType === 'INSTRUCTORS'" btnStyle="LIGHT"></tm-response-moderation-button>
+                <tm-response-moderation-button
+                  [session]="session"
+                  [relatedGiverEmail]="response.relatedGiverEmail"
+                  [moderatedQuestionId]="question.feedbackQuestionId"
+                  [isGiverInstructor]="question.giverType === 'INSTRUCTORS'"
+                  btnStyle="LIGHT"
+                ></tm-response-moderation-button>
               }
               @if (!response.isMissingResponse && question.questionType !== 'CONTRIB') {
-                <button id="btn-add-comment" class="btn btn-light btn-sm btn-margin-left" [disabled]="isDisplayOnly"
-                  (click)="showCommentTableModel(response, commentTableModal)">Add Comment
+                <button
+                  id="btn-add-comment"
+                  class="btn btn-light btn-sm btn-margin-left"
+                  [disabled]="isDisplayOnly"
+                  (click)="showCommentTableModel(response, commentTableModal)"
+                >
+                  Add Comment
                   @if (instructorCommentTableModel[response.responseId].commentRows.length) {
-                    <span class="badge bg-secondary">{{instructorCommentTableModel[response.responseId].commentRows.length}}</span>
+                    <span class="badge bg-secondary">{{
+                      instructorCommentTableModel[response.responseId].commentRows.length
+                    }}</span>
                   }
                 </button>
               }
@@ -132,7 +170,8 @@
 
 <ng-template #commentTableModal let-modal>
   @if (currResponseToAdd) {
-    <tm-comment-table-modal [questionShowResponsesTo]="question.showResponsesTo"
+    <tm-comment-table-modal
+      [questionShowResponsesTo]="question.showResponsesTo"
       [activeModal]="modal"
       [model]="instructorCommentTableModel[currResponseToAdd.responseId]"
       [response]="currResponseToAdd"

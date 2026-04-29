@@ -3,10 +3,7 @@ import { Component } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
-import {
-  FeedbackTextQuestionDetails,
-  FeedbackTextResponseDetails,
-} from '../../../../types/api-output';
+import { FeedbackTextQuestionDetails, FeedbackTextResponseDetails } from '../../../../types/api-output';
 import {
   DEFAULT_TEXT_QUESTION_DETAILS,
   DEFAULT_TEXT_RESPONSE_DETAILS,
@@ -20,16 +17,12 @@ import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor
   selector: 'tm-text-question-edit-answer-form',
   templateUrl: './text-question-edit-answer-form.component.html',
   styleUrls: ['./text-question-edit-answer-form.component.scss'],
-  imports: [
-    FormsModule,
-    RichTextEditorComponent,
-    NgClass,
-],
+  imports: [FormsModule, RichTextEditorComponent, NgClass],
 })
-export class TextQuestionEditAnswerFormComponent
-    extends QuestionEditAnswerFormComponent
-        <FeedbackTextQuestionDetails, FeedbackTextResponseDetails> {
-
+export class TextQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent<
+  FeedbackTextQuestionDetails,
+  FeedbackTextResponseDetails
+> {
   constructor() {
     super(DEFAULT_TEXT_QUESTION_DETAILS(), DEFAULT_TEXT_RESPONSE_DETAILS());
   }
@@ -41,8 +34,7 @@ export class TextQuestionEditAnswerFormComponent
   }
 
   get wordCount(): number {
-    return this.responseDetails.answer.split(/\s/g)
-        .filter((item: string) => /\w/.exec(item)).length;
+    return this.responseDetails.answer.split(/\s/g).filter((item: string) => /\w/.exec(item)).length;
   }
 
   get isWordCountWithinRecommendedBound(): boolean {

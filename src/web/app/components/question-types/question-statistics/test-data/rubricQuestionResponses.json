@@ -60,11 +60,15 @@
   "expectedStatsMap": {
     "alice@gmail.com": {
       "answers": [
-        [1, 1], [1, 1], [2, 0]
+        [1, 1],
+        [1, 1],
+        [2, 0]
       ],
       "answersSum": [4, 2],
       "percentages": [
-        [50, 50], [50, 50], [100, 0]
+        [50, 50],
+        [50, 50],
+        [100, 0]
       ],
       "percentagesAverage": [66.67, 33.33],
       "recipientEmail": "alice@gmail.com",
@@ -79,11 +83,15 @@
     },
     "bob@gmail.com": {
       "answers": [
-        [2, 0], [1, 1], [2, 0]
+        [2, 0],
+        [1, 1],
+        [2, 0]
       ],
       "answersSum": [5, 1],
       "percentages": [
-        [100, 0], [50, 50], [100, 0]
+        [100, 0],
+        [50, 50],
+        [100, 0]
       ],
       "percentagesAverage": [83.33, 16.67],
       "recipientEmail": "bob@gmail.com",

@@ -207,15 +207,9 @@
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ]
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"]
     }
   },
   "feedbackResponses": {
@@ -235,15 +229,9 @@
         "giverType": "STUDENTS",
         "recipientType": "SELF",
         "numOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
       },
       "giver": "student1@teammates.tmt",
       "recipient": "student1@teammates.tmt",
@@ -277,15 +265,9 @@
           "giverType": "STUDENTS",
           "recipientType": "SELF",
           "numOfEntitiesToGiveFeedbackTo": 1,
-          "showResponsesTo": [
-            "INSTRUCTORS"
-          ],
-          "showGiverNameTo": [
-            "INSTRUCTORS"
-          ],
-          "showRecipientNameTo": [
-            "INSTRUCTORS"
-          ]
+          "showResponsesTo": ["INSTRUCTORS"],
+          "showGiverNameTo": ["INSTRUCTORS"],
+          "showRecipientNameTo": ["INSTRUCTORS"]
         },
         "giver": "student1@teammates.tmt",
         "recipient": "student1@teammates.tmt",

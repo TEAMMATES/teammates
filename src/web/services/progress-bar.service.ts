@@ -8,7 +8,6 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class ProgressBarService {
-
   progressPercentage: Subject<number> = new Subject<number>();
 
   /**
@@ -17,5 +16,4 @@ export class ProgressBarService {
   updateProgress(progressPercentage: number): void {
     this.progressPercentage.next(progressPercentage);
   }
-
 }

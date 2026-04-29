@@ -21,13 +21,9 @@ const zeroPad: (num: number) => string = (num: number) => String(num).padStart(2
   selector: 'tm-copy-course-modal',
   templateUrl: './copy-course-modal.component.html',
   styleUrls: ['./copy-course-modal.component.scss'],
-  imports: [
-    FormsModule,
-    NgbTooltip,
-],
+  imports: [FormsModule, NgbTooltip],
 })
 export class CopyCourseModalComponent implements OnInit {
-
   // const
   readonly COURSE_ID_MAX_LENGTH: number = COURSE_ID_MAX_LENGTH;
   readonly COURSE_NAME_MAX_LENGTH: number = COURSE_NAME_MAX_LENGTH;
@@ -58,18 +54,19 @@ export class CopyCourseModalComponent implements OnInit {
 
   selectedFeedbackSessions: Set<FeedbackSession> = new Set<FeedbackSession>();
 
-  constructor(public activeModal: NgbActiveModal,
-              private statusMessageService: StatusMessageService,
-              private timezoneService: TimezoneService) {}
+  constructor(
+    public activeModal: NgbActiveModal,
+    private statusMessageService: StatusMessageService,
+    private timezoneService: TimezoneService,
+  ) {}
 
   ngOnInit(): void {
-    this.timezones = Object.entries(this.timezoneService.getTzOffsets())
-      .map(([id, offset]: [string, number]) => {
-        const hourOffset: number = Math.floor(Math.abs(offset) / 60);
-        const minOffset: number = Math.abs(offset) % 60;
-        const sign: string = offset < 0 ? '-' : '+';
-        return { id, offset: offset === 0 ? 'UTC' : `UTC ${sign}${zeroPad(hourOffset)}:${zeroPad(minOffset)}` };
-      });
+    this.timezones = Object.entries(this.timezoneService.getTzOffsets()).map(([id, offset]: [string, number]) => {
+      const hourOffset: number = Math.floor(Math.abs(offset) / 60);
+      const minOffset: number = Math.abs(offset) % 60;
+      const sign: string = offset < 0 ? '-' : '+';
+      return { id, offset: offset === 0 ? 'UTC' : `UTC ${sign}${zeroPad(hourOffset)}:${zeroPad(minOffset)}` };
+    });
     this.institutes = Array.from(new Set(this.allCourses.map((course: Course) => course.institute)));
     if (this.institutes.length) {
       this.newCourseInstitute = this.institutes[0];
@@ -83,15 +80,15 @@ export class CopyCourseModalComponent implements OnInit {
   copy(): void {
     if (!this.newCourseId || !this.newCourseName) {
       this.statusMessageService.showErrorToast(
-          'Please make sure you have filled in both Course ID and Name before adding the course!');
+        'Please make sure you have filled in both Course ID and Name before adding the course!',
+      );
       return;
     }
 
-    this.newCourseIdIsConflicting = this.allCourses
-      .filter((course: Course) => course.courseId === this.newCourseId).length > 0;
+    this.newCourseIdIsConflicting =
+      this.allCourses.filter((course: Course) => course.courseId === this.newCourseId).length > 0;
     if (this.newCourseIdIsConflicting) {
-      this.statusMessageService.showErrorToast(
-        `The course ID ${this.newCourseId} already exists.`);
+      this.statusMessageService.showErrorToast(`The course ID ${this.newCourseId} already exists.`);
       return;
     }
 

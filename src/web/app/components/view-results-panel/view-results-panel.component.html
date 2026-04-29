@@ -7,12 +7,25 @@
             <b [ngbTooltip]="viewTooltipText" class="ngb-tooltip-class">View:</b>
           </label>
           <div>
-            <select id="view-type-dropdown" class="form-control form-select" [ngModel]="viewType" (ngModelChange)="handleViewTypeChange($event)">
+            <select
+              id="view-type-dropdown"
+              class="form-control form-select"
+              [ngModel]="viewType"
+              (ngModelChange)="handleViewTypeChange($event)"
+            >
               <option [value]="InstructorSessionResultViewType.QUESTION">Group by - Question</option>
-              <option [value]="InstructorSessionResultViewType.GRQ">Group by - Giver &#8594; Recipient &#8594; Question</option>
-              <option [value]="InstructorSessionResultViewType.RGQ">Group by - Recipient &#8594; Giver &#8594; Question</option>
-              <option [value]="InstructorSessionResultViewType.GQR">Group by - Giver &#8594; Question &#8594; Recipient</option>
-              <option [value]="InstructorSessionResultViewType.RQG">Group by - Recipient &#8594; Question &#8594; Giver</option>
+              <option [value]="InstructorSessionResultViewType.GRQ">
+                Group by - Giver &#8594; Recipient &#8594; Question
+              </option>
+              <option [value]="InstructorSessionResultViewType.RGQ">
+                Group by - Recipient &#8594; Giver &#8594; Question
+              </option>
+              <option [value]="InstructorSessionResultViewType.GQR">
+                Group by - Giver &#8594; Question &#8594; Recipient
+              </option>
+              <option [value]="InstructorSessionResultViewType.RQG">
+                Group by - Recipient &#8594; Question &#8594; Giver
+              </option>
             </select>
           </div>
         </div>
@@ -21,7 +34,12 @@
             <b ngbTooltip="View results by sections" class="ngb-tooltip-class">Section:</b>
           </label>
           <div>
-            <select id="section-dropdown" class="form-control form-select" [ngModel]="section" (ngModelChange)="handleSectionChange($event)">
+            <select
+              id="section-dropdown"
+              class="form-control form-select"
+              [ngModel]="section"
+              (ngModelChange)="handleSectionChange($event)"
+            >
               <option value="">All</option>
               @for (section of sectionsModel | keyvalue; track section) {
                 <option [value]="section.key">
@@ -34,10 +52,17 @@
         @if (section) {
           <div class="report-config-item">
             <label class="report-config-label control-label mt-md-1">
-              <b ngbTooltip="Choose the way responses for the selected section is viewed" class="ngb-tooltip-class">If showing only a section:</b>
+              <b ngbTooltip="Choose the way responses for the selected section is viewed" class="ngb-tooltip-class"
+                >If showing only a section:</b
+              >
             </label>
             <div>
-              <select id="section-type-dropdown" class="form-control form-select" [ngModel]="sectionType" (ngModelChange)="handleSectionTypeChange($event)">
+              <select
+                id="section-type-dropdown"
+                class="form-control form-select"
+                [ngModel]="sectionType"
+                (ngModelChange)="handleSectionTypeChange($event)"
+              >
                 @for (sectionType of InstructorSessionResultSectionType | enumToArray; track sectionType) {
                   <option [ngValue]="sectionType">
                     {{ sectionType | sectionTypeDescription }}
@@ -48,18 +73,44 @@
           </div>
         }
       </div>
-      <div class="col-md-6" style="margin-top: 10px;">
+      <div class="col-md-6" style="margin-top: 10px">
         <label class="control-label">
           <b>Additional settings:</b>
         </label>
         <div>
-          <label class="form-check-label" ><input id="include-team-grouping" type="checkbox" [ngModel]="groupByTeam" (ngModelChange)="handleGroupByTeamChange($event)" [disabled]="viewType === 'QUESTION'"> Group by Teams</label>
+          <label class="form-check-label"
+            ><input
+              id="include-team-grouping"
+              type="checkbox"
+              [ngModel]="groupByTeam"
+              (ngModelChange)="handleGroupByTeamChange($event)"
+              [disabled]="viewType === 'QUESTION'"
+            />
+            Group by Teams</label
+          >
         </div>
         <div>
-          <label class="form-check-label" ><input id="include-statistics" type="checkbox" [ngModel]="showStatistics" (ngModelChange)="handleShowStatisticsChange($event)" [disabled]="viewType === 'GRQ' || viewType === 'RGQ'"> Show Statistics</label>
+          <label class="form-check-label"
+            ><input
+              id="include-statistics"
+              type="checkbox"
+              [ngModel]="showStatistics"
+              (ngModelChange)="handleShowStatisticsChange($event)"
+              [disabled]="viewType === 'GRQ' || viewType === 'RGQ'"
+            />
+            Show Statistics</label
+          >
         </div>
         <div>
-          <label class="form-check-label" ><input id="include-missing-responses" type="checkbox" [ngModel]="indicateMissingResponses" (ngModelChange)="handleIndicateMissingResponsesChange($event)"> Indicate Missing Responses</label>
+          <label class="form-check-label"
+            ><input
+              id="include-missing-responses"
+              type="checkbox"
+              [ngModel]="indicateMissingResponses"
+              (ngModelChange)="handleIndicateMissingResponsesChange($event)"
+            />
+            Indicate Missing Responses</label
+          >
         </div>
       </div>
     </div>

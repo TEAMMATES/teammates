@@ -112,7 +112,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback
                   aria-hidden="true"
                   class="fas fa-redo"
                 />
-                 Retry
+                 Retry 
               </button>
             </div>
           </tm-loading-retry>

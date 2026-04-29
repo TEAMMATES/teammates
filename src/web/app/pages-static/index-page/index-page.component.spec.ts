@@ -9,8 +9,7 @@ describe('IndexPageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [provideRouter([])],
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {

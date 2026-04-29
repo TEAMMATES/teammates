@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  FeedbackVisibilityType, ResponseOutput,
-} from '../../../../types/api-output';
+import { FeedbackVisibilityType, ResponseOutput } from '../../../../types/api-output';
 import { CommentTableComponent } from '../comment-table/comment-table.component';
 import { CommentTableModel } from '../comment-table/comment-table.model';
 
@@ -16,7 +14,6 @@ import { CommentTableModel } from '../comment-table/comment-table.model';
   imports: [CommentTableComponent],
 })
 export class CommentTableModalComponent implements OnChanges {
-
   @Input()
   response?: ResponseOutput;
 
@@ -88,5 +85,4 @@ export class CommentTableModalComponent implements OnChanges {
   triggerModelChange(model: CommentTableModel): void {
     this.modelChange.emit(model);
   }
-
 }

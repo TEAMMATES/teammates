@@ -21,7 +21,7 @@ This is the expected behaviour if you are running the server in the foreground.
 
 <panel header="`PSQLException: FATAL: password authentication failed for user 'teammates'` when connecting to database" no-close>
 
-This is possible if a local PostgreSQL instance is already running on port 5432. 
+This is possible if a local PostgreSQL instance is already running on port 5432.
 This can be fixed by manually killing the local PostgreSQL server process before running ./gradlew serverRun again.
 </panel>
 

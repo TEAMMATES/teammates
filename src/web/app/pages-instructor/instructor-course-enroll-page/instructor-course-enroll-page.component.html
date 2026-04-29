@@ -1,9 +1,16 @@
-<tm-loading-retry *tmIsLoading="isLoadingCourseEnrollPage" [shouldShowRetry]="!coursePresent"
-  [message]="'Failed to load course'" (retryEvent)="getCourseEnrollPageData(courseId)">
+<tm-loading-retry
+  *tmIsLoading="isLoadingCourseEnrollPage"
+  [shouldShowRetry]="!coursePresent"
+  [message]="'Failed to load course'"
+  (retryEvent)="getCourseEnrollPageData(courseId)"
+>
   <div>
     <h1 id="enroll-header" class="text-break">Enroll Students for {{ courseId }}</h1>
-    <tm-loading-retry [shouldShowRetry]="hasLoadingStudentsFailed" [message]="'Failed to load students'"
-      (retryEvent)="getCourseEnrollPageData(courseId)">
+    <tm-loading-retry
+      [shouldShowRetry]="hasLoadingStudentsFailed"
+      [message]="'Failed to load students'"
+      (retryEvent)="getCourseEnrollPageData(courseId)"
+    >
       <div class="card card-primary">
         <div class="card-body fill-plain">
           <div class="text-muted pt-1">
@@ -13,36 +20,54 @@
               Scroll down
             </button>
             to see more information about the spreadsheet interfaces.
-            <br>
-            <i class="fas fa-info-circle"></i> If you want to enroll more than
-            <strong>100</strong> students into one course, divide students into sections containing no more than
-            <strong>100</strong> students.<br>
+            <br />
+            <i class="fas fa-info-circle"></i> If you want to enroll more than <strong>100</strong> students into one
+            course, divide students into sections containing no more than <strong>100</strong> students.<br />
           </div>
           <div class="col-md-12">
             <tm-status-message [messages]="statusMessage"></tm-status-message>
             <div class="card card-default">
-              <div id="toggle-existing-students" class="card-header cursor-pointer"
-                (click)="toggleExistingStudentsPanel()">
+              <div
+                id="toggle-existing-students"
+                class="card-header cursor-pointer"
+                (click)="toggleExistingStudentsPanel()"
+              >
                 <b>Existing Students</b>
                 <div class="card-header-btn-toolbar">
                   @if (isLoadingExistingStudents) {
-                  <tm-ajax-preload></tm-ajax-preload>
+                    <tm-ajax-preload></tm-ajax-preload>
                   }
-                  <b class="existing-students-status-message">{{ isExistingStudentsPresent ? '' : 'No existing students
-                    in course.' }}</b>
-                  <tm-panel-chevron [isExpanded]="!isExistingStudentsPanelCollapsed" chevronColor="black"></tm-panel-chevron>
+                  <b class="existing-students-status-message">{{
+                    isExistingStudentsPresent
+                      ? ''
+                      : 'No existing students
+                    in course.'
+                  }}</b>
+                  <tm-panel-chevron
+                    [isExpanded]="!isExistingStudentsPanelCollapsed"
+                    chevronColor="black"
+                  ></tm-panel-chevron>
                 </div>
               </div>
-              <tm-data-grid id="existingStudentsGrid" [hidden]="isExistingStudentsPanelCollapsed" [colHeaders]="COL_HEADERS"
-                [data]="existingStudentsData" [isReadOnly]="true" />
+              <tm-data-grid
+                id="existingStudentsGrid"
+                [hidden]="isExistingStudentsPanelCollapsed"
+                [colHeaders]="COL_HEADERS"
+                [data]="existingStudentsData"
+                [isReadOnly]="true"
+              />
             </div>
             @if (enrollErrorMessage) {
-            <div class="card card-default">
-              <div class="card-body bg-danger text-white">
-                <button class="float-end fas fa-times close" aria-label="Close" (click)="enrollErrorMessage = ''"></button>
-                {{ enrollErrorMessage }}
+              <div class="card card-default">
+                <div class="card-body bg-danger text-white">
+                  <button
+                    class="float-end fas fa-times close"
+                    aria-label="Close"
+                    (click)="enrollErrorMessage = ''"
+                  ></button>
+                  {{ enrollErrorMessage }}
+                </div>
               </div>
-            </div>
             }
             <div class="card card-default">
               <div class="card-header cursor-pointer" (click)="toggleNewStudentsPanel()">
@@ -51,35 +76,60 @@
                   <tm-panel-chevron [isExpanded]="!isNewStudentsPanelCollapsed" chevronColor="black"></tm-panel-chevron>
                 </div>
               </div>
-              <tm-data-grid id="newStudentsGrid" #newStudentsGrid [minRows]="20" [colHeaders]="COL_HEADERS"
-                [hidden]="isNewStudentsPanelCollapsed" [data]="[]" />
+              <tm-data-grid
+                id="newStudentsGrid"
+                #newStudentsGrid
+                [minRows]="20"
+                [colHeaders]="COL_HEADERS"
+                [hidden]="isNewStudentsPanelCollapsed"
+                [data]="[]"
+              />
             </div>
             <div class="row enroll-students-spreadsheet-buttons" [hidden]="isNewStudentsPanelCollapsed">
               <div class="enroll-button-group">
                 <div class="input-group">
-                  <button type="button" title="Add" id="btn-add-empty-rows" class="btn btn-primary"
-                    (click)="addRows(+numOfRows.value)">
+                  <button
+                    type="button"
+                    title="Add"
+                    id="btn-add-empty-rows"
+                    class="btn btn-primary"
+                    (click)="addRows(+numOfRows.value)"
+                  >
                     Add row(s)
                   </button>
-                  <input type="number" id="number-of-rows" class="form-control m-0" value="1" min="0"
-                    aria-label="Number of rows" #numOfRows>
+                  <input
+                    type="number"
+                    id="number-of-rows"
+                    class="form-control m-0"
+                    value="1"
+                    min="0"
+                    aria-label="Number of rows"
+                    #numOfRows
+                  />
                 </div>
               </div>
               <div class="enroll-button-group">
-                <button [ngClass]="{'w-50': isEnrolling}" type="submit" title="Enroll" id="btn-enroll"
-                  name="button-enroll" class="btn btn-success float-end" [disabled]="isEnrolling"
-                  (click)="submitEnrollData()">
+                <button
+                  [ngClass]="{ 'w-50': isEnrolling }"
+                  type="submit"
+                  title="Enroll"
+                  id="btn-enroll"
+                  name="button-enroll"
+                  class="btn btn-success float-end"
+                  [disabled]="isEnrolling"
+                  (click)="submitEnrollData()"
+                >
                   @if (isEnrolling) {
-                  <tm-progress-bar></tm-progress-bar>
+                    <tm-progress-bar></tm-progress-bar>
                   }
                   @if (isEnrolling) {
-                  <tm-ajax-loading></tm-ajax-loading>
+                    <tm-ajax-loading></tm-ajax-loading>
                   }
                   Enroll students
                 </button>
               </div>
             </div>
-            <div class="row mt-3" style="align-items: center;">
+            <div class="row mt-3" style="align-items: center">
               <div class="col-md-3">
                 <div class="box red-box"></div>
                 <div>Student failed to be enrolled</div>
@@ -102,64 +152,74 @@
       </div>
     </tm-loading-retry>
     @if (coursePresent && showEnrollResults) {
-    <div id="results-panel">
-      <h1 class="text-break">Enrollment Results for {{ courseId }}</h1>
-      @for (enrollResultPanel of enrollResultPanelList; track enrollResultPanel) {
-      <div>
-        @if (enrollResultPanel.studentList.length > 0) {
-        <div class="card enroll-results-panel">
-          <div class="card-header" [ngClass]="{'bg-success': enrollResultPanel.status === EnrollStatus.NEW,
-           'bg-warning': enrollResultPanel.status === EnrollStatus.MODIFIED,
-           'bg-secondary': enrollResultPanel.status === EnrollStatus.MODIFIED_UNCHANGED,
-           'bg-danger': enrollResultPanel.status === EnrollStatus.ERROR,
-           'bg-default': enrollResultPanel.status === EnrollStatus.UNMODIFIED}" [style.color]="enrollResultPanel.status ===
-           EnrollStatus.NEW || enrollResultPanel.status === EnrollStatus.MODIFIED_UNCHANGED ? 'white' : 'black' ">
-            {{ enrollResultPanel.messageForEnrollmentStatus }}
+      <div id="results-panel">
+        <h1 class="text-break">Enrollment Results for {{ courseId }}</h1>
+        @for (enrollResultPanel of enrollResultPanelList; track enrollResultPanel) {
+          <div>
+            @if (enrollResultPanel.studentList.length > 0) {
+              <div class="card enroll-results-panel">
+                <div
+                  class="card-header"
+                  [ngClass]="{
+                    'bg-success': enrollResultPanel.status === EnrollStatus.NEW,
+                    'bg-warning': enrollResultPanel.status === EnrollStatus.MODIFIED,
+                    'bg-secondary': enrollResultPanel.status === EnrollStatus.MODIFIED_UNCHANGED,
+                    'bg-danger': enrollResultPanel.status === EnrollStatus.ERROR,
+                    'bg-default': enrollResultPanel.status === EnrollStatus.UNMODIFIED,
+                  }"
+                  [style.color]="
+                    enrollResultPanel.status === EnrollStatus.NEW ||
+                    enrollResultPanel.status === EnrollStatus.MODIFIED_UNCHANGED
+                      ? 'white'
+                      : 'black'
+                  "
+                >
+                  {{ enrollResultPanel.messageForEnrollmentStatus }}
+                </div>
+                <table class="table table-striped table-bordered table-responsive-lg">
+                  <thead>
+                    <tr>
+                      <th>Section</th>
+                      <th>Team</th>
+                      <th>Student Name</th>
+                      <th>E-mail address</th>
+                      <th>Comments</th>
+                      @if (enrollResultPanel.status === EnrollStatus.ERROR) {
+                        <th>Errors</th>
+                      }
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (student of enrollResultPanel.studentList; track student) {
+                      <tr>
+                        <td>{{ student.sectionName }}</td>
+                        <td>{{ student.teamName }}</td>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.email }}</td>
+                        <td>{{ student.comments }}</td>
+                        @if (enrollResultPanel.status === EnrollStatus.ERROR) {
+                          <td>{{ getUnsuccessfulEnrollError(student.email) }}</td>
+                        }
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            }
           </div>
-          <table class="table table-striped table-bordered table-responsive-lg">
-            <thead>
-              <tr>
-                <th>Section</th>
-                <th>Team</th>
-                <th>Student Name</th>
-                <th>E-mail address</th>
-                <th>Comments</th>
-                @if (enrollResultPanel.status === EnrollStatus.ERROR) {
-                <th>Errors</th>
-                }
-              </tr>
-            </thead>
-            <tbody>
-              @for (student of enrollResultPanel.studentList; track student) {
-              <tr>
-                <td>{{ student.sectionName }}</td>
-                <td>{{ student.teamName }}</td>
-                <td>{{ student.name }}</td>
-                <td>{{ student.email }}</td>
-                <td>{{ student.comments }}</td>
-                @if (enrollResultPanel.status === EnrollStatus.ERROR) {
-                <td>{{ getUnsuccessfulEnrollError(student.email) }}</td>
-                }
-              </tr>
-              }
-            </tbody>
-          </table>
-        </div>
         }
       </div>
-      }
-    </div>
     }
     <div class="more-info" id="more-info">
-      <h2> More info </h2>
-      <hr>
+      <h2>More info</h2>
+      <hr />
       <ul>
         <li>
           <span class="more-info-point-title">Spreadsheet Information</span>
           <ul>
             <li>
               If you have student data in a spreadsheet, simply copy the relevant cell-range from your spreadsheet and
-              paste into the <code>New students</code> spreadsheet interface above.<br><br>
+              paste into the <code>New students</code> spreadsheet interface above.<br /><br />
               <table class="table table-striped table-bordered">
                 <tbody>
                   <tr>
@@ -217,7 +277,8 @@
             <li>Each existing cells can be edited by just clicking on it.</li>
             <li>The entire table can be sorted by just clicking on the column name.</li>
             <li>To access more edit functions, right-click on a cell.</li>
-            <li>Expand the <code>Existing students</code> spreadsheet interface to view existing students in the course.
+            <li>
+              Expand the <code>Existing students</code> spreadsheet interface to view existing students in the course.
             </li>
           </ul>
         </li>
@@ -238,18 +299,14 @@
                 </li>
               </ul>
             </li>
+            <li class="more-info-column-info"><samp>Name</samp> [Compulsory]: Student name</li>
             <li class="more-info-column-info">
-              <samp>Name</samp> [Compulsory]: Student name
-            </li>
-            <li class="more-info-column-info">
-              <samp>Email</samp> [Compulsory]: The email address used to contact the student.<br>
+              <samp>Email</samp> [Compulsory]: The email address used to contact the student.<br />
               <ul>
+                <li class="more-info-sub-point-details">This need not be a Gmail address.</li>
                 <li class="more-info-sub-point-details">
-                  This need not be a Gmail address.
-                </li>
-                <li class="more-info-sub-point-details">
-                  It should be unique for each student.
-                  If two students are given the same email, they will be considered the same student.
+                  It should be unique for each student. If two students are given the same email, they will be
+                  considered the same student.
                 </li>
               </ul>
             </li>
@@ -263,8 +320,7 @@
           <ul>
             <li>
               To mass-edit data of enrolled students (except email address), simply use this page to re-enroll them with
-              the
-              updated data.
+              the updated data.
             </li>
             <li>
               To DELETE students or to UPDATE EMAIL address of a student, please go to the <code>courses</code> page and

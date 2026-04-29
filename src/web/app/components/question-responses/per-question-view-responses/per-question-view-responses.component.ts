@@ -4,13 +4,15 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import {
-  FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
-  ResponseOutput, ResponseVisibleSetting, SessionVisibleSetting,
+  FeedbackSession,
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus,
+  ResponseOutput,
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
 } from '../../../../types/api-output';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
-import {
-  InstructorSessionResultSectionType,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { InstructorSessionResultSectionType } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { ResponseModerationButtonComponent } from '../../../pages-instructor/instructor-session-result-page/response-moderation-button/response-moderation-button.component';
 import { CommentTableModalComponent } from '../../comment-box/comment-table-modal/comment-table-modal.component';
 import { SafeHtmlPipe } from '../../teammates-common/safe-html.pipe';
@@ -30,10 +32,9 @@ import { SingleResponseComponent } from '../single-response/single-response.comp
     ResponseModerationButtonComponent,
     CommentTableModalComponent,
     SafeHtmlPipe,
-],
+  ],
 })
 export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
-
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
 
@@ -70,9 +71,11 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
 
   currResponseToAdd?: ResponseOutput;
 
-  constructor(private tableComparatorService: TableComparatorService,
+  constructor(
+    private tableComparatorService: TableComparatorService,
     private feedbackResponsesService: FeedbackResponsesService,
-    private ngbModal: NgbModal) {
+    private ngbModal: NgbModal,
+  ) {
     super();
   }
 
@@ -92,8 +95,11 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
         continue;
       }
 
-      const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService
-        .isFeedbackResponsesDisplayedOnSection(response, this.section, this.sectionType);
+      const shouldDisplayBasedOnSection: boolean = this.feedbackResponsesService.isFeedbackResponsesDisplayedOnSection(
+        response,
+        this.section,
+        this.sectionType,
+      );
 
       if (!shouldDisplayBasedOnSection) {
         continue;
@@ -102,8 +108,7 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
       responsesToShow.push(response);
     }
 
-    const hasRealResponse: boolean =
-      responsesToShow.some((response: ResponseOutput) => !response.isMissingResponse);
+    const hasRealResponse: boolean = responsesToShow.some((response: ResponseOutput) => !response.isMissingResponse);
     if (hasRealResponse) {
       this.responsesToShow = responsesToShow;
       this.sortResponses(this.sortBy);
@@ -130,18 +135,19 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
     return this.sortOrder === SortOrder.ASC ? 'ascending' : 'descending';
   }
 
-  sortResponsesBy(by: SortBy, order: SortOrder):
-    ((a: ResponseOutput, b: ResponseOutput) => number) {
+  sortResponsesBy(by: SortBy, order: SortOrder): (a: ResponseOutput, b: ResponseOutput) => number {
     if (by === SortBy.NONE) {
       // Default order: giver team > giver name > recipient team > recipient name
-      return ((a: ResponseOutput, b: ResponseOutput): number => {
-        return this.tableComparatorService.compare(SortBy.GIVER_TEAM, order, a.giverTeam, b.giverTeam)
-          || this.tableComparatorService.compare(SortBy.GIVER_NAME, order, a.giver, b.giver)
-          || this.tableComparatorService.compare(SortBy.RECIPIENT_TEAM, order, a.recipientTeam, b.recipientTeam)
-          || this.tableComparatorService.compare(SortBy.RECIPIENT_NAME, order, a.recipient, b.recipient);
-      });
+      return (a: ResponseOutput, b: ResponseOutput): number => {
+        return (
+          this.tableComparatorService.compare(SortBy.GIVER_TEAM, order, a.giverTeam, b.giverTeam) ||
+          this.tableComparatorService.compare(SortBy.GIVER_NAME, order, a.giver, b.giver) ||
+          this.tableComparatorService.compare(SortBy.RECIPIENT_TEAM, order, a.recipientTeam, b.recipientTeam) ||
+          this.tableComparatorService.compare(SortBy.RECIPIENT_NAME, order, a.recipient, b.recipient)
+        );
+      };
     }
-    return ((a: ResponseOutput, b: ResponseOutput): number => {
+    return (a: ResponseOutput, b: ResponseOutput): number => {
       let strA: string;
       let strB: string;
       switch (by) {
@@ -166,7 +172,7 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
           strB = '';
       }
       return this.tableComparatorService.compare(by, order, strA, strB);
-    });
+    };
   }
 
   /**
@@ -179,8 +185,11 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
 
     const commentModalRef: NgbModalRef = this.ngbModal.open(modal);
     this.currResponseToAdd = selectedResponse;
-    commentModalRef.result.then(() => { }, () => {
-      this.currResponseToAdd = undefined;
-    });
+    commentModalRef.result.then(
+      () => {},
+      () => {
+        this.currResponseToAdd = undefined;
+      },
+    );
   }
 }

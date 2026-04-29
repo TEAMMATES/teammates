@@ -1,7 +1,5 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
-import {
-  ConstsumRecipientsQuestionStatisticsCalculation,
-} from './question-statistics-calculation/constsum-recipients-question-statistics-calculation';
+import { ConstsumRecipientsQuestionStatisticsCalculation } from './question-statistics-calculation/constsum-recipients-question-statistics-calculation';
 import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
 import {
@@ -14,14 +12,15 @@ import {
  * Statistics for constsum recipients questions.
  */
 @Component({
-    selector: 'tm-constsum-recipients-question-statistics',
-    templateUrl: './constsum-recipients-question-statistics.component.html',
-    styleUrls: ['./constsum-recipients-question-statistics.component.scss'],
-    imports: [SortableTableComponent],
+  selector: 'tm-constsum-recipients-question-statistics',
+  templateUrl: './constsum-recipients-question-statistics.component.html',
+  styleUrls: ['./constsum-recipients-question-statistics.component.scss'],
+  imports: [SortableTableComponent],
 })
-export class ConstsumRecipientsQuestionStatisticsComponent extends ConstsumRecipientsQuestionStatisticsCalculation
-    implements OnInit, OnChanges {
-
+export class ConstsumRecipientsQuestionStatisticsComponent
+  extends ConstsumRecipientsQuestionStatisticsCalculation
+  implements OnInit, OnChanges
+{
   // enum
   SortBy: typeof SortBy = SortBy;
 
@@ -55,8 +54,7 @@ export class ConstsumRecipientsQuestionStatisticsComponent extends ConstsumRecip
     this.rowsData = Object.keys(this.pointsPerOption).map((recipient: string) => [
       { value: this.emailToTeamName[recipient] },
       {
-        value: this.emailToName[recipient]
-        + (this.emailToTeamName[recipient] ? ` (${recipient})` : ''),
+        value: this.emailToName[recipient] + (this.emailToTeamName[recipient] ? ` (${recipient})` : ''),
       },
       { value: this.pointsPerOption[recipient].join(', ') },
       { value: this.totalPointsPerOption[recipient] },

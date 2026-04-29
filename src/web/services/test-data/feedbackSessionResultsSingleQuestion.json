@@ -14,17 +14,9 @@
         "recipientType": "STUDENTS",
         "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
         "customNumberOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": [
-          "INSTRUCTORS",
-          "RECIPIENT"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS",
-          "RECIPIENT"
-        ]
+        "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"]
       },
       "questionStatistics": "",
       "allResponses": [

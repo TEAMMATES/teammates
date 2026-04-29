@@ -6,9 +6,7 @@ module.exports = async ({ github, context }) => {
     pull_number: context.issue.number,
   });
   const isTitleValid = /^\[#\d+\] /.test(pr.data.title);
-  const isDescriptionValid = /([Ff]ix(es|ed)?|[Cc]lose(s|d)?|[Rr]esolve(s|d)?|[Pp]art [Oo]f) #\d+/.test(
-    pr.data.body,
-  );
+  const isDescriptionValid = /([Ff]ix(es|ed)?|[Cc]lose(s|d)?|[Rr]esolve(s|d)?|[Pp]art [Oo]f) #\d+/.test(pr.data.body);
   const descriptionRegex = /(?:[Ff]ix(?:es|ed)?|[Cc]lose(?:s|d)?|[Rr]esolve(?:s|d)?|[Pp]art [Oo]f) #(\d+)/;
   const extractIssueNumber = (description) => {
     const match = description.match(descriptionRegex);
@@ -30,8 +28,7 @@ module.exports = async ({ github, context }) => {
   let body = `Hi @${pr.data.user.login}, thank you for your interest in contributing to TEAMMATES!
               However, your PR does not appear to follow our [contributing guidelines](https://teammates.github.io/teammates/contributing/guidelines.html):\n\n`;
   if (!isTitleValid) {
-    body +=
-      '- Title must start with the issue number the PR is fixing in square brackets, e.g. `[#<issue-number>]`\n';
+    body += '- Title must start with the issue number the PR is fixing in square brackets, e.g. `[#<issue-number>]`\n';
   }
   if (!isDescriptionValid) {
     body +=

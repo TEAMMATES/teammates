@@ -93,7 +93,8 @@ public class AdminSearchPageSql extends AppPage {
 
     public void regenerateStudentKey(Student student) {
         WebElement studentRow = getStudentRow(student);
-        studentRow.findElement(By.xpath("//button[text()='Regenerate key']")).click();
+        studentRow.findElement(
+                By.cssSelector("[data-testid='regenerate-student-key']")).click();
 
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad(true);
@@ -109,7 +110,8 @@ public class AdminSearchPageSql extends AppPage {
 
     public void regenerateInstructorKey(Instructor instructor) {
         WebElement instructorRow = getInstructorRow(instructor);
-        instructorRow.findElement(By.xpath("//button[text()='Regenerate key']")).click();
+        instructorRow.findElement(
+                By.cssSelector("[data-testid='regenerate-instructor-key']")).click();
 
         waitForConfirmationModalAndClickOk();
         waitForPageToLoad(true);

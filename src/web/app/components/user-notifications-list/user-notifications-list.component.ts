@@ -7,12 +7,7 @@ import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import {
-  Notification,
-  Notifications,
-  NotificationTargetUser,
-  ReadNotifications,
-} from '../../../types/api-output';
+import { Notification, Notifications, NotificationTargetUser, ReadNotifications } from '../../../types/api-output';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { LoadingRetryComponent } from '../loading-retry/loading-retry.component';
@@ -42,10 +37,9 @@ export interface NotificationTab {
     PanelChevronComponent,
     NotificationStyleClassPipe,
     NgbCollapse,
-],
+  ],
 })
 export class UserNotificationsListComponent implements OnInit {
-
   // enum
   NotificationTargetUser: typeof NotificationTargetUser = NotificationTargetUser;
   SortBy: typeof SortBy = SortBy;
@@ -64,10 +58,12 @@ export class UserNotificationsListComponent implements OnInit {
 
   DATE_FORMAT = 'DD MMM YYYY';
 
-  constructor(private notificationService: NotificationService,
-              private statusMessageService: StatusMessageService,
-              private timezoneService: TimezoneService,
-              private tableComparatorService: TableComparatorService) { }
+  constructor(
+    private notificationService: NotificationService,
+    private statusMessageService: StatusMessageService,
+    private timezoneService: TimezoneService,
+    private tableComparatorService: TableComparatorService,
+  ) {}
 
   ngOnInit(): void {
     this.loadNotifications();
@@ -81,14 +77,22 @@ export class UserNotificationsListComponent implements OnInit {
       readNotifications: this.notificationService.getReadNotifications(),
       notifications: this.notificationService.getAllNotificationsForTargetUser(this.userType),
     })
-      .pipe(finalize(() => { this.isLoadingNotifications = false; }))
+      .pipe(
+        finalize(() => {
+          this.isLoadingNotifications = false;
+        }),
+      )
       .subscribe({
-        next: ({ readNotifications, notifications }: {
-          readNotifications: ReadNotifications, notifications: Notifications,
+        next: ({
+          readNotifications,
+          notifications,
+        }: {
+          readNotifications: ReadNotifications;
+          notifications: Notifications;
         }) => {
           const readNotificationsSet: Set<string> = new Set(readNotifications.readNotifications);
-          this.notificationTabs = notifications.notifications.map(
-            (notification) => this.createNotificationTab(notification, readNotificationsSet),
+          this.notificationTabs = notifications.notifications.map((notification) =>
+            this.createNotificationTab(notification, readNotificationsSet),
           );
           this.sortNotificationsBy(this.notificationsSortBy);
         },
@@ -105,12 +109,8 @@ export class UserNotificationsListComponent implements OnInit {
       notification,
       hasTabExpanded: !isRead,
       isRead,
-      startDate: this.timezoneService.formatToString(
-        notification.startTimestamp, this.timezone, this.DATE_FORMAT,
-      ),
-      endDate: this.timezoneService.formatToString(
-        notification.endTimestamp, this.timezone, this.DATE_FORMAT,
-      ),
+      startDate: this.timezoneService.formatToString(notification.startTimestamp, this.timezone, this.DATE_FORMAT),
+      endDate: this.timezoneService.formatToString(notification.endTimestamp, this.timezone, this.DATE_FORMAT),
     };
   }
 
@@ -120,9 +120,10 @@ export class UserNotificationsListComponent implements OnInit {
 
   markNotificationAsRead(notificationTab: NotificationTab): void {
     const notification: Notification = notificationTab.notification;
-    this.notificationService.markNotificationAsRead({
-      notificationId: notification.notificationId,
-    })
+    this.notificationService
+      .markNotificationAsRead({
+        notificationId: notification.notificationId,
+      })
       .subscribe({
         next: () => {
           notificationTab.isRead = true;
@@ -161,8 +162,8 @@ export class UserNotificationsListComponent implements OnInit {
   /**
    * Sorts the notification tabs in order.
    */
-  sortTabsBy(by: SortBy): ((a: NotificationTab, b: NotificationTab) => number) {
-    return ((a: NotificationTab, b: NotificationTab): number => {
+  sortTabsBy(by: SortBy): (a: NotificationTab, b: NotificationTab) => number {
+    return (a: NotificationTab, b: NotificationTab): number => {
       let strA: string;
       let strB: string;
       let order: SortOrder;
@@ -183,6 +184,6 @@ export class UserNotificationsListComponent implements OnInit {
           order = SortOrder.ASC;
       }
       return this.tableComparatorService.compare(by, order, strA, strB);
-    });
+    };
   }
 }

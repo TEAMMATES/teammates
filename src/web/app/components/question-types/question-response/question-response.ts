@@ -6,7 +6,6 @@ import { FeedbackQuestionDetails, FeedbackResponseDetails } from '../../../../ty
  */
 @Directive()
 export abstract class QuestionResponse<R extends FeedbackResponseDetails, Q extends FeedbackQuestionDetails> {
-
   @Input() responseDetails: R;
   @Input() questionDetails: Q;
   @Input() isStudentPage = false;
@@ -15,5 +14,4 @@ export abstract class QuestionResponse<R extends FeedbackResponseDetails, Q exte
     this.responseDetails = responseDetails;
     this.questionDetails = questionDetails;
   }
-
 }

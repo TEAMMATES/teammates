@@ -5,7 +5,7 @@ Distribute points (among options) question options:
   }
 </ul>
 @if (!questionDetails.pointsPerOption) {
-  <span>{{getPointsLabel()}}: {{ questionDetails.points }}</span>
+  <span>{{ getPointsLabel() }}: {{ questionDetails.points }}</span>
 }
 @if (questionDetails.maxPoint !== undefined) {
   <span>Maximum number of point per option: {{ questionDetails.maxPoint }}</span>

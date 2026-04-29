@@ -3,7 +3,7 @@
     <span id="instructor-{{ index }}-name">{{ instructor.name }}</span>
   }
   @if (isBeingEdited) {
-    <input class="form-control" type="text" id="instructor-{{ index }}-name-input" [(ngModel)]="editedInstructorName">
+    <input class="form-control" type="text" id="instructor-{{ index }}-name-input" [(ngModel)]="editedInstructorName" />
   }
 </td>
 <td>
@@ -11,7 +11,12 @@
     <span id="instructor-{{ index }}-email">{{ instructor.email }}</span>
   }
   @if (isBeingEdited) {
-    <input class="form-control" type="text" id="instructor-{{ index }}-email-input" [(ngModel)]="editedInstructorEmail">
+    <input
+      class="form-control"
+      type="text"
+      id="instructor-{{ index }}-email-input"
+      [(ngModel)]="editedInstructorEmail"
+    />
   }
 </td>
 <td>
@@ -19,29 +24,67 @@
     <span id="instructor-{{ index }}-institution">{{ instructor.institution }}</span>
   }
   @if (isBeingEdited) {
-    <input class="form-control" type="text" id="instructor-{{ index }}-institution-input" [(ngModel)]="editedInstructorInstitution">
+    <input
+      class="form-control"
+      type="text"
+      id="instructor-{{ index }}-institution-input"
+      [(ngModel)]="editedInstructorInstitution"
+    />
   }
 </td>
-<td style="width: 17%;">
+<td style="width: 17%">
   @if (isBeingEdited && (instructor.status === 'PENDING' || instructor.status === 'FAIL')) {
     <div class="button-group">
-      <button class="action-btn btn btn-sm btn-primary text-nowrap" id="confirm-edit-instructor-{{ index }}" style="margin-right: 10px;" (click)="confirmEditInstructor()">Confirm</button>
-      <button class="action-btn btn btn-sm btn-danger text-nowrap" id="cancel-edit-instructor-{{ index }}" style="margin-right: 10px;" (click)="cancelEditInstructor()">Cancel</button>
+      <button
+        class="action-btn btn btn-sm btn-primary text-nowrap"
+        id="confirm-edit-instructor-{{ index }}"
+        style="margin-right: 10px"
+        (click)="confirmEditInstructor()"
+      >
+        Confirm
+      </button>
+      <button
+        class="action-btn btn btn-sm btn-danger text-nowrap"
+        id="cancel-edit-instructor-{{ index }}"
+        style="margin-right: 10px"
+        (click)="cancelEditInstructor()"
+      >
+        Cancel
+      </button>
     </div>
   }
   @if (!isBeingEdited && (instructor.status === 'PENDING' || instructor.status === 'FAIL')) {
     <div class="button-group">
-      <button class="action-btn btn btn-sm btn-primary text-nowrap" id="add-instructor-{{ index }}" style="margin-right: 10px;" (click)="addInstructor()" [disabled]="isAddDisabled">Add</button>
-      <button class="action-btn btn btn-sm btn-info text-nowrap" id="edit-instructor-{{ index }}" style="margin-right: 10px;" (click)="editInstructor()">Edit</button>
-      <button class="action-btn btn btn-sm btn-danger" id="remove-instructor-{{ index }}" (click)="removeInstructor()">Remove</button>
+      <button
+        class="action-btn btn btn-sm btn-primary text-nowrap"
+        id="add-instructor-{{ index }}"
+        style="margin-right: 10px"
+        (click)="addInstructor()"
+        [disabled]="isAddDisabled"
+      >
+        Add
+      </button>
+      <button
+        class="action-btn btn btn-sm btn-info text-nowrap"
+        id="edit-instructor-{{ index }}"
+        style="margin-right: 10px"
+        (click)="editInstructor()"
+      >
+        Edit
+      </button>
+      <button class="action-btn btn btn-sm btn-danger" id="remove-instructor-{{ index }}" (click)="removeInstructor()">
+        Remove
+      </button>
     </div>
   }
 </td>
-<td style="width: 8%;">{{ instructor.status }}</td>
-<td style="width: 40%;">
+<td style="width: 8%">{{ instructor.status }}</td>
+<td style="width: 40%">
   @if (instructor.status === 'SUCCESS') {
     <span id="message-instructor-{{ index }}">
-      Instructor "{{ instructor.name }}" has been successfully created. [<a href="{{ instructor.joinLink }}">join link</a>]
+      Instructor "{{ instructor.name }}" has been successfully created. [<a href="{{ instructor.joinLink }}"
+        >join link</a
+      >]
     </span>
   }
   @if (instructor.status === 'FAIL') {

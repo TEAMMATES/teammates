@@ -68,270 +68,379 @@ describe('RubricQuestionEditDetailsFormComponent', () => {
     expect(triggerModelChangeSpy).toHaveBeenCalledWith('rubricWeightsForEachCell', [[4], [2], [3]]);
   });
 
-  it('addNewSubQuestion: calls triggerModelChangeBatch with the correct'
-    + 'parameters when hasAssignedWeights is false', () => {
-    component.model = feedbackRubricQuestionDetailsBuilder
-                        .hasAssignedWeights(false)
-                        .rubricChoices(['1', '2'])
-                        .rubricSubQuestions(['a', 'b'])
-                        .rubricDescriptions([])
-                        .build();
+  it(
+    'addNewSubQuestion: calls triggerModelChangeBatch with the correct' + 'parameters when hasAssignedWeights is false',
+    () => {
+      component.model = feedbackRubricQuestionDetailsBuilder
+        .hasAssignedWeights(false)
+        .rubricChoices(['1', '2'])
+        .rubricSubQuestions(['a', 'b'])
+        .rubricDescriptions([])
+        .build();
 
-    component.addNewSubQuestion();
+      component.addNewSubQuestion();
 
-    expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
-      rubricSubQuestions: ['a', 'b', ''],
-      rubricDescriptions: [['', '']],
-      rubricWeightsForEachCell: [],
-    });
-  });
+      expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
+        rubricSubQuestions: ['a', 'b', ''],
+        rubricDescriptions: [['', '']],
+        rubricWeightsForEachCell: [],
+      });
+    },
+  );
 
-  it('addNewSubQuestion: calls triggerModelChangeBatch with the correct parameters'
-    + 'when hasAssignedWeights is true', () => {
-    component.model = feedbackRubricQuestionDetailsBuilder
-                        .hasAssignedWeights(true)
-                        .rubricChoices(['1', '2'])
-                        .rubricSubQuestions(['a', 'b'])
-                        .rubricDescriptions([['desc 1'], ['desc 2']])
-                        .rubricWeightsForEachCell([])
-                        .build();
+  it(
+    'addNewSubQuestion: calls triggerModelChangeBatch with the correct parameters' + 'when hasAssignedWeights is true',
+    () => {
+      component.model = feedbackRubricQuestionDetailsBuilder
+        .hasAssignedWeights(true)
+        .rubricChoices(['1', '2'])
+        .rubricSubQuestions(['a', 'b'])
+        .rubricDescriptions([['desc 1'], ['desc 2']])
+        .rubricWeightsForEachCell([])
+        .build();
 
-    component.addNewSubQuestion();
+      component.addNewSubQuestion();
 
-    expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
-      rubricSubQuestions: ['a', 'b', ''],
-      rubricDescriptions: [['desc 1'], ['desc 2'], ['', '']],
-      rubricWeightsForEachCell: [[0, 0]],
-    });
-  });
+      expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
+        rubricSubQuestions: ['a', 'b', ''],
+        rubricDescriptions: [['desc 1'], ['desc 2'], ['', '']],
+        rubricWeightsForEachCell: [[0, 0]],
+      });
+    },
+  );
 
-  it('addNewChoice: calls triggerModelChangeBatch with the correct parameters'
-    + 'when hasAssignedWeights is false', () => {
-    component.model = feedbackRubricQuestionDetailsBuilder
-                        .hasAssignedWeights(false)
-                        .rubricChoices(['1'])
-                        .rubricDescriptions([['desc 1'], ['desc 2']])
-                        .build();
+  it(
+    'addNewChoice: calls triggerModelChangeBatch with the correct parameters' + 'when hasAssignedWeights is false',
+    () => {
+      component.model = feedbackRubricQuestionDetailsBuilder
+        .hasAssignedWeights(false)
+        .rubricChoices(['1'])
+        .rubricDescriptions([['desc 1'], ['desc 2']])
+        .build();
 
-    component.addNewChoice();
+      component.addNewChoice();
 
-    expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
-      rubricChoices: ['1', ''],
-      rubricDescriptions: [['desc 1', ''], ['desc 2', '']],
-      rubricWeightsForEachCell: [],
-    });
-  });
+      expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
+        rubricChoices: ['1', ''],
+        rubricDescriptions: [
+          ['desc 1', ''],
+          ['desc 2', ''],
+        ],
+        rubricWeightsForEachCell: [],
+      });
+    },
+  );
 
-  it('addNewChoice: calls triggerModelChangeBatch with the correct parameters'
-    + 'when hasAssignedWeights is true', () => {
-    component.model = feedbackRubricQuestionDetailsBuilder
-                        .hasAssignedWeights(true)
-                        .rubricChoices(['1'])
-                        .rubricDescriptions([['desc 1'], ['desc 2']])
-                        .rubricWeightsForEachCell([[1], [2]])
-                        .build();
+  it(
+    'addNewChoice: calls triggerModelChangeBatch with the correct parameters' + 'when hasAssignedWeights is true',
+    () => {
+      component.model = feedbackRubricQuestionDetailsBuilder
+        .hasAssignedWeights(true)
+        .rubricChoices(['1'])
+        .rubricDescriptions([['desc 1'], ['desc 2']])
+        .rubricWeightsForEachCell([[1], [2]])
+        .build();
 
-    component.addNewChoice();
+      component.addNewChoice();
 
-    expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
-      rubricChoices: ['1', ''],
-      rubricDescriptions: [['desc 1', ''], ['desc 2', '']],
-      rubricWeightsForEachCell: [[1, 0], [2, 0]],
-    });
-  });
+      expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
+        rubricChoices: ['1', ''],
+        rubricDescriptions: [
+          ['desc 1', ''],
+          ['desc 2', ''],
+        ],
+        rubricWeightsForEachCell: [
+          [1, 0],
+          [2, 0],
+        ],
+      });
+    },
+  );
 
-  it('moveChoice: calls triggerModelChangeBatch with the correct parameters'
-    + 'when hasAssignedWeights is false', () => {
-    component.model = feedbackRubricQuestionDetailsBuilder
-                        .hasAssignedWeights(false)
-                        .rubricChoices(['1', '2', '3'])
-                        .rubricDescriptions([['d1', 'd2', 'd3'], ['d4', 'd5', 'd6'], ['d7', 'd8', 'd9']])
-                        .build();
+  it(
+    'moveChoice: calls triggerModelChangeBatch with the correct parameters' + 'when hasAssignedWeights is false',
+    () => {
+      component.model = feedbackRubricQuestionDetailsBuilder
+        .hasAssignedWeights(false)
+        .rubricChoices(['1', '2', '3'])
+        .rubricDescriptions([
+          ['d1', 'd2', 'd3'],
+          ['d4', 'd5', 'd6'],
+          ['d7', 'd8', 'd9'],
+        ])
+        .build();
 
-    component.moveChoice(0, 1);
+      component.moveChoice(0, 1);
 
-    expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
-      rubricChoices: ['2', '1', '3'],
-      rubricDescriptions: [['d2', 'd1', 'd3'], ['d5', 'd4', 'd6'], ['d8', 'd7', 'd9']],
-      rubricWeightsForEachCell: [],
-    });
-  });
+      expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
+        rubricChoices: ['2', '1', '3'],
+        rubricDescriptions: [
+          ['d2', 'd1', 'd3'],
+          ['d5', 'd4', 'd6'],
+          ['d8', 'd7', 'd9'],
+        ],
+        rubricWeightsForEachCell: [],
+      });
+    },
+  );
 
-  it('moveChoice: calls triggerModelChangeBatch with the correct parameters'
-    + 'when hasAssignedWeights is true', () => {
-    component.model = feedbackRubricQuestionDetailsBuilder
-                        .hasAssignedWeights(true)
-                        .rubricChoices(['1', '2', '3'])
-                        .rubricDescriptions([['d1', 'd2', 'd3'], ['d4', 'd5', 'd6'], ['d7', 'd8', 'd9']])
-                        .rubricWeightsForEachCell([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
-                        .build();
+  it(
+    'moveChoice: calls triggerModelChangeBatch with the correct parameters' + 'when hasAssignedWeights is true',
+    () => {
+      component.model = feedbackRubricQuestionDetailsBuilder
+        .hasAssignedWeights(true)
+        .rubricChoices(['1', '2', '3'])
+        .rubricDescriptions([
+          ['d1', 'd2', 'd3'],
+          ['d4', 'd5', 'd6'],
+          ['d7', 'd8', 'd9'],
+        ])
+        .rubricWeightsForEachCell([
+          [1, 2, 3],
+          [4, 5, 6],
+          [7, 8, 9],
+        ])
+        .build();
 
-    component.moveChoice(0, 1);
+      component.moveChoice(0, 1);
 
-    expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
-      rubricChoices: ['2', '1', '3'],
-      rubricDescriptions: [['d2', 'd1', 'd3'], ['d5', 'd4', 'd6'], ['d8', 'd7', 'd9']],
-      rubricWeightsForEachCell: [[2, 1, 3], [5, 4, 6], [8, 7, 9]],
-    });
-  });
+      expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
+        rubricChoices: ['2', '1', '3'],
+        rubricDescriptions: [
+          ['d2', 'd1', 'd3'],
+          ['d5', 'd4', 'd6'],
+          ['d8', 'd7', 'd9'],
+        ],
+        rubricWeightsForEachCell: [
+          [2, 1, 3],
+          [5, 4, 6],
+          [8, 7, 9],
+        ],
+      });
+    },
+  );
 
-  it('deleteSubQuestion: should not call triggerModelChangeBatch or simpleModalService'
-    + 'if there is only 1 subQuestion', () => {
-    const simpleModalServiceSpy = jest.spyOn(simpleModalService, 'openConfirmationModal');
-    component.model = feedbackRubricQuestionDetailsBuilder.rubricSubQuestions(['1']).build();
+  it(
+    'deleteSubQuestion: should not call triggerModelChangeBatch or simpleModalService' +
+      'if there is only 1 subQuestion',
+    () => {
+      const simpleModalServiceSpy = jest.spyOn(simpleModalService, 'openConfirmationModal');
+      component.model = feedbackRubricQuestionDetailsBuilder.rubricSubQuestions(['1']).build();
 
-    component.deleteSubQuestion(0);
+      component.deleteSubQuestion(0);
 
-    expect(simpleModalServiceSpy).not.toHaveBeenCalled();
-    expect(triggerModelChangeBatchSpy).not.toHaveBeenCalled();
-  });
+      expect(simpleModalServiceSpy).not.toHaveBeenCalled();
+      expect(triggerModelChangeBatchSpy).not.toHaveBeenCalled();
+    },
+  );
 
-  it('deleteSubQuestion: should call simpleModalService and triggerModelChangeBatch'
-    + 'with correct paramters when hasAssignedWeights is false', async () => {
-    const promise: Promise<void> = Promise.resolve();
-    const simpleModalServiceSpy = jest.spyOn(simpleModalService, 'openConfirmationModal')
-                                      .mockReturnValue(createMockNgbModalRef({}, promise));
-    component.model = feedbackRubricQuestionDetailsBuilder
-                        .hasAssignedWeights(false)
-                        .rubricSubQuestions(['1', '2', '3'])
-                        .rubricDescriptions([['d1'], ['d2'], ['d3']])
-                        .build();
+  it(
+    'deleteSubQuestion: should call simpleModalService and triggerModelChangeBatch' +
+      'with correct paramters when hasAssignedWeights is false',
+    async () => {
+      const promise: Promise<void> = Promise.resolve();
+      const simpleModalServiceSpy = jest
+        .spyOn(simpleModalService, 'openConfirmationModal')
+        .mockReturnValue(createMockNgbModalRef({}, promise));
+      component.model = feedbackRubricQuestionDetailsBuilder
+        .hasAssignedWeights(false)
+        .rubricSubQuestions(['1', '2', '3'])
+        .rubricDescriptions([['d1'], ['d2'], ['d3']])
+        .build();
 
-    component.deleteSubQuestion(1);
+      component.deleteSubQuestion(1);
 
-    await promise;
+      await promise;
 
-    expect(simpleModalServiceSpy).toHaveBeenCalled();
-    expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
-      rubricSubQuestions: ['1', '3'],
-      rubricDescriptions: [['d1'], ['d3']],
-      rubricWeightsForEachCell: [],
-    });
-  });
+      expect(simpleModalServiceSpy).toHaveBeenCalled();
+      expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
+        rubricSubQuestions: ['1', '3'],
+        rubricDescriptions: [['d1'], ['d3']],
+        rubricWeightsForEachCell: [],
+      });
+    },
+  );
 
-  it('deleteSubQuestion: should call simpleModalService and triggerModelChangeBatch with'
-    + 'correct paramters when hasAssignedWeights is true', async () => {
-    const promise: Promise<void> = Promise.resolve();
-    const simpleModalServiceSpy = jest.spyOn(simpleModalService, 'openConfirmationModal')
-                                      .mockReturnValue(createMockNgbModalRef({}, promise));
-    component.model = feedbackRubricQuestionDetailsBuilder
-                        .hasAssignedWeights(true)
-                        .rubricSubQuestions(['1', '2', '3'])
-                        .rubricDescriptions([['d1'], ['d2'], ['d3']])
-                        .rubricWeightsForEachCell([[1], [2], [3]])
-                        .build();
+  it(
+    'deleteSubQuestion: should call simpleModalService and triggerModelChangeBatch with' +
+      'correct paramters when hasAssignedWeights is true',
+    async () => {
+      const promise: Promise<void> = Promise.resolve();
+      const simpleModalServiceSpy = jest
+        .spyOn(simpleModalService, 'openConfirmationModal')
+        .mockReturnValue(createMockNgbModalRef({}, promise));
+      component.model = feedbackRubricQuestionDetailsBuilder
+        .hasAssignedWeights(true)
+        .rubricSubQuestions(['1', '2', '3'])
+        .rubricDescriptions([['d1'], ['d2'], ['d3']])
+        .rubricWeightsForEachCell([[1], [2], [3]])
+        .build();
 
-    component.deleteSubQuestion(1);
+      component.deleteSubQuestion(1);
 
-    await promise;
+      await promise;
 
-    expect(simpleModalServiceSpy).toHaveBeenCalled();
-    expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
-      rubricSubQuestions: ['1', '3'],
-      rubricDescriptions: [['d1'], ['d3']],
-      rubricWeightsForEachCell: [[1], [3]],
-    });
-  });
+      expect(simpleModalServiceSpy).toHaveBeenCalled();
+      expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
+        rubricSubQuestions: ['1', '3'],
+        rubricDescriptions: [['d1'], ['d3']],
+        rubricWeightsForEachCell: [[1], [3]],
+      });
+    },
+  );
 
-  it('deleteChoice: should call simpleModalService and triggerModelChangeBatch with'
-    + 'correct paramters when hasAssignedWeights is false', async () => {
-    const promise: Promise<void> = Promise.resolve();
-    const simpleModalServiceSpy = jest.spyOn(simpleModalService, 'openConfirmationModal')
-                                      .mockReturnValue(createMockNgbModalRef({}, promise));
-    component.model = feedbackRubricQuestionDetailsBuilder
-                        .hasAssignedWeights(false)
-                        .rubricChoices(['1', '2', '3'])
-                        .rubricDescriptions([['d1', 'd2', 'd3'], ['d4', 'd5', 'd6'], ['d7', 'd8', 'd9']])
-                        .build();
+  it(
+    'deleteChoice: should call simpleModalService and triggerModelChangeBatch with' +
+      'correct paramters when hasAssignedWeights is false',
+    async () => {
+      const promise: Promise<void> = Promise.resolve();
+      const simpleModalServiceSpy = jest
+        .spyOn(simpleModalService, 'openConfirmationModal')
+        .mockReturnValue(createMockNgbModalRef({}, promise));
+      component.model = feedbackRubricQuestionDetailsBuilder
+        .hasAssignedWeights(false)
+        .rubricChoices(['1', '2', '3'])
+        .rubricDescriptions([
+          ['d1', 'd2', 'd3'],
+          ['d4', 'd5', 'd6'],
+          ['d7', 'd8', 'd9'],
+        ])
+        .build();
 
-    component.deleteChoice(1);
+      component.deleteChoice(1);
 
-    await promise;
+      await promise;
 
-    expect(simpleModalServiceSpy).toHaveBeenCalled();
-    expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
-      rubricChoices: ['1', '3'],
-      rubricDescriptions: [['d1', 'd3'], ['d4', 'd6'], ['d7', 'd9']],
-      rubricWeightsForEachCell: [],
-    });
-  });
+      expect(simpleModalServiceSpy).toHaveBeenCalled();
+      expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
+        rubricChoices: ['1', '3'],
+        rubricDescriptions: [
+          ['d1', 'd3'],
+          ['d4', 'd6'],
+          ['d7', 'd9'],
+        ],
+        rubricWeightsForEachCell: [],
+      });
+    },
+  );
 
-  it('deleteChoice: should call simpleModalService and triggerModelChangeBatch with'
-    + 'correct paramters when hasAssignedWeights is true', async () => {
-    const promise: Promise<void> = Promise.resolve();
-    const simpleModalServiceSpy = jest.spyOn(simpleModalService, 'openConfirmationModal')
-                                      .mockReturnValue(createMockNgbModalRef({}, promise));
-    component.model = feedbackRubricQuestionDetailsBuilder
-                        .hasAssignedWeights(true)
-                        .rubricChoices(['1', '2', '3'])
-                        .rubricDescriptions([['d1', 'd2', 'd3'], ['d4', 'd5', 'd6'], ['d7', 'd8', 'd9']])
-                        .rubricWeightsForEachCell([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
-                        .build();
+  it(
+    'deleteChoice: should call simpleModalService and triggerModelChangeBatch with' +
+      'correct paramters when hasAssignedWeights is true',
+    async () => {
+      const promise: Promise<void> = Promise.resolve();
+      const simpleModalServiceSpy = jest
+        .spyOn(simpleModalService, 'openConfirmationModal')
+        .mockReturnValue(createMockNgbModalRef({}, promise));
+      component.model = feedbackRubricQuestionDetailsBuilder
+        .hasAssignedWeights(true)
+        .rubricChoices(['1', '2', '3'])
+        .rubricDescriptions([
+          ['d1', 'd2', 'd3'],
+          ['d4', 'd5', 'd6'],
+          ['d7', 'd8', 'd9'],
+        ])
+        .rubricWeightsForEachCell([
+          [1, 2, 3],
+          [4, 5, 6],
+          [7, 8, 9],
+        ])
+        .build();
 
-    component.deleteChoice(1);
+      component.deleteChoice(1);
 
-    await promise;
+      await promise;
 
-    expect(simpleModalServiceSpy).toHaveBeenCalled();
-    expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
-      rubricChoices: ['1', '3'],
-      rubricDescriptions: [['d1', 'd3'], ['d4', 'd6'], ['d7', 'd9']],
-      rubricWeightsForEachCell: [[1, 3], [4, 6], [7, 9]],
-    });
-  });
+      expect(simpleModalServiceSpy).toHaveBeenCalled();
+      expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
+        rubricChoices: ['1', '3'],
+        rubricDescriptions: [
+          ['d1', 'd3'],
+          ['d4', 'd6'],
+          ['d7', 'd9'],
+        ],
+        rubricWeightsForEachCell: [
+          [1, 3],
+          [4, 6],
+          [7, 9],
+        ],
+      });
+    },
+  );
 
-  it('triggerChoicesWeight: should call triggerModelChangeBatch with the'
-    + 'correct parameters when isEnabled is true', () => {
-    component.model = feedbackRubricQuestionDetailsBuilder.rubricDescriptions([['d1', 'd2'], ['d3', 'd4']]).build();
+  it(
+    'triggerChoicesWeight: should call triggerModelChangeBatch with the' + 'correct parameters when isEnabled is true',
+    () => {
+      component.model = feedbackRubricQuestionDetailsBuilder
+        .rubricDescriptions([
+          ['d1', 'd2'],
+          ['d3', 'd4'],
+        ])
+        .build();
 
-    component.triggerChoicesWeight(true);
-    expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
-      hasAssignedWeights: true,
-      rubricWeightsForEachCell: [[0, 0], [0, 0]],
-    });
-  });
+      component.triggerChoicesWeight(true);
+      expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
+        hasAssignedWeights: true,
+        rubricWeightsForEachCell: [
+          [0, 0],
+          [0, 0],
+        ],
+      });
+    },
+  );
 
-  it('triggerChoicesWeight: should call triggerModelChangeBatch with the'
-    + 'correct parameters when isEnabled is false', () => {
-    component.model = feedbackRubricQuestionDetailsBuilder.rubricDescriptions([['d1', 'd2'], ['d3', 'd4']]).build();
+  it(
+    'triggerChoicesWeight: should call triggerModelChangeBatch with the' + 'correct parameters when isEnabled is false',
+    () => {
+      component.model = feedbackRubricQuestionDetailsBuilder
+        .rubricDescriptions([
+          ['d1', 'd2'],
+          ['d3', 'd4'],
+        ])
+        .build();
 
-    component.triggerChoicesWeight(false);
-    expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
-      hasAssignedWeights: false,
-      rubricWeightsForEachCell: [],
-    });
-  });
+      component.triggerChoicesWeight(false);
+      expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
+        hasAssignedWeights: false,
+        rubricWeightsForEachCell: [],
+      });
+    },
+  );
 
-  it('moveRow: should call triggerModelChangeBatch with the correct parameters'
-    + 'when hasAssignedWeights is false', () => {
-    component.model = feedbackRubricQuestionDetailsBuilder
-                        .hasAssignedWeights(false)
-                        .rubricSubQuestions(['1', '2', '3'])
-                        .rubricDescriptions([['d1'], ['d2'], ['d3']])
-                        .build();
+  it(
+    'moveRow: should call triggerModelChangeBatch with the correct parameters' + 'when hasAssignedWeights is false',
+    () => {
+      component.model = feedbackRubricQuestionDetailsBuilder
+        .hasAssignedWeights(false)
+        .rubricSubQuestions(['1', '2', '3'])
+        .rubricDescriptions([['d1'], ['d2'], ['d3']])
+        .build();
 
-    component.moveRow(0, 1);
-    expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
-      rubricSubQuestions: ['2', '1', '3'],
-      rubricDescriptions: [['d2'], ['d1'], ['d3']],
-      rubricWeightsForEachCell: [],
-    });
-  });
+      component.moveRow(0, 1);
+      expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
+        rubricSubQuestions: ['2', '1', '3'],
+        rubricDescriptions: [['d2'], ['d1'], ['d3']],
+        rubricWeightsForEachCell: [],
+      });
+    },
+  );
 
-  it('moveRow: should call triggerModelChangeBatch with the correct parameters'
-    + 'when hasAssignedWeights is true', () => {
-    component.model = feedbackRubricQuestionDetailsBuilder
-                        .hasAssignedWeights(true)
-                        .rubricSubQuestions(['1', '2', '3'])
-                        .rubricDescriptions([['d1'], ['d2'], ['d3']])
-                        .rubricWeightsForEachCell([[1], [2], [3]])
-                        .build();
+  it(
+    'moveRow: should call triggerModelChangeBatch with the correct parameters' + 'when hasAssignedWeights is true',
+    () => {
+      component.model = feedbackRubricQuestionDetailsBuilder
+        .hasAssignedWeights(true)
+        .rubricSubQuestions(['1', '2', '3'])
+        .rubricDescriptions([['d1'], ['d2'], ['d3']])
+        .rubricWeightsForEachCell([[1], [2], [3]])
+        .build();
 
-    component.moveRow(0, 1);
-    expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
-      rubricSubQuestions: ['2', '1', '3'],
-      rubricDescriptions: [['d2'], ['d1'], ['d3']],
-      rubricWeightsForEachCell: [[2], [1], [3]],
-    });
-  });
+      component.moveRow(0, 1);
+      expect(triggerModelChangeBatchSpy).toHaveBeenCalledWith({
+        rubricSubQuestions: ['2', '1', '3'],
+        rubricDescriptions: [['d2'], ['d1'], ['d3']],
+        rubricWeightsForEachCell: [[2], [1], [3]],
+      });
+    },
+  );
 });

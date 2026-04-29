@@ -32,11 +32,9 @@ describe('NewInstructorDataRowComponent', () => {
     component.index = expectedIndex;
     component.isAddDisabled = expectedIsAddDisabled;
     fixture.detectChanges();
-    addButtonDe = fixture.debugElement
-      .query(By.css(`#add-instructor-${expectedIndex}`));
+    addButtonDe = fixture.debugElement.query(By.css(`#add-instructor-${expectedIndex}`));
     addButtonEl = addButtonDe.nativeElement;
-    editButtonDe = fixture.debugElement
-      .query(By.css(`#edit-instructor-${expectedIndex}`));
+    editButtonDe = fixture.debugElement.query(By.css(`#edit-instructor-${expectedIndex}`));
     editButtonEl = editButtonDe.nativeElement;
   });
 
@@ -51,23 +49,21 @@ describe('NewInstructorDataRowComponent', () => {
   });
 
   it('should display the instructor name received as input', () => {
-    const displayedInstructorName: string = fixture.debugElement
-      .query(By.css(`#instructor-${expectedIndex}-name`))
+    const displayedInstructorName: string = fixture.debugElement.query(By.css(`#instructor-${expectedIndex}-name`))
       .nativeElement.textContent;
     expect(displayedInstructorName).toEqual(expectedInstructorData.name);
   });
 
   it('should display the instructor email received as input', () => {
-    const displayedInstructorEmail: string = fixture.debugElement
-      .query(By.css(`#instructor-${expectedIndex}-email`))
+    const displayedInstructorEmail: string = fixture.debugElement.query(By.css(`#instructor-${expectedIndex}-email`))
       .nativeElement.textContent;
     expect(displayedInstructorEmail).toEqual(expectedInstructorData.email);
   });
 
   it('should display the instructor institution received as input', () => {
-    const displayedInstructorInstitution: string = fixture.debugElement
-      .query(By.css(`#instructor-${expectedIndex}-institution`))
-      .nativeElement.textContent;
+    const displayedInstructorInstitution: string = fixture.debugElement.query(
+      By.css(`#instructor-${expectedIndex}-institution`),
+    ).nativeElement.textContent;
     expect(displayedInstructorInstitution).toEqual(expectedInstructorData.institution);
   });
 
@@ -83,7 +79,9 @@ describe('NewInstructorDataRowComponent', () => {
 
   it('should emit addInstructorEvent when adding', () => {
     let hasEmitted = false;
-    testEventEmission(component.addInstructorEvent, () => { hasEmitted = true; });
+    testEventEmission(component.addInstructorEvent, () => {
+      hasEmitted = true;
+    });
 
     addButtonDe.triggerEventHandler('click', null);
     expect(hasEmitted).toBeTruthy();
@@ -91,17 +89,19 @@ describe('NewInstructorDataRowComponent', () => {
 
   it('should emit removeInstructorEvent when removing', () => {
     let hasEmitted = false;
-    testEventEmission(component.removeInstructorEvent, () => { hasEmitted = true; });
+    testEventEmission(component.removeInstructorEvent, () => {
+      hasEmitted = true;
+    });
 
-    fixture.debugElement
-      .query(By.css(`#remove-instructor-${expectedIndex}`))
-      .triggerEventHandler('click', null);
+    fixture.debugElement.query(By.css(`#remove-instructor-${expectedIndex}`)).triggerEventHandler('click', null);
     expect(hasEmitted).toBeTruthy();
   });
 
   it('should emit true via toggleEditModeEvent when entering edit mode', () => {
     let isInEditMode: boolean | undefined;
-    testEventEmission(component.toggleEditModeEvent, (emittedValue) => { isInEditMode = emittedValue; });
+    testEventEmission(component.toggleEditModeEvent, (emittedValue) => {
+      isInEditMode = emittedValue;
+    });
 
     editButtonDe.triggerEventHandler('click', null);
     expect(isInEditMode).toBeTruthy();
@@ -109,27 +109,35 @@ describe('NewInstructorDataRowComponent', () => {
 
   it('should emit false via toggleEditModeEvent when confirming the edit', () => {
     let isInEditMode: boolean | undefined;
-    testEventEmission(component.toggleEditModeEvent, (emittedValue) => { isInEditMode = emittedValue; }, false);
+    testEventEmission(
+      component.toggleEditModeEvent,
+      (emittedValue) => {
+        isInEditMode = emittedValue;
+      },
+      false,
+    );
 
     editButtonDe.triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    fixture.debugElement
-      .query(By.css(`#confirm-edit-instructor-${expectedIndex}`))
-      .triggerEventHandler('click', null);
+    fixture.debugElement.query(By.css(`#confirm-edit-instructor-${expectedIndex}`)).triggerEventHandler('click', null);
     expect(isInEditMode).toBeFalsy();
   });
 
   it('should emit false via toggleEditModeEvent when cancelling the edit', () => {
     let isInEditMode: boolean | undefined;
-    testEventEmission(component.toggleEditModeEvent, (emittedValue) => { isInEditMode = emittedValue; }, false);
+    testEventEmission(
+      component.toggleEditModeEvent,
+      (emittedValue) => {
+        isInEditMode = emittedValue;
+      },
+      false,
+    );
 
     editButtonDe.triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    fixture.debugElement
-      .query(By.css(`#cancel-edit-instructor-${expectedIndex}`))
-      .triggerEventHandler('click', null);
+    fixture.debugElement.query(By.css(`#cancel-edit-instructor-${expectedIndex}`)).triggerEventHandler('click', null);
     expect(isInEditMode).toBeFalsy();
   });
 
@@ -143,9 +151,9 @@ describe('NewInstructorDataRowComponent', () => {
     editButtonEl.click();
     fixture.detectChanges();
 
-    const confirmButtonEl: any = fixture.debugElement
-      .query(By.css(`#confirm-edit-instructor-${expectedIndex}`))
-      .nativeElement;
+    const confirmButtonEl: any = fixture.debugElement.query(
+      By.css(`#confirm-edit-instructor-${expectedIndex}`),
+    ).nativeElement;
     confirmButtonEl.click();
 
     expect(component.isBeingEdited).toBeFalsy();
@@ -155,9 +163,9 @@ describe('NewInstructorDataRowComponent', () => {
     editButtonEl.click();
     fixture.detectChanges();
 
-    const cancelButtonEl: any = fixture.debugElement
-      .query(By.css(`#cancel-edit-instructor-${expectedIndex}`))
-      .nativeElement;
+    const cancelButtonEl: any = fixture.debugElement.query(
+      By.css(`#cancel-edit-instructor-${expectedIndex}`),
+    ).nativeElement;
     cancelButtonEl.click();
 
     expect(component.isBeingEdited).toBeFalsy();
@@ -178,9 +186,9 @@ describe('NewInstructorDataRowComponent', () => {
     component.editedInstructorName = 'Edited Name';
     component.editedInstructorEmail = 'Edited@ema.il';
     component.editedInstructorInstitution = 'Edited Institution';
-    const confirmButtonEl: any = fixture.debugElement
-      .query(By.css(`#confirm-edit-instructor-${expectedIndex}`))
-      .nativeElement;
+    const confirmButtonEl: any = fixture.debugElement.query(
+      By.css(`#confirm-edit-instructor-${expectedIndex}`),
+    ).nativeElement;
     confirmButtonEl.click();
 
     expect(component.instructor.name).toEqual('Edited Name');
@@ -195,9 +203,9 @@ describe('NewInstructorDataRowComponent', () => {
     component.editedInstructorName = 'Edited Name';
     component.editedInstructorEmail = 'Edited@ema.il';
     component.editedInstructorInstitution = 'Edited Institution';
-    const cancelButtonEl: any = fixture.debugElement
-      .query(By.css(`#cancel-edit-instructor-${expectedIndex}`))
-      .nativeElement;
+    const cancelButtonEl: any = fixture.debugElement.query(
+      By.css(`#cancel-edit-instructor-${expectedIndex}`),
+    ).nativeElement;
     cancelButtonEl.click();
 
     expect(component.instructor.name).toEqual(expectedInstructorData.name);
@@ -212,9 +220,9 @@ describe('NewInstructorDataRowComponent', () => {
     component.editedInstructorName = 'Edited Name';
     component.editedInstructorEmail = 'Edited@ema.il';
     component.editedInstructorInstitution = 'Edited Institution';
-    const cancelButtonEl: any = fixture.debugElement
-      .query(By.css(`#cancel-edit-instructor-${expectedIndex}`))
-      .nativeElement;
+    const cancelButtonEl: any = fixture.debugElement.query(
+      By.css(`#cancel-edit-instructor-${expectedIndex}`),
+    ).nativeElement;
     cancelButtonEl.click();
 
     expect(component.editedInstructorName).toEqual(expectedInstructorData.name);
@@ -229,9 +237,9 @@ describe('NewInstructorDataRowComponent', () => {
     component.editedInstructorName = 'Edited Name';
     component.editedInstructorEmail = 'Edited@ema.il';
     component.editedInstructorInstitution = 'Edited Institution';
-    const cancelButtonEl: any = fixture.debugElement
-      .query(By.css(`#cancel-edit-instructor-${expectedIndex}`))
-      .nativeElement;
+    const cancelButtonEl: any = fixture.debugElement.query(
+      By.css(`#cancel-edit-instructor-${expectedIndex}`),
+    ).nativeElement;
     cancelButtonEl.click();
     fixture.detectChanges();
 
@@ -272,9 +280,9 @@ describe('NewInstructorDataRowComponent', () => {
     component.editedInstructorName = 'Edited Name';
     component.editedInstructorEmail = 'Edited@ema.il';
     component.editedInstructorInstitution = 'Edited Institution';
-    const confirmButtonEl: any = fixture.debugElement
-      .query(By.css(`#confirm-edit-instructor-${expectedIndex}`))
-      .nativeElement;
+    const confirmButtonEl: any = fixture.debugElement.query(
+      By.css(`#confirm-edit-instructor-${expectedIndex}`),
+    ).nativeElement;
     confirmButtonEl.click();
     fixture.detectChanges();
 
@@ -288,9 +296,9 @@ describe('NewInstructorDataRowComponent', () => {
     component.editedInstructorName = 'Edited Name';
     component.editedInstructorEmail = 'Edited@ema.il';
     component.editedInstructorInstitution = 'Edited Institution';
-    const cancelButtonEl: any = fixture.debugElement
-      .query(By.css(`#cancel-edit-instructor-${expectedIndex}`))
-      .nativeElement;
+    const cancelButtonEl: any = fixture.debugElement.query(
+      By.css(`#cancel-edit-instructor-${expectedIndex}`),
+    ).nativeElement;
     cancelButtonEl.click();
     fixture.detectChanges();
 

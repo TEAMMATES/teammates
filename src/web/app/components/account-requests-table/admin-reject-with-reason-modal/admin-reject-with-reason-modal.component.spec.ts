@@ -7,7 +7,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { RejectWithReasonModalComponent } from './admin-reject-with-reason-modal.component';
 import {
-  FeedbackSessionsGroup, InstructorAccountSearchResult,
+  FeedbackSessionsGroup,
+  InstructorAccountSearchResult,
   SearchService,
 } from '../../../../services/search.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
@@ -50,14 +51,8 @@ describe('RejectWithReasonModal', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [],
-      providers: [
-        NgbActiveModal,
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      providers: [NgbActiveModal, provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -77,40 +72,48 @@ describe('RejectWithReasonModal', () => {
   });
 
   it('replaceGoogleId: should set the googleId to an empty string if no instructor accounts are found', () => {
-    jest.spyOn(searchService, 'searchAdmin').mockReturnValue(of({
-      students: [],
-      instructors: [],
-      accountRequests: [],
-    }));
+    jest.spyOn(searchService, 'searchAdmin').mockReturnValue(
+      of({
+        students: [],
+        instructors: [],
+        accountRequests: [],
+      }),
+    );
 
     component.replaceGoogleId();
 
     expect(component.existingAccount.googleId).toEqual('');
   });
 
-  it('replaceGoogleId: should set the googleId to the instructor accounts googleId '
-  + 'if an instructor account is found', () => {
-    const testInstructor = instructorAccountSearchResultBuilder.googleId('instructorGoogleId').build();
+  it(
+    'replaceGoogleId: should set the googleId to the instructor accounts googleId ' +
+      'if an instructor account is found',
+    () => {
+      const testInstructor = instructorAccountSearchResultBuilder.googleId('instructorGoogleId').build();
 
-    jest.spyOn(searchService, 'searchAdmin').mockReturnValue(of({
-      students: [],
-      instructors: [testInstructor],
-      accountRequests: [],
-    }));
+      jest.spyOn(searchService, 'searchAdmin').mockReturnValue(
+        of({
+          students: [],
+          instructors: [testInstructor],
+          accountRequests: [],
+        }),
+      );
 
-    component.replaceGoogleId();
+      component.replaceGoogleId();
 
-    expect(component.existingAccount.googleId).toEqual('instructorGoogleId');
-  });
+      expect(component.existingAccount.googleId).toEqual('instructorGoogleId');
+    },
+  );
 
   it('reject: should show error message when title is empty upon submitting', () => {
     component.rejectionReasonTitle = '';
     fixture.detectChanges();
 
-    const spyStatusMessageService = jest.spyOn(statusMessageService, 'showErrorToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('Please provide a title for the rejection email.');
-    });
+    const spyStatusMessageService = jest
+      .spyOn(statusMessageService, 'showErrorToast')
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('Please provide a title for the rejection email.');
+      });
 
     const rejectButton: any = fixture.debugElement.query(By.css('#btn-confirm-reject-request'));
     rejectButton.nativeElement.click();
@@ -122,10 +125,11 @@ describe('RejectWithReasonModal', () => {
     component.rejectionReasonBody = '';
     fixture.detectChanges();
 
-    const spyStatusMessageService = jest.spyOn(statusMessageService, 'showErrorToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('Please provide an email body for the rejection email.');
-    });
+    const spyStatusMessageService = jest
+      .spyOn(statusMessageService, 'showErrorToast')
+      .mockImplementation((args: string) => {
+        expect(args).toEqual('Please provide an email body for the rejection email.');
+      });
 
     const rejectButton: any = fixture.debugElement.query(By.css('#btn-confirm-reject-request'));
     rejectButton.nativeElement.click();

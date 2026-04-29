@@ -6,14 +6,12 @@ import { TeammatesRouterDirective } from '../teammates-router/teammates-router.d
  * A simple table to show course-related information about a student
  */
 @Component({
-    selector: 'tm-course-related-info',
-    templateUrl: './course-related-info.component.html',
-    styleUrls: ['./course-related-info.component.scss'],
-    imports: [TeammatesRouterDirective],
+  selector: 'tm-course-related-info',
+  templateUrl: './course-related-info.component.html',
+  styleUrls: ['./course-related-info.component.scss'],
+  imports: [TeammatesRouterDirective],
 })
 export class CourseRelatedInfoComponent {
-
   @Input() student?: Student;
   @Input() isDisplayOnly = false;
-
 }

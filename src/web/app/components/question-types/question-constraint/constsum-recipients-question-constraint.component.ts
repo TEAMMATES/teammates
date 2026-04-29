@@ -5,28 +5,22 @@ import {
   FeedbackConstantSumQuestionDetails,
   FeedbackConstantSumResponseDetails,
 } from '../../../../types/api-output';
-import {
-  DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS,
-} from '../../../../types/default-question-structs';
-import {
-  FeedbackResponseRecipientSubmissionFormModel,
-} from '../../question-submission-form/question-submission-form-model';
+import { DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { FeedbackResponseRecipientSubmissionFormModel } from '../../question-submission-form/question-submission-form-model';
 
 /**
  * Constraint of constsum recipients question.
  */
 @Component({
-    selector: 'tm-constsum-recipients-question-constraint',
-    templateUrl: './constsum-recipients-question-constraint.component.html',
-    styleUrls: ['./constsum-recipients-question-constraint.component.scss'],
-    imports: [],
+  selector: 'tm-constsum-recipients-question-constraint',
+  templateUrl: './constsum-recipients-question-constraint.component.html',
+  styleUrls: ['./constsum-recipients-question-constraint.component.scss'],
+  imports: [],
 })
-export class ConstsumRecipientsQuestionConstraintComponent
-    extends QuestionConstraintComponent<FeedbackConstantSumQuestionDetails> {
-
+export class ConstsumRecipientsQuestionConstraintComponent extends QuestionConstraintComponent<FeedbackConstantSumQuestionDetails> {
   // enum
   FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =
-      FeedbackConstantSumDistributePointsType;
+    FeedbackConstantSumDistributePointsType;
 
   constructor() {
     super(DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS());
@@ -56,15 +50,13 @@ export class ConstsumRecipientsQuestionConstraintComponent
    * Get answers for the recipients.
    */
   get allAnswers(): number[] {
-    return this.recipientSubmissionForms.map(
-        (form: FeedbackResponseRecipientSubmissionFormModel) => {
-          const details: FeedbackConstantSumResponseDetails =
-              form.responseDetails as FeedbackConstantSumResponseDetails;
-          if (details.answers.length === 0) {
-            return 0;
-          }
-          return details.answers[0];
-        });
+    return this.recipientSubmissionForms.map((form: FeedbackResponseRecipientSubmissionFormModel) => {
+      const details: FeedbackConstantSumResponseDetails = form.responseDetails as FeedbackConstantSumResponseDetails;
+      if (details.answers.length === 0) {
+        return 0;
+      }
+      return details.answers[0];
+    });
   }
 
   /**
@@ -123,44 +115,56 @@ export class ConstsumRecipientsQuestionConstraintComponent
    * Checks if any of the points are negative.
    */
   get isAnyPointsNegative(): boolean {
-    return this.allAnswers.reduce((isNegative: boolean, curr: number) => isNegative || (curr < 0), false);
+    return this.allAnswers.reduce((isNegative: boolean, curr: number) => isNegative || curr < 0, false);
   }
 
   /**
    * Returns true if the question requires uneven distribution but the points are not unevenly distributed.
    */
   get isWronglyAllUneven(): boolean {
-    return this.questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY
-        && !this.isAllPointsUneven;
+    return (
+      this.questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY &&
+      !this.isAllPointsUneven
+    );
   }
 
   /**
    * Returns true if the question requires uneven distribution and the points are unevenly distributed.
    */
   get isCorrectlyAllUneven(): boolean {
-    return this.questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY
-        && this.isAllPointsUneven;
+    return (
+      this.questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY &&
+      this.isAllPointsUneven
+    );
   }
 
   /**
    * Returns true if the question requires some uneven distribution but points are not unevenly distributed for some.
    */
   get isWronglySomeUneven(): boolean {
-    return this.questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY
-        && !this.isSomePointsUneven;
+    return (
+      this.questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY &&
+      !this.isSomePointsUneven
+    );
   }
 
   /**
    * Returns true if the question requires some uneven distribution and points are unevenly distributed for some.
    */
   get isCorrectlySomeUneven(): boolean {
-    return this.questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY
-        && this.isSomePointsUneven;
+    return (
+      this.questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY &&
+      this.isSomePointsUneven
+    );
   }
 
   override get isValid(): boolean {
-    return this.isAllPointsDistributed && !this.isAnyPointsNegative
-        && (this.isCorrectlyAllUneven || this.isCorrectlySomeUneven
-        || this.questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.NONE);
+    return (
+      this.isAllPointsDistributed &&
+      !this.isAnyPointsNegative &&
+      (this.isCorrectlyAllUneven ||
+        this.isCorrectlySomeUneven ||
+        this.questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.NONE)
+    );
   }
 }

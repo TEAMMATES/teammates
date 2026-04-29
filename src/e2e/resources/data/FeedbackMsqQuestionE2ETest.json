@@ -193,18 +193,10 @@
       "questionDetails": {
         "questionType": "MSQ",
         "questionText": "Which area did this student work well in?",
-        "msqChoices": [
-          "Teamwork",
-          "Leadership",
-          "Creativity"
-        ],
+        "msqChoices": ["Teamwork", "Leadership", "Creativity"],
         "otherEnabled": true,
         "hasAssignedWeights": true,
-        "msqWeights": [
-          30.61,
-          29.4,
-          20
-        ],
+        "msqWeights": [30.61, 29.4, 20],
         "msqOtherWeight": 60,
         "maxSelectableChoices": 2
       },
@@ -213,17 +205,9 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ]
+      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
     },
     "qn1ForSecondSession": {
       "id": "00000000-0000-4000-8000-000000000802",
@@ -243,15 +227,9 @@
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ]
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"]
     }
   },
   "notifications": {},

@@ -4,8 +4,7 @@ import { ConstsumRecipientsQuestionConstraintComponent } from './constsum-recipi
 import { createBuilder } from '../../../../test-helpers/generic-builder';
 import { FeedbackConstantSumResponseDetails } from '../../../../types/api-output';
 import { FeedbackQuestionType } from '../../../../types/api-request';
-import { FeedbackResponseRecipientSubmissionFormModel }
-  from '../../question-submission-form/question-submission-form-model';
+import { FeedbackResponseRecipientSubmissionFormModel } from '../../question-submission-form/question-submission-form-model';
 
 describe('ConstsumRecipientsQuestionConstraintComponent', () => {
   let component: ConstsumRecipientsQuestionConstraintComponent;

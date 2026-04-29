@@ -4,13 +4,15 @@ import { PageNotFoundComponent } from '../page-not-found/page-not-found.componen
 const routes: Routes = [
   {
     path: 'timezone',
-    loadComponent: () => import('../pages-monitoring/timezone-page/timezone-page.component')
-        .then((m) => m.TimezonePageComponent),
+    loadComponent: () =>
+      import('../pages-monitoring/timezone-page/timezone-page.component').then((m) => m.TimezonePageComponent),
   },
   {
     path: 'home',
-    loadComponent: () => import('../pages-monitoring/usage-stats-page/usage-statistics-page.component')
-        .then((m) => m.UsageStatisticsPageComponent),
+    loadComponent: () =>
+      import('../pages-monitoring/usage-stats-page/usage-statistics-page.component').then(
+        (m) => m.UsageStatisticsPageComponent,
+      ),
     data: {
       pageTitle: 'Usage Statistics',
     },

@@ -51,13 +51,8 @@ describe('InstructorCourseDetailsPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -170,8 +165,9 @@ describe('InstructorCourseDetailsPageComponent', () => {
 
     const promise: Promise<void> = Promise.resolve();
 
-    const spySimpleModalService: SpyInstance = jest.spyOn(simpleModalService, 'openConfirmationModal')
-        .mockReturnValue(createMockNgbModalRef({}, promise));
+    const spySimpleModalService: SpyInstance = jest
+      .spyOn(simpleModalService, 'openConfirmationModal')
+      .mockReturnValue(createMockNgbModalRef({}, promise));
 
     const deleteAllButton: any = fixture.debugElement.nativeElement.querySelector('#btn-delete-all');
     deleteAllButton.click();
@@ -193,16 +189,15 @@ describe('InstructorCourseDetailsPageComponent', () => {
     component.courseDetails = courseDetails;
     fixture.detectChanges();
 
-    const spyStudentService: SpyInstance = jest.spyOn(studentService, 'batchDeleteStudentsFromCourse')
-        .mockReturnValue(of({ message: 'Successful' }));
+    const spyStudentService: SpyInstance = jest
+      .spyOn(studentService, 'batchDeleteStudentsFromCourse')
+      .mockReturnValue(of({ message: 'Successful' }));
 
-    jest.spyOn(statusMessageService, 'showSuccessToast')
-        .mockImplementation((args: string) => {
-          expect(args).toEqual('All the students have been removed from the course');
-        });
+    jest.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
+      expect(args).toEqual('All the students have been removed from the course');
+    });
 
-    jest.spyOn(simpleModalService, 'openLoadingModal')
-        .mockReturnValue(createMockNgbModalRef());
+    jest.spyOn(simpleModalService, 'openLoadingModal').mockReturnValue(createMockNgbModalRef());
 
     component.deleteAllStudentsFromCourse(course.courseId);
 
@@ -224,11 +219,13 @@ describe('InstructorCourseDetailsPageComponent', () => {
     component.courseDetails = courseDetails;
     fixture.detectChanges();
 
-    jest.spyOn(studentService, 'batchDeleteStudentsFromCourse').mockReturnValue(throwError(() => ({
-      error: {
-        message: 'This is the error message.',
-      },
-    })));
+    jest.spyOn(studentService, 'batchDeleteStudentsFromCourse').mockReturnValue(
+      throwError(() => ({
+        error: {
+          message: 'This is the error message.',
+        },
+      })),
+    );
 
     const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
       expect(args).toEqual('This is the error message.');

@@ -4,7 +4,8 @@
 import {
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
-  ResponseVisibleSetting, SessionVisibleSetting,
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
 } from '../../../types/api-output';
 import { DateFormat, TimeFormat } from '../../../types/datetime-const';
 

@@ -1,10 +1,13 @@
 <div class="transparent-overlay" [ngClass]="{ 'display-none': type !== SimpleModalType.LOAD }"></div>
-<div class="modal-header"
-     [ngClass]="{
-     'bg-danger' : type === SimpleModalType.DANGER,
-     'bg-warning' : type === SimpleModalType.WARNING,
-     'bg-info' : type === SimpleModalType.INFO || type === SimpleModalType.LOAD,
-     'bg-white' : type === SimpleModalType.NEUTRAL}">
+<div
+  class="modal-header"
+  [ngClass]="{
+    'bg-danger': type === SimpleModalType.DANGER,
+    'bg-warning': type === SimpleModalType.WARNING,
+    'bg-info': type === SimpleModalType.INFO || type === SimpleModalType.LOAD,
+    'bg-white': type === SimpleModalType.NEUTRAL,
+  }"
+>
   <div>
     <h5 class="modal-title">
       @if (type === SimpleModalType.DANGER) {
@@ -19,9 +22,12 @@
       <span class="margin-left-5px" [innerHTML]="header"></span>
     </h5>
   </div>
-  <button type="button" aria-label="Close" class="btn-close"
-    (click)="type === SimpleModalType.LOAD ? activeModal.close() : activeModal.dismiss()">
-  </button>
+  <button
+    type="button"
+    aria-label="Close"
+    class="btn-close"
+    (click)="type === SimpleModalType.LOAD ? activeModal.close() : activeModal.dismiss()"
+  ></button>
 </div>
 <div class="modal-body">
   @if (isTemplate) {
@@ -44,11 +50,17 @@
       {{ cancelMessage }}
     </button>
   }
-  <button type="button" class="btn modal-btn-ok z-index-1"
-          [ngClass]="{
-          'btn-danger' : type === SimpleModalType.DANGER || type === SimpleModalType.LOAD,
-          'btn-warning' : type === SimpleModalType.WARNING,
-          'btn-info' : type === SimpleModalType.INFO,
-          'btn-primary' : type === SimpleModalType.NEUTRAL }"
-  (click)="activeModal.close()">{{ confirmMessage }}</button>
+  <button
+    type="button"
+    class="btn modal-btn-ok z-index-1"
+    [ngClass]="{
+      'btn-danger': type === SimpleModalType.DANGER || type === SimpleModalType.LOAD,
+      'btn-warning': type === SimpleModalType.WARNING,
+      'btn-info': type === SimpleModalType.INFO,
+      'btn-primary': type === SimpleModalType.NEUTRAL,
+    }"
+    (click)="activeModal.close()"
+  >
+    {{ confirmMessage }}
+  </button>
 </div>

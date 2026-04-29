@@ -1,5 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { NgbModalRef, NgbModal, NgbTooltip, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbModalRef,
+  NgbModal,
+  NgbTooltip,
+  NgbDropdown,
+  NgbDropdownToggle,
+  NgbDropdownMenu,
+} from '@ng-bootstrap/ng-bootstrap';
 import { AccountRequestTableRowModel } from './account-search-table-model';
 import { AccountService } from '../../../services/account.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -9,12 +16,8 @@ import { ErrorMessageOutput } from '../../error-message-output';
 import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter.pipe';
 import { EditRequestModalComponentResult } from '../account-requests-table/admin-edit-request-modal/admin-edit-request-modal-model';
 import { EditRequestModalComponent } from '../account-requests-table/admin-edit-request-modal/admin-edit-request-modal.component';
-import {
-  RejectWithReasonModalComponentResult,
-} from '../account-requests-table/admin-reject-with-reason-modal/admin-reject-with-reason-modal-model';
-import {
-  RejectWithReasonModalComponent,
-} from '../account-requests-table/admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
+import { RejectWithReasonModalComponentResult } from '../account-requests-table/admin-reject-with-reason-modal/admin-reject-with-reason-modal-model';
+import { RejectWithReasonModalComponent } from '../account-requests-table/admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { collapseAnim } from '../teammates-common/collapse-anim';
@@ -37,7 +40,6 @@ import { collapseAnim } from '../teammates-common/collapse-anim';
   ],
 })
 export class AdminAccountSearchTableComponent {
-
   @Input()
   accountRequests: AccountRequestTableRowModel[] = [];
 
@@ -84,37 +86,37 @@ export class AdminAccountSearchTableComponent {
     modalRef.componentInstance.accountRequestInstitution = accountRequest.instituteAndCountry;
     modalRef.componentInstance.accountRequestComments = accountRequest.comments;
 
-    modalRef.result.then((res: EditRequestModalComponentResult) => {
-      this.accountService.editAccountRequest(
-        accountRequest.id,
-        {
+    modalRef.result.then(
+      (res: EditRequestModalComponentResult) => {
+        this.accountService
+          .editAccountRequest(accountRequest.id, {
             name: res.accountRequestName,
             email: res.accountRequestEmail,
             institute: res.accountRequestInstitution,
             status: accountRequest.status,
             comments: res.accountRequestComment,
-        },
-      )
-      .subscribe({
-        next: (resp: AccountRequest) => {
-          accountRequest.comments = resp.comments ?? '';
-          accountRequest.name = resp.name;
-          accountRequest.email = resp.email;
-          accountRequest.instituteAndCountry = resp.institute;
-          this.statusMessageService.showSuccessToast('Account request was successfully updated.');
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
-    }, () => {});
+          })
+          .subscribe({
+            next: (resp: AccountRequest) => {
+              accountRequest.comments = resp.comments ?? '';
+              accountRequest.name = resp.name;
+              accountRequest.email = resp.email;
+              accountRequest.instituteAndCountry = resp.institute;
+              this.statusMessageService.showSuccessToast('Account request was successfully updated.');
+            },
+            error: (resp: ErrorMessageOutput) => {
+              this.statusMessageService.showErrorToast(resp.error.message);
+            },
+          });
+      },
+      () => {},
+    );
   }
 
   approveAccountRequest(accountRequest: AccountRequestTableRowModel, index: number): void {
     this.isApprovingAccount[index] = true;
-    this.accountService.approveAccountRequest(accountRequest.id)
-    .subscribe({
-      next: (resp : AccountRequest) => {
+    this.accountService.approveAccountRequest(accountRequest.id).subscribe({
+      next: (resp: AccountRequest) => {
         accountRequest.status = resp.status;
         this.statusMessageService.showSuccessToast(
           `Account request was successfully approved. Email has been sent to ${accountRequest.email}.`,
@@ -135,18 +137,22 @@ export class AdminAccountSearchTableComponent {
         <strong>${accountRequest.instituteAndCountry}</strong>?
         An email with the account registration link will also be sent to the instructor.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Reset account request for <strong>${accountRequest.name}</strong>?`, SimpleModalType.WARNING, modalContent);
+      `Reset account request for <strong>${accountRequest.name}</strong>?`,
+      SimpleModalType.WARNING,
+      modalContent,
+    );
 
     modalRef.dismissed.subscribe(() => {
       this.isResettingAccount[index] = false;
     });
 
-    modalRef.result.then(() => {
-      this.accountService.resetAccountRequest(accountRequest.id)
-        .subscribe({
+    modalRef.result.then(
+      () => {
+        this.accountService.resetAccountRequest(accountRequest.id).subscribe({
           next: () => {
-            this.statusMessageService
-                .showSuccessToast(`Reset successful. An email has been sent to ${accountRequest.email}.`);
+            this.statusMessageService.showSuccessToast(
+              `Reset successful. An email has been sent to ${accountRequest.email}.`,
+            );
             accountRequest.registeredAtText = '';
             this.isResettingAccount[index] = false;
           },
@@ -155,7 +161,9 @@ export class AdminAccountSearchTableComponent {
             this.isResettingAccount[index] = false;
           },
         });
-    }, () => {});
+      },
+      () => {},
+    );
   }
 
   deleteAccountRequest(accountRequest: AccountRequestTableRowModel): void {
@@ -163,39 +171,51 @@ export class AdminAccountSearchTableComponent {
         <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
         <strong>${accountRequest.instituteAndCountry}</strong>?`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Delete account request for <strong>${accountRequest.name}</strong>?`, SimpleModalType.DANGER, modalContent);
+      `Delete account request for <strong>${accountRequest.name}</strong>?`,
+      SimpleModalType.DANGER,
+      modalContent,
+    );
 
-    modalRef.result.then(() => {
-      this.accountService.deleteAccountRequest(accountRequest.id)
-      .subscribe({
-        next: (resp: MessageOutput) => {
-          this.statusMessageService.showSuccessToast(resp.message);
-          this.accountRequests = this.accountRequests.filter((x: AccountRequestTableRowModel) => x !== accountRequest);
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
-    }, () => {});
+    modalRef.result.then(
+      () => {
+        this.accountService.deleteAccountRequest(accountRequest.id).subscribe({
+          next: (resp: MessageOutput) => {
+            this.statusMessageService.showSuccessToast(resp.message);
+            this.accountRequests = this.accountRequests.filter(
+              (x: AccountRequestTableRowModel) => x !== accountRequest,
+            );
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
+      },
+      () => {},
+    );
   }
 
   viewAccountRequest(accountRequest: AccountRequestTableRowModel): void {
     const modalContent = `<strong>Comment:</strong> ${accountRequest.comments || 'No comments'}`;
     const modalRef: NgbModalRef = this.simpleModalService.openInformationModal(
-        `Comments for <strong>${accountRequest.name}</strong> Request`, SimpleModalType.INFO, modalContent);
+      `Comments for <strong>${accountRequest.name}</strong> Request`,
+      SimpleModalType.INFO,
+      modalContent,
+    );
 
-    modalRef.result.then(() => {}, () => {});
+    modalRef.result.then(
+      () => {},
+      () => {},
+    );
   }
 
   rejectAccountRequest(accountRequest: AccountRequestTableRowModel, index: number): void {
     this.isRejectingAccount[index] = true;
-    this.accountService.rejectAccountRequest(accountRequest.id)
-    .subscribe({
-      next: (resp : AccountRequest) => {
+    this.accountService.rejectAccountRequest(accountRequest.id).subscribe({
+      next: (resp: AccountRequest) => {
         accountRequest.status = resp.status;
         this.statusMessageService.showSuccessToast('Account request was successfully rejected.');
         this.isRejectingAccount[index] = false;
-        },
+      },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
         this.isRejectingAccount[index] = false;
@@ -213,23 +233,26 @@ export class AdminAccountSearchTableComponent {
       this.isRejectingAccount[index] = false;
     });
 
-    modalRef.result.then((res: RejectWithReasonModalComponentResult) => {
-      this.accountService.rejectAccountRequest(accountRequest.id,
-        res.rejectionReasonTitle, res.rejectionReasonBody)
-      .subscribe({
-        next: (resp: AccountRequest) => {
-          accountRequest.status = resp.status;
-          this.statusMessageService.showSuccessToast(
-            `Account request was successfully rejected. Email has been sent to ${accountRequest.email}.`,
-          );
-          this.isRejectingAccount[index] = false;
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-          this.isRejectingAccount[index] = false;
-        },
-      });
-    }, () => {});
+    modalRef.result.then(
+      (res: RejectWithReasonModalComponentResult) => {
+        this.accountService
+          .rejectAccountRequest(accountRequest.id, res.rejectionReasonTitle, res.rejectionReasonBody)
+          .subscribe({
+            next: (resp: AccountRequest) => {
+              accountRequest.status = resp.status;
+              this.statusMessageService.showSuccessToast(
+                `Account request was successfully rejected. Email has been sent to ${accountRequest.email}.`,
+              );
+              this.isRejectingAccount[index] = false;
+            },
+            error: (resp: ErrorMessageOutput) => {
+              this.statusMessageService.showErrorToast(resp.error.message);
+              this.isRejectingAccount[index] = false;
+            },
+          });
+      },
+      () => {},
+    );
   }
 
   trackAccountRequest(_: number, accountRequest: AccountRequestTableRowModel): string {

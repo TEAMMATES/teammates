@@ -14,19 +14,10 @@ const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
   selector: 'tm-rich-text-editor',
   templateUrl: './rich-text-editor.component.html',
   styleUrls: ['./rich-text-editor.component.scss'],
-  imports: [
-    DestroyableDirective,
-    InViewportDirective,
-    EditorComponent,
-    NgClass,
-    FormsModule,
-],
-  providers: [
-    { provide: TINYMCE_SCRIPT_SRC, useValue: `${TINYMCE_BASE_URL}/tinymce.min.js` },
-  ],
+  imports: [DestroyableDirective, InViewportDirective, EditorComponent, NgClass, FormsModule],
+  providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: `${TINYMCE_BASE_URL}/tinymce.min.js` }],
 })
 export class RichTextEditorComponent implements OnInit {
-
   // const
   RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH: number = RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH;
 
@@ -55,10 +46,11 @@ export class RichTextEditorComponent implements OnInit {
 
   render = false;
 
-  defaultToolbar: string = 'styles | forecolor backcolor '
-      + '| bold italic underline strikethrough subscript superscript '
-      + '| alignleft aligncenter alignright alignjustify '
-      + '| bullist numlist | link image charmap emoticons';
+  defaultToolbar: string =
+    'styles | forecolor backcolor ' +
+    '| bold italic underline strikethrough subscript superscript ' +
+    '| alignleft aligncenter alignright alignjustify ' +
+    '| bullist numlist | link image charmap emoticons';
 
   ngOnInit(): void {
     this.init = this.getEditorSettings();
@@ -79,23 +71,38 @@ export class RichTextEditorComponent implements OnInit {
       entity_encoding: 'raw',
       placeholder: this.placeholderText,
       plugins: [
-        'advlist', 'autolink', 'autoresize', 'lists', 'link', 'image', 'charmap', 'anchor',
-        'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code',
-        'insertdatetime', 'nonbreaking', 'save', 'table', 'directionality',
+        'advlist',
+        'autolink',
+        'autoresize',
+        'lists',
+        'link',
+        'image',
+        'charmap',
+        'anchor',
+        'searchreplace',
+        'wordcount',
+        'visualblocks',
+        'visualchars',
+        'code',
+        'insertdatetime',
+        'nonbreaking',
+        'save',
+        'table',
+        'directionality',
         'emoticons',
       ],
       menubar: false,
       autoresize_bottom_margin: 50,
 
       toolbar1: this.defaultToolbar,
-      setup: (editor:any) => {
+      setup: (editor: any) => {
         if (this.hasCharacterLimit) {
           editor.on('GetContent', () => {
             setTimeout(() => {
               this.characterCount = this.getCurrentCharacterCount(editor);
             }, 0);
           });
-          editor.on('keypress', (event:any) => {
+          editor.on('keypress', (event: any) => {
             const currentCharacterCount = this.getCurrentCharacterCount(editor);
             if (currentCharacterCount >= RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH) {
               event.preventDefault();
@@ -121,8 +128,8 @@ export class RichTextEditorComponent implements OnInit {
                   firstDifferentIndex + pasteContentLength,
                 );
                 const truncatedPastedText = pasteContent.substring(0, pasteContentLength - lengthExceed);
-                const finalContent = contentBeforeFirstDifferentIndex + truncatedPastedText
-                  + contentAfterFirstDifferentIndex;
+                const finalContent =
+                  contentBeforeFirstDifferentIndex + truncatedPastedText + contentAfterFirstDifferentIndex;
                 editor.setContent(finalContent);
 
                 // This sets the cursor to the end of the text.
@@ -153,5 +160,4 @@ export class RichTextEditorComponent implements OnInit {
       this.render = true;
     }
   }
-
 }

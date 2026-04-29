@@ -6,7 +6,6 @@ import { VisibilityControl } from '../../../types/visibility-control';
  */
 @Pipe({ name: 'visibilityCapability' })
 export class VisibilityCapabilityPipe implements PipeTransform {
-
   /**
    * Transforms a map of VisibilityControl to a capability description.
    *
@@ -32,5 +31,4 @@ export class VisibilityCapabilityPipe implements PipeTransform {
 
     return message;
   }
-
 }

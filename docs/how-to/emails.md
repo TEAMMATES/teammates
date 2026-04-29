@@ -11,10 +11,13 @@ Update the relevant values in `build.properties` after setting up your chosen se
 ## Supported Services
 
 ### SendGrid
+
 [sendgrid.com](https://sendgrid.com) — Create a free account and generate an API key.
 
 ### Mailgun
+
 [mailgun.com](https://www.mailgun.com) — Create a free account and obtain your domain name and API key.
 
 ### Mailjet
+
 [mailjet.com](https://www.mailjet.com) — Create a free account and obtain your API key and secret key.

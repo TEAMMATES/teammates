@@ -210,7 +210,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                     disabled=""
                     type="button"
                   >
-                     Edit 
+                    Edit
                   </button>
                   <button
                     class="btn btn-light btn-sm btn-soft-delete-0"
@@ -244,7 +244,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                       class="dropdown-toggle btn btn-light btn-results-0 btn-sm"
                       ngbdropdowntoggle=""
                     >
-                       Results 
+                      Results
                     </button>
                     <div
                       class="dropdown-menu"
@@ -398,7 +398,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                       class="btn btn-light btn-sm"
                       type="button"
                     >
-                       Edit 
+                      Edit
                     </button>
                   </a>
                   <button
@@ -436,7 +436,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                       class="dropdown-toggle btn btn-light btn-results-1 btn-sm"
                       ngbdropdowntoggle=""
                     >
-                       Results 
+                      Results
                     </button>
                     <div
                       class="dropdown-menu"
@@ -712,7 +712,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                       class="btn btn-light btn-sm"
                       type="button"
                     >
-                       Edit 
+                      Edit
                     </button>
                   </a>
                   <button
@@ -750,7 +750,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                       class="dropdown-toggle btn btn-light btn-results-0 btn-sm"
                       ngbdropdowntoggle=""
                     >
-                       Results 
+                      Results
                     </button>
                     <div
                       class="dropdown-menu"
@@ -881,7 +881,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                     disabled=""
                     type="button"
                   >
-                     Edit 
+                    Edit
                   </button>
                   <button
                     class="btn btn-light btn-sm btn-soft-delete-1"
@@ -915,7 +915,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                       class="dropdown-toggle btn btn-light btn-results-1 btn-sm"
                       ngbdropdowntoggle=""
                     >
-                       Results 
+                      Results
                     </button>
                     <div
                       class="dropdown-menu"
@@ -1049,7 +1049,7 @@ exports[`SessionsTableComponent should snap with default fields 1`] = `
   <div
     class="no-session-message"
   >
-     There are no feedback sessions in this course. 
+    There are no feedback sessions in this course.
   </div>
 </tm-sessions-table>
 `;

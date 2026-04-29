@@ -26,11 +26,9 @@ import { GeneratedChoicePipe } from '../../teammates-common/generated-choice.pip
     McqFieldComponent,
     WeightFieldComponent,
     GeneratedChoicePipe,
-],
+  ],
 })
-export class McqQuestionEditDetailsFormComponent
-    extends QuestionEditDetailsFormComponent<FeedbackMcqQuestionDetails> {
-
+export class McqQuestionEditDetailsFormComponent extends QuestionEditDetailsFormComponent<FeedbackMcqQuestionDetails> {
   readonly PARTICIPANT_TYPES = [
     FeedbackParticipantType.STUDENTS,
     FeedbackParticipantType.STUDENTS_EXCLUDING_SELF,

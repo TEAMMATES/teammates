@@ -12,7 +12,6 @@ import { StatusMessageService } from '../../../../../services/status-message.ser
   imports: [FormsModule],
 })
 export class MsqFieldComponent {
-
   @Input()
   isEditable = false;
 
@@ -31,7 +30,7 @@ export class MsqFieldComponent {
   @Output()
   msqText: EventEmitter<any> = new EventEmitter();
 
-  constructor(private statusMessageService: StatusMessageService) { }
+  constructor(private statusMessageService: StatusMessageService) {}
 
   /**
    * Deletes a Msq option.
@@ -50,5 +49,4 @@ export class MsqFieldComponent {
   onMsqOptionEntered(text: string): void {
     this.msqText.emit(text);
   }
-
 }

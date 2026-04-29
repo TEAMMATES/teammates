@@ -32,7 +32,10 @@
   <div>
     <ol type="a">
       @for (answer of answers; track answer) {
-        <li>{{ answer.answer }} <span class="choice-index">{{ answer.index ? '(Choice ' + answer.index + ')' : '' }}</span></li>
+        <li>
+          {{ answer.answer }}
+          <span class="choice-index">{{ answer.index ? '(Choice ' + answer.index + ')' : '' }}</span>
+        </li>
       }
     </ol>
   </div>

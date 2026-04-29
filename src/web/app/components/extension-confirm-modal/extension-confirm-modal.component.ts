@@ -9,7 +9,13 @@ import {
   StudentExtensionTableColumnModel,
   InstructorExtensionTableColumnModel,
 } from '../../pages-instructor/instructor-session-individual-extension-page/extension-table-column-model';
-import { ColumnData, SortableEvent, SortableTableCellData, SortableTableHeaderColorScheme, SortableTableComponent } from '../sortable-table/sortable-table.component';
+import {
+  ColumnData,
+  SortableEvent,
+  SortableTableCellData,
+  SortableTableHeaderColorScheme,
+  SortableTableComponent,
+} from '../sortable-table/sortable-table.component';
 import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pipe';
 import { InstructorRoleNamePipe } from '../teammates-common/instructor-role-name.pipe';
 
@@ -23,12 +29,7 @@ export enum ExtensionModalType {
   selector: 'tm-extension-confirm-modal',
   templateUrl: './extension-confirm-modal.component.html',
   styleUrls: ['./extension-confirm-modal.component.scss'],
-  imports: [
-    NgClass,
-    SortableTableComponent,
-    FormsModule,
-    FormatDateDetailPipe,
-],
+  imports: [NgClass, SortableTableComponent, FormsModule, FormatDateDetailPipe],
 })
 export class ExtensionConfirmModalComponent implements OnInit {
   private readonly timeZoneService = inject(TimezoneService);
@@ -59,10 +60,10 @@ export class ExtensionConfirmModalComponent implements OnInit {
   }
 
   @Input() set instructorData(instructorData: InstructorExtensionTableColumnModel[]) {
-      this.selectedInstructors = instructorData;
-      if (this.selectedInstructors.length > 0) {
-        this.setInstructorTableData();
-      }
+    this.selectedInstructors = instructorData;
+    if (this.selectedInstructors.length > 0) {
+      this.setInstructorTableData();
+    }
   }
 
   @Output()
@@ -74,14 +75,17 @@ export class ExtensionConfirmModalComponent implements OnInit {
   @Output()
   sortInstructorListEvent: EventEmitter<SortableEvent> = new EventEmitter();
 
-  studentColumnsData : ColumnData[] = [];
-  studentRowsData : SortableTableCellData[][] = [];
-  instructorColumnsData : ColumnData[] = [];
-  instructorRowsData : SortableTableCellData[][] = [];
+  studentColumnsData: ColumnData[] = [];
+  studentRowsData: SortableTableCellData[][] = [];
+  instructorColumnsData: ColumnData[] = [];
+  instructorRowsData: SortableTableCellData[][] = [];
   dateDetailPipe = new FormatDateDetailPipe(this.timeZoneService);
   instructorRoleNamePipe = new InstructorRoleNamePipe();
 
-  constructor(public activeModal: NgbActiveModal, private tableComparatorService: TableComparatorService) {}
+  constructor(
+    public activeModal: NgbActiveModal,
+    private tableComparatorService: TableComparatorService,
+  ) {}
 
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
@@ -114,113 +118,107 @@ export class ExtensionConfirmModalComponent implements OnInit {
   }
 
   setStudentColumnData(): void {
-     this.studentColumnsData = [
-        {
-            header: 'Section',
-            sortBy: SortBy.SECTION_NAME,
-            headerClass: 'student-sort-by-section',
-        },
-        {
-            header: 'Team',
-            sortBy: SortBy.TEAM_NAME,
-            headerClass: 'student-sort-by-team',
-        },
-        {
-            header: 'Name',
-            sortBy: SortBy.RESPONDENT_NAME,
-            headerClass: 'student-sort-by-name',
-        },
-        {
-            header: 'Email',
-            sortBy: SortBy.RESPONDENT_EMAIL,
-            headerClass: 'student-sort-by-email',
-        },
-        {
-            header: this.isDeleteModal() || this.isSessionDeleteModal() ? 'Current Deadline' : 'Original Deadline',
-            sortBy: SortBy.SESSION_END_DATE,
-            headerClass: 'student-sort-by-deadline',
-        },
-       ];
-     }
+    this.studentColumnsData = [
+      {
+        header: 'Section',
+        sortBy: SortBy.SECTION_NAME,
+        headerClass: 'student-sort-by-section',
+      },
+      {
+        header: 'Team',
+        sortBy: SortBy.TEAM_NAME,
+        headerClass: 'student-sort-by-team',
+      },
+      {
+        header: 'Name',
+        sortBy: SortBy.RESPONDENT_NAME,
+        headerClass: 'student-sort-by-name',
+      },
+      {
+        header: 'Email',
+        sortBy: SortBy.RESPONDENT_EMAIL,
+        headerClass: 'student-sort-by-email',
+      },
+      {
+        header: this.isDeleteModal() || this.isSessionDeleteModal() ? 'Current Deadline' : 'Original Deadline',
+        sortBy: SortBy.SESSION_END_DATE,
+        headerClass: 'student-sort-by-deadline',
+      },
+    ];
+  }
 
   setStudentRowData(): void {
-    this.studentRowsData = this.selectedStudents
-        .map((studentData: StudentExtensionTableColumnModel) => {
-            const rowData: SortableTableCellData[] = [
-              {
-                value: studentData.sectionName,
-              },
-              {
-                value: studentData.teamName,
-              },
-              {
-                value: studentData.name,
-              },
-              {
-                value: studentData.email,
-              },
-              {
-                value: studentData.extensionDeadline,
-                displayValue: this.dateDetailPipe.transform(
-                studentData.extensionDeadline,
-                this.feedbackSessionTimeZone),
-              },
-            ];
-            return rowData;
-          });
-    }
+    this.studentRowsData = this.selectedStudents.map((studentData: StudentExtensionTableColumnModel) => {
+      const rowData: SortableTableCellData[] = [
+        {
+          value: studentData.sectionName,
+        },
+        {
+          value: studentData.teamName,
+        },
+        {
+          value: studentData.name,
+        },
+        {
+          value: studentData.email,
+        },
+        {
+          value: studentData.extensionDeadline,
+          displayValue: this.dateDetailPipe.transform(studentData.extensionDeadline, this.feedbackSessionTimeZone),
+        },
+      ];
+      return rowData;
+    });
+  }
 
   setInstructorColumnData(): void {
     this.instructorColumnsData = [
-        {
-            header: 'Name',
-            sortBy: SortBy.RESPONDENT_NAME,
-            headerClass: 'instructor-sort-by-name',
-        },
-        {
-            header: 'Email',
-            sortBy: SortBy.RESPONDENT_EMAIL,
-            headerClass: 'instructor-sort-by-email',
-        },
-        {
-            header: 'Role',
-            sortBy: SortBy.INSTRUCTOR_PERMISSION_ROLE,
-            headerClass: 'instructor-sort-by-role',
-        },
-        {
-            header: this.isDeleteModal() || this.isSessionDeleteModal() ? 'Current Deadline' : 'Original Deadline',
-            sortBy: SortBy.SESSION_END_DATE,
-            headerClass: 'instructor-sort-by-deadline',
-        },
-        ];
-    }
+      {
+        header: 'Name',
+        sortBy: SortBy.RESPONDENT_NAME,
+        headerClass: 'instructor-sort-by-name',
+      },
+      {
+        header: 'Email',
+        sortBy: SortBy.RESPONDENT_EMAIL,
+        headerClass: 'instructor-sort-by-email',
+      },
+      {
+        header: 'Role',
+        sortBy: SortBy.INSTRUCTOR_PERMISSION_ROLE,
+        headerClass: 'instructor-sort-by-role',
+      },
+      {
+        header: this.isDeleteModal() || this.isSessionDeleteModal() ? 'Current Deadline' : 'Original Deadline',
+        sortBy: SortBy.SESSION_END_DATE,
+        headerClass: 'instructor-sort-by-deadline',
+      },
+    ];
+  }
 
   setInstructorRowData(): void {
-    this.instructorRowsData = this.selectedInstructors
-        .map((instructorData: InstructorExtensionTableColumnModel) => {
-            const rowData: SortableTableCellData[] = [
-                {
-                    value: instructorData.name,
-                },
-                {
-                    value: instructorData.email,
-                },
-                {
-                    value: instructorData.role,
-                    displayValue: instructorData.role
-                    ? this.instructorRoleNamePipe.transform(instructorData.role)
-                    : instructorData.role,
-                },
-                {
-                    value: instructorData.extensionDeadline,
-                    displayValue: this.dateDetailPipe.transform(
-                    instructorData.extensionDeadline,
-                    this.feedbackSessionTimeZone),
-                },
-            ];
-            return rowData;
-        });
-    }
+    this.instructorRowsData = this.selectedInstructors.map((instructorData: InstructorExtensionTableColumnModel) => {
+      const rowData: SortableTableCellData[] = [
+        {
+          value: instructorData.name,
+        },
+        {
+          value: instructorData.email,
+        },
+        {
+          value: instructorData.role,
+          displayValue: instructorData.role
+            ? this.instructorRoleNamePipe.transform(instructorData.role)
+            : instructorData.role,
+        },
+        {
+          value: instructorData.extensionDeadline,
+          displayValue: this.dateDetailPipe.transform(instructorData.extensionDeadline, this.feedbackSessionTimeZone),
+        },
+      ];
+      return rowData;
+    });
+  }
 
   onConfirm(): void {
     this.isSubmitting = true;
@@ -239,7 +237,7 @@ export class ExtensionConfirmModalComponent implements OnInit {
     return this.modalType === ExtensionModalType.SESSION_DELETE;
   }
 
-  sortStudentColumnsByEventHandler(event: { sortBy: SortBy, sortOrder: SortOrder }): void {
+  sortStudentColumnsByEventHandler(event: { sortBy: SortBy; sortOrder: SortOrder }): void {
     this.sortStudentListEvent.emit(event);
   }
 
@@ -285,7 +283,7 @@ export class ExtensionConfirmModalComponent implements OnInit {
     };
   }
 
-  sortInstructorsColumnsByEventHandler(event: { sortBy: SortBy, sortOrder: SortOrder }): void {
+  sortInstructorsColumnsByEventHandler(event: { sortBy: SortBy; sortOrder: SortOrder }): void {
     this.sortInstructorListEvent.emit(event);
   }
 

@@ -6,9 +6,7 @@ import { SectionTabModel } from './instructor-session-tab.model';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
-import {
-  GqrRqgViewResponsesComponent,
-} from '../../components/question-responses/gqr-rqg-view-responses/gqr-rqg-view-responses.component';
+import { GqrRqgViewResponsesComponent } from '../../components/question-responses/gqr-rqg-view-responses/gqr-rqg-view-responses.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 
 /**
@@ -25,10 +23,9 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
     LoadingRetryComponent,
     GqrRqgViewResponsesComponent,
     KeyValuePipe,
-],
+  ],
 })
 export class InstructorSessionResultRqgViewComponent extends InstructorSessionResultView {
-
   @Output()
   loadSection: EventEmitter<string> = new EventEmitter();
 
@@ -37,5 +34,4 @@ export class InstructorSessionResultRqgViewComponent extends InstructorSessionRe
   constructor() {
     super(InstructorSessionResultViewType.RQG);
   }
-
 }

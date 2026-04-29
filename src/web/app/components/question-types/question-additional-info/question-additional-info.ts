@@ -6,12 +6,10 @@ import { FeedbackQuestionDetails } from '../../../../types/api-output';
  */
 @Directive()
 export abstract class QuestionAdditionalInfo<Q extends FeedbackQuestionDetails> {
-
   @Input()
   questionDetails: Q;
 
   protected constructor(questionDetails: Q) {
     this.questionDetails = questionDetails;
   }
-
 }

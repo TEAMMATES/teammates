@@ -3,7 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import {
   FeedbackParticipantType,
   FeedbackQuestion,
-  FeedbackQuestionType, NumberOfEntitiesToGiveFeedbackToSetting,
+  FeedbackQuestionType,
+  NumberOfEntitiesToGiveFeedbackToSetting,
   ResponseOutput,
 } from '../../../../types/api-output';
 import { CommentRowComponent } from '../../comment-box/comment-row/comment-row.component';
@@ -27,7 +28,7 @@ import { SingleResponseComponent } from '../single-response/single-response.comp
     CommentTableComponent,
     CommentToCommentRowModelPipe,
     CommentsToCommentTableModelPipe,
-],
+  ],
 })
 export class StudentViewResponsesComponent implements OnInit {
   // enum
@@ -61,5 +62,4 @@ export class StudentViewResponsesComponent implements OnInit {
   ngOnInit(): void {
     this.recipient = this.responses.length ? this.responses[0].recipient : '';
   }
-
 }

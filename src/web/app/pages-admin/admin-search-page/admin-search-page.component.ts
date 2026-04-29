@@ -20,12 +20,8 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { ApiConst } from '../../../types/api-const';
 import { Email, RegenerateKey } from '../../../types/api-output';
-import {
-  AccountRequestTableRowModel,
-} from '../../components/account-requests-table/account-request-table-model';
-import {
-  AdminAccountSearchTableComponent,
-} from '../../components/admin-search-tables/admin-account-search-table.component';
+import { AccountRequestTableRowModel } from '../../components/account-requests-table/account-request-table-model';
+import { AdminAccountSearchTableComponent } from '../../components/admin-search-tables/admin-account-search-table.component';
 import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -47,10 +43,9 @@ import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter
     KeyValuePipe,
     SearchTermsHighlighterPipe,
     NgbCollapse,
-],
+  ],
 })
 export class AdminSearchPageComponent {
-
   searchQuery = '';
   searchString = '';
   instructors: InstructorAccountSearchResult[] = [];
@@ -77,59 +72,61 @@ export class AdminSearchPageComponent {
    */
   search(): void {
     this.loadingBarService.showLoadingBar();
-    this.searchService.searchAdmin(
-        this.searchQuery,
-    ).pipe(finalize(() => {
-      this.loadingBarService.hideLoadingBar();
-    })).subscribe({
-      next: (resp: AdminSearchResult) => {
-        const hasStudents = !!(resp.students?.length);
-        const hasInstructors = !!(resp.instructors?.length);
-        const hasAccountRequests = !!(resp.accountRequests?.length);
+    this.searchService
+      .searchAdmin(this.searchQuery)
+      .pipe(
+        finalize(() => {
+          this.loadingBarService.hideLoadingBar();
+        }),
+      )
+      .subscribe({
+        next: (resp: AdminSearchResult) => {
+          const hasStudents = !!resp.students?.length;
+          const hasInstructors = !!resp.instructors?.length;
+          const hasAccountRequests = !!resp.accountRequests?.length;
 
-        if (!hasStudents && !hasInstructors && !hasAccountRequests) {
-          this.statusMessageService.showWarningToast('No results found.');
+          if (!hasStudents && !hasInstructors && !hasAccountRequests) {
+            this.statusMessageService.showWarningToast('No results found.');
+            this.instructors = [];
+            this.students = [];
+            this.accountRequests = [];
+            return;
+          }
+
+          this.instructors = resp.instructors;
+          this.students = resp.students;
+          this.accountRequests = this.formatAccountRequests(resp.accountRequests);
+          this.hideAllInstructorsLinks();
+          this.hideAllStudentsLinks();
+
+          this.isRegeneratingInstructorKeys = new Array(this.instructors.length).fill(false);
+          this.isRegeneratingStudentKeys = new Array(this.students.length).fill(false);
+
+          // prompt user to use more specific terms if search results limit reached
+          const limit: number = ApiConst.SEARCH_QUERY_SIZE_LIMIT;
+          const limitsReached: string[] = [];
+          if (this.students.length >= limit) {
+            limitsReached.push(`${limit} student results`);
+          }
+          if (this.instructors.length >= limit) {
+            limitsReached.push(`${limit} instructor results`);
+          }
+          if (this.accountRequests.length >= limit) {
+            limitsReached.push(`${limit} account request results`);
+          }
+          if (limitsReached.length) {
+            this.statusMessageService.showWarningToast(`${limitsReached.join(' and ')} have been shown on this page
+            but there may be more results not shown. Consider searching with more specific terms.`);
+          }
+
+          this.searchString = this.searchQuery;
+        },
+        error: (resp: ErrorMessageOutput) => {
           this.instructors = [];
           this.students = [];
-          this.accountRequests = [];
-          return;
-        }
-
-        this.instructors = resp.instructors;
-        this.students = resp.students;
-        this.accountRequests = this.formatAccountRequests(resp.accountRequests);
-        this.hideAllInstructorsLinks();
-        this.hideAllStudentsLinks();
-
-        this.isRegeneratingInstructorKeys = new Array(this.instructors.length).fill(false);
-        this.isRegeneratingStudentKeys = new Array(this.students.length).fill(false);
-
-        // prompt user to use more specific terms if search results limit reached
-        const limit: number = ApiConst.SEARCH_QUERY_SIZE_LIMIT;
-        const limitsReached: string[] = [];
-        if (this.students.length >= limit) {
-          limitsReached.push(`${limit} student results`);
-        }
-        if (this.instructors.length >= limit) {
-          limitsReached.push(`${limit} instructor results`);
-        }
-        if (this.accountRequests.length >= limit) {
-          limitsReached.push(`${limit} account request results`);
-        }
-        if (limitsReached.length) {
-          this.statusMessageService.showWarningToast(`${limitsReached.join(' and ')} have been shown on this page
-            but there may be more results not shown. Consider searching with more specific terms.`);
-        }
-
-        this.searchString = this.searchQuery;
-
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.instructors = [];
-        this.students = [];
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   private formatAccountRequests(accountRequests: AccountRequestSearchResult[]): AccountRequestTableRowModel[] {
@@ -198,19 +195,25 @@ export class AdminSearchPageComponent {
         <strong>${instructor.name}</strong> in the course <strong>${instructor.courseId}</strong>?
         The user will need to re-associate their account with a new Google ID.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Reset <strong>${instructor.name}</strong>'s Google ID?`, SimpleModalType.WARNING, modalContent);
+      `Reset <strong>${instructor.name}</strong>'s Google ID?`,
+      SimpleModalType.WARNING,
+      modalContent,
+    );
 
-    modalRef.result.then(() => {
-      this.accountService.resetInstructorAccount(instructor.courseId, instructor.email).subscribe({
-        next: () => {
-          this.search();
-          this.statusMessageService.showSuccessToast('The instructor\'s Google ID has been reset.');
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
-    }, () => {});
+    modalRef.result.then(
+      () => {
+        this.accountService.resetInstructorAccount(instructor.courseId, instructor.email).subscribe({
+          next: () => {
+            this.search();
+            this.statusMessageService.showSuccessToast("The instructor's Google ID has been reset.");
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
+      },
+      () => {},
+    );
   }
 
   /**
@@ -225,19 +228,25 @@ export class AdminSearchPageComponent {
         <strong>${student.name}</strong> in the course <strong>${student.courseId}</strong>?
         The user will need to re-associate their account with a new Google ID.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Reset <strong>${student.name}</strong>'s Google ID?`, SimpleModalType.WARNING, modalContent);
+      `Reset <strong>${student.name}</strong>'s Google ID?`,
+      SimpleModalType.WARNING,
+      modalContent,
+    );
 
-    modalRef.result.then(() => {
-      this.accountService.resetStudentAccount(student.courseId, student.email).subscribe({
-        next: () => {
-          student.googleId = '';
-          this.statusMessageService.showSuccessToast('The student\'s Google ID has been reset.');
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
-    }, () => {});
+    modalRef.result.then(
+      () => {
+        this.accountService.resetStudentAccount(student.courseId, student.email).subscribe({
+          next: () => {
+            student.googleId = '';
+            this.statusMessageService.showSuccessToast("The student's Google ID has been reset.");
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
+      },
+      () => {},
+    );
   }
 
   /**
@@ -249,15 +258,18 @@ export class AdminSearchPageComponent {
         <strong>${student.name}</strong> for the course <strong>${student.courseId}</strong>?
         An email will be sent to the student with all the new course registration and feedback session links.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Regenerate <strong>${student.name}</strong>'s course links?`, SimpleModalType.WARNING, modalContent);
+      `Regenerate <strong>${student.name}</strong>'s course links?`,
+      SimpleModalType.WARNING,
+      modalContent,
+    );
 
     modalRef.dismissed.subscribe(() => {
       this.isRegeneratingStudentKeys[index] = false;
     });
 
-    modalRef.result.then(() => {
-      this.studentService.regenerateStudentKey(student.courseId, student.email)
-        .subscribe({
+    modalRef.result.then(
+      () => {
+        this.studentService.regenerateStudentKey(student.courseId, student.email).subscribe({
           next: (resp: RegenerateKey) => {
             this.statusMessageService.showSuccessToast(resp.message);
             this.updateDisplayedStudentCourseLinks(student, resp.newRegistrationKey);
@@ -268,7 +280,9 @@ export class AdminSearchPageComponent {
             this.isRegeneratingStudentKeys[index] = false;
           },
         });
-    }, () => {});
+      },
+      () => {},
+    );
   }
 
   /**
@@ -280,26 +294,31 @@ export class AdminSearchPageComponent {
         <strong>${instructor.name}</strong> for the course <strong>${instructor.courseId}</strong>?
         An email will be sent to the instructor with all the new course registration and feedback session links.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Regenerate <strong>${instructor.name}</strong>'s course links?`, SimpleModalType.WARNING, modalContent);
+      `Regenerate <strong>${instructor.name}</strong>'s course links?`,
+      SimpleModalType.WARNING,
+      modalContent,
+    );
 
     modalRef.dismissed.subscribe(() => {
       this.isRegeneratingInstructorKeys[index] = false;
     });
 
-    modalRef.result.then(() => {
-      this.instructorService.regenerateInstructorKey(instructor.courseId, instructor.email)
-          .subscribe({
-            next: (resp: RegenerateKey) => {
-              this.statusMessageService.showSuccessToast(resp.message);
-              this.updateDisplayedInstructorCourseLinks(instructor, resp.newRegistrationKey);
-              this.isRegeneratingInstructorKeys[index] = false;
-            },
-            error: (response: ErrorMessageOutput) => {
-              this.statusMessageService.showErrorToast(response.error.message);
-              this.isRegeneratingInstructorKeys[index] = false;
-            },
-          });
-    }, () => {});
+    modalRef.result.then(
+      () => {
+        this.instructorService.regenerateInstructorKey(instructor.courseId, instructor.email).subscribe({
+          next: (resp: RegenerateKey) => {
+            this.statusMessageService.showSuccessToast(resp.message);
+            this.updateDisplayedInstructorCourseLinks(instructor, resp.newRegistrationKey);
+            this.isRegeneratingInstructorKeys[index] = false;
+          },
+          error: (response: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(response.error.message);
+            this.isRegeneratingInstructorKeys[index] = false;
+          },
+        });
+      },
+      () => {},
+    );
   }
 
   /**
@@ -350,34 +369,27 @@ export class AdminSearchPageComponent {
    * Open up an email populated with content for course join invitation.
    */
   openCourseJoinEmail(studentId: string): void {
-    this.emailGenerationService.getCourseJoinEmail(studentId)
-        .subscribe({
-          next: (email: Email) => {
-            window.location.href = `mailto:${email.recipient}`
-                + `?Subject=${email.subject}`
-                + `&body=${email.content}`;
-          },
-          error: (err: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(err.error.message);
-          },
-        });
+    this.emailGenerationService.getCourseJoinEmail(studentId).subscribe({
+      next: (email: Email) => {
+        window.location.href = `mailto:${email.recipient}` + `?Subject=${email.subject}` + `&body=${email.content}`;
+      },
+      error: (err: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(err.error.message);
+      },
+    });
   }
 
   /**
    * Open up an email populated with content for feedback session reminder.
    */
   openFeedbackSessionReminderEmail(studentId: string, fsId: string): void {
-    this.emailGenerationService.getFeedbackSessionReminderEmail(studentId, fsId)
-        .subscribe({
-          next: (email: Email) => {
-            window.location.href = `mailto:${email.recipient}`
-                + `?Subject=${email.subject}`
-                + `&body=${email.content}`;
-          },
-          error: (err: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(err.error.message);
-          },
-        });
+    this.emailGenerationService.getFeedbackSessionReminderEmail(studentId, fsId).subscribe({
+      next: (email: Email) => {
+        window.location.href = `mailto:${email.recipient}` + `?Subject=${email.subject}` + `&body=${email.content}`;
+      },
+      error: (err: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(err.error.message);
+      },
+    });
   }
-
 }

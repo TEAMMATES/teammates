@@ -82,7 +82,7 @@ exports[`ModifiedTimestampModalComponent should snap with coursesOfModifiedSessi
       </tr>
     </tbody>
   </table><br /><p>
-     Please modify the timings as necessary. 
+    Please modify the timings as necessary.
   </p>
 </tm-modified-timestamps-modal>
 `;
@@ -116,7 +116,7 @@ exports[`ModifiedTimestampModalComponent should snap with default fields 1`] = `
     <tbody>
     </tbody>
   </table><br /><p>
-     Please modify the timings as necessary. 
+    Please modify the timings as necessary.
   </p>
 </tm-modified-timestamps-modal>
 `;
@@ -203,7 +203,7 @@ exports[`ModifiedTimestampModalComponent should snap with modifiedSessions 1`] =
       </tr>
     </tbody>
   </table><br /><p>
-     Please modify the timings as necessary. 
+    Please modify the timings as necessary.
   </p>
 </tm-modified-timestamps-modal>
 `;

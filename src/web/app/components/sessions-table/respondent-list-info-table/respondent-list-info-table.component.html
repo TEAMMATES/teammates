@@ -5,17 +5,25 @@
         <tr class="background-color-medium-gray">
           <th>
             <label>
-              <input type="checkbox" [ngModel]="isAllStudentsSelected" (ngModelChange)="changeSelectionStatusForAllStudentsHandler($event)">
+              <input
+                type="checkbox"
+                [ngModel]="isAllStudentsSelected"
+                (ngModelChange)="changeSelectionStatusForAllStudentsHandler($event)"
+              />
             </label>
           </th>
           <th (click)="sortStudentsTableRows(SortBy.SECTION_NAME)" class="clickable">
             Section
             <span class="fa-stack">
               <i class="fas fa-sort"></i>
-              @if (studentListInfoTableSortBy === SortBy.SECTION_NAME && studentListInfoTableSortOrder === SortOrder.DESC) {
+              @if (
+                studentListInfoTableSortBy === SortBy.SECTION_NAME && studentListInfoTableSortOrder === SortOrder.DESC
+              ) {
                 <i class="fas fa-sort-down"></i>
               }
-              @if (studentListInfoTableSortBy === SortBy.SECTION_NAME && studentListInfoTableSortOrder === SortOrder.ASC) {
+              @if (
+                studentListInfoTableSortBy === SortBy.SECTION_NAME && studentListInfoTableSortOrder === SortOrder.ASC
+              ) {
                 <i class="fas fa-sort-up"></i>
               }
             </span>
@@ -24,7 +32,9 @@
             Team
             <span class="fa-stack">
               <i class="fas fa-sort"></i>
-              @if (studentListInfoTableSortBy === SortBy.TEAM_NAME && studentListInfoTableSortOrder === SortOrder.DESC) {
+              @if (
+                studentListInfoTableSortBy === SortBy.TEAM_NAME && studentListInfoTableSortOrder === SortOrder.DESC
+              ) {
                 <i class="fas fa-sort-down"></i>
               }
               @if (studentListInfoTableSortBy === SortBy.TEAM_NAME && studentListInfoTableSortOrder === SortOrder.ASC) {
@@ -36,10 +46,15 @@
             Student Name
             <span class="fa-stack">
               <i class="fas fa-sort"></i>
-              @if (studentListInfoTableSortBy === SortBy.RESPONDENT_NAME && studentListInfoTableSortOrder === SortOrder.DESC) {
+              @if (
+                studentListInfoTableSortBy === SortBy.RESPONDENT_NAME &&
+                studentListInfoTableSortOrder === SortOrder.DESC
+              ) {
                 <i class="fas fa-sort-down"></i>
               }
-              @if (studentListInfoTableSortBy === SortBy.RESPONDENT_NAME && studentListInfoTableSortOrder === SortOrder.ASC) {
+              @if (
+                studentListInfoTableSortBy === SortBy.RESPONDENT_NAME && studentListInfoTableSortOrder === SortOrder.ASC
+              ) {
                 <i class="fas fa-sort-up"></i>
               }
             </span>
@@ -48,10 +63,16 @@
             Email
             <span class="fa-stack">
               <i class="fas fa-sort"></i>
-              @if (studentListInfoTableSortBy === SortBy.RESPONDENT_EMAIL && studentListInfoTableSortOrder === SortOrder.DESC) {
+              @if (
+                studentListInfoTableSortBy === SortBy.RESPONDENT_EMAIL &&
+                studentListInfoTableSortOrder === SortOrder.DESC
+              ) {
                 <i class="fas fa-sort-down"></i>
               }
-              @if (studentListInfoTableSortBy === SortBy.RESPONDENT_EMAIL && studentListInfoTableSortOrder === SortOrder.ASC) {
+              @if (
+                studentListInfoTableSortBy === SortBy.RESPONDENT_EMAIL &&
+                studentListInfoTableSortOrder === SortOrder.ASC
+              ) {
                 <i class="fas fa-sort-up"></i>
               }
             </span>
@@ -61,10 +82,16 @@
               Submitted?
               <span class="fa-stack">
                 <i class="fas fa-sort"></i>
-                @if (studentListInfoTableSortBy === SortBy.SESSION_COMPLETION_STATUS && studentListInfoTableSortOrder === SortOrder.DESC) {
+                @if (
+                  studentListInfoTableSortBy === SortBy.SESSION_COMPLETION_STATUS &&
+                  studentListInfoTableSortOrder === SortOrder.DESC
+                ) {
                   <i class="fas fa-sort-down"></i>
                 }
-                @if (studentListInfoTableSortBy === SortBy.SESSION_COMPLETION_STATUS && studentListInfoTableSortOrder === SortOrder.ASC) {
+                @if (
+                  studentListInfoTableSortBy === SortBy.SESSION_COMPLETION_STATUS &&
+                  studentListInfoTableSortOrder === SortOrder.ASC
+                ) {
                   <i class="fas fa-sort-up"></i>
                 }
               </span>
@@ -74,10 +101,18 @@
       </thead>
       <tbody>
         @for (studentListInfoTableRowModel of studentListInfoTableRowModels; track studentListInfoTableRowModel) {
-          <tr [ngClass]="{'bg-warning': shouldDisplayHasSubmittedSessionColumn && !studentListInfoTableRowModel.hasSubmittedSession}">
+          <tr
+            [ngClass]="{
+              'bg-warning': shouldDisplayHasSubmittedSessionColumn && !studentListInfoTableRowModel.hasSubmittedSession,
+            }"
+          >
             <td class="align-center">
               <label>
-                <input type="checkbox" [ngModel]="studentListInfoTableRowModel.isSelected" (ngModelChange)="handleSelectionOfStudentRow(studentListInfoTableRowModel)">
+                <input
+                  type="checkbox"
+                  [ngModel]="studentListInfoTableRowModel.isSelected"
+                  (ngModelChange)="handleSelectionOfStudentRow(studentListInfoTableRowModel)"
+                />
               </label>
             </td>
             <td>
@@ -108,9 +143,7 @@
     </table>
   </div>
 } @else {
-  <h4 class="p-2 bg-info">
-    There are no students enrolled to remind.
-  </h4>
+  <h4 class="p-2 bg-info">There are no students enrolled to remind.</h4>
 }
 <br />
 @if (instructorListInfoTableRowModels.length > 0) {
@@ -120,17 +153,27 @@
         <tr class="background-color-medium-gray">
           <th>
             <label>
-              <input type="checkbox" [ngModel]="isAllInstructorsSelected" (ngModelChange)="changeSelectionStatusForAllInstructorsHandler($event)">
+              <input
+                type="checkbox"
+                [ngModel]="isAllInstructorsSelected"
+                (ngModelChange)="changeSelectionStatusForAllInstructorsHandler($event)"
+              />
             </label>
           </th>
           <th (click)="sortInstructorsTableRows(SortBy.RESPONDENT_NAME)" class="clickable">
             Instructor Name
             <span class="fa-stack">
               <i class="fas fa-sort"></i>
-              @if (instructorListInfoTableSortBy === SortBy.RESPONDENT_NAME && instructorListInfoTableSortOrder === SortOrder.DESC) {
+              @if (
+                instructorListInfoTableSortBy === SortBy.RESPONDENT_NAME &&
+                instructorListInfoTableSortOrder === SortOrder.DESC
+              ) {
                 <i class="fas fa-sort-down"></i>
               }
-              @if (instructorListInfoTableSortBy === SortBy.RESPONDENT_NAME && instructorListInfoTableSortOrder === SortOrder.ASC) {
+              @if (
+                instructorListInfoTableSortBy === SortBy.RESPONDENT_NAME &&
+                instructorListInfoTableSortOrder === SortOrder.ASC
+              ) {
                 <i class="fas fa-sort-up"></i>
               }
             </span>
@@ -139,10 +182,16 @@
             Email
             <span class="fa-stack">
               <i class="fas fa-sort"></i>
-              @if (instructorListInfoTableSortBy === SortBy.RESPONDENT_EMAIL && instructorListInfoTableSortOrder === SortOrder.DESC) {
+              @if (
+                instructorListInfoTableSortBy === SortBy.RESPONDENT_EMAIL &&
+                instructorListInfoTableSortOrder === SortOrder.DESC
+              ) {
                 <i class="fas fa-sort-down"></i>
               }
-              @if (instructorListInfoTableSortBy === SortBy.RESPONDENT_EMAIL && instructorListInfoTableSortOrder === SortOrder.ASC) {
+              @if (
+                instructorListInfoTableSortBy === SortBy.RESPONDENT_EMAIL &&
+                instructorListInfoTableSortOrder === SortOrder.ASC
+              ) {
                 <i class="fas fa-sort-up"></i>
               }
             </span>
@@ -152,10 +201,16 @@
               Submitted?
               <span class="fa-stack">
                 <i class="fas fa-sort"></i>
-                @if (instructorListInfoTableSortBy === SortBy.SESSION_COMPLETION_STATUS && instructorListInfoTableSortOrder === SortOrder.DESC) {
+                @if (
+                  instructorListInfoTableSortBy === SortBy.SESSION_COMPLETION_STATUS &&
+                  instructorListInfoTableSortOrder === SortOrder.DESC
+                ) {
                   <i class="fas fa-sort-down"></i>
                 }
-                @if (instructorListInfoTableSortBy === SortBy.SESSION_COMPLETION_STATUS && instructorListInfoTableSortOrder === SortOrder.ASC) {
+                @if (
+                  instructorListInfoTableSortBy === SortBy.SESSION_COMPLETION_STATUS &&
+                  instructorListInfoTableSortOrder === SortOrder.ASC
+                ) {
                   <i class="fas fa-sort-up"></i>
                 }
               </span>
@@ -164,11 +219,23 @@
         </tr>
       </thead>
       <tbody>
-        @for (instructorListInfoTableRowModel of instructorListInfoTableRowModels; track instructorListInfoTableRowModel) {
-          <tr [ngClass]="{'bg-warning': shouldDisplayHasSubmittedSessionColumn && !instructorListInfoTableRowModel.hasSubmittedSession}">
+        @for (
+          instructorListInfoTableRowModel of instructorListInfoTableRowModels;
+          track instructorListInfoTableRowModel
+        ) {
+          <tr
+            [ngClass]="{
+              'bg-warning':
+                shouldDisplayHasSubmittedSessionColumn && !instructorListInfoTableRowModel.hasSubmittedSession,
+            }"
+          >
             <td class="align-center">
               <label>
-                <input type="checkbox" [ngModel]="instructorListInfoTableRowModel.isSelected" (ngModelChange)="handleSelectionOfInstructorRow(instructorListInfoTableRowModel)">
+                <input
+                  type="checkbox"
+                  [ngModel]="instructorListInfoTableRowModel.isSelected"
+                  (ngModelChange)="handleSelectionOfInstructorRow(instructorListInfoTableRowModel)"
+                />
               </label>
             </td>
             <td>
@@ -193,7 +260,5 @@
     </table>
   </div>
 } @else {
-  <h4 class="p-2 bg-info">
-    There are no instructors involved to remind.
-  </h4>
+  <h4 class="p-2 bg-info">There are no instructors involved to remind.</h4>
 }

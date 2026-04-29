@@ -9,9 +9,9 @@ import {
  * Concrete implementation of {@link FeedbackConstantSumResponseDetails}.
  */
 export class FeedbackConstantSumResponseDetailsImpl
-    extends AbstractFeedbackResponseDetails<FeedbackConstantSumQuestionDetails>
-    implements FeedbackConstantSumResponseDetails {
-
+  extends AbstractFeedbackResponseDetails<FeedbackConstantSumQuestionDetails>
+  implements FeedbackConstantSumResponseDetails
+{
   answers: number[] = [];
   questionType: FeedbackQuestionType = FeedbackQuestionType.CONSTSUM;
 
@@ -22,9 +22,7 @@ export class FeedbackConstantSumResponseDetailsImpl
 
   getResponseCsvAnswers(correspondingQuestionDetails: FeedbackConstantSumQuestionDetails): string[][] {
     if (correspondingQuestionDetails.distributeToRecipients) {
-      const answerStr: string = this.answers
-          .map(String)
-          .join('');
+      const answerStr: string = this.answers.map(String).join('');
       return [[answerStr]];
     }
 

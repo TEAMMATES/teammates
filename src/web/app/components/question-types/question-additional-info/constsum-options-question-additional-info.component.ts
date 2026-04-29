@@ -7,14 +7,12 @@ import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/def
  * Additional info for constsum options questions.
  */
 @Component({
-    selector: 'tm-constsum-options-question-additional-info',
-    templateUrl: './constsum-options-question-additional-info.component.html',
-    styleUrls: ['./constsum-options-question-additional-info.component.scss'],
-    imports: [],
+  selector: 'tm-constsum-options-question-additional-info',
+  templateUrl: './constsum-options-question-additional-info.component.html',
+  styleUrls: ['./constsum-options-question-additional-info.component.scss'],
+  imports: [],
 })
-export class ConstsumOptionsQuestionAdditionalInfoComponent
-    extends QuestionAdditionalInfo<FeedbackConstantSumQuestionDetails> {
-
+export class ConstsumOptionsQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<FeedbackConstantSumQuestionDetails> {
   constructor() {
     super(DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS());
   }

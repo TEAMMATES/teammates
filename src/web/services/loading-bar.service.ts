@@ -8,7 +8,6 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class LoadingBarService {
-
   isShown: Subject<boolean> = new Subject<boolean>();
 
   /**
@@ -24,5 +23,4 @@ export class LoadingBarService {
   hideLoadingBar(): void {
     this.isShown.next(false);
   }
-
 }

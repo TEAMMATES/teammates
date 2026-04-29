@@ -31,9 +31,9 @@ import { SubmissionStatusNamePipe } from '../teammates-common/submission-status-
 import { SubmissionStatusTooltipPipe } from '../teammates-common/submission-status-tooltip.pipe';
 
 export type MutateEvent = {
-  idx: number,
-  rowData: SortableTableCellData[],
-  columnsData: ColumnData[],
+  idx: number;
+  rowData: SortableTableCellData[];
+  columnsData: ColumnData[];
 };
 
 export type Index = number;
@@ -42,18 +42,18 @@ export type Index = number;
  * A table to display a list of feedback sessions.
  */
 @Component({
-    selector: 'tm-sessions-table',
-    templateUrl: './sessions-table.component.html',
-    styleUrls: ['./sessions-table.component.scss'],
-    imports: [SortableTableComponent],
-    providers: [
-      FormatDateDetailPipe,
-      FormatDateBriefPipe,
-      PublishStatusNamePipe,
-      PublishStatusTooltipPipe,
-      SubmissionStatusNamePipe,
-      SubmissionStatusTooltipPipe,
-    ],
+  selector: 'tm-sessions-table',
+  templateUrl: './sessions-table.component.html',
+  styleUrls: ['./sessions-table.component.scss'],
+  imports: [SortableTableComponent],
+  providers: [
+    FormatDateDetailPipe,
+    FormatDateBriefPipe,
+    PublishStatusNamePipe,
+    PublishStatusTooltipPipe,
+    SubmissionStatusNamePipe,
+    SubmissionStatusTooltipPipe,
+  ],
 })
 export class SessionsTableComponent implements OnInit {
   // enum
@@ -354,7 +354,7 @@ export class SessionsTableComponent implements OnInit {
   /**
    * Sorts the list of feedback session row.
    */
-  sortSessionsTableRowModelsEventHandler(event: { sortBy: SortBy, sortOrder: SortOrder }): void {
+  sortSessionsTableRowModelsEventHandler(event: { sortBy: SortBy; sortOrder: SortOrder }): void {
     this.sortSessionsTableRowModelsEvent.emit(event);
   }
 
@@ -362,11 +362,14 @@ export class SessionsTableComponent implements OnInit {
    * Moves the feedback session to the recycle bin.
    */
   moveSessionToRecycleBin(idx: number): void {
-    const modalContent: string = 'Session will be moved to the recycle bin. '
-        + 'This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).';
+    const modalContent: string =
+      'Session will be moved to the recycle bin. ' +
+      'This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).';
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Delete session <strong>${this.sessionsTableRowModels[idx].feedbackSession.feedbackSessionName}</strong>?`,
-        SimpleModalType.WARNING, modalContent);
+      `Delete session <strong>${this.sessionsTableRowModels[idx].feedbackSession.feedbackSessionName}</strong>?`,
+      SimpleModalType.WARNING,
+      modalContent,
+    );
 
     modalRef.result.then(
       () => {
@@ -389,12 +392,15 @@ export class SessionsTableComponent implements OnInit {
     modalRef.componentInstance.courseCandidates = this.courseCandidates;
     modalRef.componentInstance.sessionToCopyCourseId = model.feedbackSession.courseId;
 
-    modalRef.result.then((result: CopySessionModalResult) => {
-      this.copySessionEvent.emit({
-        ...result,
-        sessionToCopyRowIndex: rowIndex,
-      });
-    }, () => {});
+    modalRef.result.then(
+      (result: CopySessionModalResult) => {
+        this.copySessionEvent.emit({
+          ...result,
+          sessionToCopyRowIndex: rowIndex,
+        });
+      },
+      () => {},
+    );
   }
 
   /**
@@ -403,13 +409,17 @@ export class SessionsTableComponent implements OnInit {
   publishSession(rowIndex: number, rowData: SortableTableCellData[], columnsData: ColumnData[]): void {
     const model: SessionsTableRowModel = this.sessionsTableRowModelsVar[rowIndex];
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Publish session <strong>${model.feedbackSession.feedbackSessionName}</strong>?`,
-        SimpleModalType.WARNING,
-        'An email will be sent to students to inform them that the responses are ready for viewing.');
+      `Publish session <strong>${model.feedbackSession.feedbackSessionName}</strong>?`,
+      SimpleModalType.WARNING,
+      'An email will be sent to students to inform them that the responses are ready for viewing.',
+    );
 
-    modalRef.result.then(() => {
-      this.publishSessionEvent.emit({ idx: rowIndex, rowData, columnsData });
-    }, () => {});
+    modalRef.result.then(
+      () => {
+        this.publishSessionEvent.emit({ idx: rowIndex, rowData, columnsData });
+      },
+      () => {},
+    );
   }
 
   /**
@@ -421,12 +431,17 @@ export class SessionsTableComponent implements OnInit {
       has been unpublished and the session responses will no longer be viewable by students.`;
 
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
-        `Unpublish session <strong>${model.feedbackSession.feedbackSessionName}</strong>?`,
-        SimpleModalType.WARNING, modalContent);
+      `Unpublish session <strong>${model.feedbackSession.feedbackSessionName}</strong>?`,
+      SimpleModalType.WARNING,
+      modalContent,
+    );
 
-    modalRef.result.then(() => {
-      this.unpublishSessionEvent.emit({ idx: rowIndex, rowData, columnsData });
-    }, () => {});
+    modalRef.result.then(
+      () => {
+        this.unpublishSessionEvent.emit({ idx: rowIndex, rowData, columnsData });
+      },
+      () => {},
+    );
   }
 
   /**

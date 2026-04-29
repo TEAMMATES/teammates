@@ -1,13 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import {
-  NgbDropdownModule,
-  NgbTooltipModule,
-} from '@ng-bootstrap/ng-bootstrap';
-import {
-  FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus,
-} from '../../../types/api-output';
+import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus } from '../../../types/api-output';
 import { InstructorPermissionSet } from '../../../types/api-request';
 
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
@@ -16,15 +10,9 @@ import { SortableTableHeaderColorScheme } from '../sortable-table/sortable-table
 import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
 
 @Component({
-    selector: 'tm-group-buttons',
-    templateUrl: './cell-with-group-buttons.component.html',
-    imports: [
-    CommonModule,
-    TeammatesRouterDirective,
-    AjaxLoadingComponent,
-    NgbDropdownModule,
-    NgbTooltipModule,
-],
+  selector: 'tm-group-buttons',
+  templateUrl: './cell-with-group-buttons.component.html',
+  imports: [CommonModule, TeammatesRouterDirective, AjaxLoadingComponent, NgbDropdownModule, NgbTooltipModule],
 })
 export class GroupButtonsComponent {
   @Input() idx = 0;
@@ -34,10 +22,8 @@ export class GroupButtonsComponent {
   @Input() rowClicked = 0;
   @Input() isSendReminderLoading = false;
 
-  @Input() publishStatus: FeedbackSessionPublishStatus =
-    FeedbackSessionPublishStatus.NOT_PUBLISHED;
-  @Input() submissionStatus: FeedbackSessionSubmissionStatus =
-    FeedbackSessionSubmissionStatus.NOT_VISIBLE;
+  @Input() publishStatus: FeedbackSessionPublishStatus = FeedbackSessionPublishStatus.NOT_PUBLISHED;
+  @Input() submissionStatus: FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus.NOT_VISIBLE;
 
   @Input() instructorPrivileges: InstructorPermissionSet = {
     canModifyCourse: false,
@@ -62,10 +48,7 @@ export class GroupButtonsComponent {
   @Input() onSubmitSessionAsInstructor: () => void = () => {};
 
   // enum
-  FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus =
-    FeedbackSessionSubmissionStatus;
-  FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus =
-    FeedbackSessionPublishStatus;
-  SortableTableHeaderColorScheme: typeof SortableTableHeaderColorScheme =
-    SortableTableHeaderColorScheme;
+  FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
+  FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
+  SortableTableHeaderColorScheme: typeof SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
 }

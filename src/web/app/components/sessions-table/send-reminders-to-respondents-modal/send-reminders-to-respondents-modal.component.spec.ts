@@ -6,8 +6,10 @@ import { By } from '@angular/platform-browser';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SendRemindersToRespondentsModalComponent } from './send-reminders-to-respondents-modal.component';
 import { createBuilder } from '../../../../test-helpers/generic-builder';
-import { InstructorListInfoTableRowModel, StudentListInfoTableRowModel }
-  from '../respondent-list-info-table/respondent-list-info-table-model';
+import {
+  InstructorListInfoTableRowModel,
+  StudentListInfoTableRowModel,
+} from '../respondent-list-info-table/respondent-list-info-table-model';
 
 describe('SendRemindersToRespondentsModalComponent', () => {
   let component: SendRemindersToRespondentsModalComponent;
@@ -53,13 +55,8 @@ describe('SendRemindersToRespondentsModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        NgbActiveModal,
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -79,8 +76,10 @@ describe('SendRemindersToRespondentsModalComponent', () => {
       studentModelBuilder.isSelected(true).build(),
     ];
 
-    const changeSelectionStatusForAllStudentsHandlerSpy =
-      jest.spyOn(component, 'changeSelectionStatusForAllStudentsHandler');
+    const changeSelectionStatusForAllStudentsHandlerSpy = jest.spyOn(
+      component,
+      'changeSelectionStatusForAllStudentsHandler',
+    );
 
     fixture.detectChanges();
 
@@ -93,16 +92,20 @@ describe('SendRemindersToRespondentsModalComponent', () => {
     ]);
   });
 
-  it('changeSelectionStatusForAllStudentsHandler: should set all isSelected to false'
-    + 'if select all checkbox is clicked twice', () => {
+  it(
+    'changeSelectionStatusForAllStudentsHandler: should set all isSelected to false' +
+      'if select all checkbox is clicked twice',
+    () => {
       component.studentListInfoTableRowModels = [
         studentModelBuilder.isSelected(true).build(),
         studentModelBuilder.isSelected(true).build(),
         studentModelBuilder.isSelected(true).build(),
       ];
 
-      const changeSelectionStatusForAllStudentsHandlerSpy =
-        jest.spyOn(component, 'changeSelectionStatusForAllStudentsHandler');
+      const changeSelectionStatusForAllStudentsHandlerSpy = jest.spyOn(
+        component,
+        'changeSelectionStatusForAllStudentsHandler',
+      );
 
       fixture.detectChanges();
 
@@ -114,18 +117,23 @@ describe('SendRemindersToRespondentsModalComponent', () => {
         studentModelBuilder.isSelected(false).build(),
         studentModelBuilder.isSelected(false).build(),
       ]);
-    });
+    },
+  );
 
-  it('changeSelectionStatusForAllYetSubmittedStudentsHandler: should set all isSelected to true'
-    + 'for all students that has not submitted session', () => {
+  it(
+    'changeSelectionStatusForAllYetSubmittedStudentsHandler: should set all isSelected to true' +
+      'for all students that has not submitted session',
+    () => {
       component.studentListInfoTableRowModels = [
         studentModelBuilder.isSelected(false).hasSubmittedSession(false).build(),
         studentModelBuilder.isSelected(false).hasSubmittedSession(true).build(),
         studentModelBuilder.isSelected(false).hasSubmittedSession(false).build(),
       ];
 
-      const changeSelectionStatusForAllYetSubmittedStudentsHandlerSpy =
-        jest.spyOn(component, 'changeSelectionStatusForAllYetSubmittedStudentsHandler');
+      const changeSelectionStatusForAllYetSubmittedStudentsHandlerSpy = jest.spyOn(
+        component,
+        'changeSelectionStatusForAllYetSubmittedStudentsHandler',
+      );
 
       fixture.detectChanges();
 
@@ -136,18 +144,22 @@ describe('SendRemindersToRespondentsModalComponent', () => {
         studentModelBuilder.isSelected(false).hasSubmittedSession(true).build(),
         studentModelBuilder.isSelected(true).hasSubmittedSession(false).build(),
       ]);
-    });
+    },
+  );
 
-  it('changeSelectionStatusForAllInstructorsHandler: should set all isSelected to true'
-    + 'if not all are selected', () => {
+  it(
+    'changeSelectionStatusForAllInstructorsHandler: should set all isSelected to true' + 'if not all are selected',
+    () => {
       component.instructorListInfoTableRowModels = [
         instructorModelBuilder.isSelected(true).build(),
         instructorModelBuilder.isSelected(false).build(),
         instructorModelBuilder.isSelected(true).build(),
       ];
 
-      const changeSelectionStatusForAllInstructorsHandlerSpy =
-        jest.spyOn(component, 'changeSelectionStatusForAllInstructorsHandler');
+      const changeSelectionStatusForAllInstructorsHandlerSpy = jest.spyOn(
+        component,
+        'changeSelectionStatusForAllInstructorsHandler',
+      );
 
       fixture.detectChanges();
 
@@ -158,18 +170,23 @@ describe('SendRemindersToRespondentsModalComponent', () => {
         instructorModelBuilder.isSelected(true).build(),
         instructorModelBuilder.isSelected(true).build(),
       ]);
-    });
+    },
+  );
 
-  it('changeSelectionStatusForAllInstructorsHandler: should set all isSelected to false'
-    + 'if select all checkbox is clicked twice', () => {
+  it(
+    'changeSelectionStatusForAllInstructorsHandler: should set all isSelected to false' +
+      'if select all checkbox is clicked twice',
+    () => {
       component.instructorListInfoTableRowModels = [
         instructorModelBuilder.isSelected(true).build(),
         instructorModelBuilder.isSelected(true).build(),
         instructorModelBuilder.isSelected(true).build(),
       ];
 
-      const changeSelectionStatusForAllInstructorsHandlerSpy =
-        jest.spyOn(component, 'changeSelectionStatusForAllInstructorsHandler');
+      const changeSelectionStatusForAllInstructorsHandlerSpy = jest.spyOn(
+        component,
+        'changeSelectionStatusForAllInstructorsHandler',
+      );
 
       fixture.detectChanges();
 
@@ -181,18 +198,23 @@ describe('SendRemindersToRespondentsModalComponent', () => {
         instructorModelBuilder.isSelected(false).build(),
         instructorModelBuilder.isSelected(false).build(),
       ]);
-    });
+    },
+  );
 
-  it('changeSelectionStatusForAllYetSubmittedInstructorsHandler: should set all isSelected to true'
-    + 'for all students that has not submitted session', () => {
+  it(
+    'changeSelectionStatusForAllYetSubmittedInstructorsHandler: should set all isSelected to true' +
+      'for all students that has not submitted session',
+    () => {
       component.instructorListInfoTableRowModels = [
         instructorModelBuilder.isSelected(false).hasSubmittedSession(false).build(),
         instructorModelBuilder.isSelected(false).hasSubmittedSession(true).build(),
         instructorModelBuilder.isSelected(false).hasSubmittedSession(false).build(),
       ];
 
-      const changeSelectionStatusForAllYetSubmittedInstructorsHandlerSpy =
-        jest.spyOn(component, 'changeSelectionStatusForAllYetSubmittedInstructorsHandler');
+      const changeSelectionStatusForAllYetSubmittedInstructorsHandlerSpy = jest.spyOn(
+        component,
+        'changeSelectionStatusForAllYetSubmittedInstructorsHandler',
+      );
 
       fixture.detectChanges();
 
@@ -203,11 +225,14 @@ describe('SendRemindersToRespondentsModalComponent', () => {
         instructorModelBuilder.isSelected(false).hasSubmittedSession(true).build(),
         instructorModelBuilder.isSelected(true).hasSubmittedSession(false).build(),
       ]);
-    });
+    },
+  );
 
   it('changeSelectionStatusForSendingCopyToInstructorHandler: should toggle isSendingCopyToInstructorHandler', () => {
-    const changeSelectionStatusForSendingCopyToInstructorHandlerSpy =
-      jest.spyOn(component, 'changeSelectionStatusForSendingCopyToInstructorHandler');
+    const changeSelectionStatusForSendingCopyToInstructorHandlerSpy = jest.spyOn(
+      component,
+      'changeSelectionStatusForSendingCopyToInstructorHandler',
+    );
 
     component.isSendingCopyToInstructor = true;
     fixture.detectChanges();
@@ -246,8 +271,9 @@ describe('SendRemindersToRespondentsModalComponent', () => {
     });
   });
 
-  it('isAllStudentsSelected: should return true and checkbox should be checked'
-    + 'if all students are selected', async () => {
+  it(
+    'isAllStudentsSelected: should return true and checkbox should be checked' + 'if all students are selected',
+    async () => {
       component.studentListInfoTableRowModels = [
         studentModelBuilder.isSelected(true).build(),
         studentModelBuilder.isSelected(true).build(),
@@ -259,10 +285,13 @@ describe('SendRemindersToRespondentsModalComponent', () => {
 
       expect(component.isAllStudentsSelected).toBeTruthy();
       expect(selectAllStudentCheckBox().nativeElement.checked).toBeTruthy();
-    });
+    },
+  );
 
-  it('isAllStudentsSelected: should return false and checkbox should not be checked'
-    + 'if not all students are selected', async () => {
+  it(
+    'isAllStudentsSelected: should return false and checkbox should not be checked' +
+      'if not all students are selected',
+    async () => {
       component.studentListInfoTableRowModels = [
         studentModelBuilder.isSelected(true).build(),
         studentModelBuilder.isSelected(false).build(),
@@ -274,10 +303,13 @@ describe('SendRemindersToRespondentsModalComponent', () => {
 
       expect(component.isAllStudentsSelected).toBeFalsy();
       expect(selectAllStudentCheckBox().nativeElement.checked).toBeFalsy();
-    });
+    },
+  );
 
-  it('isAllYetToSubmitStudentsSelected: should return true and checkbox should be checked'
-    + 'if all non-submitted students are selected', async () => {
+  it(
+    'isAllYetToSubmitStudentsSelected: should return true and checkbox should be checked' +
+      'if all non-submitted students are selected',
+    async () => {
       component.studentListInfoTableRowModels = [
         studentModelBuilder.isSelected(true).hasSubmittedSession(false).build(),
         studentModelBuilder.isSelected(false).hasSubmittedSession(true).build(),
@@ -289,10 +321,13 @@ describe('SendRemindersToRespondentsModalComponent', () => {
 
       expect(component.isAllYetToSubmitStudentsSelected).toBeTruthy();
       expect(selectAllNotSubmittedStudentCheckBox().nativeElement.checked).toBeTruthy();
-    });
+    },
+  );
 
-  it('isAllYetToSubmitStudentsSelected: should return false and checkbox should not be'
-    + 'checked if not all non-submitted students are selected', async () => {
+  it(
+    'isAllYetToSubmitStudentsSelected: should return false and checkbox should not be' +
+      'checked if not all non-submitted students are selected',
+    async () => {
       component.studentListInfoTableRowModels = [
         studentModelBuilder.isSelected(true).hasSubmittedSession(false).build(),
         studentModelBuilder.isSelected(false).hasSubmittedSession(true).build(),
@@ -304,10 +339,13 @@ describe('SendRemindersToRespondentsModalComponent', () => {
 
       expect(component.isAllYetToSubmitStudentsSelected).toBeFalsy();
       expect(selectAllNotSubmittedStudentCheckBox().nativeElement.checked).toBeFalsy();
-    });
+    },
+  );
 
-  it('isAllYetToSubmitStudentsSelected: should return false and checkbox should not be'
-    + 'checked if all students have submitted', async () => {
+  it(
+    'isAllYetToSubmitStudentsSelected: should return false and checkbox should not be' +
+      'checked if all students have submitted',
+    async () => {
       component.studentListInfoTableRowModels = [
         studentModelBuilder.isSelected(true).hasSubmittedSession(true).build(),
         studentModelBuilder.isSelected(false).hasSubmittedSession(true).build(),
@@ -319,10 +357,13 @@ describe('SendRemindersToRespondentsModalComponent', () => {
 
       expect(component.isAllYetToSubmitStudentsSelected).toBeFalsy();
       expect(selectAllNotSubmittedStudentCheckBox().nativeElement.checked).toBeFalsy();
-    });
+    },
+  );
 
-  it('isAllYetToSubmitInstructorsSelected: should return true and checkbox should be checked'
-    + 'if all non-submitted instructors are selected', async () => {
+  it(
+    'isAllYetToSubmitInstructorsSelected: should return true and checkbox should be checked' +
+      'if all non-submitted instructors are selected',
+    async () => {
       component.instructorListInfoTableRowModels = [
         instructorModelBuilder.isSelected(true).hasSubmittedSession(false).build(),
         instructorModelBuilder.isSelected(false).hasSubmittedSession(true).build(),
@@ -334,10 +375,13 @@ describe('SendRemindersToRespondentsModalComponent', () => {
 
       expect(component.isAllYetToSubmitInstructorsSelected).toBeTruthy();
       expect(selectAllNotSubmittedInstructorCheckBox().nativeElement.checked).toBeTruthy();
-    });
+    },
+  );
 
-  it('isAllYetToSubmitInstructorsSelected: should return false and checkbox should not be checked'
-    + 'if not all non-submitted instructors are selected', async () => {
+  it(
+    'isAllYetToSubmitInstructorsSelected: should return false and checkbox should not be checked' +
+      'if not all non-submitted instructors are selected',
+    async () => {
       component.instructorListInfoTableRowModels = [
         instructorModelBuilder.isSelected(true).hasSubmittedSession(false).build(),
         instructorModelBuilder.isSelected(false).hasSubmittedSession(true).build(),
@@ -349,10 +393,13 @@ describe('SendRemindersToRespondentsModalComponent', () => {
 
       expect(component.isAllYetToSubmitInstructorsSelected).toBeFalsy();
       expect(selectAllNotSubmittedInstructorCheckBox().nativeElement.checked).toBeFalsy();
-    });
+    },
+  );
 
-  it('isAllYetToSubmitInstructorsSelected: should return false and checkbox should not be'
-    + 'checked if all instructors have submitted', async () => {
+  it(
+    'isAllYetToSubmitInstructorsSelected: should return false and checkbox should not be' +
+      'checked if all instructors have submitted',
+    async () => {
       component.instructorListInfoTableRowModels = [
         instructorModelBuilder.isSelected(true).hasSubmittedSession(true).build(),
         instructorModelBuilder.isSelected(false).hasSubmittedSession(true).build(),
@@ -364,5 +411,6 @@ describe('SendRemindersToRespondentsModalComponent', () => {
 
       expect(component.isAllYetToSubmitInstructorsSelected).toBeFalsy();
       expect(selectAllNotSubmittedInstructorCheckBox().nativeElement.checked).toBeFalsy();
-    });
+    },
+  );
 });

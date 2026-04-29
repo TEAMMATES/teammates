@@ -1,16 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionResponse } from './question-response';
-import {
-  FeedbackRankOptionsQuestionDetails,
-  FeedbackRankOptionsResponseDetails,
-} from '../../../../types/api-output';
+import { FeedbackRankOptionsQuestionDetails, FeedbackRankOptionsResponseDetails } from '../../../../types/api-output';
 import {
   DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
   DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS,
 } from '../../../../types/default-question-structs';
-import {
-  RANK_OPTIONS_ANSWER_NOT_SUBMITTED,
-} from '../../../../types/feedback-response-details';
+import { RANK_OPTIONS_ANSWER_NOT_SUBMITTED } from '../../../../types/feedback-response-details';
 
 interface RankOption {
   rank: number;
@@ -21,15 +16,15 @@ interface RankOption {
  * Rank options question response.
  */
 @Component({
-    selector: 'tm-rank-options-question-response',
-    templateUrl: './rank-options-question-response.component.html',
-    styleUrls: ['./rank-options-question-response.component.scss'],
-    imports: [],
+  selector: 'tm-rank-options-question-response',
+  templateUrl: './rank-options-question-response.component.html',
+  styleUrls: ['./rank-options-question-response.component.scss'],
+  imports: [],
 })
 export class RankOptionsQuestionResponseComponent
-    extends QuestionResponse<FeedbackRankOptionsResponseDetails, FeedbackRankOptionsQuestionDetails>
-    implements OnInit {
-
+  extends QuestionResponse<FeedbackRankOptionsResponseDetails, FeedbackRankOptionsQuestionDetails>
+  implements OnInit
+{
   orderedAnswer: RankOption[] = [];
 
   constructor() {
@@ -56,5 +51,4 @@ export class RankOptionsQuestionResponseComponent
       }
     }
   }
-
 }

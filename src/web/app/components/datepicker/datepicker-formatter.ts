@@ -9,7 +9,6 @@ const DATE_FORMAT = 'ddd, DD MMM, YYYY';
  */
 @Injectable()
 export class DatePickerFormatter extends NgbDateParserFormatter {
-
   format(date: NgbDateStruct): string {
     if (date == null) {
       return '';
@@ -31,5 +30,4 @@ export class DatePickerFormatter extends NgbDateParserFormatter {
       day: inst.date(),
     };
   }
-
 }

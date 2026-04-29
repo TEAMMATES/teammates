@@ -14,7 +14,6 @@ import { PageComponent } from '../page.component';
   imports: [PageComponent],
 })
 export class AdminPageComponent implements OnInit {
-
   user = '';
   isInstructor = false;
   isStudent = false;
@@ -40,14 +39,14 @@ export class AdminPageComponent implements OnInit {
     {
       display: 'More',
       children: [
-         {
-           url: '/web/admin/timezone',
-           display: 'Timezone Listing',
-         },
-         {
-           url: '/web/admin/stats',
-           display: 'Usage Statistics',
-         },
+        {
+          url: '/web/admin/timezone',
+          display: 'Timezone Listing',
+        },
+        {
+          url: '/web/admin/stats',
+          display: 'Usage Statistics',
+        },
       ],
     },
   ];
@@ -55,7 +54,10 @@ export class AdminPageComponent implements OnInit {
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(private authService: AuthService, private navigationService: NavigationService) {}
+  constructor(
+    private authService: AuthService,
+    private navigationService: NavigationService,
+  ) {}
 
   ngOnInit(): void {
     this.isFetchingAuthDetails = true;
@@ -69,8 +71,7 @@ export class AdminPageComponent implements OnInit {
           this.isMaintainer = res.user.isMaintainer;
           if (!this.isAdmin) {
             // User is not a valid admin; redirect to home page.
-            this.navigationService.navigateWithErrorMessage('/web',
-                'You are not authorized to view the page.');
+            this.navigationService.navigateWithErrorMessage('/web', 'You are not authorized to view the page.');
           }
         } else {
           window.location.href = `${this.backendUrl}${res.adminLoginUrl}`;
@@ -78,10 +79,8 @@ export class AdminPageComponent implements OnInit {
         this.isFetchingAuthDetails = false;
       },
       error: () => {
-        this.navigationService.navigateWithErrorMessage('/web',
-            'You are not authorized to view the page.');
+        this.navigationService.navigateWithErrorMessage('/web', 'You are not authorized to view the page.');
       },
     });
   }
-
 }

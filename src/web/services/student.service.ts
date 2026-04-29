@@ -18,18 +18,18 @@ import { SortBy, SortOrder } from '../types/sort-properties';
   providedIn: 'root',
 })
 export class StudentService {
-
-  constructor(private httpRequestService: HttpRequestService,
-              private tableComparatorService: TableComparatorService,
-              private courseService: CourseService) {
-  }
+  constructor(
+    private httpRequestService: HttpRequestService,
+    private tableComparatorService: TableComparatorService,
+    private courseService: CourseService,
+  ) {}
 
   /**
    * Get a list of students of a course by calling API.
    * If teamName is provided, only students in that team will be returned.
    * Otherwise, all students in the course will be returned.
    */
-  getStudentsFromCourse(queryParams: { courseId: string, teamName?: string }): Observable<Students> {
+  getStudentsFromCourse(queryParams: { courseId: string; teamName?: string }): Observable<Students> {
     const paramsMap: { [key: string]: string } = {
       courseid: queryParams.courseId,
     };
@@ -39,7 +39,6 @@ export class StudentService {
     }
 
     return this.httpRequestService.get(ResourceEndpoints.STUDENTS, paramsMap);
-
   }
 
   /**
@@ -67,8 +66,11 @@ export class StudentService {
   /**
    * Updates the details of a student in a course by calling API.
    */
-  updateStudent(queryParams: { courseId: string, studentEmail: string, requestBody: StudentUpdateRequest }):
-      Observable<MessageOutput> {
+  updateStudent(queryParams: {
+    courseId: string;
+    studentEmail: string;
+    requestBody: StudentUpdateRequest;
+  }): Observable<MessageOutput> {
     const paramsMap: { [key: string]: string } = {
       courseid: queryParams.courseId,
       studentemail: queryParams.studentEmail,
@@ -79,10 +81,7 @@ export class StudentService {
   /**
    * Deletes a student in a course by calling API.
    */
-  deleteStudent(queryParams: {
-    googleId: string,
-    courseId: string,
-  }): Observable<any> {
+  deleteStudent(queryParams: { googleId: string; courseId: string }): Observable<any> {
     const paramsMap: Record<string, string> = {
       googleid: queryParams.googleId,
       courseid: queryParams.courseId,
@@ -126,7 +125,7 @@ export class StudentService {
   /**
    * Deletes up to a limited number of students in a course by calling API.
    */
-  batchDeleteStudentsFromCourse(queryParams: { courseId: string, limit: number }): Observable<MessageOutput> {
+  batchDeleteStudentsFromCourse(queryParams: { courseId: string; limit: number }): Observable<MessageOutput> {
     const paramsMap: Record<string, string> = {
       courseid: queryParams.courseId,
       limit: queryParams.limit.toString(),
@@ -138,11 +137,15 @@ export class StudentService {
    * Loads list of students from a course in CSV format by calling API.
    */
   loadStudentListAsCsv(queryParams: { courseId: string }): Observable<string> {
-    return this.courseService.getCourseAsInstructor(queryParams.courseId).pipe(mergeMap((course: Course) => {
-      return this.getStudentsFromCourse({ courseId: queryParams.courseId }).pipe(map((students: Students) => {
-        return this.processStudentsToCsv(course.courseId, course.courseName, students.students);
-      }));
-    }));
+    return this.courseService.getCourseAsInstructor(queryParams.courseId).pipe(
+      mergeMap((course: Course) => {
+        return this.getStudentsFromCourse({ courseId: queryParams.courseId }).pipe(
+          map((students: Students) => {
+            return this.processStudentsToCsv(course.courseId, course.courseName, students.students);
+          }),
+        );
+      }),
+    );
   }
 
   processStudentsToCsv(courseId: string, courseName: string, students: Student[]): string {
@@ -150,14 +153,17 @@ export class StudentService {
     csvRows.push(['Course ID', courseId]);
     csvRows.push(['Course Name', courseName]);
     csvRows.push([]);
-    const hasSection: boolean =
-        students.some((student: Student) => student.sectionName !== 'None' && student.sectionName !== '');
+    const hasSection: boolean = students.some(
+      (student: Student) => student.sectionName !== 'None' && student.sectionName !== '',
+    );
     const headers: string[] = ['Team', 'Name', 'Status', 'Email'];
     csvRows.push(hasSection ? ['Section'].concat(headers) : headers);
     students.sort((a: Student, b: Student) => {
-      return this.tableComparatorService.compare(SortBy.SECTION_NAME, SortOrder.ASC, a.sectionName, b.sectionName)
-          || this.tableComparatorService.compare(SortBy.TEAM_NAME, SortOrder.ASC, a.teamName, b.teamName)
-          || this.tableComparatorService.compare(SortBy.RESPONDENT_NAME, SortOrder.ASC, a.name, b.name);
+      return (
+        this.tableComparatorService.compare(SortBy.SECTION_NAME, SortOrder.ASC, a.sectionName, b.sectionName) ||
+        this.tableComparatorService.compare(SortBy.TEAM_NAME, SortOrder.ASC, a.teamName, b.teamName) ||
+        this.tableComparatorService.compare(SortBy.RESPONDENT_NAME, SortOrder.ASC, a.name, b.name)
+      );
     });
     const joinStatePipe: JoinStatePipe = new JoinStatePipe();
     students.forEach((student: Student) => {

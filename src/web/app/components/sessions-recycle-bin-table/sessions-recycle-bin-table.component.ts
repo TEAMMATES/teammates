@@ -29,10 +29,9 @@ export interface RecycleBinFeedbackSessionRowModel {
     AjaxLoadingComponent,
     FormatDateDetailPipe,
     RecycleBinTableFormatDatePipe,
-],
+  ],
 })
 export class SessionsRecycleBinTableComponent {
-
   // enum
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
@@ -93,5 +92,4 @@ export class SessionsRecycleBinTableComponent {
   setRowClicked(rowIndex: number): void {
     this.rowClicked = rowIndex;
   }
-
 }

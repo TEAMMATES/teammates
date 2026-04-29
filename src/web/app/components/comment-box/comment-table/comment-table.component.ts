@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommentTableModel } from './comment-table.model';
-import {
-  FeedbackResponseComment, FeedbackVisibilityType, ResponseOutput,
-} from '../../../../types/api-output';
+import { FeedbackResponseComment, FeedbackVisibilityType, ResponseOutput } from '../../../../types/api-output';
 import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { CommentRowModel, CommentRowComponent } from '../comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-row/comment-row.mode';
@@ -17,16 +15,10 @@ import { CommentsToCommentTableModelPipe } from '../comments-to-comment-table-mo
   templateUrl: './comment-table.component.html',
   styleUrls: ['./comment-table.component.scss'],
   animations: [collapseAnim],
-  imports: [
-    CommentRowComponent,
-],
-  providers: [
-    CommentToCommentRowModelPipe,
-    CommentsToCommentTableModelPipe,
-  ],
+  imports: [CommentRowComponent],
+  providers: [CommentToCommentRowModelPipe, CommentsToCommentTableModelPipe],
 })
 export class CommentTableComponent {
-
   // enum
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
 

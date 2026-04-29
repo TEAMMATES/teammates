@@ -2,22 +2,26 @@
   <div>
     <div class="row">
       <div class="col-sm-4 text-color-gray mt-2">
-        <strong>
-          Response Summary
-        </strong>
+        <strong> Response Summary </strong>
       </div>
     </div>
     <div class="row mb-4">
       <div class="col-sm-12 table-responsive">
-        <tm-sortable-table [rows]="summaryRowsData" [columns]="summaryColumnsData" [initialSortBy]="SortBy.MSQ_PERCENTAGE"></tm-sortable-table>
+        <tm-sortable-table
+          [rows]="summaryRowsData"
+          [columns]="summaryColumnsData"
+          [initialSortBy]="SortBy.MSQ_PERCENTAGE"
+        ></tm-sortable-table>
       </div>
       @if (question.hasAssignedWeights) {
-        <div class="col-sm-12 table-responsive" style="margin-top: 20px;">
-          <strong class="text-color-gray">
-            Per Recipient Statistics
-          </strong>
+        <div class="col-sm-12 table-responsive" style="margin-top: 20px">
+          <strong class="text-color-gray"> Per Recipient Statistics </strong>
           <div class="mb-4">
-            <tm-sortable-table [rows]="perRecipientRowsData" [columns]="perRecipientColumnsData" [initialSortBy]="SortBy.MSQ_WEIGHT_AVERAGE"></tm-sortable-table>
+            <tm-sortable-table
+              [rows]="perRecipientRowsData"
+              [columns]="perRecipientColumnsData"
+              [initialSortBy]="SortBy.MSQ_WEIGHT_AVERAGE"
+            ></tm-sortable-table>
           </div>
         </div>
       }

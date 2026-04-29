@@ -1,5 +1,8 @@
 <fieldset [disabled]="isSubmitting">
-  <div class="modal-header" [ngClass]="{'alert-primary': isExtendModal(), 'alert-danger' : isDeleteModal() || isSessionDeleteModal()}">
+  <div
+    class="modal-header"
+    [ngClass]="{ 'alert-primary': isExtendModal(), 'alert-danger': isDeleteModal() || isSessionDeleteModal() }"
+  >
     @if (isExtendModal()) {
       <h5 class="modal-title">Confirm extension of feedback session</h5>
     }
@@ -22,15 +25,17 @@
       <div>
         The deadline of the following <b>{{ selectedStudents.length }}</b> student(s) and
         <b>{{ selectedInstructors.length }}</b> instructor(s) will be reverted back to the original deadline of
-        <b>{{ extensionTimestamp | formatDateDetail: feedbackSessionTimeZone }}</b>:
+        <b>{{ extensionTimestamp | formatDateDetail: feedbackSessionTimeZone }}</b
+        >:
       </div>
     }
 
     @if (isSessionDeleteModal()) {
       <div>
         The extensions of the following <b>{{ selectedStudents.length }}</b> student(s) and
-        <b>{{ selectedInstructors.length }}</b> instructor(s) will be deleted, as they are before your new session end time of
-        <b>{{ extensionTimestamp | formatDateDetail: feedbackSessionTimeZone }}</b>:
+        <b>{{ selectedInstructors.length }}</b> instructor(s) will be deleted, as they are before your new session end
+        time of <b>{{ extensionTimestamp | formatDateDetail: feedbackSessionTimeZone }}</b
+        >:
       </div>
     }
 
@@ -62,7 +67,7 @@
 
     @if (isDeleteModal() || isExtendModal()) {
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" [(ngModel)]="isNotifyDeadlines" id="flexCheckChecked">
+        <input class="form-check-input" type="checkbox" [(ngModel)]="isNotifyDeadlines" id="flexCheckChecked" />
         @if (isExtendModal()) {
           <label class="form-check-label" for="flexCheckChecked">
             Notify affected students and/or instructors by email about this extension
@@ -75,20 +80,19 @@
         }
       </div>
     }
-
   </div>
 
-  <br>
+  <br />
 
-    <div class="modal-footer py-1 px-3">
-      <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, cancel the Operation</button>
-      @if (isExtendModal()) {
-        <button type="button" class="btn btn-success modal-btn-ok"
-        (click)="onConfirm()">Confirm</button>
-      }
-      @if (isDeleteModal() || isSessionDeleteModal()) {
-        <button id="delete-extension-btn" type="button" class="btn btn-danger modal-btn-ok" (click)="onConfirm()">Delete
-        Extension(s)</button>
-      }
-    </div>
-  </fieldset>
+  <div class="modal-footer py-1 px-3">
+    <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, cancel the Operation</button>
+    @if (isExtendModal()) {
+      <button type="button" class="btn btn-success modal-btn-ok" (click)="onConfirm()">Confirm</button>
+    }
+    @if (isDeleteModal() || isSessionDeleteModal()) {
+      <button id="delete-extension-btn" type="button" class="btn btn-danger modal-btn-ok" (click)="onConfirm()">
+        Delete Extension(s)
+      </button>
+    }
+  </div>
+</fieldset>

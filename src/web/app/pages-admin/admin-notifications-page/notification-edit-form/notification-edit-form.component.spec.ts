@@ -39,12 +39,8 @@ describe('NotificationEditFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      providers: [provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -109,12 +105,16 @@ describe('NotificationEditFormComponent', () => {
       component.model = data;
     });
     const promise: Promise<void> = Promise.resolve();
-    const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openConfirmationModal')
-        .mockReturnValue(createMockNgbModalRef({}, promise));
+    const modalSpy: SpyInstance = jest
+      .spyOn(simpleModalService, 'openConfirmationModal')
+      .mockReturnValue(createMockNgbModalRef({}, promise));
     component.cancelHandler();
     await promise;
     expect(modalSpy).toHaveBeenCalledTimes(1);
-    expect(modalSpy).toHaveBeenLastCalledWith('Discard unsaved edit?',
-        SimpleModalType.WARNING, 'Warning: Any unsaved changes will be lost.');
+    expect(modalSpy).toHaveBeenLastCalledWith(
+      'Discard unsaved edit?',
+      SimpleModalType.WARNING,
+      'Warning: Any unsaved changes will be lost.',
+    );
   });
 });

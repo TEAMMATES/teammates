@@ -1,7 +1,11 @@
 @if (course.courseId) {
   <h1 class="page-title text-break">Team Details for {{ course.courseId }}</h1>
 }
-<tm-loading-retry [shouldShowRetry]="hasLoadingFailed" [message]="'Failed to load details'" (retryEvent)="retryLoading()">
+<tm-loading-retry
+  [shouldShowRetry]="hasLoadingFailed"
+  [message]="'Failed to load details'"
+  (retryEvent)="retryLoading()"
+>
   @if (course.courseId) {
     <div class="section">
       <div *tmIsLoading="isLoadingCourse || isLoadingInstructor || isLoadingStudent" class="card">
@@ -37,11 +41,13 @@
               <div class="col-3 text-end">
                 <label>Instructors:</label>
               </div>
-              <div class="col-9" style="margin-bottom: .5rem;" id="instructors">
+              <div class="col-9" style="margin-bottom: 0.5rem" id="instructors">
                 @for (instructorDetail of instructorDetails; track instructorDetail) {
                   <div>
                     {{ instructorDetail.displayedToStudentsAs }}:
-                    <a href="mailto:{{ instructorDetail.email }}">{{ instructorDetail.name }} ({{ instructorDetail.email }})</a>
+                    <a href="mailto:{{ instructorDetail.email }}"
+                      >{{ instructorDetail.name }} ({{ instructorDetail.email }})</a
+                    >
                   </div>
                 }
               </div>
@@ -90,8 +96,21 @@
       <div class="card-body">
         <span class="d-inline h5 fw-bold">Sort By: </span>
         <div class="btn-group" data-toggle="buttons">
-          <button id="sort-name" class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.RESPONDENT_NAME)" (click)="sortTeammatesBy(SortBy.RESPONDENT_NAME)">Name</button>
-          <button class="btn btn-light" [disabled]="isSelectedForSorting(SortBy.RESPONDENT_EMAIL)" (click)="sortTeammatesBy(SortBy.RESPONDENT_EMAIL)">Email</button>
+          <button
+            id="sort-name"
+            class="btn btn-light"
+            [disabled]="isSelectedForSorting(SortBy.RESPONDENT_NAME)"
+            (click)="sortTeammatesBy(SortBy.RESPONDENT_NAME)"
+          >
+            Name
+          </button>
+          <button
+            class="btn btn-light"
+            [disabled]="isSelectedForSorting(SortBy.RESPONDENT_EMAIL)"
+            (click)="sortTeammatesBy(SortBy.RESPONDENT_EMAIL)"
+          >
+            Email
+          </button>
         </div>
       </div>
     </div>
@@ -111,11 +130,11 @@
           @for (teammateProfile of teammateProfiles; track teammateProfile; let i = $index) {
             <tr>
               <td class="team-member-profile-cell" id="teammates-details-{{ i }}">
+                <div><label>Name:</label> {{ teammateProfile.name }}</div>
                 <div>
-                  <label>Name:</label> {{ teammateProfile.name }}
-                </div>
-                <div>
-                  <label>Email:</label>&nbsp;<a href="mailto:{{ teammateProfile.email }}">{{ teammateProfile.email }}</a>
+                  <label>Email:</label>&nbsp;<a href="mailto:{{ teammateProfile.email }}">{{
+                    teammateProfile.email
+                  }}</a>
                 </div>
               </td>
             </tr>

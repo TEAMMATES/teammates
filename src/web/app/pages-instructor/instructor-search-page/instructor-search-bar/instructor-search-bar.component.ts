@@ -18,7 +18,6 @@ export interface SearchParams {
   imports: [FormsModule],
 })
 export class InstructorSearchBarComponent {
-
   characterLimit = 100;
 
   @Input() searchParams: SearchParams = {
@@ -43,5 +42,4 @@ export class InstructorSearchBarComponent {
   onSearchKeyChange(newKey: string): void {
     this.triggerSearchParamsChangeEvent('searchKey', newKey);
   }
-
 }

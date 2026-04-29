@@ -14,14 +14,12 @@ import {
   selector: 'tm-constsum-question-response',
   templateUrl: './constsum-question-response.component.html',
   styleUrls: ['./constsum-question-response.component.scss'],
-  imports: [
-    KeyValuePipe,
-],
+  imports: [KeyValuePipe],
 })
 export class ConstsumQuestionResponseComponent
-    extends QuestionResponse<FeedbackConstantSumResponseDetails, FeedbackConstantSumQuestionDetails>
-    implements OnInit {
-
+  extends QuestionResponse<FeedbackConstantSumResponseDetails, FeedbackConstantSumQuestionDetails>
+  implements OnInit
+{
   optionToAnswer: Record<string, number> = {};
 
   constructor() {
@@ -33,5 +31,4 @@ export class ConstsumQuestionResponseComponent
       this.optionToAnswer[this.questionDetails.constSumOptions[i]] = this.responseDetails.answers[i];
     }
   }
-
 }

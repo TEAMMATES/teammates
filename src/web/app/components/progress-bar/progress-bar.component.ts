@@ -11,10 +11,9 @@ import { ProgressBarService } from '../../../services/progress-bar.service';
   imports: [NgbProgressbar],
 })
 export class ProgressBarComponent implements OnInit {
-
   progressPercentage = 10;
 
-  constructor(private progressBarService: ProgressBarService) { }
+  constructor(private progressBarService: ProgressBarService) {}
 
   ngOnInit(): void {
     this.getProgress();

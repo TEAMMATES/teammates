@@ -52,10 +52,9 @@ import { TimepickerComponent } from '../timepicker/timepicker.component';
     SubmissionStatusNamePipe,
     PublishStatusNamePipe,
     NgbCollapse,
-],
+  ],
 })
 export class SessionEditFormComponent {
-
   // enum
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
   SessionVisibleSetting: typeof SessionVisibleSetting = SessionVisibleSetting;
@@ -141,9 +140,11 @@ export class SessionEditFormComponent {
   @Output()
   closeEditFormEvent: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private simpleModalService: SimpleModalService,
-              private datetimeService: DateTimeService,
-              public calendar: NgbCalendar) { }
+  constructor(
+    private simpleModalService: SimpleModalService,
+    private datetimeService: DateTimeService,
+    public calendar: NgbCalendar,
+  ) {}
 
   /**
    * Triggers the change of the model for the form.
@@ -185,13 +186,16 @@ export class SessionEditFormComponent {
    * Combines date and time into a single moment instance.
    */
   combineDateAndTime(date: DateFormat, time: TimeFormat): moment.Moment {
-    return moment.tz({
-      year: date.year,
-      month: date.month - 1,
-      day: date.day,
-      hour: time.hour,
-      minute: time.minute,
-    }, this.model.timeZone);
+    return moment.tz(
+      {
+        year: date.year,
+        month: date.month - 1,
+        day: date.day,
+        hour: time.hour,
+        minute: time.minute,
+      },
+      this.model.timeZone,
+    );
   }
 
   /**
@@ -202,8 +206,10 @@ export class SessionEditFormComponent {
     const minTime: TimeFormat = this.minTimeForSubmissionStart;
 
     // Case where date is same as earliest date and time is earlier than earliest possible time
-    if (DateTimeService.compareDateFormat(date, minDate) === 0
-    && DateTimeService.compareTimeFormat(this.model.submissionStartTime, minTime) === -1) {
+    if (
+      DateTimeService.compareDateFormat(date, minDate) === 0 &&
+      DateTimeService.compareTimeFormat(this.model.submissionStartTime, minTime) === -1
+    ) {
       this.configureSubmissionOpeningTime(minTime);
       this.model.submissionStartTime = minTime;
     }
@@ -215,7 +221,7 @@ export class SessionEditFormComponent {
   /**
    * Configures the time for the submission opening time.
    */
-  configureSubmissionOpeningTime(time : TimeFormat) : void {
+  configureSubmissionOpeningTime(time: TimeFormat): void {
     if (time.hour === 23 && time.minute > 0) {
       time.minute = 59;
     } else if (time.hour < 23 && time.minute > 0) {
@@ -233,8 +239,10 @@ export class SessionEditFormComponent {
     const sessionDate: DateFormat = this.model.customSessionVisibleDate;
     const sessionTime: TimeFormat = this.model.customSessionVisibleTime;
 
-    if (DateTimeService.compareDateFormat(date, sessionDate) === 0
-        && DateTimeService.compareTimeFormat(time, sessionTime) === -1) {
+    if (
+      DateTimeService.compareDateFormat(date, sessionDate) === 0 &&
+      DateTimeService.compareTimeFormat(time, sessionTime) === -1
+    ) {
       this.configureSessionVisibleDateTime(date, time);
     }
 
@@ -250,8 +258,10 @@ export class SessionEditFormComponent {
 
     if (DateTimeService.compareDateFormat(date, sessionDate) === -1) {
       this.model.customSessionVisibleDate = date;
-    } else if (DateTimeService.compareDateFormat(date, sessionDate) === 0
-               && DateTimeService.compareTimeFormat(time, sessionTime) === -1) {
+    } else if (
+      DateTimeService.compareDateFormat(date, sessionDate) === 0 &&
+      DateTimeService.compareTimeFormat(time, sessionTime) === -1
+    ) {
       this.model.customSessionVisibleTime = time;
     }
   }
@@ -319,13 +329,14 @@ export class SessionEditFormComponent {
    * <p> The minimum session closing datetime is on session opening datetime or 1 hour before now, whichever is later.
    */
   get minDateForSubmissionEnd(): DateFormat {
-    const submissionStartDate: moment.Moment =
-        this.datetimeService.getMomentInstanceFromDate(this.model.submissionStartDate);
+    const submissionStartDate: moment.Moment = this.datetimeService.getMomentInstanceFromDate(
+      this.model.submissionStartDate,
+    );
     const oneHourBeforeNow = moment().tz(this.model.timeZone).subtract(1, 'hours');
 
     return submissionStartDate.isAfter(oneHourBeforeNow)
-        ? this.model.submissionStartDate
-        : this.datetimeService.getDateInstance(oneHourBeforeNow);
+      ? this.model.submissionStartDate
+      : this.datetimeService.getDateInstance(oneHourBeforeNow);
   }
 
   /**
@@ -334,14 +345,17 @@ export class SessionEditFormComponent {
    * <p> The minimum session closing datetime is on session opening datetime or 1 hour before now, whichever is later.
    */
   get minTimeForSubmissionEnd(): TimeFormat {
-    const submissionStartDate: moment.Moment =
-        this.datetimeService.getMomentInstanceFromDate(this.model.submissionStartDate);
-    const submissionStartTime: moment.Moment =
-        this.datetimeService.getMomentInstanceFromTime(this.model.submissionStartTime);
+    const submissionStartDate: moment.Moment = this.datetimeService.getMomentInstanceFromDate(
+      this.model.submissionStartDate,
+    );
+    const submissionStartTime: moment.Moment = this.datetimeService.getMomentInstanceFromTime(
+      this.model.submissionStartTime,
+    );
 
-    const submissionStartDateTime: moment.Moment = submissionStartDate.clone()
-    .hours(submissionStartTime.hour())
-    .minutes(submissionStartTime.minute());
+    const submissionStartDateTime: moment.Moment = submissionStartDate
+      .clone()
+      .hours(submissionStartTime.hour())
+      .minutes(submissionStartTime.minute());
 
     const oneHourBeforeNow = moment().tz(this.model.timeZone).subtract(1, 'hours');
 
@@ -376,8 +390,9 @@ export class SessionEditFormComponent {
    * <p> The minimum session visible datetime is 30 days before session opening datetime.
    */
   get minDateForSessionVisible(): DateFormat {
-    const thirtyDaysBeforeSubmissionStartDate: moment.Moment =
-        this.datetimeService.getMomentInstanceFromDate(this.model.submissionStartDate).subtract(30, 'days');
+    const thirtyDaysBeforeSubmissionStartDate: moment.Moment = this.datetimeService
+      .getMomentInstanceFromDate(this.model.submissionStartDate)
+      .subtract(30, 'days');
     return this.datetimeService.getDateInstance(thirtyDaysBeforeSubmissionStartDate);
   }
 
@@ -387,14 +402,16 @@ export class SessionEditFormComponent {
    * <p> The minimum session visible datetime is 30 days before session opening datetime.
    */
   get minTimeForSessionVisible(): TimeFormat {
-    const submissionStartDate: moment.Moment =
-        this.datetimeService.getMomentInstanceFromDate(this.model.submissionStartDate);
-    const submissionStartTime: moment.Moment =
-        this.datetimeService.getMomentInstanceFromTime(this.model.submissionStartTime);
-    const submissionStartDateTime: moment.Moment =
-        submissionStartDate.add(submissionStartTime.hour()).add(submissionStartTime.minute());
-    const thirtyDaysBeforeSubmissionStartDateTime: moment.Moment =
-        submissionStartDateTime.subtract(30, 'days');
+    const submissionStartDate: moment.Moment = this.datetimeService.getMomentInstanceFromDate(
+      this.model.submissionStartDate,
+    );
+    const submissionStartTime: moment.Moment = this.datetimeService.getMomentInstanceFromTime(
+      this.model.submissionStartTime,
+    );
+    const submissionStartDateTime: moment.Moment = submissionStartDate
+      .add(submissionStartTime.hour())
+      .add(submissionStartTime.minute());
+    const thirtyDaysBeforeSubmissionStartDateTime: moment.Moment = submissionStartDateTime.subtract(30, 'days');
     return this.datetimeService.getTimeInstance(thirtyDaysBeforeSubmissionStartDateTime);
   }
 
@@ -409,10 +426,12 @@ export class SessionEditFormComponent {
       case ResponseVisibleSetting.AT_VISIBLE:
         return this.model.submissionStartDate;
       case ResponseVisibleSetting.CUSTOM: {
-        const submissionStartDate: moment.Moment =
-            this.datetimeService.getMomentInstanceFromDate(this.model.submissionStartDate);
-        const responseVisibleDate: moment.Moment =
-            this.datetimeService.getMomentInstanceFromDate(this.model.customResponseVisibleDate);
+        const submissionStartDate: moment.Moment = this.datetimeService.getMomentInstanceFromDate(
+          this.model.submissionStartDate,
+        );
+        const responseVisibleDate: moment.Moment = this.datetimeService.getMomentInstanceFromDate(
+          this.model.customResponseVisibleDate,
+        );
         if (submissionStartDate.isBefore(responseVisibleDate)) {
           return this.model.submissionStartDate;
         }
@@ -434,10 +453,12 @@ export class SessionEditFormComponent {
       case ResponseVisibleSetting.AT_VISIBLE:
         return this.model.submissionStartTime;
       case ResponseVisibleSetting.CUSTOM: {
-        const submissionStartDate: moment.Moment =
-            this.datetimeService.getMomentInstanceFromDate(this.model.submissionStartDate);
-        const responseVisibleDate: moment.Moment =
-            this.datetimeService.getMomentInstanceFromDate(this.model.customResponseVisibleDate);
+        const submissionStartDate: moment.Moment = this.datetimeService.getMomentInstanceFromDate(
+          this.model.submissionStartDate,
+        );
+        const responseVisibleDate: moment.Moment = this.datetimeService.getMomentInstanceFromDate(
+          this.model.customResponseVisibleDate,
+        );
         if (submissionStartDate.isBefore(responseVisibleDate)) {
           return this.model.submissionStartTime;
         }
@@ -498,24 +519,37 @@ export class SessionEditFormComponent {
    * Handles cancel button click event.
    */
   cancelHandler(): void {
-    this.simpleModalService.openConfirmationModal('Discard unsaved edit?',
-        SimpleModalType.WARNING, 'Warning: Any unsaved changes will be lost.').result.then(() => {
+    this.simpleModalService
+      .openConfirmationModal(
+        'Discard unsaved edit?',
+        SimpleModalType.WARNING,
+        'Warning: Any unsaved changes will be lost.',
+      )
+      .result.then(
+        () => {
           this.cancelEditingSessionEvent.emit();
-        }, () => {});
+        },
+        () => {},
+      );
   }
 
   /**
    * Handles delete current feedback session button click event.
    */
   deleteHandler(): void {
-    this.simpleModalService.openConfirmationModal(
+    this.simpleModalService
+      .openConfirmationModal(
         `Delete the session <strong>${this.model.feedbackSessionName}</strong>?`,
         SimpleModalType.WARNING,
-        'The session will be moved to the recycle bin. This action can be reverted '
-        + 'by going to the "Sessions" tab and restoring the desired session(s).',
-    ).result.then(() => {
-      this.deleteExistingSessionEvent.emit();
-    }, () => {});
+        'The session will be moved to the recycle bin. This action can be reverted ' +
+          'by going to the "Sessions" tab and restoring the desired session(s).',
+      )
+      .result.then(
+        () => {
+          this.deleteExistingSessionEvent.emit();
+        },
+        () => {},
+      );
   }
 
   /**

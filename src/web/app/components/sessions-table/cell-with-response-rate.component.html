@@ -1,16 +1,11 @@
 @if (empty && !isLoading) {
-  <a
-    class="show-response-rate-{{ idx }}"
-    href="#"
-    (click)="onClick(); $event.preventDefault()"
-    >Show</a
-    >
-  }
-  @if (!empty) {
-    <div class="response-rate-{{ idx }}">
-      {{ responseRate }}
-    </div>
-  }
-  @if (isLoading) {
-    <tm-ajax-loading [useBlueSpinner]="true"></tm-ajax-loading>
-  }
+  <a class="show-response-rate-{{ idx }}" href="#" (click)="onClick(); $event.preventDefault()">Show</a>
+}
+@if (!empty) {
+  <div class="response-rate-{{ idx }}">
+    {{ responseRate }}
+  </div>
+}
+@if (isLoading) {
+  <tm-ajax-loading [useBlueSpinner]="true"></tm-ajax-loading>
+}

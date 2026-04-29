@@ -9,15 +9,11 @@ import { CONTRIBUTION_POINT_NOT_SUBMITTED } from '../../../../../types/feedback-
   selector: 'tm-contribution-ratings-list',
   templateUrl: './contribution-ratings-list.component.html',
   styleUrls: ['./contribution-ratings-list.component.scss'],
-  imports: [
-    ContributionComponent,
-],
+  imports: [ContributionComponent],
 })
 export class ContributionRatingsListComponent {
-
   CONTRIBUTION_POINT_NOT_SUBMITTED: number = CONTRIBUTION_POINT_NOT_SUBMITTED;
 
   @Input()
   ratingsList: number[] = [];
-
 }

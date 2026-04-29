@@ -111,7 +111,7 @@ exports[`PerQuestionViewResponsesComponent should snap response with comments 1`
           <th
             class="text-center no-print actions-cell"
           >
-            Actions
+             Actions 
           </th>
         </tr>
       </thead>
@@ -145,7 +145,7 @@ exports[`PerQuestionViewResponsesComponent should snap response with comments 1`
               class="btn btn-light btn-sm btn-margin-left"
               id="btn-add-comment"
             >
-              Add Comment 
+               Add Comment 
             </button>
           </td>
         </tr>

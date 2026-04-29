@@ -25,13 +25,8 @@ describe('CopyCourseModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        NgbActiveModal,
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -48,38 +43,47 @@ describe('CopyCourseModalComponent', () => {
   });
 
   it('should snap with default fields', () => {
-    component.timezones = [{
-      id: 'Asia/Singapore',
-      offset: 'UTC +08:00',
-    }, {
-      id: 'UTC',
-      offset: 'UTC',
-    }];
+    component.timezones = [
+      {
+        id: 'Asia/Singapore',
+        offset: 'UTC +08:00',
+      },
+      {
+        id: 'UTC',
+        offset: 'UTC',
+      },
+    ];
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with some course id', () => {
-    component.timezones = [{
-      id: 'Asia/Singapore',
-      offset: 'UTC +08:00',
-    }, {
-      id: 'UTC',
-      offset: 'UTC',
-    }];
+    component.timezones = [
+      {
+        id: 'Asia/Singapore',
+        offset: 'UTC +08:00',
+      },
+      {
+        id: 'UTC',
+        offset: 'UTC',
+      },
+    ];
     component.newCourseId = 'Test02';
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap when copying from other sessions', () => {
-    component.timezones = [{
-      id: 'Asia/Singapore',
-      offset: 'UTC +08:00',
-    }, {
-      id: 'UTC',
-      offset: 'UTC',
-    }];
+    component.timezones = [
+      {
+        id: 'Asia/Singapore',
+        offset: 'UTC +08:00',
+      },
+      {
+        id: 'UTC',
+        offset: 'UTC',
+      },
+    ];
     component.isCopyFromOtherSession = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -171,8 +175,9 @@ describe('CopyCourseModalComponent', () => {
   it('should call showErrorToast when copying with no new courseId and name', () => {
     const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
     component.copy();
-    expect(spyStatusMessageService)
-      .toHaveBeenCalledWith('Please make sure you have filled in both Course ID and Name before adding the course!');
+    expect(spyStatusMessageService).toHaveBeenCalledWith(
+      'Please make sure you have filled in both Course ID and Name before adding the course!',
+    );
   });
 
   it('should call showErrorToast when newCourseId is a duplicate', () => {
@@ -300,7 +305,9 @@ describe('CopyCourseModalComponent', () => {
     };
     component.selectedFeedbackSessions = new Set([testFeedbackSession]);
     let emittedCourseId;
-    component.fetchFeedbackSessionsEvent.subscribe((emittedValue) => { emittedCourseId = emittedValue; });
+    component.fetchFeedbackSessionsEvent.subscribe((emittedValue) => {
+      emittedCourseId = emittedValue;
+    });
     component.onSelectCourseChange();
     expect(component.selectedFeedbackSessions.size).toBe(0);
     expect(emittedCourseId).toEqual('testId1');

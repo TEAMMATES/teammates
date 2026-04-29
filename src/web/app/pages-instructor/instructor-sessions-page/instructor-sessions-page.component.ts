@@ -5,15 +5,9 @@ import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
 import { CopyFromOtherSessionsResult } from './copy-from-other-sessions-modal/copy-from-other-sessions-modal-model';
-import {
-  CopyFromOtherSessionsModalComponent,
-} from './copy-from-other-sessions-modal/copy-from-other-sessions-modal.component';
-import {
-  SessionPermanentDeletionConfirmModalComponent,
-} from './session-permanent-deletion-confirm-modal/session-permanent-deletion-confirm-modal.component';
-import {
-  SessionsPermanentDeletionConfirmModalComponent,
-} from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
+import { CopyFromOtherSessionsModalComponent } from './copy-from-other-sessions-modal/copy-from-other-sessions-modal.component';
+import { SessionPermanentDeletionConfirmModalComponent } from './session-permanent-deletion-confirm-modal/session-permanent-deletion-confirm-modal.component';
+import { SessionsPermanentDeletionConfirmModalComponent } from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionActionsService } from '../../../services/feedback-session-actions.service';
@@ -39,16 +33,10 @@ import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/default-instructor-
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
-import {
-  ModifiedTimestampModalComponent,
-} from '../../components/modified-timestamps-modal/modified-timestamps-modal.component';
-import {
-  SessionEditFormMode,
-} from '../../components/session-edit-form/session-edit-form-model';
+import { ModifiedTimestampModalComponent } from '../../components/modified-timestamps-modal/modified-timestamps-modal.component';
+import { SessionEditFormMode } from '../../components/session-edit-form/session-edit-form-model';
 import { SessionEditFormComponent } from '../../components/session-edit-form/session-edit-form.component';
-import {
-  SessionsRecycleBinTableComponent,
-} from '../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
+import { SessionsRecycleBinTableComponent } from '../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
 import {
   CopySessionResult,
   SessionsTableColumn,
@@ -83,10 +71,9 @@ interface RecycleBinFeedbackSessionRowModel {
     SessionsRecycleBinTableComponent,
     ModifiedTimestampModalComponent,
     NgbCollapse,
-],
+  ],
 })
 export class InstructorSessionsPageComponent extends InstructorSessionModalPageComponent implements OnInit {
-
   // enum
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
@@ -123,23 +110,36 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
 
   @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
 
-  constructor(statusMessageService: StatusMessageService,
-              navigationService: NavigationService,
-              feedbackSessionsService: FeedbackSessionsService,
-              feedbackQuestionsService: FeedbackQuestionsService,
-              ngbModalService: NgbModal,
-              studentService: StudentService,
-              instructorService: InstructorService,
-              tableComparatorService: TableComparatorService,
-              simpleModalService: SimpleModalService,
-              progressBarService: ProgressBarService,
-              feedbackSessionActionsService: FeedbackSessionActionsService,
-              timezoneService: TimezoneService,
-              private courseService: CourseService,
-              private route: ActivatedRoute) {
-    super(instructorService, statusMessageService, navigationService, feedbackSessionsService,
-        feedbackQuestionsService, tableComparatorService, ngbModalService,
-      simpleModalService, progressBarService, feedbackSessionActionsService, timezoneService, studentService);
+  constructor(
+    statusMessageService: StatusMessageService,
+    navigationService: NavigationService,
+    feedbackSessionsService: FeedbackSessionsService,
+    feedbackQuestionsService: FeedbackQuestionsService,
+    ngbModalService: NgbModal,
+    studentService: StudentService,
+    instructorService: InstructorService,
+    tableComparatorService: TableComparatorService,
+    simpleModalService: SimpleModalService,
+    progressBarService: ProgressBarService,
+    feedbackSessionActionsService: FeedbackSessionActionsService,
+    timezoneService: TimezoneService,
+    private courseService: CourseService,
+    private route: ActivatedRoute,
+  ) {
+    super(
+      instructorService,
+      statusMessageService,
+      navigationService,
+      feedbackSessionsService,
+      feedbackQuestionsService,
+      tableComparatorService,
+      ngbModalService,
+      simpleModalService,
+      progressBarService,
+      feedbackSessionActionsService,
+      timezoneService,
+      studentService,
+    );
 
     this.sessionEditFormModel = {
       ...this.sessionEditFormModel,
@@ -171,49 +171,61 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     modalRef.componentInstance.copyToCourseId = this.sessionEditFormModel.courseId;
 
     modalRef.componentInstance.courseCandidates = this.courseCandidates;
-    modalRef.componentInstance.existingFeedbackSession =
-        this.sessionsTableRowModels.map((model: SessionsTableRowModel) => model.feedbackSession);
+    modalRef.componentInstance.existingFeedbackSession = this.sessionsTableRowModels.map(
+      (model: SessionsTableRowModel) => model.feedbackSession,
+    );
 
-    modalRef.result.then((result: CopyFromOtherSessionsResult) => {
-      this.coursesOfModifiedSession = [];
-      this.modifiedSession = {};
-      this.copyFeedbackSession(result.fromFeedbackSession, result.newFeedbackSessionName, result.copyToCourseId,
-        result.fromFeedbackSession.courseId)
-          .pipe(finalize(() => {
-            this.isCopyOtherSessionLoading = false;
-          }))
+    modalRef.result
+      .then((result: CopyFromOtherSessionsResult) => {
+        this.coursesOfModifiedSession = [];
+        this.modifiedSession = {};
+        this.copyFeedbackSession(
+          result.fromFeedbackSession,
+          result.newFeedbackSessionName,
+          result.copyToCourseId,
+          result.fromFeedbackSession.courseId,
+        )
+          .pipe(
+            finalize(() => {
+              this.isCopyOtherSessionLoading = false;
+            }),
+          )
           .subscribe({
             next: (createdFeedbackSession: FeedbackSession) => {
               if (this.coursesOfModifiedSession.length > 0) {
-                this.simpleModalService.openInformationModal('Note On Tweaked Session Timestamps',
-                    SimpleModalType.WARNING, this.modifiedTimestampsModal,
-                    {
-                      onClosed: () => this.navigationService.navigateByURLWithParamEncoding(
-                          '/web/instructor/sessions/edit',
-                          {
-                            courseid: createdFeedbackSession.courseId,
-                            fsname: createdFeedbackSession.feedbackSessionName,
-                            fsid: createdFeedbackSession.feedbackSessionId,
-                          }),
-                    });
+                this.simpleModalService.openInformationModal(
+                  'Note On Tweaked Session Timestamps',
+                  SimpleModalType.WARNING,
+                  this.modifiedTimestampsModal,
+                  {
+                    onClosed: () =>
+                      this.navigationService.navigateByURLWithParamEncoding('/web/instructor/sessions/edit', {
+                        courseid: createdFeedbackSession.courseId,
+                        fsname: createdFeedbackSession.feedbackSessionName,
+                        fsid: createdFeedbackSession.feedbackSessionId,
+                      }),
+                  },
+                );
               } else {
-                this.navigationService.navigateWithSuccessMessage('/web/instructor/sessions/edit',
-                    'The feedback session has been copied. Please modify settings/questions as necessary.',
-                    {
-                      courseid: createdFeedbackSession.courseId,
-                      fsname: createdFeedbackSession.feedbackSessionName,
-                      fsid: createdFeedbackSession.feedbackSessionId,
-                    });
+                this.navigationService.navigateWithSuccessMessage(
+                  '/web/instructor/sessions/edit',
+                  'The feedback session has been copied. Please modify settings/questions as necessary.',
+                  {
+                    courseid: createdFeedbackSession.courseId,
+                    fsname: createdFeedbackSession.feedbackSessionName,
+                    fsid: createdFeedbackSession.feedbackSessionId,
+                  },
+                );
               }
             },
             error: (resp: ErrorMessageOutput) => {
-              this.statusMessageService.showErrorToast(
-                  this.formatErrorMessage(resp.error.message));
+              this.statusMessageService.showErrorToast(this.formatErrorMessage(resp.error.message));
             },
           });
-    }).catch(() => {
-      this.isCopyOtherSessionLoading = false;
-    });
+      })
+      .catch(() => {
+        this.isCopyOtherSessionLoading = false;
+      });
   }
 
   /**
@@ -221,23 +233,26 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    */
   loadCandidatesCourse(): void {
     this.isCoursesLoading = true;
-    this.courseService.getInstructorCoursesThatAreActive()
-        .pipe(finalize(() => {
+    this.courseService
+      .getInstructorCoursesThatAreActive()
+      .pipe(
+        finalize(() => {
           this.isCoursesLoading = false;
-        }))
-        .subscribe({
-          next: (courses: Courses) => {
-            this.courseCandidates = courses.courses;
+        }),
+      )
+      .subscribe({
+        next: (courses: Courses) => {
+          this.courseCandidates = courses.courses;
 
-            this.initDefaultValuesForSessionEditForm();
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.resetAllModels();
-            this.hasCourseLoadingFailed = true;
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
-   }
+          this.initDefaultValuesForSessionEditForm();
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.resetAllModels();
+          this.hasCourseLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
+  }
 
   /**
    * Sets default values for the session edit form.
@@ -292,72 +307,84 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     this.sessionEditFormModel.isSaving = true;
 
     const submissionStartTime: number = this.timezoneService.resolveLocalDateTime(
-        this.sessionEditFormModel.submissionStartDate, this.sessionEditFormModel.submissionStartTime,
-        this.sessionEditFormModel.timeZone, true);
+      this.sessionEditFormModel.submissionStartDate,
+      this.sessionEditFormModel.submissionStartTime,
+      this.sessionEditFormModel.timeZone,
+      true,
+    );
     const submissionEndTime: number = this.timezoneService.resolveLocalDateTime(
-        this.sessionEditFormModel.submissionEndDate, this.sessionEditFormModel.submissionEndTime,
-        this.sessionEditFormModel.timeZone, true);
+      this.sessionEditFormModel.submissionEndDate,
+      this.sessionEditFormModel.submissionEndTime,
+      this.sessionEditFormModel.timeZone,
+      true,
+    );
     let sessionVisibleTime = 0;
     if (this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
       sessionVisibleTime = this.timezoneService.resolveLocalDateTime(
-          this.sessionEditFormModel.customSessionVisibleDate, this.sessionEditFormModel.customSessionVisibleTime,
-          this.sessionEditFormModel.timeZone, true);
+        this.sessionEditFormModel.customSessionVisibleDate,
+        this.sessionEditFormModel.customSessionVisibleTime,
+        this.sessionEditFormModel.timeZone,
+        true,
+      );
     }
     let responseVisibleTime = 0;
     if (this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM) {
       responseVisibleTime = this.timezoneService.resolveLocalDateTime(
-          this.sessionEditFormModel.customResponseVisibleDate, this.sessionEditFormModel.customResponseVisibleTime,
-          this.sessionEditFormModel.timeZone, true);
+        this.sessionEditFormModel.customResponseVisibleDate,
+        this.sessionEditFormModel.customResponseVisibleTime,
+        this.sessionEditFormModel.timeZone,
+        true,
+      );
     }
 
-    this.feedbackSessionsService.createFeedbackSession(this.sessionEditFormModel.courseId, {
-      feedbackSessionName: this.sessionEditFormModel.feedbackSessionName,
-      instructions: this.sessionEditFormModel.instructions,
+    this.feedbackSessionsService
+      .createFeedbackSession(this.sessionEditFormModel.courseId, {
+        feedbackSessionName: this.sessionEditFormModel.feedbackSessionName,
+        instructions: this.sessionEditFormModel.instructions,
 
-      submissionStartTimestamp: submissionStartTime,
-      submissionEndTimestamp: submissionEndTime,
-      gracePeriod: this.sessionEditFormModel.gracePeriod,
+        submissionStartTimestamp: submissionStartTime,
+        submissionEndTimestamp: submissionEndTime,
+        gracePeriod: this.sessionEditFormModel.gracePeriod,
 
-      sessionVisibleSetting: this.sessionEditFormModel.sessionVisibleSetting,
-      customSessionVisibleTimestamp: sessionVisibleTime,
+        sessionVisibleSetting: this.sessionEditFormModel.sessionVisibleSetting,
+        customSessionVisibleTimestamp: sessionVisibleTime,
 
-      responseVisibleSetting: this.sessionEditFormModel.responseVisibleSetting,
-      customResponseVisibleTimestamp: responseVisibleTime,
+        responseVisibleSetting: this.sessionEditFormModel.responseVisibleSetting,
+        customResponseVisibleTimestamp: responseVisibleTime,
 
-      isClosingSoonEmailEnabled: this.sessionEditFormModel.isClosingSoonEmailEnabled,
-      isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
-    }).subscribe({
-      next: (feedbackSession: FeedbackSession) => {
+        isClosingSoonEmailEnabled: this.sessionEditFormModel.isClosingSoonEmailEnabled,
+        isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
+      })
+      .subscribe({
+        next: (feedbackSession: FeedbackSession) => {
+          // begin to populate session with template
+          const templateSession: TemplateSession | undefined = this.feedbackSessionsService
+            .getTemplateSessions()
+            .find((t: TemplateSession) => t.name === this.sessionEditFormModel.templateSessionName);
+          if (!templateSession) {
+            return;
+          }
+          of(...templateSession.questions)
+            .pipe(
+              concatMap((question: FeedbackQuestion) => {
+                return this.feedbackQuestionsService.createFeedbackQuestion(feedbackSession.feedbackSessionId, {
+                  questionNumber: question.questionNumber,
+                  questionBrief: question.questionBrief,
+                  questionDescription: question.questionDescription,
 
-        // begin to populate session with template
-        const templateSession: TemplateSession | undefined =
-            this.feedbackSessionsService.getTemplateSessions().find(
-                (t: TemplateSession) => t.name === this.sessionEditFormModel.templateSessionName);
-        if (!templateSession) {
-          return;
-        }
-        of(...templateSession.questions).pipe(
-            concatMap((question: FeedbackQuestion) => {
-              return this.feedbackQuestionsService.createFeedbackQuestion(
-                  feedbackSession.feedbackSessionId, {
-                    questionNumber: question.questionNumber,
-                    questionBrief: question.questionBrief,
-                    questionDescription: question.questionDescription,
+                  questionDetails: question.questionDetails,
+                  questionType: question.questionType,
 
-                    questionDetails: question.questionDetails,
-                    questionType: question.questionType,
+                  giverType: question.giverType,
+                  recipientType: question.recipientType,
 
-                    giverType: question.giverType,
-                    recipientType: question.recipientType,
+                  numberOfEntitiesToGiveFeedbackToSetting: question.numberOfEntitiesToGiveFeedbackToSetting,
+                  customNumberOfEntitiesToGiveFeedbackTo: question.customNumberOfEntitiesToGiveFeedbackTo,
 
-                    numberOfEntitiesToGiveFeedbackToSetting: question.numberOfEntitiesToGiveFeedbackToSetting,
-                    customNumberOfEntitiesToGiveFeedbackTo: question.customNumberOfEntitiesToGiveFeedbackTo,
-
-                    showResponsesTo: question.showResponsesTo,
-                    showGiverNameTo: question.showGiverNameTo,
-                    showRecipientNameTo: question.showRecipientNameTo,
-                  },
-                );
+                  showResponsesTo: question.showResponsesTo,
+                  showGiverNameTo: question.showGiverNameTo,
+                  showRecipientNameTo: question.showRecipientNameTo,
+                });
               }),
             )
             .subscribe({
@@ -377,9 +404,9 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
                   })
                   .then(() => {
                     this.statusMessageService.showSuccessToast(
-                      'The feedback session has been added.'
-                        + 'Click the "Add New Question" button below to begin adding questions '
-                        + 'for the feedback session.',
+                      'The feedback session has been added.' +
+                        'Click the "Add New Question" button below to begin adding questions ' +
+                        'for the feedback session.',
                     );
                   });
               },
@@ -406,8 +433,10 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    */
   loadFeedbackSessions(): void {
     this.isFeedbackSessionsLoading = true;
-    this.feedbackSessionsService.getFeedbackSessionsForInstructor()
-        .pipe(finalize(() => {
+    this.feedbackSessionsService
+      .getFeedbackSessionsForInstructor()
+      .pipe(
+        finalize(() => {
           this.isFeedbackSessionsLoading = false;
         }),
       )
@@ -445,17 +474,22 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     this.recycleBinFeedbackSessionRowModelsSortBy = by;
     // reverse the sort order
     this.recycleBinFeedbackSessionRowModelsSortOrder =
-        this.recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
+      this.recycleBinFeedbackSessionRowModelsSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
     this.recycleBinFeedbackSessionRowModels.sort(
-        this.sortModelsBy(by, this.recycleBinFeedbackSessionRowModelsSortOrder));
+      this.sortModelsBy(by, this.recycleBinFeedbackSessionRowModelsSortOrder),
+    );
   }
   /**
    * Loads response rate of a feedback session.
    */
   loadResponseRateEventHandler(rowIdx: Index): void {
-    this.loadResponseRate((models: SessionsTableRowModel[]): void => {
-      this.sessionsTableRowModels = [...models];
-    }, this.sessionsTableRowModels, rowIdx);
+    this.loadResponseRate(
+      (models: SessionsTableRowModel[]): void => {
+        this.sessionsTableRowModels = [...models];
+      },
+      this.sessionsTableRowModels,
+      rowIdx,
+    );
   }
 
   /**
@@ -463,29 +497,29 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    */
   restoreRecycleBinFeedbackSession(model: RecycleBinFeedbackSessionRowModel): void {
     this.isRestoreFeedbackSessionLoading = true;
-    this.feedbackSessionsService.restoreSessionFromRecycleBin(
-        model.feedbackSession.feedbackSessionId,
-    )
-        .pipe(finalize(() => {
+    this.feedbackSessionsService
+      .restoreSessionFromRecycleBin(model.feedbackSession.feedbackSessionId)
+      .pipe(
+        finalize(() => {
           this.isRestoreFeedbackSessionLoading = false;
-        }))
-        .subscribe({
-          next: (feedbackSession: FeedbackSession) => {
-            this.recycleBinFeedbackSessionRowModels.splice(
-                this.recycleBinFeedbackSessionRowModels.indexOf(model), 1);
-            const m: SessionsTableRowModel = {
-              feedbackSession,
-              responseRate: '',
-              isLoadingResponseRate: false,
-              instructorPrivilege: feedbackSession.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
-            };
-            this.sessionsTableRowModels = [...this.sessionsTableRowModels, m];
-            this.statusMessageService.showSuccessToast('The feedback session has been restored.');
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
+        }),
+      )
+      .subscribe({
+        next: (feedbackSession: FeedbackSession) => {
+          this.recycleBinFeedbackSessionRowModels.splice(this.recycleBinFeedbackSessionRowModels.indexOf(model), 1);
+          const m: SessionsTableRowModel = {
+            feedbackSession,
+            responseRate: '',
+            isLoadingResponseRate: false,
+            instructorPrivilege: feedbackSession.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE(),
+          };
+          this.sessionsTableRowModels = [...this.sessionsTableRowModels, m];
+          this.statusMessageService.showSuccessToast('The feedback session has been restored.');
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**
@@ -494,25 +528,27 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   moveSessionToRecycleBinEventHandler(rowIndex: Index): void {
     this.isMoveToRecycleBinLoading = true;
     const model: SessionsTableRowModel = this.sessionsTableRowModels[rowIndex];
-    this.feedbackSessionsService.moveSessionToRecycleBin(
-        model.feedbackSession.feedbackSessionId,
-    )
-        .pipe(finalize(() => {
+    this.feedbackSessionsService
+      .moveSessionToRecycleBin(model.feedbackSession.feedbackSessionId)
+      .pipe(
+        finalize(() => {
           this.isMoveToRecycleBinLoading = false;
-        }))
-        .subscribe({
-          next: (feedbackSession: FeedbackSession) => {
-            this.sessionsTableRowModels.splice(this.sessionsTableRowModels.indexOf(model), 1);
-            this.recycleBinFeedbackSessionRowModels.push({
-              feedbackSession,
-            });
-            this.statusMessageService.showSuccessToast('The feedback session has been deleted. '
-                + 'You can restore it from the deleted sessions table below.');
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
+        }),
+      )
+      .subscribe({
+        next: (feedbackSession: FeedbackSession) => {
+          this.sessionsTableRowModels.splice(this.sessionsTableRowModels.indexOf(model), 1);
+          this.recycleBinFeedbackSessionRowModels.push({
+            feedbackSession,
+          });
+          this.statusMessageService.showSuccessToast(
+            'The feedback session has been deleted. ' + 'You can restore it from the deleted sessions table below.',
+          );
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**
@@ -524,16 +560,26 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     this.coursesOfModifiedSession = [];
     this.modifiedSession = {};
     const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
-        this.sessionsTableRowModels[result.sessionToCopyRowIndex], result);
+      this.sessionsTableRowModels[result.sessionToCopyRowIndex],
+      result,
+    );
     if (requestList.length === 1) {
-      this.copySingleSession(requestList[0].pipe(finalize(() => {
-        this.isCopySessionLoading = false;
-      })), this.modifiedTimestampsModal);
+      this.copySingleSession(
+        requestList[0].pipe(
+          finalize(() => {
+            this.isCopySessionLoading = false;
+          }),
+        ),
+        this.modifiedTimestampsModal,
+      );
     }
     if (requestList.length > 1) {
-      forkJoin(requestList).pipe(finalize(() => {
-        this.isCopySessionLoading = false;
-      }))
+      forkJoin(requestList)
+        .pipe(
+          finalize(() => {
+            this.isCopySessionLoading = false;
+          }),
+        )
         .subscribe((newSessions: FeedbackSession[]) => {
           if (newSessions.length > 0) {
             newSessions.forEach((session: FeedbackSession) => {
@@ -584,15 +630,18 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    */
   loadRecycleBinFeedbackSessions(): void {
     this.isRecycleBinLoading = true;
-    this.feedbackSessionsService.getFeedbackSessionsInRecycleBinForInstructor()
-      .pipe(finalize(() => {
+    this.feedbackSessionsService
+      .getFeedbackSessionsInRecycleBinForInstructor()
+      .pipe(
+        finalize(() => {
           this.isRecycleBinLoading = false;
-        }))
-        .subscribe({
-          next: (response: FeedbackSessions) => {
-            response.feedbackSessions.forEach((session: FeedbackSession) => {
-              this.recycleBinFeedbackSessionRowModels.push({
-                feedbackSession: session,
+        }),
+      )
+      .subscribe({
+        next: (response: FeedbackSessions) => {
+          response.feedbackSessions.forEach((session: FeedbackSession) => {
+            this.recycleBinFeedbackSessionRowModels.push({
+              feedbackSession: session,
             });
           });
         },
@@ -613,14 +662,16 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     const restoreRequests: Observable<FeedbackSession>[] = [];
     this.recycleBinFeedbackSessionRowModels.forEach((model: RecycleBinFeedbackSessionRowModel) => {
       restoreRequests.push(
-          this.feedbackSessionsService.restoreSessionFromRecycleBin(
-              model.feedbackSession.feedbackSessionId,
-          ));
+        this.feedbackSessionsService.restoreSessionFromRecycleBin(model.feedbackSession.feedbackSessionId),
+      );
     });
 
-    forkJoin(restoreRequests).pipe(finalize(() => {
-      this.isRestoreFeedbackSessionLoading = false;
-    }))
+    forkJoin(restoreRequests)
+      .pipe(
+        finalize(() => {
+          this.isRestoreFeedbackSessionLoading = false;
+        }),
+      )
       .subscribe({
         next: (restoredSessions: FeedbackSession[]) => {
           restoredSessions.forEach((session: FeedbackSession) => {
@@ -650,26 +701,28 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     modalRef.componentInstance.courseId = model.feedbackSession.courseId;
     modalRef.componentInstance.feedbackSessionName = model.feedbackSession.feedbackSessionName;
 
-    modalRef.result.then(() => {
-      this.feedbackSessionsService.deleteFeedbackSession(
-          model.feedbackSession.feedbackSessionId,
-      )
-        .pipe(finalize(() => {
-          this.isPermanentDeleteLoading = false;
-        }))
-        .subscribe({
-          next: () => {
-            this.recycleBinFeedbackSessionRowModels.splice(
-                this.recycleBinFeedbackSessionRowModels.indexOf(model), 1);
-            this.statusMessageService.showSuccessToast('The feedback session has been permanently deleted.');
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
-    }).catch(() => {
-      this.isPermanentDeleteLoading = false;
-    });
+    modalRef.result
+      .then(() => {
+        this.feedbackSessionsService
+          .deleteFeedbackSession(model.feedbackSession.feedbackSessionId)
+          .pipe(
+            finalize(() => {
+              this.isPermanentDeleteLoading = false;
+            }),
+          )
+          .subscribe({
+            next: () => {
+              this.recycleBinFeedbackSessionRowModels.splice(this.recycleBinFeedbackSessionRowModels.indexOf(model), 1);
+              this.statusMessageService.showSuccessToast('The feedback session has been permanently deleted.');
+            },
+            error: (resp: ErrorMessageOutput) => {
+              this.statusMessageService.showErrorToast(resp.error.message);
+            },
+          });
+      })
+      .catch(() => {
+        this.isPermanentDeleteLoading = false;
+      });
   }
 
   /**
@@ -678,20 +731,23 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   permanentDeleteAllSessions(): void {
     this.isPermanentDeleteLoading = true;
     const modalRef: NgbModalRef = this.ngbModal.open(SessionsPermanentDeletionConfirmModalComponent);
-    modalRef.componentInstance.sessionsToDelete =
-        this.recycleBinFeedbackSessionRowModels.map(
-            (model: RecycleBinFeedbackSessionRowModel) => model.feedbackSession);
+    modalRef.componentInstance.sessionsToDelete = this.recycleBinFeedbackSessionRowModels.map(
+      (model: RecycleBinFeedbackSessionRowModel) => model.feedbackSession,
+    );
 
-    modalRef.result.then(() => {
-      const deleteRequests: Observable<any>[] = [];
+    modalRef.result
+      .then(() => {
+        const deleteRequests: Observable<any>[] = [];
 
-      this.recycleBinFeedbackSessionRowModels.forEach((model: RecycleBinFeedbackSessionRowModel) => {
-        deleteRequests.push(this.feedbackSessionsService.deleteFeedbackSession(
-            model.feedbackSession.feedbackSessionId,
-        ));
-      });
+        this.recycleBinFeedbackSessionRowModels.forEach((model: RecycleBinFeedbackSessionRowModel) => {
+          deleteRequests.push(
+            this.feedbackSessionsService.deleteFeedbackSession(model.feedbackSession.feedbackSessionId),
+          );
+        });
 
-      forkJoin(deleteRequests).pipe(finalize(() => {
+        forkJoin(deleteRequests)
+          .pipe(
+            finalize(() => {
               this.isPermanentDeleteLoading = false;
             }),
           )

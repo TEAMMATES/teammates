@@ -1,6 +1,7 @@
 import { AbstractFeedbackResponseDetails } from './abstract-feedback-response-details';
 import {
-  FeedbackQuestionType, FeedbackRankOptionsQuestionDetails,
+  FeedbackQuestionType,
+  FeedbackRankOptionsQuestionDetails,
   FeedbackRankOptionsResponseDetails,
 } from '../api-output';
 
@@ -8,9 +9,9 @@ import {
  * Concrete implementation of {@link FeedbackRankOptionsResponseDetails}.
  */
 export class FeedbackRankOptionsResponseDetailsImpl
-    extends AbstractFeedbackResponseDetails<FeedbackRankOptionsQuestionDetails>
-    implements FeedbackRankOptionsResponseDetails {
-
+  extends AbstractFeedbackResponseDetails<FeedbackRankOptionsQuestionDetails>
+  implements FeedbackRankOptionsResponseDetails
+{
   answers: number[] = [];
   questionType: FeedbackQuestionType = FeedbackQuestionType.RANK_OPTIONS;
 
@@ -23,15 +24,16 @@ export class FeedbackRankOptionsResponseDetailsImpl
     const answers: string[] = [];
     for (let rank = 1; rank <= correspondingQuestionDetails.options.length; rank += 1) {
       const selectedOptionsForCurrentRank: string[] = this.answers.reduce(
-          (selectedOptions: string[], currRank: number, index: number) => {
-            if (currRank === rank) {
-              selectedOptions.push(correspondingQuestionDetails.options[index]);
-            }
-            return selectedOptions;
-          }, []);
+        (selectedOptions: string[], currRank: number, index: number) => {
+          if (currRank === rank) {
+            selectedOptions.push(correspondingQuestionDetails.options[index]);
+          }
+          return selectedOptions;
+        },
+        [],
+      );
       answers.push(selectedOptionsForCurrentRank.join(', '));
     }
     return [['', ...answers]];
   }
-
 }

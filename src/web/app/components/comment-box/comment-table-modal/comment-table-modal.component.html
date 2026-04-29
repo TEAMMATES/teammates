@@ -4,7 +4,8 @@
 </div>
 @if (model) {
   <div class="modal-body">
-    <tm-comment-table [model]="model"
+    <tm-comment-table
+      [model]="model"
       [questionShowResponsesTo]="questionShowResponsesTo"
       [shouldHideClosingButtonForNewComment]="true"
       [response]="response"

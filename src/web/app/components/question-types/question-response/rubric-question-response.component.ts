@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionResponse } from './question-response';
-import {
-  FeedbackRubricQuestionDetails,
-  FeedbackRubricResponseDetails,
-} from '../../../../types/api-output';
+import { FeedbackRubricQuestionDetails, FeedbackRubricResponseDetails } from '../../../../types/api-output';
 import {
   DEFAULT_RUBRIC_QUESTION_DETAILS,
   DEFAULT_RUBRIC_RESPONSE_DETAILS,
@@ -13,15 +10,15 @@ import {
  * Rubric question response.
  */
 @Component({
-    selector: 'tm-rubric-question-response',
-    templateUrl: './rubric-question-response.component.html',
-    styleUrls: ['./rubric-question-response.component.scss'],
-    imports: [],
+  selector: 'tm-rubric-question-response',
+  templateUrl: './rubric-question-response.component.html',
+  styleUrls: ['./rubric-question-response.component.scss'],
+  imports: [],
 })
 export class RubricQuestionResponseComponent
-    extends QuestionResponse<FeedbackRubricResponseDetails, FeedbackRubricQuestionDetails>
-    implements OnInit {
-
+  extends QuestionResponse<FeedbackRubricResponseDetails, FeedbackRubricQuestionDetails>
+  implements OnInit
+{
   answers: any[] = [];
 
   constructor() {
@@ -37,5 +34,4 @@ export class RubricQuestionResponseComponent
       });
     }
   }
-
 }

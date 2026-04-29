@@ -6,7 +6,6 @@ import { TimezoneService } from '../../../services/timezone.service';
  */
 @Pipe({ name: 'formatDateDetail' })
 export class FormatDateDetailPipe implements PipeTransform {
-
   constructor(private timezoneService: TimezoneService) {}
 
   /**
@@ -15,5 +14,4 @@ export class FormatDateDetailPipe implements PipeTransform {
   transform(timestamp: number, timeZone: string): string {
     return this.timezoneService.formatToString(timestamp, timeZone, 'ddd, DD MMM YYYY, hh:mm A z');
   }
-
 }

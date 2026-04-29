@@ -197,11 +197,11 @@
       "name": "Section 3"
     },
     "section1InCourse3": {
-        "id": "00000000-0000-4000-8000-000000000204",
-        "course": {
-          "id": "course-3"
-        },
-        "name": "Section 1"
+      "id": "00000000-0000-4000-8000-000000000204",
+      "course": {
+        "id": "course-3"
+      },
+      "name": "Section 1"
     },
     "section3InCourse1": {
       "id": "00000000-0000-4000-8000-000000000205",
@@ -234,12 +234,12 @@
       "name": "Team 3"
     },
     "team1InCourse3": {
-        "id": "00000000-0000-4000-8000-000000000304",
-        "section": {
-          "id": "00000000-0000-4000-8000-000000000204"
-        },
-        "name": "Team 1"
+      "id": "00000000-0000-4000-8000-000000000304",
+      "section": {
+        "id": "00000000-0000-4000-8000-000000000204"
       },
+      "name": "Team 1"
+    },
     "team2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000305",
       "section": {
@@ -552,14 +552,14 @@
       "comments": ""
     },
     "student1InCourse3": {
-        "id": "00000000-0000-4000-8000-000000000605",
-        "email": "student1@teammates.tmt",
-        "courseId": "course-3",
-        "team": {
-            "id": "00000000-0000-4000-8000-000000000304"
-        },
-        "name": "student1 In Course3</td></div>'\"",
-        "comments": "comment for student1InCourse3</td></div>'\""
+      "id": "00000000-0000-4000-8000-000000000605",
+      "email": "student1@teammates.tmt",
+      "courseId": "course-3",
+      "team": {
+        "id": "00000000-0000-4000-8000-000000000304"
+      },
+      "name": "student1 In Course3</td></div>'\"",
+      "comments": "comment for student1InCourse3</td></div>'\""
     },
     "unregisteredStudentInCourse1": {
       "id": "00000000-0000-4000-8000-000000000606",
@@ -824,24 +824,9 @@
       "giverType": "SELF",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "RECEIVER",
-        "OWN_TEAM_MEMBERS",
-        "STUDENTS",
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "RECEIVER",
-        "OWN_TEAM_MEMBERS",
-        "STUDENTS",
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "RECEIVER",
-        "OWN_TEAM_MEMBERS",
-        "STUDENTS",
-        "INSTRUCTORS"
-      ]
+      "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "showGiverNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "showRecipientNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"]
     },
     "qn4InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000804",
@@ -857,24 +842,9 @@
       "giverType": "INSTRUCTORS",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "RECEIVER",
-        "OWN_TEAM_MEMBERS",
-        "STUDENTS",
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "RECEIVER",
-        "OWN_TEAM_MEMBERS",
-        "STUDENTS",
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "RECEIVER",
-        "OWN_TEAM_MEMBERS",
-        "STUDENTS",
-        "INSTRUCTORS"
-      ]
+      "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "showGiverNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "showRecipientNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"]
     },
     "qn5InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000805",

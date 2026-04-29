@@ -40,7 +40,7 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
               class="btn btn-primary input-group-text"
               id="btn-search"
             >
-              Search
+               Search 
             </button>
           </div>
           <span>
@@ -95,7 +95,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
               disabled=""
               id="btn-search"
             >
-              Search
+               Search 
             </button>
           </div>
           <span>
@@ -576,7 +576,7 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
               disabled=""
               id="btn-search"
             >
-              Search
+               Search 
             </button>
           </div>
           <span>

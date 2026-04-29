@@ -10,13 +10,9 @@ describe('InstructorHelpCoursesSectionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        NgxPageScrollCoreModule,
-      ],
+      imports: [NoopAnimationsModule, NgxPageScrollCoreModule],
       providers: [provideRouter([])],
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {

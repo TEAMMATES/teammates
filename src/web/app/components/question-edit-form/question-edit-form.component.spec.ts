@@ -5,9 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { QuestionEditFormModel } from './question-edit-form-model';
 import { QuestionEditFormComponent } from './question-edit-form.component';
 import { mockTinyMceUuid } from '../../../test-helpers/mock-tinymce-uuid';
-import {
-  EXAMPLE_ESSAY_QUESTION_MODEL,
-} from '../../pages-help/instructor-help-page/instructor-help-questions-section/instructor-help-questions-data';
+import { EXAMPLE_ESSAY_QUESTION_MODEL } from '../../pages-help/instructor-help-page/instructor-help-questions-section/instructor-help-questions-data';
 
 describe('QuestionEditFormComponent', () => {
   let component: QuestionEditFormComponent;
@@ -17,15 +15,9 @@ describe('QuestionEditFormComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-      ],
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      imports: [BrowserAnimationsModule],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

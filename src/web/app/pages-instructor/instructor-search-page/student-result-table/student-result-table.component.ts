@@ -21,13 +21,9 @@ export interface SearchStudentsListRowTable {
   selector: 'tm-student-result-table',
   templateUrl: './student-result-table.component.html',
   styleUrls: ['./student-result-table.component.scss'],
-  imports: [
-    StudentListComponent,
-    SearchTermsHighlighterPipe,
-],
+  imports: [StudentListComponent, SearchTermsHighlighterPipe],
 })
 export class StudentResultTableComponent {
-
   @Input() studentTables: SearchStudentsListRowTable[] = [];
   @Input() isActionButtonsEnabled = true;
   @Input() isPartialMatchHighlightingEnabled = false;
@@ -38,32 +34,36 @@ export class StudentResultTableComponent {
   studentSortBy: SortBy = SortBy.NONE;
   studentSortOrder: SortOrder = SortOrder.ASC;
 
-  constructor(private tableComparatorService: TableComparatorService) { }
+  constructor(private tableComparatorService: TableComparatorService) {}
 
   /**
    * Sorts the student list.
    */
   sortStudentList(students: StudentListRowModel[], by: SortBy): void {
     this.studentSortBy = by;
-    this.studentSortOrder =
-        this.studentSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
+    this.studentSortOrder = this.studentSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
     students.sort(this.sortStudentBy(by, this.studentSortOrder));
   }
 
   /**
    * Returns a function to determine the order of sort for students.
    */
-  sortStudentBy(by: SortBy, order: SortOrder):
-      ((a: StudentListRowModel, b: StudentListRowModel) => number) {
+  sortStudentBy(by: SortBy, order: SortOrder): (a: StudentListRowModel, b: StudentListRowModel) => number {
     const joinStatePipe: JoinStatePipe = new JoinStatePipe();
     if (by === SortBy.NONE) {
       // Default order: section name > team name > student name
-      return ((a: StudentListRowModel, b: StudentListRowModel): number => {
-        return this.tableComparatorService
-                .compare(SortBy.SECTION_NAME, order, a.student.sectionName, b.student.sectionName)
-            || this.tableComparatorService.compare(SortBy.TEAM_NAME, order, a.student.teamName, b.student.teamName)
-            || this.tableComparatorService.compare(SortBy.RESPONDENT_NAME, order, a.student.name, b.student.name);
-      });
+      return (a: StudentListRowModel, b: StudentListRowModel): number => {
+        return (
+          this.tableComparatorService.compare(
+            SortBy.SECTION_NAME,
+            order,
+            a.student.sectionName,
+            b.student.sectionName,
+          ) ||
+          this.tableComparatorService.compare(SortBy.TEAM_NAME, order, a.student.teamName, b.student.teamName) ||
+          this.tableComparatorService.compare(SortBy.RESPONDENT_NAME, order, a.student.name, b.student.name)
+        );
+      };
     }
     return (a: StudentListRowModel, b: StudentListRowModel): number => {
       let strA: string;
@@ -99,11 +99,11 @@ export class StudentResultTableComponent {
   }
 
   removeStudent(students: StudentListRowModel[], studentEmail: string): void {
-    const studentToRemove: StudentListRowModel | undefined =
-        students.find((student: StudentListRowModel) => areEmailsEqual(student.student.email, studentEmail));
+    const studentToRemove: StudentListRowModel | undefined = students.find((student: StudentListRowModel) =>
+      areEmailsEqual(student.student.email, studentEmail),
+    );
     if (studentToRemove) {
       this.removeStudentFromCourseEvent.emit(studentToRemove);
     }
   }
-
 }

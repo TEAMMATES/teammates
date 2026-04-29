@@ -2,7 +2,6 @@
  * Represents the different supported view types in instructor sessions result page.
  */
 export enum InstructorSessionResultViewType {
-
   /**
    * Organize responses by questions.
    */
@@ -27,5 +26,4 @@ export enum InstructorSessionResultViewType {
    * Organize responses by recipient name, then questions.
    */
   RQG = 'RQG',
-
 }

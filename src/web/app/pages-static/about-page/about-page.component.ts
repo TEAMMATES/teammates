@@ -9,12 +9,9 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
   selector: 'tm-about-page',
   templateUrl: './about-page.component.html',
   styleUrls: ['./about-page.component.scss'],
-  imports: [
-    TeammatesRouterDirective,
-],
+  imports: [TeammatesRouterDirective],
 })
 export class AboutPageComponent implements OnInit {
-
   nDevelopers = 0;
   teamMembers: any[] = [];
   pastTeamMembers: any[] = [];
@@ -46,10 +43,13 @@ export class AboutPageComponent implements OnInit {
     this.committers = developers.committers.filter((n: any) => !n.endPeriod).map(this.setUrl);
     this.pastCommitters = developers.committers.filter((n: any) => n.endPeriod).map(this.setUrl);
     this.majorContributors = developers.contributors.filter((n: any) => n.major).map(this.setUrl);
-    this.multipleContributors = developers.contributors.filter((n: any) => !n.major && n.multiple)
-        .map(this.setUrl).map(this.setDisplayedName);
-    this.singleContributors = developers.contributors.filter((n: any) => !n.major && !n.multiple)
-        .map(this.setUrl).map(this.setDisplayedName);
+    this.multipleContributors = developers.contributors
+      .filter((n: any) => !n.major && n.multiple)
+      .map(this.setUrl)
+      .map(this.setDisplayedName);
+    this.singleContributors = developers.contributors
+      .filter((n: any) => !n.major && !n.multiple)
+      .map(this.setUrl)
+      .map(this.setDisplayedName);
   }
-
 }

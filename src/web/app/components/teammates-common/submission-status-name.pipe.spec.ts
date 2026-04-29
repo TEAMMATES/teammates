@@ -5,7 +5,7 @@ describe('SubmissionStatusNamePipe', () => {
   let pipe: SubmissionStatusNamePipe;
 
   beforeEach(() => {
-   pipe = new SubmissionStatusNamePipe();
+    pipe = new SubmissionStatusNamePipe();
   });
 
   it('create an instance', () => {

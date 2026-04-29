@@ -1,12 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ViewResultsPanelComponent } from './view-results-panel.component';
-import {
-  InstructorSessionResultSectionType,
-} from '../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import {
-  InstructorSessionResultViewType,
-} from '../../pages-instructor/instructor-session-result-page/instructor-session-result-view-type.enum';
+import { InstructorSessionResultSectionType } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { InstructorSessionResultViewType } from '../../pages-instructor/instructor-session-result-page/instructor-session-result-view-type.enum';
 
 describe('ViewResultsPanelComponent', () => {
   let component: ViewResultsPanelComponent;

@@ -2,22 +2,12 @@ import { AfterViewInit, Component, Inject, ViewChild, DOCUMENT } from '@angular/
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PageScrollService } from 'ngx-page-scroll-core';
-import {
-  InstructorHelpCoursesSectionComponent,
-} from './instructor-help-courses-section/instructor-help-courses-section.component';
-import {
-  InstructorHelpGeneralSectionComponent,
-} from './instructor-help-general-section/instructor-help-general-section.component';
-import {
-  InstructorHelpQuestionsSectionComponent,
-} from './instructor-help-questions-section/instructor-help-questions-section.component';
-import {
-  InstructorHelpSessionsSectionComponent,
-} from './instructor-help-sessions-section/instructor-help-sessions-section.component';
+import { InstructorHelpCoursesSectionComponent } from './instructor-help-courses-section/instructor-help-courses-section.component';
+import { InstructorHelpGeneralSectionComponent } from './instructor-help-general-section/instructor-help-general-section.component';
+import { InstructorHelpQuestionsSectionComponent } from './instructor-help-questions-section/instructor-help-questions-section.component';
+import { InstructorHelpSessionsSectionComponent } from './instructor-help-sessions-section/instructor-help-sessions-section.component';
 import { SessionsSectionQuestions } from './instructor-help-sessions-section/sessions-section-questions';
-import {
-  InstructorHelpStudentsSectionComponent,
-} from './instructor-help-students-section/instructor-help-students-section.component';
+import { InstructorHelpStudentsSectionComponent } from './instructor-help-students-section/instructor-help-students-section.component';
 import { StudentsSectionQuestions } from './instructor-help-students-section/students-section-questions';
 import { Sections } from './sections';
 import { environment } from '../../../environments/environment';
@@ -38,7 +28,7 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
     InstructorHelpSessionsSectionComponent,
     InstructorHelpQuestionsSectionComponent,
     InstructorHelpGeneralSectionComponent,
-],
+  ],
 })
 export class InstructorHelpPageComponent implements AfterViewInit {
   // enum
@@ -58,9 +48,11 @@ export class InstructorHelpPageComponent implements AfterViewInit {
   @ViewChild('questionsHelpSection') questionsHelpSection?: InstructorHelpQuestionsSectionComponent;
   @ViewChild('generalHelpSection') generalHelpSection?: InstructorHelpGeneralSectionComponent;
 
-  constructor(private route: ActivatedRoute,
-              private pageScrollService: PageScrollService,
-              @Inject(DOCUMENT) private document: Document) {
+  constructor(
+    private route: ActivatedRoute,
+    private pageScrollService: PageScrollService,
+    @Inject(DOCUMENT) private document: Document,
+  ) {
     let r: ActivatedRoute = this.route;
     while (r.firstChild) {
       r = r.firstChild;
@@ -130,12 +122,16 @@ export class InstructorHelpPageComponent implements AfterViewInit {
   }
 
   scrollTo(target: string, timeout?: number): void {
-    setTimeout(() => this.pageScrollService.scroll({
-      document: this.document,
-      duration: 500,
-      scrollTarget: `#${target}`,
-      scrollOffset: 60,
-    }), timeout || 500);
+    setTimeout(
+      () =>
+        this.pageScrollService.scroll({
+          document: this.document,
+          duration: 500,
+          scrollTarget: `#${target}`,
+          scrollOffset: 60,
+        }),
+      timeout || 500,
+    );
   }
 
   /**
@@ -167,5 +163,4 @@ export class InstructorHelpPageComponent implements AfterViewInit {
   updateMatchFoundNumber(n: number): void {
     this.matchFound += n;
   }
-
 }

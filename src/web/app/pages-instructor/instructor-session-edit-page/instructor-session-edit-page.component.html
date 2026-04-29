@@ -1,33 +1,53 @@
-<tm-loading-retry [shouldShowRetry]="hasLoadingFeedbackSessionFailed" [message]="'Failed to load feedback session'"
-  (retryEvent)="loadFeedbackSession()">
-  <tm-session-edit-form *tmIsLoading="isLoadingFeedbackSession" [formMode]="SessionEditFormMode.EDIT"
-    [(model)]="sessionEditFormModel" (editExistingSessionEvent)="editExistingSessionHandler()"
+<tm-loading-retry
+  [shouldShowRetry]="hasLoadingFeedbackSessionFailed"
+  [message]="'Failed to load feedback session'"
+  (retryEvent)="loadFeedbackSession()"
+>
+  <tm-session-edit-form
+    *tmIsLoading="isLoadingFeedbackSession"
+    [formMode]="SessionEditFormMode.EDIT"
+    [(model)]="sessionEditFormModel"
+    (editExistingSessionEvent)="editExistingSessionHandler()"
     (modelChange)="triggerModelChange($event)"
     (cancelEditingSessionEvent)="cancelEditingSessionHandler()"
     (deleteExistingSessionEvent)="deleteExistingSessionHandler()"
-  (copyCurrentSessionEvent)="copyCurrentSession()"></tm-session-edit-form>
+    (copyCurrentSessionEvent)="copyCurrentSession()"
+  ></tm-session-edit-form>
 </tm-loading-retry>
-<tm-loading-retry [shouldShowRetry]="hasLoadingFeedbackQuestionsFailed" [message]="'Failed to load feedback questions'"
-  (retryEvent)="loadFeedbackQuestions()">
+<tm-loading-retry
+  [shouldShowRetry]="hasLoadingFeedbackQuestionsFailed"
+  [message]="'Failed to load feedback questions'"
+  (retryEvent)="loadFeedbackQuestions()"
+>
   @if (!isLoadingFeedbackQuestions && questionEditFormModels.length) {
     <div class="offset-md-10 margin-vertical-20px">
-      <button id="btn-collapse-expand" class="btn expand-btn btn-light margin-top-30px"
-        (click)="isAllCollapsed ? expandAll() : collapseAll()">
-        {{isAllCollapsed ? "Expand" : "Collapse" }} All
+      <button
+        id="btn-collapse-expand"
+        class="btn expand-btn btn-light margin-top-30px"
+        (click)="isAllCollapsed ? expandAll() : collapseAll()"
+      >
+        {{ isAllCollapsed ? 'Expand' : 'Collapse' }} All
       </button>
     </div>
   }
 
   <div *tmIsLoading="isLoadingFeedbackQuestions">
-    @for (questionEditFormModel of questionEditFormModels; track trackQuestionEditFormByFn(i, questionEditFormModel); let i = $index) {
-      <div
-        >
-        <tm-question-edit-form [formMode]="QuestionEditFormMode.EDIT" [numOfQuestions]="questionEditFormModels.length"
+    @for (
+      questionEditFormModel of questionEditFormModels;
+      track trackQuestionEditFormByFn(i, questionEditFormModel);
+      let i = $index
+    ) {
+      <div>
+        <tm-question-edit-form
+          [formMode]="QuestionEditFormMode.EDIT"
+          [numOfQuestions]="questionEditFormModels.length"
           (saveExistingQuestionEvent)="saveExistingQuestionHandler(i)"
           (discardExistingQuestionChangesEvent)="discardExistingQuestionHandler(i)"
           (duplicateCurrentQuestionEvent)="duplicateCurrentQuestionHandler(i)"
-          (deleteCurrentQuestionEvent)="deleteExistingQuestionHandler(i)" [(formModel)]="questionEditFormModels[i]"
-        [isQuestionPublished]="sessionEditFormModel.publishStatus === FeedbackSessionPublishStatus.PUBLISHED"></tm-question-edit-form>
+          (deleteCurrentQuestionEvent)="deleteExistingQuestionHandler(i)"
+          [(formModel)]="questionEditFormModels[i]"
+          [isQuestionPublished]="sessionEditFormModel.publishStatus === FeedbackSessionPublishStatus.PUBLISHED"
+        ></tm-question-edit-form>
       </div>
     }
     <a class="d-block text-end cursor-pointer" (click)="scrollToTopOfPage()">
@@ -38,32 +58,43 @@
   <br />
   @if (!isLoadingFeedbackQuestions && !isAddingQuestionPanelExpanded) {
     <div class="card">
-      <tm-adding-question-panel (templateQuestionModalEvent)="templateQuestionModalHandler()"
+      <tm-adding-question-panel
+        (templateQuestionModalEvent)="templateQuestionModalHandler()"
         (populateAndShowNewQuestionFormEvent)="populateAndShowNewQuestionForm($event)"
         (copyQuestionsFromOtherSessionsEvent)="copyQuestionsFromOtherSessionsHandler()"
-      [isCopyingQuestion]="isCopyingQuestion"></tm-adding-question-panel>
+        [isCopyingQuestion]="isCopyingQuestion"
+      ></tm-adding-question-panel>
     </div>
   }
   @if (isAddingQuestionPanelExpanded) {
-    <tm-question-edit-form [formMode]="QuestionEditFormMode.ADD"
+    <tm-question-edit-form
+      [formMode]="QuestionEditFormMode.ADD"
       [numOfQuestions]="questionEditFormModels.length + 1"
       (discardNewQuestionEvent)="isAddingQuestionPanelExpanded = false"
       (createNewQuestionEvent)="createNewQuestionHandler()"
-    [(formModel)]="newQuestionEditFormModel"></tm-question-edit-form>
+      [(formModel)]="newQuestionEditFormModel"
+    ></tm-question-edit-form>
   }
   <br />
   @if (!isLoadingFeedbackQuestions) {
     <div class="card">
-      <tm-preview-session-panel [courseId]="courseId" [feedbackSessionName]="feedbackSessionName" [feedbackSessionId]="feedbackSessionId"
-        [emailOfStudentToPreview]="emailOfStudentToPreview" [studentsOfCourse]="studentsOfCourse"
+      <tm-preview-session-panel
+        [courseId]="courseId"
+        [feedbackSessionName]="feedbackSessionName"
+        [feedbackSessionId]="feedbackSessionId"
+        [emailOfStudentToPreview]="emailOfStudentToPreview"
+        [studentsOfCourse]="studentsOfCourse"
         [instructorsCanBePreviewedAs]="instructorsOfCourse"
-      [emailOfInstructorToPreview]="emailOfInstructorToPreview"></tm-preview-session-panel>
+        [emailOfInstructorToPreview]="emailOfInstructorToPreview"
+      ></tm-preview-session-panel>
     </div>
   }
 </tm-loading-retry>
 
 <ng-template #modifiedTimestampsModal>
-  <tm-modified-timestamps-modal [coursesOfModifiedSession]="this.coursesOfModifiedSession"
-    [modifiedSessions]="this.modifiedSession">
+  <tm-modified-timestamps-modal
+    [coursesOfModifiedSession]="this.coursesOfModifiedSession"
+    [modifiedSessions]="this.modifiedSession"
+  >
   </tm-modified-timestamps-modal>
 </ng-template>

@@ -65,5 +65,4 @@ describe('StatusMessageComponent', () => {
 
     expect(deleteAll.length).toEqual(0);
   });
-
 });

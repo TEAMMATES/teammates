@@ -49,17 +49,25 @@ describe('TimezoneService', () => {
 
   it('should resolve local date time to the same epoch time in different timezones', () => {
     const gmtMinus8Time: number = service.resolveLocalDateTime(
-        { year: 2020, month: 10, day: 7 },
-        { hour: 17, minute: 0 }, 'Etc/GMT-8');
+      { year: 2020, month: 10, day: 7 },
+      { hour: 17, minute: 0 },
+      'Etc/GMT-8',
+    );
     const gmtPlus8Time: number = service.resolveLocalDateTime(
-        { year: 2020, month: 10, day: 7 },
-        { hour: 1, minute: 0 }, 'Etc/GMT+8');
+      { year: 2020, month: 10, day: 7 },
+      { hour: 1, minute: 0 },
+      'Etc/GMT+8',
+    );
     const gmtTime: number = service.resolveLocalDateTime(
-        { year: 2020, month: 10, day: 7 },
-        { hour: 9, minute: 0 }, 'Etc/GMT');
+      { year: 2020, month: 10, day: 7 },
+      { hour: 9, minute: 0 },
+      'Etc/GMT',
+    );
     const sgTime: number = service.resolveLocalDateTime(
-        { year: 2020, month: 10, day: 7 },
-        { hour: 17, minute: 0 }, 'Asia/Singapore');
+      { year: 2020, month: 10, day: 7 },
+      { hour: 17, minute: 0 },
+      'Asia/Singapore',
+    );
 
     expect(gmtTime).toEqual(gmtPlus8Time);
     expect(gmtTime).toEqual(gmtMinus8Time);
@@ -73,42 +81,34 @@ describe('TimezoneService', () => {
     const baseEpochTime = 1583650800000;
 
     let usTime: number = service.resolveLocalDateTime(
-        { year: 2020, month: 3, day: 8 },
-        { hour: 1, minute: 0 }, 'US/Central');
-    let utcTime: number = service.resolveLocalDateTime(
-        { year: 2020, month: 3, day: 8 },
-        { hour: 7, minute: 0 }, 'UTC');
+      { year: 2020, month: 3, day: 8 },
+      { hour: 1, minute: 0 },
+      'US/Central',
+    );
+    let utcTime: number = service.resolveLocalDateTime({ year: 2020, month: 3, day: 8 }, { hour: 7, minute: 0 }, 'UTC');
 
     // First make sure that in normal situation, date/time can be resolved in different timezones.
     expect(usTime).toEqual(utcTime);
     expect(usTime).toEqual(baseEpochTime);
 
-    usTime = service.resolveLocalDateTime(
-        { year: 2020, month: 3, day: 8 },
-        { hour: 2, minute: 0 }, 'US/Central');
+    usTime = service.resolveLocalDateTime({ year: 2020, month: 3, day: 8 }, { hour: 2, minute: 0 }, 'US/Central');
 
     // Here, the clock has sprung forward and the time does not actually exist in the timezone.
     // It can be resolved to either the next or previous available hour.
     expect(usTime === baseEpochTime + Milliseconds.IN_ONE_HOUR || usTime === baseEpochTime).toBeTruthy();
 
-    usTime = service.resolveLocalDateTime(
-        { year: 2020, month: 3, day: 8 },
-        { hour: 3, minute: 0 }, 'US/Central');
+    usTime = service.resolveLocalDateTime({ year: 2020, month: 3, day: 8 }, { hour: 3, minute: 0 }, 'US/Central');
 
     // The time here is a legitimate time, but the difference with 1.00AM is just one hour
     // as the 2.00-2.59AM hour mark does not exist.
     expect(usTime).toEqual(baseEpochTime + Milliseconds.IN_ONE_HOUR);
 
-    usTime = service.resolveLocalDateTime(
-        { year: 2020, month: 3, day: 8 },
-        { hour: 4, minute: 0 }, 'US/Central');
+    usTime = service.resolveLocalDateTime({ year: 2020, month: 3, day: 8 }, { hour: 4, minute: 0 }, 'US/Central');
 
     // After the clock has sprung forward, time should be calculated as per normal.
     expect(usTime).toEqual(baseEpochTime + 2 * Milliseconds.IN_ONE_HOUR);
 
-    utcTime = service.resolveLocalDateTime(
-        { year: 2020, month: 3, day: 8 },
-        { hour: 9, minute: 0 }, 'UTC');
+    utcTime = service.resolveLocalDateTime({ year: 2020, month: 3, day: 8 }, { hour: 9, minute: 0 }, 'UTC');
 
     // This confirms that the time difference with UTC has been adjusted.
     expect(usTime).toEqual(utcTime);
@@ -121,36 +121,34 @@ describe('TimezoneService', () => {
     const baseEpochTime = 1604206800000;
 
     let usTime: number = service.resolveLocalDateTime(
-        { year: 2020, month: 11, day: 1 },
-        { hour: 0, minute: 0 }, 'US/Central');
+      { year: 2020, month: 11, day: 1 },
+      { hour: 0, minute: 0 },
+      'US/Central',
+    );
     let utcTime: number = service.resolveLocalDateTime(
-        { year: 2020, month: 11, day: 1 },
-        { hour: 5, minute: 0 }, 'UTC');
+      { year: 2020, month: 11, day: 1 },
+      { hour: 5, minute: 0 },
+      'UTC',
+    );
 
     // First make sure that in normal situation, date/time can be resolved in different timezones.
     expect(usTime).toEqual(utcTime);
     expect(usTime).toEqual(baseEpochTime);
 
-    usTime = service.resolveLocalDateTime(
-        { year: 2020, month: 11, day: 1 },
-        { hour: 1, minute: 0 }, 'US/Central');
+    usTime = service.resolveLocalDateTime({ year: 2020, month: 11, day: 1 }, { hour: 1, minute: 0 }, 'US/Central');
 
     // Here, the clock has sprung backward and the time exists in duplicate.
     // It can be resolved to either the earlier or the latter hour.
-    expect(usTime === baseEpochTime + Milliseconds.IN_ONE_HOUR
-      || usTime === baseEpochTime + 2 * Milliseconds.IN_ONE_HOUR)
-      .toBeTruthy();
+    expect(
+      usTime === baseEpochTime + Milliseconds.IN_ONE_HOUR || usTime === baseEpochTime + 2 * Milliseconds.IN_ONE_HOUR,
+    ).toBeTruthy();
 
-    usTime = service.resolveLocalDateTime(
-        { year: 2020, month: 11, day: 1 },
-        { hour: 2, minute: 0 }, 'US/Central');
+    usTime = service.resolveLocalDateTime({ year: 2020, month: 11, day: 1 }, { hour: 2, minute: 0 }, 'US/Central');
 
     // After the clock has sprung backward, time should be calculated as per normal.
     expect(usTime).toEqual(baseEpochTime + 3 * Milliseconds.IN_ONE_HOUR);
 
-    utcTime = service.resolveLocalDateTime(
-        { year: 2020, month: 11, day: 1 },
-        { hour: 8, minute: 0 }, 'UTC');
+    utcTime = service.resolveLocalDateTime({ year: 2020, month: 11, day: 1 }, { hour: 8, minute: 0 }, 'UTC');
 
     // This confirms that the time difference with UTC has been adjusted.
     expect(usTime).toEqual(utcTime);

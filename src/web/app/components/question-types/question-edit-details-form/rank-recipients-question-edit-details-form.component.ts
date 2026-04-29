@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
-import {
-  FeedbackRankRecipientsQuestionDetails,
-} from '../../../../types/api-output';
+import { FeedbackRankRecipientsQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { NO_VALUE } from '../../../../types/feedback-response-details';
 
@@ -16,9 +14,7 @@ import { NO_VALUE } from '../../../../types/feedback-response-details';
   styleUrls: ['./rank-recipients-question-edit-details-form.component.scss'],
   imports: [FormsModule],
 })
-export class RankRecipientsQuestionEditDetailsFormComponent
-    extends QuestionEditDetailsFormComponent<FeedbackRankRecipientsQuestionDetails> {
-
+export class RankRecipientsQuestionEditDetailsFormComponent extends QuestionEditDetailsFormComponent<FeedbackRankRecipientsQuestionDetails> {
   constructor() {
     super(DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS());
   }

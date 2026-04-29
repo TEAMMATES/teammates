@@ -32,4 +32,3 @@ We'd love to hear from you — whether you've found a bug, have an idea, or just
 
 - **Found a bug or have a feature request?** [Open an issue](https://github.com/TEAMMATES/teammates/issues) on GitHub.
 - **Have a question?** Start a [GitHub Discussion](https://github.com/TEAMMATES/teammates/discussions) (preferred), or email us at [teammates@comp.nus.edu.sg](mailto:teammates@comp.nus.edu.sg) for confidential enquiries.
-  

@@ -9,9 +9,10 @@ import { QuestionStatistics } from '../question-statistics';
  * Class to calculate stats for num scale question.
  */
 @Directive()
-export class NumScaleQuestionStatisticsCalculation
-    extends QuestionStatistics<FeedbackNumericalScaleQuestionDetails, FeedbackNumericalScaleResponseDetails> {
-
+export class NumScaleQuestionStatisticsCalculation extends QuestionStatistics<
+  FeedbackNumericalScaleQuestionDetails,
+  FeedbackNumericalScaleResponseDetails
+> {
   teamToRecipientToScores: Record<string, Record<string, any>> = {};
   recipientEmails: Record<string, string> = {};
 
@@ -27,8 +28,9 @@ export class NumScaleQuestionStatisticsCalculation
       const { recipient }: { recipient: string } = response;
       const { recipientTeam }: { recipientTeam: string } = response;
       this.teamToRecipientToScores[recipientTeam] = this.teamToRecipientToScores[recipientTeam] || {};
-      this.teamToRecipientToScores[recipientTeam][recipient] =
-          this.teamToRecipientToScores[recipientTeam][recipient] || { responses: [] };
+      this.teamToRecipientToScores[recipientTeam][recipient] = this.teamToRecipientToScores[recipientTeam][
+        recipient
+      ] || { responses: [] };
       this.teamToRecipientToScores[recipientTeam][recipient].responses.push({
         answer: response.responseDetails.answer,
         isSelf: giver === recipient,
@@ -46,11 +48,12 @@ export class NumScaleQuestionStatisticsCalculation
         const average: number = answersAsArray.reduce((a: number, b: number) => a + b, 0) / answersAsArray.length;
         stats.average = +average.toFixed(2); // Show integers without dp, truncate fractions to 2dp
 
-        const answersExcludingSelfAsArray: number[] = stats.responses.filter((resp: any) => !resp.isSelf)
-            .map((resp: any) => resp.answer);
+        const answersExcludingSelfAsArray: number[] = stats.responses
+          .filter((resp: any) => !resp.isSelf)
+          .map((resp: any) => resp.answer);
         if (answersExcludingSelfAsArray.length) {
-          const averageExcludingSelf: number = answersExcludingSelfAsArray.reduce((a: number, b: number) => a + b, 0)
-              / answersExcludingSelfAsArray.length;
+          const averageExcludingSelf: number =
+            answersExcludingSelfAsArray.reduce((a: number, b: number) => a + b, 0) / answersExcludingSelfAsArray.length;
           stats.averageExcludingSelf = +averageExcludingSelf.toFixed(2);
         } else {
           stats.averageExcludingSelf = 0;
@@ -58,5 +61,4 @@ export class NumScaleQuestionStatisticsCalculation
       }
     }
   }
-
 }

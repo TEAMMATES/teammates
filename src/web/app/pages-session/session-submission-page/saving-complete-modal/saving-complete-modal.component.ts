@@ -4,12 +4,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FileSaveService } from '../../../../services/file-save.service';
 import { TimezoneService } from '../../../../services/timezone.service';
 import { FeedbackResponse } from '../../../../types/api-output';
-import {
-  FeedbackResponseDetailsFactory,
-} from '../../../../types/response-details-impl/feedback-response-details-factory';
-import {
-  QuestionSubmissionFormModel,
-} from '../../../components/question-submission-form/question-submission-form-model';
+import { FeedbackResponseDetailsFactory } from '../../../../types/response-details-impl/feedback-response-details-factory';
+import { QuestionSubmissionFormModel } from '../../../components/question-submission-form/question-submission-form-model';
 
 /**
  * Modal to inform the completion of the saving process
@@ -18,13 +14,9 @@ import {
   selector: 'tm-saving-complete-modal',
   templateUrl: './saving-complete-modal.component.html',
   styleUrls: ['./saving-complete-modal.component.scss'],
-  imports: [
-    NgClass,
-    KeyValuePipe,
-],
+  imports: [NgClass, KeyValuePipe],
 })
 export class SavingCompleteModalComponent {
-
   @Input()
   courseId = '';
 
@@ -63,14 +55,19 @@ export class SavingCompleteModalComponent {
     return Object.keys(this.failToSaveQuestions).length === this.questions.length;
   }
 
-  constructor(public activeModal: NgbActiveModal,
-              private fileSaveService: FileSaveService,
-              private timezoneService: TimezoneService) {}
+  constructor(
+    public activeModal: NgbActiveModal,
+    private fileSaveService: FileSaveService,
+    private timezoneService: TimezoneService,
+  ) {}
 
   downloadProofOfSubmission(): void {
     const time: number = new Date().getTime();
     const formattedTime: string = this.timezoneService.formatToString(
-        time, this.feedbackSessionTimezone, 'YYYYMMDDHHmmSSZZ');
+      time,
+      this.feedbackSessionTimezone,
+      'YYYYMMDDHHmmSSZZ',
+    );
 
     const fileContent: string[] = [
       'TEAMMATES Proof of Submission',
@@ -95,10 +92,11 @@ export class SavingCompleteModalComponent {
         if (this.answers[question.feedbackQuestionId]) {
           for (const answer of this.answers[question.feedbackQuestionId]) {
             fileContent.push(`> ${answer.recipientIdentifier}`);
-            fileContent.push(FeedbackResponseDetailsFactory
-                .fromApiOutput(answer.responseDetails)
+            fileContent.push(
+              FeedbackResponseDetailsFactory.fromApiOutput(answer.responseDetails)
                 .getResponseCsvAnswers(question.questionDetails)
-                .join(','));
+                .join(','),
+            );
           }
         }
       } else {
@@ -112,5 +110,4 @@ export class SavingCompleteModalComponent {
     const blob: Blob = new Blob([fileContent.join('\r\n')], { type: 'text/plain' });
     this.fileSaveService.saveFile(blob, `TEAMMATES Proof of Submission - ${time}`);
   }
-
 }

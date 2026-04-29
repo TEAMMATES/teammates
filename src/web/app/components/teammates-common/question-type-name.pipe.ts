@@ -6,7 +6,6 @@ import { FeedbackQuestionType } from '../../../types/api-output';
  */
 @Pipe({ name: 'questionTypeName' })
 export class QuestionTypeNamePipe implements PipeTransform {
-
   /**
    * Transforms {@link FeedbackQuestionType} to a simple name.
    */
@@ -36,5 +35,4 @@ export class QuestionTypeNamePipe implements PipeTransform {
         return 'Unknown';
     }
   }
-
 }

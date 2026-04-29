@@ -12,13 +12,9 @@ import { LoadingSpinnerDirective } from '../../components/loading-spinner/loadin
   selector: 'tm-timezone-page',
   templateUrl: './timezone-page.component.html',
   styleUrls: ['./timezone-page.component.scss'],
-  imports: [
-    LoadingSpinnerDirective,
-    KeyValuePipe,
-],
+  imports: [LoadingSpinnerDirective, KeyValuePipe],
 })
 export class TimezonePageComponent implements OnInit {
-
   javaTzVersion = '';
   javaTimezones: Record<string, number> = {};
   momentTzVersion = '';
@@ -31,13 +27,16 @@ export class TimezonePageComponent implements OnInit {
   ngOnInit(): void {
     this.momentTzVersion = this.timezoneService.getTzVersion();
     this.momentTimezones = this.timezoneService.getTzOffsets();
-    this.timezoneService.getTimeZone()
-        .pipe(finalize(() => {
+    this.timezoneService
+      .getTimeZone()
+      .pipe(
+        finalize(() => {
           this.isTimezonesLoading = false;
-        }))
-        .subscribe((res: TimeZones) => {
-          this.javaTzVersion = res.version;
-          this.javaTimezones = res.offsets;
-        });
+        }),
+      )
+      .subscribe((res: TimeZones) => {
+        this.javaTzVersion = res.version;
+        this.javaTimezones = res.offsets;
+      });
   }
 }

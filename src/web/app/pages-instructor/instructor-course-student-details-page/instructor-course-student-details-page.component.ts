@@ -16,14 +16,9 @@ import { ErrorMessageOutput } from '../../error-message-output';
   selector: 'tm-instructor-course-student-details-page',
   templateUrl: './instructor-course-student-details-page.component.html',
   styleUrls: ['./instructor-course-student-details-page.component.scss'],
-  imports: [
-    LoadingRetryComponent,
-    LoadingSpinnerDirective,
-    CourseRelatedInfoComponent,
-],
+  imports: [LoadingRetryComponent, LoadingSpinnerDirective, CourseRelatedInfoComponent],
 })
 export class InstructorCourseStudentDetailsPageComponent implements OnInit {
-
   student?: Student;
 
   courseId = '';
@@ -32,9 +27,11 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
   isStudentLoading = false;
   hasStudentLoadingFailed = false;
 
-  constructor(private route: ActivatedRoute,
-              private statusMessageService: StatusMessageService,
-              private studentService: StudentService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private statusMessageService: StatusMessageService,
+    private studentService: StudentService,
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -51,17 +48,20 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
   loadStudentDetails(courseId: string, studentEmail: string): void {
     this.hasStudentLoadingFailed = false;
     this.isStudentLoading = true;
-    this.studentService.getStudent(
-        courseId, studentEmail,
-    ).pipe(finalize(() => {
-      this.isStudentLoading = false;
-    })).subscribe({
-      next: (student: Student) => {
-        this.student = student;
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
+    this.studentService
+      .getStudent(courseId, studentEmail)
+      .pipe(
+        finalize(() => {
+          this.isStudentLoading = false;
+        }),
+      )
+      .subscribe({
+        next: (student: Student) => {
+          this.student = student;
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 }

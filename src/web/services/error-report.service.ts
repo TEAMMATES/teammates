@@ -11,15 +11,12 @@ import { ErrorReportRequest } from '../types/api-request';
   providedIn: 'root',
 })
 export class ErrorReportService {
-  constructor(private httpRequestService: HttpRequestService) {
-  }
+  constructor(private httpRequestService: HttpRequestService) {}
 
   /**
    * Sends an error report.
    */
-  sendErrorReport(queryParams: {
-    request: ErrorReportRequest,
-  }): Observable<any> {
+  sendErrorReport(queryParams: { request: ErrorReportRequest }): Observable<any> {
     return this.httpRequestService.post(ResourceEndpoints.ERROR_REPORT, {}, queryParams.request);
   }
 }

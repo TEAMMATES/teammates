@@ -18,13 +18,7 @@ import {
 import { SessionsSectionQuestions } from './sessions-section-questions';
 import { environment } from '../../../../environments/environment';
 import { TemplateSession } from '../../../../services/feedback-sessions.service';
-import {
-  Course,
-  FeedbackSession,
-  Instructor,
-  ResponseOutput,
-  Student,
-} from '../../../../types/api-output';
+import { Course, FeedbackSession, Instructor, ResponseOutput, Student } from '../../../../types/api-output';
 import { AddingQuestionPanelComponent } from '../../../components/adding-question-panel/adding-question-panel.component';
 import {
   CommentEditFormModel,
@@ -34,9 +28,7 @@ import { CommentRowMode } from '../../../components/comment-box/comment-row/comm
 import { CommentTableModel } from '../../../components/comment-box/comment-table/comment-table.model';
 import { FeedbackPathPanelComponent } from '../../../components/feedback-path-panel/feedback-path-panel.component';
 import { PreviewSessionPanelComponent } from '../../../components/preview-session-panel/preview-session-panel.component';
-import {
-  QuestionEditBriefDescriptionFormComponent,
-} from '../../../components/question-edit-brief-description-form/question-edit-brief-description-form.component';
+import { QuestionEditBriefDescriptionFormComponent } from '../../../components/question-edit-brief-description-form/question-edit-brief-description-form.component';
 import { QuestionResponsePanelComponent } from '../../../components/question-response-panel/question-response-panel.component';
 import {
   SessionEditFormMode,
@@ -50,18 +42,10 @@ import {
 import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
 import { ViewResultsPanelComponent } from '../../../components/view-results-panel/view-results-panel.component';
 import { VisibilityPanelComponent } from '../../../components/visibility-panel/visibility-panel.component';
-import {
-  InstructorSessionNoResponsePanelComponent,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-no-response-panel.component';
-import {
-  InstructorSessionResultGrqViewComponent,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-grq-view.component';
-import {
-  InstructorSessionResultSectionType,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
-import {
-  InstructorSessionResultViewType,
-} from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-view-type.enum';
+import { InstructorSessionNoResponsePanelComponent } from '../../../pages-instructor/instructor-session-result-page/instructor-session-no-response-panel.component';
+import { InstructorSessionResultGrqViewComponent } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-grq-view.component';
+import { InstructorSessionResultSectionType } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
+import { InstructorSessionResultViewType } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-view-type.enum';
 import { SectionTabModel } from '../../../pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 import { FeedbackQuestionModel } from '../../../pages-session/session-result-page/feedback-question.model';
 import { ExampleBoxComponent } from '../example-box/example-box.component';
@@ -93,10 +77,9 @@ import { Sections } from '../sections';
     CommentEditFormComponent,
     SessionsRecycleBinTableComponent,
     NgbCollapse,
-],
+  ],
 })
 export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
-
   // enums
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
@@ -152,5 +135,4 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
   getQuestionsOrder(): string[] {
     return this.questionsOrder;
   }
-
 }

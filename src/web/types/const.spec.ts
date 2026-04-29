@@ -83,8 +83,9 @@ describe('Constants', () => {
     expect(DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS().questionType).toEqual(FeedbackQuestionType.CONSTSUM_OPTIONS);
     expect(DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS().questionText).toEqual('');
 
-    expect(DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS().questionType)
-        .toEqual(FeedbackQuestionType.CONSTSUM_RECIPIENTS);
+    expect(DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS().questionType).toEqual(
+      FeedbackQuestionType.CONSTSUM_RECIPIENTS,
+    );
     expect(DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS().questionText).toEqual('');
 
     expect(DEFAULT_CONTRIBUTION_QUESTION_DETAILS().questionType).toEqual(FeedbackQuestionType.CONTRIB);

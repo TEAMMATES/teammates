@@ -1,10 +1,7 @@
 import { Component, ElementRef, OnChanges, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
-import {
-  FeedbackMsqQuestionDetails,
-  FeedbackMsqResponseDetails,
-} from '../../../../types/api-output';
+import { FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails } from '../../../../types/api-output';
 import { DEFAULT_MSQ_QUESTION_DETAILS, DEFAULT_MSQ_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
 import { MSQ_ANSWER_NONE_OF_THE_ABOVE, NO_VALUE } from '../../../../types/feedback-response-details';
 
@@ -15,14 +12,12 @@ import { MSQ_ANSWER_NONE_OF_THE_ABOVE, NO_VALUE } from '../../../../types/feedba
   selector: 'tm-msq-question-edit-answer-form',
   templateUrl: './msq-question-edit-answer-form.component.html',
   styleUrls: ['./msq-question-edit-answer-form.component.scss'],
-  imports: [
-    FormsModule,
-],
+  imports: [FormsModule],
 })
 export class MsqQuestionEditAnswerFormComponent
-    extends QuestionEditAnswerFormComponent<FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails>
-    implements OnChanges {
-
+  extends QuestionEditAnswerFormComponent<FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails>
+  implements OnChanges
+{
   readonly NO_VALUE: number = NO_VALUE;
   isMsqOptionSelected: boolean[] = [];
 
@@ -37,8 +32,9 @@ export class MsqQuestionEditAnswerFormComponent
     this.isMsqOptionSelected = Array(this.questionDetails.msqChoices.length).fill(false);
     if (!this.isNoneOfTheAboveEnabled) {
       for (let i = 0; i < this.questionDetails.msqChoices.length; i += 1) {
-        const indexOfElementInAnswerArray: number =
-            this.responseDetails.answers.indexOf(this.questionDetails.msqChoices[i]);
+        const indexOfElementInAnswerArray: number = this.responseDetails.answers.indexOf(
+          this.questionDetails.msqChoices[i],
+        );
         if (indexOfElementInAnswerArray > -1) {
           this.isMsqOptionSelected[i] = true;
         }
@@ -77,8 +73,9 @@ export class MsqQuestionEditAnswerFormComponent
     if (fieldsToUpdate.isOther) {
       // create a placeholder for other answer
       fieldsToUpdate.answers.push('');
-      setTimeout(() => { // focus on the text box after the isOther field is updated to enable the text box
-        (this.inputTextBoxOther!).nativeElement.focus();
+      setTimeout(() => {
+        // focus on the text box after the isOther field is updated to enable the text box
+        this.inputTextBoxOther!.nativeElement.focus();
       }, 0);
     } else {
       // remove other answer (last element) from the answer list
@@ -104,8 +101,11 @@ export class MsqQuestionEditAnswerFormComponent
    * Checks if None of the above checkbox is enabled.
    */
   get isNoneOfTheAboveEnabled(): boolean {
-    return !this.responseDetails.isOther && this.responseDetails.answers.length === 1
-        && this.responseDetails.answers[0] === MSQ_ANSWER_NONE_OF_THE_ABOVE;
+    return (
+      !this.responseDetails.isOther &&
+      this.responseDetails.answers.length === 1 &&
+      this.responseDetails.answers[0] === MSQ_ANSWER_NONE_OF_THE_ABOVE
+    );
   }
 
   /**

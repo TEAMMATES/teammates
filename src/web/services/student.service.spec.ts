@@ -18,17 +18,20 @@ const defaultStudentUpdateRequest: StudentUpdateRequest = {
   isSessionSummarySendEmail: true,
 };
 
-const studentCsvListTester:
-    (courseId: string, service: StudentService, spyCourseService: any, testFn: (str: string) => void) => void =
-    (courseId: string, service: StudentService, spyCourseService: any, testFn: (str: string) => void): void => {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const testData: any = require(`./test-data/${courseId}`);
-      const course: Course = testData.course;
-      const students: Students = testData.students;
-      jest.spyOn(spyCourseService, 'getCourseAsInstructor').mockReturnValue(of(course));
-      jest.spyOn(service, 'getStudentsFromCourse').mockReturnValue(of(students));
-      service.loadStudentListAsCsv({ courseId }).subscribe((csvResult: string) => testFn(csvResult));
-    };
+const studentCsvListTester: (
+  courseId: string,
+  service: StudentService,
+  spyCourseService: any,
+  testFn: (str: string) => void,
+) => void = (courseId: string, service: StudentService, spyCourseService: any, testFn: (str: string) => void): void => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const testData: any = require(`./test-data/${courseId}`);
+  const course: Course = testData.course;
+  const students: Students = testData.students;
+  jest.spyOn(spyCourseService, 'getCourseAsInstructor').mockReturnValue(of(course));
+  jest.spyOn(service, 'getStudentsFromCourse').mockReturnValue(of(students));
+  service.loadStudentListAsCsv({ courseId }).subscribe((csvResult: string) => testFn(csvResult));
+};
 
 describe('StudentService', () => {
   let spyHttpRequestService: any;
@@ -37,12 +40,7 @@ describe('StudentService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        HttpRequestService,
-        CourseService,
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
+      providers: [HttpRequestService, CourseService, provideHttpClient(), provideHttpClientTesting()],
     });
     service = TestBed.inject(StudentService);
     spyHttpRequestService = TestBed.inject(HttpRequestService);
@@ -66,8 +64,11 @@ describe('StudentService', () => {
       requestBody: defaultStudentUpdateRequest,
     });
 
-    expect(spyHttpRequestService.put)
-        .toHaveBeenCalledWith(ResourceEndpoints.STUDENT, paramMap, defaultStudentUpdateRequest);
+    expect(spyHttpRequestService.put).toHaveBeenCalledWith(
+      ResourceEndpoints.STUDENT,
+      paramMap,
+      defaultStudentUpdateRequest,
+    );
   });
 
   it('should execute DELETE when deleting all students in a course', () => {
@@ -82,8 +83,7 @@ describe('StudentService', () => {
       limit: parseInt(paramMap['limit'], 10),
     });
 
-    expect(spyHttpRequestService.delete)
-        .toHaveBeenCalledWith(ResourceEndpoints.STUDENTS, paramMap);
+    expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.STUDENTS, paramMap);
   });
 
   it('should execute POST when regenerating key of a student in a course', () => {
@@ -95,21 +95,18 @@ describe('StudentService', () => {
 
     service.regenerateStudentKey(paramMap['courseid'], paramMap['studentemail']);
 
-    expect(spyHttpRequestService.post)
-        .toHaveBeenCalledWith(ResourceEndpoints.STUDENT_KEY, paramMap);
+    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.STUDENT_KEY, paramMap);
   });
 
   it('should generate course student list with section as csv', () => {
-    studentCsvListTester('studentCsvListWithSection', service, spyCourseService,
-        (csvResult: string) => {
-          expect(csvResult).toMatchSnapshot();
-        });
+    studentCsvListTester('studentCsvListWithSection', service, spyCourseService, (csvResult: string) => {
+      expect(csvResult).toMatchSnapshot();
+    });
   });
 
   it('should generate course student list without section as csv', () => {
-    studentCsvListTester('studentCsvListWithoutSection', service, spyCourseService,
-        (csvResult: string) => {
-          expect(csvResult).toMatchSnapshot();
-        });
+    studentCsvListTester('studentCsvListWithoutSection', service, spyCourseService, (csvResult: string) => {
+      expect(csvResult).toMatchSnapshot();
+    });
   });
 });

@@ -10,9 +10,10 @@ import { QuestionStatistics } from '../question-statistics';
  * Class to calculate stats for rank options question.
  */
 @Directive()
-export class RankOptionsQuestionStatisticsCalculation
-    extends QuestionStatistics<FeedbackRankOptionsQuestionDetails, FeedbackRankOptionsResponseDetails> {
-
+export class RankOptionsQuestionStatisticsCalculation extends QuestionStatistics<
+  FeedbackRankOptionsQuestionDetails,
+  FeedbackRankOptionsResponseDetails
+> {
   ranksReceivedPerOption: Record<string, number[]> = {};
   rankPerOption: Record<string, number> = {};
 
@@ -53,10 +54,9 @@ export class RankOptionsQuestionStatisticsCalculation
       averageRanksReceivedPerOptions[option] = sum / answers.length;
     }
 
-    const optionsOrderedByRank: string[] = Object.keys(averageRanksReceivedPerOptions).sort(
-        (a: string, b: string) => {
-          return averageRanksReceivedPerOptions[a] - averageRanksReceivedPerOptions[b];
-        });
+    const optionsOrderedByRank: string[] = Object.keys(averageRanksReceivedPerOptions).sort((a: string, b: string) => {
+      return averageRanksReceivedPerOptions[a] - averageRanksReceivedPerOptions[b];
+    });
 
     for (let i = 0; i < optionsOrderedByRank.length; i += 1) {
       const option: string = optionsOrderedByRank[i];
@@ -93,5 +93,4 @@ export class RankOptionsQuestionStatisticsCalculation
     }
     return ranks.map((rank: number) => rankMapping[rank]);
   }
-
 }

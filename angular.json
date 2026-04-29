@@ -24,22 +24,11 @@
               "base": "src/web/dist"
             },
             "index": "src/web/index.html",
-            "polyfills": [
-              "zone.js",
-              "@angular/localize/init"
-            ],
+            "polyfills": ["zone.js", "@angular/localize/init"],
             "tsConfig": "tsconfig.app.json",
-            "allowedCommonJsDependencies": [
-              "moment-timezone"
-            ],
-            "assets": [
-              "src/web/assets/",
-              "src/web/manifest.webmanifest",
-              "src/web/robots.txt"
-            ],
-            "styles": [
-              "src/web/styles.scss"
-            ],
+            "allowedCommonJsDependencies": ["moment-timezone"],
+            "assets": ["src/web/assets/", "src/web/manifest.webmanifest", "src/web/robots.txt"],
+            "styles": ["src/web/styles.scss"],
             "browser": "src/web/main.ts"
           },
           "configurations": {
@@ -114,19 +103,14 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/web/**/*.ts",
-              "src/web/**/*.html"
-            ]
+            "lintFilePatterns": ["src/web/**/*.ts", "src/web/**/*.html"]
           }
         }
       }
     }
   },
   "cli": {
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ],
+    "schematicCollections": ["@angular-eslint/schematics"],
     "analytics": false
   },
   "schematics": {

@@ -10,9 +10,9 @@ import { CONTRIBUTION_POINT_NOT_SUBMITTED, CONTRIBUTION_POINT_NOT_SURE } from '.
  * Concrete implementation of {@link FeedbackContributionResponseDetails}.
  */
 export class FeedbackContributionResponseDetailsImpl
-    extends AbstractFeedbackResponseDetails<FeedbackContributionQuestionDetails>
-    implements FeedbackContributionResponseDetails {
-
+  extends AbstractFeedbackResponseDetails<FeedbackContributionQuestionDetails>
+  implements FeedbackContributionResponseDetails
+{
   answer: number = CONTRIBUTION_POINT_NOT_SUBMITTED;
   questionType: FeedbackQuestionType = FeedbackQuestionType.CONTRIB;
 
@@ -29,7 +29,7 @@ export class FeedbackContributionResponseDetailsImpl
     } else if (answer === 100) {
       answerStr = 'Equal share'; // Do same
     } else if (answer > 0) {
-      answerStr = `Equal share - ${(100 - answer)}%`; // Do less
+      answerStr = `Equal share - ${100 - answer}%`; // Do less
     } else if (answer === 0) {
       answerStr = '0%'; // Do none
     } else if (answer === CONTRIBUTION_POINT_NOT_SURE) {

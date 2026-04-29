@@ -15,17 +15,9 @@ import { NO_VALUE } from '../../../../types/feedback-response-details';
   selector: 'tm-rank-options-question-edit-details-form',
   templateUrl: './rank-options-question-edit-details-form.component.html',
   styleUrls: ['./rank-options-question-edit-details-form.component.scss', './cdk-drag-drop.scss'],
-  imports: [
-    CdkDropList,
-    CdkDrag,
-    CdkDragHandle,
-    RankOptionsFieldComponent,
-    FormsModule,
-],
+  imports: [CdkDropList, CdkDrag, CdkDragHandle, RankOptionsFieldComponent, FormsModule],
 })
-export class RankOptionsQuestionEditDetailsFormComponent
-    extends QuestionEditDetailsFormComponent<FeedbackRankOptionsQuestionDetails> {
-
+export class RankOptionsQuestionEditDetailsFormComponent extends QuestionEditDetailsFormComponent<FeedbackRankOptionsQuestionDetails> {
   constructor() {
     super(DEFAULT_RANK_OPTIONS_QUESTION_DETAILS());
   }
@@ -61,10 +53,10 @@ export class RankOptionsQuestionEditDetailsFormComponent
 
     this.triggerModelChangeBatch({
       options: newOptions,
-      minOptionsToBeRanked: this.model.minOptionsToBeRanked > newOptions.length
-          ? newOptions.length : this.model.minOptionsToBeRanked,
-      maxOptionsToBeRanked: this.model.maxOptionsToBeRanked > newOptions.length
-          ? newOptions.length : this.model.maxOptionsToBeRanked,
+      minOptionsToBeRanked:
+        this.model.minOptionsToBeRanked > newOptions.length ? newOptions.length : this.model.minOptionsToBeRanked,
+      maxOptionsToBeRanked:
+        this.model.maxOptionsToBeRanked > newOptions.length ? newOptions.length : this.model.maxOptionsToBeRanked,
     });
   }
 
@@ -135,5 +127,4 @@ export class RankOptionsQuestionEditDetailsFormComponent
   get maxMinOptionsValue(): number {
     return this.isMaxOptionsToBeRankedEnabled ? this.model.maxOptionsToBeRanked : this.model.options.length;
   }
-
 }

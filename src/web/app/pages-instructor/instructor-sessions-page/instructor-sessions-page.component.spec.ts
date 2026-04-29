@@ -6,21 +6,21 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
 import { InstructorSessionsPageComponent } from './instructor-sessions-page.component';
-import {
-  SessionPermanentDeletionConfirmModalComponent,
-} from './session-permanent-deletion-confirm-modal/session-permanent-deletion-confirm-modal.component';
-import {
-  SessionsPermanentDeletionConfirmModalComponent,
-} from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
+import { SessionPermanentDeletionConfirmModalComponent } from './session-permanent-deletion-confirm-modal/session-permanent-deletion-confirm-modal.component';
+import { SessionsPermanentDeletionConfirmModalComponent } from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import {
-  Course, Courses, FeedbackSession,
-  FeedbackSessionPublishStatus, FeedbackSessions,
+  Course,
+  Courses,
+  FeedbackSession,
+  FeedbackSessionPublishStatus,
+  FeedbackSessions,
   FeedbackSessionSubmissionStatus,
-  ResponseVisibleSetting, SessionVisibleSetting,
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
 } from '../../../types/api-output';
 
 describe('InstructorSessionsPageComponent', () => {
@@ -132,14 +132,8 @@ describe('InstructorSessionsPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        NgbModal,
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      providers: [NgbModal, provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -184,7 +178,8 @@ describe('InstructorSessionsPageComponent', () => {
     const courseSessions: FeedbackSessions = {
       feedbackSessions: [testFeedbackSession1, testFeedbackSession2],
     };
-    const sessionSpy: SpyInstance = jest.spyOn(sessionService, 'getFeedbackSessionsForInstructor')
+    const sessionSpy: SpyInstance = jest
+      .spyOn(sessionService, 'getFeedbackSessionsForInstructor')
       .mockReturnValue(of(courseSessions));
 
     component.loadFeedbackSessions();
@@ -202,7 +197,8 @@ describe('InstructorSessionsPageComponent', () => {
     const recycleBinSessions: FeedbackSessions = {
       feedbackSessions: [testFeedbackSession3, testFeedbackSession4],
     };
-    const sessionSpy: SpyInstance = jest.spyOn(sessionService, 'getFeedbackSessionsInRecycleBinForInstructor')
+    const sessionSpy: SpyInstance = jest
+      .spyOn(sessionService, 'getFeedbackSessionsInRecycleBinForInstructor')
       .mockReturnValue(of(recycleBinSessions));
 
     component.loadRecycleBinFeedbackSessions();
@@ -211,11 +207,13 @@ describe('InstructorSessionsPageComponent', () => {
 
     expect(component.recycleBinFeedbackSessionRowModels.length).toEqual(2);
     expect(component.recycleBinFeedbackSessionRowModels[0].feedbackSession.courseId).toEqual('CS3281');
-    expect(component.recycleBinFeedbackSessionRowModels[0].feedbackSession.feedbackSessionName)
-      .toEqual('Fourth Session');
+    expect(component.recycleBinFeedbackSessionRowModels[0].feedbackSession.feedbackSessionName).toEqual(
+      'Fourth Session',
+    );
     expect(component.recycleBinFeedbackSessionRowModels[1].feedbackSession.courseId).toEqual('CS1231');
-    expect(component.recycleBinFeedbackSessionRowModels[1].feedbackSession.feedbackSessionName)
-      .toEqual('Third Session');
+    expect(component.recycleBinFeedbackSessionRowModels[1].feedbackSession.feedbackSessionName).toEqual(
+      'Third Session',
+    );
   });
 
   it('should recycle an active session', () => {
@@ -231,7 +229,8 @@ describe('InstructorSessionsPageComponent', () => {
     };
     component.sessionsTableRowModels = [sessionsTableRowModel1, sessionsTableRowModel2];
     component.recycleBinFeedbackSessionRowModels = [];
-    const courseSpy: SpyInstance = jest.spyOn(sessionService, 'moveSessionToRecycleBin')
+    const courseSpy: SpyInstance = jest
+      .spyOn(sessionService, 'moveSessionToRecycleBin')
       .mockReturnValue(of(testFeedbackSession1));
     component.moveSessionToRecycleBinEventHandler(0);
 
@@ -249,7 +248,8 @@ describe('InstructorSessionsPageComponent', () => {
     };
     component.recycleBinFeedbackSessionRowModels = [recycleBinFeedbackSessionRowModel1];
     component.sessionsTableRowModels = [];
-    const sessionSpy: SpyInstance = jest.spyOn(sessionService, 'restoreSessionFromRecycleBin')
+    const sessionSpy: SpyInstance = jest
+      .spyOn(sessionService, 'restoreSessionFromRecycleBin')
       .mockReturnValue(of(testFeedbackSession3));
 
     component.restoreRecycleBinFeedbackSession(recycleBinFeedbackSessionRowModel1);
@@ -266,16 +266,19 @@ describe('InstructorSessionsPageComponent', () => {
     const recycleBinFeedbackSessionRowModel2: any = {
       feedbackSession: testFeedbackSession4,
     };
-    component.recycleBinFeedbackSessionRowModels =
-      [recycleBinFeedbackSessionRowModel1, recycleBinFeedbackSessionRowModel2];
+    component.recycleBinFeedbackSessionRowModels = [
+      recycleBinFeedbackSessionRowModel1,
+      recycleBinFeedbackSessionRowModel2,
+    ];
     component.sessionsTableRowModels = [];
-    const sessionSpy: SpyInstance = jest.spyOn(sessionService, 'restoreSessionFromRecycleBin')
-    .mockImplementation((feedbackSessionId: string) => {
-      if (feedbackSessionId === testFeedbackSession3.feedbackSessionId) {
-        return of(testFeedbackSession3);
-      }
-      return of(testFeedbackSession4);
-    });
+    const sessionSpy: SpyInstance = jest
+      .spyOn(sessionService, 'restoreSessionFromRecycleBin')
+      .mockImplementation((feedbackSessionId: string) => {
+        if (feedbackSessionId === testFeedbackSession3.feedbackSessionId) {
+          return of(testFeedbackSession3);
+        }
+        return of(testFeedbackSession4);
+      });
 
     component.restoreAllRecycleBinFeedbackSession();
     expect(sessionSpy).toHaveBeenCalledTimes(2);
@@ -288,12 +291,16 @@ describe('InstructorSessionsPageComponent', () => {
       feedbackSession: testFeedbackSession3,
     };
     const promise: Promise<any> = Promise.resolve();
-    const mockModalRef: any = createMockNgbModalRef({
-      feedbackSessionName: 'Third Session',
-      courseId: 'CS1231',
-    }, promise);
+    const mockModalRef: any = createMockNgbModalRef(
+      {
+        feedbackSessionName: 'Third Session',
+        courseId: 'CS1231',
+      },
+      promise,
+    );
     component.recycleBinFeedbackSessionRowModels = [recycleBinFeedbackSessionRowModel1];
-    const sessionSpy: SpyInstance = jest.spyOn(sessionService, 'deleteFeedbackSession')
+    const sessionSpy: SpyInstance = jest
+      .spyOn(sessionService, 'deleteFeedbackSession')
       .mockReturnValue(of(testFeedbackSession3));
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
@@ -315,18 +322,24 @@ describe('InstructorSessionsPageComponent', () => {
       feedbackSession: testFeedbackSession4,
     };
     const promise: Promise<any> = Promise.resolve();
-    const mockModalRef: any = createMockNgbModalRef({
-      sessionsToDelete: [testFeedbackSession3, testFeedbackSession4],
-    }, promise);
-    component.recycleBinFeedbackSessionRowModels =
-      [recycleBinFeedbackSessionRowModel1, recycleBinFeedbackSessionRowModel2];
-    const sessionSpy: SpyInstance = jest.spyOn(sessionService, 'deleteFeedbackSession')
-    .mockImplementation((_courseId: string, feedbackSessionName: string) => {
-      if (feedbackSessionName === testFeedbackSession3.feedbackSessionName) {
-        return of(testFeedbackSession3);
-      }
-      return of(testFeedbackSession4);
-    });
+    const mockModalRef: any = createMockNgbModalRef(
+      {
+        sessionsToDelete: [testFeedbackSession3, testFeedbackSession4],
+      },
+      promise,
+    );
+    component.recycleBinFeedbackSessionRowModels = [
+      recycleBinFeedbackSessionRowModel1,
+      recycleBinFeedbackSessionRowModel2,
+    ];
+    const sessionSpy: SpyInstance = jest
+      .spyOn(sessionService, 'deleteFeedbackSession')
+      .mockImplementation((_courseId: string, feedbackSessionName: string) => {
+        if (feedbackSessionName === testFeedbackSession3.feedbackSessionName) {
+          return of(testFeedbackSession3);
+        }
+        return of(testFeedbackSession4);
+      });
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     component.permanentDeleteAllSessions();
@@ -422,5 +435,4 @@ describe('InstructorSessionsPageComponent', () => {
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
-
 });

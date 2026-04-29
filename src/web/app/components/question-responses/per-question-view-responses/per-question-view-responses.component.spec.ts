@@ -2,15 +2,20 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
-  CommentOutput, FeedbackQuestion, FeedbackTextQuestionDetails,
-  FeedbackTextResponseDetails, ResponseOutput,
+  CommentOutput,
+  FeedbackQuestion,
+  FeedbackTextQuestionDetails,
+  FeedbackTextResponseDetails,
+  ResponseOutput,
 } from 'src/web/types/api-output';
 import SpyInstance = jest.SpyInstance;
 import { PerQuestionViewResponsesComponent } from './per-question-view-responses.component';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import testEventEmission from '../../../../test-helpers/test-event-emitter';
 import {
-  CommentVisibilityType, FeedbackParticipantType, FeedbackQuestionType,
+  CommentVisibilityType,
+  FeedbackParticipantType,
+  FeedbackQuestionType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../../types/api-request';
 import { CommentRowModel } from '../../comment-box/comment-row/comment-row.component';
@@ -24,12 +29,8 @@ describe('PerQuestionViewResponsesComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-      .compileComponents();
+      providers: [provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -119,8 +120,8 @@ describe('PerQuestionViewResponsesComponent', () => {
     component.question = feedbackQuestion;
     component.instructorCommentTableModel = instructorCommentTableModel;
     component.responses = [responseOutput];
-    const feedbackResponseSpy: SpyInstance = jest.spyOn(feedbackResponsesService,
-      'isFeedbackResponsesDisplayedOnSection')
+    const feedbackResponseSpy: SpyInstance = jest
+      .spyOn(feedbackResponsesService, 'isFeedbackResponsesDisplayedOnSection')
       .mockReturnValue(true);
 
     component.ngOnInit();
@@ -128,14 +129,16 @@ describe('PerQuestionViewResponsesComponent', () => {
     expect(fixture).toMatchSnapshot();
 
     expect(feedbackResponseSpy).toHaveBeenCalledTimes(1);
-    expect(JSON.stringify(component.responsesToShow[0]))
-      .toBe(JSON.stringify(responseOutput));
+    expect(JSON.stringify(component.responsesToShow[0])).toBe(JSON.stringify(responseOutput));
   });
 
   it('triggerDeleteCommentEvent: should emit correct responseID and index to deleteCommentEvent', () => {
     let emittedID: string | undefined;
     let emittedIndex: number | undefined;
-    testEventEmission(component.deleteCommentEvent, (val) => { emittedID = val.responseId; emittedIndex = val.index; });
+    testEventEmission(component.deleteCommentEvent, (val) => {
+      emittedID = val.responseId;
+      emittedIndex = val.index;
+    });
 
     component.triggerDeleteCommentEvent('testID', 5);
     expect(emittedID).toBe('testID');
@@ -145,7 +148,10 @@ describe('PerQuestionViewResponsesComponent', () => {
   it('triggerUpdateCommentEvent: should emit correct responseID and index to updateCommentEvent', () => {
     let emittedID: string | undefined;
     let emittedIndex: number | undefined;
-    testEventEmission(component.updateCommentEvent, (val) => { emittedID = val.responseId; emittedIndex = val.index; });
+    testEventEmission(component.updateCommentEvent, (val) => {
+      emittedID = val.responseId;
+      emittedIndex = val.index;
+    });
 
     component.triggerUpdateCommentEvent('testID2', 6);
     expect(emittedID).toBe('testID2');
@@ -154,7 +160,9 @@ describe('PerQuestionViewResponsesComponent', () => {
 
   it('triggerSaveNewCommentEvent: should emit correct responseID to saveNewCommentEvent', () => {
     let emittedID: string | undefined;
-    testEventEmission(component.saveNewCommentEvent, (responseId) => { emittedID = responseId; });
+    testEventEmission(component.saveNewCommentEvent, (responseId) => {
+      emittedID = responseId;
+    });
 
     component.triggerSaveNewCommentEvent('testID3');
     expect(emittedID).toBe('testID3');
@@ -162,7 +170,9 @@ describe('PerQuestionViewResponsesComponent', () => {
 
   it('triggerModelChangeForSingleResponse: should emit correct Record to instructorCommentTableModelChange', () => {
     let emittedRecord: Record<string, CommentTableModel> | undefined;
-    testEventEmission(component.instructorCommentTableModelChange, (record) => { emittedRecord = record; });
+    testEventEmission(component.instructorCommentTableModelChange, (record) => {
+      emittedRecord = record;
+    });
 
     const testRecord: Record<string, CommentTableModel> = { responseId: commentTableModel };
 
@@ -172,7 +182,9 @@ describe('PerQuestionViewResponsesComponent', () => {
 
   it('triggerModelChange: should emit correct instructorCommentTableModel Record to triggerModelChange', () => {
     let emittedRecord: Record<string, CommentTableModel> | undefined;
-    testEventEmission(component.instructorCommentTableModelChange, (record) => { emittedRecord = record; });
+    testEventEmission(component.instructorCommentTableModelChange, (record) => {
+      emittedRecord = record;
+    });
 
     const testRecord: Record<string, CommentTableModel> = {};
 

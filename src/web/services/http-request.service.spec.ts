@@ -16,9 +16,7 @@ describe('HttpRequestService', () => {
     spyHttpClient = createSpyFromClass(HttpRequestService);
     spyHttpClient.get.mockReturnValue(new Observable<ArrayBuffer>());
     TestBed.configureTestingModule({
-      providers: [
-        { provide: HttpClient, useValue: spyHttpClient },
-      ],
+      providers: [{ provide: HttpClient, useValue: spyHttpClient }],
     });
     service = TestBed.inject(HttpRequestService);
   });
@@ -127,5 +125,4 @@ describe('HttpRequestService', () => {
       params: expect.any(Object),
     });
   });
-
 });

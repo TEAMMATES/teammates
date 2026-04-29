@@ -34,15 +34,9 @@ const formatTwoDigits = (n: number): string => {
   selector: 'tm-course-edit-form',
   templateUrl: './course-edit-form.component.html',
   styleUrls: ['./course-edit-form.component.scss'],
-  imports: [
-    NgClass,
-    NgbTooltip,
-    AjaxLoadingComponent,
-    FormsModule,
-],
+  imports: [NgClass, NgbTooltip, AjaxLoadingComponent, FormsModule],
 })
 export class CourseEditFormComponent implements OnInit, OnDestroy {
-
   // enum
   CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
   FormValidator: typeof FormValidator = FormValidator;
@@ -56,7 +50,9 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
   formMode: CourseEditFormMode = CourseEditFormMode.EDIT;
 
   @Input()
-  set formModel(model: CourseFormModel) { this.model = model; }
+  set formModel(model: CourseFormModel) {
+    this.model = model;
+  }
 
   @Input()
   resetFormEvent: EventEmitter<void> = new EventEmitter();
@@ -81,11 +77,12 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
   addModel: CourseAddFormModel | undefined = undefined;
   resetEventSubscription: Subscription = new Subscription();
 
-  constructor(private timezoneService: TimezoneService,
+  constructor(
+    private timezoneService: TimezoneService,
     private ngbModal: NgbModal,
     private feedbackSessionsService: FeedbackSessionsService,
     private statusMessageService: StatusMessageService,
-  ) { }
+  ) {}
 
   get isInAddMode(): boolean {
     return this.formMode === CourseEditFormMode.ADD;
@@ -155,8 +152,9 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
 
   updateInstitutes(): void {
     if (this.addModel) {
-      this.addModel.institutes =
-        Array.from(new Set(this.addModel.allCourses.map((course: Course) => course.institute)));
+      this.addModel.institutes = Array.from(
+        new Set(this.addModel.allCourses.map((course: Course) => course.institute)),
+      );
       if (this.institutes.length) {
         this.addModel.course.institute = this.institutes[0];
       }
@@ -243,18 +241,23 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.allCourses = this.addModel.allCourses;
       modalRef.componentInstance.activeCourses = this.addModel.activeCourses;
 
-      modalRef.componentInstance.fetchFeedbackSessionsEvent.subscribe((courseId: string) => {
-        this.feedbackSessionsService
-          .getFeedbackSessionsForInstructor(courseId)
-          .subscribe((feedbackSessions: FeedbackSessions) => {
-            modalRef.componentInstance.courseToFeedbackSession[courseId] = [...feedbackSessions.feedbackSessions];
-          });
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
+      modalRef.componentInstance.fetchFeedbackSessionsEvent.subscribe(
+        (courseId: string) => {
+          this.feedbackSessionsService
+            .getFeedbackSessionsForInstructor(courseId)
+            .subscribe((feedbackSessions: FeedbackSessions) => {
+              modalRef.componentInstance.courseToFeedbackSession[courseId] = [...feedbackSessions.feedbackSessions];
+            });
+        },
+        (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      );
 
-      modalRef.result.then((result: CopyCourseModalResult) => this.copyCourseEvent.emit(result),
-        (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
+      modalRef.result.then(
+        (result: CopyCourseModalResult) => this.copyCourseEvent.emit(result),
+        (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message),
+      );
     }
   }
 

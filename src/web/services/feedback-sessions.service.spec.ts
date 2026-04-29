@@ -84,9 +84,7 @@ describe('FeedbackSessionsService', () => {
       fsid: model.feedbackSession.feedbackSessionId,
     };
 
-    service.publishFeedbackSession(
-        model.feedbackSession.feedbackSessionId,
-    );
+    service.publishFeedbackSession(model.feedbackSession.feedbackSessionId);
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.SESSION_PUBLISH, paramMap);
   });
 
@@ -95,9 +93,7 @@ describe('FeedbackSessionsService', () => {
       fsid: model.feedbackSession.feedbackSessionId,
     };
 
-    service.unpublishFeedbackSession(
-        model.feedbackSession.feedbackSessionId,
-    );
+    service.unpublishFeedbackSession(model.feedbackSession.feedbackSessionId);
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.SESSION_PUBLISH, paramMap);
   });
 
@@ -105,9 +101,7 @@ describe('FeedbackSessionsService', () => {
     const paramMap: Record<string, string> = {
       fsid: model.feedbackSession.feedbackSessionId,
     };
-    service.loadSessionStatistics(
-        model.feedbackSession.feedbackSessionId,
-    );
+    service.loadSessionStatistics(model.feedbackSession.feedbackSessionId);
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.SESSION_STATS, paramMap);
   });
 

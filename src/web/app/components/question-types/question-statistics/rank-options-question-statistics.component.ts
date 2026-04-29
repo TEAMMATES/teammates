@@ -1,7 +1,5 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
-import {
-  RankOptionsQuestionStatisticsCalculation,
-} from './question-statistics-calculation/rank-options-question-statistics-calculation';
+import { RankOptionsQuestionStatisticsCalculation } from './question-statistics-calculation/rank-options-question-statistics-calculation';
 import { DEFAULT_RANK_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
 import {
@@ -19,9 +17,10 @@ import {
   styleUrls: ['./rank-options-question-statistics.component.scss'],
   imports: [SortableTableComponent],
 })
-export class RankOptionsQuestionStatisticsComponent extends RankOptionsQuestionStatisticsCalculation
-    implements OnInit, OnChanges {
-
+export class RankOptionsQuestionStatisticsComponent
+  extends RankOptionsQuestionStatisticsCalculation
+  implements OnInit, OnChanges
+{
   // enum
   SortBy: typeof SortBy = SortBy;
 
@@ -57,5 +56,4 @@ export class RankOptionsQuestionStatisticsComponent extends RankOptionsQuestionS
       ];
     });
   }
-
 }

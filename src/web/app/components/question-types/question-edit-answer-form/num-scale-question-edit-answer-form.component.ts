@@ -20,15 +20,12 @@ import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.dire
   selector: 'tm-num-scale-question-edit-answer-form',
   templateUrl: './num-scale-question-edit-answer-form.component.html',
   styleUrls: ['./num-scale-question-edit-answer-form.component.scss'],
-  imports: [
-    FormsModule,
-    WheelDisablerDirective,
-],
+  imports: [FormsModule, WheelDisablerDirective],
 })
-export class NumScaleQuestionEditAnswerFormComponent
-    extends QuestionEditAnswerFormComponent<FeedbackNumericalScaleQuestionDetails,
-        FeedbackNumericalScaleResponseDetails> {
-
+export class NumScaleQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent<
+  FeedbackNumericalScaleQuestionDetails,
+  FeedbackNumericalScaleResponseDetails
+> {
   readonly NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED: number = NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED;
 
   constructor() {
@@ -45,10 +42,9 @@ export class NumScaleQuestionEditAnswerFormComponent
   }
 
   get possibleValues(): string {
-
     if (this.numberOfPossibleValues > 6) {
       const maxAcceptableValue: number =
-          this.questionDetails.minScale + ((this.numberOfPossibleValues - 1) * this.questionDetails.step);
+        this.questionDetails.minScale + (this.numberOfPossibleValues - 1) * this.questionDetails.step;
       return `[${this.questionDetails.minScale},
            ${+(this.questionDetails.minScale + this.questionDetails.step).toFixed(3)},
            ${+(this.questionDetails.minScale + 2 * this.questionDetails.step).toFixed(3)},
@@ -89,5 +85,4 @@ export class NumScaleQuestionEditAnswerFormComponent
 
     return +((value - minValue) / increment).toFixed(6) % 1 === 0;
   }
-
 }

@@ -14,7 +14,6 @@ import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../../types/field-valida
   imports: [FormsModule],
 })
 export class CopyFromOtherSessionsModalComponent {
-
   // const
   FEEDBACK_SESSION_NAME_MAX_LENGTH: number = FEEDBACK_SESSION_NAME_MAX_LENGTH;
 
@@ -40,5 +39,4 @@ export class CopyFromOtherSessionsModalComponent {
       copyToCourseId: this.copyToCourseId,
     });
   }
-
 }

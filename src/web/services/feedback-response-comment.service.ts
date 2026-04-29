@@ -6,7 +6,8 @@ import { ResourceEndpoints } from '../types/api-const';
 import { FeedbackResponseComment, FeedbackVisibilityType } from '../types/api-output';
 import {
   FeedbackResponseCommentCreateRequest,
-  FeedbackResponseCommentUpdateRequest, Intent,
+  FeedbackResponseCommentUpdateRequest,
+  Intent,
 } from '../types/api-request';
 
 /**
@@ -16,33 +17,46 @@ import {
   providedIn: 'root',
 })
 export class FeedbackResponseCommentService {
-
-  constructor(private httpRequestService: HttpRequestService) { }
+  constructor(private httpRequestService: HttpRequestService) {}
 
   /**
    * Create a comment by calling API.
    */
-  createComment(createRequest: FeedbackResponseCommentCreateRequest,
-                responseId: string, intent: Intent,
-                additionalParams: { [key: string]: string } = {}): Observable<FeedbackResponseComment> {
-    return this.httpRequestService.post(ResourceEndpoints.RESPONSE_COMMENT, {
-      intent,
-      responseid: responseId,
-      ...additionalParams,
-    }, createRequest);
+  createComment(
+    createRequest: FeedbackResponseCommentCreateRequest,
+    responseId: string,
+    intent: Intent,
+    additionalParams: { [key: string]: string } = {},
+  ): Observable<FeedbackResponseComment> {
+    return this.httpRequestService.post(
+      ResourceEndpoints.RESPONSE_COMMENT,
+      {
+        intent,
+        responseid: responseId,
+        ...additionalParams,
+      },
+      createRequest,
+    );
   }
 
   /**
    * Updates a comment by calling API.
    */
-  updateComment(updateRequest: FeedbackResponseCommentUpdateRequest,
-                commentId: string, intent: Intent,
-                additionalParams: { [key: string]: string } = {}): Observable<FeedbackResponseComment> {
-    return this.httpRequestService.put(ResourceEndpoints.RESPONSE_COMMENT, {
-      intent,
-      responsecommentid: commentId,
-      ...additionalParams,
-    }, updateRequest);
+  updateComment(
+    updateRequest: FeedbackResponseCommentUpdateRequest,
+    commentId: string,
+    intent: Intent,
+    additionalParams: { [key: string]: string } = {},
+  ): Observable<FeedbackResponseComment> {
+    return this.httpRequestService.put(
+      ResourceEndpoints.RESPONSE_COMMENT,
+      {
+        intent,
+        responsecommentid: commentId,
+        ...additionalParams,
+      },
+      updateRequest,
+    );
   }
 
   /**

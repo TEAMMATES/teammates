@@ -23,14 +23,9 @@ import { ErrorMessageOutput } from '../../error-message-output';
   selector: 'tm-instructor-search-page',
   templateUrl: './instructor-search-page.component.html',
   styleUrls: ['./instructor-search-page.component.scss'],
-  imports: [
-    InstructorSearchBarComponent,
-    LoadingSpinnerDirective,
-    StudentResultTableComponent,
-],
+  imports: [InstructorSearchBarComponent, LoadingSpinnerDirective, StudentResultTableComponent],
 })
 export class InstructorSearchPageComponent {
-
   searchParams: SearchParams = {
     searchKey: '',
   };
@@ -54,70 +49,60 @@ export class InstructorSearchPageComponent {
     }
     this.searchString = this.searchParams.searchKey;
     this.isSearching = true;
-    this.searchService.searchInstructor(this.searchParams.searchKey).pipe(
+    this.searchService
+      .searchInstructor(this.searchParams.searchKey)
+      .pipe(
         map((res: InstructorSearchResult) => this.getCoursesWithStudents(res.students)),
         mergeMap((coursesWithStudents: SearchStudentsListRowTable[]) =>
-            forkJoin([
-              of(coursesWithStudents),
-              this.getPrivileges(coursesWithStudents),
-            ]),
+          forkJoin([of(coursesWithStudents), this.getPrivileges(coursesWithStudents)]),
         ),
         map((res: [SearchStudentsListRowTable[], InstructorPrivilege[]]) => this.combinePrivileges(res)),
         finalize(() => {
           this.isSearching = false;
         }),
-    ).subscribe({
-      next: (resp: TransformedInstructorSearchResult) => {
-        const searchStudentsTable: SearchStudentsListRowTable[] = resp.searchStudentTables;
-        const hasStudents = !!(searchStudentsTable?.length);
+      )
+      .subscribe({
+        next: (resp: TransformedInstructorSearchResult) => {
+          const searchStudentsTable: SearchStudentsListRowTable[] = resp.searchStudentTables;
+          const hasStudents = !!searchStudentsTable?.length;
 
-        if (hasStudents) {
-          this.studentsListRowTables = searchStudentsTable;
-          if (searchStudentsTable.length >= ApiConst.SEARCH_QUERY_SIZE_LIMIT) {
-            this.statusMessageService.showWarningToast(
+          if (hasStudents) {
+            this.studentsListRowTables = searchStudentsTable;
+            if (searchStudentsTable.length >= ApiConst.SEARCH_QUERY_SIZE_LIMIT) {
+              this.statusMessageService.showWarningToast(
                 `${ApiConst.SEARCH_QUERY_SIZE_LIMIT} results have been shown on this page
-              but there may be more results not shown. Consider searching with more specific terms.`);
+              but there may be more results not shown. Consider searching with more specific terms.`,
+              );
+            }
+          } else {
+            this.studentsListRowTables = [];
           }
-        } else {
+          if (!hasStudents) {
+            this.statusMessageService.showWarningToast('No results found.');
+          }
+        },
+        error: (resp: ErrorMessageOutput) => {
           this.studentsListRowTables = [];
-        }
-        if (!hasStudents) {
-          this.statusMessageService.showWarningToast('No results found.');
-        }
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.studentsListRowTables = [];
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   getCoursesWithStudents(students: Student[]): SearchStudentsListRowTable[] {
-    const distinctCourses: string[] = Array.from(
-        new Set(students.map((s: Student) => s.courseId)),
-    );
-    const coursesWithStudents: SearchStudentsListRowTable[] = distinctCourses.map(
-        (courseId: string) => ({
-          courseId,
-          students: Array.from(
-              new Set(
-                  students
-                      .filter((s: Student) => s.courseId === courseId),
-              ),
-          ).map((s: Student) => ({
-            student: s,
-            isAllowedToViewStudentInSection: false,
-            isAllowedToModifyStudent: false,
-          })),
-        }),
-    );
+    const distinctCourses: string[] = Array.from(new Set(students.map((s: Student) => s.courseId)));
+    const coursesWithStudents: SearchStudentsListRowTable[] = distinctCourses.map((courseId: string) => ({
+      courseId,
+      students: Array.from(new Set(students.filter((s: Student) => s.courseId === courseId))).map((s: Student) => ({
+        student: s,
+        isAllowedToViewStudentInSection: false,
+        isAllowedToModifyStudent: false,
+      })),
+    }));
 
     return coursesWithStudents;
   }
 
-  getPrivileges(
-      coursesWithStudents: SearchStudentsListRowTable[],
-  ): Observable<InstructorPrivilege[]> {
+  getPrivileges(coursesWithStudents: SearchStudentsListRowTable[]): Observable<InstructorPrivilege[]> {
     if (coursesWithStudents.length === 0) {
       return of([]);
     }
@@ -125,20 +110,21 @@ export class InstructorSearchPageComponent {
     coursesWithStudents.forEach((course: SearchStudentsListRowTable) => {
       const sectionToPrivileges: Record<string, Observable<InstructorPrivilege>> = {};
       Array.from(
-          new Set(course.students.map((studentModel: StudentListRowModel) => studentModel.student.sectionName)),
+        new Set(course.students.map((studentModel: StudentListRowModel) => studentModel.student.sectionName)),
       ).forEach((section: string) => {
         sectionToPrivileges[section] = this.instructorService.loadInstructorPrivilege({ courseId: course.courseId });
       });
       course.students.forEach((studentModel: StudentListRowModel) =>
-          privileges.push(sectionToPrivileges[studentModel.student.sectionName]),
+        privileges.push(sectionToPrivileges[studentModel.student.sectionName]),
       );
     });
     return forkJoin(privileges);
   }
 
-  combinePrivileges(
-      [coursesWithStudents, privileges]: [SearchStudentsListRowTable[], InstructorPrivilege[]],
-  ): TransformedInstructorSearchResult {
+  combinePrivileges([coursesWithStudents, privileges]: [
+    SearchStudentsListRowTable[],
+    InstructorPrivilege[],
+  ]): TransformedInstructorSearchResult {
     /**
      * Pop the privilege objects one at a time and attach them to the results. This is possible
      * because `forkJoin` guarantees that the `InstructorPrivilege` results are returned in the
@@ -152,8 +138,7 @@ export class InstructorSearchPageComponent {
         }
         const sectionName: string = studentModel.student.sectionName;
         const courseLevel: InstructorPermissionSet = privilege.privileges.courseLevel;
-        const sectionLevel: InstructorPermissionSet = privilege.privileges.sectionLevel[sectionName]
-            || courseLevel;
+        const sectionLevel: InstructorPermissionSet = privilege.privileges.sectionLevel[sectionName] || courseLevel;
 
         studentModel.isAllowedToViewStudentInSection = sectionLevel.canViewStudentInSections;
         studentModel.isAllowedToModifyStudent = sectionLevel.canModifyStudent;
@@ -174,22 +159,24 @@ export class InstructorSearchPageComponent {
 
     this.courseService.removeStudentFromCourse(courseId, studentEmail).subscribe({
       next: () => {
-        const affectedTable: SearchStudentsListRowTable | undefined =
-            this.studentsListRowTables.find((table: SearchStudentsListRowTable) => table.courseId === courseId);
+        const affectedTable: SearchStudentsListRowTable | undefined = this.studentsListRowTables.find(
+          (table: SearchStudentsListRowTable) => table.courseId === courseId,
+        );
         if (affectedTable) {
-          affectedTable.students = affectedTable.students
-              .filter((student: StudentListRowModel) => student.student.email !== studentEmail);
+          affectedTable.students = affectedTable.students.filter(
+            (student: StudentListRowModel) => student.student.email !== studentEmail,
+          );
         }
 
-        this.statusMessageService
-            .showSuccessToast(`Student "${studentRow.student.name}" is successfully deleted from course "${courseId}"`);
+        this.statusMessageService.showSuccessToast(
+          `Student "${studentRow.student.name}" is successfully deleted from course "${courseId}"`,
+        );
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       },
     });
   }
-
 }
 
 interface TransformedInstructorSearchResult {

@@ -1,12 +1,19 @@
 <h1>Notifications</h1>
-<p>This page allows you to create and manage notifications which are shown to respective target users when they access TEAMMATES.</p>
+<p>
+  This page allows you to create and manage notifications which are shown to respective target users when they access
+  TEAMMATES.
+</p>
 <div id="notifications-timezone">
   <p>All dates are displayed in {{ guessTimezone }} time.</p>
 </div>
 
 <div>
-  <button id="btn-add-notification" class="btn btn-success" (click)="isNotificationEditFormExpanded = true"
-    [disabled]="isNotificationEditFormExpanded || isNotificationLoading">
+  <button
+    id="btn-add-notification"
+    class="btn btn-success"
+    (click)="isNotificationEditFormExpanded = true"
+    [disabled]="isNotificationEditFormExpanded || isNotificationLoading"
+  >
     @if (currentNotificationEditFormMode === NotificationEditFormMode.ADD) {
       <span><i class="fas fa-plus"></i> Add New Notification</span>
     } @else {
@@ -16,16 +23,21 @@
 </div>
 
 <div class="margin-top-30px" [ngbCollapse]="!isNotificationEditFormExpanded || isNotificationLoading">
-  <tm-notification-edit-form [formMode]="currentNotificationEditFormMode"
+  <tm-notification-edit-form
+    [formMode]="currentNotificationEditFormMode"
     [(model)]="notificationEditFormModel"
     [guessTimezone]="guessTimezone"
     (addNewNotificationEvent)="addNewNotificationHandler()"
     (editExistingNotificationEvent)="editExistingNotificationHandler()"
-  (cancelEditingNotificationEvent)="initNotificationEditFormModel()"></tm-notification-edit-form>
+    (cancelEditingNotificationEvent)="initNotificationEditFormModel()"
+  ></tm-notification-edit-form>
 </div>
 
-<tm-loading-retry [shouldShowRetry]="hasNotificationLoadingFailed" [message]="'Failed to load data'"
-  (retryEvent)="retryLoadingAllData()">
+<tm-loading-retry
+  [shouldShowRetry]="hasNotificationLoadingFailed"
+  [message]="'Failed to load data'"
+  (retryEvent)="retryLoadingAllData()"
+>
   <div class="margin-top-30px">
     <div *tmIsLoading="isNotificationLoading">
       @if (notificationsTableRowModels.length === 0 && !isNotificationLoading) {
@@ -42,9 +54,10 @@
           [notificationsTableRowModelsSortOrder]="notificationsTableRowModelsSortOrder"
           (deleteNotificationEvent)="deleteNotificationHandler($event)"
           (loadNotificationEditFormEvent)="loadNotificationEditFormHandler($event)"
-        (sortNotificationsTableRowModelsEvent)="sortNotificationsTableRowModelsHandler($event)"></tm-notifications-table>
+          (sortNotificationsTableRowModelsEvent)="sortNotificationsTableRowModelsHandler($event)"
+        ></tm-notifications-table>
       }
     </div>
   </div>
-  <br/>
+  <br />
 </tm-loading-retry>

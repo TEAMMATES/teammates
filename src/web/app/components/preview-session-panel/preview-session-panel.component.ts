@@ -2,10 +2,7 @@ import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import {
-  Instructor,
-  Student,
-} from '../../../types/api-output';
+import { Instructor, Student } from '../../../types/api-output';
 import { TeammatesRouterDirective } from '../teammates-router/teammates-router.directive';
 
 /**
@@ -15,16 +12,9 @@ import { TeammatesRouterDirective } from '../teammates-router/teammates-router.d
   selector: 'tm-preview-session-panel',
   templateUrl: './preview-session-panel.component.html',
   styleUrls: ['./preview-session-panel.component.scss'],
-  imports: [
-    NgClass,
-    FormsModule,
-    TeammatesRouterDirective,
-    NgbTooltip,
-    NgTemplateOutlet,
-],
+  imports: [NgClass, FormsModule, TeammatesRouterDirective, NgbTooltip, NgTemplateOutlet],
 })
 export class PreviewSessionPanelComponent {
-
   @Input()
   courseId = '';
 
@@ -48,5 +38,4 @@ export class PreviewSessionPanelComponent {
 
   @Input()
   forDisplayOnly = false;
-
 }

@@ -14,16 +14,9 @@ describe('InstructorCourseEnrollPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NgxPageScrollCoreModule,
-      ],
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      imports: [NgxPageScrollCoreModule],
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -51,19 +44,22 @@ describe('InstructorCourseEnrollPageComponent', () => {
       comments: 'new comment',
     };
     const enrollRequests: Map<number, StudentEnrollRequest> = new Map([
-      [0, {
-        section: 'Section A',
-        team: 'Team A',
-        name: 'Existing Student',
-        email: 'Test@gmail.com',
-        comments: 'new comment',
-      }],
+      [
+        0,
+        {
+          section: 'Section A',
+          team: 'Team A',
+          name: 'Existing Student',
+          email: 'Test@gmail.com',
+          comments: 'new comment',
+        },
+      ],
     ]);
 
     const panels = (component as any).populateEnrollResultPanelList(
-        [existingStudent],
-        [enrolledStudent],
-        enrollRequests,
+      [existingStudent],
+      [enrolledStudent],
+      enrollRequests,
     );
 
     expect(panels[EnrollStatus.MODIFIED].studentList).toEqual([enrolledStudent]);
@@ -73,20 +69,26 @@ describe('InstructorCourseEnrollPageComponent', () => {
 
   it('should detect duplicate enroll emails case-insensitively', () => {
     const enrollRequests: Map<number, StudentEnrollRequest> = new Map([
-      [0, {
-        section: 'Section A',
-        team: 'Team A',
-        name: 'Student One',
-        email: 'test@gmail.com',
-        comments: '',
-      }],
-      [1, {
-        section: 'Section A',
-        team: 'Team B',
-        name: 'Student Two',
-        email: 'Test@gmail.com',
-        comments: '',
-      }],
+      [
+        0,
+        {
+          section: 'Section A',
+          team: 'Team A',
+          name: 'Student One',
+          email: 'test@gmail.com',
+          comments: '',
+        },
+      ],
+      [
+        1,
+        {
+          section: 'Section A',
+          team: 'Team B',
+          name: 'Student Two',
+          email: 'Test@gmail.com',
+          comments: '',
+        },
+      ],
     ]);
 
     (component as any).checkEmailNotRepeated(enrollRequests);

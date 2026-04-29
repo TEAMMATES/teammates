@@ -1,7 +1,9 @@
-<h1>
-  Feedback Session Results
-</h1>
-<tm-loading-retry [shouldShowRetry]="hasFeedbackSessionLoadingFailed || hasSectionsLoadingFailed || hasQuestionsLoadingFailed" [message]="'Failed to load feedback session'" (retryEvent)="loadFeedbackSessionResults(courseId, feedbackSessionId)">
+<h1>Feedback Session Results</h1>
+<tm-loading-retry
+  [shouldShowRetry]="hasFeedbackSessionLoadingFailed || hasSectionsLoadingFailed || hasQuestionsLoadingFailed"
+  [message]="'Failed to load feedback session'"
+  (retryEvent)="loadFeedbackSessionResults(courseId, feedbackSessionId)"
+>
   <div *tmIsLoading="isFeedbackSessionLoading">
     @if (session) {
       <div class="card bg-light top-padded text-center text-sm-start">
@@ -16,8 +18,19 @@
             <div class="form-group row">
               <label class="col-lg-4 control-label"><b>Session:</b></label>
               <div id="session-name" class="col-lg-8">
-                <p class="form-control-static">{{ session.feedbackSessionName }}
-                  <a tmRouterLink="/web/instructor/sessions/edit" [queryParams]="{ courseid: session.courseId, fsname: session.feedbackSessionName, fsid: session.feedbackSessionId, editingMode: true }" aria-label="Edit feedback session"><i class="fas fa-edit"></i></a>
+                <p class="form-control-static">
+                  {{ session.feedbackSessionName }}
+                  <a
+                    tmRouterLink="/web/instructor/sessions/edit"
+                    [queryParams]="{
+                      courseid: session.courseId,
+                      fsname: session.feedbackSessionName,
+                      fsid: session.feedbackSessionId,
+                      editingMode: true,
+                    }"
+                    aria-label="Edit feedback session"
+                    ><i class="fas fa-edit"></i
+                  ></a>
                 </p>
               </div>
             </div>
@@ -26,7 +39,9 @@
             <div class="form-group row">
               <label class="col-lg-4 control-label"><b>Session duration:</b></label>
               <div id="session-duration" class="col-lg-8">
-                <p class="form-control-static">{{ formattedSessionOpeningTime }}&nbsp;&nbsp;&nbsp;<b>to</b><br>{{ formattedSessionClosingTime }}</p>
+                <p class="form-control-static">
+                  {{ formattedSessionOpeningTime }}&nbsp;&nbsp;&nbsp;<b>to</b><br />{{ formattedSessionClosingTime }}
+                </p>
               </div>
             </div>
             <div class="form-group row">
@@ -37,17 +52,32 @@
             </div>
           </div>
           <div class="action-btn-group col-sm-12 col-md-12 col-lg-3">
-            <button id="btn-publish" class="btn btn-primary action-btn no-print" ngbTooltip="{{session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED? 'Make responses no longer visible': 'Make session responses available for viewing' }}"
-              placement="top" (click)="publishResultHandler()">
+            <button
+              id="btn-publish"
+              class="btn btn-primary action-btn no-print"
+              ngbTooltip="{{
+                session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED
+                  ? 'Make responses no longer visible'
+                  : 'Make session responses available for viewing'
+              }}"
+              placement="top"
+              (click)="publishResultHandler()"
+            >
               @if (session.publishStatus === FeedbackSessionPublishStatus.NOT_PUBLISHED) {
                 <i class="fas fa-eye"></i>
               }
               @if (session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED) {
                 <i class="fas fa-eye-slash"></i>
               }
-              {{session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED ? "Unpublish" : "Publish"}} Results
+              {{ session.publishStatus === FeedbackSessionPublishStatus.PUBLISHED ? 'Unpublish' : 'Publish' }} Results
             </button>
-            <button id="btn-download" class="btn btn-primary action-btn no-print" [ngbTooltip]="downloadTooltip" (click)="downloadResultHandler()" [disabled]="isDownloadingResults">
+            <button
+              id="btn-download"
+              class="btn btn-primary action-btn no-print"
+              [ngbTooltip]="downloadTooltip"
+              (click)="downloadResultHandler()"
+              [disabled]="isDownloadingResults"
+            >
               @if (isDownloadingResults) {
                 <tm-ajax-loading></tm-ajax-loading>
               }
@@ -60,18 +90,25 @@
         </div>
       </div>
     }
-    <tm-view-results-panel [session]="session" [(viewType)]="viewType"
-      [(section)]="section" [sectionsModel]="sectionsModel" [(sectionType)]="sectionType"
-      [(groupByTeam)]="groupByTeam" [(showStatistics)]="showStatistics"
+    <tm-view-results-panel
+      [session]="session"
+      [(viewType)]="viewType"
+      [(section)]="section"
+      [sectionsModel]="sectionsModel"
+      [(sectionType)]="sectionType"
+      [(groupByTeam)]="groupByTeam"
+      [(showStatistics)]="showStatistics"
       [(indicateMissingResponses)]="indicateMissingResponses"
       (collapseAllTabsEvent)="collapseAllTabs()"
     ></tm-view-results-panel>
   </div>
 
   @if (!isFeedbackSessionLoading) {
-    <div class="card bg-light" style="margin-bottom: 20px;">
+    <div class="card bg-light" style="margin-bottom: 20px">
       <div class="card-body">
-        If you wish to view only the feedback responses you submitted or received, <a href="javascript:;" (click)="navigateToIndividualSessionResultPage(); $event.preventDefault()">click here</a>.
+        If you wish to view only the feedback responses you submitted or received,
+        <a href="javascript:;" (click)="navigateToIndividualSessionResultPage(); $event.preventDefault()">click here</a
+        >.
       </div>
     </div>
   }
@@ -79,75 +116,143 @@
   <div *tmIsLoading="!isSectionsLoaded || !isQuestionsLoaded">
     <div class="top-padded offset-md-10 margin-vertical-20px">
       <button id="btn-expand-all" class="btn expand-btn btn-light" (click)="toggleExpandAllHandler()">
-        {{isExpandAll ? "Collapse": "Expand"}} All
+        {{ isExpandAll ? 'Collapse' : 'Expand' }} All
       </button>
     </div>
     @if (viewType === InstructorSessionResultViewType.QUESTION) {
-      <tm-instructor-session-result-question-view [questions]="questionsModel"
-        [section]="section" [sectionType]="sectionType" [session] = "session"
-        [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
+      <tm-instructor-session-result-question-view
+        [questions]="questionsModel"
+        [section]="section"
+        [sectionType]="sectionType"
+        [session]="session"
+        [showStatistics]="showStatistics"
+        [indicateMissingResponses]="indicateMissingResponses"
         [(instructorCommentTableModel)]="commentService.instructorCommentTableModel"
-        (saveNewCommentEvent)="commentService.saveNewComment($event, session.timeZone)" (deleteCommentEvent)="commentService.deleteComment($event)" (updateCommentEvent)="commentService.updateComment($event, session.timeZone)"
-      (toggleAndLoadTab)="toggleQuestionTab($event)" (loadTab)="loadQuestionTab($event)" (downloadQuestionResult)="downloadQuestionResultHandler($event)"></tm-instructor-session-result-question-view>
+        (saveNewCommentEvent)="commentService.saveNewComment($event, session.timeZone)"
+        (deleteCommentEvent)="commentService.deleteComment($event)"
+        (updateCommentEvent)="commentService.updateComment($event, session.timeZone)"
+        (toggleAndLoadTab)="toggleQuestionTab($event)"
+        (loadTab)="loadQuestionTab($event)"
+        (downloadQuestionResult)="downloadQuestionResultHandler($event)"
+      ></tm-instructor-session-result-question-view>
     }
     @if (viewType === InstructorSessionResultViewType.GRQ) {
-      <tm-instructor-session-result-grq-view [responses]="sectionsModel" [isExpandAll]="isExpandAll"
-        [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session]="session"
-        [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
+      <tm-instructor-session-result-grq-view
+        [responses]="sectionsModel"
+        [isExpandAll]="isExpandAll"
+        [section]="section"
+        [sectionType]="sectionType"
+        [groupByTeam]="groupByTeam"
+        [session]="session"
+        [showStatistics]="showStatistics"
+        [indicateMissingResponses]="indicateMissingResponses"
         [(instructorCommentTableModel)]="commentService.instructorCommentTableModel"
-        (saveNewCommentEvent)="commentService.saveNewComment($event, session.timeZone)" (deleteCommentEvent)="commentService.deleteComment($event)" (updateCommentEvent)="commentService.updateComment($event, session.timeZone)"
-      (toggleAndLoadTab)="toggleSectionTab($event)" (loadTab)="loadSectionTab($event)"></tm-instructor-session-result-grq-view>
+        (saveNewCommentEvent)="commentService.saveNewComment($event, session.timeZone)"
+        (deleteCommentEvent)="commentService.deleteComment($event)"
+        (updateCommentEvent)="commentService.updateComment($event, session.timeZone)"
+        (toggleAndLoadTab)="toggleSectionTab($event)"
+        (loadTab)="loadSectionTab($event)"
+      ></tm-instructor-session-result-grq-view>
     }
     @if (viewType === InstructorSessionResultViewType.RGQ) {
-      <tm-instructor-session-result-rgq-view [responses]="sectionsModel" [isExpandAll]="isExpandAll"
-        [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session]="session"
-        [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
+      <tm-instructor-session-result-rgq-view
+        [responses]="sectionsModel"
+        [isExpandAll]="isExpandAll"
+        [section]="section"
+        [sectionType]="sectionType"
+        [groupByTeam]="groupByTeam"
+        [session]="session"
+        [showStatistics]="showStatistics"
+        [indicateMissingResponses]="indicateMissingResponses"
         [(instructorCommentTableModel)]="commentService.instructorCommentTableModel"
-        (saveNewCommentEvent)="commentService.saveNewComment($event, session.timeZone)" (deleteCommentEvent)="commentService.deleteComment($event)" (updateCommentEvent)="commentService.updateComment($event, session.timeZone)"
-      (toggleAndLoadTab)="toggleSectionTab($event)" (loadTab)="loadSectionTab($event)"></tm-instructor-session-result-rgq-view>
+        (saveNewCommentEvent)="commentService.saveNewComment($event, session.timeZone)"
+        (deleteCommentEvent)="commentService.deleteComment($event)"
+        (updateCommentEvent)="commentService.updateComment($event, session.timeZone)"
+        (toggleAndLoadTab)="toggleSectionTab($event)"
+        (loadTab)="loadSectionTab($event)"
+      ></tm-instructor-session-result-rgq-view>
     }
     @if (viewType === InstructorSessionResultViewType.GQR) {
-      <tm-instructor-session-result-gqr-view [responses]="sectionsModel" [isExpandAll]="isExpandAll"
-        [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session]="session"
-        [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
+      <tm-instructor-session-result-gqr-view
+        [responses]="sectionsModel"
+        [isExpandAll]="isExpandAll"
+        [section]="section"
+        [sectionType]="sectionType"
+        [groupByTeam]="groupByTeam"
+        [session]="session"
+        [showStatistics]="showStatistics"
+        [indicateMissingResponses]="indicateMissingResponses"
         [(instructorCommentTableModel)]="commentService.instructorCommentTableModel"
-        (saveNewCommentEvent)="commentService.saveNewComment($event, session.timeZone)" (deleteCommentEvent)="commentService.deleteComment($event)" (updateCommentEvent)="commentService.updateComment($event, session.timeZone)"
-      (toggleAndLoadTab)="toggleSectionTab($event)" (loadTab)="loadSectionTab($event)"></tm-instructor-session-result-gqr-view>
+        (saveNewCommentEvent)="commentService.saveNewComment($event, session.timeZone)"
+        (deleteCommentEvent)="commentService.deleteComment($event)"
+        (updateCommentEvent)="commentService.updateComment($event, session.timeZone)"
+        (toggleAndLoadTab)="toggleSectionTab($event)"
+        (loadTab)="loadSectionTab($event)"
+      ></tm-instructor-session-result-gqr-view>
     }
     @if (viewType === InstructorSessionResultViewType.RQG) {
-      <tm-instructor-session-result-rqg-view [responses]="sectionsModel" [isExpandAll]="isExpandAll"
-        [section]="section" [sectionType]="sectionType" [groupByTeam]="groupByTeam" [session]="session"
-        [showStatistics]="showStatistics" [indicateMissingResponses]="indicateMissingResponses"
+      <tm-instructor-session-result-rqg-view
+        [responses]="sectionsModel"
+        [isExpandAll]="isExpandAll"
+        [section]="section"
+        [sectionType]="sectionType"
+        [groupByTeam]="groupByTeam"
+        [session]="session"
+        [showStatistics]="showStatistics"
+        [indicateMissingResponses]="indicateMissingResponses"
         [(instructorCommentTableModel)]="commentService.instructorCommentTableModel"
-        (saveNewCommentEvent)="commentService.saveNewComment($event, session.timeZone)" (deleteCommentEvent)="commentService.deleteComment($event)" (updateCommentEvent)="commentService.updateComment($event, session.timeZone)"
-      (toggleAndLoadTab)="toggleSectionTab($event)" (loadTab)="loadSectionTab($event)"></tm-instructor-session-result-rqg-view>
+        (saveNewCommentEvent)="commentService.saveNewComment($event, session.timeZone)"
+        (deleteCommentEvent)="commentService.deleteComment($event)"
+        (updateCommentEvent)="commentService.updateComment($event, session.timeZone)"
+        (toggleAndLoadTab)="toggleSectionTab($event)"
+        (loadTab)="loadSectionTab($event)"
+      ></tm-instructor-session-result-rqg-view>
     }
   </div>
 </tm-loading-retry>
 
-<tm-loading-retry [shouldShowRetry]="hasNoResponseLoadingFailed" [message]="'Failed to load students who have not responded'" (retryEvent)="loadNoResponseStudents(feedbackSessionId)">
+<tm-loading-retry
+  [shouldShowRetry]="hasNoResponseLoadingFailed"
+  [message]="'Failed to load students who have not responded'"
+  (retryEvent)="loadNoResponseStudents(feedbackSessionId)"
+>
   @if (isNoResponsePanelLoaded) {
     <div class="top-padded">
-      <tm-instructor-session-no-response-panel [allStudents]="allStudentsInCourse"
+      <tm-instructor-session-no-response-panel
+        [allStudents]="allStudentsInCourse"
         [noResponseStudents]="noResponseStudents"
-        [section]="section" [session]="session"
+        [section]="section"
+        [session]="session"
         [isNoResponseStudentsLoaded]="isNoResponseStudentsLoaded"
-      (studentsToRemindEvent)="sendReminderToStudents($event)" ></tm-instructor-session-no-response-panel>
+        (studentsToRemindEvent)="sendReminderToStudents($event)"
+      ></tm-instructor-session-no-response-panel>
     </div>
   }
 </tm-loading-retry>
 
-@if (!(hasFeedbackSessionLoadingFailed || hasSectionsLoadingFailed || hasQuestionsLoadingFailed || isFeedbackSessionLoading)) {
+@if (
+  !(
+    hasFeedbackSessionLoadingFailed ||
+    hasSectionsLoadingFailed ||
+    hasQuestionsLoadingFailed ||
+    isFeedbackSessionLoading
+  )
+) {
   <div class="card top-padded">
-    <tm-preview-session-result-panel [courseId]="courseId" [feedbackSessionName]="session.feedbackSessionName" [feedbackSessionId]="session.feedbackSessionId"
-      [studentsOfCourse]="allStudentsInCourse" [emailOfStudentToPreview]="emailOfStudentToPreview"
-      [instructorsOfCourse]="allInstructorsInCourse" [emailOfInstructorToPreview]="emailOfInstructorToPreview"
+    <tm-preview-session-result-panel
+      [courseId]="courseId"
+      [feedbackSessionName]="session.feedbackSessionName"
+      [feedbackSessionId]="session.feedbackSessionId"
+      [studentsOfCourse]="allStudentsInCourse"
+      [emailOfStudentToPreview]="emailOfStudentToPreview"
+      [instructorsOfCourse]="allInstructorsInCourse"
+      [emailOfInstructorToPreview]="emailOfInstructorToPreview"
     ></tm-preview-session-result-panel>
   </div>
 }
 
 <ng-template #downloadTooltip>
-  Download session results<br/>
-  Show Statistics ({{ showStatistics ? "&#x2713;" : "&#x2717;" }})<br/>
-  Indicate Missing Responses ({{ indicateMissingResponses ? "&#x2713;" : "&#x2717;" }})
+  Download session results<br />
+  Show Statistics ({{ showStatistics ? '&#x2713;' : '&#x2717;' }})<br />
+  Indicate Missing Responses ({{ indicateMissingResponses ? '&#x2713;' : '&#x2717;' }})
 </ng-template>

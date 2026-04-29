@@ -9,12 +9,8 @@ import { StudentsSectionQuestions } from './students-section-questions';
 import { environment } from '../../../../environments/environment';
 import { Student } from '../../../../types/api-output';
 import { CourseRelatedInfoComponent } from '../../../components/course-related-info/course-related-info.component';
-import {
-  InstructorCourseStudentEditPageComponent,
-} from '../../../pages-instructor/instructor-course-student-edit-page/instructor-course-student-edit-page.component';
-import {
-  InstructorSearchBarComponent,
-} from '../../../pages-instructor/instructor-search-page/instructor-search-bar/instructor-search-bar.component';
+import { InstructorCourseStudentEditPageComponent } from '../../../pages-instructor/instructor-course-student-edit-page/instructor-course-student-edit-page.component';
+import { InstructorSearchBarComponent } from '../../../pages-instructor/instructor-search-page/instructor-search-bar/instructor-search-bar.component';
 import {
   SearchStudentsListRowTable,
   StudentResultTableComponent,
@@ -39,10 +35,9 @@ import { Sections } from '../sections';
     InstructorSearchBarComponent,
     StudentResultTableComponent,
     NgbCollapse,
-],
+  ],
 })
 export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
-
   // enums
   StudentsSectionQuestions: typeof StudentsSectionQuestions = StudentsSectionQuestions;
   Sections: typeof Sections = Sections;
@@ -64,5 +59,4 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
   getQuestionsOrder(): string[] {
     return this.questionsOrder;
   }
-
 }

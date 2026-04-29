@@ -7,7 +7,6 @@ import { CommentOutput } from '../../../types/api-output';
  */
 @Pipe({ name: 'commentToCommentRowModel' })
 export class CommentToCommentRowModelPipe implements PipeTransform {
-
   transform(comment: CommentOutput, timezone?: string): CommentRowModel {
     return {
       timezone,
@@ -23,5 +22,4 @@ export class CommentToCommentRowModelPipe implements PipeTransform {
       isEditing: false,
     };
   }
-
 }

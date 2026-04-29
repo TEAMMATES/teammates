@@ -60,10 +60,9 @@ export enum EditMode {
     AjaxLoadingComponent,
     EnumToArrayPipe,
     InstructorRoleDescriptionPipe,
-],
+  ],
 })
 export class InstructorEditPanelComponent {
-
   // enum
   JoinState: typeof JoinState = JoinState;
   InstructorPermissionRole: typeof InstructorPermissionRole = InstructorPermissionRole;
@@ -147,5 +146,4 @@ export class InstructorEditPanelComponent {
       [field]: data,
     });
   }
-
 }

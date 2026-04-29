@@ -1,4 +1,8 @@
-<tm-loading-retry [shouldShowRetry]="hasLoadingStudentsFailed" [message]="'Failed to load students'" (retryEvent)="loadStudents(courseDetails.course.courseId)">
+<tm-loading-retry
+  [shouldShowRetry]="hasLoadingStudentsFailed"
+  [message]="'Failed to load students'"
+  (retryEvent)="loadStudents(courseDetails.course.courseId)"
+>
   <div *tmIsLoading="isStudentsLoading">
     <h1>Course Details</h1>
     <div class="card">
@@ -6,57 +10,66 @@
         <div class="row">
           <label class="col-sm-2 text-sm-end">Course ID:</label>
           <span id="course-id" class="col-sm-9 text-sm-start">
-            {{courseDetails.course.courseId}}
+            {{ courseDetails.course.courseId }}
           </span>
         </div>
         <div class="row">
           <label class="col-sm-2 text-sm-end">Course name:</label>
           <span id="course-name" class="col-sm-9 text-sm-start">
-            {{courseDetails.course.courseName}}
+            {{ courseDetails.course.courseName }}
           </span>
         </div>
         <div class="row">
           <label class="col-sm-2 text-sm-end">Course institute:</label>
           <span id="course-institute" class="col-sm-9 text-sm-start">
-            {{courseDetails.course.institute}}
+            {{ courseDetails.course.institute }}
           </span>
         </div>
         <div class="row">
           <label class="col-sm-2 text-sm-end">Sections:</label>
           <span id="num-sections" class="col-sm-9 text-sm-start">
-            {{courseDetails.stats.numOfSections}}
+            {{ courseDetails.stats.numOfSections }}
           </span>
         </div>
         <div class="row">
           <label class="col-sm-2 text-sm-end">Teams:</label>
           <span id="num-teams" class="col-sm-9 text-sm-start">
-            {{courseDetails.stats.numOfTeams}}
+            {{ courseDetails.stats.numOfTeams }}
           </span>
         </div>
         <div class="row">
           <label class="col-sm-2 text-sm-end">Total students:</label>
           <span id="num-students" class="col-sm-9 text-sm-start">
-            {{courseDetails.stats.numOfStudents}}
+            {{ courseDetails.stats.numOfStudents }}
           </span>
         </div>
         <div class="row">
           <label class="col-sm-2 text-sm-end control-label">Instructors:</label>
           <div id="instructors" class="col-sm-9 text-sm-start">
             @for (instructor of instructors; track instructor) {
-              <div>
-                {{instructor.role! | instructorRoleName}}: {{instructor.name}} ({{instructor.email}})
-              </div>
+              <div>{{ instructor.role! | instructorRoleName }}: {{ instructor.name }} ({{ instructor.email }})</div>
             }
           </div>
         </div>
         @if (students.length > 0) {
-          <div style="margin-top: 10px;">
+          <div style="margin-top: 10px">
             <div class="text-center">
-              <button id="btn-remind-all" type="button" class="btn btn-primary" (click)="openRemindStudentModal()" value="Remind Students to Join">
+              <button
+                id="btn-remind-all"
+                type="button"
+                class="btn btn-primary"
+                (click)="openRemindStudentModal()"
+                value="Remind Students to Join"
+              >
                 <i class="fa fa-envelope"></i>
                 Remind Students to Join
               </button>
-              <button id="btn-download" type="button" class="btn btn-primary btn-margin-left" (click)="downloadAllStudentsFromCourse(courseDetails.course.courseId)">
+              <button
+                id="btn-download"
+                type="button"
+                class="btn btn-primary btn-margin-left"
+                (click)="downloadAllStudentsFromCourse(courseDetails.course.courseId)"
+              >
                 @if (!isLoadingCsv) {
                   <i class="fa fa-download"></i>
                 }
@@ -65,7 +78,13 @@
                 }
                 Download Student List
               </button>
-              <button id="btn-delete-all" type="button" class="btn btn-danger btn-margin-left" (click)="openDeleteAllStudentsConfirmationModal()" value="Delete All Students">
+              <button
+                id="btn-delete-all"
+                type="button"
+                class="btn btn-danger btn-margin-left"
+                (click)="openDeleteAllStudentsConfirmationModal()"
+                value="Delete All Students"
+              >
                 @if (!isDeleting) {
                   <i class="fa fa-trash"></i>
                 }
@@ -83,13 +102,20 @@
       <div class="alert alert-warning">
         <i class="fa fa-exclamation-circle text-muted"></i>
         There are no students in this course. Click
-        <a tmRouterLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseDetails.course.courseId}">here</a> to enroll students.
+        <a tmRouterLink="/web/instructor/courses/enroll" [queryParams]="{ courseid: courseDetails.course.courseId }"
+          >here</a
+        >
+        to enroll students.
       </div>
     } @else {
       <div id="student-list" class="card-body p-0 student-table-margin card border">
         <tm-student-list
-          [courseId]="courseDetails.course.courseId" [students]="students" [useGrayHeading]="true" [enableRemindButton]="true"
-          [tableSortBy]="studentSortBy" [tableSortOrder]="studentSortOrder"
+          [courseId]="courseDetails.course.courseId"
+          [students]="students"
+          [useGrayHeading]="true"
+          [enableRemindButton]="true"
+          [tableSortBy]="studentSortBy"
+          [tableSortOrder]="studentSortOrder"
           (removeStudentFromCourseEvent)="removeStudentFromCourse($event)"
         ></tm-student-list>
       </div>

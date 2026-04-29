@@ -24,9 +24,7 @@ import { CommentsToCommentTableModelPipe } from '../../components/comment-box/co
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
-import {
-  GrqRgqViewResponsesComponent,
-} from '../../components/question-responses/grq-rgq-view-responses/grq-rgq-view-responses.component';
+import { GrqRgqViewResponsesComponent } from '../../components/question-responses/grq-rgq-view-responses/grq-rgq-view-responses.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { areEmailsEqual } from '../../components/teammates-common/email-utils';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -46,20 +44,10 @@ interface SessionTab {
   templateUrl: './instructor-student-records-page.component.html',
   styleUrls: ['./instructor-student-records-page.component.scss'],
   animations: [collapseAnim],
-  imports: [
-    LoadingRetryComponent,
-    LoadingSpinnerDirective,
-    PanelChevronComponent,
-    GrqRgqViewResponsesComponent,
-],
-  providers: [
-    CommentsToCommentTableModelPipe,
-    CommentToCommentRowModelPipe,
-    InstructorCommentService,
-  ],
+  imports: [LoadingRetryComponent, LoadingSpinnerDirective, PanelChevronComponent, GrqRgqViewResponsesComponent],
+  providers: [CommentsToCommentTableModelPipe, CommentToCommentRowModelPipe, InstructorCommentService],
 })
 export class InstructorStudentRecordsPageComponent implements OnInit {
-
   courseId = '';
   studentName = '';
   studentEmail = '';
@@ -69,16 +57,16 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   isStudentResultsLoading = false;
   hasStudentResultsLoadingFailed = false;
 
-  constructor(private route: ActivatedRoute,
-              private feedbackSessionsService: FeedbackSessionsService,
-              private studentService: StudentService,
-              private instructorService: InstructorService,
-              private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
-              private tableComparatorService: TableComparatorService,
-              private statusMessageService: StatusMessageService,
-              public commentService: InstructorCommentService) {
-
-  }
+  constructor(
+    private route: ActivatedRoute,
+    private feedbackSessionsService: FeedbackSessionsService,
+    private studentService: StudentService,
+    private instructorService: InstructorService,
+    private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
+    private tableComparatorService: TableComparatorService,
+    private statusMessageService: StatusMessageService,
+    public commentService: InstructorCommentService,
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe({
@@ -99,12 +87,14 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
    * Loads the instructor's records based on the given course ID.
    */
   loadInstructorRecords(courseId: string): void {
-    this.instructorService.getInstructor({
-      courseId,
-      intent: Intent.FULL_DETAIL,
-    }).subscribe((instructor: Instructor) => {
-      this.commentService.currInstructorName = instructor.name;
-    });
+    this.instructorService
+      .getInstructor({
+        courseId,
+        intent: Intent.FULL_DETAIL,
+      })
+      .subscribe((instructor: Instructor) => {
+        this.commentService.currInstructorName = instructor.name;
+      });
   }
 
   /**
@@ -119,35 +109,35 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
     combineLatest({
       feedbackSession: this.getFeedbackSessions(this.courseId),
       student: this.loadStudentRecords(courseId, studentEmail),
-    }).pipe(
-        mergeMap(({ feedbackSession, student }: { feedbackSession: FeedbackSession, student: Student }) => {
+    })
+      .pipe(
+        mergeMap(({ feedbackSession, student }: { feedbackSession: FeedbackSession; student: Student }) => {
           return this.getFeedbackSessionResults(feedbackSession, student.sectionName);
         }),
         finalize(() => {
           this.isStudentResultsLoading = false;
         }),
-    ).subscribe({
-      next: ({ feedbackSession, results }: { results: SessionResults, feedbackSession: FeedbackSession }) => {
-        this.sessionTabs.push(this.createSessionTab(feedbackSession, results));
-        results.questions.forEach((questions: QuestionOutput) => {
-          return this.preprocessComments(questions.allResponses, feedbackSession.timeZone);
-        });
-      },
-      error: (errorMessageOutput: ErrorMessageOutput) => {
-        this.hasStudentResultsLoadingFailed = true;
-        this.statusMessageService.showErrorToast(errorMessageOutput.error.message);
-      },
-      complete: () => this.sortFeedbackSessions(),
-    });
+      )
+      .subscribe({
+        next: ({ feedbackSession, results }: { results: SessionResults; feedbackSession: FeedbackSession }) => {
+          this.sessionTabs.push(this.createSessionTab(feedbackSession, results));
+          results.questions.forEach((questions: QuestionOutput) => {
+            return this.preprocessComments(questions.allResponses, feedbackSession.timeZone);
+          });
+        },
+        error: (errorMessageOutput: ErrorMessageOutput) => {
+          this.hasStudentResultsLoadingFailed = true;
+          this.statusMessageService.showErrorToast(errorMessageOutput.error.message);
+        },
+        complete: () => this.sortFeedbackSessions(),
+      });
   }
 
   /**
    * Loads the student's records based on the given course ID and email.
    */
   private loadStudentRecords(courseId: string, studentEmail: string): Observable<Student> {
-    return this.studentService.getStudent(
-      courseId, studentEmail,
-    ).pipe(
+    return this.studentService.getStudent(courseId, studentEmail).pipe(
       tap((resp: Student) => {
         this.studentName = resp.name;
         this.studentTeam = resp.teamName;
@@ -159,52 +149,61 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
    * Fetches the feedback sessions for the given course ID.
    */
   private getFeedbackSessions(courseId: string): Observable<FeedbackSession> {
-    return this.feedbackSessionsService.getFeedbackSessionsForInstructor(courseId).pipe(
-      mergeMap((feedbackSessions: FeedbackSessions) => feedbackSessions.feedbackSessions),
-    );
+    return this.feedbackSessionsService
+      .getFeedbackSessionsForInstructor(courseId)
+      .pipe(mergeMap((feedbackSessions: FeedbackSessions) => feedbackSessions.feedbackSessions));
   }
 
   /**
    * Fetches the full detail result of the given feedback session in the current course
    * grouped by the student's section.
    */
-  private getFeedbackSessionResults(feedbackSession: FeedbackSession, groupBySection: string):
-      Observable<{ results: SessionResults, feedbackSession: FeedbackSession }> {
+  private getFeedbackSessionResults(
+    feedbackSession: FeedbackSession,
+    groupBySection: string,
+  ): Observable<{ results: SessionResults; feedbackSession: FeedbackSession }> {
     return this.feedbackSessionsService
-        .getFeedbackSessionResults({
-          feedbackSessionId: feedbackSession.feedbackSessionId,
-          groupBySection,
-          intent: Intent.FULL_DETAIL,
-        })
-        .pipe(
-          map((results: SessionResults) => {
-            this.sortQuestionsByNumber(results.questions);
-            return { results, feedbackSession };
-          }),
-        );
+      .getFeedbackSessionResults({
+        feedbackSessionId: feedbackSession.feedbackSessionId,
+        groupBySection,
+        intent: Intent.FULL_DETAIL,
+      })
+      .pipe(
+        map((results: SessionResults) => {
+          this.sortQuestionsByNumber(results.questions);
+          return { results, feedbackSession };
+        }),
+      );
   }
 
   private sortQuestionsByNumber(questions: QuestionOutput[]): void {
-    questions.sort((a: QuestionOutput, b: QuestionOutput) =>
-      a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
+    questions.sort(
+      (a: QuestionOutput, b: QuestionOutput) => a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber,
+    );
   }
 
   private createSessionTab(feedbackSession: FeedbackSession, results: SessionResults): SessionTab {
     const giverQuestions: QuestionOutput[] = structuredClone(results.questions);
     giverQuestions.forEach((questions: QuestionOutput) => {
-      questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
-        !response.isMissingResponse && areEmailsEqual(response.giverEmail, this.studentEmail));
+      questions.allResponses = questions.allResponses.filter(
+        (response: ResponseOutput) =>
+          !response.isMissingResponse && areEmailsEqual(response.giverEmail, this.studentEmail),
+      );
     });
-    const responsesGivenByStudent: QuestionOutput[] =
-      giverQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
+    const responsesGivenByStudent: QuestionOutput[] = giverQuestions.filter(
+      (questions: QuestionOutput) => questions.allResponses.length > 0,
+    );
 
     const recipientQuestions: QuestionOutput[] = structuredClone(results.questions);
     recipientQuestions.forEach((questions: QuestionOutput) => {
-      questions.allResponses = questions.allResponses.filter((response: ResponseOutput) =>
-        !response.isMissingResponse && areEmailsEqual(response.recipientEmail, this.studentEmail));
+      questions.allResponses = questions.allResponses.filter(
+        (response: ResponseOutput) =>
+          !response.isMissingResponse && areEmailsEqual(response.recipientEmail, this.studentEmail),
+      );
     });
-    const responsesReceivedByStudent: QuestionOutput[] =
-      recipientQuestions.filter((questions: QuestionOutput) => questions.allResponses.length > 0);
+    const responsesReceivedByStudent: QuestionOutput[] = recipientQuestions.filter(
+      (questions: QuestionOutput) => questions.allResponses.length > 0,
+    );
 
     return {
       feedbackSession,
@@ -222,8 +221,11 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
    */
   preprocessComments(responses: ResponseOutput[], timezone: string): void {
     responses.forEach((response: ResponseOutput) => {
-      this.commentService.instructorCommentTableModel[response.responseId] =
-          this.commentsToCommentTableModel.transform(response.instructorComments, false, timezone);
+      this.commentService.instructorCommentTableModel[response.responseId] = this.commentsToCommentTableModel.transform(
+        response.instructorComments,
+        false,
+        timezone,
+      );
       this.commentService.sortComments(this.commentService.instructorCommentTableModel[response.responseId]);
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
       response.instructorComments = [];
@@ -236,10 +238,11 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   private sortFeedbackSessions(): void {
     this.sessionTabs.sort((a: SessionTab, b: SessionTab) => {
       return this.tableComparatorService.compare(
-          SortBy.SESSION_NAME,
-          SortOrder.ASC,
-          a.feedbackSession.feedbackSessionName,
-          b.feedbackSession.feedbackSessionName);
+        SortBy.SESSION_NAME,
+        SortOrder.ASC,
+        a.feedbackSession.feedbackSessionName,
+        b.feedbackSession.feedbackSessionName,
+      );
     });
   }
 }

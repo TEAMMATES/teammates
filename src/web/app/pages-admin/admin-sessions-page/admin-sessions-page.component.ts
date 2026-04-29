@@ -35,10 +35,9 @@ interface OngoingSessionModel {
     PanelChevronComponent,
     KeyValuePipe,
     NgbCollapse,
-],
+  ],
 })
 export class AdminSessionsPageComponent implements OnInit {
-
   totalOngoingSessions = 0;
   totalOpenSessions = 0;
   totalClosedSessions = 0;
@@ -64,9 +63,11 @@ export class AdminSessionsPageComponent implements OnInit {
 
   isLoadingOngoingSessions = false;
 
-  constructor(private timezoneService: TimezoneService,
-              private statusMessageService: StatusMessageService,
-              private feedbackSessionsService: FeedbackSessionsService) {}
+  constructor(
+    private timezoneService: TimezoneService,
+    private statusMessageService: StatusMessageService,
+    private feedbackSessionsService: FeedbackSessionsService,
+  ) {}
 
   ngOnInit(): void {
     this.timezones = Object.keys(this.timezoneService.getTzOffsets());
@@ -129,49 +130,54 @@ export class AdminSessionsPageComponent implements OnInit {
   getFeedbackSessions(): void {
     const timezone: string = this.filterTimezone;
     const startTime: number = this.timezoneService.resolveLocalDateTime(
-        { year: this.startDate.year, month: this.startDate.month, day: this.startDate.day },
-        { hour: this.startTime.hour, minute: this.startTime.minute },
-        timezone);
+      { year: this.startDate.year, month: this.startDate.month, day: this.startDate.day },
+      { hour: this.startTime.hour, minute: this.startTime.minute },
+      timezone,
+    );
     const endTime: number = this.timezoneService.resolveLocalDateTime(
-        { year: this.endDate.year, month: this.endDate.month, day: this.endDate.day },
-        { hour: this.endTime.hour, minute: this.endTime.minute },
-        timezone);
+      { year: this.endDate.year, month: this.endDate.month, day: this.endDate.day },
+      { hour: this.endTime.hour, minute: this.endTime.minute },
+      timezone,
+    );
     const displayFormat = 'ddd, DD MMM YYYY, hh:mm a';
     this.startTimeString = this.timezoneService.formatToString(startTime, timezone, displayFormat);
     this.endTimeString = this.timezoneService.formatToString(endTime, timezone, displayFormat);
     this.timezoneString = this.filterTimezone;
     this.isLoadingOngoingSessions = true;
 
-    this.feedbackSessionsService.getOngoingSessions(startTime, endTime)
-        .pipe(finalize(() => {
+    this.feedbackSessionsService
+      .getOngoingSessions(startTime, endTime)
+      .pipe(
+        finalize(() => {
           this.isLoadingOngoingSessions = false;
-        }))
-        .subscribe({
-          next: (resp: OngoingSessions) => {
-            this.totalOngoingSessions = resp.totalOngoingSessions;
-            this.totalOpenSessions = resp.totalOpenSessions;
-            this.totalClosedSessions = resp.totalClosedSessions;
-            this.totalAwaitingSessions = resp.totalAwaitingSessions;
-            this.totalInstitutes = resp.totalInstitutes;
-            Object.keys(resp.sessions).forEach((key: string) => {
-              this.sessions[key] = resp.sessions[key].map((ongoingSession: OngoingSession) => {
-                return {
-                  ongoingSession,
-                  startTimeString: this.showDateFromMillis(ongoingSession.startTime),
-                  endTimeString: this.showDateFromMillis(ongoingSession.endTime),
-                };
-              });
+        }),
+      )
+      .subscribe({
+        next: (resp: OngoingSessions) => {
+          this.totalOngoingSessions = resp.totalOngoingSessions;
+          this.totalOpenSessions = resp.totalOpenSessions;
+          this.totalClosedSessions = resp.totalClosedSessions;
+          this.totalAwaitingSessions = resp.totalAwaitingSessions;
+          this.totalInstitutes = resp.totalInstitutes;
+          Object.keys(resp.sessions).forEach((key: string) => {
+            this.sessions[key] = resp.sessions[key].map((ongoingSession: OngoingSession) => {
+              return {
+                ongoingSession,
+                startTimeString: this.showDateFromMillis(ongoingSession.startTime),
+                endTimeString: this.showDateFromMillis(ongoingSession.endTime),
+              };
             });
+          });
 
-            this.institutionPanelsStatus = {};
-            for (const institution of Object.keys(resp.sessions)) {
-              this.institutionPanelsStatus[institution] = true;
-            }
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
+          this.institutionPanelsStatus = {};
+          for (const institution of Object.keys(resp.sessions)) {
+            this.institutionPanelsStatus[institution] = true;
+          }
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**
@@ -182,20 +188,19 @@ export class AdminSessionsPageComponent implements OnInit {
       event.preventDefault();
       event.stopPropagation();
     }
-    this.feedbackSessionsService.loadSessionStatistics(feedbackSessionId)
-        .subscribe({
-          next: (resp: FeedbackSessionStats) => {
-            const sessions: OngoingSessionModel[] = this.sessions[institute].filter((session: OngoingSessionModel) =>
-                session.ongoingSession.feedbackSessionId === feedbackSessionId,
-            );
-            if (sessions.length) {
-              sessions[0].responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
-            }
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
+    this.feedbackSessionsService.loadSessionStatistics(feedbackSessionId).subscribe({
+      next: (resp: FeedbackSessionStats) => {
+        const sessions: OngoingSessionModel[] = this.sessions[institute].filter(
+          (session: OngoingSessionModel) => session.ongoingSession.feedbackSessionId === feedbackSessionId,
+        );
+        if (sessions.length) {
+          sessions[0].responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
+        }
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
   }
 
   updateDisplayedTimes(): void {
@@ -206,5 +211,4 @@ export class AdminSessionsPageComponent implements OnInit {
       }
     }
   }
-
 }

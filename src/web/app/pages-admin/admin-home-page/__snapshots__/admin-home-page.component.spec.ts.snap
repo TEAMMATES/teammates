@@ -45,7 +45,7 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
           class="btn btn-primary"
           id="add-instructor-single-line"
         >
-          Add Instructors
+           Add Instructors 
         </button>
       </div>
     </div>
@@ -115,7 +115,7 @@ exports[`AdminHomePageComponent should snap with default view 1`] = `
           class="btn btn-primary"
           id="add-instructor"
         >
-          Add Instructor
+           Add Instructor 
         </button>
       </div>
     </div>

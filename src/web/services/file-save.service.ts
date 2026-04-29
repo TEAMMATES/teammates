@@ -8,7 +8,6 @@ import { Inject, Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class FileSaveService {
-
   constructor(@Inject(DOCUMENT) private document: Document) {}
 
   saveFile(blob: Blob, filename: string): void {

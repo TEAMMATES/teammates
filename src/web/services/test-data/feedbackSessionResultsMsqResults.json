@@ -6,10 +6,7 @@
         "questionNumber": 2,
         "questionBrief": "What do you like best about the class' product?",
         "questionDetails": {
-          "msqChoices": [
-            "It's good",
-            "It's perfect"
-          ],
+          "msqChoices": ["It's good", "It's perfect"],
           "otherEnabled": false,
           "hasAssignedWeights": false,
           "msqWeights": [],
@@ -25,15 +22,9 @@
         "recipientType": "SELF",
         "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
         "customNumberOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
       },
       "questionStatistics": "",
       "allResponses": [
@@ -50,9 +41,7 @@
           "recipientEmail": "instructor2@course1.tmt",
           "recipientSection": "None",
           "responseDetails": {
-            "answers": [
-              "It's perfect"
-            ],
+            "answers": ["It's perfect"],
             "isOther": false,
             "otherFieldContent": "",
             "questionType": "MSQ"
@@ -72,9 +61,7 @@
           "recipientEmail": "instructor3@course1.tmt",
           "recipientSection": "None",
           "responseDetails": {
-            "answers": [
-              ""
-            ],
+            "answers": [""],
             "isOther": false,
             "otherFieldContent": "",
             "questionType": "MSQ"
@@ -103,10 +90,7 @@
           "recipientEmail": "instructor1@course1.tmt",
           "recipientSection": "None",
           "responseDetails": {
-            "answers": [
-              "It's good",
-              "It's perfect"
-            ],
+            "answers": ["It's good", "It's perfect"],
             "isOther": false,
             "otherFieldContent": "",
             "questionType": "MSQ"
@@ -124,10 +108,7 @@
         "questionNumber": 1,
         "questionBrief": "What do you like best about our product?",
         "questionDetails": {
-          "msqChoices": [
-            "It's good",
-            "It's perfect"
-          ],
+          "msqChoices": ["It's good", "It's perfect"],
           "otherEnabled": false,
           "hasAssignedWeights": false,
           "msqWeights": [],
@@ -143,15 +124,9 @@
         "recipientType": "SELF",
         "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
         "customNumberOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
       },
       "questionStatistics": "",
       "allResponses": [
@@ -168,9 +143,7 @@
           "recipientEmail": "student2InCourse1@gmail.tmt",
           "recipientSection": "None",
           "responseDetails": {
-            "answers": [
-              "It's good"
-            ],
+            "answers": ["It's good"],
             "isOther": false,
             "otherFieldContent": "",
             "questionType": "MSQ"
@@ -190,9 +163,7 @@
           "recipientEmail": "student3InCourse1@gmail.tmt",
           "recipientSection": "None",
           "responseDetails": {
-            "answers": [
-              ""
-            ],
+            "answers": [""],
             "isOther": false,
             "otherFieldContent": "",
             "questionType": "MSQ"
@@ -221,10 +192,7 @@
           "recipientEmail": "student1InCourse1@gmail.tmt",
           "recipientSection": "None",
           "responseDetails": {
-            "answers": [
-              "It's good",
-              "It's perfect"
-            ],
+            "answers": ["It's good", "It's perfect"],
             "isOther": false,
             "otherFieldContent": "",
             "questionType": "MSQ"
@@ -278,18 +246,10 @@
         "questionNumber": 3,
         "questionBrief": "Choose all the food you like",
         "questionDetails": {
-          "msqChoices": [
-            "Pizza",
-            "Pasta",
-            "Chicken rice"
-          ],
+          "msqChoices": ["Pizza", "Pasta", "Chicken rice"],
           "otherEnabled": true,
           "hasAssignedWeights": true,
-          "msqWeights": [
-            1.0,
-            2.0,
-            0.0
-          ],
+          "msqWeights": [1.0, 2.0, 0.0],
           "msqOtherWeight": 3.0,
           "generateOptionsFor": "NONE",
           "maxSelectableChoices": -2147483648,
@@ -302,15 +262,9 @@
         "recipientType": "SELF",
         "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
         "customNumberOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
       },
       "questionStatistics": "",
       "allResponses": [
@@ -327,9 +281,7 @@
           "recipientEmail": "student3InCourse1@gmail.tmt",
           "recipientSection": "None",
           "responseDetails": {
-            "answers": [
-              "Hotdog"
-            ],
+            "answers": ["Hotdog"],
             "isOther": true,
             "otherFieldContent": "Hotdog",
             "questionType": "MSQ"
@@ -349,9 +301,7 @@
           "recipientEmail": "student2InCourse1@gmail.tmt",
           "recipientSection": "None",
           "responseDetails": {
-            "answers": [
-              "Pasta"
-            ],
+            "answers": ["Pasta"],
             "isOther": false,
             "otherFieldContent": "",
             "questionType": "MSQ"
@@ -371,12 +321,7 @@
           "recipientEmail": "student1InCourse1@gmail.tmt",
           "recipientSection": "None",
           "responseDetails": {
-            "answers": [
-              "Pizza",
-              "Pasta",
-              "Chicken rice",
-              "Hotdog"
-            ],
+            "answers": ["Pizza", "Pasta", "Chicken rice", "Hotdog"],
             "isOther": true,
             "otherFieldContent": "Hotdog",
             "questionType": "MSQ"

@@ -2,19 +2,23 @@
   <div class="card-header bg-{{ isSelfResponses ? 'info' : 'primary' }}" [ngClass]="{ 'text-white': !isSelfResponses }">
     <span class="response-recipient"><b>To:</b> {{ recipient }}</span>
   </div>
-  <div class="card-body table-responsive" style="padding: 0;">
+  <div class="card-body table-responsive" style="padding: 0">
     <table class="table">
       <tbody>
         @for (response of responses; track response) {
           <tr>
-            <td class="response-giver">
-              <strong>From:</strong> {{ response.giver }}
-            </td>
+            <td class="response-giver"><strong>From:</strong> {{ response.giver }}</td>
           </tr>
           <tr>
             <td>
-              <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="feedbackQuestion.questionDetails"
-              [isStudentPage]="true" [giverEmail]="response.giverEmail!" [recipientEmail]="response.recipientEmail!" [statistics]="statistics"></tm-single-response>
+              <tm-single-response
+                [responseDetails]="response.responseDetails"
+                [questionDetails]="feedbackQuestion.questionDetails"
+                [isStudentPage]="true"
+                [giverEmail]="response.giverEmail!"
+                [recipientEmail]="response.recipientEmail!"
+                [statistics]="statistics"
+              ></tm-single-response>
             </td>
           </tr>
           @if (response.participantComment) {

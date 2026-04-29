@@ -29,9 +29,14 @@ export class TeammatesRouterDirective extends RouterLink {
     return this.queryParamsInternal;
   }
 
-  constructor(router: Router, route: ActivatedRoute,
-              renderer: Renderer2, el: ElementRef, locationStrategy: LocationStrategy,
-              private masqueradeModeService: MasqueradeModeService) {
+  constructor(
+    router: Router,
+    route: ActivatedRoute,
+    renderer: Renderer2,
+    el: ElementRef,
+    locationStrategy: LocationStrategy,
+    private masqueradeModeService: MasqueradeModeService,
+  ) {
     super(router, route, null, renderer, el, locationStrategy);
   }
 }

@@ -7,16 +7,13 @@ import { DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/
  * Additional info for constsum recipients questions.
  */
 @Component({
-    selector: 'tm-constsum-recipients-question-additional-info',
-    templateUrl: './constsum-recipients-question-additional-info.component.html',
-    styleUrls: ['./constsum-recipients-question-additional-info.component.scss'],
-    imports: [],
+  selector: 'tm-constsum-recipients-question-additional-info',
+  templateUrl: './constsum-recipients-question-additional-info.component.html',
+  styleUrls: ['./constsum-recipients-question-additional-info.component.scss'],
+  imports: [],
 })
-export class ConstsumRecipientsQuestionAdditionalInfoComponent
-    extends QuestionAdditionalInfo<FeedbackConstantSumQuestionDetails> {
-
+export class ConstsumRecipientsQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<FeedbackConstantSumQuestionDetails> {
   constructor() {
     super(DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS());
   }
-
 }

@@ -234,16 +234,9 @@ describe('InstructorCoursesPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-      ],
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      imports: [BrowserAnimationsModule],
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -261,8 +254,9 @@ describe('InstructorCoursesPageComponent', () => {
   });
 
   it('should load all courses by the instructor', () => {
-    const courseSpy: SpyInstance = jest.spyOn(courseService, 'getAllCoursesAsInstructor').mockImplementation(
-      (courseStatus: string): Observable<Courses> => {
+    const courseSpy: SpyInstance = jest
+      .spyOn(courseService, 'getAllCoursesAsInstructor')
+      .mockImplementation((courseStatus: string): Observable<Courses> => {
         if (courseStatus === 'active') {
           return of({ courses: [courseCS1231, courseCS3281, courseCS3282] });
         }
@@ -308,10 +302,8 @@ describe('InstructorCoursesPageComponent', () => {
     component.softDeletedCourses = [courseModelCS1231];
     expect(component.softDeletedCourses.length).toEqual(1);
 
-    const courseSpy: SpyInstance = jest.spyOn(courseService, 'restoreCourse')
-      .mockReturnValue(of(courseModelCS1231));
-    jest.spyOn(simpleModalService, 'openConfirmationModal')
-      .mockReturnValue(createMockNgbModalRef());
+    const courseSpy: SpyInstance = jest.spyOn(courseService, 'restoreCourse').mockReturnValue(of(courseModelCS1231));
+    jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef());
 
     component.onRestore('CS1231');
 
@@ -319,13 +311,12 @@ describe('InstructorCoursesPageComponent', () => {
     expect(courseSpy).toHaveBeenNthCalledWith(1, 'CS1231');
 
     expect(component.softDeletedCourses.length).toEqual(0);
-});
+  });
 
   it('should soft delete a course', async () => {
     component.activeCourses = [courseModelCS1231];
     const courseSpy: SpyInstance = jest.spyOn(courseService, 'binCourse').mockReturnValue(of(courseCS1231));
-    jest.spyOn(simpleModalService, 'openConfirmationModal')
-        .mockReturnValue(createMockNgbModalRef());
+    jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef());
 
     await component.onDelete('CS1231').then(() => {
       expect(courseSpy).toHaveBeenCalledTimes(1);
@@ -338,10 +329,10 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should permanently delete a course', async () => {
     component.softDeletedCourses = [courseModelCS1231];
-    const courseSpy: SpyInstance = jest.spyOn(courseService, 'deleteCourse')
-        .mockReturnValue(of({ message: 'Message' }));
-    jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(
-        createMockNgbModalRef());
+    const courseSpy: SpyInstance = jest
+      .spyOn(courseService, 'deleteCourse')
+      .mockReturnValue(of({ message: 'Message' }));
+    jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef());
 
     await component.onDeletePermanently('CS1231').then(() => {
       expect(courseSpy).toHaveBeenCalledTimes(1);
@@ -373,7 +364,7 @@ describe('InstructorCoursesPageComponent', () => {
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#btn-enroll-disabled-0');
-    expect(button.textContent).toEqual(' Enroll ');
+    expect(button.textContent).toEqual('Enroll');
     expect(button.className).toContain('disabled');
   });
 

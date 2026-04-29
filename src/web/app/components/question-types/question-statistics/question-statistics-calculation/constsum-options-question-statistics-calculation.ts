@@ -9,9 +9,10 @@ import { QuestionStatistics } from '../question-statistics';
  * Class to calculate stats for constsum options question.
  */
 @Directive()
-export class ConstsumOptionsQuestionStatisticsCalculation
-    extends QuestionStatistics<FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails> {
-
+export class ConstsumOptionsQuestionStatisticsCalculation extends QuestionStatistics<
+  FeedbackConstantSumQuestionDetails,
+  FeedbackConstantSumResponseDetails
+> {
   pointsPerOption: Record<string, number[]> = {};
   totalPointsPerOption: Record<string, number> = {};
   averagePointsPerOption: Record<string, number> = {};
@@ -45,5 +46,4 @@ export class ConstsumOptionsQuestionStatisticsCalculation
       this.averagePointsPerOption[option] = +(answers.length === 0 ? 0 : sum / answers.length).toFixed(2);
     }
   }
-
 }

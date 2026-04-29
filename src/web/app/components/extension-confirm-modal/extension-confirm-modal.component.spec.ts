@@ -5,7 +5,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ExtensionConfirmModalComponent, ExtensionModalType } from './extension-confirm-modal.component';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
-  FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
+  FeedbackSession,
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus,
 } from '../../../types/api-output';
 import { InstructorPermissionRole, ResponseVisibleSetting, SessionVisibleSetting } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
@@ -106,17 +108,11 @@ describe('ExtensionConfirmModalComponent', () => {
   let sortedStudents: StudentExtensionTableColumnModel[];
   let sortedInstructors: InstructorExtensionTableColumnModel[];
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          NgbActiveModal,
-          provideHttpClient(),
-          provideHttpClientTesting(),
-        ],
-      }).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ExtensionConfirmModalComponent);
@@ -193,25 +189,25 @@ describe('ExtensionConfirmModalComponent', () => {
         headerClass: 'student-sort-by-section',
       },
       {
-          header: 'Team',
-          sortBy: SortBy.TEAM_NAME,
-          headerClass: 'student-sort-by-team',
+        header: 'Team',
+        sortBy: SortBy.TEAM_NAME,
+        headerClass: 'student-sort-by-team',
       },
       {
-          header: 'Name',
-          sortBy: SortBy.RESPONDENT_NAME,
-          headerClass: 'student-sort-by-name',
+        header: 'Name',
+        sortBy: SortBy.RESPONDENT_NAME,
+        headerClass: 'student-sort-by-name',
       },
       {
-          header: 'Email',
-          sortBy: SortBy.RESPONDENT_EMAIL,
-          headerClass: 'student-sort-by-email',
+        header: 'Email',
+        sortBy: SortBy.RESPONDENT_EMAIL,
+        headerClass: 'student-sort-by-email',
       },
       {
-          header: component.isDeleteModal() || component.isSessionDeleteModal()
-          ? 'Current Deadline' : 'Original Deadline',
-          sortBy: SortBy.SESSION_END_DATE,
-          headerClass: 'student-sort-by-deadline',
+        header:
+          component.isDeleteModal() || component.isSessionDeleteModal() ? 'Current Deadline' : 'Original Deadline',
+        sortBy: SortBy.SESSION_END_DATE,
+        headerClass: 'student-sort-by-deadline',
       },
     ];
     expect(component.studentColumnsData).toEqual(expectedData);
@@ -242,7 +238,7 @@ describe('ExtensionConfirmModalComponent', () => {
         { displayValue: '5 Apr 2000 2:00:00', value: 1100000000 },
       ],
     ];
-      expect(component.instructorRowsData).toEqual(expectedData);
+    expect(component.instructorRowsData).toEqual(expectedData);
   });
 
   it('test setInstructorColumnData', () => {

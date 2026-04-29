@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
-import {
-  FeedbackSessionLogs,
-  FeedbackSessionLogType,
-} from '../types/api-output';
+import { FeedbackSessionLogs, FeedbackSessionLogType } from '../types/api-output';
 
 /**
  * Handles logging related logic provision.
@@ -14,16 +11,15 @@ import {
   providedIn: 'root',
 })
 export class LogService {
-
-  constructor(private httpRequestService: HttpRequestService) { }
+  constructor(private httpRequestService: HttpRequestService) {}
 
   /**
    * Creates a log for feedback session by calling API.
    */
   createFeedbackSessionLog(queryParams: {
-    logType: FeedbackSessionLogType,
-    feedbackSessionId: string,
-    key?: string,
+    logType: FeedbackSessionLogType;
+    feedbackSessionId: string;
+    key?: string;
   }): Observable<string> {
     const paramMap: Record<string, string> = {
       fsltype: queryParams.logType.toString(),
@@ -41,12 +37,12 @@ export class LogService {
    * Searches for feedback session logs.
    */
   searchFeedbackSessionLog(queryParams: {
-    courseId: string,
-    searchFrom: number,
-    searchUntil: number,
-    logTypes: FeedbackSessionLogType[],
-    studentId?: string,
-    sessionId?: string,
+    courseId: string;
+    searchFrom: number;
+    searchUntil: number;
+    logTypes: FeedbackSessionLogType[];
+    studentId?: string;
+    sessionId?: string;
   }): Observable<FeedbackSessionLogs> {
     const paramMap: Record<string, string | string[]> = {
       courseid: queryParams.courseId,

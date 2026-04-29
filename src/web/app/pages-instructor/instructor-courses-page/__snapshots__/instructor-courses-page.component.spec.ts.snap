@@ -90,7 +90,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
           aria-hidden="true"
           class="fa fa-trash-alt"
         />
-         Deleted courses 
+         Deleted courses
       </h2>
       <tm-loading-spinner>
         <div
@@ -322,7 +322,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                         id="btn-other-actions-0"
                         ngbdropdowntoggle=""
                       >
-                        Other Actions
+                         Other Actions 
                       </button>
                       <div
                         class="dropdown-menu"
@@ -411,7 +411,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                       class="btn btn-light btn-sm disabled"
                       id="btn-enroll-disabled-1"
                     >
-                       Enroll 
+                      Enroll
                     </button>
                     <div
                       class="d-inline-block dropdown"
@@ -423,7 +423,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                         id="btn-other-actions-1"
                         ngbdropdowntoggle=""
                       >
-                        Other Actions
+                         Other Actions 
                       </button>
                       <div
                         class="dropdown-menu"
@@ -472,7 +472,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
           aria-hidden="true"
           class="fa fa-trash-alt"
         />
-         Deleted courses 
+         Deleted courses
       </h2>
       <tm-loading-spinner>
         <div
@@ -807,14 +807,14 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
           aria-hidden="true"
           class="fa fa-trash-alt"
         />
-         Deleted courses 
+         Deleted courses
       </h2>
       <div>
         <div
           class="alert alert-warning margin-top-30px"
           role="alert"
         >
-           There are no courses in the bin. 
+          There are no courses in the bin.
         </div>
       </div>
     </div>
@@ -1032,7 +1032,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                         id="btn-other-actions-0"
                         ngbdropdowntoggle=""
                       >
-                        Other Actions
+                         Other Actions 
                       </button>
                       <div
                         class="dropdown-menu"
@@ -1121,7 +1121,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                       class="btn btn-light btn-sm disabled"
                       id="btn-enroll-disabled-1"
                     >
-                       Enroll 
+                      Enroll
                     </button>
                     <div
                       class="d-inline-block dropdown"
@@ -1133,7 +1133,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                         id="btn-other-actions-1"
                         ngbdropdowntoggle=""
                       >
-                        Other Actions
+                         Other Actions 
                       </button>
                       <div
                         class="dropdown-menu"
@@ -1182,7 +1182,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
           aria-hidden="true"
           class="fa fa-trash-alt"
         />
-         Deleted courses 
+         Deleted courses
       </h2>
       <tm-loading-spinner>
         <div
@@ -1294,7 +1294,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
           aria-hidden="true"
           class="fa fa-trash-alt"
         />
-         Deleted courses 
+         Deleted courses
       </h2>
       <tm-loading-spinner>
         <div
@@ -1489,7 +1489,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       <button
                         class="link-button"
                       >
-                         Show 
+                        Show
                       </button>
                     </span>
                   </td>
@@ -1508,7 +1508,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       <button
                         class="link-button"
                       >
-                         Show 
+                        Show
                       </button>
                     </span>
                   </td>
@@ -1517,7 +1517,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       <button
                         class="link-button"
                       >
-                         Show 
+                        Show
                       </button>
                     </span>
                   </td>
@@ -1543,7 +1543,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                         id="btn-other-actions-0"
                         ngbdropdowntoggle=""
                       >
-                        Other Actions
+                         Other Actions 
                       </button>
                       <div
                         class="dropdown-menu"
@@ -1610,7 +1610,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       <button
                         class="link-button"
                       >
-                         Show 
+                        Show
                       </button>
                     </span>
                   </td>
@@ -1629,7 +1629,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       <button
                         class="link-button"
                       >
-                         Show 
+                        Show
                       </button>
                     </span>
                   </td>
@@ -1638,7 +1638,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       <button
                         class="link-button"
                       >
-                         Show 
+                        Show
                       </button>
                     </span>
                   </td>
@@ -1649,7 +1649,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       class="btn btn-light btn-sm disabled"
                       id="btn-enroll-disabled-1"
                     >
-                       Enroll 
+                      Enroll
                     </button>
                     <div
                       class="d-inline-block dropdown"
@@ -1661,7 +1661,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                         id="btn-other-actions-1"
                         ngbdropdowntoggle=""
                       >
-                        Other Actions
+                         Other Actions 
                       </button>
                       <div
                         class="dropdown-menu"
@@ -1710,7 +1710,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
           aria-hidden="true"
           class="fa fa-trash-alt"
         />
-         Deleted courses 
+         Deleted courses
       </h2>
       <tm-loading-spinner>
         <div

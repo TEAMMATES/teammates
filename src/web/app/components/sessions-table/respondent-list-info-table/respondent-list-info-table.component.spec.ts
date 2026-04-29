@@ -95,7 +95,9 @@ describe('StudentListInfoTableComponent', () => {
 
   it('sortStudentsTableRows: should reverse the sort order and emit rows sorted by sectionName', () => {
     let emittedRows: StudentListInfoTableRowModel[] | undefined;
-    testEventEmission(component.studentListInfoTableRowModelsChange, (sortedRows) => { emittedRows = sortedRows; });
+    testEventEmission(component.studentListInfoTableRowModelsChange, (sortedRows) => {
+      emittedRows = sortedRows;
+    });
 
     component.studentListInfoTableRowModels = [
       studentModelBuilder.sectionName('A').build(),
@@ -121,7 +123,9 @@ describe('StudentListInfoTableComponent', () => {
 
   it('sortStudentsTableRows: should reverse the sort order and emit rows sorted by teamName', () => {
     let emittedRows: StudentListInfoTableRowModel[] | undefined;
-    testEventEmission(component.studentListInfoTableRowModelsChange, (sortedRows) => { emittedRows = sortedRows; });
+    testEventEmission(component.studentListInfoTableRowModelsChange, (sortedRows) => {
+      emittedRows = sortedRows;
+    });
 
     component.studentListInfoTableRowModels = [
       studentModelBuilder.teamName('A').build(),
@@ -147,7 +151,9 @@ describe('StudentListInfoTableComponent', () => {
 
   it('sortStudentsTableRows: should reverse the sort order and emit rows sorted by name', () => {
     let emittedRows: StudentListInfoTableRowModel[] | undefined;
-    testEventEmission(component.studentListInfoTableRowModelsChange, (sortedRows) => { emittedRows = sortedRows; });
+    testEventEmission(component.studentListInfoTableRowModelsChange, (sortedRows) => {
+      emittedRows = sortedRows;
+    });
 
     component.studentListInfoTableRowModels = [
       studentModelBuilder.name('A').build(),
@@ -173,7 +179,9 @@ describe('StudentListInfoTableComponent', () => {
 
   it('sortStudentsTableRows: should reverse the sort order and emit rows sorted by email', () => {
     let emittedRows: StudentListInfoTableRowModel[] | undefined;
-    testEventEmission(component.studentListInfoTableRowModelsChange, (sortedRows) => { emittedRows = sortedRows; });
+    testEventEmission(component.studentListInfoTableRowModelsChange, (sortedRows) => {
+      emittedRows = sortedRows;
+    });
 
     component.studentListInfoTableRowModels = [
       studentModelBuilder.email('A').build(),
@@ -199,7 +207,9 @@ describe('StudentListInfoTableComponent', () => {
 
   it('sortStudentsTableRows: should reverse the sort order and emit rows sorted by submitted status', () => {
     let emittedRows: StudentListInfoTableRowModel[] | undefined;
-    testEventEmission(component.studentListInfoTableRowModelsChange, (sortedRows) => { emittedRows = sortedRows; });
+    testEventEmission(component.studentListInfoTableRowModelsChange, (sortedRows) => {
+      emittedRows = sortedRows;
+    });
 
     component.studentListInfoTableRowModels = [
       studentModelBuilder.hasSubmittedSession(true).build(),
@@ -226,7 +236,9 @@ describe('StudentListInfoTableComponent', () => {
 
   it('sortInstructorsTableRows: should reverse the sort order and emit rows sorted by instructor name', () => {
     let emittedRows: InstructorListInfoTableRowModel[] | undefined;
-    testEventEmission(component.instructorListInfoTableRowModelsChange, (sortedRows) => { emittedRows = sortedRows; });
+    testEventEmission(component.instructorListInfoTableRowModelsChange, (sortedRows) => {
+      emittedRows = sortedRows;
+    });
 
     component.instructorListInfoTableRowModels = [
       instructorModelBuilder.name('Instructor A').build(),
@@ -251,7 +263,9 @@ describe('StudentListInfoTableComponent', () => {
 
   it('sortInstructorsTableRows: should reverse the sort order and emit rows sorted by instructor email', () => {
     let emittedRows: InstructorListInfoTableRowModel[] | undefined;
-    testEventEmission(component.instructorListInfoTableRowModelsChange, (sortedRows) => { emittedRows = sortedRows; });
+    testEventEmission(component.instructorListInfoTableRowModelsChange, (sortedRows) => {
+      emittedRows = sortedRows;
+    });
 
     component.instructorListInfoTableRowModels = [
       instructorModelBuilder.email('Instructor A').build(),
@@ -274,11 +288,13 @@ describe('StudentListInfoTableComponent', () => {
     ]);
   });
 
-  it('sortInstructorsTableRows: should reverse the sort order and emit rows sorted by'
-    + 'instructor submitted status', () => {
+  it(
+    'sortInstructorsTableRows: should reverse the sort order and emit rows sorted by' + 'instructor submitted status',
+    () => {
       let emittedRows: InstructorListInfoTableRowModel[] | undefined;
-      testEventEmission(component.instructorListInfoTableRowModelsChange,
-        (sortedRows) => { emittedRows = sortedRows; });
+      testEventEmission(component.instructorListInfoTableRowModelsChange, (sortedRows) => {
+        emittedRows = sortedRows;
+      });
 
       component.instructorListInfoTableRowModels = [
         instructorModelBuilder.hasSubmittedSession(true).build(),
@@ -300,7 +316,8 @@ describe('StudentListInfoTableComponent', () => {
         instructorModelBuilder.hasSubmittedSession(true).build(),
         instructorModelBuilder.hasSubmittedSession(true).build(),
       ]);
-    });
+    },
+  );
 
   it('handleSelectionOfStudentRow: should toggle isSelected of student model', () => {
     component.studentListInfoTableRowModels = [
@@ -310,8 +327,13 @@ describe('StudentListInfoTableComponent', () => {
     ];
 
     let emittedRows: StudentListInfoTableRowModel[] | undefined;
-    testEventEmission(component.studentListInfoTableRowModelsChange,
-      (sortedRows) => { emittedRows = sortedRows; }, false);
+    testEventEmission(
+      component.studentListInfoTableRowModelsChange,
+      (sortedRows) => {
+        emittedRows = sortedRows;
+      },
+      false,
+    );
     const handleSelectionOfStudentRowSpy = jest.spyOn(component, 'handleSelectionOfStudentRow');
     fixture.detectChanges();
 
@@ -333,8 +355,13 @@ describe('StudentListInfoTableComponent', () => {
     ];
 
     let emittedRows: InstructorListInfoTableRowModel[] | undefined;
-    testEventEmission(component.instructorListInfoTableRowModelsChange,
-      (sortedRows) => { emittedRows = sortedRows; }, false);
+    testEventEmission(
+      component.instructorListInfoTableRowModelsChange,
+      (sortedRows) => {
+        emittedRows = sortedRows;
+      },
+      false,
+    );
     const handleSelectionOfInstructorRowSpy = jest.spyOn(component, 'handleSelectionOfInstructorRow');
     fixture.detectChanges();
 
@@ -404,10 +431,13 @@ describe('StudentListInfoTableComponent', () => {
     ];
 
     let emittedRows: StudentListInfoTableRowModel[] | undefined;
-    testEventEmission(component.studentListInfoTableRowModelsChange,
-      (newRows) => { emittedRows = newRows; });
-    const changeSelectionStatusForAllStudentsHandlerSpy =
-      jest.spyOn(component, 'changeSelectionStatusForAllStudentsHandler');
+    testEventEmission(component.studentListInfoTableRowModelsChange, (newRows) => {
+      emittedRows = newRows;
+    });
+    const changeSelectionStatusForAllStudentsHandlerSpy = jest.spyOn(
+      component,
+      'changeSelectionStatusForAllStudentsHandler',
+    );
 
     fixture.detectChanges();
 
@@ -420,8 +450,9 @@ describe('StudentListInfoTableComponent', () => {
     ]);
   });
 
-  it('changeSelectionStatusForAllStudentsHandler: should set all isSelected to false if'
-    + 'checkbox is clicked twice', () => {
+  it(
+    'changeSelectionStatusForAllStudentsHandler: should set all isSelected to false if' + 'checkbox is clicked twice',
+    () => {
       component.studentListInfoTableRowModels = [
         studentModelBuilder.isSelected(true).build(),
         studentModelBuilder.isSelected(true).build(),
@@ -429,9 +460,17 @@ describe('StudentListInfoTableComponent', () => {
       ];
 
       let emittedRows: StudentListInfoTableRowModel[] | undefined;
-      testEventEmission(component.studentListInfoTableRowModelsChange, (newRows) => { emittedRows = newRows; }, false);
-      const changeSelectionStatusForAllStudentsHandlerSpy =
-        jest.spyOn(component, 'changeSelectionStatusForAllStudentsHandler');
+      testEventEmission(
+        component.studentListInfoTableRowModelsChange,
+        (newRows) => {
+          emittedRows = newRows;
+        },
+        false,
+      );
+      const changeSelectionStatusForAllStudentsHandlerSpy = jest.spyOn(
+        component,
+        'changeSelectionStatusForAllStudentsHandler',
+      );
 
       fixture.detectChanges();
 
@@ -443,7 +482,8 @@ describe('StudentListInfoTableComponent', () => {
         studentModelBuilder.isSelected(false).build(),
         studentModelBuilder.isSelected(false).build(),
       ]);
-    });
+    },
+  );
 
   it('changeSelectionStatusForAllInstructorsHandler: should set all isSelected to true if not all are selected', () => {
     component.instructorListInfoTableRowModels = [
@@ -453,9 +493,13 @@ describe('StudentListInfoTableComponent', () => {
     ];
 
     let emittedRows: InstructorListInfoTableRowModel[] | undefined;
-    testEventEmission(component.instructorListInfoTableRowModelsChange, (newRows) => { emittedRows = newRows; });
-    const changeSelectionStatusForAllInstructorsHandlerSpy =
-      jest.spyOn(component, 'changeSelectionStatusForAllInstructorsHandler');
+    testEventEmission(component.instructorListInfoTableRowModelsChange, (newRows) => {
+      emittedRows = newRows;
+    });
+    const changeSelectionStatusForAllInstructorsHandlerSpy = jest.spyOn(
+      component,
+      'changeSelectionStatusForAllInstructorsHandler',
+    );
 
     fixture.detectChanges();
 
@@ -468,8 +512,10 @@ describe('StudentListInfoTableComponent', () => {
     ]);
   });
 
-  it('changeSelectionStatusForAllInstructorsHandler: should set all isSelected to false'
-    + 'if checkbox is clicked twice', () => {
+  it(
+    'changeSelectionStatusForAllInstructorsHandler: should set all isSelected to false' +
+      'if checkbox is clicked twice',
+    () => {
       component.instructorListInfoTableRowModels = [
         instructorModelBuilder.isSelected(true).build(),
         instructorModelBuilder.isSelected(true).build(),
@@ -477,10 +523,17 @@ describe('StudentListInfoTableComponent', () => {
       ];
 
       let emittedRows: InstructorListInfoTableRowModel[] | undefined;
-      testEventEmission(component.instructorListInfoTableRowModelsChange,
-        (newRows) => { emittedRows = newRows; }, false);
-      const changeSelectionStatusForAllInstructorsHandlerSpy =
-        jest.spyOn(component, 'changeSelectionStatusForAllInstructorsHandler');
+      testEventEmission(
+        component.instructorListInfoTableRowModelsChange,
+        (newRows) => {
+          emittedRows = newRows;
+        },
+        false,
+      );
+      const changeSelectionStatusForAllInstructorsHandlerSpy = jest.spyOn(
+        component,
+        'changeSelectionStatusForAllInstructorsHandler',
+      );
 
       fixture.detectChanges();
 
@@ -492,6 +545,6 @@ describe('StudentListInfoTableComponent', () => {
         instructorModelBuilder.isSelected(false).build(),
         instructorModelBuilder.isSelected(false).build(),
       ]);
-    });
-
+    },
+  );
 });

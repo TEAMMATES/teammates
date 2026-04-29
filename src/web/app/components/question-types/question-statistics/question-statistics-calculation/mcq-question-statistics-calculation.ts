@@ -8,9 +8,9 @@ import { QuestionStatistics } from '../question-statistics';
  */
 @Directive()
 export class McqQuestionStatisticsCalculation
-    extends QuestionStatistics<FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails>
-    implements McqMsqQuestionStatisticsCalculation {
-
+  extends QuestionStatistics<FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails>
+  implements McqMsqQuestionStatisticsCalculation
+{
   answerFrequency: Record<string, number> = {};
   percentagePerOption: Record<string, number> = {};
   weightPerOption: Record<string, number> = {};
@@ -60,14 +60,14 @@ export class McqQuestionStatisticsCalculation
       for (const answer of Object.keys(this.weightPerOption)) {
         const weight: number = this.weightPerOption[answer];
         const frequency: number = this.answerFrequency[answer];
-        const weightedPercentage: number = totalWeightedResponseCount === 0 ? 0
-            : 100 * ((frequency * weight) / totalWeightedResponseCount);
+        const weightedPercentage: number =
+          totalWeightedResponseCount === 0 ? 0 : 100 * ((frequency * weight) / totalWeightedResponseCount);
         this.weightedPercentagePerOption[answer] = +weightedPercentage.toFixed(2);
       }
     }
 
     for (const answer of Object.keys(this.answerFrequency)) {
-      const percentage: number = 100 * this.answerFrequency[answer] / this.responses.length;
+      const percentage: number = (100 * this.answerFrequency[answer]) / this.responses.length;
       this.percentagePerOption[answer] = +percentage.toFixed(2);
     }
 

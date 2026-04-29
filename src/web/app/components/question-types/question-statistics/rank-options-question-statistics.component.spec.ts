@@ -31,7 +31,10 @@ describe('RankOptionsQuestionStatisticsComponent', () => {
     };
 
     const expectedRankPerOption: Record<string, number> = {
-      optionA: 2, optionB: 3, optionC: 1, optionD: 4,
+      optionA: 2,
+      optionB: 3,
+      optionC: 1,
+      optionD: 4,
     };
 
     component.calculateStatistics();
@@ -52,7 +55,10 @@ describe('RankOptionsQuestionStatisticsComponent', () => {
     };
 
     const expectedRankPerOption: Record<string, number> = {
-      optionA: 3, optionB: 1, optionC: 1, optionD: 4,
+      optionA: 3,
+      optionB: 1,
+      optionC: 1,
+      optionD: 4,
     };
 
     component.calculateStatistics();

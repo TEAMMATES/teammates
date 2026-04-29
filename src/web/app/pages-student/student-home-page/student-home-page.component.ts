@@ -61,7 +61,7 @@ interface StudentSession {
     NgClass,
     ResponseStatusPipe,
     NgbCollapse,
-],
+  ],
 })
 export class StudentHomePageComponent implements OnInit {
   private readonly timezoneService = inject(TimezoneService);
@@ -70,8 +70,7 @@ export class StudentHomePageComponent implements OnInit {
   SortBy: typeof SortBy = SortBy;
 
   // Tooltip messages
-  studentFeedbackSessionStatusPublished =
-    'The responses for the session have been published and can now be viewed.';
+  studentFeedbackSessionStatusPublished = 'The responses for the session have been published and can now be viewed.';
   studentFeedbackSessionStatusNotPublished =
     'The responses for the session have not yet been published and cannot be viewed.';
   studentFeedbackSessionStatusAwaiting =
@@ -82,8 +81,7 @@ export class StudentHomePageComponent implements OnInit {
   studentFeedbackSessionStatusClosed = ' The session is now closed for submissions.';
 
   // Error messages
-  allStudentFeedbackSessionsNotReturned =
-      'Something went wrong with fetching responses for all Feedback Sessions.';
+  allStudentFeedbackSessionsNotReturned = 'Something went wrong with fetching responses for all Feedback Sessions.';
 
   courses: StudentCourse[] = [];
   isCoursesLoading = false;
@@ -94,11 +92,13 @@ export class StudentHomePageComponent implements OnInit {
   sessionSubmissionStatusPipe = new SubmissionStatusPipe();
   formatDateDetailPipe = new FormatDateDetailPipe(this.timezoneService);
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private route: ActivatedRoute,
     private courseService: CourseService,
     private statusMessageService: StatusMessageService,
     private feedbackSessionsService: FeedbackSessionsService,
-    private tableComparatorService: TableComparatorService) {
+    private tableComparatorService: TableComparatorService,
+  ) {
     this.timezoneService.getTzVersion();
   }
 
@@ -115,8 +115,13 @@ export class StudentHomePageComponent implements OnInit {
     this.hasCoursesLoadingFailed = false;
     this.isCoursesLoading = true;
     this.courses = [];
-    this.courseService.getAllCoursesAsStudent()
-      .pipe(finalize(() => { this.isCoursesLoading = false; }))
+    this.courseService
+      .getAllCoursesAsStudent()
+      .pipe(
+        finalize(() => {
+          this.isCoursesLoading = false;
+        }),
+      )
       .subscribe({
         next: (resp: Courses) => {
           resp.courses.forEach((course: Course) => {
@@ -183,8 +188,8 @@ export class StudentHomePageComponent implements OnInit {
 
               const sessionsReturned: Set<string> = new Set(Object.keys(hasRes.hasResponsesBySession));
               const isAllSessionsPresent: boolean =
-                sortedFss.filter((fs: FeedbackSession) => sessionsReturned.has(fs.feedbackSessionName)).length
-                === sortedFss.length;
+                sortedFss.filter((fs: FeedbackSession) => sessionsReturned.has(fs.feedbackSessionName)).length ===
+                sortedFss.length;
 
               if (!isAllSessionsPresent) {
                 this.statusMessageService.showErrorToast(this.allStudentFeedbackSessionsNotReturned);
@@ -257,7 +262,11 @@ export class StudentHomePageComponent implements OnInit {
   getSubmissionStatus(session: StudentSession): string {
     const hasStudentExtension = this.hasStudentExtension(session.session);
     return this.sessionSubmissionStatusPipe.transform(
-      session.isOpened, session.isWaitingToOpen, session.isSubmitted, hasStudentExtension);
+      session.isOpened,
+      session.isWaitingToOpen,
+      session.isSubmitted,
+      hasStudentExtension,
+    );
   }
 
   /**
@@ -274,8 +283,10 @@ export class StudentHomePageComponent implements OnInit {
       return '';
     }
     const originalEndTime = this.formatDateDetailPipe.transform(session.submissionEndTimestamp, session.timeZone);
-    return `The session's original end date is ${originalEndTime}.`
-      + ' An instructor has granted you an extension to this date.';
+    return (
+      `The session's original end date is ${originalEndTime}.` +
+      ' An instructor has granted you an extension to this date.'
+    );
   }
 
   hasStudentExtension(session: FeedbackSession): boolean {
@@ -324,8 +335,8 @@ export class StudentHomePageComponent implements OnInit {
     });
   }
 
-  sortPanelsBy(by: SortBy): ((a: StudentCourse, b: StudentCourse) => number) {
-    return ((a: StudentCourse, b: StudentCourse): number => {
+  sortPanelsBy(by: SortBy): (a: StudentCourse, b: StudentCourse) => number {
+    return (a: StudentCourse, b: StudentCourse): number => {
       let strA: string;
       let strB: string;
       let sortOrder: SortOrder;
@@ -351,6 +362,6 @@ export class StudentHomePageComponent implements OnInit {
           sortOrder = SortOrder.ASC;
       }
       return this.tableComparatorService.compare(by, sortOrder, strA, strB);
-    });
+    };
   }
 }

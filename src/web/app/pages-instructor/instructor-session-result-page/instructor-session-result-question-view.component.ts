@@ -6,15 +6,9 @@ import { QuestionTabModel } from './instructor-session-tab.model';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
-import {
-  PerQuestionViewResponsesComponent,
-} from '../../components/question-responses/per-question-view-responses/per-question-view-responses.component';
-import {
-  SingleStatisticsComponent,
-} from '../../components/question-responses/single-statistics/single-statistics.component';
-import {
-  QuestionTextWithInfoComponent,
-} from '../../components/question-text-with-info/question-text-with-info.component';
+import { PerQuestionViewResponsesComponent } from '../../components/question-responses/per-question-view-responses/per-question-view-responses.component';
+import { SingleStatisticsComponent } from '../../components/question-responses/single-statistics/single-statistics.component';
+import { QuestionTextWithInfoComponent } from '../../components/question-text-with-info/question-text-with-info.component';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 
 /**
@@ -32,11 +26,12 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
     LoadingRetryComponent,
     SingleStatisticsComponent,
     PerQuestionViewResponsesComponent,
-],
+  ],
 })
 export class InstructorSessionResultQuestionViewComponent
-    extends InstructorSessionResultView implements OnInit, OnChanges {
-
+  extends InstructorSessionResultView
+  implements OnInit, OnChanges
+{
   @Output()
   loadQuestion: EventEmitter<string> = new EventEmitter();
 
@@ -44,8 +39,8 @@ export class InstructorSessionResultQuestionViewComponent
   @Input() isDisplayOnly = false;
 
   @Output() downloadQuestionResult: EventEmitter<{
-    questionNumber: number,
-    questionId: string,
+    questionNumber: number;
+    questionId: string;
   }> = new EventEmitter();
 
   questionsOrder: QuestionTabModel[] = [];
@@ -63,16 +58,15 @@ export class InstructorSessionResultQuestionViewComponent
   }
 
   sortQuestion(): void {
-    this.questionsOrder = Object.values(this.questions)
-        .sort((val1: QuestionTabModel, val2: QuestionTabModel) => {
-          return val1.question.questionNumber - (val2.question.questionNumber);
-        });
+    this.questionsOrder = Object.values(this.questions).sort((val1: QuestionTabModel, val2: QuestionTabModel) => {
+      return val1.question.questionNumber - val2.question.questionNumber;
+    });
   }
 
   /**
    * Triggers the download of a question result.
    */
-  triggerDownloadQuestionResult($event: { questionNumber: number, questionId: string }): void {
+  triggerDownloadQuestionResult($event: { questionNumber: number; questionId: string }): void {
     this.downloadQuestionResult.emit($event);
   }
 }

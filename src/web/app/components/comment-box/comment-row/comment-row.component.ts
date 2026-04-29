@@ -53,10 +53,9 @@ export interface CommentRowModel {
     SafeHtmlPipe,
     FormatDateBriefPipe,
     CommentVisibilityTypesJointNamePipe,
-],
+  ],
 })
 export class CommentRowComponent implements OnChanges {
-
   // enum
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
   CommentVisibilityControl: typeof CommentVisibilityControl = CommentVisibilityControl;
@@ -115,8 +114,10 @@ export class CommentRowComponent implements OnChanges {
 
   visibilityStateMachine: CommentVisibilityStateMachine;
 
-  constructor(private simpleModalService: SimpleModalService,
-              private commentService: FeedbackResponseCommentService) {
+  constructor(
+    private simpleModalService: SimpleModalService,
+    private commentService: FeedbackResponseCommentService,
+  ) {
     this.visibilityStateMachine = this.commentService.getNewVisibilityStateMachine(this.questionShowResponsesTo);
   }
 
@@ -154,13 +155,18 @@ export class CommentRowComponent implements OnChanges {
    * Triggers the delete comment event
    */
   triggerDeleteCommentEvent(): void {
-    const modalRef: NgbModalRef = this.simpleModalService
-        .openConfirmationModal('Delete the comment permanently?', SimpleModalType.DANGER,
-            'Are you sure you want to continue?');
+    const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+      'Delete the comment permanently?',
+      SimpleModalType.DANGER,
+      'Are you sure you want to continue?',
+    );
 
-    modalRef.result.then(() => {
-      this.deleteCommentEvent.emit();
-    }, () => {});
+    modalRef.result.then(
+      () => {
+        this.deleteCommentEvent.emit();
+      },
+      () => {},
+    );
   }
 
   /**

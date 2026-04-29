@@ -9,8 +9,7 @@ describe('AboutPageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [provideRouter([])],
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {

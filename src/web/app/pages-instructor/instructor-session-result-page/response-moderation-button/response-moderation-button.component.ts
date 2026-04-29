@@ -1,7 +1,8 @@
 import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import {
-  FeedbackSession, FeedbackSessionPublishStatus,
+  FeedbackSession,
+  FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting,
   SessionVisibleSetting,
@@ -18,7 +19,6 @@ import { TeammatesRouterDirective } from '../../../components/teammates-router/t
   imports: [TeammatesRouterDirective, NgClass],
 })
 export class ResponseModerationButtonComponent {
-
   @Input()
   session: FeedbackSession = {
     feedbackSessionId: '',
@@ -49,5 +49,4 @@ export class ResponseModerationButtonComponent {
 
   @Input()
   btnStyle: 'PRIMARY' | 'LIGHT' = 'LIGHT';
-
 }

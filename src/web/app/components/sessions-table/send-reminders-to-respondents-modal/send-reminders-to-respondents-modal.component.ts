@@ -15,13 +15,9 @@ import { RespondentListInfoTableComponent } from '../respondent-list-info-table/
   selector: 'tm-send-reminders-to-respondents-modal',
   templateUrl: './send-reminders-to-respondents-modal.component.html',
   styleUrls: ['./send-reminders-to-respondents-modal.component.scss'],
-  imports: [
-    FormsModule,
-    RespondentListInfoTableComponent,
-],
+  imports: [FormsModule, RespondentListInfoTableComponent],
 })
 export class SendRemindersToRespondentsModalComponent {
-
   // values below will be injected by other component
   courseId = '';
   feedbackSessionName = '';
@@ -30,8 +26,7 @@ export class SendRemindersToRespondentsModalComponent {
 
   isSendingCopyToInstructor = true;
 
-  constructor(public activeModal: NgbActiveModal) {
-  }
+  constructor(public activeModal: NgbActiveModal) {}
 
   /**
    * Changes selection state for all students.
@@ -95,13 +90,13 @@ export class SendRemindersToRespondentsModalComponent {
    */
   private collateRespondentsToSend(): (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] {
     const studentsToSend: (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] =
-        this.studentListInfoTableRowModels.map(
-            (model: StudentListInfoTableRowModel) => ({ ...model }))
-            .filter((model: StudentListInfoTableRowModel) => model.isSelected);
+      this.studentListInfoTableRowModels
+        .map((model: StudentListInfoTableRowModel) => ({ ...model }))
+        .filter((model: StudentListInfoTableRowModel) => model.isSelected);
     const instructorsToSend: (StudentListInfoTableRowModel | InstructorListInfoTableRowModel)[] =
-        this.instructorListInfoTableRowModels.map(
-            (model: InstructorListInfoTableRowModel) => ({ ...model }))
-            .filter((model: InstructorListInfoTableRowModel) => model.isSelected);
+      this.instructorListInfoTableRowModels
+        .map((model: InstructorListInfoTableRowModel) => ({ ...model }))
+        .filter((model: InstructorListInfoTableRowModel) => model.isSelected);
     return studentsToSend.concat(instructorsToSend);
   }
 
@@ -118,8 +113,9 @@ export class SendRemindersToRespondentsModalComponent {
    * If all students have submitted it will return false.
    */
   get isAllYetToSubmitStudentsSelected(): boolean {
-    const nonSubmitters: StudentListInfoTableRowModel[] = this.studentListInfoTableRowModels
-      .filter((model: StudentListInfoTableRowModel) => !model.hasSubmittedSession);
+    const nonSubmitters: StudentListInfoTableRowModel[] = this.studentListInfoTableRowModels.filter(
+      (model: StudentListInfoTableRowModel) => !model.hasSubmittedSession,
+    );
 
     return nonSubmitters.length > 0 && nonSubmitters.every((model: StudentListInfoTableRowModel) => model.isSelected);
   }
@@ -137,10 +133,12 @@ export class SendRemindersToRespondentsModalComponent {
    * If all instructors have submitted it will return false.
    */
   get isAllYetToSubmitInstructorsSelected(): boolean {
-    const nonSubmitters: InstructorListInfoTableRowModel[] = this.instructorListInfoTableRowModels
-      .filter((model: InstructorListInfoTableRowModel) => !model.hasSubmittedSession);
+    const nonSubmitters: InstructorListInfoTableRowModel[] = this.instructorListInfoTableRowModels.filter(
+      (model: InstructorListInfoTableRowModel) => !model.hasSubmittedSession,
+    );
 
-    return nonSubmitters.length > 0
-        && nonSubmitters.every((model: InstructorListInfoTableRowModel) => model.isSelected);
+    return (
+      nonSubmitters.length > 0 && nonSubmitters.every((model: InstructorListInfoTableRowModel) => model.isSelected)
+    );
   }
 }

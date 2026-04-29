@@ -14,11 +14,8 @@ import { DEFAULT_TEXT_QUESTION_DETAILS } from '../../../../types/default-questio
   styleUrls: ['./text-question-edit-details-form.component.scss'],
   imports: [NgbTooltip, FormsModule],
 })
-export class TextQuestionEditDetailsFormComponent
-    extends QuestionEditDetailsFormComponent<FeedbackTextQuestionDetails> {
-
+export class TextQuestionEditDetailsFormComponent extends QuestionEditDetailsFormComponent<FeedbackTextQuestionDetails> {
   constructor() {
     super(DEFAULT_TEXT_QUESTION_DETAILS());
   }
-
 }

@@ -16,9 +16,10 @@ interface ContributionStatisticsEntryExt extends ContributionStatisticsEntry {
  * Class to calculate stats for contribution question.
  */
 @Directive()
-export class ContributionQuestionStatisticsCalculation
-    extends QuestionStatistics<FeedbackContributionQuestionDetails, FeedbackContributionResponseDetails> {
-
+export class ContributionQuestionStatisticsCalculation extends QuestionStatistics<
+  FeedbackContributionQuestionDetails,
+  FeedbackContributionResponseDetails
+> {
   @Input() statistics = '';
 
   emailToTeamName: Record<string, string> = {};

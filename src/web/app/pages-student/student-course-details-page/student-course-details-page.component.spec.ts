@@ -16,16 +16,18 @@ const student: Student = {
   teamName: 'Team 2',
 };
 
-const instructorDetails: Instructor[] = [{
-  googleId: '',
-  courseId: '1.1.c-demo2',
-  displayedToStudentsAs: 'Instructor',
-  isDisplayedToStudents: true,
-  email: '1@1.com',
-  name: '1',
-  joinState: JoinState.JOINED,
-  role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-}];
+const instructorDetails: Instructor[] = [
+  {
+    googleId: '',
+    courseId: '1.1.c-demo2',
+    displayedToStudentsAs: 'Instructor',
+    isDisplayedToStudents: true,
+    email: '1@1.com',
+    name: '1',
+    joinState: JoinState.JOINED,
+    role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+  },
+];
 
 const course: Course = {
   courseId: '1.1.c-demo2',
@@ -42,13 +44,8 @@ describe('StudentCourseDetailsPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -180,5 +177,4 @@ describe('StudentCourseDetailsPageComponent', () => {
     expect(component.teammateProfiles[1].email).toEqual('bam3@hello.com');
     expect(component.teammateProfiles[2].email).toEqual('cam2@hello.com');
   });
-
 });

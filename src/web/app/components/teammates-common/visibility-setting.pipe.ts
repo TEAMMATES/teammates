@@ -7,7 +7,6 @@ import { VisibilityControl } from '../../../types/visibility-control';
  */
 @Pipe({ name: 'visibilityControlName' })
 export class VisibilityControlNamePipe implements PipeTransform {
-
   /**
    * Transforms {@code type} to a simple name.
    */
@@ -23,7 +22,6 @@ export class VisibilityControlNamePipe implements PipeTransform {
         return 'Unknown';
     }
   }
-
 }
 
 /**
@@ -32,7 +30,6 @@ export class VisibilityControlNamePipe implements PipeTransform {
  */
 @Pipe({ name: 'visibilityTypeDescription' })
 export class VisibilityTypeDescriptionPipe implements PipeTransform {
-
   /**
    * Transforms {@code type} to a detailed description.
    */
@@ -52,7 +49,6 @@ export class VisibilityTypeDescriptionPipe implements PipeTransform {
         return 'Unknown';
     }
   }
-
 }
 
 /**
@@ -60,7 +56,6 @@ export class VisibilityTypeDescriptionPipe implements PipeTransform {
  */
 @Pipe({ name: 'visibilityTypeName' })
 export class VisibilityTypeNamePipe implements PipeTransform {
-
   /**
    * Transforms {@code type} to a simple name.
    */
@@ -80,5 +75,4 @@ export class VisibilityTypeNamePipe implements PipeTransform {
         return 'Unknown';
     }
   }
-
 }

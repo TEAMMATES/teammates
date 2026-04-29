@@ -2,7 +2,6 @@
  * Represents how responses whose giver/evaluee comes from certain sections should be displayed or not.
  */
 export enum InstructorSessionResultSectionType {
-
   /**
    * Show response if either the giver or evaluee is in the selected section
    */
@@ -22,5 +21,4 @@ export enum InstructorSessionResultSectionType {
    * Show response only if both are in the selected section
    */
   BOTH = 'BOTH',
-
 }

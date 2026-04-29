@@ -9,8 +9,7 @@ describe('ResponseModerationButtonComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [provideRouter([])],
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -202,7 +202,7 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
                       <div
                         class="invalid-feedback"
                       >
-                         There is no course. 
+                        There is no course.
                       </div>
                     </div>
                   </div>
@@ -235,7 +235,7 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
                   <div
                     class="col-md-2 text-md-end font-bold"
                   >
-                     Course Name 
+                    Course Name
                   </div>
                   <div
                     class="col-md-10 text-md-start"
@@ -280,7 +280,7 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
                          The field Session Name should not be empty. 
                       </div>
                       <div>
-                         64 characters left 
+                        64 characters left
                       </div>
                     </div>
                   </div>
@@ -833,7 +833,7 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
                 id="btn-change-visibility"
                 type="button"
               >
-                [Change]
+                 [Change] 
               </button>
             </div>
             <div
@@ -1357,7 +1357,7 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
                 id="btn-change-email"
                 type="button"
               >
-                [Change]
+                 [Change] 
               </button>
             </div>
             <div
@@ -1369,7 +1369,7 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
                 <div
                   class="col-12 font-bold"
                 >
-                   Send emails for 
+                  Send emails for
                 </div>
                 <div
                   class="row ms-md-1 mt-md-3"
@@ -1452,7 +1452,7 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
                     id="btn-create-session"
                     type="button"
                   >
-                    Create Feedback Session 
+                     Create Feedback Session 
                   </button>
                   <p
                     class="text-danger margin-top-20px"
@@ -1725,7 +1725,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
                       <div
                         class="invalid-feedback"
                       >
-                         There is no course. 
+                        There is no course.
                       </div>
                     </div>
                   </div>
@@ -1758,7 +1758,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
                   <div
                     class="col-md-2 text-md-end font-bold"
                   >
-                     Course Name 
+                    Course Name
                   </div>
                   <div
                     class="col-md-10 text-md-start"
@@ -1803,7 +1803,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
                          The field Session Name should not be empty. 
                       </div>
                       <div>
-                         64 characters left 
+                        64 characters left
                       </div>
                     </div>
                   </div>
@@ -2356,7 +2356,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
                 id="btn-change-visibility"
                 type="button"
               >
-                [Change]
+                 [Change] 
               </button>
             </div>
             <div
@@ -2880,7 +2880,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
                 id="btn-change-email"
                 type="button"
               >
-                [Change]
+                 [Change] 
               </button>
             </div>
             <div
@@ -2892,7 +2892,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
                 <div
                   class="col-12 font-bold"
                 >
-                   Send emails for 
+                  Send emails for
                 </div>
                 <div
                   class="row ms-md-1 mt-md-3"
@@ -2975,7 +2975,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
                     id="btn-create-session"
                     type="button"
                   >
-                    Create Feedback Session 
+                     Create Feedback Session 
                   </button>
                   <p
                     class="text-danger margin-top-20px"
@@ -3248,7 +3248,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
                       <div
                         class="invalid-feedback"
                       >
-                         There is no course. 
+                        There is no course.
                       </div>
                     </div>
                   </div>
@@ -3281,7 +3281,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
                   <div
                     class="col-md-2 text-md-end font-bold"
                   >
-                     Course Name 
+                    Course Name
                   </div>
                   <div
                     class="col-md-10 text-md-start"
@@ -3326,7 +3326,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
                          The field Session Name should not be empty. 
                       </div>
                       <div>
-                         64 characters left 
+                        64 characters left
                       </div>
                     </div>
                   </div>
@@ -3879,7 +3879,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
                 id="btn-change-visibility"
                 type="button"
               >
-                [Change]
+                 [Change] 
               </button>
             </div>
             <div
@@ -4403,7 +4403,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
                 id="btn-change-email"
                 type="button"
               >
-                [Change]
+                 [Change] 
               </button>
             </div>
             <div
@@ -4415,7 +4415,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
                 <div
                   class="col-12 font-bold"
                 >
-                   Send emails for 
+                  Send emails for
                 </div>
                 <div
                   class="row ms-md-1 mt-md-3"
@@ -4498,7 +4498,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
                     id="btn-create-session"
                     type="button"
                   >
-                    Create Feedback Session 
+                     Create Feedback Session 
                   </button>
                   <p
                     class="text-danger margin-top-20px"
@@ -4530,7 +4530,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
           aria-hidden="true"
           class="fas fa-redo"
         />
-         Retry
+         Retry 
       </button>
     </div>
   </tm-loading-retry>
@@ -4598,7 +4598,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
     >
       here
     </a>
-     to create a course.
+     to create a course. 
   </div><div>
     <button
       class="btn btn-success"
@@ -4752,7 +4752,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                       <div
                         class="invalid-feedback"
                       >
-                         There is no course. 
+                        There is no course.
                       </div>
                     </div>
                   </div>
@@ -4785,7 +4785,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                   <div
                     class="col-md-2 text-md-end font-bold"
                   >
-                     Course Name 
+                    Course Name
                   </div>
                   <div
                     class="col-md-10 text-md-start"
@@ -4830,7 +4830,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                          The field Session Name should not be empty. 
                       </div>
                       <div>
-                         64 characters left 
+                        64 characters left
                       </div>
                     </div>
                   </div>
@@ -5383,7 +5383,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                 id="btn-change-visibility"
                 type="button"
               >
-                [Change]
+                 [Change] 
               </button>
             </div>
             <div
@@ -5907,7 +5907,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                 id="btn-change-email"
                 type="button"
               >
-                [Change]
+                 [Change] 
               </button>
             </div>
             <div
@@ -5919,7 +5919,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                 <div
                   class="col-12 font-bold"
                 >
-                   Send emails for 
+                  Send emails for
                 </div>
                 <div
                   class="row ms-md-1 mt-md-3"
@@ -6002,7 +6002,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                     id="btn-create-session"
                     type="button"
                   >
-                    Create Feedback Session 
+                     Create Feedback Session 
                   </button>
                   <p
                     class="text-danger margin-top-20px"
@@ -6279,7 +6279,7 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
                       <div
                         class="invalid-feedback"
                       >
-                         There is no course. 
+                        There is no course.
                       </div>
                     </div>
                   </div>
@@ -6312,7 +6312,7 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
                   <div
                     class="col-md-2 text-md-end font-bold"
                   >
-                     Course Name 
+                    Course Name
                   </div>
                   <div
                     class="col-md-10 text-md-start"
@@ -6357,7 +6357,7 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
                          The field Session Name should not be empty. 
                       </div>
                       <div>
-                         64 characters left 
+                        64 characters left
                       </div>
                     </div>
                   </div>
@@ -6910,7 +6910,7 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
                 id="btn-change-visibility"
                 type="button"
               >
-                [Change]
+                 [Change] 
               </button>
             </div>
             <div
@@ -7434,7 +7434,7 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
                 id="btn-change-email"
                 type="button"
               >
-                [Change]
+                 [Change] 
               </button>
             </div>
             <div
@@ -7446,7 +7446,7 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
                 <div
                   class="col-12 font-bold"
                 >
-                   Send emails for 
+                  Send emails for
                 </div>
                 <div
                   class="row ms-md-1 mt-md-3"
@@ -7529,7 +7529,7 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
                     id="btn-create-session"
                     type="button"
                   >
-                    Create Feedback Session 
+                     Create Feedback Session 
                   </button>
                   <p
                     class="text-danger margin-top-20px"
@@ -7802,7 +7802,7 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
                       <div
                         class="invalid-feedback"
                       >
-                         There is no course. 
+                        There is no course.
                       </div>
                     </div>
                   </div>
@@ -7835,7 +7835,7 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
                   <div
                     class="col-md-2 text-md-end font-bold"
                   >
-                     Course Name 
+                    Course Name
                   </div>
                   <div
                     class="col-md-10 text-md-start"
@@ -7880,7 +7880,7 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
                          The field Session Name should not be empty. 
                       </div>
                       <div>
-                         64 characters left 
+                        64 characters left
                       </div>
                     </div>
                   </div>
@@ -8433,7 +8433,7 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
                 id="btn-change-visibility"
                 type="button"
               >
-                [Change]
+                 [Change] 
               </button>
             </div>
             <div
@@ -8957,7 +8957,7 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
                 id="btn-change-email"
                 type="button"
               >
-                [Change]
+                 [Change] 
               </button>
             </div>
             <div
@@ -8969,7 +8969,7 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
                 <div
                   class="col-12 font-bold"
                 >
-                   Send emails for 
+                  Send emails for
                 </div>
                 <div
                   class="row ms-md-1 mt-md-3"
@@ -9052,7 +9052,7 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
                     id="btn-create-session"
                     type="button"
                   >
-                    Create Feedback Session 
+                     Create Feedback Session 
                   </button>
                   <p
                     class="text-danger margin-top-20px"
@@ -9325,7 +9325,7 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
                       <div
                         class="invalid-feedback"
                       >
-                         There is no course. 
+                        There is no course.
                       </div>
                     </div>
                   </div>
@@ -9358,7 +9358,7 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
                   <div
                     class="col-md-2 text-md-end font-bold"
                   >
-                     Course Name 
+                    Course Name
                   </div>
                   <div
                     class="col-md-10 text-md-start"
@@ -9403,7 +9403,7 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
                          The field Session Name should not be empty. 
                       </div>
                       <div>
-                         64 characters left 
+                        64 characters left
                       </div>
                     </div>
                   </div>
@@ -9956,7 +9956,7 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
                 id="btn-change-visibility"
                 type="button"
               >
-                [Change]
+                 [Change] 
               </button>
             </div>
             <div
@@ -10478,7 +10478,7 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
                 id="btn-change-email"
                 type="button"
               >
-                [Change]
+                 [Change] 
               </button>
             </div>
             <div
@@ -10490,7 +10490,7 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
                 <div
                   class="col-12 font-bold"
                 >
-                   Send emails for 
+                  Send emails for
                 </div>
                 <div
                   class="row ms-md-1 mt-md-3"
@@ -10573,7 +10573,7 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
                     id="btn-create-session"
                     type="button"
                   >
-                    Create Feedback Session 
+                     Create Feedback Session 
                   </button>
                   <p
                     class="text-danger margin-top-20px"

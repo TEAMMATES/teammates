@@ -19,8 +19,7 @@ describe('TemplateQuestionModalComponent', () => {
         provideRouter([]),
         provideNoopAnimations(),
       ],
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {

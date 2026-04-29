@@ -11,14 +11,9 @@ import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
   selector: 'tm-confirmation-modal',
   templateUrl: './simple-modal.component.html',
   styleUrls: ['./simple-modal.component.scss'],
-  imports: [
-    NgClass,
-    NgTemplateOutlet,
-    ProgressBarComponent,
-],
+  imports: [NgClass, NgTemplateOutlet, ProgressBarComponent],
 })
 export class SimpleModalComponent {
-
   // enum
   SimpleModalType: typeof SimpleModalType = SimpleModalType;
 
@@ -37,6 +32,5 @@ export class SimpleModalComponent {
     return this.content as TemplateRef<any>;
   }
 
-  constructor(public activeModal: NgbActiveModal) { }
-
+  constructor(public activeModal: NgbActiveModal) {}
 }

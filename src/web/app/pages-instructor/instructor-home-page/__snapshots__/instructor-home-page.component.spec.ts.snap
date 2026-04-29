@@ -233,20 +233,20 @@ exports[`InstructorHomePageComponent should snap with one course with error load
             class="btn btn-light"
             id="sort-course-id"
           >
-            Course ID
+             Course ID 
           </button>
           <button
             class="btn btn-light"
             id="sort-course-name"
           >
-            Course Name
+             Course Name 
           </button>
           <button
             class="btn btn-light"
             disabled=""
             id="sort-course-date"
           >
-            Creation Date
+             Creation Date 
           </button>
         </div>
       </div>
@@ -376,20 +376,20 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
             class="btn btn-light"
             id="sort-course-id"
           >
-            Course ID
+             Course ID 
           </button>
           <button
             class="btn btn-light"
             id="sort-course-name"
           >
-            Course Name
+             Course Name 
           </button>
           <button
             class="btn btn-light"
             disabled=""
             id="sort-course-date"
           >
-            Creation Date
+             Creation Date 
           </button>
         </div>
       </div>
@@ -423,7 +423,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   ngbdropdowntoggle=""
                   type="button"
                 >
-                   Students 
+                  Students
                 </button>
                 <div
                   class="dropdown-menu"
@@ -456,7 +456,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   ngbdropdowntoggle=""
                   type="button"
                 >
-                   Instructors 
+                  Instructors
                 </button>
                 <div
                   class="dropdown-menu"
@@ -482,7 +482,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   ngbdropdowntoggle=""
                   type="button"
                 >
-                   Sessions 
+                  Sessions
                 </button>
                 <div
                   class="dropdown-menu"
@@ -508,7 +508,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                   ngbdropdowntoggle=""
                   type="button"
                 >
-                   Course 
+                  Course
                 </button>
                 <div
                   class="dropdown-menu"
@@ -753,7 +753,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                     class="btn btn-light btn-sm"
                                     type="button"
                                   >
-                                     Edit 
+                                    Edit
                                   </button>
                                 </a>
                                 <button
@@ -791,7 +791,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                     class="dropdown-toggle btn btn-light btn-results-0 btn-sm"
                                     ngbdropdowntoggle=""
                                   >
-                                     Results 
+                                    Results
                                   </button>
                                   <div
                                     class="dropdown-menu"
@@ -968,20 +968,20 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
             class="btn btn-light"
             id="sort-course-id"
           >
-            Course ID
+             Course ID 
           </button>
           <button
             class="btn btn-light"
             id="sort-course-name"
           >
-            Course Name
+             Course Name 
           </button>
           <button
             class="btn btn-light"
             disabled=""
             id="sort-course-date"
           >
-            Creation Date
+             Creation Date 
           </button>
         </div>
       </div>
@@ -1015,7 +1015,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   ngbdropdowntoggle=""
                   type="button"
                 >
-                   Students 
+                  Students
                 </button>
                 <div
                   class="dropdown-menu"
@@ -1041,7 +1041,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   ngbdropdowntoggle=""
                   type="button"
                 >
-                   Instructors 
+                  Instructors
                 </button>
                 <div
                   class="dropdown-menu"
@@ -1067,7 +1067,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   ngbdropdowntoggle=""
                   type="button"
                 >
-                   Sessions 
+                  Sessions
                 </button>
                 <div
                   class="dropdown-menu"
@@ -1093,7 +1093,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                   ngbdropdowntoggle=""
                   type="button"
                 >
-                   Course 
+                  Course
                 </button>
                 <div
                   class="dropdown-menu"
@@ -1319,7 +1319,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                   disabled=""
                                   type="button"
                                 >
-                                   Edit 
+                                  Edit
                                 </button>
                                 <button
                                   class="btn btn-light btn-sm btn-soft-delete-0"
@@ -1353,7 +1353,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                     class="dropdown-toggle btn btn-light btn-results-0 btn-sm"
                                     ngbdropdowntoggle=""
                                   >
-                                     Results 
+                                    Results
                                   </button>
                                   <div
                                     class="dropdown-menu"
@@ -1504,7 +1504,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                   disabled=""
                                   type="button"
                                 >
-                                   Edit 
+                                  Edit
                                 </button>
                                 <button
                                   class="btn btn-light btn-sm btn-soft-delete-1"
@@ -1538,7 +1538,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                     class="dropdown-toggle btn btn-light btn-results-1 btn-sm"
                                     ngbdropdowntoggle=""
                                   >
-                                     Results 
+                                    Results
                                   </button>
                                   <div
                                     class="dropdown-menu"
@@ -1717,20 +1717,20 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
             class="btn btn-light"
             id="sort-course-id"
           >
-            Course ID
+             Course ID 
           </button>
           <button
             class="btn btn-light"
             id="sort-course-name"
           >
-            Course Name
+             Course Name 
           </button>
           <button
             class="btn btn-light"
             disabled=""
             id="sort-course-date"
           >
-            Creation Date
+             Creation Date 
           </button>
         </div>
       </div>
@@ -1764,7 +1764,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   ngbdropdowntoggle=""
                   type="button"
                 >
-                   Students 
+                  Students
                 </button>
                 <div
                   class="dropdown-menu"
@@ -1797,7 +1797,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   ngbdropdowntoggle=""
                   type="button"
                 >
-                   Instructors 
+                  Instructors
                 </button>
                 <div
                   class="dropdown-menu"
@@ -1823,7 +1823,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   ngbdropdowntoggle=""
                   type="button"
                 >
-                   Sessions 
+                  Sessions
                 </button>
                 <div
                   class="dropdown-menu"
@@ -1849,7 +1849,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                   ngbdropdowntoggle=""
                   type="button"
                 >
-                   Course 
+                  Course
                 </button>
                 <div
                   class="dropdown-menu"
@@ -1981,20 +1981,20 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
             class="btn btn-light"
             id="sort-course-id"
           >
-            Course ID
+             Course ID 
           </button>
           <button
             class="btn btn-light"
             id="sort-course-name"
           >
-            Course Name
+             Course Name 
           </button>
           <button
             class="btn btn-light"
             disabled=""
             id="sort-course-date"
           >
-            Creation Date
+             Creation Date 
           </button>
         </div>
       </div>
@@ -2028,7 +2028,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   ngbdropdowntoggle=""
                   type="button"
                 >
-                   Students 
+                  Students
                 </button>
                 <div
                   class="dropdown-menu"
@@ -2061,7 +2061,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   ngbdropdowntoggle=""
                   type="button"
                 >
-                   Instructors 
+                  Instructors
                 </button>
                 <div
                   class="dropdown-menu"
@@ -2087,7 +2087,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   ngbdropdowntoggle=""
                   type="button"
                 >
-                   Sessions 
+                  Sessions
                 </button>
                 <div
                   class="dropdown-menu"
@@ -2113,7 +2113,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                   ngbdropdowntoggle=""
                   type="button"
                 >
-                   Course 
+                  Course
                 </button>
                 <div
                   class="dropdown-menu"
@@ -2268,20 +2268,20 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
             class="btn btn-light"
             id="sort-course-id"
           >
-            Course ID
+             Course ID 
           </button>
           <button
             class="btn btn-light"
             id="sort-course-name"
           >
-            Course Name
+             Course Name 
           </button>
           <button
             class="btn btn-light"
             disabled=""
             id="sort-course-date"
           >
-            Creation Date
+             Creation Date 
           </button>
         </div>
       </div>
@@ -2315,7 +2315,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   ngbdropdowntoggle=""
                   type="button"
                 >
-                   Students 
+                  Students
                 </button>
                 <div
                   class="dropdown-menu"
@@ -2348,7 +2348,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   ngbdropdowntoggle=""
                   type="button"
                 >
-                   Instructors 
+                  Instructors
                 </button>
                 <div
                   class="dropdown-menu"
@@ -2374,7 +2374,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   ngbdropdowntoggle=""
                   type="button"
                 >
-                   Sessions 
+                  Sessions
                 </button>
                 <div
                   class="dropdown-menu"
@@ -2400,7 +2400,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                   ngbdropdowntoggle=""
                   type="button"
                 >
-                   Course 
+                  Course
                 </button>
                 <div
                   class="dropdown-menu"
@@ -2457,7 +2457,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 <div
                   class="no-session-message"
                 >
-                   There are no feedback sessions in this course. 
+                  There are no feedback sessions in this course.
                 </div>
               </tm-sessions-table>
             </tm-loading-retry>

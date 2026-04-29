@@ -12,7 +12,6 @@ import { SortBy, SortOrder } from '../types/sort-properties';
 
 @Injectable()
 export class InstructorCommentService {
-
   currInstructorName?: string;
 
   // this is a separate model for instructor comments
@@ -20,62 +19,70 @@ export class InstructorCommentService {
   instructorCommentTableModel: Record<string, CommentTableModel> = {};
 
   constructor(
-        private commentToCommentRowModel: CommentToCommentRowModelPipe,
-        private commentService: FeedbackResponseCommentService,
-        private statusMessageService: StatusMessageService,
-        private tableComparatorService: TableComparatorService) { }
+    private commentToCommentRowModel: CommentToCommentRowModelPipe,
+    private commentService: FeedbackResponseCommentService,
+    private statusMessageService: StatusMessageService,
+    private tableComparatorService: TableComparatorService,
+  ) {}
 
   /**
    * Deletes an instructor comment.
    */
-  deleteComment(data: { responseId: string, index: number }): void {
+  deleteComment(data: { responseId: string; index: number }): void {
     const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
     const commentToDelete: FeedbackResponseComment =
-        this.instructorCommentTableModel[data.responseId].commentRows[data.index].originalComment!;
+      this.instructorCommentTableModel[data.responseId].commentRows[data.index].originalComment!;
 
-    this.commentService.deleteComment(commentToDelete.feedbackResponseCommentId, Intent.INSTRUCTOR_RESULT)
-        .subscribe({
-          next: () => {
-            commentTableModel.commentRows.splice(data.index, 1);
-            this.instructorCommentTableModel[data.responseId] = {
-              ...commentTableModel,
-            };
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
+    this.commentService.deleteComment(commentToDelete.feedbackResponseCommentId, Intent.INSTRUCTOR_RESULT).subscribe({
+      next: () => {
+        commentTableModel.commentRows.splice(data.index, 1);
+        this.instructorCommentTableModel[data.responseId] = {
+          ...commentTableModel,
+        };
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
   }
 
   /**
    * Updates an instructor comment.
    */
-  updateComment(data: { responseId: string, index: number }, timezone: string): void {
+  updateComment(data: { responseId: string; index: number }, timezone: string): void {
     const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
     const commentRowToUpdate: CommentRowModel = commentTableModel.commentRows[data.index];
     const commentToUpdate: FeedbackResponseComment = commentRowToUpdate.originalComment!;
 
-    this.commentService.updateComment({
-      commentText: commentRowToUpdate.commentEditFormModel.commentText,
-      showCommentTo: commentRowToUpdate.commentEditFormModel.showCommentTo,
-      showGiverNameTo: commentRowToUpdate.commentEditFormModel.showGiverNameTo,
-    }, commentToUpdate.feedbackResponseCommentId, Intent.INSTRUCTOR_RESULT)
-        .subscribe({
-          next: (commentResponse: FeedbackResponseComment) => {
-            commentTableModel.commentRows[data.index] = this.commentToCommentRowModel.transform({
+    this.commentService
+      .updateComment(
+        {
+          commentText: commentRowToUpdate.commentEditFormModel.commentText,
+          showCommentTo: commentRowToUpdate.commentEditFormModel.showCommentTo,
+          showGiverNameTo: commentRowToUpdate.commentEditFormModel.showGiverNameTo,
+        },
+        commentToUpdate.feedbackResponseCommentId,
+        Intent.INSTRUCTOR_RESULT,
+      )
+      .subscribe({
+        next: (commentResponse: FeedbackResponseComment) => {
+          commentTableModel.commentRows[data.index] = this.commentToCommentRowModel.transform(
+            {
               ...commentResponse,
               commentGiverName: commentRowToUpdate.commentGiverName,
               // the current instructor will become the last editor
               lastEditorName: this.currInstructorName,
-            }, timezone);
-            this.instructorCommentTableModel[data.responseId] = {
-              ...commentTableModel,
-            };
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
+            },
+            timezone,
+          );
+          this.instructorCommentTableModel[data.responseId] = {
+            ...commentTableModel,
+          };
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**
@@ -85,37 +92,47 @@ export class InstructorCommentService {
     const commentTableModel: CommentTableModel = this.instructorCommentTableModel[responseId];
     const commentRowToAdd: CommentRowModel = commentTableModel.newCommentRow;
 
-    this.commentService.createComment({
-      commentText: commentRowToAdd.commentEditFormModel.commentText,
-      showCommentTo: commentRowToAdd.commentEditFormModel.showCommentTo,
-      showGiverNameTo: commentRowToAdd.commentEditFormModel.showGiverNameTo,
-    }, responseId, Intent.INSTRUCTOR_RESULT)
-        .subscribe({
-          next: (commentResponse: FeedbackResponseComment) => {
-            commentTableModel.commentRows.push(this.commentToCommentRowModel.transform({
-              ...commentResponse,
-              // the giver and editor name will be the current login instructor
-              commentGiverName: this.currInstructorName,
-              lastEditorName: this.currInstructorName,
-            }, timezone));
-            this.instructorCommentTableModel[responseId] = {
-              ...commentTableModel,
-              newCommentRow: {
-                commentEditFormModel: {
-                  commentText: '',
-                  isUsingCustomVisibilities: false,
-                  showCommentTo: [],
-                  showGiverNameTo: [],
-                },
-                isEditing: false,
+    this.commentService
+      .createComment(
+        {
+          commentText: commentRowToAdd.commentEditFormModel.commentText,
+          showCommentTo: commentRowToAdd.commentEditFormModel.showCommentTo,
+          showGiverNameTo: commentRowToAdd.commentEditFormModel.showGiverNameTo,
+        },
+        responseId,
+        Intent.INSTRUCTOR_RESULT,
+      )
+      .subscribe({
+        next: (commentResponse: FeedbackResponseComment) => {
+          commentTableModel.commentRows.push(
+            this.commentToCommentRowModel.transform(
+              {
+                ...commentResponse,
+                // the giver and editor name will be the current login instructor
+                commentGiverName: this.currInstructorName,
+                lastEditorName: this.currInstructorName,
               },
-              isAddingNewComment: false,
-            };
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
+              timezone,
+            ),
+          );
+          this.instructorCommentTableModel[responseId] = {
+            ...commentTableModel,
+            newCommentRow: {
+              commentEditFormModel: {
+                commentText: '',
+                isUsingCustomVisibilities: false,
+                showCommentTo: [],
+                showGiverNameTo: [],
+              },
+              isEditing: false,
+            },
+            isAddingNewComment: false,
+          };
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**
@@ -124,9 +141,11 @@ export class InstructorCommentService {
   sortComments(commentTable: CommentTableModel): void {
     commentTable.commentRows.sort((a: CommentRowModel, b: CommentRowModel) => {
       return this.tableComparatorService.compare(
-          SortBy.COMMENTS_CREATION_DATE,
-          SortOrder.ASC,
-          String(a.originalComment?.createdAt), String(b.originalComment?.createdAt));
+        SortBy.COMMENTS_CREATION_DATE,
+        SortOrder.ASC,
+        String(a.originalComment?.createdAt),
+        String(b.originalComment?.createdAt),
+      );
     });
   }
 }

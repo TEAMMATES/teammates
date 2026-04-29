@@ -17,9 +17,10 @@ import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.dire
   styleUrls: ['./constsum-recipients-question-edit-answer-form.component.scss'],
   imports: [FormsModule, WheelDisablerDirective],
 })
-export class ConstsumRecipientsQuestionEditAnswerFormComponent
-    extends QuestionEditAnswerFormComponent<FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails> {
-
+export class ConstsumRecipientsQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent<
+  FeedbackConstantSumQuestionDetails,
+  FeedbackConstantSumResponseDetails
+> {
   Math: typeof Math = Math;
 
   constructor() {
@@ -30,7 +31,6 @@ export class ConstsumRecipientsQuestionEditAnswerFormComponent
    * Assigns a point to the recipient.
    */
   triggerResponse(event: number): void {
-
     let newAnswers: number[] = this.responseDetails.answers.slice();
     // index 0 will the answer
     if (newAnswers.length !== 1) {
@@ -45,5 +45,4 @@ export class ConstsumRecipientsQuestionEditAnswerFormComponent
 
     this.triggerResponseDetailsChange('answers', newAnswers);
   }
-
 }

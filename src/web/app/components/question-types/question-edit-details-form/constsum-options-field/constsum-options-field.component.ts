@@ -11,7 +11,6 @@ import { FormsModule } from '@angular/forms';
   imports: [FormsModule],
 })
 export class ConstsumOptionsFieldComponent {
-
   @Input()
   isEditable = false;
 
@@ -37,5 +36,4 @@ export class ConstsumOptionsFieldComponent {
   deleteConstsumOption(): void {
     this.elementDeleted.emit();
   }
-
 }

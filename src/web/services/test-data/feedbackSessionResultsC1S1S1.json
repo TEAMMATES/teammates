@@ -13,21 +13,9 @@
         "giverType": "SELF",
         "recipientType": "NONE",
         "numberOfEntitiesToGiveFeedbackToSetting": "UNLIMITED",
-        "showResponsesTo": [
-          "GIVER_TEAM_MEMBERS",
-          "STUDENTS",
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "GIVER_TEAM_MEMBERS",
-          "STUDENTS",
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "GIVER_TEAM_MEMBERS",
-          "STUDENTS",
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["GIVER_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+        "showGiverNameTo": ["GIVER_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+        "showRecipientNameTo": ["GIVER_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"]
       },
       "questionStatistics": "",
       "allResponses": [
@@ -81,15 +69,9 @@
         "giverType": "SELF",
         "recipientType": "NONE",
         "numberOfEntitiesToGiveFeedbackToSetting": "UNLIMITED",
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
       },
       "questionStatistics": "",
       "allResponses": [
@@ -129,17 +111,9 @@
         "recipientType": "STUDENTS",
         "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
         "customNumberOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": [
-          "INSTRUCTORS",
-          "RECIPIENT"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS",
-          "RECIPIENT"
-        ]
+        "showResponsesTo": ["INSTRUCTORS", "RECIPIENT"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS", "RECIPIENT"]
       },
       "questionStatistics": "",
       "allResponses": [
@@ -535,18 +509,9 @@
         "giverType": "INSTRUCTORS",
         "recipientType": "NONE",
         "numberOfEntitiesToGiveFeedbackToSetting": "UNLIMITED",
-        "showResponsesTo": [
-          "STUDENTS",
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "STUDENTS",
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "STUDENTS",
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["STUDENTS", "INSTRUCTORS"],
+        "showGiverNameTo": ["STUDENTS", "INSTRUCTORS"],
+        "showRecipientNameTo": ["STUDENTS", "INSTRUCTORS"]
       },
       "questionStatistics": "",
       "allResponses": [
@@ -654,15 +619,9 @@
         "recipientType": "SELF",
         "numberOfEntitiesToGiveFeedbackToSetting": "CUSTOM",
         "customNumberOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
       },
       "questionStatistics": "",
       "allResponses": [

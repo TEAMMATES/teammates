@@ -20,17 +20,11 @@ describe('IndividualExtensionDateModalComponent', () => {
   let timeZoneService: TimezoneService;
   let formatSpy: SpyInstance;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        providers: [
-          NgbActiveModal,
-          provideHttpClient(),
-          provideHttpClientTesting(),
-        ],
-      }).compileComponents();
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(IndividualExtensionDateModalComponent);
@@ -68,27 +62,27 @@ describe('IndividualExtensionDateModalComponent', () => {
 
     component.extendByDeadlineKey = '12 hours';
     expect(component.getExtensionTimestamp()).toEqual(
-      component.feedbackSessionEndingTimestamp + (Hours.TWELVE * Milliseconds.IN_ONE_HOUR));
-    expect(component.extendAndFormatEndTimeBy(Hours.TWELVE, 0))
-      .toEqual('Mon, 14 Sep 2020, 08:26 AM +08');
+      component.feedbackSessionEndingTimestamp + Hours.TWELVE * Milliseconds.IN_ONE_HOUR,
+    );
+    expect(component.extendAndFormatEndTimeBy(Hours.TWELVE, 0)).toEqual('Mon, 14 Sep 2020, 08:26 AM +08');
 
     component.extendByDeadlineKey = '1 day';
     expect(component.getExtensionTimestamp()).toEqual(
-      component.feedbackSessionEndingTimestamp + (Hours.IN_ONE_DAY * Milliseconds.IN_ONE_HOUR));
-    expect(component.extendAndFormatEndTimeBy(Hours.IN_ONE_DAY, 0))
-      .toEqual('Mon, 14 Sep 2020, 08:26 PM +08');
+      component.feedbackSessionEndingTimestamp + Hours.IN_ONE_DAY * Milliseconds.IN_ONE_HOUR,
+    );
+    expect(component.extendAndFormatEndTimeBy(Hours.IN_ONE_DAY, 0)).toEqual('Mon, 14 Sep 2020, 08:26 PM +08');
 
     component.extendByDeadlineKey = '3 days';
     expect(component.getExtensionTimestamp()).toEqual(
-      component.feedbackSessionEndingTimestamp + (Hours.IN_THREE_DAYS * Milliseconds.IN_ONE_HOUR));
-    expect(component.extendAndFormatEndTimeBy(Hours.IN_THREE_DAYS, 0))
-      .toEqual('Wed, 16 Sep 2020, 08:26 PM +08');
+      component.feedbackSessionEndingTimestamp + Hours.IN_THREE_DAYS * Milliseconds.IN_ONE_HOUR,
+    );
+    expect(component.extendAndFormatEndTimeBy(Hours.IN_THREE_DAYS, 0)).toEqual('Wed, 16 Sep 2020, 08:26 PM +08');
 
     component.extendByDeadlineKey = '1 week';
     expect(component.getExtensionTimestamp()).toEqual(
-      component.feedbackSessionEndingTimestamp + (Hours.IN_ONE_WEEK * Milliseconds.IN_ONE_HOUR));
-    expect(component.extendAndFormatEndTimeBy(Hours.IN_ONE_WEEK, 0))
-      .toEqual('Sun, 20 Sep 2020, 08:26 PM +08');
+      component.feedbackSessionEndingTimestamp + Hours.IN_ONE_WEEK * Milliseconds.IN_ONE_HOUR,
+    );
+    expect(component.extendAndFormatEndTimeBy(Hours.IN_ONE_WEEK, 0)).toEqual('Sun, 20 Sep 2020, 08:26 PM +08');
   });
 
   it('should snap with the extend by radio option with customize', () => {
@@ -168,9 +162,11 @@ describe('IndividualExtensionDateModalComponent', () => {
     // Set mocked picked time to be lesser than current system time
     jest.useFakeTimers().setSystemTime(new Date('2021-01-01').getTime());
     jest.spyOn(component, 'getExtensionTimestamp').mockReturnValue(new Date('2020-10-10').valueOf());
-    const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(
-      () => createMockNgbModalRef({
-        header: 'mock header', content: 'mock content', type: SimpleModalType.WARNING,
+    const modalSpy: SpyInstance = jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() =>
+      createMockNgbModalRef({
+        header: 'mock header',
+        content: 'mock content',
+        type: SimpleModalType.WARNING,
       }),
     );
 
@@ -182,9 +178,10 @@ describe('IndividualExtensionDateModalComponent', () => {
     expect(modalSpy).toHaveBeenLastCalledWith(
       'Are you sure you wish to set the new deadline to before the current time?',
       SimpleModalType.WARNING,
-      '<b>Any users affected will have their sessions closed immediately.</b> '
-      + 'The current time now is Sat, 5 Apr 2000 2:00 +08 and you are extending to Sat, 5 Apr 2000 2:00 +08.'
-      + ' Do you wish to proceed?');
+      '<b>Any users affected will have their sessions closed immediately.</b> ' +
+        'The current time now is Sat, 5 Apr 2000 2:00 +08 and you are extending to Sat, 5 Apr 2000 2:00 +08.' +
+        ' Do you wish to proceed?',
+    );
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

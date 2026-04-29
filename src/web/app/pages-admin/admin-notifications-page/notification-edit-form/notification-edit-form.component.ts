@@ -13,9 +13,7 @@ import { DatepickerComponent } from '../../../components/datepicker/datepicker.c
 import { RichTextEditorComponent } from '../../../components/rich-text-editor/rich-text-editor.component';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { NotificationStyleClassPipe } from '../../../components/teammates-common/notification-style-class.pipe';
-import {
-  NotificationStyleDescriptionPipe,
-} from '../../../components/teammates-common/notification-style-description.pipe';
+import { NotificationStyleDescriptionPipe } from '../../../components/teammates-common/notification-style-description.pipe';
 import { TimepickerComponent } from '../../../components/timepicker/timepicker.component';
 
 @Component({
@@ -34,10 +32,9 @@ import { TimepickerComponent } from '../../../components/timepicker/timepicker.c
     KeyValuePipe,
     NotificationStyleDescriptionPipe,
     NotificationStyleClassPipe,
-],
+  ],
 })
 export class NotificationEditFormComponent {
-
   NotificationEditFormMode = NotificationEditFormMode;
   NotificationStyle = NotificationStyle;
   NotificationTargetUser = NotificationTargetUser;
@@ -86,7 +83,7 @@ export class NotificationEditFormComponent {
   @Output()
   cancelEditingNotificationEvent = new EventEmitter<void>();
 
-  constructor(private simpleModalService: SimpleModalService) { }
+  constructor(private simpleModalService: SimpleModalService) {}
 
   /**
    * Triggers the change of the model for the form.
@@ -116,10 +113,14 @@ export class NotificationEditFormComponent {
    * Handles cancel button click event.
    */
   cancelHandler(): void {
-    this.simpleModalService.openConfirmationModal('Discard unsaved edit?',
-        SimpleModalType.WARNING, 'Warning: Any unsaved changes will be lost.').result.then(() => {
-          this.cancelEditingNotificationEvent.emit();
-        });
+    this.simpleModalService
+      .openConfirmationModal(
+        'Discard unsaved edit?',
+        SimpleModalType.WARNING,
+        'Warning: Any unsaved changes will be lost.',
+      )
+      .result.then(() => {
+        this.cancelEditingNotificationEvent.emit();
+      });
   }
-
 }

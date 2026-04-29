@@ -3,23 +3,23 @@
 # as it is more practical for us compared to managing task queue within code.
 
 queue:
-- name: priority-email-queue
-  mode: push
-  rate: 10/s
-  bucket_size: 20
-  retry_parameters:
-    task_retry_limit: 5
-    task_age_limit: 1d
-    min_backoff_seconds: 5
-    max_backoff_seconds: 60
-    max_doublings: 0
-- name: send-email-queue
-  mode: push
-  rate: 10/s
-  bucket_size: 20
-  retry_parameters:
-    task_retry_limit: 5
-    task_age_limit: 1d
-    min_backoff_seconds: 30
-    max_backoff_seconds: 300
-    max_doublings: 0
+  - name: priority-email-queue
+    mode: push
+    rate: 10/s
+    bucket_size: 20
+    retry_parameters:
+      task_retry_limit: 5
+      task_age_limit: 1d
+      min_backoff_seconds: 5
+      max_backoff_seconds: 60
+      max_doublings: 0
+  - name: send-email-queue
+    mode: push
+    rate: 10/s
+    bucket_size: 20
+    retry_parameters:
+      task_retry_limit: 5
+      task_age_limit: 1d
+      min_backoff_seconds: 30
+      max_backoff_seconds: 300
+      max_doublings: 0

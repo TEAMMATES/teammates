@@ -1,7 +1,5 @@
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
-import {
-  ConstsumOptionsQuestionStatisticsCalculation,
-} from '../../app/components/question-types/question-statistics/question-statistics-calculation/constsum-options-question-statistics-calculation';
+import { ConstsumOptionsQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/constsum-options-question-statistics-calculation';
 import {
   FeedbackConstantSumDistributePointsType,
   FeedbackConstantSumQuestionDetails,
@@ -12,9 +10,10 @@ import {
 /**
  * Concrete implementation of {@link FeedbackConstantSumQuestionDetails}.
  */
-export class FeedbackConstantSumOptionsQuestionDetailsImpl extends AbstractFeedbackQuestionDetails
-    implements FeedbackConstantSumQuestionDetails {
-
+export class FeedbackConstantSumOptionsQuestionDetailsImpl
+  extends AbstractFeedbackQuestionDetails
+  implements FeedbackConstantSumQuestionDetails
+{
   constSumOptions: string[] = ['', ''];
   distributeToRecipients = false;
   pointsPerOption = false;
@@ -46,7 +45,7 @@ export class FeedbackConstantSumOptionsQuestionDetailsImpl extends AbstractFeedb
     const statsRows: string[][] = [];
 
     const statsCalculation: ConstsumOptionsQuestionStatisticsCalculation =
-        new ConstsumOptionsQuestionStatisticsCalculation(this);
+      new ConstsumOptionsQuestionStatisticsCalculation(this);
     this.populateQuestionStatistics(statsCalculation, question);
     if (statsCalculation.responses.length === 0) {
       // skip stats for no response
@@ -56,14 +55,16 @@ export class FeedbackConstantSumOptionsQuestionDetailsImpl extends AbstractFeedb
 
     statsRows.push(['Option', 'Total Points', 'Average Points', 'Points Received']);
 
-    Object.keys(statsCalculation.pointsPerOption).sort().forEach((option: string) => {
-      statsRows.push([
-        option,
-        String(statsCalculation.totalPointsPerOption[option]),
-        String(statsCalculation.averagePointsPerOption[option]),
-        ...statsCalculation.pointsPerOption[option].map(String),
-      ]);
-    });
+    Object.keys(statsCalculation.pointsPerOption)
+      .sort()
+      .forEach((option: string) => {
+        statsRows.push([
+          option,
+          String(statsCalculation.totalPointsPerOption[option]),
+          String(statsCalculation.averagePointsPerOption[option]),
+          ...statsCalculation.pointsPerOption[option].map(String),
+        ]);
+      });
 
     return statsRows;
   }

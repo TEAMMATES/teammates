@@ -1,20 +1,20 @@
 import { AbstractFeedbackMcqMsqQuestionDetails } from './abstract-feedback-mcq-msq-question-details';
-import {
-  MsqQuestionStatisticsCalculation,
-} from '../../app/components/question-types/question-statistics/question-statistics-calculation/msq-question-statistics-calculation';
+import { MsqQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/msq-question-statistics-calculation';
 import {
   FeedbackMsqQuestionDetails,
   FeedbackParticipantType,
-  FeedbackQuestionType, QuestionOutput,
+  FeedbackQuestionType,
+  QuestionOutput,
 } from '../api-output';
 import { NO_VALUE } from '../feedback-response-details';
 
 /**
  * Concrete implementation of {@link FeedbackMsqQuestionDetails}.
  */
-export class FeedbackMsqQuestionDetailsImpl extends AbstractFeedbackMcqMsqQuestionDetails
-    implements FeedbackMsqQuestionDetails {
-
+export class FeedbackMsqQuestionDetailsImpl
+  extends AbstractFeedbackMcqMsqQuestionDetails
+  implements FeedbackMsqQuestionDetails
+{
   msqChoices: string[] = [];
   otherEnabled = false;
   generateOptionsFor: FeedbackParticipantType = FeedbackParticipantType.NONE;

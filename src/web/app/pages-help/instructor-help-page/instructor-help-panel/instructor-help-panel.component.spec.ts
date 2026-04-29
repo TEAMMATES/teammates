@@ -9,14 +9,9 @@ describe('InstructorHelpPanelComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-      ],
-      providers: [
-        provideRouter([]),
-      ],
-    })
-    .compileComponents();
+      imports: [NoopAnimationsModule],
+      providers: [provideRouter([])],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

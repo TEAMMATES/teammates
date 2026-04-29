@@ -90,5 +90,4 @@ export class NewInstructorDataRowComponent implements OnInit {
   private alertParentEditModeToggled(): void {
     this.toggleEditModeEvent.emit(this.isBeingEdited);
   }
-
 }

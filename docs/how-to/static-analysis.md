@@ -8,16 +8,15 @@ TEAMMATES uses static analysis tools to maintain code quality. Tool versions are
 
 ## Tool stack
 
-| Tool name                                                    | Ruleset                                                                                                                                                                                                                                          |
-| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [CheckStyle](http://checkstyle.sourceforge.net/)             | [`static-analysis/teammates-checkstyle.xml`](https://github.com/TEAMMATES/teammates/blob/master/static-analysis/teammates-checkstyle.xml)                                                                                                        |
-| [PMD](https://pmd.github.io/)                                | [`static-analysis/teammates-pmd.xml`](https://github.com/TEAMMATES/teammates/blob/master/static-analysis/teammates-pmd.xml), [`teammates-pmdMain.xml`](https://github.com/TEAMMATES/teammates/blob/master/static-analysis/teammates-pmdMain.xml) |
-| [SpotBugs](https://spotbugs.github.io/)                      | [`static-analysis/teammates-spotbugs.xml`](https://github.com/TEAMMATES/teammates/blob/master/static-analysis/teammates-spotbugs.xml)                                                                                                            |
-| [ArchUnit](https://github.com/TNG/ArchUnit)                  | -                                                                                                                                                                                                                                                |
-| [ESLint](https://eslint.org/)                                | [`eslint.config.js`](https://github.com/TEAMMATES/teammates/blob/master/eslint.config.js)                                                                                                                                                        |
-| [stylelint](https://stylelint.io/)                           | [`static-analysis/teammates-stylelint.yml`](https://github.com/TEAMMATES/teammates/blob/master/static-analysis/teammates-stylelint.yml)                                                                                                          |
-| [prettier](https://prettier.io/)                             | -                                                                                                                                                                                                                                                |
-| [lintspaces](https://github.com/evanshortiss/lintspaces-cli) | -                                                                                                                                                                                                                                                |
+| Tool name                                        | Ruleset                                                                                                                                                                                                                                          |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [CheckStyle](http://checkstyle.sourceforge.net/) | [`static-analysis/teammates-checkstyle.xml`](https://github.com/TEAMMATES/teammates/blob/master/static-analysis/teammates-checkstyle.xml)                                                                                                        |
+| [PMD](https://pmd.github.io/)                    | [`static-analysis/teammates-pmd.xml`](https://github.com/TEAMMATES/teammates/blob/master/static-analysis/teammates-pmd.xml), [`teammates-pmdMain.xml`](https://github.com/TEAMMATES/teammates/blob/master/static-analysis/teammates-pmdMain.xml) |
+| [SpotBugs](https://spotbugs.github.io/)          | [`static-analysis/teammates-spotbugs.xml`](https://github.com/TEAMMATES/teammates/blob/master/static-analysis/teammates-spotbugs.xml)                                                                                                            |
+| [ArchUnit](https://github.com/TNG/ArchUnit)      | -                                                                                                                                                                                                                                                |
+| [ESLint](https://eslint.org/)                    | [`eslint.config.js`](https://github.com/TEAMMATES/teammates/blob/master/eslint.config.js)                                                                                                                                                        |
+| [stylelint](https://stylelint.io/)               | [`static-analysis/teammates-stylelint.yml`](https://github.com/TEAMMATES/teammates/blob/master/stylelint.config.mjs)                                                                                                                             |
+| [prettier](https://prettier.io/)                 | -                                                                                                                                                                                                                                                |
 
 ## Suppressing rules
 
@@ -36,34 +35,38 @@ To run all static analysis tools:
 
 ```sh
 ./gradlew lint --continue
+npm run format
 npm run lint
 ```
+
 | Tool name  | Command                                                |
 | ---------- | ------------------------------------------------------ |
 | CheckStyle | `./gradlew checkstyleMain`, `./gradlew checkstyleTest` |
 | PMD        | `./gradlew pmdMain`, `./gradlew pmdTest`               |
 | SpotBugs   | `./gradlew spotbugsMain`, `./gradlew spotbugsTest`     |
 | ArchUnit   | `./gradlew architectureTest`                           |
-| ESLint     | `npm run lint:ts`                                      |
-| stylelint  | `npm run lint:css:syntax`                              |
-| prettier   | `npm run lint:css:styles`                              |
-| lintspaces | `npm run lint:spaces`                                  |
+| ESLint     | `npm run lint:eslint`                                  |
+| Stylelint  | `npm run lint:css`                                     |
+| Prettier   | `npm run format`                                       |
+
 </tab>
 <tab header="Windows">
 
 ```sh
 gradlew.bat lint --continue
+npm run format
 npm run lint
 ```
+
 | Tool name  | Command                                                    |
 | ---------- | ---------------------------------------------------------- |
 | CheckStyle | `gradlew.bat checkstyleMain`, `gradlew.bat checkstyleTest` |
 | PMD        | `gradlew.bat pmdMain`, `gradlew.bat pmdTest`               |
 | SpotBugs   | `gradlew.bat spotbugsMain`, `gradlew.bat spotbugsTest`     |
 | ArchUnit   | `gradlew.bat architectureTest`                             |
-| ESLint     | `npm run lint:ts`                                          |
-| stylelint  | `npm run lint:css:syntax`                                  |
-| prettier   | `npm run lint:css:styles`                                  |
-| lintspaces | `npm run lint:spaces`                                      |
+| ESLint     | `npm run lint:eslint`                                      |
+| Stylelint  | `npm run lint:css`                                         |
+| Prettier   | `npm run format`                                           |
+
 </tab>
 </tabs>

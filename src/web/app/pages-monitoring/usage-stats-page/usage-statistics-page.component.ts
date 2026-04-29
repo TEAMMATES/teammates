@@ -49,16 +49,9 @@ interface FormQueryModel {
   selector: 'tm-usage-statistics-page',
   templateUrl: './usage-statistics-page.component.html',
   styleUrls: ['./usage-statistics-page.component.scss'],
-  imports: [
-    NgbInputDatepicker,
-    FormsModule,
-    NgbTimepicker,
-    LoadingSpinnerDirective,
-    StatsLineChartComponent,
-],
+  imports: [NgbInputDatepicker, FormsModule, NgbTimepicker, LoadingSpinnerDirective, StatsLineChartComponent],
 })
 export class UsageStatisticsPageComponent implements OnInit {
-
   StatisticsType = StatisticsType;
   AggregationType = AggregationType;
 
@@ -74,7 +67,7 @@ export class UsageStatisticsPageComponent implements OnInit {
   };
   dateToday: DateFormat = getDefaultDateFormat();
   earliestSearchDate: DateFormat = { year: 2016, month: 1, day: 1 };
-  timeRange: { startTime: number, endTime: number } = { startTime: 0, endTime: 0 };
+  timeRange: { startTime: number; endTime: number } = { startTime: 0, endTime: 0 };
   hasQueried = false;
   isLoading = false;
   fetchedData: UsageStatistics[] = [];
@@ -112,12 +105,16 @@ export class UsageStatisticsPageComponent implements OnInit {
     this.hasQueried = true;
     this.isLoading = true;
     const timestampFrom = this.timezoneService.resolveLocalDateTime(
-      this.formModel.fromDate, this.formModel.fromTime, this.timezone);
+      this.formModel.fromDate,
+      this.formModel.fromTime,
+      this.timezone,
+    );
     const timestampUntil = this.timezoneService.resolveLocalDateTime(
-      this.formModel.toDate, this.formModel.toTime, this.timezone);
-    this.usageStatisticsService.getUsageStatistics(
-      timestampFrom, timestampUntil,
-    ).subscribe({
+      this.formModel.toDate,
+      this.formModel.toTime,
+      this.timezone,
+    );
+    this.usageStatisticsService.getUsageStatistics(timestampFrom, timestampUntil).subscribe({
       next: (statsRange: UsageStatisticsRange) => {
         this.timeRange = {
           startTime: timestampFrom,
@@ -222,5 +219,4 @@ export class UsageStatisticsPageComponent implements OnInit {
 
     this.dataToDraw = dataToDraw;
   }
-
 }

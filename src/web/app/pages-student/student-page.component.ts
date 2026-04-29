@@ -14,7 +14,6 @@ import { PageComponent } from '../page.component';
   imports: [PageComponent],
 })
 export class StudentPageComponent implements OnInit {
-
   user = '';
   isInstructor = false;
   isStudent = false;
@@ -39,7 +38,10 @@ export class StudentPageComponent implements OnInit {
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(private route: ActivatedRoute, private authService: AuthService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private authService: AuthService,
+  ) {}
 
   ngOnInit(): void {
     this.isFetchingAuthDetails = true;
@@ -70,5 +72,4 @@ export class StudentPageComponent implements OnInit {
       });
     });
   }
-
 }

@@ -6,9 +6,7 @@ import { SimpleModalService } from '../../../../../services/simple-modal.service
 import { ContributionStatistics } from '../../../../../types/api-output';
 import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../../types/default-question-structs';
 import { SortBy } from '../../../../../types/sort-properties';
-import {
-  QuestionsSectionQuestions,
-} from '../../../../pages-help/instructor-help-page/instructor-help-questions-section/questions-section-questions';
+import { QuestionsSectionQuestions } from '../../../../pages-help/instructor-help-page/instructor-help-questions-section/questions-section-questions';
 import { Sections } from '../../../../pages-help/instructor-help-page/sections';
 import { SimpleModalType } from '../../../simple-modal/simple-modal-type';
 import {
@@ -17,9 +15,7 @@ import {
   SortableTableComponent,
 } from '../../../sortable-table/sortable-table.component';
 import { TeammatesRouterDirective } from '../../../teammates-router/teammates-router.directive';
-import {
-  ContributionQuestionStatisticsCalculation,
-} from '../question-statistics-calculation/contribution-question-statistics-calculation';
+import { ContributionQuestionStatisticsCalculation } from '../question-statistics-calculation/contribution-question-statistics-calculation';
 
 /**
  * Statistics for contribution questions.
@@ -28,16 +24,12 @@ import {
   selector: 'tm-contribution-question-statistics',
   templateUrl: './contribution-question-statistics.component.html',
   styleUrls: ['./contribution-question-statistics.component.scss'],
-  imports: [
-    NgbTooltip,
-    ContributionComponent,
-    TeammatesRouterDirective,
-    SortableTableComponent,
-],
+  imports: [NgbTooltip, ContributionComponent, TeammatesRouterDirective, SortableTableComponent],
 })
 export class ContributionQuestionStatisticsComponent
   extends ContributionQuestionStatisticsCalculation
-  implements OnInit, OnChanges {
+  implements OnInit, OnChanges
+{
   // enum
   QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
   Sections: typeof Sections = Sections;
@@ -78,8 +70,8 @@ export class ContributionQuestionStatisticsComponent
       {
         header: 'PC',
         sortBy: SortBy.CONTRIBUTION_VALUE,
-        headerToolTip: 'Perceived Contribution: This is the average of what other team members think'
-            + ' this student contributed',
+        headerToolTip:
+          'Perceived Contribution: This is the average of what other team members think' + ' this student contributed',
       },
       {
         header: 'Diff',
@@ -143,6 +135,9 @@ export class ContributionQuestionStatisticsComponent
 
   openHelpModal(modal: TemplateRef<any>): void {
     this.simpleModalService.openInformationModal(
-      'More info about contribution questions', SimpleModalType.NEUTRAL, modal);
+      'More info about contribution questions',
+      SimpleModalType.NEUTRAL,
+      modal,
+    );
   }
 }

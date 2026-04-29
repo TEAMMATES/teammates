@@ -30,7 +30,7 @@ import { TextQuestionAdditionalInfoComponent } from '../question-types/question-
     ConstsumOptionsQuestionAdditionalInfoComponent,
     ConstsumRecipientsQuestionAdditionalInfoComponent,
     NumScaleQuestionAdditionalInfoComponent,
-],
+  ],
 })
 export class QuestionTextWithInfoComponent {
   readonly QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;
@@ -51,5 +51,4 @@ export class QuestionTextWithInfoComponent {
   hasAdditionalInfo(questionDetails: FeedbackQuestionDetails): boolean {
     return questionDetails.questionType !== FeedbackQuestionType.TEXT;
   }
-
 }

@@ -1,11 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { EventEmitter } from '@angular/core';
-import {
-  ComponentFixture,
-  TestBed,
-  waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, Observable } from 'rxjs';
@@ -92,8 +88,7 @@ describe('CourseEditFormComponent', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
       ],
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -199,7 +194,8 @@ describe('CourseEditFormComponent', () => {
       createdAtTimestamp: 0,
     };
 
-    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor')
+    jest
+      .spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor')
       .mockReturnValue(of({ feedbackSessions: [testFeedbackSession] }));
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
@@ -220,12 +216,15 @@ describe('CourseEditFormComponent', () => {
     component.formMode = CourseEditFormMode.ADD;
     fixture.detectChanges();
 
-    const mockModalRef: any = createMockNgbModalRef({
-      isCopyFromOtherSession: false,
-      courses: [],
-      courseToFeedbackSession: {},
-      fetchFeedbackSessionsEvent: new EventEmitter<string>(),
-    }, Promise.reject(customError));
+    const mockModalRef: any = createMockNgbModalRef(
+      {
+        isCopyFromOtherSession: false,
+        courses: [],
+        courseToFeedbackSession: {},
+        fetchFeedbackSessionsEvent: new EventEmitter<string>(),
+      },
+      Promise.reject(customError),
+    );
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     component.copyCourseHandler();
@@ -338,7 +337,6 @@ describe('CourseEditFormComponent', () => {
 
     expect(updateEmitSpy).not.toHaveBeenCalled();
     expect(createEmitSpy).not.toHaveBeenCalled();
-
   });
 
   it('should mark controls as touched and return when the form is invalid', () => {
@@ -401,5 +399,4 @@ describe('CourseEditFormComponent', () => {
 
     expect(deleteCourseEventSpy).toHaveBeenCalled();
   });
-
 });

@@ -6,7 +6,6 @@ import { VisibilityControl } from '../types/visibility-control';
  * The state machine for visibility settings for comments.
  */
 export class CommentVisibilityStateMachine {
-
   private visibility: Map<CommentVisibilityType, Map<CommentVisibilityControl, boolean>> = new Map();
 
   private applicability: Set<CommentVisibilityType> = new Set();
@@ -24,12 +23,12 @@ export class CommentVisibilityStateMachine {
     // set all fields as applicable
     for (const visibilityTypeStr of Object.keys(CommentVisibilityType)) {
       const visibilityType: CommentVisibilityType =
-          CommentVisibilityType[visibilityTypeStr as keyof typeof CommentVisibilityType];
+        CommentVisibilityType[visibilityTypeStr as keyof typeof CommentVisibilityType];
       this.visibility.set(visibilityType, new Map());
       this.applicability.add(visibilityType);
       for (const visibilityControlStr of Object.keys(VisibilityControl)) {
         const visibilityControl: CommentVisibilityControl =
-            CommentVisibilityControl[visibilityControlStr as keyof typeof CommentVisibilityControl];
+          CommentVisibilityControl[visibilityControlStr as keyof typeof CommentVisibilityControl];
         this.visibility.get(visibilityType)!.set(visibilityControl, false);
       }
     }
@@ -105,10 +104,10 @@ export class CommentVisibilityStateMachine {
   allowAllApplicableTypesToSee(): void {
     for (const visibilityTypeStr of Object.keys(CommentVisibilityType)) {
       const visibilityType: CommentVisibilityType =
-          CommentVisibilityType[visibilityTypeStr as keyof typeof CommentVisibilityType];
+        CommentVisibilityType[visibilityTypeStr as keyof typeof CommentVisibilityType];
       for (const visibilityControlStr of Object.keys(VisibilityControl)) {
         const visibilityControl: CommentVisibilityControl =
-            CommentVisibilityControl[visibilityControlStr as keyof typeof CommentVisibilityControl];
+          CommentVisibilityControl[visibilityControlStr as keyof typeof CommentVisibilityControl];
         this.allowToSee(visibilityType, visibilityControl);
       }
     }
@@ -152,7 +151,7 @@ export class CommentVisibilityStateMachine {
     const visibilityTypes: CommentVisibilityType[] = [];
     for (const visibilityTypeStr of Object.keys(CommentVisibilityType)) {
       const visibilityType: CommentVisibilityType =
-          CommentVisibilityType[visibilityTypeStr as keyof typeof CommentVisibilityType];
+        CommentVisibilityType[visibilityTypeStr as keyof typeof CommentVisibilityType];
       if (this.isVisible(visibilityType, visibilityControl)) {
         visibilityTypes.push(visibilityType);
       }

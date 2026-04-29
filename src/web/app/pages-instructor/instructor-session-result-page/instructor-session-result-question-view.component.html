@@ -1,17 +1,28 @@
 @for (question of questionsOrder; track question) {
   <div id="question-panel-{{ question.question.questionNumber }}" class="card margin-bottom-15px">
-    <div class="card-header bg-info cursor-pointer" (click)="toggleAndLoadTab.emit(question.question.feedbackQuestionId)">
+    <div
+      class="card-header bg-info cursor-pointer"
+      (click)="toggleAndLoadTab.emit(question.question.feedbackQuestionId)"
+    >
       <div class="d-flex w-100 flex-fill flex-md-row flex-column align-items-md-center align-items-start">
         <div>
-          <tm-question-text-with-info [questionNumber]="question.question.questionNumber"
+          <tm-question-text-with-info
+            [questionNumber]="question.question.questionNumber"
             [questionDetails]="question.question.questionDetails"
           ></tm-question-text-with-info>
         </div>
         <div class="card-header-btn-toolbar ms-0 ms-md-auto align-self-md-end">
-      <button type="button" class="btn btn-info btn-sm" (click)="triggerDownloadQuestionResult({
-        questionNumber: question.question.questionNumber,
-        questionId: question.question.feedbackQuestionId});
-        $event.stopPropagation();">
+          <button
+            type="button"
+            class="btn btn-info btn-sm"
+            (click)="
+              triggerDownloadQuestionResult({
+                questionNumber: question.question.questionNumber,
+                questionId: question.question.feedbackQuestionId,
+              });
+              $event.stopPropagation()
+            "
+          >
             Download Results
           </button>
         </div>
@@ -28,7 +39,7 @@
           [shouldShowRetry]="!!question.errorMessage"
           [message]="question.errorMessage"
           (retryEvent)="loadTab.emit(question.question.feedbackQuestionId)"
-          >
+        >
           @if (question.hasPopulated) {
             <div class="card-body">
               <div class="stats-table">
@@ -38,14 +49,20 @@
                     [statistics]="question.statistics"
                     [responses]="question.responses"
                     [recipientType]="question.question.recipientType"
-                    [section]="section" [sectionType]="sectionType"
+                    [section]="section"
+                    [sectionType]="sectionType"
                   ></tm-single-statistics>
                 }
               </div>
               <div class="stats-table">
-                <tm-per-question-view-responses [responses]="question.responses" [section]="section" [sectionType]="sectionType" [session]="session"
+                <tm-per-question-view-responses
+                  [responses]="question.responses"
+                  [section]="section"
+                  [sectionType]="sectionType"
+                  [session]="session"
                   [statistics]="question.statistics"
-                  [indicateMissingResponses]="indicateMissingResponses" [question]="question.question"
+                  [indicateMissingResponses]="indicateMissingResponses"
+                  [question]="question.question"
                   [isDisplayOnly]="isDisplayOnly"
                   [instructorCommentTableModel]="instructorCommentTableModel"
                   (instructorCommentTableModelChange)="triggerInstructorCommentTableModelChange($event)"

@@ -8,7 +8,6 @@ codecov:
 comment: off
 
 coverage:
-
   # Set up color range for badge (for aesthetic purpose)
   range: 60..80
   round: up
@@ -27,4 +26,4 @@ coverage:
         threshold: 100%
 
 ignore:
-  - "src/main/java/com/google/appengine/logging/v1/*.java"
+  - 'src/main/java/com/google/appengine/logging/v1/*.java'

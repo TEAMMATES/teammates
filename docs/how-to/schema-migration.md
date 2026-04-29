@@ -22,12 +22,14 @@ The following variables can be configured in `gradle.properties`. Defaults are p
 ```sh
 ./gradlew liquibaseUpdate
 ```
+
 </tab>
 <tab header="Windows">
 
 ```sh
 gradlew.bat liquibaseUpdate
 ```
+
 </tab>
 </tabs>
 
@@ -44,6 +46,7 @@ Run this after pulling changes that include new migration files, or after a fres
 ./gradlew liquibaseUpdate
 ./gradlew serverRun
 ```
+
 </tab>
 <tab header="Windows">
 
@@ -51,6 +54,7 @@ Run this after pulling changes that include new migration files, or after a fres
 gradlew.bat liquibaseUpdate
 gradlew.bat serverRun
 ```
+
 </tab>
 </tabs>
 
@@ -95,12 +99,14 @@ To roll back the last N changesets:
 ```sh
 ./gradlew liquibaseRollbackCount -Pcount=<N>
 ```
+
 </tab>
 <tab header="Windows">
 
 ```sh
 gradlew.bat liquibaseRollbackCount -Pcount=<N>
 ```
+
 </tab>
 </tabs>
 
@@ -121,6 +127,7 @@ Hibernate validates the database schema on every startup. If the schema does not
 ./gradlew liquibaseUpdate
 ./gradlew serverRun
 ```
+
 </tab>
 <tab header="Windows">
 
@@ -128,6 +135,7 @@ Hibernate validates the database schema on every startup. If the schema does not
 gradlew.bat liquibaseUpdate
 gradlew.bat serverRun
 ```
+
 </tab>
 </tabs>
 
@@ -143,6 +151,7 @@ docker compose up -d
 ./gradlew liquibaseUpdate
 ./gradlew serverRun
 ```
+
 </tab>
 <tab header="Windows">
 
@@ -153,6 +162,6 @@ docker compose up -d
 gradlew.bat liquibaseUpdate
 gradlew.bat serverRun
 ```
+
 </tab>
 </tabs>
-

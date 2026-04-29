@@ -12,13 +12,9 @@ import { SortBy, SortOrder } from '../../../../types/sort-properties';
   selector: 'tm-respondent-list-info-table',
   templateUrl: './respondent-list-info-table.component.html',
   styleUrls: ['./respondent-list-info-table.component.scss'],
-  imports: [
-    FormsModule,
-    NgClass,
-],
+  imports: [FormsModule, NgClass],
 })
 export class RespondentListInfoTableComponent {
-
   // enum
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
@@ -44,7 +40,7 @@ export class RespondentListInfoTableComponent {
   instructorListInfoTableSortBy: SortBy = SortBy.NONE;
   instructorListInfoTableSortOrder: SortOrder = SortOrder.ASC;
 
-  constructor(private tableComparatorService: TableComparatorService) { }
+  constructor(private tableComparatorService: TableComparatorService) {}
 
   /**
    * Sorts the students according to selection option.
@@ -52,11 +48,12 @@ export class RespondentListInfoTableComponent {
   sortStudentsTableRows(by: SortBy): void {
     // reverse the sort order
     this.studentListInfoTableSortOrder =
-        this.studentListInfoTableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
+      this.studentListInfoTableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
 
     this.studentListInfoTableRowModelsChange.emit(
-        this.studentListInfoTableRowModels.map((oldModel: StudentListInfoTableRowModel) => ({ ...oldModel }))
-            .sort(this.sortStudentRowsBy(by, this.studentListInfoTableSortOrder)),
+      this.studentListInfoTableRowModels
+        .map((oldModel: StudentListInfoTableRowModel) => ({ ...oldModel }))
+        .sort(this.sortStudentRowsBy(by, this.studentListInfoTableSortOrder)),
     );
     this.studentListInfoTableSortBy = by;
   }
@@ -64,12 +61,12 @@ export class RespondentListInfoTableComponent {
   sortInstructorsTableRows(by: SortBy): void {
     // reverse the sort order
     this.instructorListInfoTableSortOrder =
-        this.instructorListInfoTableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
+      this.instructorListInfoTableSortOrder === SortOrder.DESC ? SortOrder.ASC : SortOrder.DESC;
 
     this.instructorListInfoTableRowModelsChange.emit(
-        this.instructorListInfoTableRowModels.map(
-            (oldModel: InstructorListInfoTableRowModel) => ({ ...oldModel }))
-            .sort(this.sortInstructorRowsBy(by, this.instructorListInfoTableSortOrder)),
+      this.instructorListInfoTableRowModels
+        .map((oldModel: InstructorListInfoTableRowModel) => ({ ...oldModel }))
+        .sort(this.sortInstructorRowsBy(by, this.instructorListInfoTableSortOrder)),
     );
     this.instructorListInfoTableSortBy = by;
   }
@@ -79,32 +76,34 @@ export class RespondentListInfoTableComponent {
    */
   handleSelectionOfStudentRow(model: StudentListInfoTableRowModel): void {
     this.studentListInfoTableRowModelsChange.emit(
-        this.studentListInfoTableRowModels.map((oldModel: StudentListInfoTableRowModel) => {
-          if (oldModel === model) {
-            return { ...oldModel, isSelected: !oldModel.isSelected };
-          }
-          return { ...oldModel };
-        }),
+      this.studentListInfoTableRowModels.map((oldModel: StudentListInfoTableRowModel) => {
+        if (oldModel === model) {
+          return { ...oldModel, isSelected: !oldModel.isSelected };
+        }
+        return { ...oldModel };
+      }),
     );
   }
 
   handleSelectionOfInstructorRow(model: InstructorListInfoTableRowModel): void {
     this.instructorListInfoTableRowModelsChange.emit(
-        this.instructorListInfoTableRowModels.map((oldModel: InstructorListInfoTableRowModel) => {
-          if (oldModel === model) {
-            return { ...oldModel, isSelected: !oldModel.isSelected };
-          }
-          return { ...oldModel };
-        }),
+      this.instructorListInfoTableRowModels.map((oldModel: InstructorListInfoTableRowModel) => {
+        if (oldModel === model) {
+          return { ...oldModel, isSelected: !oldModel.isSelected };
+        }
+        return { ...oldModel };
+      }),
     );
   }
 
   /**
    * Sorts the rows of students in order.
    */
-  sortStudentRowsBy(by: SortBy, order: SortOrder):
-      ((a: StudentListInfoTableRowModel, b: StudentListInfoTableRowModel) => number) {
-    return ((a: StudentListInfoTableRowModel, b: StudentListInfoTableRowModel): number => {
+  sortStudentRowsBy(
+    by: SortBy,
+    order: SortOrder,
+  ): (a: StudentListInfoTableRowModel, b: StudentListInfoTableRowModel) => number {
+    return (a: StudentListInfoTableRowModel, b: StudentListInfoTableRowModel): number => {
       let strA: string;
       let strB: string;
       switch (by) {
@@ -133,15 +132,17 @@ export class RespondentListInfoTableComponent {
           strB = '';
       }
       return this.tableComparatorService.compare(by, order, strA, strB);
-    });
+    };
   }
 
   /**
    * Sorts the rows of instructors in order.
    */
-  sortInstructorRowsBy(by: SortBy, order: SortOrder):
-      ((a: InstructorListInfoTableRowModel, b: InstructorListInfoTableRowModel) => number) {
-    return ((a: InstructorListInfoTableRowModel, b: InstructorListInfoTableRowModel): number => {
+  sortInstructorRowsBy(
+    by: SortBy,
+    order: SortOrder,
+  ): (a: InstructorListInfoTableRowModel, b: InstructorListInfoTableRowModel) => number {
+    return (a: InstructorListInfoTableRowModel, b: InstructorListInfoTableRowModel): number => {
       let strA: string;
       let strB: string;
       switch (by) {
@@ -162,7 +163,7 @@ export class RespondentListInfoTableComponent {
           strB = '';
       }
       return this.tableComparatorService.compare(by, order, strA, strB);
-    });
+    };
   }
 
   /**
@@ -177,8 +178,10 @@ export class RespondentListInfoTableComponent {
    */
   changeSelectionStatusForAllStudentsHandler(shouldSelect: boolean): void {
     this.studentListInfoTableRowModelsChange.emit(
-        this.studentListInfoTableRowModels.map(
-            (model: StudentListInfoTableRowModel) => ({ ...model, isSelected: shouldSelect })),
+      this.studentListInfoTableRowModels.map((model: StudentListInfoTableRowModel) => ({
+        ...model,
+        isSelected: shouldSelect,
+      })),
     );
   }
 
@@ -194,8 +197,10 @@ export class RespondentListInfoTableComponent {
    */
   changeSelectionStatusForAllInstructorsHandler(shouldSelect: boolean): void {
     this.instructorListInfoTableRowModelsChange.emit(
-        this.instructorListInfoTableRowModels.map(
-            (model: InstructorListInfoTableRowModel) => ({ ...model, isSelected: shouldSelect })),
+      this.instructorListInfoTableRowModels.map((model: InstructorListInfoTableRowModel) => ({
+        ...model,
+        isSelected: shouldSelect,
+      })),
     );
   }
 }

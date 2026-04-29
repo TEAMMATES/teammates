@@ -5,7 +5,6 @@ import { Pipe, PipeTransform } from '@angular/core';
  */
 @Pipe({ name: 'contributionPointDescription' })
 export class ContributionPointDescriptionPipe implements PipeTransform {
-
   /**
    * Transforms a contribution point to a simple name.
    */
@@ -28,5 +27,4 @@ export class ContributionPointDescriptionPipe implements PipeTransform {
 
     return 'Unknown';
   }
-
 }

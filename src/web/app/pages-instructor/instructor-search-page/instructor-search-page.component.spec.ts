@@ -68,13 +68,8 @@ describe('InstructorSearchPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [
-        provideRouter([]),
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
-    })
-    .compileComponents();
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -156,7 +151,8 @@ describe('InstructorSearchPageComponent', () => {
             isAllowedToModifyStudent: true,
           },
         ],
-      }];
+      },
+    ];
 
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
@@ -166,38 +162,31 @@ describe('InstructorSearchPageComponent', () => {
     const { students }: { students: Student[] } = mockStudents;
 
     // Number of courses should match
-    expect(coursesWithStudents.length).toEqual(
-        Array.from(new Set(students.map((s: Student) => s.courseId))).length,
-    );
+    expect(coursesWithStudents.length).toEqual(Array.from(new Set(students.map((s: Student) => s.courseId))).length);
 
     // Number of sections in a course should match
     expect(
-        Array.from(
-            new Set(
-                coursesWithStudents
-                    .find((t: SearchStudentsListRowTable) => t.courseId === students[0].courseId)
-                    ?.students.map((studentModel: StudentListRowModel) => studentModel.student.sectionName),
-            ),
-        ).length,
+      Array.from(
+        new Set(
+          coursesWithStudents
+            .find((t: SearchStudentsListRowTable) => t.courseId === students[0].courseId)
+            ?.students.map((studentModel: StudentListRowModel) => studentModel.student.sectionName),
+        ),
+      ).length,
     ).toEqual(
-        Array.from(
-            new Set(
-                students
-                    .filter((s: Student) => s.courseId === students[0].courseId)
-                    .map((s: Student) => s.sectionName),
-            ),
-        ).length,
+      Array.from(
+        new Set(
+          students.filter((s: Student) => s.courseId === students[0].courseId).map((s: Student) => s.sectionName),
+        ),
+      ).length,
     );
 
     // Number of students in a section should match
     expect(
-        coursesWithStudents
-            .find((t: SearchStudentsListRowTable) => t.courseId === students[0].courseId)
-            ?.students.filter((s: StudentListRowModel) => s.student.sectionName === students[0].sectionName)
-            .length,
-    ).toEqual(
-        students.filter((s: Student) => s.sectionName === students[0].sectionName).length,
-    );
+      coursesWithStudents
+        .find((t: SearchStudentsListRowTable) => t.courseId === students[0].courseId)
+        ?.students.filter((s: StudentListRowModel) => s.student.sectionName === students[0].sectionName).length,
+    ).toEqual(students.filter((s: Student) => s.sectionName === students[0].sectionName).length);
   });
 
   it('should execute GET when fetching privileges', () => {
@@ -223,12 +212,9 @@ describe('InstructorSearchPageComponent', () => {
     component.getPrivileges(coursesWithStudents);
 
     for (const course of coursesWithStudents) {
-      expect(spyHttpRequestService.get).toHaveBeenCalledWith(
-          ResourceEndpoints.INSTRUCTOR_PRIVILEGE,
-        {
-          courseid: course.courseId,
-        },
-      );
+      expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, {
+        courseid: course.courseId,
+      });
     }
   });
 
@@ -305,5 +291,4 @@ describe('InstructorSearchPageComponent', () => {
 
     expect(mockPrivilegesArray.length).toEqual(0);
   });
-
 });

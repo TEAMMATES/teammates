@@ -6,13 +6,11 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
  * Student help page.
  */
 @Component({
-    selector: 'tm-student-help-page',
-    templateUrl: './student-help-page.component.html',
-    styleUrls: ['./student-help-page.component.scss'],
-    imports: [TeammatesRouterDirective],
+  selector: 'tm-student-help-page',
+  templateUrl: './student-help-page.component.html',
+  styleUrls: ['./student-help-page.component.scss'],
+  imports: [TeammatesRouterDirective],
 })
 export class StudentHelpPageComponent {
-
   readonly supportEmail: string = environment.supportEmail;
-
 }

@@ -113,5 +113,4 @@ describe('NumScaleQuestionEditDetailsFormComponent', () => {
     component.restrictFloatInputLength(inputEvent, 'step');
     expect((inputEvent.target as HTMLInputElement).value).toEqual('1234567.8');
   });
-
 });

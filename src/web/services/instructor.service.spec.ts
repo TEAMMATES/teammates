@@ -23,25 +23,28 @@ const defaultRequestBody: InstructorCreateRequest = {
 };
 
 const defaultInstructors: Instructors = {
-  instructors: [{
-    googleId: '',
-    courseId: 'CS3281',
-    email: '',
-    isDisplayedToStudents: true,
-    displayedToStudentsAs: '',
-    name: '',
-    role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-    joinState: JoinState.JOINED,
-  }, {
-    googleId: '',
-    courseId: 'CS3282',
-    email: '',
-    isDisplayedToStudents: true,
-    displayedToStudentsAs: '',
-    name: '',
-    role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
-    joinState: JoinState.JOINED,
-  }],
+  instructors: [
+    {
+      googleId: '',
+      courseId: 'CS3281',
+      email: '',
+      isDisplayedToStudents: true,
+      displayedToStudentsAs: '',
+      name: '',
+      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+      joinState: JoinState.JOINED,
+    },
+    {
+      googleId: '',
+      courseId: 'CS3282',
+      email: '',
+      isDisplayedToStudents: true,
+      displayedToStudentsAs: '',
+      name: '',
+      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+      joinState: JoinState.JOINED,
+    },
+  ],
 };
 
 describe('InstructorService', () => {
@@ -102,14 +105,16 @@ describe('InstructorService', () => {
       expect(endpoint).toEqual(ResourceEndpoints.INSTRUCTORS);
       const courseid: string = paramMap['courseid'];
       return of<Instructors>({
-        instructors: defaultInstructors.instructors
-            .filter((instructor: Instructor) => instructor.courseId === courseid),
+        instructors: defaultInstructors.instructors.filter(
+          (instructor: Instructor) => instructor.courseId === courseid,
+        ),
       });
     });
 
     service.loadInstructors({ courseId: 'CS3281' }).subscribe((instructors: Instructors) => {
-      expect(instructors.instructors).toEqual(defaultInstructors.instructors
-        .filter((instructor: Instructor) => instructor.courseId === 'CS3281'));
+      expect(instructors.instructors).toEqual(
+        defaultInstructors.instructors.filter((instructor: Instructor) => instructor.courseId === 'CS3281'),
+      );
     });
   });
 
@@ -150,6 +155,9 @@ describe('InstructorService', () => {
       instructorEmail: paramMap['instructoremail'],
     });
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(
-        ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap, requestBody);
+      ResourceEndpoints.INSTRUCTOR_PRIVILEGE,
+      paramMap,
+      requestBody,
+    );
   });
 });

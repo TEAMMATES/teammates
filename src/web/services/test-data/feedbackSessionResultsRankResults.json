@@ -16,15 +16,9 @@
         "giverType": "STUDENTS",
         "recipientType": "STUDENTS",
         "numberOfEntitiesToGiveFeedbackToSetting": "UNLIMITED",
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
       },
       "questionStatistics": "",
       "allResponses": [
@@ -497,15 +491,9 @@
         "giverType": "STUDENTS",
         "recipientType": "OWN_TEAM",
         "numberOfEntitiesToGiveFeedbackToSetting": "UNLIMITED",
-        "showResponsesTo": [
-          "INSTRUCTORS"
-        ],
-        "showGiverNameTo": [
-          "INSTRUCTORS"
-        ],
-        "showRecipientNameTo": [
-          "INSTRUCTORS"
-        ]
+        "showResponsesTo": ["INSTRUCTORS"],
+        "showGiverNameTo": ["INSTRUCTORS"],
+        "showRecipientNameTo": ["INSTRUCTORS"]
       },
       "questionStatistics": "",
       "allResponses": [
@@ -521,13 +509,7 @@
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientSection": "None",
           "responseDetails": {
-            "answers": [
-              2,
-              -999,
-              1,
-              1,
-              -999
-            ],
+            "answers": [2, -999, 1, 1, -999],
             "questionType": "RANK_OPTIONS"
           },
           "instructorComments": []
@@ -544,13 +526,7 @@
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientSection": "None",
           "responseDetails": {
-            "answers": [
-              3,
-              -999,
-              2,
-              1,
-              -999
-            ],
+            "answers": [3, -999, 2, 1, -999],
             "questionType": "RANK_OPTIONS"
           },
           "instructorComments": []
@@ -567,13 +543,7 @@
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientSection": "None",
           "responseDetails": {
-            "answers": [
-              1,
-              2,
-              3,
-              4,
-              -999
-            ],
+            "answers": [1, 2, 3, 4, -999],
             "questionType": "RANK_OPTIONS"
           },
           "participantComment": {
@@ -599,13 +569,7 @@
           "recipientTeam": "Team 1.1</td></div>'\"",
           "recipientSection": "None",
           "responseDetails": {
-            "answers": [
-              4,
-              3,
-              2,
-              1,
-              -999
-            ],
+            "answers": [4, 3, 2, 1, -999],
             "questionType": "RANK_OPTIONS"
           },
           "instructorComments": []
@@ -622,13 +586,7 @@
           "recipientTeam": "Team 1.2",
           "recipientSection": "None",
           "responseDetails": {
-            "answers": [
-              1,
-              -999,
-              -999,
-              -999,
-              -999
-            ],
+            "answers": [1, -999, -999, -999, -999],
             "questionType": "RANK_OPTIONS"
           },
           "instructorComments": []

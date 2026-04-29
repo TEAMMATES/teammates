@@ -15,6 +15,7 @@ If you encounter any issues, refer to the [Troubleshooting Guide](troubleshootin
 ## Prerequisites
 
 Before you begin, a basic familiarity with the following will help:
+
 - Git
 - Java
 - Angular/TypeScript
@@ -24,6 +25,7 @@ Before you begin, a basic familiarity with the following will help:
 1. Install Git.
 2. Fork the project repository at [github.com/TEAMMATES/teammates](https://github.com/TEAMMATES/teammates) and clone your fork locally.
 3. Add the main repository as a remote and fetch it:
+
 ```sh
 git remote add upstream https://github.com/TEAMMATES/teammates.git
 git fetch upstream
@@ -32,6 +34,7 @@ git fetch upstream
 **Verification:** Run `git branch -r` and verify `upstream/master` is listed.
 
 4. Track the main repo's `master` branch:
+
 ```sh
 git checkout master
 git branch -u upstream/master
@@ -40,7 +43,7 @@ git branch -u upstream/master
 ## Step 2: Install Tools
 
 1. Install **Java JDK 21**.
-   * JDK 25 is also supported, as long as newer language features are not used.
+   - JDK 25 is also supported, as long as newer language features are not used.
 2. Install **Node.js** (minimum version 24).
 3. Install [**Docker**](https://www.docker.com/get-started/).
 
@@ -54,21 +57,24 @@ git branch -u upstream/master
 ```sh
 ./gradlew createConfigs
 ```
+
 </tab>
 <tab header="Windows">
 
 ```sh
 gradlew.bat createConfigs
 ```
+
 </tab>
 </tabs>
 
 **Verification:** A `gradle.properties` file should appear in the project root.
 
 1. Edit `gradle.properties` if needed:
-   * Set `org.gradle.java.home` if you want to use a specific JDK.
+   - Set `org.gradle.java.home` if you want to use a specific JDK.
 
 2. Install frontend dependencies:
+
 ```sh
 npm ci
 ```
@@ -78,6 +84,7 @@ npm ci
 ## Step 3: Run the Application
 
 1. Start the database:
+
 ```sh
 docker compose up -d
 ```
@@ -90,12 +97,14 @@ docker compose up -d
 ```sh
 ./gradlew liquibaseUpdate
 ```
+
 </tab>
 <tab header="Windows">
 
 ```sh
 gradlew.bat liquibaseUpdate
 ```
+
 </tab>
 </tabs>
 
@@ -107,18 +116,21 @@ gradlew.bat liquibaseUpdate
 ```sh
 ./gradlew serverRun
 ```
+
 </tab>
 <tab header="Windows">
 
 ```sh
 gradlew.bat serverRun
 ```
+
 </tab>
 </tabs>
 
 The backend will be available at `http://localhost:8080`.
 
 4. Start the frontend server:
+
 ```sh
 npm run start
 ```

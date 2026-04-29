@@ -35,12 +35,9 @@ export interface InstructorSessionLevelPermission {
   selector: 'tm-custom-privilege-setting-panel',
   templateUrl: './custom-privilege-setting-panel.component.html',
   styleUrls: ['./custom-privilege-setting-panel.component.scss'],
-  imports: [
-    FormsModule,
-],
+  imports: [FormsModule],
 })
 export class CustomPrivilegeSettingPanelComponent {
-
   @Input()
   permission: InstructorOverallPermission = {
     privilege: {
@@ -69,18 +66,21 @@ export class CustomPrivilegeSettingPanelComponent {
    * Checks whether there is a section level permission for a give section.
    */
   hasSectionLevelPermission(sectionName: string): boolean {
-    return this.permission.sectionLevel.some(
-        (sectionLevel: InstructorSectionLevelPermission) => sectionLevel.sectionNames.includes(sectionName));
+    return this.permission.sectionLevel.some((sectionLevel: InstructorSectionLevelPermission) =>
+      sectionLevel.sectionNames.includes(sectionName),
+    );
   }
 
   /**
    * Checks whether there is section level permission for all sections.
    */
   get hasSectionLevelPermissionForAllSections(): boolean {
-    return this.permission.sectionLevel.length >= this.allSections.length
-        || this.permission.sectionLevel
-            .map((section: InstructorSectionLevelPermission) => section.sectionNames.length)
-            .reduce((prev: number, curr: number) => prev + curr, 0) >= this.allSections.length;
+    return (
+      this.permission.sectionLevel.length >= this.allSections.length ||
+      this.permission.sectionLevel
+        .map((section: InstructorSectionLevelPermission) => section.sectionNames.length)
+        .reduce((prev: number, curr: number) => prev + curr, 0) >= this.allSections.length
+    );
   }
 
   /**
@@ -107,7 +107,11 @@ export class CustomPrivilegeSettingPanelComponent {
    * Triggers session level permission change at index.
    */
   triggerSessionLevelPermissionChange(
-      indexSection: number, indexSession: number, privilegeName: string, shouldEnabled: boolean): void {
+    indexSection: number,
+    indexSession: number,
+    privilegeName: string,
+    shouldEnabled: boolean,
+  ): void {
     const permission: InstructorOverallPermission = this.deepCopy(this.permission);
     (permission.sectionLevel[indexSection].sessionLevel[indexSession].privilege as any)[privilegeName] = shouldEnabled;
 
@@ -199,5 +203,4 @@ export class CustomPrivilegeSettingPanelComponent {
   private deepCopy<T>(obj: T): T {
     return JSON.parse(JSON.stringify(obj));
   }
-
 }
