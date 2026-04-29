@@ -69,7 +69,7 @@ public class FeedbackResultsPageSql extends AppPage {
     }
 
     public void verifyFeedbackSessionDetails(FeedbackSession feedbackSession, Course course) {
-        assertEquals(getCourseId(), feedbackSession.getCourse().getId());
+        assertEquals(getCourseId(), feedbackSession.getCourseId());
         assertEquals(getCourseName(), course.getName());
         assertEquals(getCourseInstitute(), course.getInstitute());
         assertEquals(getFeedbackSessionName(), feedbackSession.getName());
@@ -80,7 +80,7 @@ public class FeedbackResultsPageSql extends AppPage {
 
     public void verifyQuestionDetails(int questionNum, FeedbackQuestion question) {
         assertEquals(question.getQuestionDetailsCopy().getQuestionText(), getQuestionText(questionNum));
-        if (question.getQuestionDetailsCopy().getQuestionType() != FeedbackQuestionType.TEXT) {
+        if (question.getQuestionType() != FeedbackQuestionType.TEXT) {
             assertEquals(getAdditionalInfoString(question), getAdditionalInfo(questionNum));
         }
     }
@@ -191,7 +191,7 @@ public class FeedbackResultsPageSql extends AppPage {
     }
 
     private boolean hasDisplayedResponses(FeedbackQuestion question) {
-        return question.getQuestionDetailsCopy().getQuestionType() != FeedbackQuestionType.CONTRIB;
+        return question.getQuestionType() != FeedbackQuestionType.CONTRIB;
     }
 
     private void verifyGivenResponses(FeedbackQuestion question,
@@ -286,7 +286,7 @@ public class FeedbackResultsPageSql extends AppPage {
 
     private boolean isResponseEqual(FeedbackQuestion question, WebElement responseField,
             FeedbackResponse response) {
-        if (question.getQuestionDetailsCopy().getQuestionType() == FeedbackQuestionType.RUBRIC) {
+        if (question.getQuestionType() == FeedbackQuestionType.RUBRIC) {
             return isRubricResponseEqual(responseField, response);
         } else {
             return getAnswerString(question, response.getFeedbackResponseDetailsCopy()).equals(responseField.getText());
@@ -484,7 +484,7 @@ public class FeedbackResultsPageSql extends AppPage {
     }
 
     private String getAdditionalInfoString(FeedbackQuestion question) {
-        switch (question.getQuestionDetailsCopy().getQuestionType()) {
+        switch (question.getQuestionType()) {
         case TEXT:
             return "";
         case MCQ:
@@ -509,7 +509,7 @@ public class FeedbackResultsPageSql extends AppPage {
                     (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
         default:
             throw new AssertionError(
-                    "Unknown question type: " + question.getQuestionDetailsCopy().getQuestionType());
+                    "Unknown question type: " + question.getQuestionType());
         }
     }
 

@@ -1203,7 +1203,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   >
                     <a
                       class="ps-3 pt-2"
-                      href="/web/instructor/sessions/individual-extension?courseid=testId&fsname=test%20session&preselectnonsubmitters=false"
+                      href="/web/instructor/sessions/individual-extension?courseid=testId&fsname=test%20session&fsid=ee47e471-fbd8-478e-a350-51152802215b&preselectnonsubmitters=false"
                       tmrouterlink="/web/instructor/sessions/individual-extension"
                     >
                        Individual Deadline Extensions 
@@ -1233,6 +1233,512 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               [Change]
             </button>
           </div>
+          <div
+            class="card border-primary margin-top-20px collapse"
+          >
+            <div
+              class="card-body"
+            >
+              <div
+                class="row align-items-start"
+              >
+                <div
+                  class="col-md-6 text-center text-md-start"
+                >
+                  <div
+                    class="row ms-md-1"
+                  >
+                    <div
+                      class="col-12"
+                    >
+                      <label
+                        class="ngb-tooltip-class label-control font-bold"
+                        ngbtooltip="Session can be visible before it is open for submissions so that users can preview the questions."
+                      >
+                        Make session visible 
+                      </label>
+                    </div>
+                  </div>
+                  <div
+                    class="row mt-md-2 ms-md-1"
+                  >
+                    <div
+                      class="col-md-2 mt-md-1"
+                    >
+                      <div
+                        class="form-check"
+                      >
+                        <label
+                          class="form-check-label"
+                        >
+                          <input
+                            class="form-check-input ng-untouched ng-pristine ng-valid"
+                            id="session-visibility-custom"
+                            name="sessionVisibleRadio"
+                            type="radio"
+                          />
+                           At 
+                        </label>
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-6"
+                      id="session-visibility-date"
+                    >
+                      <tm-datepicker>
+                        <div
+                          class="input-group"
+                        >
+                          <input
+                            aria-label="Date"
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                            ngbdatepicker=""
+                            readonly=""
+                            type="text"
+                          />
+                          <button
+                            aria-label="Change date"
+                            class="btn btn-light input-group-text"
+                            disabled=""
+                            type="button"
+                          >
+                            <i
+                              class="fas fa-calendar-alt"
+                            />
+                          </button>
+                        </div>
+                      </tm-datepicker>
+                    </div>
+                    <div
+                      class="col-md-4"
+                    >
+                      <tm-timepicker
+                        id="session-visibility-time"
+                      >
+                        <select
+                          aria-label="Select time"
+                          class="form-control form-select ng-untouched ng-pristine ng-valid"
+                        >
+                          <option
+                            value="1: Object"
+                          >
+                             01:00H 
+                          </option>
+                          <option
+                            value="2: Object"
+                          >
+                             02:00H 
+                          </option>
+                          <option
+                            value="3: Object"
+                          >
+                             03:00H 
+                          </option>
+                          <option
+                            value="4: Object"
+                          >
+                             04:00H 
+                          </option>
+                          <option
+                            value="5: Object"
+                          >
+                             05:00H 
+                          </option>
+                          <option
+                            value="6: Object"
+                          >
+                             06:00H 
+                          </option>
+                          <option
+                            value="7: Object"
+                          >
+                             07:00H 
+                          </option>
+                          <option
+                            value="8: Object"
+                          >
+                             08:00H 
+                          </option>
+                          <option
+                            value="9: Object"
+                          >
+                             09:00H 
+                          </option>
+                          <option
+                            value="10: Object"
+                          >
+                             10:00H 
+                          </option>
+                          <option
+                            value="11: Object"
+                          >
+                             11:00H 
+                          </option>
+                          <option
+                            value="12: Object"
+                          >
+                             12:00H 
+                          </option>
+                          <option
+                            value="13: Object"
+                          >
+                             13:00H 
+                          </option>
+                          <option
+                            value="14: Object"
+                          >
+                             14:00H 
+                          </option>
+                          <option
+                            value="15: Object"
+                          >
+                             15:00H 
+                          </option>
+                          <option
+                            value="16: Object"
+                          >
+                             16:00H 
+                          </option>
+                          <option
+                            value="17: Object"
+                          >
+                             17:00H 
+                          </option>
+                          <option
+                            value="18: Object"
+                          >
+                             18:00H 
+                          </option>
+                          <option
+                            value="19: Object"
+                          >
+                             19:00H 
+                          </option>
+                          <option
+                            value="20: Object"
+                          >
+                             20:00H 
+                          </option>
+                          <option
+                            value="21: Object"
+                          >
+                             21:00H 
+                          </option>
+                          <option
+                            value="22: Object"
+                          >
+                             22:00H 
+                          </option>
+                          <option
+                            value="23: Object"
+                          >
+                             23:00H 
+                          </option>
+                          <option
+                            value="0: Object"
+                          >
+                            23:59H
+                          </option>
+                        </select>
+                      </tm-timepicker>
+                    </div>
+                  </div>
+                  <div
+                    class="row mt-md-1 ms-md-3"
+                  >
+                    <div
+                      class="col-12 form-check"
+                    >
+                      <label
+                        class="form-check-label"
+                      >
+                        <input
+                          class="form-check-input ng-untouched ng-pristine ng-valid"
+                          id="session-visibility-at-open"
+                          name="sessionVisibleRadio"
+                          type="radio"
+                        />
+                         Submission opening time 
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col-md-6 sessionVisibleRadio border-left-gray text-center text-md-start"
+                >
+                  <div
+                    class="row ms-md-1"
+                  >
+                    <div
+                      class="col-12"
+                    >
+                      <label
+                        class="ngb-tooltip-class label-control font-bold"
+                        ngbtooltip="Make responses for the feedback session visible to designated recipients."
+                      >
+                        Make response visible 
+                      </label>
+                    </div>
+                  </div>
+                  <div
+                    class="row mt-md-2 ms-md-1"
+                  >
+                    <div
+                      class="col-md-2 mt-md-1"
+                    >
+                      <div
+                        class="form-check"
+                      >
+                        <label
+                          class="form-check-label"
+                        >
+                          <input
+                            class="form-check-input ng-untouched ng-pristine ng-valid"
+                            id="response-visibility-custom"
+                            name="responseVisibleRadio"
+                            type="radio"
+                          />
+                           At 
+                        </label>
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-6"
+                      id="response-visibility-date"
+                    >
+                      <tm-datepicker>
+                        <div
+                          class="input-group"
+                        >
+                          <input
+                            aria-label="Date"
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                            ngbdatepicker=""
+                            readonly=""
+                            type="text"
+                          />
+                          <button
+                            aria-label="Change date"
+                            class="btn btn-light input-group-text"
+                            disabled=""
+                            type="button"
+                          >
+                            <i
+                              class="fas fa-calendar-alt"
+                            />
+                          </button>
+                        </div>
+                      </tm-datepicker>
+                    </div>
+                    <div
+                      class="col-md-4"
+                    >
+                      <tm-timepicker
+                        id="response-visibility-time"
+                      >
+                        <select
+                          aria-label="Select time"
+                          class="form-control form-select ng-untouched ng-pristine ng-valid"
+                        >
+                          <option
+                            disabled=""
+                            value="1: Object"
+                          >
+                             01:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="2: Object"
+                          >
+                             02:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="3: Object"
+                          >
+                             03:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="4: Object"
+                          >
+                             04:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="5: Object"
+                          >
+                             05:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="6: Object"
+                          >
+                             06:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="7: Object"
+                          >
+                             07:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="8: Object"
+                          >
+                             08:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="9: Object"
+                          >
+                             09:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="10: Object"
+                          >
+                             10:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="11: Object"
+                          >
+                             11:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="12: Object"
+                          >
+                             12:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="13: Object"
+                          >
+                             13:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="14: Object"
+                          >
+                             14:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="15: Object"
+                          >
+                             15:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="16: Object"
+                          >
+                             16:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="17: Object"
+                          >
+                             17:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="18: Object"
+                          >
+                             18:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="19: Object"
+                          >
+                             19:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="20: Object"
+                          >
+                             20:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="21: Object"
+                          >
+                             21:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="22: Object"
+                          >
+                             22:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="23: Object"
+                          >
+                             23:00H 
+                          </option>
+                          <option
+                            value="0: Object"
+                          >
+                            23:59H
+                          </option>
+                        </select>
+                      </tm-timepicker>
+                    </div>
+                  </div>
+                  <div
+                    class="row mt-md-2 ms-md-1"
+                  >
+                    <div
+                      class="col-12"
+                    >
+                      <div
+                        class="form-check"
+                      >
+                        <label
+                          class="ngb-tooltip-class form-check-label"
+                          ngbtooltip="Same time as when the session becomes visible to users."
+                        >
+                          <input
+                            class="form-check-input ng-untouched ng-pristine ng-valid"
+                            id="response-visibility-immediately"
+                            name="responseVisibleRadio"
+                            type="radio"
+                          />
+                           Immediately 
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="row mt-md-2 ms-md-1"
+                  >
+                    <div
+                      class="col-12"
+                    >
+                      <div
+                        class="form-check"
+                      >
+                        <label
+                          class="ngb-tooltip-class form-check-label"
+                          ngbtooltip="Remember to manually publish the responses for this session later on."
+                        >
+                          <input
+                            class="form-check-input ng-untouched ng-pristine ng-valid"
+                            id="response-visibility-manually"
+                            name="responseVisibleRadio"
+                            type="radio"
+                          />
+                           Not now (publish manually) 
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div>
             <span
               class="text-muted"
@@ -1247,6 +1753,82 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
             >
               [Change]
             </button>
+          </div>
+          <div
+            class="card border-primary margin-top-20px collapse"
+          >
+            <div
+              class="card-body"
+            >
+              <div
+                class="col-12 font-bold"
+              >
+                 Send emails for 
+              </div>
+              <div
+                class="row ms-md-1 mt-md-3"
+              >
+                <div
+                  class="col-md-4"
+                >
+                  <div
+                    class="form-check form-check-inline"
+                  >
+                    <label
+                      class="ngb-tooltip-class form-check-label"
+                      ngbtooltip="Notify students when the session is open for submission."
+                    >
+                      <input
+                        checked=""
+                        class="form-check-input"
+                        disabled=""
+                        id="email-opening"
+                        type="checkbox"
+                      />
+                      Session opened reminder 
+                    </label>
+                  </div>
+                </div>
+                <div
+                  class="col-md-4"
+                >
+                  <div
+                    class="form-check form-check-inline"
+                  >
+                    <label
+                      class="ngb-tooltip-class form-check-label"
+                      ngbtooltip="Remind students to submit 24 hours before the end of the session."
+                    >
+                      <input
+                        class="form-check-input ng-untouched ng-pristine ng-valid"
+                        id="email-closing"
+                        type="checkbox"
+                      />
+                       Session closing soon reminder 
+                    </label>
+                  </div>
+                </div>
+                <div
+                  class="col-md-4"
+                >
+                  <div
+                    class="form-check form-check-inline"
+                  >
+                    <label
+                      class="ngb-tooltip-class form-check-label"
+                      ngbtooltip="Notify students when the session results is published."
+                    >
+                      <input
+                        class="form-check-input ng-untouched ng-pristine ng-valid"
+                        id="email-published"
+                        type="checkbox"
+                      />
+                       Results published announcement 
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div
             class="row margin-top-20px"
@@ -3879,7 +4461,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   >
                     <a
                       class="ps-3 pt-2"
-                      href="/web/instructor/sessions/individual-extension?courseid=&fsname=&preselectnonsubmitters=false"
+                      href="/web/instructor/sessions/individual-extension?courseid=&fsname=&fsid=&preselectnonsubmitters=false"
                       tmrouterlink="/web/instructor/sessions/individual-extension"
                     >
                        Individual Deadline Extensions 
@@ -3909,6 +4491,512 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
               [Change]
             </button>
           </div>
+          <div
+            class="card border-primary margin-top-20px collapse"
+          >
+            <div
+              class="card-body"
+            >
+              <div
+                class="row align-items-start"
+              >
+                <div
+                  class="col-md-6 text-center text-md-start"
+                >
+                  <div
+                    class="row ms-md-1"
+                  >
+                    <div
+                      class="col-12"
+                    >
+                      <label
+                        class="ngb-tooltip-class label-control font-bold"
+                        ngbtooltip="Session can be visible before it is open for submissions so that users can preview the questions."
+                      >
+                        Make session visible 
+                      </label>
+                    </div>
+                  </div>
+                  <div
+                    class="row mt-md-2 ms-md-1"
+                  >
+                    <div
+                      class="col-md-2 mt-md-1"
+                    >
+                      <div
+                        class="form-check"
+                      >
+                        <label
+                          class="form-check-label"
+                        >
+                          <input
+                            class="form-check-input ng-untouched ng-pristine ng-valid"
+                            id="session-visibility-custom"
+                            name="sessionVisibleRadio"
+                            type="radio"
+                          />
+                           At 
+                        </label>
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-6"
+                      id="session-visibility-date"
+                    >
+                      <tm-datepicker>
+                        <div
+                          class="input-group"
+                        >
+                          <input
+                            aria-label="Date"
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                            ngbdatepicker=""
+                            readonly=""
+                            type="text"
+                          />
+                          <button
+                            aria-label="Change date"
+                            class="btn btn-light input-group-text"
+                            disabled=""
+                            type="button"
+                          >
+                            <i
+                              class="fas fa-calendar-alt"
+                            />
+                          </button>
+                        </div>
+                      </tm-datepicker>
+                    </div>
+                    <div
+                      class="col-md-4"
+                    >
+                      <tm-timepicker
+                        id="session-visibility-time"
+                      >
+                        <select
+                          aria-label="Select time"
+                          class="form-control form-select ng-untouched ng-pristine ng-valid"
+                        >
+                          <option
+                            value="1: Object"
+                          >
+                             01:00H 
+                          </option>
+                          <option
+                            value="2: Object"
+                          >
+                             02:00H 
+                          </option>
+                          <option
+                            value="3: Object"
+                          >
+                             03:00H 
+                          </option>
+                          <option
+                            value="4: Object"
+                          >
+                             04:00H 
+                          </option>
+                          <option
+                            value="5: Object"
+                          >
+                             05:00H 
+                          </option>
+                          <option
+                            value="6: Object"
+                          >
+                             06:00H 
+                          </option>
+                          <option
+                            value="7: Object"
+                          >
+                             07:00H 
+                          </option>
+                          <option
+                            value="8: Object"
+                          >
+                             08:00H 
+                          </option>
+                          <option
+                            value="9: Object"
+                          >
+                             09:00H 
+                          </option>
+                          <option
+                            value="10: Object"
+                          >
+                             10:00H 
+                          </option>
+                          <option
+                            value="11: Object"
+                          >
+                             11:00H 
+                          </option>
+                          <option
+                            value="12: Object"
+                          >
+                             12:00H 
+                          </option>
+                          <option
+                            value="13: Object"
+                          >
+                             13:00H 
+                          </option>
+                          <option
+                            value="14: Object"
+                          >
+                             14:00H 
+                          </option>
+                          <option
+                            value="15: Object"
+                          >
+                             15:00H 
+                          </option>
+                          <option
+                            value="16: Object"
+                          >
+                             16:00H 
+                          </option>
+                          <option
+                            value="17: Object"
+                          >
+                             17:00H 
+                          </option>
+                          <option
+                            value="18: Object"
+                          >
+                             18:00H 
+                          </option>
+                          <option
+                            value="19: Object"
+                          >
+                             19:00H 
+                          </option>
+                          <option
+                            value="20: Object"
+                          >
+                             20:00H 
+                          </option>
+                          <option
+                            value="21: Object"
+                          >
+                             21:00H 
+                          </option>
+                          <option
+                            value="22: Object"
+                          >
+                             22:00H 
+                          </option>
+                          <option
+                            value="23: Object"
+                          >
+                             23:00H 
+                          </option>
+                          <option
+                            value="0: Object"
+                          >
+                            23:59H
+                          </option>
+                        </select>
+                      </tm-timepicker>
+                    </div>
+                  </div>
+                  <div
+                    class="row mt-md-1 ms-md-3"
+                  >
+                    <div
+                      class="col-12 form-check"
+                    >
+                      <label
+                        class="form-check-label"
+                      >
+                        <input
+                          class="form-check-input ng-untouched ng-pristine ng-valid"
+                          id="session-visibility-at-open"
+                          name="sessionVisibleRadio"
+                          type="radio"
+                        />
+                         Submission opening time 
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="col-md-6 sessionVisibleRadio border-left-gray text-center text-md-start"
+                >
+                  <div
+                    class="row ms-md-1"
+                  >
+                    <div
+                      class="col-12"
+                    >
+                      <label
+                        class="ngb-tooltip-class label-control font-bold"
+                        ngbtooltip="Make responses for the feedback session visible to designated recipients."
+                      >
+                        Make response visible 
+                      </label>
+                    </div>
+                  </div>
+                  <div
+                    class="row mt-md-2 ms-md-1"
+                  >
+                    <div
+                      class="col-md-2 mt-md-1"
+                    >
+                      <div
+                        class="form-check"
+                      >
+                        <label
+                          class="form-check-label"
+                        >
+                          <input
+                            class="form-check-input ng-untouched ng-pristine ng-valid"
+                            id="response-visibility-custom"
+                            name="responseVisibleRadio"
+                            type="radio"
+                          />
+                           At 
+                        </label>
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-6"
+                      id="response-visibility-date"
+                    >
+                      <tm-datepicker>
+                        <div
+                          class="input-group"
+                        >
+                          <input
+                            aria-label="Date"
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                            ngbdatepicker=""
+                            readonly=""
+                            type="text"
+                          />
+                          <button
+                            aria-label="Change date"
+                            class="btn btn-light input-group-text"
+                            disabled=""
+                            type="button"
+                          >
+                            <i
+                              class="fas fa-calendar-alt"
+                            />
+                          </button>
+                        </div>
+                      </tm-datepicker>
+                    </div>
+                    <div
+                      class="col-md-4"
+                    >
+                      <tm-timepicker
+                        id="response-visibility-time"
+                      >
+                        <select
+                          aria-label="Select time"
+                          class="form-control form-select ng-untouched ng-pristine ng-valid"
+                        >
+                          <option
+                            disabled=""
+                            value="1: Object"
+                          >
+                             01:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="2: Object"
+                          >
+                             02:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="3: Object"
+                          >
+                             03:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="4: Object"
+                          >
+                             04:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="5: Object"
+                          >
+                             05:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="6: Object"
+                          >
+                             06:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="7: Object"
+                          >
+                             07:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="8: Object"
+                          >
+                             08:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="9: Object"
+                          >
+                             09:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="10: Object"
+                          >
+                             10:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="11: Object"
+                          >
+                             11:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="12: Object"
+                          >
+                             12:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="13: Object"
+                          >
+                             13:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="14: Object"
+                          >
+                             14:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="15: Object"
+                          >
+                             15:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="16: Object"
+                          >
+                             16:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="17: Object"
+                          >
+                             17:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="18: Object"
+                          >
+                             18:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="19: Object"
+                          >
+                             19:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="20: Object"
+                          >
+                             20:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="21: Object"
+                          >
+                             21:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="22: Object"
+                          >
+                             22:00H 
+                          </option>
+                          <option
+                            disabled=""
+                            value="23: Object"
+                          >
+                             23:00H 
+                          </option>
+                          <option
+                            value="0: Object"
+                          >
+                            23:59H
+                          </option>
+                        </select>
+                      </tm-timepicker>
+                    </div>
+                  </div>
+                  <div
+                    class="row mt-md-2 ms-md-1"
+                  >
+                    <div
+                      class="col-12"
+                    >
+                      <div
+                        class="form-check"
+                      >
+                        <label
+                          class="ngb-tooltip-class form-check-label"
+                          ngbtooltip="Same time as when the session becomes visible to users."
+                        >
+                          <input
+                            class="form-check-input ng-untouched ng-pristine ng-valid"
+                            id="response-visibility-immediately"
+                            name="responseVisibleRadio"
+                            type="radio"
+                          />
+                           Immediately 
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="row mt-md-2 ms-md-1"
+                  >
+                    <div
+                      class="col-12"
+                    >
+                      <div
+                        class="form-check"
+                      >
+                        <label
+                          class="ngb-tooltip-class form-check-label"
+                          ngbtooltip="Remember to manually publish the responses for this session later on."
+                        >
+                          <input
+                            class="form-check-input ng-untouched ng-pristine ng-valid"
+                            id="response-visibility-manually"
+                            name="responseVisibleRadio"
+                            type="radio"
+                          />
+                           Not now (publish manually) 
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div>
             <span
               class="text-muted"
@@ -3923,6 +5011,82 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
             >
               [Change]
             </button>
+          </div>
+          <div
+            class="card border-primary margin-top-20px collapse"
+          >
+            <div
+              class="card-body"
+            >
+              <div
+                class="col-12 font-bold"
+              >
+                 Send emails for 
+              </div>
+              <div
+                class="row ms-md-1 mt-md-3"
+              >
+                <div
+                  class="col-md-4"
+                >
+                  <div
+                    class="form-check form-check-inline"
+                  >
+                    <label
+                      class="ngb-tooltip-class form-check-label"
+                      ngbtooltip="Notify students when the session is open for submission."
+                    >
+                      <input
+                        checked=""
+                        class="form-check-input"
+                        disabled=""
+                        id="email-opening"
+                        type="checkbox"
+                      />
+                      Session opened reminder 
+                    </label>
+                  </div>
+                </div>
+                <div
+                  class="col-md-4"
+                >
+                  <div
+                    class="form-check form-check-inline"
+                  >
+                    <label
+                      class="ngb-tooltip-class form-check-label"
+                      ngbtooltip="Remind students to submit 24 hours before the end of the session."
+                    >
+                      <input
+                        class="form-check-input ng-untouched ng-pristine ng-valid"
+                        id="email-closing"
+                        type="checkbox"
+                      />
+                       Session closing soon reminder 
+                    </label>
+                  </div>
+                </div>
+                <div
+                  class="col-md-4"
+                >
+                  <div
+                    class="form-check form-check-inline"
+                  >
+                    <label
+                      class="ngb-tooltip-class form-check-label"
+                      ngbtooltip="Notify students when the session results is published."
+                    >
+                      <input
+                        class="form-check-input ng-untouched ng-pristine ng-valid"
+                        id="email-published"
+                        type="checkbox"
+                      />
+                       Results published announcement 
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div
             class="row margin-top-20px"

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
@@ -24,12 +25,13 @@ import teammates.ui.webapi.UpdateFeedbackQuestionAction;
  * SUT: {@link UpdateFeedbackQuestionAction}.
  */
 public class UpdateFeedbackQuestionActionIT extends BaseActionIT<UpdateFeedbackQuestionAction> {
+    private DataBundle typicalBundle;
 
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalBundle);
+        typicalBundle = persistDataBundle(getTypicalDataBundle());
         HibernateUtil.flushSession();
     }
 
@@ -49,7 +51,7 @@ public class UpdateFeedbackQuestionActionIT extends BaseActionIT<UpdateFeedbackQ
         Instructor instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackQuestion fq1 = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         FeedbackQuestion typicalQuestion = logic.getFeedbackQuestion(fq1.getId());
-        assertEquals(FeedbackQuestionType.TEXT, typicalQuestion.getQuestionDetailsCopy().getQuestionType());
+        assertEquals(FeedbackQuestionType.TEXT, typicalQuestion.getQuestionType());
 
         loginAsInstructor(instructor1ofCourse1.getGoogleId());
 
@@ -79,8 +81,8 @@ public class UpdateFeedbackQuestionActionIT extends BaseActionIT<UpdateFeedbackQ
         assertEquals(typicalQuestion.getDescription(), response.getQuestionDescription());
         assertEquals("this is the description", typicalQuestion.getDescription());
 
-        assertEquals(typicalQuestion.getQuestionDetailsCopy().getQuestionType(), response.getQuestionType());
-        assertEquals(FeedbackQuestionType.TEXT, typicalQuestion.getQuestionDetailsCopy().getQuestionType());
+        assertEquals(typicalQuestion.getQuestionType(), response.getQuestionType());
+        assertEquals(FeedbackQuestionType.TEXT, typicalQuestion.getQuestionType());
 
         assertEquals(JsonUtils.toJson(typicalQuestion.getQuestionDetailsCopy()),
                 JsonUtils.toJson(response.getQuestionDetails()));

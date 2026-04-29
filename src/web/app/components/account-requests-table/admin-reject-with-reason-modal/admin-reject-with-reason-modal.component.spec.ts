@@ -15,6 +15,7 @@ import { createBuilder } from '../../../../test-helpers/generic-builder';
 
 const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
   sessionName: {
+    name: 'session name',
     feedbackSessionUrl: 'sessionUrl',
     startTime: 'startTime',
     endTime: 'endTime',
@@ -22,6 +23,7 @@ const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
 };
 
 const instructorAccountSearchResultBuilder = createBuilder<InstructorAccountSearchResult>({
+  userId: '62064eae-36e8-4d4c-ab1c-7c7970efc303',
   name: 'name',
   email: 'email',
   googleId: 'googleId',

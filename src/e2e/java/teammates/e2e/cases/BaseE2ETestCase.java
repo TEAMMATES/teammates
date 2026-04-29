@@ -25,7 +25,6 @@ import teammates.e2e.util.TestProperties;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.BaseEntity;
 import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
 import teammates.storage.sqlentity.FeedbackResponseComment;
@@ -40,12 +39,11 @@ import teammates.test.ThreadHelper;
 import teammates.ui.output.AccountData;
 import teammates.ui.output.ApiOutput;
 import teammates.ui.output.CourseData;
-import teammates.ui.output.DeadlineExtensionData;
+import teammates.ui.output.DeadlineExtensionsData;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackSessionData;
-import teammates.ui.output.FeedbackSessionDeadlineExtensionsData;
 import teammates.ui.output.FeedbackSessionPublishStatus;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.NotificationData;
@@ -299,12 +297,6 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
             assertEquals(expectedCourse.getName(), actualCourse.getCourseName());
             assertEquals(expectedCourse.getTimeZone(), actualCourse.getTimeZone());
             assertEquals(expectedCourse.getInstitute(), actualCourse.getInstitute());
-        } else if (expected instanceof DeadlineExtension) {
-            DeadlineExtension expectedDeadlineExtension = (DeadlineExtension) expected;
-            DeadlineExtensionData actualDeadlineExtension = (DeadlineExtensionData) actual;
-            assertEquals(expectedDeadlineExtension.getEndTime().toEpochMilli(), actualDeadlineExtension.getEndTime());
-            assertEquals(expectedDeadlineExtension.isClosingSoonEmailSent(),
-                    actualDeadlineExtension.getSentClosingSoonEmail());
         } else if (expected instanceof FeedbackResponseComment) {
             FeedbackResponseComment expectedFeedbackResponseComment = (FeedbackResponseComment) expected;
             FeedbackResponseCommentData actualComment = (FeedbackResponseCommentData) actual;
@@ -461,17 +453,17 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     }
 
     /**
-     * Gets the feedback question data for the given course ID, feedback session name and question number.
+     * Gets the feedback question data for the given question number and feedback session ID.
      */
-    protected FeedbackQuestionData getFeedbackQuestion(String courseId, String feedbackSessionName, int qnNumber) {
-        return BACKDOOR.getFeedbackQuestionData(courseId, feedbackSessionName, qnNumber);
+    protected FeedbackQuestionData getFeedbackQuestion(int questionNumber, UUID feedbackSessionId) {
+        return BACKDOOR.getFeedbackQuestionData(questionNumber, feedbackSessionId);
     }
 
     /**
      * Gets the feedback question data for the given feedback question.
      */
     protected FeedbackQuestionData getFeedbackQuestion(FeedbackQuestion fq) {
-        return getFeedbackQuestion(fq.getCourseId(), fq.getFeedbackSession().getName(), fq.getQuestionNumber());
+        return getFeedbackQuestion(fq.getQuestionNumber(), fq.getFeedbackSession().getId());
     }
 
     /**
@@ -618,17 +610,8 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     /**
      * Gets feedback session deadline extensions data from the database.
      */
-    protected FeedbackSessionDeadlineExtensionsData getFeedbackSessionDeadlineExtensions(
-            String courseId, String feedbackSessionName) {
-        return BACKDOOR.getFeedbackSessionDeadlineExtensionsData(courseId, feedbackSessionName);
-    }
-
-    /**
-     * Gets deadline extension data from the database.
-     */
-    protected DeadlineExtensionData getDeadlineExtension(
-            String courseId, String feedbackSessionName, String userEmail, boolean isInstructor) {
-        return BACKDOOR.getDeadlineExtensionData(courseId, feedbackSessionName, userEmail, isInstructor);
+    protected DeadlineExtensionsData getDeadlineExtensions(UUID feedbackSessionId) {
+        return BACKDOOR.getDeadlineExtensionsData(feedbackSessionId.toString());
     }
 
     /**

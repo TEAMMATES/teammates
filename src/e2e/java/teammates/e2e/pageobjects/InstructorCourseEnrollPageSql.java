@@ -152,7 +152,7 @@ public class InstructorCourseEnrollPageSql extends AppPage {
     private String[][] getEnrollmentData(Student[] studentsData) {
         String[][] tableData = new String[studentsData.length][NUM_ENROLLMENT_ATTRIBUTES];
         for (int i = 0; i < studentsData.length; i++) {
-            String[] student = {studentsData[i].getSection().getName(), studentsData[i].getTeamName(),
+            String[] student = {studentsData[i].getSectionName(), studentsData[i].getTeamName(),
                     studentsData[i].getName(), studentsData[i].getEmail(), studentsData[i].getComments()};
             tableData[i] = student;
         }

@@ -41,9 +41,9 @@ public class Section extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "section", cascade = CascadeType.REMOVE)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<Team> teams;
+    private List<Team> teams = new ArrayList<>();
 
     @UpdateTimestamp
     private Instant updatedAt;

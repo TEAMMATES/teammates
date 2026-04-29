@@ -8,7 +8,7 @@
         @if (session.submissionStatus === FeedbackSessionSubmissionStatus.OPEN) {
           <a
             tmRouterLink="/web/instructor/sessions/individual-extension"
-            [queryParams]="{ courseid: session.courseId, fsname: session.feedbackSessionName, preselectnonsubmitters: true }">
+            [queryParams]="{ courseid: session.courseId, fsname: session.feedbackSessionName, fsid: session.feedbackSessionId, preselectnonsubmitters: true }">
             <button type="button" class="btn btn-secondary btn-sm button">
               Extend Deadline for All
             </button>
@@ -28,8 +28,7 @@
       <tm-panel-chevron [isExpanded]="isTabExpanded"></tm-panel-chevron>
     </div>
   </div>
-  @if (isTabExpanded) {
-    <div @collapseAnim>
+  <div [ngbCollapse]="!isTabExpanded">
       <div *tmIsLoading="!isNoResponseStudentsLoaded" class="card-body">
         @if (noResponseStudentsInSection.length) {
           <div>
@@ -69,7 +68,7 @@
                 <td>
                   @if (!isDisplayOnly) {
                     <a tmRouterLink="/web/sessions/submission" rel="noopener noreferrer" target="_blank"
-                      [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedperson: noResponseStudent.email}"
+                      [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, fsid: session.feedbackSessionId, moderatedperson: noResponseStudent.email}"
                       class="btn btn-light btn-sm button">
                       Submit responses
                     </a>
@@ -90,5 +89,4 @@
     }
   </div>
 </div>
-}
 </div>

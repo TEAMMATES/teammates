@@ -68,10 +68,7 @@ public class FeedbackSession extends BaseEntity {
     @Convert(converter = DurationLongConverter.class)
     private Duration gracePeriod;
 
-    @Column(nullable = false, name = "is_opening_email_enabled")
-    private boolean isOpenedEmailEnabled;
-
-    @Column(nullable = false, name = "is_closing_email_enabled")
+    @Column(nullable = false)
     private boolean isClosingSoonEmailEnabled;
 
     @Column(nullable = false)
@@ -80,7 +77,7 @@ public class FeedbackSession extends BaseEntity {
     @Column(nullable = false)
     private boolean isOpeningSoonEmailSent;
 
-    @Column(nullable = false, name = "is_open_email_sent")
+    @Column(nullable = false)
     private boolean isOpenedEmailSent;
 
     @Column(nullable = false)
@@ -111,7 +108,7 @@ public class FeedbackSession extends BaseEntity {
 
     public FeedbackSession(String name, Course course, String creatorEmail, String instructions, Instant startTime,
             Instant endTime, Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, Duration gracePeriod,
-            boolean isOpenedEmailEnabled, boolean isClosingSoonEmailEnabled, boolean isPublishedEmailEnabled) {
+            boolean isClosingSoonEmailEnabled, boolean isPublishedEmailEnabled) {
         this.setId(UUID.randomUUID());
         this.setName(name);
         this.setCourse(course);
@@ -122,45 +119,8 @@ public class FeedbackSession extends BaseEntity {
         this.setSessionVisibleFromTime(sessionVisibleFromTime);
         this.setResultsVisibleFromTime(resultsVisibleFromTime);
         this.setGracePeriod(gracePeriod);
-        this.setOpenedEmailEnabled(isOpenedEmailEnabled);
         this.setClosingSoonEmailEnabled(isClosingSoonEmailEnabled);
         this.setPublishedEmailEnabled(isPublishedEmailEnabled);
-    }
-
-    /**
-     * Creates a copy that uses the specific deadline for the given user.
-     *
-     * @param userEmail The email address of the given user.
-     * @return The copy of this object for the given user.
-     */
-    public FeedbackSession getCopyForUser(String userEmail) {
-        FeedbackSession copy = getCopy();
-        for (DeadlineExtension de : copy.getDeadlineExtensions()) {
-            if (!SanitizationHelper.areEmailsEqual(de.getUser().getEmail(), userEmail)) {
-                de.setEndTime(copy.getEndTime());
-            }
-        }
-        return copy;
-    }
-
-    /**
-     * Creates a copy of the feedback session.
-     *
-     * @return The copy of this object.
-     */
-    public FeedbackSession getCopy() {
-        FeedbackSession fs = new FeedbackSession(
-                name, course, creatorEmail, instructions, startTime,
-                endTime, sessionVisibleFromTime, resultsVisibleFromTime,
-                gracePeriod, isOpenedEmailEnabled, isClosingSoonEmailEnabled, isPublishedEmailEnabled
-        );
-        fs.setId(getId());
-        fs.setCreatedAt(getCreatedAt());
-        fs.setUpdatedAt(getUpdatedAt());
-        fs.setDeletedAt(getDeletedAt());
-        fs.setDeadlineExtensions(getDeadlineExtensions());
-
-        return fs;
     }
 
     @Override
@@ -220,6 +180,20 @@ public class FeedbackSession extends BaseEntity {
                 endTime, deadlineExtensions), errors);
 
         return errors;
+    }
+
+    /**
+     * Adds a feedback question to the feedback session.
+     */
+    public void addFeedbackQuestion(FeedbackQuestion feedbackQuestion) {
+        this.feedbackQuestions.add(feedbackQuestion);
+    }
+
+    /**
+     * Adds a deadline extension to the feedback session.
+     */
+    public void addDeadlineExtension(DeadlineExtension deadlineExtension) {
+        this.deadlineExtensions.add(deadlineExtension);
     }
 
     public UUID getId() {
@@ -308,14 +282,6 @@ public class FeedbackSession extends BaseEntity {
 
     public void setGracePeriod(Duration gracePeriod) {
         this.gracePeriod = Objects.requireNonNullElse(gracePeriod, Duration.ZERO);
-    }
-
-    public boolean isOpenedEmailEnabled() {
-        return isOpenedEmailEnabled;
-    }
-
-    public void setOpenedEmailEnabled(boolean isOpenedEmailEnabled) {
-        this.isOpenedEmailEnabled = isOpenedEmailEnabled;
     }
 
     public boolean isClosingSoonEmailEnabled() {
@@ -411,9 +377,9 @@ public class FeedbackSession extends BaseEntity {
         return "FeedbackSession [id=" + id + ", courseId=" + course.getId() + ", name=" + name
                 + ", creatorEmail=" + creatorEmail
                 + ", instructions=" + instructions + ", startTime=" + startTime + ", endTime=" + endTime
-                + ", sessionVisibleFromTime=" + sessionVisibleFromTime + ", resultsVisibleFromTime="
-                + resultsVisibleFromTime + ", gracePeriod=" + gracePeriod + ", isOpenedEmailEnabled="
-                + isOpenedEmailEnabled + ", isClosingSoonEmailEnabled=" + isClosingSoonEmailEnabled
+                + ", sessionVisibleFromTime=" + sessionVisibleFromTime
+                + ", resultsVisibleFromTime=" + resultsVisibleFromTime + ", gracePeriod=" + gracePeriod
+                + ", isClosingSoonEmailEnabled=" + isClosingSoonEmailEnabled
                 + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
                 + ", isOpeningSoonEmailSent=" + isOpeningSoonEmailSent + ", isOpenedEmailSent=" + isOpenedEmailSent
                 + ", isClosingSoonEmailSent=" + isClosingSoonEmailSent + ", isClosedEmailSent=" + isClosedEmailSent
@@ -442,8 +408,7 @@ public class FeedbackSession extends BaseEntity {
     }
 
     /**
-     * Returns {@code true} if the session is visible; {@code false} if not.
-     *         Does not care if the session has started or not.
+     * Returns true if the session is visible; false otherwise.
      */
     public boolean isVisible() {
         Instant visibleTime = this.sessionVisibleFromTime;

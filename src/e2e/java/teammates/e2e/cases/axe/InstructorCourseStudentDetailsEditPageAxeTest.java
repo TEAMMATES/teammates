@@ -16,7 +16,7 @@ public class InstructorCourseStudentDetailsEditPageAxeTest extends BaseAxeTestCa
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(
-                loadDataBundle("/InstructorCourseStudentDetailsEditPageE2ETestSql.json"));
+                loadDataBundle("/InstructorCourseStudentDetailsEditPageE2ETest.json"));
     }
 
     @Test

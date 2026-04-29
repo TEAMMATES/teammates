@@ -5,7 +5,7 @@ import { type CellValue } from 'handsontable/common';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { concat, finalize, Observable } from 'rxjs';
 import { EnrollStatus } from './enroll-status';
-import { CourseService } from '../../../services/course.service';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { ProgressBarService } from '../../../services/progress-bar.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -22,7 +22,6 @@ import { ProgressBarComponent } from '../../components/progress-bar/progress-bar
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { StatusMessage } from '../../components/status-message/status-message';
 import { StatusMessageComponent } from '../../components/status-message/status-message.component';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { areEmailsEqual, normalizeEmail } from '../../components/teammates-common/email-utils';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -39,7 +38,6 @@ interface EnrollResultPanel {
   selector: 'tm-instructor-course-enroll-page',
   templateUrl: './instructor-course-enroll-page.component.html',
   styleUrls: ['./instructor-course-enroll-page.component.scss'],
-  animations: [collapseAnim],
   imports: [
     LoadingSpinnerDirective,
     LoadingRetryComponent,
@@ -55,7 +53,7 @@ interface EnrollResultPanel {
 export class InstructorCourseEnrollPageComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly statusMessageService = inject(StatusMessageService);
-  private readonly courseService = inject(CourseService);
+  private readonly feedbackSessionService = inject(FeedbackSessionsService);
   private readonly studentService = inject(StudentService);
   private readonly progressBarService = inject(ProgressBarService);
   private readonly simpleModalService = inject(SimpleModalService);
@@ -543,7 +541,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
    */
   getCourseEnrollPageData(courseid: string): void {
     this.isLoadingCourseEnrollPage = true;
-    this.courseService.hasResponsesForCourse(courseid).subscribe({
+    this.feedbackSessionService.hasResponsesForAllFeedbackSessionsInCourse(courseid, 'instructor').subscribe({
       next: (resp: HasResponses) => {
         this.coursePresent = true;
         this.courseId = courseid;

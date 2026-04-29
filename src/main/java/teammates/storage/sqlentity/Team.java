@@ -35,7 +35,7 @@ public class Team extends BaseEntity {
     private Section section;
 
     @OneToMany(mappedBy = "team")
-    private List<User> users;
+    private List<Student> users;
 
     @Column(nullable = false)
     private String name;
@@ -52,6 +52,13 @@ public class Team extends BaseEntity {
         this.setSection(section);
         this.setName(name);
         this.setUsers(new ArrayList<>());
+    }
+
+    /**
+     * Adds a user to the team.
+     */
+    public void addUser(Student student) {
+        this.users.add(student);
     }
 
     @Override
@@ -98,11 +105,11 @@ public class Team extends BaseEntity {
         this.section = section;
     }
 
-    public List<User> getUsers() {
+    public List<Student> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(List<Student> users) {
         this.users = users;
     }
 

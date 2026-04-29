@@ -108,9 +108,10 @@ public final class NotificationsLogic {
      * <p>Fails silently if the notification doesn't exist.</p>
      */
     public void deleteNotification(UUID notificationId) {
-        assert notificationId != null;
-
         Notification notification = getNotification(notificationId);
+        if (notification == null) {
+            return;
+        }
         notificationsDb.deleteNotification(notification);
     }
 
@@ -156,11 +157,15 @@ public final class NotificationsLogic {
 
     /**
      * Deletes a read notification associated with the {@code readNotificationId}.
+     *
+     * <p>Fails silently if the read notification doesn't exist.</p>
      */
     public void deleteReadNotification(UUID readNotificationId) {
-        assert readNotificationId != null;
+        ReadNotification readNotification = notificationsDb.getReadNotification(readNotificationId);
+        if (readNotification == null) {
+            return;
+        }
 
-        ReadNotification readNotification = HibernateUtil.getReference(ReadNotification.class, readNotificationId);
         notificationsDb.deleteReadNotification(readNotification);
     }
 }

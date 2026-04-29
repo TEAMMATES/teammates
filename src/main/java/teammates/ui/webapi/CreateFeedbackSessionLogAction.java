@@ -8,7 +8,6 @@ import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.FeedbackSessionLog;
 import teammates.storage.sqlentity.Student;
 
 /**
@@ -24,23 +23,26 @@ public class CreateFeedbackSessionLogAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (userInfo != null && !userInfo.isStudent) {
-            throw new UnauthorizedAccessException("Only students can create feedback session logs.");
+        UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
+        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityNotFoundException("The feedback session does not exist.");
         }
 
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        UUID studentId = getUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
-        Student requestedStudent = sqlLogic.getStudent(studentId);
-        Student authenticatedStudent = getPossiblyUnregisteredSqlStudent(courseId);
-
-        // Student has account but isn't logged in
-        if (authenticatedStudent != null && userInfo == null && authenticatedStudent.getAccount() != null) {
-            throw new UnauthorizedAccessException("Login is required to access this feedback session");
+        Student authenticatedStudent = getPossiblyUnregisteredSqlStudent(feedbackSession.getCourseId());
+        if (authenticatedStudent == null) {
+            throw new UnauthorizedAccessException("No authenticated student found for the course.");
         }
 
-        if (requestedStudent == null || authenticatedStudent == null
-                || !requestedStudent.getId().equals(authenticatedStudent.getId())) {
-            throw new UnauthorizedAccessException("You are not allowed to create logs for this student.");
+        if (authenticatedStudent.getAccount() != null
+                && (userInfo == null || !userInfo.getId().equals(authenticatedStudent.getAccount().getGoogleId()))) {
+            throw new UnauthorizedAccessException(
+                    "Login is required to create a feedback session log for a student with an associated account.");
+        }
+
+        if (!authenticatedStudent.getCourseId().equals(feedbackSession.getCourseId())) {
+            throw new UnauthorizedAccessException(
+                    "Authenticated student does not belong to the course of the feedback session.");
         }
     }
 
@@ -54,20 +56,17 @@ public class CreateFeedbackSessionLogAction extends Action {
             throw new InvalidHttpParameterException("Invalid log type: " + fslType, e);
         }
 
-        getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-
-        UUID studentId = getUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
         UUID fsId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
+        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(fsId);
+        if (feedbackSession == null) {
+            throw new InvalidHttpParameterException("The feedback session does not exist.");
+        }
 
         Instant now = Instant.now(clock);
-        Student student = sqlLogic.getStudent(studentId);
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(fsId);
-        FeedbackSessionLog feedbackSessionLog =
-                new FeedbackSessionLog(student, feedbackSession, convertedFslType, now);
+        Student student = getPossiblyUnregisteredSqlStudent(feedbackSession.getCourseId());
+
         try {
-            sqlLogic.createFeedbackSessionLog(feedbackSessionLog);
+            sqlLogic.createFeedbackSessionLog(feedbackSession, student, convertedFslType, now);
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpParameterException(ipe);
         }

@@ -108,18 +108,11 @@ public final class FeedbackQuestionsLogic {
 
         // check whether the question numbers are consistent
         if (questions.size() > 1 && !areQuestionNumbersConsistent(questions)) {
-            log.severe(feedbackSession.getCourse().getId() + ": " + feedbackSession.getName()
+            log.severe(feedbackSession.getCourseId() + ": " + feedbackSession.getName()
                     + " has invalid question numbers");
         }
 
         return questions;
-    }
-
-    /**
-     * Gets the unique feedback question based on sessionId and questionNumber.
-     */
-    public FeedbackQuestion getFeedbackQuestionForSessionQuestionNumber(UUID sessionId, int questionNumber) {
-        return fqDb.getFeedbackQuestionForSessionQuestionNumber(sessionId, questionNumber);
     }
 
     /**
@@ -229,7 +222,7 @@ public final class FeedbackQuestionsLogic {
         // adjust responses
         if (question.areResponseDeletionsRequiredForChanges(updateRequest.getGiverType(),
                 updateRequest.getRecipientType(), updateRequest.getQuestionDetails())) {
-            frLogic.deleteFeedbackResponsesForQuestionCascade(question.getId());
+            frLogic.deleteFeedbackResponsesForQuestionCascade(question);
         }
 
         return question;
@@ -308,7 +301,7 @@ public final class FeedbackQuestionsLogic {
      * @return an Optional containing a list of dynamically generated options, or an empty Optional if not applicable
      */
     public Optional<List<String>> getDynamicallyGeneratedOptions(FeedbackQuestion feedbackQuestion, Student student) {
-        FeedbackQuestionType questionType = feedbackQuestion.getQuestionDetailsCopy().getQuestionType();
+        FeedbackQuestionType questionType = feedbackQuestion.getQuestionType();
         String courseId = feedbackQuestion.getCourseId();
 
         return switch (questionType) {
@@ -345,7 +338,7 @@ public final class FeedbackQuestionsLogic {
         case NONE -> null;
         case STUDENTS -> usersLogic.getStudentsForCourse(courseId)
                 .stream()
-                .map(s -> s.getName() + " (" + s.getTeam().getName() + ")")
+                .map(s -> s.getName() + " (" + s.getTeamName() + ")")
                 .sorted()
                 .toList();
         case STUDENTS_IN_SAME_SECTION -> {
@@ -355,14 +348,14 @@ public final class FeedbackQuestionsLogic {
             }
             yield usersLogic.getStudentsForSection(student.getSectionName(), courseId)
                     .stream()
-                    .map(s -> s.getName() + " (" + s.getTeam().getName() + ")")
+                    .map(s -> s.getName() + " (" + s.getTeamName() + ")")
                     .sorted()
                     .toList();
         }
         case STUDENTS_EXCLUDING_SELF -> usersLogic.getStudentsForCourse(courseId)
                 .stream()
                 .filter(s -> student == null || !s.getId().equals(student.getId()))
-                .map(s -> s.getName() + " (" + s.getTeam().getName() + ")")
+                .map(s -> s.getName() + " (" + s.getTeamName() + ")")
                 .sorted()
                 .toList();
         case TEAMS -> coursesLogic.getTeamsForCourse(courseId)
@@ -638,7 +631,7 @@ public final class FeedbackQuestionsLogic {
         List<FeedbackQuestion> questionsToShiftQnNumber =
                 getFeedbackQuestionsForSession(questionToDelete.getFeedbackSession());
 
-        fqDb.deleteFeedbackQuestion(feedbackQuestionId);
+        fqDb.deleteFeedbackQuestion(questionToDelete);
 
         // Shift question numbers down for all questions after the deleted one
         shiftQuestionNumbersDown(questionNumberToDelete, questionsToShiftQnNumber);
@@ -670,7 +663,7 @@ public final class FeedbackQuestionsLogic {
 
         return feedbackQuestions
                 .stream()
-                .filter(q -> q.getQuestionDetailsCopy().getQuestionType() == questionType)
+                .filter(q -> q.getQuestionType() == questionType)
                 .collect(Collectors.toList());
     }
 

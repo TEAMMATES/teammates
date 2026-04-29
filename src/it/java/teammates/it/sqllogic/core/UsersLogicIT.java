@@ -16,7 +16,9 @@ import teammates.sqllogic.core.UsersLogic;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
+import teammates.storage.sqlentity.Section;
 import teammates.storage.sqlentity.Student;
+import teammates.storage.sqlentity.Team;
 
 /**
  * SUT: {@link UsersLogic}.
@@ -31,6 +33,8 @@ public class UsersLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
     private Course course;
 
+    private Team team;
+
     private Account account;
 
     @BeforeMethod
@@ -40,6 +44,9 @@ public class UsersLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         course = getTypicalCourse();
         coursesLogic.createCourse(course);
+
+        Section section = coursesLogic.createSection(course, "section-name");
+        team = coursesLogic.createTeam(section, "team-name");
 
         account = getTypicalAccount();
         accountsLogic.createAccount(account);
@@ -77,6 +84,7 @@ public class UsersLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         Student anotherUser = getTypicalStudent();
         anotherUser.setCourse(course);
         anotherUser.setAccount(anotherAccount);
+        anotherUser.setTeam(team);
 
         usersLogic.createStudent(anotherUser);
         usersLogic.resetInstructorGoogleId(email, courseId, googleId);
@@ -91,6 +99,7 @@ public class UsersLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
         Student student = getTypicalStudent();
         student.setCourse(course);
         student.setAccount(account);
+        student.setTeam(team);
 
         String email = student.getEmail();
         String courseId = student.getCourseId();

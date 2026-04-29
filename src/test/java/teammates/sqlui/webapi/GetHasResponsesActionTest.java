@@ -35,7 +35,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
     private Course typicalCourse;
     private Instructor typicalInstructor;
-    private FeedbackSession typicalFeedbackSession;
     private FeedbackQuestion typicalFeedbackQuestion;
     private Student typicalStudent;
 
@@ -53,7 +52,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
     void setUpMethod() {
         typicalCourse = getTypicalCourse();
         typicalInstructor = getTypicalInstructor();
-        typicalFeedbackSession = getTypicalFeedbackSession(typicalCourse);
+        FeedbackSession typicalFeedbackSession = getTypicalFeedbackSession(typicalCourse);
         typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
         typicalStudent = getTypicalStudent();
     }
@@ -176,58 +175,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
     }
 
     @Test
-    void testExecute_studentWithNonExistentFeedbackSession_throwsEntityNotFoundException() {
-        loginAsStudent(typicalStudent.getGoogleId());
-
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalStudent.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "non-existent session",
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
-        };
-
-        EntityNotFoundException enfe = verifyEntityNotFound(params);
-        assertEquals("Feedback session not found", enfe.getMessage());
-
-        verify(mockLogic, times(1))
-                .getFeedbackSession("non-existent session", typicalStudent.getCourseId());
-    }
-
-    @Test
-    void testExecute_studentGetHasRespondedForSession_success() {
-        loginAsStudent(typicalStudent.getGoogleId());
-
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalStudent.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
-        };
-
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalStudent.getCourseId()))
-                .thenReturn(typicalFeedbackSession);
-        when(mockLogic.getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
-                .thenReturn(typicalStudent);
-
-        // mock that the student has responded
-        when(mockLogic.isFeedbackSessionAttemptedByStudent(
-                typicalFeedbackSession, typicalStudent.getEmail(), typicalStudent.getTeamName()))
-                .thenReturn(true);
-
-        GetHasResponsesAction getHasResponsesAction = getAction(params);
-        JsonResult jsonResult = getJsonResult(getHasResponsesAction);
-        HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
-
-        assertTrue(hasResponsesData.getHasResponses());
-
-        verify(mockLogic, times(1))
-                .getFeedbackSession(typicalFeedbackSession.getName(), typicalStudent.getCourseId());
-        verify(mockLogic, times(1))
-                .getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId());
-        verify(mockLogic, times(1))
-                .isFeedbackSessionAttemptedByStudent(
-                        typicalFeedbackSession, typicalStudent.getEmail(), typicalStudent.getTeamName());
-    }
-
-    @Test
     void testExecute_studentGetHasRespondedForSessionWithoutFeedbackSessionNameParam_success() {
         loginAsStudent(typicalStudent.getGoogleId());
         List<FeedbackSession> feedbackSessions = getTypicalFeedbackSessions(typicalCourse);
@@ -270,7 +217,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
                 // invisible session is skipped
                 continue;
             }
-            verify(mockLogic, times(3)).isFeedbackSessionAttemptedByStudent(
+            verify(mockLogic, times(1)).isFeedbackSessionAttemptedByStudent(
                     feedbackSession, typicalStudent.getEmail(), typicalStudent.getTeamName());
         }
     }
@@ -381,29 +328,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
     }
 
     @Test
-    void testAccessControl_studentOfSameCourse_canAccessStudentGetHasResponded() {
-        loginAsStudent(typicalStudent.getGoogleId());
-
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalStudent.getCourseId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
-        };
-
-        when(mockLogic.getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
-                .thenReturn(typicalStudent);
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalFeedbackSession.getCourseId()))
-                .thenReturn(typicalFeedbackSession);
-
-        verifyCanAccess(params);
-
-        verify(mockLogic, times(1))
-                .getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId());
-        verify(mockLogic, times(1))
-                .getFeedbackSession(typicalFeedbackSession.getName(), typicalFeedbackSession.getCourseId());
-    }
-
-    @Test
     void testAccessControl_studentOfSameCourse_canAccessStudentGetHasRespondedWithoutFsParam() {
         loginAsStudent(typicalStudent.getGoogleId());
         List<FeedbackSession> feedbackSessions = getTypicalFeedbackSessions(typicalCourse);
@@ -455,17 +379,15 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
                 endTime,
                 Duration.ofMinutes(5),
                 false,
-                false,
                 false);
     }
 
     private List<FeedbackSession> getTypicalFeedbackSessions(Course course) {
-        FeedbackSession feedbackSessionTemplate = getTypicalFeedbackSession(course);
-        FeedbackSession feedbackSession1 = feedbackSessionTemplate.getCopy();
+        FeedbackSession feedbackSession1 = getTypicalFeedbackSession(course);
         feedbackSession1.setName("First feedback session");
-        FeedbackSession feedbackSession2 = feedbackSessionTemplate.getCopy();
+        FeedbackSession feedbackSession2 = getTypicalFeedbackSession(course);
         feedbackSession2.setName("Second feedback session");
-        FeedbackSession feedbackSession3 = feedbackSessionTemplate.getCopy();
+        FeedbackSession feedbackSession3 = getTypicalFeedbackSession(course);
         feedbackSession3.setName("Third feedback session");
         FeedbackSession invisibleSession = getTypicalFeedbackSessionForCourse(course);
         invisibleSession.setName("invisible session");

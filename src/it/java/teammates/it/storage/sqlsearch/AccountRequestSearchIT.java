@@ -19,14 +19,15 @@ import teammates.test.AssertHelper;
  */
 public class AccountRequestSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
 
-    private final DataBundle typicalBundle = getTypicalDataBundle();
     private final AccountRequestsDb accountRequestsDb = AccountRequestsDb.inst();
+
+    private DataBundle typicalBundle;
 
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalBundle);
+        typicalBundle = persistDataBundle(getTypicalDataBundle());
         HibernateUtil.flushSession();
     }
 

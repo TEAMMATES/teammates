@@ -87,7 +87,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
 
         Instant extendedDeadline = Instant.parse("2028-01-01T00:00:00Z");
 
-        when(mockLogic.getFeedbackSessionsForCourse(student1.getCourse().getId()))
+        when(mockLogic.getFeedbackSessionsForCourse(student1.getCourseId()))
                 .thenReturn(List.of(closedSession));
         when(mockLogic.getDeadlineForUser(closedSession, student1))
                 .thenReturn(extendedDeadline);
@@ -177,7 +177,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     protected void testExecute_studentWithoutDeadlineExtension_closedSessionShownAsClosed() {
         FeedbackSession closedSession = generateClosedFeedbackSessionInCourse(student1.getCourse(), "closed-session");
 
-        when(mockLogic.getFeedbackSessionsForCourse(student1.getCourse().getId()))
+        when(mockLogic.getFeedbackSessionsForCourse(student1.getCourseId()))
                 .thenReturn(List.of(closedSession));
         when(mockLogic.getDeadlineForUser(closedSession, student1))
                 .thenReturn(closedSession.getEndTime());
@@ -207,7 +207,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
             List<FeedbackSession> matchedSessions =
                     expectedSessions.stream().filter(session -> session.getName().equals(
                             sessionData.getFeedbackSessionName())
-                            && session.getCourse().getId().equals(sessionData.getCourseId())).collect(Collectors.toList());
+                            && session.getCourseId().equals(sessionData.getCourseId())).collect(Collectors.toList());
 
             assertEquals(1, matchedSessions.size());
             FeedbackSession matchedSession = matchedSessions.get(0);
@@ -218,7 +218,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
 
     private void assertPartialInformationMatch(FeedbackSessionData data, FeedbackSession expectedSession) {
         String timeZone = expectedSession.getCourse().getTimeZone();
-        assertEquals(expectedSession.getCourse().getId(), data.getCourseId());
+        assertEquals(expectedSession.getCourseId(), data.getCourseId());
         assertEquals(timeZone, data.getTimeZone());
         assertEquals(expectedSession.getName(), data.getFeedbackSessionName());
         assertEquals(expectedSession.getInstructions(), data.getInstructions());
@@ -290,7 +290,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
                 "instructor1@gmail.com", "generic instructions",
                 Instant.parse("2012-04-01T22:00:00Z"), Instant.parse("2027-04-30T22:00:00Z"),
                 Instant.parse("2012-03-28T22:00:00Z"), Instant.parse("2027-05-01T22:00:00Z"),
-                Duration.ofHours(10), true, true, true);
+                Duration.ofHours(10), true, true);
         fs.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
 
@@ -312,7 +312,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
                 Instant.parse("2025-01-01T00:00:00Z"),
                 Instant.parse("2012-03-28T22:00:00Z"),
                 Instant.parse("2027-05-01T22:00:00Z"),
-                Duration.ofHours(10), true, true, true);
+                Duration.ofHours(10), true, true);
         closedSession.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         closedSession.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         return closedSession;

@@ -1,7 +1,6 @@
 package teammates.sqlui.webapi;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -15,7 +14,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailWrapper;
@@ -73,56 +72,15 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
     }
 
     @Test
-    void testExecute_missingCourseId_throwsInvalidParametersException() {
-        String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
-        };
-
-        verifyHttpParameterFailure(params);
-    }
-
-    @Test
-    void testExecute_missingFeedbackSessionName_throwsInvalidParametersException() {
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
-
-        verifyHttpParameterFailure(params);
-    }
-
-    @Test
-    void testExecute_publishedFeedbackSession_returnsEarly()
-            throws EntityDoesNotExistException, InvalidParametersException {
-        typicalFeedbackSession.setResultsVisibleFromTime(Instant.now());
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
-        };
-
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
-                .thenReturn(typicalFeedbackSession);
-
-        PublishFeedbackSessionAction action = getAction(params);
-        JsonResult result = getJsonResult(action);
-        FeedbackSessionData feedbackSessionData = (FeedbackSessionData) result.getOutput();
-
-        verifyFeedbackSessionData(feedbackSessionData, typicalFeedbackSession,
-                FeedbackSessionPublishStatus.PUBLISHED);
-        verify(mockLogic, never()).publishFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId());
-        verifyNoTasksAdded();
-    }
-
-    @Test
     void testExecute_unpublishedFeedbackSessionWithEmailDisabled_succeedsWithNoTasksAdded()
-            throws EntityDoesNotExistException, InvalidParametersException {
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
 
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId()))
                 .thenReturn(typicalFeedbackSession);
-        when(mockLogic.publishFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
+        when(mockLogic.publishFeedbackSession(typicalFeedbackSession.getId()))
                 .thenReturn(typicalFeedbackSession);
 
         PublishFeedbackSessionAction action = getAction(params);
@@ -131,24 +89,23 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
 
         verifyFeedbackSessionData(feedbackSessionData, typicalFeedbackSession,
                 FeedbackSessionPublishStatus.NOT_PUBLISHED);
-        verify(mockLogic).publishFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId());
+        verify(mockLogic).publishFeedbackSession(typicalFeedbackSession.getId());
         verifyNoTasksAdded();
     }
 
     @Test
     void testExecute_unpublishedFeedbackSessionWithEmailEnabled_succeedsWithTasksAdded()
-            throws EntityDoesNotExistException, InvalidParametersException {
+            throws EntityDoesNotExistException, InvalidFeedbackSessionStateException {
         typicalFeedbackSession.setPublishedEmailEnabled(true);
         EmailWrapper mockEmail = mock(EmailWrapper.class);
 
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
 
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId()))
                 .thenReturn(typicalFeedbackSession);
-        when(mockLogic.publishFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
+        when(mockLogic.publishFeedbackSession(typicalFeedbackSession.getId()))
                 .thenReturn(typicalFeedbackSession);
         when(mockSqlEmailGenerator.generateFeedbackSessionPublishedEmails(typicalFeedbackSession))
                 .thenReturn(List.of(mockEmail));
@@ -159,15 +116,14 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
 
         verifyFeedbackSessionData(feedbackSessionData, typicalFeedbackSession,
                 FeedbackSessionPublishStatus.NOT_PUBLISHED);
-        verify(mockLogic).publishFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId());
+        verify(mockLogic).publishFeedbackSession(typicalFeedbackSession.getId());
         verifySpecifiedTasksAdded(TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
     }
 
     @Test
     void testCheckSpecificAccessControl_withoutLogin_throwsUnauthorizedAccessException() {
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
 
         verifyCannotAccess(params);
@@ -177,13 +133,12 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
     void testCheckSpecificAccessControl_unregisteredUser_throwsUnauthorizedAccessException() {
         String googleId = "unregistered-user";
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
 
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), googleId))
                 .thenReturn(null);
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId()))
                 .thenReturn(typicalFeedbackSession);
 
         loginAsUnregistered(googleId);
@@ -195,13 +150,12 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
     void testCheckSpecificAccessControl_student_throwsUnauthorizedAccessException() {
         String googleId = "student";
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
 
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), googleId))
                 .thenReturn(null);
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId()))
                 .thenReturn(typicalFeedbackSession);
 
         loginAsStudent(googleId);
@@ -213,13 +167,12 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
     void testCheckSpecificAccessControl_instructorOfOtherCourse_throwsUnauthorizedAccessException() {
         String googleId = "instructor-of-other-course";
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
 
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), googleId))
                 .thenReturn(null);
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId()))
                 .thenReturn(typicalFeedbackSession);
 
         loginAsInstructor(googleId);
@@ -233,13 +186,12 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER);
         typicalInstructor.setPrivileges(instructorPrivileges);
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
 
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId()))
                 .thenReturn(typicalFeedbackSession);
 
         loginAsInstructor(typicalInstructor.getGoogleId());
@@ -250,13 +202,12 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
     @Test
     void testCheckSpecificAccessControl_instructorOfSameCourseWithPermission_canAccess() {
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
 
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId()))
                 .thenReturn(typicalFeedbackSession);
 
         loginAsInstructor(typicalInstructor.getGoogleId());

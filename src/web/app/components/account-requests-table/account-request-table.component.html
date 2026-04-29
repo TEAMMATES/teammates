@@ -1,21 +1,7 @@
 @if (accountRequests.length) {
   <div class="card bg-light top-padded">
     <div class="card-header bg-primary text-white">
-      @if (searchString) {
-        <div>
-          <strong>Account Requests Found</strong>
-        </div>
-      } @else {
-        <strong>Pending Account Requests</strong>
-      }
-      @if (searchString) {
-        <div class="card-header-btn-toolbar">
-          <button id="show-account-request-links" class="btn btn-light btn-sm" style="margin-right: 10px;" type="button"
-          (click)="showAllAccountRequestsLinks()">Expand All</button>
-          <button id="hide-account-request-links" class="btn btn-light btn-sm" type="button"
-          (click)="hideAllAccountRequestsLinks()">Collapse All</button>
-        </div>
-      }
+      <strong>Pending Account Requests</strong>
     </div>
     <div class="table-responsive">
       <table class="table table-striped data-table" id="search-table-account-request">
@@ -26,9 +12,6 @@
             <th>Status</th>
             <th>Institute, Country</th>
             <th>Created At</th>
-            @if (searchString) {
-              <th>Registered At</th>
-            }
             <th>Comments</th>
             <th>Options</th>
           </tr>
@@ -36,113 +19,68 @@
         <tbody>
           @for (accountRequest of accountRequests; track trackAccountRequest(i, accountRequest); let i = $index) {
             <tr>
-              <td [innerHtml]="accountRequest.name | highlighter:searchString:true">
-                <br>
-                  <div class="col-sm-1">
-                    @if (!accountRequest.showLinks) {
-                      <button class="btn" aria-label="Expand">
-                        <i class="fas fa-chevron-circle-down" style="color: blue;"></i>
-                      </button>
-                    }
-                    @if (accountRequest.showLinks) {
-                      <button class="btn" aria-label="Collapse">
-                        <i class="fas fa-chevron-circle-up" style="color: blue;"></i>
-                      </button>
-                    }
+              <td>{{ accountRequest.name }}</td>
+              <td>{{ accountRequest.email }}</td>
+              <td>{{ accountRequest.status }}</td>
+              <td>{{ accountRequest.instituteAndCountry }}</td>
+              <td id="timestamp-box">{{ accountRequest.createdAtText }}</td>
+              <td>
+                <div id="comment-box">
+                  {{ accountRequest.comments }}
+                </div>
+              </td>
+              <td class="align-middle">
+                <div class="d-flex flex-row align-items-center justify-content-center gap-2">
+                  <div>
+                    <button id="edit-account-request-{{i}}" type="button" class="btn btn-link p-0"
+                      (click)="$event.stopPropagation(); editAccountRequest(accountRequest);"
+                      aria-label="Edit account request">
+                      <i class="fa-solid fa-pen"></i>
+                    </button>
                   </div>
-                </td>
-                <td [innerHtml]="accountRequest.email | highlighter:searchString:true">{{ accountRequest.email }}</td>
-                <td [innerHtml]="accountRequest.status | highlighter:searchString:true">{{ accountRequest.status }}</td>
-                <td [innerHtml]="accountRequest.instituteAndCountry | highlighter:searchString:true">{{
-                accountRequest.instituteAndCountry }}</td>
-                <td id="timestamp-box">{{ accountRequest.createdAtText }}</td>
-                @if (searchString) {
-                  <td id="timestamp-box">{{ accountRequest.registeredAtText || 'Not Registered Yet' }}
-                  </td>
-                }
-                <td>
-                  <div id="comment-box" [innerHtml]="accountRequest.comments | highlighter:searchString:true">
-                    {{ accountRequest.comments }}
+                  <div class="ngb-tooltip-class"
+                    [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'"
+                    placement="top">
+                    <button id="delete-account-request-{{i}}" type="button" class="btn btn-link p-0"
+                      (click)="$event.stopPropagation(); deleteAccountRequest(accountRequest)"
+                      aria-label="Delete account request">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
                   </div>
-                </td>
-                <td class="align-middle">
-                  <div class="d-flex flex-row align-items-center justify-content-center gap-2">
-                    <div>
-                      <button id="edit-account-request-{{i}}" type="button" class="btn btn-link p-0"
-                        (click)="$event.stopPropagation(); editAccountRequest(accountRequest);"
-                        aria-label="Edit account request">
-                        <i class="fa-solid fa-pen"></i>
-                      </button>
-                    </div>
-                    <div class="ngb-tooltip-class"
-                      [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'"
-                      placement="top">
-                      <button id="delete-account-request-{{i}}" type="button" class="btn btn-link p-0"
-                        (click)="$event.stopPropagation(); deleteAccountRequest(accountRequest)"
-                        aria-label="Delete account request">
-                        <i class="fa-solid fa-trash"></i>
-                      </button>
-                    </div>
-                    <div>
-                      <button id="view-account-request-{{i}}" type="button" class="btn btn-link p-0"
-                        (click)="$event.stopPropagation(); viewAccountRequest(accountRequest)"
-                        aria-label="View account request">
-                        <i class="fa-solid fa-eye"></i>
-                      </button>
-                    </div>
-                    <button id="approve-account-request-{{i}}" class="btn btn-success"
-                      [disabled]="!accountRequest.status || accountRequest.status === 'APPROVED' || accountRequest.status === 'REGISTERED' || isApprovingAccount[i]"
-                      (click)="$event.stopPropagation(); approveAccountRequest(accountRequest, i)"> @if (isApprovingAccount[i]) {
-                      <tm-ajax-loading
-                      ></tm-ajax-loading>
-                    }Approve</button>
-                    <span ngbDropdown container="body">
-                      <button id="reject-account-request-{{i}}" type="button" class="btn btn-warning"
-                        [disabled]="!accountRequest.status || accountRequest.status === 'REGISTERED' || accountRequest.status === 'APPROVED' || accountRequest.status === 'REJECTED' || isRejectingAccount[i]"
-                        ngbDropdownToggle> @if (isRejectingAccount[i]) {
-                        <tm-ajax-loading></tm-ajax-loading>
-                        } Reject
-                      </button>
-                      <div ngbDropdownMenu (click)="$event.stopPropagation()">
-                        <button id="reject-request-{{i}}" class="btn btn-light btn-sm dropdown-item"
-                        (click)="$event.stopPropagation(); rejectAccountRequest(accountRequest, i)"> Reject </button>
-                        <button id="reject-request-with-reason-{{i}}" class="btn btn-light btn-sm dropdown-item"
-                          (click)="$event.stopPropagation(); rejectAccountRequestWithReason(accountRequest, i)"> Reject With
-                        Reason </button>
-                      </div>
-                    </span>
-                    @if (searchString) {
-                      <div class="ngb-tooltip-class"
-                        [ngbTooltip]="accountRequest.registeredAtText && 'Account requests of registered instructors cannot be deleted'"
-                        placement="top">
-                        <button id="reset-account-request-{{i}}" class="btn btn-primary"
-                          [disabled]="!accountRequest.registeredAtText || isResettingAccount[i]"
-                          (click)="$event.stopPropagation(); resetAccountRequest(accountRequest, i);"> @if (isResettingAccount[i]) {
-                          <tm-ajax-loading
-                          ></tm-ajax-loading>
-                        }Reset</button>
-                      </div>
-                    }
+                  <div>
+                    <button id="view-account-request-{{i}}" type="button" class="btn btn-link p-0"
+                      (click)="$event.stopPropagation(); viewAccountRequest(accountRequest)"
+                      aria-label="View account request">
+                      <i class="fa-solid fa-eye"></i>
+                    </button>
                   </div>
-                </td>
-              </tr>
-              @if (accountRequest.showLinks && searchString) {
-                <tr>
-                  <td colspan="100">
-                    @if (accountRequest.showLinks) {
-                      <ul class="list-group" @collapseAnim>
-                        <li class="list-group-item list-group-item-info">
-                          <strong>Account Registration Link</strong>
-                          <input [value]="accountRequest.registrationLink" disabled class="form-control">
-                        </li>
-                      </ul>
-                    }
-                  </td>
-                </tr>
-              }
-            }
-          </tbody>
-        </table>
-      </div>
+                  <button id="approve-account-request-{{i}}" class="btn btn-success"
+                    [disabled]="!accountRequest.status || accountRequest.status === 'APPROVED' || accountRequest.status === 'REGISTERED' || isApprovingAccount[i]"
+                    (click)="$event.stopPropagation(); approveAccountRequest(accountRequest, i)"> @if (isApprovingAccount[i]) {
+                    <tm-ajax-loading
+                    ></tm-ajax-loading>
+                  }Approve</button>
+                  <span ngbDropdown container="body">
+                    <button id="reject-account-request-{{i}}" type="button" class="btn btn-warning"
+                      [disabled]="!accountRequest.status || accountRequest.status === 'REGISTERED' || accountRequest.status === 'APPROVED' || accountRequest.status === 'REJECTED' || isRejectingAccount[i]"
+                      ngbDropdownToggle> @if (isRejectingAccount[i]) {
+                      <tm-ajax-loading></tm-ajax-loading>
+                      } Reject
+                    </button>
+                    <div ngbDropdownMenu (click)="$event.stopPropagation()">
+                      <button id="reject-request-{{i}}" class="btn btn-light btn-sm dropdown-item"
+                      (click)="$event.stopPropagation(); rejectAccountRequest(accountRequest, i)"> Reject </button>
+                      <button id="reject-request-with-reason-{{i}}" class="btn btn-light btn-sm dropdown-item"
+                        (click)="$event.stopPropagation(); rejectAccountRequestWithReason(accountRequest, i)"> Reject With
+                      Reason </button>
+                    </div>
+                  </span>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
     </div>
-  }
+  </div>
+}

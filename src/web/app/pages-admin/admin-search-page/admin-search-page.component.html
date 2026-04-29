@@ -89,25 +89,25 @@
                         </li>
                         @for (awaitingFs of instructor.awaitingSessions | keyvalue; track awaitingFs) {
                           <li class="list-group-item list-group-item-light">
-                            <strong>{{ awaitingFs.key + ' ' + awaitingFs.value.startTime + ' - ' + awaitingFs.value.endTime }}</strong>
+                            <strong>{{ awaitingFs.value.name + ' ' + awaitingFs.value.startTime + ' - ' + awaitingFs.value.endTime }}</strong>
                             <input [value]="awaitingFs.value.feedbackSessionUrl" disabled class="form-control">
                           </li>
                         }
                         @for (openFs of instructor.openSessions | keyvalue; track openFs) {
                           <li class="list-group-item list-group-item-warning">
-                            <strong>{{ openFs.key + ' ' + openFs.value.startTime + ' - ' + openFs.value.endTime }}</strong>
+                            <strong>{{ openFs.value.name + ' ' + openFs.value.startTime + ' - ' + openFs.value.endTime }}</strong>
                             <input [value]="openFs.value.feedbackSessionUrl" disabled class="form-control">
                           </li>
                         }
                         @for (notOpenFs of instructor.notOpenSessions | keyvalue; track notOpenFs) {
                           <li class="list-group-item list-group-item-danger">
-                            <strong>{{ notOpenFs.key + ' ' + notOpenFs.value.startTime + ' - ' + notOpenFs.value.endTime }}</strong>
+                            <strong>{{ notOpenFs.value.name + ' ' + notOpenFs.value.startTime + ' - ' + notOpenFs.value.endTime }}</strong>
                             <input [value]="notOpenFs.value.feedbackSessionUrl" disabled class="form-control">
                           </li>
                         }
                         @for (publishedFs of instructor.publishedSessions | keyvalue; track publishedFs) {
                           <li class="list-group-item list-group-item-success">
-                            <strong>{{ publishedFs.key + ' ' + publishedFs.value.startTime + ' - ' + publishedFs.value.endTime }}</strong>
+                            <strong>{{ publishedFs.value.name + ' ' + publishedFs.value.startTime + ' - ' + publishedFs.value.endTime }}</strong>
                             <input [value]="publishedFs.value.feedbackSessionUrl" disabled class="form-control">
                           </li>
                         }
@@ -204,34 +204,34 @@
                             </li>
                             <li class="list-group-item list-group-item-info">
                               <strong>Course Join Link</strong>
-                              <button id="send-course-join-button" type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openCourseJoinEmail(student.courseId, student.email)">Send mail</button>
+                              <button data-testid="send-course-join-button" type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openCourseJoinEmail(student.userId)">Send mail</button>
                               <input [value]="student.courseJoinLink" disabled class="form-control">
                             </li>
                             @for (awaitingFs of student.awaitingSessions | keyvalue; track awaitingFs) {
                               <li class="list-group-item list-group-item-light">
-                                <strong>{{ awaitingFs.key + ' ' + awaitingFs.value.startTime + ' - ' + awaitingFs.value.endTime }}</strong>
-                                <button id="send-awaiting-session-reminder-button" type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openFeedbackSessionReminderEmail(student.courseId, student.email, awaitingFs.key)">Send mail</button>
+                                <strong>{{ awaitingFs.value.name + ' ' + awaitingFs.value.startTime + ' - ' + awaitingFs.value.endTime }}</strong>
+                                <button data-testid="send-awaiting-session-reminder-button" type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openFeedbackSessionReminderEmail(student.userId, awaitingFs.key)">Send mail</button>
                                 <input [value]="awaitingFs.value.feedbackSessionUrl" disabled class="form-control">
                               </li>
                             }
                             @for (openFs of student.openSessions | keyvalue; track openFs) {
                               <li class="list-group-item list-group-item-warning">
-                                <strong>{{ openFs.key + ' ' + openFs.value.startTime + ' - ' + openFs.value.endTime }}</strong>
-                                <button id="send-open-session-reminder-button" type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openFeedbackSessionReminderEmail(student.courseId, student.email, openFs.key)">Send mail</button>
+                                <strong>{{ openFs.value.name + ' ' + openFs.value.startTime + ' - ' + openFs.value.endTime }}</strong>
+                                <button data-testid="send-open-session-reminder-button" type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openFeedbackSessionReminderEmail(student.userId, openFs.key)">Send mail</button>
                                 <input [value]="openFs.value.feedbackSessionUrl" disabled class="form-control">
                               </li>
                             }
                             @for (notOpenFs of student.notOpenSessions | keyvalue; track notOpenFs) {
                               <li class="list-group-item list-group-item-danger">
-                                <strong>{{ notOpenFs.key + ' ' + notOpenFs.value.startTime + ' - ' + notOpenFs.value.endTime }}</strong>
-                                <button id="send-not-open-session-reminder-button" type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openFeedbackSessionReminderEmail(student.courseId, student.email, notOpenFs.key)">Send mail</button>
+                                <strong>{{ notOpenFs.value.name + ' ' + notOpenFs.value.startTime + ' - ' + notOpenFs.value.endTime }}</strong>
+                                <button data-testid="send-not-open-session-reminder-button" type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openFeedbackSessionReminderEmail(student.userId, notOpenFs.key)">Send mail</button>
                                 <input [value]="notOpenFs.value.feedbackSessionUrl" disabled class="form-control">
                               </li>
                             }
                             @for (publishedFs of student.publishedSessions | keyvalue; track publishedFs) {
                               <li class="list-group-item list-group-item-success">
-                                <strong>{{ publishedFs.key + ' ' + publishedFs.value.startTime + ' - ' + publishedFs.value.endTime }}</strong>
-                                <button id="send-published-session-reminder-button" type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openFeedbackSessionReminderEmail(student.courseId, student.email, publishedFs.key)">Send mail</button>
+                                <strong>{{ publishedFs.value.name + ' ' + publishedFs.value.startTime + ' - ' + publishedFs.value.endTime }}</strong>
+                                <button data-testid="send-published-session-reminder-button" type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openFeedbackSessionReminderEmail(student.userId, publishedFs.key)">Send mail</button>
                                 <input [value]="publishedFs.value.feedbackSessionUrl" disabled class="form-control">
                               </li>
                             }
@@ -246,5 +246,5 @@
           }
 
           @if (accountRequests.length) {
-            <tm-account-request-table [accountRequests]="accountRequests" [searchString]="searchString"></tm-account-request-table>
+            <tm-admin-account-search-table [accountRequests]="accountRequests" [searchString]="searchString"></tm-admin-account-search-table>
           }

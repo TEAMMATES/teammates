@@ -101,8 +101,7 @@ export class QuestionResponsePanelComponent {
     }
     this.feedbackSessionsService.getFeedbackSessionResults({
       questionId: question.feedbackQuestion.feedbackQuestionId,
-      courseId: this.session.courseId,
-      feedbackSessionName: this.session.feedbackSessionName,
+      feedbackSessionId: this.session.feedbackSessionId,
       intent: this.intent,
       key: this.regKey,
       previewAs: this.previewAsPerson,

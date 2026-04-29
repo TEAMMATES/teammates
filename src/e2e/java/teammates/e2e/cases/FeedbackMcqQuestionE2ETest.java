@@ -22,7 +22,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
     @Override
     protected void prepareTestData() {
-        testData = removeAndRestoreDataBundle(loadDataBundle("/FeedbackMcqQuestionE2ESqlTest.json"));
+        testData = removeAndRestoreDataBundle(loadDataBundle("/FeedbackMcqQuestionE2ETest.json"));
 
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");
@@ -122,7 +122,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
     private List<String> getGeneratedStudentOptions() {
         return testData.students.values().stream()
                 .filter(s -> s.getCourse().equals(student.getCourse()))
-                .map(s -> s.getName() + " (" + s.getTeam().getName() + ")")
+                .map(s -> s.getName() + " (" + s.getTeamName() + ")")
                 .collect(Collectors.toList());
     }
 

@@ -16,7 +16,7 @@ jobs:
       issues: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           sparse-checkout: .github/scripts/check-issue-comment.js
           sparse-checkout-cone-mode: false

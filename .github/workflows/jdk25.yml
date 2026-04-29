@@ -20,6 +20,7 @@ jobs:
         with:
           distribution: temurin
           java-version: 25
+          cache: gradle
       - name: Run Backend Linting
         run: ./gradlew lint --continue
   component-testing:
@@ -31,6 +32,7 @@ jobs:
         with:
           distribution: temurin
           java-version: 25
+          cache: gradle
       - name: Update Property File
         run: mv src/test/resources/test.ci-ubuntu-latest.properties src/test/resources/test.properties
       - name: Run Backend Tests

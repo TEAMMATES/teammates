@@ -5,8 +5,11 @@ import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+import teammates.common.datatransfer.UserType;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -20,6 +23,10 @@ import teammates.common.util.SanitizationHelper;
 public class Student extends User {
     @Column(nullable = false)
     private String comments;
+
+    @ManyToOne
+    @JoinColumn(name = "teamId", nullable = false)
+    private Team team;
 
     protected Student() {
         // required by Hibernate
@@ -36,6 +43,11 @@ public class Student extends User {
         this.setTeam(team);
     }
 
+    @Override
+    public UserType getUserType() {
+        return UserType.STUDENT;
+    }
+
     /**
      * Gets the comments of the student.
      */
@@ -50,19 +62,24 @@ public class Student extends User {
         this.comments = SanitizationHelper.sanitizeTextField(comments);
     }
 
-    @Override
+    public Team getTeam() {
+        return this.team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
     public String getTeamName() {
-        return getTeam() != null ? getTeam().getName() : null;
+        return getTeam().getName();
     }
 
-    @Override
     public String getSectionName() {
-        return getTeam() != null ? getTeam().getSection() != null ? getTeam().getSection().getName() : null : null;
+        return getSection().getName();
     }
 
-    @Override
     public Section getSection() {
-        return getTeam() != null ? getTeam().getSection() : null;
+        return getTeam().getSection();
     }
 
     @Override

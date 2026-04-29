@@ -3,7 +3,6 @@ package teammates.sqlui.webapi;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
@@ -53,13 +52,12 @@ import teammates.ui.webapi.GetCourseAction;
 import teammates.ui.webapi.GetCourseJoinStatusAction;
 import teammates.ui.webapi.GetCourseSectionNamesAction;
 import teammates.ui.webapi.GetCoursesAction;
-import teammates.ui.webapi.GetDeadlineExtensionAction;
+import teammates.ui.webapi.GetDeadlineExtensionsAction;
 import teammates.ui.webapi.GetFeedbackQuestionRecipientsAction;
 import teammates.ui.webapi.GetFeedbackQuestionsAction;
 import teammates.ui.webapi.GetFeedbackResponseCommentAction;
 import teammates.ui.webapi.GetFeedbackResponsesAction;
 import teammates.ui.webapi.GetFeedbackSessionAction;
-import teammates.ui.webapi.GetFeedbackSessionDeadlineExtensionsAction;
 import teammates.ui.webapi.GetFeedbackSessionLogsAction;
 import teammates.ui.webapi.GetFeedbackSessionSubmittedGiverSetAction;
 import teammates.ui.webapi.GetFeedbackSessionsAction;
@@ -105,10 +103,10 @@ import teammates.ui.webapi.SubmitFeedbackResponsesAction;
 import teammates.ui.webapi.UnpublishFeedbackSessionAction;
 import teammates.ui.webapi.UpdateAccountRequestAction;
 import teammates.ui.webapi.UpdateCourseAction;
+import teammates.ui.webapi.UpdateDeadlineExtensionsAction;
 import teammates.ui.webapi.UpdateFeedbackQuestionAction;
 import teammates.ui.webapi.UpdateFeedbackResponseCommentAction;
 import teammates.ui.webapi.UpdateFeedbackSessionAction;
-import teammates.ui.webapi.UpdateFeedbackSessionDeadlineExtensionsAction;
 import teammates.ui.webapi.UpdateInstructorAction;
 import teammates.ui.webapi.UpdateInstructorPrivilegeAction;
 import teammates.ui.webapi.UpdateNotificationAction;
@@ -162,7 +160,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 CreateFeedbackSessionAction.class,
                 GetFeedbackSessionAction.class,
                 UpdateFeedbackSessionAction.class,
-                UpdateFeedbackSessionDeadlineExtensionsAction.class,
+                UpdateDeadlineExtensionsAction.class,
                 FeedbackSessionClosingSoonRemindersAction.class,
                 GetTimeZonesAction.class,
                 GetFeedbackResponsesAction.class,
@@ -229,16 +227,15 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 GetNotificationsAction.class,
                 MarkNotificationAsReadAction.class,
                 GetReadNotificationsAction.class,
-                GetDeadlineExtensionAction.class,
                 SendLoginEmailAction.class,
                 PutDataBundleAction.class,
                 DeleteDataBundleAction.class,
-                GetFeedbackSessionDeadlineExtensionsAction.class
+                GetDeadlineExtensionsAction.class
         );
         List<String> expectedActionClassesNames = expectedActionClasses.stream()
                 .map(Class::getSimpleName)
                 .sorted()
-                .collect(Collectors.toList());
+                .toList();
 
         GetActionClassesAction action = getAction();
         action.execute();

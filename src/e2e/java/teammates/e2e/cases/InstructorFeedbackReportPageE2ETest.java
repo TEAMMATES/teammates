@@ -71,7 +71,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(
-            loadDataBundle("/InstructorFeedbackReportPageE2ETestSql.json"));
+            loadDataBundle("/InstructorFeedbackReportPageE2ETest.json"));
 
         studentToEmail = testData.students.get("IFRep.emily@CS2103");
         instructor = testData.instructors.get("IFRep.instr.CS2104");
@@ -414,24 +414,24 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
     private List<FeedbackQuestion> getQuestionsByCourse(String courseId) {
         return testData.feedbackQuestions.values().stream()
-                .filter(question -> question.getFeedbackSession().getCourse().getId().equals(courseId))
+                .filter(question -> question.getFeedbackSession().getCourseId().equals(courseId))
                 .collect(Collectors.toList());
     }
 
     private List<Student> getNotRespondedStudents(String courseId) {
         Set<String> responders = testData.feedbackResponses.values().stream()
-                .filter(r -> r.getFeedbackQuestion().getFeedbackSession().getCourse().getId().equals(courseId))
+                .filter(r -> r.getFeedbackQuestion().getFeedbackSession().getCourseId().equals(courseId))
                 .map(FeedbackResponse::getGiver)
                 .collect(Collectors.toSet());
 
         return testData.students.values().stream()
-                .filter(s -> !responders.contains(s.getEmail()) && s.getCourse().getId().equals(courseId))
+                .filter(s -> !responders.contains(s.getEmail()) && s.getCourseId().equals(courseId))
                 .collect(Collectors.toList());
     }
 
     private List<FeedbackResponse> getResponsesByQuestion(String courseId, int qnNum) {
         List<FeedbackResponse> responses = testData.feedbackResponses.values().stream()
-                .filter(r -> r.getFeedbackQuestion().getFeedbackSession().getCourse().getId().equals(courseId)
+                .filter(r -> r.getFeedbackQuestion().getFeedbackSession().getCourseId().equals(courseId)
                         && r.getFeedbackQuestion().getQuestionNumber() == qnNum)
                 .collect(Collectors.toList());
         sortResponses(responses);

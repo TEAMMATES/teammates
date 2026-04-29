@@ -40,7 +40,7 @@ public class Course extends BaseEntity {
     @OneToMany(mappedBy = "course")
     private List<FeedbackSession> feedbackSessions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE)
     private List<Section> sections = new ArrayList<>();
 
     @UpdateTimestamp
@@ -75,6 +75,13 @@ public class Course extends BaseEntity {
      */
     public void addSection(Section section) {
         this.sections.add(section);
+    }
+
+    /**
+     * Adds a feedback session to the Course.
+     */
+    public void addFeedbackSession(FeedbackSession feedbackSession) {
+        this.feedbackSessions.add(feedbackSession);
     }
 
     public String getId() {

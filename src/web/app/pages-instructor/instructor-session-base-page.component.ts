@@ -60,6 +60,7 @@ export abstract class InstructorSessionBasePageComponent {
   private publishStatusName: PublishStatusNamePipe = new PublishStatusNamePipe();
 
   sessionEditFormModel: SessionEditFormModel = {
+    feedbackSessionId: '',
     courseId: '',
     timeZone: 'UTC',
     courseName: '',
@@ -313,7 +314,7 @@ export abstract class InstructorSessionBasePageComponent {
     cb(models);
 
     this.feedbackSessionsService
-      .loadSessionStatistics(models[idx].feedbackSession.courseId, models[idx].feedbackSession.feedbackSessionName)
+      .loadSessionStatistics(models[idx].feedbackSession.feedbackSessionId)
       .pipe(
         finalize(() => {
           models[idx] = {
@@ -464,8 +465,7 @@ export abstract class InstructorSessionBasePageComponent {
    */
   downloadSessionResult(model: SessionsTableRowModel): void {
     this.feedbackQuestionsService.getFeedbackQuestions({
-      courseId: model.feedbackSession.courseId,
-      feedbackSessionName: model.feedbackSession.feedbackSessionName,
+      feedbackSessionId: model.feedbackSession.feedbackSessionId,
       intent: Intent.INSTRUCTOR_RESULT,
     }).pipe(
       switchMap((feedbackQuestions: FeedbackQuestions) => {
@@ -474,6 +474,7 @@ export abstract class InstructorSessionBasePageComponent {
         return of(this.feedbackSessionActionsService.downloadSessionResult(
           model.feedbackSession.courseId,
           model.feedbackSession.feedbackSessionName,
+          model.feedbackSession.feedbackSessionId,
           Intent.FULL_DETAIL,
           true,
           true,
@@ -502,7 +503,7 @@ export abstract class InstructorSessionBasePageComponent {
     );
 
     this.feedbackSessionsService
-      .publishFeedbackSession(model.feedbackSession.courseId, model.feedbackSession.feedbackSessionName)
+      .publishFeedbackSession(model.feedbackSession.feedbackSessionId)
       .pipe(finalize(() => {
           this.isResultActionLoading = false;
         }),
@@ -557,7 +558,7 @@ export abstract class InstructorSessionBasePageComponent {
     );
 
     this.feedbackSessionsService
-      .unpublishFeedbackSession(model.feedbackSession.courseId, model.feedbackSession.feedbackSessionName)
+      .unpublishFeedbackSession(model.feedbackSession.feedbackSessionId)
       .pipe(
         finalize(() => {
           this.isResultActionLoading = false;

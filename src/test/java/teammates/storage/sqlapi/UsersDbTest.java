@@ -109,13 +109,6 @@ public class UsersDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testDeleteUser_userNull_shouldFailSilently() {
-        usersDb.deleteUser(null);
-
-        mockHibernateUtil.verify(() -> HibernateUtil.remove(any()), never());
-    }
-
-    @Test
     public void testUpdateStudent_invalidStudent_throwsInvalidParametersException() {
         Student invalidStudent = getTypicalStudent();
         invalidStudent.setEmail("");

@@ -1,6 +1,5 @@
 package teammates.storage.sqlapi;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
@@ -103,24 +102,10 @@ public class FeedbackQuestionsDbTest extends BaseTestCase {
     @Test
     public void testDeleteFeedbackQuestion_success() {
         FeedbackQuestion feedbackQuestion = getFeedbackQuestion();
-        UUID fqid = feedbackQuestion.getId();
 
-        mockHibernateUtil.when(() -> HibernateUtil.get(FeedbackQuestion.class, fqid)).thenReturn(feedbackQuestion);
-
-        feedbackQuestionsDb.deleteFeedbackQuestion(fqid);
+        feedbackQuestionsDb.deleteFeedbackQuestion(feedbackQuestion);
 
         mockHibernateUtil.verify(() -> HibernateUtil.remove(feedbackQuestion), times(1));
-    }
-
-    @Test
-    public void testDeleteFeedbackQuestion_questionDoesNotExist_nothingHappens() {
-        UUID fqid = UUID.randomUUID();
-
-        mockHibernateUtil.when(() -> HibernateUtil.get(FeedbackQuestion.class, fqid)).thenReturn(null);
-
-        feedbackQuestionsDb.deleteFeedbackQuestion(fqid);
-
-        mockHibernateUtil.verify(() -> HibernateUtil.remove(any()), never());
     }
 
     private FeedbackQuestion getFeedbackQuestion() {

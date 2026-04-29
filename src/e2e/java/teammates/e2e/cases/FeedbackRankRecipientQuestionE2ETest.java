@@ -24,7 +24,7 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(
-                loadDataBundle("/FeedbackRankRecipientQuestionE2ETestSql.json"));
+                loadDataBundle("/FeedbackRankRecipientQuestionE2ETest.json"));
 
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");
@@ -126,6 +126,6 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
         FeedbackRankRecipientsResponseDetails details = new FeedbackRankRecipientsResponseDetails();
         details.setAnswer(answer);
         return FeedbackResponse.makeResponse(question, student.getEmail(),
-                student.getSection(), receiver.getEmail(), receiver.getSection(), details);
+                student.getSection(), receiver.getEmail(), null, details);
     }
 }

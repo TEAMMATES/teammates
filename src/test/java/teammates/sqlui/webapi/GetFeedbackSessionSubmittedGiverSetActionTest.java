@@ -9,6 +9,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -60,31 +61,12 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
     }
 
     @Test
-    void testExecute_missingCourseId_throwsInvalidHttpParameterException() {
+    void testExecute_typicalCase_success() throws EntityDoesNotExistException {
         String[] params = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
 
-        verifyHttpParameterFailure(params);
-    }
-
-    @Test
-    void testExecute_missingFeedbackSessionName_throwsInvalidHttpParameterException() {
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-        };
-
-        verifyHttpParameterFailure(params);
-    }
-
-    @Test
-    void testExecute_typicalCase_success() {
-        String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
-        };
-
-        when(mockLogic.getGiverSetThatAnsweredFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
+        when(mockLogic.getGiverSetThatAnsweredFeedbackSession(typicalFeedbackSession.getId()))
                 .thenReturn(new HashSet<>(Arrays.asList(typicalFeedbackResponse.getGiver())));
 
         GetFeedbackSessionSubmittedGiverSetAction action = getAction(params);
@@ -97,8 +79,7 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
     @Test
     void testCheckSpecificAccessControl_withoutLogin_throwsUnauthorizedAccessException() {
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
 
         verifyCannotAccess(params);
@@ -108,11 +89,10 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
     void testCheckSpecificAccessControl_unregisteredUser_throwsUnauthorizedAccessException() {
         String googleId = "unregistered-user";
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
 
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId()))
                 .thenReturn(typicalFeedbackSession);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), googleId))
                 .thenReturn(null);
@@ -126,11 +106,10 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
     void testCheckSpecificAccessControl_student_throwsUnauthorizedAccessException() {
         String googleId = "student";
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
 
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId()))
                 .thenReturn(typicalFeedbackSession);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), googleId))
                 .thenReturn(null);
@@ -144,11 +123,10 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
     void testCheckSpecificAccessControl_instructorOfOtherCourse_throwsUnauthorizedAccessException() {
         String googleId = "instructor-of-other-course";
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
 
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId()))
                 .thenReturn(typicalFeedbackSession);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), googleId))
                 .thenReturn(null);
@@ -161,11 +139,10 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
     @Test
     void testCheckSpecificAccessControl_instructorOfSameCourse_success() {
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalCourse.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, typicalFeedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
 
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getName(), typicalCourse.getId()))
+        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId()))
                 .thenReturn(typicalFeedbackSession);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);

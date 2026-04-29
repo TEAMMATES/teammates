@@ -1,7 +1,6 @@
 package teammates.sqlui.webapi;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -115,7 +114,6 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         verify(mockLogic, times(1)).getInstructorsForGoogleId(instructorId);
         verify(mockLogic, times(1)).searchStudents(searchKey, instructors);
         verify(mockLogic, never()).searchStudentsInWholeSystem(any());
-        verify(mockLogic, never()).getCourseInstitute(any());
         verifyNoMoreInteractions(mockLogic);
 
         verifyStudentsData(students, studentsData, false);
@@ -140,7 +138,6 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         verify(mockLogic, times(1)).getInstructorsForGoogleId(instructorId);
         verify(mockLogic, times(1)).searchStudents(searchKey, instructors);
         verify(mockLogic, never()).searchStudentsInWholeSystem(any());
-        verify(mockLogic, never()).getCourseInstitute(any());
         verifyNoMoreInteractions(mockLogic);
 
         assertEquals(0, studentsData.getStudents().size());
@@ -151,9 +148,6 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         loginAsAdmin();
 
         when(mockLogic.searchStudentsInWholeSystem(searchKey)).thenReturn(students);
-        for (Student student : students) {
-            when(mockLogic.getCourseInstitute(student.getCourseId())).thenReturn(student.getCourse().getInstitute());
-        }
 
         String[] params = {
                 Const.ParamsNames.SEARCH_KEY, searchKey,
@@ -166,9 +160,6 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         verify(mockLogic, never()).getInstructorsForGoogleId(any());
         verify(mockLogic, never()).searchStudents(any(), any());
         verify(mockLogic, times(1)).searchStudentsInWholeSystem(searchKey);
-        verify(mockLogic, times(students.size())).getCourseInstitute(argThat(courseId ->
-                students.stream().map(Student::getCourseId).anyMatch(id -> id.equals(courseId))
-        ));
         verifyNoMoreInteractions(mockLogic);
 
         verifyStudentsData(students, studentsData, true);
@@ -191,7 +182,6 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         verify(mockLogic, never()).getInstructorsForGoogleId(any());
         verify(mockLogic, never()).searchStudents(any(), any());
         verify(mockLogic, times(1)).searchStudentsInWholeSystem(searchKey);
-        verify(mockLogic, never()).getCourseInstitute(any());
         verifyNoMoreInteractions(mockLogic);
 
         assertEquals(0, studentsData.getStudents().size());

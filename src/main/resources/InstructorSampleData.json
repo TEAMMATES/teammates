@@ -59,9 +59,7 @@
     "demoInstructor": {
       "id": "00000000-0000-4000-8000-000000000101",
       "account": null,
-      "course": {
-        "id": "demo.course"
-      },
+      "courseId": "demo.course",
       "name": "Demo_Instructor",
       "email": "teammates.demo.instructor@demo.course",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -87,9 +85,7 @@
     "alice": {
       "id": "00000000-0000-4000-8000-000000000401",
       "account": null,
-      "course": {
-        "id": "demo.course"
-      },
+      "courseId": "demo.course",
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -100,9 +96,7 @@
     "benny": {
       "id": "00000000-0000-4000-8000-000000000402",
       "account": null,
-      "course": {
-        "id": "demo.course"
-      },
+      "courseId": "demo.course",
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -113,9 +107,7 @@
     "danny": {
       "id": "00000000-0000-4000-8000-000000000403",
       "account": null,
-      "course": {
-        "id": "demo.course"
-      },
+      "courseId": "demo.course",
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -126,9 +118,7 @@
     "emma": {
       "id": "00000000-0000-4000-8000-000000000404",
       "account": null,
-      "course": {
-        "id": "demo.course"
-      },
+      "courseId": "demo.course",
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -139,9 +129,7 @@
     "charlie": {
       "id": "00000000-0000-4000-8000-000000000405",
       "account": null,
-      "course": {
-        "id": "demo.course"
-      },
+      "courseId": "demo.course",
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"
       },
@@ -152,9 +140,7 @@
     "demoInstructorStudent": {
       "id": "00000000-0000-4000-8000-000000000406",
       "account": null,
-      "course": {
-        "id": "demo.course"
-      },
+      "courseId": "demo.course",
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"
       },
@@ -165,9 +151,7 @@
     "francis": {
       "id": "00000000-0000-4000-8000-000000000407",
       "account": null,
-      "course": {
-        "id": "demo.course"
-      },
+      "courseId": "demo.course",
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"
       },
@@ -178,9 +162,7 @@
     "gene": {
       "id": "00000000-0000-4000-8000-000000000408",
       "account": null,
-      "course": {
-        "id": "demo.course"
-      },
+      "courseId": "demo.course",
       "team": {
         "id": "00000000-0000-4000-8000-000000000302"
       },
@@ -191,9 +173,7 @@
     "hugh": {
       "id": "00000000-0000-4000-8000-000000000409",
       "account": null,
-      "course": {
-        "id": "demo.course"
-      },
+      "courseId": "demo.course",
       "team": {
         "id": "00000000-0000-4000-8000-000000000303"
       },
@@ -220,11 +200,8 @@
       "isClosingSoonEmailSent": true,
       "isClosedEmailSent": true,
       "isPublishedEmailSent": true,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true,
-      "studentDeadlines": {},
-      "instructorDeadlines": {}
+      "isPublishedEmailEnabled": true
     },
     "session2": {
       "id": "00000000-0000-4000-8000-000000000502",
@@ -243,11 +220,8 @@
       "isClosingSoonEmailSent": true,
       "isClosedEmailSent": true,
       "isPublishedEmailSent": true,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true,
-      "studentDeadlines": {},
-      "instructorDeadlines": {}
+      "isPublishedEmailEnabled": true
     },
     "session3": {
       "id": "00000000-0000-4000-8000-000000000503",
@@ -266,11 +240,8 @@
       "isClosingSoonEmailSent": false,
       "isClosedEmailSent": false,
       "isPublishedEmailSent": false,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
-      "isPublishedEmailEnabled": true,
-      "studentDeadlines": {},
-      "instructorDeadlines": {}
+      "isPublishedEmailEnabled": true
     }
   },
   "feedbackQuestions": {

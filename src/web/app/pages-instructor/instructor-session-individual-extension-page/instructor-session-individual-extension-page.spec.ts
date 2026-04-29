@@ -17,8 +17,8 @@ import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   Course,
+  DeadlineExtensions,
   FeedbackSession,
-  FeedbackSessionDeadlineExtensions,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   FeedbackSessionSubmittedGiverSet,
@@ -45,6 +45,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
   };
 
   const testFeedbackSession: FeedbackSession = {
+    feedbackSessionId: '23901a20-48bb-4fcc-a3fb-0b2489b07886',
     courseId: 'testId1',
     timeZone: 'UTC',
     feedbackSessionName: 'Test Session',
@@ -61,12 +62,13 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     createdAtTimestamp: 0,
   };
 
-  const testDeadlineExtensions: FeedbackSessionDeadlineExtensions = {
+  const testDeadlineExtensions: DeadlineExtensions = {
     studentDeadlines: { 'alice@tmms.com': 1510000000000 },
     instructorDeadlines: { 'tester2@tester.com': 1510000000000 },
   };
 
   const testStudent1: Student = {
+    userId: 'f89937f2-d6ca-4547-8a2a-9dae1aba2b3e',
     email: 'alice@tmms.com',
     courseId: 'testId',
     name: 'AliceHasExtension',
@@ -74,6 +76,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     sectionName: 'Section 1',
   };
   const testStudent2: Student = {
+    userId: '72184baf-5068-4a2c-a977-b80549f18f19',
     email: 'bob@tmms.com',
     courseId: 'testId',
     name: 'Bob',
@@ -81,6 +84,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     sectionName: 'Section 1',
   };
   const testStudent3: Student = {
+    userId: '7b8a0665-a83e-423f-b095-194b0688deef',
     email: 'alex@tmms.com',
     courseId: 'testId',
     name: 'Alex',
@@ -92,6 +96,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
   };
 
   const testInstructor1: Instructor = {
+    userId: '7f518f5f-e2f0-4060-bb74-5326fb5103ac',
     name: 'tester1',
     email: 'tester1@tester.com',
     googleId: 'instructor-google-id',
@@ -100,6 +105,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     joinState: JoinState.JOINED,
   };
   const testInstructor2: Instructor = {
+    userId: '056d31f1-d738-48a5-8337-2202027acf98',
     name: 'tester2HasExtension',
     email: 'tester2@tester.com',
     googleId: 'instructor-google-id',

@@ -23,7 +23,7 @@ public class FeedbackContributionQuestionE2ETest extends BaseFeedbackQuestionE2E
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(
-                loadDataBundle("/FeedbackContributionQuestionE2ETestSql.json"));
+                loadDataBundle("/FeedbackContributionQuestionE2ETest.json"));
 
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");

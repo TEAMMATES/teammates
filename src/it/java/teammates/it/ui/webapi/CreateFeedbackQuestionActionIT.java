@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
@@ -23,12 +24,13 @@ import teammates.ui.webapi.JsonResult;
  * SUT: {@link CreateFeedbackQuestionAction}.
  */
 public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQuestionAction> {
+    private DataBundle typicalBundle;
 
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalBundle);
+        typicalBundle = persistDataBundle(getTypicalDataBundle());
         HibernateUtil.flushSession();
     }
 
@@ -53,12 +55,9 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
         ______TS("Not enough parameters");
 
         verifyHttpParameterFailure();
-        verifyHttpParameterFailure(Const.ParamsNames.COURSE_ID, session.getCourse().getId());
-        verifyHttpParameterFailure(Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName());
 
         String[] params = {
-                Const.ParamsNames.COURSE_ID, session.getCourse().getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, session.getId().toString(),
         };
 
         ______TS("null question type");
@@ -127,8 +126,7 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
         ______TS("non-existent feedback session");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, fs.getCourse().getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, "abcRandomSession",
+                Const.ParamsNames.FEEDBACK_SESSION_ID, "00000000-0000-4000-8000-000000000001",
         };
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
@@ -137,8 +135,7 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
         ______TS("inaccessible without ModifySessionPrivilege");
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, fs.getCourse().getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, fs.getId().toString(),
         };
 
         verifyInaccessibleWithoutModifySessionPrivilege(fs.getCourse(), submissionParams);

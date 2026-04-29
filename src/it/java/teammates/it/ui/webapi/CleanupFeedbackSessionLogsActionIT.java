@@ -10,6 +10,7 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
@@ -22,12 +23,13 @@ import teammates.ui.webapi.CleanupFeedbackSessionLogsAction;
  * SUT: {@link CleanupFeedbackSessionLogsAction}.
  */
 public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeedbackSessionLogsAction> {
+    private DataBundle typicalBundle;
 
     @Override
     @BeforeMethod
     protected void setUp() throws Exception {
         super.setUp();
-        persistDataBundle(typicalBundle);
+        typicalBundle = persistDataBundle(getTypicalDataBundle());
         HibernateUtil.flushSession();
     }
 
@@ -63,30 +65,30 @@ public class CleanupFeedbackSessionLogsActionIT extends BaseActionIT<CleanupFeed
         FeedbackSessionLog oldLog = new FeedbackSessionLog(student, feedbackSession,
                 typicalBundle.feedbackSessionLogs.get("student1Session1Log1").getFeedbackSessionLogType(),
                 oldTimestamp);
-        logic.createFeedbackSessionLog(oldLog);
+        HibernateUtil.persist(oldLog);
 
         FeedbackSessionLog atCutoffLog = new FeedbackSessionLog(student, feedbackSession,
                 typicalBundle.feedbackSessionLogs.get("student1Session1Log1").getFeedbackSessionLogType(),
                 atCutoffTimestamp);
-        logic.createFeedbackSessionLog(atCutoffLog);
+        HibernateUtil.persist(atCutoffLog);
 
         // Create log just inside the 90-day boundary (should be preserved)
         FeedbackSessionLog boundaryLog = new FeedbackSessionLog(student, feedbackSession,
                 typicalBundle.feedbackSessionLogs.get("student1Session1Log1").getFeedbackSessionLogType(),
                 boundaryTimestamp);
-        logic.createFeedbackSessionLog(boundaryLog);
+        HibernateUtil.persist(boundaryLog);
 
         // Create log within retention period (should be preserved)
         FeedbackSessionLog recentLog = new FeedbackSessionLog(student, feedbackSession,
                 typicalBundle.feedbackSessionLogs.get("student1Session1Log1").getFeedbackSessionLogType(),
                 recentTimestamp);
-        logic.createFeedbackSessionLog(recentLog);
+        HibernateUtil.persist(recentLog);
 
         // Create very recent log (should be preserved)
         FeedbackSessionLog veryRecentLog = new FeedbackSessionLog(student, feedbackSession,
                 typicalBundle.feedbackSessionLogs.get("student1Session1Log1").getFeedbackSessionLogType(),
                 veryRecentTimestamp);
-        logic.createFeedbackSessionLog(veryRecentLog);
+        HibernateUtil.persist(veryRecentLog);
 
         HibernateUtil.flushSession();
         HibernateUtil.clearSession();

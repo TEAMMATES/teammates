@@ -462,8 +462,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     const model: SessionsTableRowModel = this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex];
 
     this.feedbackSessionsService.moveSessionToRecycleBin(
-        model.feedbackSession.courseId,
-        model.feedbackSession.feedbackSessionName,
+        model.feedbackSession.feedbackSessionId,
     )
         .subscribe({
           next: () => {

@@ -23,7 +23,9 @@ import { Email, RegenerateKey } from '../../../types/api-output';
 import {
   AccountRequestTableRowModel,
 } from '../../components/account-requests-table/account-request-table-model';
-import { AccountRequestTableComponent } from '../../components/account-requests-table/account-request-table.component';
+import {
+  AdminAccountSearchTableComponent,
+} from '../../components/admin-search-tables/admin-account-search-table.component';
 import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -41,7 +43,7 @@ import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter
     NgClass,
     NgbTooltip,
     AjaxLoadingComponent,
-    AccountRequestTableComponent,
+    AdminAccountSearchTableComponent,
     KeyValuePipe,
     SearchTermsHighlighterPipe,
     NgbCollapse,
@@ -347,8 +349,8 @@ export class AdminSearchPageComponent {
   /**
    * Open up an email populated with content for course join invitation.
    */
-  openCourseJoinEmail(courseId: string, studentemail: string): void {
-    this.emailGenerationService.getCourseJoinEmail(courseId, studentemail)
+  openCourseJoinEmail(studentId: string): void {
+    this.emailGenerationService.getCourseJoinEmail(studentId)
         .subscribe({
           next: (email: Email) => {
             window.location.href = `mailto:${email.recipient}`
@@ -364,8 +366,8 @@ export class AdminSearchPageComponent {
   /**
    * Open up an email populated with content for feedback session reminder.
    */
-  openFeedbackSessionReminderEmail(courseId: string, studentemail: string, fsname: string): void {
-    this.emailGenerationService.getFeedbackSessionReminderEmail(courseId, studentemail, fsname)
+  openFeedbackSessionReminderEmail(studentId: string, fsId: string): void {
+    this.emailGenerationService.getFeedbackSessionReminderEmail(studentId, fsId)
         .subscribe({
           next: (email: Email) => {
             window.location.href = `mailto:${email.recipient}`

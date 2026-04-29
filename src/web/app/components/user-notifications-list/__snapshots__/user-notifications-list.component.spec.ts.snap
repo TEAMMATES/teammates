@@ -92,6 +92,19 @@ exports[`UserNotificationsListComponent should snap when all loaded notification
               </tm-panel-chevron>
             </div>
           </div>
+          <div
+            class="mb-0 collapse"
+          >
+            <div
+              class="card-body"
+            >
+              <div
+                class="notification-message"
+              >
+                valid message 1
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div>
@@ -123,6 +136,19 @@ exports[`UserNotificationsListComponent should snap when all loaded notification
                   />
                 </button>
               </tm-panel-chevron>
+            </div>
+          </div>
+          <div
+            class="mb-0 collapse"
+          >
+            <div
+              class="card-body"
+            >
+              <div
+                class="notification-message"
+              >
+                valid message 2
+              </div>
             </div>
           </div>
         </div>
@@ -270,7 +296,7 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
             </div>
           </div>
           <div
-            class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="mb-0 collapse show"
           >
             <div
               class="card-body pb-0"
@@ -283,7 +309,6 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
             </div>
             <div
               class="d-flex flex-row-reverse me-4 mb-3"
-              style=""
             >
               <button
                 class="btn-mark-as-read btn btn-success"
@@ -327,7 +352,7 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
             </div>
           </div>
           <div
-            class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="mb-0 collapse show"
           >
             <div
               class="card-body pb-0"
@@ -340,7 +365,6 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
             </div>
             <div
               class="d-flex flex-row-reverse me-4 mb-3"
-              style=""
             >
               <button
                 class="btn-mark-as-read btn btn-danger"
@@ -451,7 +475,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
             </div>
           </div>
           <div
-            class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="mb-0 collapse show"
           >
             <div
               class="card-body pb-0"
@@ -464,7 +488,6 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
             </div>
             <div
               class="d-flex flex-row-reverse me-4 mb-3"
-              style=""
             >
               <button
                 class="btn-mark-as-read btn btn-success"
@@ -508,7 +531,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
             </div>
           </div>
           <div
-            class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="mb-0 collapse show"
           >
             <div
               class="card-body pb-0"
@@ -521,7 +544,6 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
             </div>
             <div
               class="d-flex flex-row-reverse me-4 mb-3"
-              style=""
             >
               <button
                 class="btn-mark-as-read btn btn-danger"
@@ -632,7 +654,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
             </div>
           </div>
           <div
-            class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="mb-0 collapse show"
           >
             <div
               class="card-body pb-0"
@@ -645,7 +667,6 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
             </div>
             <div
               class="d-flex flex-row-reverse me-4 mb-3"
-              style=""
             >
               <button
                 class="btn-mark-as-read btn btn-danger"
@@ -689,7 +710,7 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
             </div>
           </div>
           <div
-            class="mb-0 ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="mb-0 collapse show"
           >
             <div
               class="card-body pb-0"
@@ -702,7 +723,6 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
             </div>
             <div
               class="d-flex flex-row-reverse me-4 mb-3"
-              style=""
             >
               <button
                 class="btn-mark-as-read btn btn-success"

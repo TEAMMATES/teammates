@@ -23,6 +23,7 @@ import { TimezoneService } from '../../../services/timezone.service';
 import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
 import {
   Course,
+  DeadlineExtensions,
   FeedbackMcqQuestionDetails,
   FeedbackParticipantType,
   FeedbackQuestion,
@@ -30,7 +31,6 @@ import {
   FeedbackQuestionType,
   FeedbackRankRecipientsQuestionDetails,
   FeedbackSession,
-  FeedbackSessionDeadlineExtensions,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
   FeedbackTextQuestionDetails,
@@ -74,6 +74,7 @@ describe('InstructorSessionEditPageComponent', () => {
   };
 
   const testFeedbackSession: FeedbackSession = {
+    feedbackSessionId: 'fbd91470-8378-4b43-9f82-0b81fb2e9f1b',
     courseId: 'testId1',
     timeZone: 'Asia/Singapore',
     feedbackSessionName: 'Test Session',
@@ -208,6 +209,7 @@ describe('InstructorSessionEditPageComponent', () => {
   };
 
   const sessionEditFormModel: SessionEditFormModel = {
+    feedbackSessionId: 'ee47e471-fbd8-478e-a350-51152802215b',
     courseId: 'testId',
     timeZone: 'Asia/Singapore',
     courseName: 'Test Course',
@@ -349,7 +351,7 @@ describe('InstructorSessionEditPageComponent', () => {
   });
 
   it('should load correct feedback session for a given API output', () => {
-    const testDeadlineExtensions: FeedbackSessionDeadlineExtensions = { studentDeadlines: {}, instructorDeadlines: {} };
+    const testDeadlineExtensions: DeadlineExtensions = { studentDeadlines: {}, instructorDeadlines: {} };
     jest.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse1));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(of(testDeadlineExtensions));
@@ -707,7 +709,7 @@ describe('InstructorSessionEditPageComponent', () => {
     expect(mockModalRef.componentInstance.sessionToCopyCourseId).toEqual(testCourse1.courseId);
     expect(navSpy).toHaveBeenLastCalledWith('/web/instructor/sessions/edit',
         'The feedback session has been copied. Please modify settings/questions as necessary.',
-        { courseid: 'testId2', fsname: 'Test Session' });
+        { courseid: 'testId2', fsid: 'fbd91470-8378-4b43-9f82-0b81fb2e9f1b', fsname: 'Test Session' });
   });
 
   it('should open danger modal if session end time updates end time after any extensions deadline', () => {

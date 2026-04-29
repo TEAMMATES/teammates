@@ -125,6 +125,10 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
     }
 
     public void verifyNoResponsePanelDetails(List<Student> noResponseStudents) {
+        By toggleButtonLocator = By.cssSelector("#no-response-panel .card-header");
+        WebElement toggleButton = browser.driver.findElement(toggleButtonLocator);
+        click(toggleButton);
+        waitUntilAnimationFinish();
         verifyTableBodyValues(getNoResponseTable(), getExpectedNoResponseDetails(noResponseStudents));
     }
 
@@ -363,7 +367,7 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
                                   List<FeedbackResponse> responses,
                                   Collection<Instructor> instructors,
                                   Collection<Student> students) {
-        switch (question.getQuestionDetailsCopy().getQuestionType()) {
+        switch (question.getQuestionType()) {
         case MCQ:
             verifyMcqStatistics(questionPanel, question, responses, instructors, students);
             break;
@@ -377,7 +381,7 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
         case CONTRIB:
             return; // TODO: Find way to test different statistics efficiently.
         default:
-            throw new RuntimeException("Unknown question type: " + question.getQuestionDetailsCopy().getQuestionType());
+            throw new RuntimeException("Unknown question type: " + question.getQuestionType());
         }
     }
 
@@ -1096,7 +1100,7 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
         String sectionName;
         if (type == FeedbackParticipantType.TEAMS) {
             sectionName = students.stream()
-                    .filter(student -> student.getTeam().getName().equals(participant))
+                    .filter(student -> student.getTeamName().equals(participant))
                     .findFirst()
                     .map(Student::getSectionName)
                     .orElse(null);

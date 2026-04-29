@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
-import { Course, Courses, HasResponses, JoinStatus, MessageOutput, Student } from '../types/api-output';
+import { Course, Courses, JoinStatus, MessageOutput, Student } from '../types/api-output';
 import { CourseCreateRequest, CourseUpdateRequest } from '../types/api-request';
 
 /**
@@ -207,17 +207,6 @@ export class CourseService {
       instructoremail: instructorEmail,
     };
     return this.httpRequestService.post(ResourceEndpoints.JOIN_REMIND, paramMap);
-  }
-
-  /**
-   * Checks if there are responses for a course (request sent by instructor).
-   */
-  hasResponsesForCourse(courseId: string): Observable<HasResponses> {
-    const paramMap: Record<string, string> = {
-      entitytype: 'instructor',
-      courseid: courseId,
-    };
-    return this.httpRequestService.get(ResourceEndpoints.HAS_RESPONSES, paramMap);
   }
 
   /**

@@ -147,7 +147,7 @@
                                   <span>{{ session.responseRate }}</span>
                                 }
                                 @if (!session.responseRate) {
-                                  <span><a href="javascript:;" (click)="getResponseRate(mapping.key, session.ongoingSession.courseId, session.ongoingSession.feedbackSessionName, $event)">Show</a></span>
+                                  <span><a href="javascript:;" (click)="getResponseRate(mapping.key, session.ongoingSession.feedbackSessionId, $event)">Show</a></span>
                                 }
                               </td>
                               <td>{{ session.startTimeString }}</td>

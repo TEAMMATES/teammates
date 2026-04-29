@@ -28,11 +28,15 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
-        FeedbackSession feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityNotFoundException("Feedback session not found");
+        }
+        String courseId = feedbackSession.getCourseId();
+
         switch (intent) {
         case STUDENT_SUBMISSION:
             Student student = getSqlStudentOfCourseFromRequest(courseId);
@@ -62,25 +66,27 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
 
     @Override
     public JsonResult execute() {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityNotFoundException("Feedback session not found");
+        }
 
         List<FeedbackQuestion> questions;
         Map<UUID, Optional<List<String>>> dynamicallyGeneratedOptions = new HashMap<>();
         switch (intent) {
         case STUDENT_SUBMISSION:
             questions = sqlLogic.getFeedbackQuestionsForStudents(feedbackSession);
-            Student student = getSqlStudentOfCourseFromRequest(courseId);
+            Student student = getSqlStudentOfCourseFromRequest(feedbackSession.getCourseId());
             for (FeedbackQuestion question : questions) {
                 Optional<List<String>> options = sqlLogic.getDynamicallyGeneratedOptions(question, student);
                 dynamicallyGeneratedOptions.put(question.getId(), options);
             }
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
+            Instructor instructor = getSqlInstructorOfCourseFromRequest(feedbackSession.getCourseId());
             questions = sqlLogic.getFeedbackQuestionsForInstructors(feedbackSession, instructor.getEmail());
             for (FeedbackQuestion question : questions) {
                 Optional<List<String>> options = sqlLogic.getDynamicallyGeneratedOptions(question, null);

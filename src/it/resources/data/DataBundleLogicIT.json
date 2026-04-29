@@ -82,9 +82,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000001"
       },
-      "course": {
-        "id": "typical-course-id"
-      },
+      "courseId": "typical-course-id",
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -107,9 +105,7 @@
     },
     "instructor2OfTypicalCourse": {
       "id": "00000000-0000-4000-8000-000000000502",
-      "course": {
-        "id": "typical-course-id"
-      },
+      "courseId": "typical-course-id",
       "name": "Instructor 2",
       "email": "instr2@teammates.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_TUTOR",
@@ -137,9 +133,7 @@
       "account": {
         "id": "00000000-0000-4000-8000-000000000002"
       },
-      "course": {
-        "id": "typical-course-id"
-      },
+      "courseId": "typical-course-id",
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -149,9 +143,7 @@
     },
     "student2InTypicalCourse": {
       "id": "00000000-0000-4000-8000-000000000602",
-      "course": {
-        "id": "typical-course-id"
-      },
+      "courseId": "typical-course-id",
       "team": {
         "id": "00000000-0000-4000-8000-000000000301"
       },
@@ -172,7 +164,6 @@
       "sessionVisibleFromTime": "2012-03-28T22:00:00Z",
       "resultsVisibleFromTime": "2027-05-01T22:00:00Z",
       "gracePeriod": 10,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": true,
@@ -192,7 +183,6 @@
       "sessionVisibleFromTime": "2013-03-20T22:00:00Z",
       "resultsVisibleFromTime": "2026-04-29T22:00:00Z",
       "gracePeriod": 5,
-      "isOpenedEmailEnabled": true,
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "isOpeningSoonEmailSent": true,

@@ -53,20 +53,9 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
     }
 
     @Test
-    void testExecute_invalidCourseId_throwsInvalidHttpParameterException() {
+    void testExecute_invalidSessionId_throwsInvalidHttpParameterException() {
         String[] params = {
-                Const.ParamsNames.COURSE_ID, null,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
-                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
-        };
-        verifyHttpParameterFailure(params);
-    }
-
-    @Test
-    void testExecute_invalidSessionName_throwsInvalidHttpParameterException() {
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, null,
+                Const.ParamsNames.FEEDBACK_SESSION_ID, null,
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
         verifyHttpParameterFailure(params);
@@ -74,11 +63,10 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
 
     @Test
     void testExecute_success() {
-        when(mockLogic.getFeedbackSession(feedbackSession.getName(), course.getId())).thenReturn(feedbackSession);
+        when(mockLogic.getFeedbackSession(feedbackSession.getId())).thenReturn(feedbackSession);
         when(mockLogic.getFeedbackQuestionsForSession(feedbackSession)).thenReturn(feedbackQuestions);
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getName(),
+                Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
 
@@ -97,7 +85,7 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
                 "instructor1@gmail.com", "generic instructions",
                 Instant.parse("2012-04-01T22:00:00Z"), Instant.parse("2027-04-30T22:00:00Z"),
                 Instant.parse("2012-03-28T22:00:00Z"), Instant.parse("2027-05-01T22:00:00Z"),
-                Duration.ofHours(10), true, true, true);
+                Duration.ofHours(10), true, true);
         fs.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
 

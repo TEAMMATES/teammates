@@ -1,6 +1,5 @@
 package teammates.storage.sqlapi;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
 
@@ -93,12 +92,6 @@ public class NotificationsDbTest extends BaseTestCase {
         Notification notification = getTypicalNotificationWithId();
         notificationsDb.deleteNotification(notification);
         mockHibernateUtil.verify(() -> HibernateUtil.remove(notification));
-    }
-
-    @Test
-    public void testDeleteNotification_entityDoesNotExists_success() {
-        notificationsDb.deleteNotification(null);
-        mockHibernateUtil.verify(() -> HibernateUtil.remove(any()), never());
     }
 
     @Test

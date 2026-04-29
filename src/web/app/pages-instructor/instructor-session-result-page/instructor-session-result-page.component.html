@@ -1,7 +1,7 @@
 <h1>
   Feedback Session Results
 </h1>
-<tm-loading-retry [shouldShowRetry]="hasFeedbackSessionLoadingFailed || hasSectionsLoadingFailed || hasQuestionsLoadingFailed" [message]="'Failed to load feedback session'" (retryEvent)="loadFeedbackSessionResults(courseId, fsName, feedbackSessionId)">
+<tm-loading-retry [shouldShowRetry]="hasFeedbackSessionLoadingFailed || hasSectionsLoadingFailed || hasQuestionsLoadingFailed" [message]="'Failed to load feedback session'" (retryEvent)="loadFeedbackSessionResults(courseId, feedbackSessionId)">
   <div *tmIsLoading="isFeedbackSessionLoading">
     @if (session) {
       <div class="card bg-light top-padded text-center text-sm-start">
@@ -17,7 +17,7 @@
               <label class="col-lg-4 control-label"><b>Session:</b></label>
               <div id="session-name" class="col-lg-8">
                 <p class="form-control-static">{{ session.feedbackSessionName }}
-                  <a tmRouterLink="/web/instructor/sessions/edit" [queryParams]="{ courseid: session.courseId, fsname: session.feedbackSessionName, editingMode: true }" aria-label="Edit feedback session"><i class="fas fa-edit"></i></a>
+                  <a tmRouterLink="/web/instructor/sessions/edit" [queryParams]="{ courseid: session.courseId, fsname: session.feedbackSessionName, fsid: session.feedbackSessionId, editingMode: true }" aria-label="Edit feedback session"><i class="fas fa-edit"></i></a>
                 </p>
               </div>
             </div>
@@ -125,7 +125,7 @@
   </div>
 </tm-loading-retry>
 
-<tm-loading-retry [shouldShowRetry]="hasNoResponseLoadingFailed" [message]="'Failed to load students who have not responded'" (retryEvent)="loadNoResponseStudents(courseId, fsName)">
+<tm-loading-retry [shouldShowRetry]="hasNoResponseLoadingFailed" [message]="'Failed to load students who have not responded'" (retryEvent)="loadNoResponseStudents(feedbackSessionId)">
   @if (isNoResponsePanelLoaded) {
     <div class="top-padded">
       <tm-instructor-session-no-response-panel [allStudents]="allStudentsInCourse"

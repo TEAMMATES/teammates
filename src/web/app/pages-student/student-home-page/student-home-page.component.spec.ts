@@ -1,7 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 import { StudentHomePageComponent } from './student-home-page.component';
@@ -271,9 +270,6 @@ describe('StudentHomePageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-      ],
       providers: [
         provideRouter([]),
         provideHttpClient(),
@@ -339,7 +335,7 @@ describe('StudentHomePageComponent', () => {
 
     jest.spyOn(courseService, 'getAllCoursesAsStudent').mockReturnValue(of(studentCourses));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').mockReturnValue(of(studentFeedbackSessions1));
-    jest.spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').mockReturnValue(of(hasRes));
+    jest.spyOn(feedbackSessionsService, 'hasResponsesForAllFeedbackSessionsInCourse').mockReturnValue(of(hasRes));
 
     component.loadStudentCourses();
 
@@ -395,7 +391,7 @@ describe('StudentHomePageComponent', () => {
 
     jest.spyOn(courseService, 'getAllCoursesAsStudent').mockReturnValue(of(studentCourses));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').mockReturnValue(of(studentFeedbackSessions1));
-    jest.spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').mockReturnValue(of(hasRes));
+    jest.spyOn(feedbackSessionsService, 'hasResponsesForAllFeedbackSessionsInCourse').mockReturnValue(of(hasRes));
 
     component.loadStudentCourses();
 
@@ -414,7 +410,7 @@ describe('StudentHomePageComponent', () => {
 
     jest.spyOn(courseService, 'getAllCoursesAsStudent').mockReturnValue(of(studentCourses));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').mockReturnValue(of(studentFeedbackSessions));
-    jest.spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').mockReturnValue(of(hasRes));
+    jest.spyOn(feedbackSessionsService, 'hasResponsesForAllFeedbackSessionsInCourse').mockReturnValue(of(hasRes));
 
     component.loadStudentCourses();
 
@@ -437,7 +433,7 @@ describe('StudentHomePageComponent', () => {
 
     jest.spyOn(courseService, 'getAllCoursesAsStudent').mockReturnValue(of(studentCourses));
     jest.spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').mockReturnValue(of(studentFeedbackSessions));
-    jest.spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').mockReturnValue(of(hasRes));
+    jest.spyOn(feedbackSessionsService, 'hasResponsesForAllFeedbackSessionsInCourse').mockReturnValue(of(hasRes));
 
     component.loadStudentCourses();
 

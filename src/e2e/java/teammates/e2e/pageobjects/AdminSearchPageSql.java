@@ -11,7 +11,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.sqlentity.AccountRequest;
 import teammates.storage.sqlentity.Course;
@@ -151,10 +150,8 @@ public class AdminSearchPageSql extends AppPage {
     }
 
     public WebElement getStudentRow(Student student) {
-        String details = String.format("%s [%s] (%s)", student.getCourse().getId(),
-                student.getSection() == null
-                        ? Const.DEFAULT_SECTION
-                        : student.getSection().getName(), student.getTeam().getName());
+        String details = String.format("%s [%s] (%s)", student.getCourseId(),
+                student.getSectionName(), student.getTeamName());
         WebElement table = browser.driver.findElement(By.id("search-table-student"));
         List<WebElement> rows = table.findElements(By.tagName("tr"));
         for (WebElement row : rows) {
@@ -283,7 +280,7 @@ public class AdminSearchPageSql extends AppPage {
     public WebElement getAccountRequestRow(AccountRequest accountRequest) {
         String email = accountRequest.getEmail();
         String institute = accountRequest.getInstitute();
-        List<WebElement> rows = browser.driver.findElements(By.cssSelector("tm-account-request-table tbody tr"));
+        List<WebElement> rows = browser.driver.findElements(By.cssSelector("tm-admin-account-search-table tbody tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
             if (removeSpanFromText(columns.get(ACCOUNT_REQUEST_COL_EMAIL - 1)

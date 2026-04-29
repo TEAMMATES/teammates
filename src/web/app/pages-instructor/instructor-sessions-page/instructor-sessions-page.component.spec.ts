@@ -1,7 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
@@ -51,6 +50,7 @@ describe('InstructorSessionsPageComponent', () => {
   };
 
   const testFeedbackSession1: FeedbackSession = {
+    feedbackSessionId: '31927276-5b53-43d4-a1ee-3560ca4550c5',
     feedbackSessionName: 'First Session',
     courseId: 'CS1231',
     timeZone: 'Asia/Singapore',
@@ -68,6 +68,7 @@ describe('InstructorSessionsPageComponent', () => {
   };
 
   const testFeedbackSession2: FeedbackSession = {
+    feedbackSessionId: '3b4364a1-3bb5-4c10-8adb-0ea710284a64',
     feedbackSessionName: 'Second Session',
     courseId: 'CS3281',
     timeZone: 'Asia/Singapore',
@@ -85,6 +86,7 @@ describe('InstructorSessionsPageComponent', () => {
   };
 
   const testFeedbackSession3: FeedbackSession = {
+    feedbackSessionId: '245cbbfa-beeb-4d87-bddb-4bdc87414ba1',
     feedbackSessionName: 'Third Session',
     courseId: 'CS1231',
     timeZone: 'Asia/Singapore',
@@ -103,6 +105,7 @@ describe('InstructorSessionsPageComponent', () => {
   };
 
   const testFeedbackSession4: FeedbackSession = {
+    feedbackSessionId: 'fefce740-c337-40c7-a53f-f7088c8ae8cc',
     feedbackSessionName: 'Fourth Session',
     courseId: 'CS3281',
     timeZone: 'Asia/Singapore',
@@ -129,9 +132,6 @@ describe('InstructorSessionsPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-      ],
       providers: [
         NgbModal,
         provideRouter([]),
@@ -236,7 +236,7 @@ describe('InstructorSessionsPageComponent', () => {
     component.moveSessionToRecycleBinEventHandler(0);
 
     expect(courseSpy).toHaveBeenCalledTimes(1);
-    expect(courseSpy).toHaveBeenLastCalledWith('CS1231', 'First Session');
+    expect(courseSpy).toHaveBeenLastCalledWith(testFeedbackSession1.feedbackSessionId);
 
     expect(component.sessionsTableRowModels.length).toEqual(1);
     expect(component.recycleBinFeedbackSessionRowModels.length).toEqual(1);
@@ -249,12 +249,12 @@ describe('InstructorSessionsPageComponent', () => {
     };
     component.recycleBinFeedbackSessionRowModels = [recycleBinFeedbackSessionRowModel1];
     component.sessionsTableRowModels = [];
-    const sessionSpy: SpyInstance = jest.spyOn(sessionService, 'deleteSessionFromRecycleBin')
+    const sessionSpy: SpyInstance = jest.spyOn(sessionService, 'restoreSessionFromRecycleBin')
       .mockReturnValue(of(testFeedbackSession3));
 
     component.restoreRecycleBinFeedbackSession(recycleBinFeedbackSessionRowModel1);
     expect(sessionSpy).toHaveBeenCalledTimes(1);
-    expect(sessionSpy).toHaveBeenLastCalledWith('CS1231', 'Third Session');
+    expect(sessionSpy).toHaveBeenLastCalledWith(testFeedbackSession3.feedbackSessionId);
     expect(component.sessionsTableRowModels.length).toEqual(1);
     expect(component.recycleBinFeedbackSessionRowModels.length).toEqual(0);
   });
@@ -269,9 +269,9 @@ describe('InstructorSessionsPageComponent', () => {
     component.recycleBinFeedbackSessionRowModels =
       [recycleBinFeedbackSessionRowModel1, recycleBinFeedbackSessionRowModel2];
     component.sessionsTableRowModels = [];
-    const sessionSpy: SpyInstance = jest.spyOn(sessionService, 'deleteSessionFromRecycleBin')
-    .mockImplementation((_courseId: string, feedbackSessionName: string) => {
-      if (feedbackSessionName === testFeedbackSession3.feedbackSessionName) {
+    const sessionSpy: SpyInstance = jest.spyOn(sessionService, 'restoreSessionFromRecycleBin')
+    .mockImplementation((feedbackSessionId: string) => {
+      if (feedbackSessionId === testFeedbackSession3.feedbackSessionId) {
         return of(testFeedbackSession3);
       }
       return of(testFeedbackSession4);
@@ -302,7 +302,7 @@ describe('InstructorSessionsPageComponent', () => {
 
     expect(ngbModal.open).toHaveBeenCalledWith(SessionPermanentDeletionConfirmModalComponent);
     expect(sessionSpy).toHaveBeenCalledTimes(1);
-    expect(sessionSpy).toHaveBeenLastCalledWith('CS1231', 'Third Session');
+    expect(sessionSpy).toHaveBeenLastCalledWith(testFeedbackSession3.feedbackSessionId);
 
     expect(component.recycleBinFeedbackSessionRowModels.length).toEqual(0);
   });
@@ -334,7 +334,7 @@ describe('InstructorSessionsPageComponent', () => {
 
     expect(ngbModal.open).toHaveBeenCalledWith(SessionsPermanentDeletionConfirmModalComponent);
     expect(sessionSpy).toHaveBeenCalledTimes(2);
-    expect(sessionSpy).toHaveBeenLastCalledWith('CS3281', 'Fourth Session');
+    expect(sessionSpy).toHaveBeenLastCalledWith(testFeedbackSession4.feedbackSessionId);
     expect(component.recycleBinFeedbackSessionRowModels.length).toEqual(0);
   });
 

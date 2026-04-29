@@ -300,8 +300,7 @@ export class SessionResultPageComponent implements OnInit {
         this.logStudentView();
 
         this.feedbackQuestionsService.getFeedbackQuestions({
-          courseId: this.courseId,
-          feedbackSessionName: this.feedbackSessionName,
+          feedbackSessionId: this.feedbackSessionId,
           intent: this.intent,
           key: this.regKey,
           previewAs: this.previewAsPerson,
@@ -393,13 +392,9 @@ export class SessionResultPageComponent implements OnInit {
     }
 
     this.logService.createFeedbackSessionLog({
-      courseId: this.courseId,
-      feedbackSessionName: this.feedbackSessionName,
-      studentEmail: this.personEmail,
       key: this.regKey,
       logType: FeedbackSessionLogType.VIEW_RESULT,
       feedbackSessionId: this.feedbackSessionId,
-      studentId: this.studentId,
     }).subscribe();
   }
 

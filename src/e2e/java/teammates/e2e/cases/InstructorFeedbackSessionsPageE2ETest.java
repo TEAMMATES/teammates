@@ -17,6 +17,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.e2e.pageobjects.InstructorFeedbackSessionsPageSql;
+import teammates.e2e.util.EntityCopyUtil;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
@@ -43,7 +44,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
     @Override
     protected void prepareTestData() {
         testData = removeAndRestoreDataBundle(
-                loadDataBundle("/InstructorFeedbackSessionsPageE2ETestSql.json"));
+                loadDataBundle("/InstructorFeedbackSessionsPageE2ETest.json"));
 
         studentToEmail = testData.students.get("IFSessionPage.charlie");
         instructor = testData.instructors.get("IFSessionPage.instr1");
@@ -103,8 +104,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("add new copied session");
         String newName = "Copied Name";
-        FeedbackSession copiedSession = openSession.getCopy();
-        copiedSession.setId(null);
+        FeedbackSession copiedSession = EntityCopyUtil.copyFeedbackSession(openSession);
         copiedSession.setCourse(course);
         copiedSession.setName(newName);
         feedbackSessionsPage.addCopyOfSession(openSession, course, newName);
@@ -133,8 +133,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("copy session");
         newName = "Copied Name 2";
-        FeedbackSession copiedSession2 = copiedSession.getCopy();
-        copiedSession2.setId(null);
+        FeedbackSession copiedSession2 = EntityCopyUtil.copyFeedbackSession(copiedSession);
         copiedSession2.setName(newName);
         feedbackSessionsPage.copySession(copiedSession, course, newName);
 

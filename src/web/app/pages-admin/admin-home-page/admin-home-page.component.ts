@@ -7,7 +7,9 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { AccountRequests } from '../../../types/api-output';
 import { AccountRequestTableRowModel } from '../../components/account-requests-table/account-request-table-model';
-import { AccountRequestTableComponent } from '../../components/account-requests-table/account-request-table.component';
+import {
+  AccountRequestTableComponent,
+} from '../../components/account-requests-table/account-request-table.component';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
 

@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
@@ -22,7 +22,6 @@ import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -53,7 +52,6 @@ interface StudentSession {
   selector: 'tm-student-home-page',
   templateUrl: './student-home-page.component.html',
   styleUrls: ['./student-home-page.component.scss'],
-  animations: [collapseAnim],
   imports: [
     LoadingRetryComponent,
     LoadingSpinnerDirective,
@@ -62,6 +60,7 @@ interface StudentSession {
     NgbTooltip,
     NgClass,
     ResponseStatusPipe,
+    NgbCollapse,
 ],
 })
 export class StudentHomePageComponent implements OnInit {
@@ -168,7 +167,7 @@ export class StudentHomePageComponent implements OnInit {
         const sortedFss: FeedbackSession[] = this.sortFeedbackSessions(fss);
 
         this.feedbackSessionsService
-          .hasStudentResponseForAllFeedbackSessionsInCourse(courseId)
+          .hasResponsesForAllFeedbackSessionsInCourse(courseId, 'student')
           .pipe(
             finalize(() => {
               courseRef.isFeedbackSessionsLoading = false;

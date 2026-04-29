@@ -37,6 +37,11 @@ export interface CourseCreateRequest extends CourseBasicRequest {
 export interface CourseUpdateRequest extends CourseBasicRequest {
 }
 
+export interface DeadlineExtensionsUpdateRequest extends BasicRequest {
+  studentDeadlines: { [index: string]: number };
+  instructorDeadlines: { [index: string]: number };
+}
+
 export interface EmailWrapper {
   type: EmailType;
   senderName: string;
@@ -154,11 +159,6 @@ export interface FeedbackSessionCreateRequest extends FeedbackSessionBasicReques
   feedbackSessionName: string;
   toCopyCourseId?: string;
   toCopySessionName?: string;
-}
-
-export interface FeedbackSessionDeadlineExtensionsUpdateRequest extends BasicRequest {
-  studentDeadlines: { [index: string]: number };
-  instructorDeadlines: { [index: string]: number };
 }
 
 export interface FeedbackSessionRemindRequest extends BasicRequest {

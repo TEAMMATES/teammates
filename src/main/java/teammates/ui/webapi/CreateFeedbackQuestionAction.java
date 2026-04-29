@@ -1,12 +1,14 @@
 package teammates.ui.webapi;
 
 import java.util.List;
+import java.util.UUID;
 
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.request.FeedbackQuestionCreateRequest;
@@ -24,23 +26,30 @@ public class CreateFeedbackQuestionAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
+        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityNotFoundException("Feedback session not found");
+        }
 
-        Instructor instructorDetailForCourse = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+        Instructor instructorDetailForCourse =
+                sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
         gateKeeper.verifyAccessible(instructorDetailForCourse,
-                getNonNullFeedbackSession(feedbackSessionName, courseId),
+                feedbackSession,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
+        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityNotFoundException("Feedback session not found");
+        }
         FeedbackQuestionCreateRequest request = getAndValidateRequestBody(FeedbackQuestionCreateRequest.class);
 
         FeedbackQuestion feedbackQuestion = FeedbackQuestion.makeQuestion(
-                getNonNullFeedbackSession(feedbackSessionName, courseId),
+                feedbackSession,
                 request.getQuestionNumber(),
                 request.getQuestionDescription(),
                 request.getGiverType(),

@@ -341,7 +341,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                   </strong>
                   <button
                     class="btn btn-primary margin-left-5px btn-sm"
-                    id="send-course-join-button"
+                    data-testid="send-course-join-button"
                     type="button"
                   >
                     Send mail
@@ -359,7 +359,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                   </strong>
                   <button
                     class="btn btn-primary margin-left-5px btn-sm"
-                    id="send-awaiting-session-reminder-button"
+                    data-testid="send-awaiting-session-reminder-button"
                     type="button"
                   >
                     Send mail
@@ -377,7 +377,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                   </strong>
                   <button
                     class="btn btn-primary margin-left-5px btn-sm"
-                    id="send-open-session-reminder-button"
+                    data-testid="send-open-session-reminder-button"
                     type="button"
                   >
                     Send mail
@@ -395,7 +395,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                   </strong>
                   <button
                     class="btn btn-primary margin-left-5px btn-sm"
-                    id="send-not-open-session-reminder-button"
+                    data-testid="send-not-open-session-reminder-button"
                     type="button"
                   >
                     Send mail
@@ -413,7 +413,7 @@ exports[`AdminSearchPageComponent should snap with a deleted course 1`] = `
                   </strong>
                   <button
                     class="btn btn-primary margin-left-5px btn-sm"
-                    id="send-published-session-reminder-button"
+                    data-testid="send-published-session-reminder-button"
                     type="button"
                   >
                     Send mail
@@ -944,7 +944,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                   </strong>
                   <button
                     class="btn btn-primary margin-left-5px btn-sm"
-                    id="send-course-join-button"
+                    data-testid="send-course-join-button"
                     type="button"
                   >
                     Send mail
@@ -962,7 +962,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                   </strong>
                   <button
                     class="btn btn-primary margin-left-5px btn-sm"
-                    id="send-awaiting-session-reminder-button"
+                    data-testid="send-awaiting-session-reminder-button"
                     type="button"
                   >
                     Send mail
@@ -980,7 +980,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                   </strong>
                   <button
                     class="btn btn-primary margin-left-5px btn-sm"
-                    id="send-open-session-reminder-button"
+                    data-testid="send-open-session-reminder-button"
                     type="button"
                   >
                     Send mail
@@ -998,7 +998,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                   </strong>
                   <button
                     class="btn btn-primary margin-left-5px btn-sm"
-                    id="send-not-open-session-reminder-button"
+                    data-testid="send-not-open-session-reminder-button"
                     type="button"
                   >
                     Send mail
@@ -1016,7 +1016,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                   </strong>
                   <button
                     class="btn btn-primary margin-left-5px btn-sm"
-                    id="send-published-session-reminder-button"
+                    data-testid="send-published-session-reminder-button"
                     type="button"
                   >
                     Send mail
