@@ -3,6 +3,7 @@ const eslint = require("@eslint/js");
 const { defineConfig } = require("eslint/config");
 const tseslint = require("typescript-eslint");
 const angular = require("angular-eslint");
+const jest = require('eslint-plugin-jest');
 
 module.exports = defineConfig(
   {
@@ -82,12 +83,13 @@ module.exports = defineConfig(
       '@typescript-eslint/prefer-promise-reject-errors': 'off',
     },
   },
-  // {
-  //   files: ["**/*.spec.ts"],
-  //   rules: {
-  //     // Add test file specific rules here if needed. This is commented out for now as there are no specific rules for test files at the moment.
-  //   }
-  // },
+  {
+    files: ["**/*.spec.ts"],
+    extends: [jest.configs['flat/recommended']],
+    rules: {
+      // Add test file specific rules here if needed.
+    }
+  },
   {
     files: ["**/*.html"],
     extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility],
