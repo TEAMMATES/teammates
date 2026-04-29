@@ -5,3 +5,8 @@ coverage
 # Ignore email templates:
 src/test/resources/emails/*.html
 src/main/resources/*.html
+
+# Generated config files:
+src/web/types/api-const.ts
+src/web/types/api-output.ts
+src/web/types/api-request.ts
