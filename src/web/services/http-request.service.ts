@@ -75,45 +75,50 @@ export class HttpRequestService {
   /**
    * Executes GET request.
    */
-  get(
+  get<TResponse>(
     endpoint: string,
     paramsMap: Record<string, string | string[]> = {},
     responseType: any = 'json' as 'text',
-  ): Observable<any> {
+  ): Observable<TResponse> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
     const headers: HttpHeaders = this.getHeaders(false);
-    return this.httpClient.get(`${this.backendUrl}${endpoint}`, { params, headers, responseType, withCredentials });
+    return this.httpClient.get<TResponse>(`${this.backendUrl}${endpoint}`, {
+      params,
+      headers,
+      responseType,
+      withCredentials,
+    });
   }
 
   /**
    * Executes POST request.
    */
-  post(endpoint: string, paramsMap: Record<string, string> = {}, body: any = null): Observable<any> {
+  post<TResponse>(endpoint: string, paramsMap: Record<string, string> = {}, body: any = null): Observable<TResponse> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
     const headers: HttpHeaders = this.getHeaders(true);
-    return this.httpClient.post(`${this.backendUrl}${endpoint}`, body, { params, headers, withCredentials });
+    return this.httpClient.post<TResponse>(`${this.backendUrl}${endpoint}`, body, { params, headers, withCredentials });
   }
 
   /**
    * Executes PUT request.
    */
-  put(endpoint: string, paramsMap: Record<string, string> = {}, body: any = null): Observable<any> {
+  put<TResponse>(endpoint: string, paramsMap: Record<string, string> = {}, body: any = null): Observable<TResponse> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
     const headers: HttpHeaders = this.getHeaders(true);
-    return this.httpClient.put(`${this.backendUrl}${endpoint}`, body, { params, headers, withCredentials });
+    return this.httpClient.put<TResponse>(`${this.backendUrl}${endpoint}`, body, { params, headers, withCredentials });
   }
 
   /**
    * Executes DELETE request.
    */
-  delete(endpoint: string, paramsMap: Record<string, string> = {}): Observable<any> {
+  delete<TResponse>(endpoint: string, paramsMap: Record<string, string> = {}): Observable<TResponse> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
     const headers: HttpHeaders = this.getHeaders(true);
-    return this.httpClient.delete(`${this.backendUrl}${endpoint}`, { params, headers, withCredentials });
+    return this.httpClient.delete<TResponse>(`${this.backendUrl}${endpoint}`, { params, headers, withCredentials });
   }
 
   private getHeaders(withCsrfHeader: boolean): HttpHeaders {
