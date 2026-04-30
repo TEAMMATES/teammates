@@ -1,5 +1,7 @@
 package teammates.common.datatransfer.questions;
 
+import java.util.Objects;
+
 import teammates.common.util.SanitizationHelper;
 
 /**
@@ -30,5 +32,22 @@ public class FeedbackTextResponseDetails extends FeedbackResponseDetails {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof FeedbackTextResponseDetails other)) {
+            return false;
+        }
+        return getQuestionType() == other.getQuestionType()
+                && Objects.equals(answer, other.answer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getQuestionType(), answer);
     }
 }

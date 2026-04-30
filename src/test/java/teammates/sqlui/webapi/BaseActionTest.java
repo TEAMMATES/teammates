@@ -24,12 +24,12 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
 import teammates.logic.api.AuthProxy;
+import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.MockEmailSender;
 import teammates.logic.api.MockLogsProcessor;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.sqllogic.api.Logic;
 import teammates.sqllogic.api.MockUserProvision;
-import teammates.sqllogic.api.SqlEmailGenerator;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
@@ -68,7 +68,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
     MockUserProvision mockUserProvision = new MockUserProvision();
     teammates.logic.api.RecaptchaVerifier mockRecaptchaVerifier = mock(teammates.logic.api.RecaptchaVerifier.class);
-    SqlEmailGenerator mockSqlEmailGenerator = mock(SqlEmailGenerator.class);
+    EmailGenerator mockEmailGenerator = mock(EmailGenerator.class);
     AuthProxy mockAuthProxy = mock(AuthProxy.class);
 
     abstract String getActionUri();
@@ -116,7 +116,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             action.setLogsProcessor(mockLogsProcessor);
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
-            action.setSqlEmailGenerator(mockSqlEmailGenerator);
+            action.setEmailGenerator(mockEmailGenerator);
             action.setAuthProxy(mockAuthProxy);
             action.init(req);
             return action;

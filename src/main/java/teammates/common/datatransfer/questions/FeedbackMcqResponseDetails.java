@@ -1,5 +1,7 @@
 package teammates.common.datatransfer.questions;
 
+import java.util.Objects;
+
 /**
  * Contains specific structure and processing logic for MCQ feedback responses.
  */
@@ -45,5 +47,24 @@ public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
 
     public void setOtherFieldContent(String otherFieldContent) {
         this.otherFieldContent = otherFieldContent;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof FeedbackMcqResponseDetails other)) {
+            return false;
+        }
+        return getQuestionType() == other.getQuestionType()
+                && isOther == other.isOther
+                && Objects.equals(answer, other.answer)
+                && Objects.equals(otherFieldContent, other.otherFieldContent);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getQuestionType(), answer, isOther, otherFieldContent);
     }
 }

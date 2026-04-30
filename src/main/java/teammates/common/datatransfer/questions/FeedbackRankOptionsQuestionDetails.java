@@ -3,6 +3,7 @@ package teammates.common.datatransfer.questions;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import teammates.common.util.Const;
@@ -135,5 +136,22 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
     public void setOptions(List<String> options) {
         this.options = options;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof FeedbackRankOptionsQuestionDetails other)) {
+            return false;
+        }
+        return super.equals(other)
+                && Objects.equals(options, other.options);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), options);
     }
 }

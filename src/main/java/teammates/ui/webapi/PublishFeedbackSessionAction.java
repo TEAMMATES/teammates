@@ -53,7 +53,7 @@ public class PublishFeedbackSessionAction extends Action {
     private void sendPublishedEmails(FeedbackSession feedbackSession) {
         if (feedbackSession.isPublishedEmailEnabled()) {
             List<EmailWrapper> emailsToBeSent =
-                    sqlEmailGenerator.generateFeedbackSessionPublishedEmails(feedbackSession);
+                    emailGenerator.generateFeedbackSessionPublishedEmails(feedbackSession);
             taskQueuer.scheduleEmailsForSending(emailsToBeSent);
             feedbackSession.setPublishedEmailSent(true);
         }

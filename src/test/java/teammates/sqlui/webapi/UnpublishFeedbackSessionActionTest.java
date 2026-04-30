@@ -60,7 +60,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
 
     @AfterMethod
     void tearDown() {
-        reset(mockLogic, mockSqlEmailGenerator);
+        reset(mockLogic, mockEmailGenerator);
         mockTaskQueuer.clearTasks();
         logoutUser();
     }
@@ -112,7 +112,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
                 .thenReturn(typicalFeedbackSession);
         when(mockLogic.unpublishFeedbackSession(typicalFeedbackSession.getId()))
                 .thenReturn(outputFeedbackSession);
-        when(mockSqlEmailGenerator.generateFeedbackSessionUnpublishedEmails(outputFeedbackSession))
+        when(mockEmailGenerator.generateFeedbackSessionUnpublishedEmails(outputFeedbackSession))
                 .thenReturn(List.of(mockEmail));
 
         UnpublishFeedbackSessionAction action = getAction(params);

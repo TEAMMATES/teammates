@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -381,6 +382,25 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     public void setNotSureAllowed(boolean notSureAllowed) {
         isNotSureAllowed = notSureAllowed;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof FeedbackContributionQuestionDetails other)) {
+            return false;
+        }
+        return getQuestionType() == other.getQuestionType()
+                && Objects.equals(getQuestionText(), other.getQuestionText())
+                && isZeroSum == other.isZeroSum
+                && isNotSureAllowed == other.isNotSureAllowed;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getQuestionType(), getQuestionText(), isZeroSum, isNotSureAllowed);
     }
 
     /**

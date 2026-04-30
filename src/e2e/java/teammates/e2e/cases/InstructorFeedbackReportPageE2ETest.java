@@ -131,14 +131,18 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         comment = sqlComment;
     }
 
+    @Test
     @Override
     public void testAll() {
-        // not used; run individual test cases instead as the entire test cases take > 5 minutes to run
+        testQuestionView();
+        testGrqView();
+        testRgqView();
+        testGqrView();
+        testRqgView();
+        testActions();
     }
 
-    @Test
-    public void testQuestionView() {
-        logout();
+    private void testQuestionView() {
         resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
 
         ______TS("Question view: no missing responses");
@@ -175,9 +179,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         resultsPage.verifyQnViewComment(qn2, comment, responseWithComment, instructors, students);
     }
 
-    @Test
-    public void testGrqView() {
-        logout();
+    private void testGrqView() {
         resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
 
         ______TS("GRQ view: no missing responses");
@@ -210,9 +212,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         resultsPage.verifyGrqViewComment(qn2, comment, responseWithComment, instructors, students, false);
     }
 
-    @Test
-    public void testRgqView() {
-        logout();
+    private void testRgqView() {
         resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
 
         ______TS("RGQ view: no missing responses");
@@ -246,9 +246,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         resultsPage.verifyRgqViewComment(qn2, comment, responseWithComment, instructors, students, false);
     }
 
-    @Test
-    public void testGqrView() {
-        logout();
+    private void testGqrView() {
         resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
 
         ______TS("GQR view: no missing responses");
@@ -290,9 +288,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         resultsPage.verifyGqrViewComment(qn2, comment, responseWithComment, instructors, students, false);
     }
 
-    @Test
-    public void testRqgView() {
-        logout();
+    private void testRqgView() {
         resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
 
         ______TS("RQG view: no missing responses");
@@ -333,8 +329,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         resultsPage.verifyRqgViewComment(qn2, comment, responseWithComment, instructors, students, false);
     }
 
-    @Test
-    public void testActions() {
+    private void testActions() {
         logout();
 
         Course course = testData.courses.get("tm.e2e.IFRep.CS2103");

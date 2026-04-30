@@ -51,7 +51,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
 
     @BeforeMethod
     void setUp() {
-        reset(mockLogic, mockSqlEmailGenerator);
+        reset(mockLogic, mockEmailGenerator);
 
         typicalInstructor = getTypicalInstructor();
         typicalCourse = getTypicalCourse();
@@ -107,7 +107,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
                 .thenReturn(typicalFeedbackSession);
         when(mockLogic.publishFeedbackSession(typicalFeedbackSession.getId()))
                 .thenReturn(typicalFeedbackSession);
-        when(mockSqlEmailGenerator.generateFeedbackSessionPublishedEmails(typicalFeedbackSession))
+        when(mockEmailGenerator.generateFeedbackSessionPublishedEmails(typicalFeedbackSession))
                 .thenReturn(List.of(mockEmail));
 
         PublishFeedbackSessionAction action = getAction(params);

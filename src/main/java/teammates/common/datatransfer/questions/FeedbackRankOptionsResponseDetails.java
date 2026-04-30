@@ -2,6 +2,7 @@ package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.common.util.Const;
 
@@ -44,5 +45,22 @@ public class FeedbackRankOptionsResponseDetails extends FeedbackResponseDetails 
 
     public void setAnswers(List<Integer> answers) {
         this.answers = answers;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof FeedbackRankOptionsResponseDetails other)) {
+            return false;
+        }
+        return getQuestionType() == other.getQuestionType()
+                && Objects.equals(answers, other.answers);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getQuestionType(), answers);
     }
 }

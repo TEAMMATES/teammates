@@ -2,6 +2,7 @@ package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -209,5 +210,38 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
     public void setGenerateOptionsFor(FeedbackParticipantType generateOptionsFor) {
         this.generateOptionsFor = generateOptionsFor;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof FeedbackMcqQuestionDetails other)) {
+            return false;
+        }
+        return getQuestionType() == other.getQuestionType()
+                && Objects.equals(getQuestionText(), other.getQuestionText())
+                && hasAssignedWeights == other.hasAssignedWeights
+                && Double.compare(mcqOtherWeight, other.mcqOtherWeight) == 0
+                && otherEnabled == other.otherEnabled
+                && questionDropdownEnabled == other.questionDropdownEnabled
+                && generateOptionsFor == other.generateOptionsFor
+                && Objects.equals(mcqWeights, other.mcqWeights)
+                && Objects.equals(mcqChoices, other.mcqChoices);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                getQuestionType(),
+                getQuestionText(),
+                hasAssignedWeights,
+                mcqWeights,
+                mcqOtherWeight,
+                mcqChoices,
+                otherEnabled,
+                questionDropdownEnabled,
+                generateOptionsFor);
     }
 }

@@ -18,7 +18,7 @@ public class FeedbackSessionOpeningSoonRemindersAction extends AutomatedServiceA
         List<FeedbackSession> sessions = sqlLogic.getFeedbackSessionsOpeningWithinTimeLimit();
         for (FeedbackSession session : sessions) {
             RequestTracer.checkRemainingTime();
-            List<EmailWrapper> emailsToBeSent = sqlEmailGenerator.generateFeedbackSessionOpeningSoonEmails(session);
+            List<EmailWrapper> emailsToBeSent = emailGenerator.generateFeedbackSessionOpeningSoonEmails(session);
             try {
                 taskQueuer.scheduleEmailsForSending(emailsToBeSent);
                 session.setOpeningSoonEmailSent(true);

@@ -42,15 +42,15 @@ public class FeedbackSessionPublishedRemindersActionTest extends BaseActionTest<
 
     @BeforeMethod
     void setUp() {
-        Mockito.reset(mockLogic, mockSqlEmailGenerator);
+        Mockito.reset(mockLogic, mockEmailGenerator);
 
         session = mock(FeedbackSession.class);
         session2 = mock(FeedbackSession.class);
         EmailWrapper mockEmail = mock(EmailWrapper.class);
         EmailWrapper mockEmail2 = mock(EmailWrapper.class);
 
-        when(mockSqlEmailGenerator.generateFeedbackSessionPublishedEmails(session)).thenReturn(List.of(mockEmail));
-        when(mockSqlEmailGenerator.generateFeedbackSessionPublishedEmails(session2)).thenReturn(List.of(mockEmail2));
+        when(mockEmailGenerator.generateFeedbackSessionPublishedEmails(session)).thenReturn(List.of(mockEmail));
+        when(mockEmailGenerator.generateFeedbackSessionPublishedEmails(session2)).thenReturn(List.of(mockEmail2));
     }
 
     @Test
@@ -64,14 +64,14 @@ public class FeedbackSessionPublishedRemindersActionTest extends BaseActionTest<
 
             verify(mockLogic, times(1)).getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
             mockRequestTracer.verify(RequestTracer::checkRemainingTime, times(2));
-            verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionPublishedEmails(session);
-            verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionPublishedEmails(session2);
+            verify(mockEmailGenerator, times(1)).generateFeedbackSessionPublishedEmails(session);
+            verify(mockEmailGenerator, times(1)).generateFeedbackSessionPublishedEmails(session2);
             verify(session, times(1)).setPublishedEmailSent(true);
             verify(session2, times(1)).setPublishedEmailSent(true);
             verify(mockLogic, times(1)).adjustFeedbackSessionEmailStatusAfterUpdate(session);
             verify(mockLogic, times(1)).adjustFeedbackSessionEmailStatusAfterUpdate(session2);
             verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 2);
-            verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator, session, session2);
+            verifyNoMoreInteractions(mockLogic, mockEmailGenerator, session, session2);
             assertEquals("Successful", actionOutput.getMessage());
         }
     }
@@ -86,11 +86,11 @@ public class FeedbackSessionPublishedRemindersActionTest extends BaseActionTest<
 
             verify(mockLogic, times(1)).getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
             mockRequestTracer.verify(RequestTracer::checkRemainingTime, times(1));
-            verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionPublishedEmails(session);
+            verify(mockEmailGenerator, times(1)).generateFeedbackSessionPublishedEmails(session);
             verify(session, times(1)).setPublishedEmailSent(true);
             verify(mockLogic, times(1)).adjustFeedbackSessionEmailStatusAfterUpdate(session);
             verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
-            verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator, session, session2);
+            verifyNoMoreInteractions(mockLogic, mockEmailGenerator, session, session2);
             assertEquals("Successful", actionOutput.getMessage());
         }
     }
@@ -106,7 +106,7 @@ public class FeedbackSessionPublishedRemindersActionTest extends BaseActionTest<
             verify(mockLogic, times(1)).getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
             mockRequestTracer.verify(RequestTracer::checkRemainingTime, never());
             verifyNoTasksAdded();
-            verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator, session, session2);
+            verifyNoMoreInteractions(mockLogic, mockEmailGenerator, session, session2);
             assertEquals("Successful", actionOutput.getMessage());
         }
     }

@@ -1,4 +1,4 @@
-package teammates.sqllogic.api;
+package teammates.logic.api;
 
 import java.io.IOException;
 
@@ -13,10 +13,10 @@ import teammates.test.BaseTestCase;
 import teammates.test.EmailChecker;
 
 /**
- * SUT: {@link SqlEmailGenerator}.
+ * SUT: {@link EmailGenerator}.
  */
-public class SqlEmailGeneratorTest extends BaseTestCase {
-    private final SqlEmailGenerator sqlEmailGenerator = SqlEmailGenerator.inst();
+public class EmailGeneratorTest extends BaseTestCase {
+    private final EmailGenerator sqlEmailGenerator = EmailGenerator.inst();
 
     @Test
     void testGenerateNewAccountRequestAdminAlertEmail_withComments_generatesSuccessfully() throws IOException {

@@ -49,7 +49,7 @@ public class FeedbackSessionClosingSoonRemindersActionTest
 
     @BeforeMethod
     public void setUp() {
-        Mockito.reset(mockLogic, mockSqlEmailGenerator);
+        Mockito.reset(mockLogic, mockEmailGenerator);
 
         session1 = mock(FeedbackSession.class);
         session2 = mock(FeedbackSession.class);
@@ -62,8 +62,8 @@ public class FeedbackSessionClosingSoonRemindersActionTest
         EmailWrapper mockDeadlineEmail = mock(EmailWrapper.class);
         EmailWrapper mockDeadlineEmail2 = mock(EmailWrapper.class);
 
-        when(mockSqlEmailGenerator.generateFeedbackSessionClosingSoonEmails(session1)).thenReturn(List.of(mockEmail));
-        when(mockSqlEmailGenerator.generateFeedbackSessionClosingSoonEmails(session2)).thenReturn(List.of(mockEmail2));
+        when(mockEmailGenerator.generateFeedbackSessionClosingSoonEmails(session1)).thenReturn(List.of(mockEmail));
+        when(mockEmailGenerator.generateFeedbackSessionClosingSoonEmails(session2)).thenReturn(List.of(mockEmail2));
 
         when(deadlineExtension1.getFeedbackSession()).thenReturn(session1);
         when(deadlineExtension2.getFeedbackSession()).thenReturn(session1);
@@ -74,9 +74,9 @@ public class FeedbackSessionClosingSoonRemindersActionTest
 
         deadlineExtensionsForSession1 = List.of(deadlineExtension1, deadlineExtension2);
         deadlineExtensionsForSession2 = List.of(deadlineExtension3);
-        when(mockSqlEmailGenerator.generateFeedbackSessionClosingWithExtensionEmails(
+        when(mockEmailGenerator.generateFeedbackSessionClosingWithExtensionEmails(
                 session1, deadlineExtensionsForSession1)).thenReturn(List.of(mockDeadlineEmail));
-        when(mockSqlEmailGenerator.generateFeedbackSessionClosingWithExtensionEmails(
+        when(mockEmailGenerator.generateFeedbackSessionClosingWithExtensionEmails(
                 session2, deadlineExtensionsForSession2)).thenReturn(List.of(mockDeadlineEmail2));
     }
 
@@ -93,8 +93,8 @@ public class FeedbackSessionClosingSoonRemindersActionTest
             mockRequestTracer.verify(RequestTracer::checkRemainingTime, times(2));
 
             // Verify regular closing soon emails
-            verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionClosingSoonEmails(session1);
-            verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionClosingSoonEmails(session2);
+            verify(mockEmailGenerator, times(1)).generateFeedbackSessionClosingSoonEmails(session1);
+            verify(mockEmailGenerator, times(1)).generateFeedbackSessionClosingSoonEmails(session2);
             verify(session1, times(1)).setClosingSoonEmailSent(true);
             verify(session2, times(1)).setClosingSoonEmailSent(true);
 
@@ -102,7 +102,7 @@ public class FeedbackSessionClosingSoonRemindersActionTest
             verify(mockLogic, times(1)).getDeadlineExtensionsPossiblyNeedingClosingSoonEmail();
 
             verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 2);
-            verifyNoMoreInteractions(mockSqlEmailGenerator, session1, session2,
+            verifyNoMoreInteractions(mockEmailGenerator, session1, session2,
                     deadlineExtension1, deadlineExtension2, deadlineExtension3);
             assertEquals("Successful", actionOutput.getMessage());
         }
@@ -121,14 +121,14 @@ public class FeedbackSessionClosingSoonRemindersActionTest
             mockRequestTracer.verify(RequestTracer::checkRemainingTime, times(1));
 
             // Verify regular closing soon emails
-            verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionClosingSoonEmails(session1);
+            verify(mockEmailGenerator, times(1)).generateFeedbackSessionClosingSoonEmails(session1);
             verify(session1, times(1)).setClosingSoonEmailSent(true);
 
             // Verify deadline extensions grouping
             verify(mockLogic, times(1)).getDeadlineExtensionsPossiblyNeedingClosingSoonEmail();
 
             verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
-            verifyNoMoreInteractions(mockSqlEmailGenerator, session1, session2,
+            verifyNoMoreInteractions(mockEmailGenerator, session1, session2,
                     deadlineExtension1, deadlineExtension2, deadlineExtension3);
             assertEquals("Successful", actionOutput.getMessage());
         }
@@ -148,7 +148,7 @@ public class FeedbackSessionClosingSoonRemindersActionTest
             verify(mockLogic, times(1)).getDeadlineExtensionsPossiblyNeedingClosingSoonEmail();
 
             verifyNoTasksAdded();
-            verifyNoMoreInteractions(mockSqlEmailGenerator, session1, session2,
+            verifyNoMoreInteractions(mockEmailGenerator, session1, session2,
                     deadlineExtension1, deadlineExtension2, deadlineExtension3);
             assertEquals("Successful", actionOutput.getMessage());
         }
@@ -173,13 +173,13 @@ public class FeedbackSessionClosingSoonRemindersActionTest
 
             // Verify deadline extension emails for session1 (isClosingSoonEmailEnabled() = true)
             verify(session1, times(1)).isClosingSoonEmailEnabled();
-            verify(mockSqlEmailGenerator, times(1))
+            verify(mockEmailGenerator, times(1))
                     .generateFeedbackSessionClosingWithExtensionEmails(session1, deadlineExtensionsForSession1);
             verify(deadlineExtension1, times(1)).setClosingSoonEmailSent(true);
             verify(deadlineExtension2, times(1)).setClosingSoonEmailSent(true);
 
             verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
-            verifyNoMoreInteractions(mockSqlEmailGenerator, session1, session2,
+            verifyNoMoreInteractions(mockEmailGenerator, session1, session2,
                     deadlineExtension1, deadlineExtension2, deadlineExtension3);
             assertEquals("Successful", actionOutput.getMessage());
         }
@@ -203,12 +203,12 @@ public class FeedbackSessionClosingSoonRemindersActionTest
 
             // Verify no deadline extension emails for session2 (isClosingSoonEmailEnabled() = false)
             verify(session2, times(1)).isClosingSoonEmailEnabled();
-            verify(mockSqlEmailGenerator, never())
+            verify(mockEmailGenerator, never())
                     .generateFeedbackSessionClosingWithExtensionEmails(session2, deadlineExtensionsForSession2);
             verify(deadlineExtension3, never()).setClosingSoonEmailSent(true);
 
             verifyNoTasksAdded();
-            verifyNoMoreInteractions(mockSqlEmailGenerator, session1, session2,
+            verifyNoMoreInteractions(mockEmailGenerator, session1, session2,
                     deadlineExtension1, deadlineExtension2, deadlineExtension3);
             assertEquals("Successful", actionOutput.getMessage());
         }
@@ -235,19 +235,19 @@ public class FeedbackSessionClosingSoonRemindersActionTest
 
             // Verify deadline extension emails for session1 (isClosingSoonEmailEnabled() = true)
             verify(session1, times(1)).isClosingSoonEmailEnabled();
-            verify(mockSqlEmailGenerator, times(1))
+            verify(mockEmailGenerator, times(1))
                     .generateFeedbackSessionClosingWithExtensionEmails(session1, deadlineExtensionsForSession1);
             verify(deadlineExtension1, times(1)).setClosingSoonEmailSent(true);
             verify(deadlineExtension2, times(1)).setClosingSoonEmailSent(true);
 
             // Verify no deadline extension emails for session2 (isClosingSoonEmailEnabled() = false)
             verify(session2, times(1)).isClosingSoonEmailEnabled();
-            verify(mockSqlEmailGenerator, never())
+            verify(mockEmailGenerator, never())
                     .generateFeedbackSessionClosingWithExtensionEmails(session2, deadlineExtensionsForSession2);
             verify(deadlineExtension3, never()).setClosingSoonEmailSent(true);
 
             verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
-            verifyNoMoreInteractions(mockSqlEmailGenerator, session1, session2,
+            verifyNoMoreInteractions(mockEmailGenerator, session1, session2,
                     deadlineExtension1, deadlineExtension2, deadlineExtension3);
             assertEquals("Successful", actionOutput.getMessage());
         }
@@ -266,8 +266,8 @@ public class FeedbackSessionClosingSoonRemindersActionTest
             mockRequestTracer.verify(RequestTracer::checkRemainingTime, times(3));
 
             // Verify regular closing soon emails
-            verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionClosingSoonEmails(session1);
-            verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionClosingSoonEmails(session2);
+            verify(mockEmailGenerator, times(1)).generateFeedbackSessionClosingSoonEmails(session1);
+            verify(mockEmailGenerator, times(1)).generateFeedbackSessionClosingSoonEmails(session2);
             verify(session1, times(1)).setClosingSoonEmailSent(true);
             verify(session2, times(1)).setClosingSoonEmailSent(true);
 
@@ -278,13 +278,13 @@ public class FeedbackSessionClosingSoonRemindersActionTest
 
             // Verify deadline extension emails for session1 (isClosingSoonEmailEnabled() = true)
             verify(session1, times(1)).isClosingSoonEmailEnabled();
-            verify(mockSqlEmailGenerator, times(1))
+            verify(mockEmailGenerator, times(1))
                     .generateFeedbackSessionClosingWithExtensionEmails(session1, deadlineExtensionsForSession1);
             verify(deadlineExtension1, times(1)).setClosingSoonEmailSent(true);
             verify(deadlineExtension2, times(1)).setClosingSoonEmailSent(true);
 
             verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 3);
-            verifyNoMoreInteractions(mockSqlEmailGenerator, session1, session2,
+            verifyNoMoreInteractions(mockEmailGenerator, session1, session2,
                     deadlineExtension1, deadlineExtension2, deadlineExtension3);
             assertEquals("Successful", actionOutput.getMessage());
         }
@@ -304,7 +304,7 @@ public class FeedbackSessionClosingSoonRemindersActionTest
             mockRequestTracer.verify(RequestTracer::checkRemainingTime, times(3));
 
             // Verify regular closing soon emails (only session1)
-            verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionClosingSoonEmails(session1);
+            verify(mockEmailGenerator, times(1)).generateFeedbackSessionClosingSoonEmails(session1);
             verify(session1, times(1)).setClosingSoonEmailSent(true);
 
             // Verify deadline extensions grouping
@@ -315,19 +315,19 @@ public class FeedbackSessionClosingSoonRemindersActionTest
 
             // Verify deadline extension emails for session1 (isClosingSoonEmailEnabled() = true)
             verify(session1, times(1)).isClosingSoonEmailEnabled();
-            verify(mockSqlEmailGenerator, times(1))
+            verify(mockEmailGenerator, times(1))
                     .generateFeedbackSessionClosingWithExtensionEmails(session1, deadlineExtensionsForSession1);
             verify(deadlineExtension1, times(1)).setClosingSoonEmailSent(true);
             verify(deadlineExtension2, times(1)).setClosingSoonEmailSent(true);
 
             // Verify no deadline extension emails for session2 (isClosingSoonEmailEnabled() = false)
             verify(session2, times(1)).isClosingSoonEmailEnabled();
-            verify(mockSqlEmailGenerator, never())
+            verify(mockEmailGenerator, never())
                     .generateFeedbackSessionClosingWithExtensionEmails(session2, deadlineExtensionsForSession2);
             verify(deadlineExtension3, never()).setClosingSoonEmailSent(true);
 
             verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 2);
-            verifyNoMoreInteractions(mockSqlEmailGenerator, session1, session2,
+            verifyNoMoreInteractions(mockEmailGenerator, session1, session2,
                     deadlineExtension1, deadlineExtension2, deadlineExtension3);
             assertEquals("Successful", actionOutput.getMessage());
         }

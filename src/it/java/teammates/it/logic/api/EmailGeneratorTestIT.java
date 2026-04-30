@@ -1,4 +1,4 @@
-package teammates.it.sqllogic.api;
+package teammates.it.logic.api;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -10,17 +10,17 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.TimeHelper;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
-import teammates.sqllogic.api.SqlEmailGenerator;
+import teammates.logic.api.EmailGenerator;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Student;
 import teammates.test.EmailChecker;
 
 /**
- * SUT: {@link SqlEmailGenerator}.
+ * SUT: {@link EmailGenerator}.
  */
 public class EmailGeneratorTestIT extends BaseTestCaseWithSqlDatabaseAccess {
 
-    private final SqlEmailGenerator emailGenerator = SqlEmailGenerator.inst();
+    private final EmailGenerator emailGenerator = EmailGenerator.inst();
 
     private DataBundle dataBundle;
 
@@ -28,7 +28,7 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithSqlDatabaseAccess {
     @BeforeMethod
     public void setUp() throws Exception {
         super.setUp();
-        dataBundle = loadDataBundle("/SqlEmailGeneratorTest.json");
+        dataBundle = loadDataBundle("/EmailGeneratorTest.json");
 
         FeedbackSession awaitingSession = dataBundle.feedbackSessions.get("awaiting.session");
         FeedbackSession session1InCourse3 = dataBundle.feedbackSessions.get("session1InCourse3");
@@ -39,6 +39,8 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithSqlDatabaseAccess {
         // awaiting session in Course 1 - set to future so no sessions found for student1InCourse1
         awaitingSession.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(10));
         awaitingSession.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(20));
+        awaitingSession.setSessionVisibleFromTime(awaitingSession.getStartTime());
+        awaitingSession.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(25));
         dataBundle.feedbackSessions.put("awaiting.session", awaitingSession);
 
         // opened and unpublished.

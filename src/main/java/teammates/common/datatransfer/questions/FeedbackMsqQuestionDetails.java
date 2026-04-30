@@ -2,6 +2,7 @@ package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
@@ -333,6 +334,41 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
     public void setMinSelectableChoices(int minSelectableChoices) {
         this.minSelectableChoices = minSelectableChoices;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof FeedbackMsqQuestionDetails other)) {
+            return false;
+        }
+        return getQuestionType() == other.getQuestionType()
+                && Objects.equals(getQuestionText(), other.getQuestionText())
+                && otherEnabled == other.otherEnabled
+                && hasAssignedWeights == other.hasAssignedWeights
+                && Double.compare(msqOtherWeight, other.msqOtherWeight) == 0
+                && generateOptionsFor == other.generateOptionsFor
+                && maxSelectableChoices == other.maxSelectableChoices
+                && minSelectableChoices == other.minSelectableChoices
+                && Objects.equals(msqChoices, other.msqChoices)
+                && Objects.equals(msqWeights, other.msqWeights);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                getQuestionType(),
+                getQuestionText(),
+                msqChoices,
+                otherEnabled,
+                hasAssignedWeights,
+                msqWeights,
+                msqOtherWeight,
+                generateOptionsFor,
+                maxSelectableChoices,
+                minSelectableChoices);
     }
 
 }

@@ -117,27 +117,6 @@ public abstract class FeedbackQuestionDetails {
                 && question.getRecipientType() != FeedbackParticipantType.TEAMS_EXCLUDING_SELF;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-
-        if (obj == null || obj.getClass() != this.getClass()) {
-            return false;
-        }
-
-        // Json string contains all attributes of a `FeedbackQuestionDetails` object,
-        // so it is sufficient to use it to compare two `FeedbackQuestionDetails` objects.
-        FeedbackQuestionDetails other = (FeedbackQuestionDetails) obj;
-        return this.getJsonString().equals(other.getJsonString());
-    }
-
-    @Override
-    public int hashCode() {
-        return this.getJsonString().hashCode();
-    }
-
     /**
      * Returns a JSON string representation of the question details.
      */
