@@ -182,47 +182,35 @@
   "sections": {
     "idOfTypicalCourse1-Section1": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "course": {
-        "id": "idOfTypicalCourse1"
-      },
-      "name": "Section 1"
+      "name": "Section 1",
+      "courseId": "idOfTypicalCourse1"
     },
     "idOfTypicalCourse1-Section2": {
       "id": "00000000-0000-4000-8000-000000000202",
-      "course": {
-        "id": "idOfTypicalCourse1"
-      },
-      "name": "Section 2"
+      "name": "Section 2",
+      "courseId": "idOfTypicalCourse1"
     }
   },
   "teams": {
     "idOfTypicalCourse1-Section1-Team1.1</td></div>'\"": {
       "id": "00000000-0000-4000-8000-000000000301",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "name": "Team 1.1</td></div>'\""
+      "name": "Team 1.1</td></div>'\"",
+      "sectionId": "00000000-0000-4000-8000-000000000201"
     },
     "idOfTypicalCourse1-Section1-Team1.2": {
       "id": "00000000-0000-4000-8000-000000000302",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "name": "Team 1.2"
+      "name": "Team 1.2",
+      "sectionId": "00000000-0000-4000-8000-000000000201"
     },
     "idOfTypicalCourse1-Section2-Team1.2": {
       "id": "00000000-0000-4000-8000-000000000303",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "name": "Team 1.2"
+      "name": "Team 1.2",
+      "sectionId": "00000000-0000-4000-8000-000000000202"
     },
     "idOfTypicalCourse1-Section2-Team1.3": {
       "id": "00000000-0000-4000-8000-000000000304",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "name": "Team 1.3"
+      "name": "Team 1.3",
+      "sectionId": "00000000-0000-4000-8000-000000000202"
     }
   },
   "deadlineExtensions": {},
@@ -246,13 +234,11 @@
         "sessionLevel": {}
       },
       "id": "00000000-0000-4000-8000-000000000501",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "idOfTypicalCourse1",
       "name": "Instructor1 Course1",
       "email": "instructor1@course1.tmt",
-      "regKey": "1BE825FD60150723BA754A9A8AC16A69EA7549319F77AFA6FE3A7D414B3EAC0B90BF03999B51566B66401AF873CF99AFD4852F5D8CE0526B971AB962CE33B6C0"
+      "regKey": "1BE825FD60150723BA754A9A8AC16A69EA7549319F77AFA6FE3A7D414B3EAC0B90BF03999B51566B66401AF873CF99AFD4852F5D8CE0526B971AB962CE33B6C0",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "instructor2OfCourse1": {
       "isDisplayedToStudents": true,
@@ -273,13 +259,11 @@
         "sessionLevel": {}
       },
       "id": "00000000-0000-4000-8000-000000000502",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
       "courseId": "idOfTypicalCourse1",
       "name": "Instructor2 Course1",
       "email": "instructor2@course1.tmt",
-      "regKey": "00FDB97D39D75C427A8D59294C0A3A9DEA7549319F77AFA6FE3A7D414B3EAC0B51919F0FD03E886B1F737C38043372BB0DA8CD324606402A9FEF6F18D3CA37E6"
+      "regKey": "00FDB97D39D75C427A8D59294C0A3A9DEA7549319F77AFA6FE3A7D414B3EAC0B51919F0FD03E886B1F737C38043372BB0DA8CD324606402A9FEF6F18D3CA37E6",
+      "accountId": "00000000-0000-4000-8000-000000000002"
     },
     "helperOfCourse1": {
       "isDisplayedToStudents": false,
@@ -300,13 +284,11 @@
         "sessionLevel": {}
       },
       "id": "00000000-0000-4000-8000-000000000503",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000003"
-      },
       "courseId": "idOfTypicalCourse1",
       "name": "Helper Course1",
       "email": "helper@course1.tmt",
-      "regKey": "E78B8BE1C98B6C9C38A18EB8C11B9D4FBD5346A074C37B92491045C387E148517E25B04B0D429622236434D1D11903A0C89A7046D807814E294A39DF1D149867"
+      "regKey": "E78B8BE1C98B6C9C38A18EB8C11B9D4FBD5346A074C37B92491045C387E148517E25B04B0D429622236434D1D11903A0C89A7046D807814E294A39DF1D149867",
+      "accountId": "00000000-0000-4000-8000-000000000003"
     },
     "instructorNotYetJoinCourse1": {
       "isDisplayedToStudents": true,
@@ -351,13 +333,11 @@
         "sessionLevel": {}
       },
       "id": "00000000-0000-4000-8000-000000000505",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000004"
-      },
       "courseId": "idOfTypicalCourse2",
       "name": "Instructor1 Course2",
       "email": "instructor1@course2.tmt",
-      "regKey": "1BE825FD60150723BA754A9A8AC16A6960C42852D490FAD210C04FDD531D0DB5CE5DE5318D4C91888CCC19B9AE72B6355D66FBAC608005FD0AFF0275AB30EE5D"
+      "regKey": "1BE825FD60150723BA754A9A8AC16A6960C42852D490FAD210C04FDD531D0DB5CE5DE5318D4C91888CCC19B9AE72B6355D66FBAC608005FD0AFF0275AB30EE5D",
+      "accountId": "00000000-0000-4000-8000-000000000004"
     },
     "instructor2OfCourse2": {
       "isDisplayedToStudents": true,
@@ -378,13 +358,11 @@
         "sessionLevel": {}
       },
       "id": "00000000-0000-4000-8000-000000000506",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000005"
-      },
       "courseId": "idOfTypicalCourse2",
       "name": "Instructor2 Course2",
       "email": "instructor2@course2.tmt",
-      "regKey": "00FDB97D39D75C427A8D59294C0A3A9D60C42852D490FAD210C04FDD531D0DB5AD65C0B08D10FF35866F552ABA0CB4086E4C115EFADF2CB109779020A89E5148"
+      "regKey": "00FDB97D39D75C427A8D59294C0A3A9D60C42852D490FAD210C04FDD531D0DB5AD65C0B08D10FF35866F552ABA0CB4086E4C115EFADF2CB109779020A89E5148",
+      "accountId": "00000000-0000-4000-8000-000000000005"
     },
     "instructor1OfCourse3": {
       "isDisplayedToStudents": true,
@@ -405,13 +383,11 @@
         "sessionLevel": {}
       },
       "id": "00000000-0000-4000-8000-000000000507",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000006"
-      },
       "courseId": "idOfTypicalCourse3",
       "name": "Instructor1 Course3",
       "email": "instructor1@course3.tmt",
-      "regKey": "1BE825FD60150723BA754A9A8AC16A698E034EFE9CAB8C85873A13B9BCF450DE7D0D50DE6751F0CAC9D7D765580CFCF973F7E0F590648C0734AE59FE507B630A"
+      "regKey": "1BE825FD60150723BA754A9A8AC16A698E034EFE9CAB8C85873A13B9BCF450DE7D0D50DE6751F0CAC9D7D765580CFCF973F7E0F590648C0734AE59FE507B630A",
+      "accountId": "00000000-0000-4000-8000-000000000006"
     },
     "instructor2OfCourse3": {
       "isDisplayedToStudents": true,
@@ -432,13 +408,11 @@
         "sessionLevel": {}
       },
       "id": "00000000-0000-4000-8000-000000000508",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000007"
-      },
       "courseId": "idOfTypicalCourse3",
       "name": "Instructor2 Course3",
       "email": "instructor2@course3.tmt",
-      "regKey": "00FDB97D39D75C427A8D59294C0A3A9D8E034EFE9CAB8C85873A13B9BCF450DE090F0CBA5F52491132580F5F9E56F6BA42D572B99E6402A6499D44F8C6D8AEEB"
+      "regKey": "00FDB97D39D75C427A8D59294C0A3A9D8E034EFE9CAB8C85873A13B9BCF450DE090F0CBA5F52491132580F5F9E56F6BA42D572B99E6402A6499D44F8C6D8AEEB",
+      "accountId": "00000000-0000-4000-8000-000000000007"
     },
     "instructor1OfCourse4": {
       "isDisplayedToStudents": true,
@@ -459,13 +433,11 @@
         "sessionLevel": {}
       },
       "id": "00000000-0000-4000-8000-000000000509",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000006"
-      },
       "courseId": "idOfTypicalCourse4",
       "name": "Instructor1 Course4",
       "email": "instructor1@course3.tmt",
-      "regKey": "1BE825FD60150723BA754A9A8AC16A698E034EFE9CAB8C85873A13B9BCF450DE1682D1378E93C2BCE5741D85927860BE1312F4F1CAF434DB5971F1DE56C04F88"
+      "regKey": "1BE825FD60150723BA754A9A8AC16A698E034EFE9CAB8C85873A13B9BCF450DE1682D1378E93C2BCE5741D85927860BE1312F4F1CAF434DB5971F1DE56C04F88",
+      "accountId": "00000000-0000-4000-8000-000000000006"
     },
     "instructor3OfCourse1": {
       "isDisplayedToStudents": true,
@@ -486,13 +458,11 @@
         "sessionLevel": {}
       },
       "id": "00000000-0000-4000-8000-000000000510",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000008"
-      },
       "courseId": "idOfTypicalCourse1",
       "name": "Instructor3 Course1",
       "email": "instructor3@course1.tmt",
-      "regKey": "35403B1A86176F032E6358DC81A7E4BAEA7549319F77AFA6FE3A7D414B3EAC0B700587EBCFC3811102C9B8D7752B89E39ADBB1601C7D1BF9D5040F28FFB679E8"
+      "regKey": "35403B1A86176F032E6358DC81A7E4BAEA7549319F77AFA6FE3A7D414B3EAC0B700587EBCFC3811102C9B8D7752B89E39ADBB1601C7D1BF9D5040F28FFB679E8",
+      "accountId": "00000000-0000-4000-8000-000000000008"
     },
     "instructor3OfCourse2": {
       "isDisplayedToStudents": true,
@@ -513,13 +483,11 @@
         "sessionLevel": {}
       },
       "id": "00000000-0000-4000-8000-000000000511",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000008"
-      },
       "courseId": "idOfTypicalCourse2",
       "name": "Instructor3 Course2",
       "email": "instructor3@course2.tmt",
-      "regKey": "35403B1A86176F032E6358DC81A7E4BA60C42852D490FAD210C04FDD531D0DB5B99A17570BE374FA0CC183B0F7E943F86EAA7C3B59A7BF4C4121E0DD19321281"
+      "regKey": "35403B1A86176F032E6358DC81A7E4BA60C42852D490FAD210C04FDD531D0DB5B99A17570BE374FA0CC183B0F7E943F86EAA7C3B59A7BF4C4121E0DD19321281",
+      "accountId": "00000000-0000-4000-8000-000000000008"
     },
     "instructor4": {
       "isDisplayedToStudents": true,
@@ -540,13 +508,11 @@
         "sessionLevel": {}
       },
       "id": "00000000-0000-4000-8000-000000000512",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000009"
-      },
       "courseId": "idOfCourseNoEvals",
       "name": "Instructor4 name",
       "email": "instructor4@coursenoevals.tmt",
-      "regKey": "25B73622704B00D696D59E76BC19224216790CB126FB9F960DD677CD7E77C40CBD3E2A6BB8BF12CA2CBBFEF783EF7356300961DED10D5DA38222F03A102D4C96"
+      "regKey": "25B73622704B00D696D59E76BC19224216790CB126FB9F960DD677CD7E77C40CBD3E2A6BB8BF12CA2CBBFEF783EF7356300961DED10D5DA38222F03A102D4C96",
+      "accountId": "00000000-0000-4000-8000-000000000009"
     },
     "instructor5": {
       "isDisplayedToStudents": true,
@@ -567,13 +533,11 @@
         "sessionLevel": {}
       },
       "id": "00000000-0000-4000-8000-000000000513",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000010"
-      },
       "courseId": "idOfUnregisteredCourse",
       "name": "Instructor 5 of CourseNoRegister",
       "email": "instructor5@coursenoregister.tmt",
-      "regKey": "46BBB8EFABAB52FFB84582CEDD93946625FD94CA2FBF54552E7D1B9CFC28D7DD912C9534360F208C46ED9A2E7F6881EB6BFAD0DBD46F6B00DE9C3C9CAA8017E7F797655139A2ACBBAF0DE05016DCC338"
+      "regKey": "46BBB8EFABAB52FFB84582CEDD93946625FD94CA2FBF54552E7D1B9CFC28D7DD912C9534360F208C46ED9A2E7F6881EB6BFAD0DBD46F6B00DE9C3C9CAA8017E7F797655139A2ACBBAF0DE05016DCC338",
+      "accountId": "00000000-0000-4000-8000-000000000010"
     },
     "instructorWithOnlyOneSampleCourse": {
       "isDisplayedToStudents": true,
@@ -594,13 +558,11 @@
         "sessionLevel": {}
       },
       "id": "00000000-0000-4000-8000-000000000514",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000012"
-      },
       "courseId": "idOfSampleCourse-demo",
       "name": "Instructor With Only One Sample Course",
       "email": "iwosc@yahoo.tmt",
-      "regKey": "697E55515E376074F4C2C55490CEEA2265BA0D197F975664AE7ACCEB8C53CF6263E1E4AE1FE73F85A11A7803AB5FC4B2C89A7046D807814E294A39DF1D149867"
+      "regKey": "697E55515E376074F4C2C55490CEEA2265BA0D197F975664AE7ACCEB8C53CF6263E1E4AE1FE73F85A11A7803AB5FC4B2C89A7046D807814E294A39DF1D149867",
+      "accountId": "00000000-0000-4000-8000-000000000012"
     },
     "instructorOfArchivedCourse": {
       "isDisplayedToStudents": true,
@@ -621,13 +583,11 @@
         "sessionLevel": {}
       },
       "id": "00000000-0000-4000-8000-000000000515",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000013"
-      },
       "courseId": "idOfArchivedCourse",
       "name": "InstructorOfArchiveCourse name",
       "email": "instructorofarchivecourse@archivecourse.tmt",
-      "regKey": "CA31E9D6C04A525C8C8A9215731666342F9351B6937C1759F2CC4FD4594E3B683462A9A635F21C558A7917C87FBDD5DDDC94973078A00B2A79786EE9969109F480DC2B5F2449B6C8E51C1ED8355F89A9"
+      "regKey": "CA31E9D6C04A525C8C8A9215731666342F9351B6937C1759F2CC4FD4594E3B683462A9A635F21C558A7917C87FBDD5DDDC94973078A00B2A79786EE9969109F480DC2B5F2449B6C8E51C1ED8355F89A9",
+      "accountId": "00000000-0000-4000-8000-000000000013"
     },
     "instructorNotDisplayedToStudent1": {
       "isDisplayedToStudents": true,
@@ -720,109 +680,87 @@
         "sessionLevel": {}
       },
       "id": "00000000-0000-4000-8000-000000000519",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000014"
-      },
       "courseId": "idOfTestingSanitizationCourse",
       "name": "Instructor<script> alert('hi!'); </script>",
       "email": "instructor1@sanitization.tmt",
-      "regKey": "D4AAB9DE0EBA50263D1AD824A756699B6DCC102E1DF2102B20DD4C8862066F4A6C814323594D7E2D76FD1334DC0425024C07521ACA119034AE8A51EB5EA319341D53445610494A54652BE3CD07C073BE"
+      "regKey": "D4AAB9DE0EBA50263D1AD824A756699B6DCC102E1DF2102B20DD4C8862066F4A6C814323594D7E2D76FD1334DC0425024C07521ACA119034AE8A51EB5EA319341D53445610494A54652BE3CD07C073BE",
+      "accountId": "00000000-0000-4000-8000-000000000014"
     }
   },
   "students": {
     "student1InCourse1": {
       "comments": "comment for student1InCourse1</td></div>'\"",
       "id": "00000000-0000-4000-8000-000000000601",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000015"
-      },
       "courseId": "idOfTypicalCourse1",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "name": "student1 In Course1</td></div>'\"",
       "email": "student1incourse1@gmail.tmt",
-      "regKey": "A0FE6AD6372398CA2959FCA124F6814400585D441AB0A0DEF7C7CF8757E59C02DD4BA1616BDB1FEED0A4F7BE5F5BC94C981353713EFE3302B8F442DC212734B3"
+      "regKey": "A0FE6AD6372398CA2959FCA124F6814400585D441AB0A0DEF7C7CF8757E59C02DD4BA1616BDB1FEED0A4F7BE5F5BC94C981353713EFE3302B8F442DC212734B3",
+      "accountId": "00000000-0000-4000-8000-000000000015",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "student2InCourse1": {
       "comments": "",
       "id": "00000000-0000-4000-8000-000000000602",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000016"
-      },
       "courseId": "idOfTypicalCourse1",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "name": "student2 In Course1",
       "email": "student2incourse1@gmail.tmt",
-      "regKey": "6EDAE0630DC4C5772312F20768F1450F00585D441AB0A0DEF7C7CF8757E59C028BB80CD76F31CCA858A0FE201722978445EABC65144592472620CCDD91AF0492"
+      "regKey": "6EDAE0630DC4C5772312F20768F1450F00585D441AB0A0DEF7C7CF8757E59C028BB80CD76F31CCA858A0FE201722978445EABC65144592472620CCDD91AF0492",
+      "accountId": "00000000-0000-4000-8000-000000000016",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "student3InCourse1": {
       "comments": "",
       "id": "00000000-0000-4000-8000-000000000603",
       "courseId": "idOfTypicalCourse1",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "name": "student3 In Course1",
       "email": "student3incourse1@gmail.tmt",
-      "regKey": "2C3709A42937943398F6B1BD23B1069400585D441AB0A0DEF7C7CF8757E59C02DD4BA1616BDB1FEED0A4F7BE5F5BC94CA9C94B5562C701FED32326221D30FA7A"
+      "regKey": "2C3709A42937943398F6B1BD23B1069400585D441AB0A0DEF7C7CF8757E59C02DD4BA1616BDB1FEED0A4F7BE5F5BC94CA9C94B5562C701FED32326221D30FA7A",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "student4InCourse1": {
       "comments": "",
       "id": "00000000-0000-4000-8000-000000000604",
       "courseId": "idOfTypicalCourse1",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000302"
-      },
       "name": "student4 In Course1",
       "email": "student4incourse1@gmail.tmt",
-      "regKey": "CBD0FE74AC7452D55EF332B427CB630300585D441AB0A0DEF7C7CF8757E59C028BB80CD76F31CCA858A0FE2017229784A172CB294E11BF031D4275F15279B68D"
+      "regKey": "CBD0FE74AC7452D55EF332B427CB630300585D441AB0A0DEF7C7CF8757E59C028BB80CD76F31CCA858A0FE2017229784A172CB294E11BF031D4275F15279B68D",
+      "teamId": "00000000-0000-4000-8000-000000000302"
     },
     "student5InCourse1": {
       "comments": "",
       "id": "00000000-0000-4000-8000-000000000605",
       "courseId": "idOfTypicalCourse1",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000303"
-      },
       "name": "student5 In Course1",
       "email": "student5incourse1@gmail.tmt",
-      "regKey": "D1C02A778883D257D6C7E8E8D03BB43300585D441AB0A0DEF7C7CF8757E59C028BB80CD76F31CCA858A0FE2017229784CBA0206EEC9A4D9DE93519E8C4C99A37"
+      "regKey": "D1C02A778883D257D6C7E8E8D03BB43300585D441AB0A0DEF7C7CF8757E59C028BB80CD76F31CCA858A0FE2017229784CBA0206EEC9A4D9DE93519E8C4C99A37",
+      "teamId": "00000000-0000-4000-8000-000000000303"
     },
     "student6InCourse1": {
       "comments": "",
       "id": "00000000-0000-4000-8000-000000000606",
       "courseId": "idOfTypicalCourse1",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000303"
-      },
       "name": "student6 In Course1",
       "email": "student6incourse1@gmail.tmt",
-      "regKey": "E456D2D37DF53B098610C58FF71A67AD00585D441AB0A0DEF7C7CF8757E59C02DD4BA1616BDB1FEED0A4F7BE5F5BC94C748EF9DE10D496A68AADE22ADF666D03"
+      "regKey": "E456D2D37DF53B098610C58FF71A67AD00585D441AB0A0DEF7C7CF8757E59C02DD4BA1616BDB1FEED0A4F7BE5F5BC94C748EF9DE10D496A68AADE22ADF666D03",
+      "teamId": "00000000-0000-4000-8000-000000000303"
     },
     "student7InCourse1": {
       "comments": "",
       "id": "00000000-0000-4000-8000-000000000607",
       "courseId": "idOfTypicalCourse1",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000304"
-      },
       "name": "student7 In Course1",
       "email": "student7incourse1@gmail.tmt",
-      "regKey": "A331C17E9E97668714303DF9ADF912A800585D441AB0A0DEF7C7CF8757E59C02DD4BA1616BDB1FEED0A4F7BE5F5BC94CBC61E006C4FAD4DE57B1C5704AFBBBBB"
+      "regKey": "A331C17E9E97668714303DF9ADF912A800585D441AB0A0DEF7C7CF8757E59C02DD4BA1616BDB1FEED0A4F7BE5F5BC94CBC61E006C4FAD4DE57B1C5704AFBBBBB",
+      "teamId": "00000000-0000-4000-8000-000000000304"
     },
     "student8InCourse1": {
       "comments": "",
       "id": "00000000-0000-4000-8000-000000000608",
       "courseId": "idOfTypicalCourse1",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000304"
-      },
       "name": "student8 In Course1",
       "email": "student8incourse1@gmail.tmt",
-      "regKey": "1DA4589DD42BDBA5861CAC4584E6368500585D441AB0A0DEF7C7CF8757E59C028BB80CD76F31CCA858A0FE2017229784260F6ED2F9D56225DAE9205482DBBABE"
+      "regKey": "1DA4589DD42BDBA5861CAC4584E6368500585D441AB0A0DEF7C7CF8757E59C028BB80CD76F31CCA858A0FE2017229784260F6ED2F9D56225DAE9205482DBBABE",
+      "teamId": "00000000-0000-4000-8000-000000000304"
     }
   },
   "feedbackSessions": {
@@ -1098,16 +1036,20 @@
         "questionText": "How much has each team member including yourself, contributed to the project?"
       },
       "id": "00000000-0000-4000-8000-000000000801",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionNumber": 1,
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn2InSession1InCourse1": {
       "questionDetails": {
@@ -1117,16 +1059,22 @@
         "questionText": "How much has each team member including yourself, contributed to the project?"
       },
       "id": "00000000-0000-4000-8000-000000000802",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionNumber": 2,
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn3InSession1InCourse1": {
       "questionDetails": {
@@ -1136,16 +1084,29 @@
         "questionText": "How much has each team member including yourself, contributed to the project?"
       },
       "id": "00000000-0000-4000-8000-000000000803",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionNumber": 3,
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
-      "showGiverNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"]
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn4InSession1InCourse1": {
       "questionDetails": {
@@ -1155,16 +1116,29 @@
         "questionText": "How much has each team member including yourself, contributed to the project?"
       },
       "id": "00000000-0000-4000-8000-000000000804",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionNumber": 4,
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
-      "showGiverNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"]
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn5InSession1InCourse1": {
       "questionDetails": {
@@ -1174,16 +1148,20 @@
         "questionText": "How much has each team member including yourself, contributed to the project?"
       },
       "id": "00000000-0000-4000-8000-000000000805",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionNumber": 5,
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     }
   },
   "feedbackResponses": {
@@ -1193,20 +1171,11 @@
         "questionType": "CONTRIB"
       },
       "id": "00000000-0000-4000-8000-000000000901",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000801",
-        "questionDetails": {
-          "questionType": "CONTRIB"
-        }
-      },
       "giver": "student1incourse1@gmail.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "recipient": "student1incourse1@gmail.tmt",
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      }
+      "questionId": "00000000-0000-4000-8000-000000000801",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response2ForQ1S1C1": {
       "answer": {
@@ -1214,20 +1183,11 @@
         "questionType": "CONTRIB"
       },
       "id": "00000000-0000-4000-8000-000000000902",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000801",
-        "questionDetails": {
-          "questionType": "CONTRIB"
-        }
-      },
       "giver": "student1incourse1@gmail.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "recipient": "student2incourse1@gmail.tmt",
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      }
+      "questionId": "00000000-0000-4000-8000-000000000801",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response3ForQ1S1C1": {
       "answer": {
@@ -1235,20 +1195,11 @@
         "questionType": "CONTRIB"
       },
       "id": "00000000-0000-4000-8000-000000000903",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000801",
-        "questionDetails": {
-          "questionType": "CONTRIB"
-        }
-      },
       "giver": "student1incourse1@gmail.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "recipient": "student3incourse1@gmail.tmt",
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      }
+      "questionId": "00000000-0000-4000-8000-000000000801",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response4ForQ1S1C1": {
       "answer": {
@@ -1256,20 +1207,11 @@
         "questionType": "CONTRIB"
       },
       "id": "00000000-0000-4000-8000-000000000904",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000801",
-        "questionDetails": {
-          "questionType": "CONTRIB"
-        }
-      },
       "giver": "student2incourse1@gmail.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "recipient": "student1incourse1@gmail.tmt",
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      }
+      "questionId": "00000000-0000-4000-8000-000000000801",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response5ForQ1S1C1": {
       "answer": {
@@ -1277,20 +1219,11 @@
         "questionType": "CONTRIB"
       },
       "id": "00000000-0000-4000-8000-000000000905",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000801",
-        "questionDetails": {
-          "questionType": "CONTRIB"
-        }
-      },
       "giver": "student2incourse1@gmail.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "recipient": "student2incourse1@gmail.tmt",
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      }
+      "questionId": "00000000-0000-4000-8000-000000000801",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response6ForQ1S1C1": {
       "answer": {
@@ -1298,20 +1231,11 @@
         "questionType": "CONTRIB"
       },
       "id": "00000000-0000-4000-8000-000000000906",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000801",
-        "questionDetails": {
-          "questionType": "CONTRIB"
-        }
-      },
       "giver": "student2incourse1@gmail.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "recipient": "student3incourse1@gmail.tmt",
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      }
+      "questionId": "00000000-0000-4000-8000-000000000801",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response7ForQ1S1C1": {
       "answer": {
@@ -1319,20 +1243,11 @@
         "questionType": "CONTRIB"
       },
       "id": "00000000-0000-4000-8000-000000000907",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000801",
-        "questionDetails": {
-          "questionType": "CONTRIB"
-        }
-      },
       "giver": "student3incourse1@gmail.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "recipient": "student1incourse1@gmail.tmt",
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      }
+      "questionId": "00000000-0000-4000-8000-000000000801",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response8ForQ1S1C1": {
       "answer": {
@@ -1340,20 +1255,11 @@
         "questionType": "CONTRIB"
       },
       "id": "00000000-0000-4000-8000-000000000908",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000801",
-        "questionDetails": {
-          "questionType": "CONTRIB"
-        }
-      },
       "giver": "student3incourse1@gmail.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "recipient": "student2incourse1@gmail.tmt",
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      }
+      "questionId": "00000000-0000-4000-8000-000000000801",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response9ForQ1S1C1": {
       "answer": {
@@ -1361,20 +1267,11 @@
         "questionType": "CONTRIB"
       },
       "id": "00000000-0000-4000-8000-000000000909",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000801",
-        "questionDetails": {
-          "questionType": "CONTRIB"
-        }
-      },
       "giver": "student3incourse1@gmail.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "recipient": "student3incourse1@gmail.tmt",
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      }
+      "questionId": "00000000-0000-4000-8000-000000000801",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response1ForQ2S1C1": {
       "answer": {
@@ -1382,20 +1279,11 @@
         "questionType": "CONTRIB"
       },
       "id": "00000000-0000-4000-8000-000000000910",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000802",
-        "questionDetails": {
-          "questionType": "CONTRIB"
-        }
-      },
       "giver": "student5incourse1@gmail.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "recipient": "student5incourse1@gmail.tmt",
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      }
+      "questionId": "00000000-0000-4000-8000-000000000802",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
     },
     "response2ForQ2S1C1": {
       "answer": {
@@ -1403,20 +1291,11 @@
         "questionType": "CONTRIB"
       },
       "id": "00000000-0000-4000-8000-000000000911",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000802",
-        "questionDetails": {
-          "questionType": "CONTRIB"
-        }
-      },
       "giver": "student5incourse1@gmail.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
       "recipient": "student6incourse1@gmail.tmt",
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      }
+      "questionId": "00000000-0000-4000-8000-000000000802",
+      "giverSectionId": "00000000-0000-4000-8000-000000000202",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response3ForQ2S1C1": {
       "answer": {
@@ -1424,20 +1303,11 @@
         "questionType": "CONTRIB"
       },
       "id": "00000000-0000-4000-8000-000000000912",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000802",
-        "questionDetails": {
-          "questionType": "CONTRIB"
-        }
-      },
       "giver": "student6incourse1@gmail.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "recipient": "student5incourse1@gmail.tmt",
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      }
+      "questionId": "00000000-0000-4000-8000-000000000802",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response4ForQ2S1C1": {
       "answer": {
@@ -1445,20 +1315,11 @@
         "questionType": "CONTRIB"
       },
       "id": "00000000-0000-4000-8000-000000000913",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000802",
-        "questionDetails": {
-          "questionType": "CONTRIB"
-        }
-      },
       "giver": "student6incourse1@gmail.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "recipient": "student6incourse1@gmail.tmt",
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      }
+      "questionId": "00000000-0000-4000-8000-000000000802",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
     }
   },
   "feedbackResponseComments": {},

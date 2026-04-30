@@ -113,7 +113,7 @@ public class Team extends BaseEntity {
      */
     public void setSection(Section section) {
         this.section = section;
-        this.sectionId = section.getId();
+        this.sectionId = section == null ? null : section.getId();
     }
 
     public List<Student> getUsers() {

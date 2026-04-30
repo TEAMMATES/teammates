@@ -121,7 +121,7 @@ public abstract class User extends BaseEntity {
      */
     public void setCourse(Course course) {
         this.course = course;
-        this.courseId = course.getId();
+        this.courseId = course == null ? null : course.getId();
     }
 
     public String getName() {

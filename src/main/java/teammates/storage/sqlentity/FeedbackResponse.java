@@ -205,7 +205,7 @@ public abstract class FeedbackResponse extends BaseEntity {
      */
     public void setFeedbackQuestion(FeedbackQuestion feedbackQuestion) {
         this.feedbackQuestion = feedbackQuestion;
-        this.questionId = feedbackQuestion.getId();
+        this.questionId = feedbackQuestion == null ? null : feedbackQuestion.getId();
     }
 
     public List<FeedbackResponseComment> getFeedbackResponseComments() {

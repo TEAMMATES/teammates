@@ -128,7 +128,7 @@ public class FeedbackResponseComment extends BaseEntity {
      */
     public void setFeedbackResponse(FeedbackResponse feedbackResponse) {
         this.feedbackResponse = feedbackResponse;
-        this.responseId = feedbackResponse.getId();
+        this.responseId = feedbackResponse == null ? null : feedbackResponse.getId();
     }
 
     public String getGiver() {

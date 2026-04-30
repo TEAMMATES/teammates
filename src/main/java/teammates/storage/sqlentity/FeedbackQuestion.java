@@ -266,7 +266,7 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
      */
     public void setFeedbackSession(FeedbackSession feedbackSession) {
         this.feedbackSession = feedbackSession;
-        this.sessionId = feedbackSession.getId();
+        this.sessionId = feedbackSession == null ? null : feedbackSession.getId();
     }
 
     public List<FeedbackResponse> getFeedbackResponses() {

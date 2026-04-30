@@ -79,7 +79,7 @@ public class Student extends User {
      */
     public void setTeam(Team team) {
         this.team = team;
-        this.teamId = team.getId();
+        this.teamId = team == null ? null : team.getId();
     }
 
     public String getTeamName() {
