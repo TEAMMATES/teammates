@@ -1,6 +1,6 @@
 import { KeyValuePipe, NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
-import { NgbCollapse, NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from '../../../../services/account.service';
 import { InstructorService } from '../../../../services/instructor.service';
 import { FeedbackSessionsGroup, InstructorAccountSearchResult } from '../../../../services/search.service';
@@ -15,7 +15,7 @@ import { SearchTermsHighlighterPipe } from '../../../pipes/search-terms-highligh
 @Component({
   selector: 'tm-admin-instructor-search-table',
   templateUrl: './admin-instructor-search-table.component.html',
-  imports: [NgClass, NgbTooltip, AjaxLoadingComponent, KeyValuePipe, SearchTermsHighlighterPipe, NgbCollapse],
+  imports: [NgClass, NgbTooltip, AjaxLoadingComponent, KeyValuePipe, SearchTermsHighlighterPipe],
 })
 export class AdminInstructorSearchTableComponent implements OnChanges {
   @Input()

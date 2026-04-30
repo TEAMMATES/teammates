@@ -1,10 +1,9 @@
-import { NgClass, KeyValuePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbCollapse, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { LoadingBarService } from '../../../services/loading-bar.service';
 import {
+  AccountRequestSearchResult,
   AdminSearchResult,
   InstructorAccountSearchResult,
   SearchService,
@@ -14,9 +13,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { ApiConst } from '../../../types/api-const';
 import { AccountRequestTableRowModel } from '../../components/account-requests-table/account-request-table-model';
 import { AdminAccountSearchTableComponent } from '../../components/admin-search-tables/admin-account-search-table.component';
-import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter.pipe';
 import { AdminInstructorSearchTableComponent } from './admin-instructor-search-table/admin-instructor-search-table.component';
 import { AdminStudentSearchTableComponent } from './admin-student-search-table/admin-student-search-table.component';
 
@@ -29,15 +26,9 @@ import { AdminStudentSearchTableComponent } from './admin-student-search-table/a
   styleUrls: ['./admin-search-page.component.scss'],
   imports: [
     FormsModule,
-    NgClass,
-    NgbTooltip,
-    AjaxLoadingComponent,
     AdminAccountSearchTableComponent,
     AdminInstructorSearchTableComponent,
     AdminStudentSearchTableComponent,
-    KeyValuePipe,
-    SearchTermsHighlighterPipe,
-    NgbCollapse,
   ],
 })
 export class AdminSearchPageComponent {
