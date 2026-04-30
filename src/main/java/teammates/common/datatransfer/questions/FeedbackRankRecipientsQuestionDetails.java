@@ -65,14 +65,4 @@ public class FeedbackRankRecipientsQuestionDetails extends FeedbackRankQuestionD
     public String validateGiverRecipientVisibility(FeedbackQuestion feedbackQuestion) {
         return "";
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
 }
