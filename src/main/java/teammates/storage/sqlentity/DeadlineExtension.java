@@ -97,7 +97,7 @@ public class DeadlineExtension extends BaseEntity {
     }
 
     /**
-     * Sets the feedback session of the team.
+     * Sets the feedback session of the deadline extension.
      */
     public void setFeedbackSession(FeedbackSession feedbackSession) {
         this.feedbackSession = feedbackSession;

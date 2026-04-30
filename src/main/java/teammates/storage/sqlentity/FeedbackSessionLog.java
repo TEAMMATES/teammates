@@ -59,10 +59,10 @@ public class FeedbackSessionLog extends BaseEntity {
     public FeedbackSessionLog(Student student, FeedbackSession feedbackSession,
             FeedbackSessionLogType feedbackSessionLogType, Instant timestamp) {
         this.setId(UUID.randomUUID());
-        this.student = student;
-        this.feedbackSession = feedbackSession;
-        this.feedbackSessionLogType = feedbackSessionLogType;
-        this.timestamp = timestamp;
+        this.setStudent(student);
+        this.setFeedbackSession(feedbackSession);
+        this.setFeedbackSessionLogType(feedbackSessionLogType);
+        this.setTimestamp(timestamp);
     }
 
     public UUID getId() {
