@@ -40,6 +40,9 @@ public class DeadlineExtension extends BaseEntity {
     @JoinColumn(name = "sessionId", nullable = false)
     private FeedbackSession feedbackSession;
 
+    @Column(nullable = false, insertable = false, updatable = false)
+    private UUID sessionId;
+
     @Column(nullable = false)
     private Instant endTime;
 
@@ -82,15 +85,23 @@ public class DeadlineExtension extends BaseEntity {
      */
     public void setUser(User user) {
         this.user = user;
-        this.userId = user.getId();
+        this.userId = user == null ? null : user.getId();
     }
 
     public FeedbackSession getFeedbackSession() {
         return feedbackSession;
     }
 
+    public UUID getSessionId() {
+        return sessionId;
+    }
+
+    /**
+     * Sets the feedback session of the deadline extension.
+     */
     public void setFeedbackSession(FeedbackSession feedbackSession) {
         this.feedbackSession = feedbackSession;
+        this.sessionId = feedbackSession == null ? null : feedbackSession.getId();
     }
 
     public Instant getEndTime() {

@@ -19,37 +19,29 @@
   "sections": {
     "tm.e2e.SNotifs.course1-None": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "course": {
-        "id": "tm.e2e.SNotifs.course1"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.SNotifs.course1"
     }
   },
   "teams": {
     "tm.e2e.SNotifs.course1-None-Team1</td></div>'\"": {
       "id": "00000000-0000-4000-8000-000000000301",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "name": "Team 1</td></div>'\""
+      "name": "Team 1</td></div>'\"",
+      "sectionId": "00000000-0000-4000-8000-000000000201"
     }
   },
   "deadlineExtensions": {},
   "instructors": {},
   "students": {
     "SNotifs.student": {
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "comments": "This student's name is Amy Betsy</option></td></div>'\"",
       "id": "00000000-0000-4000-8000-000000000601",
       "courseId": "tm.e2e.SNotifs.course1",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "name": "Amy Betsy</option></td></div>'\"",
       "email": "snotifs.student@gmail.tmt",
-      "regKey": "233C274709B13E05FF165FEA45C1F586B7AA0A1C7C430FE89D40650DDE12E77DDA505EF421059709A1639A6D4F6E2DDEF4B5A1D9D0AF69E0E65F30FAF877B8A9"
+      "regKey": "233C274709B13E05FF165FEA45C1F586B7AA0A1C7C430FE89D40650DDE12E77DDA505EF421059709A1639A6D4F6E2DDEF4B5A1D9D0AF69E0E65F30FAF877B8A9",
+      "accountId": "00000000-0000-4000-8000-000000000001",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     }
   },
   "feedbackSessions": {},
@@ -112,12 +104,8 @@
   "readNotifications": {
     "notification4SNotifs.student": {
       "id": "00000000-0000-4000-8000-000000002100",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
-      "notification": {
-        "id": "00000000-0000-4000-8000-000000001104"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000001",
+      "notificationId": "00000000-0000-4000-8000-000000001104"
     }
   }
 }

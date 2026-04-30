@@ -33,7 +33,6 @@
   "instructors": {
     "ICJoinConf.instr.CS1101": {
       "id": "00000000-0000-4000-8000-000000000501",
-      "account": {},
       "courseId": "tm.e2e.ICJoinConf.CS1101",
       "name": "Teammates Test 2",
       "email": "icjoinconf.instr2@gmail.tmt",
@@ -57,9 +56,6 @@
     },
     "ICJoinConf.instr2.CS1101": {
       "id": "00000000-0000-4000-8000-000000000502",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.ICJoinConf.CS1101",
       "name": "Teammates Test",
       "email": "icjoinconf.instr@gmail.tmt",
@@ -79,7 +75,8 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },
   "students": {},

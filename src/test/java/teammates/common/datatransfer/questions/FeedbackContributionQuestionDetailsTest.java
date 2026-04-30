@@ -359,7 +359,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
     public void testGetQuestionResultStatisticsJson() {
         FeedbackContributionQuestionDetails feedbackContributionQuestionDetails = new FeedbackContributionQuestionDetails();
 
-        DataBundle responseBundle = loadDataBundle("/FeedbackContributionQuestionTestSql.json");
+        DataBundle responseBundle = loadDataBundle("/FeedbackContributionQuestionTest.json");
 
         SessionResultsBundle resultsBundle = new SessionResultsBundle(
                 new ArrayList<>(responseBundle.feedbackQuestions.values()),

@@ -37,54 +37,40 @@
   "sections": {
     "tm.e2e.ISList.course2-SectionA": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "course": {
-        "id": "tm.e2e.ISList.course2"
-      },
-      "name": "Section A"
+      "name": "Section A",
+      "courseId": "tm.e2e.ISList.course2"
     },
     "tm.e2e.ISList.course2-SectionB": {
       "id": "00000000-0000-4000-8000-000000000202",
-      "course": {
-        "id": "tm.e2e.ISList.course2"
-      },
-      "name": "Section B"
+      "name": "Section B",
+      "courseId": "tm.e2e.ISList.course2"
     },
     "tm.e2e.ISList.course3-Section1": {
       "id": "00000000-0000-4000-8000-000000000203",
-      "course": {
-        "id": "tm.e2e.ISList.course3"
-      },
-      "name": "Section 1"
+      "name": "Section 1",
+      "courseId": "tm.e2e.ISList.course3"
     }
   },
   "teams": {
     "tm.e2e.ISList.course2-SectionA-Team1": {
       "id": "00000000-0000-4000-8000-000000000301",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000201"
     },
     "tm.e2e.ISList.course2-SectionB-Team2": {
       "id": "00000000-0000-4000-8000-000000000302",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "name": "Team 2"
+      "name": "Team 2",
+      "sectionId": "00000000-0000-4000-8000-000000000202"
     },
     "tm.e2e.ISList.course3-Section1-Team1": {
       "id": "00000000-0000-4000-8000-000000000303",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000203"
     },
     "tm.e2e.ISList.course3-Section1-Team2": {
       "id": "00000000-0000-4000-8000-000000000304",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "name": "Team 2"
+      "name": "Team 2",
+      "sectionId": "00000000-0000-4000-8000-000000000203"
     }
   },
   "deadlineExtensions": {},
@@ -109,11 +95,9 @@
       },
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "tm.e2e.ISList.course1",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "name": "Instructor1 Course1",
-      "email": "islist.instr1@gmail.tmt"
+      "email": "islist.instr1@gmail.tmt",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "instructorOfCourse2": {
       "isDisplayedToStudents": true,
@@ -135,11 +119,9 @@
       },
       "id": "00000000-0000-4000-8000-000000000502",
       "courseId": "tm.e2e.ISList.course2",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "name": "Instructor1 Course2",
-      "email": "islist.instr1@gmail.tmt"
+      "email": "islist.instr1@gmail.tmt",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "instructorOfCourse3": {
       "isDisplayedToStudents": true,
@@ -161,11 +143,9 @@
       },
       "id": "00000000-0000-4000-8000-000000000503",
       "courseId": "tm.e2e.ISList.course3",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "name": "Instructor1 Course3",
-      "email": "islist.instr1@gmail.tmt"
+      "email": "islist.instr1@gmail.tmt",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },
   "students": {
@@ -173,74 +153,58 @@
       "comments": "This student's name is Alice",
       "id": "00000000-0000-4000-8000-000000000601",
       "courseId": "tm.e2e.ISList.course2",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "name": "Alice",
-      "email": "islist.alice.tmms@gmail.tmt"
+      "email": "islist.alice.tmms@gmail.tmt",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "Student2Course2": {
       "comments": "This student's name is Benny Charles",
       "id": "00000000-0000-4000-8000-000000000602",
       "courseId": "tm.e2e.ISList.course2",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000302"
-      },
       "name": "Benny Charles",
-      "email": "benny.c.tmms@gmail.tmt"
+      "email": "benny.c.tmms@gmail.tmt",
+      "teamId": "00000000-0000-4000-8000-000000000302"
     },
     "Student3Course2": {
       "comments": "This student's name is Hugh Ivanov",
       "id": "00000000-0000-4000-8000-000000000603",
       "courseId": "tm.e2e.ISList.course2",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000302"
-      },
       "name": "Hugh Ivanov",
-      "email": "hugh.i.tmms@gmail.tmt"
+      "email": "hugh.i.tmms@gmail.tmt",
+      "teamId": "00000000-0000-4000-8000-000000000302"
     },
     "Student1Course3": {
       "comments": "This student's name is Alice",
       "id": "00000000-0000-4000-8000-000000000604",
       "courseId": "tm.e2e.ISList.course3",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000303"
-      },
       "name": "Alice Betsy",
-      "email": "islist.alice.tmms@gmail.tmt"
+      "email": "islist.alice.tmms@gmail.tmt",
+      "teamId": "00000000-0000-4000-8000-000000000303"
     },
     "Student2Course3": {
       "comments": "This student's name is Benny Charles",
       "id": "00000000-0000-4000-8000-000000000605",
       "courseId": "tm.e2e.ISList.course3",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000303"
-      },
       "name": "Benny Charles",
-      "email": "benny.c.tmms@gmail.tmt"
+      "email": "benny.c.tmms@gmail.tmt",
+      "teamId": "00000000-0000-4000-8000-000000000303"
     },
     "Student3Course3": {
       "comments": "This student's name is Charlie Davis",
       "id": "00000000-0000-4000-8000-000000000606",
       "courseId": "tm.e2e.ISList.course3",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000304"
-      },
       "name": "Charlie D",
-      "email": "islist.charlie.tmms@gmail.tmt"
+      "email": "islist.charlie.tmms@gmail.tmt",
+      "accountId": "00000000-0000-4000-8000-000000000002",
+      "teamId": "00000000-0000-4000-8000-000000000304"
     },
     "Student4Course3": {
-      "comments": "This student's name is Denny Charlés",
+      "comments": "This student's name is Denny Charl\u00e9s",
       "id": "00000000-0000-4000-8000-000000000607",
       "courseId": "tm.e2e.ISList.course3",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000304"
-      },
-      "name": "Denny Charlés",
-      "email": "denny.c.tmms@gmail.tmt"
+      "name": "Denny Charl\u00e9s",
+      "email": "denny.c.tmms@gmail.tmt",
+      "teamId": "00000000-0000-4000-8000-000000000304"
     }
   },
   "feedbackSessions": {},

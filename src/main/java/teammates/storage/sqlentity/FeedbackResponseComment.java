@@ -36,6 +36,9 @@ public class FeedbackResponseComment extends BaseEntity {
     @JoinColumn(name = "responseId")
     private FeedbackResponse feedbackResponse;
 
+    @Column(insertable = false, updatable = false)
+    private UUID responseId;
+
     @Column(nullable = false)
     private String giver;
 
@@ -47,9 +50,15 @@ public class FeedbackResponseComment extends BaseEntity {
     @JoinColumn(name = "giverSectionId")
     private Section giverSection;
 
+    @Column(insertable = false, updatable = false)
+    private UUID giverSectionId;
+
     @ManyToOne
     @JoinColumn(name = "recipientSectionId")
     private Section recipientSection;
+
+    @Column(insertable = false, updatable = false)
+    private UUID recipientSectionId;
 
     @Column(nullable = false)
     private String commentText;
@@ -110,8 +119,16 @@ public class FeedbackResponseComment extends BaseEntity {
         return feedbackResponse;
     }
 
+    public UUID getResponseId() {
+        return responseId;
+    }
+
+    /**
+     * Sets the feedback response of the response comment.
+     */
     public void setFeedbackResponse(FeedbackResponse feedbackResponse) {
         this.feedbackResponse = feedbackResponse;
+        this.responseId = feedbackResponse == null ? null : feedbackResponse.getId();
     }
 
     public String getGiver() {
@@ -134,16 +151,32 @@ public class FeedbackResponseComment extends BaseEntity {
         return giverSection;
     }
 
+    public UUID getGiverSectionId() {
+        return giverSectionId;
+    }
+
+    /**
+     * Sets the giver section of the response comment.
+     */
     public void setGiverSection(Section giverSection) {
         this.giverSection = giverSection;
+        this.giverSectionId = giverSection == null ? null : giverSection.getId();
     }
 
     public Section getRecipientSection() {
         return recipientSection;
     }
 
+    public UUID getRecipientSectionId() {
+        return recipientSectionId;
+    }
+
+    /**
+     * Sets the recipient section of the response comment.
+     */
     public void setRecipientSection(Section recipientSection) {
         this.recipientSection = recipientSection;
+        this.recipientSectionId = recipientSection == null ? null : recipientSection.getId();
     }
 
     public String getCommentText() {

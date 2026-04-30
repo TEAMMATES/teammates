@@ -54,9 +54,6 @@
   "instructors": {
     "FSubmit.instr": {
       "id": "00000000-0000-4000-8000-000000000101",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.FSubmit.CS2104",
       "name": "Teammates Test",
       "email": "fsubmit.instr@gmail.tmt",
@@ -76,13 +73,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "FSubmit.instr2": {
       "id": "00000000-0000-4000-8000-000000000102",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
       "courseId": "tm.e2e.FSubmit.CS2104",
       "name": "Teammates Test2",
       "email": "fsubmit.instr2@gmail.tmt",
@@ -102,106 +97,79 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000002"
     }
   },
   "sections": {
     "sectionNoneInCourse1": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "course": {
-        "id": "tm.e2e.FSubmit.CS2104"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.FSubmit.CS2104"
     }
   },
   "teams": {
     "team1InSectionNone": {
       "id": "00000000-0000-4000-8000-000000000301",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000201"
     },
     "team2InSectionNone": {
       "id": "00000000-0000-4000-8000-000000000302",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "name": "Team 2"
+      "name": "Team 2",
+      "sectionId": "00000000-0000-4000-8000-000000000201"
     },
     "team3InSectionNone": {
       "id": "00000000-0000-4000-8000-000000000303",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "name": "Team 3"
+      "name": "Team 3",
+      "sectionId": "00000000-0000-4000-8000-000000000201"
     }
   },
   "students": {
     "alice.tmms@FSubmit.CS2104": {
       "id": "00000000-0000-4000-8000-000000000401",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000003"
-      },
       "courseId": "tm.e2e.FSubmit.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "email": "fsubmit.alice.b@gmail.tmt",
       "name": "Alice Betsy",
-      "comments": "This student's name is Alice Betsy"
+      "comments": "This student's name is Alice Betsy",
+      "accountId": "00000000-0000-4000-8000-000000000003",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "benny.tmms@FSubmit.CS2104": {
       "id": "00000000-0000-4000-8000-000000000402",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000004"
-      },
       "courseId": "tm.e2e.FSubmit.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "email": "fsubmit.benny.c@gmail.tmt",
       "name": "Benny Charles",
-      "comments": "This student's name is Benny Charles"
+      "comments": "This student's name is Benny Charles",
+      "accountId": "00000000-0000-4000-8000-000000000004",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "charlie.tmms@FSubmit.CS2104": {
       "id": "00000000-0000-4000-8000-000000000403",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000005"
-      },
       "courseId": "tm.e2e.FSubmit.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000302"
-      },
       "email": "fsubmit.charlie.d@gmail.tmt",
       "name": "Charlie Davis",
-      "comments": "This student's name is Charlie Davis"
+      "comments": "This student's name is Charlie Davis",
+      "accountId": "00000000-0000-4000-8000-000000000005",
+      "teamId": "00000000-0000-4000-8000-000000000302"
     },
     "danny.tmms@FSubmit.CS2104": {
       "id": "00000000-0000-4000-8000-000000000404",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000006"
-      },
       "courseId": "tm.e2e.FSubmit.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000302"
-      },
       "email": "fsubmit.danny.e@gmail.tmt",
       "name": "Danny Engrid",
-      "comments": "This student's name is Danny Engrid"
+      "comments": "This student's name is Danny Engrid",
+      "accountId": "00000000-0000-4000-8000-000000000006",
+      "teamId": "00000000-0000-4000-8000-000000000302"
     },
     "emily.tmms@FSubmit.CS2104": {
       "id": "00000000-0000-4000-8000-000000000405",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000007"
-      },
       "courseId": "tm.e2e.FSubmit.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000303"
-      },
       "email": "fsubmit.emily.f@gmail.tmt",
       "name": "Emily",
-      "comments": "This student's name is Emily"
+      "comments": "This student's name is Emily",
+      "accountId": "00000000-0000-4000-8000-000000000007",
+      "teamId": "00000000-0000-4000-8000-000000000303"
     }
   },
   "feedbackSessions": {
@@ -213,9 +181,9 @@
       "instructions": "Instructions for first session",
       "createdAt": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T16:00:00Z",
-      "endTime": "2026-04-30T16:00:00Z",
+      "endTime": "2028-04-30T16:00:00Z",
       "sessionVisibleFromTime": "2012-04-01T16:00:00Z",
-      "resultsVisibleFromTime": "2026-05-01T16:00:00Z",
+      "resultsVisibleFromTime": "2028-05-01T16:00:00Z",
       "gracePeriod": 10,
       "isOpeningSoonEmailSent": true,
       "isOpenedEmailSent": true,
@@ -233,9 +201,9 @@
       "instructions": "This is going to be a grace period session",
       "createdAt": "2012-04-01T23:59:00Z",
       "startTime": "2012-04-01T16:00:00Z",
-      "endTime": "2026-04-30T16:00:00Z",
+      "endTime": "2028-04-30T16:00:00Z",
       "sessionVisibleFromTime": "2012-04-01T16:00:00Z",
-      "resultsVisibleFromTime": "2026-05-01T16:00:00Z",
+      "resultsVisibleFromTime": "2028-05-01T16:00:00Z",
       "gracePeriod": 10,
       "isOpeningSoonEmailSent": true,
       "isOpenedEmailSent": true,
@@ -255,7 +223,7 @@
       "startTime": "2012-04-02T16:00:00Z",
       "endTime": "2012-04-30T16:00:00Z",
       "sessionVisibleFromTime": "2012-04-01T16:00:00Z",
-      "resultsVisibleFromTime": "2026-05-01T16:00:00Z",
+      "resultsVisibleFromTime": "2028-05-01T16:00:00Z",
       "gracePeriod": 20,
       "isOpeningSoonEmailSent": true,
       "isOpenedEmailSent": false,
@@ -269,9 +237,6 @@
   "feedbackQuestions": {
     "qn1InSession1": {
       "id": "00000000-0000-4000-8000-000000000601",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000501"
-      },
       "questionNumber": 1,
       "questionDetails": {
         "questionType": "TEXT",
@@ -283,13 +248,11 @@
       "numOfEntitiesToGiveFeedbackTo": 3,
       "showResponsesTo": ["INSTRUCTORS", "RECEIVER", "OWN_TEAM_MEMBERS"],
       "showGiverNameTo": ["INSTRUCTORS", "OWN_TEAM_MEMBERS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn2InSession1": {
       "id": "00000000-0000-4000-8000-000000000602",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000501"
-      },
       "questionNumber": 2,
       "questionDetails": {
         "questionType": "TEXT",
@@ -301,13 +264,11 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS", "RECEIVER", "OWN_TEAM_MEMBERS"],
       "showGiverNameTo": ["INSTRUCTORS", "OWN_TEAM_MEMBERS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn3InSession1": {
       "id": "00000000-0000-4000-8000-000000000603",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000501"
-      },
       "questionNumber": 3,
       "questionDetails": {
         "questionType": "TEXT",
@@ -318,13 +279,11 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["RECEIVER"],
       "showGiverNameTo": ["RECEIVER"],
-      "showRecipientNameTo": ["RECEIVER"]
+      "showRecipientNameTo": ["RECEIVER"],
+      "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn4InSession1": {
       "id": "00000000-0000-4000-8000-000000000604",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000501"
-      },
       "questionNumber": 4,
       "questionDetails": {
         "questionType": "MCQ",
@@ -337,13 +296,11 @@
       "numOfEntitiesToGiveFeedbackTo": 3,
       "showResponsesTo": ["RECEIVER"],
       "showGiverNameTo": ["RECEIVER"],
-      "showRecipientNameTo": ["RECEIVER"]
+      "showRecipientNameTo": ["RECEIVER"],
+      "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn5InSession1": {
       "id": "00000000-0000-4000-8000-000000000605",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000501"
-      },
       "questionNumber": 5,
       "questionDetails": {
         "questionType": "TEXT",
@@ -354,13 +311,11 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["RECEIVER"],
       "showGiverNameTo": ["RECEIVER"],
-      "showRecipientNameTo": ["RECEIVER"]
+      "showRecipientNameTo": ["RECEIVER"],
+      "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn1InGracePeriodSession": {
       "id": "00000000-0000-4000-8000-000000000606",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000502"
-      },
       "questionNumber": 1,
       "questionDetails": {
         "questionType": "MCQ",
@@ -373,13 +328,11 @@
       "numOfEntitiesToGiveFeedbackTo": 3,
       "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
       "showGiverNameTo": ["INSTRUCTORS", "RECEIVER"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "sessionId": "00000000-0000-4000-8000-000000000502"
     },
     "qn2InGracePeriodSession": {
       "id": "00000000-0000-4000-8000-000000000607",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000502"
-      },
       "questionNumber": 2,
       "questionDetails": {
         "questionType": "MCQ",
@@ -392,13 +345,11 @@
       "numOfEntitiesToGiveFeedbackTo": 3,
       "showResponsesTo": ["RECEIVER"],
       "showGiverNameTo": ["RECEIVER"],
-      "showRecipientNameTo": ["RECEIVER"]
+      "showRecipientNameTo": ["RECEIVER"],
+      "sessionId": "00000000-0000-4000-8000-000000000502"
     },
     "qn1InClosedSession": {
       "id": "00000000-0000-4000-8000-000000000608",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000503"
-      },
       "questionNumber": 1,
       "questionDetails": {
         "questionType": "TEXT",
@@ -409,31 +360,22 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
       "showGiverNameTo": ["RECEIVER", "INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000503"
     }
   },
   "feedbackResponses": {
     "response1": {
       "id": "00000000-0000-4000-8000-000000000701",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000601",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "Rate 3 other students' products"
-        }
-      },
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "giver": "fsubmit.benny.c@gmail.tmt",
       "recipient": "fsubmit.alice.b@gmail.tmt",
       "answer": {
         "questionType": "TEXT",
         "answer": "Alice response."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000601",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     }
   },
   "feedbackResponseComments": {}

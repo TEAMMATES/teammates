@@ -135,10 +135,8 @@
       },
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "idOfTypicalCourse1",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
-      "displayName": "Instructor"
+      "displayName": "Instructor",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "instructor2OfCourse1": {
       "name": "Instructor2 Course1",
@@ -161,10 +159,8 @@
       },
       "id": "00000000-0000-4000-8000-000000000502",
       "courseId": "idOfTypicalCourse1",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
-      "displayName": "Manager"
+      "displayName": "Manager",
+      "accountId": "00000000-0000-4000-8000-000000000002"
     },
     "helperOfCourse1": {
       "name": "Helper Course1",
@@ -187,10 +183,8 @@
       },
       "id": "00000000-0000-4000-8000-000000000503",
       "courseId": "idOfTypicalCourse1",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000004"
-      },
-      "displayName": "Helper"
+      "displayName": "Helper",
+      "accountId": "00000000-0000-4000-8000-000000000004"
     },
     "instructorNotYetJoinCourse1": {
       "name": "Instructor Not Yet Joined Course 1",
@@ -236,10 +230,8 @@
       },
       "id": "00000000-0000-4000-8000-000000000505",
       "courseId": "idOfTypicalCourse2",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000005"
-      },
-      "displayName": "Instructor"
+      "displayName": "Instructor",
+      "accountId": "00000000-0000-4000-8000-000000000005"
     },
     "instructor3OfCourse1": {
       "name": "Instructor3 Course1",
@@ -262,10 +254,8 @@
       },
       "id": "00000000-0000-4000-8000-000000000506",
       "courseId": "idOfTypicalCourse1",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000003"
-      },
-      "displayName": "Instructor"
+      "displayName": "Instructor",
+      "accountId": "00000000-0000-4000-8000-000000000003"
     },
     "instructor1OfTestingNoEmailsSentCourse": {
       "name": "Instructor1 No Emails Sent Course",
@@ -288,10 +278,8 @@
       },
       "id": "00000000-0000-4000-8000-000000000507",
       "courseId": "idOfTestingNoEmailsSentCourse",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000006"
-      },
-      "displayName": "Instructor"
+      "displayName": "Instructor",
+      "accountId": "00000000-0000-4000-8000-000000000006"
     },
     "instructor1OfTestingSanitizationCourse": {
       "name": "Instructor<script> alert('hi!'); </script>",
@@ -314,98 +302,72 @@
       },
       "id": "00000000-0000-4000-8000-000000000508",
       "courseId": "idOfTestingSanitizationCourse",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000007"
-      },
-      "displayName": "inst'\"/><script>alert('hi!');</script>"
+      "displayName": "inst'\"/><script>alert('hi!');</script>",
+      "accountId": "00000000-0000-4000-8000-000000000007"
     }
   },
   "sections": {
     "TypicalCourse1With2EvalsSection1": {
       "id": "00000000-0000-4000-8000-000000000101",
-      "course": {
-        "id": "idOfTypicalCourse1"
-      },
-      "name": "Section 1"
+      "name": "Section 1",
+      "courseId": "idOfTypicalCourse1"
     },
     "TypicalCourse1With2EvalsSection2": {
       "id": "00000000-0000-4000-8000-000000000102",
-      "course": {
-        "id": "idOfTypicalCourse1"
-      },
-      "name": "Section 2"
+      "name": "Section 2",
+      "courseId": "idOfTypicalCourse1"
     },
     "TypicalCourse3With1EvalsSection1": {
       "id": "00000000-0000-4000-8000-000000000103",
-      "course": {
-        "id": "idOfTypicalCourse3"
-      },
-      "name": "Section 1"
+      "name": "Section 1",
+      "courseId": "idOfTypicalCourse3"
     },
     "TypicalCourse4With1EvalsSection1": {
       "id": "00000000-0000-4000-8000-000000000104",
-      "course": {
-        "id": "idOfTypicalCourse4"
-      },
-      "name": "Section 1"
+      "name": "Section 1",
+      "courseId": "idOfTypicalCourse4"
     },
     "CourseWithSessionsWithNoEmailsSentSection1": {
       "id": "00000000-0000-4000-8000-000000000105",
-      "course": {
-        "id": "idOfTestingNoEmailsSentCourse"
-      },
-      "name": "Section 1"
+      "name": "Section 1",
+      "courseId": "idOfTestingNoEmailsSentCourse"
     },
     "Testing<Script>Alert('Hi!');</Script>Section'</Td>": {
       "id": "00000000-0000-4000-8000-000000000106",
-      "course": {
-        "id": "idOfTestingSanitizationCourse"
-      },
-      "name": "Section'</td>"
+      "name": "Section'</td>",
+      "courseId": "idOfTestingSanitizationCourse"
     }
   },
   "teams": {
     "TypicalCourse1With2EvalsSection1": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
-      "name": "Team 1.1</td></div>'\""
+      "name": "Team 1.1</td></div>'\"",
+      "sectionId": "00000000-0000-4000-8000-000000000101"
     },
     "TypicalCourse1With2EvalsSection2": {
       "id": "00000000-0000-4000-8000-000000000202",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000102"
-      },
-      "name": "Team 1.2"
+      "name": "Team 1.2",
+      "sectionId": "00000000-0000-4000-8000-000000000102"
     },
     "TypicalCourse3With1EvalsSection1": {
       "id": "00000000-0000-4000-8000-000000000203",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000103"
-      },
-      "name": "Team 1.1</td></div>'\""
+      "name": "Team 1.1</td></div>'\"",
+      "sectionId": "00000000-0000-4000-8000-000000000103"
     },
     "TypicalCourse4With1EvalsSection1": {
       "id": "00000000-0000-4000-8000-000000000204",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000104"
-      },
-      "name": "Team 1.1</td></div>'\""
+      "name": "Team 1.1</td></div>'\"",
+      "sectionId": "00000000-0000-4000-8000-000000000104"
     },
     "CourseWithSessionsWithNoEmailsSentSection1": {
       "id": "00000000-0000-4000-8000-000000000205",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000105"
-      },
-      "name": "Team 1.1"
+      "name": "Team 1.1",
+      "sectionId": "00000000-0000-4000-8000-000000000105"
     },
     "Testing<Script>Alert('Hi!');</Script>Section'</Td>": {
       "id": "00000000-0000-4000-8000-000000000206",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000106"
-      },
-      "name": "Team tags&\"</td>"
+      "name": "Team tags&\"</td>",
+      "sectionId": "00000000-0000-4000-8000-000000000106"
     }
   },
   "feedbackSessions": {
@@ -660,69 +622,51 @@
       "courseId": "idOfTypicalCourse1",
       "name": "student1 In Course1</td></div>'\"",
       "comments": "comment for student1InCourse1</td></div>'\"",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "id": "00000000-0000-4000-8000-000000000401",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000008"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000008",
+      "teamId": "00000000-0000-4000-8000-000000000201"
     },
     "student1InCourse3": {
       "email": "student1incourse3@gmail.tmt",
       "courseId": "idOfTypicalCourse3",
       "name": "student1 In Course3</td></div>'\"",
       "comments": "comment for student1InCourse3</td></div>'\"",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "id": "00000000-0000-4000-8000-000000000406"
+      "id": "00000000-0000-4000-8000-000000000406",
+      "teamId": "00000000-0000-4000-8000-000000000203"
     },
     "student1InCourse4": {
       "email": "student1incourse4@gmail.tmt",
       "courseId": "idOfTypicalCourse4",
       "name": "student1 In Course4</td></div>'\"",
       "comments": "comment for student1InCourse4</td></div>'\"",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000204"
-      },
-      "id": "00000000-0000-4000-8000-000000000407"
+      "id": "00000000-0000-4000-8000-000000000407",
+      "teamId": "00000000-0000-4000-8000-000000000204"
     },
     "student1UnregisteredInCourse1": {
       "email": "student1unregisteredincourse1@gmail.tmt",
       "courseId": "idOfTypicalCourse1",
       "name": "unregistered student",
       "comments": "",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "id": "00000000-0000-4000-8000-000000000408"
+      "id": "00000000-0000-4000-8000-000000000408",
+      "teamId": "00000000-0000-4000-8000-000000000202"
     },
     "student1InTestingNoEmailsSentCourse": {
       "email": "student1@noemailssent.tmt",
       "courseId": "idOfTestingNoEmailsSentCourse",
       "name": "Student 1 in No Emails Sent Course",
       "comments": "",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "id": "00000000-0000-4000-8000-000000000409",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000010"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000010",
+      "teamId": "00000000-0000-4000-8000-000000000205"
     },
     "student1InTestingSanitizationCourse": {
       "email": "normal@sanitization.tmt",
       "courseId": "idOfTestingSanitizationCourse",
       "name": "Stud1<script> alert('hi!'); </script>",
       "comments": "<script> alert('hi!'); </script>",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000206"
-      },
       "id": "00000000-0000-4000-8000-000000000410",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000011"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000011",
+      "teamId": "00000000-0000-4000-8000-000000000206"
     }
   }
 }

@@ -37,9 +37,6 @@
   "instructors": {
     "instructor": {
       "id": "00000000-0000-4000-8000-000000000501",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -59,13 +56,11 @@
         "sectionLevel": {},
         "sessionLevel": {}
       },
-      "courseId": "tm.e2e.FMcqQn.CS2104"
+      "courseId": "tm.e2e.FMcqQn.CS2104",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "instructor2": {
       "id": "00000000-0000-4000-8000-000000000502",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.FMcqQn.CS1101",
       "displayName": "Co-owner",
       "email": "tmms.test@gmail.tmt",
@@ -85,53 +80,42 @@
         "sectionLevel": {},
         "sessionLevel": {}
       },
-      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER"
+      "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },
   "sections": {
     "ProgrammingLanguageConceptsSection1": {
       "id": "00000000-0000-4000-8000-000000000101",
-      "course": {
-        "id": "tm.e2e.FMcqQn.CS2104"
-      },
-      "name": "Section 1"
+      "name": "Section 1",
+      "courseId": "tm.e2e.FMcqQn.CS2104"
     }
   },
   "teams": {
     "ProgrammingLanguageConceptsTeam1": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000101"
     }
   },
   "students": {
     "alice.tmms@FMcqQn.CS2104": {
       "id": "00000000-0000-4000-8000-000000000601",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
       "courseId": "tm.e2e.FMcqQn.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "email": "alice.b.tmms@gmail.tmt",
       "name": "Alice Betsy",
-      "comments": "This student's name is Alice Betsy"
+      "comments": "This student's name is Alice Betsy",
+      "accountId": "00000000-0000-4000-8000-000000000002",
+      "teamId": "00000000-0000-4000-8000-000000000201"
     },
     "benny.tmms@FMcqQn.CS2104": {
       "id": "00000000-0000-4000-8000-000000000602",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000003"
-      },
       "courseId": "tm.e2e.FMcqQn.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "email": "benny.c.tmms@gmail.tmt",
       "name": "Benny Charles",
-      "comments": "This student's name is Benny Charles"
+      "comments": "This student's name is Benny Charles",
+      "accountId": "00000000-0000-4000-8000-000000000003",
+      "teamId": "00000000-0000-4000-8000-000000000201"
     }
   },
   "feedbackSessions": {
@@ -177,9 +161,6 @@
   "feedbackQuestions": {
     "qn1ForFirstSession": {
       "id": "00000000-0000-4000-8000-000000000801",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionDetails": {
         "questionType": "MCQ",
         "questionText": "Which area did you work on the most?",
@@ -196,13 +177,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn1ForSecondSession": {
       "id": "00000000-0000-4000-8000-000000000802",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000702"
-      },
       "questionDetails": {
         "mcqChoices": [],
         "questionText": "Who is the best student?",
@@ -217,7 +196,8 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000702"
     }
   },
   "feedbackResponseComments": {},

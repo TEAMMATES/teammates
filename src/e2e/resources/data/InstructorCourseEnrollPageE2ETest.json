@@ -18,9 +18,6 @@
   "instructors": {
     "ICEnroll.teammates.test": {
       "id": "00000000-0000-4000-8000-000000000501",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.ICEnroll.CS2104",
       "name": "Instructor1 of ICEnroll Course CS2104",
       "email": "icenroll.instr1@gmail.tmt",
@@ -40,54 +37,43 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },
   "students": {},
   "sections": {
     "tm.e2e.ICEnroll.courseICEnroll.CS2104-Section1": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "course": {
-        "id": "tm.e2e.ICEnroll.CS2104"
-      },
-      "name": "Section A"
+      "name": "Section A",
+      "courseId": "tm.e2e.ICEnroll.CS2104"
     },
     "tm.e2e.ICEnroll.courseICEnroll.CS2104-Section2": {
       "id": "00000000-0000-4000-8000-000000000202",
-      "course": {
-        "id": "tm.e2e.ICEnroll.CS2104"
-      },
-      "name": "Section B"
+      "name": "Section B",
+      "courseId": "tm.e2e.ICEnroll.CS2104"
     },
     "tm.e2e.ICEnroll.courseICEnroll.CS2104-Section3": {
       "id": "00000000-0000-4000-8000-000000000203",
-      "course": {
-        "id": "tm.e2e.ICEnroll.CS2104"
-      },
-      "name": "Section C"
+      "name": "Section C",
+      "courseId": "tm.e2e.ICEnroll.CS2104"
     }
   },
   "teams": {
     "tm.e2e.ICEnroll.courseICEnroll.CS2104-SectionA-Team1": {
       "id": "00000000-0000-4000-8000-000000000301",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000201"
     },
     "tm.e2e.ICEnroll.courseICEnroll.CS2104-SectionB-Team2": {
       "id": "00000000-0000-4000-8000-000000000302",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "name": "Team 2"
+      "name": "Team 2",
+      "sectionId": "00000000-0000-4000-8000-000000000202"
     },
     "tm.e2e.ICEnroll.courseICEnroll.CS2104-SectionC-Team3": {
       "id": "00000000-0000-4000-8000-000000000303",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "name": "Team 3"
+      "name": "Team 3",
+      "sectionId": "00000000-0000-4000-8000-000000000203"
     }
   },
   "feedbackSessions": {},
