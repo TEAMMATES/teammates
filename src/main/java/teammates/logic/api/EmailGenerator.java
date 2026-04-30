@@ -1,4 +1,4 @@
-package teammates.sqllogic.api;
+package teammates.logic.api;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ import teammates.storage.sqlentity.Student;
  * @see EmailType
  * @see EmailWrapper
  */
-public final class SqlEmailGenerator {
+public final class EmailGenerator {
     // feedback action strings
     private static final String FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW = "submit, edit or view";
     private static final String FEEDBACK_ACTION_VIEW = "view";
@@ -60,18 +60,18 @@ public final class SqlEmailGenerator {
 
     private static final long SESSION_LINK_RECOVERY_DURATION_IN_DAYS = 90;
 
-    private static final SqlEmailGenerator instance = new SqlEmailGenerator();
+    private static final EmailGenerator instance = new EmailGenerator();
 
     private final CoursesLogic coursesLogic = CoursesLogic.inst();
     private final DeadlineExtensionsLogic deLogic = DeadlineExtensionsLogic.inst();
     private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private final UsersLogic usersLogic = UsersLogic.inst();
 
-    private SqlEmailGenerator() {
+    private EmailGenerator() {
         // prevent initialization
     }
 
-    public static SqlEmailGenerator inst() {
+    public static EmailGenerator inst() {
         return instance;
     }
 

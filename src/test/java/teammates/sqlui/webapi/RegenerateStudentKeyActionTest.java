@@ -45,12 +45,12 @@ public class RegenerateStudentKeyActionTest extends BaseActionTest<RegenerateStu
 
     @BeforeMethod
     void setUp() {
-        Mockito.reset(mockLogic, mockSqlEmailGenerator);
+        Mockito.reset(mockLogic, mockEmailGenerator);
 
         student = getTypicalStudent();
         EmailWrapper mockEmail = mock(EmailWrapper.class);
 
-        when(mockSqlEmailGenerator.generateFeedbackSessionSummaryOfCourse(
+        when(mockEmailGenerator.generateFeedbackSessionSummaryOfCourse(
                 student.getCourseId(),
                 student.getEmail(),
                 EmailType.STUDENT_COURSE_LINKS_REGENERATED
@@ -72,13 +72,13 @@ public class RegenerateStudentKeyActionTest extends BaseActionTest<RegenerateStu
         RegenerateKeyData actionOutput = (RegenerateKeyData) getJsonResult(action).getOutput();
 
         verify(mockLogic, times(1)).regenerateStudentRegistrationKey(student.getCourseId(), student.getEmail());
-        verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionSummaryOfCourse(
+        verify(mockEmailGenerator, times(1)).generateFeedbackSessionSummaryOfCourse(
                 student.getCourseId(),
                 student.getEmail(),
                 EmailType.STUDENT_COURSE_LINKS_REGENERATED
         );
         verifyNumberOfEmailsSent(1);
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
         assertEquals(SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT, actionOutput.getMessage());
         assertNotNull(actionOutput.getNewRegistrationKey());
     }
@@ -99,13 +99,13 @@ public class RegenerateStudentKeyActionTest extends BaseActionTest<RegenerateStu
         RegenerateKeyData actionOutput = (RegenerateKeyData) getJsonResult(action).getOutput();
 
         verify(mockLogic, times(1)).regenerateStudentRegistrationKey(student.getCourseId(), student.getEmail());
-        verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionSummaryOfCourse(
+        verify(mockEmailGenerator, times(1)).generateFeedbackSessionSummaryOfCourse(
                 student.getCourseId(),
                 student.getEmail(),
                 EmailType.STUDENT_COURSE_LINKS_REGENERATED
         );
         verifyNoEmailsSent();
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
         assertEquals(SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED, actionOutput.getMessage());
         assertNotNull(actionOutput.getNewRegistrationKey());
     }
@@ -127,9 +127,9 @@ public class RegenerateStudentKeyActionTest extends BaseActionTest<RegenerateStu
         };
 
         verify(mockLogic, never()).regenerateStudentRegistrationKey(any(), any());
-        verify(mockSqlEmailGenerator, never()).generateFeedbackSessionSummaryOfCourse(any(), any(), any());
+        verify(mockEmailGenerator, never()).generateFeedbackSessionSummaryOfCourse(any(), any(), any());
         verifyNoEmailsSent();
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
         verifyEntityNotFound(params);
     }
 
@@ -147,9 +147,9 @@ public class RegenerateStudentKeyActionTest extends BaseActionTest<RegenerateStu
         };
 
         verify(mockLogic, never()).regenerateStudentRegistrationKey(any(), any());
-        verify(mockSqlEmailGenerator, never()).generateFeedbackSessionSummaryOfCourse(any(), any(), any());
+        verify(mockEmailGenerator, never()).generateFeedbackSessionSummaryOfCourse(any(), any(), any());
         verifyNoEmailsSent();
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
         verifyEntityNotFound(params);
     }
 
@@ -168,9 +168,9 @@ public class RegenerateStudentKeyActionTest extends BaseActionTest<RegenerateStu
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action, HttpStatus.SC_INTERNAL_SERVER_ERROR).getOutput();
 
         verify(mockLogic, times(1)).regenerateStudentRegistrationKey(student.getCourseId(), student.getEmail());
-        verify(mockSqlEmailGenerator, never()).generateFeedbackSessionSummaryOfCourse(any(), any(), any());
+        verify(mockEmailGenerator, never()).generateFeedbackSessionSummaryOfCourse(any(), any(), any());
         verifyNoEmailsSent();
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
         assertEquals(UNSUCCESSFUL_REGENERATION, actionOutput.getMessage());
     }
 

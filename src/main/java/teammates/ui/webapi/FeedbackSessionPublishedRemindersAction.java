@@ -19,7 +19,7 @@ public class FeedbackSessionPublishedRemindersAction extends AutomatedServiceAct
         List<FeedbackSession> sessions = sqlLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
         for (FeedbackSession session : sessions) {
             RequestTracer.checkRemainingTime();
-            List<EmailWrapper> emailsToBeSent = sqlEmailGenerator.generateFeedbackSessionPublishedEmails(session);
+            List<EmailWrapper> emailsToBeSent = emailGenerator.generateFeedbackSessionPublishedEmails(session);
             try {
                 taskQueuer.scheduleEmailsForSending(emailsToBeSent);
                 session.setPublishedEmailSent(true);

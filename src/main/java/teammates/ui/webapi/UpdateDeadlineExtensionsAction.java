@@ -205,12 +205,12 @@ public class UpdateDeadlineExtensionsAction extends Action {
         List<EmailWrapper> emailsToSend = new ArrayList<>();
         if (notifyUsers) {
             Course course = sqlLogic.getCourse(courseId);
-            emailsToSend.addAll(sqlEmailGenerator
+            emailsToSend.addAll(emailGenerator
                     .generateDeadlineRevokedEmails(course, session,
                             revokedDeadlinesEmailToInstantMap, areInstructors));
-            emailsToSend.addAll(sqlEmailGenerator
+            emailsToSend.addAll(emailGenerator
                     .generateDeadlineGrantedEmails(course, session, deadlinesToCreate, areInstructors));
-            emailsToSend.addAll(sqlEmailGenerator
+            emailsToSend.addAll(emailGenerator
                     .generateDeadlineUpdatedEmails(course, session, deadlinesToUpdate,
                             oldDeadlinesEmailToInstantMap, areInstructors));
         }

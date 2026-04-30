@@ -43,15 +43,15 @@ public class FeedbackSessionOpeningSoonRemindersActionTest
 
     @BeforeMethod
     public void setUp() {
-        Mockito.reset(mockLogic, mockSqlEmailGenerator);
+        Mockito.reset(mockLogic, mockEmailGenerator);
 
         session = mock(FeedbackSession.class);
         session2 = mock(FeedbackSession.class);
         EmailWrapper mockEmail = mock(EmailWrapper.class);
         EmailWrapper mockEmail2 = mock(EmailWrapper.class);
 
-        when(mockSqlEmailGenerator.generateFeedbackSessionOpeningSoonEmails(session)).thenReturn(List.of(mockEmail));
-        when(mockSqlEmailGenerator.generateFeedbackSessionOpeningSoonEmails(session2)).thenReturn(List.of(mockEmail2));
+        when(mockEmailGenerator.generateFeedbackSessionOpeningSoonEmails(session)).thenReturn(List.of(mockEmail));
+        when(mockEmailGenerator.generateFeedbackSessionOpeningSoonEmails(session2)).thenReturn(List.of(mockEmail2));
     }
 
     @Test
@@ -64,13 +64,13 @@ public class FeedbackSessionOpeningSoonRemindersActionTest
 
             verify(mockLogic, times(1)).getFeedbackSessionsOpeningWithinTimeLimit();
             mockRequestTracer.verify(RequestTracer::checkRemainingTime, times(2));
-            verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionOpeningSoonEmails(session);
-            verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionOpeningSoonEmails(session2);
+            verify(mockEmailGenerator, times(1)).generateFeedbackSessionOpeningSoonEmails(session);
+            verify(mockEmailGenerator, times(1)).generateFeedbackSessionOpeningSoonEmails(session2);
             verify(session, times(1)).setOpeningSoonEmailSent(true);
             verify(session2, times(1)).setOpeningSoonEmailSent(true);
 
             verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 2);
-            verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator, session, session2);
+            verifyNoMoreInteractions(mockLogic, mockEmailGenerator, session, session2);
             assertEquals("Successful", actionOutput.getMessage());
         }
     }
@@ -85,11 +85,11 @@ public class FeedbackSessionOpeningSoonRemindersActionTest
 
             verify(mockLogic, times(1)).getFeedbackSessionsOpeningWithinTimeLimit();
             mockRequestTracer.verify(RequestTracer::checkRemainingTime, times(1));
-            verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionOpeningSoonEmails(session);
+            verify(mockEmailGenerator, times(1)).generateFeedbackSessionOpeningSoonEmails(session);
             verify(session, times(1)).setOpeningSoonEmailSent(true);
 
             verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
-            verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator, session, session2);
+            verifyNoMoreInteractions(mockLogic, mockEmailGenerator, session, session2);
             assertEquals("Successful", actionOutput.getMessage());
         }
     }
@@ -106,7 +106,7 @@ public class FeedbackSessionOpeningSoonRemindersActionTest
             mockRequestTracer.verify(RequestTracer::checkRemainingTime, never());
 
             verifyNoTasksAdded();
-            verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator, session, session2);
+            verifyNoMoreInteractions(mockLogic, mockEmailGenerator, session, session2);
             assertEquals("Successful", actionOutput.getMessage());
         }
     }

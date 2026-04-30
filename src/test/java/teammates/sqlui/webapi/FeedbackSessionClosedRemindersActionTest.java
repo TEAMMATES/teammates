@@ -42,15 +42,15 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseActionTest<Fee
 
     @BeforeMethod
     void setUp() {
-        Mockito.reset(mockLogic, mockSqlEmailGenerator);
+        Mockito.reset(mockLogic, mockEmailGenerator);
 
         session = mock(FeedbackSession.class);
         session2 = mock(FeedbackSession.class);
         EmailWrapper mockEmail = mock(EmailWrapper.class);
         EmailWrapper mockEmail2 = mock(EmailWrapper.class);
 
-        when(mockSqlEmailGenerator.generateFeedbackSessionClosedEmails(session)).thenReturn(List.of(mockEmail));
-        when(mockSqlEmailGenerator.generateFeedbackSessionClosedEmails(session2)).thenReturn(List.of(mockEmail2));
+        when(mockEmailGenerator.generateFeedbackSessionClosedEmails(session)).thenReturn(List.of(mockEmail));
+        when(mockEmailGenerator.generateFeedbackSessionClosedEmails(session2)).thenReturn(List.of(mockEmail2));
     }
 
     @Test
@@ -63,13 +63,13 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseActionTest<Fee
 
             verify(mockLogic, times(1)).getFeedbackSessionsClosedWithinThePastHour();
             mockRequestTracer.verify(RequestTracer::checkRemainingTime, times(2));
-            verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionClosedEmails(session);
-            verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionClosedEmails(session2);
+            verify(mockEmailGenerator, times(1)).generateFeedbackSessionClosedEmails(session);
+            verify(mockEmailGenerator, times(1)).generateFeedbackSessionClosedEmails(session2);
             verify(session, times(1)).setClosedEmailSent(true);
             verify(session2, times(1)).setClosedEmailSent(true);
 
             verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 2);
-            verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator, session, session2);
+            verifyNoMoreInteractions(mockLogic, mockEmailGenerator, session, session2);
             assertEquals("Successful", actionOutput.getMessage());
         }
     }
@@ -84,11 +84,11 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseActionTest<Fee
 
             verify(mockLogic, times(1)).getFeedbackSessionsClosedWithinThePastHour();
             mockRequestTracer.verify(RequestTracer::checkRemainingTime, times(1));
-            verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionClosedEmails(session);
+            verify(mockEmailGenerator, times(1)).generateFeedbackSessionClosedEmails(session);
             verify(session, times(1)).setClosedEmailSent(true);
 
             verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
-            verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator, session, session2);
+            verifyNoMoreInteractions(mockLogic, mockEmailGenerator, session, session2);
             assertEquals("Successful", actionOutput.getMessage());
         }
     }
@@ -105,7 +105,7 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseActionTest<Fee
             mockRequestTracer.verify(RequestTracer::checkRemainingTime, never());
 
             verifyNoTasksAdded();
-            verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator, session, session2);
+            verifyNoMoreInteractions(mockLogic, mockEmailGenerator, session, session2);
             assertEquals("Successful", actionOutput.getMessage());
         }
     }

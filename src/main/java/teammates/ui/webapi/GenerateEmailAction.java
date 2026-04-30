@@ -37,7 +37,7 @@ public class GenerateEmailAction extends AdminOnlyAction {
         EmailWrapper email = switch (emailType) {
         case STUDENT_COURSE_JOIN -> {
             Course course = student.getCourse();
-            yield sqlEmailGenerator.generateStudentCourseJoinEmail(course, student);
+            yield emailGenerator.generateStudentCourseJoinEmail(course, student);
         }
         case FEEDBACK_SESSION_REMINDER -> {
             UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
@@ -52,7 +52,7 @@ public class GenerateEmailAction extends AdminOnlyAction {
                         "Feedback session does not belong to the same course as the student");
             }
 
-            yield sqlEmailGenerator.generateFeedbackSessionReminderEmails(
+            yield emailGenerator.generateFeedbackSessionReminderEmails(
                     feedbackSession, Collections.singletonList(student), new ArrayList<>(), null).get(0);
         }
         default -> throw new InvalidHttpParameterException("Invalid Email type for this action: " + emailType);

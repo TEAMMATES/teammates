@@ -67,7 +67,7 @@ public class GenerateEmailActionTest
         email.setType(EmailType.STUDENT_COURSE_JOIN);
         email.setSubjectFromType(course.getName(), course.getId());
 
-        when(mockSqlEmailGenerator.generateStudentCourseJoinEmail(course, student)).thenReturn(email);
+        when(mockEmailGenerator.generateStudentCourseJoinEmail(course, student)).thenReturn(email);
 
         GenerateEmailAction action = getAction(params);
         EmailData actionOutput = (EmailData) getJsonResult(action).getOutput();
@@ -98,7 +98,7 @@ public class GenerateEmailActionTest
 
         List<EmailWrapper> emails = List.of(email);
 
-        when(mockSqlEmailGenerator.generateFeedbackSessionReminderEmails(
+        when(mockEmailGenerator.generateFeedbackSessionReminderEmails(
                 session,
                 Collections.singletonList(student),
                 new ArrayList<>(), null)).thenReturn(emails);

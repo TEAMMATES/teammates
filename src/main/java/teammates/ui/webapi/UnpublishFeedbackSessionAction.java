@@ -54,7 +54,7 @@ public class UnpublishFeedbackSessionAction extends Action {
     private void sendUnpublishedEmails(FeedbackSession feedbackSession) {
         if (feedbackSession.isPublishedEmailEnabled()) {
             List<EmailWrapper> emailsToBeSent =
-                    sqlEmailGenerator.generateFeedbackSessionUnpublishedEmails(feedbackSession);
+                    emailGenerator.generateFeedbackSessionUnpublishedEmails(feedbackSession);
             taskQueuer.scheduleEmailsForSending(emailsToBeSent);
         }
     }
