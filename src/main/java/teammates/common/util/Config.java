@@ -52,12 +52,6 @@ public final class Config {
     /** Value of {@code app.postgres.password}. */
     public static final String POSTGRES_PASSWORD;
 
-    /** Value of {@code app.production.gcs.bucketname}. */
-    public static final String PRODUCTION_GCS_BUCKETNAME;
-
-    /** Value of {@code app.backup.gcs.bucketname}. */
-    public static final String BACKUP_GCS_BUCKETNAME;
-
     /** Value of {@code app.csrf.key}. */
     public static final String CSRF_KEY;
 
@@ -198,13 +192,11 @@ public final class Config {
         CRON_AND_WORKER_SECRET_BYTES = AutomatedRequestAuth.isCronAndWorkerSecretWellFormed(CRON_AND_WORKER_SECRET)
                 ? CRON_AND_WORKER_SECRET.getBytes(StandardCharsets.UTF_8)
                 : new byte[0];
-        PRODUCTION_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.production.gcs.bucketname");
         POSTGRES_HOST = getProperty(properties, devProperties, "app.postgres.host");
         POSTGRES_PORT = getProperty(properties, devProperties, "app.postgres.port");
         POSTGRES_DATABASENAME = getProperty(properties, devProperties, "app.postgres.databasename");
         POSTGRES_USERNAME = getProperty(properties, devProperties, "app.postgres.username");
         POSTGRES_PASSWORD = getProperty(properties, devProperties, "app.postgres.password");
-        BACKUP_GCS_BUCKETNAME = getProperty(properties, devProperties, "app.backup.gcs.bucketname");
         ENCRYPTION_KEY = validateHexKey(getProperty(properties, devProperties, "app.encryption.key"), "app.encryption.key");
         HMAC_KEY = validateHexKey(getProperty(properties, devProperties, "app.hmac.key"), "app.hmac.key");
         AUTH_TYPE = getProperty(properties, devProperties, "app.auth.type");
