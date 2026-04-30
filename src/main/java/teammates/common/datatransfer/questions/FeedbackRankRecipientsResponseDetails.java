@@ -1,5 +1,7 @@
 package teammates.common.datatransfer.questions;
 
+import java.util.Objects;
+
 import teammates.common.util.Const;
 
 /**
@@ -24,5 +26,22 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
 
     public void setAnswer(int answer) {
         this.answer = answer;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof FeedbackRankRecipientsResponseDetails other)) {
+            return false;
+        }
+        return getQuestionType() == other.getQuestionType()
+                && answer == other.answer;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getQuestionType(), answer);
     }
 }

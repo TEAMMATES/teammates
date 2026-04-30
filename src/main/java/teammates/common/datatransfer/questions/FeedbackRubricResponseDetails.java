@@ -2,6 +2,7 @@ package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Contains specific structure and processing logic for rubric feedback responses.
@@ -30,5 +31,22 @@ public class FeedbackRubricResponseDetails extends FeedbackResponseDetails {
 
     public void setAnswer(List<Integer> answer) {
         this.answer = answer;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof FeedbackRubricResponseDetails other)) {
+            return false;
+        }
+        return getQuestionType() == other.getQuestionType()
+                && Objects.equals(answer, other.answer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getQuestionType(), answer);
     }
 }

@@ -2,6 +2,7 @@ package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import jakarta.annotation.Nullable;
 
@@ -71,5 +72,24 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
 
     public void setShouldAllowRichText(Boolean shouldAllowRichText) {
         this.shouldAllowRichText = shouldAllowRichText;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof FeedbackTextQuestionDetails other)) {
+            return false;
+        }
+        return getQuestionType() == other.getQuestionType()
+                && Objects.equals(getQuestionText(), other.getQuestionText())
+                && Objects.equals(recommendedLength, other.recommendedLength)
+                && Objects.equals(shouldAllowRichText, other.shouldAllowRichText);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getQuestionType(), getQuestionText(), recommendedLength, shouldAllowRichText);
     }
 }

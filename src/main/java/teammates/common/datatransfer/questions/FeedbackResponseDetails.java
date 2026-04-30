@@ -34,7 +34,7 @@ import teammates.common.util.JsonUtils;
 public abstract class FeedbackResponseDetails {
     private FeedbackQuestionType questionType;
 
-    public FeedbackResponseDetails(FeedbackQuestionType questionType) {
+    protected FeedbackResponseDetails(FeedbackQuestionType questionType) {
         this.questionType = questionType;
     }
 

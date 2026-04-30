@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.storage.sqlentity.FeedbackQuestion;
 
@@ -114,5 +115,25 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
 
     public void setStep(double step) {
         this.step = step;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof FeedbackNumericalScaleQuestionDetails other)) {
+            return false;
+        }
+        return getQuestionType() == other.getQuestionType()
+                && Objects.equals(getQuestionText(), other.getQuestionText())
+                && minScale == other.minScale
+                && maxScale == other.maxScale
+                && Double.compare(step, other.step) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getQuestionType(), getQuestionText(), minScale, maxScale, step);
     }
 }
