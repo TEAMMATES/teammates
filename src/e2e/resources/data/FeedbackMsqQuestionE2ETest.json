@@ -31,9 +31,6 @@
   "instructors": {
     "instructor": {
       "id": "00000000-0000-4000-8000-000000000501",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -53,7 +50,8 @@
         "sessionLevel": {}
       },
       "courseId": "tm.e2e.FMsqQn.CS2104",
-      "displayName": "Co-owner"
+      "displayName": "Co-owner",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "instructor2": {
       "id": "00000000-0000-4000-8000-000000000502",
@@ -79,9 +77,6 @@
       "displayName": "Co-owner"
     },
     "instructor3": {
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -102,46 +97,37 @@
       },
       "id": "00000000-0000-4000-8000-000000000503",
       "courseId": "tm.e2e.FMsqQn.CS1101",
-      "displayName": "Co-owner"
+      "displayName": "Co-owner",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },
   "sections": {
     "ProgrammingLanguageConceptsNone": {
       "id": "00000000-0000-4000-8000-000000000101",
-      "course": {
-        "id": "tm.e2e.FMsqQn.CS2104"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.FMsqQn.CS2104"
     },
     "ProgrammingMethodologysNone": {
       "id": "00000000-0000-4000-8000-000000000102",
-      "course": {
-        "id": "tm.e2e.FMsqQn.CS1101"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.FMsqQn.CS1101"
     }
   },
   "teams": {
     "ProgrammingLanguageConceptsTeam1": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000101"
     },
     "ProgrammingLanguageConceptsTeam2": {
       "id": "00000000-0000-4000-8000-000000000202",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
-      "name": "Team 2"
+      "name": "Team 2",
+      "sectionId": "00000000-0000-4000-8000-000000000101"
     },
     "ProgrammingMethodologyTeam1": {
       "id": "00000000-0000-4000-8000-000000000203",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000102"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000102"
     }
   },
   "feedbackSessions": {
@@ -187,9 +173,6 @@
   "feedbackQuestions": {
     "qn1ForFirstSession": {
       "id": "00000000-0000-4000-8000-000000000801",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionDetails": {
         "questionType": "MSQ",
         "questionText": "Which area did this student work well in?",
@@ -207,13 +190,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn1ForSecondSession": {
       "id": "00000000-0000-4000-8000-000000000802",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000702"
-      },
       "questionDetails": {
         "msqChoices": [],
         "questionText": "Which teams did well in your opinion?",
@@ -229,7 +210,8 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000702"
     }
   },
   "notifications": {},
@@ -238,46 +220,36 @@
   "students": {
     "alice.tmms@FMsqQn.CS2104": {
       "id": "00000000-0000-4000-8000-000000000601",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
       "courseId": "tm.e2e.FMsqQn.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "email": "alice.b.tmm1s@gmail.tmt",
       "name": "Alice Betsy",
-      "comments": "This student's name is Alice Betsy"
+      "comments": "This student's name is Alice Betsy",
+      "accountId": "00000000-0000-4000-8000-000000000002",
+      "teamId": "00000000-0000-4000-8000-000000000201"
     },
     "benny.tmms@FMsqQn.CS2104": {
       "id": "00000000-0000-4000-8000-000000000602",
       "courseId": "tm.e2e.FMsqQn.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "email": "benny.tmms@gmail.tmt",
       "name": "Benny Charles",
-      "comments": "This student's name is Benny Charles"
+      "comments": "This student's name is Benny Charles",
+      "teamId": "00000000-0000-4000-8000-000000000201"
     },
     "charlie.tmms@FMsqQn.CS2104": {
       "id": "00000000-0000-4000-8000-000000000603",
       "courseId": "tm.e2e.FMsqQn.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
       "email": "charlie.tmms@gmail.tmt",
       "name": "Charlie Davis",
-      "comments": "This student's name is Charlie Davis"
+      "comments": "This student's name is Charlie Davis",
+      "teamId": "00000000-0000-4000-8000-000000000202"
     },
     "danny.tmms@FMsqQn.CS1101": {
       "id": "00000000-0000-4000-8000-000000000603",
       "courseId": "tm.e2e.FMsqQn.CS1101",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "email": "danny.tmms@gmail.tmt",
       "name": "Danny Engrid",
-      "comments": "This student's name is Danny Engrid"
+      "comments": "This student's name is Danny Engrid",
+      "teamId": "00000000-0000-4000-8000-000000000203"
     }
   }
 }

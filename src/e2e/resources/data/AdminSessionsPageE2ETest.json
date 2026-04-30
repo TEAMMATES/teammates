@@ -19,9 +19,6 @@
   "instructors": {
     "instructor1OfCourse1": {
       "id": "00000000-0000-4000-8000-000000000501",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.ASess.idOfTypicalCourse1",
       "name": "Instructor1 of Course1",
       "email": "asess.instructor1@gmail.tmt",
@@ -41,7 +38,8 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },
   "feedbackSessions": {

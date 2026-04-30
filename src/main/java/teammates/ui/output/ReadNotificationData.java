@@ -14,8 +14,8 @@ public class ReadNotificationData extends ApiOutput {
 
     public ReadNotificationData(ReadNotification readNotification) {
         this.readNotificationId = readNotification.getId();
-        this.accountId = readNotification.getAccount().getId();
-        this.notificationId = readNotification.getNotification().getId();
+        this.accountId = readNotification.getAccountId();
+        this.notificationId = readNotification.getNotificationId();
     }
 
     public UUID getReadNotificationId() {

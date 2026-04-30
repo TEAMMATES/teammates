@@ -116,7 +116,7 @@ public final class DataBundleLogic {
             UUID placeholderId = section.getId();
             section.setId(UUID.randomUUID());
             sectionsMap.put(placeholderId, section);
-            Course course = coursesMap.get(section.getCourse().getId());
+            Course course = coursesMap.get(section.getCourseId());
             section.setCourse(course);
             course.addSection(section);
         }
@@ -125,7 +125,7 @@ public final class DataBundleLogic {
             UUID placeholderId = team.getId();
             team.setId(UUID.randomUUID());
             teamsMap.put(placeholderId, team);
-            Section section = sectionsMap.get(team.getSection().getId());
+            Section section = sectionsMap.get(team.getSectionId());
             team.setSection(section);
             section.addTeam(team);
         }
@@ -143,7 +143,7 @@ public final class DataBundleLogic {
             UUID placeholderId = question.getId();
             question.setId(UUID.randomUUID());
             questionMap.put(placeholderId, question);
-            FeedbackSession fs = sessionsMap.get(question.getFeedbackSession().getId());
+            FeedbackSession fs = sessionsMap.get(question.getSessionId());
             question.setFeedbackSession(fs);
             fs.addFeedbackQuestion(question);
         }
@@ -152,10 +152,10 @@ public final class DataBundleLogic {
             UUID placeholderId = response.getId();
             response.setId(UUID.randomUUID());
             responseMap.put(placeholderId, response);
-            FeedbackQuestion fq = questionMap.get(response.getFeedbackQuestion().getId());
-            Section giverSection = sectionsMap.get(response.getGiverSection().getId());
-            Section recipientSection = response.getRecipientSection() != null
-                    ? sectionsMap.get(response.getRecipientSection().getId()) : null;
+            FeedbackQuestion fq = questionMap.get(response.getQuestionId());
+            Section giverSection = sectionsMap.get(response.getGiverSectionId());
+            Section recipientSection = response.getRecipientSectionId() != null
+                    ? sectionsMap.get(response.getRecipientSectionId()) : null;
             response.setFeedbackQuestion(fq);
             response.setGiverSection(giverSection);
             response.setRecipientSection(recipientSection);
@@ -164,9 +164,9 @@ public final class DataBundleLogic {
 
         for (FeedbackResponseComment responseComment : responseComments) {
             responseComment.setId(UUID.randomUUID());
-            FeedbackResponse fr = responseMap.get(responseComment.getFeedbackResponse().getId());
-            Section giverSection = sectionsMap.get(responseComment.getGiverSection().getId());
-            Section recipientSection = sectionsMap.get(responseComment.getRecipientSection().getId());
+            FeedbackResponse fr = responseMap.get(responseComment.getResponseId());
+            Section giverSection = sectionsMap.get(responseComment.getGiverSectionId());
+            Section recipientSection = sectionsMap.get(responseComment.getRecipientSectionId());
             responseComment.setFeedbackResponse(fr);
             responseComment.setGiverSection(giverSection);
             responseComment.setRecipientSection(recipientSection);
@@ -185,8 +185,8 @@ public final class DataBundleLogic {
             usersMap.put(placeholderId, instructor);
             Course course = coursesMap.get(instructor.getCourseId());
             instructor.setCourse(course);
-            if (instructor.getAccount() != null) {
-                Account account = accountsMap.get(instructor.getAccount().getId());
+            if (instructor.getAccountId() != null) {
+                Account account = accountsMap.get(instructor.getAccountId());
                 instructor.setAccount(account);
             }
             instructor.generateNewRegistrationKey();
@@ -198,10 +198,10 @@ public final class DataBundleLogic {
             usersMap.put(placeholderId, student);
             Course course = coursesMap.get(student.getCourseId());
             student.setCourse(course);
-            Team team = teamsMap.get(student.getTeam().getId());
+            Team team = teamsMap.get(student.getTeamId());
             student.setTeam(team);
-            if (student.getAccount() != null) {
-                Account account = accountsMap.get(student.getAccount().getId());
+            if (student.getAccountId() != null) {
+                Account account = accountsMap.get(student.getAccountId());
                 student.setAccount(account);
             }
             student.generateNewRegistrationKey();
@@ -209,11 +209,11 @@ public final class DataBundleLogic {
 
         for (FeedbackSessionLog log : sessionLogs) {
             log.setId(UUID.randomUUID());
-            FeedbackSession fs = log.getFeedbackSession() == null
-                    ? null : sessionsMap.get(log.getFeedbackSession().getId());
+            FeedbackSession fs = log.getSessionId() == null
+                    ? null : sessionsMap.get(log.getSessionId());
             log.setFeedbackSession(fs);
-            Student student = log.getStudent() == null
-                    ? null : (Student) usersMap.get(log.getStudent().getId());
+            Student student = log.getStudentId() == null
+                    ? null : (Student) usersMap.get(log.getStudentId());
             log.setStudent(student);
         }
 
@@ -225,19 +225,19 @@ public final class DataBundleLogic {
 
         for (ReadNotification readNotification : readNotifications) {
             readNotification.setId(UUID.randomUUID());
-            Account account = accountsMap.get(readNotification.getAccount().getId());
+            Account account = accountsMap.get(readNotification.getAccountId());
             readNotification.setAccount(account);
             account.addReadNotification(readNotification);
-            Notification notification = notificationsMap.get(readNotification.getNotification().getId());
+            Notification notification = notificationsMap.get(readNotification.getNotificationId());
             readNotification.setNotification(notification);
         }
 
         for (DeadlineExtension deadlineExtension : deadlineExtensions) {
             deadlineExtension.setId(UUID.randomUUID());
-            FeedbackSession session = sessionsMap.get(deadlineExtension.getFeedbackSession().getId());
+            FeedbackSession session = sessionsMap.get(deadlineExtension.getSessionId());
             deadlineExtension.setFeedbackSession(session);
             session.addDeadlineExtension(deadlineExtension);
-            User user = usersMap.get(deadlineExtension.getUser().getId());
+            User user = usersMap.get(deadlineExtension.getUserId());
             deadlineExtension.setUser(user);
         }
 

@@ -27,47 +27,35 @@
   "sections": {
     "tm.e2e.IHome.CS2104-None": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "course": {
-        "id": "tm.e2e.IHome.CS2104"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.IHome.CS2104"
     },
     "tm.e2e.IHome.CS1101-None": {
       "id": "00000000-0000-4000-8000-000000000202",
-      "course": {
-        "id": "tm.e2e.IHome.CS1101"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.IHome.CS1101"
     }
   },
   "teams": {
     "tm.e2e.IHome.CS2104-None-Team1": {
       "id": "00000000-0000-4000-8000-000000000301",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000201"
     },
     "tm.e2e.IHome.CS2104-None-Team2": {
       "id": "00000000-0000-4000-8000-000000000302",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "name": "Team 2"
+      "name": "Team 2",
+      "sectionId": "00000000-0000-4000-8000-000000000201"
     },
     "tm.e2e.IHome.CS1101-None-Team1": {
       "id": "00000000-0000-4000-8000-000000000303",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000202"
     },
     "tm.e2e.IHome.CS1101-None-Team2": {
       "id": "00000000-0000-4000-8000-000000000304",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "name": "Team 2"
+      "name": "Team 2",
+      "sectionId": "00000000-0000-4000-8000-000000000202"
     }
   },
   "deadlineExtensions": {},
@@ -92,11 +80,9 @@
       },
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "tm.e2e.IHome.CS2104",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "name": "Teammates Test",
-      "email": "ihome.instructor.tmms@gmail.tmt"
+      "email": "ihome.instructor.tmms@gmail.tmt",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "IHome.instr.CS1101": {
       "isDisplayedToStudents": true,
@@ -118,11 +104,9 @@
       },
       "id": "00000000-0000-4000-8000-000000000502",
       "courseId": "tm.e2e.IHome.CS1101",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "name": "Teammates Test",
-      "email": "ihome.instructor.tmms@gmail.tmt"
+      "email": "ihome.instructor.tmms@gmail.tmt",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },
   "students": {
@@ -130,81 +114,65 @@
       "comments": "This student's name is Alice Betsy",
       "id": "00000000-0000-4000-8000-000000000601",
       "courseId": "tm.e2e.IHome.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "name": "Alice Betsy",
-      "email": "ihome.alice.b.tmms@gmail.tmt"
+      "email": "ihome.alice.b.tmms@gmail.tmt",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "IHome.benny.c.tmms@IHome.CS2104": {
       "comments": "This student's name is Benny Charles",
       "id": "00000000-0000-4000-8000-000000000602",
       "courseId": "tm.e2e.IHome.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "name": "Benny Charles",
-      "email": "ihome.benny.c.tmms@gmail.tmt"
+      "email": "ihome.benny.c.tmms@gmail.tmt",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "IHome.charlie.d.tmms@IHome.CS2104": {
       "comments": "This student's name is Charlie Davis",
       "id": "00000000-0000-4000-8000-000000000603",
       "courseId": "tm.e2e.IHome.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000302"
-      },
       "name": "Charlie Davis",
-      "email": "ihome.charlie.d.tmms@gmail.tmt"
+      "email": "ihome.charlie.d.tmms@gmail.tmt",
+      "teamId": "00000000-0000-4000-8000-000000000302"
     },
     "IHome.danny.e.tmms@IHome.CS2104": {
       "comments": "This student's name is Danny Engrid",
       "id": "00000000-0000-4000-8000-000000000604",
       "courseId": "tm.e2e.IHome.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000302"
-      },
       "name": "Danny Engrid",
-      "email": "ihome.danny.e.tmms@gmail.tmt"
+      "email": "ihome.danny.e.tmms@gmail.tmt",
+      "teamId": "00000000-0000-4000-8000-000000000302"
     },
     "IHome.alice.b.tmms@IHome.CS1101": {
       "comments": "This student's name is Alice Betsy",
       "id": "00000000-0000-4000-8000-000000000605",
       "courseId": "tm.e2e.IHome.CS1101",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000303"
-      },
       "name": "Alice Betsy",
-      "email": "ihome.alice.b.tmms@gmail.tmt"
+      "email": "ihome.alice.b.tmms@gmail.tmt",
+      "teamId": "00000000-0000-4000-8000-000000000303"
     },
     "IHome.benny.c.tmms@IHome.CS1101": {
       "comments": "This student's name is Benny Charles",
       "id": "00000000-0000-4000-8000-000000000606",
       "courseId": "tm.e2e.IHome.CS1101",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000303"
-      },
       "name": "Benny Charles",
-      "email": "ihome.benny.c.tmms@gmail.tmt"
+      "email": "ihome.benny.c.tmms@gmail.tmt",
+      "teamId": "00000000-0000-4000-8000-000000000303"
     },
     "IHome.charlie.d.tmms@IHome.CS1101": {
       "comments": "This student's name is Charlie Davis",
       "id": "00000000-0000-4000-8000-000000000607",
       "courseId": "tm.e2e.IHome.CS1101",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000304"
-      },
       "name": "Charlie Davis",
-      "email": "ihome.charlie.d.tmms@gmail.tmt"
+      "email": "ihome.charlie.d.tmms@gmail.tmt",
+      "teamId": "00000000-0000-4000-8000-000000000304"
     },
     "IHome.danny.e.tmms@IHome.CS1101": {
       "comments": "This student's name is Danny Engrid",
       "id": "00000000-0000-4000-8000-000000000608",
       "courseId": "tm.e2e.IHome.CS1101",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000304"
-      },
       "name": "Danny Engrid",
-      "email": "ihome.danny.e.tmms@gmail.tmt"
+      "email": "ihome.danny.e.tmms@gmail.tmt",
+      "teamId": "00000000-0000-4000-8000-000000000304"
     }
   },
   "feedbackSessions": {
@@ -317,9 +285,6 @@
         "questionText": "Rate 5 other students' products"
       },
       "id": "00000000-0000-4000-8000-000000000801",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "description": "Feedback text question.",
       "questionNumber": 1,
       "giverType": "STUDENTS",
@@ -327,7 +292,8 @@
       "numOfEntitiesToGiveFeedbackTo": 5,
       "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "IHome.CS2104:Third Feedback Session:Q1": {
       "questionDetails": {
@@ -336,9 +302,6 @@
         "questionText": "Rate 5 other students' products"
       },
       "id": "00000000-0000-4000-8000-000000000802",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000703"
-      },
       "description": "Feedback text question.",
       "questionNumber": 1,
       "giverType": "STUDENTS",
@@ -346,7 +309,8 @@
       "numOfEntitiesToGiveFeedbackTo": 5,
       "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "sessionId": "00000000-0000-4000-8000-000000000703"
     }
   },
   "feedbackResponses": {
@@ -357,21 +321,10 @@
       },
       "id": "00000000-0000-4000-8000-000000000901",
       "giver": "ihome.alice.b.tmms@gmail.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "recipient": "ihome.danny.e.tmms@gmail.tmt",
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000801",
-        "questionDetails": {
-          "shouldAllowRichText": true,
-          "questionType": "TEXT",
-          "questionText": "Rate 5 other students' products"
-        }
-      }
+      "questionId": "00000000-0000-4000-8000-000000000801",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     }
   },
   "feedbackResponseComments": {},

@@ -108,9 +108,6 @@
   "instructors": {
     "ICEdit.coowner.CS2104": {
       "id": "00000000-0000-4000-8000-000000000501",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.ICEdit.CS2104",
       "name": "CS2104 Co-owner",
       "email": "icedit.coowner.cs2104@gmail.tmt",
@@ -130,13 +127,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "ICEdit.manager.CS2104": {
       "id": "00000000-0000-4000-8000-000000000502",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000003"
-      },
       "courseId": "tm.e2e.ICEdit.CS2104",
       "name": "CS2104 Manager",
       "email": "icedit.manager.cs2104@gmail.tmt",
@@ -156,13 +151,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000003"
     },
     "ICEdit.observer.CS2104": {
       "id": "00000000-0000-4000-8000-000000000503",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
       "courseId": "tm.e2e.ICEdit.CS2104",
       "name": "CS2104 Observer",
       "email": "icedit.observer.cs2104@gmail.tmt",
@@ -182,13 +175,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000002"
     },
     "ICEdit.tutor.CS2104": {
       "id": "00000000-0000-4000-8000-000000000504",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000004"
-      },
       "courseId": "tm.e2e.ICEdit.CS2104",
       "name": "CS2104 Tutor",
       "email": "icedit.tutor.cs2104@gmail.tmt",
@@ -208,13 +199,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000004"
     },
     "ICEdit.helper.CS2104": {
       "id": "00000000-0000-4000-8000-000000000505",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000005"
-      },
       "courseId": "tm.e2e.ICEdit.CS2104",
       "name": "CS2104 Helper",
       "email": "icedit.helper.cs2104@gmail.tmt",
@@ -234,13 +223,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000005"
     },
     "ICEdit.coowner.CS2103T": {
       "id": "00000000-0000-4000-8000-000000000506",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.ICEdit.CS2103T",
       "name": "CS2103T Co-owner",
       "email": "icedit.coowner.cs2103t@gmail.tmt",
@@ -260,13 +247,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "ICEdit.observer.CS2103T": {
       "id": "00000000-0000-4000-8000-000000000507",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
       "courseId": "tm.e2e.ICEdit.CS2103T",
       "name": "CS2103T Observer",
       "email": "icedit.observer.cs2103t@gmail.tmt",
@@ -286,13 +271,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000002"
     },
     "ICEdit.helper.CS2103T": {
       "id": "00000000-0000-4000-8000-000000000508",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000006"
-      },
       "courseId": "tm.e2e.ICEdit.CS2103T",
       "name": "CS2103T Helper",
       "email": "icedit.helper.cs2103t@gmail.tmt",
@@ -312,13 +295,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000006"
     },
     "ICEdit.coowner.CS2105": {
       "id": "00000000-0000-4000-8000-000000000509",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.ICEdit.CS2105",
       "name": "CS2105 Co-owner",
       "email": "icedit.coowner.cs2105@gmail.tmt",
@@ -338,13 +319,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "ICEdit.manager.CS2105": {
       "id": "00000000-0000-4000-8000-000000000510",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000007"
-      },
       "courseId": "tm.e2e.ICEdit.CS2105",
       "name": "CS2105 Manager",
       "email": "icedit.manager.cs2105@gmail.tmt",
@@ -364,13 +343,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000007"
     },
     "ICEdit.coowner.CS2106": {
       "id": "00000000-0000-4000-8000-000000000511",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.ICEdit.CS2106",
       "name": "CS2106 Co-owner",
       "email": "icedit.coowner.cs2106@gmail.tmt",
@@ -390,13 +367,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "ICEdit.tutor.CS2106": {
       "id": "00000000-0000-4000-8000-000000000512",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000008"
-      },
       "courseId": "tm.e2e.ICEdit.CS2106",
       "name": "Teammates Test",
       "email": "icedit.test@gmail.tmt",
@@ -416,13 +391,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000008"
     },
     "ICEdit.coowner.CS2107": {
       "id": "00000000-0000-4000-8000-000000000513",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.ICEdit.CS2107",
       "name": "CS2107 Co-owner",
       "email": "icedit.coowner.cs2107@gmail.tmt",
@@ -442,80 +415,61 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },
   "students": {
     "alice.tmms@ICEdit.CS2104": {
       "id": "00000000-0000-4000-8000-000000000601",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000009"
-      },
       "courseId": "tm.e2e.ICEdit.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "email": "alice.b.tmms@gmail.tmt",
       "name": "Alice Betsy</option></td></div>'\"",
-      "comments": "This student's name is Alice Betsy"
+      "comments": "This student's name is Alice Betsy",
+      "accountId": "00000000-0000-4000-8000-000000000009",
+      "teamId": "00000000-0000-4000-8000-000000000201"
     },
     "charlie.tmms@ICEdit.CS2104": {
       "id": "00000000-0000-4000-8000-000000000602",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000010"
-      },
       "courseId": "tm.e2e.ICEdit.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "email": "charlie.d.tmms@gmail.tmt",
       "name": "Charlie Davis",
-      "comments": "This student's name is Charlie Davis"
+      "comments": "This student's name is Charlie Davis",
+      "accountId": "00000000-0000-4000-8000-000000000010",
+      "teamId": "00000000-0000-4000-8000-000000000201"
     },
     "danny.tmms@ICEdit.CS2104": {
       "id": "00000000-0000-4000-8000-000000000603",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000011"
-      },
       "courseId": "tm.e2e.ICEdit.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
       "email": "danny.e.tmms@gmail.tmt",
       "name": "Danny Engrid",
-      "comments": "This student's name is Danny Engrid"
+      "comments": "This student's name is Danny Engrid",
+      "accountId": "00000000-0000-4000-8000-000000000011",
+      "teamId": "00000000-0000-4000-8000-000000000202"
     }
   },
   "sections": {
     "ICEdit.Section1": {
       "id": "00000000-0000-4000-8000-000000000101",
-      "course": {
-        "id": "tm.e2e.ICEdit.CS2104"
-      },
-      "name": "Section 1"
+      "name": "Section 1",
+      "courseId": "tm.e2e.ICEdit.CS2104"
     },
     "ICEdit.Section2": {
       "id": "00000000-0000-4000-8000-000000000102",
-      "course": {
-        "id": "tm.e2e.ICEdit.CS2104"
-      },
-      "name": "Section 2"
+      "name": "Section 2",
+      "courseId": "tm.e2e.ICEdit.CS2104"
     }
   },
   "teams": {
     "ICEdit.Team1": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
-      "name": "Team 1</option><option value=\"dump\"></td><td>'\""
+      "name": "Team 1</option><option value=\"dump\"></td><td>'\"",
+      "sectionId": "00000000-0000-4000-8000-000000000101"
     },
     "ICEdit.Team2": {
       "id": "00000000-0000-4000-8000-000000000202",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000102"
-      },
-      "name": "Team 2"
+      "name": "Team 2",
+      "sectionId": "00000000-0000-4000-8000-000000000102"
     }
   },
   "feedbackSessions": {

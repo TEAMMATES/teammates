@@ -36,9 +36,6 @@
   "instructors": {
     "ICDet.instr": {
       "id": "00000000-0000-4000-8000-000000000501",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.ICDet.CS2104",
       "name": "ICDet Instructor 1",
       "email": "icdet.instr@gmail.tmt",
@@ -58,13 +55,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "ICDet.instr2": {
       "id": "00000000-0000-4000-8000-000000000502",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
       "courseId": "tm.e2e.ICDet.CS2104",
       "name": "ICDet Instructor 2",
       "email": "icdet.instr2@gmail.tmt",
@@ -84,108 +79,83 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000002"
     }
   },
   "students": {
     "alice.tmms@ICDet.CS2104": {
       "id": "00000000-0000-4000-8000-000000000601",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000003"
-      },
       "courseId": "tm.e2e.ICDet.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "email": "alice.b.tmms@gmail.tmt",
       "name": "Alice Betsy",
-      "comments": "This student's name is Alice Betsy"
+      "comments": "This student's name is Alice Betsy",
+      "accountId": "00000000-0000-4000-8000-000000000003",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "benny.tmms@ICDet.CS2104": {
       "id": "00000000-0000-4000-8000-000000000602",
       "courseId": "tm.e2e.ICDet.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000302"
-      },
       "email": "benny.c.tmms@gmail.tmt",
       "name": "Benny Charles",
-      "comments": "This student's name is Benny Charles"
+      "comments": "This student's name is Benny Charles",
+      "teamId": "00000000-0000-4000-8000-000000000302"
     },
     "charlie.tmms@ICDet.CS2104": {
       "id": "00000000-0000-4000-8000-000000000603",
       "courseId": "tm.e2e.ICDet.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000303"
-      },
       "email": "charlie.d.tmms@gmail.tmt",
       "name": "Charlie Davis",
-      "comments": "This student's name is Charlie Davis"
+      "comments": "This student's name is Charlie Davis",
+      "teamId": "00000000-0000-4000-8000-000000000303"
     },
     "danny.tmms@ICDet.CS2104": {
       "id": "00000000-0000-4000-8000-000000000604",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000004"
-      },
       "courseId": "tm.e2e.ICDet.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000304"
-      },
       "email": "danny.e.tmms@gmail.tmt",
       "name": "Danny Engrid",
-      "comments": "This student's name is Danny Engrid"
+      "comments": "This student's name is Danny Engrid",
+      "accountId": "00000000-0000-4000-8000-000000000004",
+      "teamId": "00000000-0000-4000-8000-000000000304"
     }
   },
   "sections": {
     "sectionNoneInCourse1": {
       "id": "00000000-0000-4000-8000-000000000200",
-      "course": {
-        "id": "tm.e2e.ICDet.CS2104"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.ICDet.CS2104"
     },
     "section1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "course": {
-        "id": "tm.e2e.ICDet.CS2104"
-      },
-      "name": "Section 1"
+      "name": "Section 1",
+      "courseId": "tm.e2e.ICDet.CS2104"
     },
     "section2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000202",
-      "course": {
-        "id": "tm.e2e.ICDet.CS2104"
-      },
-      "name": "Section 2"
+      "name": "Section 2",
+      "courseId": "tm.e2e.ICDet.CS2104"
     }
   },
   "teams": {
     "team1InSectionNone": {
       "id": "00000000-0000-4000-8000-000000000301",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000200"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000200"
     },
     "team2InSectionNone": {
       "id": "00000000-0000-4000-8000-000000000302",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000200"
-      },
-      "name": "Team 2"
+      "name": "Team 2",
+      "sectionId": "00000000-0000-4000-8000-000000000200"
     },
     "team1InSection1": {
       "id": "00000000-0000-4000-8000-000000000303",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000201"
     },
     "team2InSection2": {
       "id": "00000000-0000-4000-8000-000000000304",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "name": "Team 2"
+      "name": "Team 2",
+      "sectionId": "00000000-0000-4000-8000-000000000202"
     }
   }
 }

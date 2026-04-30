@@ -36,9 +36,6 @@
   "instructors": {
     "AAccounts.instr2-AAccounts.CS2104": {
       "id": "00000000-0000-4000-8000-000000000501",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.AAccounts.CS2104",
       "name": "Teammates Instr2",
       "email": "aaccounts.instr2@gmail.tmt",
@@ -58,13 +55,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "AAccounts.instr2-AAccounts.CS2103": {
       "id": "00000000-0000-4000-8000-000000000502",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.AAccounts.CS2103",
       "name": "Teammates Instr2",
       "email": "aaccounts.instr2@gmail.tmt",
@@ -84,13 +79,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "AAccounts.instr2-AAccounts.CS1101": {
       "id": "00000000-0000-4000-8000-000000000503",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.AAccounts.CS1101",
       "name": "Teammates Instr2",
       "email": "aaccounts.instr2@gmail.tmt",
@@ -110,13 +103,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "AAccounts.instr3-AAccounts.CS2103": {
       "id": "00000000-0000-4000-8000-000000000504",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
       "courseId": "tm.e2e.AAccounts.CS2103",
       "name": "Teammates Instr3",
       "email": "aaccounts.instr3@gmail.tmt",
@@ -136,94 +127,71 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000002"
     }
   },
   "students": {
     "AAccounts.instr2-student-CS2104": {
       "id": "00000000-0000-4000-8000-000000000601",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.AAccounts.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "email": "aaccounts.instr2-student@gmail.tmt",
       "name": "Teammates Instr2",
-      "comments": "This is an instructor"
+      "comments": "This is an instructor",
+      "accountId": "00000000-0000-4000-8000-000000000001",
+      "teamId": "00000000-0000-4000-8000-000000000201"
     },
     "AAccounts.instr2-student-CS2103": {
       "id": "00000000-0000-4000-8000-000000000602",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.AAccounts.CS2103",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
       "email": "aaccounts.instr2-student@gmail.tmt",
       "name": "Teammates Instr2",
-      "comments": "This is an instructor"
+      "comments": "This is an instructor",
+      "accountId": "00000000-0000-4000-8000-000000000001",
+      "teamId": "00000000-0000-4000-8000-000000000202"
     },
     "AAccounts.instr2-student-CS1101": {
       "id": "00000000-0000-4000-8000-000000000603",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.AAccounts.CS1101",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "email": "aaccounts.instr2-student@gmail.tmt",
       "name": "Teammates Instr2",
-      "comments": "This is an instructor"
+      "comments": "This is an instructor",
+      "accountId": "00000000-0000-4000-8000-000000000001",
+      "teamId": "00000000-0000-4000-8000-000000000203"
     }
   },
   "sections": {
     "CS2104None": {
       "id": "00000000-0000-4000-8000-000000000101",
-      "course": {
-        "id": "tm.e2e.AAccounts.CS2104"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.AAccounts.CS2104"
     },
     "CS2103None": {
       "id": "00000000-0000-4000-8000-000000000102",
-      "course": {
-        "id": "tm.e2e.AAccounts.CS2103"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.AAccounts.CS2103"
     },
     "CS1101None": {
       "id": "00000000-0000-4000-8000-000000000103",
-      "course": {
-        "id": "tm.e2e.AAccounts.CS1101"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.AAccounts.CS1101"
     }
   },
   "teams": {
     "CS2104Team1": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000101"
     },
     "CS2103Team1": {
       "id": "00000000-0000-4000-8000-000000000202",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000102"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000102"
     },
     "CS1101Team1": {
       "id": "00000000-0000-4000-8000-000000000203",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000103"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000103"
     }
   },
   "feedbackSessions": {},

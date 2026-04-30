@@ -23,7 +23,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
 
     @Test
     public void testGetQuestionResponseMap() {
-        DataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
+        DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsBundleTest.json");
 
         List<String> allExpectedResponses = new ArrayList<>();
         allExpectedResponses.add(responseBundle.feedbackResponses.get("response1ForQ1").toString());
@@ -61,7 +61,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
 
     @Test
     public void testGetQuestionMissingResponseMap() {
-        DataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
+        DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsBundleTest.json");
 
         List<FeedbackMissingResponse> expectedMissingResponses = new ArrayList<>();
         expectedMissingResponses.add(createFeedbackMissingResponse(responseBundle.feedbackResponses.get("response1ForQ1")));
@@ -98,7 +98,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
     @Test
     public void testIsResponseGiverRecipientVisible_typicalCase_shouldReturnCorrectValues() {
 
-        DataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
+        DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsBundleTest.json");
 
         FeedbackSession session1Course1 = getTypicalFeedbackSessionForCourse(getTypicalCourse());
 
@@ -160,7 +160,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
 
     @Test
     public void testIsCommentGiverVisible_typicalCase_shouldReturnCorrectValues() {
-        DataBundle responseBundle = loadDataBundle("/SqlFeedbackSessionResultsBundleTest.json");
+        DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsBundleTest.json");
 
         UUID commentId1 = UUID.fromString("00000000-0000-4000-8000-000000000001");
         UUID commentId2 = UUID.fromString("00000000-0000-4000-8000-000000000002");

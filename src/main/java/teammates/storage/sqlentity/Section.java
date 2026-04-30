@@ -38,6 +38,9 @@ public class Section extends BaseEntity {
     @JoinColumn(name = "courseId")
     private Course course;
 
+    @Column(nullable = false, insertable = false, updatable = false)
+    private String courseId;
+
     @Column(nullable = false)
     private String name;
 
@@ -106,8 +109,16 @@ public class Section extends BaseEntity {
         return course;
     }
 
+    public String getCourseId() {
+        return courseId;
+    }
+
+    /**
+     * Sets the course of the section.
+     */
     public void setCourse(Course course) {
         this.course = course;
+        this.courseId = course == null ? null : course.getId();
     }
 
     public String getName() {

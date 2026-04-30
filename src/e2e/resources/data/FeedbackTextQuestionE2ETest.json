@@ -30,9 +30,6 @@
   },
   "instructors": {
     "instructor": {
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -53,7 +50,8 @@
       },
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "tm.e2e.FTextQn.CS2104",
-      "displayName": "Co-owner"
+      "displayName": "Co-owner",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "instructor2": {
       "name": "Teammates Test 2",
@@ -79,9 +77,6 @@
       "displayName": "Co-owner"
     },
     "instructor3": {
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -102,25 +97,22 @@
       },
       "id": "00000000-0000-4000-8000-000000000503",
       "courseId": "tm.e2e.FTextQn.CS1101",
-      "displayName": "Co-owner"
+      "displayName": "Co-owner",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },
   "sections": {
     "ProgrammingLanguageConceptsNone": {
       "id": "00000000-0000-4000-8000-000000000101",
-      "course": {
-        "id": "tm.e2e.FTextQn.CS2104"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.FTextQn.CS2104"
     }
   },
   "teams": {
     "ProgrammingLanguageConceptsNone": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000101"
     }
   },
   "feedbackSessions": {
@@ -166,9 +158,6 @@
   "feedbackQuestions": {
     "qn1ForFirstSession": {
       "id": "00000000-0000-4000-8000-000000000801",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "What did this instructor do well?",
@@ -181,13 +170,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn1ForSecondSession": {
       "id": "00000000-0000-4000-8000-000000000802",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000702"
-      },
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "How can this instructor improve?",
@@ -200,7 +187,8 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000702"
     }
   },
   "notifications": {},
@@ -209,16 +197,12 @@
   "students": {
     "alice.tmms@FTextQn.CS2104": {
       "id": "00000000-0000-4000-8000-000000000604",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
       "courseId": "tm.e2e.FTextQn.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "email": "alice.b.tmms@gmail.tmt",
       "name": "Alice Betsy",
-      "comments": "This student's name is Alice Betsy"
+      "comments": "This student's name is Alice Betsy",
+      "accountId": "00000000-0000-4000-8000-000000000002",
+      "teamId": "00000000-0000-4000-8000-000000000201"
     }
   }
 }

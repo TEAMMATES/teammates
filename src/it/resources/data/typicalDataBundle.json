@@ -180,102 +180,71 @@
   "sections": {
     "section1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "course": {
-        "id": "course-1"
-      },
-      "name": "Section 1"
+      "name": "Section 1",
+      "courseId": "course-1"
     },
     "section1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000202",
-      "course": {
-        "id": "course-2"
-      },
-      "name": "Section 2"
+      "name": "Section 2",
+      "courseId": "course-2"
     },
     "section2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000203",
-      "course": {
-        "id": "course-1"
-      },
-      "name": "Section 3"
+      "name": "Section 3",
+      "courseId": "course-1"
     },
     "section1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000204",
-      "course": {
-        "id": "course-3"
-      },
-      "name": "Section 1"
+      "name": "Section 1",
+      "courseId": "course-3"
     }
   },
   "teams": {
     "team1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000301",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000201"
     },
     "team1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000302",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "name": "Team 2"
+      "name": "Team 2",
+      "sectionId": "00000000-0000-4000-8000-000000000201"
     },
     "team2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000303",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "name": "Team 3"
+      "name": "Team 3",
+      "sectionId": "00000000-0000-4000-8000-000000000203"
     },
     "team1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000304",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000204"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000204"
     },
     "team2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000305",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "name": "Team 4"
+      "name": "Team 4",
+      "sectionId": "00000000-0000-4000-8000-000000000203"
     }
   },
   "deadlineExtensions": {
     "student1InCourse1Session1": {
       "id": "00000000-0000-4000-8000-000000000401",
-      "user": {
-        "id": "00000000-0000-4000-8000-000000000601",
-        "type": "student"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "endTime": "2028-04-30T23:00:00Z",
-      "isClosingSoonEmailSent": false
+      "isClosingSoonEmailSent": false,
+      "sessionId": "00000000-0000-4000-8000-000000000701",
+      "userId": "00000000-0000-4000-8000-000000000601"
     },
     "instructor1InCourse1Session1": {
       "id": "00000000-0000-4000-8000-000000000402",
-      "user": {
-        "id": "00000000-0000-4000-8000-000000000501",
-        "type": "instructor"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "endTime": "2028-04-30T23:00:00Z",
-      "isClosingSoonEmailSent": false
+      "isClosingSoonEmailSent": false,
+      "sessionId": "00000000-0000-4000-8000-000000000701",
+      "userId": "00000000-0000-4000-8000-000000000501"
     }
   },
   "instructors": {
     "instructor1OfCourse1": {
       "id": "00000000-0000-4000-8000-000000000501",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "course-1",
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
@@ -295,13 +264,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "instructor2OfCourse1": {
       "id": "00000000-0000-4000-8000-000000000502",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
       "courseId": "course-1",
       "name": "Instructor 2",
       "email": "instr2@teammates.tmt",
@@ -321,13 +288,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000002"
     },
     "instructorOfUnregisteredCourse": {
       "id": "00000000-0000-4000-8000-000000000504",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000004"
-      },
       "courseId": "unregistered-course",
       "name": "Instructor Of Unregistered Course",
       "email": "instructorofunregisteredcourse@unregisteredcourse.tmt",
@@ -347,13 +312,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000004"
     },
     "instructorOfCourse2WithUniqueDisplayName": {
       "id": "00000000-0000-4000-8000-000000000505",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000005"
-      },
       "courseId": "course-2",
       "name": "Instructor Of Course 2 With Unique Display Name",
       "email": "instructorofcourse2withuniquedisplayname@teammates.tmt",
@@ -373,13 +336,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000005"
     },
     "instructor1OfCourse3": {
       "id": "00000000-0000-4000-8000-000000000506",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "course-3",
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
@@ -399,7 +360,8 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "unregisteredInstructorOfCourse1": {
       "id": "00000000-0000-4000-8000-000000000507",
@@ -426,9 +388,6 @@
     },
     "instructor1OfCourse4": {
       "id": "00000000-0000-4000-8000-000000000508",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "course-4",
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
@@ -448,7 +407,8 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "instructor2YetToJoinCourse4": {
       "id": "00000000-0000-4000-8000-000000000509",
@@ -500,118 +460,88 @@
   "students": {
     "student1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000601",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
       "courseId": "course-1",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "email": "student1@teammates.tmt",
       "name": "student1 In Course1",
-      "comments": "comment for student1Course1"
+      "comments": "comment for student1Course1",
+      "accountId": "00000000-0000-4000-8000-000000000101",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "student2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000602",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000102"
-      },
       "courseId": "course-1",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "email": "student2@teammates.tmt",
       "name": "student2 In Course1",
-      "comments": ""
+      "comments": "",
+      "accountId": "00000000-0000-4000-8000-000000000102",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "student3InCourse1": {
       "id": "00000000-0000-4000-8000-000000000603",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000103"
-      },
       "courseId": "course-1",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "email": "student3@teammates.tmt",
       "name": "student3 In Course1",
-      "comments": ""
+      "comments": "",
+      "accountId": "00000000-0000-4000-8000-000000000103",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "student4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000611",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000104"
-      },
       "courseId": "course-1",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000305"
-      },
       "email": "student4@teammates.tmt",
       "name": "student4 In Course1",
-      "comments": "This student is not in the same team as others in course 1"
+      "comments": "This student is not in the same team as others in course 1",
+      "accountId": "00000000-0000-4000-8000-000000000104",
+      "teamId": "00000000-0000-4000-8000-000000000305"
     },
     "student1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000604",
       "courseId": "course-2",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000302"
-      },
       "email": "student1@teammates.tmt",
       "name": "student1 In Course2",
-      "comments": ""
+      "comments": "",
+      "teamId": "00000000-0000-4000-8000-000000000302"
     },
     "student1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000605",
       "email": "student1@teammates.tmt",
       "courseId": "course-3",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000304"
-      },
       "name": "student1 In Course3</td></div>'\"",
-      "comments": "comment for student1InCourse3</td></div>'\""
+      "comments": "comment for student1InCourse3</td></div>'\"",
+      "teamId": "00000000-0000-4000-8000-000000000304"
     },
     "unregisteredStudentInCourse1": {
       "id": "00000000-0000-4000-8000-000000000606",
       "courseId": "course-1",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "email": "unregisteredstudentincourse1@teammates.tmt",
       "name": "Unregistered Student In Course1",
-      "comments": ""
+      "comments": "",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "student1InCourse4": {
       "id": "00000000-0000-4000-8000-000000000607",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
       "courseId": "course-4",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "email": "student1@teammates.tmt",
       "name": "student1 In Course4",
-      "comments": "comment for student1Course1"
+      "comments": "comment for student1Course1",
+      "accountId": "00000000-0000-4000-8000-000000000101",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "student2YetToJoinCourse4": {
       "id": "00000000-0000-4000-8000-000000000608",
       "courseId": "course-4",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000302"
-      },
       "email": "student2yettojoincourse4@teammates.tmt",
       "name": "student2YetToJoinCourse In Course4",
-      "comments": ""
+      "comments": "",
+      "teamId": "00000000-0000-4000-8000-000000000302"
     },
     "student3YetToJoinCourse4": {
       "id": "00000000-0000-4000-8000-000000000609",
       "courseId": "course-4",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000302"
-      },
       "email": "student3yettojoincourse4@teammates.tmt",
       "name": "student3YetToJoinCourse In Course4",
-      "comments": ""
+      "comments": "",
+      "teamId": "00000000-0000-4000-8000-000000000302"
     }
   },
   "feedbackSessions": {
@@ -771,9 +701,6 @@
   "feedbackQuestions": {
     "qn1InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000801",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "What is the best selling point of your product?"
@@ -785,13 +712,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn2InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000802",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionDetails": {
         "recommendedLength": 0,
         "questionType": "TEXT",
@@ -804,13 +729,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn3InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000803",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "My comments on the class"
@@ -822,13 +745,11 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
       "showGiverNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"]
+      "showRecipientNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn4InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000804",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "Instructor comments on the class"
@@ -840,13 +761,11 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
       "showGiverNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"]
+      "showRecipientNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn5InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000805",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionDetails": {
         "recommendedLength": 100,
         "questionText": "New format Text question",
@@ -859,13 +778,11 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn6InSession1InCourse1NoResponses": {
       "id": "00000000-0000-4000-8000-000000000806",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionDetails": {
         "recommendedLength": 100,
         "questionText": "New format Text question",
@@ -878,13 +795,11 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn7InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000807",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionDetails": {
         "recommendedLength": 100,
         "questionText": "This is question 7, a text question.",
@@ -897,13 +812,11 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn8InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000808",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionDetails": {
         "recommendedLength": 100,
         "questionText": "This is question 8, a text question.",
@@ -916,13 +829,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["RECEIVER"],
       "showGiverNameTo": ["RECEIVER"],
-      "showRecipientNameTo": ["RECEIVER"]
+      "showRecipientNameTo": ["RECEIVER"],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn9InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000809",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "What is the best selling point of your product?"
@@ -934,13 +845,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn1InSession2InCourse1": {
       "id": "00000000-0000-4000-8001-000000000800",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000702"
-      },
       "questionDetails": {
         "hasAssignedWeights": false,
         "mcqWeights": [],
@@ -959,290 +868,150 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000702"
     }
   },
   "feedbackResponses": {
     "response1ForQ1": {
       "id": "00000000-0000-4000-8000-000000000901",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000801",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "What is the best selling point of your product?"
-        }
-      },
       "giver": "student1@teammates.tmt",
       "recipient": "student1@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Student 1 self feedback."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000801",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response2ForQ1": {
       "id": "00000000-0000-4000-8000-000000000902",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000801",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "What is the best selling point of your product?"
-        }
-      },
       "giver": "student2@teammates.tmt",
       "recipient": "student2@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Student 2 self feedback."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000801",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response1ForQ2": {
       "id": "00000000-0000-4000-8000-000000000903",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000802",
-        "feedbackSession": {
-          "id": "00000000-0000-4000-8000-000000000701"
-        },
-        "questionDetails": {
-          "recommendedLength": 0,
-          "questionType": "TEXT",
-          "questionText": "Rate 1 other student's product"
-        },
-        "description": "This is a text question.",
-        "questionNumber": 2,
-        "giverType": "STUDENTS",
-        "recipientType": "STUDENTS_EXCLUDING_SELF",
-        "numOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
-        "showGiverNameTo": ["INSTRUCTORS"],
-        "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
-      },
       "giver": "student2@teammates.tmt",
       "recipient": "student1@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Student 2's rating of Student 1's project."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000802",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response2ForQ2": {
       "id": "00000000-0000-4000-8000-000000000904",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000802",
-        "feedbackSession": {
-          "id": "00000000-0000-4000-8000-000000000701"
-        },
-        "questionDetails": {
-          "recommendedLength": 0,
-          "questionType": "TEXT",
-          "questionText": "Rate 1 other student's product"
-        },
-        "description": "This is a text question.",
-        "questionNumber": 2,
-        "giverType": "STUDENTS",
-        "recipientType": "STUDENTS_EXCLUDING_SELF",
-        "numOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
-        "showGiverNameTo": ["INSTRUCTORS"],
-        "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
-      },
       "giver": "student3@teammates.tmt",
       "recipient": "student2@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Student 3's rating of Student 2's project."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000802",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response1ForQ3": {
       "id": "00000000-0000-4000-8000-000000000905",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000803",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "My comments on the class"
-        }
-      },
       "giver": "student1@teammates.tmt",
       "recipient": "student1@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "The class is great."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000803",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response1ForQ1InSession2": {
       "id": "00000000-0000-4000-8001-000000000901",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8001-000000000800",
-        "questionDetails": {
-          "hasAssignedWeights": false,
-          "mcqWeights": [],
-          "mcqOtherWeight": 0.0,
-          "mcqChoices": ["Great", "Perfect"],
-          "otherEnabled": false,
-          "questionDropdownEnabled": false,
-          "generateOptionsFor": "NONE",
-          "questionType": "MCQ",
-          "questionText": "How do you think you did?"
-        }
-      },
       "giver": "student1@teammates.tmt",
       "recipient": "student1@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": "Great",
         "otherFieldContent": "",
         "questionType": "MCQ"
-      }
+      },
+      "questionId": "00000000-0000-4000-8001-000000000800",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     }
   },
   "feedbackResponseComments": {
     "comment1ToResponse1ForQ1": {
-      "feedbackResponse": {
-        "id": "00000000-0000-4000-8000-000000000901",
-        "answer": {
-          "questionType": "TEXT",
-          "answer": "Student 1 self feedback."
-        }
-      },
       "giver": "instr1@teammates.tmt",
       "giverType": "INSTRUCTORS",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "commentText": "Instructor 1 comment to student 1 self feedback",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "instr1@teammates.tmt"
+      "lastEditorEmail": "instr1@teammates.tmt",
+      "responseId": "00000000-0000-4000-8000-000000000901",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "comment2ToResponse1ForQ1": {
-      "feedbackResponse": {
-        "id": "00000000-0000-4000-8000-000000000901",
-        "answer": {
-          "questionType": "TEXT",
-          "answer": "Student 1 self feedback."
-        }
-      },
       "giver": "student1@teammates.tmt",
       "giverType": "STUDENTS",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "commentText": "Student 1 comment to student 1 self feedback",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "student1@teammates.tmt"
+      "lastEditorEmail": "student1@teammates.tmt",
+      "responseId": "00000000-0000-4000-8000-000000000901",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "comment2ToResponse2ForQ1": {
-      "feedbackResponse": {
-        "id": "00000000-0000-4000-8000-000000000902",
-        "answer": {
-          "questionType": "TEXT",
-          "answer": "Student 2 self feedback."
-        }
-      },
       "giver": "instr2@teammates.tmt",
       "giverType": "INSTRUCTORS",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "commentText": "Instructor 2 comment to student 2 self feedback",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "instr2@teammates.tmt"
+      "lastEditorEmail": "instr2@teammates.tmt",
+      "responseId": "00000000-0000-4000-8000-000000000902",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "comment1ToResponse1ForQ2s": {
-      "feedbackResponse": {
-        "id": "00000000-0000-4000-8000-000000000903",
-        "answer": {
-          "questionType": "TEXT",
-          "answer": "Student 2 self feedback."
-        }
-      },
       "giver": "instr2@teammates.tmt",
       "giverType": "INSTRUCTORS",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "commentText": "Instructor 2 comment to student 2 self feedback",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "instr2@teammates.tmt"
+      "lastEditorEmail": "instr2@teammates.tmt",
+      "responseId": "00000000-0000-4000-8000-000000000903",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "comment1ToResponse1ForQ3": {
-      "feedbackResponse": {
-        "id": "00000000-0000-4000-8000-000000000905",
-        "answer": {
-          "questionType": "TEXT",
-          "answer": "The class is great."
-        }
-      },
       "giver": "instr1@teammates.tmt",
       "giverType": "INSTRUCTORS",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "commentText": "Instructor 1 comment to student 1 self feedback",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "instr1@teammates.tmt"
+      "lastEditorEmail": "instr1@teammates.tmt",
+      "responseId": "00000000-0000-4000-8000-000000000905",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     }
   },
   "notifications": {
@@ -1260,100 +1029,64 @@
   "readNotifications": {
     "notification1Instructor1": {
       "id": "00000000-0000-4000-8000-000000001201",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
-      "notification": {
-        "id": "00000000-0000-4000-8000-000000001101"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000001",
+      "notificationId": "00000000-0000-4000-8000-000000001101"
     },
     "notification1Student1": {
       "id": "00000000-0000-4000-8000-000000001101",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
-      "notification": {
-        "id": "00000000-0000-4000-8000-000000001101"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000002",
+      "notificationId": "00000000-0000-4000-8000-000000001101"
     }
   },
   "feedbackSessionLogs": {
     "student1Session1Log1": {
       "id": "00000000-0000-4000-8000-000000001301",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000601"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "feedbackSessionLogType": "ACCESS",
-      "timestamp": "2012-01-01T12:00:00Z"
+      "timestamp": "2012-01-01T12:00:00Z",
+      "studentId": "00000000-0000-4000-8000-000000000601",
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student1Session2Log1": {
       "id": "00000000-0000-4000-8000-000000001302",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000601"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000702"
-      },
       "feedbackSessionLogType": "ACCESS",
-      "timestamp": "2012-01-01T12:00:01Z"
+      "timestamp": "2012-01-01T12:00:01Z",
+      "studentId": "00000000-0000-4000-8000-000000000601",
+      "sessionId": "00000000-0000-4000-8000-000000000702"
     },
     "student1Session2Log2": {
       "id": "00000000-0000-4000-8000-000000001303",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000601"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000702"
-      },
       "feedbackSessionLogType": "SUBMISSION",
-      "timestamp": "2012-01-01T12:00:02Z"
+      "timestamp": "2012-01-01T12:00:02Z",
+      "studentId": "00000000-0000-4000-8000-000000000601",
+      "sessionId": "00000000-0000-4000-8000-000000000702"
     },
     "student2Session1Log1": {
       "id": "00000000-0000-4000-8000-000000001304",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000602"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "feedbackSessionLogType": "ACCESS",
-      "timestamp": "2012-01-01T12:00:03Z"
+      "timestamp": "2012-01-01T12:00:03Z",
+      "studentId": "00000000-0000-4000-8000-000000000602",
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student2Session1Log2": {
       "id": "00000000-0000-4000-8000-000000001305",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000602"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "feedbackSessionLogType": "SUBMISSION",
-      "timestamp": "2012-01-01T12:00:04Z"
+      "timestamp": "2012-01-01T12:00:04Z",
+      "studentId": "00000000-0000-4000-8000-000000000602",
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student1InAnotherCourse": {
       "id": "00000000-0000-4000-8000-000000001306",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000605"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000707"
-      },
       "feedbackSessionLogType": "ACCESS",
-      "timestamp": "2012-01-01T12:00:05Z"
+      "timestamp": "2012-01-01T12:00:05Z",
+      "studentId": "00000000-0000-4000-8000-000000000605",
+      "sessionId": "00000000-0000-4000-8000-000000000707"
     },
     "outOfRangeLog": {
       "id": "00000000-0000-4000-8000-000000001307",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000602"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "feedbackSessionLogType": "ACCESS",
-      "timestamp": "2010-01-01T00:00:00Z"
+      "timestamp": "2010-01-01T00:00:00Z",
+      "studentId": "00000000-0000-4000-8000-000000000602",
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     }
   }
 }
