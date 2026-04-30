@@ -364,7 +364,11 @@ public class InstructorCourseEditPageSql extends AppPage {
     }
 
     private int getNumInstructors() {
-        return browser.driver.findElements(By.cssSelector(".card-header")).size() - 1;
+        waitUntilAnimationFinish();
+        return (int) browser.driver.findElements(By.cssSelector(".card-header"))
+                            .stream()
+                            .filter(WebElement::isDisplayed)
+                            .count() - 1;
     }
 
     // Methods for clicking buttons and links
