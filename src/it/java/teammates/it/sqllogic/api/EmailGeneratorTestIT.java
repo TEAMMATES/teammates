@@ -39,6 +39,8 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithSqlDatabaseAccess {
         // awaiting session in Course 1 - set to future so no sessions found for student1InCourse1
         awaitingSession.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(10));
         awaitingSession.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(20));
+        awaitingSession.setSessionVisibleFromTime(awaitingSession.getStartTime());
+        awaitingSession.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(25));
         dataBundle.feedbackSessions.put("awaiting.session", awaitingSession);
 
         // opened and unpublished.
