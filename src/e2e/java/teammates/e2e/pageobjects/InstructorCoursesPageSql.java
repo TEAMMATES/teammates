@@ -217,9 +217,10 @@ public class InstructorCoursesPageSql extends AppPage {
     }
 
     private void selectCourseInstitute(String institute) {
-        scrollElementToCenter(courseInstituteDropdown);
-        Select dropdown = new Select(courseInstituteDropdown);
-        dropdown.selectByValue(institute);
+        waitFor(driver -> new Select(courseInstituteDropdown).getOptions()
+                .stream()
+                .anyMatch(opt -> opt.getText().equals(institute)));
+        new Select(courseInstituteDropdown).selectByVisibleText(institute);
     }
 
     private void selectNewTimeZone(String timeZone) {
