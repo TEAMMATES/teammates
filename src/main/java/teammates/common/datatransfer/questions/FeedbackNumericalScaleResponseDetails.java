@@ -27,4 +27,21 @@ public class FeedbackNumericalScaleResponseDetails extends FeedbackResponseDetai
     public void setAnswer(double answer) {
         this.answer = answer;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof FeedbackNumericalScaleResponseDetails other)) {
+            return false;
+        }
+        return getQuestionType() == other.getQuestionType()
+                && Double.compare(answer, other.answer) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return 31 * getQuestionType().hashCode() + Double.hashCode(answer);
+    }
 }

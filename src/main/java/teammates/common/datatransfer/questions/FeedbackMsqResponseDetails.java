@@ -2,6 +2,7 @@ package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.common.util.StringHelper;
 
@@ -47,5 +48,24 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
 
     public void setOtherFieldContent(String otherFieldContent) {
         this.otherFieldContent = otherFieldContent;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof FeedbackMsqResponseDetails other)) {
+            return false;
+        }
+        return getQuestionType() == other.getQuestionType()
+                && isOther == other.isOther
+                && Objects.equals(answers, other.answers)
+                && Objects.equals(otherFieldContent, other.otherFieldContent);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getQuestionType(), answers, isOther, otherFieldContent);
     }
 }

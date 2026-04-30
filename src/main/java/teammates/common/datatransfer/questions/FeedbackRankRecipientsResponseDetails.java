@@ -25,4 +25,21 @@ public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetai
     public void setAnswer(int answer) {
         this.answer = answer;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof FeedbackRankRecipientsResponseDetails other)) {
+            return false;
+        }
+        return getQuestionType() == other.getQuestionType()
+                && answer == other.answer;
+    }
+
+    @Override
+    public int hashCode() {
+        return 31 * getQuestionType().hashCode() + Integer.hashCode(answer);
+    }
 }

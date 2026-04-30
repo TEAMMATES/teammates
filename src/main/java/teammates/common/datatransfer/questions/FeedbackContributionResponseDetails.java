@@ -29,4 +29,21 @@ public class FeedbackContributionResponseDetails extends FeedbackResponseDetails
     public void setAnswer(int answer) {
         this.answer = answer;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof FeedbackContributionResponseDetails other)) {
+            return false;
+        }
+        return getQuestionType() == other.getQuestionType()
+                && answer == other.answer;
+    }
+
+    @Override
+    public int hashCode() {
+        return 31 * getQuestionType().hashCode() + Integer.hashCode(answer);
+    }
 }
