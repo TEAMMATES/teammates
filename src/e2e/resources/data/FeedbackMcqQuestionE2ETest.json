@@ -164,18 +164,10 @@
       "questionDetails": {
         "questionType": "MCQ",
         "questionText": "Which area did you work on the most?",
-        "mcqChoices": [
-          "UI",
-          "Algo",
-          "Testing"
-        ],
+        "mcqChoices": ["UI", "Algo", "Testing"],
         "otherEnabled": true,
         "hasAssignedWeights": true,
-        "mcqWeights": [
-          30.61,
-          29.4,
-          20
-        ],
+        "mcqWeights": [30.61, 29.4, 20],
         "mcqOtherWeight": 60
       },
       "description": "<p>Testing description for first session</p>",
@@ -183,15 +175,9 @@
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ],
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"],
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn1ForSecondSession": {
@@ -208,15 +194,9 @@
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ],
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"],
       "sessionId": "00000000-0000-4000-8000-000000000702"
     }
   },

@@ -291,52 +291,29 @@
       "giverType": "INSTRUCTORS",
       "recipientType": "STUDENTS",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
+      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showGiverNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn2": {
       "id": "00000000-0000-4000-8000-000000000802",
       "questionDetails": {
-        "mcqChoices": [
-          "UI",
-          "Algo"
-        ],
+        "mcqChoices": ["UI", "Algo"],
         "questionText": "What part of the product did this teammate contribute most to?",
         "questionType": "MCQ",
         "otherEnabled": true,
         "hasAssignedWeights": true,
-        "mcqWeights": [
-          1,
-          2
-        ],
+        "mcqWeights": [1, 2],
         "mcqOtherWeight": 3
       },
       "questionNumber": 2,
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": [
-        "OWN_TEAM_MEMBERS",
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "OWN_TEAM_MEMBERS",
-        "INSTRUCTORS"
-      ],
+      "showResponsesTo": ["OWN_TEAM_MEMBERS", "INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["OWN_TEAM_MEMBERS", "INSTRUCTORS"],
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn3": {
@@ -352,58 +329,29 @@
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": [
-        "RECEIVER",
-        "OWN_TEAM_MEMBERS",
-        "STUDENTS",
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "RECEIVER",
-        "OWN_TEAM_MEMBERS",
-        "STUDENTS",
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "RECEIVER",
-        "OWN_TEAM_MEMBERS",
-        "STUDENTS",
-        "INSTRUCTORS"
-      ],
+      "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "showGiverNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "showRecipientNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "c2qn1": {
       "id": "00000000-0000-4000-8000-000000000804",
       "questionDetails": {
-        "mcqChoices": [
-          "UI",
-          "Algo"
-        ],
+        "mcqChoices": ["UI", "Algo"],
         "questionText": "What part of the product did this teammate contribute most to?",
         "questionType": "MCQ",
         "otherEnabled": true,
         "hasAssignedWeights": true,
-        "mcqWeights": [
-          1,
-          2
-        ],
+        "mcqWeights": [1, 2],
         "mcqOtherWeight": 3
       },
       "questionNumber": 1,
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": [
-        "OWN_TEAM_MEMBERS",
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "OWN_TEAM_MEMBERS",
-        "INSTRUCTORS"
-      ],
+      "showResponsesTo": ["OWN_TEAM_MEMBERS", "INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["OWN_TEAM_MEMBERS", "INSTRUCTORS"],
       "sessionId": "00000000-0000-4000-8000-000000000702"
     }
   },
@@ -494,10 +442,7 @@
       "recipient": "%GENERAL%",
       "answer": {
         "questionType": "MSQ",
-        "answers": [
-          "Benny Charles (Team 1)",
-          "Danny Engrid (Team 3)"
-        ],
+        "answers": ["Benny Charles (Team 1)", "Danny Engrid (Team 3)"],
         "isOther": false,
         "otherFieldContent": ""
       },
@@ -529,12 +474,8 @@
       "lastEditorEmail": "ifrep.instr1@gmail.tmt",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
-      "showCommentTo": [
-        "STUDENTS"
-      ],
-      "showGiverNameTo": [
-        "STUDENTS"
-      ],
+      "showCommentTo": ["STUDENTS"],
+      "showGiverNameTo": ["STUDENTS"],
       "responseId": "00000000-0000-4000-8000-000000000903",
       "giverSectionId": "00000000-0000-4000-8000-000000000103",
       "recipientSectionId": "00000000-0000-4000-8000-000000000101"
@@ -547,12 +488,8 @@
       "lastEditorEmail": "ifrep.instr1@gmail.tmt",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
-      "showCommentTo": [
-        "STUDENTS"
-      ],
-      "showGiverNameTo": [
-        "STUDENTS"
-      ],
+      "showCommentTo": ["STUDENTS"],
+      "showGiverNameTo": ["STUDENTS"],
       "responseId": "00000000-0000-4000-8000-000000000903",
       "giverSectionId": "00000000-0000-4000-8000-000000000103",
       "recipientSectionId": "00000000-0000-4000-8000-000000000101"

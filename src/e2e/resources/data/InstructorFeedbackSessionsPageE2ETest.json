@@ -232,15 +232,9 @@
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ],
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"],
       "sessionId": "00000000-0000-4000-8000-000000000702"
     },
     "qn1-firstSession": {
@@ -255,15 +249,9 @@
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": [
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ],
+      "showResponsesTo": ["INSTRUCTORS"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"],
       "sessionId": "00000000-0000-4000-8000-000000000701"
     }
   },

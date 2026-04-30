@@ -187,11 +187,7 @@
         "questionText": "How well did you do in each area? Give points accordingly.",
         "questionType": "CONSTSUM_OPTIONS",
         "points": 100,
-        "constSumOptions": [
-          "Teamwork",
-          "Creativity",
-          "Leadership"
-        ],
+        "constSumOptions": ["Teamwork", "Creativity", "Leadership"],
         "distributeToRecipients": false,
         "forceUnevenDistribution": true,
         "distributePointsFor": "All options",
@@ -202,17 +198,9 @@
       "giverType": "STUDENTS",
       "recipientType": "TEAMS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
+      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
       "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn1ForSecondSession": {
@@ -221,11 +209,7 @@
         "questionText": "How much did you contribute to this area? Give points accordingly.",
         "questionType": "CONSTSUM_OPTIONS",
         "points": 20,
-        "constSumOptions": [
-          "Algo",
-          "UI",
-          "Testing"
-        ],
+        "constSumOptions": ["Algo", "UI", "Testing"],
         "distributeToRecipients": false,
         "forceUnevenDistribution": false,
         "distributePointsFor": "None",
@@ -236,17 +220,9 @@
       "giverType": "STUDENTS",
       "recipientType": "TEAMS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
+      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showGiverNameTo": ["INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
       "sessionId": "00000000-0000-4000-8000-000000000702"
     }
   },

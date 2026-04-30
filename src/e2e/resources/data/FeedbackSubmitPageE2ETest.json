@@ -246,19 +246,9 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 3,
-      "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER",
-        "OWN_TEAM_MEMBERS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS",
-        "OWN_TEAM_MEMBERS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
+      "showResponsesTo": ["INSTRUCTORS", "RECEIVER", "OWN_TEAM_MEMBERS"],
+      "showGiverNameTo": ["INSTRUCTORS", "OWN_TEAM_MEMBERS"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn2InSession1": {
@@ -272,19 +262,9 @@
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER",
-        "OWN_TEAM_MEMBERS"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS",
-        "OWN_TEAM_MEMBERS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
+      "showResponsesTo": ["INSTRUCTORS", "RECEIVER", "OWN_TEAM_MEMBERS"],
+      "showGiverNameTo": ["INSTRUCTORS", "OWN_TEAM_MEMBERS"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn3InSession1": {
@@ -297,15 +277,9 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "RECEIVER"
-      ],
-      "showRecipientNameTo": [
-        "RECEIVER"
-      ],
+      "showResponsesTo": ["RECEIVER"],
+      "showGiverNameTo": ["RECEIVER"],
+      "showRecipientNameTo": ["RECEIVER"],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn4InSession1": {
@@ -314,24 +288,15 @@
       "questionDetails": {
         "questionType": "MCQ",
         "questionText": "What do you think is the other teams' best feature?",
-        "mcqChoices": [
-          "UI",
-          "Algo"
-        ],
+        "mcqChoices": ["UI", "Algo"],
         "otherEnabled": false
       },
       "giverType": "TEAMS",
       "recipientType": "TEAMS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 3,
-      "showResponsesTo": [
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "RECEIVER"
-      ],
-      "showRecipientNameTo": [
-        "RECEIVER"
-      ],
+      "showResponsesTo": ["RECEIVER"],
+      "showGiverNameTo": ["RECEIVER"],
+      "showRecipientNameTo": ["RECEIVER"],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn5InSession1": {
@@ -344,15 +309,9 @@
       "giverType": "INSTRUCTORS",
       "recipientType": "STUDENTS",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": [
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "RECEIVER"
-      ],
-      "showRecipientNameTo": [
-        "RECEIVER"
-      ],
+      "showResponsesTo": ["RECEIVER"],
+      "showGiverNameTo": ["RECEIVER"],
+      "showRecipientNameTo": ["RECEIVER"],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn1InGracePeriodSession": {
@@ -361,27 +320,15 @@
       "questionDetails": {
         "questionType": "MCQ",
         "questionText": "What do you think is the other teams' best feature?",
-        "mcqChoices": [
-          "UI",
-          "Algo"
-        ],
+        "mcqChoices": ["UI", "Algo"],
         "otherEnabled": false
       },
       "giverType": "STUDENTS",
       "recipientType": "TEAMS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 3,
-      "showResponsesTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS",
-        "RECEIVER"
-      ],
+      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
+      "showGiverNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
       "sessionId": "00000000-0000-4000-8000-000000000502"
     },
     "qn2InGracePeriodSession": {
@@ -396,15 +343,9 @@
       "giverType": "STUDENTS",
       "recipientType": "TEAMS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": 3,
-      "showResponsesTo": [
-        "RECEIVER"
-      ],
-      "showGiverNameTo": [
-        "RECEIVER"
-      ],
-      "showRecipientNameTo": [
-        "RECEIVER"
-      ],
+      "showResponsesTo": ["RECEIVER"],
+      "showGiverNameTo": ["RECEIVER"],
+      "showRecipientNameTo": ["RECEIVER"],
       "sessionId": "00000000-0000-4000-8000-000000000502"
     },
     "qn1InClosedSession": {
@@ -417,19 +358,9 @@
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": [
-        "RECEIVER",
-        "OWN_TEAM_MEMBERS",
-        "STUDENTS",
-        "INSTRUCTORS"
-      ],
-      "showGiverNameTo": [
-        "RECEIVER",
-        "INSTRUCTORS"
-      ],
-      "showRecipientNameTo": [
-        "INSTRUCTORS"
-      ],
+      "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "showGiverNameTo": ["RECEIVER", "INSTRUCTORS"],
+      "showRecipientNameTo": ["INSTRUCTORS"],
       "sessionId": "00000000-0000-4000-8000-000000000503"
     }
   },
