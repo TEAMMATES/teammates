@@ -383,6 +383,25 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         isNotSureAllowed = notSureAllowed;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof FeedbackContributionQuestionDetails other)) {
+            return false;
+        }
+        return getQuestionType() == other.getQuestionType()
+                && java.util.Objects.equals(getQuestionText(), other.getQuestionText())
+                && isZeroSum == other.isZeroSum
+                && isNotSureAllowed == other.isNotSureAllowed;
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(getQuestionType(), getQuestionText(), isZeroSum, isNotSureAllowed);
+    }
+
     /**
      * Represents a list of participants to their question statistics for one contribution question.
      */

@@ -115,4 +115,24 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
     public void setStep(double step) {
         this.step = step;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof FeedbackNumericalScaleQuestionDetails other)) {
+            return false;
+        }
+        return getQuestionType() == other.getQuestionType()
+                && java.util.Objects.equals(getQuestionText(), other.getQuestionText())
+                && minScale == other.minScale
+                && maxScale == other.maxScale
+                && Double.compare(step, other.step) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(getQuestionType(), getQuestionText(), minScale, maxScale, step);
+    }
 }

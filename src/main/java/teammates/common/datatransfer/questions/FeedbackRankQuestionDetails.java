@@ -40,4 +40,30 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
     public void setAreDuplicatesAllowed(boolean areDuplicatesAllowed) {
         this.areDuplicatesAllowed = areDuplicatesAllowed;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        FeedbackRankQuestionDetails other = (FeedbackRankQuestionDetails) obj;
+        return getQuestionType() == other.getQuestionType()
+                && java.util.Objects.equals(getQuestionText(), other.getQuestionText())
+                && minOptionsToBeRanked == other.minOptionsToBeRanked
+                && maxOptionsToBeRanked == other.maxOptionsToBeRanked
+                && areDuplicatesAllowed == other.areDuplicatesAllowed;
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(
+                getQuestionType(),
+                getQuestionText(),
+                minOptionsToBeRanked,
+                maxOptionsToBeRanked,
+                areDuplicatesAllowed);
+    }
 }

@@ -379,4 +379,39 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
     public void setMaxPoint(int maxPoint) {
         this.maxPoint = maxPoint;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof FeedbackConstantSumQuestionDetails other)) {
+            return false;
+        }
+        return getQuestionType() == other.getQuestionType()
+                && Objects.equals(getQuestionText(), other.getQuestionText())
+                && distributeToRecipients == other.distributeToRecipients
+                && pointsPerOption == other.pointsPerOption
+                && forceUnevenDistribution == other.forceUnevenDistribution
+                && points == other.points
+                && Objects.equals(constSumOptions, other.constSumOptions)
+                && Objects.equals(distributePointsFor, other.distributePointsFor)
+                && Objects.equals(minPoint, other.minPoint)
+                && Objects.equals(maxPoint, other.maxPoint);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                getQuestionType(),
+                getQuestionText(),
+                constSumOptions,
+                distributeToRecipients,
+                pointsPerOption,
+                forceUnevenDistribution,
+                distributePointsFor,
+                points,
+                minPoint,
+                maxPoint);
+    }
 }

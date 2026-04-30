@@ -2,6 +2,7 @@ package teammates.common.datatransfer.questions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.storage.sqlentity.FeedbackQuestion;
 
@@ -234,5 +235,34 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     public void setRubricDescriptions(List<List<String>> rubricDescriptions) {
         this.rubricDescriptions = rubricDescriptions;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof FeedbackRubricQuestionDetails other)) {
+            return false;
+        }
+        return getQuestionType() == other.getQuestionType()
+                && Objects.equals(getQuestionText(), other.getQuestionText())
+                && hasAssignedWeights == other.hasAssignedWeights
+                && Objects.equals(rubricWeightsForEachCell, other.rubricWeightsForEachCell)
+                && Objects.equals(rubricChoices, other.rubricChoices)
+                && Objects.equals(rubricSubQuestions, other.rubricSubQuestions)
+                && Objects.equals(rubricDescriptions, other.rubricDescriptions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                getQuestionType(),
+                getQuestionText(),
+                hasAssignedWeights,
+                rubricWeightsForEachCell,
+                rubricChoices,
+                rubricSubQuestions,
+                rubricDescriptions);
     }
 }
