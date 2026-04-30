@@ -34,6 +34,9 @@ public class Team extends BaseEntity {
     @JoinColumn(name = "sectionId")
     private Section section;
 
+    @Column(insertable = false, updatable = false)
+    private UUID sectionId;
+
     @OneToMany(mappedBy = "team")
     private List<Student> users;
 
@@ -101,8 +104,16 @@ public class Team extends BaseEntity {
         return section;
     }
 
+    public UUID getSectionId() {
+        return sectionId;
+    }
+
+    /**
+     * Sets the section of the team.
+     */
     public void setSection(Section section) {
         this.section = section;
+        this.sectionId = section.getId();
     }
 
     public List<Student> getUsers() {

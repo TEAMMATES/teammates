@@ -44,6 +44,9 @@ public abstract class FeedbackResponse extends BaseEntity {
     @JoinColumn(name = "questionId")
     private FeedbackQuestion feedbackQuestion;
 
+    @Column(insertable = false, updatable = false)
+    private UUID questionId;
+
     @OneToMany(mappedBy = "feedbackResponse", cascade = CascadeType.REMOVE)
     private List<FeedbackResponseComment> feedbackResponseComments = new ArrayList<>();
 
@@ -54,12 +57,18 @@ public abstract class FeedbackResponse extends BaseEntity {
     @JoinColumn(name = "giverSectionId")
     private Section giverSection;
 
+    @Column(insertable = false, updatable = false)
+    private UUID giverSectionId;
+
     @Column(nullable = false)
     private String recipient;
 
     @ManyToOne
     @JoinColumn(name = "recipientSectionId")
     private Section recipientSection;
+
+    @Column(insertable = false, updatable = false)
+    private UUID recipientSectionId;
 
     @UpdateTimestamp
     private Instant updatedAt;
@@ -187,8 +196,16 @@ public abstract class FeedbackResponse extends BaseEntity {
         return feedbackQuestion;
     }
 
+    public UUID getQuestionId() {
+        return questionId;
+    }
+
+    /**
+     * Sets the feedback question of the feedback response.
+     */
     public void setFeedbackQuestion(FeedbackQuestion feedbackQuestion) {
         this.feedbackQuestion = feedbackQuestion;
+        this.questionId = feedbackQuestion.getId();
     }
 
     public List<FeedbackResponseComment> getFeedbackResponseComments() {
@@ -211,12 +228,20 @@ public abstract class FeedbackResponse extends BaseEntity {
         return giverSection;
     }
 
+    public UUID getGiverSectionId() {
+        return giverSectionId;
+    }
+
     public String getGiverSectionName() {
         return giverSection.getName();
     }
 
+    /**
+     * Sets the giver section of the feedback response.
+     */
     public void setGiverSection(Section giverSection) {
         this.giverSection = giverSection;
+        this.giverSectionId = giverSection == null ? null : giverSection.getId();
     }
 
     public String getRecipient() {
@@ -231,12 +256,20 @@ public abstract class FeedbackResponse extends BaseEntity {
         return recipientSection;
     }
 
+    public UUID getRecipientSectionId() {
+        return recipientSectionId;
+    }
+
     public String getRecipientSectionName() {
         return recipientSection.getName();
     }
 
+    /**
+     * Sets the recipient section of the feedback response.
+     */
     public void setRecipientSection(Section recipientSection) {
         this.recipientSection = recipientSection;
+        this.recipientSectionId = recipientSection == null ? null : recipientSection.getId();
     }
 
     public Instant getUpdatedAt() {

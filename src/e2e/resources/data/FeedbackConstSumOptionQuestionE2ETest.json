@@ -35,9 +35,6 @@
   },
   "instructors": {
     "instructor": {
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -58,12 +55,10 @@
       },
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "tm.e2e.FCSumOptQn.CS2104",
-      "displayName": "Co-owner"
+      "displayName": "Co-owner",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "instructor2": {
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -84,84 +79,65 @@
       },
       "id": "00000000-0000-4000-8000-000000000502",
       "courseId": "tm.e2e.FCSumOptQn.CS1101",
-      "displayName": "Co-owner"
+      "displayName": "Co-owner",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },
   "students": {
     "alice.tmms@FCSumOptQn.CS2104": {
       "id": "00000000-0000-4000-8000-000000000601",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
       "courseId": "tm.e2e.FCSumOptQn.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "email": "alice.b.tmms@gmail.tmt",
       "name": "Alice Betsy",
-      "comments": "This student's name is Alice Betsy"
+      "comments": "This student's name is Alice Betsy",
+      "accountId": "00000000-0000-4000-8000-000000000002",
+      "teamId": "00000000-0000-4000-8000-000000000201"
     },
     "benny.tmms@FCSumOptQn.CS2104": {
       "id": "00000000-0000-4000-8000-000000000602",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000003"
-      },
       "courseId": "tm.e2e.FCSumOptQn.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
       "email": "benny.tmms@gmail.tmt",
       "name": "Benny Charles",
-      "comments": "This student's name is Benny Charles"
+      "comments": "This student's name is Benny Charles",
+      "accountId": "00000000-0000-4000-8000-000000000003",
+      "teamId": "00000000-0000-4000-8000-000000000202"
     },
     "charlie.tmms@FCSumOptQn.CS1101": {
       "id": "00000000-0000-4000-8000-000000000603",
       "courseId": "tm.e2e.FCSumOptQn.CS1101",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "email": "charlie.tmms@gmail.tmt",
       "name": "Charlie Davis",
-      "comments": "This student's name is Charlie Davis"
+      "comments": "This student's name is Charlie Davis",
+      "teamId": "00000000-0000-4000-8000-000000000203"
     }
   },
   "sections": {
     "ProgrammingLanguageConceptsNone": {
       "id": "00000000-0000-4000-8000-000000000101",
-      "course": {
-        "id": "tm.e2e.FCSumOptQn.CS2104"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.FCSumOptQn.CS2104"
     },
     "ProgrammingMethodologyNone": {
       "id": "00000000-0000-4000-8000-000000000102",
-      "course": {
-        "id": "tm.e2e.FCSumOptQn.CS1101"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.FCSumOptQn.CS1101"
     }
   },
   "teams": {
     "ProgrammingLanguageConceptsTeam1": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000101"
     },
     "ProgrammingLanguageConceptsTeam2": {
       "id": "00000000-0000-4000-8000-000000000202",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
-      "name": "Team 2"
+      "name": "Team 2",
+      "sectionId": "00000000-0000-4000-8000-000000000101"
     },
     "ProgrammingMethodologyTeam1": {
       "id": "00000000-0000-4000-8000-000000000203",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000102"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000102"
     }
   },
   "feedbackSessions": {
@@ -207,14 +183,15 @@
   "feedbackQuestions": {
     "qn1ForFirstSession": {
       "id": "00000000-0000-4000-8000-000000000801",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionDetails": {
         "questionText": "How well did you do in each area? Give points accordingly.",
         "questionType": "CONSTSUM_OPTIONS",
         "points": 100,
-        "constSumOptions": ["Teamwork", "Creativity", "Leadership"],
+        "constSumOptions": [
+          "Teamwork",
+          "Creativity",
+          "Leadership"
+        ],
         "distributeToRecipients": false,
         "forceUnevenDistribution": true,
         "distributePointsFor": "All options",
@@ -225,20 +202,30 @@
       "giverType": "STUDENTS",
       "recipientType": "TEAMS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn1ForSecondSession": {
       "id": "00000000-0000-4000-8000-000000000802",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000702"
-      },
       "questionDetails": {
         "questionText": "How much did you contribute to this area? Give points accordingly.",
         "questionType": "CONSTSUM_OPTIONS",
         "points": 20,
-        "constSumOptions": ["Algo", "UI", "Testing"],
+        "constSumOptions": [
+          "Algo",
+          "UI",
+          "Testing"
+        ],
         "distributeToRecipients": false,
         "forceUnevenDistribution": false,
         "distributePointsFor": "None",
@@ -249,9 +236,18 @@
       "giverType": "STUDENTS",
       "recipientType": "TEAMS_EXCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "sessionId": "00000000-0000-4000-8000-000000000702"
     }
   },
   "feedbackResponses": {},

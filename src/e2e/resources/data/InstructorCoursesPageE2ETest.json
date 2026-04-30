@@ -49,48 +49,35 @@
   "sections": {
     "ICs.Section1InCS1101": {
       "id": "00000000-0000-4000-8000-000000000101",
-      "course": {
-        "id": "tm.e2e.ICs.CS1101"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.ICs.CS1101"
     },
     "ICs.Section1InCS1231": {
       "id": "00000000-0000-4000-8000-000000000102",
-      "course": {
-        "id": "tm.e2e.ICs.CS1231"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.ICs.CS1231"
     }
   },
   "teams": {
     "ICs.Team1InSection1CS1101": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000101"
     },
     "ICs.Team2InSection1CS1101": {
       "id": "00000000-0000-4000-8000-000000000202",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
-      "name": "Team 2"
+      "name": "Team 2",
+      "sectionId": "00000000-0000-4000-8000-000000000101"
     },
     "ICs.Team3InSection1CS1101": {
       "id": "00000000-0000-4000-8000-000000000203",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
-      "name": "Team 3"
+      "name": "Team 3",
+      "sectionId": "00000000-0000-4000-8000-000000000101"
     }
   },
   "instructors": {
     "ICs.instructor.CS1101": {
       "id": "00000000-0000-4000-8000-000000000301",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.ICs.CS1101",
       "name": "Teammates Demo Instr",
       "email": "ics.instructor@gmail.tmt",
@@ -110,13 +97,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "ICs.instructor.CS1231": {
       "id": "00000000-0000-4000-8000-000000000302",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.ICs.CS1231",
       "name": "Teammates Demo Instr",
       "email": "ics.instructor@gmail.tmt",
@@ -136,13 +121,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "ICs.instructor.CS2104": {
       "id": "00000000-0000-4000-8000-000000000303",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.ICs.CS2104",
       "name": "Teammates Demo Instr",
       "email": "ics.instructor@gmail.tmt",
@@ -162,13 +145,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "ICs.instructor.CS2105": {
       "id": "00000000-0000-4000-8000-000000000304",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.ICs.CS2105",
       "name": "Teammates Demo Inst",
       "email": "ics.instructor@gmail.tmt",
@@ -188,45 +169,36 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },
   "students": {
     "student1@ICs.CS1101": {
       "id": "00000000-0000-4000-8000-000000000401",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
       "courseId": "tm.e2e.ICs.CS1101",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "email": "ics.student1@gmail.tmt",
       "name": "student1",
-      "comments": ""
+      "comments": "",
+      "accountId": "00000000-0000-4000-8000-000000000002",
+      "teamId": "00000000-0000-4000-8000-000000000201"
     },
     "student2@ICs.CS1101": {
       "id": "00000000-0000-4000-8000-000000000402",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000003"
-      },
       "courseId": "tm.e2e.ICs.CS1101",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
       "email": "ics.student2@gmail.tmt",
       "name": "student2",
-      "comments": ""
+      "comments": "",
+      "accountId": "00000000-0000-4000-8000-000000000003",
+      "teamId": "00000000-0000-4000-8000-000000000202"
     },
     "student3@ICs.CS1101": {
       "id": "00000000-0000-4000-8000-000000000403",
       "courseId": "tm.e2e.ICs.CS1101",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "email": "ics.student3@gmail.tmt",
       "name": "student3",
-      "comments": ""
+      "comments": "",
+      "teamId": "00000000-0000-4000-8000-000000000203"
     }
   },
   "feedbackSessions": {
@@ -253,9 +225,6 @@
   "feedbackQuestions": {
     "ICs.qn1": {
       "id": "00000000-0000-4000-8000-000000000601",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000501"
-      },
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "Testing question text"
@@ -265,9 +234,25 @@
       "giverType": "STUDENTS",
       "recipientType": "TEAMS",
       "numOfEntitiesToGiveFeedbackTo": 2,
-      "showResponsesTo": ["STUDENTS", "INSTRUCTORS", "OWN_TEAM_MEMBERS", "RECEIVER"],
-      "showGiverNameTo": ["STUDENTS", "INSTRUCTORS", "OWN_TEAM_MEMBERS", "RECEIVER"],
-      "showRecipientNameTo": ["STUDENTS", "INSTRUCTORS", "OWN_TEAM_MEMBERS", "RECEIVER"]
+      "showResponsesTo": [
+        "STUDENTS",
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "STUDENTS",
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "STUDENTS",
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER"
+      ],
+      "sessionId": "00000000-0000-4000-8000-000000000501"
     }
   },
   "feedbackResponses": {},

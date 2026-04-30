@@ -6,10 +6,10 @@
       "name": "Teammates Test",
       "email": "instfep.instr@gmail.tmt"
     },
-    "José Gómez": {
+    "Jos\u00e9 G\u00f3mez": {
       "id": "00000000-0000-4000-8000-000000000002",
       "googleId": "tm.e2e.InstFEP.jose.tmms",
-      "name": "José Gómez",
+      "name": "Jos\u00e9 G\u00f3mez",
       "email": "instfep.jose.tmms@gmail.tmt"
     }
   },
@@ -31,47 +31,35 @@
   "sections": {
     "tm.e2e.InstFEP.CS2104-SectionA": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "course": {
-        "id": "tm.e2e.InstFEP.CS2104"
-      },
-      "name": "Section A"
+      "name": "Section A",
+      "courseId": "tm.e2e.InstFEP.CS2104"
     },
     "tm.e2e.InstFEP.CS2104-SectionB": {
       "id": "00000000-0000-4000-8000-000000000202",
-      "course": {
-        "id": "tm.e2e.InstFEP.CS2104"
-      },
-      "name": "Section B"
+      "name": "Section B",
+      "courseId": "tm.e2e.InstFEP.CS2104"
     },
     "tm.e2e.InstFEP.CS1101-None": {
       "id": "00000000-0000-4000-8000-000000000203",
-      "course": {
-        "id": "tm.e2e.InstFEP.CS1101"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.InstFEP.CS1101"
     }
   },
   "teams": {
     "tm.e2e.InstFEP.CS2104-SectionA-Team1": {
       "id": "00000000-0000-4000-8000-000000000301",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000201"
     },
     "tm.e2e.InstFEP.CS2104-SectionB-Team100": {
       "id": "00000000-0000-4000-8000-000000000302",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "name": "Team 100"
+      "name": "Team 100",
+      "sectionId": "00000000-0000-4000-8000-000000000202"
     },
     "tm.e2e.InstFEP.CS1101-None-Team1": {
       "id": "00000000-0000-4000-8000-000000000303",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000203"
     }
   },
   "deadlineExtensions": {},
@@ -79,9 +67,6 @@
     "InstFEP.instr": {
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "tm.e2e.InstFEP.CS2104",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "name": "Teammates Test",
       "email": "instfep.instr@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -100,7 +85,8 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "InstFEP.instr2": {
       "isDisplayedToStudents": true,
@@ -122,37 +108,29 @@
       },
       "id": "00000000-0000-4000-8000-000000000502",
       "courseId": "tm.e2e.InstFEP.CS1101",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
-      "regKey": "4F647E6C589F4A653FE2E00ACBF60E97098AEE5B9B2B344F1433AC3336D567FEA097E915F0B418903EA5756DB26891F20E0D47726D1FAA6CE0C29EAF17D950CD"
+      "regKey": "4F647E6C589F4A653FE2E00ACBF60E97098AEE5B9B2B344F1433AC3336D567FEA097E915F0B418903EA5756DB26891F20E0D47726D1FAA6CE0C29EAF17D950CD",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },
   "students": {
     "InstFEP.jose.tmms": {
       "id": "00000000-0000-4000-8000-000000000601",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
       "courseId": "tm.e2e.InstFEP.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "email": "instfep.jose.tmms@gmail.tmt",
-      "name": "José Gómez",
-      "comments": "This student's name is José Gómez"
+      "name": "Jos\u00e9 G\u00f3mez",
+      "comments": "This student's name is Jos\u00e9 G\u00f3mez",
+      "accountId": "00000000-0000-4000-8000-000000000002",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "InstFEP.benny.c": {
       "id": "00000000-0000-4000-8000-000000000602",
       "courseId": "tm.e2e.InstFEP.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "email": "instfep.benny.c.tmms@gmail.tmt",
       "name": "Benny Charles",
-      "comments": "This student's name is Benny Charles"
+      "comments": "This student's name is Benny Charles",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     }
   },
   "feedbackSessions": {
@@ -199,9 +177,6 @@
   "feedbackQuestions": {
     "qn1ForFirstCourseFirstSession": {
       "id": "00000000-0000-4000-8000-000000000801",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "What did this instructor do well?",
@@ -212,15 +187,19 @@
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn1ForSecondCourseFirstSession": {
       "id": "00000000-0000-4000-8000-000000000802",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000702"
-      },
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "What did this instructor do well in course 2?",
@@ -231,9 +210,16 @@
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ],
+      "sessionId": "00000000-0000-4000-8000-000000000702"
     }
   },
   "feedbackResponses": {},

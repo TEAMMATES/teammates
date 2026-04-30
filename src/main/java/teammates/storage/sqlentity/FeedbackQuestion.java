@@ -50,6 +50,9 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     @JoinColumn(name = "sessionId")
     private FeedbackSession feedbackSession;
 
+    @Column(insertable = false, updatable = false)
+    private UUID sessionId;
+
     @OneToMany(mappedBy = "feedbackQuestion", cascade = CascadeType.REMOVE)
     private List<FeedbackResponse> feedbackResponses = new ArrayList<>();
 
@@ -254,8 +257,16 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
         return feedbackSession.getName();
     }
 
+    public UUID getSessionId() {
+        return sessionId;
+    }
+
+    /**
+     * Sets the feedback session of the question.
+     */
     public void setFeedbackSession(FeedbackSession feedbackSession) {
         this.feedbackSession = feedbackSession;
+        this.sessionId = feedbackSession.getId();
     }
 
     public List<FeedbackResponse> getFeedbackResponses() {

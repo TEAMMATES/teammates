@@ -55,40 +55,30 @@
   "sections": {
     "IFSessionPage.CS2104": {
       "id": "00000000-0011-4000-8000-000000000001",
-      "course": {
-        "id": "tm.e2e.sql.CS2104"
-      },
-      "name": "Section A"
+      "name": "Section A",
+      "courseId": "tm.e2e.sql.CS2104"
     },
     "IFSessionPage.CS1101": {
       "id": "00000000-0011-4000-8000-000000000002",
-      "course": {
-        "id": "tm.e2e.sql.CS1101"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.sql.CS1101"
     }
   },
   "teams": {
     "IFSessionPage.CS2104-SectionA-Team1": {
       "id": "00000000-0111-4000-8000-000000000001",
-      "section": {
-        "id": "00000000-0011-4000-8000-000000000001"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0011-4000-8000-000000000001"
     },
     "IFSessionPage.CS1101-None-Team2": {
       "id": "00000000-0111-4000-8000-000000000002",
-      "section": {
-        "id": "00000000-0011-4000-8000-000000000002"
-      },
-      "name": "Team 2"
+      "name": "Team 2",
+      "sectionId": "00000000-0011-4000-8000-000000000002"
     },
     "IFSessionPage.CS2104-SectionA-Team2": {
       "id": "00000000-0111-4000-8000-000000000003",
-      "section": {
-        "id": "00000000-0011-4000-8000-000000000001"
-      },
-      "name": "Team 2"
+      "name": "Team 2",
+      "sectionId": "00000000-0011-4000-8000-000000000001"
     }
   },
   "deadlineExtensions": {},
@@ -96,9 +86,6 @@
     "IFSessionPage.instr1": {
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "tm.e2e.sql.CS2104",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "name": "Instructor 1",
       "email": "ifsessionpage.instr@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -117,14 +104,12 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "IFSessionPage.instr2": {
       "id": "00000000-0000-4000-8000-000000000502",
       "courseId": "tm.e2e.sql.CS1101",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "name": "Instructor 2",
       "email": "ifsessionpage.instr2@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -143,74 +128,55 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },
   "students": {
     "IFSessionPage.alice": {
       "id": "00000001-0000-4000-8000-000000000501",
-      "account": {
-        "id": "00000001-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.sql.CS2104",
-      "team": {
-        "id": "00000000-0111-4000-8000-000000000001"
-      },
       "email": "alice.b.tmms@gmail.tmt",
       "name": "Alice Betsy",
-      "comments": "This student's name is Alice Betsy"
+      "comments": "This student's name is Alice Betsy",
+      "accountId": "00000001-0000-4000-8000-000000000001",
+      "teamId": "00000000-0111-4000-8000-000000000001"
     },
     "IFSessionPage.benny": {
       "id": "00000001-0000-4000-8000-000000000502",
-      "account": {
-        "id": "00000001-0000-4000-8000-000000000002"
-      },
       "courseId": "tm.e2e.sql.CS2104",
-      "team": {
-        "id": "00000000-0111-4000-8000-000000000001"
-      },
       "email": "benny.tmms@gmail.tmt",
       "name": "Benny Charles",
-      "comments": "This student's name is Benny Charles"
+      "comments": "This student's name is Benny Charles",
+      "accountId": "00000001-0000-4000-8000-000000000002",
+      "teamId": "00000000-0111-4000-8000-000000000001"
     },
     "IFSessionPage.charlie": {
       "id": "00000001-0000-4000-8000-000000000503",
-      "account": {
-        "id": "00000001-0000-4000-8000-000000000003"
-      },
       "courseId": "tm.e2e.sql.CS2104",
-      "team": {
-        "id": "00000000-0111-4000-8000-000000000003"
-      },
       "email": "charlie.tmms@gmail.tmt",
       "name": "Charlie Davis",
-      "comments": "This student's name is Charlie Davis"
+      "comments": "This student's name is Charlie Davis",
+      "accountId": "00000001-0000-4000-8000-000000000003",
+      "teamId": "00000000-0111-4000-8000-000000000003"
     },
     "IFSessionPage.danny": {
       "id": "00000001-0000-4000-8000-000000000504",
-      "account": {
-        "id": "00000001-0000-4000-8000-000000000004"
-      },
       "courseId": "tm.e2e.sql.CS1101",
-      "team": {
-        "id": "00000000-0111-4000-8000-000000000002"
-      },
       "email": "ifsessionpage.danny.tmms@gmail.tmt",
       "name": "Danny Engrid",
-      "comments": "This student's name is Danny Engrid"
+      "comments": "This student's name is Danny Engrid",
+      "accountId": "00000001-0000-4000-8000-000000000004",
+      "teamId": "00000000-0111-4000-8000-000000000002"
     },
     "IFSessionPage.emma": {
       "id": "00000001-0000-4000-8000-000000000505",
-      "account": {
-        "id": "00000001-0000-4000-8000-000000000005"
-      },
       "courseId": "tm.e2e.sql.CS1101",
-      "team": {
-        "id": "00000000-0111-4000-8000-000000000002"
-      },
       "email": "ifsessionpage.emma.tmms@gmail.tmt",
       "name": "Emma Farrell",
-      "comments": "This student's name is Emma Farrell"
+      "comments": "This student's name is Emma Farrell",
+      "accountId": "00000001-0000-4000-8000-000000000005",
+      "teamId": "00000000-0111-4000-8000-000000000002"
     }
   },
   "feedbackSessions": {
@@ -256,9 +222,6 @@
   "feedbackQuestions": {
     "qn1-secondSession": {
       "id": "00000000-0000-4000-8000-000000000801",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000702"
-      },
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "What did this instructor do well?",
@@ -269,15 +232,19 @@
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ],
+      "sessionId": "00000000-0000-4000-8000-000000000702"
     },
     "qn1-firstSession": {
       "id": "00000000-0000-4000-8000-000000000802",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "What did this instructor do well?",
@@ -288,9 +255,16 @@
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     }
   },
   "feedbackResponses": {},

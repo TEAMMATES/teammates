@@ -62,10 +62,8 @@
       },
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "tm.e2e.SHome.CS2104",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
-      "displayName": "Co-owner"
+      "displayName": "Co-owner",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "SHome.instr.CS1101": {
       "name": "Teammates Test",
@@ -88,10 +86,8 @@
       },
       "id": "00000000-0000-4000-8000-000000000502",
       "courseId": "tm.e2e.SHome.CS1101",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
-      "displayName": "Co-owner"
+      "displayName": "Co-owner",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "SHome.instr.CS4215": {
       "name": "Teammates Test",
@@ -114,10 +110,8 @@
       },
       "id": "00000000-0000-4000-8000-000000000503",
       "courseId": "tm.e2e.SHome.CS4215",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
-      "displayName": "Co-owner"
+      "displayName": "Co-owner",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "SHome.instr.CS4221": {
       "name": "Teammates Test",
@@ -140,122 +134,89 @@
       },
       "id": "00000000-0000-4000-8000-000000000504",
       "courseId": "tm.e2e.SHome.CS4221",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
-      "displayName": "Co-owner"
+      "displayName": "Co-owner",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },
   "students": {
     "SHome.student@SHome.CS2104": {
       "id": "00000000-0000-4000-8000-000000000801",
-      "account": {},
       "email": "shome.student@gmail.tmt",
       "courseId": "tm.e2e.SHome.CS2104",
       "name": "Amy Betsy</option></td></div>'\"",
       "comments": "This student's name is Amy Betsy</option></td></div>'\"",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      }
+      "teamId": "00000000-0000-4000-8000-000000000201"
     },
     "SHome.student@SHome.CS1101": {
       "id": "00000000-0000-4000-8000-000000000802",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
       "email": "shome.student@gmail.tmt",
       "courseId": "tm.e2e.SHome.CS1101",
       "name": "Amy Betsy</option></td></div>'\"",
       "comments": "This student's name is Amy Betsy</option></td></div>'\"",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000002",
+      "teamId": "00000000-0000-4000-8000-000000000202"
     },
     "SHome.student@SHome.CS4215": {
       "id": "00000000-0000-4000-8000-000000000803",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
       "email": "shome.student@gmail.tmt",
       "courseId": "tm.e2e.SHome.CS4215",
       "name": "Amy Betsy</option></td></div>'\"",
       "comments": "This student's name is Amy Betsy</option></td></div>'\"",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000002",
+      "teamId": "00000000-0000-4000-8000-000000000203"
     },
     "SHome.student@SHome.CS4221": {
       "id": "00000000-0000-4000-8000-000000000804",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
       "email": "shome.student@gmail.tmt",
       "courseId": "tm.e2e.SHome.CS4221",
       "name": "Amy Betsy",
       "comments": "This student's name is Amy Betsy",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000204"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000002",
+      "teamId": "00000000-0000-4000-8000-000000000204"
     }
   },
   "sections": {
     "ProgrammingLanguageConceptsNone": {
       "id": "00000000-0000-4000-8000-000000000101",
-      "course": {
-        "id": "tm.e2e.SHome.CS2104"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.SHome.CS2104"
     },
     "ProgrammingMethodologyNone": {
       "id": "00000000-0000-4000-8000-000000000102",
-      "course": {
-        "id": "tm.e2e.SHome.CS1101"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.SHome.CS1101"
     },
     "ProgrammingLanguageImplementationNone": {
       "id": "00000000-0000-4000-8000-000000000103",
-      "course": {
-        "id": "tm.e2e.SHome.CS4215"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.SHome.CS4215"
     },
     "DatabaseDesignNone": {
       "id": "00000000-0000-4000-8000-000000000104",
-      "course": {
-        "id": "tm.e2e.SHome.CS4221"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.SHome.CS4221"
     }
   },
   "teams": {
     "ProgrammingLanguageConceptsNone": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
-      "name": "Team 1</td></div>'\""
+      "name": "Team 1</td></div>'\"",
+      "sectionId": "00000000-0000-4000-8000-000000000101"
     },
     "ProgrammingMethodologyNone": {
       "id": "00000000-0000-4000-8000-000000000202",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000102"
-      },
-      "name": "Team 1</td></div>'\""
+      "name": "Team 1</td></div>'\"",
+      "sectionId": "00000000-0000-4000-8000-000000000102"
     },
     "ProgrammingLanguageImplementationNone": {
       "id": "00000000-0000-4000-8000-000000000203",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000103"
-      },
-      "name": "Team 1</td></div>'\""
+      "name": "Team 1</td></div>'\"",
+      "sectionId": "00000000-0000-4000-8000-000000000103"
     },
     "DatabaseDesignNone": {
       "id": "00000000-0000-4000-8000-000000000204",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000104"
-      },
-      "name": "Team 1</td></div>'\""
+      "name": "Team 1</td></div>'\"",
+      "sectionId": "00000000-0000-4000-8000-000000000104"
     }
   },
   "feedbackSessions": {

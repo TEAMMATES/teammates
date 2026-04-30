@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -30,9 +31,15 @@ public class ReadNotification extends BaseEntity {
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
+    @Column(name = "account_id", nullable = false, insertable = false, updatable = false)
+    private UUID accountId;
+
     @ManyToOne
     @JoinColumn(name = "notification_id", nullable = false)
     private Notification notification;
+
+    @Column(name = "notification_id", nullable = false, insertable = false, updatable = false)
+    private UUID notificationId;
 
     protected ReadNotification() {
         // required by Hibernate
@@ -56,16 +63,32 @@ public class ReadNotification extends BaseEntity {
         return account;
     }
 
+    public UUID getAccountId() {
+        return accountId;
+    }
+
+    /**
+     * Sets the account of the read notification.
+     */
     public void setAccount(Account account) {
         this.account = account;
+        this.accountId = account == null ? null : account.getId();
     }
 
     public Notification getNotification() {
         return notification;
     }
 
+    public UUID getNotificationId() {
+        return notificationId;
+    }
+
+    /**
+     * Sets the notification of the read notification.
+     */
     public void setNotification(Notification notification) {
         this.notification = notification;
+        this.notificationId = notification == null ? null : notification.getId();
     }
 
     @Override

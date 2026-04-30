@@ -35,53 +35,36 @@
   "sections": {
     "section1InTypicalCourse": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "course": {
-        "id": "typical-course-id"
-      },
-      "name": "Section 1"
+      "name": "Section 1",
+      "courseId": "typical-course-id"
     }
   },
   "teams": {
     "team1InTypicalCourse": {
       "id": "00000000-0000-4000-8000-000000000301",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000201"
     }
   },
   "deadlineExtensions": {
     "student1InTypicalCourseSession1": {
       "id": "00000000-0000-4000-8000-000000000401",
-      "user": {
-        "id": "00000000-0000-4000-8000-000000000601",
-        "type": "student"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "endTime": "2027-04-30T23:00:00Z",
-      "isClosingSoonEmailSent": false
+      "isClosingSoonEmailSent": false,
+      "sessionId": "00000000-0000-4000-8000-000000000701",
+      "userId": "00000000-0000-4000-8000-000000000601"
     },
     "instructor1InTypicalCourseSession1": {
       "id": "00000000-0000-4000-8000-000000000402",
-      "user": {
-        "id": "00000000-0000-4000-8000-000000000501",
-        "type": "instructor"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "endTime": "2027-04-30T23:00:00Z",
-      "isClosingSoonEmailSent": false
+      "isClosingSoonEmailSent": false,
+      "sessionId": "00000000-0000-4000-8000-000000000701",
+      "userId": "00000000-0000-4000-8000-000000000501"
     }
   },
   "instructors": {
     "instructor1OfTypicalCourse": {
       "id": "00000000-0000-4000-8000-000000000501",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "typical-course-id",
       "name": "Instructor 1",
       "email": "instr1@teammates.tmt",
@@ -101,7 +84,8 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "instructor2OfTypicalCourse": {
       "id": "00000000-0000-4000-8000-000000000502",
@@ -130,26 +114,20 @@
   "students": {
     "student1InTypicalCourse": {
       "id": "00000000-0000-4000-8000-000000000601",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
       "courseId": "typical-course-id",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "email": "student1@teammates.tmt",
       "name": "student1 In TypicalCourse",
-      "comments": "comment for student1TypicalCourse"
+      "comments": "comment for student1TypicalCourse",
+      "accountId": "00000000-0000-4000-8000-000000000002",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "student2InTypicalCourse": {
       "id": "00000000-0000-4000-8000-000000000602",
       "courseId": "typical-course-id",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "email": "student2@teammates.tmt",
       "name": "student2 In TypicalCourse",
-      "comments": ""
+      "comments": "",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     }
   },
   "feedbackSessions": {
@@ -195,9 +173,6 @@
   "feedbackQuestions": {
     "qn1InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000801",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "What is the best selling point of your product?"
@@ -207,95 +182,45 @@
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     }
   },
   "feedbackResponses": {
     "response1ForQ1S1C1": {
       "id": "00000000-0000-4000-8000-000000000901",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000801",
-        "feedbackSession": {
-          "id": "00000000-0000-4000-8000-000000000701"
-        },
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "What is the best selling point of your product?"
-        },
-        "description": "This is a text question.",
-        "questionNumber": 1,
-        "giverType": "STUDENTS",
-        "recipientType": "SELF",
-        "numOfEntitiesToGiveFeedbackTo": 1,
-        "showResponsesTo": ["INSTRUCTORS"],
-        "showGiverNameTo": ["INSTRUCTORS"],
-        "showRecipientNameTo": ["INSTRUCTORS"]
-      },
       "giver": "student1@teammates.tmt",
       "recipient": "student1@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Student 1 self feedback."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000801",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     }
   },
   "feedbackResponseComments": {
     "comment1ToResponse1ForQ1": {
-      "feedbackResponse": {
-        "id": "00000000-0000-4000-8000-000000000901",
-        "feedbackQuestion": {
-          "id": "00000000-0000-4000-8000-000000000801",
-          "feedbackSession": {
-            "id": "00000000-0000-4000-8000-000000000701"
-          },
-          "questionDetails": {
-            "questionType": "TEXT",
-            "questionText": "What is the best selling point of your product?"
-          },
-          "description": "This is a text question.",
-          "questionNumber": 1,
-          "giverType": "STUDENTS",
-          "recipientType": "SELF",
-          "numOfEntitiesToGiveFeedbackTo": 1,
-          "showResponsesTo": ["INSTRUCTORS"],
-          "showGiverNameTo": ["INSTRUCTORS"],
-          "showRecipientNameTo": ["INSTRUCTORS"]
-        },
-        "giver": "student1@teammates.tmt",
-        "recipient": "student1@teammates.tmt",
-        "giverSection": {
-          "id": "00000000-0000-4000-8000-000000000201"
-        },
-        "recipientSection": {
-          "id": "00000000-0000-4000-8000-000000000201"
-        },
-        "answer": {
-          "questionType": "TEXT",
-          "answer": "Student 1 self feedback."
-        }
-      },
       "giver": "instr1@teammates.tmt",
       "giverType": "INSTRUCTORS",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "commentText": "Instructor 1 comment to student 1 self feedback",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "instr1@teammates.tmt"
+      "lastEditorEmail": "instr1@teammates.tmt",
+      "responseId": "00000000-0000-4000-8000-000000000901",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     }
   },
   "notifications": {
@@ -313,21 +238,13 @@
   "readNotifications": {
     "notification1Instructor1": {
       "id": "00000000-0000-4000-8000-000000001201",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
-      "notification": {
-        "id": "00000000-0000-4000-8000-000000001101"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000001",
+      "notificationId": "00000000-0000-4000-8000-000000001101"
     },
     "notification1Student1": {
       "id": "00000000-0000-4000-8000-000000001101",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
-      "notification": {
-        "id": "00000000-0000-4000-8000-000000001101"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000002",
+      "notificationId": "00000000-0000-4000-8000-000000001101"
     }
   }
 }

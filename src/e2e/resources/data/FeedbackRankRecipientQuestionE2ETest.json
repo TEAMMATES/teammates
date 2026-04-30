@@ -53,9 +53,6 @@
   },
   "instructors": {
     "instructor": {
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.FRankRcptQn.CS2104",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
@@ -75,12 +72,10 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "instructor2": {
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
       "courseId": "tm.e2e.FRankRcptQn.CS2104",
       "name": "Teammates Test 2",
       "email": "tmms.test2@gmail.tmt",
@@ -100,12 +95,10 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000002"
     },
     "instructor3": {
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.FRankRcptQn.CS1101",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
@@ -125,93 +118,70 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },
   "students": {
     "alice.tmms@FRankRcptQn.CS2104": {
       "id": "00000000-0000-4000-8000-000000000601",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000003"
-      },
       "courseId": "tm.e2e.FRankRcptQn.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "email": "alice.b.tmms@gmail.tmt",
       "name": "Alice Betsy",
-      "comments": "This student's name is Alice Betsy"
+      "comments": "This student's name is Alice Betsy",
+      "accountId": "00000000-0000-4000-8000-000000000003",
+      "teamId": "00000000-0000-4000-8000-000000000201"
     },
     "benny.tmms@FRankRcptQn.CS2104": {
       "id": "00000000-0000-4000-8000-000000000602",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000004"
-      },
       "courseId": "tm.e2e.FRankRcptQn.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "email": "benny.tmms@gmail.tmt",
       "name": "Benny Charles",
-      "comments": "This student's name is Benny Charles"
+      "comments": "This student's name is Benny Charles",
+      "accountId": "00000000-0000-4000-8000-000000000004",
+      "teamId": "00000000-0000-4000-8000-000000000201"
     },
     "charlie.tmms@FRankRcptQn.CS2104": {
       "id": "00000000-0000-4000-8000-000000000603",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000005"
-      },
       "courseId": "tm.e2e.FRankRcptQn.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "email": "frankrcptqn.charlie.tmms@gmail.tmt",
       "name": "Charlie Davis",
-      "comments": "This student's name is Charlie Davis"
+      "comments": "This student's name is Charlie Davis",
+      "accountId": "00000000-0000-4000-8000-000000000005",
+      "teamId": "00000000-0000-4000-8000-000000000201"
     },
     "danny.tmms@FRankRcptQn.CS1101": {
       "id": "00000000-0000-4000-8000-000000000604",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000006"
-      },
       "courseId": "tm.e2e.FRankRcptQn.CS1101",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
       "email": "frankrcptqn.danny.tmms@gmail.tmt",
       "name": "Danny Engrid",
-      "comments": "This student's name is Danny Engrid"
+      "comments": "This student's name is Danny Engrid",
+      "accountId": "00000000-0000-4000-8000-000000000006",
+      "teamId": "00000000-0000-4000-8000-000000000202"
     }
   },
   "sections": {
     "CS2104None": {
       "id": "00000000-0000-4000-8000-000000000101",
-      "course": {
-        "id": "tm.e2e.FRankRcptQn.CS2104"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.FRankRcptQn.CS2104"
     },
     "CS1101None": {
       "id": "00000000-0000-4000-8000-000000000102",
-      "course": {
-        "id": "tm.e2e.FRankRcptQn.CS1101"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.FRankRcptQn.CS1101"
     }
   },
   "teams": {
     "CS2104Team1": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000101"
     },
     "CS1101Team1": {
       "id": "00000000-0000-4000-8000-000000000202",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000102"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000102"
     }
   },
   "feedbackSessions": {
@@ -257,9 +227,6 @@
   "feedbackQuestions": {
     "qn1ForFirstSession": {
       "id": "00000000-0000-4000-8000-000000000801",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionDetails": {
         "areDuplicatesAllowed": true,
         "questionType": "RANK_RECIPIENTS",
@@ -271,15 +238,21 @@
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn1ForSecondSession": {
       "id": "00000000-0000-4000-8000-000000000802",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000702"
-      },
       "questionDetails": {
         "areDuplicatesAllowed": false,
         "questionType": "RANK_RECIPIENTS",
@@ -291,9 +264,18 @@
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "sessionId": "00000000-0000-4000-8000-000000000702"
     }
   },
   "feedbackResponses": {},

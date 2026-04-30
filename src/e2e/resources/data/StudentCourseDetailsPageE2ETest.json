@@ -26,19 +26,15 @@
   "sections": {
     "tm.e2e.SCDet.CS2104-None": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "course": {
-        "id": "tm.e2e.SCDet.CS2104"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.SCDet.CS2104"
     }
   },
   "teams": {
     "tm.e2e.SCDet.CS2104-None-Team1": {
       "id": "00000000-0000-4000-8000-000000000301",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000201"
     }
   },
   "deadlineExtensions": {},
@@ -63,11 +59,9 @@
       },
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "tm.e2e.SCDet.CS2104",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "name": "Teammates Test",
-      "email": "scdet.instr@gmail.tmt"
+      "email": "scdet.instr@gmail.tmt",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "SCDet.instr2": {
       "isDisplayedToStudents": true,
@@ -98,34 +92,26 @@
       "comments": "This student's name is Alice Betsy",
       "id": "00000000-0000-4000-8000-000000000601",
       "courseId": "tm.e2e.SCDet.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
       "name": "Alice Betsy",
-      "email": "scdet.alice@gmail.tmt"
+      "email": "scdet.alice@gmail.tmt",
+      "accountId": "00000000-0000-4000-8000-000000000002",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "SCDet.benny": {
       "comments": "This student's name is Benny Charles",
       "id": "00000000-0000-4000-8000-000000000602",
       "courseId": "tm.e2e.SCDet.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "name": "Benny Charles",
-      "email": "scdet.benny@gmail.tmt"
+      "email": "scdet.benny@gmail.tmt",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "SCDet.charlie": {
       "comments": "This student's name is Charlie Davis",
       "id": "00000000-0000-4000-8000-000000000603",
       "courseId": "tm.e2e.SCDet.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "name": "Charlie Davis",
-      "email": "scdet.charlie@gmail.tmt"
+      "email": "scdet.charlie@gmail.tmt",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     }
   },
   "feedbackSessions": {},

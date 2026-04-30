@@ -30,27 +30,20 @@
   "sections": {
     "section1": {
       "id": "00000000-0000-4000-8000-000000000101",
-      "course": {
-        "id": "tm.e2e.ISActLogs.CS2104"
-      },
-      "name": "Section 1"
+      "name": "Section 1",
+      "courseId": "tm.e2e.ISActLogs.CS2104"
     }
   },
   "teams": {
     "team1": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000101"
     }
   },
   "instructors": {
     "instructor": {
       "id": "00000000-0000-4000-8000-000000000301",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.ISActLogs.CS2104",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
@@ -70,35 +63,28 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },
   "students": {
     "alice.tmms@ISActLogs.CS2104": {
       "id": "00000000-0000-4000-8000-000000000401",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
       "courseId": "tm.e2e.ISActLogs.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "name": "Alice Betsy",
       "email": "alice.b.tmms@gmail.tmt",
-      "comments": "This student's name is Alice Betsy"
+      "comments": "This student's name is Alice Betsy",
+      "accountId": "00000000-0000-4000-8000-000000000002",
+      "teamId": "00000000-0000-4000-8000-000000000201"
     },
     "benny.tmms@ISActLogs.CS2104": {
       "id": "00000000-0000-4000-8000-000000000402",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000003"
-      },
       "courseId": "tm.e2e.ISActLogs.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "name": "Benny Charles",
       "email": "benny.tmms@gmail.tmt",
-      "comments": "This student's name is Benny Charles"
+      "comments": "This student's name is Benny Charles",
+      "accountId": "00000000-0000-4000-8000-000000000003",
+      "teamId": "00000000-0000-4000-8000-000000000201"
     }
   },
   "feedbackSessions": {
@@ -125,9 +111,6 @@
   "feedbackQuestions": {
     "qn1": {
       "id": "00000000-0000-4000-8000-000000000601",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000501"
-      },
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "Testing question text"
@@ -137,9 +120,25 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numOfEntitiesToGiveFeedbackTo": 2,
-      "showResponsesTo": ["STUDENTS", "INSTRUCTORS", "OWN_TEAM_MEMBERS", "RECEIVER"],
-      "showGiverNameTo": ["STUDENTS", "INSTRUCTORS", "OWN_TEAM_MEMBERS", "RECEIVER"],
-      "showRecipientNameTo": ["STUDENTS", "INSTRUCTORS", "OWN_TEAM_MEMBERS", "RECEIVER"]
+      "showResponsesTo": [
+        "STUDENTS",
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "STUDENTS",
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "STUDENTS",
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER"
+      ],
+      "sessionId": "00000000-0000-4000-8000-000000000501"
     }
   }
 }
