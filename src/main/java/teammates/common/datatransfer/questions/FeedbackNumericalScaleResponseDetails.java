@@ -1,5 +1,7 @@
 package teammates.common.datatransfer.questions;
 
+import java.util.Objects;
+
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 
@@ -42,6 +44,6 @@ public class FeedbackNumericalScaleResponseDetails extends FeedbackResponseDetai
 
     @Override
     public int hashCode() {
-        return 31 * getQuestionType().hashCode() + Double.hashCode(answer);
+        return Objects.hash(getQuestionType(), answer);
     }
 }

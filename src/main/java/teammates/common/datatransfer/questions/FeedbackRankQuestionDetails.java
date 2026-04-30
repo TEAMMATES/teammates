@@ -1,5 +1,7 @@
 package teammates.common.datatransfer.questions;
 
+import java.util.Objects;
+
 import teammates.common.util.Const;
 
 /**
@@ -51,7 +53,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
         }
         FeedbackRankQuestionDetails other = (FeedbackRankQuestionDetails) obj;
         return getQuestionType() == other.getQuestionType()
-                && java.util.Objects.equals(getQuestionText(), other.getQuestionText())
+                && Objects.equals(getQuestionText(), other.getQuestionText())
                 && minOptionsToBeRanked == other.minOptionsToBeRanked
                 && maxOptionsToBeRanked == other.maxOptionsToBeRanked
                 && areDuplicatesAllowed == other.areDuplicatesAllowed;
@@ -59,7 +61,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
 
     @Override
     public int hashCode() {
-        return java.util.Objects.hash(
+        return Objects.hash(
                 getQuestionType(),
                 getQuestionText(),
                 minOptionsToBeRanked,

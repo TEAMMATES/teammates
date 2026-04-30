@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -392,14 +393,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             return false;
         }
         return getQuestionType() == other.getQuestionType()
-                && java.util.Objects.equals(getQuestionText(), other.getQuestionText())
+                && Objects.equals(getQuestionText(), other.getQuestionText())
                 && isZeroSum == other.isZeroSum
                 && isNotSureAllowed == other.isNotSureAllowed;
     }
 
     @Override
     public int hashCode() {
-        return java.util.Objects.hash(getQuestionType(), getQuestionText(), isZeroSum, isNotSureAllowed);
+        return Objects.hash(getQuestionType(), getQuestionText(), isZeroSum, isNotSureAllowed);
     }
 
     /**
