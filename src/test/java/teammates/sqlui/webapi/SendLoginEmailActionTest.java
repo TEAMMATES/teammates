@@ -49,7 +49,7 @@ public class SendLoginEmailActionTest extends BaseActionTest<SendLoginEmailActio
         stubEmailWrapper.setRecipient(USER_EMAIL);
         stubEmailWrapper.setType(EmailType.LOGIN);
         stubEmailWrapper.setSubjectFromType();
-        when(mockSqlEmailGenerator.generateLoginEmail(USER_EMAIL, "http://localhost:4201")).thenReturn(stubEmailWrapper);
+        when(mockEmailGenerator.generateLoginEmail(USER_EMAIL, "http://localhost:4201")).thenReturn(stubEmailWrapper);
 
         SendLoginEmailAction a = getAction(loginParams);
         JsonResult result = getJsonResult(a);

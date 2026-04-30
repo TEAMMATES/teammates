@@ -46,7 +46,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
     @BeforeMethod
     void setUpMethod() {
-        Mockito.reset(mockLogic, mockSqlEmailGenerator);
+        Mockito.reset(mockLogic, mockEmailGenerator);
 
         typicalInstructor = getTypicalInstructor();
         typicalCourse = getTypicalCourse();
@@ -75,7 +75,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         when(mockLogic.getAccountForGoogleId(typicalInstructor.getGoogleId())).thenReturn(inviterAccount);
 
         EmailWrapper mockEmail = mock(EmailWrapper.class);
-        when(mockSqlEmailGenerator.generateInstructorCourseJoinEmail(inviterAccount, newInstructor, typicalCourse))
+        when(mockEmailGenerator.generateInstructorCourseJoinEmail(inviterAccount, newInstructor, typicalCourse))
                 .thenReturn(mockEmail);
 
         loginAsInstructor(typicalInstructor.getGoogleId());
@@ -171,7 +171,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         when(mockLogic.getAccountForGoogleId(Mockito.anyString())).thenReturn(inviterAccount);
 
         EmailWrapper mockEmail = mock(EmailWrapper.class);
-        when(mockSqlEmailGenerator.generateInstructorCourseJoinEmail(
+        when(mockEmailGenerator.generateInstructorCourseJoinEmail(
                 any(Account.class), any(Instructor.class), any(Course.class)))
                 .thenReturn(mockEmail);
 

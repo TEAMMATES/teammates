@@ -17,12 +17,12 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.AuthProxy;
+import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.LogsProcessor;
 import teammates.logic.api.RecaptchaVerifier;
 import teammates.logic.api.TaskQueuer;
 import teammates.sqllogic.api.Logic;
-import teammates.sqllogic.api.SqlEmailGenerator;
 import teammates.sqllogic.api.UserProvision;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
@@ -40,7 +40,7 @@ public abstract class Action {
     Logic sqlLogic = Logic.inst();
     UserProvision userProvision = UserProvision.inst();
     GateKeeper gateKeeper = GateKeeper.inst();
-    SqlEmailGenerator sqlEmailGenerator = SqlEmailGenerator.inst();
+    EmailGenerator emailGenerator = EmailGenerator.inst();
     TaskQueuer taskQueuer = TaskQueuer.inst();
     EmailSender emailSender = EmailSender.inst();
     RecaptchaVerifier recaptchaVerifier = RecaptchaVerifier.inst();
@@ -96,8 +96,8 @@ public abstract class Action {
         this.authProxy = authProxy;
     }
 
-    public void setSqlEmailGenerator(SqlEmailGenerator sqlEmailGenerator) {
-        this.sqlEmailGenerator = sqlEmailGenerator;
+    public void setEmailGenerator(EmailGenerator emailGenerator) {
+        this.emailGenerator = emailGenerator;
     }
 
     /**

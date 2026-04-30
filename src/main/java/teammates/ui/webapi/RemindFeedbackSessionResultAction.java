@@ -78,7 +78,7 @@ public class RemindFeedbackSessionResultAction extends Action {
             }
         }
 
-        List<EmailWrapper> emails = sqlEmailGenerator.generateFeedbackSessionPublishedEmails(
+        List<EmailWrapper> emails = emailGenerator.generateFeedbackSessionPublishedEmails(
                 feedbackSession, studentsToRemindList, instructorsToRemindList,
                 Collections.singletonList(instructorToNotify));
 

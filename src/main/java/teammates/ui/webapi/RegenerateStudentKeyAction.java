@@ -60,7 +60,7 @@ public class RegenerateStudentKeyAction extends AdminOnlyAction {
      * @return true if the email was sent successfully, and false otherwise.
      */
     private boolean sendEmail(Student student) {
-        EmailWrapper email = sqlEmailGenerator.generateFeedbackSessionSummaryOfCourse(
+        EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
                 student.getCourseId(), student.getEmail(), EmailType.STUDENT_COURSE_LINKS_REGENERATED);
         EmailSendingStatus status = emailSender.sendEmail(email);
         return status.isSuccess();

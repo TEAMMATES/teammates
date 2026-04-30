@@ -34,7 +34,7 @@ public class CompileLogsAction extends AutomatedServiceAction {
 
         // Do not send any emails if there are no severe logs; prevents spamming
         if (!errorLogs.isEmpty()) {
-            EmailWrapper message = sqlEmailGenerator.generateCompiledLogsEmail(errorLogs);
+            EmailWrapper message = emailGenerator.generateCompiledLogsEmail(errorLogs);
             emailSender.sendEmail(message);
         }
         return new JsonResult("Successful");

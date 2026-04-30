@@ -66,7 +66,7 @@ public class SendJoinReminderEmailAction extends Action {
                 throw new EntityNotFoundException(
                         "Student with email " + studentEmail + " does not exist in course " + courseId + "!");
             }
-            EmailWrapper email = sqlEmailGenerator.generateStudentCourseJoinEmail(course, studentData);
+            EmailWrapper email = emailGenerator.generateStudentCourseJoinEmail(course, studentData);
             List<EmailWrapper> emails = new ArrayList<>();
             emails.add(email);
             taskQueuer.scheduleEmailsForPrioritySending(emails);
@@ -82,7 +82,7 @@ public class SendJoinReminderEmailAction extends Action {
             if (inviter == null) {
                 throw new EntityNotFoundException("Inviter account does not exist.");
             }
-            EmailWrapper email = sqlEmailGenerator.generateInstructorCourseJoinEmail(inviter, instructorData, course);
+            EmailWrapper email = emailGenerator.generateInstructorCourseJoinEmail(inviter, instructorData, course);
             List<EmailWrapper> emails = new ArrayList<>();
             emails.add(email);
             taskQueuer.scheduleEmailsForPrioritySending(emails);
@@ -92,7 +92,7 @@ public class SendJoinReminderEmailAction extends Action {
             List<Student> studentDataList = sqlLogic.getUnregisteredStudentsForCourse(courseId);
             List<EmailWrapper> emails = new ArrayList<>();
             for (Student student : studentDataList) {
-                EmailWrapper email = sqlEmailGenerator.generateStudentCourseJoinEmail(course, student);
+                EmailWrapper email = emailGenerator.generateStudentCourseJoinEmail(course, student);
                 emails.add(email);
             }
             taskQueuer.scheduleEmailsForPrioritySending(emails);

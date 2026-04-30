@@ -88,7 +88,7 @@ public class CreateInstructorAction extends Action {
         if (inviter == null) {
             throw new EntityNotFoundException("Inviter account does not exist.");
         }
-        EmailWrapper email = sqlEmailGenerator.generateInstructorCourseJoinEmail(inviter, createdInstructor, course);
+        EmailWrapper email = emailGenerator.generateInstructorCourseJoinEmail(inviter, createdInstructor, course);
         List<EmailWrapper> emails = new ArrayList<>();
         emails.add(email);
         taskQueuer.scheduleEmailsForPrioritySending(emails);

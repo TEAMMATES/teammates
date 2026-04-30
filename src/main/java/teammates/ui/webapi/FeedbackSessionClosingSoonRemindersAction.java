@@ -23,7 +23,7 @@ public class FeedbackSessionClosingSoonRemindersAction extends AutomatedServiceA
 
         for (FeedbackSession session : sessions) {
             RequestTracer.checkRemainingTime();
-            List<EmailWrapper> emailsToBeSent = sqlEmailGenerator.generateFeedbackSessionClosingSoonEmails(session);
+            List<EmailWrapper> emailsToBeSent = emailGenerator.generateFeedbackSessionClosingSoonEmails(session);
             try {
                 taskQueuer.scheduleEmailsForSending(emailsToBeSent);
                 session.setClosingSoonEmailSent(true);
@@ -47,7 +47,7 @@ public class FeedbackSessionClosingSoonRemindersAction extends AutomatedServiceA
                 continue;
             }
 
-            List<EmailWrapper> emailsToBeSent = sqlEmailGenerator
+            List<EmailWrapper> emailsToBeSent = emailGenerator
                     .generateFeedbackSessionClosingWithExtensionEmails(session, deadlineExtensions);
             taskQueuer.scheduleEmailsForSending(emailsToBeSent);
 

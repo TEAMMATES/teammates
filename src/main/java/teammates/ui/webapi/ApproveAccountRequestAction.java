@@ -52,7 +52,7 @@ public class ApproveAccountRequestAction extends AdminOnlyAction {
         try {
             accountRequest.setStatus(AccountRequestStatus.APPROVED);
             accountRequest = sqlLogic.updateAccountRequest(accountRequest);
-            EmailWrapper email = sqlEmailGenerator.generateNewInstructorAccountJoinEmail(
+            EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
                     accountRequest.getEmail(), accountRequest.getName(), accountRequest.getRegistrationUrl());
             emailSender.sendEmail(email);
         } catch (InvalidParametersException e) {

@@ -55,8 +55,8 @@ public class CreateAccountRequestAction extends Action {
         assert accountRequest != null;
 
         if (userInfo == null || !userInfo.isAdmin) {
-            EmailWrapper adminAlertEmail = sqlEmailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
-            EmailWrapper userAcknowledgementEmail = sqlEmailGenerator
+            EmailWrapper adminAlertEmail = emailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
+            EmailWrapper userAcknowledgementEmail = emailGenerator
                     .generateNewAccountRequestAcknowledgementEmail(accountRequest);
             emailSender.sendEmail(adminAlertEmail);
             emailSender.sendEmail(userAcknowledgementEmail);

@@ -50,7 +50,7 @@ public class RemindFeedbackSessionSubmissionActionTest
 
     @BeforeMethod
     void setUp() {
-        Mockito.reset(mockLogic, mockSqlEmailGenerator);
+        Mockito.reset(mockLogic, mockEmailGenerator);
 
         nearestHour = Instant.now().truncatedTo(java.time.temporal.ChronoUnit.HOURS);
 
@@ -95,7 +95,7 @@ public class RemindFeedbackSessionSubmissionActionTest
                 .thenReturn(openedFeedbackSession);
         when(mockLogic.getUser(student.getId())).thenReturn(student);
         when(mockLogic.getUser(instructor.getId())).thenReturn(instructor);
-        when(mockSqlEmailGenerator.generateFeedbackSessionReminderEmails(
+        when(mockEmailGenerator.generateFeedbackSessionReminderEmails(
                 isA(FeedbackSession.class), anyList(), anyList(), isNull()))
                 .thenReturn(List.of(mockEmail));
 

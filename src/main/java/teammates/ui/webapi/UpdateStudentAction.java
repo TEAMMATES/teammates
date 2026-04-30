@@ -116,7 +116,7 @@ public class UpdateStudentAction extends Action {
      * @return The true if email was sent successfully or false otherwise.
      */
     private boolean sendEmail(String courseId, String studentEmail) {
-        EmailWrapper email = sqlEmailGenerator.generateFeedbackSessionSummaryOfCourse(
+        EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
                 courseId, studentEmail, EmailType.STUDENT_EMAIL_CHANGED);
         EmailSendingStatus status = emailSender.sendEmail(email);
         return status.isSuccess();

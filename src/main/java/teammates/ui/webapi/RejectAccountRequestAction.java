@@ -41,7 +41,7 @@ public class RejectAccountRequestAction extends AdminOnlyAction {
             accountRequest = sqlLogic.updateAccountRequest(accountRequest);
             if (accountRequestRejectionRequest.checkHasReason()
                     && initialStatus != AccountRequestStatus.REJECTED) {
-                EmailWrapper email = sqlEmailGenerator.generateAccountRequestRejectionEmail(accountRequest,
+                EmailWrapper email = emailGenerator.generateAccountRequestRejectionEmail(accountRequest,
                         accountRequestRejectionRequest.getReasonTitle(), accountRequestRejectionRequest.getReasonBody());
                 emailSender.sendEmail(email);
             }

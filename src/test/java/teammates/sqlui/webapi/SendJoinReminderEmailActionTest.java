@@ -42,7 +42,7 @@ public class SendJoinReminderEmailActionTest
 
     @BeforeMethod
     void setUp() {
-        Mockito.reset(mockLogic, mockSqlEmailGenerator);
+        Mockito.reset(mockLogic, mockEmailGenerator);
 
         course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
         student = new Student(course, "student name", "student_email@tm.tmt", null);
@@ -62,7 +62,7 @@ public class SendJoinReminderEmailActionTest
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getStudentForEmail(course.getId(), student.getEmail())).thenReturn(student);
-        when(mockSqlEmailGenerator.generateStudentCourseJoinEmail(course, student)).thenReturn(mock(EmailWrapper.class));
+        when(mockEmailGenerator.generateStudentCourseJoinEmail(course, student)).thenReturn(mock(EmailWrapper.class));
 
         SendJoinReminderEmailAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
@@ -86,7 +86,7 @@ public class SendJoinReminderEmailActionTest
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getInstructorForEmail(course.getId(), instructor.getEmail())).thenReturn(instructor);
         when(mockLogic.getAccountForGoogleId(instructorGoogleId)).thenReturn(inviterAccount);
-        when(mockSqlEmailGenerator.generateInstructorCourseJoinEmail(inviterAccount, instructor, course))
+        when(mockEmailGenerator.generateInstructorCourseJoinEmail(inviterAccount, instructor, course))
                 .thenReturn(mock(EmailWrapper.class));
 
         SendJoinReminderEmailAction action = getAction(params);
@@ -111,7 +111,7 @@ public class SendJoinReminderEmailActionTest
 
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getUnregisteredStudentsForCourse(course.getId())).thenReturn(unregisteredStudents);
-        when(mockSqlEmailGenerator.generateStudentCourseJoinEmail(course, student)).thenReturn(mock(EmailWrapper.class));
+        when(mockEmailGenerator.generateStudentCourseJoinEmail(course, student)).thenReturn(mock(EmailWrapper.class));
 
         SendJoinReminderEmailAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
