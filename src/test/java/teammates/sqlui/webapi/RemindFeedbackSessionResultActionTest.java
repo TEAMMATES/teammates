@@ -48,7 +48,7 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
 
     @BeforeMethod
     void setUp() {
-        Mockito.reset(mockLogic, mockSqlEmailGenerator);
+        Mockito.reset(mockLogic, mockEmailGenerator);
 
         nearestHour = Instant.now().truncatedTo(java.time.temporal.ChronoUnit.HOURS);
 
@@ -96,7 +96,7 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
                 .thenReturn(publishedFeedbackSession);
         when(mockLogic.getUser(student.getId())).thenReturn(student);
         when(mockLogic.getUser(instructor.getId())).thenReturn(instructor);
-        when(mockSqlEmailGenerator.generateFeedbackSessionPublishedEmails(
+        when(mockEmailGenerator.generateFeedbackSessionPublishedEmails(
                 isA(FeedbackSession.class), anyList(), anyList(), anyList()))
                 .thenReturn(List.of(mockEmail));
 

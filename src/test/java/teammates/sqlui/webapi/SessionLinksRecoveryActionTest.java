@@ -40,7 +40,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         stubEmailWrapper = new EmailWrapper();
         stubEmailWrapper.setRecipient(stubStudent.getEmail());
         stubEmailWrapper.setSubject("TEAMMATES: Recovery Email");
-        reset(mockLogic, mockSqlEmailGenerator);
+        reset(mockLogic, mockEmailGenerator);
     }
 
     @Test
@@ -70,7 +70,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         stubEmailWrapper.setRecipient("non-existent@email.com");
         when(mockRecaptchaVerifier.isVerificationSuccessful(params[3])).thenReturn(true);
         when(mockLogic.getAllStudentsForEmail("non-existent@email.com")).thenReturn(List.of());
-        when(mockSqlEmailGenerator.generateSessionLinksRecoveryEmailForStudent(eq("non-existent@email.com")))
+        when(mockEmailGenerator.generateSessionLinksRecoveryEmailForStudent(eq("non-existent@email.com")))
                 .thenReturn(stubEmailWrapper);
         mockEmailSender.setShouldFail(false);
 
@@ -94,7 +94,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         };
 
         when(mockRecaptchaVerifier.isVerificationSuccessful(params[3])).thenReturn(true);
-        when(mockSqlEmailGenerator.generateSessionLinksRecoveryEmailForStudent(eq(stubStudent.getEmail())))
+        when(mockEmailGenerator.generateSessionLinksRecoveryEmailForStudent(eq(stubStudent.getEmail())))
                 .thenReturn(stubEmailWrapper);
         mockEmailSender.setShouldFail(false);
 
@@ -140,7 +140,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         };
 
         when(mockRecaptchaVerifier.isVerificationSuccessful(params[3])).thenReturn(true);
-        when(mockSqlEmailGenerator.generateSessionLinksRecoveryEmailForStudent(eq(stubStudent.getEmail())))
+        when(mockEmailGenerator.generateSessionLinksRecoveryEmailForStudent(eq(stubStudent.getEmail())))
                 .thenReturn(stubEmailWrapper);
         mockEmailSender.setShouldFail(true);
 

@@ -62,7 +62,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
     @BeforeMethod
     void setUp() {
-        Mockito.reset(mockLogic, mockSqlEmailGenerator);
+        Mockito.reset(mockLogic, mockEmailGenerator);
 
         student = getTypicalStudent();
         course = getTypicalCourse();
@@ -96,7 +96,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         when(mockLogic.updateStudentCascade(any(Student.class))).thenReturn(updatedStudent);
 
         EmailWrapper mockEmail = mock(EmailWrapper.class);
-        when(mockSqlEmailGenerator.generateFeedbackSessionSummaryOfCourse(
+        when(mockEmailGenerator.generateFeedbackSessionSummaryOfCourse(
                 course.getId(),
                 updatedStudent.getEmail(),
                 EmailType.STUDENT_EMAIL_CHANGED
@@ -122,14 +122,14 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         Student studentToUpdate = studentCaptor.getValue();
         verifyStudentToUpdate(updatedStudent, studentToUpdate);
 
-        verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionSummaryOfCourse(
+        verify(mockEmailGenerator, times(1)).generateFeedbackSessionSummaryOfCourse(
                 course.getId(),
                 updatedStudent.getEmail(),
                 EmailType.STUDENT_EMAIL_CHANGED
         );
         verifyNumberOfEmailsSent(1);
 
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
         assertEquals(SUCCESSFUL_UPDATE_WITH_EMAIL, actionOutput.getMessage());
     }
 
@@ -144,7 +144,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         when(mockLogic.updateStudentCascade(any(Student.class))).thenReturn(updatedStudent);
 
         EmailWrapper mockEmail = mock(EmailWrapper.class);
-        when(mockSqlEmailGenerator.generateFeedbackSessionSummaryOfCourse(
+        when(mockEmailGenerator.generateFeedbackSessionSummaryOfCourse(
                 course.getId(),
                 updatedStudent.getEmail(),
                 EmailType.STUDENT_EMAIL_CHANGED
@@ -170,14 +170,14 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         Student studentToUpdate = studentCaptor.getValue();
         verifyStudentToUpdate(updatedStudent, studentToUpdate);
 
-        verify(mockSqlEmailGenerator, times(1)).generateFeedbackSessionSummaryOfCourse(
+        verify(mockEmailGenerator, times(1)).generateFeedbackSessionSummaryOfCourse(
                 course.getId(),
                 updatedStudent.getEmail(),
                 EmailType.STUDENT_EMAIL_CHANGED
         );
         verifyNoEmailsSent();
 
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
         assertEquals(SUCCESSFUL_UPDATE_BUT_EMAIL_FAILED, actionOutput.getMessage());
     }
 
@@ -212,7 +212,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
         verifyNoEmailsSent();
 
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
         assertEquals(SUCCESSFUL_UPDATE, actionOutput.getMessage());
     }
 
@@ -247,7 +247,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
         verifyNoEmailsSent();
 
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
         assertEquals(SUCCESSFUL_UPDATE, actionOutput.getMessage());
     }
 
@@ -282,7 +282,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
         verifyNoEmailsSent();
 
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
         assertEquals(SUCCESSFUL_UPDATE, actionOutput.getMessage());
     }
 
@@ -304,7 +304,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         verify(mockLogic, times(1)).getStudentForEmail(course.getId(), nonExistentStudentEmail);
         verifyNoTasksAdded();
         verifyNoEmailsSent();
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
     }
 
     @Test
@@ -325,7 +325,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         verify(mockLogic, times(1)).getStudentForEmail(nonExistentCourseId, student.getEmail());
         verifyNoTasksAdded();
         verifyNoEmailsSent();
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
     }
 
     @Test
@@ -359,7 +359,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
         verifyNoEmailsSent();
 
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
     }
 
     @Test
@@ -402,7 +402,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
         verifyNoEmailsSent();
 
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
     }
 
     @Test
@@ -436,7 +436,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
         verifyNoEmailsSent();
 
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
     }
 
     @Test
@@ -471,7 +471,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
         verifyNoEmailsSent();
 
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
     }
 
     @Test
@@ -505,7 +505,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         };
 
         verifyCannotAccess(params);
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
     }
 
     @Test
@@ -517,7 +517,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         };
 
         verifyHttpParameterFailureAcl(params);
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
     }
 
     @Test
@@ -534,7 +534,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         verifyCannotAccess(params);
         verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), nonExistentInstructorId);
         verify(mockLogic, times(1)).getCourse(course.getId());
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
     }
 
     @Test
@@ -553,7 +553,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         verifyCanAccess(params);
         verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructorId);
         verify(mockLogic, times(1)).getCourse(course.getId());
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
     }
 
     @Test
@@ -575,7 +575,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         verifyCannotAccess(params);
         verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructorId);
         verify(mockLogic, times(1)).getCourse(course.getId());
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
     }
 
     @Test
@@ -588,7 +588,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         };
 
         verifyCannotAccess(params);
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
     }
 
     @Test
@@ -601,7 +601,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         };
 
         verifyCannotAccess(params);
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
     }
 
     @Test
@@ -614,6 +614,6 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         };
 
         verifyCannotAccess(params);
-        verifyNoMoreInteractions(mockLogic, mockSqlEmailGenerator);
+        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
     }
 }

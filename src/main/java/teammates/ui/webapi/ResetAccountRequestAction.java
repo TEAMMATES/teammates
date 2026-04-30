@@ -42,7 +42,7 @@ public class ResetAccountRequestAction extends AdminOnlyAction {
         }
 
         String joinLink = accountRequest.getRegistrationUrl();
-        EmailWrapper email = sqlEmailGenerator.generateNewInstructorAccountJoinEmail(
+        EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
                 accountRequest.getEmail(), accountRequest.getName(), joinLink);
         emailSender.sendEmail(email);
 

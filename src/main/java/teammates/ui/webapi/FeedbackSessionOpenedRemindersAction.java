@@ -20,7 +20,7 @@ public class FeedbackSessionOpenedRemindersAction extends AutomatedServiceAction
 
         for (FeedbackSession session : sessions) {
             RequestTracer.checkRemainingTime();
-            List<EmailWrapper> emailsToBeSent = sqlEmailGenerator.generateFeedbackSessionOpenedEmails(session);
+            List<EmailWrapper> emailsToBeSent = emailGenerator.generateFeedbackSessionOpenedEmails(session);
             try {
                 taskQueuer.scheduleEmailsForSending(emailsToBeSent);
                 session.setOpenedEmailSent(true);
