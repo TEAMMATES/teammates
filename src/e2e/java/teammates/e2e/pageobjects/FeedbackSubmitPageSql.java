@@ -141,7 +141,7 @@ public class FeedbackSubmitPageSql extends AppPage {
 
     public void verifyNoCommentPresent(int qnNumber, String recipient) {
         int numComments = getCommentSection(qnNumber, recipient).findElements(By.className("comment-text")).size();
-        assertEquals(numComments, 0);
+        assertEquals(0, numComments);
     }
 
     public void verifyTextQuestion(int qnNumber, FeedbackTextQuestionDetails questionDetails) {
@@ -504,8 +504,7 @@ public class FeedbackSubmitPageSql extends AppPage {
         List<Integer> answers = responseDetails.getAnswers();
         for (int i = 0; i < answers.size(); i++) {
             if (answers.get(i) == Const.POINTS_NOT_SUBMITTED) {
-                assertEquals(getSelectedDropdownOptionText(getRankOptionsDropdowns(qnNumber, recipient).get(i)),
-                        "");
+                assertEquals("", getSelectedDropdownOptionText(getRankOptionsDropdowns(qnNumber, recipient).get(i)));
             } else {
                 assertEquals(getSelectedDropdownOptionText(getRankOptionsDropdowns(qnNumber, recipient).get(i)),
                         Integer.toString(answers.get(i)));
@@ -532,10 +531,10 @@ public class FeedbackSubmitPageSql extends AppPage {
             FeedbackRankRecipientsResponseDetails response =
                     (FeedbackRankRecipientsResponseDetails) responses.get(i).getFeedbackResponseDetailsCopy();
             if (response.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
-                assertEquals(getSelectedDropdownOptionText(recipientDropdowns.get(i)), "");
+                assertEquals("", getSelectedDropdownOptionText(recipientDropdowns.get(i)));
             } else {
-                assertEquals(getSelectedDropdownOptionText(recipientDropdowns.get(i)),
-                        Integer.toString(response.getAnswer()));
+                assertEquals(Integer.toString(response.getAnswer()),
+                        getSelectedDropdownOptionText(recipientDropdowns.get(i)));
             }
         }
     }
