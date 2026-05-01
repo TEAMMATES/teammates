@@ -383,7 +383,7 @@ describe('InstructorCoursesPageComponent', () => {
     fixture.detectChanges();
 
     const restoreButton: any = fixture.debugElement.nativeElement.querySelector('#btn-restore-disabled-0');
-    expect(restoreButton.textContent).toEqual(' Restore ');
+    expect(restoreButton.textContent).toEqual('Restore');
     expect(restoreButton.className).toContain('disabled');
 
     const disableButton: any = fixture.debugElement.nativeElement.querySelector('#btn-delete-disabled-0');

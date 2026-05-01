@@ -364,7 +364,6 @@ public class InstructorCourseEditPageSql extends AppPage {
     }
 
     private int getNumInstructors() {
-        waitUntilAnimationFinish();
         return (int) browser.driver.findElements(By.cssSelector(".card-header"))
                             .stream()
                             .filter(WebElement::isDisplayed)

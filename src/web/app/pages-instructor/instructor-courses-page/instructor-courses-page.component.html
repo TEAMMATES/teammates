@@ -413,14 +413,12 @@
                       <span class="fa-stack" aria-hidden="true">
                         <i class="fas fa-sort"></i>
                         @if (
-                          deletedTableSortBy === SortBy.COURSE_CREATION_DATE &&
-                          deletedTableSortOrder === SortOrder.DESC
+                          deletedTableSortBy === SortBy.COURSE_CREATION_DATE && deletedTableSortOrder === SortOrder.DESC
                         ) {
                           <i class="fas fa-sort-down"></i>
                         }
                         @if (
-                          deletedTableSortBy === SortBy.COURSE_CREATION_DATE &&
-                          deletedTableSortOrder === SortOrder.ASC
+                          deletedTableSortBy === SortBy.COURSE_CREATION_DATE && deletedTableSortOrder === SortOrder.ASC
                         ) {
                           <i class="fas fa-sort-up"></i>
                         }
@@ -437,14 +435,12 @@
                       <span class="fa-stack" aria-hidden="true">
                         <i class="fas fa-sort"></i>
                         @if (
-                          deletedTableSortBy === SortBy.COURSE_DELETION_DATE &&
-                          deletedTableSortOrder === SortOrder.DESC
+                          deletedTableSortBy === SortBy.COURSE_DELETION_DATE && deletedTableSortOrder === SortOrder.DESC
                         ) {
                           <i class="fas fa-sort-down"></i>
                         }
                         @if (
-                          deletedTableSortBy === SortBy.COURSE_DELETION_DATE &&
-                          deletedTableSortOrder === SortOrder.ASC
+                          deletedTableSortBy === SortBy.COURSE_DELETION_DATE && deletedTableSortOrder === SortOrder.ASC
                         ) {
                           <i class="fas fa-sort-up"></i>
                         }
@@ -489,9 +485,7 @@
                         </button>
                       }
                       @if (!course.canModifyCourse) {
-                        <button id="btn-restore-disabled-{{ i }}" class="btn btn-light btn-sm disabled">
-                          Restore
-                        </button>
+                        <button id="btn-restore-disabled-{{ i }}" class="btn btn-light btn-sm disabled">Restore</button>
                       }
                       @if (course.canModifyCourse) {
                         <button
