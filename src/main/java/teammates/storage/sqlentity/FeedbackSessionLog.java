@@ -34,10 +34,16 @@ public class FeedbackSessionLog extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Student student;
 
+    @Column(nullable = false, insertable = false, updatable = false)
+    private UUID studentId;
+
     @ManyToOne
     @JoinColumn(name = "sessionId", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private FeedbackSession feedbackSession;
+
+    @Column(nullable = false, insertable = false, updatable = false)
+    private UUID sessionId;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -53,10 +59,10 @@ public class FeedbackSessionLog extends BaseEntity {
     public FeedbackSessionLog(Student student, FeedbackSession feedbackSession,
             FeedbackSessionLogType feedbackSessionLogType, Instant timestamp) {
         this.setId(UUID.randomUUID());
-        this.student = student;
-        this.feedbackSession = feedbackSession;
-        this.feedbackSessionLogType = feedbackSessionLogType;
-        this.timestamp = timestamp;
+        this.setStudent(student);
+        this.setFeedbackSession(feedbackSession);
+        this.setFeedbackSessionLogType(feedbackSessionLogType);
+        this.setTimestamp(timestamp);
     }
 
     public UUID getId() {
@@ -71,16 +77,32 @@ public class FeedbackSessionLog extends BaseEntity {
         return student;
     }
 
+    public UUID getStudentId() {
+        return studentId;
+    }
+
+    /**
+     * Sets the student of the feedback session log.
+     */
     public void setStudent(Student student) {
         this.student = student;
+        this.studentId = student == null ? null : student.getId();
     }
 
     public FeedbackSession getFeedbackSession() {
         return feedbackSession;
     }
 
+    public UUID getSessionId() {
+        return sessionId;
+    }
+
+    /**
+     * Sets the feedback session of the feedback session log.
+     */
     public void setFeedbackSession(FeedbackSession feedbackSession) {
         this.feedbackSession = feedbackSession;
+        this.sessionId = feedbackSession == null ? null : feedbackSession.getId();
     }
 
     public FeedbackSessionLogType getFeedbackSessionLogType() {

@@ -31,33 +31,25 @@
   "sections": {
     "tm.e2e.SCJoinConf.CS2104-None": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "course": {
-        "id": "tm.e2e.SCJoinConf.CS2104"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.SCJoinConf.CS2104"
     },
     "tm.e2e.SCJoinConf.CS1101-None": {
       "id": "00000000-0000-4000-8000-000000000202",
-      "course": {
-        "id": "tm.e2e.SCJoinConf.CS1101"
-      },
-      "name": "None"
+      "name": "None",
+      "courseId": "tm.e2e.SCJoinConf.CS1101"
     }
   },
   "teams": {
     "tm.e2e.SCJoinConf.CS2104-None-Team1": {
       "id": "00000000-0000-4000-8000-000000000301",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000201"
     },
     "tm.e2e.SCJoinConf.CS1101-None-Team1": {
       "id": "00000000-0000-4000-8000-000000000302",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000202"
     }
   },
   "deadlineExtensions": {},
@@ -82,11 +74,9 @@
       },
       "id": "00000000-0000-4000-8000-000000000501",
       "courseId": "tm.e2e.SCJoinConf.CS2104",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "name": "Teammates Test",
-      "email": "scjoinconf.instr@gmail.tmt"
+      "email": "scjoinconf.instr@gmail.tmt",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "SCJoinConf.instr.CS1101": {
       "isDisplayedToStudents": true,
@@ -107,11 +97,9 @@
         "sessionLevel": {}
       },
       "courseId": "tm.e2e.SCJoinConf.CS1101",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "name": "Teammates Test",
-      "email": "scjoinconf.instr@gmail.tmt"
+      "email": "scjoinconf.instr@gmail.tmt",
+      "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },
   "students": {
@@ -119,24 +107,18 @@
       "comments": "This student's name is Amy Betsy",
       "id": "00000000-0000-4000-8000-000000000601",
       "courseId": "tm.e2e.SCJoinConf.CS2104",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "name": "Amy Betsy",
-      "email": "scjoinconf.alice@gmail.tmt"
+      "email": "scjoinconf.alice@gmail.tmt",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "alice.tmms@SCJoinConf.CS1101": {
       "comments": "This student's name is Amy Betsy",
       "id": "00000000-0000-4000-8000-000000000602",
       "courseId": "tm.e2e.SCJoinConf.CS1101",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "name": "Amy Betsy",
-      "email": "scjoinconf.alice@gmail.tmt"
+      "email": "scjoinconf.alice@gmail.tmt",
+      "accountId": "00000000-0000-4000-8000-000000000002",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     }
   },
   "feedbackSessions": {},

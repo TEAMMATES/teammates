@@ -2,6 +2,7 @@ package teammates.storage.sqlentity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,6 +24,9 @@ import teammates.common.util.SanitizationHelper;
 public class Student extends User {
     @Column(nullable = false)
     private String comments;
+
+    @Column(nullable = false, insertable = false, updatable = false)
+    private UUID teamId;
 
     @ManyToOne
     @JoinColumn(name = "teamId", nullable = false)
@@ -66,8 +70,16 @@ public class Student extends User {
         return this.team;
     }
 
+    public UUID getTeamId() {
+        return this.teamId;
+    }
+
+    /**
+     * Sets the team of the student.
+     */
     public void setTeam(Team team) {
         this.team = team;
+        this.teamId = team == null ? null : team.getId();
     }
 
     public String getTeamName() {

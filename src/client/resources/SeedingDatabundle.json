@@ -264,189 +264,130 @@
   "sections": {
     "sectionAInCourse1": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "course": {
-        "id": "CS1101S"
-      },
-      "name": "Section A"
+      "name": "Section A",
+      "courseId": "CS1101S"
     },
     "sectionBInCourse1": {
       "id": "00000000-0000-4000-8000-000000000202",
-      "course": {
-        "id": "CS1101S"
-      },
-      "name": "Section B"
+      "name": "Section B",
+      "courseId": "CS1101S"
     },
     "sectionAInCourse2": {
       "id": "00000000-0000-4000-8000-000000000203",
-      "course": {
-        "id": "CS2103T"
-      },
-      "name": "Section A"
+      "name": "Section A",
+      "courseId": "CS2103T"
     },
     "sectionBInCourse2": {
       "id": "00000000-0000-4000-8000-000000000204",
-      "course": {
-        "id": "CS2103T"
-      },
-      "name": "Section B"
+      "name": "Section B",
+      "courseId": "CS2103T"
     },
     "sectionAInCourse3": {
       "id": "00000000-0000-4000-8000-000000000205",
-      "course": {
-        "id": "CS2040DE"
-      },
-      "name": "Section A"
+      "name": "Section A",
+      "courseId": "CS2040DE"
     },
     "sectionBInCourse3": {
       "id": "00000000-0000-4000-8000-000000000206",
-      "course": {
-        "id": "CS2040DE"
-      },
-      "name": "Section B"
+      "name": "Section B",
+      "courseId": "CS2040DE"
     }
   },
   "teams": {
     "team1InSectionAOfCourse1": {
       "id": "00000000-0000-4000-8000-000000000301",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000201"
     },
     "team2InSectionAOfCourse1": {
       "id": "00000000-0000-4000-8000-000000000302",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "name": "Team 2"
+      "name": "Team 2",
+      "sectionId": "00000000-0000-4000-8000-000000000201"
     },
     "team3InSectionBOfCourse1": {
       "id": "00000000-0000-4000-8000-000000000303",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "name": "Team 3"
+      "name": "Team 3",
+      "sectionId": "00000000-0000-4000-8000-000000000202"
     },
     "team4InSectionBOfCourse1": {
       "id": "00000000-0000-4000-8000-000000000304",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "name": "Team 4"
+      "name": "Team 4",
+      "sectionId": "00000000-0000-4000-8000-000000000202"
     },
     "team1InSectionAOfCourse2": {
       "id": "00000000-0000-4000-8000-000000000305",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000203"
     },
     "team2InSectionAOfCourse2": {
       "id": "00000000-0000-4000-8000-000000000306",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "name": "Team 2"
+      "name": "Team 2",
+      "sectionId": "00000000-0000-4000-8000-000000000203"
     },
     "team3InSectionBOfCourse2": {
       "id": "00000000-0000-4000-8000-000000000307",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000204"
-      },
-      "name": "Team 3"
+      "name": "Team 3",
+      "sectionId": "00000000-0000-4000-8000-000000000204"
     },
     "team4InSectionBOfCourse2": {
       "id": "00000000-0000-4000-8000-000000000308",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000204"
-      },
-      "name": "Team 4"
+      "name": "Team 4",
+      "sectionId": "00000000-0000-4000-8000-000000000204"
     },
     "team1InSectionAOfCourse3": {
       "id": "00000000-0000-4000-8000-000000000309",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000205"
     },
     "team2InSectionAOfCourse3": {
       "id": "00000000-0000-4000-8000-000000000310",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "name": "Team 2"
+      "name": "Team 2",
+      "sectionId": "00000000-0000-4000-8000-000000000205"
     },
     "team3InSectionBOfCourse3": {
       "id": "00000000-0000-4000-8000-000000000311",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000206"
-      },
-      "name": "Team 3"
+      "name": "Team 3",
+      "sectionId": "00000000-0000-4000-8000-000000000206"
     },
     "team4InSectionBOfCourse3": {
       "id": "00000000-0000-4000-8000-000000000312",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000206"
-      },
-      "name": "Team 4"
+      "name": "Team 4",
+      "sectionId": "00000000-0000-4000-8000-000000000206"
     }
   },
   "deadlineExtensions": {
     "student1InCourse1Session1": {
       "id": "00000000-0000-4000-8000-000000000401",
-      "user": {
-        "id": "00000000-0000-4000-8000-000000000601",
-        "type": "student"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "endTime": "seed.d(+37)T22:00:00Z",
-      "isClosingSoonEmailSent": false
+      "isClosingSoonEmailSent": false,
+      "sessionId": "00000000-0000-4000-8000-000000000701",
+      "userId": "00000000-0000-4000-8000-000000000601"
     },
     "instructor1InCourse1Session1": {
       "id": "00000000-0000-4000-8000-000000000402",
-      "user": {
-        "id": "00000000-0000-4000-8000-000000000501",
-        "type": "instructor"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "endTime": "seed.d(+37)T22:00:00Z",
-      "isClosingSoonEmailSent": false
+      "isClosingSoonEmailSent": false,
+      "sessionId": "00000000-0000-4000-8000-000000000701",
+      "userId": "00000000-0000-4000-8000-000000000501"
     },
     "student1InCourse2Session1": {
       "id": "00000000-0000-4000-8000-000000000403",
-      "user": {
-        "id": "00000000-0000-4000-8000-000000000611",
-        "type": "student"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000705"
-      },
       "endTime": "seed.d(+37)T22:00:00Z",
-      "isClosingSoonEmailSent": false
+      "isClosingSoonEmailSent": false,
+      "sessionId": "00000000-0000-4000-8000-000000000705",
+      "userId": "00000000-0000-4000-8000-000000000611"
     },
     "student1InCourse3Session1": {
       "id": "00000000-0000-4000-8000-000000000404",
-      "user": {
-        "id": "00000000-0000-4000-8000-000000000621",
-        "type": "student"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000708"
-      },
       "endTime": "seed.d(+37)T22:00:00Z",
-      "isClosingSoonEmailSent": true
+      "isClosingSoonEmailSent": true,
+      "sessionId": "00000000-0000-4000-8000-000000000708",
+      "userId": "00000000-0000-4000-8000-000000000621"
     }
   },
   "instructors": {
     "instructor1OfCourse1": {
       "id": "00000000-0000-4000-8000-000000000501",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "CS1101S",
       "name": "Alice",
       "email": "alice@teammates.tmt",
@@ -466,13 +407,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     },
     "instructor2OfCourse1": {
       "id": "00000000-0000-4000-8000-000000000502",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000002"
-      },
       "courseId": "CS1101S",
       "name": "Hiroshi Tanaka",
       "email": "tanaka@teammates.tmt",
@@ -492,13 +431,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000002"
     },
     "instructor1OfCourse2": {
       "id": "00000000-0000-4000-8000-000000000503",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000003"
-      },
       "courseId": "CS2103T",
       "name": "Elena Vasquez",
       "email": "elena@teammates.tmt",
@@ -518,13 +455,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000003"
     },
     "instructor2OfCourse2": {
       "id": "00000000-0000-4000-8000-000000000504",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000004"
-      },
       "courseId": "CS2103T",
       "name": "Marcus Okonkwo",
       "email": "marcus.okonkwo@teammates.tmt",
@@ -544,13 +479,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000004"
     },
     "instructor1OfCourse3": {
       "id": "00000000-0000-4000-8000-000000000505",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000005"
-      },
       "courseId": "CS2040DE",
       "name": "Priya Sharma",
       "email": "priya.sharma@teammates.tmt",
@@ -570,13 +503,11 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000005"
     },
     "instructor2OfCourse3": {
       "id": "00000000-0000-4000-8000-000000000506",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000006"
-      },
       "courseId": "CS2040DE",
       "name": "Lars Eriksson",
       "email": "lars.eriksson@teammates.tmt",
@@ -596,381 +527,274 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000006"
     }
   },
   "students": {
     "student1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000601",
       "courseId": "CS1101S",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "email": "mei.lin.chen@teammates.tmt",
       "name": "Mei Lin Chen",
       "comments": "Exchange student from NTU, strong in mathematics",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000101",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "student2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000602",
       "courseId": "CS1101S",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "email": "carlos.silva@teammates.tmt",
       "name": "Carlos Silva",
       "comments": "Active in class discussions and group work",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000102"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000102",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "student3InCourse1": {
       "id": "00000000-0000-4000-8000-000000000603",
       "courseId": "CS1101S",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000301"
-      },
       "email": "fatima.alrashid@teammates.tmt",
       "name": "Fatima Al-Rashid",
       "comments": "",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000103"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000103",
+      "teamId": "00000000-0000-4000-8000-000000000301"
     },
     "student4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000604",
       "courseId": "CS1101S",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000302"
-      },
       "email": "kenji.yamamoto@teammates.tmt",
       "name": "Kenji Yamamoto",
       "comments": "Transferred from Computer Engineering programme",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000104"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000104",
+      "teamId": "00000000-0000-4000-8000-000000000302"
     },
     "student5InCourse1": {
       "id": "00000000-0000-4000-8000-000000000605",
       "courseId": "CS1101S",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000302"
-      },
       "email": "olga.petrov@teammates.tmt",
       "name": "Olga Petrov",
       "comments": "",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000105"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000105",
+      "teamId": "00000000-0000-4000-8000-000000000302"
     },
     "student6InCourse1": {
       "id": "00000000-0000-4000-8000-000000000606",
       "courseId": "CS1101S",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000303"
-      },
       "email": "raj.patel@teammates.tmt",
       "name": "Raj Patel",
       "comments": "Peer tutor for introductory programming",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000106"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000106",
+      "teamId": "00000000-0000-4000-8000-000000000303"
     },
     "student7InCourse1": {
       "id": "00000000-0000-4000-8000-000000000607",
       "courseId": "CS1101S",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000303"
-      },
       "email": "sofia.andersson@teammates.tmt",
       "name": "Sofia Andersson",
       "comments": "",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000107"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000107",
+      "teamId": "00000000-0000-4000-8000-000000000303"
     },
     "student8InCourse1": {
       "id": "00000000-0000-4000-8000-000000000608",
       "courseId": "CS1101S",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000303"
-      },
       "email": "david.okafor@teammates.tmt",
       "name": "David Okafor",
       "comments": "Interested in functional programming research",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000108"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000108",
+      "teamId": "00000000-0000-4000-8000-000000000303"
     },
     "student9InCourse1": {
       "id": "00000000-0000-4000-8000-000000000609",
       "courseId": "CS1101S",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000304"
-      },
       "email": "yuki.sato@teammates.tmt",
       "name": "Yuki Sato",
-      "comments": ""
+      "comments": "",
+      "teamId": "00000000-0000-4000-8000-000000000304"
     },
     "student10InCourse1": {
       "id": "00000000-0000-4000-8000-000000000610",
       "courseId": "CS1101S",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000304"
-      },
       "email": "emma.thompson@teammates.tmt",
       "name": "Emma Thompson",
-      "comments": ""
+      "comments": "",
+      "teamId": "00000000-0000-4000-8000-000000000304"
     },
     "student1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000611",
       "courseId": "CS2103T",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000305"
-      },
       "email": "liam.obrien@teammates.tmt",
       "name": "Liam O'Brien",
       "comments": "Team lead for Sprint 1",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000111"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000111",
+      "teamId": "00000000-0000-4000-8000-000000000305"
     },
     "student2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000612",
       "courseId": "CS2103T",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000305"
-      },
       "email": "anya.ivanova@teammates.tmt",
       "name": "Anya Ivanova",
       "comments": "Strong background in UI/UX design",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000112"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000112",
+      "teamId": "00000000-0000-4000-8000-000000000305"
     },
     "student3InCourse2": {
       "id": "00000000-0000-4000-8000-000000000613",
       "courseId": "CS2103T",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000305"
-      },
       "email": "tariq.hassan@teammates.tmt",
       "name": "Tariq Hassan",
       "comments": "",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000113"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000113",
+      "teamId": "00000000-0000-4000-8000-000000000305"
     },
     "student4InCourse2": {
       "id": "00000000-0000-4000-8000-000000000614",
       "courseId": "CS2103T",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000306"
-      },
       "email": "sakura.ito@teammates.tmt",
       "name": "Sakura Ito",
       "comments": "Experienced with agile methodologies",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000114"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000114",
+      "teamId": "00000000-0000-4000-8000-000000000306"
     },
     "student5InCourse2": {
       "id": "00000000-0000-4000-8000-000000000615",
       "courseId": "CS2103T",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000306"
-      },
       "email": "nadia.kowalski@teammates.tmt",
       "name": "Nadia Kowalski",
       "comments": "",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000115"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000115",
+      "teamId": "00000000-0000-4000-8000-000000000306"
     },
     "student6InCourse2": {
       "id": "00000000-0000-4000-8000-000000000616",
       "courseId": "CS2103T",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000307"
-      },
       "email": "chen.wei@teammates.tmt",
       "name": "Chen Wei",
       "comments": "Focus on backend development",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000116"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000116",
+      "teamId": "00000000-0000-4000-8000-000000000307"
     },
     "student7InCourse2": {
       "id": "00000000-0000-4000-8000-000000000617",
       "courseId": "CS2103T",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000307"
-      },
       "email": "isabella.martinez@teammates.tmt",
       "name": "Isabella Martinez",
       "comments": "",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000117"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000117",
+      "teamId": "00000000-0000-4000-8000-000000000307"
     },
     "student8InCourse2": {
       "id": "00000000-0000-4000-8000-000000000618",
       "courseId": "CS2103T",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000307"
-      },
       "email": "kwame.asante@teammates.tmt",
       "name": "Kwame Asante",
       "comments": "Active contributor to open source projects",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000118"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000118",
+      "teamId": "00000000-0000-4000-8000-000000000307"
     },
     "student9InCourse2": {
       "id": "00000000-0000-4000-8000-000000000619",
       "courseId": "CS2103T",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000308"
-      },
       "email": "hana.kim@teammates.tmt",
       "name": "Hana Kim",
-      "comments": ""
+      "comments": "",
+      "teamId": "00000000-0000-4000-8000-000000000308"
     },
     "student10InCourse2": {
       "id": "00000000-0000-4000-8000-000000000620",
       "courseId": "CS2103T",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000308"
-      },
       "email": "lucas.fernandez@teammates.tmt",
       "name": "Lucas Fernandez",
-      "comments": ""
+      "comments": "",
+      "teamId": "00000000-0000-4000-8000-000000000308"
     },
     "student1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000621",
       "courseId": "CS2040DE",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000309"
-      },
       "email": "amara.diallo@teammates.tmt",
       "name": "Amara Diallo",
       "comments": "Competitive programming enthusiast",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000121"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000121",
+      "teamId": "00000000-0000-4000-8000-000000000309"
     },
     "student2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000622",
       "courseId": "CS2040DE",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000309"
-      },
       "email": "viktor.novak@teammates.tmt",
       "name": "Viktor Novak",
       "comments": "",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000122"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000122",
+      "teamId": "00000000-0000-4000-8000-000000000309"
     },
     "student3InCourse3": {
       "id": "00000000-0000-4000-8000-000000000623",
       "courseId": "CS2040DE",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000309"
-      },
       "email": "zara.osman@teammates.tmt",
       "name": "Zara Osman",
       "comments": "Interested in algorithm optimization",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000123"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000123",
+      "teamId": "00000000-0000-4000-8000-000000000309"
     },
     "student4InCourse3": {
       "id": "00000000-0000-4000-8000-000000000624",
       "courseId": "CS2040DE",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000310"
-      },
       "email": "tomas.herrera@teammates.tmt",
       "name": "Tomas Herrera",
       "comments": "",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000124"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000124",
+      "teamId": "00000000-0000-4000-8000-000000000310"
     },
     "student5InCourse3": {
       "id": "00000000-0000-4000-8000-000000000625",
       "courseId": "CS2040DE",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000310"
-      },
       "email": "ingrid.mueller@teammates.tmt",
       "name": "Ingrid Mueller",
       "comments": "Background in discrete mathematics",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000125"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000125",
+      "teamId": "00000000-0000-4000-8000-000000000310"
     },
     "student6InCourse3": {
       "id": "00000000-0000-4000-8000-000000000626",
       "courseId": "CS2040DE",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000311"
-      },
       "email": "ravi.krishnan@teammates.tmt",
       "name": "Ravi Krishnan",
       "comments": "",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000126"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000126",
+      "teamId": "00000000-0000-4000-8000-000000000311"
     },
     "student7InCourse3": {
       "id": "00000000-0000-4000-8000-000000000627",
       "courseId": "CS2040DE",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000311"
-      },
       "email": "chloe.dubois@teammates.tmt",
       "name": "Chloe Dubois",
       "comments": "Focus on graph theory applications",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000127"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000127",
+      "teamId": "00000000-0000-4000-8000-000000000311"
     },
     "student8InCourse3": {
       "id": "00000000-0000-4000-8000-000000000628",
       "courseId": "CS2040DE",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000311"
-      },
       "email": "jian.li@teammates.tmt",
       "name": "Jian Li",
       "comments": "",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000128"
-      }
+      "accountId": "00000000-0000-4000-8000-000000000128",
+      "teamId": "00000000-0000-4000-8000-000000000311"
     },
     "student9InCourse3": {
       "id": "00000000-0000-4000-8000-000000000629",
       "courseId": "CS2040DE",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000312"
-      },
       "email": "aiden.park@teammates.tmt",
       "name": "Aiden Park",
-      "comments": ""
+      "comments": "",
+      "teamId": "00000000-0000-4000-8000-000000000312"
     },
     "student10InCourse3": {
       "id": "00000000-0000-4000-8000-000000000630",
       "courseId": "CS2040DE",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000312"
-      },
       "email": "freya.johansen@teammates.tmt",
       "name": "Freya Johansen",
-      "comments": ""
+      "comments": "",
+      "teamId": "00000000-0000-4000-8000-000000000312"
     }
   },
   "feedbackSessions": {
@@ -1168,9 +992,6 @@
   "feedbackQuestions": {
     "qn1InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000801",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "Reflect on your learning progress so far this semester. What concepts have you mastered and what areas need improvement?"
@@ -1182,13 +1003,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn2InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000802",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionDetails": {
         "hasAssignedWeights": false,
         "mcqWeights": [],
@@ -1207,13 +1026,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn3InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000803",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionDetails": {
         "minScale": 1,
         "maxScale": 5,
@@ -1228,13 +1045,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "qn1InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000804",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000702"
-      },
       "questionDetails": {
         "isZeroSum": true,
         "isNotSureAllowed": false,
@@ -1248,13 +1063,11 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
       "showGiverNameTo": ["INSTRUCTORS", "RECEIVER"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "sessionId": "00000000-0000-4000-8000-000000000702"
     },
     "qn2InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000805",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000702"
-      },
       "questionDetails": {
         "hasAssignedWeights": false,
         "rubricWeightsForEachCell": [],
@@ -1275,13 +1088,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "sessionId": "00000000-0000-4000-8000-000000000702"
     },
     "qn3InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000806",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000702"
-      },
       "questionDetails": {
         "msqChoices": ["Problem Solving", "Code Review", "Testing", "Documentation", "Pair Programming"],
         "otherEnabled": false,
@@ -1301,13 +1112,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000702"
     },
     "qn1InSession3InCourse1": {
       "id": "00000000-0000-4000-8000-000000000807",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000703"
-      },
       "questionDetails": {
         "minOptionsToBeRanked": -2147483648,
         "maxOptionsToBeRanked": -2147483648,
@@ -1322,13 +1131,11 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000703"
     },
     "qn2InSession3InCourse1": {
       "id": "00000000-0000-4000-8000-000000000808",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000703"
-      },
       "questionDetails": {
         "constSumOptions": ["Code Quality", "Testing", "Documentation", "User Interface"],
         "distributeToRecipients": false,
@@ -1346,13 +1153,11 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000703"
     },
     "qn3InSession3InCourse1": {
       "id": "00000000-0000-4000-8000-000000000809",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000703"
-      },
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "Provide your overall assessment of the class performance this semester.",
@@ -1365,13 +1170,11 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
       "showGiverNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"]
+      "showRecipientNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "STUDENTS", "INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000703"
     },
     "qn1InSession4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000810",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000704"
-      },
       "questionDetails": {
         "hasAssignedWeights": true,
         "mcqWeights": [5, 4, 3, 2, 1],
@@ -1390,13 +1193,11 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000704"
     },
     "qn2InSession4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000811",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000704"
-      },
       "questionDetails": {
         "areDuplicatesAllowed": false,
         "minOptionsToBeRanked": -2147483648,
@@ -1412,13 +1213,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000704"
     },
     "qn3InSession4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000812",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000704"
-      },
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "What suggestions do you have for improving this course?",
@@ -1431,13 +1230,11 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000704"
     },
     "qn1InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000813",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000705"
-      },
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "Summarize your individual contribution to Sprint 1. Include specific tasks you completed."
@@ -1449,13 +1246,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000705"
     },
     "qn2InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000814",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000705"
-      },
       "questionDetails": {
         "isZeroSum": true,
         "isNotSureAllowed": false,
@@ -1469,13 +1264,11 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
       "showGiverNameTo": ["INSTRUCTORS", "RECEIVER"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "sessionId": "00000000-0000-4000-8000-000000000705"
     },
     "qn3InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000815",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000705"
-      },
       "questionDetails": {
         "minScale": 1,
         "maxScale": 10,
@@ -1490,13 +1283,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000705"
     },
     "qn1InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000816",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000706"
-      },
       "questionDetails": {
         "hasAssignedWeights": true,
         "rubricWeightsForEachCell": [
@@ -1526,13 +1317,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "sessionId": "00000000-0000-4000-8000-000000000706"
     },
     "qn2InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000817",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000706"
-      },
       "questionDetails": {
         "msqChoices": ["Daily Standups", "Code Reviews", "CI/CD Pipeline", "Sprint Planning", "Retrospectives"],
         "otherEnabled": true,
@@ -1552,13 +1341,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000706"
     },
     "qn3InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000818",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000706"
-      },
       "questionDetails": {
         "constSumOptions": [],
         "distributeToRecipients": true,
@@ -1576,13 +1363,11 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "sessionId": "00000000-0000-4000-8000-000000000706"
     },
     "qn1InSession3InCourse2": {
       "id": "00000000-0000-4000-8000-000000000819",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000707"
-      },
       "questionDetails": {
         "minOptionsToBeRanked": -2147483648,
         "maxOptionsToBeRanked": -2147483648,
@@ -1597,13 +1382,11 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000707"
     },
     "qn2InSession3InCourse2": {
       "id": "00000000-0000-4000-8000-000000000820",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000707"
-      },
       "questionDetails": {
         "hasAssignedWeights": false,
         "mcqWeights": [],
@@ -1622,13 +1405,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000707"
     },
     "qn3InSession3InCourse2": {
       "id": "00000000-0000-4000-8000-000000000821",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000707"
-      },
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "Describe your overall learning experience in this course. What will you take away?",
@@ -1642,13 +1423,11 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000707"
     },
     "qn1InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000822",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000708"
-      },
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "Provide constructive feedback on your lab partner's problem-solving approach and collaboration."
@@ -1660,13 +1439,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "sessionId": "00000000-0000-4000-8000-000000000708"
     },
     "qn2InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000823",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000708"
-      },
       "questionDetails": {
         "minScale": 1,
         "maxScale": 5,
@@ -1681,13 +1458,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "sessionId": "00000000-0000-4000-8000-000000000708"
     },
     "qn3InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000824",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000708"
-      },
       "questionDetails": {
         "hasAssignedWeights": false,
         "mcqWeights": [],
@@ -1706,13 +1481,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000708"
     },
     "qn1InSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000825",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000709"
-      },
       "questionDetails": {
         "hasAssignedWeights": true,
         "rubricWeightsForEachCell": [
@@ -1737,13 +1510,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "sessionId": "00000000-0000-4000-8000-000000000709"
     },
     "qn2InSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000826",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000709"
-      },
       "questionDetails": {
         "areDuplicatesAllowed": false,
         "minOptionsToBeRanked": -2147483648,
@@ -1759,13 +1530,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000709"
     },
     "qn3InSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000827",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000709"
-      },
       "questionDetails": {
         "constSumOptions": ["Sorting Algorithms", "Graph Algorithms", "Dynamic Programming", "Data Structures"],
         "distributeToRecipients": false,
@@ -1783,13 +1552,11 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000709"
     },
     "qn1InSession3InCourse3": {
       "id": "00000000-0000-4000-8000-000000000828",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000710"
-      },
       "questionDetails": {
         "isZeroSum": false,
         "isNotSureAllowed": true,
@@ -1803,13 +1570,11 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS", "RECEIVER"],
       "showGiverNameTo": ["INSTRUCTORS", "RECEIVER"],
-      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"]
+      "showRecipientNameTo": ["INSTRUCTORS", "RECEIVER"],
+      "sessionId": "00000000-0000-4000-8000-000000000710"
     },
     "qn2InSession3InCourse3": {
       "id": "00000000-0000-4000-8000-000000000829",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000710"
-      },
       "questionDetails": {
         "msqChoices": ["Lectures", "Lab Sessions", "Problem Sets", "Group Projects", "Office Hours"],
         "otherEnabled": false,
@@ -1829,13 +1594,11 @@
       "numOfEntitiesToGiveFeedbackTo": 1,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000710"
     },
     "qn3InSession3InCourse3": {
       "id": "00000000-0000-4000-8000-000000000830",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000710"
-      },
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "Share any final thoughts or suggestions for future iterations of this course.",
@@ -1848,2944 +1611,1394 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000710"
     }
   },
   "feedbackResponses": {
     "response1ForQ1InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000901",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000801",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "Reflect on your learning progress so far this semester. What concepts have you mastered and what areas need improvement?"
-        }
-      },
       "giver": "mei.lin.chen@teammates.tmt",
       "recipient": "mei.lin.chen@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "I have made solid progress with recursion and feel confident about basic tree traversals. Higher-order functions like map and filter are becoming second nature, though I still struggle with environment model diagrams for deeply nested closures."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000801",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response2ForQ1InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000902",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000801",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "Reflect on your learning progress so far this semester. What concepts have you mastered and what areas need improvement?"
-        }
-      },
       "giver": "carlos.silva@teammates.tmt",
       "recipient": "carlos.silva@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Understanding higher-order functions has been a major breakthrough. I can now compose functions fluently and debug recursive calls with more confidence. The environment model remains challenging but I am improving steadily with practice."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000801",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response3ForQ1InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000903",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000801",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "Reflect on your learning progress so far this semester. What concepts have you mastered and what areas need improvement?"
-        }
-      },
       "giver": "fatima.alrashid@teammates.tmt",
       "recipient": "fatima.alrashid@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "I feel comfortable with most functional programming concepts covered so far. My main weakness is converting recursive solutions to tail-recursive form and understanding continuation-passing style."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000801",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response4ForQ1InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000979",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000801",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "Reflect on your learning progress so far this semester. What concepts have you mastered and what areas need improvement?"
-        }
-      },
       "giver": "kenji.yamamoto@teammates.tmt",
       "recipient": "kenji.yamamoto@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "The conceptual foundations are solid, especially around list processing and structural recursion. I want to strengthen my understanding of streams and lazy evaluation before the final exam."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000801",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response5ForQ1InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000980",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000801",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "Reflect on your learning progress so far this semester. What concepts have you mastered and what areas need improvement?"
-        }
-      },
       "giver": "olga.petrov@teammates.tmt",
       "recipient": "olga.petrov@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Closures and lexical scoping have become intuitive for me. I still need more practice with the substitution model proofs, but my overall coding ability has grown significantly this semester."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000801",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response6ForQ1InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000981",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000801",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "Reflect on your learning progress so far this semester. What concepts have you mastered and what areas need improvement?"
-        }
-      },
       "giver": "raj.patel@teammates.tmt",
       "recipient": "raj.patel@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "My grasp of recursion is strong and I apply it well in lab assignments. Memoization techniques and dynamic programming concepts are where I need the most additional work."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000801",
+      "giverSectionId": "00000000-0000-4000-8000-000000000202",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
     },
     "response7ForQ1InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000982",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000801",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "Reflect on your learning progress so far this semester. What concepts have you mastered and what areas need improvement?"
-        }
-      },
       "giver": "sofia.andersson@teammates.tmt",
       "recipient": "sofia.andersson@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "I have improved significantly in writing modular, reusable code using higher-order functions. The continuation-passing style lab was challenging and I plan to revisit those exercises."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000801",
+      "giverSectionId": "00000000-0000-4000-8000-000000000202",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
     },
     "response8ForQ1InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000983",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000801",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "Reflect on your learning progress so far this semester. What concepts have you mastered and what areas need improvement?"
-        }
-      },
       "giver": "david.okafor@teammates.tmt",
       "recipient": "david.okafor@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Functional programming was entirely new to me at the start of the semester but I have adapted well. List processing feels natural and I appreciate the elegance of purely functional approaches."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000801",
+      "giverSectionId": "00000000-0000-4000-8000-000000000202",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
     },
     "response1ForQ2InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000904",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000802",
-        "questionDetails": {
-          "hasAssignedWeights": false,
-          "mcqWeights": [],
-          "mcqOtherWeight": 0,
-          "mcqChoices": ["Excellent", "Good", "Satisfactory", "Needs Improvement"],
-          "otherEnabled": false,
-          "questionDropdownEnabled": false,
-          "generateOptionsFor": "NONE",
-          "questionType": "MCQ",
-          "questionText": "How effectively did this team member contribute to group discussions?"
-        }
-      },
       "giver": "mei.lin.chen@teammates.tmt",
       "recipient": "carlos.silva@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": "Excellent",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000802",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response2ForQ2InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000905",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000802",
-        "questionDetails": {
-          "hasAssignedWeights": false,
-          "mcqWeights": [],
-          "mcqOtherWeight": 0,
-          "mcqChoices": ["Excellent", "Good", "Satisfactory", "Needs Improvement"],
-          "otherEnabled": false,
-          "questionDropdownEnabled": false,
-          "generateOptionsFor": "NONE",
-          "questionType": "MCQ",
-          "questionText": "How effectively did this team member contribute to group discussions?"
-        }
-      },
       "giver": "carlos.silva@teammates.tmt",
       "recipient": "fatima.alrashid@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": "Good",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000802",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response3ForQ2InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000906",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000802",
-        "questionDetails": {
-          "hasAssignedWeights": false,
-          "mcqWeights": [],
-          "mcqOtherWeight": 0,
-          "mcqChoices": ["Excellent", "Good", "Satisfactory", "Needs Improvement"],
-          "otherEnabled": false,
-          "questionDropdownEnabled": false,
-          "generateOptionsFor": "NONE",
-          "questionType": "MCQ",
-          "questionText": "How effectively did this team member contribute to group discussions?"
-        }
-      },
       "giver": "fatima.alrashid@teammates.tmt",
       "recipient": "mei.lin.chen@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": "Good",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000802",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response4ForQ2InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000984",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000802",
-        "questionDetails": {
-          "hasAssignedWeights": false,
-          "mcqWeights": [],
-          "mcqOtherWeight": 0,
-          "mcqChoices": ["Excellent", "Good", "Satisfactory", "Needs Improvement"],
-          "otherEnabled": false,
-          "questionDropdownEnabled": false,
-          "generateOptionsFor": "NONE",
-          "questionType": "MCQ",
-          "questionText": "How effectively did this team member contribute to group discussions?"
-        }
-      },
       "giver": "kenji.yamamoto@teammates.tmt",
       "recipient": "olga.petrov@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": "Satisfactory",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000802",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response5ForQ2InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000985",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000802",
-        "questionDetails": {
-          "hasAssignedWeights": false,
-          "mcqWeights": [],
-          "mcqOtherWeight": 0,
-          "mcqChoices": ["Excellent", "Good", "Satisfactory", "Needs Improvement"],
-          "otherEnabled": false,
-          "questionDropdownEnabled": false,
-          "generateOptionsFor": "NONE",
-          "questionType": "MCQ",
-          "questionText": "How effectively did this team member contribute to group discussions?"
-        }
-      },
       "giver": "olga.petrov@teammates.tmt",
       "recipient": "kenji.yamamoto@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": "Excellent",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000802",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response6ForQ2InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000986",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000802",
-        "questionDetails": {
-          "hasAssignedWeights": false,
-          "mcqWeights": [],
-          "mcqOtherWeight": 0,
-          "mcqChoices": ["Excellent", "Good", "Satisfactory", "Needs Improvement"],
-          "otherEnabled": false,
-          "questionDropdownEnabled": false,
-          "generateOptionsFor": "NONE",
-          "questionType": "MCQ",
-          "questionText": "How effectively did this team member contribute to group discussions?"
-        }
-      },
       "giver": "raj.patel@teammates.tmt",
       "recipient": "sofia.andersson@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
       "answer": {
         "answer": "Good",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000802",
+      "giverSectionId": "00000000-0000-4000-8000-000000000202",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
     },
     "response7ForQ2InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000987",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000802",
-        "questionDetails": {
-          "hasAssignedWeights": false,
-          "mcqWeights": [],
-          "mcqOtherWeight": 0,
-          "mcqChoices": ["Excellent", "Good", "Satisfactory", "Needs Improvement"],
-          "otherEnabled": false,
-          "questionDropdownEnabled": false,
-          "generateOptionsFor": "NONE",
-          "questionType": "MCQ",
-          "questionText": "How effectively did this team member contribute to group discussions?"
-        }
-      },
       "giver": "sofia.andersson@teammates.tmt",
       "recipient": "david.okafor@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
       "answer": {
         "answer": "Excellent",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000802",
+      "giverSectionId": "00000000-0000-4000-8000-000000000202",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
     },
     "response8ForQ2InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000988",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000802",
-        "questionDetails": {
-          "hasAssignedWeights": false,
-          "mcqWeights": [],
-          "mcqOtherWeight": 0,
-          "mcqChoices": ["Excellent", "Good", "Satisfactory", "Needs Improvement"],
-          "otherEnabled": false,
-          "questionDropdownEnabled": false,
-          "generateOptionsFor": "NONE",
-          "questionType": "MCQ",
-          "questionText": "How effectively did this team member contribute to group discussions?"
-        }
-      },
       "giver": "david.okafor@teammates.tmt",
       "recipient": "raj.patel@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
       "answer": {
         "answer": "Good",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000802",
+      "giverSectionId": "00000000-0000-4000-8000-000000000202",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
     },
     "response1ForQ3InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000907",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000803",
-        "questionDetails": {
-          "minScale": 1,
-          "maxScale": 5,
-          "step": 1,
-          "questionType": "NUMSCALE",
-          "questionText": "Rate your confidence in recursion and higher-order functions. (1 = Not confident, 5 = Very confident)"
-        }
-      },
       "giver": "mei.lin.chen@teammates.tmt",
       "recipient": "mei.lin.chen@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": 4,
         "questionType": "NUMSCALE"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000803",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response2ForQ3InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000908",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000803",
-        "questionDetails": {
-          "minScale": 1,
-          "maxScale": 5,
-          "step": 1,
-          "questionType": "NUMSCALE",
-          "questionText": "Rate your confidence in recursion and higher-order functions. (1 = Not confident, 5 = Very confident)"
-        }
-      },
       "giver": "carlos.silva@teammates.tmt",
       "recipient": "carlos.silva@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": 3,
         "questionType": "NUMSCALE"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000803",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response3ForQ3InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000909",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000803",
-        "questionDetails": {
-          "minScale": 1,
-          "maxScale": 5,
-          "step": 1,
-          "questionType": "NUMSCALE",
-          "questionText": "Rate your confidence in recursion and higher-order functions. (1 = Not confident, 5 = Very confident)"
-        }
-      },
       "giver": "fatima.alrashid@teammates.tmt",
       "recipient": "fatima.alrashid@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": 4,
         "questionType": "NUMSCALE"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000803",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response4ForQ3InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000989",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000803",
-        "questionDetails": {
-          "minScale": 1,
-          "maxScale": 5,
-          "step": 1,
-          "questionType": "NUMSCALE",
-          "questionText": "Rate your confidence in recursion and higher-order functions. (1 = Not confident, 5 = Very confident)"
-        }
-      },
       "giver": "kenji.yamamoto@teammates.tmt",
       "recipient": "kenji.yamamoto@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": 3,
         "questionType": "NUMSCALE"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000803",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response5ForQ3InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000990",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000803",
-        "questionDetails": {
-          "minScale": 1,
-          "maxScale": 5,
-          "step": 1,
-          "questionType": "NUMSCALE",
-          "questionText": "Rate your confidence in recursion and higher-order functions. (1 = Not confident, 5 = Very confident)"
-        }
-      },
       "giver": "olga.petrov@teammates.tmt",
       "recipient": "olga.petrov@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": 5,
         "questionType": "NUMSCALE"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000803",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response6ForQ3InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000991",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000803",
-        "questionDetails": {
-          "minScale": 1,
-          "maxScale": 5,
-          "step": 1,
-          "questionType": "NUMSCALE",
-          "questionText": "Rate your confidence in recursion and higher-order functions. (1 = Not confident, 5 = Very confident)"
-        }
-      },
       "giver": "raj.patel@teammates.tmt",
       "recipient": "raj.patel@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
       "answer": {
         "answer": 3,
         "questionType": "NUMSCALE"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000803",
+      "giverSectionId": "00000000-0000-4000-8000-000000000202",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
     },
     "response7ForQ3InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000992",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000803",
-        "questionDetails": {
-          "minScale": 1,
-          "maxScale": 5,
-          "step": 1,
-          "questionType": "NUMSCALE",
-          "questionText": "Rate your confidence in recursion and higher-order functions. (1 = Not confident, 5 = Very confident)"
-        }
-      },
       "giver": "sofia.andersson@teammates.tmt",
       "recipient": "sofia.andersson@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
       "answer": {
         "answer": 4,
         "questionType": "NUMSCALE"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000803",
+      "giverSectionId": "00000000-0000-4000-8000-000000000202",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
     },
     "response8ForQ3InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000993",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000803",
-        "questionDetails": {
-          "minScale": 1,
-          "maxScale": 5,
-          "step": 1,
-          "questionType": "NUMSCALE",
-          "questionText": "Rate your confidence in recursion and higher-order functions. (1 = Not confident, 5 = Very confident)"
-        }
-      },
       "giver": "david.okafor@teammates.tmt",
       "recipient": "david.okafor@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000202"
-      },
       "answer": {
         "answer": 2,
         "questionType": "NUMSCALE"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000803",
+      "giverSectionId": "00000000-0000-4000-8000-000000000202",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
     },
     "response1ForQ1InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000910",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000804",
-        "questionDetails": {
-          "isZeroSum": true,
-          "isNotSureAllowed": false,
-          "questionType": "CONTRIB",
-          "questionText": "Rate the contribution of yourself and your team members towards the project."
-        }
-      },
       "giver": "mei.lin.chen@teammates.tmt",
       "recipient": "mei.lin.chen@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": 100,
         "questionType": "CONTRIB"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000804",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response2ForQ1InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000911",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000804",
-        "questionDetails": {
-          "isZeroSum": true,
-          "isNotSureAllowed": false,
-          "questionType": "CONTRIB",
-          "questionText": "Rate the contribution of yourself and your team members towards the project."
-        }
-      },
       "giver": "mei.lin.chen@teammates.tmt",
       "recipient": "carlos.silva@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": 110,
         "questionType": "CONTRIB"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000804",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response3ForQ1InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000912",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000804",
-        "questionDetails": {
-          "isZeroSum": true,
-          "isNotSureAllowed": false,
-          "questionType": "CONTRIB",
-          "questionText": "Rate the contribution of yourself and your team members towards the project."
-        }
-      },
       "giver": "mei.lin.chen@teammates.tmt",
       "recipient": "fatima.alrashid@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": 90,
         "questionType": "CONTRIB"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000804",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response4ForQ1InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000913",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000804",
-        "questionDetails": {
-          "isZeroSum": true,
-          "isNotSureAllowed": false,
-          "questionType": "CONTRIB",
-          "questionText": "Rate the contribution of yourself and your team members towards the project."
-        }
-      },
       "giver": "carlos.silva@teammates.tmt",
       "recipient": "mei.lin.chen@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": 95,
         "questionType": "CONTRIB"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000804",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response5ForQ1InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000914",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000804",
-        "questionDetails": {
-          "isZeroSum": true,
-          "isNotSureAllowed": false,
-          "questionType": "CONTRIB",
-          "questionText": "Rate the contribution of yourself and your team members towards the project."
-        }
-      },
       "giver": "carlos.silva@teammates.tmt",
       "recipient": "carlos.silva@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": 100,
         "questionType": "CONTRIB"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000804",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response6ForQ1InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000915",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000804",
-        "questionDetails": {
-          "isZeroSum": true,
-          "isNotSureAllowed": false,
-          "questionType": "CONTRIB",
-          "questionText": "Rate the contribution of yourself and your team members towards the project."
-        }
-      },
       "giver": "carlos.silva@teammates.tmt",
       "recipient": "fatima.alrashid@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": 105,
         "questionType": "CONTRIB"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000804",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response7ForQ1InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000916",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000804",
-        "questionDetails": {
-          "isZeroSum": true,
-          "isNotSureAllowed": false,
-          "questionType": "CONTRIB",
-          "questionText": "Rate the contribution of yourself and your team members towards the project."
-        }
-      },
       "giver": "fatima.alrashid@teammates.tmt",
       "recipient": "mei.lin.chen@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": 100,
         "questionType": "CONTRIB"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000804",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response8ForQ1InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000917",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000804",
-        "questionDetails": {
-          "isZeroSum": true,
-          "isNotSureAllowed": false,
-          "questionType": "CONTRIB",
-          "questionText": "Rate the contribution of yourself and your team members towards the project."
-        }
-      },
       "giver": "fatima.alrashid@teammates.tmt",
       "recipient": "carlos.silva@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": 95,
         "questionType": "CONTRIB"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000804",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response9ForQ1InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000918",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000804",
-        "questionDetails": {
-          "isZeroSum": true,
-          "isNotSureAllowed": false,
-          "questionType": "CONTRIB",
-          "questionText": "Rate the contribution of yourself and your team members towards the project."
-        }
-      },
       "giver": "fatima.alrashid@teammates.tmt",
       "recipient": "fatima.alrashid@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": 105,
         "questionType": "CONTRIB"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000804",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response1ForQ2InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000919",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000805",
-        "questionDetails": {
-          "hasAssignedWeights": false,
-          "rubricWeightsForEachCell": [],
-          "rubricChoices": ["Strongly Agree", "Agree", "Disagree", "Strongly Disagree"],
-          "rubricSubQuestions": ["Communicates ideas clearly", "Meets deadlines consistently", "Produces quality work"],
-          "rubricDescriptions": [
-            ["Always articulate", "Usually clear", "Sometimes unclear", "Rarely communicates"],
-            ["Never misses deadlines", "Occasionally late", "Often late", "Consistently misses"],
-            ["Exceeds expectations", "Meets expectations", "Below expectations", "Unsatisfactory"]
-          ],
-          "questionType": "RUBRIC",
-          "questionText": "Evaluate your teammate's performance on the following dimensions."
-        }
-      },
       "giver": "mei.lin.chen@teammates.tmt",
       "recipient": "carlos.silva@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": [0, 1, 0],
         "questionType": "RUBRIC"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000805",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response2ForQ2InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000920",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000805",
-        "questionDetails": {
-          "hasAssignedWeights": false,
-          "rubricWeightsForEachCell": [],
-          "rubricChoices": ["Strongly Agree", "Agree", "Disagree", "Strongly Disagree"],
-          "rubricSubQuestions": ["Communicates ideas clearly", "Meets deadlines consistently", "Produces quality work"],
-          "rubricDescriptions": [
-            ["Always articulate", "Usually clear", "Sometimes unclear", "Rarely communicates"],
-            ["Never misses deadlines", "Occasionally late", "Often late", "Consistently misses"],
-            ["Exceeds expectations", "Meets expectations", "Below expectations", "Unsatisfactory"]
-          ],
-          "questionType": "RUBRIC",
-          "questionText": "Evaluate your teammate's performance on the following dimensions."
-        }
-      },
       "giver": "carlos.silva@teammates.tmt",
       "recipient": "fatima.alrashid@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": [1, 0, 1],
         "questionType": "RUBRIC"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000805",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response3ForQ2InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000921",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000805",
-        "questionDetails": {
-          "hasAssignedWeights": false,
-          "rubricWeightsForEachCell": [],
-          "rubricChoices": ["Strongly Agree", "Agree", "Disagree", "Strongly Disagree"],
-          "rubricSubQuestions": ["Communicates ideas clearly", "Meets deadlines consistently", "Produces quality work"],
-          "rubricDescriptions": [
-            ["Always articulate", "Usually clear", "Sometimes unclear", "Rarely communicates"],
-            ["Never misses deadlines", "Occasionally late", "Often late", "Consistently misses"],
-            ["Exceeds expectations", "Meets expectations", "Below expectations", "Unsatisfactory"]
-          ],
-          "questionType": "RUBRIC",
-          "questionText": "Evaluate your teammate's performance on the following dimensions."
-        }
-      },
       "giver": "fatima.alrashid@teammates.tmt",
       "recipient": "mei.lin.chen@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": [0, 0, 1],
         "questionType": "RUBRIC"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000805",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response1ForQ3InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000922",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000806",
-        "questionDetails": {
-          "msqChoices": ["Problem Solving", "Code Review", "Testing", "Documentation", "Pair Programming"],
-          "otherEnabled": false,
-          "hasAssignedWeights": false,
-          "msqWeights": [],
-          "msqOtherWeight": 0,
-          "generateOptionsFor": "NONE",
-          "maxSelectableChoices": -2147483648,
-          "minSelectableChoices": 1,
-          "questionType": "MSQ",
-          "questionText": "Which skills did you develop during this milestone? Select all that apply."
-        }
-      },
       "giver": "mei.lin.chen@teammates.tmt",
       "recipient": "mei.lin.chen@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answers": ["Problem Solving", "Code Review"],
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MSQ"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000806",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response2ForQ3InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000923",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000806",
-        "questionDetails": {
-          "msqChoices": ["Problem Solving", "Code Review", "Testing", "Documentation", "Pair Programming"],
-          "otherEnabled": false,
-          "hasAssignedWeights": false,
-          "msqWeights": [],
-          "msqOtherWeight": 0,
-          "generateOptionsFor": "NONE",
-          "maxSelectableChoices": -2147483648,
-          "minSelectableChoices": 1,
-          "questionType": "MSQ",
-          "questionText": "Which skills did you develop during this milestone? Select all that apply."
-        }
-      },
       "giver": "carlos.silva@teammates.tmt",
       "recipient": "carlos.silva@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answers": ["Testing", "Documentation"],
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MSQ"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000806",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response3ForQ3InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000924",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000806",
-        "questionDetails": {
-          "msqChoices": ["Problem Solving", "Code Review", "Testing", "Documentation", "Pair Programming"],
-          "otherEnabled": false,
-          "hasAssignedWeights": false,
-          "msqWeights": [],
-          "msqOtherWeight": 0,
-          "generateOptionsFor": "NONE",
-          "maxSelectableChoices": -2147483648,
-          "minSelectableChoices": 1,
-          "questionType": "MSQ",
-          "questionText": "Which skills did you develop during this milestone? Select all that apply."
-        }
-      },
       "giver": "fatima.alrashid@teammates.tmt",
       "recipient": "fatima.alrashid@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answers": ["Problem Solving", "Pair Programming"],
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MSQ"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000806",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response1ForQ1InSession4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000925",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000810",
-        "questionDetails": {
-          "hasAssignedWeights": true,
-          "mcqWeights": [5, 4, 3, 2, 1],
-          "mcqOtherWeight": 0,
-          "mcqChoices": ["Outstanding", "Very Good", "Good", "Fair", "Poor"],
-          "otherEnabled": false,
-          "questionDropdownEnabled": false,
-          "generateOptionsFor": "NONE",
-          "questionType": "MCQ",
-          "questionText": "How would you rate this instructor's teaching effectiveness?"
-        }
-      },
       "giver": "mei.lin.chen@teammates.tmt",
       "recipient": "alice@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": "Outstanding",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000810",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response2ForQ1InSession4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000926",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000810",
-        "questionDetails": {
-          "hasAssignedWeights": true,
-          "mcqWeights": [5, 4, 3, 2, 1],
-          "mcqOtherWeight": 0,
-          "mcqChoices": ["Outstanding", "Very Good", "Good", "Fair", "Poor"],
-          "otherEnabled": false,
-          "questionDropdownEnabled": false,
-          "generateOptionsFor": "NONE",
-          "questionType": "MCQ",
-          "questionText": "How would you rate this instructor's teaching effectiveness?"
-        }
-      },
       "giver": "carlos.silva@teammates.tmt",
       "recipient": "alice@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": "Very Good",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000810",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response3ForQ1InSession4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000927",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000810",
-        "questionDetails": {
-          "hasAssignedWeights": true,
-          "mcqWeights": [5, 4, 3, 2, 1],
-          "mcqOtherWeight": 0,
-          "mcqChoices": ["Outstanding", "Very Good", "Good", "Fair", "Poor"],
-          "otherEnabled": false,
-          "questionDropdownEnabled": false,
-          "generateOptionsFor": "NONE",
-          "questionType": "MCQ",
-          "questionText": "How would you rate this instructor's teaching effectiveness?"
-        }
-      },
       "giver": "fatima.alrashid@teammates.tmt",
       "recipient": "alice@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answer": "Outstanding",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000810",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response1ForQ2InSession4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000928",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000811",
-        "questionDetails": {
-          "areDuplicatesAllowed": false,
-          "minOptionsToBeRanked": -2147483648,
-          "maxOptionsToBeRanked": 4,
-          "options": ["Recursion", "Higher-Order Functions", "Environment Model", "Streams"],
-          "questionType": "RANK_OPTIONS",
-          "questionText": "Rank the following course topics by how difficult you found them. (1 = Most difficult)"
-        }
-      },
       "giver": "mei.lin.chen@teammates.tmt",
       "recipient": "mei.lin.chen@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answers": [2, 1, 3, 4],
         "questionType": "RANK_OPTIONS"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000811",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response2ForQ2InSession4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000929",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000811",
-        "questionDetails": {
-          "areDuplicatesAllowed": false,
-          "minOptionsToBeRanked": -2147483648,
-          "maxOptionsToBeRanked": 4,
-          "options": ["Recursion", "Higher-Order Functions", "Environment Model", "Streams"],
-          "questionType": "RANK_OPTIONS",
-          "questionText": "Rank the following course topics by how difficult you found them. (1 = Most difficult)"
-        }
-      },
       "giver": "carlos.silva@teammates.tmt",
       "recipient": "carlos.silva@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answers": [3, 2, 1, 4],
         "questionType": "RANK_OPTIONS"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000811",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response3ForQ2InSession4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000930",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000811",
-        "questionDetails": {
-          "areDuplicatesAllowed": false,
-          "minOptionsToBeRanked": -2147483648,
-          "maxOptionsToBeRanked": 4,
-          "options": ["Recursion", "Higher-Order Functions", "Environment Model", "Streams"],
-          "questionType": "RANK_OPTIONS",
-          "questionText": "Rank the following course topics by how difficult you found them. (1 = Most difficult)"
-        }
-      },
       "giver": "fatima.alrashid@teammates.tmt",
       "recipient": "fatima.alrashid@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "answers": [1, 3, 4, 2],
         "questionType": "RANK_OPTIONS"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000811",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response1ForQ3InSession4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000931",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000812",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "What suggestions do you have for improving this course?",
-          "recommendedLength": 150
-        }
-      },
       "giver": "mei.lin.chen@teammates.tmt",
       "recipient": "mei.lin.chen@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "I would appreciate more interactive coding exercises during lectures. The current pace is good but additional worked examples for the harder topics like streams would be helpful."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000812",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response2ForQ3InSession4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000932",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000812",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "What suggestions do you have for improving this course?",
-          "recommendedLength": 150
-        }
-      },
       "giver": "carlos.silva@teammates.tmt",
       "recipient": "carlos.silva@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "The lab sessions could benefit from clearer problem statements. Sometimes the expected output format is ambiguous. Otherwise the teaching quality has been excellent."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000812",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response3ForQ3InSession4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000933",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000812",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "What suggestions do you have for improving this course?",
-          "recommendedLength": 150
-        }
-      },
       "giver": "fatima.alrashid@teammates.tmt",
       "recipient": "fatima.alrashid@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "More practice problems for the environment model would help. Perhaps a weekly optional problem set focused specifically on tracing through closures and scope chains."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000812",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "response1ForQ1InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000934",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000813",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "Summarize your individual contribution to Sprint 1. Include specific tasks you completed."
-        }
-      },
       "giver": "liam.obrien@teammates.tmt",
       "recipient": "liam.obrien@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "I took the lead on designing the class diagram and implementing the core Parser module. I also set up the CI/CD pipeline and reviewed three pull requests from teammates during Sprint 1."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000813",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response2ForQ1InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000935",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000813",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "Summarize your individual contribution to Sprint 1. Include specific tasks you completed."
-        }
-      },
       "giver": "anya.ivanova@teammates.tmt",
       "recipient": "anya.ivanova@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "My main contributions were implementing the Storage component and writing integration tests for the save and load functionality. I also helped debug a critical serialization issue that blocked the team for two days."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000813",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response3ForQ1InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000936",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000813",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "Summarize your individual contribution to Sprint 1. Include specific tasks you completed."
-        }
-      },
       "giver": "tariq.hassan@teammates.tmt",
       "recipient": "tariq.hassan@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "I focused on the UI layer, building the main window layout and command input handling. I also wrote the user guide section covering basic commands and helped resolve merge conflicts."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000813",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response4ForQ1InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000994",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000813",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "Summarize your individual contribution to Sprint 1. Include specific tasks you completed."
-        }
-      },
       "giver": "sakura.ito@teammates.tmt",
       "recipient": "sakura.ito@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "I worked primarily on the Model component, implementing the data structures for tasks and events. I also contributed to team discussions on design decisions and attended all standups."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000813",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response5ForQ1InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000995",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000813",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "Summarize your individual contribution to Sprint 1. Include specific tasks you completed."
-        }
-      },
       "giver": "nadia.kowalski@teammates.tmt",
       "recipient": "nadia.kowalski@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "I implemented the undo and redo feature and wrote comprehensive unit tests for the Logic component. I participated actively in code reviews and suggested improvements to our test coverage."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000813",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response1ForQ2InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000937",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000814",
-        "questionDetails": {
-          "isZeroSum": true,
-          "isNotSureAllowed": false,
-          "questionType": "CONTRIB",
-          "questionText": "Rate the contribution of each team member including yourself towards Sprint 1."
-        }
-      },
       "giver": "liam.obrien@teammates.tmt",
       "recipient": "liam.obrien@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answer": 100,
         "questionType": "CONTRIB"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000814",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response2ForQ2InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000938",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000814",
-        "questionDetails": {
-          "isZeroSum": true,
-          "isNotSureAllowed": false,
-          "questionType": "CONTRIB",
-          "questionText": "Rate the contribution of each team member including yourself towards Sprint 1."
-        }
-      },
       "giver": "liam.obrien@teammates.tmt",
       "recipient": "anya.ivanova@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answer": 95,
         "questionType": "CONTRIB"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000814",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response3ForQ2InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000939",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000814",
-        "questionDetails": {
-          "isZeroSum": true,
-          "isNotSureAllowed": false,
-          "questionType": "CONTRIB",
-          "questionText": "Rate the contribution of each team member including yourself towards Sprint 1."
-        }
-      },
       "giver": "liam.obrien@teammates.tmt",
       "recipient": "tariq.hassan@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answer": 105,
         "questionType": "CONTRIB"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000814",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response4ForQ2InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000940",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000814",
-        "questionDetails": {
-          "isZeroSum": true,
-          "isNotSureAllowed": false,
-          "questionType": "CONTRIB",
-          "questionText": "Rate the contribution of each team member including yourself towards Sprint 1."
-        }
-      },
       "giver": "anya.ivanova@teammates.tmt",
       "recipient": "liam.obrien@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answer": 110,
         "questionType": "CONTRIB"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000814",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response5ForQ2InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000941",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000814",
-        "questionDetails": {
-          "isZeroSum": true,
-          "isNotSureAllowed": false,
-          "questionType": "CONTRIB",
-          "questionText": "Rate the contribution of each team member including yourself towards Sprint 1."
-        }
-      },
       "giver": "anya.ivanova@teammates.tmt",
       "recipient": "anya.ivanova@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answer": 100,
         "questionType": "CONTRIB"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000814",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response6ForQ2InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000942",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000814",
-        "questionDetails": {
-          "isZeroSum": true,
-          "isNotSureAllowed": false,
-          "questionType": "CONTRIB",
-          "questionText": "Rate the contribution of each team member including yourself towards Sprint 1."
-        }
-      },
       "giver": "anya.ivanova@teammates.tmt",
       "recipient": "tariq.hassan@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answer": 90,
         "questionType": "CONTRIB"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000814",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response7ForQ2InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000943",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000814",
-        "questionDetails": {
-          "isZeroSum": true,
-          "isNotSureAllowed": false,
-          "questionType": "CONTRIB",
-          "questionText": "Rate the contribution of each team member including yourself towards Sprint 1."
-        }
-      },
       "giver": "tariq.hassan@teammates.tmt",
       "recipient": "liam.obrien@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answer": 100,
         "questionType": "CONTRIB"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000814",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response8ForQ2InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000944",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000814",
-        "questionDetails": {
-          "isZeroSum": true,
-          "isNotSureAllowed": false,
-          "questionType": "CONTRIB",
-          "questionText": "Rate the contribution of each team member including yourself towards Sprint 1."
-        }
-      },
       "giver": "tariq.hassan@teammates.tmt",
       "recipient": "anya.ivanova@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answer": 100,
         "questionType": "CONTRIB"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000814",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response9ForQ2InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000945",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000814",
-        "questionDetails": {
-          "isZeroSum": true,
-          "isNotSureAllowed": false,
-          "questionType": "CONTRIB",
-          "questionText": "Rate the contribution of each team member including yourself towards Sprint 1."
-        }
-      },
       "giver": "tariq.hassan@teammates.tmt",
       "recipient": "tariq.hassan@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answer": 100,
         "questionType": "CONTRIB"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000814",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response1ForQ3InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000946",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000815",
-        "questionDetails": {
-          "minScale": 1,
-          "maxScale": 10,
-          "step": 1,
-          "questionType": "NUMSCALE",
-          "questionText": "Rate the quality of your team's Sprint 1 deliverable. (1 = Poor, 10 = Excellent)"
-        }
-      },
       "giver": "liam.obrien@teammates.tmt",
       "recipient": "liam.obrien@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answer": 7,
         "questionType": "NUMSCALE"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000815",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response2ForQ3InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000947",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000815",
-        "questionDetails": {
-          "minScale": 1,
-          "maxScale": 10,
-          "step": 1,
-          "questionType": "NUMSCALE",
-          "questionText": "Rate the quality of your team's Sprint 1 deliverable. (1 = Poor, 10 = Excellent)"
-        }
-      },
       "giver": "anya.ivanova@teammates.tmt",
       "recipient": "anya.ivanova@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answer": 8,
         "questionType": "NUMSCALE"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000815",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response3ForQ3InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000948",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000815",
-        "questionDetails": {
-          "minScale": 1,
-          "maxScale": 10,
-          "step": 1,
-          "questionType": "NUMSCALE",
-          "questionText": "Rate the quality of your team's Sprint 1 deliverable. (1 = Poor, 10 = Excellent)"
-        }
-      },
       "giver": "tariq.hassan@teammates.tmt",
       "recipient": "tariq.hassan@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answer": 6,
         "questionType": "NUMSCALE"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000815",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response4ForQ3InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000996",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000815",
-        "questionDetails": {
-          "minScale": 1,
-          "maxScale": 10,
-          "step": 1,
-          "questionType": "NUMSCALE",
-          "questionText": "Rate the quality of your team's Sprint 1 deliverable. (1 = Poor, 10 = Excellent)"
-        }
-      },
       "giver": "sakura.ito@teammates.tmt",
       "recipient": "sakura.ito@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answer": 9,
         "questionType": "NUMSCALE"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000815",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response5ForQ3InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000997",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000815",
-        "questionDetails": {
-          "minScale": 1,
-          "maxScale": 10,
-          "step": 1,
-          "questionType": "NUMSCALE",
-          "questionText": "Rate the quality of your team's Sprint 1 deliverable. (1 = Poor, 10 = Excellent)"
-        }
-      },
       "giver": "nadia.kowalski@teammates.tmt",
       "recipient": "nadia.kowalski@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answer": 7,
         "questionType": "NUMSCALE"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000815",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response1ForQ1InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000949",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000816",
-        "questionDetails": {
-          "hasAssignedWeights": true,
-          "rubricWeightsForEachCell": [
-            [4, 3, 2, 1],
-            [4, 3, 2, 1],
-            [4, 3, 2, 1]
-          ],
-          "rubricChoices": ["Excellent", "Good", "Adequate", "Poor"],
-          "rubricSubQuestions": ["Follows coding standards", "Writes meaningful tests", "Provides clear documentation"],
-          "rubricDescriptions": [
-            [
-              "Consistently follows all conventions",
-              "Mostly follows conventions",
-              "Some inconsistencies",
-              "Rarely follows conventions"
-            ],
-            ["Comprehensive test coverage", "Good coverage", "Minimal tests", "No tests"],
-            ["Thorough and clear", "Adequate", "Sparse", "Missing"]
-          ],
-          "questionType": "RUBRIC",
-          "questionText": "Evaluate your teammate's code quality on the following criteria."
-        }
-      },
       "giver": "liam.obrien@teammates.tmt",
       "recipient": "anya.ivanova@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answer": [0, 1, 1],
         "questionType": "RUBRIC"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000816",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response2ForQ1InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000950",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000816",
-        "questionDetails": {
-          "hasAssignedWeights": true,
-          "rubricWeightsForEachCell": [
-            [4, 3, 2, 1],
-            [4, 3, 2, 1],
-            [4, 3, 2, 1]
-          ],
-          "rubricChoices": ["Excellent", "Good", "Adequate", "Poor"],
-          "rubricSubQuestions": ["Follows coding standards", "Writes meaningful tests", "Provides clear documentation"],
-          "rubricDescriptions": [
-            [
-              "Consistently follows all conventions",
-              "Mostly follows conventions",
-              "Some inconsistencies",
-              "Rarely follows conventions"
-            ],
-            ["Comprehensive test coverage", "Good coverage", "Minimal tests", "No tests"],
-            ["Thorough and clear", "Adequate", "Sparse", "Missing"]
-          ],
-          "questionType": "RUBRIC",
-          "questionText": "Evaluate your teammate's code quality on the following criteria."
-        }
-      },
       "giver": "anya.ivanova@teammates.tmt",
       "recipient": "tariq.hassan@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answer": [1, 2, 0],
         "questionType": "RUBRIC"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000816",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response3ForQ1InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000951",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000816",
-        "questionDetails": {
-          "hasAssignedWeights": true,
-          "rubricWeightsForEachCell": [
-            [4, 3, 2, 1],
-            [4, 3, 2, 1],
-            [4, 3, 2, 1]
-          ],
-          "rubricChoices": ["Excellent", "Good", "Adequate", "Poor"],
-          "rubricSubQuestions": ["Follows coding standards", "Writes meaningful tests", "Provides clear documentation"],
-          "rubricDescriptions": [
-            [
-              "Consistently follows all conventions",
-              "Mostly follows conventions",
-              "Some inconsistencies",
-              "Rarely follows conventions"
-            ],
-            ["Comprehensive test coverage", "Good coverage", "Minimal tests", "No tests"],
-            ["Thorough and clear", "Adequate", "Sparse", "Missing"]
-          ],
-          "questionType": "RUBRIC",
-          "questionText": "Evaluate your teammate's code quality on the following criteria."
-        }
-      },
       "giver": "tariq.hassan@teammates.tmt",
       "recipient": "liam.obrien@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answer": [0, 0, 0],
         "questionType": "RUBRIC"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000816",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response1ForQ2InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000952",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000817",
-        "questionDetails": {
-          "msqChoices": ["Daily Standups", "Code Reviews", "CI/CD Pipeline", "Sprint Planning", "Retrospectives"],
-          "otherEnabled": true,
-          "hasAssignedWeights": false,
-          "msqWeights": [],
-          "msqOtherWeight": 0,
-          "generateOptionsFor": "NONE",
-          "maxSelectableChoices": -2147483648,
-          "minSelectableChoices": 1,
-          "questionType": "MSQ",
-          "questionText": "Select all agile practices your team followed well during Sprint 2."
-        }
-      },
       "giver": "liam.obrien@teammates.tmt",
       "recipient": "liam.obrien@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answers": ["Daily Standups", "Code Reviews", "CI/CD Pipeline"],
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MSQ"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000817",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response2ForQ2InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000953",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000817",
-        "questionDetails": {
-          "msqChoices": ["Daily Standups", "Code Reviews", "CI/CD Pipeline", "Sprint Planning", "Retrospectives"],
-          "otherEnabled": true,
-          "hasAssignedWeights": false,
-          "msqWeights": [],
-          "msqOtherWeight": 0,
-          "generateOptionsFor": "NONE",
-          "maxSelectableChoices": -2147483648,
-          "minSelectableChoices": 1,
-          "questionType": "MSQ",
-          "questionText": "Select all agile practices your team followed well during Sprint 2."
-        }
-      },
       "giver": "anya.ivanova@teammates.tmt",
       "recipient": "anya.ivanova@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answers": ["Code Reviews", "Sprint Planning"],
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MSQ"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000817",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response3ForQ2InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000954",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000817",
-        "questionDetails": {
-          "msqChoices": ["Daily Standups", "Code Reviews", "CI/CD Pipeline", "Sprint Planning", "Retrospectives"],
-          "otherEnabled": true,
-          "hasAssignedWeights": false,
-          "msqWeights": [],
-          "msqOtherWeight": 0,
-          "generateOptionsFor": "NONE",
-          "maxSelectableChoices": -2147483648,
-          "minSelectableChoices": 1,
-          "questionType": "MSQ",
-          "questionText": "Select all agile practices your team followed well during Sprint 2."
-        }
-      },
       "giver": "tariq.hassan@teammates.tmt",
       "recipient": "tariq.hassan@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answers": ["Daily Standups", "Retrospectives", "Sprint Planning"],
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MSQ"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000817",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response1ForQ3InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000955",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000818",
-        "questionDetails": {
-          "constSumOptions": [],
-          "distributeToRecipients": true,
-          "pointsPerOption": false,
-          "forceUnevenDistribution": false,
-          "distributePointsFor": "None",
-          "points": 100,
-          "questionType": "CONSTSUM",
-          "questionText": "Distribute 100 points among your team members based on their effort in Sprint 2."
-        }
-      },
       "giver": "liam.obrien@teammates.tmt",
       "recipient": "anya.ivanova@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answers": [55],
         "questionType": "CONSTSUM"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000818",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response2ForQ3InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000956",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000818",
-        "questionDetails": {
-          "constSumOptions": [],
-          "distributeToRecipients": true,
-          "pointsPerOption": false,
-          "forceUnevenDistribution": false,
-          "distributePointsFor": "None",
-          "points": 100,
-          "questionType": "CONSTSUM",
-          "questionText": "Distribute 100 points among your team members based on their effort in Sprint 2."
-        }
-      },
       "giver": "liam.obrien@teammates.tmt",
       "recipient": "tariq.hassan@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answers": [45],
         "questionType": "CONSTSUM"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000818",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response3ForQ3InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000957",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000818",
-        "questionDetails": {
-          "constSumOptions": [],
-          "distributeToRecipients": true,
-          "pointsPerOption": false,
-          "forceUnevenDistribution": false,
-          "distributePointsFor": "None",
-          "points": 100,
-          "questionType": "CONSTSUM",
-          "questionText": "Distribute 100 points among your team members based on their effort in Sprint 2."
-        }
-      },
       "giver": "anya.ivanova@teammates.tmt",
       "recipient": "liam.obrien@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answers": [60],
         "questionType": "CONSTSUM"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000818",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response4ForQ3InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000958",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000818",
-        "questionDetails": {
-          "constSumOptions": [],
-          "distributeToRecipients": true,
-          "pointsPerOption": false,
-          "forceUnevenDistribution": false,
-          "distributePointsFor": "None",
-          "points": 100,
-          "questionType": "CONSTSUM",
-          "questionText": "Distribute 100 points among your team members based on their effort in Sprint 2."
-        }
-      },
       "giver": "anya.ivanova@teammates.tmt",
       "recipient": "tariq.hassan@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answers": [40],
         "questionType": "CONSTSUM"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000818",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response5ForQ3InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000959",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000818",
-        "questionDetails": {
-          "constSumOptions": [],
-          "distributeToRecipients": true,
-          "pointsPerOption": false,
-          "forceUnevenDistribution": false,
-          "distributePointsFor": "None",
-          "points": 100,
-          "questionType": "CONSTSUM",
-          "questionText": "Distribute 100 points among your team members based on their effort in Sprint 2."
-        }
-      },
       "giver": "tariq.hassan@teammates.tmt",
       "recipient": "liam.obrien@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answers": [50],
         "questionType": "CONSTSUM"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000818",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response6ForQ3InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000960",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000818",
-        "questionDetails": {
-          "constSumOptions": [],
-          "distributeToRecipients": true,
-          "pointsPerOption": false,
-          "forceUnevenDistribution": false,
-          "distributePointsFor": "None",
-          "points": 100,
-          "questionType": "CONSTSUM",
-          "questionText": "Distribute 100 points among your team members based on their effort in Sprint 2."
-        }
-      },
       "giver": "tariq.hassan@teammates.tmt",
       "recipient": "anya.ivanova@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "answer": {
         "answers": [50],
         "questionType": "CONSTSUM"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000818",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "response1ForQ1InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000961",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000822",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "Provide constructive feedback on your lab partner's problem-solving approach and collaboration."
-        }
-      },
       "giver": "amara.diallo@teammates.tmt",
       "recipient": "viktor.novak@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Viktor approaches problems methodically, always starting with a clear analysis before coding. He is patient when explaining his reasoning and open to alternative solutions. One area for improvement would be to consider edge cases earlier in the design phase."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000822",
+      "giverSectionId": "00000000-0000-4000-8000-000000000205",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
     },
     "response2ForQ1InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000962",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000822",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "Provide constructive feedback on your lab partner's problem-solving approach and collaboration."
-        }
-      },
       "giver": "viktor.novak@teammates.tmt",
       "recipient": "zara.osman@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Zara has an excellent intuition for choosing the right data structure. She quickly identifies patterns in problems and proposes efficient solutions. I would suggest she document her thought process more thoroughly for complex algorithms."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000822",
+      "giverSectionId": "00000000-0000-4000-8000-000000000205",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
     },
     "response3ForQ1InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000963",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000822",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "Provide constructive feedback on your lab partner's problem-solving approach and collaboration."
-        }
-      },
       "giver": "zara.osman@teammates.tmt",
       "recipient": "amara.diallo@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Amara is a strong collaborator who actively communicates during pair programming sessions. She catches bugs quickly and has a good eye for optimizing time complexity. She could benefit from exploring more space-efficient approaches."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000822",
+      "giverSectionId": "00000000-0000-4000-8000-000000000205",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
     },
     "response4ForQ1InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000998",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000822",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "Provide constructive feedback on your lab partner's problem-solving approach and collaboration."
-        }
-      },
       "giver": "tomas.herrera@teammates.tmt",
       "recipient": "ingrid.mueller@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Ingrid is thorough in her approach and always verifies correctness with multiple test cases. She explains graph traversal concepts very clearly and is always willing to help."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000822",
+      "giverSectionId": "00000000-0000-4000-8000-000000000205",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
     },
     "response5ForQ1InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000999",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000822",
-        "questionDetails": {
-          "questionType": "TEXT",
-          "questionText": "Provide constructive feedback on your lab partner's problem-solving approach and collaboration."
-        }
-      },
       "giver": "ingrid.mueller@teammates.tmt",
       "recipient": "tomas.herrera@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Tomas brings creative solutions to difficult problems. His implementation of the priority queue was particularly elegant. He could improve by adding more inline comments to his code."
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000822",
+      "giverSectionId": "00000000-0000-4000-8000-000000000205",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
     },
     "response1ForQ2InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000964",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000823",
-        "questionDetails": {
-          "minScale": 1,
-          "maxScale": 5,
-          "step": 1,
-          "questionType": "NUMSCALE",
-          "questionText": "Rate your lab partner's collaboration skills. (1 = Poor, 5 = Excellent)"
-        }
-      },
       "giver": "amara.diallo@teammates.tmt",
       "recipient": "viktor.novak@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "answer": {
         "answer": 4,
         "questionType": "NUMSCALE"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000823",
+      "giverSectionId": "00000000-0000-4000-8000-000000000205",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
     },
     "response2ForQ2InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000965",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000823",
-        "questionDetails": {
-          "minScale": 1,
-          "maxScale": 5,
-          "step": 1,
-          "questionType": "NUMSCALE",
-          "questionText": "Rate your lab partner's collaboration skills. (1 = Poor, 5 = Excellent)"
-        }
-      },
       "giver": "viktor.novak@teammates.tmt",
       "recipient": "zara.osman@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "answer": {
         "answer": 5,
         "questionType": "NUMSCALE"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000823",
+      "giverSectionId": "00000000-0000-4000-8000-000000000205",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
     },
     "response3ForQ2InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000966",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000823",
-        "questionDetails": {
-          "minScale": 1,
-          "maxScale": 5,
-          "step": 1,
-          "questionType": "NUMSCALE",
-          "questionText": "Rate your lab partner's collaboration skills. (1 = Poor, 5 = Excellent)"
-        }
-      },
       "giver": "zara.osman@teammates.tmt",
       "recipient": "amara.diallo@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "answer": {
         "answer": 3,
         "questionType": "NUMSCALE"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000823",
+      "giverSectionId": "00000000-0000-4000-8000-000000000205",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
     },
     "response4ForQ2InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000001000",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000823",
-        "questionDetails": {
-          "minScale": 1,
-          "maxScale": 5,
-          "step": 1,
-          "questionType": "NUMSCALE",
-          "questionText": "Rate your lab partner's collaboration skills. (1 = Poor, 5 = Excellent)"
-        }
-      },
       "giver": "tomas.herrera@teammates.tmt",
       "recipient": "ingrid.mueller@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "answer": {
         "answer": 4,
         "questionType": "NUMSCALE"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000823",
+      "giverSectionId": "00000000-0000-4000-8000-000000000205",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
     },
     "response5ForQ2InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000001001",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000823",
-        "questionDetails": {
-          "minScale": 1,
-          "maxScale": 5,
-          "step": 1,
-          "questionType": "NUMSCALE",
-          "questionText": "Rate your lab partner's collaboration skills. (1 = Poor, 5 = Excellent)"
-        }
-      },
       "giver": "ingrid.mueller@teammates.tmt",
       "recipient": "tomas.herrera@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "answer": {
         "answer": 5,
         "questionType": "NUMSCALE"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000823",
+      "giverSectionId": "00000000-0000-4000-8000-000000000205",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
     },
     "response1ForQ3InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000967",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000824",
-        "questionDetails": {
-          "hasAssignedWeights": false,
-          "mcqWeights": [],
-          "mcqOtherWeight": 0,
-          "mcqChoices": ["Definitely", "Probably", "Neutral", "Probably Not", "Definitely Not"],
-          "otherEnabled": false,
-          "questionDropdownEnabled": false,
-          "generateOptionsFor": "NONE",
-          "questionType": "MCQ",
-          "questionText": "Would you want to work with this lab partner again?"
-        }
-      },
       "giver": "amara.diallo@teammates.tmt",
       "recipient": "amara.diallo@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "answer": {
         "answer": "Definitely",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000824",
+      "giverSectionId": "00000000-0000-4000-8000-000000000205",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
     },
     "response2ForQ3InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000968",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000824",
-        "questionDetails": {
-          "hasAssignedWeights": false,
-          "mcqWeights": [],
-          "mcqOtherWeight": 0,
-          "mcqChoices": ["Definitely", "Probably", "Neutral", "Probably Not", "Definitely Not"],
-          "otherEnabled": false,
-          "questionDropdownEnabled": false,
-          "generateOptionsFor": "NONE",
-          "questionType": "MCQ",
-          "questionText": "Would you want to work with this lab partner again?"
-        }
-      },
       "giver": "viktor.novak@teammates.tmt",
       "recipient": "viktor.novak@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "answer": {
         "answer": "Probably",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000824",
+      "giverSectionId": "00000000-0000-4000-8000-000000000205",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
     },
     "response3ForQ3InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000969",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000824",
-        "questionDetails": {
-          "hasAssignedWeights": false,
-          "mcqWeights": [],
-          "mcqOtherWeight": 0,
-          "mcqChoices": ["Definitely", "Probably", "Neutral", "Probably Not", "Definitely Not"],
-          "otherEnabled": false,
-          "questionDropdownEnabled": false,
-          "generateOptionsFor": "NONE",
-          "questionType": "MCQ",
-          "questionText": "Would you want to work with this lab partner again?"
-        }
-      },
       "giver": "zara.osman@teammates.tmt",
       "recipient": "zara.osman@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "answer": {
         "answer": "Definitely",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000824",
+      "giverSectionId": "00000000-0000-4000-8000-000000000205",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
     },
     "response1ForQ1InSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000970",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000825",
-        "questionDetails": {
-          "hasAssignedWeights": true,
-          "rubricWeightsForEachCell": [
-            [4, 3, 2, 1],
-            [4, 3, 2, 1],
-            [4, 3, 2, 1]
-          ],
-          "rubricChoices": ["Excellent", "Proficient", "Developing", "Beginning"],
-          "rubricSubQuestions": ["Correctness of algorithm", "Time complexity analysis", "Space efficiency"],
-          "rubricDescriptions": [
-            ["Fully correct", "Minor errors", "Significant issues", "Fundamentally flawed"],
-            ["Accurate and complete", "Mostly accurate", "Partially correct", "Incorrect"],
-            ["Highly optimized", "Reasonable", "Wasteful", "Not considered"]
-          ],
-          "questionType": "RUBRIC",
-          "questionText": "Evaluate your peer's algorithm design on the following criteria."
-        }
-      },
       "giver": "amara.diallo@teammates.tmt",
       "recipient": "viktor.novak@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "answer": {
         "answer": [1, 0, 2],
         "questionType": "RUBRIC"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000825",
+      "giverSectionId": "00000000-0000-4000-8000-000000000205",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
     },
     "response2ForQ1InSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000971",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000825",
-        "questionDetails": {
-          "hasAssignedWeights": true,
-          "rubricWeightsForEachCell": [
-            [4, 3, 2, 1],
-            [4, 3, 2, 1],
-            [4, 3, 2, 1]
-          ],
-          "rubricChoices": ["Excellent", "Proficient", "Developing", "Beginning"],
-          "rubricSubQuestions": ["Correctness of algorithm", "Time complexity analysis", "Space efficiency"],
-          "rubricDescriptions": [
-            ["Fully correct", "Minor errors", "Significant issues", "Fundamentally flawed"],
-            ["Accurate and complete", "Mostly accurate", "Partially correct", "Incorrect"],
-            ["Highly optimized", "Reasonable", "Wasteful", "Not considered"]
-          ],
-          "questionType": "RUBRIC",
-          "questionText": "Evaluate your peer's algorithm design on the following criteria."
-        }
-      },
       "giver": "viktor.novak@teammates.tmt",
       "recipient": "zara.osman@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "answer": {
         "answer": [0, 1, 1],
         "questionType": "RUBRIC"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000825",
+      "giverSectionId": "00000000-0000-4000-8000-000000000205",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
     },
     "response3ForQ1InSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000972",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000825",
-        "questionDetails": {
-          "hasAssignedWeights": true,
-          "rubricWeightsForEachCell": [
-            [4, 3, 2, 1],
-            [4, 3, 2, 1],
-            [4, 3, 2, 1]
-          ],
-          "rubricChoices": ["Excellent", "Proficient", "Developing", "Beginning"],
-          "rubricSubQuestions": ["Correctness of algorithm", "Time complexity analysis", "Space efficiency"],
-          "rubricDescriptions": [
-            ["Fully correct", "Minor errors", "Significant issues", "Fundamentally flawed"],
-            ["Accurate and complete", "Mostly accurate", "Partially correct", "Incorrect"],
-            ["Highly optimized", "Reasonable", "Wasteful", "Not considered"]
-          ],
-          "questionType": "RUBRIC",
-          "questionText": "Evaluate your peer's algorithm design on the following criteria."
-        }
-      },
       "giver": "zara.osman@teammates.tmt",
       "recipient": "amara.diallo@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "answer": {
         "answer": [0, 0, 0],
         "questionType": "RUBRIC"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000825",
+      "giverSectionId": "00000000-0000-4000-8000-000000000205",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
     },
     "response1ForQ2InSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000973",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000826",
-        "questionDetails": {
-          "areDuplicatesAllowed": false,
-          "minOptionsToBeRanked": -2147483648,
-          "maxOptionsToBeRanked": 5,
-          "options": ["Binary Search Tree", "Hash Table", "Graph", "Heap", "Trie"],
-          "questionType": "RANK_OPTIONS",
-          "questionText": "Rank these data structures by how useful they were in your assignments. (1 = Most useful)"
-        }
-      },
       "giver": "amara.diallo@teammates.tmt",
       "recipient": "amara.diallo@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "answer": {
         "answers": [2, 1, 3, 4, 5],
         "questionType": "RANK_OPTIONS"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000826",
+      "giverSectionId": "00000000-0000-4000-8000-000000000205",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
     },
     "response2ForQ2InSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000974",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000826",
-        "questionDetails": {
-          "areDuplicatesAllowed": false,
-          "minOptionsToBeRanked": -2147483648,
-          "maxOptionsToBeRanked": 5,
-          "options": ["Binary Search Tree", "Hash Table", "Graph", "Heap", "Trie"],
-          "questionType": "RANK_OPTIONS",
-          "questionText": "Rank these data structures by how useful they were in your assignments. (1 = Most useful)"
-        }
-      },
       "giver": "viktor.novak@teammates.tmt",
       "recipient": "viktor.novak@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "answer": {
         "answers": [3, 1, 2, 5, 4],
         "questionType": "RANK_OPTIONS"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000826",
+      "giverSectionId": "00000000-0000-4000-8000-000000000205",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
     },
     "response3ForQ2InSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000975",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000826",
-        "questionDetails": {
-          "areDuplicatesAllowed": false,
-          "minOptionsToBeRanked": -2147483648,
-          "maxOptionsToBeRanked": 5,
-          "options": ["Binary Search Tree", "Hash Table", "Graph", "Heap", "Trie"],
-          "questionType": "RANK_OPTIONS",
-          "questionText": "Rank these data structures by how useful they were in your assignments. (1 = Most useful)"
-        }
-      },
       "giver": "zara.osman@teammates.tmt",
       "recipient": "zara.osman@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "answer": {
         "answers": [1, 2, 4, 3, 5],
         "questionType": "RANK_OPTIONS"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000826",
+      "giverSectionId": "00000000-0000-4000-8000-000000000205",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
     },
     "response1ForQ3InSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000976",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000827",
-        "questionDetails": {
-          "constSumOptions": ["Sorting Algorithms", "Graph Algorithms", "Dynamic Programming", "Data Structures"],
-          "distributeToRecipients": false,
-          "pointsPerOption": false,
-          "forceUnevenDistribution": false,
-          "distributePointsFor": "None",
-          "points": 100,
-          "questionType": "CONSTSUM",
-          "questionText": "Allocate 100 points to reflect the relative time you spent studying each topic."
-        }
-      },
       "giver": "amara.diallo@teammates.tmt",
       "recipient": "amara.diallo@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "answer": {
         "answers": [30, 25, 20, 25],
         "questionType": "CONSTSUM"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000827",
+      "giverSectionId": "00000000-0000-4000-8000-000000000205",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
     },
     "response2ForQ3InSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000977",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000827",
-        "questionDetails": {
-          "constSumOptions": ["Sorting Algorithms", "Graph Algorithms", "Dynamic Programming", "Data Structures"],
-          "distributeToRecipients": false,
-          "pointsPerOption": false,
-          "forceUnevenDistribution": false,
-          "distributePointsFor": "None",
-          "points": 100,
-          "questionType": "CONSTSUM",
-          "questionText": "Allocate 100 points to reflect the relative time you spent studying each topic."
-        }
-      },
       "giver": "viktor.novak@teammates.tmt",
       "recipient": "viktor.novak@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "answer": {
         "answers": [20, 30, 30, 20],
         "questionType": "CONSTSUM"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000827",
+      "giverSectionId": "00000000-0000-4000-8000-000000000205",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
     },
     "response3ForQ3InSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000978",
-      "feedbackQuestion": {
-        "id": "00000000-0000-4000-8000-000000000827",
-        "questionDetails": {
-          "constSumOptions": ["Sorting Algorithms", "Graph Algorithms", "Dynamic Programming", "Data Structures"],
-          "distributeToRecipients": false,
-          "pointsPerOption": false,
-          "forceUnevenDistribution": false,
-          "distributePointsFor": "None",
-          "points": 100,
-          "questionType": "CONSTSUM",
-          "questionText": "Allocate 100 points to reflect the relative time you spent studying each topic."
-        }
-      },
       "giver": "zara.osman@teammates.tmt",
       "recipient": "zara.osman@teammates.tmt",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "answer": {
         "answers": [25, 25, 25, 25],
         "questionType": "CONSTSUM"
-      }
+      },
+      "questionId": "00000000-0000-4000-8000-000000000827",
+      "giverSectionId": "00000000-0000-4000-8000-000000000205",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
     }
   },
   "feedbackResponseComments": {
     "comment1ToResp1ForQ1InSession1InCourse1": {
-      "feedbackResponse": {
-        "id": "00000000-0000-4000-8000-000000000901",
-        "answer": {
-          "questionType": "TEXT",
-          "answer": "I have made solid progress with recursion and feel confident about basic tree traversals. Higher-order functions like map and filter are becoming second nature, though I still struggle with environment model diagrams for deeply nested closures."
-        }
-      },
       "giver": "alice@teammates.tmt",
       "giverType": "INSTRUCTORS",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "commentText": "Excellent self-awareness, Mei Lin. Your identification of closures as a growth area is spot on. I recommend working through the supplementary exercises on environment model diagrams.",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "alice@teammates.tmt"
+      "lastEditorEmail": "alice@teammates.tmt",
+      "responseId": "00000000-0000-4000-8000-000000000901",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "comment2ToResp1ForQ1InSession1InCourse1": {
-      "feedbackResponse": {
-        "id": "00000000-0000-4000-8000-000000000901",
-        "answer": {
-          "questionType": "TEXT",
-          "answer": "I have made solid progress with recursion and feel confident about basic tree traversals. Higher-order functions like map and filter are becoming second nature, though I still struggle with environment model diagrams for deeply nested closures."
-        }
-      },
       "giver": "mei.lin.chen@teammates.tmt",
       "giverType": "STUDENTS",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "commentText": "Thank you for the feedback, Prof. Khan. I have started the supplementary exercises and they are really helpful for understanding nested closures.",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "mei.lin.chen@teammates.tmt"
+      "lastEditorEmail": "mei.lin.chen@teammates.tmt",
+      "responseId": "00000000-0000-4000-8000-000000000901",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "comment1ToResp2ForQ1InSession1InCourse1": {
-      "feedbackResponse": {
-        "id": "00000000-0000-4000-8000-000000000902",
-        "answer": {
-          "questionType": "TEXT",
-          "answer": "Understanding higher-order functions has been a major breakthrough. I can now compose functions fluently and debug recursive calls with more confidence. The environment model remains challenging but I am improving steadily with practice."
-        }
-      },
       "giver": "alice@teammates.tmt",
       "giverType": "INSTRUCTORS",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "commentText": "Good progress, Carlos. Consider pairing up with a classmate to practice environment model walkthroughs before the midterm.",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "alice@teammates.tmt"
+      "lastEditorEmail": "alice@teammates.tmt",
+      "responseId": "00000000-0000-4000-8000-000000000902",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "comment1ToResp1ForQ2InSession1InCourse1": {
-      "feedbackResponse": {
-        "id": "00000000-0000-4000-8000-000000000904",
-        "answer": {
-          "answer": "Excellent",
-          "isOther": false,
-          "otherFieldContent": "",
-          "questionType": "MCQ"
-        }
-      },
       "giver": "tanaka@teammates.tmt",
       "giverType": "INSTRUCTORS",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "commentText": "Thank you for this evaluation. The peer feedback process is important for team development.",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "tanaka@teammates.tmt"
+      "lastEditorEmail": "tanaka@teammates.tmt",
+      "responseId": "00000000-0000-4000-8000-000000000904",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "comment1ToResp1ForQ1InSession1InCourse2": {
-      "feedbackResponse": {
-        "id": "00000000-0000-4000-8000-000000000934",
-        "answer": {
-          "questionType": "TEXT",
-          "answer": "I took the lead on designing the class diagram and implementing the core Parser module. I also set up the CI/CD pipeline and reviewed three pull requests from teammates during Sprint 1."
-        }
-      },
       "giver": "elena@teammates.tmt",
       "giverType": "INSTRUCTORS",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "commentText": "Great summary, Liam. Setting up the CI/CD pipeline early was a strong strategic decision. Keep documenting your design rationale in the developer guide.",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "elena@teammates.tmt"
+      "lastEditorEmail": "elena@teammates.tmt",
+      "responseId": "00000000-0000-4000-8000-000000000934",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "comment2ToResp1ForQ1InSession1InCourse2": {
-      "feedbackResponse": {
-        "id": "00000000-0000-4000-8000-000000000934",
-        "answer": {
-          "questionType": "TEXT",
-          "answer": "I took the lead on designing the class diagram and implementing the core Parser module. I also set up the CI/CD pipeline and reviewed three pull requests from teammates during Sprint 1."
-        }
-      },
       "giver": "liam.obrien@teammates.tmt",
       "giverType": "STUDENTS",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "commentText": "Thanks Dr. Vasquez! I will make sure to improve the developer guide documentation for Sprint 2.",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "liam.obrien@teammates.tmt"
+      "lastEditorEmail": "liam.obrien@teammates.tmt",
+      "responseId": "00000000-0000-4000-8000-000000000934",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     },
     "comment1ToResp1ForQ1InSession1InCourse3": {
-      "feedbackResponse": {
-        "id": "00000000-0000-4000-8000-000000000961",
-        "answer": {
-          "questionType": "TEXT",
-          "answer": "Viktor approaches problems methodically, always starting with a clear analysis before coding. He is patient when explaining his reasoning and open to alternative solutions. One area for improvement would be to consider edge cases earlier in the design phase."
-        }
-      },
       "giver": "priya.sharma@teammates.tmt",
       "giverType": "INSTRUCTORS",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000205"
-      },
       "commentText": "Thoughtful feedback, Amara. Encouraging your partner to consider edge cases earlier is exactly the kind of constructive observation we value.",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "priya.sharma@teammates.tmt"
+      "lastEditorEmail": "priya.sharma@teammates.tmt",
+      "responseId": "00000000-0000-4000-8000-000000000961",
+      "giverSectionId": "00000000-0000-4000-8000-000000000205",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
     },
     "comment1ToResp1ForQ1InSession4InCourse1": {
-      "feedbackResponse": {
-        "id": "00000000-0000-4000-8000-000000000925",
-        "answer": {
-          "answer": "Outstanding",
-          "isOther": false,
-          "otherFieldContent": "",
-          "questionType": "MCQ"
-        }
-      },
       "giver": "alice@teammates.tmt",
       "giverType": "INSTRUCTORS",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "commentText": "Thank you for the positive feedback. I will continue to incorporate more interactive examples in my teaching.",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "alice@teammates.tmt"
+      "lastEditorEmail": "alice@teammates.tmt",
+      "responseId": "00000000-0000-4000-8000-000000000925",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "comment1ToResp1ForQ2InSession2InCourse1": {
-      "feedbackResponse": {
-        "id": "00000000-0000-4000-8000-000000000919",
-        "answer": {
-          "answer": [0, 1, 0],
-          "questionType": "RUBRIC"
-        }
-      },
       "giver": "alice@teammates.tmt",
       "giverType": "INSTRUCTORS",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "commentText": "This rubric evaluation aligns well with my own observations. Carlos has been steadily improving his communication in team settings.",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "alice@teammates.tmt"
+      "lastEditorEmail": "alice@teammates.tmt",
+      "responseId": "00000000-0000-4000-8000-000000000919",
+      "giverSectionId": "00000000-0000-4000-8000-000000000201",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
     },
     "comment1ToResp1ForQ1InSession2InCourse2": {
-      "feedbackResponse": {
-        "id": "00000000-0000-4000-8000-000000000949",
-        "answer": {
-          "answer": [0, 1, 1],
-          "questionType": "RUBRIC"
-        }
-      },
       "giver": "elena@teammates.tmt",
       "giverType": "INSTRUCTORS",
-      "giverSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
-      "recipientSection": {
-        "id": "00000000-0000-4000-8000-000000000203"
-      },
       "commentText": "Good evaluation. I notice Anya has been very consistent in following coding standards. Encourage her to also share her documentation practices with the team.",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "elena@teammates.tmt"
+      "lastEditorEmail": "elena@teammates.tmt",
+      "responseId": "00000000-0000-4000-8000-000000000949",
+      "giverSectionId": "00000000-0000-4000-8000-000000000203",
+      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
     }
   },
   "notifications": {
@@ -4813,232 +3026,148 @@
   "readNotifications": {
     "notification1ReadByInstructor1": {
       "id": "00000000-0000-4000-8000-000000001201",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
-      "notification": {
-        "id": "00000000-0000-4000-8000-000000001101"
-      },
-      "createdAt": "seed.d(-5)T00:00:00Z"
+      "createdAt": "seed.d(-5)T00:00:00Z",
+      "accountId": "00000000-0000-4000-8000-000000000001",
+      "notificationId": "00000000-0000-4000-8000-000000001101"
     },
     "notification1ReadByStudent1": {
       "id": "00000000-0000-4000-8000-000000001202",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
-      "notification": {
-        "id": "00000000-0000-4000-8000-000000001101"
-      },
-      "createdAt": "seed.d(-5)T00:00:00Z"
+      "createdAt": "seed.d(-5)T00:00:00Z",
+      "accountId": "00000000-0000-4000-8000-000000000101",
+      "notificationId": "00000000-0000-4000-8000-000000001101"
     },
     "notification2ReadByStudent11": {
       "id": "00000000-0000-4000-8000-000000001203",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000111"
-      },
-      "notification": {
-        "id": "00000000-0000-4000-8000-000000001102"
-      },
-      "createdAt": "seed.d(-5)T00:00:00Z"
+      "createdAt": "seed.d(-5)T00:00:00Z",
+      "accountId": "00000000-0000-4000-8000-000000000111",
+      "notificationId": "00000000-0000-4000-8000-000000001102"
     },
     "notification1ReadByInstructor3": {
       "id": "00000000-0000-4000-8000-000000001204",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000003"
-      },
-      "notification": {
-        "id": "00000000-0000-4000-8000-000000001101"
-      },
-      "createdAt": "seed.d(-5)T00:00:00Z"
+      "createdAt": "seed.d(-5)T00:00:00Z",
+      "accountId": "00000000-0000-4000-8000-000000000003",
+      "notificationId": "00000000-0000-4000-8000-000000001101"
     }
   },
   "feedbackSessionLogs": {
     "student1Session1InCourse1Log1": {
       "id": "00000000-0000-4000-8000-000000001301",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000601"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "feedbackSessionLogType": "ACCESS",
-      "timestamp": "seed.d(-13)T09:00:00Z"
+      "timestamp": "seed.d(-13)T09:00:00Z",
+      "studentId": "00000000-0000-4000-8000-000000000601",
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student1Session1InCourse1Log2": {
       "id": "00000000-0000-4000-8000-000000001302",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000601"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "feedbackSessionLogType": "SUBMISSION",
-      "timestamp": "seed.d(-13)T10:30:00Z"
+      "timestamp": "seed.d(-13)T10:30:00Z",
+      "studentId": "00000000-0000-4000-8000-000000000601",
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student2Session1InCourse1Log1": {
       "id": "00000000-0000-4000-8000-000000001303",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000602"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "feedbackSessionLogType": "ACCESS",
-      "timestamp": "seed.d(-12)T08:15:00Z"
+      "timestamp": "seed.d(-12)T08:15:00Z",
+      "studentId": "00000000-0000-4000-8000-000000000602",
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student2Session1InCourse1Log2": {
       "id": "00000000-0000-4000-8000-000000001304",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000602"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "feedbackSessionLogType": "SUBMISSION",
-      "timestamp": "seed.d(-12)T09:45:00Z"
+      "timestamp": "seed.d(-12)T09:45:00Z",
+      "studentId": "00000000-0000-4000-8000-000000000602",
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student3Session1InCourse1Log1": {
       "id": "00000000-0000-4000-8000-000000001305",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000603"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "feedbackSessionLogType": "ACCESS",
-      "timestamp": "seed.d(-11)T14:00:00Z"
+      "timestamp": "seed.d(-11)T14:00:00Z",
+      "studentId": "00000000-0000-4000-8000-000000000603",
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student3Session1InCourse1Log2": {
       "id": "00000000-0000-4000-8000-000000001306",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000603"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "feedbackSessionLogType": "SUBMISSION",
-      "timestamp": "seed.d(-11)T15:20:00Z"
+      "timestamp": "seed.d(-11)T15:20:00Z",
+      "studentId": "00000000-0000-4000-8000-000000000603",
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "student1Session1InCourse2Log1": {
       "id": "00000000-0000-4000-8000-000000001308",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000611"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000705"
-      },
       "feedbackSessionLogType": "ACCESS",
-      "timestamp": "seed.d(-13)T10:00:00Z"
+      "timestamp": "seed.d(-13)T10:00:00Z",
+      "studentId": "00000000-0000-4000-8000-000000000611",
+      "sessionId": "00000000-0000-4000-8000-000000000705"
     },
     "student1Session1InCourse2Log2": {
       "id": "00000000-0000-4000-8000-000000001309",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000611"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000705"
-      },
       "feedbackSessionLogType": "SUBMISSION",
-      "timestamp": "seed.d(-13)T11:30:00Z"
+      "timestamp": "seed.d(-13)T11:30:00Z",
+      "studentId": "00000000-0000-4000-8000-000000000611",
+      "sessionId": "00000000-0000-4000-8000-000000000705"
     },
     "student2Session1InCourse2Log1": {
       "id": "00000000-0000-4000-8000-000000001310",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000612"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000705"
-      },
       "feedbackSessionLogType": "ACCESS",
-      "timestamp": "seed.d(-12)T09:00:00Z"
+      "timestamp": "seed.d(-12)T09:00:00Z",
+      "studentId": "00000000-0000-4000-8000-000000000612",
+      "sessionId": "00000000-0000-4000-8000-000000000705"
     },
     "student2Session1InCourse2Log2": {
       "id": "00000000-0000-4000-8000-000000001311",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000612"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000705"
-      },
       "feedbackSessionLogType": "SUBMISSION",
-      "timestamp": "seed.d(-12)T10:15:00Z"
+      "timestamp": "seed.d(-12)T10:15:00Z",
+      "studentId": "00000000-0000-4000-8000-000000000612",
+      "sessionId": "00000000-0000-4000-8000-000000000705"
     },
     "student1Session1InCourse3Log1": {
       "id": "00000000-0000-4000-8000-000000001313",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000621"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000708"
-      },
       "feedbackSessionLogType": "ACCESS",
-      "timestamp": "seed.d(-13)T13:00:00Z"
+      "timestamp": "seed.d(-13)T13:00:00Z",
+      "studentId": "00000000-0000-4000-8000-000000000621",
+      "sessionId": "00000000-0000-4000-8000-000000000708"
     },
     "student1Session1InCourse3Log2": {
       "id": "00000000-0000-4000-8000-000000001314",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000621"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000708"
-      },
       "feedbackSessionLogType": "SUBMISSION",
-      "timestamp": "seed.d(-13)T14:30:00Z"
+      "timestamp": "seed.d(-13)T14:30:00Z",
+      "studentId": "00000000-0000-4000-8000-000000000621",
+      "sessionId": "00000000-0000-4000-8000-000000000708"
     },
     "student2Session1InCourse3Log1": {
       "id": "00000000-0000-4000-8000-000000001315",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000622"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000708"
-      },
       "feedbackSessionLogType": "ACCESS",
-      "timestamp": "seed.d(-12)T10:00:00Z"
+      "timestamp": "seed.d(-12)T10:00:00Z",
+      "studentId": "00000000-0000-4000-8000-000000000622",
+      "sessionId": "00000000-0000-4000-8000-000000000708"
     },
     "student2Session1InCourse3Log2": {
       "id": "00000000-0000-4000-8000-000000001316",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000622"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000708"
-      },
       "feedbackSessionLogType": "SUBMISSION",
-      "timestamp": "seed.d(-12)T11:00:00Z"
+      "timestamp": "seed.d(-12)T11:00:00Z",
+      "studentId": "00000000-0000-4000-8000-000000000622",
+      "sessionId": "00000000-0000-4000-8000-000000000708"
     },
     "student3Session2InCourse3Log1": {
       "id": "00000000-0000-4000-8000-000000001317",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000623"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000709"
-      },
       "feedbackSessionLogType": "ACCESS",
-      "timestamp": "seed.d(-59)T13:00:00Z"
+      "timestamp": "seed.d(-59)T13:00:00Z",
+      "studentId": "00000000-0000-4000-8000-000000000623",
+      "sessionId": "00000000-0000-4000-8000-000000000709"
     },
     "student3Session2InCourse3Log2": {
       "id": "00000000-0000-4000-8000-000000001318",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000623"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000709"
-      },
       "feedbackSessionLogType": "SUBMISSION",
-      "timestamp": "seed.d(-58)T14:45:00Z"
+      "timestamp": "seed.d(-58)T14:45:00Z",
+      "studentId": "00000000-0000-4000-8000-000000000623",
+      "sessionId": "00000000-0000-4000-8000-000000000709"
     },
     "student1Session2InCourse3ViewResult": {
       "id": "00000000-0000-4000-8000-000000001319",
-      "student": {
-        "id": "00000000-0000-4000-8000-000000000621"
-      },
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000709"
-      },
       "feedbackSessionLogType": "VIEW_RESULT",
-      "timestamp": "seed.d(-20)T09:00:00Z"
+      "timestamp": "seed.d(-20)T09:00:00Z",
+      "studentId": "00000000-0000-4000-8000-000000000621",
+      "sessionId": "00000000-0000-4000-8000-000000000709"
     }
   }
 }

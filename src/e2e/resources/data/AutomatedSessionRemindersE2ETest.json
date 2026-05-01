@@ -18,9 +18,6 @@
   "instructors": {
     "AutSesRem.instructor": {
       "id": "00000000-0000-4000-8000-000000000501",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.AutSesRem.course",
       "name": "Test Ins for Aut Sessions Reminder",
       "email": "autsesrem.instructor@gmail.tmt",
@@ -40,40 +37,33 @@
         },
         "sectionLevel": {},
         "sessionLevel": {}
-      }
+      },
+      "accountId": "00000000-0000-4000-8000-000000000001"
     }
   },
   "students": {
     "alice.tmms@AutSesRem.course": {
       "id": "00000000-0000-4000-8000-000000000601",
-      "account": {
-        "id": "00000000-0000-4000-8000-000000000001"
-      },
       "courseId": "tm.e2e.AutSesRem.course",
-      "team": {
-        "id": "00000000-0000-4000-8000-000000000201"
-      },
       "email": "autsesrem.student@gmail.tmt",
       "name": "Alice Betsy</option></td></div>'\"",
-      "comments": "dummy comment</option></td></div>'\""
+      "comments": "dummy comment</option></td></div>'\"",
+      "accountId": "00000000-0000-4000-8000-000000000001",
+      "teamId": "00000000-0000-4000-8000-000000000201"
     }
   },
   "sections": {
     "section1InCourse": {
       "id": "00000000-0000-4000-8000-000000000101",
-      "course": {
-        "id": "tm.e2e.AutSesRem.course"
-      },
-      "name": "Section 1"
+      "name": "Section 1",
+      "courseId": "tm.e2e.AutSesRem.course"
     }
   },
   "teams": {
     "team1InCourse": {
       "id": "00000000-0000-4000-8000-000000000201",
-      "section": {
-        "id": "00000000-0000-4000-8000-000000000101"
-      },
-      "name": "Team 1"
+      "name": "Team 1",
+      "sectionId": "00000000-0000-4000-8000-000000000101"
     }
   },
   "feedbackSessions": {
@@ -157,9 +147,6 @@
   "feedbackQuestions": {
     "questionForOpenedSession": {
       "id": "00000000-0000-4000-8000-000000000801",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000701"
-      },
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "This question is so that opened reminders will be sent to students, as the session needs to have question for students."
@@ -170,13 +157,11 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000701"
     },
     "questionForClosingSoonSession": {
       "id": "00000000-0000-4000-8000-000000000802",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000702"
-      },
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "This question is so that closing soon reminders will be sent to students as it is unanswered."
@@ -187,13 +172,11 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000702"
     },
     "questionForPublishedSession": {
       "id": "00000000-0000-4000-8000-000000000804",
-      "feedbackSession": {
-        "id": "00000000-0000-4000-8000-000000000704"
-      },
       "questionDetails": {
         "questionType": "TEXT",
         "questionText": "This question is so that opened reminders will be sent to students, as the session needs to have question for students."
@@ -204,7 +187,8 @@
       "numOfEntitiesToGiveFeedbackTo": -100,
       "showResponsesTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"]
+      "showRecipientNameTo": ["INSTRUCTORS"],
+      "sessionId": "00000000-0000-4000-8000-000000000704"
     }
   },
   "feedbackResponses": {},
