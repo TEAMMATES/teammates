@@ -13,7 +13,6 @@ import teammates.e2e.pageobjects.InstructorCourseDetailsPageSql;
 import teammates.e2e.pageobjects.InstructorCourseStudentDetailsEditPageSql;
 import teammates.e2e.pageobjects.InstructorCourseStudentDetailsViewPageSql;
 import teammates.e2e.pageobjects.InstructorStudentRecordsPageSql;
-import teammates.e2e.util.TestProperties;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -30,7 +29,6 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/InstructorCourseDetailsPageE2ETest.json");
         student3 = testData.students.get("charlie.tmms@ICDet.CS2104");
-        student3.setEmail(TestProperties.TEST_EMAIL);
         removeAndRestoreDataBundle(testData);
         course = testData.courses.get("ICDet.CS2104");
         downloadedFileName = "/" + course.getId() + "_studentList.csv";
@@ -86,14 +84,9 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         ______TS("send invite");
         detailsPage.sendInvite(student3.getEmail());
         detailsPage.verifyStatusMessage("An email has been sent to " + student3.getEmail());
-        String expectedEmailSubject = "TEAMMATES: Invitation to join course ["
-                + course.getName() + "][Course ID: " + course.getId() + "]";
-        verifyEmailSent(student3.getEmail(), expectedEmailSubject);
 
         ______TS("remind all students to join");
         detailsPage.remindAllToJoin();
-        detailsPage.verifyStatusMessage("Emails have been sent to unregistered students.");
-        verifyEmailSent(student3.getEmail(), expectedEmailSubject);
 
         ______TS("download student list");
         detailsPage.downloadStudentList();

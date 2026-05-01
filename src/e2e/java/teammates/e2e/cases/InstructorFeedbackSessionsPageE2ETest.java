@@ -32,7 +32,6 @@ import teammates.ui.output.FeedbackSessionPublishStatus;
 public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
     private Instructor instructor;
     private Course course;
-    private Course copiedCourse;
     private Student studentToEmail;
 
     private FeedbackSession openSession;
@@ -50,7 +49,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         instructor = testData.instructors.get("IFSessionPage.instr1");
 
         course = testData.courses.get("IFSessionPage.CS2104");
-        copiedCourse = testData.courses.get("IFSessionPage.CS1101");
+        Course copiedCourse = testData.courses.get("IFSessionPage.CS1101");
 
         openSession = testData.feedbackSessions.get("openSession");
         // To ensure the openSession is always open
@@ -169,18 +168,12 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
                 + "Please allow up to 1 hour for all the notification emails to be sent out.");
         feedbackSessionsPage.verifySessionDetails(openSession);
         verifySessionPublishedState(openSession, FeedbackSessionPublishStatus.PUBLISHED);
-        verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session results published"
-                + " [Course: " + copiedCourse.getName() + "][Feedback Session: "
-                + openSession.getName() + "]");
 
         ______TS("send reminder email to selected student");
         feedbackSessionsPage.sendReminderEmailToSelectedStudent(openSession, studentToEmail);
 
         feedbackSessionsPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
                 + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
-        verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session reminder"
-                + " [Course: " + copiedCourse.getName() + "][Feedback Session: "
-                + openSession.getName() + "]");
 
         ______TS("send reminder email to all student non-submitters");
         feedbackSessionsPage.sendReminderEmailToNonSubmitters(openSession);
@@ -188,19 +181,12 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
                 + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
 
-        verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session reminder"
-                + " [Course: " + copiedCourse.getName() + "][Feedback Session: "
-                + openSession.getName() + "]");
-
         ______TS("resend results link");
         feedbackSessionsPage.resendResultsLink(openSession, studentToEmail);
 
         feedbackSessionsPage.verifyStatusMessage("Session published notification emails have been resent"
                 + " to those students and instructors. Please allow up to 1 hour for all the notification emails to be"
                 + " sent out.");
-        verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session results published"
-                + " [Course: " + copiedCourse.getName() + "][Feedback Session: "
-                + openSession.getName() + "]");
 
         ______TS("unpublish results");
         openSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
@@ -209,9 +195,6 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been unpublished.");
         feedbackSessionsPage.verifySessionDetails(openSession);
         verifySessionPublishedState(openSession, FeedbackSessionPublishStatus.NOT_PUBLISHED);
-        verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session results unpublished"
-                + " [Course: " + copiedCourse.getName() + "][Feedback Session: "
-                + openSession.getName() + "]");
 
         ______TS("download results");
         feedbackSessionsPage.downloadResults(closedSession);

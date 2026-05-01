@@ -211,7 +211,6 @@ gradlew.bat serverRun
    - Browser to use (`test.selenium.browser`)
    - Server URLs (`test.app.frontend.url`, `test.app.backend.url`)
    - Path to browser driver executable
-   - Test account credentials
 
 <br>
 
@@ -241,15 +240,6 @@ gradlew.bat serverRun
 </tabs>
 
 Some tests may fail intermittently due to timing issues — rerun them until they pass.
-
-### Testing Against a Production Server
-
-1. Edit `src/e2e/resources/test.properties` as instructed in its comments. You will need a legitimate Gmail account for testing.
-2. If testing email sending, set up the Gmail API:
-   - [Obtain Gmail API credentials](https://github.com/TEAMMATES/teammates-ops/blob/master/platform-guide.md#setting-up-gmail-api-credentials) and download them.
-   - Copy the file to `src/e2e/resources/gmail-api/client_secret.json`.
-   - Run `EmailAccountTest` to confirm the setup works.
-3. Run the full test suite or any subset as you would on the dev server.
 
 ### Writing E2E Tests
 

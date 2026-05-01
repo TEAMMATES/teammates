@@ -14,7 +14,6 @@ import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
-import teammates.e2e.util.TestProperties;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
@@ -40,7 +39,6 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         testData = removeAndRestoreDataBundle(loadDataBundle("/FeedbackSubmitPageE2ETest.json"));
         testData.feedbackSessions.get("Grace Period Session").setEndTime(Instant.now());
         student = testData.students.get("alice.tmms@FSubmit.CS2104");
-        student.setEmail(TestProperties.TEST_EMAIL);
         removeAndRestoreDataBundle(testData);
 
         instructor = testData.instructors.get("FSubmit.instr");

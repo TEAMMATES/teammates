@@ -355,9 +355,6 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
         resultsPage.verifyStatusMessage("The feedback session has been unpublished.");
         verifySessionPublishedState(feedbackSession, false);
-        verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session results unpublished"
-                + " [Course: " + course.getName() + "][Feedback Session: "
-                + feedbackSession.getName() + "]");
 
         ______TS("publish results");
         resultsPage.publishSessionResults();
@@ -365,9 +362,6 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         resultsPage.verifyStatusMessage("The feedback session has been published. "
                 + "Please allow up to 1 hour for all the notification emails to be sent out.");
         verifySessionPublishedState(feedbackSession, true);
-        verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session results published"
-                + " [Course: " + course.getName() + "][Feedback Session: "
-                + feedbackSession.getName() + "]");
 
         ______TS("download results");
         resultsPage.downloadResults();
@@ -391,9 +385,6 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
         resultsPage.verifyStatusMessage("Reminder e-mails have been sent out to those students and instructors."
                 + " Please allow up to 1 hour for all the notification emails to be sent out.");
-        verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session reminder"
-                + " [Course: " + course.getName() + "][Feedback Session: "
-                + feedbackSession.getName() + "]");
     }
 
     private void verifySessionPublishedState(FeedbackSession feedbackSession, boolean state) {
