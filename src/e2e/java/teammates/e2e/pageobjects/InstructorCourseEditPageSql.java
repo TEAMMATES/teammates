@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,10 +14,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
+import teammates.e2e.util.TestProperties;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
 import teammates.test.ThreadHelper;
@@ -264,6 +267,8 @@ public class InstructorCourseEditPageSql extends AppPage {
         List<WebElement> cards = copyInstructorModal.findElements(By.className("card"));
         for (WebElement card : cards) {
             WebElement cardHeader = card.findElement(By.className("card-header"));
+            WebDriverWait wait = new WebDriverWait(browser.driver, Duration.ofSeconds(TestProperties.TEST_TIMEOUT));
+            wait.until(driver -> !cardHeader.getText().isEmpty());
             String cardHeaderText = cardHeader.getText();
             String courseId = cardHeaderText.substring(1, cardHeaderText.indexOf(']'));
             if (courseInstructorEmailsMap.containsKey(courseId)) {
