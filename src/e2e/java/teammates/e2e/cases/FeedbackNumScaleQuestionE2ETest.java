@@ -97,21 +97,20 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
         feedbackSubmitPage.fillNumScaleResponse(1, receiver.getTeamName(), response);
         feedbackSubmitPage.clickSubmitQuestionButton(1);
 
-        // TODO: uncomment when SubmitFeedbackResponse is working
-        // verifyPresentInDatabase(response);
+        verifyPresentInDatabase(response);
 
-        // ______TS("check previous response");
-        // feedbackSubmitPage = getFeedbackSubmitPage();
-        // feedbackSubmitPage.verifyNumScaleResponse(1, receiver.getTeamName(), response);
+        ______TS("check previous response");
+        feedbackSubmitPage = getFeedbackSubmitPage();
+        feedbackSubmitPage.verifyNumScaleResponse(1, receiver.getTeamName(), response);
 
-        // ______TS("edit response");
-        // response = getResponse(question, receiver, 10.0);
-        // feedbackSubmitPage.fillNumScaleResponse(1, receiver.getTeamName(), response);
-        // feedbackSubmitPage.clickSubmitQuestionButton(1);
+        ______TS("edit response");
+        response = getResponse(question, receiver, 10.0);
+        feedbackSubmitPage.fillNumScaleResponse(1, receiver.getTeamName(), response);
+        feedbackSubmitPage.clickSubmitQuestionButton(1);
 
-        // feedbackSubmitPage = getFeedbackSubmitPage();
-        // feedbackSubmitPage.verifyNumScaleResponse(1, receiver.getTeamName(), response);
-        // verifyPresentInDatabase(response);
+        feedbackSubmitPage = getFeedbackSubmitPage();
+        feedbackSubmitPage.verifyNumScaleResponse(1, receiver.getTeamName(), response);
+        verifyPresentInDatabase(response);
     }
 
     private FeedbackResponse getResponse(FeedbackQuestion feedbackQuestion, Student receiver, Double answer) {

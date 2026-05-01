@@ -160,9 +160,8 @@ public class FeedbackSubmitPageSql extends AppPage {
         FeedbackTextResponseDetails responseDetails =
                 (FeedbackTextResponseDetails) response.getFeedbackResponseDetailsCopy();
         int responseLength = responseDetails.getAnswer().split(" ").length;
-        assertEquals(getEditorRichText(getTextResponseEditor(qnNumber, recipient)), responseDetails.getAnswer());
-        assertEquals(getResponseLengthText(qnNumber, recipient), "Response length: " + responseLength
-                + " words");
+        assertEquals(responseDetails.getAnswer(), getEditorRichText(getTextResponseEditor(qnNumber, recipient)));
+        assertEquals("Response length: " + responseLength + " words", getResponseLengthText(qnNumber, recipient));
     }
 
     public void verifyMcqQuestion(int qnNumber, String recipient, FeedbackMcqQuestionDetails questionDetails) {
@@ -591,6 +590,7 @@ public class FeedbackSubmitPageSql extends AppPage {
         WebElement questionForm = browser.driver.findElement(questionFormId);
         // Scroll to the question to ensure that the details are fully loaded
         scrollElementToCenter(questionForm);
+        waitForPageToLoad();
         return questionForm;
     }
 
@@ -716,11 +716,19 @@ public class FeedbackSubmitPageSql extends AppPage {
         }
         WebElement questionForm = getQuestionForm(qnNumber);
 
-
         List<WebElement> recipientDropdowns =
                 questionForm.findElements(By.cssSelector("[id^='recipient-dropdown-qn-']"));
 
-        if (recipientDropdowns.size() > 0) {
+        if (recipientDropdowns.isEmpty()) {
+            // For questions with fixed recipients.
+            int limit = 20; // we are not likely to set test data exceeding this number
+            for (int i = 0; i < limit; i++) {
+                if (questionForm.findElement(By.id("recipient-name-qn-" + qnNumber + "-idx-" + i))
+                        .getText().contains(recipient)) {
+                    return i;
+                }
+            }
+        } else {
             // Flexible recipient questions have dropdowns to select recipients.
             for (int i = 0; i < recipientDropdowns.size(); i++) {
                 String dropdownText = getSelectedDropdownOptionText(recipientDropdowns.get(i));
@@ -731,16 +739,7 @@ public class FeedbackSubmitPageSql extends AppPage {
                     return i;
                 }
             }
-        } else {
-            // For questions with fixed recipients.
-            int limit = 20; // we are not likely to set test data exceeding this number
-            for (int i = 0; i < limit; i++) {
-                if (questionForm.findElement(By.id("recipient-name-qn-" + qnNumber + "-idx-" + i))
-                        .getText().contains(recipient)) {
-                    return i;
-                }
-            }
-        } 
+        }
 
         return -1;
     }
