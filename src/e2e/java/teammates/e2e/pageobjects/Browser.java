@@ -156,14 +156,6 @@ public class Browser {
 
         String browser = TestProperties.BROWSER;
         if (TestProperties.BROWSER_FIREFOX.equals(browser)) {
-            System.out.println("Using Firefox with driver path: " + TestProperties.GECKODRIVER_PATH);
-            String firefoxPath = TestProperties.FIREFOX_PATH;
-            if (!firefoxPath.isEmpty()) {
-                System.out.println("Custom path: " + firefoxPath);
-                System.setProperty("webdriver.firefox.bin", firefoxPath);
-            }
-            System.setProperty("webdriver.gecko.driver", TestProperties.GECKODRIVER_PATH);
-
             FirefoxProfile profile = new FirefoxProfile();
 
             // Allow CSV files to be download automatically, without a download popup.
@@ -176,9 +168,6 @@ public class Browser {
             profile.setPreference("browser.download.dir", downloadPath);
 
             FirefoxOptions options = new FirefoxOptions().setProfile(profile);
-            if (!firefoxPath.isEmpty()) {
-                options = options.setBinary(firefoxPath);
-            }
             if (TestProperties.isDevServer()) {
                 options.addArguments("-private");
             }
@@ -187,9 +176,6 @@ public class Browser {
         }
 
         if (TestProperties.BROWSER_CHROME.equals(browser)) {
-            System.out.println("Using Chrome with driver path: " + TestProperties.CHROMEDRIVER_PATH);
-            System.setProperty("webdriver.chrome.driver", TestProperties.CHROMEDRIVER_PATH);
-
             Map<String, Object> chromePrefs = new HashMap<>();
             chromePrefs.put("download.default_directory", downloadPath);
             chromePrefs.put("download.prompt_for_download", false);
@@ -205,9 +191,6 @@ public class Browser {
         }
 
         if (TestProperties.BROWSER_EDGE.equals(browser)) {
-            System.out.println("Using Edge with driver path: " + TestProperties.EDGEDRIVER_PATH);
-            System.setProperty("webdriver.edge.driver", TestProperties.EDGEDRIVER_PATH);
-
             Map<String, Object> edgePrefs = new HashMap<>();
             edgePrefs.put("download.default_directory", downloadPath);
             edgePrefs.put("download.prompt_for_download", false);

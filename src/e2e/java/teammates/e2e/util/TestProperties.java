@@ -51,18 +51,6 @@ public final class TestProperties {
     /** The value of "test.browser.closeonfailure" in test.properties file. */
     public static final boolean CLOSE_BROWSER_ON_FAILURE;
 
-    /** The value of "test.firefox.path" in test.properties file. */
-    public static final String FIREFOX_PATH;
-
-    /** The value of "test.chromedriver.path" in test.properties file. */
-    public static final String CHROMEDRIVER_PATH;
-
-    /** The value of "test.geckodriver.path" in test.properties file. */
-    public static final String GECKODRIVER_PATH;
-
-    /** The value of "test.edgedriver.path" in test.properties file. */
-    public static final String EDGEDRIVER_PATH;
-
     /** The value of "test.timeout" in test.properties file. */
     public static final int TEST_TIMEOUT;
 
@@ -99,10 +87,6 @@ public final class TestProperties {
 
             BROWSER = prop.getProperty("test.selenium.browser").toLowerCase();
             CLOSE_BROWSER_ON_FAILURE = Boolean.parseBoolean(prop.getProperty("test.browser.closeonfailure"));
-            FIREFOX_PATH = prop.getProperty("test.firefox.path");
-            CHROMEDRIVER_PATH = prop.getProperty("test.chromedriver.path");
-            GECKODRIVER_PATH = prop.getProperty("test.geckodriver.path");
-            EDGEDRIVER_PATH = prop.getProperty("test.edgedriver.path");
 
             TEST_TIMEOUT = Integer.parseInt(prop.getProperty("test.timeout"));
 

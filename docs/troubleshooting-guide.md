@@ -49,19 +49,6 @@ Ensure that your dev server is started prior to running those tests.
 Ensure compatible version of Firefox is installed as specified in the [E2E Testing Instructions](./how-to/testing.md#e2e-tests).
 </panel>
 
-<panel header="When running E2E tests: `Selenium cannot find Firefox binary in PATH`" no-close>
-  
-**REASON 1**: Path to Firefox executable on local machine is incorrect.
-
-**SOLUTION 1 (on Windows)**: Specify the correct folder in system PATH variable.
-
-Open Windows Explorer → Right-click on Computer → Advanced System Settings → "Advanced" tab → Environment Variables… → Select "PATH" from the list → Add directory of "Mozilla Firefox" folder to "Variable value" field.
-
-**REASON 2**: Incorrect custom path in `test.firefox.path`.
-
-**SOLUTION 2**: Make sure that the path is set correctly following the example from `test.template.properties`.
-</panel>
-
 <panel header='On Linux: `java.io.IOException: Directory "/tmpfiles" could not be created`' no-close>
 
 Add `-Djava.io.tmpdir=/path/to/teammates/tmp` for the tests' run configurations. The "tmp" folder in the specified directory needs to be created before running the tests.
