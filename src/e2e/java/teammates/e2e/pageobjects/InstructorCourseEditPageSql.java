@@ -13,6 +13,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.StaleElementReferenceException;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
@@ -365,9 +366,15 @@ public class InstructorCourseEditPageSql extends AppPage {
 
     private int getNumInstructors() {
         return (int) browser.driver.findElements(By.cssSelector(".card-header"))
-                            .stream()
-                            .filter(WebElement::isDisplayed)
-                            .count() - 1;
+                .stream()
+                .filter(e -> {
+                    try {
+                        return e.isDisplayed();
+                    } catch (StaleElementReferenceException ex) {
+                        return false;
+                    }
+                })
+                .count() - 1;
     }
 
     // Methods for clicking buttons and links
