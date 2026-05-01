@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -16,7 +15,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
@@ -465,8 +463,7 @@ public class FeedbackResultsPageSql extends AppPage {
             click(additionalInfoLink);
         }
 
-        WebDriverWait wait = new WebDriverWait(browser.driver, Duration.ofSeconds(TestProperties.TEST_TIMEOUT));
-        wait.until(driver -> !qnsResponses.findElements(By.className("additional-info")).isEmpty());
+        waitFor(driver -> !qnsResponses.findElements(By.className("additional-info")).isEmpty());
 
         return getQuestionResponsesSection(questionNum).findElement(By.className("additional-info")).getText();
     }

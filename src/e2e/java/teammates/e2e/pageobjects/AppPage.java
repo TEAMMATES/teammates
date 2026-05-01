@@ -460,9 +460,8 @@ public abstract class AppPage {
      * expectedTableBodyValues.
      */
     protected void verifyTableBodyValues(WebElement table, String[][] expectedTableBodyValues) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, Duration.ofSeconds(TestProperties.TEST_TIMEOUT));
-        wait.until(driver -> 
-            !table.findElement(By.tagName("tbody")).findElements(By.tagName("tr")).isEmpty()
+        waitFor(driver ->
+                !table.findElement(By.tagName("tbody")).findElements(By.tagName("tr")).isEmpty()
         );
         List<WebElement> rows = table.findElement(By.tagName("tbody"))
                 .findElements(By.tagName("tr"));
@@ -702,8 +701,7 @@ public abstract class AppPage {
      * expected links.
      */
     public void verifyStatusMessageWithLinks(String expectedMessage, String[] expectedLinks) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, Duration.ofSeconds(TestProperties.TEST_TIMEOUT));
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.className("toast-body"), expectedMessage));
+        waitFor(ExpectedConditions.textToBePresentInElementLocated(By.className("toast-body"), expectedMessage));
         WebElement statusMessage = browser.driver.findElement(By.className("toast-body"));
 
         assertEquals(expectedMessage, statusMessage.getText());
@@ -721,7 +719,6 @@ public abstract class AppPage {
      */
     public void closeToastsIfPresent() {
         List<WebElement> closeButtons = browser.driver.findElements(By.cssSelector("[data-testid='toast-close']"));
-        WebDriverWait wait = new WebDriverWait(browser.driver, Duration.ofSeconds(TestProperties.TEST_TIMEOUT));
         for (WebElement button : closeButtons) {
             try {
                 executeScript("arguments[0].click();", button);
@@ -729,7 +726,7 @@ public abstract class AppPage {
                 // Ignore if not clickable
             }
         }
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("[data-testid='toast-close']")));
+        waitFor(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("[data-testid='toast-close']")));
     }
 
     /**

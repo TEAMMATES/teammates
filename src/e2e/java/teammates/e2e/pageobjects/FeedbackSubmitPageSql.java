@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
@@ -13,7 +12,6 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
@@ -35,7 +33,6 @@ import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.Const;
-import teammates.e2e.util.TestProperties;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
 import teammates.storage.sqlentity.FeedbackResponse;
@@ -767,8 +764,7 @@ public class FeedbackSubmitPageSql extends AppPage {
     private WebElement getMcqSection(int qnNumber, String recipient) {
         int recipientIndex = getRecipientIndex(qnNumber, recipient);
         WebElement questionForm = getQuestionForm(qnNumber);
-        WebDriverWait wait = new WebDriverWait(browser.driver, Duration.ofSeconds(TestProperties.TEST_TIMEOUT));
-        wait.until(driver -> !questionForm.findElements(By.tagName("tm-mcq-question-edit-answer-form")).isEmpty());
+        waitFor(driver -> !questionForm.findElements(By.tagName("tm-mcq-question-edit-answer-form")).isEmpty());
         return questionForm.findElements(By.tagName("tm-mcq-question-edit-answer-form")).get(recipientIndex);
     }
 
@@ -795,8 +791,7 @@ public class FeedbackSubmitPageSql extends AppPage {
     private WebElement getMsqSection(int qnNumber, String recipient) {
         int recipientIndex = getRecipientIndex(qnNumber, recipient);
         WebElement questionForm = getQuestionForm(qnNumber);
-        WebDriverWait wait = new WebDriverWait(browser.driver, Duration.ofSeconds(TestProperties.TEST_TIMEOUT));
-        wait.until(driver -> !questionForm.findElements(By.tagName("tm-msq-question-edit-answer-form")).isEmpty());
+        waitFor(driver -> !questionForm.findElements(By.tagName("tm-msq-question-edit-answer-form")).isEmpty());
         return questionForm.findElements(By.tagName("tm-msq-question-edit-answer-form")).get(recipientIndex);
     }
 
