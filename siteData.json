@@ -228,9 +228,7 @@
         "snapshot-testing": "Snapshot Testing",
         "e2e-tests": "E2E Tests",
         "prerequisites": "Prerequisites",
-        "configuring-browsers": "Configuring Browsers",
         "running-e2e-tests": "Running E2E Tests",
-        "testing-against-a-production-server": "Testing Against a Production Server",
         "writing-e2e-tests": "Writing E2E Tests"
       },
       "headingKeywords": {}
