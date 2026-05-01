@@ -171,7 +171,12 @@ public class InstructorCoursesPageSql extends AppPage {
     }
 
     public void sortByCourseId() {
-        click(waitForElementPresence(By.id("sort-course-id")));
+        WebElement sortButton = waitForElementPresence(By.id("sort-course-id"));
+        waitForElementToBeClickable(sortButton);
+        click(sortButton);
+        if (!isElementPresent(By.cssSelector("#sort-course-id .fa-sort-up"))) {
+            click(sortButton);
+        }
     }
 
     private WebElement getActiveTableRow(String courseId) {
@@ -217,10 +222,9 @@ public class InstructorCoursesPageSql extends AppPage {
     }
 
     private void selectCourseInstitute(String institute) {
-        waitFor(driver -> new Select(courseInstituteDropdown).getOptions()
-                .stream()
-                .anyMatch(opt -> opt.getText().equals(institute)));
-        new Select(courseInstituteDropdown).selectByVisibleText(institute);
+        scrollElementToCenter(courseInstituteDropdown);
+        Select dropdown = new Select(courseInstituteDropdown);
+        dropdown.selectByValue(institute);
     }
 
     private void selectNewTimeZone(String timeZone) {
