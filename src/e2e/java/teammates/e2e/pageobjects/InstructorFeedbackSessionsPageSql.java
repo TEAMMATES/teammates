@@ -92,9 +92,6 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
     @FindBy(id = "btn-create-session")
     private WebElement createSessionButton;
 
-    @FindBy(id = "sessions-table")
-    private WebElement sessionsTable;
-
     @FindBy(id = "deleted-sessions-heading")
     private WebElement deleteTableHeading;
 
@@ -103,9 +100,6 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
 
     @FindBy(id = "btn-delete-all")
     private WebElement deleteAllButton;
-
-    @FindBy(id = "deleted-sessions-table")
-    private WebElement deletedSessionsTable;
 
     public InstructorFeedbackSessionsPageSql(Browser browser) {
         super(browser);
@@ -121,13 +115,13 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
         for (int i = 0; i < sessions.length; i++) {
             expectedValues[i] = getSessionDetails(sessions[i]);
         }
-        verifyTableBodyValues(sessionsTable, expectedValues);
+        verifyTableBodyValues(getSessionsTable(), expectedValues);
     }
 
     public void verifySessionDetails(FeedbackSession session) {
         String[] expectedValues = getSessionDetails(session);
         int rowId = getFeedbackSessionRowId(session.getCourseId(), session.getName());
-        verifyTableRowValues(sessionsTable.findElements(By.cssSelector("tbody tr")).get(rowId), expectedValues);
+        verifyTableRowValues(getSessionsTable().findElements(By.cssSelector("tbody tr")).get(rowId), expectedValues);
     }
 
     public void verifySoftDeletedSessionsTable(FeedbackSession[] sessions) {
@@ -136,7 +130,7 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
         for (int i = 0; i < sessions.length; i++) {
             expectedValues[i] = getSoftDeletedSessionDetails(sessions[i]);
         }
-        verifyTableBodyValues(deletedSessionsTable, expectedValues);
+        verifyTableBodyValues(getDeletedSessionsTable(), expectedValues);
     }
 
     public void verifyNumSoftDeleted(int expected) {
@@ -150,7 +144,7 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
 
     public void addFeedbackSession(FeedbackSession newSession, boolean isUsingTemplate) {
         clickAddSessionButton();
-        waitForElementPresence(By.id("session-edit-form"));
+        waitForElementVisibility(By.id("session-edit-form"));
 
         if (isUsingTemplate) {
             selectDropdownOptionByText(sessionTypeDropdown,
@@ -201,7 +195,6 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
     public void moveToRecycleBin(FeedbackSession sessionToDelete) {
         int rowId = getFeedbackSessionRowId(sessionToDelete.getCourseId(), sessionToDelete.getName());
         clickAndConfirm(browser.driver.findElement(By.className("btn-soft-delete-" + rowId)));
-        waitUntilAnimationFinish();
     }
 
     public void restoreSession(FeedbackSession sessionToRestore) {
@@ -209,7 +202,6 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
         int rowId = getSoftDeletedFeedbackSessionRowId(sessionToRestore.getCourseId(),
                 sessionToRestore.getName());
         click(browser.driver.findElement(By.id("btn-restore-" + rowId)));
-        waitUntilAnimationFinish();
     }
 
     public void deleteSession(FeedbackSession sessionToRestore) {
@@ -217,17 +209,14 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
         int rowId = getSoftDeletedFeedbackSessionRowId(sessionToRestore.getCourseId(),
                 sessionToRestore.getName());
         clickAndConfirm(browser.driver.findElement(By.id("btn-delete-" + rowId)));
-        waitUntilAnimationFinish();
     }
 
     public void restoreAllSessions() {
         click(restoreAllButton);
-        waitUntilAnimationFinish();
     }
 
     public void deleteAllSessions() {
         clickAndConfirm(deleteAllButton);
-        waitUntilAnimationFinish();
     }
 
     public void showDeleteTable() {
@@ -240,16 +229,16 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
     public void sendReminderEmailToSelectedStudent(FeedbackSession session, Student student) {
         int rowId = getFeedbackSessionRowId(session.getCourseId(), session.getName());
 
-        click(browser.driver.findElement(By.className("btn-remind-" + rowId)));
+        click(waitForElementPresence(By.className("btn-remind-" + rowId)));
         click(waitForElementPresence(By.className("btn-remind-selected-" + rowId)));
         selectStudentToEmail(student.getEmail());
-        click(browser.driver.findElement(By.id("btn-confirm-send-reminder")));
+        click(waitForElementPresence(By.id("btn-confirm-send-reminder")));
     }
 
     public void sendReminderEmailToNonSubmitters(FeedbackSession session) {
         int rowId = getFeedbackSessionRowId(session.getCourseId(), session.getName());
 
-        click(browser.driver.findElement(By.className("btn-remind-" + rowId)));
+        click(waitForElementPresence(By.className("btn-remind-" + rowId)));
         click(waitForElementPresence(By.className("btn-remind-all-" + rowId)));
         click(waitForElementPresence(By.id("btn-confirm-send-reminder")));
     }
@@ -288,6 +277,14 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
 
     public void sortByCourseId() {
         click(waitForElementPresence(By.className("sort-course-id")));
+    }
+
+    private WebElement getDeletedSessionsTable() {
+        return waitForElementVisibility(By.id("deleted-sessions-table"));
+    }
+
+    private WebElement getSessionsTable() {
+        return waitForElementVisibility(By.id("sessions-table"));
     }
 
     private String[] getSessionDetails(FeedbackSession session) {
@@ -451,7 +448,7 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
     private WebElement clickCopyButtonInTable(String courseId, String sessionName) {
         int rowId = getFeedbackSessionRowId(courseId, sessionName);
         click(browser.driver.findElement(By.className("btn-copy-" + rowId)));
-        return waitForElementPresence(By.id("copy-course-modal"));
+        return waitForElementVisibility(By.id("copy-course-modal"));
     }
 
     private void selectCourseToCopyToInModal(WebElement copyFsModal, String courseToCopyId) {
@@ -466,7 +463,7 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
     }
 
     private void selectStudentToEmail(String studentEmail) {
-        WebElement studentList = waitForElementPresence(By.id("student-list-table"));
+        WebElement studentList = waitForElementVisibility(By.id("student-list-table"));
 
         List<WebElement> rows = studentList.findElements(By.tagName("tr"));
         for (WebElement row : rows) {
@@ -509,33 +506,33 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
     }
 
     private int getNumFeedbackSessions() {
-        return sessionsTable.findElements(By.cssSelector("tbody tr")).size();
+        return getSessionsTable().findElements(By.cssSelector("tbody tr")).size();
     }
 
     private int getNumSoftDeletedFeedbackSessions() {
         if (!isElementPresent(By.id("deleted-sessions-table"))) {
             return 0;
         }
-        return deletedSessionsTable.findElements(By.cssSelector("tbody tr")).size();
+        return getDeletedSessionsTable().findElements(By.cssSelector("tbody tr")).size();
     }
 
     private String getFeedbackSessionCourseId(int rowId) {
-        WebElement row = sessionsTable.findElements(By.cssSelector("tbody tr")).get(rowId);
+        WebElement row = getSessionsTable().findElements(By.cssSelector("tbody tr")).get(rowId);
         return row.findElements(By.tagName("td")).get(0).getText();
     }
 
     private String getSoftDeletedFeedbackSessionCourseId(int rowId) {
-        WebElement row = deletedSessionsTable.findElements(By.cssSelector("tbody tr")).get(rowId);
+        WebElement row = getDeletedSessionsTable().findElements(By.cssSelector("tbody tr")).get(rowId);
         return row.findElements(By.tagName("td")).get(0).getText();
     }
 
     private String getFeedbackSessionName(int rowId) {
-        WebElement row = sessionsTable.findElements(By.cssSelector("tbody tr")).get(rowId);
+        WebElement row = getSessionsTable().findElements(By.cssSelector("tbody tr")).get(rowId);
         return row.findElements(By.tagName("td")).get(1).getText();
     }
 
     private String getSoftDeletedFeedbackSessionName(int rowId) {
-        WebElement row = deletedSessionsTable.findElements(By.cssSelector("tbody tr")).get(rowId);
+        WebElement row = getDeletedSessionsTable().findElements(By.cssSelector("tbody tr")).get(rowId);
         return row.findElements(By.tagName("td")).get(1).getText();
     }
 

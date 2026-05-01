@@ -174,7 +174,7 @@
                     @for (session of mapping.value; track session) {
                       <tr>
                         <td>{{ session.ongoingSession.sessionStatus }}</td>
-                        <td class="text-break">
+                        <td class="text-break" data-testid="session-name">
                           <strong>[{{ session.ongoingSession.courseId }}]</strong>
                           {{ session.ongoingSession.feedbackSessionName }}
                         </td>

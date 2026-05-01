@@ -370,6 +370,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
                 </table>
                 <button
                   class="btn btn-secondary float-end mt-2 mb-3"
+                  data-testid="reload-btn"
                 >
                   <i
                     aria-hidden="true"

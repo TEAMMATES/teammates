@@ -121,7 +121,6 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
 
     public void sortNoResponseByName() {
         click(getNoResponseTable().findElement(By.id("sort-by-name")));
-        waitUntilAnimationFinish();
     }
 
     public void verifyNoResponsePanelDetails(List<Student> noResponseStudents) {
@@ -842,7 +841,6 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
         selectDropdownOptionByValue(waitForElementPresence(By.id("view-type-dropdown")), viewValue);
         currentView = viewValue;
         expandAllPanels();
-        waitUntilAnimationFinish();
         // Section content loads asynchronously; wait for team panels when "group by team" is on.
         boolean viewHasTeamPanels = GRQ_VIEW.equals(viewValue) || RGQ_VIEW.equals(viewValue)
                 || GQR_VIEW.equals(viewValue) || RQG_VIEW.equals(viewValue);
@@ -854,13 +852,11 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
     private void selectSectionDropdown(String sectionName) {
         WebElement sectionDropdown = browser.driver.findElement(By.id("section-dropdown"));
         selectDropdownOptionByText(sectionDropdown, sectionName);
-        waitUntilAnimationFinish();
     }
 
     private void selectSectionTypeDropdown(String sectionTypeValue) {
         WebElement sectionTypeDropdown = browser.driver.findElement(By.id("section-type-dropdown"));
         selectDropdownOptionByValue(sectionTypeDropdown, sectionTypeValue);
-        waitUntilAnimationFinish();
     }
 
     private WebElement getQuestionPanel(int qnNum) {

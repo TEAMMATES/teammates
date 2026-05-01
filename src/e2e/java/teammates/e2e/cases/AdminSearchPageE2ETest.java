@@ -82,7 +82,6 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         originalJoinLink = searchPage.getInstructorJoinLink(instructor);
         searchPage.regenerateInstructorKey(instructor);
         searchPage.verifyRegenerateInstructorKey(instructor, originalJoinLink);
-        searchPage.waitForPageToLoad();
 
         ______TS("Typical case: Search for account request by email");
         searchPage.clearSearchBox();
@@ -152,6 +151,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.clickEditAccountRequestButton(accountRequest);
         searchPage.fillInEditModalFields(accountRequest.getName(), "invalid",
                 accountRequest.getInstitute(), "New comment");
+        searchPage.closeToastsIfPresent();
         searchPage.clickSaveEditAccountRequestButton();
         String formattedErrorMessage = String.format("\"%s\" is not acceptable to TEAMMATES as a/an %s because it %s. "
                 + "An email address contains some text followed by one '@' sign followed by some more text, "

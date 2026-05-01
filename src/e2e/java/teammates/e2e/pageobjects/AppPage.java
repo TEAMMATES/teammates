@@ -2,7 +2,6 @@ package teammates.e2e.pageobjects;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -18,7 +17,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
@@ -38,9 +36,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.TimeHelper;
-import teammates.e2e.util.MaximumRetriesExceededException;
-import teammates.e2e.util.RetryManager;
-import teammates.e2e.util.Retryable;
 import teammates.e2e.util.TestProperties;
 import teammates.test.FileHelper;
 import teammates.test.ThreadHelper;
@@ -50,7 +45,8 @@ import teammates.test.ThreadHelper;
  * provides ways to interact with it. Also contains methods to validate some
  * aspects of the page, e.g. HTML page source.
  *
- * <p>Note: We are using the Page Object pattern here.
+ * <p>
+ * Note: We are using the Page Object pattern here.
  *
  * @see <a href="https://martinfowler.com/bliki/PageObject.html">https://martinfowler.com/bliki/PageObject.html</a>
  */
@@ -76,9 +72,6 @@ public abstract class AppPage {
     /** Browser instance the page is loaded into. */
     protected Browser browser;
 
-    /** Use for retrying due to transient UI issues. */
-    protected RetryManager uiRetryManager = new RetryManager((TestProperties.TEST_TIMEOUT + 1) / 2);
-
     /**
      * Used by subclasses to create a {@code AppPage} object to wrap around the
      * given {@code browser} object. Fails if the page content does not match
@@ -86,26 +79,16 @@ public abstract class AppPage {
      */
     public AppPage(Browser browser) {
         this.browser = browser;
+        ThreadHelper.waitFor(1000);
 
-        boolean isCorrectPageType;
-
-        try {
-            isCorrectPageType = containsExpectedPageContents();
-
-            if (isCorrectPageType) {
-                return;
-            }
-        } catch (Exception e) {
-            // ignore and try again
+        boolean isCorrectPageType = containsExpectedPageContents();
+        if (isCorrectPageType) {
+            return;
         }
 
-        // To minimize test failures due to eventual consistency, we try to
-        //  reload the page and compare once more.
-        System.out.println("#### Incorrect page type: going to try reloading the page.");
+        System.out.println("#### Incorrect page type: trying again.");
 
         ThreadHelper.waitFor(2000);
-
-        reloadPage();
 
         isCorrectPageType = containsExpectedPageContents();
 
@@ -122,13 +105,14 @@ public abstract class AppPage {
     }
 
     /**
-     * Gets a new page object representation of the currently open web page in the browser.
+     * Gets a new page object representation of the currently open web page in the
+     * browser.
      *
-     * <p>Fails if the new page content does not match content expected in a page of
+     * <p>
+     * Fails if the new page content does not match content expected in a page of
      * the type indicated by the parameter {@code typeOfPage}.
      */
     public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Class<T> typeOfPage) {
-        waitUntilAnimationFinish(currentBrowser);
         try {
             Constructor<T> constructor = typeOfPage.getConstructor(Browser.class);
             T page = constructor.newInstance(currentBrowser);
@@ -168,10 +152,14 @@ public abstract class AppPage {
     /**
      * Waits until the page is fully loaded.
      *
-     * @param excludeToast Set this to true if toast message's disappearance should not be counted
-     *         as criteria for page load's completion.
+     * @param excludeToast Set this to true if toast message's disappearance should
+     *                     not be counted
+     *                     as criteria for page load's completion.
      */
     public void waitForPageToLoad(boolean excludeToast) {
+        if (!excludeToast) {
+            closeToastsIfPresent();
+        }
         browser.waitForPageLoad(excludeToast);
     }
 
@@ -179,8 +167,8 @@ public abstract class AppPage {
         waitFor(ExpectedConditions.visibilityOf(element));
     }
 
-    public void waitForElementVisibility(By by) {
-        waitFor(ExpectedConditions.visibilityOfElementLocated(by));
+    public WebElement waitForElementVisibility(By by) {
+        return waitFor(ExpectedConditions.visibilityOfElementLocated(by));
     }
 
     public void waitForElementToBeClickable(WebElement element) {
@@ -189,8 +177,9 @@ public abstract class AppPage {
 
     public static void waitUntilAnimationFinish(Browser browser) {
         WebDriverWait wait = new WebDriverWait(browser.driver, Duration.ofSeconds(TestProperties.TEST_TIMEOUT));
+        ThreadHelper.waitFor(300);
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("collapsing")));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("ng-animating")));
-        ThreadHelper.waitFor(1000);
     }
 
     public void waitUntilAnimationFinish() {
@@ -227,13 +216,15 @@ public abstract class AppPage {
 
     private void waitForModalShown() {
         // Possible exploration: Change to listening to modal shown event as
-        // this is based on the implementation detail assumption that once modal-backdrop is added the modal is shown
+        // this is based on the implementation detail assumption that once
+        // modal-backdrop is added the modal is shown
         waitForElementVisibility(By.className("modal-backdrop"));
     }
 
     void waitForModalHidden(WebElement modalBackdrop) {
         // Possible exploration: Change to listening to modal hidden event as
-        // this is based on the implementation detail assumption that once modal-backdrop is removed the modal is hidden
+        // this is based on the implementation detail assumption that once
+        // modal-backdrop is removed the modal is hidden
         waitForElementStaleness(modalBackdrop);
     }
 
@@ -246,8 +237,8 @@ public abstract class AppPage {
 
     public void reloadPage() {
         browser.goToUrl(browser.driver.getCurrentUrl());
-        waitUntilAnimationFinish();
         waitForPageToLoad();
+        waitUntilAnimationFinish();
     }
 
     protected Object executeScript(String script, Object... args) {
@@ -282,8 +273,11 @@ public abstract class AppPage {
     /**
      * Simulates the clearing and sending of keys to an element.
      *
-     * <p><b>Note:</b> This method is not the same as using {@link WebElement#clear} followed by {@link WebElement#sendKeys}.
-     * It avoids double firing of the {@code change} event which may occur when {@link WebElement#clear} is followed by
+     * <p>
+     * <b>Note:</b> This method is not the same as using {@link WebElement#clear}
+     * followed by {@link WebElement#sendKeys}.
+     * It avoids double firing of the {@code change} event which may occur when
+     * {@link WebElement#clear} is followed by
      * {@link WebElement#sendKeys}.
      *
      * @see AppPage#clearWithoutEvents(WebElement)
@@ -300,18 +294,24 @@ public abstract class AppPage {
     }
 
     /**
-     * Clears any kind of editable element, but without firing the {@code change} event (unlike {@link WebElement#clear()}).
-     * Avoid using this method if {@link WebElement#clear()} meets the requirements as this method depends on implementation
+     * Clears any kind of editable element, but without firing the {@code change}
+     * event (unlike {@link WebElement#clear()}).
+     * Avoid using this method if {@link WebElement#clear()} meets the requirements
+     * as this method depends on implementation
      * details.
      */
     private Map<String, Object> clearWithoutEvents(WebElement element) {
-        // This method is a close mirror of HtmlUnitWebElement#clear(), except that events are not handled. Note that
-        // HtmlUnitWebElement is mirrored as opposed to RemoteWebElement (which is used with actual browsers) for convenience
+        // This method is a close mirror of HtmlUnitWebElement#clear(), except that
+        // events are not handled. Note that
+        // HtmlUnitWebElement is mirrored as opposed to RemoteWebElement (which is used
+        // with actual browsers) for convenience
         // and the implementation can differ.
         checkNotNull(element);
 
-        // Adapted from ExpectedConditions#stalenessOf which forces a staleness check. This allows a meaningful
-        // StaleElementReferenceException to be thrown rather than just getting a boolean from ExpectedConditions.
+        // Adapted from ExpectedConditions#stalenessOf which forces a staleness check.
+        // This allows a meaningful
+        // StaleElementReferenceException to be thrown rather than just getting a
+        // boolean from ExpectedConditions.
         element.isEnabled();
 
         // Fail safe in case the implementation of staleness checks is changed
@@ -329,8 +329,10 @@ public abstract class AppPage {
         try {
             scrollElementToCenterAndClick(textBoxElement);
         } catch (WebDriverException e) {
-            // It is important that a text box element is clickable before we fill it but due to legacy reasons we continue
-            // attempting to fill the text box element even if it's not clickable (which may lead to an unexpected failure
+            // It is important that a text box element is clickable before we fill it but
+            // due to legacy reasons we continue
+            // attempting to fill the text box element even if it's not clickable (which may
+            // lead to an unexpected failure
             // later on)
             System.out.println("Unexpectedly not able to click on the text box element because of: ");
             System.out.println(e);
@@ -342,7 +344,8 @@ public abstract class AppPage {
             return;
         }
 
-        // Otherwise we need to do special handling of entering input because `clear` and `sendKeys` work differently.
+        // Otherwise we need to do special handling of entering input because `clear`
+        // and `sendKeys` work differently.
         // See documentation for `clearAndSendKeys` for more details.
         clearAndSendKeys(textBoxElement, value);
 
@@ -431,18 +434,7 @@ public abstract class AppPage {
      */
     protected String getSelectedDropdownOptionText(WebElement dropdown) {
         Select select = new Select(dropdown);
-        try {
-            uiRetryManager.runUntilNoRecognizedException(new Retryable("Wait for dropdown text to load") {
-                @Override
-                public void run() {
-                    String txt = select.getFirstSelectedOption().getText();
-                    assertNotEquals("", txt);
-                }
-            }, WebDriverException.class, AssertionError.class);
-            return select.getFirstSelectedOption().getText();
-        } catch (MaximumRetriesExceededException e) {
-            return select.getFirstSelectedOption().getText();
-        }
+        return select.getFirstSelectedOption().getText();
     }
 
     /**
@@ -464,22 +456,27 @@ public abstract class AppPage {
     }
 
     /**
-     * Asserts that all values in the body of the given table are equal to the expectedTableBodyValues.
+     * Asserts that all values in the body of the given table are equal to the
+     * expectedTableBodyValues.
      */
     protected void verifyTableBodyValues(WebElement table, String[][] expectedTableBodyValues) {
+        waitFor(driver ->
+                !table.findElement(By.tagName("tbody")).findElements(By.tagName("tr")).isEmpty()
+        );
         List<WebElement> rows = table.findElement(By.tagName("tbody"))
-                                        .findElements(By.tagName("tr"))
-                                        .stream()
-                                        .filter(WebElement::isDisplayed)
-                                        .collect(Collectors.toList());
+                .findElements(By.tagName("tr"));
+
         assertTrue(expectedTableBodyValues.length <= rows.size());
         for (int rowIndex = 0; rowIndex < expectedTableBodyValues.length; rowIndex++) {
+            // re-fetch to avoid stale references
+            rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
             verifyTableRowValues(rows.get(rowIndex), expectedTableBodyValues[rowIndex]);
         }
     }
 
     /**
-     * Asserts that all values in the row header of the given table are equal to the expectedRowHeaderValues.
+     * Asserts that all values in the row header of the given table are equal to the
+     * expectedRowHeaderValues.
      */
     protected void verifyTableRowHeaderValues(WebElement table, String[][] expectedTableRowHeaderValues) {
         List<WebElement> rows = table.findElement(By.tagName("thead")).findElements(By.tagName("tr"));
@@ -490,7 +487,8 @@ public abstract class AppPage {
     }
 
     /**
-     * Asserts that all values in the column header of the given table are equal to the expectedTablColumnHeaderValues.
+     * Asserts that all values in the column header of the given table are equal to
+     * the expectedTablColumnHeaderValues.
      */
     protected void verifyTableColumnHeaderValues(WebElement table, String[][] expectedTablColumnHeaderValues) {
         List<WebElement> rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
@@ -501,18 +499,22 @@ public abstract class AppPage {
     }
 
     /**
-     * Asserts that all data values in the given table row are equal to the expectedRowValues.
+     * Asserts that all data values in the given table row are equal to the
+     * expectedRowValues.
      */
     protected void verifyTableRowValues(WebElement row, String[] expectedRowValues) {
         List<WebElement> cells = row.findElements(By.tagName("td"));
         assertTrue(expectedRowValues.length <= cells.size());
+        waitForElementVisibility(cells.get(0));
+
         for (int cellIndex = 0; cellIndex < expectedRowValues.length; cellIndex++) {
             assertEquals(expectedRowValues[cellIndex], cells.get(cellIndex).getText());
         }
     }
 
     /**
-     * Asserts that all header values in the given table row are equal to the expectedRowHeaderValues.
+     * Asserts that all header values in the given table row are equal to the
+     * expectedRowHeaderValues.
      */
     protected void verifyTableHeaderValues(WebElement row, String[] expectedRowHeaderValues) {
         List<WebElement> cells = row.findElements(By.tagName("th"));
@@ -522,13 +524,20 @@ public abstract class AppPage {
         }
     }
 
-    public boolean isBannerVisible() {
+    public boolean isBannerVisible(boolean expectedVisibility) {
+        if (expectedVisibility) {
+            waitForElementPresence(By.className("banner"));
+        } else {
+            waitFor(ExpectedConditions.invisibilityOfElementLocated(By.className("banner")));
+        }
+
         return isElementVisible(By.className("banner"));
     }
 
     /**
      * Clicks the element and clicks 'Yes' in the follow up dialog box.
      * Fails if there is no dialog box.
+     *
      * @return the resulting page.
      */
     public AppPage clickAndConfirm(WebElement elementToClick) {
@@ -538,8 +547,9 @@ public abstract class AppPage {
     }
 
     /**
-     * Returns True if the page contains some basic elements expected in a page of the
-     *         specific type. e.g., the top heading.
+     * Returns True if the page contains some basic elements expected in a page of
+     * the
+     * specific type. e.g., the top heading.
      */
     protected abstract boolean containsExpectedPageContents();
 
@@ -554,12 +564,7 @@ public abstract class AppPage {
      * Returns True if there is a corresponding element for the given id or name.
      */
     public boolean isElementPresent(String elementId) {
-        try {
-            browser.driver.findElement(By.id(elementId));
-            return true;
-        } catch (NoSuchElementException e) {
-            return false;
-        }
+        return isElementPresent(By.id(elementId));
     }
 
     public boolean isElementVisible(By by) {
@@ -572,6 +577,7 @@ public abstract class AppPage {
 
     /**
      * Returns true if the expected condition is evaluated to true immediately.
+     *
      * @see ExpectedConditions
      */
     private boolean isExpectedCondition(ExpectedCondition<?> expectedCondition) {
@@ -588,12 +594,16 @@ public abstract class AppPage {
     }
 
     /**
-     * Clicks a button (can be inside or outside the modal) that dismisses the modal and waits for the modal to be hidden.
-     * The caller must ensure the button is in the modal or a timeout will occur while waiting for the modal to be hidden.
+     * Clicks a button (can be inside or outside the modal) that dismisses the modal
+     * and waits for the modal to be hidden.
+     * The caller must ensure the button is in the modal or a timeout will occur
+     * while waiting for the modal to be hidden.
+     *
      * @param dismissModalButton a button that dismisses the modal
      */
     public void clickDismissModalButtonAndWaitForModalHidden(WebElement dismissModalButton) {
-        // Note: Should first check if the button can actually dismiss the modal otherwise the state will be consistent.
+        // Note: Should first check if the button can actually dismiss the modal
+        // otherwise the state will be consistent.
         // However, it is too difficult to check.
 
         WebElement modalBackdrop = browser.driver.findElement(By.className("modal-backdrop"));
@@ -605,26 +615,43 @@ public abstract class AppPage {
     /**
      * Scrolls element to center and clicks on it.
      *
-     * <p>As compared to {@link org.openqa.selenium.interactions.Actions#moveToElement(WebElement)}, this method is
-     * more reliable as the element will not get blocked by elements such as the header.
+     * <p>
+     * As compared to
+     * {@link org.openqa.selenium.interactions.Actions#moveToElement(WebElement)},
+     * this method is
+     * more reliable as the element will not get blocked by elements such as the
+     * header.
      *
-     * <p>Furthermore, {@link org.openqa.selenium.interactions.Actions#moveToElement(WebElement)} is currently not
+     * <p>
+     * Furthermore,
+     * {@link org.openqa.selenium.interactions.Actions#moveToElement(WebElement)} is
+     * currently not
      * working in Geckodriver.
      *
-     * <p><b>Note:</b> A "scroll into view" Actions primitive is in progress and may allow scrolling element to center.
+     * <p>
+     * <b>Note:</b> A "scroll into view" Actions primitive is in progress and may
+     * allow scrolling element to center.
      * Tracking issue:
-     * <a href="https://github.com/w3c/webdriver/issues/1005">Missing "scroll into view" Actions primitive</a>.
+     * <a href="https://github.com/w3c/webdriver/issues/1005">Missing "scroll into
+     * view" Actions primitive</a>.
      *
-     * <p>Also note that there are some other caveats, for example
-     * {@code new Actions(browser.driver).moveToElement(...).click(...).perform()} does not behave consistently across
+     * <p>
+     * Also note that there are some other caveats, for example
+     * {@code new Actions(browser.driver).moveToElement(...).click(...).perform()}
+     * does not behave consistently across
      * browsers.
      * <ul>
-     * <li>In FirefoxDriver, the element is scrolled to and then a click is attempted on the element.
-     * <li>In ChromeDriver, the mouse is scrolled to the element and then a click is attempted on the mouse coordinate,
-     * which means another element can actually be clicked (such as the header or a blocking pop-up).
+     * <li>In FirefoxDriver, the element is scrolled to and then a click is
+     * attempted on the element.
+     * <li>In ChromeDriver, the mouse is scrolled to the element and then a click is
+     * attempted on the mouse coordinate,
+     * which means another element can actually be clicked (such as the header or a
+     * blocking pop-up).
      * </ul>
      *
-     * <p>ChromeDriver also automatically scrolls to an element when clicking an element if it is not in the viewport.
+     * <p>
+     * ChromeDriver also automatically scrolls to an element when clicking an
+     * element if it is not in the viewport.
      */
     void scrollElementToCenterAndClick(WebElement element) {
         // TODO: migrate to `scrollIntoView` when Geckodriver is adopted
@@ -632,25 +659,26 @@ public abstract class AppPage {
         try {
             element.click();
         } catch (ElementClickInterceptedException e) {
-            // Firefox can still report a header overlap after scrolling even when the element is visible.
+            // Firefox can still report a header overlap after scrolling even when the
+            // element is visible.
             executeScript(
                     "const element = arguments[0];"
-                    + "const rect = element.getBoundingClientRect();"
-                    + "const eventInit = {"
-                    + "  bubbles: true,"
-                    + "  cancelable: true,"
-                    + "  composed: true,"
-                    + "  clientX: rect.left + rect.width / 2,"
-                    + "  clientY: rect.top + rect.height / 2,"
-                    + "  button: 0,"
-                    + "  buttons: 1"
-                    + "};"
-                    + "if (typeof element.focus === 'function') {"
-                    + "  element.focus();"
-                    + "}"
-                    + "['mousedown', 'mouseup', 'click'].forEach("
-                    + "  type => element.dispatchEvent(new MouseEvent(type, eventInit))"
-                    + ");",
+                            + "const rect = element.getBoundingClientRect();"
+                            + "const eventInit = {"
+                            + "  bubbles: true,"
+                            + "  cancelable: true,"
+                            + "  composed: true,"
+                            + "  clientX: rect.left + rect.width / 2,"
+                            + "  clientY: rect.top + rect.height / 2,"
+                            + "  button: 0,"
+                            + "  buttons: 1"
+                            + "};"
+                            + "if (typeof element.focus === 'function') {"
+                            + "  element.focus();"
+                            + "}"
+                            + "['mousedown', 'mouseup', 'click'].forEach("
+                            + "  type => element.dispatchEvent(new MouseEvent(type, eventInit))"
+                            + ");",
                     element);
         }
     }
@@ -660,7 +688,6 @@ public abstract class AppPage {
      */
     void scrollElementToCenter(WebElement element) {
         executeScript(SCROLL_ELEMENT_TO_CENTER_AND_CLICK_SCRIPT, element);
-        ThreadHelper.waitFor(1000);
     }
 
     /**
@@ -668,41 +695,40 @@ public abstract class AppPage {
      */
     public void verifyStatusMessage(String expectedMessage) {
         verifyStatusMessageWithLinks(expectedMessage, new String[] {});
-        closeToast();
+        closeToastsIfPresent();
     }
 
     /**
-     * Asserts message in toast is equal to the expected message and contains the expected links.
+     * Asserts message in toast is equal to the expected message and contains the
+     * expected links.
      */
     public void verifyStatusMessageWithLinks(String expectedMessage, String[] expectedLinks) {
-        WebElement[] statusMessage = new WebElement[1];
-        try {
-            uiRetryManager.runUntilNoRecognizedException(new Retryable("Verify status to user") {
-                @Override
-                public void run() {
-                    statusMessage[0] = waitForElementPresence(By.className("toast-body"));
-                    assertEquals(expectedMessage, statusMessage[0].getText());
-                }
-            }, WebDriverException.class, AssertionError.class);
-        } catch (MaximumRetriesExceededException e) {
-            statusMessage[0] = waitForElementPresence(By.className("toast-body"));
-            assertEquals(expectedMessage, statusMessage[0].getText());
-        } finally {
-            if (expectedLinks.length > 0) {
-                List<WebElement> actualLinks = statusMessage[0].findElements(By.tagName("a"));
-                for (int i = 0; i < expectedLinks.length; i++) {
-                    assertTrue(actualLinks.get(i).getAttribute("href").contains(expectedLinks[i]));
-                }
+        waitFor(ExpectedConditions.textToBePresentInElementLocated(By.className("toast-body"), expectedMessage));
+        WebElement statusMessage = browser.driver.findElement(By.className("toast-body"));
+
+        assertEquals(expectedMessage, statusMessage.getText());
+
+        if (expectedLinks.length > 0) {
+            List<WebElement> actualLinks = statusMessage.findElements(By.tagName("a"));
+            for (int i = 0; i < expectedLinks.length; i++) {
+                assertTrue(actualLinks.get(i).getAttribute("href").contains(expectedLinks[i]));
             }
         }
     }
 
     /**
-     * Closes toast message.
+     * Closes the toast messages if they are present.
      */
-    public void closeToast() {
-        WebElement toastCloseButton = waitForElementPresence(By.className("btn-close"));
-        click(toastCloseButton);
+    public void closeToastsIfPresent() {
+        List<WebElement> closeButtons = browser.driver.findElements(By.cssSelector("[data-testid='toast-close']"));
+        for (WebElement button : closeButtons) {
+            try {
+                executeScript("arguments[0].click();", button);
+            } catch (Exception e) {
+                // Ignore if not clickable
+            }
+        }
+        waitFor(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("[data-testid='toast-close']")));
     }
 
     /**

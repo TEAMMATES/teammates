@@ -453,21 +453,18 @@ public class FeedbackResultsPageSql extends AppPage {
     private WebElement getQuestionResponsesSection(int questionNum) {
         WebElement question = browser.driver.findElement(By.id("question-" + questionNum + "-responses"));
         scrollElementToCenter(question);
-        waitUntilAnimationFinish();
         return browser.driver.findElement(By.id("question-" + questionNum + "-responses"));
     }
 
-    private void showAdditionalInfo(int qnNumber) {
-        WebElement additionalInfoLink = getQuestionResponsesSection(qnNumber)
-                .findElement(By.className("additional-info-button"));
+    private String getAdditionalInfo(int questionNum) {
+        WebElement qnsResponses = getQuestionResponsesSection(questionNum);
+        WebElement additionalInfoLink = qnsResponses.findElement(By.className("additional-info-button"));
         if ("[more]".equals(additionalInfoLink.getText())) {
             click(additionalInfoLink);
-            waitUntilAnimationFinish();
         }
-    }
 
-    private String getAdditionalInfo(int questionNum) {
-        showAdditionalInfo(questionNum);
+        waitFor(driver -> !qnsResponses.findElements(By.className("additional-info")).isEmpty());
+
         return getQuestionResponsesSection(questionNum).findElement(By.className("additional-info")).getText();
     }
 

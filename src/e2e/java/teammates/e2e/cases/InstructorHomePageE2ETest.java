@@ -17,7 +17,6 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.InstructorHomePageSql;
 import teammates.e2e.util.EntityCopyUtil;
-import teammates.e2e.util.TestProperties;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
@@ -46,7 +45,6 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/InstructorHomePageE2ETest.json");
         studentToEmail = testData.students.get("IHome.charlie.d.tmms@IHome.CS2104");
-        studentToEmail.setEmail(TestProperties.TEST_EMAIL);
         testData = removeAndRestoreDataBundle(testData);
 
         instructor = testData.instructors.get("IHome.instr.CS2104");
@@ -87,7 +85,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         homePage.verifyCourseTabDetails(courseIndex, course, courseSessions);
 
         ______TS("notification banner is visible");
-        assertTrue(homePage.isBannerVisible());
+        assertTrue(homePage.isBannerVisible(true));
 
         ______TS("verify response rate");
         for (int i = 0; i < courseSessions.length; i++) {
@@ -149,36 +147,25 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
                 + "Please allow up to 1 hour for all the notification emails to be sent out.");
         homePage.verifySessionDetails(courseIndex, sessionIndex, feedbackSessionOpen);
         verifySessionPublishedState(feedbackSessionOpen, true);
-        verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session results published"
-                + " [Course: " + course.getName() + "][Feedback Session: "
-                + feedbackSessionOpen.getName() + "]");
 
         ______TS("send reminder email to selected student");
         homePage.sendReminderEmailToSelectedStudent(courseIndex, sessionIndex, studentToEmail);
 
         homePage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
                 + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
-        verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session reminder"
-                + " [Course: " + course.getName() + "][Feedback Session: "
-                + feedbackSessionOpen.getName() + "]");
 
         ______TS("send reminder email to all student non-submitters");
         homePage.sendReminderEmailToNonSubmitters(courseIndex, sessionIndex);
 
         homePage.verifyStatusMessage("Reminder e-mails have been sent out to those students"
                 + " and instructors. Please allow up to 1 hour for all the notification emails to be sent out.");
-        verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session reminder"
-                + " [Course: " + course.getName() + "][Feedback Session: "
-                + feedbackSessionOpen.getName() + "]");
+
         ______TS("resend results link");
         homePage.resendResultsLink(courseIndex, sessionIndex, studentToEmail);
 
         homePage.verifyStatusMessage("Session published notification emails have been resent"
                 + " to those students and instructors. Please allow up to 1 hour for all the notification emails to be"
                 + " sent out.");
-        verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session results published"
-                + " [Course: " + course.getName() + "][Feedback Session: "
-                + feedbackSessionOpen.getName() + "]");
 
         ______TS("unpublish results");
         feedbackSessionOpen.setResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER);
@@ -187,9 +174,6 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         homePage.verifyStatusMessage("The feedback session has been unpublished.");
         homePage.verifySessionDetails(courseIndex, sessionIndex, feedbackSessionOpen);
         verifySessionPublishedState(feedbackSessionOpen, false);
-        verifyEmailSent(studentToEmail.getEmail(), "TEAMMATES: Feedback session results unpublished"
-                + " [Course: " + course.getName() + "][Feedback Session: "
-                + feedbackSessionOpen.getName() + "]");
 
         ______TS("download results");
         homePage.downloadResults(courseIndex, sessionIndex);

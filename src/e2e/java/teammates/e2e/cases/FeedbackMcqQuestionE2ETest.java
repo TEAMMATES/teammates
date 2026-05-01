@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
+import teammates.common.util.Const;
 import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -103,20 +104,20 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         feedbackSubmitPage.fillMcqResponse(1, "", response);
         feedbackSubmitPage.clickSubmitQuestionButton(1);
 
-        // verifyPresentInDatabase(response);
+        verifyPresentInDatabase(response);
 
-        // ______TS("check previous response");
-        // feedbackSubmitPage = getFeedbackSubmitPage();
-        // feedbackSubmitPage.verifyMcqResponse(1, "", response);
+        ______TS("check previous response");
+        feedbackSubmitPage = getFeedbackSubmitPage();
+        feedbackSubmitPage.verifyMcqResponse(1, "", response);
 
-        // ______TS("edit response");
-        // response = getResponse(questionId, true, "This is the edited response.");
-        // feedbackSubmitPage.fillMcqResponse(1, "", response);
-        // feedbackSubmitPage.clickSubmitQuestionButton(1);
+        ______TS("edit response");
+        response = getResponse(question, true, "This is the edited response.");
+        feedbackSubmitPage.fillMcqResponse(1, "", response);
+        feedbackSubmitPage.clickSubmitQuestionButton(1);
 
-        // feedbackSubmitPage = getFeedbackSubmitPage();
-        // feedbackSubmitPage.verifyMcqResponse(1, "", response);
-        // verifyPresentInDatabase(response);
+        feedbackSubmitPage = getFeedbackSubmitPage();
+        feedbackSubmitPage.verifyMcqResponse(1, "", response);
+        verifyPresentInDatabase(response);
     }
 
     private List<String> getGeneratedStudentOptions() {
@@ -134,7 +135,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         } else {
             details.setAnswer(answer);
         }
-        return FeedbackResponse.makeResponse(feedbackQuestion, student.getEmail(), null, instructor.getEmail(), null,
-                details);
+        return FeedbackResponse.makeResponse(feedbackQuestion, student.getEmail(), null,
+                Const.GENERAL_QUESTION, null, details);
     }
 }

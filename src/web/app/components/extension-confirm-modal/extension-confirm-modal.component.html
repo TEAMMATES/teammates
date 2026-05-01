@@ -87,10 +87,16 @@
   <div class="modal-footer py-1 px-3">
     <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">No, cancel the Operation</button>
     @if (isExtendModal()) {
-      <button type="button" class="btn btn-success modal-btn-ok" (click)="onConfirm()">Confirm</button>
-    }
-    @if (isDeleteModal() || isSessionDeleteModal()) {
-      <button id="delete-extension-btn" type="button" class="btn btn-danger modal-btn-ok" (click)="onConfirm()">
+      <button
+        data-testid="extension-ok-button"
+        type="button"
+        class="btn btn-success modal-btn-ok"
+        (click)="onConfirm()"
+      >
+        Confirm
+      </button>
+    } @else {
+      <button data-testid="extension-ok-button" type="button" class="btn btn-danger modal-btn-ok" (click)="onConfirm()">
         Delete Extension(s)
       </button>
     }

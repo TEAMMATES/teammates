@@ -101,21 +101,21 @@ public class NotificationsE2ETest extends BaseE2ETestCase {
                 studentAccount.getGoogleId());
 
         ______TS("verify active notification with correct information is shown");
-        assertTrue(homePage.isBannerVisible());
+        assertTrue(homePage.isBannerVisible(true));
 
         ______TS("close notification");
         // After user closes a notification banner, it should not appear till user refreshes page
         homePage.clickCloseNotificationBannerButton();
-        assertFalse(homePage.isBannerVisible());
+        assertFalse(homePage.isBannerVisible(false));
         homePage.reloadPage();
-        assertTrue(homePage.isBannerVisible());
+        assertTrue(homePage.isBannerVisible(true));
 
         ______TS("mark first notification as read - next unread notification should appear immediately");
         String firstNotificationId = homePage.getNotificationId();
         homePage.clickMarkAsReadButton();
 
         homePage.verifyStatusMessage("Notification marked as read.");
-        assertTrue(homePage.isBannerVisible());
+        assertTrue(homePage.isBannerVisible(true));
         String secondNotificationId = homePage.getNotificationId();
         assertNotEquals(firstNotificationId, secondNotificationId);
 
@@ -123,13 +123,9 @@ public class NotificationsE2ETest extends BaseE2ETestCase {
         homePage.clickMarkAsReadButton();
 
         homePage.verifyStatusMessage("Notification marked as read.");
-        if (homePage.isBannerVisible()) {
-            String nextNotificationId = homePage.getNotificationId();
-            assertNotEquals(firstNotificationId, nextNotificationId);
-            assertNotEquals(secondNotificationId, nextNotificationId);
-        } else {
-            assertFalse(homePage.isBannerVisible());
-        }
+        String nextNotificationId = homePage.getNotificationId();
+        assertNotEquals(firstNotificationId, nextNotificationId);
+        assertNotEquals(secondNotificationId, nextNotificationId);
 
         ______TS("verify that the notifications marked as read are reflected in the notifications page");
         AppUrl studentNotificationsPageUrl = createFrontendUrl(Const.WebPageURIs.STUDENT_NOTIFICATIONS_PAGE);

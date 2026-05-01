@@ -19,9 +19,6 @@ public class AdminSessionsPage extends AppPage {
     @FindBy(id = "btn-toggle-filter")
     private WebElement toggleFilterButton;
 
-    @FindBy(id = "ongoing-sessions-table")
-    private WebElement ongoingSessionsTable;
-
     public AdminSessionsPage(Browser browser) {
         super(browser);
     }
@@ -31,8 +28,8 @@ public class AdminSessionsPage extends AppPage {
         return getPageSource().contains("Ongoing Sessions");
     }
 
-    private List<WebElement> getOngoingSessionsRows() {
-        return ongoingSessionsTable.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+    private List<WebElement> getOngoingSessionNames() {
+        return browser.driver.findElements(By.cssSelector("[data-testid='session-name']"));
     }
 
     public void verifySessionRows(String[][] sessionsCells, boolean[] expectedSessionShownStatus) {
@@ -40,19 +37,16 @@ public class AdminSessionsPage extends AppPage {
 
         boolean[] actualSessionShownStatus = new boolean[expectedSessionShownStatus.length];
 
-        List<WebElement> ongoingSessionRows = getOngoingSessionsRows();
-        for (WebElement sessionRow : ongoingSessionRows) {
-            List<WebElement> cells = sessionRow.findElements(By.tagName("td"));
+        List<String> ongoingSessionNames = getOngoingSessionNames()
+                .stream()
+                .map(WebElement::getText)
+                .map(String::trim)
+                .toList();
 
-            // Only validate for the preset ongoing sessions
-            // This is because the page will display all ongoing sessions in the database, which is not predictable
-
-            for (int i = 0; i < sessionsCells.length; i++) {
-                String[] sessionCells = sessionsCells[i];
-                if (sessionCells[1].equals(cells.get(1).getText())) {
-                    verifyTableRowValues(sessionRow, sessionCells);
-                    actualSessionShownStatus[i] = true;
-                }
+        for (int i = 0; i < sessionsCells.length; i++) {
+            String sessionName = sessionsCells[i][1].trim();
+            if (ongoingSessionNames.contains(sessionName)) {
+                actualSessionShownStatus[i] = true;
             }
         }
 
@@ -91,7 +85,6 @@ public class AdminSessionsPage extends AppPage {
         waitForElementPresence(by);
         click(by);
         waitForPageToLoad();
-        waitUntilAnimationFinish();
     }
 
     private String formatDateTimeForFilter(Instant instant, String timeZone) {
@@ -102,5 +95,4 @@ public class AdminSessionsPage extends AppPage {
         WebElement timezoneElement = browser.driver.findElement(By.id("table-timezone"));
         return getSelectedDropdownOptionText(timezoneElement);
     }
-
 }

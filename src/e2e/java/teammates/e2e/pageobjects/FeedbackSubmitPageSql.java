@@ -141,7 +141,7 @@ public class FeedbackSubmitPageSql extends AppPage {
 
     public void verifyNoCommentPresent(int qnNumber, String recipient) {
         int numComments = getCommentSection(qnNumber, recipient).findElements(By.className("comment-text")).size();
-        assertEquals(numComments, 0);
+        assertEquals(0, numComments);
     }
 
     public void verifyTextQuestion(int qnNumber, FeedbackTextQuestionDetails questionDetails) {
@@ -160,9 +160,8 @@ public class FeedbackSubmitPageSql extends AppPage {
         FeedbackTextResponseDetails responseDetails =
                 (FeedbackTextResponseDetails) response.getFeedbackResponseDetailsCopy();
         int responseLength = responseDetails.getAnswer().split(" ").length;
-        assertEquals(getEditorRichText(getTextResponseEditor(qnNumber, recipient)), responseDetails.getAnswer());
-        assertEquals(getResponseLengthText(qnNumber, recipient), "Response length: " + responseLength
-                + " words");
+        assertEquals(responseDetails.getAnswer(), getEditorRichText(getTextResponseEditor(qnNumber, recipient)));
+        assertEquals("Response length: " + responseLength + " words", getResponseLengthText(qnNumber, recipient));
     }
 
     public void verifyMcqQuestion(int qnNumber, String recipient, FeedbackMcqQuestionDetails questionDetails) {
@@ -505,8 +504,7 @@ public class FeedbackSubmitPageSql extends AppPage {
         List<Integer> answers = responseDetails.getAnswers();
         for (int i = 0; i < answers.size(); i++) {
             if (answers.get(i) == Const.POINTS_NOT_SUBMITTED) {
-                assertEquals(getSelectedDropdownOptionText(getRankOptionsDropdowns(qnNumber, recipient).get(i)),
-                        "");
+                assertEquals("", getSelectedDropdownOptionText(getRankOptionsDropdowns(qnNumber, recipient).get(i)));
             } else {
                 assertEquals(getSelectedDropdownOptionText(getRankOptionsDropdowns(qnNumber, recipient).get(i)),
                         Integer.toString(answers.get(i)));
@@ -533,10 +531,10 @@ public class FeedbackSubmitPageSql extends AppPage {
             FeedbackRankRecipientsResponseDetails response =
                     (FeedbackRankRecipientsResponseDetails) responses.get(i).getFeedbackResponseDetailsCopy();
             if (response.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
-                assertEquals(getSelectedDropdownOptionText(recipientDropdowns.get(i)), "");
+                assertEquals("", getSelectedDropdownOptionText(recipientDropdowns.get(i)));
             } else {
-                assertEquals(getSelectedDropdownOptionText(recipientDropdowns.get(i)),
-                        Integer.toString(response.getAnswer()));
+                assertEquals(Integer.toString(response.getAnswer()),
+                        getSelectedDropdownOptionText(recipientDropdowns.get(i)));
             }
         }
     }
@@ -591,7 +589,7 @@ public class FeedbackSubmitPageSql extends AppPage {
         WebElement questionForm = browser.driver.findElement(questionFormId);
         // Scroll to the question to ensure that the details are fully loaded
         scrollElementToCenter(questionForm);
-        waitUntilAnimationFinish();
+        waitForPageToLoad();
         return questionForm;
     }
 
@@ -716,10 +714,21 @@ public class FeedbackSubmitPageSql extends AppPage {
             return 0;
         }
         WebElement questionForm = getQuestionForm(qnNumber);
-        // For questions with flexible recipient.
-        try {
-            List<WebElement> recipientDropdowns =
-                    questionForm.findElements(By.cssSelector("[id^='recipient-dropdown-qn-']"));
+
+        List<WebElement> recipientDropdowns =
+                questionForm.findElements(By.cssSelector("[id^='recipient-dropdown-qn-']"));
+
+        if (recipientDropdowns.isEmpty()) {
+            // For questions with fixed recipients.
+            int limit = 20; // we are not likely to set test data exceeding this number
+            for (int i = 0; i < limit; i++) {
+                if (questionForm.findElement(By.id("recipient-name-qn-" + qnNumber + "-idx-" + i))
+                        .getText().contains(recipient)) {
+                    return i;
+                }
+            }
+        } else {
+            // Flexible recipient questions have dropdowns to select recipients.
             for (int i = 0; i < recipientDropdowns.size(); i++) {
                 String dropdownText = getSelectedDropdownOptionText(recipientDropdowns.get(i));
                 if (dropdownText.isEmpty()) {
@@ -729,16 +738,8 @@ public class FeedbackSubmitPageSql extends AppPage {
                     return i;
                 }
             }
-        } catch (NoSuchElementException e) {
-            // continue
         }
-        int limit = 20; // we are not likely to set test data exceeding this number
-        for (int i = 0; i < limit; i++) {
-            if (questionForm.findElement(By.id("recipient-name-qn-" + qnNumber + "-idx-" + i))
-                    .getText().contains(recipient)) {
-                return i;
-            }
-        }
+
         return -1;
     }
 
@@ -762,6 +763,7 @@ public class FeedbackSubmitPageSql extends AppPage {
     private WebElement getMcqSection(int qnNumber, String recipient) {
         int recipientIndex = getRecipientIndex(qnNumber, recipient);
         WebElement questionForm = getQuestionForm(qnNumber);
+        waitFor(driver -> !questionForm.findElements(By.tagName("tm-mcq-question-edit-answer-form")).isEmpty());
         return questionForm.findElements(By.tagName("tm-mcq-question-edit-answer-form")).get(recipientIndex);
     }
 
@@ -788,6 +790,7 @@ public class FeedbackSubmitPageSql extends AppPage {
     private WebElement getMsqSection(int qnNumber, String recipient) {
         int recipientIndex = getRecipientIndex(qnNumber, recipient);
         WebElement questionForm = getQuestionForm(qnNumber);
+        waitFor(driver -> !questionForm.findElements(By.tagName("tm-msq-question-edit-answer-form")).isEmpty());
         return questionForm.findElements(By.tagName("tm-msq-question-edit-answer-form")).get(recipientIndex);
     }
 
