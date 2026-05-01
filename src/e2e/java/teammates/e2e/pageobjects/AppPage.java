@@ -460,30 +460,19 @@ public abstract class AppPage {
      * expectedTableBodyValues.
      */
     protected void verifyTableBodyValues(WebElement table, String[][] expectedTableBodyValues) {
-        waitForAllRowsDisplayed(table, expectedTableBodyValues.length);
+        WebDriverWait wait = new WebDriverWait(browser.driver, Duration.ofSeconds(TestProperties.TEST_TIMEOUT));
+        wait.until(driver -> 
+            !table.findElement(By.tagName("tbody")).findElements(By.tagName("tr")).isEmpty()
+        );
         List<WebElement> rows = table.findElement(By.tagName("tbody"))
                 .findElements(By.tagName("tr"));
 
         assertTrue(expectedTableBodyValues.length <= rows.size());
         for (int rowIndex = 0; rowIndex < expectedTableBodyValues.length; rowIndex++) {
+            // re-fetch to avoid stale references
+            rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
             verifyTableRowValues(rows.get(rowIndex), expectedTableBodyValues[rowIndex]);
         }
-    }
-
-    private void waitForAllRowsDisplayed(WebElement table, int expectedRowCount) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, Duration.ofSeconds(TestProperties.TEST_TIMEOUT));
-        wait.until(driver -> {
-            List<WebElement> rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
-            if (rows.size() < expectedRowCount) {
-                return false;
-            }
-            for (WebElement row : rows) {
-                if (!row.isDisplayed()) {
-                    return false;
-                }
-            }
-            return true;
-        });
     }
 
     /**
