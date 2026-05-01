@@ -11,8 +11,7 @@ import {
 } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ApiConst } from '../../../types/api-const';
-import { AccountRequestTableRowModel } from '../../components/account-requests-table/account-request-table-model';
-import { AdminAccountSearchTableComponent } from '../../components/admin-search-tables/admin-account-search-table.component';
+import { AdminAccountSearchTableComponent } from './admin-account-search-table/admin-account-search-table.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { AdminInstructorSearchTableComponent } from './admin-instructor-search-table/admin-instructor-search-table.component';
 import { AdminStudentSearchTableComponent } from './admin-student-search-table/admin-student-search-table.component';
@@ -36,7 +35,7 @@ export class AdminSearchPageComponent {
   searchString = '';
   instructors: InstructorAccountSearchResult[] = [];
   students: StudentAccountSearchResult[] = [];
-  accountRequests: AccountRequestTableRowModel[] = [];
+  accountRequests: AccountRequestSearchResult[] = [];
   characterLimit = 100;
 
   isRegeneratingInstructorKeys: boolean[] = [];
@@ -112,14 +111,14 @@ export class AdminSearchPageComponent {
       });
   }
 
-  private formatAccountRequests(accountRequests: AccountRequestSearchResult[]): AccountRequestTableRowModel[] {
-    return accountRequests.map((accountRequest: AccountRequestSearchResult): AccountRequestTableRowModel => {
+  private formatAccountRequests(accountRequests: AccountRequestSearchResult[]): AccountRequestSearchResult[] {
+    return accountRequests.map((accountRequest: AccountRequestSearchResult): AccountRequestSearchResult => {
       return {
         id: accountRequest.id,
         name: accountRequest.name,
         email: accountRequest.email,
         status: accountRequest.status,
-        instituteAndCountry: accountRequest.institute,
+        institute: accountRequest.institute,
         createdAtText: accountRequest.createdAtText,
         registeredAtText: accountRequest.registeredAtText || '',
         comments: accountRequest.comments,
