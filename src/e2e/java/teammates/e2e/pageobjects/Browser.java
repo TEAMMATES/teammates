@@ -168,9 +168,7 @@ public class Browser {
             profile.setPreference("browser.download.dir", downloadPath);
 
             FirefoxOptions options = new FirefoxOptions().setProfile(profile);
-            if (TestProperties.isDevServer()) {
-                options.addArguments("-private");
-            }
+            options.addArguments("-private");
 
             return new FirefoxDriver(options);
         }
@@ -183,9 +181,7 @@ public class Browser {
             options.setExperimentalOption("prefs", chromePrefs);
             options.addArguments("--allow-file-access-from-files");
             options.addArguments("--remote-allow-origins=*");
-            if (TestProperties.isDevServer()) {
-                options.addArguments("incognito");
-            }
+            options.addArguments("incognito");
 
             return new ChromeDriver(options);
         }
@@ -197,9 +193,7 @@ public class Browser {
             EdgeOptions options = new EdgeOptions();
             options.setExperimentalOption("prefs", edgePrefs);
             options.addArguments("--remote-allow-origins=*");
-            if (TestProperties.isDevServer()) {
-                options.addArguments("-inprivate");
-            }
+            options.addArguments("-inprivate");
 
             return new EdgeDriver(options);
         }
