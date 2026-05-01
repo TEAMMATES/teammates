@@ -281,6 +281,16 @@ task execScript(type: JavaExec) {
 // SETUP TASKS
 apply from: 'gradle/seeddb.gradle'
 
+import org.gradle.api.tasks.Internal
+import org.gradle.api.tasks.options.Option
+
+abstract class HeadlessAwareAggregator extends DefaultTask {
+    @Internal boolean headless = false
+
+    @Option(option = 'headless', description = 'Run browsers in headless mode (no visible window).')
+    void setHeadless(boolean v) { headless = v }
+}
+
 task createConfigs {
     description = "Sets up the project by obtaining necessary files and configurations points. " +
             "Use -PproductionConfigs to skip creating build-dev.properties."
@@ -613,7 +623,7 @@ task componentTests(type: Test) {
     dependsOn unitTests, integrationTests
 }
 
-task e2eTests {
+task e2eTests(type: HeadlessAwareAggregator) {
     description = "Runs the E2E test suite and retries failed test up to ${numOfTestRetries} times."
     group = "Test"
 }
@@ -637,6 +647,9 @@ task e2eTests {
         reports.html.required = false
         reports.junitXml.required = false
         jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
+        jvmArgumentProviders.add({
+            e2eTests.headless ? ['-Dtest.browser.headless=true'] : []
+        } as org.gradle.process.CommandLineArgumentProvider)
         testLogging {
             events "passed"
         }
@@ -653,7 +666,7 @@ task e2eTests {
     e2eTests.dependsOn "e2eTestTry${id}"
 }
 
-task axeTests {
+task axeTests(type: HeadlessAwareAggregator) {
     description = "Runs the full accessibility test suite and retries failed tests once."
     group = "Test"
 }
@@ -673,6 +686,9 @@ task axeTests {
         reports.html.required = false
         reports.junitXml.required = false
         jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
+        jvmArgumentProviders.add({
+            axeTests.headless ? ['-Dtest.browser.headless=true'] : []
+        } as org.gradle.process.CommandLineArgumentProvider)
         testLogging {
             events "passed"
         }

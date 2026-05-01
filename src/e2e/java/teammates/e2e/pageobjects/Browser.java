@@ -182,6 +182,9 @@ public class Browser {
             if (TestProperties.isDevServer()) {
                 options.addArguments("-private");
             }
+            if (TestProperties.BROWSER_HEADLESS) {
+                options.addArguments("--headless");
+            }
 
             return new FirefoxDriver(options);
         }
@@ -200,6 +203,9 @@ public class Browser {
             if (TestProperties.isDevServer()) {
                 options.addArguments("incognito");
             }
+            if (TestProperties.BROWSER_HEADLESS) {
+                options.addArguments("--headless=new");
+            }
 
             return new ChromeDriver(options);
         }
@@ -216,6 +222,9 @@ public class Browser {
             options.addArguments("--remote-allow-origins=*");
             if (TestProperties.isDevServer()) {
                 options.addArguments("-inprivate");
+            }
+            if (TestProperties.BROWSER_HEADLESS) {
+                options.addArguments("--headless=new");
             }
 
             return new EdgeDriver(options);
