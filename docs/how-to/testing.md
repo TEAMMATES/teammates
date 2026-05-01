@@ -210,7 +210,6 @@ gradlew.bat serverRun
 2. Configure `src/e2e/resources/test.properties`:
    - Browser to use (`test.selenium.browser`)
    - Server URLs (`test.app.frontend.url`, `test.app.backend.url`)
-   - Path to browser driver executable
 
 <br>
 
