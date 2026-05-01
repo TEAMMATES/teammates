@@ -148,7 +148,7 @@ public class InstructorStudentListPageSql extends AppPage {
         if (targetCourse == null) {
             fail("Course with ID " + course.getId() + " is not found");
         }
-
+        expandCourseTab(targetCourse);
         List<WebElement> studentRows = targetCourse.findElements(By.cssSelector("tbody tr"));
         for (WebElement studentRow : studentRows) {
             List<WebElement> studentCells = studentRow.findElements(By.tagName("td"));
@@ -192,6 +192,12 @@ public class InstructorStudentListPageSql extends AppPage {
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
         return changePageType(InstructorStudentRecordsPageSql.class);
+    }
+
+    private void expandCourseTab(WebElement courseTab) {
+        if (!isElementVisible(By.cssSelector("tbody"))) {
+            click(courseTab.findElement(By.className("card-header")));
+        }
     }
 
 }
