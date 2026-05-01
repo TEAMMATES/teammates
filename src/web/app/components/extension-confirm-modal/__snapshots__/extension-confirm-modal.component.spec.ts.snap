@@ -1177,7 +1177,6 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
       </button>
       <button
         class="btn btn-success modal-btn-ok"
-        data=""
         data-testid="extension-ok-button"
         type="button"
       >
@@ -1558,7 +1557,6 @@ exports[`ExtensionConfirmModalComponent use ngOnInit to initialise 1`] = `
       </button>
       <button
         class="btn btn-success modal-btn-ok"
-        data=""
         data-testid="extension-ok-button"
         type="button"
       >

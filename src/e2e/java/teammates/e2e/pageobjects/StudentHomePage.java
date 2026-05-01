@@ -53,7 +53,6 @@ public class StudentHomePage extends AppPage {
         WebElement markNotifAsReadButton = browser.driver.findElement(By.id("btn-mark-as-read"));
         waitForElementToBeClickable(markNotifAsReadButton);
         click(markNotifAsReadButton);
-        waitForPageToLoad(false);
     }
 
     public String getNotificationId() {
