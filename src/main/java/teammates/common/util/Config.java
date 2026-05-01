@@ -152,6 +152,9 @@ public final class Config {
     /** Value of {@code app.taskqueue.active} (default {@code true} if unset). */
     public static final boolean TASKQUEUE_ACTIVE;
 
+    /** Value of {@code app.taskqueue.service} (default {@code google-cloud-tasks} in production, {@code local} in dev). */
+    public static final String TASKQUEUE_SERVICE;
+
     // Other properties
 
     /** {@code true} when {@link #APP_ENV} is {@code development} (case-insensitive). */
@@ -229,6 +232,8 @@ public final class Config {
                 getProperty(properties, devProperties, "app.enable.devserver.login", "false"));
         TASKQUEUE_ACTIVE = Boolean.parseBoolean(
                 getProperty(properties, devProperties, "app.taskqueue.active", "true"));
+        TASKQUEUE_SERVICE = getProperty(properties, devProperties, "app.taskqueue.service",
+                IS_DEV_SERVER ? "local" : "google-cloud-tasks");
     }
 
     private Config() {

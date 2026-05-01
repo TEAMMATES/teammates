@@ -25,10 +25,16 @@ public class TaskQueuer {
     private final TaskQueueService service;
 
     TaskQueuer() {
-        if (Config.IS_DEV_SERVER) {
+        switch (Config.TASKQUEUE_SERVICE) {
+        case "local":
             service = new LocalTaskQueueService();
-        } else {
+            break;
+        case "google-cloud-tasks":
             service = new GoogleCloudTasksService();
+            break;
+        default:
+            throw new IllegalStateException("Unknown app.taskqueue.service value: " + Config.TASKQUEUE_SERVICE
+                    + ". Acceptable values: local, google-cloud-tasks.");
         }
     }
 
