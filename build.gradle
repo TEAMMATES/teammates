@@ -89,8 +89,8 @@ dependencies {
 
     testImplementation("com.tngtech.archunit:archunit:0.11.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
-    testImplementation("org.seleniumhq.selenium:selenium-java:4.40.0")
-    testImplementation("com.deque.html.axe-core:selenium:4.11.0")
+    testImplementation("org.seleniumhq.selenium:selenium-java:4.43.0")
+    testImplementation("com.deque.html.axe-core:selenium:4.11.2")
     testImplementation(testng)
     testImplementation("org.testcontainers:postgresql:1.21.4")
     testImplementation("org.liquibase:liquibase-core:4.27.0")
