@@ -4,8 +4,6 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.List;
 
-import jakarta.transaction.Transactional;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -50,7 +48,6 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
 
     @Override
     @Test
-    @Transactional
     protected void testExecute() throws InvalidParametersException, EntityAlreadyExistsException {
         Account instructor1 = typicalBundle.accounts.get("unregisteredInstructor1");
         loginAsUnregistered(instructor1.getGoogleId());
