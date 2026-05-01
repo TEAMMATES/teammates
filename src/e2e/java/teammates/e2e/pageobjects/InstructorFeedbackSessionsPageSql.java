@@ -144,7 +144,7 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
 
     public void addFeedbackSession(FeedbackSession newSession, boolean isUsingTemplate) {
         clickAddSessionButton();
-        waitForElementPresence(By.id("session-edit-form"));
+        waitForElementVisibility(By.id("session-edit-form"));
 
         if (isUsingTemplate) {
             selectDropdownOptionByText(sessionTypeDropdown,
@@ -229,16 +229,16 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
     public void sendReminderEmailToSelectedStudent(FeedbackSession session, Student student) {
         int rowId = getFeedbackSessionRowId(session.getCourseId(), session.getName());
 
-        click(browser.driver.findElement(By.className("btn-remind-" + rowId)));
+        click(waitForElementPresence(By.className("btn-remind-" + rowId)));
         click(waitForElementPresence(By.className("btn-remind-selected-" + rowId)));
         selectStudentToEmail(student.getEmail());
-        click(browser.driver.findElement(By.id("btn-confirm-send-reminder")));
+        click(waitForElementPresence(By.id("btn-confirm-send-reminder")));
     }
 
     public void sendReminderEmailToNonSubmitters(FeedbackSession session) {
         int rowId = getFeedbackSessionRowId(session.getCourseId(), session.getName());
 
-        click(browser.driver.findElement(By.className("btn-remind-" + rowId)));
+        click(waitForElementPresence(By.className("btn-remind-" + rowId)));
         click(waitForElementPresence(By.className("btn-remind-all-" + rowId)));
         click(waitForElementPresence(By.id("btn-confirm-send-reminder")));
     }
@@ -280,11 +280,11 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
     }
 
     private WebElement getDeletedSessionsTable() {
-        return waitForElementPresence(By.id("deleted-sessions-table"));
+        return waitForElementVisibility(By.id("deleted-sessions-table"));
     }
 
     private WebElement getSessionsTable() {
-        return waitForElementPresence(By.id("sessions-table"));
+        return waitForElementVisibility(By.id("sessions-table"));
     }
 
     private String[] getSessionDetails(FeedbackSession session) {
@@ -448,7 +448,7 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
     private WebElement clickCopyButtonInTable(String courseId, String sessionName) {
         int rowId = getFeedbackSessionRowId(courseId, sessionName);
         click(browser.driver.findElement(By.className("btn-copy-" + rowId)));
-        return waitForElementPresence(By.id("copy-course-modal"));
+        return waitForElementVisibility(By.id("copy-course-modal"));
     }
 
     private void selectCourseToCopyToInModal(WebElement copyFsModal, String courseToCopyId) {
@@ -463,7 +463,7 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
     }
 
     private void selectStudentToEmail(String studentEmail) {
-        WebElement studentList = waitForElementPresence(By.id("student-list-table"));
+        WebElement studentList = waitForElementVisibility(By.id("student-list-table"));
 
         List<WebElement> rows = studentList.findElements(By.tagName("tr"));
         for (WebElement row : rows) {

@@ -362,7 +362,7 @@ public class AdminSearchPageSql extends AppPage {
                 By.cssSelector(".dropdown-menu.show [id^='reject-request-with-reason']"));
         rejectWithReasonButton.click();
         waitForPageToLoad();
-        waitForElementPresence(By.cssSelector("tm-reject-with-reason-modal"));
+        waitForElementVisibility(By.cssSelector("tm-reject-with-reason-modal"));
     }
 
     public void fillInRejectionModalTitle(String title) {
@@ -399,11 +399,11 @@ public class AdminSearchPageSql extends AppPage {
         scrollElementToCenter(editButton);
         waitForElementToBeClickable(editButton);
         editButton.click();
-        waitForElementPresence(By.cssSelector("tm-edit-request-modal"));
+        waitForElementVisibility(By.cssSelector("tm-edit-request-modal"));
     }
 
     public void fillInEditModalFields(String name, String email, String institute, String comments) {
-        waitForElementPresence(By.cssSelector("tm-edit-request-modal"));
+        waitForElementVisibility(By.cssSelector("tm-edit-request-modal"));
 
         WebElement editModal = browser.driver.findElement(By.cssSelector("tm-edit-request-modal"));
         WebElement nameInput = editModal.findElement(By.cssSelector("[id^='request-name']"));
@@ -424,7 +424,7 @@ public class AdminSearchPageSql extends AppPage {
     }
 
     public void clickSaveEditAccountRequestButton() {
-        waitForElementPresence(By.cssSelector("tm-edit-request-modal"));
+        waitForElementVisibility(By.cssSelector("tm-edit-request-modal"));
         WebElement editModal = browser.driver.findElement(By.cssSelector("tm-edit-request-modal"));
         WebElement saveButton = editModal.findElement(By.cssSelector("[id^='btn-confirm-edit-request']"));
         saveButton.click();

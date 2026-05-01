@@ -167,8 +167,8 @@ public abstract class AppPage {
         waitFor(ExpectedConditions.visibilityOf(element));
     }
 
-    public void waitForElementVisibility(By by) {
-        waitFor(ExpectedConditions.visibilityOfElementLocated(by));
+    public WebElement waitForElementVisibility(By by) {
+        return waitFor(ExpectedConditions.visibilityOfElementLocated(by));
     }
 
     public void waitForElementToBeClickable(WebElement element) {
@@ -505,6 +505,8 @@ public abstract class AppPage {
     protected void verifyTableRowValues(WebElement row, String[] expectedRowValues) {
         List<WebElement> cells = row.findElements(By.tagName("td"));
         assertTrue(expectedRowValues.length <= cells.size());
+        waitForElementVisibility(cells.get(0));
+
         for (int cellIndex = 0; cellIndex < expectedRowValues.length; cellIndex++) {
             assertEquals(expectedRowValues[cellIndex], cells.get(cellIndex).getText());
         }

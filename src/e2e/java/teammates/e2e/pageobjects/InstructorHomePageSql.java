@@ -29,7 +29,7 @@ public class InstructorHomePageSql extends AppPage {
 
     public void verifyCourseTabDetails(int courseTabIndex, Course course, FeedbackSession[] sessions) {
         String expectedDetails = "[" + course.getId() + "]: " + course.getName();
-        assertEquals(getCourseDetails(courseTabIndex), expectedDetails);
+        assertEquals(expectedDetails, getCourseDetails(courseTabIndex));
 
         String[][] expectedValues = new String[sessions.length][5];
         for (int i = 0; i < sessions.length; i++) {
@@ -138,11 +138,12 @@ public class InstructorHomePageSql extends AppPage {
     }
 
     private WebElement getCourseTab(int courseTabIndex) {
-        return browser.driver.findElement(By.id("course-tab-" + courseTabIndex));
+        return waitForElementVisibility(By.id("course-tab-" + courseTabIndex));
     }
 
     private String getCourseDetails(int courseTabIndex) {
         WebElement courseTab = getCourseTab(courseTabIndex);
+        waitFor(driver -> !courseTab.findElement(By.className("course-details")).getText().isEmpty());
         return courseTab.findElement(By.className("course-details")).getText();
     }
 

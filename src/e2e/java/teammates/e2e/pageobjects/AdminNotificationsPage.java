@@ -64,7 +64,7 @@ public class AdminNotificationsPage extends AppPage {
     }
 
     private WebElement getNotificationsTable() {
-        return waitForElementPresence(By.id("notifications-table"));
+        return waitForElementVisibility(By.id("notifications-table"));
     }
 
     public void verifyNotificationsTableRow(Notification notification) {
@@ -74,7 +74,7 @@ public class AdminNotificationsPage extends AppPage {
 
     public void addNotification(Notification notification) {
         clickAddNotificationButton();
-        waitForElementPresence(By.id("btn-create-notification"));
+        waitForElementVisibility(By.id("btn-create-notification"));
 
         fillNotificationForm(notification);
 
@@ -86,7 +86,7 @@ public class AdminNotificationsPage extends AppPage {
         WebElement notificationRow = getNotificationsTable().findElement(By.id(notification.getId().toString()));
         WebElement editButton = notificationRow.findElement(By.className("btn-light"));
         editButton.click();
-        waitForElementPresence(By.id("btn-edit-notification"));
+        waitForElementVisibility(By.id("btn-edit-notification"));
 
         fillNotificationForm(notification);
 

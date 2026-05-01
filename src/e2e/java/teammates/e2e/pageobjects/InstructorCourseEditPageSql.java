@@ -110,6 +110,7 @@ public class InstructorCourseEditPageSql extends AppPage {
     }
 
     public void verifyInstructorDetails(Instructor instructor) {
+        waitForElementPresence(By.tagName("tm-instructor-edit-panel"));
         int instrNum = getIntrNum(instructor.getEmail());
         if (instructor.getGoogleId() != null) {
             assertEquals(instructor.getGoogleId(), getInstructorGoogleId(instrNum));
@@ -259,7 +260,7 @@ public class InstructorCourseEditPageSql extends AppPage {
         }
 
         clickCopyInstructorsButton();
-        WebElement copyInstructorModal = waitForElementPresence(By.id("copy-instructor-modal"));
+        WebElement copyInstructorModal = waitForElementVisibility(By.id("copy-instructor-modal"));
 
         List<WebElement> cards = copyInstructorModal.findElements(By.className("card"));
         for (WebElement card : cards) {
@@ -269,11 +270,12 @@ public class InstructorCourseEditPageSql extends AppPage {
             String courseId = cardHeaderText.substring(1, cardHeaderText.indexOf(']'));
             if (courseInstructorEmailsMap.containsKey(courseId)) {
                 click(cardHeader);
-                WebElement cardBody = waitForElementPresence(By.className("card-body"));
-                // reload instructors
-                WebElement reloadBtn = cardBody.findElement(By.tagName("button"));
+                waitUntilAnimationFinish();
+                WebElement reloadBtn = card.findElement(
+                        By.cssSelector("[data-testid='reload-btn']"));
                 click(reloadBtn);
-                WebElement table = waitForElementPresence(By.id("copy-instructor-table"));
+                waitForPageToLoad();
+                WebElement table = waitForElementVisibility(By.id("copy-instructor-table"));
                 List<WebElement> rows = table.findElements(By.cssSelector("tbody tr"));
                 for (WebElement row : rows) {
                     List<WebElement> cells = row.findElements(By.tagName("td"));

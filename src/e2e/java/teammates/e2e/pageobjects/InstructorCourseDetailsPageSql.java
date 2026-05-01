@@ -74,11 +74,11 @@ public class InstructorCourseDetailsPageSql extends AppPage {
     }
 
     public void remindAllToJoin() {
-        clickAndConfirm(waitForElementPresence(By.id("btn-remind-all")));
+        clickAndConfirm(waitForElementVisibility(By.id("btn-remind-all")));
     }
 
     public void downloadStudentList() {
-        click(waitForElementPresence(By.id("btn-download")));
+        click(waitForElementVisibility(By.id("btn-download")));
     }
 
     public void sortByName() {
@@ -94,7 +94,7 @@ public class InstructorCourseDetailsPageSql extends AppPage {
     }
 
     public void deleteAllStudents() {
-        clickAndConfirm(waitForElementPresence(By.id("btn-delete-all")));
+        clickAndConfirm(waitForElementVisibility(By.id("btn-delete-all")));
     }
 
     private String getExpectedInstructorsString(List<Instructor> instructors) {
