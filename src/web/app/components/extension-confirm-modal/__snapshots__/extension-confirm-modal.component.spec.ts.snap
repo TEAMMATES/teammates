@@ -365,7 +365,7 @@ exports[`ExtensionConfirmModalComponent Test ExtentionModalType.DELETE branch 1`
       </button>
       <button
         class="btn btn-danger modal-btn-ok"
-        id="delete-extension-btn"
+        data-testid="extension-ok-button"
         type="button"
       >
          Delete Extension(s) 
@@ -728,7 +728,7 @@ exports[`ExtensionConfirmModalComponent Test ExtentionModalType.SESSION_DELETE b
       </button>
       <button
         class="btn btn-danger modal-btn-ok"
-        id="delete-extension-btn"
+        data-testid="extension-ok-button"
         type="button"
       >
          Delete Extension(s) 
@@ -1177,9 +1177,11 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
       </button>
       <button
         class="btn btn-success modal-btn-ok"
+        data=""
+        data-testid="extension-ok-button"
         type="button"
       >
-        Confirm
+         Confirm 
       </button>
     </div>
   </fieldset>
@@ -1556,9 +1558,11 @@ exports[`ExtensionConfirmModalComponent use ngOnInit to initialise 1`] = `
       </button>
       <button
         class="btn btn-success modal-btn-ok"
+        data=""
+        data-testid="extension-ok-button"
         type="button"
       >
-        Confirm
+         Confirm 
       </button>
     </div>
   </fieldset>

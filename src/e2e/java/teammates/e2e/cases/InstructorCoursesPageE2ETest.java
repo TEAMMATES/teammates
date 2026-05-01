@@ -31,6 +31,9 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
+        deleteCourseIfExists("tm.e2e.ICs.CS4100");
+        deleteCourseIfExists("tm.e2e.ICs.CS5000");
+        deleteCourseIfExists("tm.e2e.ICs.CS6000");
         testData = loadDataBundle("/InstructorCoursesPageE2ETest.json");
         testData = removeAndRestoreDataBundle(testData);
 

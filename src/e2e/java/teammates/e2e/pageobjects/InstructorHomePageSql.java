@@ -113,29 +113,24 @@ public class InstructorHomePageSql extends AppPage {
     public void deleteSession(int courseTabIndex, int sessionIndex) {
         WebElement courseTab = getCourseTab(courseTabIndex);
         clickAndConfirm(courseTab.findElement(By.className("btn-soft-delete-" + sessionIndex)));
-        waitUntilAnimationFinish();
     }
 
     public void deleteCourse(int courseTabIndex) {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.className("btn-course")));
         clickAndConfirm(browser.driver.findElement(By.cssSelector("body > div > div > .btn-delete-course")));
-        waitUntilAnimationFinish();
     }
 
     public void sortCoursesById() {
         click(browser.driver.findElement(By.id("sort-course-id")));
-        waitUntilAnimationFinish();
     }
 
     public void sortCoursesByName() {
         click(browser.driver.findElement(By.id("sort-course-name")));
-        waitUntilAnimationFinish();
     }
 
     public void sortCoursesByCreationDate() {
         click(browser.driver.findElement(By.id("sort-course-date")));
-        waitUntilAnimationFinish();
     }
 
     private int getNumCourses() {

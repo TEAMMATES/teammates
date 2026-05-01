@@ -83,12 +83,10 @@ public class InstructorCourseDetailsPageSql extends AppPage {
 
     public void sortByName() {
         click(browser.driver.findElement(By.className("sort-by-name")));
-        waitUntilAnimationFinish();
     }
 
     public void sortByStatus() {
         click(browser.driver.findElement(By.className("sort-by-status")));
-        waitUntilAnimationFinish();
     }
 
     public void deleteStudent(String studentEmailAddress) {

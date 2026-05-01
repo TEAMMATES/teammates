@@ -88,7 +88,7 @@ public class AdminSearchPageSql extends AppPage {
 
     public void clickSearchButton() {
         click(searchButton);
-        waitForPageToLoad();
+        waitForPageToLoad(false);
     }
 
     public void regenerateStudentKey(Student student) {
@@ -119,32 +119,32 @@ public class AdminSearchPageSql extends AppPage {
 
     public void clickExpandStudentLinks() {
         click(expandStudentLinksButton);
-        waitForPageToLoad();
+        waitUntilAnimationFinish();
     }
 
     public void clickExpandInstructorLinks() {
         click(expandInstructorLinksButton);
-        waitForPageToLoad();
+        waitUntilAnimationFinish();
     }
 
     public void clickExpandAccountRequestLinks() {
         click(expandAccountRequestLinksButton);
-        waitForPageToLoad();
+        waitUntilAnimationFinish();
     }
 
     public void clickCollapseStudentLinks() {
         click(collapseStudentLinksButton);
-        waitForPageToLoad();
+        waitUntilAnimationFinish();
     }
 
     public void clickCollapseInstructorLinks() {
         click(collapseInstructorLinksButton);
-        waitForPageToLoad();
+        waitUntilAnimationFinish();
     }
 
     public void clickCollapseAccountRequestLinks() {
         click(collapseAccountRequestLinksButton);
-        waitForPageToLoad();
+        waitUntilAnimationFinish();
     }
 
     public String removeSpanFromText(String text) {
@@ -383,7 +383,7 @@ public class AdminSearchPageSql extends AppPage {
         WebElement rejectionModal = browser.driver.findElement(By.cssSelector("tm-reject-with-reason-modal"));
         WebElement clickReject = rejectionModal.findElement(By.cssSelector("[id^='btn-confirm-reject-request']"));
         clickReject.click();
-        waitForPageToLoad();
+        waitForPageToLoad(true);
     }
 
     public void closeRejectionModal() {
@@ -424,10 +424,10 @@ public class AdminSearchPageSql extends AppPage {
     }
 
     public void clickSaveEditAccountRequestButton() {
+        waitForElementPresence(By.cssSelector("tm-edit-request-modal"));
         WebElement editModal = browser.driver.findElement(By.cssSelector("tm-edit-request-modal"));
         WebElement saveButton = editModal.findElement(By.cssSelector("[id^='btn-confirm-edit-request']"));
         saveButton.click();
-        waitForPageToLoad();
     }
 
     public void clickViewAccountRequestAndVerifyCommentsButton(AccountRequest accountRequest, String comments) {
@@ -454,7 +454,6 @@ public class AdminSearchPageSql extends AppPage {
     }
 
     public int getNumExpandedRows(WebElement row) {
-        waitUntilAnimationFinish();
         String xpath = "following-sibling::tr[1]/td/ul/li";
         return (int) row.findElements(By.xpath(xpath))
                             .stream()

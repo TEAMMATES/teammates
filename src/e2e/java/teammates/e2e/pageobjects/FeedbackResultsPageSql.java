@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -15,6 +16,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
@@ -453,21 +455,19 @@ public class FeedbackResultsPageSql extends AppPage {
     private WebElement getQuestionResponsesSection(int questionNum) {
         WebElement question = browser.driver.findElement(By.id("question-" + questionNum + "-responses"));
         scrollElementToCenter(question);
-        waitUntilAnimationFinish();
         return browser.driver.findElement(By.id("question-" + questionNum + "-responses"));
     }
 
-    private void showAdditionalInfo(int qnNumber) {
-        WebElement additionalInfoLink = getQuestionResponsesSection(qnNumber)
-                .findElement(By.className("additional-info-button"));
+    private String getAdditionalInfo(int questionNum) {
+        WebElement qnsResponses = getQuestionResponsesSection(questionNum);
+        WebElement additionalInfoLink = qnsResponses.findElement(By.className("additional-info-button"));
         if ("[more]".equals(additionalInfoLink.getText())) {
             click(additionalInfoLink);
-            waitUntilAnimationFinish();
         }
-    }
 
-    private String getAdditionalInfo(int questionNum) {
-        showAdditionalInfo(questionNum);
+        WebDriverWait wait = new WebDriverWait(browser.driver, Duration.ofSeconds(TestProperties.TEST_TIMEOUT));
+        wait.until(driver -> !qnsResponses.findElements(By.className("additional-info")).isEmpty());
+
         return getQuestionResponsesSection(questionNum).findElement(By.className("additional-info")).getText();
     }
 

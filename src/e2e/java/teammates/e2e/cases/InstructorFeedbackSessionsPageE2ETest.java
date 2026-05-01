@@ -238,11 +238,14 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.verifySessionsTable(sessionsForDelete);
         feedbackSessionsPage.verifyNumSoftDeleted(0);
         verifyAbsentInDatabase(newSession);
+        feedbackSessionsPage.closeToastsIfPresent();
 
         ______TS("restore all session");
         FeedbackSession[] sessionsForRestoreAll = { copiedSession, copiedSession2, openSession, closedSession };
         feedbackSessionsPage.moveToRecycleBin(copiedSession);
+        feedbackSessionsPage.closeToastsIfPresent();
         feedbackSessionsPage.moveToRecycleBin(copiedSession2);
+        feedbackSessionsPage.closeToastsIfPresent();
         feedbackSessionsPage.restoreAllSessions();
 
         feedbackSessionsPage.verifyStatusMessage("All sessions have been restored.");

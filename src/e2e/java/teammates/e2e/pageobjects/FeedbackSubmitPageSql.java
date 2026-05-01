@@ -591,7 +591,6 @@ public class FeedbackSubmitPageSql extends AppPage {
         WebElement questionForm = browser.driver.findElement(questionFormId);
         // Scroll to the question to ensure that the details are fully loaded
         scrollElementToCenter(questionForm);
-        waitUntilAnimationFinish();
         return questionForm;
     }
 
@@ -716,10 +715,13 @@ public class FeedbackSubmitPageSql extends AppPage {
             return 0;
         }
         WebElement questionForm = getQuestionForm(qnNumber);
-        // For questions with flexible recipient.
-        try {
-            List<WebElement> recipientDropdowns =
-                    questionForm.findElements(By.cssSelector("[id^='recipient-dropdown-qn-']"));
+
+
+        List<WebElement> recipientDropdowns =
+                questionForm.findElements(By.cssSelector("[id^='recipient-dropdown-qn-']"));
+
+        if (recipientDropdowns.size() > 0) {
+            // Flexible recipient questions have dropdowns to select recipients.
             for (int i = 0; i < recipientDropdowns.size(); i++) {
                 String dropdownText = getSelectedDropdownOptionText(recipientDropdowns.get(i));
                 if (dropdownText.isEmpty()) {
@@ -729,16 +731,17 @@ public class FeedbackSubmitPageSql extends AppPage {
                     return i;
                 }
             }
-        } catch (NoSuchElementException e) {
-            // continue
-        }
-        int limit = 20; // we are not likely to set test data exceeding this number
-        for (int i = 0; i < limit; i++) {
-            if (questionForm.findElement(By.id("recipient-name-qn-" + qnNumber + "-idx-" + i))
-                    .getText().contains(recipient)) {
-                return i;
+        } else {
+            // For questions with fixed recipients.
+            int limit = 20; // we are not likely to set test data exceeding this number
+            for (int i = 0; i < limit; i++) {
+                if (questionForm.findElement(By.id("recipient-name-qn-" + qnNumber + "-idx-" + i))
+                        .getText().contains(recipient)) {
+                    return i;
+                }
             }
-        }
+        } 
+
         return -1;
     }
 

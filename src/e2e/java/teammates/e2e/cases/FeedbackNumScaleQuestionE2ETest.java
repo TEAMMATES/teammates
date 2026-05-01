@@ -48,7 +48,7 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
         // add new question exactly like loaded question
         loadedQuestion.setQuestionNumber(2);
         feedbackEditPage.addNumScaleQuestion(loadedQuestion);
-        feedbackEditPage.waitUntilAnimationFinish();
+        feedbackEditPage.waitForPageToLoad();
 
         feedbackEditPage.verifyNumScaleQuestionDetails(2, questionDetails);
         verifyPresentInDatabase(loadedQuestion);

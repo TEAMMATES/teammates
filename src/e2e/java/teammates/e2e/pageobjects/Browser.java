@@ -84,7 +84,7 @@ public class Browser {
     }
 
     /**
-     * Waits for the page to load. This includes all AJAX requests and Angular animations in the page.
+     * Waits for the page to load. This includes all AJAX requests in the page.
      *
      * @param excludeToast Set this to true if toast message's disappearance should not be counted
      *         as criteria for page load's completion.

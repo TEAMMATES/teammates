@@ -47,14 +47,13 @@ public class StudentHomePage extends AppPage {
         WebElement closeNotifButton = browser.driver.findElement(By.id("btn-close-notif"));
         waitForElementToBeClickable(closeNotifButton);
         click(closeNotifButton);
-        waitUntilAnimationFinish();
     }
 
     public void clickMarkAsReadButton() {
         WebElement markNotifAsReadButton = browser.driver.findElement(By.id("btn-mark-as-read"));
         waitForElementToBeClickable(markNotifAsReadButton);
         click(markNotifAsReadButton);
-        waitUntilAnimationFinish();
+        waitForPageToLoad(false);
     }
 
     public String getNotificationId() {

@@ -390,6 +390,13 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     }
 
     /**
+     * Deletes a course from the database if it exists.
+     */
+    protected void deleteCourseIfExists(String courseId) {
+        BACKDOOR.deleteCourseIfExists(courseId);
+    }
+
+    /**
      * Gets the feedback sessions of a course from the database.
      */
     protected List<FeedbackSessionData> getFeedbackSessionsForCourse(String courseId) {

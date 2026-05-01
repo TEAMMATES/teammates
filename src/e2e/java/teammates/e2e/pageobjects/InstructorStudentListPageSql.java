@@ -47,7 +47,6 @@ public class InstructorStudentListPageSql extends AppPage {
             if (header.equals(targetHeader)) {
                 click(headerElement);
                 waitForPageToLoad();
-                waitUntilAnimationFinish();
             }
         }
     }
@@ -137,7 +136,6 @@ public class InstructorStudentListPageSql extends AppPage {
 
     public void deleteStudent(Course course, String studentEmail) {
         clickAndConfirm(getDeleteButton(course, studentEmail));
-        waitUntilAnimationFinish();
     }
 
     private WebElement getDeleteButton(Course course, String studentEmail) {

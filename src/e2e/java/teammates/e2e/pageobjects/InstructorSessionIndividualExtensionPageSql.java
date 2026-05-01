@@ -169,22 +169,18 @@ public class InstructorSessionIndividualExtensionPageSql extends AppPage {
 
     public void selectStudent(int index) {
         click(waitForElementPresence(By.id("student-checkbox-" + index)));
-        waitUntilAnimationFinish();
     }
 
     public void selectInstructor(int index) {
         click(waitForElementPresence(By.id("instructor-checkbox-" + index)));
-        waitUntilAnimationFinish();
     }
 
     public void selectAllStudents() {
         click(waitForElementPresence(By.id("select-all-student-btn")));
-        waitUntilAnimationFinish();
     }
 
     public void selectAllInstructors() {
         click(waitForElementPresence(By.id("select-all-instructor-btn")));
-        waitUntilAnimationFinish();
     }
 
     public void deleteDeadlines(boolean notifyUsers) {
@@ -231,16 +227,16 @@ public class InstructorSessionIndividualExtensionPageSql extends AppPage {
     }
 
     private void confirmChangesToDeadlineExtensions(boolean notifyUsers) {
-        waitUntilAnimationFinish();
+        waitForElementPresence(By.id("flexCheckChecked"));
 
         WebElement notifyUsersCheckbox = browser.driver.findElement(By.id("flexCheckChecked"));
         if (notifyUsers) {
             click(notifyUsersCheckbox);
         }
 
-        WebElement okButton = browser.driver.findElement(By.className("modal-btn-ok"));
+        WebElement okButton = browser.driver.findElement(By.cssSelector("[data-testid='extension-ok-button']"));
         clickDismissModalButtonAndWaitForModalHidden(okButton);
-        waitForPageToLoad(true);
+        waitForPageToLoad(false);
     }
 
     private String getTimeString(Instant instant, String timezone) {

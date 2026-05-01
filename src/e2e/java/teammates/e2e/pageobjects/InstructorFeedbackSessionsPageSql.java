@@ -201,7 +201,6 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
     public void moveToRecycleBin(FeedbackSession sessionToDelete) {
         int rowId = getFeedbackSessionRowId(sessionToDelete.getCourseId(), sessionToDelete.getName());
         clickAndConfirm(browser.driver.findElement(By.className("btn-soft-delete-" + rowId)));
-        waitUntilAnimationFinish();
     }
 
     public void restoreSession(FeedbackSession sessionToRestore) {
@@ -209,7 +208,6 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
         int rowId = getSoftDeletedFeedbackSessionRowId(sessionToRestore.getCourseId(),
                 sessionToRestore.getName());
         click(browser.driver.findElement(By.id("btn-restore-" + rowId)));
-        waitUntilAnimationFinish();
     }
 
     public void deleteSession(FeedbackSession sessionToRestore) {
@@ -217,17 +215,14 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
         int rowId = getSoftDeletedFeedbackSessionRowId(sessionToRestore.getCourseId(),
                 sessionToRestore.getName());
         clickAndConfirm(browser.driver.findElement(By.id("btn-delete-" + rowId)));
-        waitUntilAnimationFinish();
     }
 
     public void restoreAllSessions() {
         click(restoreAllButton);
-        waitUntilAnimationFinish();
     }
 
     public void deleteAllSessions() {
         clickAndConfirm(deleteAllButton);
-        waitUntilAnimationFinish();
     }
 
     public void showDeleteTable() {

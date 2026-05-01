@@ -285,7 +285,6 @@ public class InstructorCourseEditPageSql extends AppPage {
             }
         }
         click(browser.driver.findElement(By.id("btn-confirm-copy-instructor")));
-        waitUntilAnimationFinish();
     }
 
     public void verifyCopyInstructorWithExistingEmailNotAllowed(Instructor newInstructor) {
@@ -391,7 +390,6 @@ public class InstructorCourseEditPageSql extends AppPage {
 
     private void clickEditInstructorButton(int instrNum) {
         click(getEditInstructorButton(instrNum));
-        waitUntilAnimationFinish();
     }
 
     private void clickCancelInstructorButton(int instrNum) {

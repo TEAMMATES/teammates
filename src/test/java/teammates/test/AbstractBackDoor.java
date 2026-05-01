@@ -240,6 +240,15 @@ public abstract class AbstractBackDoor {
     }
 
     /**
+     * Deletes a course from the database if it exists.
+     */
+    public void deleteCourseIfExists(String courseId) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.COURSE_ID, courseId);
+        executeDeleteRequest(Const.ResourceURIs.COURSE, params);
+    }
+
+    /**
      * Gets the cookie format for the given user ID.
      */
     public String getUserCookie(String userId) {
