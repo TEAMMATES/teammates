@@ -128,16 +128,6 @@ export class AccountService {
   }
 
   /**
-   * Gets accounts by calling API.
-   */
-  getAccounts(email: string): Observable<Accounts> {
-    const paramMap: Record<string, string> = {
-      useremail: email,
-    };
-    return this.httpRequestService.get(ResourceEndpoints.ACCOUNTS, paramMap);
-  }
-
-  /**
    * Gets account requests by calling API.
    */
   getPendingAccountRequests(): Observable<AccountRequests> {
