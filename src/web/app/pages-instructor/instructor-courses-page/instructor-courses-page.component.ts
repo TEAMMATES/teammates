@@ -169,20 +169,7 @@ export class InstructorCoursesPageComponent implements OnInit {
         resp.courses.forEach((course: Course) => {
           this.allCoursesList.push(course);
           this.activeCoursesList.push(course);
-          let canModifyCourse = false;
-          let canModifyStudent = false;
-          if (course.privileges) {
-            canModifyCourse = course.privileges.canModifyCourse;
-            canModifyStudent = course.privileges.canModifyStudent;
-          }
-          const isLoadingCourseStats = false;
-          const activeCourse: CourseModel = {
-            course,
-            canModifyCourse,
-            canModifyStudent,
-            isLoadingCourseStats,
-          };
-          this.activeCourses.push(activeCourse);
+          this.activeCourses.push(this.buildCourseModel(course));
         });
         this.activeCoursesDefaultSort();
         this.isLoadingActiveCourses = false;
@@ -198,19 +185,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       next: (resp: Courses) => {
         for (const course of resp.courses) {
           this.allCoursesList.push(course);
-          let canModifyCourse = false;
-          let canModifyStudent = false;
-          if (course.privileges) {
-            canModifyCourse = course.privileges.canModifyCourse;
-            canModifyStudent = course.privileges.canModifyStudent;
-          }
-          const isLoadingCourseStats = false;
-          const softDeletedCourse: CourseModel = {
-            course,
-            canModifyCourse,
-            canModifyStudent,
-            isLoadingCourseStats,
-          };
+          const softDeletedCourse: CourseModel = this.buildCourseModel(course);
           this.softDeletedCourses.push(softDeletedCourse);
           this.deletedCoursesDefaultSort();
           if (!softDeletedCourse.canModifyCourse) {
@@ -229,6 +204,18 @@ export class InstructorCoursesPageComponent implements OnInit {
 
     this.courseFormModel.activeCourses = this.activeCoursesList;
     this.courseFormModel.allCourses = this.allCoursesList;
+  }
+
+  /**
+   * Builds a CourseModel from a Course object.
+   */
+  private buildCourseModel(course: Course): CourseModel {
+    return {
+      course,
+      canModifyCourse: course.privileges?.canModifyCourse ?? false,
+      canModifyStudent: course.privileges?.canModifyStudent ?? false,
+      isLoadingCourseStats: false,
+    };
   }
 
   /**
