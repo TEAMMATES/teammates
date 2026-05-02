@@ -5,7 +5,6 @@ import { ResourceEndpoints } from '../types/api-const';
 import {
   Account,
   AccountRequest,
-  Accounts,
   AccountRequests,
   JoinLink,
   MessageOutput,
