@@ -2,7 +2,6 @@ package teammates.common.datatransfer.questions;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
-
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import teammates.common.util.JsonUtils;

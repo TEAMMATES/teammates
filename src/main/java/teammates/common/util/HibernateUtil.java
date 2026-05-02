@@ -14,8 +14,6 @@ import org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.MutationQuery;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
-import teammates.common.util.Logger;
-
 
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
@@ -99,7 +97,6 @@ public final class HibernateUtil {
 
     private static SessionFactory sessionFactory;
 
-
     private HibernateUtil() {
         // Utility class
         // Intentional private constructor to prevent instantiation.
@@ -148,7 +145,6 @@ public final class HibernateUtil {
 
         return sessionFactory;
     }
-
 
     /**
      * Returns the current hibernate session.
@@ -225,7 +221,6 @@ public final class HibernateUtil {
             log.warning("Failed to rollback transaction: " + e.getMessage());
         }
     }
-
 
     /**
      * Commit the current resource transaction, writing any unflushed changes to the database.

@@ -2,13 +2,11 @@ package teammates.common.datatransfer.logs;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-
 /**
  * Contains specific structure and processing logic for instance log.
  */
 @JsonPropertyOrder({ "event", "instanceId", "instanceEvent" })
 public class InstanceLogDetails extends LogDetails {
-
 
     private String instanceId;
     private String instanceEvent;
