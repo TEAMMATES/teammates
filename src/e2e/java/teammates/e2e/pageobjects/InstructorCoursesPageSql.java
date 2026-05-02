@@ -171,12 +171,7 @@ public class InstructorCoursesPageSql extends AppPage {
     }
 
     public void sortByCourseId() {
-        WebElement sortButton = waitForElementPresence(By.id("sort-course-id"));
-        waitForElementToBeClickable(sortButton);
-        click(sortButton);
-        if (!isElementPresent(By.cssSelector("#sort-course-id .fa-sort-up"))) {
-            click(sortButton);
-        }
+        click(waitForElementPresence(By.id("sort-course-id")));
     }
 
     private WebElement getActiveTableRow(String courseId) {
