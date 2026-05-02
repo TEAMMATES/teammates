@@ -109,22 +109,21 @@ public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         feedbackSubmitPage.fillMsqResponse(1, receiver.getName(), response);
         feedbackSubmitPage.clickSubmitQuestionButton(1);
 
-        // TODO: uncomment when SubmitFeedbackResponse is working
-        // verifyPresentInDatabase(response);
+        verifyPresentInDatabase(response);
 
-        // ______TS("check previous response");
-        // feedbackSubmitPage = getFeedbackSubmitPage();
-        // feedbackSubmitPage.verifyMsqResponse(1, receiver.getName(), response);
+        ______TS("check previous response");
+        feedbackSubmitPage = getFeedbackSubmitPage();
+        feedbackSubmitPage.verifyMsqResponse(1, receiver.getName(), response);
 
-        // ______TS("edit response");
-        // answers = Arrays.asList("");
-        // response = getResponse(question, receiver, "", answers);
-        // feedbackSubmitPage.fillMsqResponse(1, receiver.getName(), response);
-        // feedbackSubmitPage.clickSubmitQuestionButton(1);
+        ______TS("edit response");
+        answers = Arrays.asList("");
+        response = getResponse(question, receiver, "", answers);
+        feedbackSubmitPage.fillMsqResponse(1, receiver.getName(), response);
+        feedbackSubmitPage.clickSubmitQuestionButton(1);
 
-        // feedbackSubmitPage = getFeedbackSubmitPage();
-        // feedbackSubmitPage.verifyMsqResponse(1, receiver.getName(), response);
-        // verifyPresentInDatabase(response);
+        feedbackSubmitPage = getFeedbackSubmitPage();
+        feedbackSubmitPage.verifyMsqResponse(1, receiver.getName(), response);
+        verifyPresentInDatabase(response);
     }
 
     private List<String> getGeneratedTeams() {

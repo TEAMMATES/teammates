@@ -159,8 +159,7 @@
                         <b>{{ getRecipientName(recipientSubmissionFormModel.recipientIdentifier) }} </b>
                         <span>({{ model.recipientType | recipientTypeName: model.giverType }})</span>
                       </div>
-                    }
-                    @if (formMode === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT) {
+                    } @else {
                       <div class="row evaluee-select align-items-center">
                         <select
                           id="recipient-dropdown-qn-{{ model.questionNumber }}-idx-{{ i }}"

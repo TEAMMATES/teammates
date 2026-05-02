@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.InstructorCourseStudentDetailsEditPageSql;
-import teammates.e2e.util.TestProperties;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Student;
 import teammates.storage.sqlentity.Team;
@@ -58,14 +57,12 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
         editPage.verifyStatusMessage("Trying to update to an email that is already in use");
 
         ______TS("edit email and resend links");
-        String newEmail = TestProperties.TEST_EMAIL;
+        String newEmail = "new.email@gmail.tmt";
         student.setEmail(newEmail);
         student.setGoogleId(null);
         editPage.editStudentEmailAndResendLinks(newEmail);
 
         editPage.verifyStatusMessage("Student has been updated and email sent");
         verifyPresentInDatabase(student);
-        verifyEmailSent(newEmail, "TEAMMATES: Summary of course ["
-                + course.getName() + "][Course ID: " + course.getId() + "]");
     }
 }

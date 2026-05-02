@@ -38,15 +38,6 @@ public class InstructorCoursesPageSql extends AppPage {
     @FindBy(id = "time-zone")
     private WebElement timeZoneDropdown;
 
-    @FindBy(id = "copy-course-id")
-    private WebElement copyCourseIdTextBox;
-
-    @FindBy(id = "copy-course-name")
-    private WebElement copyCourseNameTextBox;
-
-    @FindBy(id = "copy-time-zone")
-    private WebElement copyTimeZoneDropdown;
-
     @FindBy(id = "btn-submit-course")
     private WebElement submitButton;
 
@@ -84,7 +75,6 @@ public class InstructorCoursesPageSql extends AppPage {
 
     public void verifyDeletedCoursesDetails(Course[] courses) {
         showDeleteTable();
-        this.waitUntilAnimationFinish();
         String[][] courseDetails = getDeletedCourseDetails(courses);
         for (int i = 0; i < courses.length; i++) {
             // use verifyTableRowValues as deleted courses are not sorted
@@ -125,68 +115,55 @@ public class InstructorCoursesPageSql extends AppPage {
     }
 
     public void showStatistics(String courseId) {
-        try {
-            click(getShowStatisticsLink(courseId));
-            waitForPageToLoad();
-        } catch (NoSuchElementException e) {
-            // Do nothing
-        }
+        click(getShowStatisticsLink(courseId));
+        waitForPageToLoad();
     }
 
     public void copyCourse(String courseId, Course newCourse) {
         WebElement otherActionButton = getOtherActionsButton(courseId);
         click(otherActionButton);
         click(getCopyButton(courseId));
-        waitForPageToLoad();
+        waitForPageToLoad(true);
 
+        WebElement copyCourseIdTextBox = waitForElementPresence(By.id("copy-course-id"));
         fillTextBox(copyCourseIdTextBox, newCourse.getId());
+        WebElement copyCourseNameTextBox = waitForElementPresence(By.id("copy-course-name"));
         fillTextBox(copyCourseNameTextBox, newCourse.getName());
         selectCopyTimeZone(newCourse.getTimeZone());
         click(copyCourseButton);
-
-        waitUntilAnimationFinish();
     }
 
     public void moveCourseToRecycleBin(String courseId) {
         WebElement otherActionButton = getOtherActionsButton(courseId);
         click(otherActionButton);
         clickAndConfirm(getMoveToRecycleBinButton(courseId));
-
-        waitUntilAnimationFinish();
     }
 
     public void showDeleteTable() {
         if (!isElementVisible(By.id("deleted-course-id-0"))) {
             click(By.id("deleted-table-heading"));
+            waitUntilAnimationFinish();
         }
     }
 
     public void restoreCourse(String courseId) {
         WebElement restoreButton = getRestoreButton(courseId);
         click(restoreButton);
-
-        waitUntilAnimationFinish();
     }
 
     public void deleteCourse(String courseId) {
         WebElement deleteButton = getDeleteButton(courseId);
         clickAndConfirm(deleteButton);
-
-        waitUntilAnimationFinish();
     }
 
     public void restoreAllCourses() {
         WebElement restoreAllButton = getRestoreAllButton();
         click(restoreAllButton);
-
-        waitUntilAnimationFinish();
     }
 
     public void deleteAllCourses() {
         WebElement deleteAllButton = getDeleteAllButton();
         clickAndConfirm(deleteAllButton);
-
-        waitUntilAnimationFinish();
     }
 
     public void sortByCourseName() {
@@ -252,6 +229,7 @@ public class InstructorCoursesPageSql extends AppPage {
     }
 
     private void selectCopyTimeZone(String timeZone) {
+        WebElement copyTimeZoneDropdown = waitForElementPresence(By.id("copy-time-zone"));
         scrollElementToCenter(copyTimeZoneDropdown);
         Select dropdown = new Select(copyTimeZoneDropdown);
         dropdown.selectByValue(timeZone);

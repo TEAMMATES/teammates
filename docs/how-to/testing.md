@@ -210,61 +210,6 @@ gradlew.bat serverRun
 2. Configure `src/e2e/resources/test.properties`:
    - Browser to use (`test.selenium.browser`)
    - Server URLs (`test.app.frontend.url`, `test.app.backend.url`)
-   - Path to browser driver executable
-   - Test account credentials
-
-3. Download the appropriate browser driver (see below).
-
-### Configuring Browsers
-
-<panel header="#### Using Firefox" no-close>
-
-- You need to use **geckodriver** for testing with Firefox.
-  - Download the latest stable geckodriver from [GitHub Releases](https://github.com/mozilla/geckodriver/releases). The site will inform which versions of Firefox can be used with the driver.
-  - Specify the path to the geckodriver executable in `test.geckodriver.path` in `test.properties`.
-
-- If you want to use a Firefox version other than your computer’s default, specify its path in `test.firefox.path`value in `test.properties`.
-
-- **Handling dangling processes:**  
-  If a test leaves Firefox open (e.g., due to failure), kill any leftover processes manually:
-  - Windows: `taskkill /f /im geckodriver.exe`
-  - macOS: `sudo killall geckodriver`
-
-</panel>
-
-<panel header="#### Using Chrome" no-close>
-
-- You need to use **chromedriver** for testing with Chrome.
-  - Check your Chrome version (`chrome://settings/help`).
-  - **For Chrome 115 and later (most users)**: Download from the [Chrome for Testing Dashboard](https://googlechromelabs.github.io/chrome-for-testing/).  
-    Select your Chrome version and OS, then download **`chromedriver`** (not `chrome` or `chrome-headless-shell`).
-  - **For Chrome 114 and earlier:** use the [old ChromeDriver downloads page](https://chromedriver.storage.googleapis.com/index.html).
-  - Specify the path to the **chromedriver executable** (not just its folder) in `test.chromedriver.path`.
-
-- **Mac users:**  
-  If chromedriver is blocked as “unverified software,” go to **System Preferences → Security & Privacy → General** and click **“Allow Anyway”**,  
-  or run `xattr -d com.apple.quarantine /path/to/chromedriver`.
-
-- **Handling dangling processes:**  
-  If a test leaves Chrome open, kill leftover processes manually:
-  - Windows: `taskkill /f /im chromedriver.exe`
-  - macOS: `sudo killall chromedriver`
-
-</panel>
-
-<panel header="#### Using Edge" no-close>
-
-Only modern **Edge (Chromium-based)** is supported.
-
-- You need to use **edgedriver** for testing with Edge.
-  - Download the version matching your Edge installation from the [Microsoft WebDriver site](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/).
-  - Specify the path to the edgedriver executable in `test.edgedriver.path`.
-
-- **Handling dangling processes:**
-  - Windows: `taskkill /f /im msedgedriver.exe`
-  - macOS: `sudo killall msedgedriver`
-
-</panel>
 
 <br>
 
@@ -294,15 +239,6 @@ Only modern **Edge (Chromium-based)** is supported.
 </tabs>
 
 Some tests may fail intermittently due to timing issues — rerun them until they pass.
-
-### Testing Against a Production Server
-
-1. Edit `src/e2e/resources/test.properties` as instructed in its comments. You will need a legitimate Gmail account for testing.
-2. If testing email sending, set up the Gmail API:
-   - [Obtain Gmail API credentials](https://github.com/TEAMMATES/teammates-ops/blob/master/platform-guide.md#setting-up-gmail-api-credentials) and download them.
-   - Copy the file to `src/e2e/resources/gmail-api/client_secret.json`.
-   - Run `EmailAccountTest` to confirm the setup works.
-3. Run the full test suite or any subset as you would on the dev server.
 
 ### Writing E2E Tests
 

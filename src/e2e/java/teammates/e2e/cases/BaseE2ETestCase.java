@@ -20,7 +20,6 @@ import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.Browser;
 import teammates.e2e.pageobjects.HomePage;
 import teammates.e2e.util.BackDoor;
-import teammates.e2e.util.EmailAccount;
 import teammates.e2e.util.TestProperties;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.BaseEntity;
@@ -222,33 +221,6 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     }
 
     /**
-     * Verifies that email with subject is found in inbox.
-     * Email used must be an authentic gmail account.
-     */
-    protected void verifyEmailSent(String email, String subject) {
-        if (TestProperties.isDevServer() || !TestProperties.INCLUDE_EMAIL_VERIFICATION) {
-            return;
-        }
-        if (!TestProperties.TEST_EMAIL.equals(email)) {
-            fail("Email verification is allowed only on preset test email.");
-        }
-        EmailAccount emailAccount = new EmailAccount(email);
-        try {
-            emailAccount.getUserAuthenticated();
-            int retryLimit = 5;
-            boolean actual = emailAccount.isRecentEmailWithSubjectPresent(subject, TestProperties.TEST_SENDER_EMAIL);
-            while (!actual && retryLimit > 0) {
-                retryLimit--;
-                ThreadHelper.waitFor(1000);
-                actual = emailAccount.isRecentEmailWithSubjectPresent(subject, TestProperties.TEST_SENDER_EMAIL);
-            }
-            assertTrue(actual);
-        } catch (Exception e) {
-            fail("Failed to verify email sent:" + e);
-        }
-    }
-
-    /**
      * Verifies that two entities are equal.
      */
     protected void verifyEquals(BaseEntity expected, ApiOutput actual) {
@@ -415,6 +387,13 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
         } else {
             throw new RuntimeException("Unknown entity type");
         }
+    }
+
+    /**
+     * Deletes a course from the database if it exists.
+     */
+    protected void deleteCourseIfExists(String courseId) {
+        BACKDOOR.deleteCourseIfExists(courseId);
     }
 
     /**

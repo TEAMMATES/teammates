@@ -86,21 +86,20 @@ public class FeedbackTextQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         feedbackSubmitPage.fillTextResponse(1, receiver.getName(), response);
         feedbackSubmitPage.clickSubmitQuestionButton(1);
 
-        // TODO: uncomment when SubmitFeedbackResponse is working
-        // verifyPresentInDatabase(response);
+        verifyPresentInDatabase(response);
 
-        // ______TS("check previous response");
-        // feedbackSubmitPage = getFeedbackSubmitPage();
-        // feedbackSubmitPage.verifyTextResponse(1, receiver.getName(), response);
+        ______TS("check previous response");
+        feedbackSubmitPage = getFeedbackSubmitPage();
+        feedbackSubmitPage.verifyTextResponse(1, receiver.getName(), response);
 
-        // ______TS("edit response");
-        // FeedbackResponse editedResponse = getResponse(question, receiver, "<p><strong>Edited response</strong></p>");
-        // feedbackSubmitPage.fillTextResponse(1, receiver.getName(), editedResponse);
-        // feedbackSubmitPage.clickSubmitQuestionButton(1);
+        ______TS("edit response");
+        FeedbackResponse editedResponse = getResponse(question, receiver, "<p><strong>Edited response</strong></p>");
+        feedbackSubmitPage.fillTextResponse(1, receiver.getName(), editedResponse);
+        feedbackSubmitPage.clickSubmitQuestionButton(1);
 
-        // feedbackSubmitPage = getFeedbackSubmitPage();
-        // feedbackSubmitPage.verifyTextResponse(1, receiver.getName(), response);
-        // verifyPresentInDatabase(editedResponse);
+        feedbackSubmitPage = getFeedbackSubmitPage();
+        feedbackSubmitPage.verifyTextResponse(1, receiver.getName(), editedResponse);
+        verifyPresentInDatabase(editedResponse);
     }
 
     private FeedbackResponse getResponse(FeedbackQuestion feedbackQuestion, Instructor instructor, String answer) {
