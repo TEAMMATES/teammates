@@ -1225,6 +1225,14 @@ public class Logic {
     }
 
     /**
+     * Returns active unread notifications for the specified {@code targetUsers} and {@code accountId}.
+     */
+    public List<Notification> getUnreadActiveNotificationsByTargetUser(
+            List<NotificationTargetUser> targetUsers, UUID accountId, Instant now) {
+        return notificationsLogic.getUnreadActiveNotificationsByTargetUser(targetUsers, accountId, now);
+    }
+
+    /**
      * Gets all questions for a feedback session.<br>
      * Returns an empty list if they are no questions
      * for the session.
