@@ -128,4 +128,17 @@ describe('AdminStudentSearchTableComponent', () => {
     button.click();
     expect(component.students[0].showLinks).toEqual(true);
   });
+
+  it('should hide student links when collapse all button clicked', () => {
+    const studentResult: StudentAccountSearchResult = {
+      ...DEFAULT_STUDENT_SEARCH_RESULT,
+      showLinks: true,
+    };
+    component.students = [studentResult];
+    fixture.detectChanges();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#hide-student-links');
+    button.click();
+    expect(component.students[0].showLinks).toEqual(false);
+  });
 });

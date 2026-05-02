@@ -221,7 +221,8 @@ public final class JsonUtils {
      */
     private static final class CustomPrettyPrinter extends DefaultPrettyPrinter {
         CustomPrettyPrinter() {
-            indentArraysWith(DefaultIndenter.SYSTEM_LINEFEED_INSTANCE);
+            _objectIndenter = new DefaultIndenter("  ", "\n");
+            _arrayIndenter = new DefaultIndenter("  ", "\n");
         }
 
         @Override

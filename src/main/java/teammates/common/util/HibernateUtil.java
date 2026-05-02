@@ -14,6 +14,8 @@ import org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.MutationQuery;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
+import teammates.common.util.Logger;
+
 
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.AccountRequest;
@@ -93,7 +95,10 @@ public final class HibernateUtil {
             FeedbackResponseComment.class,
             FeedbackSessionLog.class);
 
+    private static final Logger log = Logger.getLogger();
+
     private static SessionFactory sessionFactory;
+
 
     private HibernateUtil() {
         // Utility class
@@ -137,10 +142,13 @@ public final class HibernateUtil {
      * Returns the SessionFactory.
      */
     private static SessionFactory getSessionFactory() {
-        assert sessionFactory != null;
+        if (sessionFactory == null) {
+            throw new IllegalStateException("SessionFactory is not initialized.");
+        }
 
         return sessionFactory;
     }
+
 
     /**
      * Returns the current hibernate session.
@@ -200,12 +208,24 @@ public final class HibernateUtil {
      * @see Transaction#rollback()
      */
     public static void rollbackTransaction() {
-        Session session = getCurrentSession();
-        if (session.getTransaction().getStatus() == TransactionStatus.ACTIVE
-                || session.getTransaction().getStatus() == TransactionStatus.MARKED_ROLLBACK) {
-            session.getTransaction().rollback();
+        if (sessionFactory == null || sessionFactory.isClosed()) {
+            return;
+        }
+        try {
+            Session session = getCurrentSession();
+            Transaction transaction = session.getTransaction();
+            if (transaction == null) {
+                return;
+            }
+            TransactionStatus status = transaction.getStatus();
+            if (status == TransactionStatus.ACTIVE || status == TransactionStatus.MARKED_ROLLBACK) {
+                transaction.rollback();
+            }
+        } catch (Exception e) {
+            log.warning("Failed to rollback transaction: " + e.getMessage());
         }
     }
+
 
     /**
      * Commit the current resource transaction, writing any unflushed changes to the database.
@@ -290,4 +310,20 @@ public final class HibernateUtil {
     public static <T> T getReference(Class<T> entityType, Object id) {
         return getCurrentSession().getReference(entityType, id);
     }
+
+    /**
+     * Closes the SessionFactory and nullifies it.
+     */
+    public static void tearDown() {
+        try {
+            if (sessionFactory != null && !sessionFactory.isClosed()) {
+                sessionFactory.close();
+            }
+        } catch (Exception e) {
+            log.severe("Error during teardown", e);
+        } finally {
+            sessionFactory = null;
+        }
+    }
 }
+

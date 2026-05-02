@@ -97,6 +97,20 @@ describe('AdminAccountSearchTableComponent', () => {
     expect(component.accountRequests[0].showLinks).toEqual(true);
   });
 
+  it('should hide account request links when collapse all button clicked', () => {
+    const accountRequestResult: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST.build();
+    accountRequestResult.status = AccountRequestStatus.APPROVED;
+    accountRequestResult.registrationLink = 'registrationLink';
+    accountRequestResult.showLinks = true;
+    component.accountRequests = [accountRequestResult];
+    component.searchString = 'test';
+    fixture.detectChanges();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#hide-account-request-links');
+    button.click();
+    expect(component.accountRequests[0].showLinks).toEqual(false);
+  });
+
   it('should display account requests with no reset or expand links button', () => {
     const accountRequestResults: AccountRequestSearchResult[] = [
       DEFAULT_ACCOUNT_REQUEST.build(),

@@ -1,6 +1,8 @@
 package teammates.common.datatransfer.questions;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import teammates.common.util.JsonUtils;
@@ -31,6 +33,7 @@ import teammates.common.util.JsonUtils;
         @JsonSubTypes.Type(value = FeedbackRankOptionsResponseDetails.class, name = "RANK_OPTIONS"),
         @JsonSubTypes.Type(value = FeedbackRankRecipientsResponseDetails.class, name = "RANK_RECIPIENTS")
 })
+@JsonPropertyOrder({ "questionType", "answer" })
 public abstract class FeedbackResponseDetails {
     private FeedbackQuestionType questionType;
 

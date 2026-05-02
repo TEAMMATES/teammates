@@ -15,6 +15,25 @@ const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
   },
 };
 
+const DEFAULT_INSTRUCTOR_SEARCH_RESULT: InstructorAccountSearchResult = {
+  userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
+  name: 'name',
+  email: 'email',
+  googleId: 'googleId',
+  courseId: 'courseId',
+  courseName: 'courseName',
+  isCourseDeleted: false,
+  institute: 'institute',
+  courseJoinLink: 'courseJoinLink',
+  homePageLink: 'homePageLink',
+  manageAccountLink: 'manageAccountLink',
+  showLinks: false,
+  awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+  openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+  notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+  publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+};
+
 describe('AdminInstructorSearchTableComponent', () => {
   let component: AdminInstructorSearchTableComponent;
   let fixture: ComponentFixture<AdminInstructorSearchTableComponent>;
@@ -89,29 +108,25 @@ describe('AdminInstructorSearchTableComponent', () => {
   });
 
   it('should show instructor links when expand all button clicked', () => {
-    const instructorResult: InstructorAccountSearchResult = {
-      userId: '81c1aaee-24f6-46f4-a8c2-2bac0e287eb4',
-      name: 'name',
-      email: 'email',
-      googleId: 'googleId',
-      courseId: 'courseId',
-      courseName: 'courseName',
-      isCourseDeleted: false,
-      institute: 'institute',
-      courseJoinLink: 'courseJoinLink',
-      homePageLink: 'homePageLink',
-      manageAccountLink: 'manageAccountLink',
-      showLinks: false,
-      awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-    };
+    const instructorResult: InstructorAccountSearchResult = DEFAULT_INSTRUCTOR_SEARCH_RESULT;
     component.instructors = [instructorResult];
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#show-instructor-links');
     button.click();
     expect(component.instructors[0].showLinks).toEqual(true);
+  });
+
+  it('should hide instructor links when collapse all button clicked', () => {
+    const instructorResult: InstructorAccountSearchResult = {
+      ...DEFAULT_INSTRUCTOR_SEARCH_RESULT,
+      showLinks: true,
+    };
+    component.instructors = [instructorResult];
+    fixture.detectChanges();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#hide-instructor-links');
+    button.click();
+    expect(component.instructors[0].showLinks).toEqual(false);
   });
 });
