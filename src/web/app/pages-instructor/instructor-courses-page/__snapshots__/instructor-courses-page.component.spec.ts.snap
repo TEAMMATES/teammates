@@ -23,8 +23,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isCopyingCourse="false"
-  isLoadingActiveCourses={[Function Boolean]}
-  isLoadingSoftDeletedCourses={[Function Boolean]}
+  isLoadingCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
@@ -3290,8 +3289,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isCopyingCourse="false"
-  isLoadingActiveCourses="false"
-  isLoadingSoftDeletedCourses={[Function Boolean]}
+  isLoadingCourses="false"
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
@@ -3311,7 +3309,6 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   <div>
     <button
       class="btn btn-success"
-      disabled=""
       id="btn-add-course"
     >
       <i
@@ -6784,21 +6781,236 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
         />
          Deleted courses
       </h2>
-      <tm-loading-spinner>
+      <div>
         <div
-          class="loading-container"
+          class="card bg-light top-padded"
         >
           <div
-            class="row spinner-border text-primary"
-            role="status"
-          />
-          <div
-            class="row text-secondary"
+            class="card-header bg-secondary text-white cursor-pointer"
+            id="deleted-table-heading"
           >
-            Loading...
+            <b>
+              Recycle Bin
+            </b>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <button
+                class="btn btn-secondary btn-sm disabled"
+              >
+                <i
+                  aria-hidden="true"
+                  class="fas fa-check"
+                />
+                 Restore All 
+              </button>
+              <button
+                class="btn btn-secondary btn-sm disabled"
+              >
+                <i
+                  aria-hidden="true"
+                  class="fas fa-times"
+                />
+                 Delete All 
+              </button>
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="false"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
+                >
+                  <i
+                    class="fas fa-chevron-down"
+                    style="color: white;"
+                  />
+                </button>
+              </tm-panel-chevron>
+            </div>
+          </div>
+          <div
+            class="card-body recycle-bin-body table-responsive collapse"
+          >
+            <table
+              class="table table-responsive-lg table-striped table-bordered recycle-bin-table"
+              id="deleted-courses-table"
+            >
+              <thead>
+                <tr
+                  class="background-color-medium-gray text-color-gray"
+                >
+                  <th
+                    aria-sort="none"
+                    class="sortable-header"
+                  >
+                    <button>
+                       Course ID 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="ascending"
+                    class="sortable-header"
+                  >
+                    <button>
+                       Course Name 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                        <i
+                          class="fas fa-sort-up"
+                        />
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="none"
+                    class="sortable-header"
+                  >
+                    <button>
+                       Creation Date 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="none"
+                    class="sortable-header"
+                  >
+                    <button>
+                       Deletion Date 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    class="text-center"
+                  >
+                    Action(s)
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td
+                    class="text-break"
+                    id="deleted-course-id-0"
+                  >
+                    CS1020
+                  </td>
+                  <td
+                    class="text-break"
+                  >
+                    Can modify deleted
+                  </td>
+                  <td>
+                    <span
+                      class="ngb-tooltip-class"
+                      container="body"
+                    >
+                       5 Nov 2002 
+                    </span>
+                  </td>
+                  <td>
+                    <span
+                      class="ngb-tooltip-class"
+                      container="body"
+                    >
+                       5 Nov 2003 
+                    </span>
+                  </td>
+                  <td
+                    class="text-center actions-cell"
+                  >
+                    <button
+                      class="btn btn-light btn-sm"
+                      id="btn-restore-0"
+                      ngbtooltip="Restore the deleted course and its corresponding students and sessions"
+                    >
+                       Restore 
+                    </button>
+                    <button
+                      class="btn btn-light btn-sm text-danger"
+                      id="btn-delete-0"
+                      ngbtooltip="Permanently delete the course and its corresponding students and sessions"
+                    >
+                       Delete Permanently 
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="text-break"
+                    id="deleted-course-id-1"
+                  >
+                    CS2010
+                  </td>
+                  <td
+                    class="text-break"
+                  >
+                    Cannot modify deleted
+                  </td>
+                  <td>
+                    <span
+                      class="ngb-tooltip-class"
+                      container="body"
+                    >
+                       5 Dec 2002 
+                    </span>
+                  </td>
+                  <td>
+                    <span
+                      class="ngb-tooltip-class"
+                      container="body"
+                    >
+                       5 Dec 2003 
+                    </span>
+                  </td>
+                  <td
+                    class="text-center actions-cell"
+                  >
+                    <button
+                      class="btn btn-light btn-sm disabled"
+                      id="btn-restore-disabled-1"
+                    >
+                      Restore
+                    </button>
+                    <button
+                      class="btn btn-light btn-sm disabled text-danger"
+                      id="btn-delete-disabled-1"
+                    >
+                       Delete Permanently 
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
-      </tm-loading-spinner>
+      </div>
     </div>
   </div>
 </tm-instructor-courses-page>
@@ -6827,8 +7039,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded={[Function Boolean]}
   isCopyingCourse="false"
-  isLoadingActiveCourses="false"
-  isLoadingSoftDeletedCourses="false"
+  isLoadingCourses="false"
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
@@ -10081,8 +10292,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isCopyingCourse="false"
-  isLoadingActiveCourses="false"
-  isLoadingSoftDeletedCourses={[Function Boolean]}
+  isLoadingCourses="false"
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
@@ -10102,7 +10312,6 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   <div>
     <button
       class="btn btn-success"
-      disabled=""
       id="btn-add-course"
     >
       <i
@@ -13575,21 +13784,240 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
         />
          Deleted courses
       </h2>
-      <tm-loading-spinner>
+      <div>
         <div
-          class="loading-container"
+          class="card bg-light top-padded"
         >
           <div
-            class="row spinner-border text-primary"
-            role="status"
-          />
-          <div
-            class="row text-secondary"
+            class="card-header bg-secondary text-white cursor-pointer"
+            id="deleted-table-heading"
           >
-            Loading...
+            <b>
+              Recycle Bin
+            </b>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <button
+                class="btn btn-secondary btn-sm"
+                id="btn-restore-all"
+                ngbtooltip="Restore all deleted courses and their corresponding students and sessions"
+              >
+                <i
+                  aria-hidden="true"
+                  class="fas fa-check"
+                />
+                 Restore All 
+              </button>
+              <button
+                class="btn btn-secondary btn-sm"
+                id="btn-delete-all"
+                ngbtooltip="Permanently delete all courses and their corresponding students and sessions"
+              >
+                <i
+                  aria-hidden="true"
+                  class="fas fa-times"
+                />
+                 Delete All 
+              </button>
+              <tm-panel-chevron>
+                <button
+                  aria-expanded="false"
+                  aria-label="Expand panel"
+                  class="chevron btn-course btn btn-primary btn-sm"
+                  type="button"
+                >
+                  <i
+                    class="fas fa-chevron-down"
+                    style="color: white;"
+                  />
+                </button>
+              </tm-panel-chevron>
+            </div>
+          </div>
+          <div
+            class="card-body recycle-bin-body table-responsive collapse"
+          >
+            <table
+              class="table table-responsive-lg table-striped table-bordered recycle-bin-table"
+              id="deleted-courses-table"
+            >
+              <thead>
+                <tr
+                  class="background-color-medium-gray text-color-gray"
+                >
+                  <th
+                    aria-sort="none"
+                    class="sortable-header"
+                  >
+                    <button>
+                       Course ID 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="ascending"
+                    class="sortable-header"
+                  >
+                    <button>
+                       Course Name 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                        <i
+                          class="fas fa-sort-up"
+                        />
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="none"
+                    class="sortable-header"
+                  >
+                    <button>
+                       Creation Date 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    aria-sort="none"
+                    class="sortable-header"
+                  >
+                    <button>
+                       Deletion Date 
+                      <span
+                        aria-hidden="true"
+                        class="fa-stack"
+                      >
+                        <i
+                          class="fas fa-sort"
+                        />
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    class="text-center"
+                  >
+                    Action(s)
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td
+                    class="text-break"
+                    id="deleted-course-id-0"
+                  >
+                    CS1020
+                  </td>
+                  <td
+                    class="text-break"
+                  >
+                    Can modify deleted
+                  </td>
+                  <td>
+                    <span
+                      class="ngb-tooltip-class"
+                      container="body"
+                    >
+                       5 Nov 2002 
+                    </span>
+                  </td>
+                  <td>
+                    <span
+                      class="ngb-tooltip-class"
+                      container="body"
+                    >
+                       5 Nov 2003 
+                    </span>
+                  </td>
+                  <td
+                    class="text-center actions-cell"
+                  >
+                    <button
+                      class="btn btn-light btn-sm"
+                      id="btn-restore-0"
+                      ngbtooltip="Restore the deleted course and its corresponding students and sessions"
+                    >
+                       Restore 
+                    </button>
+                    <button
+                      class="btn btn-light btn-sm text-danger"
+                      id="btn-delete-0"
+                      ngbtooltip="Permanently delete the course and its corresponding students and sessions"
+                    >
+                       Delete Permanently 
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    class="text-break"
+                    id="deleted-course-id-1"
+                  >
+                    CS2010
+                  </td>
+                  <td
+                    class="text-break"
+                  >
+                    Cannot modify deleted
+                  </td>
+                  <td>
+                    <span
+                      class="ngb-tooltip-class"
+                      container="body"
+                    >
+                       5 Dec 2002 
+                    </span>
+                  </td>
+                  <td>
+                    <span
+                      class="ngb-tooltip-class"
+                      container="body"
+                    >
+                       5 Dec 2003 
+                    </span>
+                  </td>
+                  <td
+                    class="text-center actions-cell"
+                  >
+                    <button
+                      class="btn btn-light btn-sm disabled"
+                      id="btn-restore-disabled-1"
+                    >
+                      Restore
+                    </button>
+                    <button
+                      class="btn btn-light btn-sm disabled text-danger"
+                      id="btn-delete-disabled-1"
+                    >
+                       Delete Permanently 
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
-      </tm-loading-spinner>
+      </div>
     </div>
   </div>
 </tm-instructor-courses-page>
@@ -13618,8 +14046,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isCopyingCourse="false"
-  isLoadingActiveCourses={[Function Boolean]}
-  isLoadingSoftDeletedCourses={[Function Boolean]}
+  isLoadingCourses={[Function Boolean]}
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
@@ -16885,8 +17312,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isCopyingCourse="false"
-  isLoadingActiveCourses="false"
-  isLoadingSoftDeletedCourses={[Function Boolean]}
+  isLoadingCourses="false"
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
@@ -16906,7 +17332,6 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   <div>
     <button
       class="btn btn-success"
-      disabled=""
       id="btn-add-course"
     >
       <i
@@ -20413,21 +20838,14 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
         />
          Deleted courses
       </h2>
-      <tm-loading-spinner>
+      <div>
         <div
-          class="loading-container"
+          class="alert alert-warning margin-top-30px"
+          role="alert"
         >
-          <div
-            class="row spinner-border text-primary"
-            role="status"
-          />
-          <div
-            class="row text-secondary"
-          >
-            Loading...
-          </div>
+          There are no courses in the bin.
         </div>
-      </tm-loading-spinner>
+      </div>
     </div>
   </div>
 </tm-instructor-courses-page>

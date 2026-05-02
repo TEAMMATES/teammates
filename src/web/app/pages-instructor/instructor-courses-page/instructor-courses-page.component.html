@@ -35,7 +35,7 @@
 >
   <div class="course-section">
     <h2 class="h3">Active courses</h2>
-    <div *tmIsLoading="isLoadingActiveCourses">
+    <div *tmIsLoading="isLoadingCourses">
       <ng-template #addCourseAlert>
         <div class="alert alert-warning margin-top-30px" role="alert">
           You do not seem to have any active courses. Use the button above to create a new course.
@@ -314,7 +314,7 @@
 <div class="row course-section margin-top-30px">
   <div class="col-12">
     <h2 class="h3 text-muted"><span class="fa fa-trash-alt" aria-hidden="true"></span> Deleted courses</h2>
-    <div *tmIsLoading="isLoadingSoftDeletedCourses">
+    <div *tmIsLoading="isLoadingCourses">
       <ng-template #emptyBinAlert>
         <div class="alert alert-warning margin-top-30px" role="alert">There are no courses in the bin.</div>
       </ng-template>

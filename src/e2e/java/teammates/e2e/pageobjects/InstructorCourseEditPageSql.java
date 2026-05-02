@@ -13,14 +13,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.StaleElementReferenceException;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Instructor;
-import teammates.test.ThreadHelper;
 
 /**
  * Represents the instructor course edit page of the website.
@@ -213,9 +211,9 @@ public class InstructorCourseEditPageSql extends AppPage {
 
     public void verifyAddInstructorNotAllowed() {
         clickAddNewInstructorButton();
-        clickSaveInstructorButton(getNumInstructors());
+        clickSaveInstructorButton(getNumInstructors() + 1);
         verifyStatusMessage("You are not authorized to access this resource.");
-        clickCancelInstructorButton(getNumInstructors());
+        clickCancelInstructorButton(getNumInstructors() + 1);
     }
 
     public void verifyCopyInstructorsNotAllowed() {
@@ -239,7 +237,7 @@ public class InstructorCourseEditPageSql extends AppPage {
 
     public void addInstructor(Instructor newInstructor) {
         clickAddNewInstructorButton();
-        int instructorIndex = getNumInstructors();
+        int instructorIndex = getNumInstructors() + 1;
 
         fillTextBox(getNameField(instructorIndex), newInstructor.getName());
         fillTextBox(getEmailField(instructorIndex), newInstructor.getEmail());
@@ -365,16 +363,8 @@ public class InstructorCourseEditPageSql extends AppPage {
     }
 
     private int getNumInstructors() {
-        return (int) browser.driver.findElements(By.cssSelector(".card-header"))
-                .stream()
-                .filter(e -> {
-                    try {
-                        return e.isDisplayed();
-                    } catch (StaleElementReferenceException ex) {
-                        return false;
-                    }
-                })
-                .count() - 1;
+        waitForElementPresence(By.tagName("tm-instructor-edit-panel"));
+        return browser.driver.findElements(By.tagName("tm-instructor-edit-panel")).size() - 1;
     }
 
     // Methods for clicking buttons and links
@@ -411,7 +401,7 @@ public class InstructorCourseEditPageSql extends AppPage {
 
     private void clickSaveInstructorButton(int instrNum) {
         click(getSaveInstructorButton(instrNum));
-        ThreadHelper.waitFor(1000);
+        waitForPageToLoad();
     }
 
     private void clickAddSectionPrivilegeLink(int instrNum) {

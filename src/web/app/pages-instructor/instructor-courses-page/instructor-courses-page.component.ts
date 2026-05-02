@@ -103,8 +103,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   SortOrder: typeof SortOrder = SortOrder;
   CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
 
-  isLoadingActiveCourses = false;
-  isLoadingSoftDeletedCourses = false;
+  isLoadingCourses = false;
   hasLoadingFailed = false;
   isRecycleBinExpanded = false;
   canDeleteAll = true;
@@ -117,10 +116,6 @@ export class InstructorCoursesPageComponent implements OnInit {
   numberOfSessionsCopied = 0;
 
   modifiedSessions: Record<string, TweakedTimestampData> = {};
-
-  get isLoadingCourses(): boolean {
-    return this.isLoadingActiveCourses || this.isLoadingSoftDeletedCourses;
-  }
 
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
 
@@ -158,15 +153,18 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   loadInstructorCourses(): void {
     this.hasLoadingFailed = false;
-    this.isLoadingActiveCourses = true;
-    this.isLoadingSoftDeletedCourses = true;
+    this.isLoadingCourses = true;
     this.activeCourses = [];
     this.softDeletedCourses = [];
     this.activeCoursesList = [];
     this.allCoursesList = [];
-    this.courseService.getAllCoursesAsInstructor('active').subscribe({
-      next: (resp: Courses) => {
-        resp.courses.forEach((course: Course) => {
+
+    forkJoin({
+      activeCourses: this.courseService.getAllCoursesAsInstructor('active'),
+      softDeletedCourses: this.courseService.getAllCoursesAsInstructor('softDeleted'),
+    }).subscribe({
+      next: ({ activeCourses, softDeletedCourses }: { activeCourses: Courses; softDeletedCourses: Courses }) => {
+        activeCourses.courses.forEach((course: Course) => {
           this.allCoursesList.push(course);
           this.activeCoursesList.push(course);
           let canModifyCourse = false;
@@ -185,18 +183,8 @@ export class InstructorCoursesPageComponent implements OnInit {
           this.activeCourses.push(activeCourse);
         });
         this.activeCoursesDefaultSort();
-        this.isLoadingActiveCourses = false;
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.isLoadingActiveCourses = false;
-        this.hasLoadingFailed = true;
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
 
-    this.courseService.getAllCoursesAsInstructor('softDeleted').subscribe({
-      next: (resp: Courses) => {
-        for (const course of resp.courses) {
+        softDeletedCourses.courses.forEach((course: Course) => {
           this.allCoursesList.push(course);
           let canModifyCourse = false;
           let canModifyStudent = false;
@@ -217,18 +205,26 @@ export class InstructorCoursesPageComponent implements OnInit {
             this.canDeleteAll = false;
             this.canRestoreAll = false;
           }
+        });
+
+        this.isLoadingCourses = false;
+
+        this.courseFormModel.activeCourses = this.activeCoursesList;
+        this.courseFormModel.allCourses = this.allCoursesList;
+        this.courseFormModel.institutes = Array.from(
+          new Set(this.allCoursesList.map((course: Course) => course.institute)),
+        );
+
+        if (this.courseFormModel.institutes.length) {
+          this.courseFormModel.course.institute = this.courseFormModel.institutes[0];
         }
-        this.isLoadingSoftDeletedCourses = false;
       },
       error: (resp: ErrorMessageOutput) => {
-        this.isLoadingSoftDeletedCourses = false;
+        this.isLoadingCourses = false;
         this.hasLoadingFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
       },
     });
-
-    this.courseFormModel.activeCourses = this.activeCoursesList;
-    this.courseFormModel.allCourses = this.allCoursesList;
   }
 
   /**
