@@ -1225,14 +1225,11 @@ public class Logic {
     }
 
     /**
-     * Returns active unread notifications for the specified {@code targetUser} and account.
-     *
-     * <p>Performs a single optimized database query that excludes notifications already
-     * read by the account with the given {@code accountId}.</p>
+     * Returns active unread notifications for the specified {@code targetUsers} and {@code accountId}.
      */
     public List<Notification> getUnreadActiveNotificationsByTargetUser(
-            NotificationTargetUser targetUser, UUID accountId) {
-        return notificationsLogic.getUnreadActiveNotificationsByTargetUser(targetUser, accountId);
+            List<NotificationTargetUser> targetUsers, UUID accountId, Instant now) {
+        return notificationsLogic.getUnreadActiveNotificationsByTargetUser(targetUsers, accountId, now);
     }
 
     /**

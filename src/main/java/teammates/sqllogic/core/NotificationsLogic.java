@@ -133,17 +133,13 @@ public final class NotificationsLogic {
     }
 
     /**
-     * Gets a list of active notifications that have not been read by the account with {@code accountId}.
-     *
-     * <p>Performs a single optimized query at the database level to exclude already-read notifications.</p>
-     *
-     * @return a list of unread active notifications for the specified {@code targetUser} and {@code accountId}.
+     * Returns active unread notifications for the specified {@code targetUsers} and {@code accountId}.
      */
     public List<Notification> getUnreadActiveNotificationsByTargetUser(
-            NotificationTargetUser targetUser, UUID accountId) {
-        assert targetUser != null;
+            List<NotificationTargetUser> targetUsers, UUID accountId, Instant now) {
+        assert targetUsers != null;
         assert accountId != null;
-        return notificationsDb.getUnreadActiveNotificationsByTargetUser(targetUser, accountId);
+        return notificationsDb.getUnreadActiveNotificationsByTargetUser(targetUsers, accountId, now);
     }
 
     /**

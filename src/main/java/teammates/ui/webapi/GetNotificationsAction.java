@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import java.time.Instant;
 import java.util.List;
 
 import org.apache.http.HttpStatus;
@@ -72,14 +73,13 @@ public class GetNotificationsAction extends Action {
             return new JsonResult(new NotificationsData(notifications));
         }
 
-        // Optimized: single query at the database level to exclude already-read notifications,
-        // avoiding the overhead of separate queries and in-memory filtering.
         Account account = sqlLogic.getAccountForGoogleId(userInfo.getId());
         if (account == null) {
             // This should not happen as the user is authenticated
             return new JsonResult("Account not found", HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
-        notifications = sqlLogic.getUnreadActiveNotificationsByTargetUser(targetUser, account.getId());
+        notifications = sqlLogic.getUnreadActiveNotificationsByTargetUser(
+                List.of(targetUser, NotificationTargetUser.GENERAL), account.getId(), Instant.now());
 
         if (userInfo.isAdmin) {
             return new JsonResult(new NotificationsData(notifications));

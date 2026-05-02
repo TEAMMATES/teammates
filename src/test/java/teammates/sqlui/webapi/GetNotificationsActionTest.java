@@ -209,7 +209,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
             testUnreadNotifications.add(getTypicalNotificationWithId());
         }
 
-        when(mockLogic.getUnreadActiveNotificationsByTargetUser(any(), any()))
+        when(mockLogic.getUnreadActiveNotificationsByTargetUser(any(), any(), any()))
                 .thenReturn(testUnreadNotifications);
 
         String[] requestParams = new String[] {
@@ -223,8 +223,10 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         NotificationsData output = (NotificationsData) jsonResult.getOutput();
         List<NotificationData> notifications = output.getNotifications();
 
-        // should only return unread notifications
-        assertEquals(UNREAD_NOTIFICATION_COUNT, notifications.size());
+        assertEquals(testUnreadNotifications.size(), notifications.size());
+        for (int i = 0; i < testUnreadNotifications.size(); i++) {
+            verifyNotificationEquals(new NotificationData(testUnreadNotifications.get(i)), notifications.get(i));
+        }
 
         // should update notification shown attribute for non-admin users
         testUnreadNotifications.forEach(n -> assertTrue(n.isShown()));
@@ -240,7 +242,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
             testUnreadNotifications.add(getTypicalNotificationWithId());
         }
 
-        when(mockLogic.getUnreadActiveNotificationsByTargetUser(any(), any()))
+        when(mockLogic.getUnreadActiveNotificationsByTargetUser(any(), any(), any()))
                 .thenReturn(testUnreadNotifications);
 
         String[] requestParams = new String[] {
@@ -253,8 +255,10 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         NotificationsData output = (NotificationsData) jsonResult.getOutput();
         List<NotificationData> notifications = output.getNotifications();
 
-        // should return only unread notifications
-        assertEquals(UNREAD_NOTIFICATION_COUNT, notifications.size());
+        assertEquals(testUnreadNotifications.size(), notifications.size());
+        for (int i = 0; i < testUnreadNotifications.size(); i++) {
+            verifyNotificationEquals(new NotificationData(testUnreadNotifications.get(i)), notifications.get(i));
+        }
     }
 
     @Test
