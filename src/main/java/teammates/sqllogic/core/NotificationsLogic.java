@@ -133,6 +133,16 @@ public final class NotificationsLogic {
     }
 
     /**
+     * Returns active unread notifications for the specified {@code targetUsers} and {@code accountId}.
+     */
+    public List<Notification> getUnreadActiveNotificationsByTargetUser(
+            List<NotificationTargetUser> targetUsers, UUID accountId, Instant now) {
+        assert targetUsers != null;
+        assert accountId != null;
+        return notificationsDb.getUnreadActiveNotificationsByTargetUser(targetUsers, accountId, now);
+    }
+
+    /**
      * Gets a list of notifications that have been read by the account with {@code accountId}.
      */
     public List<ReadNotification> getReadNotificationsByAccountId(UUID accountId) {
