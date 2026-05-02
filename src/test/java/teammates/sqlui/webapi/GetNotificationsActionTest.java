@@ -1,12 +1,10 @@
 package teammates.sqlui.webapi;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -205,28 +203,13 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
     public void testExecute_withFalseIsFetchingAll_shouldUpdateShownAndReturnUnreadNotifications() {
         loginAsInstructor(GOOGLE_ID);
 
-        List<Notification> testAllNotifications = new ArrayList<>();
         List<Notification> testUnreadNotifications = new ArrayList<>();
-        Set<UUID> readNotificationsId;
 
         for (int i = 0; i < UNREAD_NOTIFICATION_COUNT; i++) {
             testUnreadNotifications.add(getTypicalNotificationWithId());
         }
 
-        for (int i = 0; i < READ_NOTIFICATION_COUNT; i++) {
-            Notification readNotification = getTypicalNotificationWithId();
-            readNotification.setShown();
-            testAllNotifications.add(readNotification);
-        }
-
-        readNotificationsId = testAllNotifications.stream()
-                .map(Notification::getId)
-                .collect(Collectors.toSet());
-
-        testAllNotifications.addAll(testUnreadNotifications);
-
-        when(mockLogic.getAllNotifications()).thenReturn(testAllNotifications);
-        when(mockLogic.getActiveNotificationsByTargetUser(NotificationTargetUser.INSTRUCTOR))
+        when(mockLogic.getUnreadActiveNotificationsByTargetUser(any(), any()))
                 .thenReturn(testUnreadNotifications);
 
         String[] requestParams = new String[] {
@@ -239,36 +222,25 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
         NotificationsData output = (NotificationsData) jsonResult.getOutput();
         List<NotificationData> notifications = output.getNotifications();
-        verifyDoesNotContainNotifications(notifications, readNotificationsId);
 
-        // should update notification has shown attribute
-        List<Notification> activeNotifications =
-                mockLogic.getActiveNotificationsByTargetUser(NotificationTargetUser.INSTRUCTOR);
-        activeNotifications = activeNotifications.stream()
-                .filter(n -> !readNotificationsId.contains(n.getId()))
-                .toList();
-        activeNotifications.forEach(n -> assertTrue(n.isShown()));
+        // should only return unread notifications
+        assertEquals(UNREAD_NOTIFICATION_COUNT, notifications.size());
+
+        // should update notification shown attribute for non-admin users
+        testUnreadNotifications.forEach(n -> assertTrue(n.isShown()));
     }
 
     @Test
     public void testExecute_withoutIsFetchingAll_shouldUpdateShownAndReturnUnreadNotifications() {
-        List<Notification> testAllNotifications = new ArrayList<>();
         List<Notification> testUnreadNotifications = new ArrayList<>();
-        Set<UUID> readNotificationsId;
 
         loginAsInstructor(GOOGLE_ID);
 
-        for (int i = 0; i < READ_NOTIFICATION_COUNT; i++) {
-            Notification readNotification = getTypicalNotificationWithId();
-            readNotification.setShown();
-            testAllNotifications.add(readNotification);
+        for (int i = 0; i < UNREAD_NOTIFICATION_COUNT; i++) {
+            testUnreadNotifications.add(getTypicalNotificationWithId());
         }
 
-        readNotificationsId = testAllNotifications.stream()
-                .map(Notification::getId)
-                .collect(Collectors.toSet());
-
-        when(mockLogic.getActiveNotificationsByTargetUser(NotificationTargetUser.INSTRUCTOR))
+        when(mockLogic.getUnreadActiveNotificationsByTargetUser(any(), any()))
                 .thenReturn(testUnreadNotifications);
 
         String[] requestParams = new String[] {
@@ -280,7 +252,9 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
 
         NotificationsData output = (NotificationsData) jsonResult.getOutput();
         List<NotificationData> notifications = output.getNotifications();
-        verifyDoesNotContainNotifications(notifications, readNotificationsId);
+
+        // should return only unread notifications
+        assertEquals(UNREAD_NOTIFICATION_COUNT, notifications.size());
     }
 
     @Test
@@ -303,11 +277,5 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         assertEquals(expected.getMessage(), actual.getMessage());
         assertEquals(expected.getStartTimestamp(), actual.getStartTimestamp());
         assertEquals(expected.getEndTimestamp(), actual.getEndTimestamp());
-    }
-
-    private void verifyDoesNotContainNotifications(List<NotificationData> notifications, Set<UUID> readIds) {
-        for (NotificationData n : notifications) {
-            assertFalse(readIds.contains(n.getNotificationId()));
-        }
     }
 }

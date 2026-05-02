@@ -1,9 +1,6 @@
 package teammates.ui.webapi;
 
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.apache.http.HttpStatus;
 
@@ -53,19 +50,18 @@ public class GetNotificationsAction extends Action {
             // if request is from admin and targetUser is not specified, retrieve all notifications
             notifications = sqlLogic.getAllNotifications();
             return new JsonResult(new NotificationsData(notifications));
-        } else {
-            // retrieve active notification for specified target user
-            String targetUserErrorMessage = FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUserString);
-            if (!targetUserErrorMessage.isEmpty()) {
-                throw new InvalidHttpParameterException(targetUserErrorMessage);
-            }
-            NotificationTargetUser targetUser = NotificationTargetUser.valueOf(targetUserString);
-            if (targetUser == NotificationTargetUser.GENERAL) {
-                throw new InvalidHttpParameterException(INVALID_TARGET_USER);
-            }
-            notifications =
-                    sqlLogic.getActiveNotificationsByTargetUser(targetUser);
         }
+
+        // retrieve active notification for specified target user
+        String targetUserErrorMessage = FieldValidator.getInvalidityInfoForNotificationTargetUser(targetUserString);
+        if (!targetUserErrorMessage.isEmpty()) {
+            throw new InvalidHttpParameterException(targetUserErrorMessage);
+        }
+        NotificationTargetUser targetUser = NotificationTargetUser.valueOf(targetUserString);
+        if (targetUser == NotificationTargetUser.GENERAL) {
+            throw new InvalidHttpParameterException(INVALID_TARGET_USER);
+        }
+        notifications = sqlLogic.getActiveNotificationsByTargetUser(targetUser);
 
         boolean isFetchingAll = false;
         if (getRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL) != null) {
@@ -76,21 +72,14 @@ public class GetNotificationsAction extends Action {
             return new JsonResult(new NotificationsData(notifications));
         }
 
-        // Filter unread notifications
-        // TODO: This should be a single query to the database instead of fetching all notifications and filtering in memory
+        // Optimized: single query at the database level to exclude already-read notifications,
+        // avoiding the overhead of separate queries and in-memory filtering.
         Account account = sqlLogic.getAccountForGoogleId(userInfo.getId());
         if (account == null) {
             // This should not happen as the user is authenticated
             return new JsonResult("Account not found", HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
-        Set<UUID> readNotifications = sqlLogic.getReadNotificationsByAccountId(account.getId())
-                .stream()
-                .map(n -> n.getNotification().getId())
-                .collect(Collectors.toSet());
-        notifications = notifications
-                .stream()
-                .filter(n -> !readNotifications.contains(n.getId()))
-                .toList();
+        notifications = sqlLogic.getUnreadActiveNotificationsByTargetUser(targetUser, account.getId());
 
         if (userInfo.isAdmin) {
             return new JsonResult(new NotificationsData(notifications));
