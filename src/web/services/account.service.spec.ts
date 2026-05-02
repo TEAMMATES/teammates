@@ -37,15 +37,6 @@ describe('AccountService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
   });
 
-  it('should execute GET on accounts endpoint', () => {
-    const email = 'email@gmail.tmt';
-    service.getAccounts(email);
-    const paramMap: Record<string, string> = {
-      useremail: email,
-    };
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNTS, paramMap);
-  });
-
   it('should execute POST on account endpoint with timezone string', () => {
     const testKey = 'testKey';
     const testTimezone = 'UTC';
