@@ -58,6 +58,9 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
       </div>
     </div>
   </tm-loading-spinner><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -135,6 +138,9 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
       </div>
     </div>
   </tm-loading-spinner><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -252,6 +258,9 @@ exports[`InstructorHomePageComponent should snap with one course with error load
       </div>
     </div>
   </div><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div>
       <div>
         <div
@@ -268,12 +277,13 @@ exports[`InstructorHomePageComponent should snap with one course with error load
             </b>
           </div>
           <div
-            class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="card-body padding-0 table-responsive collapse show"
           >
             <tm-loading-retry>
-              <tm-loading-spinner
-                style=""
-              >
+              <div
+                aria-hidden="true"
+              />
+              <tm-loading-spinner>
                 <div
                   class="loading-container"
                 >
@@ -395,6 +405,9 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
       </div>
     </div>
   </div><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div>
       <div>
         <div
@@ -555,12 +568,14 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
             </div>
           </div>
           <div
-            class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="card-body padding-0 table-responsive collapse show"
           >
             <tm-loading-retry>
+              <div
+                aria-hidden="true"
+              />
               <tm-sessions-table
                 id="sessions-table-0"
-                style=""
               >
                 <div>
                   <tm-sortable-table>
@@ -987,6 +1002,9 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
       </div>
     </div>
   </div><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div>
       <div>
         <div
@@ -1124,12 +1142,14 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
             </div>
           </div>
           <div
-            class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="card-body padding-0 table-responsive collapse show"
           >
             <tm-loading-retry>
+              <div
+                aria-hidden="true"
+              />
               <tm-sessions-table
                 id="sessions-table-0"
-                style=""
               >
                 <div>
                   <tm-sortable-table>
@@ -1736,6 +1756,9 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
       </div>
     </div>
   </div><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div>
       <div>
         <div
@@ -1895,6 +1918,30 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
               </tm-panel-chevron>
             </div>
           </div>
+          <div
+            class="card-body padding-0 table-responsive collapse"
+          >
+            <tm-loading-retry>
+              <div
+                aria-hidden="true"
+              />
+              <tm-loading-spinner>
+                <div
+                  class="loading-container"
+                >
+                  <div
+                    class="row spinner-border text-primary"
+                    role="status"
+                  />
+                  <div
+                    class="row text-secondary"
+                  >
+                    Loading...
+                  </div>
+                </div>
+              </tm-loading-spinner>
+            </tm-loading-retry>
+          </div>
         </div>
       </div>
     </div>
@@ -2000,6 +2047,9 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
       </div>
     </div>
   </div><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div>
       <div>
         <div
@@ -2160,12 +2210,13 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
             </div>
           </div>
           <div
-            class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="card-body padding-0 table-responsive collapse show"
           >
             <tm-loading-retry>
-              <tm-loading-spinner
-                style=""
-              >
+              <div
+                aria-hidden="true"
+              />
+              <tm-loading-spinner>
                 <div
                   class="loading-container"
                 >
@@ -2287,6 +2338,9 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
       </div>
     </div>
   </div><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div>
       <div>
         <div
@@ -2447,12 +2501,14 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
             </div>
           </div>
           <div
-            class="card-body padding-0 table-responsive ng-trigger ng-trigger-collapseAnim ng-animating"
+            class="card-body padding-0 table-responsive collapse show"
           >
             <tm-loading-retry>
+              <div
+                aria-hidden="true"
+              />
               <tm-sessions-table
                 id="sessions-table-0"
-                style=""
               >
                 <div
                   class="no-session-message"

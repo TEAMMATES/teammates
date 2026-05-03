@@ -95,6 +95,9 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
         </div>
         <div>
           <tm-loading-retry>
+            <div
+              aria-hidden="true"
+            />
             <div>
               <div
                 class="card-body"
@@ -306,6 +309,9 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
         </div>
         <div>
           <tm-loading-retry>
+            <div
+              aria-hidden="true"
+            />
             <tm-loading-spinner>
               <div
                 class="loading-container"
@@ -441,6 +447,9 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
         </div>
         <div>
           <tm-loading-retry>
+            <div
+              aria-hidden="true"
+            />
             <div
               class="text-center"
             >

@@ -8,6 +8,7 @@ import {
   NgbDropdown,
   NgbDropdownToggle,
   NgbDropdownMenu,
+  NgbCollapse,
 } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable } from 'rxjs';
@@ -49,7 +50,6 @@ import { ModifiedTimestampModalComponent } from '../../components/modified-times
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
 import { ProgressBarComponent } from '../../components/progress-bar/progress-bar.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -67,7 +67,6 @@ interface CourseModel {
   selector: 'tm-instructor-courses-page',
   templateUrl: './instructor-courses-page.component.html',
   styleUrls: ['./instructor-courses-page.component.scss'],
-  animations: [collapseAnim],
   imports: [
     CourseEditFormComponent,
     ProgressBarComponent,
@@ -82,6 +81,7 @@ interface CourseModel {
     PanelChevronComponent,
     ModifiedTimestampModalComponent,
     DatePipe,
+    NgbCollapse,
   ],
 })
 export class InstructorCoursesPageComponent implements OnInit {
@@ -103,8 +103,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   SortOrder: typeof SortOrder = SortOrder;
   CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
 
-  isLoadingActiveCourses = false;
-  isLoadingSoftDeletedCourses = false;
+  isLoadingCourses = false;
   hasLoadingFailed = false;
   isRecycleBinExpanded = false;
   canDeleteAll = true;
@@ -117,10 +116,6 @@ export class InstructorCoursesPageComponent implements OnInit {
   numberOfSessionsCopied = 0;
 
   modifiedSessions: Record<string, TweakedTimestampData> = {};
-
-  get isLoadingCourses(): boolean {
-    return this.isLoadingActiveCourses || this.isLoadingSoftDeletedCourses;
-  }
 
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
 
@@ -158,32 +153,25 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   loadInstructorCourses(): void {
     this.hasLoadingFailed = false;
-    this.isLoadingActiveCourses = true;
-    this.isLoadingSoftDeletedCourses = true;
+    this.isLoadingCourses = true;
     this.activeCourses = [];
     this.softDeletedCourses = [];
     this.activeCoursesList = [];
     this.allCoursesList = [];
-    this.courseService.getAllCoursesAsInstructor('active').subscribe({
-      next: (resp: Courses) => {
-        resp.courses.forEach((course: Course) => {
+
+    forkJoin({
+      activeCourses: this.courseService.getAllCoursesAsInstructor('active'),
+      softDeletedCourses: this.courseService.getAllCoursesAsInstructor('softDeleted'),
+    }).subscribe({
+      next: ({ activeCourses, softDeletedCourses }: { activeCourses: Courses; softDeletedCourses: Courses }) => {
+        activeCourses.courses.forEach((course: Course) => {
           this.allCoursesList.push(course);
           this.activeCoursesList.push(course);
           this.activeCourses.push(this.buildCourseModel(course));
         });
         this.activeCoursesDefaultSort();
-        this.isLoadingActiveCourses = false;
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.isLoadingActiveCourses = false;
-        this.hasLoadingFailed = true;
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
 
-    this.courseService.getAllCoursesAsInstructor('softDeleted').subscribe({
-      next: (resp: Courses) => {
-        for (const course of resp.courses) {
+        softDeletedCourses.courses.forEach((course: Course) => {
           this.allCoursesList.push(course);
           const softDeletedCourse: CourseModel = this.buildCourseModel(course);
           this.softDeletedCourses.push(softDeletedCourse);
@@ -192,18 +180,26 @@ export class InstructorCoursesPageComponent implements OnInit {
             this.canDeleteAll = false;
             this.canRestoreAll = false;
           }
+        });
+
+        this.isLoadingCourses = false;
+
+        this.courseFormModel.activeCourses = this.activeCoursesList;
+        this.courseFormModel.allCourses = this.allCoursesList;
+        this.courseFormModel.institutes = Array.from(
+          new Set(this.allCoursesList.map((course: Course) => course.institute)),
+        );
+
+        if (this.courseFormModel.institutes.length) {
+          this.courseFormModel.course.institute = this.courseFormModel.institutes[0];
         }
-        this.isLoadingSoftDeletedCourses = false;
       },
       error: (resp: ErrorMessageOutput) => {
-        this.isLoadingSoftDeletedCourses = false;
+        this.isLoadingCourses = false;
         this.hasLoadingFailed = true;
         this.statusMessageService.showErrorToast(resp.error.message);
       },
     });
-
-    this.courseFormModel.activeCourses = this.activeCoursesList;
-    this.courseFormModel.allCourses = this.allCoursesList;
   }
 
   /**

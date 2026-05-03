@@ -1470,6 +1470,9 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
     </div>
   </div><tm-loading-retry>
     <div
+      aria-hidden="true"
+    />
+    <div
       class="margin-top-30px"
     >
       <tm-loading-spinner>
@@ -2992,6 +2995,9 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
       </tm-session-edit-form>
     </div>
   </div><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div
       class="margin-top-30px"
     >
@@ -4516,6 +4522,9 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
     </div>
   </div><tm-loading-retry>
     <div
+      aria-hidden="true"
+    />
+    <div
       class="text-center"
     >
       <p
@@ -6019,6 +6028,9 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
       </tm-session-edit-form>
     </div>
   </div><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div
       class="margin-top-30px"
     >
@@ -7547,6 +7559,9 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
     </div>
   </div><tm-loading-retry>
     <div
+      aria-hidden="true"
+    />
+    <div
       class="margin-top-30px"
     >
       <tm-loading-spinner>
@@ -9070,6 +9085,9 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
     </div>
   </div><tm-loading-retry>
     <div
+      aria-hidden="true"
+    />
+    <div
       class="margin-top-30px"
     >
       <tm-loading-spinner>
@@ -10590,6 +10608,9 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
       </tm-session-edit-form>
     </div>
   </div><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div
       class="margin-top-30px"
     >
