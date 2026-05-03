@@ -29,7 +29,7 @@ public final class Config {
     public static final String APP_REGION;
 
     /** Backend application version. */
-    public static final String APP_VERSION = "9.0.0-beta.6";
+    public static final String APP_VERSION = "9.0.0-beta.7";
 
     /** Effective deployment environment name (e.g. {@code development}, {@code production}); see class Javadoc. */
     public static final String APP_ENV;
