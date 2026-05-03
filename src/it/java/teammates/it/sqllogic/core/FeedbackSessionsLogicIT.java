@@ -159,7 +159,6 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
     @Test
     public void testUpdateFeedbackSession_validUpdate_success() throws Exception {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
-        String timeZone = fs.getCourse().getTimeZone();
 
         Instant newStartTime = TimeHelper.getInstantNearestHourBefore(
                 TimeHelper.getInstantHoursOffsetFromNow(1)

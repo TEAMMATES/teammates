@@ -116,7 +116,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         loginAsStudent(student1.getAccount().getGoogleId());
 
         String feedbackSessionId = feedbackSession1.getId().toString();
-        String timeZone = feedbackSession1.getCourse().getTimeZone();
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId,
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -153,7 +152,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         loginAsStudent(student1.getAccount().getGoogleId());
 
         String feedbackSessionId = feedbackSession1.getId().toString();
-        String timeZone = feedbackSession1.getCourse().getTimeZone();
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId,
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -190,7 +188,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         loginAsStudent(student1.getAccount().getGoogleId());
 
         String feedbackSessionId = feedbackSession1.getId().toString();
-        String timeZone = feedbackSession1.getCourse().getTimeZone();
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId,
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -228,7 +225,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         loginAsStudent(student1.getAccount().getGoogleId());
 
         String feedbackSessionId = feedbackSession1.getId().toString();
-        String timeZone = feedbackSession1.getCourse().getTimeZone();
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId,
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -266,7 +262,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         loginAsStudent(student1.getAccount().getGoogleId());
 
         String feedbackSessionId = feedbackSession1.getId().toString();
-        String timeZone = feedbackSession1.getCourse().getTimeZone();
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId,
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -304,7 +299,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         loginAsStudent(student1.getAccount().getGoogleId());
 
         String feedbackSessionId = feedbackSession1.getId().toString();
-        String timeZone = feedbackSession1.getCourse().getTimeZone();
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId,
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),

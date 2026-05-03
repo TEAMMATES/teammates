@@ -1,3 +1,4 @@
+
 package teammates.ui.output;
 
 import java.util.ArrayList;
@@ -36,7 +37,6 @@ public class OngoingSession {
         }
         this.instructorHomePageLink = instructorHomePageLink;
         Course course = fs.getCourse();
-        String timeZone = course.getTimeZone();
         this.startTime = fs.getStartTime().toEpochMilli();
         this.endTime = fs.getEndTime().toEpochMilli();
         this.creatorEmail = fs.getCreatorEmail();

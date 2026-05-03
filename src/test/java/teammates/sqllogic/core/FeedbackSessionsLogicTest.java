@@ -445,7 +445,6 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
     public void testUpdateFeedbackSession_validUpdate_success() throws Exception {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-        String timeZone = session.getCourse().getTimeZone();
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
 
         when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
