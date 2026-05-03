@@ -2494,9 +2494,34 @@
   ],
   "committers": [
     {
-      "name": "Dhiraputta Pathama Tengara",
-      "username": "DhiraPT",
-      "startPeriod": "Jan 2025"
+      "name": "Aaron Toh",
+      "username": "AaronToh",
+      "startPeriod": "Jan 2026"
+    },
+    {
+      "name": "Florian Viorel Tanely",
+      "username": "iZUMi-kyouka",
+      "startPeriod": "Jan 2026"
+    },
+    {
+      "name": "Koh Wee Jean",
+      "username": "Weejean",
+      "startPeriod": "Jan 2026"
+    },
+    {
+      "name": "Phoebe Yap",
+      "username": "PhoebeY05",
+      "startPeriod": "Jan 2026"
+    },
+    {
+      "name": "Saripalli Bhagat Sai Reddy",
+      "username": "Nsohko",
+      "startPeriod": "Jan 2026"
+    },
+    {
+      "name": "Yong Jun Xi",
+      "username": "TobyCyan",
+      "startPeriod": "Jan 2026"
     },
     {
       "name": "Bertrand Wong",
@@ -2521,37 +2546,25 @@
     {
       "name": "Ching Ming Yuan",
       "username": "mingyuanc",
-      "startPeriod": "Jan 2024"
-    },
-    {
-      "name": "Dominic Berzin",
-      "username": "domoberzin",
-      "startPeriod": "Jan 2024"
+      "startPeriod": "Jan 2024",
+      "endPeriod": "Apr 2025"
     },
     {
       "name": "Tye Jia Jun, Marques",
       "username": "marquestye",
-      "startPeriod": "Jan 2024"
-    },
-    {
-      "name": "Xenos Fiorenzo Anong",
-      "username": "xenosf",
-      "startPeriod": "Jan 2024"
+      "startPeriod": "Jan 2024",
+      "endPeriod": "May 2024"
     },
     {
       "name": "Yeo Di Sheng",
       "username": "dishenggg",
-      "startPeriod": "Jan 2024"
+      "startPeriod": "Jan 2024",
+      "endPeriod": "Jun 2024"
     },
     {
       "name": "Zhu Yuanxi",
       "username": "yuanxi1",
-      "startPeriod": "Jan 2024"
-    },
-    {
-      "name": "Jason Qiu",
-      "username": "jasonqiu212",
-      "startPeriod": "Feb 2023"
+      "startPeriod": "May 2025"
     },
     {
       "name": "Howard Liu",
@@ -2768,8 +2781,9 @@
     {
       "name": "Wilson Kurniawan",
       "username": "wkurniawan07",
-      "currentPosition": "Project Mentor (Jun 2017 - ), System Architect (Aug 2020 - )",
+      "currentPosition": "Project Mentor (Jun 2017 - )",
       "pastPositions": [
+        "System Architect (Aug 2020 - Dec 2025)",
         "Project Lead (Jun 2016 - May 2017)",
         "Area Lead (Jan 2016 - May 2016)",
         "Snr Developer (Aug 2015 - Dec 2015)",
@@ -2777,58 +2791,95 @@
       ]
     },
     {
+      "name": "Samuel Fang",
+      "username": "samuelfangjw",
+      "currentPosition": "Project Mentor (Jan 2024 - )",
+      "pastPositions": [
+        "Project Lead (Jan 2023 - Dec 2023)",
+        "Snr Developer (Aug 2022 - Dec 2022)",
+        "Committer (Jan 2022 - Jul 2022)"
+      ]
+    },
+    {
+      "name": "Dhiraputta Pathama Tengara",
+      "username": "DhiraPT",
+      "pastPositions": [
+        "Project Lead (Jan 2026 - May 2026)",
+        "Snr Developer (June 2025 - Dec 2025)",
+        "Committer (Feb 2025 - May 2025)"
+      ]
+    },
+    {
+      "name": "Xenos Fiorenzo Anong",
+      "username": "xenosf",
+      "pastPositions": ["Snr Developer (Jan 2025 - May 2025)", "Committer (Feb 2024 - Dec 2024)"]
+    },
+    {
+      "name": "Dominic Berzin",
+      "username": "domoberzin",
+      "pastPositions": ["Snr Developer (Jan 2025 - May 2025)", "Committer (Feb 2024 - Dec 2024)"]
+    },
+    {
+      "name": "Jason Qiu",
+      "username": "jasonqiu212",
+      "pastPositions": ["Snr Developer (Jan 2025 - May 2025)", "Committer (Feb 2023 - Dec 2024)"]
+    },
+    {
       "name": "Cedric Ong",
       "username": "cedricongjh",
-      "currentPosition": "Project Lead (Jan 2024 - )",
-      "pastPositions": ["Snr Developer (Jun 2023 - Dec 2023)", "Committer (Feb 2023 - May 2023)"]
+      "pastPositions": [
+        "Project Lead (Jan 2024 - May 2024)",
+        "Snr Developer (Jun 2023 - Dec 2023)",
+        "Committer (Feb 2023 - May 2023)"
+      ]
     },
     {
       "name": "Neo Wei Qing",
       "username": "weiquu",
-      "currentPosition": "Project Lead (Jan 2024 - )",
-      "pastPositions": ["Snr Developer (Jun 2023 - Dec 2023)", "Committer (Feb 2023 - May 2023)"]
+      "pastPositions": [
+        "Project Lead (Jan 2024 - May 2024)",
+        "Snr Developer (Jun 2023 - Dec 2023)",
+        "Committer (Feb 2023 - May 2023)"
+      ]
     },
     {
       "name": "Zhang Ziqing",
       "username": "ziqing26",
-      "currentPosition": "Project Lead (Jan 2024 - )",
-      "pastPositions": ["Snr Developer (Aug 2022 - Dec 2023)", "Committer (Feb 2022 - Jul 2022)"]
+      "pastPositions": [
+        "Project Lead (Jan 2024 - May 2024)",
+        "Snr Developer (Aug 2022 - Dec 2023)",
+        "Committer (Feb 2022 - Jul 2022)"
+      ]
     },
     {
       "name": "Dominic Lim",
       "username": "domlimm",
-      "currentPosition": "Snr Developer (Jan 2024 - )",
-      "pastPositions": ["Committer (Feb 2023 - Dec 2023)"]
+      "pastPositions": ["Snr Developer (Jan 2024 - May 2024)", "Committer (Feb 2023 - Dec 2023)"]
     },
     {
       "name": "Eunice Sim",
       "username": "EuniceSim142",
-      "currentPosition": "Snr Developer (Jan 2024 - )",
-      "pastPositions": ["Committer (Feb 2023 - Dec 2023)"]
+      "pastPositions": ["Snr Developer (Jan 2024 - May 2024)", "Committer (Feb 2023 - Dec 2023)"]
     },
     {
       "name": "Fergus Mok",
       "username": "FergusMok",
-      "currentPosition": "Snr Developer (Jan 2024 - )",
-      "pastPositions": ["Committer (Feb 2022 - Dec 2023)"]
+      "pastPositions": ["Snr Developer (Jan 2024 - May 2024)", "Committer (Feb 2022 - Dec 2023)"]
     },
     {
       "name": "Jay Aljelo Saez Ting",
       "username": "jayasting98",
-      "currentPosition": "Snr Developer (Jan 2024 - )",
-      "pastPositions": ["Committer (Feb 2022 - Dec 2023)"]
+      "pastPositions": ["Snr Developer (Jan 2024 - May 2024)", "Committer (Feb 2022 - Dec 2023)"]
     },
     {
       "name": "Kevin Foong",
       "username": "kevin9foong",
-      "currentPosition": "Snr Developer (Jan 2024 - )",
-      "pastPositions": ["Committer (Feb 2023 - Dec 2023)"]
+      "pastPositions": ["Snr Developer (Jan 2024 - May 2024)", "Committer (Feb 2023 - Dec 2023)"]
     },
     {
       "name": "Nicolas Chang Weng Yew",
       "username": "NicolasCwy",
-      "currentPosition": "Snr Developer (Aug 2022 - )",
-      "pastPositions": ["Committer (Feb 2022 - Jul 2022)"]
+      "pastPositions": ["Snr Developer (Aug 2022 - May 2024)", "Committer (Feb 2022 - Jul 2022)"]
     },
     {
       "name": "Li Jianhan",
@@ -2837,15 +2888,6 @@
         "Project Lead (Jan 2023 - Dec 2023)",
         "Snr Developer (Jan 2022 - Dec 2022)",
         "Committer (Feb 2021 - Dec 2021)"
-      ]
-    },
-    {
-      "name": "Samuel Fang",
-      "username": "samuelfangjw",
-      "pastPositions": [
-        "Project Lead (Jan 2023 - Dec 2023)",
-        "Snr Developer (Aug 2022 - Dec 2022)",
-        "Committer (Jan 2022 - Jul 2022)"
       ]
     },
     {
