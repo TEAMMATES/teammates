@@ -77,19 +77,15 @@ public class FeedbackSessionData extends ApiOutput {
         this.timeZone = timeZone;
         this.feedbackSessionName = feedbackSession.getName();
         this.instructions = feedbackSession.getInstructions();
-        this.submissionStartTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                feedbackSession.getStartTime(), timeZone, true).toEpochMilli();
-        this.submissionEndTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                feedbackSession.getEndTime(), timeZone, true).toEpochMilli();
+        this.submissionStartTimestamp = feedbackSession.getStartTime().toEpochMilli();
+        this.submissionEndTimestamp = feedbackSession.getEndTime().toEpochMilli();
         // If no deadline extension time is provided, then the end time with extension is assumed to be
         // just the end time.
-        this.submissionEndWithExtensionTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-            feedbackSession.getEndTime(), timeZone, true).toEpochMilli();
+        this.submissionEndWithExtensionTimestamp = feedbackSession.getEndTime().toEpochMilli();
         this.gracePeriod = feedbackSession.getGracePeriod().toMinutes();
 
         Instant sessionVisibleTime = feedbackSession.getSessionVisibleFromTime();
-        this.sessionVisibleFromTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                sessionVisibleTime, timeZone, true).toEpochMilli();
+        this.sessionVisibleFromTimestamp = sessionVisibleTime.toEpochMilli();
         if (sessionVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
             this.sessionVisibleSetting = SessionVisibleSetting.AT_OPEN;
         } else {
@@ -98,8 +94,7 @@ public class FeedbackSessionData extends ApiOutput {
         }
 
         Instant responseVisibleTime = feedbackSession.getResultsVisibleFromTime();
-        this.resultVisibleFromTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                responseVisibleTime, timeZone, true).toEpochMilli();
+        this.resultVisibleFromTimestamp = responseVisibleTime.toEpochMilli();
         if (responseVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
             this.responseVisibleSetting = ResponseVisibleSetting.AT_VISIBLE;
         } else if (responseVisibleTime.equals(Const.TIME_REPRESENTS_LATER)) {
@@ -145,8 +140,7 @@ public class FeedbackSessionData extends ApiOutput {
     public FeedbackSessionData(FeedbackSession feedbackSession, Instant extendedDeadline) {
         this(feedbackSession);
 
-        this.submissionEndWithExtensionTimestamp = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-            extendedDeadline, timeZone, true).toEpochMilli();
+        this.submissionEndWithExtensionTimestamp = extendedDeadline.toEpochMilli();
 
         if (!feedbackSession.isVisible()) {
             this.submissionStatus = FeedbackSessionSubmissionStatus.NOT_VISIBLE;

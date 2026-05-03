@@ -39,25 +39,13 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
         return Instant.ofEpochMilli(submissionStartTimestamp);
     }
 
-    /**
-     * Gets the midnight adjusted submission start time of the session.
-     */
-    public Instant getAdjustedSubmissionStartTime(String timeZone) {
-        return TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                getSubmissionStartTime(), timeZone, true);
-    }
+
 
     public Instant getSubmissionEndTime() {
         return Instant.ofEpochMilli(submissionEndTimestamp);
     }
 
-    /**
-     * Gets the midnight adjusted submission end time of the session.
-     */
-    public Instant getAdjustedSubmissionEndTime(String timeZone) {
-        return TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                getSubmissionEndTime(), timeZone, true);
-    }
+
 
     public Duration getGracePeriod() {
         return Duration.ofMinutes(gracePeriod);
@@ -79,13 +67,7 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
         }
     }
 
-    /**
-     * Gets the midnight adjusted result visible from time of the session.
-     */
-    public Instant getAdjustedResultsVisibleFromTime(String timeZone) {
-        return TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                getResultsVisibleFromTime(), timeZone, true);
-    }
+
 
     /**
      * Gets the session visible from time.
@@ -101,13 +83,7 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
         }
     }
 
-    /**
-     * Gets the midnight adjusted session visible from time.
-     */
-    public Instant getAdjustedSessionVisibleFromTime(String timeZone) {
-        return TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                getSessionVisibleFromTime(), timeZone, true);
-    }
+
 
     public boolean isClosingSoonEmailEnabled() {
         return isClosingSoonEmailEnabled;

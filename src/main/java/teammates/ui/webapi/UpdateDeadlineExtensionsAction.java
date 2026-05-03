@@ -100,18 +100,6 @@ public class UpdateDeadlineExtensionsAction extends Action {
             throw new EntityNotFoundException("There are instructors which do not exist in the course.");
         }
 
-        String timeZone = feedbackSession.getCourse().getTimeZone();
-
-        studentDeadlines = studentDeadlines.entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry ->
-                        TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                                entry.getValue(), timeZone, true)));
-        instructorDeadlines = instructorDeadlines.entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry ->
-                        TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                                entry.getValue(), timeZone, true)));
 
         boolean notifyAboutDeadlines = getBooleanRequestParamValue(Const.ParamsNames.NOTIFY_ABOUT_DEADLINES);
 

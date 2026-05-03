@@ -28,8 +28,7 @@ public class DeadlineExtensionsData extends ApiOutput {
 
         for (DeadlineExtension de : deadlineExtensions) {
             UUID userId = de.getUserId();
-            long epochMilli = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                    de.getEndTime(), timeZone, true).toEpochMilli();
+            long epochMilli = de.getEndTime().toEpochMilli();
 
             if (studentsByUserId.containsKey(userId)) {
                 this.studentDeadlines.put(studentsByUserId.get(userId).getEmail(), epochMilli);

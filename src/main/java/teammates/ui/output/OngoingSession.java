@@ -38,10 +38,8 @@ public class OngoingSession {
         this.instructorHomePageLink = instructorHomePageLink;
         Course course = fs.getCourse();
         String timeZone = course.getTimeZone();
-        this.startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(fs.getStartTime(), timeZone, true)
-                .toEpochMilli();
-        this.endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(fs.getEndTime(), timeZone, true)
-                .toEpochMilli();
+        this.startTime = fs.getStartTime().toEpochMilli();
+        this.endTime = fs.getEndTime().toEpochMilli();
         this.creatorEmail = fs.getCreatorEmail();
         this.courseId = course.getId();
         this.feedbackSessionName = fs.getName();

@@ -222,11 +222,9 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         assertEquals(timeZone, data.getTimeZone());
         assertEquals(expectedSession.getName(), data.getFeedbackSessionName());
         assertEquals(expectedSession.getInstructions(), data.getInstructions());
-        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(expectedSession.getStartTime(),
-                        timeZone, true).toEpochMilli(),
+        assertEquals(expectedSession.getStartTime().toEpochMilli(),
                 data.getSubmissionStartTimestamp());
-        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(expectedSession.getEndTime(),
-                        timeZone, true).toEpochMilli(),
+        assertEquals(expectedSession.getEndTime().toEpochMilli(),
                 data.getSubmissionEndTimestamp());
 
         if (!expectedSession.isVisible()) {

@@ -217,10 +217,10 @@ public final class FeedbackSessionsLogic {
         }
 
         String timeZone = session.getCourse().getTimeZone();
-        Instant startTime = updateRequest.getAdjustedSubmissionStartTime(timeZone);
-        Instant endTime = updateRequest.getAdjustedSubmissionEndTime(timeZone);
-        Instant sessionVisibleTime = updateRequest.getAdjustedSessionVisibleFromTime(timeZone);
-        Instant resultsVisibleTime = updateRequest.getAdjustedResultsVisibleFromTime(timeZone);
+        Instant startTime = updateRequest.getSubmissionStartTime();
+        Instant endTime = updateRequest.getSubmissionEndTime();
+        Instant sessionVisibleTime = updateRequest.getSessionVisibleFromTime();
+        Instant resultsVisibleTime = updateRequest.getResultsVisibleFromTime();
 
         validateNewFeedbackSessionTiming(session, timeZone, startTime, endTime, sessionVisibleTime);
 
