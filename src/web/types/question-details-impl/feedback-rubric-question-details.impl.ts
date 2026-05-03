@@ -162,7 +162,7 @@ ${
     return true;
   }
 
-  private getDisplayWeight(weight: number): any {
-    return weight === null || weight === NO_VALUE ? '-' : weight;
+  private getDisplayWeight(weight: number): string {
+    return weight === null || weight === NO_VALUE ? '-' : String(weight);
   }
 }
