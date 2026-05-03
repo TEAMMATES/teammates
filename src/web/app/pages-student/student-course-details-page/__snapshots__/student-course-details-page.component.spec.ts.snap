@@ -22,6 +22,9 @@ exports[`StudentCourseDetailsPageComponent should snap when all data are still l
   teammateProfilesSortBy="0"
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
   </tm-loading-retry><tm-loading-spinner>
     <div
       class="loading-container"
@@ -62,6 +65,9 @@ exports[`StudentCourseDetailsPageComponent should snap when it fails to load 1`]
   teammateProfilesSortBy="0"
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
   </tm-loading-retry><div
     class="section"
   >
@@ -103,6 +109,9 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
   teammateProfilesSortBy="0"
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
   </tm-loading-retry><div
     class="section"
   >
@@ -148,6 +157,9 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
   >
     Team Details for 1.1.c-demo2
   </h1><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div
       class="section"
     >

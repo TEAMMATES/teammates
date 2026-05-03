@@ -24,6 +24,9 @@ exports[`InstructorCourseDetailsPageComponent should snap when students are stil
   tableComparatorService={[Function TableComparatorService]}
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -67,6 +70,9 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   tableComparatorService={[Function TableComparatorService]}
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div>
       <h1>
         Course Details
@@ -230,6 +236,9 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   tableComparatorService={[Function TableComparatorService]}
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div>
       <h1>
         Course Details
@@ -639,6 +648,9 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
   tableComparatorService={[Function TableComparatorService]}
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"

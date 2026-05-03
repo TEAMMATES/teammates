@@ -25,6 +25,9 @@ exports[`InstructorStudentListPageComponent should snap with a course with stude
     </a>
      if you need to locate the details of a specific student by name or email.
   </p><hr /><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div />
     <div
       class="row mb-3"
@@ -103,6 +106,9 @@ exports[`InstructorStudentListPageComponent should snap with a course with stude
           class="ng-trigger ng-trigger-collapseAnim ng-animating"
         >
           <tm-loading-retry>
+            <div
+              aria-hidden="true"
+            />
             <div
               style=""
             >

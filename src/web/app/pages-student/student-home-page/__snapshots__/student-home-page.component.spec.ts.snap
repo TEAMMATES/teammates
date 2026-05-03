@@ -25,6 +25,9 @@ exports[`StudentHomePageComponent should snap when courses are still loading 1`]
   timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -69,6 +72,9 @@ exports[`StudentHomePageComponent should snap when there is course loading faile
   timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div
       class="text-center"
     >
@@ -116,6 +122,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
   timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div />
     <div>
       <div
@@ -196,6 +205,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
           </div>
         </div>
         <tm-loading-retry>
+          <div
+            aria-hidden="true"
+          />
           <div
             class="table-responsive"
           >
@@ -362,6 +374,9 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
         </div>
         <tm-loading-retry>
           <div
+            aria-hidden="true"
+          />
+          <div
             class="table-responsive"
           >
             <div
@@ -518,6 +533,9 @@ exports[`StudentHomePageComponent should snap with default fields 1`] = `
   timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -562,6 +580,9 @@ exports[`StudentHomePageComponent should snap with feedback sessions 1`] = `
   timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div />
     <div>
       <div
@@ -601,6 +622,9 @@ exports[`StudentHomePageComponent should snap with feedback sessions 1`] = `
           </div>
         </div>
         <tm-loading-retry>
+          <div
+            aria-hidden="true"
+          />
           <div
             class="table-responsive"
           >
@@ -758,6 +782,9 @@ exports[`StudentHomePageComponent should snap with no course 1`] = `
   timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div />
     <div>
       <div>
@@ -800,6 +827,9 @@ exports[`StudentHomePageComponent should snap with no feedback session over 2 co
   timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div />
     <div>
       <div
@@ -880,6 +910,9 @@ exports[`StudentHomePageComponent should snap with no feedback session over 2 co
         </div>
         <tm-loading-retry>
           <div
+            aria-hidden="true"
+          />
+          <div
             class="table-responsive"
           >
             <div
@@ -927,6 +960,9 @@ exports[`StudentHomePageComponent should snap with no feedback session over 2 co
         </div>
         <tm-loading-retry>
           <div
+            aria-hidden="true"
+          />
+          <div
             class="table-responsive"
           >
             <div
@@ -966,6 +1002,9 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
   timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div />
     <div>
       <div
@@ -1005,6 +1044,9 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
           </div>
         </div>
         <tm-loading-retry>
+          <div
+            aria-hidden="true"
+          />
           <div
             class="table-responsive"
           >
