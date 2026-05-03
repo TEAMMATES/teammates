@@ -54,6 +54,9 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
     </button>
   </div><tm-loading-retry>
     <div
+      aria-hidden="true"
+    />
+    <div
       class="course-section"
     >
       <h2
@@ -165,6 +168,9 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
        Add New Course 
     </button>
   </div><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div
       class="course-section"
     >
@@ -778,6 +784,9 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
     </tm-course-edit-form>
   </div><tm-loading-retry>
     <div
+      aria-hidden="true"
+    />
+    <div
       class="course-section"
     >
       <h2
@@ -875,6 +884,9 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
        Add New Course 
     </button>
   </div><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div
       class="course-section"
     >
@@ -1258,6 +1270,9 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
     </button>
   </div><tm-loading-retry>
     <div
+      aria-hidden="true"
+    />
+    <div
       class="course-section"
     >
       <h2
@@ -1369,6 +1384,9 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
        Add New Course 
     </button>
   </div><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div
       class="course-section"
     >

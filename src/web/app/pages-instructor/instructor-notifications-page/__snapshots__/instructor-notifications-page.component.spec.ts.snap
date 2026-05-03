@@ -17,6 +17,9 @@ exports[`InstructorNotificationsPageComponent should snap with default fields 1`
       </p>
     </div>
     <tm-loading-retry>
+      <div
+        aria-hidden="true"
+      />
       <tm-loading-spinner>
         <div
           class="loading-container"

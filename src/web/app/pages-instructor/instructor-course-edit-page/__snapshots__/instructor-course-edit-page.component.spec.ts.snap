@@ -35,6 +35,9 @@ exports[`InstructorCourseEditPageComponent should snap when editing course detai
   studentService={[Function StudentService]}
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -51,6 +54,9 @@ exports[`InstructorCourseEditPageComponent should snap when editing course detai
       </div>
     </tm-loading-spinner>
   </tm-loading-retry><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div
       class="right top-padded"
     >
@@ -126,6 +132,9 @@ exports[`InstructorCourseEditPageComponent should snap with course details 1`] =
   studentService={[Function StudentService]}
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -142,6 +151,9 @@ exports[`InstructorCourseEditPageComponent should snap with course details 1`] =
       </div>
     </tm-loading-spinner>
   </tm-loading-retry><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div
       class="right top-padded"
     >
@@ -217,6 +229,9 @@ exports[`InstructorCourseEditPageComponent should snap with default fields 1`] =
   studentService={[Function StudentService]}
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -233,6 +248,9 @@ exports[`InstructorCourseEditPageComponent should snap with default fields 1`] =
       </div>
     </tm-loading-spinner>
   </tm-loading-retry><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div
       class="right top-padded"
     >
@@ -308,6 +326,9 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
   studentService={[Function StudentService]}
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -324,6 +345,9 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
       </div>
     </tm-loading-spinner>
   </tm-loading-retry><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div
       class="right top-padded"
     >
