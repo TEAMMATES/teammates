@@ -61,24 +61,24 @@ public class CreateFeedbackSessionAction extends Action {
         // TODO: Refactor to reuse the validation logic in FeedbackSessionsLogic.
         // and to move business logic to logic layer.
         // See UpdateFeedbackSessionAction and updateFeedbackSession for reference.
-        Instant startTime = createRequest.getAdjustedSubmissionStartTime(timeZone);
+        Instant startTime = createRequest.getSubmissionStartTime();
         String startTimeError = FieldValidator.getInvalidityInfoForNewStartTime(startTime, timeZone);
         if (!startTimeError.isEmpty()) {
             throw new InvalidHttpRequestBodyException("Invalid submission opening time: " + startTimeError);
         }
-        Instant endTime = createRequest.getAdjustedSubmissionEndTime(timeZone);
+        Instant endTime = createRequest.getSubmissionEndTime();
         String endTimeError = FieldValidator.getInvalidityInfoForNewEndTime(endTime, timeZone);
         if (!endTimeError.isEmpty()) {
             throw new InvalidHttpRequestBodyException("Invalid submission closing time: " + endTimeError);
         }
-        Instant sessionVisibleTime = createRequest.getAdjustedSessionVisibleFromTime(timeZone);
+        Instant sessionVisibleTime = createRequest.getSessionVisibleFromTime();
         String visibilityStartAndSessionStartTimeError =
                 FieldValidator.getInvalidityInfoForTimeForNewVisibilityStart(sessionVisibleTime, startTime);
         if (!visibilityStartAndSessionStartTimeError.isEmpty()) {
             throw new InvalidHttpRequestBodyException("Invalid session visible time: "
                     + visibilityStartAndSessionStartTimeError);
         }
-        Instant resultsVisibleTime = createRequest.getAdjustedResultsVisibleFromTime(timeZone);
+        Instant resultsVisibleTime = createRequest.getResultsVisibleFromTime();
 
         FeedbackSession feedbackSession = new FeedbackSession(
                 feedbackSessionName,

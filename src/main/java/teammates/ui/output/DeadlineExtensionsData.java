@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.Instructor;
 import teammates.storage.sqlentity.Student;
@@ -28,8 +27,7 @@ public class DeadlineExtensionsData extends ApiOutput {
 
         for (DeadlineExtension de : deadlineExtensions) {
             UUID userId = de.getUserId();
-            long epochMilli = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                    de.getEndTime(), timeZone, true).toEpochMilli();
+            long epochMilli = de.getEndTime().toEpochMilli();
 
             if (studentsByUserId.containsKey(userId)) {
                 this.studentDeadlines.put(studentsByUserId.get(userId).getEmail(), epochMilli);

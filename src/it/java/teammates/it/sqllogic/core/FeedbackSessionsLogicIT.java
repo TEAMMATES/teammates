@@ -188,8 +188,8 @@ public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         assertEquals(updateRequest.getInstructions(), fs.getInstructions());
         assertEquals(updateRequest.getGracePeriod(), fs.getGracePeriod());
-        assertEquals(updateRequest.getAdjustedSessionVisibleFromTime(timeZone), fs.getSessionVisibleFromTime());
-        assertEquals(updateRequest.getAdjustedResultsVisibleFromTime(timeZone), fs.getResultsVisibleFromTime());
+        assertEquals(updateRequest.getSessionVisibleFromTime(), fs.getSessionVisibleFromTime());
+        assertEquals(updateRequest.getResultsVisibleFromTime(), fs.getResultsVisibleFromTime());
         assertEquals(updateRequest.getSubmissionStartTime(), fs.getStartTime());
         assertEquals(updateRequest.getSubmissionEndTime(), fs.getEndTime());
         assertEquals(updateRequest.isClosingSoonEmailEnabled(), fs.isClosingSoonEmailEnabled());
