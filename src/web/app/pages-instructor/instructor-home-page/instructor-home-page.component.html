@@ -175,44 +175,42 @@
                 </div>
               }
             </div>
-            @if (courseTabModel.isTabExpanded) {
-              <div class="card-body padding-0 table-responsive" @collapseAnim>
-                <tm-loading-retry
-                  [shouldShowRetry]="courseTabModel.hasLoadingFailed"
-                  [message]="'Error loading feedback sessions'"
-                  (retryEvent)="loadFeedbackSessions(idx)"
-                >
-                  <tm-sessions-table
-                    *tmIsLoading="!courseTabModel.hasPopulated"
-                    [sessionsTableRowModels]="courseTabModel.sessionsTableRowModels"
-                    id="sessions-table-{{ idx }}"
-                    [initialSortBy]="initialSortBy"
-                    [sortOrder]="sortOrder"
-                    [courseCandidates]="courseCandidates"
-                    [headerColorScheme]="SortableTableHeaderColorScheme.WHITE"
-                    [columnsToShow]="[SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE]"
-                    [isSendReminderLoading]="isSendReminderLoading"
-                    (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent(idx, $event)"
-                    (loadResponseRateEvent)="loadResponseRateEventHandler(idx, $event)"
-                    (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler(idx, $event)"
-                    (copySessionEvent)="copySessionEventHandler(idx, $event)"
-                    (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler(idx, $event)"
-                    (publishSessionEvent)="publishSessionEventHandler(idx, $event)"
-                    (unpublishSessionEvent)="unpublishSessionEventHandler(idx, $event)"
-                    (downloadSessionResultsEvent)="downloadSessionResultEventHandler(idx, $event)"
-                    (resendResultsLinkToStudentsEvent)="
-                      resendResultsLinkToRespondentsEventHandler(courseTabModel.sessionsTableRowModels[$event])
-                    "
-                    (sendRemindersToAllNonSubmittersEvent)="
-                      sendRemindersToRespondentsEventHandler(courseTabModel.sessionsTableRowModels[$event], true)
-                    "
-                    (sendRemindersToSelectedNonSubmittersEvent)="
-                      sendRemindersToRespondentsEventHandler(courseTabModel.sessionsTableRowModels[$event], false)
-                    "
-                  ></tm-sessions-table>
-                </tm-loading-retry>
-              </div>
-            }
+            <div class="card-body padding-0 table-responsive" [ngbCollapse]="!courseTabModel.isTabExpanded">
+              <tm-loading-retry
+                [shouldShowRetry]="courseTabModel.hasLoadingFailed"
+                [message]="'Error loading feedback sessions'"
+                (retryEvent)="loadFeedbackSessions(idx)"
+              >
+                <tm-sessions-table
+                  *tmIsLoading="!courseTabModel.hasPopulated"
+                  [sessionsTableRowModels]="courseTabModel.sessionsTableRowModels"
+                  id="sessions-table-{{ idx }}"
+                  [initialSortBy]="initialSortBy"
+                  [sortOrder]="sortOrder"
+                  [courseCandidates]="courseCandidates"
+                  [headerColorScheme]="SortableTableHeaderColorScheme.WHITE"
+                  [columnsToShow]="[SessionsTableColumn.START_DATE, SessionsTableColumn.END_DATE]"
+                  [isSendReminderLoading]="isSendReminderLoading"
+                  (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent(idx, $event)"
+                  (loadResponseRateEvent)="loadResponseRateEventHandler(idx, $event)"
+                  (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler(idx, $event)"
+                  (copySessionEvent)="copySessionEventHandler(idx, $event)"
+                  (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler(idx, $event)"
+                  (publishSessionEvent)="publishSessionEventHandler(idx, $event)"
+                  (unpublishSessionEvent)="unpublishSessionEventHandler(idx, $event)"
+                  (downloadSessionResultsEvent)="downloadSessionResultEventHandler(idx, $event)"
+                  (resendResultsLinkToStudentsEvent)="
+                    resendResultsLinkToRespondentsEventHandler(courseTabModel.sessionsTableRowModels[$event])
+                  "
+                  (sendRemindersToAllNonSubmittersEvent)="
+                    sendRemindersToRespondentsEventHandler(courseTabModel.sessionsTableRowModels[$event], true)
+                  "
+                  (sendRemindersToSelectedNonSubmittersEvent)="
+                    sendRemindersToRespondentsEventHandler(courseTabModel.sessionsTableRowModels[$event], false)
+                  "
+                ></tm-sessions-table>
+              </tm-loading-retry>
+            </div>
           </div>
         }
       </div>

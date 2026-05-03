@@ -13,7 +13,7 @@ import {
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { Course, FeedbackSessions } from '../../../types/api-output';
+import { FeedbackSessions } from '../../../types/api-output';
 import { FormValidator } from '../../../types/form-validator';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
@@ -136,7 +136,6 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
     if (this.isInAddMode) {
       this.addModel = this.model as CourseAddFormModel;
       this.model.course.timeZone = this.timezoneService.guessTimezone();
-      this.updateInstitutes();
     }
 
     if (this.isInEditMode) {
@@ -148,17 +147,6 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.resetEventSubscription.unsubscribe();
-  }
-
-  updateInstitutes(): void {
-    if (this.addModel) {
-      this.addModel.institutes = Array.from(
-        new Set(this.addModel.allCourses.map((course: Course) => course.institute)),
-      );
-      if (this.institutes.length) {
-        this.addModel.course.institute = this.institutes[0];
-      }
-    }
   }
 
   updateTimezones(): void {
