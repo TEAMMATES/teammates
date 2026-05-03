@@ -60,7 +60,7 @@
               </td>
               <td [innerHtml]="accountRequest.email | highlighter: searchString : true"></td>
               <td [innerHtml]="accountRequest.status | highlighter: searchString : true"></td>
-              <td [innerHtml]="accountRequest.instituteAndCountry | highlighter: searchString : true"></td>
+              <td [innerHtml]="accountRequest.institute | highlighter: searchString : true"></td>
               <td id="timestamp-box">{{ accountRequest.createdAtText }}</td>
               <td id="timestamp-box">{{ accountRequest.registeredAtText || 'Not Registered Yet' }}</td>
               <td>

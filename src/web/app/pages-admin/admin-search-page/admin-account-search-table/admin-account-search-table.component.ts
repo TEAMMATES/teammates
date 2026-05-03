@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import {
   NgbModalRef,
   NgbModal,
@@ -7,20 +7,20 @@ import {
   NgbDropdownToggle,
   NgbDropdownMenu,
 } from '@ng-bootstrap/ng-bootstrap';
-import { AccountRequestTableRowModel } from './account-search-table-model';
-import { AccountService } from '../../../services/account.service';
-import { SimpleModalService } from '../../../services/simple-modal.service';
-import { StatusMessageService } from '../../../services/status-message.service';
-import { AccountRequest, MessageOutput } from '../../../types/api-output';
-import { ErrorMessageOutput } from '../../error-message-output';
-import { SearchTermsHighlighterPipe } from '../../pipes/search-terms-highlighter.pipe';
-import { EditRequestModalComponentResult } from '../account-requests-table/admin-edit-request-modal/admin-edit-request-modal-model';
-import { EditRequestModalComponent } from '../account-requests-table/admin-edit-request-modal/admin-edit-request-modal.component';
-import { RejectWithReasonModalComponentResult } from '../account-requests-table/admin-reject-with-reason-modal/admin-reject-with-reason-modal-model';
-import { RejectWithReasonModalComponent } from '../account-requests-table/admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
-import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
-import { SimpleModalType } from '../simple-modal/simple-modal-type';
-import { collapseAnim } from '../teammates-common/collapse-anim';
+import { AccountService } from '../../../../services/account.service';
+import { AccountRequestSearchResult } from '../../../../services/search.service';
+import { SimpleModalService } from '../../../../services/simple-modal.service';
+import { StatusMessageService } from '../../../../services/status-message.service';
+import { AccountRequest, MessageOutput } from '../../../../types/api-output';
+import { ErrorMessageOutput } from '../../../error-message-output';
+import { SearchTermsHighlighterPipe } from '../../../pipes/search-terms-highlighter.pipe';
+import { EditRequestModalComponentResult } from '../../../components/account-requests-table/admin-edit-request-modal/admin-edit-request-modal-model';
+import { EditRequestModalComponent } from '../../../components/account-requests-table/admin-edit-request-modal/admin-edit-request-modal.component';
+import { RejectWithReasonModalComponentResult } from '../../../components/account-requests-table/admin-reject-with-reason-modal/admin-reject-with-reason-modal-model';
+import { RejectWithReasonModalComponent } from '../../../components/account-requests-table/admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
+import { AjaxLoadingComponent } from '../../../components/ajax-loading/ajax-loading.component';
+import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
+import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 
 /**
  * Account requests table component for admin search.
@@ -39,16 +39,16 @@ import { collapseAnim } from '../teammates-common/collapse-anim';
     SearchTermsHighlighterPipe,
   ],
 })
-export class AdminAccountSearchTableComponent {
+export class AdminAccountSearchTableComponent implements OnChanges {
   @Input()
-  accountRequests: AccountRequestTableRowModel[] = [];
+  accountRequests: AccountRequestSearchResult[] = [];
 
   @Input()
   searchString = '';
 
-  isRejectingAccount: boolean[] = new Array(this.accountRequests.length).fill(false);
-  isApprovingAccount: boolean[] = new Array(this.accountRequests.length).fill(false);
-  isResettingAccount: boolean[] = new Array(this.accountRequests.length).fill(false);
+  isRejectingAccount: boolean[] = [];
+  isApprovingAccount: boolean[] = [];
+  isResettingAccount: boolean[] = [];
 
   constructor(
     private statusMessageService: StatusMessageService,
@@ -56,6 +56,14 @@ export class AdminAccountSearchTableComponent {
     private accountService: AccountService,
     private ngbModal: NgbModal,
   ) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['accountRequests']) {
+      this.isRejectingAccount = new Array(this.accountRequests.length).fill(false);
+      this.isApprovingAccount = new Array(this.accountRequests.length).fill(false);
+      this.isResettingAccount = new Array(this.accountRequests.length).fill(false);
+    }
+  }
 
   /**
    * Shows all account requests' links in the page.
@@ -75,15 +83,15 @@ export class AdminAccountSearchTableComponent {
     }
   }
 
-  toggleAccountRequestLinks(accountRequest: AccountRequestTableRowModel): void {
+  toggleAccountRequestLinks(accountRequest: AccountRequestSearchResult): void {
     accountRequest.showLinks = !accountRequest.showLinks;
   }
 
-  editAccountRequest(accountRequest: AccountRequestTableRowModel): void {
+  editAccountRequest(accountRequest: AccountRequestSearchResult): void {
     const modalRef: NgbModalRef = this.ngbModal.open(EditRequestModalComponent);
     modalRef.componentInstance.accountRequestName = accountRequest.name;
     modalRef.componentInstance.accountRequestEmail = accountRequest.email;
-    modalRef.componentInstance.accountRequestInstitution = accountRequest.instituteAndCountry;
+    modalRef.componentInstance.accountRequestInstitution = accountRequest.institute;
     modalRef.componentInstance.accountRequestComments = accountRequest.comments;
 
     modalRef.result.then(
@@ -101,7 +109,7 @@ export class AdminAccountSearchTableComponent {
               accountRequest.comments = resp.comments ?? '';
               accountRequest.name = resp.name;
               accountRequest.email = resp.email;
-              accountRequest.instituteAndCountry = resp.institute;
+              accountRequest.institute = resp.institute;
               this.statusMessageService.showSuccessToast('Account request was successfully updated.');
             },
             error: (resp: ErrorMessageOutput) => {
@@ -113,7 +121,7 @@ export class AdminAccountSearchTableComponent {
     );
   }
 
-  approveAccountRequest(accountRequest: AccountRequestTableRowModel, index: number): void {
+  approveAccountRequest(accountRequest: AccountRequestSearchResult, index: number): void {
     this.isApprovingAccount[index] = true;
     this.accountService.approveAccountRequest(accountRequest.id).subscribe({
       next: (resp: AccountRequest) => {
@@ -130,11 +138,11 @@ export class AdminAccountSearchTableComponent {
     });
   }
 
-  resetAccountRequest(accountRequest: AccountRequestTableRowModel, index: number): void {
+  resetAccountRequest(accountRequest: AccountRequestSearchResult, index: number): void {
     this.isResettingAccount[index] = true;
     const modalContent = `Are you sure you want to reset the account request for
         <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
-        <strong>${accountRequest.instituteAndCountry}</strong>?
+        <strong>${accountRequest.institute}</strong>?
         An email with the account registration link will also be sent to the instructor.`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
       `Reset account request for <strong>${accountRequest.name}</strong>?`,
@@ -166,10 +174,10 @@ export class AdminAccountSearchTableComponent {
     );
   }
 
-  deleteAccountRequest(accountRequest: AccountRequestTableRowModel): void {
+  deleteAccountRequest(accountRequest: AccountRequestSearchResult): void {
     const modalContent = `Are you sure you want to <strong>delete</strong> the account request for
         <strong>${accountRequest.name}</strong> with email <strong>${accountRequest.email}</strong> from
-        <strong>${accountRequest.instituteAndCountry}</strong>?`;
+        <strong>${accountRequest.institute}</strong>?`;
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
       `Delete account request for <strong>${accountRequest.name}</strong>?`,
       SimpleModalType.DANGER,
@@ -181,9 +189,7 @@ export class AdminAccountSearchTableComponent {
         this.accountService.deleteAccountRequest(accountRequest.id).subscribe({
           next: (resp: MessageOutput) => {
             this.statusMessageService.showSuccessToast(resp.message);
-            this.accountRequests = this.accountRequests.filter(
-              (x: AccountRequestTableRowModel) => x !== accountRequest,
-            );
+            this.accountRequests = this.accountRequests.filter((x: AccountRequestSearchResult) => x !== accountRequest);
           },
           error: (resp: ErrorMessageOutput) => {
             this.statusMessageService.showErrorToast(resp.error.message);
@@ -194,7 +200,7 @@ export class AdminAccountSearchTableComponent {
     );
   }
 
-  viewAccountRequest(accountRequest: AccountRequestTableRowModel): void {
+  viewAccountRequest(accountRequest: AccountRequestSearchResult): void {
     const modalContent = `<strong>Comment:</strong> ${accountRequest.comments || 'No comments'}`;
     const modalRef: NgbModalRef = this.simpleModalService.openInformationModal(
       `Comments for <strong>${accountRequest.name}</strong> Request`,
@@ -208,7 +214,7 @@ export class AdminAccountSearchTableComponent {
     );
   }
 
-  rejectAccountRequest(accountRequest: AccountRequestTableRowModel, index: number): void {
+  rejectAccountRequest(accountRequest: AccountRequestSearchResult, index: number): void {
     this.isRejectingAccount[index] = true;
     this.accountService.rejectAccountRequest(accountRequest.id).subscribe({
       next: (resp: AccountRequest) => {
@@ -223,7 +229,7 @@ export class AdminAccountSearchTableComponent {
     });
   }
 
-  rejectAccountRequestWithReason(accountRequest: AccountRequestTableRowModel, index: number): void {
+  rejectAccountRequestWithReason(accountRequest: AccountRequestSearchResult, index: number): void {
     this.isRejectingAccount[index] = true;
     const modalRef: NgbModalRef = this.ngbModal.open(RejectWithReasonModalComponent);
     modalRef.componentInstance.accountRequestName = accountRequest.name;
@@ -255,7 +261,7 @@ export class AdminAccountSearchTableComponent {
     );
   }
 
-  trackAccountRequest(_: number, accountRequest: AccountRequestTableRowModel): string {
+  trackAccountRequest(_: number, accountRequest: AccountRequestSearchResult): string {
     return accountRequest.id;
   }
 }
