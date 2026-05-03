@@ -656,6 +656,9 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
     </tm-notification-edit-form>
   </div><tm-loading-retry>
     <div
+      aria-hidden="true"
+    />
+    <div
       class="margin-top-30px"
     >
       <div>
@@ -1326,6 +1329,9 @@ exports[`AdminNotificationsPageComponent should snap when notifications are load
       </div>
     </tm-notification-edit-form>
   </div><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div
       class="margin-top-30px"
     >
@@ -2005,6 +2011,9 @@ exports[`AdminNotificationsPageComponent should snap when notifications failed t
     </tm-notification-edit-form>
   </div><tm-loading-retry>
     <div
+      aria-hidden="true"
+    />
+    <div
       class="text-center"
     >
       <p
@@ -2680,6 +2689,9 @@ exports[`AdminNotificationsPageComponent should snap with default view 1`] = `
       </div>
     </tm-notification-edit-form>
   </div><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div
       class="margin-top-30px"
     >

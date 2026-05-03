@@ -68,7 +68,6 @@ export enum ResourceEndpoints {
   ACCOUNT_REQUEST_RESET = "/webapi/account/request/reset",
   ACCOUNT_REQUEST_REJECT = "/webapi/account/request/rejection",
   ACCOUNT_REQUEST_APPROVE = "/webapi/account/request/approval",
-  ACCOUNTS = "/webapi/accounts",
   RESPONSE_COMMENT = "/webapi/responsecomment",
   COURSE = "/webapi/course",
   BIN_COURSE = "/webapi/bin/course",

@@ -137,6 +137,9 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
     </div>
   </tm-loading-spinner><tm-loading-retry>
     <div
+      aria-hidden="true"
+    />
+    <div
       class="text-center"
     >
       <p
@@ -294,6 +297,9 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
       </div>
     </div>
   </tm-loading-spinner><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -449,6 +455,9 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
       </div>
     </div>
   </tm-loading-spinner><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -737,6 +746,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
       </div>
     </div>
   </div><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -990,6 +1002,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
       </div>
     </div>
   </div><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div>
       <tm-question-submission-form
         id="feedback-question-id-mcq"
@@ -4025,6 +4040,9 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
       </div>
     </div>
   </div><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div>
       <tm-question-submission-form
         id="feedback-question-id-mcq"
@@ -6999,6 +7017,9 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
       </div>
     </div>
   </tm-loading-spinner><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -7155,6 +7176,9 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
       </div>
     </div>
   </tm-loading-spinner><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"

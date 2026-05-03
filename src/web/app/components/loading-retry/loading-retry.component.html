@@ -1,3 +1,6 @@
+<!-- Dummy content so ngbCollapse can calculate height correctly.
+ Removing this causes projected content overflow during expand animation. -->
+<div aria-hidden="true"></div>
 @if (shouldShowRetry) {
   <div class="text-center">
     <p class="text-muted m-1">{{ message || '' }}</p>

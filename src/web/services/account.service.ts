@@ -5,7 +5,6 @@ import { ResourceEndpoints } from '../types/api-const';
 import {
   Account,
   AccountRequest,
-  Accounts,
   AccountRequests,
   JoinLink,
   MessageOutput,
@@ -125,16 +124,6 @@ export class AccountService {
       instructorid: googleId,
     };
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNT, paramMap);
-  }
-
-  /**
-   * Gets accounts by calling API.
-   */
-  getAccounts(email: string): Observable<Accounts> {
-    const paramMap: Record<string, string> = {
-      useremail: email,
-    };
-    return this.httpRequestService.get(ResourceEndpoints.ACCOUNTS, paramMap);
   }
 
   /**

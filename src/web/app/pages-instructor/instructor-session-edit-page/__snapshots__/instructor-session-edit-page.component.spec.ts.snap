@@ -54,6 +54,9 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -70,6 +73,9 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
       </div>
     </tm-loading-spinner>
   </tm-loading-retry><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div
       class="text-center"
     >
@@ -146,6 +152,9 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -162,6 +171,9 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
       </div>
     </tm-loading-spinner>
   </tm-loading-retry><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -239,6 +251,9 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
 >
   <tm-loading-retry>
     <div
+      aria-hidden="true"
+    />
+    <div
       class="text-center"
     >
       <p
@@ -257,6 +272,9 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
       </button>
     </div>
   </tm-loading-retry><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -333,6 +351,9 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -349,6 +370,9 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
       </div>
     </tm-loading-spinner>
   </tm-loading-retry><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -425,6 +449,9 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -441,6 +468,9 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
       </div>
     </tm-loading-spinner>
   </tm-loading-retry><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -517,6 +547,9 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-session-edit-form>
       <div
         class="card card-plain"
@@ -1854,6 +1887,9 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
       </div>
     </tm-session-edit-form>
   </tm-loading-retry><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div
       class="offset-md-10 margin-vertical-20px"
     >
@@ -3778,6 +3814,9 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   timezoneService={[Function TimezoneService]}
 >
   <tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-session-edit-form>
       <div
         class="card card-plain"
@@ -5112,6 +5151,9 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
       </div>
     </tm-session-edit-form>
   </tm-loading-retry><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div>
       <a
         class="d-block text-end cursor-pointer"

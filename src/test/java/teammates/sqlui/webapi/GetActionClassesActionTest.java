@@ -45,7 +45,6 @@ import teammates.ui.webapi.GenerateEmailAction;
 import teammates.ui.webapi.GetAccountAction;
 import teammates.ui.webapi.GetAccountRequestAction;
 import teammates.ui.webapi.GetAccountRequestsAction;
-import teammates.ui.webapi.GetAccountsAction;
 import teammates.ui.webapi.GetActionClassesAction;
 import teammates.ui.webapi.GetAuthInfoAction;
 import teammates.ui.webapi.GetCourseAction;
@@ -184,7 +183,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 ApproveAccountRequestAction.class,
                 RejectAccountRequestAction.class,
                 GetAccountAction.class,
-                GetAccountsAction.class,
                 FeedbackSessionPublishedRemindersAction.class,
                 SessionLinksRecoveryAction.class,
                 SendJoinReminderEmailAction.class,

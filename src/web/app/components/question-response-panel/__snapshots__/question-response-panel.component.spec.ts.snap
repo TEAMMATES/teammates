@@ -17,6 +17,9 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
     <div />
     <tm-loading-retry>
       <div
+        aria-hidden="true"
+      />
+      <div
         class="card bg-light mt-4"
         id="question-1-responses"
       >
@@ -120,6 +123,9 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
   >
     <div />
     <tm-loading-retry>
+      <div
+        aria-hidden="true"
+      />
       <div
         class="card bg-light mt-4"
         id="question-2-responses"
@@ -271,6 +277,9 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
   >
     <div />
     <tm-loading-retry>
+      <div
+        aria-hidden="true"
+      />
       <div
         class="card bg-light mt-4"
         id="question-3-responses"
@@ -450,6 +459,9 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
   >
     <div />
     <tm-loading-retry>
+      <div
+        aria-hidden="true"
+      />
       <div
         class="card bg-light mt-4"
         id="question-1-responses"
@@ -644,6 +656,9 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
     <div />
     <tm-loading-retry>
       <div
+        aria-hidden="true"
+      />
+      <div
         class="card bg-light mt-4"
         id="question-2-responses"
       >
@@ -758,6 +773,9 @@ exports[`QuestionResponsePanelComponent should snap with questions and responses
     <div />
     <tm-loading-retry>
       <div
+        aria-hidden="true"
+      />
+      <div
         class="card bg-light mt-4"
         id="question-1-responses"
       >
@@ -804,6 +822,9 @@ exports[`QuestionResponsePanelComponent should snap with questions and responses
   >
     <div />
     <tm-loading-retry>
+      <div
+        aria-hidden="true"
+      />
       <div
         class="card bg-light mt-4"
         id="question-3-responses"
@@ -977,6 +998,9 @@ exports[`QuestionResponsePanelComponent should snap with questions and responses
   >
     <div />
     <tm-loading-retry>
+      <div
+        aria-hidden="true"
+      />
       <div
         class="card bg-light mt-4"
         id="question-4-responses"
