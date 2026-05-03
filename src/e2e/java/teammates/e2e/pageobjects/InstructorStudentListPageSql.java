@@ -148,7 +148,8 @@ public class InstructorStudentListPageSql extends AppPage {
         if (targetCourse == null) {
             fail("Course with ID " + course.getId() + " is not found");
         }
-
+        waitFor(driver -> !targetCourse.findElements(By.cssSelector("tbody tr")).isEmpty()
+                && !targetCourse.findElement(By.cssSelector("tbody tr td")).getText().isEmpty());
         List<WebElement> studentRows = targetCourse.findElements(By.cssSelector("tbody tr"));
         for (WebElement studentRow : studentRows) {
             List<WebElement> studentCells = studentRow.findElements(By.tagName("td"));

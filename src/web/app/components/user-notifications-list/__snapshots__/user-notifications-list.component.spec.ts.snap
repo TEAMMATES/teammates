@@ -56,6 +56,9 @@ exports[`UserNotificationsListComponent should snap when all loaded notification
       </div>
     </div>
   </div><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div>
     </div>
     <div
@@ -182,6 +185,9 @@ exports[`UserNotificationsListComponent should snap when it fails to load 1`] = 
     </p>
   </div><tm-loading-retry>
     <div
+      aria-hidden="true"
+    />
+    <div
       class="text-center"
     >
       <p
@@ -259,6 +265,9 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
       </div>
     </div>
   </div><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div>
     </div>
     <div
@@ -438,6 +447,9 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
       </div>
     </div>
   </div><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div>
     </div>
     <div
@@ -617,6 +629,9 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
       </div>
     </div>
   </div><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div>
     </div>
     <div
@@ -762,6 +777,9 @@ exports[`UserNotificationsListComponent should snap with default fields when loa
       All dates are displayed in UTC time.
     </p>
   </div><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -808,6 +826,9 @@ exports[`UserNotificationsListComponent should snap with no notifications 1`] = 
       All dates are displayed in UTC time.
     </p>
   </div><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div>
       <div
         class="alert alert-warning margin-top-30px"

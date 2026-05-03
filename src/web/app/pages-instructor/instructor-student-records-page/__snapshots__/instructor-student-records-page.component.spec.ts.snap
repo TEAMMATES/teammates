@@ -30,6 +30,9 @@ exports[`InstructorStudentRecordsPageComponent should snap when student results 
   </h1><h2>
     Records in feedback sessions
   </h2><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -79,6 +82,9 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
   </h1><h2>
     Records in feedback sessions
   </h2><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -128,6 +134,9 @@ exports[`InstructorStudentRecordsPageComponent should snap with populated fields
   </h1><h2>
     Records in feedback sessions
   </h2><tm-loading-retry>
+    <div
+      aria-hidden="true"
+    />
     <div>
     </div>
   </tm-loading-retry>

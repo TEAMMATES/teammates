@@ -98,6 +98,9 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback
         <div>
           <tm-loading-retry>
             <div
+              aria-hidden="true"
+            />
+            <div
               class="text-center"
             >
               <p
@@ -238,6 +241,9 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
         </div>
         <div>
           <tm-loading-retry>
+            <div
+              aria-hidden="true"
+            />
             <div>
               <div
                 class="card-body"
@@ -503,6 +509,9 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
         </div>
         <div>
           <tm-loading-retry>
+            <div
+              aria-hidden="true"
+            />
             <tm-loading-spinner>
               <div
                 class="loading-container"

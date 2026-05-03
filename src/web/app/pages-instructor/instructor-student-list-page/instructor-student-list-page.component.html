@@ -57,43 +57,64 @@
               <tm-panel-chevron [isExpanded]="courseTab.hasTabExpanded"></tm-panel-chevron>
             </div>
           </div>
-          @if (courseTab.hasTabExpanded) {
-            <div @collapseAnim>
-              <tm-loading-retry
-                [shouldShowRetry]="courseTab.hasLoadingFailed"
-                [message]="'Failed to load students'"
-                (retryEvent)="loadStudents(courseTab)"
-              >
-                <div *tmIsLoading="!courseTab.hasStudentLoaded">
-                  @if (!courseTab.hasLoadingFailed) {
-                    <div class="card-body">
-                      @if (courseTab.hasStudentLoaded && courseTab.stats.numOfStudents > 0) {
-                        @if (courseTab.stats) {
-                          <div class="row text-center text-sm-start">
-                            <div class="col-md-4">
-                              <div class="card">
-                                <div class="card-body fw-bold fs-5" id="num-students">
-                                  {{ courseTab.stats.numOfStudents }} students
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-md-4">
-                              <div class="card">
-                                <div class="card-body fw-bold fs-5" id="num-sections">
-                                  {{ courseTab.stats.numOfSections }} sections
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-md-4">
-                              <div class="card">
-                                <div class="card-body fw-bold fs-5" id="num-teams">
-                                  {{ courseTab.stats.numOfTeams }} teams
-                                </div>
+          <div [ngbCollapse]="!courseTab.hasTabExpanded">
+            <tm-loading-retry
+              [shouldShowRetry]="courseTab.hasLoadingFailed"
+              [message]="'Failed to load students'"
+              (retryEvent)="loadStudents(courseTab)"
+            >
+              <div *tmIsLoading="!courseTab.hasStudentLoaded">
+                @if (!courseTab.hasLoadingFailed) {
+                  <div class="card-body">
+                    @if (courseTab.hasStudentLoaded && courseTab.stats.numOfStudents > 0) {
+                      @if (courseTab.stats) {
+                        <div class="row text-center text-sm-start">
+                          <div class="col-md-4">
+                            <div class="card">
+                              <div class="card-body fw-bold fs-5" id="num-students">
+                                {{ courseTab.stats.numOfStudents }} students
                               </div>
                             </div>
                           </div>
-                        }
-                        <hr />
+                          <div class="col-md-4">
+                            <div class="card">
+                              <div class="card-body fw-bold fs-5" id="num-sections">
+                                {{ courseTab.stats.numOfSections }} sections
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="card">
+                              <div class="card-body fw-bold fs-5" id="num-teams">
+                                {{ courseTab.stats.numOfTeams }} teams
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      }
+                      <hr />
+                      <a
+                        id="btn-enroll"
+                        class="btn btn-success"
+                        tmRouterLink="/web/instructor/courses/enroll"
+                        [queryParams]="{ courseid: courseTab.course.courseId }"
+                      >
+                        Enroll Students
+                      </a>
+                      <br /><br />
+                      <tm-student-list
+                        [courseId]="courseTab.course.courseId"
+                        [students]="courseTab.studentList"
+                        [tableSortBy]="courseTab.studentSortBy"
+                        [tableSortOrder]="courseTab.studentSortOrder"
+                        [useGrayHeading]="false"
+                        [enableRemindButton]="true"
+                        (removeStudentFromCourseEvent)="removeStudentFromCourse(courseTab, $event)"
+                      >
+                      </tm-student-list>
+                    } @else {
+                      @if (courseTab.isAbleToViewStudents) {
+                        <h5>There are no students in this course.</h5>
                         <a
                           id="btn-enroll"
                           class="btn btn-success"
@@ -102,40 +123,17 @@
                         >
                           Enroll Students
                         </a>
-                        <br /><br />
-                        <tm-student-list
-                          [courseId]="courseTab.course.courseId"
-                          [students]="courseTab.studentList"
-                          [tableSortBy]="courseTab.studentSortBy"
-                          [tableSortOrder]="courseTab.studentSortOrder"
-                          [useGrayHeading]="false"
-                          [enableRemindButton]="true"
-                          (removeStudentFromCourseEvent)="removeStudentFromCourse(courseTab, $event)"
-                        >
-                        </tm-student-list>
                       } @else {
-                        @if (courseTab.isAbleToViewStudents) {
-                          <h5>There are no students in this course.</h5>
-                          <a
-                            id="btn-enroll"
-                            class="btn btn-success"
-                            tmRouterLink="/web/instructor/courses/enroll"
-                            [queryParams]="{ courseid: courseTab.course.courseId }"
-                          >
-                            Enroll Students
-                          </a>
-                        } @else {
-                          <div class="alert alert-danger" role="alert">
-                            <h5>You do not have permission to view the details of the students in this course.</h5>
-                          </div>
-                        }
+                        <div class="alert alert-danger" role="alert">
+                          <h5>You do not have permission to view the details of the students in this course.</h5>
+                        </div>
                       }
-                    </div>
-                  }
-                </div>
-              </tm-loading-retry>
-            </div>
-          }
+                    }
+                  </div>
+                }
+              </div>
+            </tm-loading-retry>
+          </div>
         </div>
       </div>
     }

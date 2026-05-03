@@ -39,7 +39,6 @@ describe('CourseEditFormComponent', () => {
   const validCourseId = 'CS1101S';
   const validTimeZone = 'Asia/Singapore';
   const validInstitute1 = 'Test Institute1';
-  const validInstitute2 = 'Test Institute2';
   const testTimeZone = 'Australia/Adelaide';
   const timeZoneOffsets1: Record<string, number> = { GMT: 570 };
   const testCourse1: Course = {
@@ -47,14 +46,6 @@ describe('CourseEditFormComponent', () => {
     courseName: 'Test Course1',
     timeZone: validTimeZone,
     institute: validInstitute1,
-    creationTimestamp: 0,
-    deletionTimestamp: 1000,
-  };
-  const testCourse2: Course = {
-    courseId: 'testId2',
-    courseName: 'Test Course2',
-    timeZone: validTimeZone,
-    institute: validInstitute2,
     creationTimestamp: 0,
     deletionTimestamp: 1000,
   };
@@ -178,6 +169,7 @@ describe('CourseEditFormComponent', () => {
     });
 
     const testFeedbackSession: FeedbackSession = {
+      feedbackSessionId: '8a61f568-9ac1-4478-baaa-1760b817a577',
       courseId: validCourseId,
       timeZone: validTimeZone,
       feedbackSessionName: 'Test Session',
@@ -277,38 +269,6 @@ describe('CourseEditFormComponent', () => {
     component.setIsEditing(true);
 
     expect(component.editModel?.isEditing).toBe(true);
-  });
-
-  it('should update institutes when addModel is defined and when there is only one institute', () => {
-    component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL();
-    component.addModel.allCourses = [testCourse1];
-    component.addModel.course = testCourse1;
-
-    component.updateInstitutes();
-
-    expect(component.addModel.institutes).toEqual([validInstitute1]);
-    expect(component.addModel.course.institute).toBe(validInstitute1);
-  });
-
-  it('should update institutes when addModel is defined and when there is more than one institute', () => {
-    component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL();
-    component.addModel.allCourses = [testCourse1, testCourse2];
-    component.addModel.course = testCourse1;
-
-    component.updateInstitutes();
-
-    expect(component.addModel.institutes).toEqual([validInstitute1, validInstitute2]);
-    expect(component.addModel.course.institute).toBe(validInstitute1);
-  });
-
-  it('should not update institutes when allCourses of the component is empty', () => {
-    component.addModel = DEFAULT_COURSE_ADD_FORM_MODEL();
-    component.addModel.allCourses = [];
-    component.addModel.course = testCourse2;
-
-    component.updateInstitutes();
-
-    expect(component.addModel.course.institute).toBe(validInstitute2);
   });
 
   it('should set the course timeZone when not in display-only mode', () => {

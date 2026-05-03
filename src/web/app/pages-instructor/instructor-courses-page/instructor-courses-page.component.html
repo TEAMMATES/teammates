@@ -9,19 +9,17 @@
   </button>
 </div>
 
-@if (isAddNewCourseFormExpanded && !isLoadingCourses) {
-  <div id="add-course-section" class="course-section" @collapseAnim>
-    <tm-course-edit-form
-      [formMode]="CourseEditFormMode.ADD"
-      [formModel]="courseFormModel"
-      [resetFormEvent]="resetCourseForm"
-      (closeFormEvent)="isAddNewCourseFormExpanded = false"
-      (createNewCourseEvent)="createNewCourse()"
-      (copyCourseEvent)="createCopiedCourse($event)"
-    >
-    </tm-course-edit-form>
-  </div>
-}
+<div id="add-course-section" class="course-section" [ngbCollapse]="!isAddNewCourseFormExpanded || isLoadingCourses">
+  <tm-course-edit-form
+    [formMode]="CourseEditFormMode.ADD"
+    [formModel]="courseFormModel"
+    [resetFormEvent]="resetCourseForm"
+    (closeFormEvent)="isAddNewCourseFormExpanded = false"
+    (createNewCourseEvent)="createNewCourse()"
+    (copyCourseEvent)="createCopiedCourse($event)"
+  >
+  </tm-course-edit-form>
+</div>
 
 @if (isCopyingCourse) {
   <div class="margin-top-30px">
@@ -37,7 +35,7 @@
 >
   <div class="course-section">
     <h2 class="h3">Active courses</h2>
-    <div *tmIsLoading="isLoadingActiveCourses">
+    <div *tmIsLoading="isLoadingCourses">
       <ng-template #addCourseAlert>
         <div class="alert alert-warning margin-top-30px" role="alert">
           You do not seem to have any active courses. Use the button above to create a new course.
@@ -316,7 +314,7 @@
 <div class="row course-section margin-top-30px">
   <div class="col-12">
     <h2 class="h3 text-muted"><span class="fa fa-trash-alt" aria-hidden="true"></span> Deleted courses</h2>
-    <div *tmIsLoading="isLoadingSoftDeletedCourses">
+    <div *tmIsLoading="isLoadingCourses">
       <ng-template #emptyBinAlert>
         <div class="alert alert-warning margin-top-30px" role="alert">There are no courses in the bin.</div>
       </ng-template>
@@ -362,162 +360,154 @@
               <tm-panel-chevron [isExpanded]="isRecycleBinExpanded"></tm-panel-chevron>
             </div>
           </div>
-          @if (isRecycleBinExpanded) {
-            <div class="card-body recycle-bin-body table-responsive" @collapseAnim>
-              <table
-                id="deleted-courses-table"
-                class="table table-responsive-lg table-striped table-bordered recycle-bin-table"
-              >
-                <thead>
-                  <tr class="background-color-medium-gray text-color-gray">
-                    <th
-                      class="sortable-header"
-                      (click)="sortDeletedCoursesEvent(SortBy.COURSE_ID)"
-                      [attr.aria-sort]="getAriaSortDeleted(SortBy.COURSE_ID)"
-                    >
-                      <button>
-                        Course ID
-                        <span class="fa-stack" aria-hidden="true">
-                          <i class="fas fa-sort"></i>
-                          @if (deletedTableSortBy === SortBy.COURSE_ID && deletedTableSortOrder === SortOrder.DESC) {
-                            <i class="fas fa-sort-down"></i>
-                          }
-                          @if (deletedTableSortBy === SortBy.COURSE_ID && deletedTableSortOrder === SortOrder.ASC) {
-                            <i class="fas fa-sort-up"></i>
-                          }
-                        </span>
-                      </button>
-                    </th>
-                    <th
-                      class="sortable-header"
-                      (click)="sortDeletedCoursesEvent(SortBy.COURSE_NAME)"
-                      [attr.aria-sort]="getAriaSortDeleted(SortBy.COURSE_NAME)"
-                    >
-                      <button>
-                        Course Name
-                        <span class="fa-stack" aria-hidden="true">
-                          <i class="fas fa-sort"></i>
-                          @if (deletedTableSortBy === SortBy.COURSE_NAME && deletedTableSortOrder === SortOrder.DESC) {
-                            <i class="fas fa-sort-down"></i>
-                          }
-                          @if (deletedTableSortBy === SortBy.COURSE_NAME && deletedTableSortOrder === SortOrder.ASC) {
-                            <i class="fas fa-sort-up"></i>
-                          }
-                        </span>
-                      </button>
-                    </th>
-                    <th
-                      class="sortable-header"
-                      (click)="sortDeletedCoursesEvent(SortBy.COURSE_CREATION_DATE)"
-                      [attr.aria-sort]="getAriaSortDeleted(SortBy.COURSE_CREATION_DATE)"
-                    >
-                      <button>
-                        Creation Date
-                        <span class="fa-stack" aria-hidden="true">
-                          <i class="fas fa-sort"></i>
-                          @if (
-                            deletedTableSortBy === SortBy.COURSE_CREATION_DATE &&
-                            deletedTableSortOrder === SortOrder.DESC
-                          ) {
-                            <i class="fas fa-sort-down"></i>
-                          }
-                          @if (
-                            deletedTableSortBy === SortBy.COURSE_CREATION_DATE &&
-                            deletedTableSortOrder === SortOrder.ASC
-                          ) {
-                            <i class="fas fa-sort-up"></i>
-                          }
-                        </span>
-                      </button>
-                    </th>
-                    <th
-                      class="sortable-header"
-                      (click)="sortDeletedCoursesEvent(SortBy.COURSE_DELETION_DATE)"
-                      [attr.aria-sort]="getAriaSortDeleted(SortBy.COURSE_DELETION_DATE)"
-                    >
-                      <button>
-                        Deletion Date
-                        <span class="fa-stack" aria-hidden="true">
-                          <i class="fas fa-sort"></i>
-                          @if (
-                            deletedTableSortBy === SortBy.COURSE_DELETION_DATE &&
-                            deletedTableSortOrder === SortOrder.DESC
-                          ) {
-                            <i class="fas fa-sort-down"></i>
-                          }
-                          @if (
-                            deletedTableSortBy === SortBy.COURSE_DELETION_DATE &&
-                            deletedTableSortOrder === SortOrder.ASC
-                          ) {
-                            <i class="fas fa-sort-up"></i>
-                          }
-                        </span>
-                      </button>
-                    </th>
-                    <th class="text-center">Action(s)</th>
+          <div class="card-body recycle-bin-body table-responsive" [ngbCollapse]="!isRecycleBinExpanded">
+            <table
+              id="deleted-courses-table"
+              class="table table-responsive-lg table-striped table-bordered recycle-bin-table"
+            >
+              <thead>
+                <tr class="background-color-medium-gray text-color-gray">
+                  <th
+                    class="sortable-header"
+                    (click)="sortDeletedCoursesEvent(SortBy.COURSE_ID)"
+                    [attr.aria-sort]="getAriaSortDeleted(SortBy.COURSE_ID)"
+                  >
+                    <button>
+                      Course ID
+                      <span class="fa-stack" aria-hidden="true">
+                        <i class="fas fa-sort"></i>
+                        @if (deletedTableSortBy === SortBy.COURSE_ID && deletedTableSortOrder === SortOrder.DESC) {
+                          <i class="fas fa-sort-down"></i>
+                        }
+                        @if (deletedTableSortBy === SortBy.COURSE_ID && deletedTableSortOrder === SortOrder.ASC) {
+                          <i class="fas fa-sort-up"></i>
+                        }
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    class="sortable-header"
+                    (click)="sortDeletedCoursesEvent(SortBy.COURSE_NAME)"
+                    [attr.aria-sort]="getAriaSortDeleted(SortBy.COURSE_NAME)"
+                  >
+                    <button>
+                      Course Name
+                      <span class="fa-stack" aria-hidden="true">
+                        <i class="fas fa-sort"></i>
+                        @if (deletedTableSortBy === SortBy.COURSE_NAME && deletedTableSortOrder === SortOrder.DESC) {
+                          <i class="fas fa-sort-down"></i>
+                        }
+                        @if (deletedTableSortBy === SortBy.COURSE_NAME && deletedTableSortOrder === SortOrder.ASC) {
+                          <i class="fas fa-sort-up"></i>
+                        }
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    class="sortable-header"
+                    (click)="sortDeletedCoursesEvent(SortBy.COURSE_CREATION_DATE)"
+                    [attr.aria-sort]="getAriaSortDeleted(SortBy.COURSE_CREATION_DATE)"
+                  >
+                    <button>
+                      Creation Date
+                      <span class="fa-stack" aria-hidden="true">
+                        <i class="fas fa-sort"></i>
+                        @if (
+                          deletedTableSortBy === SortBy.COURSE_CREATION_DATE && deletedTableSortOrder === SortOrder.DESC
+                        ) {
+                          <i class="fas fa-sort-down"></i>
+                        }
+                        @if (
+                          deletedTableSortBy === SortBy.COURSE_CREATION_DATE && deletedTableSortOrder === SortOrder.ASC
+                        ) {
+                          <i class="fas fa-sort-up"></i>
+                        }
+                      </span>
+                    </button>
+                  </th>
+                  <th
+                    class="sortable-header"
+                    (click)="sortDeletedCoursesEvent(SortBy.COURSE_DELETION_DATE)"
+                    [attr.aria-sort]="getAriaSortDeleted(SortBy.COURSE_DELETION_DATE)"
+                  >
+                    <button>
+                      Deletion Date
+                      <span class="fa-stack" aria-hidden="true">
+                        <i class="fas fa-sort"></i>
+                        @if (
+                          deletedTableSortBy === SortBy.COURSE_DELETION_DATE && deletedTableSortOrder === SortOrder.DESC
+                        ) {
+                          <i class="fas fa-sort-down"></i>
+                        }
+                        @if (
+                          deletedTableSortBy === SortBy.COURSE_DELETION_DATE && deletedTableSortOrder === SortOrder.ASC
+                        ) {
+                          <i class="fas fa-sort-up"></i>
+                        }
+                      </span>
+                    </button>
+                  </th>
+                  <th class="text-center">Action(s)</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (course of softDeletedCourses; track course; let i = $index) {
+                  <tr>
+                    <td id="deleted-course-id-{{ i }}" class="text-break">{{ course.course.courseId }}</td>
+                    <td class="text-break">{{ course.course.courseName }}</td>
+                    <td>
+                      <span
+                        container="body"
+                        class="ngb-tooltip-class"
+                        [ngbTooltip]="course.course.creationTimestamp | date: 'EEE, dd MMM yyyy, h:mma'"
+                      >
+                        {{ course.course.creationTimestamp | date: 'd MMM yyyy' }}
+                      </span>
+                    </td>
+                    <td>
+                      <span
+                        container="body"
+                        class="ngb-tooltip-class"
+                        [ngbTooltip]="course.course.deletionTimestamp | date: 'EEE, dd MMM yyyy, h:mma'"
+                      >
+                        {{ course.course.deletionTimestamp | date: 'd MMM yyyy' }}
+                      </span>
+                    </td>
+                    <td class="text-center actions-cell">
+                      @if (course.canModifyCourse) {
+                        <button
+                          id="btn-restore-{{ i }}"
+                          class="btn btn-light btn-sm"
+                          (click)="onRestore(course.course.courseId)"
+                          ngbTooltip="Restore the deleted course and its corresponding students and sessions"
+                        >
+                          Restore
+                        </button>
+                      }
+                      @if (!course.canModifyCourse) {
+                        <button id="btn-restore-disabled-{{ i }}" class="btn btn-light btn-sm disabled">Restore</button>
+                      }
+                      @if (course.canModifyCourse) {
+                        <button
+                          id="btn-delete-{{ i }}"
+                          class="btn btn-light btn-sm text-danger"
+                          (click)="onDeletePermanently(course.course.courseId)"
+                          ngbTooltip="Permanently delete the course and its corresponding students and sessions"
+                        >
+                          Delete Permanently
+                        </button>
+                      }
+                      @if (!course.canModifyCourse) {
+                        <button id="btn-delete-disabled-{{ i }}" class="btn btn-light btn-sm disabled text-danger">
+                          Delete Permanently
+                        </button>
+                      }
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  @for (course of softDeletedCourses; track course; let i = $index) {
-                    <tr>
-                      <td id="deleted-course-id-{{ i }}" class="text-break">{{ course.course.courseId }}</td>
-                      <td class="text-break">{{ course.course.courseName }}</td>
-                      <td>
-                        <span
-                          container="body"
-                          class="ngb-tooltip-class"
-                          [ngbTooltip]="course.course.creationTimestamp | date: 'EEE, dd MMM yyyy, h:mma'"
-                        >
-                          {{ course.course.creationTimestamp | date: 'd MMM yyyy' }}
-                        </span>
-                      </td>
-                      <td>
-                        <span
-                          container="body"
-                          class="ngb-tooltip-class"
-                          [ngbTooltip]="course.course.deletionTimestamp | date: 'EEE, dd MMM yyyy, h:mma'"
-                        >
-                          {{ course.course.deletionTimestamp | date: 'd MMM yyyy' }}
-                        </span>
-                      </td>
-                      <td class="text-center actions-cell">
-                        @if (course.canModifyCourse) {
-                          <button
-                            id="btn-restore-{{ i }}"
-                            class="btn btn-light btn-sm"
-                            (click)="onRestore(course.course.courseId)"
-                            ngbTooltip="Restore the deleted course and its corresponding students and sessions"
-                          >
-                            Restore
-                          </button>
-                        }
-                        @if (!course.canModifyCourse) {
-                          <button id="btn-restore-disabled-{{ i }}" class="btn btn-light btn-sm disabled">
-                            Restore
-                          </button>
-                        }
-                        @if (course.canModifyCourse) {
-                          <button
-                            id="btn-delete-{{ i }}"
-                            class="btn btn-light btn-sm text-danger"
-                            (click)="onDeletePermanently(course.course.courseId)"
-                            ngbTooltip="Permanently delete the course and its corresponding students and sessions"
-                          >
-                            Delete Permanently
-                          </button>
-                        }
-                        @if (!course.canModifyCourse) {
-                          <button id="btn-delete-disabled-{{ i }}" class="btn btn-light btn-sm disabled text-danger">
-                            Delete Permanently
-                          </button>
-                        }
-                      </td>
-                    </tr>
-                  }
-                </tbody>
-              </table>
-            </div>
-          }
+                }
+              </tbody>
+            </table>
+          </div>
         </div>
       } @else {
         <div class="alert alert-warning margin-top-30px" role="alert">There are no courses in the bin.</div>

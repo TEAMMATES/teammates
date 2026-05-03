@@ -1,7 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import SpyInstance = jest.SpyInstance;
@@ -234,7 +233,6 @@ describe('InstructorCoursesPageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule],
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
   }));
@@ -282,6 +280,9 @@ describe('InstructorCoursesPageComponent', () => {
     expect(component.softDeletedCourses.length).toEqual(1);
     expect(component.softDeletedCourses[0].course.courseId).toEqual('ST4234');
     expect(component.softDeletedCourses[0].course.courseName).toEqual('Bayesian Statistics');
+
+    expect(component.courseFormModel.institutes).toEqual(['Test Institute']);
+    expect(component.courseFormModel.course.institute).toEqual('Test Institute');
   });
 
   it('should get the course statistics', () => {
@@ -345,8 +346,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should show add course form and disable button when clicking on add new course', () => {
     component.activeCourses = [courseModelCS3282];
-    component.isLoadingActiveCourses = false;
-    component.isLoadingSoftDeletedCourses = false;
+    component.isLoadingCourses = false;
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#btn-add-course');
@@ -360,7 +360,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should disable enroll button when instructor cannot modify student', () => {
     component.activeCourses = [courseModelCS3282];
-    component.isLoadingActiveCourses = false;
+    component.isLoadingCourses = false;
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#btn-enroll-disabled-0');
@@ -370,7 +370,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should disable delete button when instructor cannot modify active course', () => {
     component.activeCourses = [courseModelST4234];
-    component.isLoadingActiveCourses = false;
+    component.isLoadingCourses = false;
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#btn-soft-delete-disabled-0');
@@ -380,12 +380,12 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should disable restore and permanently delete buttons when instructor cannot modify deleted course', () => {
     component.softDeletedCourses = [courseModelST4234];
-    component.isLoadingSoftDeletedCourses = false;
+    component.isLoadingCourses = false;
     component.isRecycleBinExpanded = true;
     fixture.detectChanges();
 
     const restoreButton: any = fixture.debugElement.nativeElement.querySelector('#btn-restore-disabled-0');
-    expect(restoreButton.textContent).toEqual(' Restore ');
+    expect(restoreButton.textContent).toEqual('Restore');
     expect(restoreButton.className).toContain('disabled');
 
     const disableButton: any = fixture.debugElement.nativeElement.querySelector('#btn-delete-disabled-0');
@@ -395,7 +395,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should sort courses by their IDs', () => {
     component.activeCourses = [courseModelCS3282, courseModelST4234, courseModelCS1231, courseModelCS3281];
-    component.isLoadingActiveCourses = false;
+    component.isLoadingCourses = false;
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#sort-course-id');
@@ -408,7 +408,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should sort courses by their names', () => {
     component.activeCourses = [courseModelCS3282, courseModelST4234, courseModelCS1231, courseModelCS3281];
-    component.isLoadingActiveCourses = false;
+    component.isLoadingCourses = false;
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#sort-course-name');
@@ -421,7 +421,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should sort courses by their creation dates', () => {
     component.activeCourses = [courseModelCS3282, courseModelST4234, courseModelCS1231, courseModelCS3281];
-    component.isLoadingActiveCourses = false;
+    component.isLoadingCourses = false;
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#sort-creation-date');
@@ -440,7 +440,7 @@ describe('InstructorCoursesPageComponent', () => {
     component.activeCourses = activeCoursesSnap;
     component.softDeletedCourses = deletedCoursesSnap;
     component.courseStats = courseStatsSnap;
-    component.isLoadingActiveCourses = false;
+    component.isLoadingCourses = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -451,28 +451,27 @@ describe('InstructorCoursesPageComponent', () => {
     component.courseStats = courseStatsSnap;
     component.canDeleteAll = false;
     component.canRestoreAll = false;
-    component.isLoadingActiveCourses = false;
+    component.isLoadingCourses = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap with no courses in course stats', () => {
     component.activeCourses = activeCoursesSnap;
-    component.isLoadingActiveCourses = false;
+    component.isLoadingCourses = false;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap when courses are still loading', () => {
-    component.isLoadingActiveCourses = true;
+    component.isLoadingCourses = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
   it('should snap when new course form is expanded', () => {
     component.isAddNewCourseFormExpanded = true;
-    component.isLoadingActiveCourses = false;
-    component.isLoadingSoftDeletedCourses = false;
+    component.isLoadingCourses = false;
     // Mock the timezone service to prevent unexpected changes in time zones over time, such as daylight savings time
     const timezones: Record<string, number> = {
       Jamaica: -5 * 60,
