@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.ui.output.ActionClasses;
-// All redundant teammates.ui.webapi.* imports removed to resolve lint errors
 
 /**
  * SUT: {@link GetActionClassesAction}.
