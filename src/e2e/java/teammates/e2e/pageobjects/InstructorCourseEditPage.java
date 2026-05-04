@@ -23,7 +23,7 @@ import teammates.logic.entity.Instructor;
 /**
  * Represents the instructor course edit page of the website.
  */
-public class InstructorCourseEditPageSql extends AppPage {
+public class InstructorCourseEditPage extends AppPage {
     private static final int INSTRUCTOR_TYPE_COOWNER = 0;
     private static final int INSTRUCTOR_TYPE_MANAGER = 1;
     private static final int INSTRUCTOR_TYPE_OBSERVER = 2;
@@ -75,7 +75,7 @@ public class InstructorCourseEditPageSql extends AppPage {
     @FindBy(id = "btn-copy-instructor")
     private WebElement copyInstructorsButton;
 
-    public InstructorCourseEditPageSql(Browser browser) {
+    public InstructorCourseEditPage(Browser browser) {
         super(browser);
     }
 

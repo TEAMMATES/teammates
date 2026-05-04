@@ -38,7 +38,7 @@ import teammates.logic.entity.FeedbackSession;
 /**
  * Page Object Model for feedback results page.
  */
-public class FeedbackResultsPageSql extends AppPage {
+public class FeedbackResultsPage extends AppPage {
     private static final String CURRENT_STUDENT_IDENTIFIER = "You";
 
     @FindBy(id = "course-id")
@@ -59,7 +59,7 @@ public class FeedbackResultsPageSql extends AppPage {
     @FindBy(id = "closing-time")
     private WebElement sessionClosingTime;
 
-    public FeedbackResultsPageSql(Browser browser) {
+    public FeedbackResultsPage(Browser browser) {
         super(browser);
     }
 

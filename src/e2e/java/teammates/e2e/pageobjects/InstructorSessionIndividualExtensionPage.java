@@ -24,7 +24,7 @@ import teammates.logic.entity.Student;
 /**
  * Represents the instructor session individual extension page.
  */
-public class InstructorSessionIndividualExtensionPageSql extends AppPage {
+public class InstructorSessionIndividualExtensionPage extends AppPage {
 
     private static final int STUDENT_SECTION_INDEX = 1;
     private static final int STUDENT_TEAM_INDEX = 2;
@@ -49,7 +49,7 @@ public class InstructorSessionIndividualExtensionPageSql extends AppPage {
     @FindBy(id = "instructor-list-table")
     private WebElement instructorListTable;
 
-    public InstructorSessionIndividualExtensionPageSql(Browser browser) {
+    public InstructorSessionIndividualExtensionPage(Browser browser) {
         super(browser);
     }
 

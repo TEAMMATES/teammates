@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
+import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorStudentActivityLogsPage;
 import teammates.logic.entity.Course;
 import teammates.logic.entity.FeedbackQuestion;
@@ -70,8 +70,8 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
                 .withCourseId(course.getId())
                 .withFeedbackSessionId(feedbackSession.getId().toString())
                 .withSessionName(feedbackSession.getName());
-        FeedbackSubmitPageSql studentSubmissionPage = loginToPage(studentSubmissionPageUrl,
-                FeedbackSubmitPageSql.class, student.getGoogleId());
+        FeedbackSubmitPage studentSubmissionPage = loginToPage(studentSubmissionPageUrl,
+                FeedbackSubmitPage.class, student.getGoogleId());
 
         Student receiver = testData.students.get("benny.tmms@ISActLogs.CS2104");
 

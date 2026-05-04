@@ -19,7 +19,7 @@ import teammates.logic.entity.Notification;
 /**
  * Page Object Model for user notifications page.
  */
-public class UserNotificationsPageSql extends AppPage {
+public class UserNotificationsPage extends AppPage {
 
     @FindBy(id = "notification-tabs")
     private WebElement notificationTabs;
@@ -27,7 +27,7 @@ public class UserNotificationsPageSql extends AppPage {
     @FindBy(id = "notifications-timezone")
     private WebElement notificationsTimezone;
 
-    public UserNotificationsPageSql(Browser browser) {
+    public UserNotificationsPage(Browser browser) {
         super(browser);
     }
 

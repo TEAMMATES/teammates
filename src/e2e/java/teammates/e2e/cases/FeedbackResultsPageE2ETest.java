@@ -12,7 +12,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.FeedbackResultsPageSql;
+import teammates.e2e.pageobjects.FeedbackResultsPage;
 import teammates.logic.entity.Course;
 import teammates.logic.entity.FeedbackQuestion;
 import teammates.logic.entity.FeedbackResponse;
@@ -25,7 +25,7 @@ import teammates.logic.entity.Student;
  * SUT: {@link Const.WebPageURIs#SESSION_RESULTS_PAGE}.
  */
 public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
-    private FeedbackResultsPageSql resultsPage;
+    private FeedbackResultsPage resultsPage;
     private Course course;
     private FeedbackSession openSession;
     private List<FeedbackQuestion> questions = new ArrayList<>();
@@ -53,7 +53,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .withFeedbackSessionId(openSession.getId().toString())
                 .withSessionName(openSession.getName())
                 .withRegistrationKey(unregistered.getRegKey());
-        resultsPage = getNewPageInstance(url, FeedbackResultsPageSql.class);
+        resultsPage = getNewPageInstance(url, FeedbackResultsPage.class);
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
 
@@ -66,7 +66,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .withCourseId(openSession.getCourseId())
                 .withFeedbackSessionId(openSession.getId().toString())
                 .withSessionName(openSession.getName());
-        resultsPage = loginToPage(url, FeedbackResultsPageSql.class, student.getGoogleId());
+        resultsPage = loginToPage(url, FeedbackResultsPage.class, student.getGoogleId());
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
 
@@ -110,7 +110,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .withCourseId(openSession.getCourseId())
                 .withFeedbackSessionId(openSession.getId().toString())
                 .withSessionName(openSession.getName());
-        resultsPage = loginToPage(url, FeedbackResultsPageSql.class, instructor.getGoogleId());
+        resultsPage = loginToPage(url, FeedbackResultsPage.class, instructor.getGoogleId());
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
 
@@ -126,7 +126,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .withFeedbackSessionId(openSession.getId().toString())
                 .withSessionName(openSession.getName())
                 .withParam("previewas", student.getEmail());
-        resultsPage = getNewPageInstance(url, FeedbackResultsPageSql.class);
+        resultsPage = getNewPageInstance(url, FeedbackResultsPage.class);
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
 
@@ -154,7 +154,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .withFeedbackSessionId(openSession.getId().toString())
                 .withSessionName(openSession.getName())
                 .withParam("previewas", instructor.getEmail());
-        resultsPage = getNewPageInstance(url, FeedbackResultsPageSql.class);
+        resultsPage = getNewPageInstance(url, FeedbackResultsPage.class);
 
         resultsPage.verifyFeedbackSessionDetails(openSession, course);
     }

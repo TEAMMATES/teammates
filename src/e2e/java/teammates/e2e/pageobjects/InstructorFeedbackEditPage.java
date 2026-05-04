@@ -38,7 +38,7 @@ import teammates.test.ThreadHelper;
 /**
  * Represents the instructor feedback edit page of the website.
  */
-public class InstructorFeedbackEditPageSql extends AppPage {
+public class InstructorFeedbackEditPage extends AppPage {
     private static final String CUSTOM_FEEDBACK_PATH_OPTION = "Custom feedback path";
     private static final String FEEDBACK_PATH_SEPARATOR = " will give feedback on ";
     private static final String CUSTOM_VISIBILITY_OPTION = "Custom visibility options";
@@ -145,7 +145,7 @@ public class InstructorFeedbackEditPageSql extends AppPage {
     @FindBy(id = "btn-preview-instructor")
     private WebElement previewAsInstructorButton;
 
-    public InstructorFeedbackEditPageSql(Browser browser) {
+    public InstructorFeedbackEditPage(Browser browser) {
         super(browser);
     }
 
@@ -283,29 +283,29 @@ public class InstructorFeedbackEditPageSql extends AppPage {
         clickAndConfirm(waitForElementPresence(By.id("btn-fs-delete")));
     }
 
-    public FeedbackSubmitPageSql previewAsStudent(Student student) {
+    public FeedbackSubmitPage previewAsStudent(Student student) {
         selectDropdownOptionByText(previewAsStudentDropdown, String.format("[%s] %s", student.getTeamName(),
                 student.getName()));
         return previewAsStudent();
     }
 
-    public FeedbackSubmitPageSql previewAsStudent() {
+    public FeedbackSubmitPage previewAsStudent() {
         click(previewAsStudentButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
-        return changePageType(FeedbackSubmitPageSql.class);
+        return changePageType(FeedbackSubmitPage.class);
     }
 
-    public FeedbackSubmitPageSql previewAsInstructor(Instructor instructor) {
+    public FeedbackSubmitPage previewAsInstructor(Instructor instructor) {
         selectDropdownOptionByText(previewAsInstructorDropdown, instructor.getName());
         return previewAsInstructor();
     }
 
-    public FeedbackSubmitPageSql previewAsInstructor() {
+    public FeedbackSubmitPage previewAsInstructor() {
         click(previewAsInstructorButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
-        return changePageType(FeedbackSubmitPageSql.class);
+        return changePageType(FeedbackSubmitPage.class);
     }
 
     public void verifyNumQuestions(int expected) {

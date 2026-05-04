@@ -10,7 +10,7 @@ import teammates.logic.entity.Student;
 /**
  * Represents the instructor course student details view page of the website.
  */
-public class InstructorCourseStudentDetailsViewPageSql extends AppPage {
+public class InstructorCourseStudentDetailsViewPage extends AppPage {
     private static final String NOT_SPECIFIED_LABEL = "Not Specified";
 
     @FindBy (id = "student-name")
@@ -31,7 +31,7 @@ public class InstructorCourseStudentDetailsViewPageSql extends AppPage {
     @FindBy (id = "comments")
     private WebElement studentComments;
 
-    public InstructorCourseStudentDetailsViewPageSql(Browser browser) {
+    public InstructorCourseStudentDetailsViewPage(Browser browser) {
         super(browser);
     }
 

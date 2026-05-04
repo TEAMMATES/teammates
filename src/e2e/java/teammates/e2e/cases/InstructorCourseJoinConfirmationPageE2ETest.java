@@ -5,7 +5,7 @@ import org.testng.annotations.Test;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.CourseJoinConfirmationPage;
-import teammates.e2e.pageobjects.InstructorHomePageSql;
+import teammates.e2e.pageobjects.InstructorHomePage;
 import teammates.logic.entity.Instructor;
 
 /**
@@ -46,11 +46,11 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
         confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);
 
         confirmationPage.verifyJoiningUser(newInstructorId);
-        confirmationPage.confirmJoinCourse(InstructorHomePageSql.class);
+        confirmationPage.confirmJoinCourse(InstructorHomePage.class);
 
         ______TS("Already joined, no confirmation page");
 
-        getNewPageInstance(joinLink, InstructorHomePageSql.class);
+        getNewPageInstance(joinLink, InstructorHomePage.class);
 
         logout();
 
@@ -74,10 +74,10 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
 
         confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);
         confirmationPage.verifyJoiningUser("ICJoinConf.newinstr");
-        confirmationPage.confirmJoinCourse(InstructorHomePageSql.class);
+        confirmationPage.confirmJoinCourse(InstructorHomePage.class);
 
         ______TS("Regkey for account request used, no confirmation page");
 
-        getNewPageInstance(joinLink, InstructorHomePageSql.class);
+        getNewPageInstance(joinLink, InstructorHomePage.class);
     }
 }

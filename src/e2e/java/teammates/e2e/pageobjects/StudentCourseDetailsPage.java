@@ -18,7 +18,7 @@ import teammates.logic.entity.Student;
 /**
  * Page Object Model for student course details page.
  */
-public class StudentCourseDetailsPageSql extends AppPage {
+public class StudentCourseDetailsPage extends AppPage {
 
     @FindBy(id = "course-name")
     private WebElement courseNameField;
@@ -44,7 +44,7 @@ public class StudentCourseDetailsPageSql extends AppPage {
     @FindBy(id = "student-email")
     private WebElement studentEmailField;
 
-    public StudentCourseDetailsPageSql(Browser browser) {
+    public StudentCourseDetailsPage(Browser browser) {
         super(browser);
     }
 

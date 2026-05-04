@@ -6,7 +6,7 @@ import com.deque.html.axecore.results.Results;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorHomePageSql;
+import teammates.e2e.pageobjects.InstructorHomePage;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_HOME_PAGE}.
@@ -23,7 +23,7 @@ public class InstructorHomePageAxeTest extends BaseAxeTestCase {
     @Override
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE);
-        InstructorHomePageSql homePage = loginToPage(url, InstructorHomePageSql.class,
+        InstructorHomePage homePage = loginToPage(url, InstructorHomePage.class,
                 testData.instructors.get("IHome.instr.CS2104").getGoogleId());
 
         Results results = getAxeBuilder().analyze(homePage.getBrowser().getDriver());

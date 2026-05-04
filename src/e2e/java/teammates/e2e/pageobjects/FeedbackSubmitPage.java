@@ -41,9 +41,9 @@ import teammates.logic.entity.FeedbackSession;
 /**
  * Represents the feedback submission page of the website.
  */
-public class FeedbackSubmitPageSql extends AppPage {
+public class FeedbackSubmitPage extends AppPage {
 
-    public FeedbackSubmitPageSql(Browser browser) {
+    public FeedbackSubmitPage(Browser browser) {
         super(browser);
     }
 

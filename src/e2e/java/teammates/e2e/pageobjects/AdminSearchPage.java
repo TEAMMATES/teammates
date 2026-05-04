@@ -20,7 +20,7 @@ import teammates.logic.entity.Student;
 /**
  * Represents the admin home page of the website.
  */
-public class AdminSearchPageSql extends AppPage {
+public class AdminSearchPage extends AppPage {
     private static final int STUDENT_COL_DETAILS = 1;
     private static final int STUDENT_COL_NAME = 2;
     private static final int STUDENT_COL_GOOGLE_ID = 3;
@@ -69,7 +69,7 @@ public class AdminSearchPageSql extends AppPage {
     @FindBy(id = "hide-account-request-links")
     private WebElement collapseAccountRequestLinksButton;
 
-    public AdminSearchPageSql(Browser browser) {
+    public AdminSearchPage(Browser browser) {
         super(browser);
     }
 

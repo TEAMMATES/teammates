@@ -9,10 +9,10 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorCourseDetailsPageSql;
-import teammates.e2e.pageobjects.InstructorCourseStudentDetailsEditPageSql;
-import teammates.e2e.pageobjects.InstructorCourseStudentDetailsViewPageSql;
-import teammates.e2e.pageobjects.InstructorStudentRecordsPageSql;
+import teammates.e2e.pageobjects.InstructorCourseDetailsPage;
+import teammates.e2e.pageobjects.InstructorCourseStudentDetailsEditPage;
+import teammates.e2e.pageobjects.InstructorCourseStudentDetailsViewPage;
+import teammates.e2e.pageobjects.InstructorStudentRecordsPage;
 import teammates.logic.entity.Course;
 import teammates.logic.entity.Instructor;
 import teammates.logic.entity.Student;
@@ -41,8 +41,8 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         Instructor instructor1 = testData.instructors.get("ICDet.instr");
         AppUrl detailsPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
                 .withCourseId(course.getId());
-        InstructorCourseDetailsPageSql detailsPage =
-                loginToPage(detailsPageUrl, InstructorCourseDetailsPageSql.class, instructor1.getGoogleId());
+        InstructorCourseDetailsPage detailsPage =
+                loginToPage(detailsPageUrl, InstructorCourseDetailsPage.class, instructor1.getGoogleId());
 
         ______TS("verify loaded details");
         List<Instructor> instructors = Arrays.asList(instructor1, testData.instructors.get("ICDet.instr2"));
@@ -64,19 +64,19 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("link: view student details page");
         Student studentToView = testData.students.get("benny.tmms@ICDet.CS2104");
-        InstructorCourseStudentDetailsViewPageSql studentDetailsViewPage =
+        InstructorCourseStudentDetailsViewPage studentDetailsViewPage =
                 detailsPage.clickViewStudent(studentToView.getEmail());
         studentDetailsViewPage.verifyIsCorrectPage(course.getId(), studentToView.getEmail());
         studentDetailsViewPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("link: edit student details page");
-        InstructorCourseStudentDetailsEditPageSql studentDetailsEditPage =
+        InstructorCourseStudentDetailsEditPage studentDetailsEditPage =
                 detailsPage.clickEditStudent(studentToView.getEmail());
         studentDetailsEditPage.verifyIsCorrectPage(course.getId(), studentToView.getEmail());
         studentDetailsEditPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("link: view all records page");
-        InstructorStudentRecordsPageSql studentRecordsPage =
+        InstructorStudentRecordsPage studentRecordsPage =
                 detailsPage.clickViewAllRecords(studentToView.getEmail());
         studentRecordsPage.verifyIsCorrectPage(course.getId(), studentToView.getName());
         studentRecordsPage.closeCurrentWindowAndSwitchToParentWindow();

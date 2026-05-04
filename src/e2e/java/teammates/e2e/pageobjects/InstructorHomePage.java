@@ -16,9 +16,9 @@ import teammates.logic.entity.Student;
 /**
  * Represents the instructor home page.
  */
-public class InstructorHomePageSql extends AppPage {
+public class InstructorHomePage extends AppPage {
 
-    public InstructorHomePageSql(Browser browser) {
+    public InstructorHomePage(Browser browser) {
         super(browser);
     }
 

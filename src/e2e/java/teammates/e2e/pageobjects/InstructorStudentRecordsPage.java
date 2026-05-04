@@ -10,12 +10,12 @@ import teammates.logic.entity.Student;
 /**
  * Page Object Model for instructor student records page.
  */
-public class InstructorStudentRecordsPageSql extends AppPage {
+public class InstructorStudentRecordsPage extends AppPage {
 
     @FindBy(id = "records-header")
     private WebElement headerText;
 
-    public InstructorStudentRecordsPageSql(Browser browser) {
+    public InstructorStudentRecordsPage(Browser browser) {
         super(browser);
     }
 

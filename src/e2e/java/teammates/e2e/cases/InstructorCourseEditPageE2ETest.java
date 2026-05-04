@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorCourseEditPageSql;
+import teammates.e2e.pageobjects.InstructorCourseEditPage;
 import teammates.logic.entity.Course;
 import teammates.logic.entity.Instructor;
 
@@ -37,8 +37,8 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         // log in as instructor with no edit privilege
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                 .withCourseId(course.getId());
-        InstructorCourseEditPageSql editPage =
-                loginToPage(url, InstructorCourseEditPageSql.class, instructors[2].getGoogleId());
+        InstructorCourseEditPage editPage =
+                loginToPage(url, InstructorCourseEditPage.class, instructors[2].getGoogleId());
 
         editPage.verifyCourseNotEditable();
         editPage.verifyInstructorsNotEditable();
@@ -50,7 +50,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         logout();
         url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                 .withCourseId(course.getId());
-        editPage = loginToPage(url, InstructorCourseEditPageSql.class, instructors[3].getGoogleId());
+        editPage = loginToPage(url, InstructorCourseEditPage.class, instructors[3].getGoogleId());
 
         editPage.verifyCourseDetails(course);
         editPage.verifyInstructorDetails(instructors[0]);

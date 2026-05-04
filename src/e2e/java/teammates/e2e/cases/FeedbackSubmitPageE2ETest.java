@@ -13,7 +13,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
+import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.logic.entity.Course;
 import teammates.logic.entity.FeedbackQuestion;
 import teammates.logic.entity.FeedbackResponse;
@@ -55,7 +55,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
                 .withCourseId(openSession.getCourseId())
                 .withFeedbackSessionId(openSession.getId().toString())
                 .withSessionName(openSession.getName());
-        FeedbackSubmitPageSql submitPage = loginToPage(url, FeedbackSubmitPageSql.class, instructor.getGoogleId());
+        FeedbackSubmitPage submitPage = loginToPage(url, FeedbackSubmitPage.class, instructor.getGoogleId());
 
         ______TS("verify loaded session data");
         submitPage.verifyFeedbackSessionDetails(openSession, course);
@@ -66,7 +66,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
         ______TS("questions with giver type students");
         logout();
-        submitPage = loginToPage(getStudentSubmitPageUrl(student, openSession), FeedbackSubmitPageSql.class,
+        submitPage = loginToPage(getStudentSubmitPageUrl(student, openSession), FeedbackSubmitPage.class,
                 student.getGoogleId());
 
         submitPage.verifyNumQuestions(4);
@@ -93,12 +93,12 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
         ______TS("cannot submit in closed session");
         AppUrl closedSessionUrl = getStudentSubmitPageUrl(student, closedSession);
-        submitPage = getNewPageInstance(closedSessionUrl, FeedbackSubmitPageSql.class);
+        submitPage = getNewPageInstance(closedSessionUrl, FeedbackSubmitPage.class);
         submitPage.verifyCannotSubmit();
 
         ______TS("can submit in grace period");
         AppUrl gracePeriodSessionUrl = getStudentSubmitPageUrl(student, gracePeriodSession);
-        submitPage = getNewPageInstance(gracePeriodSessionUrl, FeedbackSubmitPageSql.class);
+        submitPage = getNewPageInstance(gracePeriodSessionUrl, FeedbackSubmitPage.class);
         FeedbackQuestion question = testData.feedbackQuestions.get("qn1InGracePeriodSession");
         String recipient = "Team 2";
         FeedbackResponse response = getMcqResponse(question, recipient, false, "UI");
@@ -156,7 +156,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
                 .withFeedbackSessionId(openSession.getId().toString())
                 .withSessionName(openSession.getName())
                 .withParam("previewas", instructor.getEmail());
-        submitPage = loginToPage(url, FeedbackSubmitPageSql.class, instructor.getGoogleId());
+        submitPage = loginToPage(url, FeedbackSubmitPage.class, instructor.getGoogleId());
 
         submitPage.verifyFeedbackSessionDetails(openSession, course);
         submitPage.verifyNumQuestions(1);
@@ -169,7 +169,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
                 .withFeedbackSessionId(openSession.getId().toString())
                 .withSessionName(openSession.getName())
                 .withParam("previewas", student.getEmail());
-        submitPage = getNewPageInstance(url, FeedbackSubmitPageSql.class);
+        submitPage = getNewPageInstance(url, FeedbackSubmitPage.class);
 
         submitPage.verifyFeedbackSessionDetails(openSession, course);
         submitPage.verifyNumQuestions(4);
@@ -186,7 +186,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
                 .withSessionName(gracePeriodSession.getName())
                 .withParam("moderatedperson", student.getEmail())
                 .withParam("moderatedquestionId", question.getId().toString());
-        submitPage = getNewPageInstance(url, FeedbackSubmitPageSql.class);
+        submitPage = getNewPageInstance(url, FeedbackSubmitPage.class);
 
         submitPage.verifyFeedbackSessionDetails(gracePeriodSession, course);
         // One out of two questions in grace period session should not be visible

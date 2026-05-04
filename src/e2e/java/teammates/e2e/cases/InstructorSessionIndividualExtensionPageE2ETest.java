@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorSessionIndividualExtensionPageSql;
+import teammates.e2e.pageobjects.InstructorSessionIndividualExtensionPage;
 import teammates.logic.entity.Course;
 import teammates.logic.entity.FeedbackSession;
 import teammates.logic.entity.Instructor;
@@ -41,7 +41,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
     @Test
     @Override
     public void testAll() {
-        InstructorSessionIndividualExtensionPageSql individualExtensionPage =
+        InstructorSessionIndividualExtensionPage individualExtensionPage =
                 loginToInstructorSessionIndividualExtensionPage();
 
         individualExtensionPage.waitForPageToLoad(true);
@@ -169,12 +169,12 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
         }
     }
 
-    private InstructorSessionIndividualExtensionPageSql loginToInstructorSessionIndividualExtensionPage() {
+    private InstructorSessionIndividualExtensionPage loginToInstructorSessionIndividualExtensionPage() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_INDIVIDUAL_EXTENSION_PAGE)
                 .withCourseId(course.getId())
                 .withFeedbackSessionId(feedbackSession.getId().toString())
                 .withSessionName(feedbackSession.getName());
 
-        return loginToPage(url, InstructorSessionIndividualExtensionPageSql.class, instructor.getGoogleId());
+        return loginToPage(url, InstructorSessionIndividualExtensionPage.class, instructor.getGoogleId());
     }
 }

@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.StudentCourseDetailsPageSql;
+import teammates.e2e.pageobjects.StudentCourseDetailsPage;
 import teammates.logic.entity.Instructor;
 import teammates.logic.entity.Student;
 
@@ -25,7 +25,7 @@ public class StudentCourseDetailsPageE2ETest extends BaseE2ETestCase {
 
         AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_COURSE_DETAILS_PAGE)
                 .withCourseId("tm.e2e.SCDet.CS2104");
-        StudentCourseDetailsPageSql detailsPage = loginToPage(url, StudentCourseDetailsPageSql.class,
+        StudentCourseDetailsPage detailsPage = loginToPage(url, StudentCourseDetailsPage.class,
                 testData.accounts.get("SCDet.alice").getGoogleId());
 
         ______TS("verify loaded data");

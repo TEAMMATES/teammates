@@ -16,7 +16,7 @@ import org.testng.annotations.Test;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.e2e.pageobjects.InstructorFeedbackSessionsPageSql;
+import teammates.e2e.pageobjects.InstructorFeedbackSessionsPage;
 import teammates.e2e.util.EntityCopyUtil;
 import teammates.logic.entity.Course;
 import teammates.logic.entity.FeedbackSession;
@@ -78,8 +78,8 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSIONS_PAGE);
-        InstructorFeedbackSessionsPageSql feedbackSessionsPage =
-                loginToPage(url, InstructorFeedbackSessionsPageSql.class, instructor.getGoogleId());
+        InstructorFeedbackSessionsPage feedbackSessionsPage =
+                loginToPage(url, InstructorFeedbackSessionsPage.class, instructor.getGoogleId());
 
         ______TS("verify loaded data");
         FeedbackSession[] loadedSessions = { closedSession, openSession };
@@ -96,7 +96,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been added."
                 + "Click the \"Add New Question\" button below to begin adding questions for the feedback session.");
         feedbackSessionsPage = getNewPageInstance(url,
-                InstructorFeedbackSessionsPageSql.class);
+                InstructorFeedbackSessionsPage.class);
         feedbackSessionsPage.sortBySessionsName();
         feedbackSessionsPage.verifySessionsTable(sessionsForAdded);
         verifyPresentInDatabase(newSession);
@@ -109,7 +109,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.addCopyOfSession(openSession, course, newName);
 
         feedbackSessionsPage = getNewPageInstance(url,
-                InstructorFeedbackSessionsPageSql.class);
+                InstructorFeedbackSessionsPage.class);
         // Fetch actual session from database to get deterministic timestamps
         FeedbackSessionData actualSessionData = getFeedbackSession(copiedSession);
         // Update copiedSession with actual timestamps from database
@@ -139,7 +139,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been copied. "
                 + "Please modify settings/questions as necessary.");
         feedbackSessionsPage = getNewPageInstance(url,
-                InstructorFeedbackSessionsPageSql.class);
+                InstructorFeedbackSessionsPage.class);
         // Fetch actual session from database to get deterministic timestamps
         FeedbackSessionData actualSessionData2 = getFeedbackSession(copiedSession2);
         // Update copiedSession2 with actual timestamps from database

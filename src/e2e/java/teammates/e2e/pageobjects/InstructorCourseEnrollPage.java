@@ -15,7 +15,7 @@ import teammates.logic.entity.Student;
 /**
  * Represents the instructor course enrollment page.
  */
-public class InstructorCourseEnrollPageSql extends AppPage {
+public class InstructorCourseEnrollPage extends AppPage {
     private static final int SPREADSHEET_NUM_STARTING_ROWS = 20;
     private static final int NUM_ENROLLMENT_ATTRIBUTES = 5;
 
@@ -43,7 +43,7 @@ public class InstructorCourseEnrollPageSql extends AppPage {
     @FindBy(id = "number-of-rows")
     private WebElement addRowsInput;
 
-    public InstructorCourseEnrollPageSql(Browser browser) {
+    public InstructorCourseEnrollPage(Browser browser) {
         super(browser);
     }
 

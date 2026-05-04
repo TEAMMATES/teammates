@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorCoursesPageSql;
+import teammates.e2e.pageobjects.InstructorCoursesPage;
 import teammates.logic.entity.Course;
 import teammates.logic.entity.FeedbackSession;
 import teammates.logic.entity.Instructor;
@@ -113,7 +113,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
     public void testAll() {
         String instructorId = testData.accounts.get("ICs.instructor").getGoogleId();
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSES_PAGE);
-        InstructorCoursesPageSql coursesPage = loginToPage(url, InstructorCoursesPageSql.class, instructorId);
+        InstructorCoursesPage coursesPage = loginToPage(url, InstructorCoursesPage.class, instructorId);
 
         ______TS("verify loaded data");
         Course[] activeCourses = { courses[0], courses[1], courses[2] };
@@ -213,7 +213,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         verifyAbsentInDatabase(courses[2]);
     }
 
-    private void verifyActiveCourseStatistics(InstructorCoursesPageSql coursesPage, Course course) {
+    private void verifyActiveCourseStatistics(InstructorCoursesPage coursesPage, Course course) {
         int numSections = 0;
         int numTeams = 0;
         int numStudents = 0;

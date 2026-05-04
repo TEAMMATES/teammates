@@ -10,7 +10,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelperExtension;
-import teammates.e2e.pageobjects.AdminSearchPageSql;
+import teammates.e2e.pageobjects.AdminSearchPage;
 import teammates.logic.entity.AccountRequest;
 import teammates.logic.entity.Course;
 import teammates.logic.entity.FeedbackSession;
@@ -31,7 +31,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.ADMIN_SEARCH_PAGE);
-        AdminSearchPageSql searchPage = loginAdminToPage(url, AdminSearchPageSql.class);
+        AdminSearchPage searchPage = loginAdminToPage(url, AdminSearchPage.class);
 
         Course course = testData.courses.get("typicalCourse1");
         Student student = testData.students.get("student1InCourse1");

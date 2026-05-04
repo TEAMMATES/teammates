@@ -2,8 +2,8 @@ package teammates.e2e.cases;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
-import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
+import teammates.e2e.pageobjects.FeedbackSubmitPage;
+import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
 import teammates.logic.entity.Course;
 import teammates.logic.entity.FeedbackSession;
 import teammates.logic.entity.Instructor;
@@ -32,30 +32,30 @@ public abstract class BaseFeedbackQuestionE2ETest extends BaseE2ETestCase {
 
     abstract void testSubmitPage();
 
-    InstructorFeedbackEditPageSql loginToFeedbackEditPage() {
+    InstructorFeedbackEditPage loginToFeedbackEditPage() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
                 .withFeedbackSessionId(feedbackSession.getId().toString())
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getName());
 
-        return loginToPage(url, InstructorFeedbackEditPageSql.class, instructor.getGoogleId());
+        return loginToPage(url, InstructorFeedbackEditPage.class, instructor.getGoogleId());
     }
 
-    FeedbackSubmitPageSql loginToFeedbackSubmitPage() {
+    FeedbackSubmitPage loginToFeedbackSubmitPage() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
                 .withFeedbackSessionId(feedbackSession.getId().toString())
                 .withCourseId(student.getCourseId())
                 .withSessionName(feedbackSession.getName());
 
-        return loginToPage(url, FeedbackSubmitPageSql.class, student.getGoogleId());
+        return loginToPage(url, FeedbackSubmitPage.class, student.getGoogleId());
     }
 
-    FeedbackSubmitPageSql getFeedbackSubmitPage() {
+    FeedbackSubmitPage getFeedbackSubmitPage() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
                 .withFeedbackSessionId(feedbackSession.getId().toString())
                 .withCourseId(student.getCourseId())
                 .withSessionName(feedbackSession.getName());
 
-        return getNewPageInstance(url, FeedbackSubmitPageSql.class);
+        return getNewPageInstance(url, FeedbackSubmitPage.class);
     }
 }

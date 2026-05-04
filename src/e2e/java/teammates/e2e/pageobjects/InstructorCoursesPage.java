@@ -18,7 +18,7 @@ import teammates.logic.entity.Course;
 /**
  * Represents the "Courses" page for Instructors.
  */
-public class InstructorCoursesPageSql extends AppPage {
+public class InstructorCoursesPage extends AppPage {
 
     @FindBy(id = "btn-add-course")
     private WebElement addCourseButton;
@@ -41,7 +41,7 @@ public class InstructorCoursesPageSql extends AppPage {
     @FindBy(id = "btn-submit-course")
     private WebElement submitButton;
 
-    public InstructorCoursesPageSql(Browser browser) {
+    public InstructorCoursesPage(Browser browser) {
         super(browser);
     }
 

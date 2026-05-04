@@ -37,7 +37,7 @@ import teammates.test.ThreadHelper;
 /**
  * Represents the "Results" page for Instructors.
  */
-public class InstructorFeedbackResultsPageSql extends AppPage {
+public class InstructorFeedbackResultsPage extends AppPage {
     private static final String QUESTION_VIEW = "QUESTION";
     private static final String GQR_VIEW = "GQR";
     private static final String RQG_VIEW = "RQG";
@@ -86,7 +86,7 @@ public class InstructorFeedbackResultsPageSql extends AppPage {
     @FindBy(id = "include-missing-responses")
     private WebElement missingResponsesCheckbox;
 
-    public InstructorFeedbackResultsPageSql(Browser browser) {
+    public InstructorFeedbackResultsPage(Browser browser) {
         super(browser);
     }
 

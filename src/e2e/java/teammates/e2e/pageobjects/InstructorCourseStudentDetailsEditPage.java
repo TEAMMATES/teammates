@@ -11,7 +11,7 @@ import teammates.logic.entity.Student;
 /**
  * Represents the instructor course student details edit page of the website.
  */
-public class InstructorCourseStudentDetailsEditPageSql extends AppPage {
+public class InstructorCourseStudentDetailsEditPage extends AppPage {
 
     @FindBy (id = "course-id")
     private WebElement courseId;
@@ -34,7 +34,7 @@ public class InstructorCourseStudentDetailsEditPageSql extends AppPage {
     @FindBy (id = "btn-submit")
     private WebElement submitButton;
 
-    public InstructorCourseStudentDetailsEditPageSql(Browser browser) {
+    public InstructorCourseStudentDetailsEditPage(Browser browser) {
         super(browser);
     }
 

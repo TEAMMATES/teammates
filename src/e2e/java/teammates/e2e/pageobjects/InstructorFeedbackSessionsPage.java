@@ -19,7 +19,7 @@ import teammates.logic.entity.Student;
 /**
  * Represents the "Sessions" page for Instructors.
  */
-public class InstructorFeedbackSessionsPageSql extends AppPage {
+public class InstructorFeedbackSessionsPage extends AppPage {
     @FindBy(id = "btn-add-session")
     private WebElement addSessionButton;
 
@@ -101,7 +101,7 @@ public class InstructorFeedbackSessionsPageSql extends AppPage {
     @FindBy(id = "btn-delete-all")
     private WebElement deleteAllButton;
 
-    public InstructorFeedbackSessionsPageSql(Browser browser) {
+    public InstructorFeedbackSessionsPage(Browser browser) {
         super(browser);
     }
 

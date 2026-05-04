@@ -19,9 +19,9 @@ import teammates.test.ThreadHelper;
 /**
  * Page Object Model for instructor student list page.
  */
-public class InstructorStudentListPageSql extends AppPage {
+public class InstructorStudentListPage extends AppPage {
 
-    public InstructorStudentListPageSql(Browser browser) {
+    public InstructorStudentListPage(Browser browser) {
         super(browser);
     }
 
@@ -160,39 +160,39 @@ public class InstructorStudentListPageSql extends AppPage {
         return null;
     }
 
-    public InstructorCourseEnrollPageSql clickEnrollStudents(Course course) {
+    public InstructorCourseEnrollPage clickEnrollStudents(Course course) {
         WebElement studentRow = getCourseTab(course);
         WebElement enrollButton = studentRow.findElement(By.id("btn-enroll"));
         click(enrollButton);
         waitForPageToLoad();
-        return changePageType(InstructorCourseEnrollPageSql.class);
+        return changePageType(InstructorCourseEnrollPage.class);
     }
 
-    public InstructorCourseStudentDetailsViewPageSql clickViewStudent(Course course, String studentEmail) {
+    public InstructorCourseStudentDetailsViewPage clickViewStudent(Course course, String studentEmail) {
         WebElement studentRow = getStudentRow(course, studentEmail);
         WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-view-details-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
-        return changePageType(InstructorCourseStudentDetailsViewPageSql.class);
+        return changePageType(InstructorCourseStudentDetailsViewPage.class);
     }
 
-    public InstructorCourseStudentDetailsEditPageSql clickEditStudent(Course course, String studentEmail) {
+    public InstructorCourseStudentDetailsEditPage clickEditStudent(Course course, String studentEmail) {
         WebElement studentRow = getStudentRow(course, studentEmail);
         WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-edit-details-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
-        return changePageType(InstructorCourseStudentDetailsEditPageSql.class);
+        return changePageType(InstructorCourseStudentDetailsEditPage.class);
     }
 
-    public InstructorStudentRecordsPageSql clickViewAllRecords(Course course, String studentEmail) {
+    public InstructorStudentRecordsPage clickViewAllRecords(Course course, String studentEmail) {
         WebElement studentRow = getStudentRow(course, studentEmail);
         WebElement viewButton = studentRow.findElement(By.cssSelector("[id^='btn-view-records-']"));
         click(viewButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
-        return changePageType(InstructorStudentRecordsPageSql.class);
+        return changePageType(InstructorStudentRecordsPage.class);
     }
 
 }
