@@ -11,11 +11,11 @@ import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.logic.entity.Course;
-import teammates.logic.entity.FeedbackQuestion;
-import teammates.logic.entity.FeedbackResponse;
-import teammates.logic.entity.FeedbackSession;
-import teammates.logic.entity.Instructor;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
 import teammates.ui.output.FeedbackSessionSubmittedGiverSet;
 
 /**

@@ -8,9 +8,9 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
-import teammates.logic.entity.Course;
-import teammates.logic.entity.Instructor;
-import teammates.logic.entity.Student;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 
 /**
  * Action: joins a course for a student/instructor.

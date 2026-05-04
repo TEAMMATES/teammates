@@ -7,7 +7,7 @@ import static org.mockito.Mockito.when;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.logic.entity.Account;
+import teammates.storage.entity.Account;
 import teammates.ui.output.AccountData;
 
 /**

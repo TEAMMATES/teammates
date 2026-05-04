@@ -9,10 +9,10 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.logic.entity.DeadlineExtension;
-import teammates.logic.entity.FeedbackSession;
-import teammates.logic.entity.User;
 import teammates.storage.api.DeadlineExtensionsDb;
+import teammates.storage.entity.DeadlineExtension;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.User;
 
 /**
  * Handles operations related to deadline extensions.

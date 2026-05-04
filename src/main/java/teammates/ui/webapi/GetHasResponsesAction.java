@@ -6,9 +6,9 @@ import java.util.Map;
 import java.util.UUID;
 
 import teammates.common.util.Const;
-import teammates.logic.entity.FeedbackQuestion;
-import teammates.logic.entity.FeedbackSession;
-import teammates.logic.entity.Student;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Student;
 import teammates.ui.output.HasResponsesData;
 
 /**

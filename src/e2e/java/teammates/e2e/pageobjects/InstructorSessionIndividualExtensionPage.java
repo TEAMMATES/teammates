@@ -16,10 +16,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.TimeHelper;
-import teammates.logic.entity.DeadlineExtension;
-import teammates.logic.entity.FeedbackSession;
-import teammates.logic.entity.Instructor;
-import teammates.logic.entity.Student;
+import teammates.storage.entity.DeadlineExtension;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 
 /**
  * Represents the instructor session individual extension page.

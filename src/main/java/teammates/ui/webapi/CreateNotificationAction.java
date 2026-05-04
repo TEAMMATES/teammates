@@ -7,7 +7,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Logger;
-import teammates.logic.entity.Notification;
+import teammates.storage.entity.Notification;
 import teammates.ui.output.NotificationData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.NotificationCreateRequest;

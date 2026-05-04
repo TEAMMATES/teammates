@@ -7,7 +7,7 @@ import jakarta.annotation.Nullable;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
-import teammates.logic.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackResponse;
 
 /**
  * The API output format of {@link FeedbackResponse}.

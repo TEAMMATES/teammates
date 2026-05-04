@@ -8,7 +8,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
 import teammates.common.util.HibernateUtil;
-import teammates.logic.entity.UsageStatistics;
+import teammates.storage.entity.UsageStatistics;
 
 /**
  * Handles CRUD operations for usage statistics.

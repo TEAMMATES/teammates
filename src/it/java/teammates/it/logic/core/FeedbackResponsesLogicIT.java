@@ -11,9 +11,9 @@ import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
-import teammates.logic.entity.FeedbackResponse;
-import teammates.logic.entity.FeedbackResponseComment;
-import teammates.logic.entity.Section;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackResponseComment;
+import teammates.storage.entity.Section;
 
 /**
  * SUT: {@link FeedbackResponsesLogic}.

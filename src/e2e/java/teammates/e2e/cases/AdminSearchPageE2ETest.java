@@ -11,11 +11,11 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelperExtension;
 import teammates.e2e.pageobjects.AdminSearchPage;
-import teammates.logic.entity.AccountRequest;
-import teammates.logic.entity.Course;
-import teammates.logic.entity.FeedbackSession;
-import teammates.logic.entity.Instructor;
-import teammates.logic.entity.Student;
+import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 
 /**
  * SUT: {@link Const.WebPageURIs#ADMIN_SEARCH_PAGE}.

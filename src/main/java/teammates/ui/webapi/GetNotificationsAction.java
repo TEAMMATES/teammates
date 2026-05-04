@@ -8,8 +8,8 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.logic.entity.Account;
-import teammates.logic.entity.Notification;
+import teammates.storage.entity.Account;
+import teammates.storage.entity.Notification;
 import teammates.ui.output.NotificationsData;
 
 /**

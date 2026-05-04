@@ -8,8 +8,8 @@ import java.util.Map;
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
-import teammates.logic.entity.Course;
-import teammates.logic.entity.Instructor;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Instructor;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
 

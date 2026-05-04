@@ -7,8 +7,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import teammates.common.util.Const;
-import teammates.logic.entity.Instructor;
-import teammates.logic.entity.Student;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 
 /**
  * Contains a list of students and instructors in a course. Useful for caching

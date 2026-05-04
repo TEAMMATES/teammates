@@ -6,8 +6,8 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.logic.entity.FeedbackQuestion;
-import teammates.logic.entity.questions.FeedbackTextQuestion;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.questions.FeedbackTextQuestion;
 import teammates.test.BaseTestCase;
 
 /**

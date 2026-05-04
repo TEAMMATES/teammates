@@ -18,10 +18,10 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.util.Const;
-import teammates.logic.entity.FeedbackQuestion;
-import teammates.logic.entity.FeedbackSession;
-import teammates.logic.entity.Instructor;
-import teammates.logic.entity.Student;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 import teammates.ui.output.FeedbackQuestionRecipientsData;
 import teammates.ui.request.Intent;
 

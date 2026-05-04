@@ -24,13 +24,13 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.DeadlineExtensionsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.UsersLogic;
-import teammates.logic.entity.Account;
-import teammates.logic.entity.AccountRequest;
-import teammates.logic.entity.Course;
-import teammates.logic.entity.DeadlineExtension;
-import teammates.logic.entity.FeedbackSession;
-import teammates.logic.entity.Instructor;
-import teammates.logic.entity.Student;
+import teammates.storage.entity.Account;
+import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.DeadlineExtension;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 
 /**
  * Handles operations related to generating emails to be sent from provided templates.

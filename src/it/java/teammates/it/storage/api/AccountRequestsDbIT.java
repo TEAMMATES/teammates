@@ -8,8 +8,8 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
-import teammates.logic.entity.AccountRequest;
 import teammates.storage.api.AccountRequestsDb;
+import teammates.storage.entity.AccountRequest;
 
 /**
  * SUT: {@link AccountRequestsDb}.

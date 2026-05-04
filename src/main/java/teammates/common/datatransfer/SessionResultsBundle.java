@@ -10,9 +10,9 @@ import java.util.function.Function;
 
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.logic.entity.FeedbackQuestion;
-import teammates.logic.entity.FeedbackResponse;
-import teammates.logic.entity.FeedbackResponseComment;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackResponseComment;
 
 /**
  * Represents detailed results for a feedback session.

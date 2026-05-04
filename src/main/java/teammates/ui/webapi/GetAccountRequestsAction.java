@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.Const;
-import teammates.logic.entity.AccountRequest;
+import teammates.storage.entity.AccountRequest;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.output.AccountRequestsData;
 

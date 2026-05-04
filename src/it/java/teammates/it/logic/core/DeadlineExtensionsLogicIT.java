@@ -9,8 +9,8 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.DeadlineExtensionsLogic;
-import teammates.logic.entity.FeedbackSession;
-import teammates.logic.entity.Student;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Student;
 
 /**
  * SUT: {@link DeadlineExtensionsLogic}.

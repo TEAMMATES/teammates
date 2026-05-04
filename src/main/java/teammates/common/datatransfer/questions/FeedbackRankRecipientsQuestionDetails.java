@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import teammates.common.util.Const;
-import teammates.logic.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackQuestion;
 
 /**
  * Contains specific structure and processing logic for rank recipients feedback questions.

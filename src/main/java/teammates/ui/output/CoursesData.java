@@ -3,7 +3,7 @@ package teammates.ui.output;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import teammates.logic.entity.Course;
+import teammates.storage.entity.Course;
 
 /**
  * The API output for a list of courses.

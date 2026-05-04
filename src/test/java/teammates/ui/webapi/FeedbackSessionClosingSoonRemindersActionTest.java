@@ -18,8 +18,8 @@ import org.testng.annotations.Test;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.RequestTracer;
-import teammates.logic.entity.DeadlineExtension;
-import teammates.logic.entity.FeedbackSession;
+import teammates.storage.entity.DeadlineExtension;
+import teammates.storage.entity.FeedbackSession;
 import teammates.ui.output.MessageOutput;
 
 /**

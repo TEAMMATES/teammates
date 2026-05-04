@@ -3,7 +3,7 @@ package teammates.ui.webapi;
 import java.util.UUID;
 
 import teammates.common.util.Const;
-import teammates.logic.entity.AccountRequest;
+import teammates.storage.entity.AccountRequest;
 
 /**
  * Deletes an existing account request.

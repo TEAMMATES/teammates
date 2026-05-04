@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.logic.entity.UsageStatistics;
+import teammates.storage.entity.UsageStatistics;
 
 /**
  * SUT: {@link CalculateUsageStatisticsAction}.

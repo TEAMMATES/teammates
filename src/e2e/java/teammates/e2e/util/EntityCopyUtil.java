@@ -1,6 +1,6 @@
 package teammates.e2e.util;
 
-import teammates.logic.entity.FeedbackSession;
+import teammates.storage.entity.FeedbackSession;
 
 /**
  * Utility class for copying entities for E2E tests.

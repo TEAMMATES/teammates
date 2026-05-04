@@ -9,8 +9,8 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
-import teammates.logic.entity.Instructor;
 import teammates.storage.api.UsersDb;
+import teammates.storage.entity.Instructor;
 import teammates.test.AssertHelper;
 
 /**

@@ -5,7 +5,7 @@ import java.util.List;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
-import teammates.logic.entity.FeedbackSession;
+import teammates.storage.entity.FeedbackSession;
 
 /**
  * Cron job: schedules feedback session published emails to be sent.

@@ -10,10 +10,10 @@ import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
 import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
-import teammates.logic.entity.FeedbackQuestion;
-import teammates.logic.entity.FeedbackResponse;
-import teammates.logic.entity.Student;
-import teammates.logic.entity.questions.FeedbackRubricQuestion;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.Student;
+import teammates.storage.entity.questions.FeedbackRubricQuestion;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}, {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}

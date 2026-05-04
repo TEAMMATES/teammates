@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.util.Const;
-import teammates.logic.entity.Instructor;
-import teammates.logic.entity.Student;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 import teammates.ui.output.StudentData;
 import teammates.ui.output.StudentsData;
 

@@ -9,9 +9,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
-import teammates.logic.entity.Course;
-import teammates.logic.entity.FeedbackSession;
-import teammates.logic.entity.Student;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Student;
 
 /**
  * Represents the instructor home page.

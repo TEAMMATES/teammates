@@ -17,11 +17,11 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
-import teammates.logic.entity.FeedbackQuestion;
-import teammates.logic.entity.FeedbackResponse;
-import teammates.logic.entity.FeedbackSession;
-import teammates.logic.entity.Instructor;
 import teammates.storage.api.FeedbackSessionsDb;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 
 /**

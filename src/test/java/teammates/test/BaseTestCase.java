@@ -27,20 +27,20 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.TimeHelperExtension;
 import teammates.logic.core.DataBundleLogic;
-import teammates.logic.entity.Account;
-import teammates.logic.entity.AccountRequest;
-import teammates.logic.entity.Course;
-import teammates.logic.entity.DeadlineExtension;
-import teammates.logic.entity.FeedbackQuestion;
-import teammates.logic.entity.FeedbackResponse;
-import teammates.logic.entity.FeedbackResponseComment;
-import teammates.logic.entity.FeedbackSession;
-import teammates.logic.entity.Instructor;
-import teammates.logic.entity.Notification;
-import teammates.logic.entity.Section;
-import teammates.logic.entity.Student;
-import teammates.logic.entity.Team;
-import teammates.logic.entity.UsageStatistics;
+import teammates.storage.entity.Account;
+import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.DeadlineExtension;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackResponseComment;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Notification;
+import teammates.storage.entity.Section;
+import teammates.storage.entity.Student;
+import teammates.storage.entity.Team;
+import teammates.storage.entity.UsageStatistics;
 
 /**
  * Base class for all test cases.

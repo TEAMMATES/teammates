@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import teammates.logic.entity.Account;
+import teammates.storage.entity.Account;
 
 /**
  * Output format of account data.

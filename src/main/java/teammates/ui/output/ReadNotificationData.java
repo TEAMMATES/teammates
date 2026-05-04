@@ -2,7 +2,7 @@ package teammates.ui.output;
 
 import java.util.UUID;
 
-import teammates.logic.entity.ReadNotification;
+import teammates.storage.entity.ReadNotification;
 
 /**
  * Output format of a read notification.

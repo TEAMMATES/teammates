@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import teammates.logic.entity.Instructor;
+import teammates.storage.entity.Instructor;
 
 /**
  * The API output format of a list of instructors.

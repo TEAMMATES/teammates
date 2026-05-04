@@ -13,12 +13,12 @@ import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.UsersLogic;
-import teammates.logic.entity.Account;
-import teammates.logic.entity.Course;
-import teammates.logic.entity.Instructor;
-import teammates.logic.entity.Section;
-import teammates.logic.entity.Student;
-import teammates.logic.entity.Team;
+import teammates.storage.entity.Account;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Section;
+import teammates.storage.entity.Student;
+import teammates.storage.entity.Team;
 
 /**
  * SUT: {@link UsersLogic}.

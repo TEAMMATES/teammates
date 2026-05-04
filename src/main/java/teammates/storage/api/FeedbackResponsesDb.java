@@ -11,11 +11,11 @@ import jakarta.persistence.criteria.Root;
 
 import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.util.HibernateUtil;
-import teammates.logic.entity.Course;
-import teammates.logic.entity.FeedbackQuestion;
-import teammates.logic.entity.FeedbackResponse;
-import teammates.logic.entity.FeedbackSession;
-import teammates.logic.entity.Section;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Section;
 
 /**
  * Handles CRUD operations for feedbackResponses.

@@ -8,7 +8,7 @@ import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.Config;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.logic.entity.AccountRequest;
+import teammates.storage.entity.AccountRequest;
 import teammates.test.BaseTestCase;
 import teammates.test.EmailChecker;
 

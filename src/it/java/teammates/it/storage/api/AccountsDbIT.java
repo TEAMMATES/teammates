@@ -8,8 +8,8 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
-import teammates.logic.entity.Account;
 import teammates.storage.api.AccountsDb;
+import teammates.storage.entity.Account;
 
 /**
  * SUT: {@link AccountsDb}.

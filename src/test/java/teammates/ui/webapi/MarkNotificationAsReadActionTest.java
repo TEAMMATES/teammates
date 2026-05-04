@@ -6,9 +6,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.logic.entity.Account;
-import teammates.logic.entity.Notification;
-import teammates.logic.entity.ReadNotification;
+import teammates.storage.entity.Account;
+import teammates.storage.entity.Notification;
+import teammates.storage.entity.ReadNotification;
 import teammates.ui.output.ReadNotificationData;
 import teammates.ui.request.MarkNotificationAsReadRequest;
 

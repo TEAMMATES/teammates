@@ -12,9 +12,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.Const;
-import teammates.logic.entity.Course;
-import teammates.logic.entity.FeedbackSession;
-import teammates.logic.entity.Student;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Student;
 
 /**
  * Represents the "Sessions" page for Instructors.

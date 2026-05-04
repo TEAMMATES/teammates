@@ -8,7 +8,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
-import teammates.logic.entity.UsageStatistics;
+import teammates.storage.entity.UsageStatistics;
 
 /**
  * Gathers usage-related statistics (e.g. new created entities) in the past defined time period and store in the database.'

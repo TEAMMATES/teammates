@@ -7,7 +7,7 @@ import jakarta.annotation.Nullable;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.logic.entity.AccountRequest;
+import teammates.storage.entity.AccountRequest;
 
 /**
  * Output format of account request data.

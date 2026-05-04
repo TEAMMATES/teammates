@@ -6,8 +6,8 @@ import java.util.UUID;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.logic.entity.AccountRequest;
 import teammates.storage.api.AccountRequestsDb;
+import teammates.storage.entity.AccountRequest;
 
 /**
  * Handles operations related to account requests.

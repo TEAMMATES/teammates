@@ -13,7 +13,7 @@ import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.AdminNotificationsPage;
-import teammates.logic.entity.Notification;
+import teammates.storage.entity.Notification;
 import teammates.ui.output.NotificationData;
 
 /**

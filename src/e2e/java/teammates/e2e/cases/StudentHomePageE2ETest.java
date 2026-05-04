@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.StudentHomePage;
-import teammates.logic.entity.Student;
+import teammates.storage.entity.Student;
 
 /**
  * SUT: {@link Const.WebPageURIs#STUDENT_HOME_PAGE}.

@@ -19,13 +19,13 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.logic.entity.Course;
-import teammates.logic.entity.FeedbackQuestion;
-import teammates.logic.entity.FeedbackSession;
-import teammates.logic.entity.Instructor;
-import teammates.logic.entity.Student;
-import teammates.logic.entity.Team;
 import teammates.storage.api.FeedbackQuestionsDb;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
+import teammates.storage.entity.Team;
 import teammates.test.BaseTestCase;
 
 /**

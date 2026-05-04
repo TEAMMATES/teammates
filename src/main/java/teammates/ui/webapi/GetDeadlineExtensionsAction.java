@@ -6,10 +6,10 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.util.Const;
-import teammates.logic.entity.DeadlineExtension;
-import teammates.logic.entity.FeedbackSession;
-import teammates.logic.entity.Instructor;
-import teammates.logic.entity.Student;
+import teammates.storage.entity.DeadlineExtension;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 import teammates.ui.output.DeadlineExtensionsData;
 
 /**

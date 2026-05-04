@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import teammates.logic.entity.DeadlineExtension;
-import teammates.logic.entity.Instructor;
-import teammates.logic.entity.Student;
+import teammates.storage.entity.DeadlineExtension;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 
 /**
  * The API output format for deadline extensions.

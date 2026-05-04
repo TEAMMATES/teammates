@@ -5,7 +5,7 @@ import jakarta.annotation.Nullable;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
-import teammates.logic.entity.Course;
+import teammates.storage.entity.Course;
 
 /**
  * The API output format of a course.

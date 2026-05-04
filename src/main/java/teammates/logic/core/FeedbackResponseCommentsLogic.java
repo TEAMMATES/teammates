@@ -13,11 +13,11 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
-import teammates.logic.entity.FeedbackQuestion;
-import teammates.logic.entity.FeedbackResponse;
-import teammates.logic.entity.FeedbackResponseComment;
-import teammates.logic.entity.Student;
 import teammates.storage.api.FeedbackResponseCommentsDb;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackResponseComment;
+import teammates.storage.entity.Student;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 
 /**

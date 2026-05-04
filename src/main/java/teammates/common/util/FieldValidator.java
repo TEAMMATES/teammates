@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.logic.entity.DeadlineExtension;
+import teammates.storage.entity.DeadlineExtension;
 
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.

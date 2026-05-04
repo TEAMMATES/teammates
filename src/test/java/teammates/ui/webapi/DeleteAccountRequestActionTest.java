@@ -11,7 +11,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.logic.entity.AccountRequest;
+import teammates.storage.entity.AccountRequest;
 import teammates.ui.output.MessageOutput;
 
 /**

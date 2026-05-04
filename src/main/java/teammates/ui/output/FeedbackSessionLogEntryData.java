@@ -3,8 +3,8 @@ package teammates.ui.output;
 import java.util.UUID;
 
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
-import teammates.logic.entity.FeedbackSessionLog;
-import teammates.logic.entity.Student;
+import teammates.storage.entity.FeedbackSessionLog;
+import teammates.storage.entity.Student;
 
 /**
  * The session log of a student for a single feedback session.

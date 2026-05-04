@@ -24,8 +24,8 @@ import teammates.common.util.Templates;
 import teammates.logic.api.Logic;
 import teammates.logic.core.DataBundleLogic;
 import teammates.logic.core.LogicStarter;
-import teammates.logic.entity.Course;
-import teammates.logic.entity.Instructor;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Instructor;
 import teammates.test.FileHelper;
 
 /**

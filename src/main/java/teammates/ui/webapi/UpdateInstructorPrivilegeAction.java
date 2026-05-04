@@ -2,7 +2,7 @@ package teammates.ui.webapi;
 
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
-import teammates.logic.entity.Instructor;
+import teammates.storage.entity.Instructor;
 import teammates.ui.output.InstructorPrivilegeData;
 import teammates.ui.request.InstructorPrivilegeUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;

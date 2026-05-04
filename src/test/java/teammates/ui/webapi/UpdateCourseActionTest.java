@@ -11,8 +11,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.logic.entity.Course;
-import teammates.logic.entity.Instructor;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Instructor;
 import teammates.ui.output.CourseData;
 import teammates.ui.request.CourseUpdateRequest;
 

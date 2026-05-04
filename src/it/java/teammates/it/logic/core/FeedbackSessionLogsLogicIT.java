@@ -13,10 +13,10 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.FeedbackSessionLogsLogic;
-import teammates.logic.entity.Course;
-import teammates.logic.entity.FeedbackSession;
-import teammates.logic.entity.FeedbackSessionLog;
-import teammates.logic.entity.Student;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.FeedbackSessionLog;
+import teammates.storage.entity.Student;
 
 /**
  * SUT: {@link FeedbackSessionLogsLogic}.

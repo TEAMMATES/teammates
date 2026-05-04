@@ -25,17 +25,17 @@ import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
-import teammates.logic.entity.Course;
-import teammates.logic.entity.FeedbackQuestion;
-import teammates.logic.entity.FeedbackResponse;
-import teammates.logic.entity.FeedbackResponseComment;
-import teammates.logic.entity.FeedbackSession;
-import teammates.logic.entity.Instructor;
-import teammates.logic.entity.Section;
-import teammates.logic.entity.Student;
-import teammates.logic.entity.Team;
-import teammates.logic.entity.responses.FeedbackRankRecipientsResponse;
 import teammates.storage.api.FeedbackResponsesDb;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackResponseComment;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Section;
+import teammates.storage.entity.Student;
+import teammates.storage.entity.Team;
+import teammates.storage.entity.responses.FeedbackRankRecipientsResponse;
 
 /**
  * Handles operations related to feedback responses.

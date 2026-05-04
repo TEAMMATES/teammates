@@ -11,8 +11,8 @@ import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
-import teammates.logic.entity.Notification;
 import teammates.storage.api.NotificationsDb;
+import teammates.storage.entity.Notification;
 
 /**
  * SUT: {@link NotificationsDb}.

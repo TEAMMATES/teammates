@@ -7,8 +7,8 @@ import java.util.UUID;
 
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.logic.entity.Course;
-import teammates.logic.entity.FeedbackSession;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackSession;
 
 /**
  * A single ongoing session.

@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import teammates.logic.entity.FeedbackSession;
-import teammates.logic.entity.FeedbackSessionLog;
-import teammates.logic.entity.Student;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.FeedbackSessionLog;
+import teammates.storage.entity.Student;
 
 /**
  * The response log of a single feedback session.

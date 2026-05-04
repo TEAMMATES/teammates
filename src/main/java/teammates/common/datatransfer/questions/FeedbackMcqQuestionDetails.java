@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.logic.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackQuestion;
 
 /**
  * Contains specific structure and processing logic for MCQ feedback questions.

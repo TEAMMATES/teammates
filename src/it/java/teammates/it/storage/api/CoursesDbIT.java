@@ -5,10 +5,10 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
-import teammates.logic.entity.Course;
-import teammates.logic.entity.Section;
-import teammates.logic.entity.Team;
 import teammates.storage.api.CoursesDb;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Section;
+import teammates.storage.entity.Team;
 
 /**
  * SUT: {@link CoursesDb}.

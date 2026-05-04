@@ -3,8 +3,8 @@ package teammates.logic.core;
 import java.time.Instant;
 import java.util.List;
 
-import teammates.logic.entity.UsageStatistics;
 import teammates.storage.api.UsageStatisticsDb;
+import teammates.storage.entity.UsageStatistics;
 
 /**
  * Handles operations related to system usage statistics objects.

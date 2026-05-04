@@ -7,8 +7,8 @@ import java.util.UUID;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.logic.entity.FeedbackSession;
-import teammates.logic.entity.Student;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Student;
 
 /**
  * Action: creates a feedback session log for the purposes of tracking and auditing.

@@ -6,7 +6,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.CourseJoinConfirmationPage;
 import teammates.e2e.pageobjects.InstructorHomePage;
-import teammates.logic.entity.Instructor;
+import teammates.storage.entity.Instructor;
 
 /**
  * SUT: {@link Const.WebPageURIs#JOIN_PAGE}.

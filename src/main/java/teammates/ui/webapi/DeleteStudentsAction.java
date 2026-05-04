@@ -1,7 +1,7 @@
 package teammates.ui.webapi;
 
 import teammates.common.util.Const;
-import teammates.logic.entity.Instructor;
+import teammates.storage.entity.Instructor;
 
 /**
  * Action: deletes all students in a course.

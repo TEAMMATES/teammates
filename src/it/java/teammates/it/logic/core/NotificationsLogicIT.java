@@ -12,7 +12,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.NotificationsLogic;
-import teammates.logic.entity.Notification;
+import teammates.storage.entity.Notification;
 
 /**
  * SUT: {@link NotificationsLogic}.

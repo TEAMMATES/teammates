@@ -23,15 +23,15 @@ import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
-import teammates.logic.entity.Account;
-import teammates.logic.entity.FeedbackQuestion;
-import teammates.logic.entity.FeedbackResponse;
-import teammates.logic.entity.Instructor;
-import teammates.logic.entity.Section;
-import teammates.logic.entity.Student;
-import teammates.logic.entity.Team;
-import teammates.logic.entity.User;
 import teammates.storage.api.UsersDb;
+import teammates.storage.entity.Account;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Section;
+import teammates.storage.entity.Student;
+import teammates.storage.entity.Team;
+import teammates.storage.entity.User;
 import teammates.ui.request.InstructorCreateRequest;
 
 /**

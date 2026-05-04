@@ -8,12 +8,12 @@ import java.util.UUID;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.logic.entity.Account;
-import teammates.logic.entity.Course;
-import teammates.logic.entity.Instructor;
-import teammates.logic.entity.Student;
-import teammates.logic.entity.User;
 import teammates.storage.api.AccountsDb;
+import teammates.storage.entity.Account;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 
 /**
  * Handles operations related to accounts.

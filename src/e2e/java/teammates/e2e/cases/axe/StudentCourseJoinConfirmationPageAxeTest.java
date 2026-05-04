@@ -7,7 +7,7 @@ import com.deque.html.axecore.results.Results;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.CourseJoinConfirmationPage;
-import teammates.logic.entity.Student;
+import teammates.storage.entity.Student;
 
 /**
  * SUT: {@link Const.WebPageURIs#JOIN_PAGE}.

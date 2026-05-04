@@ -15,16 +15,16 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
-import teammates.logic.entity.Account;
-import teammates.logic.entity.AccountRequest;
-import teammates.logic.entity.Course;
-import teammates.logic.entity.FeedbackSession;
-import teammates.logic.entity.Instructor;
-import teammates.logic.entity.Notification;
-import teammates.logic.entity.ReadNotification;
-import teammates.logic.entity.Section;
-import teammates.logic.entity.Student;
-import teammates.logic.entity.Team;
+import teammates.storage.entity.Account;
+import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Notification;
+import teammates.storage.entity.ReadNotification;
+import teammates.storage.entity.Section;
+import teammates.storage.entity.Student;
+import teammates.storage.entity.Team;
 import teammates.test.BaseTestCase;
 
 /**

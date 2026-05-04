@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import org.apache.http.HttpStatus;
 
-import teammates.logic.entity.Account;
-import teammates.logic.entity.ReadNotification;
+import teammates.storage.entity.Account;
+import teammates.storage.entity.ReadNotification;
 import teammates.ui.output.ReadNotificationData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.MarkNotificationAsReadRequest;

@@ -10,8 +10,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.AccountRequestsLogic;
-import teammates.logic.entity.AccountRequest;
 import teammates.storage.api.AccountRequestsDb;
+import teammates.storage.entity.AccountRequest;
 
 /**
  * SUT: {@link AccountRequestsLogic}.

@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.logic.entity.AccountRequest;
+import teammates.storage.entity.AccountRequest;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountRequestUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
