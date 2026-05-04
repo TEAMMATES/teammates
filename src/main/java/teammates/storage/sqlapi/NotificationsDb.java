@@ -1,7 +1,5 @@
 package teammates.storage.sqlapi;
 
-import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -13,7 +11,6 @@ import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Subquery;
 
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.ReadNotification;
@@ -41,13 +38,8 @@ public final class NotificationsDb {
      * <p>Preconditions:</p>
      * * Notification fields are valid.
      */
-    public Notification createNotification(Notification notification) throws EntityAlreadyExistsException {
+    public Notification createNotification(Notification notification) {
         assert notification != null;
-
-        if (getNotification(notification.getId()) != null) {
-            throw new EntityAlreadyExistsException(
-                    String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, notification.toString()));
-        }
 
         HibernateUtil.persist(notification);
         return notification;

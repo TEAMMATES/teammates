@@ -147,6 +147,13 @@ public final class FeedbackResponsesLogic {
      */
     public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse)
             throws InvalidParametersException, EntityAlreadyExistsException {
+        validateFeedbackResponse(feedbackResponse);
+
+        if (frDb.getFeedbackResponse(feedbackResponse.getId()) != null) {
+            throw new EntityAlreadyExistsException(
+                    String.format(Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS, feedbackResponse.toString()));
+        }
+
         return frDb.createFeedbackResponse(feedbackResponse);
     }
 

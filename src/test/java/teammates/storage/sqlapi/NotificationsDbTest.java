@@ -1,7 +1,6 @@
 package teammates.storage.sqlapi;
 
 import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.never;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -13,7 +12,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Notification;
@@ -40,7 +38,7 @@ public class NotificationsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateNotification_notificationDoesNotExist_success() throws EntityAlreadyExistsException {
+    public void testCreateNotification_notificationDoesNotExist_success() {
         Notification newNotification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
                 Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>");
@@ -48,20 +46,6 @@ public class NotificationsDbTest extends BaseTestCase {
         notificationsDb.createNotification(newNotification);
 
         mockHibernateUtil.verify(() -> HibernateUtil.persist(newNotification));
-    }
-
-    @Test
-    public void testCreateNotification_notificationExists_throwsEntityAlreadyExistsException() {
-        Notification existingNotification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
-                Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
-                "A deprecation note", "<p>Deprecation happens in three minutes</p>");
-
-        mockHibernateUtil.when(() -> HibernateUtil.get(Notification.class, existingNotification.getId()))
-                .thenReturn(existingNotification);
-
-        assertThrows(EntityAlreadyExistsException.class, () -> notificationsDb.createNotification(existingNotification));
-
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(existingNotification), never());
     }
 
     @Test

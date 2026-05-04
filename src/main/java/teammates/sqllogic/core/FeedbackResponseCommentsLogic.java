@@ -11,6 +11,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.FeedbackResponseCommentsDb;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -69,6 +70,13 @@ public final class FeedbackResponseCommentsLogic {
      */
     public FeedbackResponseComment createFeedbackResponseComment(FeedbackResponseComment frc)
             throws InvalidParametersException, EntityAlreadyExistsException {
+        validateFeedbackResponseComment(frc);
+
+        if (frcDb.getFeedbackResponseComment(frc.getId()) != null) {
+            throw new EntityAlreadyExistsException(
+                    String.format(Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS, frc.toString()));
+        }
+
         return frcDb.createFeedbackResponseComment(frc);
     }
 

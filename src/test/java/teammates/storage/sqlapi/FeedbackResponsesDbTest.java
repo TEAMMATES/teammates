@@ -1,14 +1,11 @@
 package teammates.storage.sqlapi;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
-import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.mockito.MockedStatic;
@@ -16,11 +13,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.FeedbackResponse;
-import teammates.storage.sqlentity.responses.FeedbackTextResponse;
 import teammates.test.BaseTestCase;
 
 /**
@@ -68,45 +62,12 @@ public class FeedbackResponsesDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateFeedbackResponse_success()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testCreateFeedbackResponse_success() {
         FeedbackResponse fr = getTypicalFeedbackResponse();
-
-        doReturn(null).when(feedbackResponsesDb).getFeedbackResponse(fr.getId());
 
         feedbackResponsesDb.createFeedbackResponse(fr);
 
         mockHibernateUtil.verify(() -> HibernateUtil.persist(fr), times(1));
-    }
-
-    @Test
-    public void testCreateFeedbackResponse_feedbackResponseAlreadyExists_throwsEntityAlreadyExistsException() {
-        FeedbackResponse fr = getTypicalFeedbackResponse();
-
-        doReturn(fr).when(feedbackResponsesDb).getFeedbackResponse(fr.getId());
-
-        EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
-                () -> feedbackResponsesDb.createFeedbackResponse(fr));
-
-        assertEquals(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, fr.toString()), eaee.getMessage());
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(fr), never());
-    }
-
-    @Test
-    public void testCreateFeedbackResponse_invalidFeedbackResponse_throwsInvalidParametersException() {
-        FeedbackResponse fr = getInvalidFeedbackResponse();
-        // Spy on the entity to force invalidity info, since the base implementation returns empty list
-        FeedbackResponse spyFr = spy(fr);
-        doReturn(List.of("Invalid response")).when(spyFr).getInvalidityInfo();
-
-        UUID id = spyFr.getId();
-        doReturn(null).when(feedbackResponsesDb).getFeedbackResponse(id);
-
-        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> feedbackResponsesDb.createFeedbackResponse(spyFr));
-
-        assertEquals(spyFr.getInvalidityInfo(), List.of(ipe.getMessage()));
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(spyFr), never());
     }
 
     @Test
@@ -132,19 +93,5 @@ public class FeedbackResponsesDbTest extends BaseTestCase {
         return getTypicalFeedbackResponseForQuestion(
                 getTypicalFeedbackQuestionForSession(
                         getTypicalFeedbackSessionForCourse(getTypicalCourse())));
-    }
-
-    /**
-     * Creates an invalid FeedbackResponse for testing.
-     * The response is invalid because it has null answer details.
-     */
-    private FeedbackResponse getInvalidFeedbackResponse() {
-        FeedbackResponse fr = getTypicalFeedbackResponse();
-        if (fr instanceof FeedbackTextResponse) {
-            ((FeedbackTextResponse) fr).setAnswer(null);
-        } else {
-            fail("Test setup failure: Expected FeedbackTextResponse but got " + fr.getClass().getSimpleName());
-        }
-        return fr;
     }
 }

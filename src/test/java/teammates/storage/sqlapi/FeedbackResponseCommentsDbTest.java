@@ -1,7 +1,6 @@
 package teammates.storage.sqlapi;
 
 import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 
@@ -12,8 +11,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.FeedbackResponseComment;
 import teammates.test.BaseTestCase;
@@ -43,26 +40,12 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateComment_commentDoesNotExist_success()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testCreateComment_commentDoesNotExist_success() {
         FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
 
         feedbackResponseCommentsDb.createFeedbackResponseComment(comment);
 
         mockHibernateUtil.verify(() -> HibernateUtil.persist(comment));
-    }
-
-    @Test
-    public void testCreateComment_commentAlreadyExists_throwsEntityAlreadyExistsException() {
-        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
-
-        mockHibernateUtil.when(() -> HibernateUtil.get(FeedbackResponseComment.class, TYPICAL_ID)).thenReturn(comment);
-
-        EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
-                () -> feedbackResponseCommentsDb.createFeedbackResponseComment(comment));
-
-        assertEquals("Trying to create an entity that exists: " + comment.toString(), ex.getMessage());
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(comment), never());
     }
 
     @Test

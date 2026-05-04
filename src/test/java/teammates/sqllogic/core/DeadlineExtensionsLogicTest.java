@@ -157,7 +157,7 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         Student student = getTypicalStudent();
-        Instant extendedDeadline = Instant.now().plusSeconds(86400);
+        Instant extendedDeadline = session.getEndTime().plusSeconds(3600);
 
         DeadlineExtension de = new DeadlineExtension(student, session, extendedDeadline);
 
@@ -173,8 +173,7 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateDeadlineExtension_nullExtension_throwsException()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testCreateDeadlineExtension_nullExtension_throwsException() {
         assertThrows(AssertionError.class, () -> deLogic.createDeadlineExtension(null));
         verify(deDb, never()).createDeadlineExtension(any());
     }
@@ -304,7 +303,7 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         Instructor instructor = getTypicalInstructor();
-        Instant extendedDeadline = Instant.now().plusSeconds(86400);
+        Instant extendedDeadline = session.getEndTime().plusSeconds(3600);
 
         DeadlineExtension de = new DeadlineExtension(instructor, session, extendedDeadline);
 

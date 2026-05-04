@@ -80,6 +80,13 @@ public final class FeedbackQuestionsLogic {
      */
     public FeedbackQuestion createFeedbackQuestion(FeedbackQuestion feedbackQuestion)
             throws InvalidParametersException, EntityAlreadyExistsException {
+        validateFeedbackQuestion(feedbackQuestion);
+
+        if (fqDb.getFeedbackQuestion(feedbackQuestion.getId()) != null) {
+            String errorMessage = String.format(Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS, feedbackQuestion.toString());
+            throw new EntityAlreadyExistsException(errorMessage);
+        }
+
         FeedbackQuestion createdQuestion = fqDb.createFeedbackQuestion(feedbackQuestion);
 
         List<FeedbackQuestion> questionsBefore = getFeedbackQuestionsForSession(feedbackQuestion.getFeedbackSession());

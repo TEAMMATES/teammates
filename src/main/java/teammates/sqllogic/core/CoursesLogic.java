@@ -1,5 +1,6 @@
 package teammates.sqllogic.core;
 
+import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
@@ -65,6 +66,12 @@ public final class CoursesLogic {
      *                                      database.
      */
     public Course createCourse(Course course) throws InvalidParametersException, EntityAlreadyExistsException {
+        validateCourse(course);
+
+        if (getCourse(course.getId()) != null) {
+            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, course.toString()));
+        }
+
         return coursesDb.createCourse(course);
     }
 
