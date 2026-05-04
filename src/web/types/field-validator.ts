@@ -46,7 +46,7 @@ export const EMAIL_REGEX: string = ApiStringConst.EMAIL_REGEX;
  * Based on back-end's `FieldValidator.REGEX_NAME`.
  * The back-end regex is not converted to use here as the pattern syntax is not accepted in JS.
  */
-export const NAME_REGEX: string = '^[a-zA-Z0-9][^|%]*$';
+export const NAME_REGEX = '^[a-zA-Z0-9][^|%]*$';
 
 /**
  * Regex used to verify country names.
@@ -54,14 +54,14 @@ export const NAME_REGEX: string = '^[a-zA-Z0-9][^|%]*$';
  * Based on back-end's `FieldValidator.REGEX_NAME`, but without needing to start with alphanumeric
  * as the country is added to the end of the combined institute string.
  */
-export const COUNTRY_REGEX: string = '^[^|%]*$';
+export const COUNTRY_REGEX = '^[^|%]*$';
 
 /**
  * Max length for institution name in account request. (to be combined with country)
  */
-export const INSTITUTION_NAME_MAX_LENGTH: number = 86;
+export const INSTITUTION_NAME_MAX_LENGTH = 86;
 
 /**
  * Max length for country in account request. (to be combined with institution name)
  */
-export const COUNTRY_NAME_MAX_LENGTH: number = 40;
+export const COUNTRY_NAME_MAX_LENGTH = 40;
