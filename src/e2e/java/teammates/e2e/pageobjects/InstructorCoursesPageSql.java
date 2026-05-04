@@ -13,7 +13,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
-import teammates.storage.sqlentity.Course;
+import teammates.logic.entity.Course;
 
 /**
  * Represents the "Courses" page for Instructors.

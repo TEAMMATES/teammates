@@ -5,12 +5,12 @@ import java.time.Instant;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Section;
-import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlentity.User;
+import teammates.logic.entity.FeedbackQuestion;
+import teammates.logic.entity.FeedbackSession;
+import teammates.logic.entity.Instructor;
+import teammates.logic.entity.Section;
+import teammates.logic.entity.Student;
+import teammates.logic.entity.User;
 
 /**
  * The basic action for feedback submission.

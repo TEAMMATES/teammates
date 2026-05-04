@@ -4,7 +4,7 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
-import teammates.storage.sqlentity.Instructor;
+import teammates.logic.entity.Instructor;
 
 /**
  * Deletes an instructor from a course, unless it's the last instructor in the course.

@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.logic.entity.Course;
+import teammates.logic.entity.Instructor;
+import teammates.logic.entity.Student;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
 import teammates.ui.request.Intent;

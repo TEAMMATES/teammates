@@ -9,9 +9,9 @@ import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.logic.entity.AccountRequest;
 import teammates.sqllogic.core.AccountRequestsLogic;
 import teammates.storage.sqlapi.AccountRequestsDb;
-import teammates.storage.sqlentity.AccountRequest;
 
 /**
  * SUT: {@link AccountRequestsLogic}.

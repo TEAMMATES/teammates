@@ -11,10 +11,10 @@ import org.testng.annotations.Test;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.logic.entity.Course;
+import teammates.logic.entity.FeedbackSession;
 import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlapi.FeedbackSessionsDb;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.FeedbackSession;
 
 /**
  * SUT: {@link FeedbackSessionsDb}.

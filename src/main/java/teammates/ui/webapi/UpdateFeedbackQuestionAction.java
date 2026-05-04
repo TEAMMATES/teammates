@@ -5,7 +5,7 @@ import java.util.UUID;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.logic.entity.FeedbackQuestion;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;

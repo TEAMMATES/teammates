@@ -14,8 +14,8 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.logic.entity.UsageStatistics;
 import teammates.storage.sqlapi.UsageStatisticsDb;
-import teammates.storage.sqlentity.UsageStatistics;
 import teammates.test.BaseTestCase;
 
 /**

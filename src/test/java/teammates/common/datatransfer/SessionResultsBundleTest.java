@@ -10,10 +10,10 @@ import java.util.UUID;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackResponse;
-import teammates.storage.sqlentity.FeedbackResponseComment;
-import teammates.storage.sqlentity.FeedbackSession;
+import teammates.logic.entity.FeedbackQuestion;
+import teammates.logic.entity.FeedbackResponse;
+import teammates.logic.entity.FeedbackResponseComment;
+import teammates.logic.entity.FeedbackSession;
 import teammates.test.BaseTestCase;
 
 /**

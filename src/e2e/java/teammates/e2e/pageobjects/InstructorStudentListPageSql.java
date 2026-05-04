@@ -12,8 +12,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import teammates.e2e.util.TestProperties;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Student;
+import teammates.logic.entity.Course;
+import teammates.logic.entity.Student;
 import teammates.test.ThreadHelper;
 
 /**

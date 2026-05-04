@@ -7,11 +7,11 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackResponse;
-import teammates.storage.sqlentity.FeedbackResponseComment;
-import teammates.storage.sqlentity.Instructor;
+import teammates.logic.entity.Course;
+import teammates.logic.entity.FeedbackQuestion;
+import teammates.logic.entity.FeedbackResponse;
+import teammates.logic.entity.FeedbackResponseComment;
+import teammates.logic.entity.Instructor;
 import teammates.ui.webapi.DeleteFeedbackQuestionAction;
 
 /**

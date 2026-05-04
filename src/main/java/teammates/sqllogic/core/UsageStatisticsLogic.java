@@ -3,8 +3,8 @@ package teammates.sqllogic.core;
 import java.time.Instant;
 import java.util.List;
 
+import teammates.logic.entity.UsageStatistics;
 import teammates.storage.sqlapi.UsageStatisticsDb;
-import teammates.storage.sqlentity.UsageStatistics;
 
 /**
  * Handles operations related to system usage statistics objects.

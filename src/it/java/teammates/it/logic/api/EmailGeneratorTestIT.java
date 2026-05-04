@@ -11,8 +11,8 @@ import teammates.common.util.HibernateUtil;
 import teammates.common.util.TimeHelper;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.logic.api.EmailGenerator;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Student;
+import teammates.logic.entity.FeedbackSession;
+import teammates.logic.entity.Student;
 import teammates.test.EmailChecker;
 
 /**

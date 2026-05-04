@@ -1,7 +1,7 @@
 package teammates.ui.webapi;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Instructor;
+import teammates.logic.entity.Instructor;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.Intent;
 

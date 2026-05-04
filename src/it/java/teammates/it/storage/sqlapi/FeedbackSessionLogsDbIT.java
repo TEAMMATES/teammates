@@ -11,11 +11,11 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.logic.entity.Course;
+import teammates.logic.entity.FeedbackSession;
+import teammates.logic.entity.FeedbackSessionLog;
+import teammates.logic.entity.Student;
 import teammates.storage.sqlapi.FeedbackSessionLogsDb;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.FeedbackSessionLog;
-import teammates.storage.sqlentity.Student;
 
 /**
  * SUT: {@link FeedbackSessionLogsDb}.

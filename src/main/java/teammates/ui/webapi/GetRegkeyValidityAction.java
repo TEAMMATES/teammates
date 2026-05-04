@@ -2,8 +2,8 @@ package teammates.ui.webapi;
 
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.logic.entity.Instructor;
+import teammates.logic.entity.Student;
 import teammates.ui.output.RegkeyValidityData;
 import teammates.ui.request.Intent;
 

@@ -12,8 +12,8 @@ import jakarta.persistence.criteria.Root;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.FeedbackSession;
+import teammates.logic.entity.Course;
+import teammates.logic.entity.FeedbackSession;
 
 /**
  * Handles CRUD operations for feedback sessions.

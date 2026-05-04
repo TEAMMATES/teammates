@@ -4,8 +4,8 @@ import java.util.List;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Instructor;
+import teammates.logic.entity.Course;
+import teammates.logic.entity.Instructor;
 import teammates.ui.output.CourseSectionNamesData;
 
 /**

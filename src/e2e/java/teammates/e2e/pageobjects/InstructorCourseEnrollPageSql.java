@@ -10,7 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.storage.sqlentity.Student;
+import teammates.logic.entity.Student;
 
 /**
  * Represents the instructor course enrollment page.

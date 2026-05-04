@@ -8,10 +8,10 @@ import java.util.UUID;
 
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.logic.entity.FeedbackQuestion;
+import teammates.logic.entity.FeedbackSession;
+import teammates.logic.entity.Instructor;
+import teammates.logic.entity.Student;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackQuestionsData;
 import teammates.ui.request.Intent;

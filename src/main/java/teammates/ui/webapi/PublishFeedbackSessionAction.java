@@ -7,8 +7,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
+import teammates.logic.entity.FeedbackSession;
+import teammates.logic.entity.Instructor;
 import teammates.ui.output.FeedbackSessionData;
 
 /**

@@ -6,10 +6,10 @@ import java.util.UUID;
 
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.exception.InvalidParametersException;
+import teammates.logic.entity.FeedbackSession;
+import teammates.logic.entity.FeedbackSessionLog;
+import teammates.logic.entity.Student;
 import teammates.storage.sqlapi.FeedbackSessionLogsDb;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.FeedbackSessionLog;
-import teammates.storage.sqlentity.Student;
 
 /**
  * Handles operations related to feedback sessions.

@@ -8,7 +8,7 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.HibernateUtil;
-import teammates.storage.sqlentity.Student;
+import teammates.logic.entity.Student;
 import teammates.ui.output.SessionLinksRecoveryResponseData;
 import teammates.ui.webapi.InvalidHttpParameterException;
 import teammates.ui.webapi.JsonResult;

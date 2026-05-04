@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.logic.entity.Instructor;
+import teammates.logic.entity.Student;
 import teammates.ui.output.StudentData;
 import teammates.ui.output.StudentsData;
 

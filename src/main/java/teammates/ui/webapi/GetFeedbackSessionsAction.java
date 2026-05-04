@@ -10,10 +10,10 @@ import java.util.Map;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.logic.entity.Course;
+import teammates.logic.entity.FeedbackSession;
+import teammates.logic.entity.Instructor;
+import teammates.logic.entity.Student;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.FeedbackSessionsData;
 

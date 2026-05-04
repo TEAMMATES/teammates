@@ -9,7 +9,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Notification;
+import teammates.logic.entity.Notification;
 import teammates.ui.output.NotificationData;
 import teammates.ui.webapi.EntityNotFoundException;
 import teammates.ui.webapi.GetNotificationAction;

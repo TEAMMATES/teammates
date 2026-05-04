@@ -7,7 +7,7 @@ import jakarta.annotation.Nullable;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.storage.sqlentity.Instructor;
+import teammates.logic.entity.Instructor;
 
 /**
  * The API output format of an instructor.

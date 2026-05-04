@@ -8,8 +8,8 @@ import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.InstructorCourseEditPageSql;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Instructor;
+import teammates.logic.entity.Course;
+import teammates.logic.entity.Instructor;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSE_EDIT_PAGE}.

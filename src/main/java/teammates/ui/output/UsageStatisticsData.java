@@ -2,7 +2,7 @@ package teammates.ui.output;
 
 import java.util.UUID;
 
-import teammates.storage.sqlentity.UsageStatistics;
+import teammates.logic.entity.UsageStatistics;
 
 /**
  * The API output format of {@link UsageStatistics}.

@@ -18,11 +18,11 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.InstructorPermissions;
+import teammates.logic.entity.Account;
+import teammates.logic.entity.Course;
+import teammates.logic.entity.Instructor;
+import teammates.logic.entity.Student;
 import teammates.storage.sqlapi.UsersDb;
-import teammates.storage.sqlentity.Account;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
 import teammates.test.BaseTestCase;
 
 /**

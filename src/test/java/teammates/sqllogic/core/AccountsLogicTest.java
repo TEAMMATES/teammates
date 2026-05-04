@@ -11,9 +11,9 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.logic.entity.Account;
+import teammates.logic.entity.User;
 import teammates.storage.sqlapi.AccountsDb;
-import teammates.storage.sqlentity.Account;
-import teammates.storage.sqlentity.User;
 import teammates.test.BaseTestCase;
 
 /**

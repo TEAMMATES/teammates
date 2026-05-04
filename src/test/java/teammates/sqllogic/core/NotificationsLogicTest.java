@@ -23,10 +23,10 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
+import teammates.logic.entity.Account;
+import teammates.logic.entity.Notification;
+import teammates.logic.entity.ReadNotification;
 import teammates.storage.sqlapi.NotificationsDb;
-import teammates.storage.sqlentity.Account;
-import teammates.storage.sqlentity.Notification;
-import teammates.storage.sqlentity.ReadNotification;
 import teammates.test.BaseTestCase;
 
 /**

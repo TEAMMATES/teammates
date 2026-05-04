@@ -3,21 +3,21 @@ package teammates.common.datatransfer;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import teammates.storage.sqlentity.Account;
-import teammates.storage.sqlentity.AccountRequest;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.DeadlineExtension;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackResponse;
-import teammates.storage.sqlentity.FeedbackResponseComment;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.FeedbackSessionLog;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Notification;
-import teammates.storage.sqlentity.ReadNotification;
-import teammates.storage.sqlentity.Section;
-import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlentity.Team;
+import teammates.logic.entity.Account;
+import teammates.logic.entity.AccountRequest;
+import teammates.logic.entity.Course;
+import teammates.logic.entity.DeadlineExtension;
+import teammates.logic.entity.FeedbackQuestion;
+import teammates.logic.entity.FeedbackResponse;
+import teammates.logic.entity.FeedbackResponseComment;
+import teammates.logic.entity.FeedbackSession;
+import teammates.logic.entity.FeedbackSessionLog;
+import teammates.logic.entity.Instructor;
+import teammates.logic.entity.Notification;
+import teammates.logic.entity.ReadNotification;
+import teammates.logic.entity.Section;
+import teammates.logic.entity.Student;
+import teammates.logic.entity.Team;
 
 /**
  * Holds a bundle of entities.

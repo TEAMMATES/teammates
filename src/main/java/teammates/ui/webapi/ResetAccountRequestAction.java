@@ -9,7 +9,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
-import teammates.storage.sqlentity.AccountRequest;
+import teammates.logic.entity.AccountRequest;
 import teammates.ui.output.JoinLinkData;
 
 /**

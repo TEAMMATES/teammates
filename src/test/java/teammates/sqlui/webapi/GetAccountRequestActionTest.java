@@ -8,7 +8,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.AccountRequest;
+import teammates.logic.entity.AccountRequest;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.webapi.EntityNotFoundException;
 import teammates.ui.webapi.GetAccountRequestAction;

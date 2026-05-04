@@ -26,13 +26,13 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
+import teammates.logic.entity.FeedbackQuestion;
+import teammates.logic.entity.FeedbackSession;
+import teammates.logic.entity.Instructor;
+import teammates.logic.entity.Student;
+import teammates.logic.entity.Team;
+import teammates.logic.entity.User;
 import teammates.storage.sqlapi.FeedbackQuestionsDb;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlentity.Team;
-import teammates.storage.sqlentity.User;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 
 /**

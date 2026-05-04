@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.AccountRequest;
+import teammates.logic.entity.AccountRequest;
 import teammates.ui.output.JoinLinkData;
 import teammates.ui.webapi.EntityNotFoundException;
 import teammates.ui.webapi.InvalidOperationException;

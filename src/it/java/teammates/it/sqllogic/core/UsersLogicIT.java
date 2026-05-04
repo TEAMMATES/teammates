@@ -10,15 +10,15 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.InstructorPermissions;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.logic.entity.Account;
+import teammates.logic.entity.Course;
+import teammates.logic.entity.Instructor;
+import teammates.logic.entity.Section;
+import teammates.logic.entity.Student;
+import teammates.logic.entity.Team;
 import teammates.sqllogic.core.AccountsLogic;
 import teammates.sqllogic.core.CoursesLogic;
 import teammates.sqllogic.core.UsersLogic;
-import teammates.storage.sqlentity.Account;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Section;
-import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlentity.Team;
 
 /**
  * SUT: {@link UsersLogic}.

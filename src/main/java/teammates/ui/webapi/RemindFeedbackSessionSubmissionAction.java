@@ -7,10 +7,10 @@ import java.util.UUID;
 
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlentity.User;
+import teammates.logic.entity.FeedbackSession;
+import teammates.logic.entity.Instructor;
+import teammates.logic.entity.Student;
+import teammates.logic.entity.User;
 import teammates.ui.request.FeedbackSessionRespondentRemindRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 

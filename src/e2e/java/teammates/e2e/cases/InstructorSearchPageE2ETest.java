@@ -11,8 +11,8 @@ import teammates.e2e.pageobjects.InstructorCourseStudentDetailsEditPageSql;
 import teammates.e2e.pageobjects.InstructorCourseStudentDetailsViewPageSql;
 import teammates.e2e.pageobjects.InstructorSearchPageSql;
 import teammates.e2e.pageobjects.InstructorStudentRecordsPageSql;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Student;
+import teammates.logic.entity.Course;
+import teammates.logic.entity.Student;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SEARCH_PAGE}.

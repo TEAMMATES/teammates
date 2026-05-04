@@ -12,9 +12,9 @@ import jakarta.persistence.criteria.Root;
 
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.TimeHelper;
-import teammates.storage.sqlentity.DeadlineExtension;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.User;
+import teammates.logic.entity.DeadlineExtension;
+import teammates.logic.entity.FeedbackSession;
+import teammates.logic.entity.User;
 
 /**
  * Handles CRUD operations for deadline extensions.

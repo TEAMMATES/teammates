@@ -8,7 +8,7 @@ import com.deque.html.axecore.results.Results;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.StudentNotificationsPage;
-import teammates.storage.sqlentity.Notification;
+import teammates.logic.entity.Notification;
 
 /**
  * SUT: {@link Const.WebPageURIs#STUDENT_NOTIFICATIONS_PAGE}.

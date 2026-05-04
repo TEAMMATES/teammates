@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import teammates.storage.sqlentity.FeedbackSession;
+import teammates.logic.entity.FeedbackSession;
 
 /**
  * The API output format of a list of {@link FeedbackSession}.

@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
-import teammates.storage.sqlentity.DeadlineExtension;
-import teammates.storage.sqlentity.FeedbackSession;
+import teammates.logic.entity.DeadlineExtension;
+import teammates.logic.entity.FeedbackSession;
 
 /**
  * Cron job: schedules feedback session closing soon emails to be sent.

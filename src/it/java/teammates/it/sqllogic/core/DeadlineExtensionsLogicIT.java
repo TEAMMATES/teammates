@@ -8,9 +8,9 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.logic.entity.FeedbackSession;
+import teammates.logic.entity.Student;
 import teammates.sqllogic.core.DeadlineExtensionsLogic;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Student;
 
 /**
  * SUT: {@link DeadlineExtensionsLogic}.

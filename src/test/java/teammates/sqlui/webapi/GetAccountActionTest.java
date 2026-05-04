@@ -7,7 +7,7 @@ import static org.mockito.Mockito.when;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Account;
+import teammates.logic.entity.Account;
 import teammates.ui.output.AccountData;
 import teammates.ui.webapi.EntityNotFoundException;
 import teammates.ui.webapi.GetAccountAction;

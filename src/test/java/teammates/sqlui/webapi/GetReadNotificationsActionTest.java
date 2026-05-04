@@ -9,8 +9,8 @@ import java.util.UUID;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Account;
-import teammates.storage.sqlentity.ReadNotification;
+import teammates.logic.entity.Account;
+import teammates.logic.entity.ReadNotification;
 import teammates.ui.output.ReadNotificationsData;
 import teammates.ui.webapi.GetReadNotificationsAction;
 import teammates.ui.webapi.JsonResult;

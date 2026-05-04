@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.AccountRequest;
+import teammates.logic.entity.AccountRequest;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.output.AccountRequestsData;
 import teammates.ui.webapi.SearchAccountRequestsAction;

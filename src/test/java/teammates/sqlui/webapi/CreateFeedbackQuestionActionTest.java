@@ -13,10 +13,10 @@ import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetai
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
+import teammates.logic.entity.Course;
+import teammates.logic.entity.FeedbackQuestion;
+import teammates.logic.entity.FeedbackSession;
+import teammates.logic.entity.Instructor;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
 import teammates.ui.request.FeedbackQuestionCreateRequest;

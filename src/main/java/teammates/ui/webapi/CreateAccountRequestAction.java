@@ -3,7 +3,7 @@ package teammates.ui.webapi;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.EmailWrapper;
-import teammates.storage.sqlentity.AccountRequest;
+import teammates.logic.entity.AccountRequest;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;

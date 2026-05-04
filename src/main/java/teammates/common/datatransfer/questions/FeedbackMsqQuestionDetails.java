@@ -6,7 +6,7 @@ import java.util.Objects;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.logic.entity.FeedbackQuestion;
 
 /**
  * Contains specific structure and processing logic for MSQ feedback questions.

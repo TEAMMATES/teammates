@@ -7,10 +7,10 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.storage.sqlentity.Account;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
+import teammates.logic.entity.Account;
+import teammates.logic.entity.Course;
+import teammates.logic.entity.FeedbackSession;
+import teammates.logic.entity.Instructor;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.Intent;
 import teammates.ui.webapi.GetInstructorAction;

@@ -8,7 +8,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
 import teammates.common.util.HibernateUtil;
-import teammates.storage.sqlentity.Account;
+import teammates.logic.entity.Account;
 
 /**
  * Handles CRUD operations for accounts.

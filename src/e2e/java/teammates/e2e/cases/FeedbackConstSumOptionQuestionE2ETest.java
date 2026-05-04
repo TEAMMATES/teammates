@@ -9,9 +9,9 @@ import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetail
 import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
 import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackResponse;
-import teammates.storage.sqlentity.Team;
+import teammates.logic.entity.FeedbackQuestion;
+import teammates.logic.entity.FeedbackResponse;
+import teammates.logic.entity.Team;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}, {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}

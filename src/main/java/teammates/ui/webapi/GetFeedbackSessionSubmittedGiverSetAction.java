@@ -5,8 +5,8 @@ import java.util.UUID;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
+import teammates.logic.entity.FeedbackSession;
+import teammates.logic.entity.Instructor;
 import teammates.ui.output.FeedbackSessionSubmittedGiverSet;
 
 /**

@@ -5,8 +5,8 @@ import org.testng.annotations.Test;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.StudentCourseDetailsPageSql;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.logic.entity.Instructor;
+import teammates.logic.entity.Student;
 
 /**
  * SUT: {@link Const.WebPageURIs#STUDENT_COURSE_DETAILS_PAGE}.

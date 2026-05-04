@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.apache.http.HttpStatus;
 
-import teammates.storage.sqlentity.Account;
+import teammates.logic.entity.Account;
 import teammates.ui.output.ReadNotificationsData;
 
 /**

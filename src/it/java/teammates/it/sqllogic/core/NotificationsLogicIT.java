@@ -11,8 +11,8 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.logic.entity.Notification;
 import teammates.sqllogic.core.NotificationsLogic;
-import teammates.storage.sqlentity.Notification;
 
 /**
  * SUT: {@link NotificationsLogic}.

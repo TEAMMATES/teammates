@@ -1,9 +1,9 @@
 package teammates.ui.webapi;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.AccountRequest;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.logic.entity.AccountRequest;
+import teammates.logic.entity.Instructor;
+import teammates.logic.entity.Student;
 import teammates.ui.output.JoinStatus;
 
 /**

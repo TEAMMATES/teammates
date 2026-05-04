@@ -21,7 +21,7 @@ import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.storage.sqlentity.Student;
+import teammates.logic.entity.Student;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.output.RegenerateKeyData;
 import teammates.ui.webapi.RegenerateStudentKeyAction;

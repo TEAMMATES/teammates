@@ -5,7 +5,7 @@ import java.time.Instant;
 import java.util.List;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.UsageStatistics;
+import teammates.logic.entity.UsageStatistics;
 import teammates.ui.output.UsageStatisticsRangeData;
 
 /**

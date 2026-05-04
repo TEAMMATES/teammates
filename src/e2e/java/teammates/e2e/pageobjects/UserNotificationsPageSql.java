@@ -14,7 +14,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.NotificationStyle;
-import teammates.storage.sqlentity.Notification;
+import teammates.logic.entity.Notification;
 
 /**
  * Page Object Model for user notifications page.

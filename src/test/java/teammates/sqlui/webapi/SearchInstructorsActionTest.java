@@ -12,8 +12,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Account;
-import teammates.storage.sqlentity.Instructor;
+import teammates.logic.entity.Account;
+import teammates.logic.entity.Instructor;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
 import teammates.ui.output.JoinState;

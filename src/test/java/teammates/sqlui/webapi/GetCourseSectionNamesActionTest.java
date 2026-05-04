@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.storage.sqlentity.Course;
+import teammates.logic.entity.Course;
 import teammates.ui.output.CourseSectionNamesData;
 import teammates.ui.webapi.GetCourseSectionNamesAction;
 

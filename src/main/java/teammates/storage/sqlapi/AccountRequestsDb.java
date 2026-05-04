@@ -14,7 +14,7 @@ import jakarta.persistence.criteria.Root;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
-import teammates.storage.sqlentity.AccountRequest;
+import teammates.logic.entity.AccountRequest;
 
 /**
  * Generates CRUD operations for AccountRequest.

@@ -3,7 +3,7 @@ package teammates.ui.output;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import teammates.storage.sqlentity.UsageStatistics;
+import teammates.logic.entity.UsageStatistics;
 
 /**
  * The API output format of a list of {@link UsageStatistics}.

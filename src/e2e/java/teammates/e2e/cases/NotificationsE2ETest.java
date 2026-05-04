@@ -12,8 +12,8 @@ import teammates.common.util.Const;
 import teammates.e2e.pageobjects.InstructorNotificationsPage;
 import teammates.e2e.pageobjects.StudentHomePage;
 import teammates.e2e.pageobjects.StudentNotificationsPage;
-import teammates.storage.sqlentity.Account;
-import teammates.storage.sqlentity.Notification;
+import teammates.logic.entity.Account;
+import teammates.logic.entity.Notification;
 
 /**
  * SUT: {@link Const.WebPageURIs#STUDENT_NOTIFICATIONS_PAGE}.

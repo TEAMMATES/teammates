@@ -1,7 +1,7 @@
 package teammates.ui.webapi;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Account;
+import teammates.logic.entity.Account;
 import teammates.ui.output.AccountData;
 
 /**

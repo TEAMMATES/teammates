@@ -7,8 +7,8 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.logic.entity.UsageStatistics;
 import teammates.storage.sqlapi.UsageStatisticsDb;
-import teammates.storage.sqlentity.UsageStatistics;
 
 /**
  * SUT: {@link UsageStatisticsDb}.

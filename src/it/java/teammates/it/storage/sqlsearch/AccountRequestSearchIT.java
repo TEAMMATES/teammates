@@ -10,8 +10,8 @@ import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.logic.entity.AccountRequest;
 import teammates.storage.sqlapi.AccountRequestsDb;
-import teammates.storage.sqlentity.AccountRequest;
 import teammates.test.AssertHelper;
 
 /**

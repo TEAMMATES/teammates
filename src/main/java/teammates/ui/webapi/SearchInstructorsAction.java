@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Instructor;
+import teammates.logic.entity.Instructor;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
 

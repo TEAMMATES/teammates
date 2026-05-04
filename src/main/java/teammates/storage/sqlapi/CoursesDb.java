@@ -9,9 +9,9 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 
 import teammates.common.util.HibernateUtil;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Section;
-import teammates.storage.sqlentity.Team;
+import teammates.logic.entity.Course;
+import teammates.logic.entity.Section;
+import teammates.logic.entity.Team;
 
 /**
  * Handles CRUD operations for courses.

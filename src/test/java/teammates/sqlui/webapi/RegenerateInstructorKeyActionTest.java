@@ -21,7 +21,7 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.storage.sqlentity.Instructor;
+import teammates.logic.entity.Instructor;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.output.RegenerateKeyData;
 import teammates.ui.webapi.RegenerateInstructorKeyAction;

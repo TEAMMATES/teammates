@@ -8,7 +8,7 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import teammates.common.util.HibernateUtil;
-import teammates.storage.sqlentity.BaseEntity;
+import teammates.logic.entity.BaseEntity;
 
 import liquibase.ext.hibernate.customfactory.CustomMetadataFactory;
 import liquibase.ext.hibernate.database.HibernateDatabase;

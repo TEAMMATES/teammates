@@ -14,9 +14,9 @@ import org.testng.annotations.Test;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Student;
+import teammates.logic.entity.Course;
+import teammates.logic.entity.FeedbackSession;
+import teammates.logic.entity.Student;
 import teammates.ui.output.EmailData;
 import teammates.ui.webapi.GenerateEmailAction;
 

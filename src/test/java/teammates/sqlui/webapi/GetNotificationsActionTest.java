@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Notification;
+import teammates.logic.entity.Notification;
 import teammates.ui.output.NotificationData;
 import teammates.ui.output.NotificationsData;
 import teammates.ui.webapi.GetNotificationsAction;

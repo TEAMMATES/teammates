@@ -12,8 +12,8 @@ import jakarta.persistence.criteria.Subquery;
 
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.util.HibernateUtil;
-import teammates.storage.sqlentity.Notification;
-import teammates.storage.sqlentity.ReadNotification;
+import teammates.logic.entity.Notification;
+import teammates.logic.entity.ReadNotification;
 
 /**
  * Handles CRUD operations for notifications.

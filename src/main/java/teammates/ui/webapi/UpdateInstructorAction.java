@@ -4,7 +4,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Instructor;
+import teammates.logic.entity.Instructor;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.InstructorCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;

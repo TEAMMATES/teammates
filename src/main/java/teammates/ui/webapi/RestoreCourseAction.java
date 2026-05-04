@@ -2,7 +2,7 @@ package teammates.ui.webapi;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Course;
+import teammates.logic.entity.Course;
 
 /**
  * Action: Restores a course from Recycle Bin.

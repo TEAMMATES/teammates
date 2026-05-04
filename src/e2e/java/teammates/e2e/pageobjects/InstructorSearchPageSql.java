@@ -12,8 +12,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.StringHelper;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Student;
+import teammates.logic.entity.Course;
+import teammates.logic.entity.Student;
 import teammates.test.ThreadHelper;
 
 /**

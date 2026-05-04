@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.storage.sqlentity.Student;
+import teammates.logic.entity.Student;
 
 /**
  * Represents the instructor course student details view page of the website.
