@@ -24,7 +24,7 @@ public class GetCourseAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
-        Course course = sqlLogic.getCourse(courseId);
+        Course course = logic.getCourse(courseId);
 
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
             gateKeeper.verifyAccessible(getPossiblyUnregisteredSqlInstructor(courseId), course);
@@ -43,7 +43,7 @@ public class GetCourseAction extends Action {
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Course course = sqlLogic.getCourse(courseId);
+        Course course = logic.getCourse(courseId);
         if (course == null) {
             throw new EntityNotFoundException("No course with id: " + courseId);
         }

@@ -48,8 +48,8 @@ public class GetFeedbackSessionsAction extends Action {
             }
 
             if (courseId != null) {
-                Course course = sqlLogic.getCourse(courseId);
-                gateKeeper.verifyAccessible(sqlLogic.getStudentByGoogleId(courseId, userInfo.getId()), course);
+                Course course = logic.getCourse(courseId);
+                gateKeeper.verifyAccessible(logic.getStudentByGoogleId(courseId, userInfo.getId()), course);
             }
         } else {
             if (!userInfo.isInstructor) {
@@ -58,8 +58,8 @@ public class GetFeedbackSessionsAction extends Action {
             }
 
             if (courseId != null) {
-                Course course = sqlLogic.getCourse(courseId);
-                gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()), course);
+                Course course = logic.getCourse(courseId);
+                gateKeeper.verifyAccessible(logic.getInstructorByGoogleId(courseId, userInfo.getId()), course);
             }
         }
     }
@@ -75,36 +75,36 @@ public class GetFeedbackSessionsAction extends Action {
 
         if (courseId == null) {
             if (Const.EntityType.STUDENT.equals(entityType)) {
-                List<Student> students = sqlLogic.getStudentsByGoogleId(userInfo.getId());
+                List<Student> students = logic.getStudentsByGoogleId(userInfo.getId());
                 for (Student student : students) {
                     String studentCourseId = student.getCourseId();
-                    List<FeedbackSession> sessions = sqlLogic.getFeedbackSessionsForCourse(studentCourseId);
+                    List<FeedbackSession> sessions = logic.getFeedbackSessionsForCourse(studentCourseId);
                     for (FeedbackSession session : sessions) {
-                        sessionToDeadline.put(session, sqlLogic.getDeadlineForUser(session, student));
+                        sessionToDeadline.put(session, logic.getDeadlineForUser(session, student));
                     }
                 }
             } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
                 boolean isInRecycleBin = getBooleanRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN);
 
-                instructors = sqlLogic.getInstructorsForGoogleId(userInfo.getId());
+                instructors = logic.getInstructorsForGoogleId(userInfo.getId());
 
                 if (isInRecycleBin) {
-                    feedbackSessions = sqlLogic.getSoftDeletedFeedbackSessionsForInstructors(instructors);
+                    feedbackSessions = logic.getSoftDeletedFeedbackSessionsForInstructors(instructors);
                 } else {
-                    feedbackSessions = sqlLogic.getFeedbackSessionsForInstructors(instructors);
+                    feedbackSessions = logic.getFeedbackSessionsForInstructors(instructors);
                 }
             }
         } else {
-            feedbackSessions = sqlLogic.getFeedbackSessionsForCourse(courseId);
+            feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
             if (Const.EntityType.STUDENT.equals(entityType) && !feedbackSessions.isEmpty()) {
-                Student student = sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
+                Student student = logic.getStudentByGoogleId(courseId, userInfo.getId());
                 assert student != null;
                 for (FeedbackSession session : feedbackSessions) {
-                    sessionToDeadline.put(session, sqlLogic.getDeadlineForUser(session, student));
+                    sessionToDeadline.put(session, logic.getDeadlineForUser(session, student));
                 }
             } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
                 instructors = Collections.singletonList(
-                        sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()));
+                        logic.getInstructorByGoogleId(courseId, userInfo.getId()));
             }
         }
 
@@ -115,7 +115,7 @@ public class GetFeedbackSessionsAction extends Action {
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
             for (FeedbackSession session : feedbackSessions) {
                 Instructor instructor = courseIdToInstructor.get(session.getCourseId());
-                sessionToDeadline.put(session, sqlLogic.getDeadlineForUser(session, instructor));
+                sessionToDeadline.put(session, logic.getDeadlineForUser(session, instructor));
             }
             responseData = new FeedbackSessionsData(sessionToDeadline);
             responseData.getFeedbackSessions().forEach(session -> {

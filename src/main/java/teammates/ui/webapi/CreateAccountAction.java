@@ -52,7 +52,7 @@ public class CreateAccountAction extends Action {
             timezone = Const.DEFAULT_TIME_ZONE;
         }
 
-        AccountRequest accountRequest = sqlLogic.getAccountRequestByRegistrationKey(registrationKey);
+        AccountRequest accountRequest = logic.getAccountRequestByRegistrationKey(registrationKey);
 
         if (accountRequest == null) {
             throw new EntityNotFoundException("Account request with registration key "
@@ -76,12 +76,12 @@ public class CreateAccountAction extends Action {
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
-        List<Instructor> instructorList = sqlLogic.getInstructorsByCourse(courseId);
+        List<Instructor> instructorList = logic.getInstructorsByCourse(courseId);
 
         assert !instructorList.isEmpty();
 
         try {
-            sqlLogic.joinCourseForInstructor(instructorList.get(0).getRegKey(), userInfo.id);
+            logic.joinCourseForInstructor(instructorList.get(0).getRegKey(), userInfo.id);
         } catch (EntityDoesNotExistException | EntityAlreadyExistsException | InvalidParametersException e) {
             // EntityDoesNotExistException should not be thrown as all entities should exist in demo course.
             // EntityAlreadyExistsException should not be thrown as updated entities should not have
@@ -111,7 +111,7 @@ public class CreateAccountAction extends Action {
             throws InvalidParametersException {
         accountRequest.setStatus(AccountRequestStatus.REGISTERED);
         accountRequest.setRegisteredAt(Instant.now());
-        sqlLogic.updateAccountRequest(accountRequest);
+        logic.updateAccountRequest(accountRequest);
         return accountRequest;
     }
 
@@ -168,7 +168,7 @@ public class CreateAccountAction extends Action {
 
         DataBundle dataBundle = DataBundleLogic.deserializeDataBundle(dataBundleString);
 
-        sqlLogic.persistDataBundle(dataBundle);
+        logic.persistDataBundle(dataBundle);
 
         return courseId;
     }
@@ -201,7 +201,7 @@ public class CreateAccountAction extends Action {
      */
     private String generateDemoCourseId(String instructorEmail) {
         String proposedCourseId = generateNextDemoCourseId(instructorEmail, FieldValidator.COURSE_ID_MAX_LENGTH);
-        while (sqlLogic.getCourse(proposedCourseId) != null) {
+        while (logic.getCourse(proposedCourseId) != null) {
             proposedCourseId = generateNextDemoCourseId(proposedCourseId, FieldValidator.COURSE_ID_MAX_LENGTH);
         }
         return proposedCourseId;

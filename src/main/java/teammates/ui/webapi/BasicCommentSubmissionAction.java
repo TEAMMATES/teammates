@@ -21,7 +21,7 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
      * Validates comment of corresponding response doesn't exist in SQL DB.
      */
     void verifyCommentNotExist(UUID feedbackResponseId) throws InvalidOperationException {
-        FeedbackResponseComment comment = sqlLogic
+        FeedbackResponseComment comment = logic
                 .getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
 
         if (comment != null) {

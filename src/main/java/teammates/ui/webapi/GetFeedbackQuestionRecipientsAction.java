@@ -33,7 +33,7 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
 
         feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
 
-        feedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionId);
+        feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
 
         if (feedbackQuestion == null) {
             throw new EntityNotFoundException("Feedback Question not found");
@@ -70,7 +70,7 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
 
         feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
 
-        feedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionId);
+        feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
 
         if (feedbackQuestion != null) {
             courseId = feedbackQuestion.getCourseId();
@@ -85,12 +85,12 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
         case STUDENT_SUBMISSION:
             Student student = getSqlStudentOfCourseFromRequest(courseId);
 
-            recipient = sqlLogic.getRecipientsOfQuestion(feedbackQuestion, null, student);
+            recipient = logic.getRecipientsOfQuestion(feedbackQuestion, null, student);
             break;
         case INSTRUCTOR_SUBMISSION:
             Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
 
-            recipient = sqlLogic.getRecipientsOfQuestion(feedbackQuestion, instructor, null);
+            recipient = logic.getRecipientsOfQuestion(feedbackQuestion, instructor, null);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);

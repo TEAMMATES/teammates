@@ -17,7 +17,7 @@ public class UpdateAccountRequestAction extends AdminOnlyAction {
     public JsonResult execute() throws InvalidOperationException, InvalidHttpRequestBodyException {
         UUID accountRequestId = getUuidRequestParamValue(Const.ParamsNames.ACCOUNT_REQUEST_ID);
 
-        AccountRequest accountRequest = sqlLogic.getAccountRequest(accountRequestId);
+        AccountRequest accountRequest = logic.getAccountRequest(accountRequestId);
 
         if (accountRequest == null) {
             String errorMessage = String.format("Account request with id = %s not found", accountRequestId.toString());
@@ -35,7 +35,7 @@ public class UpdateAccountRequestAction extends AdminOnlyAction {
             // Approval or rejection are handled in their respective actions, so status should not be updated here.
             accountRequest.setStatus(accountRequest.getStatus());
             accountRequest.setComments(accountRequestUpdateRequest.getComments());
-            accountRequest = sqlLogic.updateAccountRequest(accountRequest);
+            accountRequest = logic.updateAccountRequest(accountRequest);
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         }

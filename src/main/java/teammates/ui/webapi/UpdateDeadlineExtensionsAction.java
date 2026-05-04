@@ -43,13 +43,13 @@ public class UpdateDeadlineExtensionsAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
         gateKeeper.verifyAccessible(
-                sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
+                logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
                 feedbackSession,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
@@ -57,7 +57,7 @@ public class UpdateDeadlineExtensionsAction extends Action {
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
@@ -69,9 +69,9 @@ public class UpdateDeadlineExtensionsAction extends Action {
         String courseId = feedbackSession.getCourseId();
 
         // Use userIds to map to users to avoid querying the db for each user multiple times during processing later on
-        Map<UUID, Student> studentsByUserId = sqlLogic.getStudentsForCourse(courseId).stream()
+        Map<UUID, Student> studentsByUserId = logic.getStudentsForCourse(courseId).stream()
                 .collect(Collectors.toMap(Student::getId, s -> s));
-        Map<UUID, Instructor> instructorsByUserId = sqlLogic.getInstructorsByCourse(courseId).stream()
+        Map<UUID, Instructor> instructorsByUserId = logic.getInstructorsByCourse(courseId).stream()
                 .collect(Collectors.toMap(Instructor::getId, i -> i));
 
         Map<String, DeadlineExtension> oldStudentDeadlines = prevDeadlineExtensions.stream()
@@ -113,7 +113,7 @@ public class UpdateDeadlineExtensionsAction extends Action {
         taskQueuer.scheduleEmailsForSending(emailsToSend);
 
         // Refresh to get updated deadline extensions
-        feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         List<DeadlineExtension> deadlineExtensions = feedbackSession.getDeadlineExtensions();
         DeadlineExtensionsData responseData = new DeadlineExtensionsData(
                 deadlineExtensions, studentsByUserId, instructorsByUserId);
@@ -139,7 +139,7 @@ public class UpdateDeadlineExtensionsAction extends Action {
         deadlinesToRevoke.keySet().removeAll(newDeadlines.keySet());
 
         deadlinesToRevoke.values().forEach(de ->
-                sqlLogic.deleteDeadlineExtension(de));
+                logic.deleteDeadlineExtension(de));
         session.getDeadlineExtensions().removeAll(deadlinesToRevoke.values());
 
         // Create deadline extensions
@@ -150,13 +150,13 @@ public class UpdateDeadlineExtensionsAction extends Action {
                 .stream()
                 .map(entry -> {
                     User u = areInstructors
-                            ? sqlLogic.getInstructorForEmail(courseId, entry.getKey())
-                            : sqlLogic.getStudentForEmail(courseId, entry.getKey());
+                            ? logic.getInstructorForEmail(courseId, entry.getKey())
+                            : logic.getStudentForEmail(courseId, entry.getKey());
                     return new DeadlineExtension(u, session, entry.getValue());
                 })
                 .forEach(deadlineExtension -> {
                     try {
-                        sqlLogic.createDeadlineExtension(deadlineExtension);
+                        logic.createDeadlineExtension(deadlineExtension);
                     } catch (InvalidParametersException | EntityAlreadyExistsException e) {
                         log.severe("Unexpected error while creating deadline extension", e);
                     }
@@ -173,7 +173,7 @@ public class UpdateDeadlineExtensionsAction extends Action {
             try {
                 DeadlineExtension deToUpdate = oldDeadlines.get(entry.getKey());
                 deToUpdate.setEndTime(entry.getValue());
-                sqlLogic.updateDeadlineExtension(deToUpdate);
+                logic.updateDeadlineExtension(deToUpdate);
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 log.severe("Unexpected error while updating deadline extension", e);
             }
@@ -189,7 +189,7 @@ public class UpdateDeadlineExtensionsAction extends Action {
 
         List<EmailWrapper> emailsToSend = new ArrayList<>();
         if (notifyUsers) {
-            Course course = sqlLogic.getCourse(courseId);
+            Course course = logic.getCourse(courseId);
             emailsToSend.addAll(emailGenerator
                     .generateDeadlineRevokedEmails(course, session,
                             revokedDeadlinesEmailToInstantMap, areInstructors));

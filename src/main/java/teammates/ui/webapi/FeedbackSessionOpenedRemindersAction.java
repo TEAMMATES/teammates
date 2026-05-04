@@ -16,7 +16,7 @@ public class FeedbackSessionOpenedRemindersAction extends AutomatedServiceAction
 
     @Override
     public JsonResult execute() {
-        List<FeedbackSession> sessions = sqlLogic.getFeedbackSessionsWhichNeedOpenedEmailsToBeSent();
+        List<FeedbackSession> sessions = logic.getFeedbackSessionsWhichNeedOpenedEmailsToBeSent();
 
         for (FeedbackSession session : sessions) {
             RequestTracer.checkRemainingTime();

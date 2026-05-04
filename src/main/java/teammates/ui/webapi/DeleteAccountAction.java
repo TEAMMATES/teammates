@@ -11,7 +11,7 @@ public class DeleteAccountAction extends AdminOnlyAction {
     public JsonResult execute() {
         String googleId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
 
-        sqlLogic.deleteAccountCascade(googleId);
+        logic.deleteAccountCascade(googleId);
 
         return new JsonResult("Account is successfully deleted.");
     }

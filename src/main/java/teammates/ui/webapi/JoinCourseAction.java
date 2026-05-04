@@ -48,7 +48,7 @@ public class JoinCourseAction extends Action {
         Student student;
 
         try {
-            student = sqlLogic.joinCourseForStudent(regkey, userInfo.id);
+            student = logic.joinCourseForStudent(regkey, userInfo.id);
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException eaee) {
@@ -68,7 +68,7 @@ public class JoinCourseAction extends Action {
         Instructor instructor;
 
         try {
-            instructor = sqlLogic.joinCourseForInstructor(regkey, userInfo.id);
+            instructor = logic.joinCourseForInstructor(regkey, userInfo.id);
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException eaee) {
@@ -85,7 +85,7 @@ public class JoinCourseAction extends Action {
     }
 
     private void sendJoinEmail(String courseId, String userName, String userEmail, boolean isInstructor) {
-        Course course = sqlLogic.getCourse(courseId);
+        Course course = logic.getCourse(courseId);
         EmailWrapper email = emailGenerator.generateUserCourseRegisteredEmail(
                 userName, userEmail, userInfo.id, isInstructor, course);
         emailSender.sendEmail(email);

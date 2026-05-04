@@ -31,7 +31,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackResponseCommentId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
 
-        FeedbackResponseComment feedbackResponseComment = sqlLogic.getFeedbackResponseComment(feedbackResponseCommentId);
+        FeedbackResponseComment feedbackResponseComment = logic.getFeedbackResponseComment(feedbackResponseCommentId);
 
         String courseId;
 
@@ -79,7 +79,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             break;
         case INSTRUCTOR_RESULT:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+            Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
             if (instructor == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
             }
@@ -101,7 +101,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
     public JsonResult execute() throws InvalidHttpRequestBodyException {
         UUID feedbackResponseCommentId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
 
-        FeedbackResponseComment feedbackResponseComment = sqlLogic.getFeedbackResponseComment(feedbackResponseCommentId);
+        FeedbackResponseComment feedbackResponseComment = logic.getFeedbackResponseComment(feedbackResponseCommentId);
 
         String courseId;
 
@@ -124,7 +124,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             email = instructorAsFeedbackParticipant.getEmail();
             break;
         case INSTRUCTOR_RESULT:
-            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+            Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.id);
             email = instructor.getEmail();
             break;
         default:
@@ -141,7 +141,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
         try {
             FeedbackResponseComment updatedFeedbackResponseComment =
-                    sqlLogic.updateFeedbackResponseComment(feedbackResponseCommentId, comment, email);
+                    logic.updateFeedbackResponseComment(feedbackResponseCommentId, comment, email);
             return new JsonResult(new FeedbackResponseCommentData(updatedFeedbackResponseComment));
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);

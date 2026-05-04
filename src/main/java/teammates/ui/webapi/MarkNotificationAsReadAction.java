@@ -31,12 +31,12 @@ public class MarkNotificationAsReadAction extends Action {
                 getAndValidateRequestBody(MarkNotificationAsReadRequest.class);
         UUID notificationId = UUID.fromString(readNotificationCreateRequest.getNotificationId());
 
-        Account account = sqlLogic.getAccountForGoogleId(userInfo.getId());
+        Account account = logic.getAccountForGoogleId(userInfo.getId());
         if (account == null) {
             // This should not happen as the user is authenticated
             return new JsonResult("Account not found", HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
-        ReadNotification readNotification = sqlLogic.createReadNotification(account.getId(), notificationId);
+        ReadNotification readNotification = logic.createReadNotification(account.getId(), notificationId);
         ReadNotificationData output = new ReadNotificationData(readNotification);
 
         return new JsonResult(output);

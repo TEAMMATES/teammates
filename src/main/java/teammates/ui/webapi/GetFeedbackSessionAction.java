@@ -25,7 +25,7 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
@@ -42,7 +42,7 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
             break;
         case FULL_DETAIL:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()),
+            gateKeeper.verifyAccessible(logic.getInstructorByGoogleId(courseId, userInfo.getId()),
                     feedbackSession, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
             break;
         default:
@@ -55,7 +55,7 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
@@ -65,21 +65,21 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         switch (intent) {
         case STUDENT_SUBMISSION, STUDENT_RESULT:
             Student student = getSqlStudentOfCourseFromRequest(courseId);
-            Instant studentDeadline = sqlLogic.getDeadlineForUser(feedbackSession, student);
+            Instant studentDeadline = logic.getDeadlineForUser(feedbackSession, student);
             response = new FeedbackSessionData(feedbackSession, studentDeadline);
             response.hideInformation();
             break;
         case INSTRUCTOR_SUBMISSION:
             Instructor instructorSubmission = getSqlInstructorOfCourseFromRequest(courseId);
             response = new FeedbackSessionData(feedbackSession,
-                    sqlLogic.getDeadlineForUser(feedbackSession,
+                    logic.getDeadlineForUser(feedbackSession,
                     instructorSubmission));
             response.hideInformation();
             break;
         case INSTRUCTOR_RESULT:
             Instructor instructorResult = getSqlInstructorOfCourseFromRequest(courseId);
             response = new FeedbackSessionData(feedbackSession,
-                    sqlLogic.getDeadlineForUser(feedbackSession,
+                    logic.getDeadlineForUser(feedbackSession,
                     instructorResult));
             response.hideInformationForStudentAndInstructor();
             break;

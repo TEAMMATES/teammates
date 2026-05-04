@@ -21,16 +21,16 @@ public class DeleteCourseAction extends Action {
         }
 
         String idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Course course = sqlLogic.getCourse(idOfCourseToDelete);
+        Course course = logic.getCourse(idOfCourseToDelete);
 
-        gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(idOfCourseToDelete, userInfo.id),
+        gateKeeper.verifyAccessible(logic.getInstructorByGoogleId(idOfCourseToDelete, userInfo.id),
                 course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 
     @Override
     public JsonResult execute() {
         String idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        sqlLogic.deleteCourseCascade(idOfCourseToDelete);
+        logic.deleteCourseCascade(idOfCourseToDelete);
 
         return new JsonResult(new MessageOutput("OK"));
     }

@@ -16,7 +16,7 @@ public class GetNotificationAction extends AdminOnlyAction {
     public JsonResult execute() throws InvalidHttpRequestBodyException {
         UUID notificationId = getUuidRequestParamValue(Const.ParamsNames.NOTIFICATION_ID);
 
-        Notification notification = sqlLogic.getNotification(notificationId);
+        Notification notification = logic.getNotification(notificationId);
 
         if (notification == null) {
             throw new EntityNotFoundException("Notification does not exist.");

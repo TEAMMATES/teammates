@@ -30,7 +30,7 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
 
         FeedbackResponse feedbackResponse = null;
 
-        feedbackResponse = sqlLogic.getFeedbackResponse(feedbackResponseId);
+        feedbackResponse = logic.getFeedbackResponse(feedbackResponseId);
 
         if (feedbackResponse == null) {
             throw new EntityNotFoundException("The feedback response does not exist.");
@@ -68,7 +68,7 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
 
         FeedbackResponse feedbackResponse = null;
 
-        feedbackResponse = sqlLogic.getFeedbackResponse(feedbackResponseId);
+        feedbackResponse = logic.getFeedbackResponse(feedbackResponseId);
 
         if (feedbackResponse == null) {
             throw new EntityNotFoundException("The feedback response does not exist.");
@@ -80,9 +80,9 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
         case STUDENT_SUBMISSION:
         case INSTRUCTOR_SUBMISSION:
             FeedbackResponseComment comment =
-                    sqlLogic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
+                    logic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
             if (comment == null) {
-                FeedbackResponse fr = sqlLogic.getFeedbackResponse(feedbackResponseId);
+                FeedbackResponse fr = logic.getFeedbackResponse(feedbackResponseId);
                 if (fr == null) {
                     throw new EntityNotFoundException("The feedback response does not exist.");
                 }

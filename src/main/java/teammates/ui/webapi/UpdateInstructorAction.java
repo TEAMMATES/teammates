@@ -27,9 +27,9 @@ public class UpdateInstructorAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
         gateKeeper.verifyAccessible(
-                instructor, sqlLogic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+                instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class UpdateInstructorAction extends Action {
 
         Instructor updatedInstructor;
         try {
-            updatedInstructor = sqlLogic.updateInstructorCascade(courseId, instructorRequest);
+            updatedInstructor = logic.updateInstructorCascade(courseId, instructorRequest);
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         } catch (InstructorUpdateException e) {
@@ -48,7 +48,7 @@ public class UpdateInstructorAction extends Action {
             throw new EntityNotFoundException(ednee);
         }
 
-        sqlLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, updatedInstructor);
+        logic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, updatedInstructor);
 
         InstructorData newInstructorData = new InstructorData(updatedInstructor);
         newInstructorData.setGoogleId(updatedInstructor.getGoogleId());

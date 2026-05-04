@@ -24,13 +24,13 @@ public class UpdateFeedbackSessionAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
         gateKeeper.verifyAccessible(
-                sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
+                logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
                 feedbackSession,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
@@ -43,7 +43,7 @@ public class UpdateFeedbackSessionAction extends Action {
                 getAndValidateRequestBody(FeedbackSessionUpdateRequest.class);
 
         try {
-            FeedbackSession feedbackSession = sqlLogic.updateFeedbackSession(feedbackSessionId, updateRequest);
+            FeedbackSession feedbackSession = logic.updateFeedbackSession(feedbackSessionId, updateRequest);
             return new JsonResult(new FeedbackSessionData(feedbackSession));
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);

@@ -22,7 +22,7 @@ public class GetInstructorPrivilegeAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
 
         if (instructor == null) {
             throw new UnauthorizedAccessException("Not instructor of the course");
@@ -39,16 +39,16 @@ public class GetInstructorPrivilegeAction extends Action {
 
         if (instructorId == null) {
             if (instructorEmail == null) {
-                instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+                instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
             } else {
-                instructor = sqlLogic.getInstructorForEmail(courseId, instructorEmail);
+                instructor = logic.getInstructorForEmail(courseId, instructorEmail);
 
                 if (instructor == null) {
                     throw new EntityNotFoundException("Instructor does not exist.");
                 }
             }
         } else {
-            instructor = sqlLogic.getInstructorByGoogleId(courseId, instructorId);
+            instructor = logic.getInstructorByGoogleId(courseId, instructorId);
 
             if (instructor == null) {
                 throw new EntityNotFoundException("Instructor does not exist.");

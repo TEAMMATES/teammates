@@ -33,7 +33,7 @@ public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         UUID feedbackQuestionId;
 
         feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        feedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionId);
+        feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
 
         if (feedbackQuestion == null) {
             throw new EntityNotFoundException("Feedback Question not found");
@@ -70,7 +70,7 @@ public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         UUID feedbackQuestionId;
 
         feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        feedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionId);
+        feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
 
         if (feedbackQuestion == null) {
             throw new EntityNotFoundException("Feedback Question not found");
@@ -82,11 +82,11 @@ public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         switch (intent) {
         case STUDENT_SUBMISSION:
             Student student = getSqlStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
-            responses = sqlLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(feedbackQuestion, student);
+            responses = logic.getFeedbackResponsesFromStudentOrTeamForQuestion(feedbackQuestion, student);
             break;
         case INSTRUCTOR_SUBMISSION:
             Instructor instructor = getSqlInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
-            responses = sqlLogic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructor);
+            responses = logic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructor);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
@@ -97,7 +97,7 @@ public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             FeedbackResponseData data = new FeedbackResponseData(response);
             // Only MCQ and MSQ questions can have participant comment
             FeedbackResponseComment comment =
-                    sqlLogic.getFeedbackResponseCommentForResponseFromParticipant(response.getId());
+                    logic.getFeedbackResponseCommentForResponseFromParticipant(response.getId());
             if (comment != null) {
                 data.setGiverComment(new FeedbackResponseCommentData(comment));
             }

@@ -27,8 +27,8 @@ public class UpdateCourseAction extends Action {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Course course = sqlLogic.getCourse(courseId);
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+        Course course = logic.getCourse(courseId);
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.id);
 
         gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
@@ -47,7 +47,7 @@ public class UpdateCourseAction extends Action {
         String courseName = courseUpdateRequest.getCourseName();
 
         try {
-            Course updatedCourse = sqlLogic.updateCourse(courseId, courseName, courseTimeZone);
+            Course updatedCourse = logic.updateCourse(courseId, courseName, courseTimeZone);
 
             return new JsonResult(new CourseData(updatedCourse));
 

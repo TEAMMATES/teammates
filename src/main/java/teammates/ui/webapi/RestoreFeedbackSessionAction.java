@@ -23,13 +23,13 @@ public class RestoreFeedbackSessionAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("The feedback session does not exist.");
         }
 
         gateKeeper.verifyAccessible(
-                sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
+                logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
                 feedbackSession,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
@@ -40,14 +40,14 @@ public class RestoreFeedbackSessionAction extends Action {
         FeedbackSession feedbackSession;
 
         try {
-            feedbackSession = sqlLogic.restoreFeedbackSessionFromRecycleBin(feedbackSessionId);
+            feedbackSession = logic.restoreFeedbackSessionFromRecycleBin(feedbackSessionId);
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         }
 
         FeedbackSessionData output = new FeedbackSessionData(feedbackSession);
 
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
+        Instructor instructor = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
         InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, feedbackSession.getName());
         output.setPrivileges(privilege);
 

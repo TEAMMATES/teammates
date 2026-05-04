@@ -34,7 +34,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
         FeedbackResponse feedbackResponse = null;
 
-        feedbackResponse = sqlLogic.getFeedbackResponse(feedbackResponseId);
+        feedbackResponse = logic.getFeedbackResponse(feedbackResponseId);
 
         if (feedbackResponse == null) {
             throw new EntityNotFoundException("The feedback response does not exist.");
@@ -79,7 +79,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             break;
         case INSTRUCTOR_RESULT:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+            Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
             gateKeeper.verifyAccessible(instructor, session, feedbackResponse.getGiverSection().getName(),
                     Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
             gateKeeper.verifyAccessible(instructor, session, feedbackResponse.getRecipientSection().getName(),
@@ -99,7 +99,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
         FeedbackResponse feedbackResponse = null;
 
-        feedbackResponse = sqlLogic.getFeedbackResponse(feedbackResponseId);
+        feedbackResponse = logic.getFeedbackResponse(feedbackResponseId);
 
         if (feedbackResponse == null) {
             throw new EntityNotFoundException("The feedback response does not exist.");
@@ -142,7 +142,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             commentGiverType = FeedbackParticipantType.INSTRUCTORS;
             break;
         case INSTRUCTOR_RESULT:
-            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+            Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
             email = instructor.getEmail();
             isFromParticipant = false;
             isFollowingQuestionVisibility = false;
@@ -157,7 +157,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
                 isFollowingQuestionVisibility, isFromParticipant, comment.getShowCommentTo(), comment.getShowGiverNameTo(),
                 email);
         try {
-            FeedbackResponseComment createdComment = sqlLogic.createFeedbackResponseComment(feedbackResponseComment);
+            FeedbackResponseComment createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
             HibernateUtil.flushSession();
             return new JsonResult(new FeedbackResponseCommentData(createdComment));
         } catch (InvalidParametersException e) {

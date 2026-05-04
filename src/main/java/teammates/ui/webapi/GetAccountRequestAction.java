@@ -15,7 +15,7 @@ public class GetAccountRequestAction extends AdminOnlyAction {
     public JsonResult execute() {
         UUID id = getUuidRequestParamValue(Const.ParamsNames.ACCOUNT_REQUEST_ID);
 
-        AccountRequest accountRequest = sqlLogic.getAccountRequest(id);
+        AccountRequest accountRequest = logic.getAccountRequest(id);
 
         if (accountRequest == null) {
             throw new EntityNotFoundException("Account request with id: " + id.toString() + " does not exist.");

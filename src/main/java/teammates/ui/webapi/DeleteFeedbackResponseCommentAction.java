@@ -26,7 +26,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackResponseCommentId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
-        FeedbackResponseComment comment = sqlLogic.getFeedbackResponseComment(feedbackResponseCommentId);
+        FeedbackResponseComment comment = logic.getFeedbackResponseComment(feedbackResponseCommentId);
 
         String courseId;
         if (comment != null) {
@@ -66,7 +66,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
             break;
         case INSTRUCTOR_RESULT:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+            Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
             if (instructor == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
             }
@@ -90,7 +90,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
     public JsonResult execute() {
         UUID feedbackResponseCommentId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
 
-        FeedbackResponseComment comment = sqlLogic.getFeedbackResponseComment(feedbackResponseCommentId);
+        FeedbackResponseComment comment = logic.getFeedbackResponseComment(feedbackResponseCommentId);
 
         JsonResult successfulJsonResult = new JsonResult("Successfully deleted feedback response comment.");
 
@@ -98,7 +98,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
             return successfulJsonResult;
         }
 
-        sqlLogic.deleteFeedbackResponseComment(feedbackResponseCommentId);
+        logic.deleteFeedbackResponseComment(feedbackResponseCommentId);
 
         return successfulJsonResult;
     }

@@ -27,13 +27,13 @@ public class CreateFeedbackQuestionAction extends Action {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
         Instructor instructorDetailForCourse =
-                sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
+                logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
         gateKeeper.verifyAccessible(instructorDetailForCourse,
                 feedbackSession,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
@@ -42,7 +42,7 @@ public class CreateFeedbackQuestionAction extends Action {
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
@@ -74,7 +74,7 @@ public class CreateFeedbackQuestionAction extends Action {
             if (!questionDetailsErrors.isEmpty()) {
                 throw new InvalidHttpRequestBodyException(questionDetailsErrors.toString());
             }
-            feedbackQuestion = sqlLogic.createFeedbackQuestion(feedbackQuestion);
+            feedbackQuestion = logic.createFeedbackQuestion(feedbackQuestion);
             return new JsonResult(new FeedbackQuestionData(feedbackQuestion));
         } catch (InvalidParametersException ex) {
             throw new InvalidHttpRequestBodyException(ex);

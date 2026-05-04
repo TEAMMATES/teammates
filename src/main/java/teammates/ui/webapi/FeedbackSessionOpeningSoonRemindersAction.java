@@ -15,7 +15,7 @@ public class FeedbackSessionOpeningSoonRemindersAction extends AutomatedServiceA
 
     @Override
     public JsonResult execute() {
-        List<FeedbackSession> sessions = sqlLogic.getFeedbackSessionsOpeningWithinTimeLimit();
+        List<FeedbackSession> sessions = logic.getFeedbackSessionsOpeningWithinTimeLimit();
         for (FeedbackSession session : sessions) {
             RequestTracer.checkRemainingTime();
             List<EmailWrapper> emailsToBeSent = emailGenerator.generateFeedbackSessionOpeningSoonEmails(session);

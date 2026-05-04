@@ -28,9 +28,9 @@ public class DeleteInstructorAction extends Action {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.id);
         gateKeeper.verifyAccessible(
-                instructor, sqlLogic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+                instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
 
     @Override
@@ -41,9 +41,9 @@ public class DeleteInstructorAction extends Action {
 
         Instructor instructor;
         if (instructorId != null) {
-            instructor = sqlLogic.getInstructorByGoogleId(courseId, instructorId);
+            instructor = logic.getInstructorByGoogleId(courseId, instructorId);
         } else if (instructorEmail != null) {
-            instructor = sqlLogic.getInstructorForEmail(courseId, instructorEmail);
+            instructor = logic.getInstructorForEmail(courseId, instructorEmail);
         } else {
             throw new InvalidHttpParameterException("Instructor to delete not specified");
         }
@@ -59,7 +59,7 @@ public class DeleteInstructorAction extends Action {
                             + "Deleting the last instructor from the course is not allowed.");
         }
 
-        sqlLogic.deleteInstructorCascade(courseId, instructor.getEmail());
+        logic.deleteInstructorCascade(courseId, instructor.getEmail());
 
         return new JsonResult("Instructor is successfully deleted.");
     }
@@ -72,7 +72,7 @@ public class DeleteInstructorAction extends Action {
      * @param instructorToDeleteEmail Email of the instructor who is being deleted
      */
     private boolean hasAlternativeInstructor(String courseId, String instructorToDeleteEmail) {
-        List<Instructor> instructors = sqlLogic.getInstructorsByCourse(courseId);
+        List<Instructor> instructors = logic.getInstructorsByCourse(courseId);
         boolean hasAlternativeModifyInstructor = false;
         boolean hasAlternativeVisibleInstructor = false;
 

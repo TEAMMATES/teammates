@@ -57,7 +57,7 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
             instructor = getSqlInstructorOfCourseFromRequest(courseId);
             break;
         case FULL_DETAIL:
-            instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+            instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);

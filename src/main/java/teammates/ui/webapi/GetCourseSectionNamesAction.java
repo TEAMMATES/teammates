@@ -21,8 +21,8 @@ public class GetCourseSectionNamesAction extends Action {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Course course = sqlLogic.getCourse(courseId);
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+        Course course = logic.getCourse(courseId);
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.id);
 
         gateKeeper.verifyAccessible(instructor, course);
     }
@@ -31,7 +31,7 @@ public class GetCourseSectionNamesAction extends Action {
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         try {
-            List<String> sectionNames = sqlLogic.getSectionNamesForCourse(courseId);
+            List<String> sectionNames = logic.getSectionNamesForCourse(courseId);
             return new JsonResult(new CourseSectionNamesData(sectionNames));
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);

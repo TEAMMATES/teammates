@@ -26,9 +26,9 @@ public class DeleteStudentAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.id);
         gateKeeper.verifyAccessible(
-                instructor, sqlLogic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+                instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class DeleteStudentAction extends Action {
         if (studentId == null) {
             studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         } else {
-            Student student = sqlLogic.getStudentByGoogleId(courseId, studentId);
+            Student student = logic.getStudentByGoogleId(courseId, studentId);
             if (student != null) {
                 studentEmail = student.getEmail();
             }
@@ -49,7 +49,7 @@ public class DeleteStudentAction extends Action {
 
         // if student is not found, fail silently
         if (studentEmail != null) {
-            sqlLogic.deleteStudentCascade(courseId, studentEmail);
+            logic.deleteStudentCascade(courseId, studentEmail);
         }
 
         return new JsonResult("Student is successfully deleted.");

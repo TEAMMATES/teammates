@@ -16,14 +16,14 @@ public class FeedbackSessionPublishedRemindersAction extends AutomatedServiceAct
 
     @Override
     public JsonResult execute() {
-        List<FeedbackSession> sessions = sqlLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+        List<FeedbackSession> sessions = logic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
         for (FeedbackSession session : sessions) {
             RequestTracer.checkRemainingTime();
             List<EmailWrapper> emailsToBeSent = emailGenerator.generateFeedbackSessionPublishedEmails(session);
             try {
                 taskQueuer.scheduleEmailsForSending(emailsToBeSent);
                 session.setPublishedEmailSent(true);
-                sqlLogic.adjustFeedbackSessionEmailStatusAfterUpdate(session);
+                logic.adjustFeedbackSessionEmailStatusAfterUpdate(session);
             } catch (Exception e) {
                 log.severe("Unexpected error", e);
             }

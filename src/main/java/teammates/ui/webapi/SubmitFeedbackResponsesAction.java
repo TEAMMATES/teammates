@@ -50,7 +50,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
 
-        final FeedbackQuestion feedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionId);
+        final FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
 
         if (feedbackQuestion == null) {
             throw new EntityNotFoundException("The feedback question does not exist.");
@@ -92,7 +92,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         UUID feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
 
-        final FeedbackQuestion feedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionId);
+        final FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
 
         if (feedbackQuestion == null) {
             throw new EntityNotFoundException("The feedback question does not exist.");
@@ -115,17 +115,17 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
                     feedbackQuestion.getGiverType() == FeedbackParticipantType.TEAMS
                             ? student.getTeamName() : student.getEmail();
             giverSection = student.getSection();
-            existingResponses = sqlLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(feedbackQuestion, student);
-            recipientsOfTheQuestion = sqlLogic.getRecipientsOfQuestion(feedbackQuestion, null, student);
-            dynamicallyGeneratedOptions = sqlLogic.getDynamicallyGeneratedOptions(feedbackQuestion, student);
+            existingResponses = logic.getFeedbackResponsesFromStudentOrTeamForQuestion(feedbackQuestion, student);
+            recipientsOfTheQuestion = logic.getRecipientsOfQuestion(feedbackQuestion, null, student);
+            dynamicallyGeneratedOptions = logic.getDynamicallyGeneratedOptions(feedbackQuestion, student);
             break;
         case INSTRUCTOR_SUBMISSION:
             Instructor instructor = getSqlInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
             giverIdentifier = instructor.getEmail();
-            giverSection = sqlLogic.getDefaultSectionOrCreate(courseId);
-            existingResponses = sqlLogic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructor);
-            recipientsOfTheQuestion = sqlLogic.getRecipientsOfQuestion(feedbackQuestion, instructor, null);
-            dynamicallyGeneratedOptions = sqlLogic.getDynamicallyGeneratedOptions(feedbackQuestion, null);
+            giverSection = logic.getDefaultSectionOrCreate(courseId);
+            existingResponses = logic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructor);
+            recipientsOfTheQuestion = logic.getRecipientsOfQuestion(feedbackQuestion, instructor, null);
+            dynamicallyGeneratedOptions = logic.getDynamicallyGeneratedOptions(feedbackQuestion, null);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
@@ -219,14 +219,14 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
                 .collect(Collectors.toList());
 
         for (FeedbackResponse feedbackResponse : feedbackResponsesToDelete) {
-            sqlLogic.deleteFeedbackResponsesAndCommentsCascade(feedbackResponse);
+            logic.deleteFeedbackResponsesAndCommentsCascade(feedbackResponse);
         }
 
         List<FeedbackResponse> output = new ArrayList<>();
 
         for (FeedbackResponse feedbackResponse : feedbackResponsesToAdd) {
             try {
-                output.add(sqlLogic.createFeedbackResponse(feedbackResponse));
+                output.add(logic.createFeedbackResponse(feedbackResponse));
             } catch (InvalidParametersException | EntityAlreadyExistsException e) {
                 // None of the exceptions should be happening as the responses have been pre-validated
                 log.severe("Encountered exception when creating response: " + e.getMessage(), e);
@@ -235,7 +235,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
 
         for (FeedbackResponse feedbackResponse : feedbackResponsesToUpdate) {
             try {
-                output.add(sqlLogic.updateFeedbackResponseCascade(feedbackResponse));
+                output.add(logic.updateFeedbackResponseCascade(feedbackResponse));
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 // None of the exceptions should be happening as the responses have been pre-validated
                 log.severe("Encountered exception when updating response: " + e.getMessage(), e);

@@ -37,7 +37,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  */
 public abstract class Action {
 
-    Logic sqlLogic = Logic.inst();
+    Logic logic = Logic.inst();
     UserProvision userProvision = UserProvision.inst();
     GateKeeper gateKeeper = GateKeeper.inst();
     EmailGenerator emailGenerator = EmailGenerator.inst();
@@ -69,7 +69,7 @@ public abstract class Action {
      * Inject logic class for use in tests.
      */
     public void setLogic(Logic logic) {
-        this.sqlLogic = logic;
+        this.logic = logic;
     }
 
     public void setUserProvision(UserProvision userProvision) {
@@ -276,7 +276,7 @@ public abstract class Action {
     }
 
     FeedbackSession getNonNullFeedbackSession(String feedbackSessionName, String courseId) {
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
@@ -302,7 +302,7 @@ public abstract class Action {
         // TODO: Remove Sql from method name after migration
         String key = getRequestParamValue(Const.ParamsNames.REGKEY);
         if (!StringHelper.isEmpty(key)) {
-            Student student = sqlLogic.getStudentByRegistrationKey(key);
+            Student student = logic.getStudentByRegistrationKey(key);
             if (student == null) {
                 return Optional.empty();
             }
@@ -319,7 +319,7 @@ public abstract class Action {
         // TODO: Remove Sql from method name after migration
         String key = getRequestParamValue(Const.ParamsNames.REGKEY);
         if (!StringHelper.isEmpty(key)) {
-            Instructor instructor = sqlLogic.getInstructorByRegistrationKey(key);
+            Instructor instructor = logic.getInstructorByRegistrationKey(key);
             if (instructor == null) {
                 return Optional.empty();
             }
@@ -334,7 +334,7 @@ public abstract class Action {
             if (userInfo == null) {
                 return null;
             }
-            return sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+            return logic.getInstructorByGoogleId(courseId, userInfo.getId());
         });
     }
 
@@ -343,7 +343,7 @@ public abstract class Action {
             if (userInfo == null) {
                 return null;
             }
-            return sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
+            return logic.getStudentByGoogleId(courseId, userInfo.getId());
         });
     }
 

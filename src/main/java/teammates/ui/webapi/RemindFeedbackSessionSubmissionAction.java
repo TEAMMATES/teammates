@@ -28,12 +28,12 @@ public class RemindFeedbackSessionSubmissionAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
+        Instructor instructor = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
         gateKeeper.verifyAccessible(
                 instructor,
                 feedbackSession,
@@ -44,7 +44,7 @@ public class RemindFeedbackSessionSubmissionAction extends Action {
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
@@ -63,11 +63,11 @@ public class RemindFeedbackSessionSubmissionAction extends Action {
         List<Student> studentsToRemindList = new ArrayList<>();
         List<Instructor> instructorsToRemindList = new ArrayList<>();
         Instructor instructorToNotify = isSendingCopyToInstructor
-                ? sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId())
+                ? logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId())
                 : null;
 
         for (UUID userId : usersToRemind) {
-            User user = sqlLogic.getUser(userId);
+            User user = logic.getUser(userId);
             if (user == null) {
                 throw new EntityNotFoundException("User with ID " + userId + " not found");
             }

@@ -24,7 +24,7 @@ public class CreateFeedbackSessionLogAction extends Action {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("The feedback session does not exist.");
         }
@@ -57,7 +57,7 @@ public class CreateFeedbackSessionLogAction extends Action {
         }
 
         UUID fsId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(fsId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(fsId);
         if (feedbackSession == null) {
             throw new InvalidHttpParameterException("The feedback session does not exist.");
         }
@@ -66,7 +66,7 @@ public class CreateFeedbackSessionLogAction extends Action {
         Student student = getPossiblyUnregisteredSqlStudent(feedbackSession.getCourseId());
 
         try {
-            sqlLogic.createFeedbackSessionLog(feedbackSession, student, convertedFslType, now);
+            logic.createFeedbackSessionLog(feedbackSession, student, convertedFslType, now);
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpParameterException(ipe);
         }

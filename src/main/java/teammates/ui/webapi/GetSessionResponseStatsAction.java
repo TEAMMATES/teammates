@@ -24,25 +24,25 @@ public class GetSessionResponseStatsAction extends Action {
         }
 
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
+        Instructor instructor = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
         gateKeeper.verifyAccessible(instructor, feedbackSession);
     }
 
     @Override
     public JsonResult execute() {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
-        int expectedTotal = sqlLogic.getExpectedTotalSubmission(feedbackSession);
-        int actualTotal = sqlLogic.getActualTotalSubmission(feedbackSession);
+        int expectedTotal = logic.getExpectedTotalSubmission(feedbackSession);
+        int actualTotal = logic.getActualTotalSubmission(feedbackSession);
         FeedbackSessionStatsData output = new FeedbackSessionStatsData(actualTotal, expectedTotal);
         return new JsonResult(output);
     }

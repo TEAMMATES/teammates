@@ -39,9 +39,9 @@ public class CreateInstructorAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.id);
         gateKeeper.verifyAccessible(
-                instructor, sqlLogic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+                instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class CreateInstructorAction extends Action {
     private JsonResult executeWithSql(String courseId, InstructorCreateRequest instructorRequest)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
-        Course course = sqlLogic.getCourse(courseId);
+        Course course = logic.getCourse(courseId);
 
         Instructor instructorToAdd = createInstructorWithBasicAttributesSql(course,
                 SanitizationHelper.sanitizeName(instructorRequest.getName()),
@@ -81,10 +81,10 @@ public class CreateInstructorAction extends Action {
                 instructorRequest.getIsDisplayedToStudent(),
                 SanitizationHelper.sanitizeName(instructorRequest.getDisplayName()));
 
-        Instructor createdInstructor = sqlLogic.createInstructor(instructorToAdd);
+        Instructor createdInstructor = logic.createInstructor(instructorToAdd);
 
         // Generate and queue invitation email to priority queue (user-triggered)
-        Account inviter = sqlLogic.getAccountForGoogleId(userInfo.id);
+        Account inviter = logic.getAccountForGoogleId(userInfo.id);
         if (inviter == null) {
             throw new EntityNotFoundException("Inviter account does not exist.");
         }

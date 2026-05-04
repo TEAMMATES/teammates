@@ -28,7 +28,7 @@ public class DeleteDataBundleAction extends Action {
         DataBundle dataBundle = JsonUtils.fromJson(getRequestBody(), DataBundle.class);
 
         try {
-            sqlLogic.removeDataBundle(dataBundle);
+            logic.removeDataBundle(dataBundle);
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         }

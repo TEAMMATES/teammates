@@ -21,7 +21,7 @@ public class GetAccountRequestsAction extends AdminOnlyAction {
             throw new InvalidHttpParameterException("Only 'pending' is allowed for account request status.");
         }
 
-        List<AccountRequest> accountRequests = sqlLogic.getPendingAccountRequests();
+        List<AccountRequest> accountRequests = logic.getPendingAccountRequests();
         List<AccountRequestData> accountRequestDatas = accountRequests
                 .stream()
                 .map(ar -> new AccountRequestData(ar))

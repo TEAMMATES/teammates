@@ -17,7 +17,7 @@ public class SearchAccountRequestsAction extends AdminOnlyAction {
     public JsonResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
 
-        List<AccountRequest> accountRequests = sqlLogic.searchAccountRequestsInWholeSystem(searchKey);
+        List<AccountRequest> accountRequests = logic.searchAccountRequestsInWholeSystem(searchKey);
 
         List<AccountRequestData> accountRequestDataList = accountRequests.stream()
                 .map(AccountRequestData::new)

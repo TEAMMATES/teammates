@@ -23,7 +23,7 @@ public class CalculateUsageStatisticsAction extends AutomatedServiceAction {
         Instant endTime = TimeHelper.getInstantNearestHourBefore(Instant.now());
         Instant startTime = endTime.minus(COLLECTION_TIME_PERIOD, ChronoUnit.MINUTES);
 
-        UsageStatistics sqlEntitiesStats = sqlLogic.calculateEntitiesStatisticsForTimeRange(startTime, endTime);
+        UsageStatistics sqlEntitiesStats = logic.calculateEntitiesStatisticsForTimeRange(startTime, endTime);
 
         int numEmailsSent = logsProcessor.getNumberOfLogsForEvent(startTime, endTime, LogEvent.EMAIL_SENT, "");
         int numSubmissions = logsProcessor.getNumberOfLogsForEvent(startTime, endTime, LogEvent.FEEDBACK_SESSION_AUDIT,
@@ -39,7 +39,7 @@ public class CalculateUsageStatisticsAction extends AutomatedServiceAction {
                 numEmailsSent, numSubmissions);
 
         try {
-            sqlLogic.createUsageStatistics(overallUsageStats);
+            logic.createUsageStatistics(overallUsageStats);
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             log.severe("Unexpected error", e);
         }

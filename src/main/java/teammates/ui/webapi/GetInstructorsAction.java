@@ -29,7 +29,7 @@ public class GetInstructorsAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Course course = sqlLogic.getCourse(courseId);
+        Course course = logic.getCourse(courseId);
 
         if (course == null) {
             throw new EntityNotFoundException("course not found");
@@ -40,12 +40,12 @@ public class GetInstructorsAction extends Action {
         if (intentStr == null) {
             // get partial details of instructors with information hiding
             // student should belong to the course
-            Student student = sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
+            Student student = logic.getStudentByGoogleId(courseId, userInfo.getId());
             gateKeeper.verifyAccessible(student, course);
         } else if (intentStr.equals(Intent.FULL_DETAIL.toString())) {
             // get all instructors of a course without information hiding
             // this need instructor privileges
-            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+            Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
             gateKeeper.verifyAccessible(instructor, course);
         } else {
             throw new InvalidHttpParameterException("unknown intent");
@@ -58,7 +58,7 @@ public class GetInstructorsAction extends Action {
         String intentStr = getRequestParamValue(Const.ParamsNames.INTENT);
         InstructorsData data;
 
-        List<Instructor> instructorsOfCourse = sqlLogic.getInstructorsByCourse(courseId);
+        List<Instructor> instructorsOfCourse = logic.getInstructorsByCourse(courseId);
 
         if (intentStr == null) {
             instructorsOfCourse = instructorsOfCourse
@@ -77,7 +77,7 @@ public class GetInstructorsAction extends Action {
         } else if (intentStr.equals(Intent.FULL_DETAIL.toString())) {
             // get all instructors of a course without information hiding
             // adds googleId if caller is admin or has the appropriate privilege to modify instructor
-            if (userInfo.isAdmin || sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()).getPrivileges()
+            if (userInfo.isAdmin || logic.getInstructorByGoogleId(courseId, userInfo.getId()).getPrivileges()
                     .isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
                 data = new InstructorsData();
 

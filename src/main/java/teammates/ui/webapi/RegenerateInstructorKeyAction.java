@@ -40,7 +40,7 @@ public class RegenerateInstructorKeyAction extends AdminOnlyAction {
 
         Instructor updatedInstructor;
         try {
-            updatedInstructor = sqlLogic.regenerateInstructorRegistrationKey(courseId, instructorEmailAddress);
+            updatedInstructor = logic.regenerateInstructorRegistrationKey(courseId, instructorEmailAddress);
         } catch (EntityDoesNotExistException ex) {
             throw new EntityNotFoundException(ex);
         } catch (InstructorUpdateException ex) {

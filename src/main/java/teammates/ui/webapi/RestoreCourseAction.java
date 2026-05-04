@@ -20,9 +20,9 @@ public class RestoreCourseAction extends Action {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
         String idOfCourseToRestore = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Course course = sqlLogic.getCourse(idOfCourseToRestore);
+        Course course = logic.getCourse(idOfCourseToRestore);
 
-        gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(idOfCourseToRestore, userInfo.id),
+        gateKeeper.verifyAccessible(logic.getInstructorByGoogleId(idOfCourseToRestore, userInfo.id),
                 course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 
@@ -33,7 +33,7 @@ public class RestoreCourseAction extends Action {
         String statusMessage;
 
         try {
-            sqlLogic.restoreCourseFromRecycleBin(idOfCourseToRestore);
+            logic.restoreCourseFromRecycleBin(idOfCourseToRestore);
             statusMessage = "The course " + idOfCourseToRestore + " has been restored.";
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);

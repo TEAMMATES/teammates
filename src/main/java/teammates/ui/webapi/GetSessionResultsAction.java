@@ -31,7 +31,7 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
         boolean isPreviewResults = !StringHelper.isEmpty(previewAsPerson);
 
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
@@ -41,7 +41,7 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
         switch (intent) {
         case FULL_DETAIL:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+            Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
             gateKeeper.verifyAccessible(instructor, feedbackSession);
             break;
         case INSTRUCTOR_RESULT:
@@ -87,7 +87,7 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
     private JsonResult execute(
             UUID feedbackSessionId, UUID questionUuid, String selectedSection,
             FeedbackResultFetchType fetchType, Intent intent, boolean isPreviewResults) {
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
@@ -101,14 +101,14 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
         case FULL_DETAIL:
             instructor = getSqlInstructorOfCourseFromRequest(courseId);
 
-            bundle = sqlLogic.getSessionResults(feedbackSession, instructor.getEmail(),
+            bundle = logic.getSessionResults(feedbackSession, instructor.getEmail(),
                     questionUuid, selectedSection, fetchType);
             return new JsonResult(SessionResultsData.initForInstructor(bundle));
         case INSTRUCTOR_RESULT:
             // Section name filter is not applicable here
             instructor = getSqlInstructorOfCourseFromRequest(courseId);
 
-            bundle = sqlLogic.getSessionResultsForUser(feedbackSession, instructor.getEmail(),
+            bundle = logic.getSessionResultsForUser(feedbackSession, instructor.getEmail(),
                     true, questionUuid, isPreviewResults);
 
             // Build a fake student object, as the results will be displayed as if they are displayed to a student
@@ -120,7 +120,7 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
             // Section name filter is not applicable here
             student = getSqlStudentOfCourseFromRequest(courseId);
 
-            bundle = sqlLogic.getSessionResultsForUser(feedbackSession, student.getEmail(),
+            bundle = logic.getSessionResultsForUser(feedbackSession, student.getEmail(),
                     false, questionUuid, isPreviewResults);
 
             return new JsonResult(SessionResultsData.initForStudent(bundle, student));

@@ -34,7 +34,7 @@ public class GetFeedbackSessionLogsAction extends Action {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Course course = sqlLogic.getCourse(courseId);
+        Course course = logic.getCourse(courseId);
         if (course == null) {
             throw new EntityNotFoundException("Course is not found");
         }
@@ -42,13 +42,13 @@ public class GetFeedbackSessionLogsAction extends Action {
         UUID feedbackSessionId = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
         if (feedbackSessionId != null) {
             // feedback session must be in the course specified by courseId
-            FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+            FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
             if (feedbackSession == null || !Objects.equals(feedbackSession.getCourseId(), courseId)) {
                 throw new EntityNotFoundException("Feedback session is not found in the specified course");
             }
         }
 
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
         gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
         gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_SESSION);
         gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
@@ -87,26 +87,26 @@ public class GetFeedbackSessionLogsAction extends Action {
         UUID studentId = getNullableUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
         UUID feedbackSessionId = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        if (sqlLogic.getCourse(courseId) == null) {
+        if (logic.getCourse(courseId) == null) {
             throw new EntityNotFoundException("Course not found");
         }
 
-        if (studentId != null && sqlLogic.getStudent(studentId) == null) {
+        if (studentId != null && logic.getStudent(studentId) == null) {
             throw new EntityNotFoundException("Student not found");
         }
 
-        if (feedbackSessionId != null && sqlLogic.getFeedbackSession(feedbackSessionId) == null) {
+        if (feedbackSessionId != null && logic.getFeedbackSession(feedbackSessionId) == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
-        List<FeedbackSessionLog> fsLogEntries = sqlLogic.getOrderedFeedbackSessionLogs(courseId, studentId,
+        List<FeedbackSessionLog> fsLogEntries = logic.getOrderedFeedbackSessionLogs(courseId, studentId,
                 feedbackSessionId, Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
         Map<String, Student> studentsMap = new HashMap<>();
-        List<Student> students = sqlLogic.getStudentsForCourse(courseId);
+        List<Student> students = logic.getStudentsForCourse(courseId);
         students.forEach(student -> studentsMap.put(student.getEmail(), student));
 
         Map<String, FeedbackSession> sessionsMap = new HashMap<>();
-        List<FeedbackSession> feedbackSessions = sqlLogic.getFeedbackSessionsForCourse(courseId);
+        List<FeedbackSession> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
         feedbackSessions.forEach(fs -> sessionsMap.put(fs.getName(), fs));
 
         fsLogEntries = fsLogEntries.stream().filter(logEntry -> {

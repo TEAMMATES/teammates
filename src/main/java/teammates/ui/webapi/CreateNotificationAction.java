@@ -29,7 +29,7 @@ public class CreateNotificationAction extends AdminOnlyAction {
                 notificationRequest.getTargetUser(), notificationRequest.getTitle(), notificationRequest.getMessage());
 
         try {
-            return new JsonResult(new NotificationData(sqlLogic.createNotification(newNotification)));
+            return new JsonResult(new NotificationData(logic.createNotification(newNotification)));
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         } catch (EntityAlreadyExistsException e) {

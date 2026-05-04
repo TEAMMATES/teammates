@@ -17,7 +17,7 @@ public class SearchInstructorsAction extends AdminOnlyAction {
     public JsonResult execute() {
         // Search for sql db
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
-        List<Instructor> instructors = sqlLogic.searchInstructorsInWholeSystem(searchKey);
+        List<Instructor> instructors = logic.searchInstructorsInWholeSystem(searchKey);
 
         List<InstructorData> instructorDataList = new ArrayList<>();
 

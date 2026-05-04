@@ -25,7 +25,7 @@ public class UpdateNotificationAction extends AdminOnlyAction {
         Instant endTime = Instant.ofEpochMilli(notificationRequest.getEndTimestamp());
 
         try {
-            Notification updateNotification = sqlLogic.updateNotification(notificationId, startTime, endTime,
+            Notification updateNotification = logic.updateNotification(notificationId, startTime, endTime,
                     notificationRequest.getStyle(), notificationRequest.getTargetUser(), notificationRequest.getTitle(),
                     notificationRequest.getMessage());
 

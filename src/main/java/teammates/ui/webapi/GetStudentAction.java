@@ -29,22 +29,22 @@ public class GetStudentAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Course course = sqlLogic.getCourse(courseId);
+        Course course = logic.getCourse(courseId);
 
         Student student;
 
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String regKey = getRequestParamValue(Const.ParamsNames.REGKEY);
         if (studentEmail != null) {
-            student = sqlLogic.getStudentForEmail(courseId, studentEmail);
+            student = logic.getStudentForEmail(courseId, studentEmail);
 
             if (student == null || userInfo == null || !userInfo.isInstructor) {
                 throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
             }
 
-            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+            Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.id);
 
-            gateKeeper.verifyAccessible(instructor, sqlLogic.getCourse(courseId),
+            gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
                     student.getTeamName(),
                     Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
         } else if (regKey != null) {
@@ -54,7 +54,7 @@ public class GetStudentAction extends Action {
                 throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
             }
 
-            student = sqlLogic.getStudentByGoogleId(courseId, userInfo.id);
+            student = logic.getStudentByGoogleId(courseId, userInfo.id);
             gateKeeper.verifyAccessible(student, course);
         }
     }
@@ -70,7 +70,7 @@ public class GetStudentAction extends Action {
         if (studentEmail == null) {
             student = getPossiblyUnregisteredSqlStudent(courseId);
         } else {
-            student = sqlLogic.getStudentForEmail(courseId, studentEmail);
+            student = logic.getStudentForEmail(courseId, studentEmail);
         }
 
         if (student == null) {

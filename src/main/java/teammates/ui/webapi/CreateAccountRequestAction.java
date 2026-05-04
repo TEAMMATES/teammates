@@ -46,7 +46,7 @@ public class CreateAccountRequestAction extends Action {
         AccountRequest accountRequest;
 
         try {
-            accountRequest = sqlLogic.createAccountRequest(instructorName, instructorEmail,
+            accountRequest = logic.createAccountRequest(instructorName, instructorEmail,
                     instructorInstitution, AccountRequestStatus.PENDING, comments);
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);

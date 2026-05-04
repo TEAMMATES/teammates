@@ -35,10 +35,10 @@ public class SearchStudentsAction extends Action {
         List<Student> students;
 
         if (userInfo.isInstructor && Const.EntityType.INSTRUCTOR.equals(entity)) {
-            List<Instructor> instructors = sqlLogic.getInstructorsForGoogleId(userInfo.id);
-            students = sqlLogic.searchStudents(searchKey, instructors);
+            List<Instructor> instructors = logic.getInstructorsForGoogleId(userInfo.id);
+            students = logic.searchStudents(searchKey, instructors);
         } else if (userInfo.isAdmin && Const.EntityType.ADMIN.equals(entity)) {
-            students = sqlLogic.searchStudentsInWholeSystem(searchKey);
+            students = logic.searchStudentsInWholeSystem(searchKey);
         } else {
             throw new InvalidHttpParameterException("Invalid entity type for search");
         }
