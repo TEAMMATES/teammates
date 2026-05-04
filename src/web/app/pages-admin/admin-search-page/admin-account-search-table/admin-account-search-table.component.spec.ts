@@ -4,17 +4,17 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, throwError } from 'rxjs';
-import { AccountRequestTableRowModel } from './account-search-table-model';
+import { AccountRequestSearchResult } from '../../../../services/search.service';
 import { AdminAccountSearchTableComponent } from './admin-account-search-table.component';
-import { AccountService } from '../../../services/account.service';
-import { SimpleModalService } from '../../../services/simple-modal.service';
-import { StatusMessageService } from '../../../services/status-message.service';
-import { createBuilder } from '../../../test-helpers/generic-builder';
-import { createMockNgbModalRef } from '../../../test-helpers/mock-ngb-modal-ref';
-import { AccountRequest, AccountRequestStatus } from '../../../types/api-output';
-import { EditRequestModalComponent } from '../account-requests-table/admin-edit-request-modal/admin-edit-request-modal.component';
-import { RejectWithReasonModalComponent } from '../account-requests-table/admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
-import { SimpleModalType } from '../simple-modal/simple-modal-type';
+import { AccountService } from '../../../../services/account.service';
+import { SimpleModalService } from '../../../../services/simple-modal.service';
+import { StatusMessageService } from '../../../../services/status-message.service';
+import { createBuilder } from '../../../../test-helpers/generic-builder';
+import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-ref';
+import { AccountRequest, AccountRequestStatus } from '../../../../types/api-output';
+import { EditRequestModalComponent } from '../../../components/account-requests-table/admin-edit-request-modal/admin-edit-request-modal.component';
+import { RejectWithReasonModalComponent } from '../../../components/account-requests-table/admin-reject-with-reason-modal/admin-reject-with-reason-modal.component';
+import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 
 describe('AdminAccountSearchTableComponent', () => {
   let component: AdminAccountSearchTableComponent;
@@ -24,11 +24,11 @@ describe('AdminAccountSearchTableComponent', () => {
   let simpleModalService: SimpleModalService;
   let ngbModal: NgbModal;
 
-  const accountRequestDetailsBuilder = createBuilder<AccountRequestTableRowModel>({
+  const accountRequestDetailsBuilder = createBuilder<AccountRequestSearchResult>({
     id: '',
     email: '',
     name: '',
-    instituteAndCountry: '',
+    institute: '',
     registrationLink: '',
     status: AccountRequestStatus.PENDING,
     comments: '',
@@ -41,7 +41,7 @@ describe('AdminAccountSearchTableComponent', () => {
     .email('email')
     .name('name')
     .status(AccountRequestStatus.PENDING)
-    .instituteAndCountry('institute')
+    .institute('institute')
     .createdAtText('Tue, 08 Feb 2022, 08:23 AM +00:00')
     .comments('comment');
 
@@ -77,7 +77,7 @@ describe('AdminAccountSearchTableComponent', () => {
   });
 
   it('should snap with an expanded account requests table', () => {
-    const accountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
+    const accountRequestResult: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST.build();
     component.accountRequests = [accountRequestResult];
 
     fixture.detectChanges();
@@ -85,7 +85,7 @@ describe('AdminAccountSearchTableComponent', () => {
   });
 
   it('should show account request links when expand all button clicked', () => {
-    const accountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
+    const accountRequestResult: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST.build();
     accountRequestResult.status = AccountRequestStatus.APPROVED;
     accountRequestResult.registrationLink = 'registrationLink';
     component.accountRequests = [accountRequestResult];
@@ -98,10 +98,11 @@ describe('AdminAccountSearchTableComponent', () => {
   });
 
   it('should display account requests with no reset or expand links button', () => {
-    const accountRequestResults: AccountRequestTableRowModel[] = [
-      DEFAULT_ACCOUNT_REQUEST.build(),
-      DEFAULT_ACCOUNT_REQUEST.build(),
-    ];
+    const first: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST.build();
+    first.id = 'id-1';
+    const second: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST.build();
+    second.id = 'id-2';
+    const accountRequestResults: AccountRequestSearchResult[] = [first, second];
 
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
@@ -109,15 +110,17 @@ describe('AdminAccountSearchTableComponent', () => {
   });
 
   it('should display account requests with reset button and expandable links buttons', () => {
-    const approvedAccountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
+    const approvedAccountRequestResult: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST.build();
+    approvedAccountRequestResult.id = 'approved-id';
     approvedAccountRequestResult.status = AccountRequestStatus.APPROVED;
     approvedAccountRequestResult.registrationLink = 'registrationLink';
 
-    const registeredAccountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
+    const registeredAccountRequestResult: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST.build();
+    registeredAccountRequestResult.id = 'registered-id';
     registeredAccountRequestResult.status = AccountRequestStatus.REGISTERED;
     registeredAccountRequestResult.registrationLink = 'registrationLink';
 
-    const accountRequestResults: AccountRequestTableRowModel[] = [
+    const accountRequestResults: AccountRequestSearchResult[] = [
       approvedAccountRequestResult,
       registeredAccountRequestResult,
     ];
@@ -188,7 +191,7 @@ describe('AdminAccountSearchTableComponent', () => {
   });
 
   it('should show success message when resetting account request is successful', () => {
-    const registeredAccountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
+    const registeredAccountRequestResult: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST.build();
     registeredAccountRequestResult.status = AccountRequestStatus.REGISTERED;
     registeredAccountRequestResult.registrationLink = 'registrationLink';
     registeredAccountRequestResult.registeredAtText = 'registeredTime';
@@ -228,7 +231,7 @@ describe('AdminAccountSearchTableComponent', () => {
   });
 
   it('should show error message when resetting account request is unsuccessful', () => {
-    const registeredAccountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
+    const registeredAccountRequestResult: AccountRequestSearchResult = DEFAULT_ACCOUNT_REQUEST.build();
     registeredAccountRequestResult.status = AccountRequestStatus.REGISTERED;
     registeredAccountRequestResult.registrationLink = 'registrationLink';
     registeredAccountRequestResult.registeredAtText = 'registeredTime';
@@ -270,7 +273,7 @@ describe('AdminAccountSearchTableComponent', () => {
   });
 
   it('should display comment modal', () => {
-    const accountRequestResults: AccountRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountRequestResults: AccountRequestSearchResult[] = [DEFAULT_ACCOUNT_REQUEST.build()];
 
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
@@ -288,7 +291,7 @@ describe('AdminAccountSearchTableComponent', () => {
   });
 
   it('should display edit modal when edit button is clicked', () => {
-    const accountRequestResults: AccountRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountRequestResults: AccountRequestSearchResult[] = [DEFAULT_ACCOUNT_REQUEST.build()];
 
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
@@ -307,7 +310,7 @@ describe('AdminAccountSearchTableComponent', () => {
   });
 
   it('should display reject modal when reject button is clicked', () => {
-    const accountRequestResults: AccountRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountRequestResults: AccountRequestSearchResult[] = [DEFAULT_ACCOUNT_REQUEST.build()];
 
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
@@ -330,7 +333,7 @@ describe('AdminAccountSearchTableComponent', () => {
   });
 
   it('should display error message when rejection was unsuccessful', () => {
-    const accountRequestResults: AccountRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountRequestResults: AccountRequestSearchResult[] = [DEFAULT_ACCOUNT_REQUEST.build()];
 
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
@@ -356,7 +359,7 @@ describe('AdminAccountSearchTableComponent', () => {
   });
 
   it('should display error message when approval was unsuccessful', () => {
-    const accountRequestResults: AccountRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountRequestResults: AccountRequestSearchResult[] = [DEFAULT_ACCOUNT_REQUEST.build()];
 
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
@@ -382,7 +385,7 @@ describe('AdminAccountSearchTableComponent', () => {
   });
 
   it('should display error message when edit was unsuccessful', () => {
-    const accountRequestResults: AccountRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountRequestResults: AccountRequestSearchResult[] = [DEFAULT_ACCOUNT_REQUEST.build()];
 
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
@@ -415,7 +418,7 @@ describe('AdminAccountSearchTableComponent', () => {
   });
 
   it('should update request when edit is succcessful', () => {
-    const accountRequestResults: AccountRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountRequestResults: AccountRequestSearchResult[] = [DEFAULT_ACCOUNT_REQUEST.build()];
 
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
@@ -448,12 +451,12 @@ describe('AdminAccountSearchTableComponent', () => {
     fixture.detectChanges();
     expect(component.accountRequests[0].comments).toEqual('new comment');
     expect(component.accountRequests[0].email).toEqual('new email');
-    expect(component.accountRequests[0].instituteAndCountry).toEqual('new institute');
+    expect(component.accountRequests[0].institute).toEqual('new institute');
     expect(component.accountRequests[0].name).toEqual('new name');
   });
 
   it('should update status when approval is succcessful', () => {
-    const accountRequestResults: AccountRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountRequestResults: AccountRequestSearchResult[] = [DEFAULT_ACCOUNT_REQUEST.build()];
 
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
@@ -462,7 +465,7 @@ describe('AdminAccountSearchTableComponent', () => {
       id: component.accountRequests[0].id,
       comments: component.accountRequests[0].comments,
       email: component.accountRequests[0].email,
-      institute: component.accountRequests[0].instituteAndCountry,
+      institute: component.accountRequests[0].institute,
       registrationKey: 'registration key',
       name: component.accountRequests[0].name,
       createdAt: 1,
@@ -479,7 +482,7 @@ describe('AdminAccountSearchTableComponent', () => {
   });
 
   it('should update status when rejection is succcessful', () => {
-    const accountRequestResults: AccountRequestTableRowModel[] = [DEFAULT_ACCOUNT_REQUEST.build()];
+    const accountRequestResults: AccountRequestSearchResult[] = [DEFAULT_ACCOUNT_REQUEST.build()];
 
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
@@ -488,7 +491,7 @@ describe('AdminAccountSearchTableComponent', () => {
       id: component.accountRequests[0].id,
       comments: component.accountRequests[0].comments,
       email: component.accountRequests[0].email,
-      institute: component.accountRequests[0].instituteAndCountry,
+      institute: component.accountRequests[0].institute,
       registrationKey: 'registration key',
       name: component.accountRequests[0].name,
       createdAt: 1,
