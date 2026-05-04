@@ -13,7 +13,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -222,11 +221,9 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         assertEquals(timeZone, data.getTimeZone());
         assertEquals(expectedSession.getName(), data.getFeedbackSessionName());
         assertEquals(expectedSession.getInstructions(), data.getInstructions());
-        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(expectedSession.getStartTime(),
-                        timeZone, true).toEpochMilli(),
+        assertEquals(expectedSession.getStartTime().toEpochMilli(),
                 data.getSubmissionStartTimestamp());
-        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(expectedSession.getEndTime(),
-                        timeZone, true).toEpochMilli(),
+        assertEquals(expectedSession.getEndTime().toEpochMilli(),
                 data.getSubmissionEndTimestamp());
 
         if (!expectedSession.isVisible()) {

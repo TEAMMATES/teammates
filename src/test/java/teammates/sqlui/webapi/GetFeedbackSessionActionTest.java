@@ -9,7 +9,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.Account;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -83,14 +82,11 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         assertEquals(timeZone, response.getTimeZone());
         assertEquals(feedbackSession1.getInstructions(), response.getInstructions());
 
-        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(feedbackSession1.getStartTime(),
-                        timeZone, true).toEpochMilli(),
+        assertEquals(feedbackSession1.getStartTime().toEpochMilli(),
                 response.getSubmissionStartTimestamp());
-        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
-                        .toEpochMilli(),
+        assertEquals(newEndTime.toEpochMilli(),
                 response.getSubmissionEndTimestamp());
-        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
-                        .toEpochMilli(),
+        assertEquals(newEndTime.toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
         assertNull(response.getGracePeriod());
 
@@ -120,7 +116,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         loginAsStudent(student1.getAccount().getGoogleId());
 
         String feedbackSessionId = feedbackSession1.getId().toString();
-        String timeZone = feedbackSession1.getCourse().getTimeZone();
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId,
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -145,8 +140,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
 
-        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
-                        .toEpochMilli(),
+        assertEquals(newEndTime.toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
 
         logoutUser();
@@ -158,7 +152,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         loginAsStudent(student1.getAccount().getGoogleId());
 
         String feedbackSessionId = feedbackSession1.getId().toString();
-        String timeZone = feedbackSession1.getCourse().getTimeZone();
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId,
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -183,8 +176,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
 
-        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(newEndTime, timeZone, true)
-                        .toEpochMilli(),
+        assertEquals(newEndTime.toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
 
         logoutUser();
@@ -196,7 +188,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         loginAsStudent(student1.getAccount().getGoogleId());
 
         String feedbackSessionId = feedbackSession1.getId().toString();
-        String timeZone = feedbackSession1.getCourse().getTimeZone();
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId,
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -222,8 +213,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
 
-        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
-                        .toEpochMilli(),
+        assertEquals(extendedEndTime.toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
 
         logoutUser();
@@ -235,7 +225,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         loginAsStudent(student1.getAccount().getGoogleId());
 
         String feedbackSessionId = feedbackSession1.getId().toString();
-        String timeZone = feedbackSession1.getCourse().getTimeZone();
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId,
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -261,8 +250,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
 
-        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
-                        .toEpochMilli(),
+        assertEquals(extendedEndTime.toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
 
         logoutUser();
@@ -274,7 +262,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         loginAsStudent(student1.getAccount().getGoogleId());
 
         String feedbackSessionId = feedbackSession1.getId().toString();
-        String timeZone = feedbackSession1.getCourse().getTimeZone();
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId,
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -300,8 +287,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
 
-        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
-                        .toEpochMilli(),
+        assertEquals(extendedEndTime.toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
 
         logoutUser();
@@ -313,7 +299,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         loginAsStudent(student1.getAccount().getGoogleId());
 
         String feedbackSessionId = feedbackSession1.getId().toString();
-        String timeZone = feedbackSession1.getCourse().getTimeZone();
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId,
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -339,8 +324,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
 
-        assertEquals(TimeHelper.getMidnightAdjustedInstantBasedOnZone(extendedEndTime, timeZone, true)
-                        .toEpochMilli(),
+        assertEquals(extendedEndTime.toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
 
         logoutUser();
