@@ -50,7 +50,7 @@ public class EmailSender {
      * @return The HTTP status of the email request.
      */
     public EmailSendingStatus sendEmail(EmailWrapper message) {
-        if (isTestingAccount(message.getRecipient())) {
+        if (!Config.isAllowEmailsToTestDomain() && isTestingAccount(message.getRecipient())) {
             return new EmailSendingStatus(HttpStatus.SC_OK, "Not sending email to test account");
         }
 

@@ -152,6 +152,12 @@ public final class Config {
     /** Value of {@code app.taskqueue.active} (default {@code true} if unset). */
     public static final boolean TASKQUEUE_ACTIVE;
 
+    /**
+     * Value of {@code allow.emails.to.test.domain} (default {@code false} if unset).
+     * When {@code true}, outbound email to TEAMMATES test/demo domains is allowed; see {@link Const#TEST_EMAIL_DOMAIN}.
+     */
+    public static final boolean ALLOW_EMAILS_TO_TEST_DOMAIN;
+
     /** Value of {@code app.taskqueue.service} (default {@code google-cloud-tasks} in production, {@code local} in dev). */
     public static final String TASKQUEUE_SERVICE;
 
@@ -232,6 +238,8 @@ public final class Config {
                 getProperty(properties, devProperties, "app.enable.devserver.login", "false"));
         TASKQUEUE_ACTIVE = Boolean.parseBoolean(
                 getProperty(properties, devProperties, "app.taskqueue.active", "true"));
+        ALLOW_EMAILS_TO_TEST_DOMAIN = Boolean.parseBoolean(
+                getProperty(properties, devProperties, "allow.emails.to.test.domain", "false"));
         TASKQUEUE_SERVICE = getProperty(properties, devProperties, "app.taskqueue.service",
                 IS_DEV_SERVER ? "local" : "google-cloud-tasks");
     }
@@ -361,6 +369,11 @@ public final class Config {
 
     public static boolean isDevServerLoginEnabled() {
         return IS_DEV_SERVER && ENABLE_DEVSERVER_LOGIN;
+    }
+
+    /** Whether sending email to TEAMMATES test/demo domains is allowed; see {@link #ALLOW_EMAILS_TO_TEST_DOMAIN}. */
+    public static boolean isAllowEmailsToTestDomain() {
+        return ALLOW_EMAILS_TO_TEST_DOMAIN;
     }
 
     /**
