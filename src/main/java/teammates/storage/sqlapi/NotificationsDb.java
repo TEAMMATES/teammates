@@ -1,7 +1,6 @@
 package teammates.storage.sqlapi;
 
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
-import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
 import java.util.List;
@@ -15,7 +14,6 @@ import jakarta.persistence.criteria.Subquery;
 
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Notification;
 import teammates.storage.sqlentity.ReadNotification;
@@ -131,22 +129,6 @@ public final class NotificationsDb {
                 .orderBy(cb.asc(root.get("startTime")));
         TypedQuery<Notification> query = HibernateUtil.createQuery(cq);
         return query.getResultList();
-    }
-
-    /**
-     * Updates a notification.
-     *
-     * <p>Preconditions:</p>
-     * * Notification fields are valid.
-     */
-    public Notification updateNotification(Notification notification) throws EntityDoesNotExistException {
-        assert notification != null;
-
-        if (getNotification(notification.getId()) == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + Notification.class);
-        }
-
-        return HibernateUtil.merge(notification);
     }
 
     /**

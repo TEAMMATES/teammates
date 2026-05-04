@@ -50,9 +50,7 @@ public final class FeedbackSessionLogsLogic {
             FeedbackSessionLogType logType, Instant timestamp) throws InvalidParametersException {
         FeedbackSessionLog fsLog = new FeedbackSessionLog(student, feedbackSession, logType, timestamp);
 
-        if (!fsLog.isValid()) {
-            throw new InvalidParametersException("Invalid feedback session log: " + fsLog.getInvalidityInfo());
-        }
+        validateFeedbackSessionLog(fsLog);
 
         return fslDb.createFeedbackSessionLog(fsLog);
     }
@@ -76,5 +74,11 @@ public final class FeedbackSessionLogsLogic {
             UUID feedbackSessionId, Instant startTime, Instant endTime) {
         return fslDb.getOrderedFeedbackSessionLogs(courseId, studentId, feedbackSessionId, startTime,
                 endTime);
+    }
+
+    private void validateFeedbackSessionLog(FeedbackSessionLog feedbackSessionLog) throws InvalidParametersException {
+        if (!feedbackSessionLog.isValid()) {
+            throw new InvalidParametersException("Invalid feedback session log: " + feedbackSessionLog.getInvalidityInfo());
+        }
     }
 }

@@ -1,8 +1,6 @@
 package teammates.storage.sqlapi;
 
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 
 import java.util.List;
@@ -14,7 +12,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.AccountRequest;
@@ -67,41 +64,6 @@ public class AccountRequestsDbTest extends BaseTestCase {
         AccountRequest actualAccountRequest = accountRequestDb.getAccountRequest(id);
         mockHibernateUtil.verify(() -> HibernateUtil.get(AccountRequest.class, id));
         assertEquals(expectedAccountRequest, actualAccountRequest);
-    }
-
-    @Test
-    public void testUpdateAccountRequest_invalidEmail_throwsInvalidParametersException() {
-        AccountRequest accountRequestWithInvalidEmail =
-                new AccountRequest("testgmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
-
-        assertThrows(InvalidParametersException.class,
-                () -> accountRequestDb.updateAccountRequest(accountRequestWithInvalidEmail));
-
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(accountRequestWithInvalidEmail), never());
-    }
-
-    @Test
-    public void testUpdateAccountRequest_accountRequestDoesNotExist_throwsEntityDoesNotExistException() {
-        AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
-        doReturn(null).when(accountRequestDb).getAccountRequest(accountRequest.getId());
-
-        assertThrows(EntityDoesNotExistException.class,
-                () -> accountRequestDb.updateAccountRequest(accountRequest));
-
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(accountRequest), never());
-    }
-
-    @Test
-    public void testUpdateAccountRequest_success() throws InvalidParametersException, EntityDoesNotExistException {
-        AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
-        doReturn(accountRequest).when(accountRequestDb).getAccountRequest(accountRequest.getId());
-        mockHibernateUtil.when(() -> HibernateUtil.merge(accountRequest)).thenReturn(accountRequest);
-
-        accountRequestDb.updateAccountRequest(accountRequest);
-
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(accountRequest));
     }
 
     @Test

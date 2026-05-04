@@ -1,7 +1,5 @@
 package teammates.storage.sqlapi;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
@@ -14,9 +12,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.FeedbackResponseComment;
@@ -98,39 +94,6 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCase {
         feedbackResponseCommentsDb.deleteFeedbackResponseComment(comment);
 
         mockHibernateUtil.verify(() -> HibernateUtil.remove(comment));
-    }
-
-    @Test
-    public void testUpdateComment_commentInvalid_throwsInvalidParametersException() {
-        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
-        comment.setGiverType(FeedbackParticipantType.SELF);
-
-        assertThrows(InvalidParametersException.class,
-                () -> feedbackResponseCommentsDb.updateFeedbackResponseComment(comment));
-
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(comment), never());
-    }
-
-    @Test
-    public void testUpdateComment_commentDoesNotExist_throwsEntityDoesNotExistException() {
-        FeedbackResponseComment comment = getTypicalResponseComment(NOT_TYPICAL_ID);
-
-        assertThrows(EntityDoesNotExistException.class,
-                () -> feedbackResponseCommentsDb.updateFeedbackResponseComment(comment));
-
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(comment), never());
-    }
-
-    @Test
-    public void testUpdateCourse_success() throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
-        comment.setCommentText("Placeholder Text");
-
-        doReturn(comment).when(feedbackResponseCommentsDb).getFeedbackResponseComment(any(UUID.class));
-        mockHibernateUtil.when(() -> HibernateUtil.merge(comment)).thenReturn(comment);
-        feedbackResponseCommentsDb.updateFeedbackResponseComment(comment);
-
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(comment));
     }
 
 }

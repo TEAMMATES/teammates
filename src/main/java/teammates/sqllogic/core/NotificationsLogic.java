@@ -52,9 +52,7 @@ public final class NotificationsLogic {
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert notification != null;
 
-        if (!notification.isValid()) {
-            throw new InvalidParametersException(notification.getInvalidityInfo());
-        }
+        validateNotification(notification);
         return notificationsDb.createNotification(notification);
     }
 
@@ -93,11 +91,7 @@ public final class NotificationsLogic {
         notification.setTitle(title);
         notification.setMessage(message);
 
-        if (!notification.isValid()) {
-            throw new InvalidParametersException(notification.getInvalidityInfo());
-        }
-
-        notificationsDb.updateNotification(notification);
+        validateNotification(notification);
 
         return notification;
     }
@@ -177,5 +171,11 @@ public final class NotificationsLogic {
         }
 
         notificationsDb.deleteReadNotification(readNotification);
+    }
+
+    private void validateNotification(Notification notification) throws InvalidParametersException {
+        if (!notification.isValid()) {
+            throw new InvalidParametersException(notification.getInvalidityInfo());
+        }
     }
 }

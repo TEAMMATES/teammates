@@ -6,7 +6,6 @@ import java.util.UUID;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.AccountRequestsDb;
@@ -90,23 +89,4 @@ public class AccountRequestsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertEquals(expectedAccountRequest, actualAccountRequest);
     }
 
-    @Test
-    public void testUpdateAccountRequest() throws Exception {
-        ______TS("Update account request, does not exists, exception thrown");
-
-        AccountRequest accountRequest =
-                new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
-
-        assertThrows(EntityDoesNotExistException.class,
-                () -> accountRequestDb.updateAccountRequest(accountRequest));
-
-        ______TS("Update account request, already exists, update successful");
-
-        accountRequestDb.createAccountRequest(accountRequest);
-        accountRequest.setName("new account request name");
-
-        accountRequestDb.updateAccountRequest(accountRequest);
-        AccountRequest actual = accountRequestDb.getAccountRequest(accountRequest.getId());
-        verifyEquals(accountRequest, actual);
-    }
 }

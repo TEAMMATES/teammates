@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.UUID;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
@@ -57,8 +56,6 @@ public class ApproveAccountRequestAction extends AdminOnlyAction {
             emailSender.sendEmail(email);
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
-        } catch (EntityDoesNotExistException e) {
-            throw new EntityNotFoundException(e);
         }
 
         return new JsonResult(new AccountRequestData(accountRequest));

@@ -6,7 +6,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
-import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -17,7 +16,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.DeadlineExtension;
@@ -103,44 +101,6 @@ public class DeadlineExtensionsDbTest extends BaseTestCase {
 
         mockHibernateUtil.verify(() -> HibernateUtil.get(DeadlineExtension.class, id), times(1));
         assertNull(result);
-    }
-
-    @Test
-    public void testUpdateDeadlineExtension_success()
-            throws InvalidParametersException, EntityDoesNotExistException {
-        DeadlineExtension de = getValidDeadlineExtension();
-
-        doReturn(de).when(deadlineExtensionsDb).getDeadlineExtension(de.getId());
-        mockHibernateUtil.when(() -> HibernateUtil.merge(de)).thenReturn(de);
-
-        DeadlineExtension result = deadlineExtensionsDb.updateDeadlineExtension(de);
-
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(de), times(1));
-        assertEquals(de, result);
-    }
-
-    @Test
-    public void testUpdateDeadlineExtension_invalidDeadlineExtension_throwsInvalidParametersException() {
-        DeadlineExtension de = getInvalidDeadlineExtension();
-
-        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> deadlineExtensionsDb.updateDeadlineExtension(de));
-
-        assertTrue(ipe.getMessage().contains("extended deadlines"));
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(de), never());
-    }
-
-    @Test
-    public void testUpdateDeadlineExtension_deadlineExtensionDoesNotExist_throwsEntityDoesNotExistException() {
-        DeadlineExtension de = getValidDeadlineExtension();
-
-        doReturn(null).when(deadlineExtensionsDb).getDeadlineExtension(de.getId());
-
-        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> deadlineExtensionsDb.updateDeadlineExtension(de));
-
-        assertEquals(ERROR_UPDATE_NON_EXISTENT, ednee.getMessage());
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(de), never());
     }
 
     @Test

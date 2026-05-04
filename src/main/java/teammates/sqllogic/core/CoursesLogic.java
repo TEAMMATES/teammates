@@ -228,9 +228,7 @@ public final class CoursesLogic {
         course.setName(name);
         course.setTimeZone(timezone);
 
-        if (!course.isValid()) {
-            throw new InvalidParametersException(course.getInvalidityInfo());
-        }
+        validateCourse(course);
 
         return course;
     }
@@ -248,9 +246,7 @@ public final class CoursesLogic {
         Section section = new Section(course, sectionName);
         course.addSection(section);
 
-        if (!section.isValid()) {
-            throw new InvalidParametersException(section.getInvalidityInfo());
-        }
+        validateSection(section);
 
         return coursesDb.createSection(section);
     }
@@ -295,9 +291,7 @@ public final class CoursesLogic {
         Team team = new Team(section, teamName);
         section.addTeam(team);
 
-        if (!team.isValid()) {
-            throw new InvalidParametersException(team.getInvalidityInfo());
-        }
+        validateTeam(team);
 
         return coursesDb.createTeam(team);
     }
@@ -314,5 +308,23 @@ public final class CoursesLogic {
      */
     public static void sortById(List<Course> courses) {
         courses.sort(Comparator.comparing(Course::getId));
+    }
+
+    private void validateTeam(Team team) throws InvalidParametersException {
+        if (!team.isValid()) {
+            throw new InvalidParametersException(team.getInvalidityInfo());
+        }
+    }
+
+    private void validateSection(Section section) throws InvalidParametersException {
+        if (!section.isValid()) {
+            throw new InvalidParametersException(section.getInvalidityInfo());
+        }
+    }
+
+    private void validateCourse(Course course) throws InvalidParametersException {
+        if (!course.isValid()) {
+            throw new InvalidParametersException(course.getInvalidityInfo());
+        }
     }
 }
