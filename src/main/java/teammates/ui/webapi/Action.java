@@ -19,14 +19,14 @@ import teammates.common.util.StringHelper;
 import teammates.logic.api.AuthProxy;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
+import teammates.logic.api.Logic;
 import teammates.logic.api.LogsProcessor;
 import teammates.logic.api.RecaptchaVerifier;
 import teammates.logic.api.TaskQueuer;
+import teammates.logic.api.UserProvision;
 import teammates.logic.entity.FeedbackSession;
 import teammates.logic.entity.Instructor;
 import teammates.logic.entity.Student;
-import teammates.sqllogic.api.Logic;
-import teammates.sqllogic.api.UserProvision;
 import teammates.ui.request.BasicRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 

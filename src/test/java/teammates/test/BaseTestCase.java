@@ -26,6 +26,7 @@ import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.TimeHelperExtension;
+import teammates.logic.core.DataBundleLogic;
 import teammates.logic.entity.Account;
 import teammates.logic.entity.AccountRequest;
 import teammates.logic.entity.Course;
@@ -40,7 +41,6 @@ import teammates.logic.entity.Section;
 import teammates.logic.entity.Student;
 import teammates.logic.entity.Team;
 import teammates.logic.entity.UsageStatistics;
-import teammates.sqllogic.core.DataBundleLogic;
 
 /**
  * Base class for all test cases.

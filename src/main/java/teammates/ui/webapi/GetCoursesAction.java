@@ -7,9 +7,9 @@ import java.util.Map;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.util.Const;
+import teammates.logic.core.CoursesLogic;
 import teammates.logic.entity.Course;
 import teammates.logic.entity.Instructor;
-import teammates.sqllogic.core.CoursesLogic;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
 

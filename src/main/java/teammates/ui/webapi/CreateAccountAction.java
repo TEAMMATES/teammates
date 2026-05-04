@@ -20,9 +20,9 @@ import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.TimeHelper;
+import teammates.logic.core.DataBundleLogic;
 import teammates.logic.entity.AccountRequest;
 import teammates.logic.entity.Instructor;
-import teammates.sqllogic.core.DataBundleLogic;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**

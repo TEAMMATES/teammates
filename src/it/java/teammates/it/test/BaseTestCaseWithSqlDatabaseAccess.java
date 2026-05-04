@@ -12,6 +12,8 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
+import teammates.logic.api.Logic;
+import teammates.logic.core.LogicStarter;
 import teammates.logic.entity.Account;
 import teammates.logic.entity.AccountRequest;
 import teammates.logic.entity.BaseEntity;
@@ -28,8 +30,6 @@ import teammates.logic.entity.Section;
 import teammates.logic.entity.Student;
 import teammates.logic.entity.Team;
 import teammates.logic.entity.UsageStatistics;
-import teammates.sqllogic.api.Logic;
-import teammates.sqllogic.core.LogicStarter;
 import teammates.test.BaseTestCase;
 
 import liquibase.command.CommandScope;
