@@ -12,7 +12,7 @@
             <package name="teammates.logic.external" />
             <package name="teammates.ui.request" />
             <package name="teammates.ui.servlets" />
-            <package name="teammates.sqlui.webapi" />
+            <package name="teammates.ui.webapi" />
         </packages>
     </test>
 </suite>
