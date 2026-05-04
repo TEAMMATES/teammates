@@ -18,7 +18,7 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
     static final String FEEDBACK_RESPONSE_COMMENT_EMPTY = "Comment cannot be empty";
 
     /**
-     * Validates comment of corresponding response doesn't exist in SQL DB.
+     * Validates comment of corresponding response doesn't exist in DB.
      */
     void verifyCommentNotExist(UUID feedbackResponseId) throws InvalidOperationException {
         FeedbackResponseComment comment = logic

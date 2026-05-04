@@ -44,7 +44,6 @@ public class SearchStudentsAction extends Action {
         }
 
         List<StudentData> studentDataList = new ArrayList<>();
-        // Add students from sql database
         for (Student s : students) {
             StudentData studentData = new StudentData(s);
 

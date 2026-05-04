@@ -9,7 +9,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.InstructorPermissions;
-import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.UsersLogic;
@@ -23,7 +23,7 @@ import teammates.logic.entity.Team;
 /**
  * SUT: {@link UsersLogic}.
  */
-public class UsersLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
+public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     private final UsersLogic usersLogic = UsersLogic.inst();
 

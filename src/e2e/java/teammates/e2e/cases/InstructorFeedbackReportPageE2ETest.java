@@ -121,14 +121,13 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         );
 
         responseWithComment = testData.feedbackResponses.get("qn2response1");
-        FeedbackResponseComment sqlComment = testData.feedbackResponseComments.get("qn2Comment2");
+        comment = testData.feedbackResponseComments.get("qn2Comment2");
         // Update the comment via API to ensure updatedAt differs from createdAt
         // (The frontend only shows "edited by" when lastEditedAt !== createdAt)
-        String updatedCommentText = sqlComment.getCommentText() + " (edited)";
-        updateFeedbackResponseComment(sqlComment.getId(), updatedCommentText, instructor.getGoogleId());
+        String updatedCommentText = comment.getCommentText() + " (edited)";
+        updateFeedbackResponseComment(comment.getId(), updatedCommentText, instructor.getGoogleId());
         // Update local object to match the new comment text in the database
-        sqlComment.setCommentText(updatedCommentText);
-        comment = sqlComment;
+        comment.setCommentText(updatedCommentText);
     }
 
     @Test
@@ -433,7 +432,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         });
     }
 
-    private String getTeamNameSql(String participantEmail) {
+    private String getTeamName(String participantEmail) {
         return students.stream()
                 .filter(s -> s.getEmail().equals(participantEmail))
                 .findFirst()
@@ -449,7 +448,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         Map<String, List<FeedbackResponse>> teamResponses = new HashMap<>();
         for (Map.Entry<String, List<FeedbackResponse>> entry : userToResponses.entrySet()) {
             String user = entry.getKey();
-            String team = getTeamNameSql(user);
+            String team = getTeamName(user);
             List<FeedbackResponse> responses = entry.getValue();
             teamResponses.computeIfAbsent(team, k -> new ArrayList<>()).addAll(responses);
         }

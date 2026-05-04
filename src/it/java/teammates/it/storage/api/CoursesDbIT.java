@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.entity.Course;
 import teammates.logic.entity.Section;
 import teammates.logic.entity.Team;
@@ -13,7 +13,7 @@ import teammates.storage.api.CoursesDb;
 /**
  * SUT: {@link CoursesDb}.
  */
-public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
+public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
 
     private final CoursesDb coursesDb = CoursesDb.inst();
 

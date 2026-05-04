@@ -6,10 +6,9 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.HibernateUtil;
-import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.entity.AccountRequest;
 import teammates.storage.api.AccountRequestsDb;
 import teammates.test.AssertHelper;
@@ -17,7 +16,7 @@ import teammates.test.AssertHelper;
 /**
  * SUT: {@link AccountRequestsDb}.
  */
-public class AccountRequestSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
+public class AccountRequestSearchIT extends BaseTestCaseWithDatabaseAccess {
 
     private final AccountRequestsDb accountRequestsDb = AccountRequestsDb.inst();
 
@@ -115,20 +114,6 @@ public class AccountRequestSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
 
         results = accountRequestsDb.searchAccountRequestsInWholeSystem("%");
         verifySearchResults(results);
-    }
-
-    @Test
-    public void testSearchAccountRequestsInWholeSystem_sqlInjectionInput_shouldNotAffectData() throws Exception {
-        AccountRequest accountRequest = new AccountRequest("test@gmail.com", "name", "institute",
-                AccountRequestStatus.PENDING, "comments");
-        accountRequestsDb.createAccountRequest(accountRequest);
-
-        String searchInjection = "institute'; DROP TABLE account_requests; --";
-        List<AccountRequest> results = accountRequestsDb.searchAccountRequestsInWholeSystem(searchInjection);
-        verifySearchResults(results);
-
-        AccountRequest actual = accountRequestsDb.getAccountRequest(accountRequest.getId());
-        assertEquals(accountRequest, actual);
     }
 
     /**

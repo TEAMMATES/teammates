@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.HibernateUtil;
-import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.entity.Instructor;
 import teammates.logic.entity.Student;
 import teammates.storage.api.UsersDb;
@@ -17,7 +17,7 @@ import teammates.test.AssertHelper;
 /**
  * SUT: {@link UsersDb}.
  */
-public class StudentSearchIT extends BaseTestCaseWithSqlDatabaseAccess {
+public class StudentSearchIT extends BaseTestCaseWithDatabaseAccess {
 
     private final UsersDb usersDb = UsersDb.inst();
 

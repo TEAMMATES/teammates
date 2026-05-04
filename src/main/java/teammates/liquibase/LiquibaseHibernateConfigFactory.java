@@ -32,7 +32,7 @@ public class LiquibaseHibernateConfigFactory implements CustomMetadataFactory {
                 .build();
 
         MetadataSources sources = new MetadataSources(registry);
-        sources.addPackage("teammates.storage.sqlentity");
+        sources.addPackage("teammates.storage.entity");
         for (Class<? extends BaseEntity> cls : HibernateUtil.ANNOTATED_CLASSES) {
             sources.addAnnotatedClass(cls);
         }

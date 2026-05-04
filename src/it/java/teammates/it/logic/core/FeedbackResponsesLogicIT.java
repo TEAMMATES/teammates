@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.HibernateUtil;
-import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.entity.FeedbackResponse;
@@ -18,7 +18,7 @@ import teammates.logic.entity.Section;
 /**
  * SUT: {@link FeedbackResponsesLogic}.
  */
-public class FeedbackResponsesLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
+public class FeedbackResponsesLogicIT extends BaseTestCaseWithDatabaseAccess {
     private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
 

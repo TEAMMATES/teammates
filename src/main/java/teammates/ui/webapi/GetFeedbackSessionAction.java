@@ -33,11 +33,11 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
 
         switch (intent) {
         case STUDENT_SUBMISSION, STUDENT_RESULT:
-            Student student = getSqlStudentOfCourseFromRequest(courseId);
+            Student student = getStudentOfCourseFromRequest(courseId);
             checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION, INSTRUCTOR_RESULT:
-            Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
+            Instructor instructor = getInstructorOfCourseFromRequest(courseId);
             checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
             break;
         case FULL_DETAIL:
@@ -64,20 +64,20 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
 
         switch (intent) {
         case STUDENT_SUBMISSION, STUDENT_RESULT:
-            Student student = getSqlStudentOfCourseFromRequest(courseId);
+            Student student = getStudentOfCourseFromRequest(courseId);
             Instant studentDeadline = logic.getDeadlineForUser(feedbackSession, student);
             response = new FeedbackSessionData(feedbackSession, studentDeadline);
             response.hideInformation();
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructorSubmission = getSqlInstructorOfCourseFromRequest(courseId);
+            Instructor instructorSubmission = getInstructorOfCourseFromRequest(courseId);
             response = new FeedbackSessionData(feedbackSession,
                     logic.getDeadlineForUser(feedbackSession,
                     instructorSubmission));
             response.hideInformation();
             break;
         case INSTRUCTOR_RESULT:
-            Instructor instructorResult = getSqlInstructorOfCourseFromRequest(courseId);
+            Instructor instructorResult = getInstructorOfCourseFromRequest(courseId);
             response = new FeedbackSessionData(feedbackSession,
                     logic.getDeadlineForUser(feedbackSession,
                     instructorResult));

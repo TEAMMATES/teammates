@@ -123,7 +123,7 @@ public final class HibernateUtil {
                 .setProperty("hibernate.hikari.minimumIdle", "10")
                 .setProperty("hibernate.hikari.maximumPoolSize", "10")
                 .setProperty("hibernate.hikari.connectionTimeout", "30000")
-                .addPackage("teammates.storage.sqlentity");
+                .addPackage("teammates.storage.entity");
 
         for (Class<? extends BaseEntity> cls : ANNOTATED_CLASSES) {
             config = config.addAnnotatedClass(cls);

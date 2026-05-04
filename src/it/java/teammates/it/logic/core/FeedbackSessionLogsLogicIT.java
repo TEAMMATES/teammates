@@ -11,7 +11,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
-import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.FeedbackSessionLogsLogic;
 import teammates.logic.entity.Course;
 import teammates.logic.entity.FeedbackSession;
@@ -21,7 +21,7 @@ import teammates.logic.entity.Student;
 /**
  * SUT: {@link FeedbackSessionLogsLogic}.
  */
-public class FeedbackSessionLogsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
+public class FeedbackSessionLogsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     private FeedbackSessionLogsLogic fslLogic = FeedbackSessionLogsLogic.inst();
 

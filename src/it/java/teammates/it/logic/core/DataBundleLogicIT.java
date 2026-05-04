@@ -21,7 +21,7 @@ import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
-import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.DataBundleLogic;
 import teammates.logic.entity.Account;
 import teammates.logic.entity.AccountRequest;
@@ -42,7 +42,7 @@ import teammates.test.FileHelper;
 /**
  * SUT: {@link DataBundleLogic}.
  */
-public class DataBundleLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
+public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     private final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
 

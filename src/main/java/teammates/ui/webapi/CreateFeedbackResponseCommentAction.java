@@ -48,7 +48,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getSqlStudentOfCourseFromRequest(courseId);
+            Student student = getStudentOfCourseFromRequest(courseId);
             if (student == null) {
                 throw new EntityNotFoundException("Student does not exist.");
             }
@@ -63,7 +63,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             verifyResponseOwnershipForStudent(student, feedbackResponse, feedbackQuestion);
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructorAsFeedbackParticipant = getSqlInstructorOfCourseFromRequest(courseId);
+            Instructor instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
             if (instructorAsFeedbackParticipant == null) {
                 throw new EntityNotFoundException("Instructor does not exist.");
             }
@@ -125,7 +125,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
         switch (intent) {
         case STUDENT_SUBMISSION:
             verifyCommentNotExist(feedbackResponseId);
-            Student student = getSqlStudentOfCourseFromRequest(courseId);
+            Student student = getStudentOfCourseFromRequest(courseId);
             email = feedbackQuestion.getGiverType() == FeedbackParticipantType.TEAMS
                     ? student.getTeamName() : student.getEmail();
             isFromParticipant = true;
@@ -135,7 +135,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             break;
         case INSTRUCTOR_SUBMISSION:
             verifyCommentNotExist(feedbackResponseId);
-            Instructor instructorAsFeedbackParticipant = getSqlInstructorOfCourseFromRequest(courseId);
+            Instructor instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
             email = instructorAsFeedbackParticipant.getEmail();
             isFromParticipant = true;
             isFollowingQuestionVisibility = true;

@@ -37,7 +37,7 @@ import liquibase.command.CommandScope;
 /**
  * Base test case for tests that access the database.
  */
-public abstract class BaseTestCaseWithSqlDatabaseAccess extends BaseTestCase {
+public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
 
     private static final PostgreSQLContainer<?> PGSQL = new PostgreSQLContainer<>("postgres:15.1-alpine");
 

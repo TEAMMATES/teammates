@@ -94,7 +94,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         // Get each team's submission array. -> int[teamSize][teamSize]
         // Where int[0][1] refers points from student 0 to student 1
         // Where student 0 is the 0th student in the list in teamMembersEmail
-        Map<String, int[][]> teamSubmissionArray = getTeamSubmissionArraySql(teamNames, teamMembersEmail, teamResponses);
+        Map<String, int[][]> teamSubmissionArray = getTeamSubmissionArray(teamNames, teamMembersEmail, teamResponses);
 
         // Each team's contribution question results.
         Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray);
@@ -201,7 +201,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return teamResults;
     }
 
-    private Map<String, int[][]> getTeamSubmissionArraySql(List<String> teamNames,
+    private Map<String, int[][]> getTeamSubmissionArray(List<String> teamNames,
                                                         Map<String, List<String>> teamMembersEmail,
                                                         Map<String, List<FeedbackResponse>> teamResponses) {
         Map<String, int[][]> teamSubmissionArray = new LinkedHashMap<>();

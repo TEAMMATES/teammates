@@ -50,50 +50,33 @@ public class CreateInstructorAction extends Action {
         InstructorCreateRequest instructorRequest = getAndValidateRequestBody(InstructorCreateRequest.class);
 
         try {
-            return executeWithSql(courseId, instructorRequest);
+            Course course = logic.getCourse(courseId);
+
+            Instructor instructorToAdd = createInstructorWithBasicAttributes(course,
+                    SanitizationHelper.sanitizeName(instructorRequest.getName()),
+                    SanitizationHelper.sanitizeEmail(instructorRequest.getEmail()), instructorRequest.getRoleName(),
+                    instructorRequest.getIsDisplayedToStudent(),
+                    SanitizationHelper.sanitizeName(instructorRequest.getDisplayName()));
+
+            Instructor createdInstructor = logic.createInstructor(instructorToAdd);
+
+            // Generate and queue invitation email to priority queue (user-triggered)
+            Account inviter = logic.getAccountForGoogleId(userInfo.id);
+            if (inviter == null) {
+                throw new EntityNotFoundException("Inviter account does not exist.");
+            }
+            EmailWrapper email = emailGenerator.generateInstructorCourseJoinEmail(inviter, createdInstructor, course);
+            List<EmailWrapper> emails = new ArrayList<>();
+            emails.add(email);
+            taskQueuer.scheduleEmailsForPrioritySending(emails);
+
+            return new JsonResult(new InstructorData(createdInstructor));
         } catch (EntityAlreadyExistsException e) {
             throw new InvalidOperationException(
                     "An instructor with the same email address already exists in the course.", e);
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         }
-    }
-
-    /**
-     * Executes the action using SQL storage.
-     *
-     * @param courseId          Id of the course the instructor is being added
-     *                          to.
-     * @param instructorRequest Request body containing the instructor's info.
-     * @return The Json result of the created Instructor
-     * @throws InvalidParametersException   If a parameter is invalid
-     * @throws EntityAlreadyExistsException If there is a conflict at the email
-     *                                      field
-     */
-    private JsonResult executeWithSql(String courseId, InstructorCreateRequest instructorRequest)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-
-        Course course = logic.getCourse(courseId);
-
-        Instructor instructorToAdd = createInstructorWithBasicAttributesSql(course,
-                SanitizationHelper.sanitizeName(instructorRequest.getName()),
-                SanitizationHelper.sanitizeEmail(instructorRequest.getEmail()), instructorRequest.getRoleName(),
-                instructorRequest.getIsDisplayedToStudent(),
-                SanitizationHelper.sanitizeName(instructorRequest.getDisplayName()));
-
-        Instructor createdInstructor = logic.createInstructor(instructorToAdd);
-
-        // Generate and queue invitation email to priority queue (user-triggered)
-        Account inviter = logic.getAccountForGoogleId(userInfo.id);
-        if (inviter == null) {
-            throw new EntityNotFoundException("Inviter account does not exist.");
-        }
-        EmailWrapper email = emailGenerator.generateInstructorCourseJoinEmail(inviter, createdInstructor, course);
-        List<EmailWrapper> emails = new ArrayList<>();
-        emails.add(email);
-        taskQueuer.scheduleEmailsForPrioritySending(emails);
-
-        return new JsonResult(new InstructorData(createdInstructor));
     }
 
     /**
@@ -111,7 +94,7 @@ public class CreateInstructorAction extends Action {
      *                              {@code isDisplayedToStudents} is false.
      * @return An instructor with basic info, excluding custom privileges
      */
-    private Instructor createInstructorWithBasicAttributesSql(Course course, String instructorName,
+    private Instructor createInstructorWithBasicAttributes(Course course, String instructorName,
             String instructorEmail, String instructorRole,
             boolean isDisplayedToStudents, String displayedName) {
 

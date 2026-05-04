@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.AccountRequestsLogic;
 import teammates.logic.entity.AccountRequest;
 import teammates.storage.api.AccountRequestsDb;
@@ -16,7 +16,7 @@ import teammates.storage.api.AccountRequestsDb;
 /**
  * SUT: {@link AccountRequestsLogic}.
  */
-public class AccountRequestsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
+public class AccountRequestsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     private AccountRequestsLogic accountRequestsLogic = AccountRequestsLogic.inst();
 

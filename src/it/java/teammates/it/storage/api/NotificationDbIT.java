@@ -10,14 +10,14 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.entity.Notification;
 import teammates.storage.api.NotificationsDb;
 
 /**
  * SUT: {@link NotificationsDb}.
  */
-public class NotificationDbIT extends BaseTestCaseWithSqlDatabaseAccess {
+public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
 
     private final NotificationsDb notificationsDb = NotificationsDb.inst();
 

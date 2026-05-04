@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.HibernateUtil;
-import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.entity.Course;
 import teammates.logic.entity.FeedbackQuestion;
 import teammates.logic.entity.FeedbackResponse;
@@ -22,7 +22,7 @@ import teammates.storage.api.FeedbackResponseCommentsDb;
 /**
  * SUT: {@link FeedbackResponseCommentsDb}.
  */
-public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
+public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithDatabaseAccess {
 
     private final FeedbackResponseCommentsDb frcDb = FeedbackResponseCommentsDb.inst();
 

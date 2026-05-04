@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.HibernateUtil;
-import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.DeadlineExtensionsLogic;
 import teammates.logic.entity.FeedbackSession;
 import teammates.logic.entity.Student;
@@ -15,7 +15,7 @@ import teammates.logic.entity.Student;
 /**
  * SUT: {@link DeadlineExtensionsLogic}.
  */
-public class DeadlineExtensionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
+public class DeadlineExtensionsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     private DeadlineExtensionsLogic deadlineExtensionsLogic = DeadlineExtensionsLogic.inst();
     private DataBundle typicalDataBundle;

@@ -22,7 +22,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
-import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.api.Logic;
 import teammates.logic.api.MockEmailSender;
 import teammates.logic.api.MockLogsProcessor;
@@ -56,7 +56,7 @@ import teammates.ui.webapi.UnauthorizedAccessException;
  *
  * @param <T> The action class being tested.
  */
-public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSqlDatabaseAccess {
+public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDatabaseAccess {
 
     static final String GET = HttpGet.METHOD_NAME;
     static final String POST = HttpPost.METHOD_NAME;

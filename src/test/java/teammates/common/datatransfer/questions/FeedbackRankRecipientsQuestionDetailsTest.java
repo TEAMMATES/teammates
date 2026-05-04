@@ -176,7 +176,7 @@ public class FeedbackRankRecipientsQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidateGiverRecipientVisibilitySql() {
+    public void testValidateGiverRecipientVisibility() {
         FeedbackRankRecipientsQuestionDetails feedbackRankRecipientsQuestionDetails =
                 new FeedbackRankRecipientsQuestionDetails();
         FeedbackQuestion feedbackQuestion = new FeedbackRankRecipientsQuestion(

@@ -39,7 +39,7 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
 
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getSqlStudentOfCourseFromRequest(courseId);
+            Student student = getStudentOfCourseFromRequest(courseId);
             checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;
         case FULL_DETAIL:
@@ -48,15 +48,15 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
                     feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
+            Instructor instructor = getInstructorOfCourseFromRequest(courseId);
             checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
             break;
         case INSTRUCTOR_RESULT:
-            instructor = getSqlInstructorOfCourseFromRequest(courseId);
+            instructor = getInstructorOfCourseFromRequest(courseId);
             checkAccessControlForInstructorFeedbackResult(instructor, feedbackSession);
             break;
         case STUDENT_RESULT:
-            student = getSqlStudentOfCourseFromRequest(courseId);
+            student = getStudentOfCourseFromRequest(courseId);
             checkAccessControlForStudentFeedbackResult(student, feedbackSession);
             break;
         default:
@@ -79,14 +79,14 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
         switch (intent) {
         case STUDENT_SUBMISSION:
             questions = logic.getFeedbackQuestionsForStudents(feedbackSession);
-            Student student = getSqlStudentOfCourseFromRequest(feedbackSession.getCourseId());
+            Student student = getStudentOfCourseFromRequest(feedbackSession.getCourseId());
             for (FeedbackQuestion question : questions) {
                 Optional<List<String>> options = logic.getDynamicallyGeneratedOptions(question, student);
                 dynamicallyGeneratedOptions.put(question.getId(), options);
             }
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructor = getSqlInstructorOfCourseFromRequest(feedbackSession.getCourseId());
+            Instructor instructor = getInstructorOfCourseFromRequest(feedbackSession.getCourseId());
             questions = logic.getFeedbackQuestionsForInstructors(feedbackSession, instructor.getEmail());
             for (FeedbackQuestion question : questions) {
                 Optional<List<String>> options = logic.getDynamicallyGeneratedOptions(question, null);

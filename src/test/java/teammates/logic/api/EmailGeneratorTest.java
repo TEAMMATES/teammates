@@ -16,14 +16,14 @@ import teammates.test.EmailChecker;
  * SUT: {@link EmailGenerator}.
  */
 public class EmailGeneratorTest extends BaseTestCase {
-    private final EmailGenerator sqlEmailGenerator = EmailGenerator.inst();
+    private final EmailGenerator emailGenerator = EmailGenerator.inst();
 
     @Test
     void testGenerateNewAccountRequestAdminAlertEmail_withComments_generatesSuccessfully() throws IOException {
         AccountRequest accountRequest = new AccountRequest("chosen-one@jedi.org", "Anakin Skywalker", "Jedi Order",
                 AccountRequestStatus.PENDING,
                 "I don't like sand. It's coarse and rough and irritating... and it gets everywhere.");
-        EmailWrapper email = sqlEmailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
+        EmailWrapper email = emailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
         verifyEmail(email, Config.SUPPORT_EMAIL, EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT,
                 "TEAMMATES (Action Needed): New Account Request Received",
                 "/adminNewAccountRequestAlertEmailWithComments.html");
@@ -33,7 +33,7 @@ public class EmailGeneratorTest extends BaseTestCase {
     void testGenerateNewAccountRequestAdminAlertEmail_withNoComments_generatesSuccessfully() throws IOException {
         AccountRequest accountRequest = new AccountRequest("maul@sith.org", "Maul", "Sith Order",
                 AccountRequestStatus.PENDING, null);
-        EmailWrapper email = sqlEmailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
+        EmailWrapper email = emailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
         verifyEmail(email, Config.SUPPORT_EMAIL, EmailType.NEW_ACCOUNT_REQUEST_ADMIN_ALERT,
                 "TEAMMATES (Action Needed): New Account Request Received",
                 "/adminNewAccountRequestAlertEmailWithNoComments.html");
@@ -44,7 +44,7 @@ public class EmailGeneratorTest extends BaseTestCase {
         AccountRequest accountRequest = new AccountRequest("darth-vader@sith.org", "Darth Vader", "Sith Order",
                 AccountRequestStatus.PENDING,
                 "I Am Your Father");
-        EmailWrapper email = sqlEmailGenerator.generateNewAccountRequestAcknowledgementEmail(accountRequest);
+        EmailWrapper email = emailGenerator.generateNewAccountRequestAcknowledgementEmail(accountRequest);
         verifyEmail(email, "darth-vader@sith.org", EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT,
                 "TEAMMATES: Acknowledgement of Instructor Account Request",
                 "/instructorNewAccountRequestAcknowledgementEmailWithComments.html");
@@ -54,7 +54,7 @@ public class EmailGeneratorTest extends BaseTestCase {
     void testGenerateNewAccountRequestAcknowledgementEmail_withNoComments_generatesSuccessfully() throws IOException {
         AccountRequest accountRequest = new AccountRequest("maul@sith.org", "Maul", "Sith Order",
                 AccountRequestStatus.PENDING, null);
-        EmailWrapper email = sqlEmailGenerator.generateNewAccountRequestAcknowledgementEmail(accountRequest);
+        EmailWrapper email = emailGenerator.generateNewAccountRequestAcknowledgementEmail(accountRequest);
         verifyEmail(email, "maul@sith.org", EmailType.NEW_ACCOUNT_REQUEST_ACKNOWLEDGEMENT,
                 "TEAMMATES: Acknowledgement of Instructor Account Request",
                 "/instructorNewAccountRequestAcknowledgementEmailWithNoComments.html");
@@ -80,7 +80,7 @@ public class EmailGeneratorTest extends BaseTestCase {
                             .append("<p>Regards,<br />TEAMMATES Team.</p>\n")
                             .toString();
 
-        EmailWrapper email = sqlEmailGenerator.generateAccountRequestRejectionEmail(accountRequest, title, content);
+        EmailWrapper email = emailGenerator.generateAccountRequestRejectionEmail(accountRequest, title, content);
         verifyEmail(email, "maul@sith.org", EmailType.ACCOUNT_REQUEST_REJECTION,
                 "TEAMMATES: " + title,
                 Config.SUPPORT_EMAIL,

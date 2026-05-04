@@ -10,7 +10,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.StringHelper;
-import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.UsersLogic;
@@ -24,7 +24,7 @@ import teammates.test.AssertHelper;
 /**
  * SUT: {@link AccountsLogic}.
  */
-public class AccountsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
+public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     private AccountsLogic accountsLogic = AccountsLogic.inst();
     private UsersLogic usersLogic = UsersLogic.inst();

@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.entity.Course;
 import teammates.logic.entity.FeedbackSession;
 import teammates.storage.api.CoursesDb;
@@ -19,7 +19,7 @@ import teammates.storage.api.FeedbackSessionsDb;
 /**
  * SUT: {@link FeedbackSessionsDb}.
  */
-public class FeedbackSessionsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
+public class FeedbackSessionsDbIT extends BaseTestCaseWithDatabaseAccess {
 
     private final CoursesDb coursesDb = CoursesDb.inst();
     private final FeedbackSessionsDb fsDb = FeedbackSessionsDb.inst();

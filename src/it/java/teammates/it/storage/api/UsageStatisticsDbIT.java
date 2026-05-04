@@ -6,14 +6,14 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.entity.UsageStatistics;
 import teammates.storage.api.UsageStatisticsDb;
 
 /**
  * SUT: {@link UsageStatisticsDb}.
  */
-public class UsageStatisticsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
+public class UsageStatisticsDbIT extends BaseTestCaseWithDatabaseAccess {
 
     private final UsageStatisticsDb usageStatisticsDb = UsageStatisticsDb.inst();
 

@@ -7,14 +7,14 @@ import org.testng.annotations.Test;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
-import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.entity.Account;
 import teammates.storage.api.AccountsDb;
 
 /**
  * SUT: {@link AccountsDb}.
  */
-public class AccountsDbIT extends BaseTestCaseWithSqlDatabaseAccess {
+public class AccountsDbIT extends BaseTestCaseWithDatabaseAccess {
 
     private final AccountsDb accountsDb = AccountsDb.inst();
 

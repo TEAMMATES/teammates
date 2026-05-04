@@ -45,8 +45,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
     /**
      * Gets the student involved in the submission process.
      */
-    Student getSqlStudentOfCourseFromRequest(String courseId) {
-        // TODO: Rename method to remove Sql after migration.
+    Student getStudentOfCourseFromRequest(String courseId) {
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
@@ -118,7 +117,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
     /**
      * Gets the instructor involved in the submission process.
      */
-    Instructor getSqlInstructorOfCourseFromRequest(String courseId) {
+    Instructor getInstructorOfCourseFromRequest(String courseId) {
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 

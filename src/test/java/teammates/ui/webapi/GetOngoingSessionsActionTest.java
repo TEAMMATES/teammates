@@ -185,11 +185,11 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
                 instantNow.minus(Duration.ofDays(7L)), instantNow.minus(Duration.ofHours(12L)),
                 instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
                 true, true);
-        List<FeedbackSession> ongoingSqlSessions = new ArrayList<>();
-        ongoingSqlSessions.add(c1Fs2);
-        ongoingSqlSessions.add(c2Fs1);
-        ongoingSqlSessions.add(c3Fs1);
-        when(mockLogic.getOngoingSessions(start, end)).thenReturn(ongoingSqlSessions);
+        List<FeedbackSession> ongoingSessions = new ArrayList<>();
+        ongoingSessions.add(c1Fs2);
+        ongoingSessions.add(c2Fs1);
+        ongoingSessions.add(c3Fs1);
+        when(mockLogic.getOngoingSessions(start, end)).thenReturn(ongoingSessions);
 
         long startTime = start.toEpochMilli();
         long endTime = end.toEpochMilli();
@@ -221,7 +221,7 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
     }
 
     @Test
-    void testExecute_ongoingSessionsInSqlOnly_shouldGetOngoingSessionsDataCorrectly() {
+    void testExecute_getOngoingSessions_shouldGetOngoingSessionsDataCorrectly() {
         // The Instant input parameters into the mock methods have a precision up to the nanoseconds, but the time
         // input parameters into the Action only have a precision up to the milliseconds. We must truncate to
         // milliseconds so that the mock methods can mock the exact time that the Action would parse, instead of
@@ -245,18 +245,18 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
                 new InstructorPrivileges(InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
         instructor3.setAccount(instructor3Account);
         when(mockLogic.getInstructorsByCourse(course2.getId())).thenReturn(Collections.singletonList(instructor3));
-        FeedbackSession sqlC1Fs2 = new FeedbackSession("name1-2", course1, "test2@test.com", "test-instruction",
+        FeedbackSession c1Fs2 = new FeedbackSession("name1-2", course1, "test2@test.com", "test-instruction",
                 instantNow.plus(Duration.ofHours(12L)), instantNow.plus(Duration.ofDays(7L)),
                 instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
                 true, true);
-        FeedbackSession sqlC2Fs1 = new FeedbackSession("name2-1", course2, "test3@test.com", "test-instruction",
+        FeedbackSession c2Fs1 = new FeedbackSession("name2-1", course2, "test3@test.com", "test-instruction",
                 instantNow.minus(Duration.ofHours(12L)), instantNow.plus(Duration.ofHours(12L)),
                 instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
                 true, true);
-        List<FeedbackSession> ongoingSqlSessions = new ArrayList<>();
-        ongoingSqlSessions.add(sqlC1Fs2);
-        ongoingSqlSessions.add(sqlC2Fs1);
-        when(mockLogic.getOngoingSessions(start, end)).thenReturn(ongoingSqlSessions);
+        List<FeedbackSession> ongoingSessions = new ArrayList<>();
+        ongoingSessions.add(c1Fs2);
+        ongoingSessions.add(c2Fs1);
+        when(mockLogic.getOngoingSessions(start, end)).thenReturn(ongoingSessions);
 
         long startTime = start.toEpochMilli();
         long endTime = end.toEpochMilli();
@@ -277,9 +277,9 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         assertEquals(1, response.getTotalAwaitingSessions());
         assertEquals(2L, response.getTotalInstitutes());
         Map<String, List<OngoingSession>> expectedSessions = new HashMap<>();
-        OngoingSession expectedOngoingC1Fs2 = new OngoingSession(sqlC1Fs2, instructor2.getGoogleId());
+        OngoingSession expectedOngoingC1Fs2 = new OngoingSession(c1Fs2, instructor2.getGoogleId());
         expectedSessions.put("NUS", Collections.singletonList(expectedOngoingC1Fs2));
-        OngoingSession expectedOngoingC2Fs1 = new OngoingSession(sqlC2Fs1, instructor3.getGoogleId());
+        OngoingSession expectedOngoingC2Fs1 = new OngoingSession(c2Fs1, instructor3.getGoogleId());
         expectedSessions.put("MIT", Collections.singletonList(expectedOngoingC2Fs1));
         Map<String, List<OngoingSession>> actualSessions = response.getSessions();
         assertEqualSessions(expectedSessions, actualSessions);

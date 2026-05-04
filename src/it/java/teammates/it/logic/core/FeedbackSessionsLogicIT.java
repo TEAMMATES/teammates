@@ -14,7 +14,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.TimeHelper;
-import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.entity.Course;
@@ -27,7 +27,7 @@ import teammates.ui.request.FeedbackSessionUpdateRequest;
 /**
  * SUT: {@link FeedbackSessionsLogic}.
  */
-public class FeedbackSessionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
+public class FeedbackSessionsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     private FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();

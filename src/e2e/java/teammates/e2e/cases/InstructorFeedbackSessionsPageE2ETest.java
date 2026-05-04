@@ -198,7 +198,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("download results");
         feedbackSessionsPage.downloadResults(closedSession);
-        List<String> expectedContent = Arrays.asList("Course,tm.e2e.sql.CS1101",
+        List<String> expectedContent = Arrays.asList("Course,tm.e2e.CS1101",
                 "Session Name,Second Session", "Question 1,What did this instructor do well?");
         verifyDownloadedFile(fileName, expectedContent);
 

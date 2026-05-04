@@ -15,7 +15,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
-import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.entity.FeedbackQuestion;
 import teammates.logic.entity.FeedbackSession;
@@ -26,7 +26,7 @@ import teammates.ui.request.FeedbackQuestionUpdateRequest;
 /**
  * SUT: {@link FeedbackQuestionsLogic}.
  */
-public class FeedbackQuestionsLogicIT extends BaseTestCaseWithSqlDatabaseAccess {
+public class FeedbackQuestionsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     private FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
 

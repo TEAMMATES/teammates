@@ -24,7 +24,7 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
         case INSTRUCTOR_SUBMISSION:
         case INSTRUCTOR_RESULT:
             String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-            Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
+            Instructor instructor = getInstructorOfCourseFromRequest(courseId);
             if (instructor == null) {
                 throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
             }
@@ -54,7 +54,7 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
         switch (intent) {
         case INSTRUCTOR_SUBMISSION:
         case INSTRUCTOR_RESULT:
-            instructor = getSqlInstructorOfCourseFromRequest(courseId);
+            instructor = getInstructorOfCourseFromRequest(courseId);
             break;
         case FULL_DETAIL:
             instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());

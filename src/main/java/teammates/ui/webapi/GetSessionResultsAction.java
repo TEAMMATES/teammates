@@ -48,14 +48,14 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
             if (!isPreviewResults && !feedbackSession.isPublished()) {
                 throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
             }
-            instructor = getSqlInstructorOfCourseFromRequest(courseId);
+            instructor = getInstructorOfCourseFromRequest(courseId);
             checkAccessControlForInstructorFeedbackResult(instructor, feedbackSession);
             break;
         case STUDENT_RESULT:
             if (!isPreviewResults && !feedbackSession.isPublished()) {
                 throw new UnauthorizedAccessException("This feedback session is not yet published.", true);
             }
-            Student student = getSqlStudentOfCourseFromRequest(courseId);
+            Student student = getStudentOfCourseFromRequest(courseId);
             checkAccessControlForStudentFeedbackResult(student, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION, STUDENT_SUBMISSION:
@@ -99,14 +99,14 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
 
         switch (intent) {
         case FULL_DETAIL:
-            instructor = getSqlInstructorOfCourseFromRequest(courseId);
+            instructor = getInstructorOfCourseFromRequest(courseId);
 
             bundle = logic.getSessionResults(feedbackSession, instructor.getEmail(),
                     questionUuid, selectedSection, fetchType);
             return new JsonResult(SessionResultsData.initForInstructor(bundle));
         case INSTRUCTOR_RESULT:
             // Section name filter is not applicable here
-            instructor = getSqlInstructorOfCourseFromRequest(courseId);
+            instructor = getInstructorOfCourseFromRequest(courseId);
 
             bundle = logic.getSessionResultsForUser(feedbackSession, instructor.getEmail(),
                     true, questionUuid, isPreviewResults);
@@ -118,7 +118,7 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
             return new JsonResult(SessionResultsData.initForStudent(bundle, student));
         case STUDENT_RESULT:
             // Section name filter is not applicable here
-            student = getSqlStudentOfCourseFromRequest(courseId);
+            student = getStudentOfCourseFromRequest(courseId);
 
             bundle = logic.getSessionResultsForUser(feedbackSession, student.getEmail(),
                     false, questionUuid, isPreviewResults);

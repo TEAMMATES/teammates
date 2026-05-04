@@ -90,7 +90,7 @@ public class FeedbackTextQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidateGiverRecipientVisibilitySql_shouldReturnEmptyString() {
+    public void testValidateGiverRecipientVisibility_shouldReturnEmptyString() {
         FeedbackQuestion feedbackQuestion = new FeedbackTextQuestion(
                 null, 1, null,
                 FeedbackParticipantType.STUDENTS, FeedbackParticipantType.OWN_TEAM_MEMBERS,

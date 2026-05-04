@@ -984,7 +984,7 @@ public class Logic {
     }
 
     /**
-     * Returns the default SQL section.
+     * Returns the default section.
      * If it does not exist, create and return it.
      */
     public Section getDefaultSectionOrCreate(String courseId) {

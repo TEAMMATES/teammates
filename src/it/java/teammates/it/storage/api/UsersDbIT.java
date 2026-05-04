@@ -10,7 +10,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
-import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.entity.Account;
 import teammates.logic.entity.Course;
 import teammates.logic.entity.Instructor;
@@ -25,7 +25,7 @@ import teammates.storage.api.UsersDb;
 /**
  * SUT: {@link UsersDb}.
  */
-public class UsersDbIT extends BaseTestCaseWithSqlDatabaseAccess {
+public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
 
     private final UsersDb usersDb = UsersDb.inst();
     private final CoursesDb coursesDb = CoursesDb.inst();

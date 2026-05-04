@@ -15,13 +15,11 @@ public class SearchInstructorsAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
-        // Search for sql db
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
         List<Instructor> instructors = logic.searchInstructorsInWholeSystem(searchKey);
 
         List<InstructorData> instructorDataList = new ArrayList<>();
 
-        // Add instructors from sql db
         for (Instructor instructor : instructors) {
             InstructorData instructorData = new InstructorData(instructor);
             instructorData.addAdditionalInformationForAdminSearch(

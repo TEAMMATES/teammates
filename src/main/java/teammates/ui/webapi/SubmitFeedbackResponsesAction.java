@@ -64,7 +64,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         switch (intent) {
         case STUDENT_SUBMISSION:
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
-            Student student = getSqlStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
+            Student student = getStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
             if (student == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
             }
@@ -73,7 +73,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             break;
         case INSTRUCTOR_SUBMISSION:
             gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
-            Instructor instructor = getSqlInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
+            Instructor instructor = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
             if (instructor == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
             }
@@ -110,7 +110,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getSqlStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
+            Student student = getStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
             giverIdentifier =
                     feedbackQuestion.getGiverType() == FeedbackParticipantType.TEAMS
                             ? student.getTeamName() : student.getEmail();
@@ -120,7 +120,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             dynamicallyGeneratedOptions = logic.getDynamicallyGeneratedOptions(feedbackQuestion, student);
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructor = getSqlInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
+            Instructor instructor = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
             giverIdentifier = instructor.getEmail();
             giverSection = logic.getDefaultSectionOrCreate(courseId);
             existingResponses = logic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructor);
