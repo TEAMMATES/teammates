@@ -15,7 +15,6 @@ import { TeammatesRouterDirective } from '../../../components/teammates-router/t
 @Component({
   selector: 'tm-response-moderation-button',
   templateUrl: './response-moderation-button.component.html',
-  styleUrls: ['./response-moderation-button.component.scss'],
   imports: [TeammatesRouterDirective, NgClass],
 })
 export class ResponseModerationButtonComponent {

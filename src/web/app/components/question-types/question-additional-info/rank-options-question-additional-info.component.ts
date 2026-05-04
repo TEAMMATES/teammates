@@ -9,7 +9,6 @@ import { DEFAULT_RANK_OPTIONS_QUESTION_DETAILS } from '../../../../types/default
 @Component({
   selector: 'tm-rank-options-question-additional-info',
   templateUrl: './rank-options-question-additional-info.component.html',
-  styleUrls: ['./rank-options-question-additional-info.component.scss'],
   imports: [],
 })
 export class RankOptionsQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<FeedbackRankOptionsQuestionDetails> {

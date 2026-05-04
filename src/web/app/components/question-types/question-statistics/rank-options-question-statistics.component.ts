@@ -14,7 +14,6 @@ import {
 @Component({
   selector: 'tm-rank-options-question-statistics',
   templateUrl: './rank-options-question-statistics.component.html',
-  styleUrls: ['./rank-options-question-statistics.component.scss'],
   imports: [SortableTableComponent],
 })
 export class RankOptionsQuestionStatisticsComponent

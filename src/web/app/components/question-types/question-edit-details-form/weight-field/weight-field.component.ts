@@ -7,7 +7,6 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'tm-weight-field',
   templateUrl: './weight-field.component.html',
-  styleUrls: ['./weight-field.component.scss'],
   imports: [FormsModule],
 })
 export class WeightFieldComponent {

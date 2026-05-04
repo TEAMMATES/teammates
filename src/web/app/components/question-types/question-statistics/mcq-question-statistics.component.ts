@@ -14,7 +14,6 @@ import {
 @Component({
   selector: 'tm-mcq-question-statistics',
   templateUrl: './mcq-question-statistics.component.html',
-  styleUrls: ['./mcq-question-statistics.component.scss'],
   imports: [SortableTableComponent],
 })
 export class McqQuestionStatisticsComponent extends McqQuestionStatisticsCalculation implements OnInit, OnChanges {

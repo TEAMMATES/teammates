@@ -15,7 +15,6 @@ import {
 @Component({
   selector: 'tm-rank-recipients-question-response',
   templateUrl: './rank-recipients-question-response.component.html',
-  styleUrls: ['./rank-recipients-question-response.component.scss'],
 })
 export class RankRecipientsQuestionResponseComponent extends QuestionResponse<
   FeedbackRankRecipientsResponseDetails,

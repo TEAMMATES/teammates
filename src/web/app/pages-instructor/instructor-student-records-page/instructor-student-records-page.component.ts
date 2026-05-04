@@ -42,7 +42,6 @@ interface SessionTab {
 @Component({
   selector: 'tm-instructor-student-records-page',
   templateUrl: './instructor-student-records-page.component.html',
-  styleUrls: ['./instructor-student-records-page.component.scss'],
   imports: [
     LoadingRetryComponent,
     LoadingSpinnerDirective,

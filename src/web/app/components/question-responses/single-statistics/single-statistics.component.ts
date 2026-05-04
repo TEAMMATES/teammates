@@ -26,7 +26,6 @@ import { TextQuestionStatisticsComponent } from '../../question-types/question-s
 @Component({
   selector: 'tm-single-statistics',
   templateUrl: './single-statistics.component.html',
-  styleUrls: ['./single-statistics.component.scss'],
   imports: [
     ContributionQuestionStatisticsComponent,
     TextQuestionStatisticsComponent,

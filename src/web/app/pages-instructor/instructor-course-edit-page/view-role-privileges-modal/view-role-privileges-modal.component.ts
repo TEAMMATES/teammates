@@ -9,7 +9,6 @@ import { InstructorRoleNamePipe } from '../../../components/teammates-common/ins
 @Component({
   selector: 'tm-view-role-privileges-model',
   templateUrl: './view-role-privileges-modal.component.html',
-  styleUrls: ['./view-role-privileges-modal.component.scss'],
   imports: [InstructorRoleNamePipe],
 })
 export class ViewRolePrivilegesModalComponent {

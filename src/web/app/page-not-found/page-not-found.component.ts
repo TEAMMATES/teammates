@@ -9,7 +9,6 @@ import { TeammatesRouterDirective } from '../components/teammates-router/teammat
 @Component({
   selector: 'tm-page-not-found',
   templateUrl: './page-not-found.component.html',
-  styleUrls: ['./page-not-found.component.scss'],
   imports: [TeammatesRouterDirective],
 })
 export class PageNotFoundComponent {}

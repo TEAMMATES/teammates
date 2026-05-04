@@ -11,7 +11,6 @@ import { LoadingSpinnerDirective } from '../../components/loading-spinner/loadin
 @Component({
   selector: 'tm-timezone-page',
   templateUrl: './timezone-page.component.html',
-  styleUrls: ['./timezone-page.component.scss'],
   imports: [LoadingSpinnerDirective, KeyValuePipe],
 })
 export class TimezonePageComponent implements OnInit {

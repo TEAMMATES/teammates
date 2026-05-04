@@ -11,7 +11,6 @@ import { PageComponent } from '../page.component';
 @Component({
   selector: 'tm-maintainer-page',
   templateUrl: './maintainer-page.component.html',
-  styleUrls: ['./maintainer-page.component.scss'],
   imports: [PageComponent],
 })
 export class MaintainerPageComponent implements OnInit {

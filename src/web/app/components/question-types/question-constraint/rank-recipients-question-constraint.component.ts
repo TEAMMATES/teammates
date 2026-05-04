@@ -13,7 +13,6 @@ import { NO_VALUE, RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED } from '../../../../type
 @Component({
   selector: 'tm-rank-recipients-question-constraint',
   templateUrl: './rank-recipients-question-constraint.component.html',
-  styleUrls: ['./rank-recipients-question-constraint.component.scss'],
   imports: [],
 })
 export class RankRecipientsQuestionConstraintComponent extends QuestionConstraintComponent<FeedbackRankRecipientsQuestionDetails> {

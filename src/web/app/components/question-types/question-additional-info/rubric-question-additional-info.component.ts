@@ -9,7 +9,6 @@ import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-quest
 @Component({
   selector: 'tm-rubric-question-additional-info',
   templateUrl: './rubric-question-additional-info.component.html',
-  styleUrls: ['./rubric-question-additional-info.component.scss'],
   imports: [],
 })
 export class RubricQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<FeedbackRubricQuestionDetails> {

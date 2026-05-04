@@ -23,7 +23,6 @@ import { ContributionQuestionStatisticsCalculation } from '../question-statistic
 @Component({
   selector: 'tm-contribution-question-statistics',
   templateUrl: './contribution-question-statistics.component.html',
-  styleUrls: ['./contribution-question-statistics.component.scss'],
   imports: [NgbTooltip, ContributionComponent, TeammatesRouterDirective, SortableTableComponent],
 })
 export class ContributionQuestionStatisticsComponent

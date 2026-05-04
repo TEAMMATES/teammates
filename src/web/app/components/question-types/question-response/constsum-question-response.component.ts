@@ -13,7 +13,6 @@ import {
 @Component({
   selector: 'tm-constsum-question-response',
   templateUrl: './constsum-question-response.component.html',
-  styleUrls: ['./constsum-question-response.component.scss'],
   imports: [KeyValuePipe],
 })
 export class ConstsumQuestionResponseComponent

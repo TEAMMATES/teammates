@@ -12,7 +12,6 @@ import { InstructorData } from '../instructor-data';
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'tr[tm-new-instructor-data-row]',
   templateUrl: './new-instructor-data-row.component.html',
-  styleUrls: ['./new-instructor-data-row.component.scss'],
   imports: [FormsModule],
 })
 export class NewInstructorDataRowComponent implements OnInit {
