@@ -27,12 +27,12 @@ public class GetCourseAction extends Action {
         Course course = logic.getCourse(courseId);
 
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
-            gateKeeper.verifyAccessible(getPossiblyUnregisteredSqlInstructor(courseId), course);
+            gateKeeper.verifyAccessible(getPossiblyUnregisteredInstructor(courseId), course);
             return;
         }
 
         if (Const.EntityType.STUDENT.equals(entityType)) {
-            gateKeeper.verifyAccessible(getPossiblyUnregisteredSqlStudent(courseId), course);
+            gateKeeper.verifyAccessible(getPossiblyUnregisteredStudent(courseId), course);
             return;
         }
 
@@ -51,7 +51,7 @@ public class GetCourseAction extends Action {
         CourseData output = new CourseData(course);
         String entityType = getRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
-            Instructor instructor = getPossiblyUnregisteredSqlInstructor(courseId);
+            Instructor instructor = getPossiblyUnregisteredInstructor(courseId);
             if (instructor != null) {
                 InstructorPermissionSet privilege = constructInstructorPrivileges(instructor, null);
                 output.setPrivileges(privilege);

@@ -29,7 +29,7 @@ public class CreateFeedbackSessionLogAction extends Action {
             throw new EntityNotFoundException("The feedback session does not exist.");
         }
 
-        Student authenticatedStudent = getPossiblyUnregisteredSqlStudent(feedbackSession.getCourseId());
+        Student authenticatedStudent = getPossiblyUnregisteredStudent(feedbackSession.getCourseId());
         if (authenticatedStudent == null) {
             throw new UnauthorizedAccessException("No authenticated student found for the course.");
         }
@@ -63,7 +63,7 @@ public class CreateFeedbackSessionLogAction extends Action {
         }
 
         Instant now = Instant.now(clock);
-        Student student = getPossiblyUnregisteredSqlStudent(feedbackSession.getCourseId());
+        Student student = getPossiblyUnregisteredStudent(feedbackSession.getCourseId());
 
         try {
             logic.createFeedbackSessionLog(feedbackSession, student, convertedFslType, now);

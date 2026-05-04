@@ -51,8 +51,8 @@ public abstract class Action {
     UserInfo userInfo;
     AuthType authType;
 
-    private Student unregisteredSqlStudent;
-    private Instructor unregisteredSqlInstructor;
+    private Student unregisteredStudent;
+    private Instructor unregisteredInstructor;
 
     // buffer to store the request body
     private String requestBody;
@@ -133,14 +133,14 @@ public abstract class Action {
         String googleId = userInfo == null ? null : userInfo.getId();
 
         user.setGoogleId(googleId);
-        if (unregisteredSqlStudent == null && unregisteredSqlInstructor == null) {
+        if (unregisteredStudent == null && unregisteredInstructor == null) {
             user.setRegkey(getRequestParamValue(Const.ParamsNames.REGKEY));
-        } else if (unregisteredSqlStudent != null) {
-            user.setRegkey(unregisteredSqlStudent.getRegKey());
-            user.setEmail(unregisteredSqlStudent.getEmail());
+        } else if (unregisteredStudent != null) {
+            user.setRegkey(unregisteredStudent.getRegKey());
+            user.setEmail(unregisteredStudent.getEmail());
         } else {
-            user.setRegkey(unregisteredSqlInstructor.getRegKey());
-            user.setEmail(unregisteredSqlInstructor.getEmail());
+            user.setRegkey(unregisteredInstructor.getRegKey());
+            user.setEmail(unregisteredInstructor.getEmail());
         }
         return user;
     }
@@ -298,15 +298,14 @@ public abstract class Action {
     /**
      * Gets the unregistered student by the HTTP param.
      */
-    Optional<Student> getUnregisteredSqlStudent() {
-        // TODO: Remove Sql from method name after migration
+    Optional<Student> getUnregisteredStudent() {
         String key = getRequestParamValue(Const.ParamsNames.REGKEY);
         if (!StringHelper.isEmpty(key)) {
             Student student = logic.getStudentByRegistrationKey(key);
             if (student == null) {
                 return Optional.empty();
             }
-            unregisteredSqlStudent = student;
+            unregisteredStudent = student;
             return Optional.of(student);
         }
         return Optional.empty();
@@ -315,22 +314,21 @@ public abstract class Action {
     /**
      * Gets the unregistered instructor by the HTTP param.
      */
-    Optional<Instructor> getUnregisteredSqlInstructor() {
-        // TODO: Remove Sql from method name after migration
+    Optional<Instructor> getUnregisteredInstructor() {
         String key = getRequestParamValue(Const.ParamsNames.REGKEY);
         if (!StringHelper.isEmpty(key)) {
             Instructor instructor = logic.getInstructorByRegistrationKey(key);
             if (instructor == null) {
                 return Optional.empty();
             }
-            unregisteredSqlInstructor = instructor;
+            unregisteredInstructor = instructor;
             return Optional.of(instructor);
         }
         return Optional.empty();
     }
 
-    Instructor getPossiblyUnregisteredSqlInstructor(String courseId) {
-        return getUnregisteredSqlInstructor().orElseGet(() -> {
+    Instructor getPossiblyUnregisteredInstructor(String courseId) {
+        return getUnregisteredInstructor().orElseGet(() -> {
             if (userInfo == null) {
                 return null;
             }
@@ -338,8 +336,8 @@ public abstract class Action {
         });
     }
 
-    Student getPossiblyUnregisteredSqlStudent(String courseId) {
-        return getUnregisteredSqlStudent().orElseGet(() -> {
+    Student getPossiblyUnregisteredStudent(String courseId) {
+        return getUnregisteredStudent().orElseGet(() -> {
             if (userInfo == null) {
                 return null;
             }

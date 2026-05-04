@@ -55,7 +55,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             return logic.getStudentForEmail(courseId, previewAsPerson);
         } else {
-            return getPossiblyUnregisteredSqlStudent(courseId);
+            return getPossiblyUnregisteredStudent(courseId);
         }
     }
 
@@ -127,7 +127,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             return logic.getInstructorForEmail(courseId, previewAsPerson);
         } else {
-            return getPossiblyUnregisteredSqlInstructor(courseId);
+            return getPossiblyUnregisteredInstructor(courseId);
         }
     }
 
