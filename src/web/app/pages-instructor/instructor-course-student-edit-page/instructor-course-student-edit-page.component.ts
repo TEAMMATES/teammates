@@ -12,7 +12,12 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { JoinState, MessageOutput, Student } from '../../../types/api-output';
 import { StudentUpdateRequest } from '../../../types/api-request';
-import { FormValidator } from '../../../types/form-validator';
+import {
+  STUDENT_NAME_MAX_LENGTH,
+  SECTION_NAME_MAX_LENGTH,
+  TEAM_NAME_MAX_LENGTH,
+  EMAIL_MAX_LENGTH,
+} from '../../../types/field-validator';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
@@ -28,7 +33,10 @@ import { noWhitespaceValidator } from '../../validators/no-whitespace.validator'
   imports: [LoadingRetryComponent, LoadingSpinnerDirective, FormsModule, ReactiveFormsModule, NgClass],
 })
 export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestroy {
-  FormValidator: typeof FormValidator = FormValidator; // enum
+  readonly STUDENT_NAME_MAX_LENGTH = STUDENT_NAME_MAX_LENGTH;
+  readonly SECTION_NAME_MAX_LENGTH = SECTION_NAME_MAX_LENGTH;
+  readonly TEAM_NAME_MAX_LENGTH = TEAM_NAME_MAX_LENGTH;
+  readonly EMAIL_MAX_LENGTH = EMAIL_MAX_LENGTH;
 
   @Input() isEnabled = true;
   courseId = '';
@@ -119,20 +127,20 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
     this.editForm = new UntypedFormGroup({
       'student-name': new UntypedFormControl(this.student.name, [
         Validators.required,
-        Validators.maxLength(FormValidator.STUDENT_NAME_MAX_LENGTH),
+        Validators.maxLength(STUDENT_NAME_MAX_LENGTH),
       ]),
       'section-name': new UntypedFormControl(this.student.sectionName, [
         Validators.required,
-        Validators.maxLength(FormValidator.SECTION_NAME_MAX_LENGTH),
+        Validators.maxLength(SECTION_NAME_MAX_LENGTH),
       ]),
       'team-name': new UntypedFormControl(this.student.teamName, [
         Validators.required,
         noWhitespaceValidator,
-        Validators.maxLength(FormValidator.TEAM_NAME_MAX_LENGTH),
+        Validators.maxLength(TEAM_NAME_MAX_LENGTH),
       ]),
       'new-student-email': new UntypedFormControl(
         this.student.email, // original student email initialized
-        [Validators.required, Validators.maxLength(FormValidator.EMAIL_MAX_LENGTH)],
+        [Validators.required, Validators.maxLength(EMAIL_MAX_LENGTH)],
       ),
       comments: new UntypedFormControl(this.student.comments),
     });
