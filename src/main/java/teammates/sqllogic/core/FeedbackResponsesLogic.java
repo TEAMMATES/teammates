@@ -199,25 +199,24 @@ public final class FeedbackResponsesLogic {
      */
     public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse feedbackResponse)
             throws InvalidParametersException, EntityDoesNotExistException {
-        validateFeedbackResponse(feedbackResponse);
-
-        // TODO: investigate for bugs, oldResponse and newResponse are the same object.
+        // TODO: do not pass detached entities around
         FeedbackResponse oldResponse = frDb.getFeedbackResponse(feedbackResponse.getId());
         if (oldResponse == null) {
             throw new EntityDoesNotExistException("Trying to update non-existent Entity: " + feedbackResponse);
         }
-        FeedbackResponse newResponse = feedbackResponse;
 
         List<FeedbackResponseComment> oldResponseComments = oldResponse.getFeedbackResponseComments();
 
         for (FeedbackResponseComment oldResponseComment : oldResponseComments) {
-            oldResponseComment.setGiverSection(newResponse.getGiverSection());
-            oldResponseComment.setRecipientSection(newResponse.getRecipientSection());
+            oldResponseComment.setGiverSection(feedbackResponse.getGiverSection());
+            oldResponseComment.setRecipientSection(feedbackResponse.getRecipientSection());
 
             frcLogic.updateFeedbackResponseComment(oldResponseComment);
         }
 
-        return newResponse;
+        validateFeedbackResponse(oldResponse);
+
+        return oldResponse;
     }
 
     /**
@@ -462,14 +461,12 @@ public final class FeedbackResponsesLogic {
      *     This is done by deleting responses that are no longer relevant to him in his new team.
      * </p>
      */
-    public void updateFeedbackResponsesForChangingTeam(Course course, String newEmail, Team newTeam, Team oldTeam) {
-        FeedbackQuestion qn;
-
+    public void updateFeedbackResponsesForChangingTeam(Course course, String newEmail, Team oldTeam) {
         List<FeedbackResponse> responsesFromUser =
                 getFeedbackResponsesFromGiverForCourse(course.getId(), newEmail);
 
         for (FeedbackResponse response : responsesFromUser) {
-            qn = fqLogic.getFeedbackQuestion(response.getId());
+            FeedbackQuestion qn = response.getFeedbackQuestion();
             if (qn != null && qn.getGiverType() == FeedbackParticipantType.TEAMS) {
                 deleteFeedbackResponsesForQuestionCascade(qn);
             }
@@ -479,7 +476,7 @@ public final class FeedbackResponsesLogic {
                 getFeedbackResponsesForRecipientForCourse(course.getId(), newEmail);
 
         for (FeedbackResponse response : responsesToUser) {
-            qn = fqLogic.getFeedbackQuestion(response.getId());
+            FeedbackQuestion qn = response.getFeedbackQuestion();
             if (qn != null && qn.getGiverType() == FeedbackParticipantType.TEAMS) {
                 deleteFeedbackResponsesForQuestionCascade(qn);
             }

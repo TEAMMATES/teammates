@@ -769,14 +769,16 @@ public final class UsersLogic {
 
         // cascade email changes to responses and comments
         if (changedEmail) {
-            feedbackResponsesLogic.updateFeedbackResponsesForChangingEmail(courseId, originalEmail, student.getEmail());
-            feedbackResponseCommentsLogic.updateFeedbackResponseCommentsEmails(courseId, originalEmail, student.getEmail());
+            feedbackResponsesLogic
+                    .updateFeedbackResponsesForChangingEmail(courseId, originalEmail, student.getEmail());
+            feedbackResponseCommentsLogic
+                    .updateFeedbackResponseCommentsEmails(courseId, originalEmail, student.getEmail());
         }
 
         // adjust submissions if moving to a different team
         if (changedTeam) {
-            feedbackResponsesLogic.updateFeedbackResponsesForChangingTeam(student.getCourse(), student.getEmail(),
-                    student.getTeam(), originalTeam);
+            feedbackResponsesLogic
+                    .updateFeedbackResponsesForChangingTeam(student.getCourse(), student.getEmail(), originalTeam);
         }
 
         // update the new section name in responses
