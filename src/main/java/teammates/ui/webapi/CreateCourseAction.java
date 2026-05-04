@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 
@@ -58,11 +59,10 @@ public class CreateCourseAction extends Action {
         String newCourseName = courseCreateRequest.getCourseName();
         String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
         Course course = new Course(newCourseId, newCourseName, newCourseTimeZone, institute);
+        course.setCreatedAt(Instant.now());
 
         try {
-            sqlLogic.createCourseAndInstructor(userInfo.getId(), course);
-
-            Course createdCourse = sqlLogic.getCourse(newCourseId);
+            Course createdCourse = sqlLogic.createCourseAndInstructor(userInfo.getId(), course);
             return new JsonResult(new CourseData(createdCourse));
 
         } catch (EntityAlreadyExistsException e) {

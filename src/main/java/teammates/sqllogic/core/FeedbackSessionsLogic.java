@@ -198,6 +198,15 @@ public final class FeedbackSessionsLogic {
     public FeedbackSession createFeedbackSession(FeedbackSession session)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert session != null;
+
+        validateFeedbackSession(session);
+
+        if (fsDb.getFeedbackSession(session.getId()) != null
+                || fsDb.getFeedbackSession(session.getName(), session.getCourseId()) != null) {
+            throw new EntityAlreadyExistsException(
+                    String.format(Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS, session.toString()));
+        }
+
         return fsDb.createFeedbackSession(session);
     }
 

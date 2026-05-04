@@ -83,11 +83,9 @@ public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateComment_commentAlreadyExists_throwsEntityAlreadyExistsException()
-            throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testCreateComment_commentAlreadyExists_throwsEntityAlreadyExistsException() {
         FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
-
-        when(frcDb.createFeedbackResponseComment(comment)).thenThrow(EntityAlreadyExistsException.class);
+        when(frcDb.getFeedbackResponseComment(comment.getId())).thenReturn(comment);
 
         assertThrows(EntityAlreadyExistsException.class,
                 () -> frcLogic.createFeedbackResponseComment(comment));

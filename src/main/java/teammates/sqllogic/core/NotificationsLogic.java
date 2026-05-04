@@ -11,6 +11,7 @@ import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlapi.NotificationsDb;
 import teammates.storage.sqlentity.Account;
@@ -53,6 +54,12 @@ public final class NotificationsLogic {
         assert notification != null;
 
         validateNotification(notification);
+
+        if (notificationsDb.getNotification(notification.getId()) != null) {
+            throw new EntityAlreadyExistsException(
+                    String.format(Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS, notification.toString()));
+        }
+
         return notificationsDb.createNotification(notification);
     }
 

@@ -1,5 +1,6 @@
 package teammates.sqllogic.core;
 
+import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
@@ -65,6 +66,12 @@ public final class CoursesLogic {
      *                                      database.
      */
     public Course createCourse(Course course) throws InvalidParametersException, EntityAlreadyExistsException {
+        validateCourse(course);
+
+        if (getCourse(course.getId()) != null) {
+            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, course.toString()));
+        }
+
         return coursesDb.createCourse(course);
     }
 
@@ -74,7 +81,7 @@ public final class CoursesLogic {
      * <br/>Preconditions: <br/>
      * * {@code instructorGoogleId} already has an account and instructor privileges.
      */
-    public void createCourseAndInstructor(String instructorGoogleId, Course courseToCreate)
+    public Course createCourseAndInstructor(String instructorGoogleId, Course courseToCreate)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
         Account courseCreator = accountsLogic.getAccountForGoogleId(instructorGoogleId);
@@ -102,6 +109,8 @@ public final class CoursesLogic {
                                   + System.lineSeparator() + courseToCreate.toString();
             assert false : errorMessage;
         }
+
+        return createdCourse;
     }
 
     /**

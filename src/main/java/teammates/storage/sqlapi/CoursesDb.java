@@ -1,7 +1,5 @@
 package teammates.storage.sqlapi;
 
-import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -10,8 +8,6 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.Section;
@@ -46,19 +42,10 @@ public final class CoursesDb {
     /**
      * Creates a course.
      */
-    public Course createCourse(Course course) throws InvalidParametersException, EntityAlreadyExistsException {
+    public Course createCourse(Course course) {
         assert course != null;
 
-        if (!course.isValid()) {
-            throw new InvalidParametersException(course.getInvalidityInfo());
-        }
-
-        if (getCourse(course.getId()) != null) {
-            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, course.toString()));
-        }
-
         HibernateUtil.persist(course);
-        HibernateUtil.flushSession();
         return course;
     }
 
@@ -72,19 +59,8 @@ public final class CoursesDb {
     /**
      * Creates a section.
      */
-    public Section createSection(Section section) throws InvalidParametersException, EntityAlreadyExistsException {
+    public Section createSection(Section section) {
         assert section != null;
-
-        // TODO: refactor callers to call createSection in CoursesLogic instead.
-        // This validation is already done in coursesLogic, but is kept here until
-        // the refactor is done to prevent breaking existing callers.
-        if (!section.isValid()) {
-            throw new InvalidParametersException(section.getInvalidityInfo());
-        }
-
-        if (getSectionByName(section.getCourse().getId(), section.getName()) != null) {
-            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, section.toString()));
-        }
 
         HibernateUtil.persist(section);
         return section;
@@ -150,16 +126,8 @@ public final class CoursesDb {
     /**
      * Creates a team.
      */
-    public Team createTeam(Team team) throws InvalidParametersException, EntityAlreadyExistsException {
+    public Team createTeam(Team team) {
         assert team != null;
-
-        if (!team.isValid()) {
-            throw new InvalidParametersException(team.getInvalidityInfo());
-        }
-
-        if (getTeamByName(team.getSection().getId(), team.getName()) != null) {
-            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, team.toString()));
-        }
 
         HibernateUtil.persist(team);
         return team;

@@ -320,9 +320,9 @@ public class Logic {
      * @throws InvalidParametersException   if the course is not valid.
      * @throws EntityAlreadyExistsException if the course already exists.
      */
-    public void createCourseAndInstructor(String instructorGoogleId, Course course)
+    public Course createCourseAndInstructor(String instructorGoogleId, Course course)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        coursesLogic.createCourseAndInstructor(instructorGoogleId, course);
+        return coursesLogic.createCourseAndInstructor(instructorGoogleId, course);
     }
 
     /**
