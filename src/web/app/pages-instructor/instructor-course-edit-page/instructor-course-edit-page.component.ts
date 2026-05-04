@@ -49,7 +49,6 @@ import {
   DEFAULT_PRIVILEGE_OBSERVER,
   DEFAULT_PRIVILEGE_TUTOR,
 } from '../../../types/default-instructor-privilege';
-import { FormValidator } from '../../../types/form-validator';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import {
@@ -92,7 +91,6 @@ interface InstructorEditPanelDetail {
 export class InstructorCourseEditPageComponent implements OnInit {
   // enum
   EditMode: typeof EditMode = EditMode;
-  FormValidator: typeof FormValidator = FormValidator;
   CoursesSectionQuestions: typeof CoursesSectionQuestions = CoursesSectionQuestions;
   Sections: typeof Sections = Sections;
   CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;

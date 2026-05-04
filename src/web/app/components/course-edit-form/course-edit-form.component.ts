@@ -14,7 +14,7 @@ import { FeedbackSessionsService } from '../../../services/feedback-sessions.ser
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { FeedbackSessions } from '../../../types/api-output';
-import { FormValidator } from '../../../types/form-validator';
+import { COURSE_ID_MAX_LENGTH, COURSE_NAME_MAX_LENGTH } from '../../../types/field-validator';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { CopyCourseModalResult } from '../copy-course-modal/copy-course-modal-model';
@@ -39,7 +39,10 @@ const formatTwoDigits = (n: number): string => {
 export class CourseEditFormComponent implements OnInit, OnDestroy {
   // enum
   CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
-  FormValidator: typeof FormValidator = FormValidator;
+
+  // const
+  readonly COURSE_ID_MAX_LENGTH = COURSE_ID_MAX_LENGTH;
+  readonly COURSE_NAME_MAX_LENGTH = COURSE_NAME_MAX_LENGTH;
 
   @ViewChild('courseForm') form!: UntypedFormGroup;
 
