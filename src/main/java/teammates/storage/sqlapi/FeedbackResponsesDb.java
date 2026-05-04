@@ -1,7 +1,5 @@
 package teammates.storage.sqlapi;
 
-import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -12,8 +10,6 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
 import teammates.common.datatransfer.FeedbackResultFetchType;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -89,18 +85,8 @@ public final class FeedbackResponsesDb {
     /**
      * Creates a feedbackResponse.
      */
-    public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public FeedbackResponse createFeedbackResponse(FeedbackResponse feedbackResponse) {
         assert feedbackResponse != null;
-
-        if (!feedbackResponse.isValid()) {
-            throw new InvalidParametersException(feedbackResponse.getInvalidityInfo());
-        }
-
-        if (getFeedbackResponse(feedbackResponse.getId()) != null) {
-            throw new EntityAlreadyExistsException(
-                    String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, feedbackResponse.toString()));
-        }
 
         HibernateUtil.persist(feedbackResponse);
         return feedbackResponse;
@@ -110,9 +96,7 @@ public final class FeedbackResponsesDb {
      * Deletes a feedbackResponse.
      */
     public void deleteFeedbackResponse(FeedbackResponse feedbackResponse) {
-        if (feedbackResponse != null) {
-            HibernateUtil.remove(feedbackResponse);
-        }
+        HibernateUtil.remove(feedbackResponse);
     }
 
     /**

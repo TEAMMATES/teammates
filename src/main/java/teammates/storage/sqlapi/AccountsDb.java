@@ -1,7 +1,5 @@
 package teammates.storage.sqlapi;
 
-import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -9,8 +7,6 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Account;
 
@@ -67,16 +63,8 @@ public final class AccountsDb {
     /**
      * Creates an Account.
      */
-    public Account createAccount(Account account) throws InvalidParametersException, EntityAlreadyExistsException {
+    public Account createAccount(Account account) {
         assert account != null;
-
-        if (!account.isValid()) {
-            throw new InvalidParametersException(account.getInvalidityInfo());
-        }
-
-        if (getAccountByGoogleId(account.getGoogleId()) != null) {
-            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, account.toString()));
-        }
 
         HibernateUtil.persist(account);
         return account;

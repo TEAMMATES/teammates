@@ -3,6 +3,7 @@ package teammates.sqllogic.core;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -157,18 +158,16 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateDuplicateCourse_throwEntityAlreadyExistsException()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testCreateDuplicateCourse_throwEntityAlreadyExistsException() {
         Course course = getTypicalCourse();
 
-        when(coursesDb.createCourse(course))
-                .thenThrow(new EntityAlreadyExistsException(
-                    String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, course.toString())));
+        when(coursesDb.getCourse(course.getId())).thenReturn(course);
 
         EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
                 () -> coursesLogic.createCourse(course));
 
         assertEquals(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, course.toString()), ex.getMessage());
+        verify(coursesDb, never()).createCourse(course);
     }
 
     @Test

@@ -1,7 +1,5 @@
 package teammates.storage.sqlapi;
 
-import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -12,8 +10,6 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.DeadlineExtension;
@@ -40,18 +36,8 @@ public final class DeadlineExtensionsDb {
     /**
      * Creates a deadline extension.
      */
-    public DeadlineExtension createDeadlineExtension(DeadlineExtension de)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public DeadlineExtension createDeadlineExtension(DeadlineExtension de) {
         assert de != null;
-
-        if (!de.isValid()) {
-            throw new InvalidParametersException(de.getInvalidityInfo());
-        }
-
-        if (getDeadlineExtension(de.getId()) != null) {
-            throw new EntityAlreadyExistsException(
-                    String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, de.toString()));
-        }
 
         HibernateUtil.persist(de);
         return de;

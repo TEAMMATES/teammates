@@ -1,7 +1,5 @@
 package teammates.storage.sqlapi;
 
-import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -10,8 +8,6 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlentity.Course;
@@ -50,18 +46,8 @@ public final class FeedbackResponseCommentsDb {
     /**
      * Creates a feedbackResponseComment.
      */
-    public FeedbackResponseComment createFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public FeedbackResponseComment createFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment) {
         assert feedbackResponseComment != null;
-
-        if (!feedbackResponseComment.isValid()) {
-            throw new InvalidParametersException(feedbackResponseComment.getInvalidityInfo());
-        }
-
-        if (getFeedbackResponseComment(feedbackResponseComment.getId()) != null) {
-            throw new EntityAlreadyExistsException(
-                    String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, feedbackResponseComment.toString()));
-        }
 
         HibernateUtil.persist(feedbackResponseComment);
         return feedbackResponseComment;

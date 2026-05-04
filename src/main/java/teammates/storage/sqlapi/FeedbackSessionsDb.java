@@ -1,7 +1,5 @@
 package teammates.storage.sqlapi;
 
-import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -11,8 +9,6 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
@@ -114,18 +110,8 @@ public final class FeedbackSessionsDb {
     /**
      * Creates a feedback session.
      */
-    public FeedbackSession createFeedbackSession(FeedbackSession session)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public FeedbackSession createFeedbackSession(FeedbackSession session) {
         assert session != null;
-
-        if (!session.isValid()) {
-            throw new InvalidParametersException(session.getInvalidityInfo());
-        }
-
-        if (getFeedbackSession(session.getId()) != null
-                || getFeedbackSession(session.getName(), session.getCourseId()) != null) {
-            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, session.toString()));
-        }
 
         HibernateUtil.persist(session);
         return session;

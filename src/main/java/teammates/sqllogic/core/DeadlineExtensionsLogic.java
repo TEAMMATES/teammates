@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.storage.sqlapi.DeadlineExtensionsDb;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -78,6 +79,14 @@ public final class DeadlineExtensionsLogic {
     public DeadlineExtension createDeadlineExtension(DeadlineExtension deadlineExtension)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert deadlineExtension != null;
+
+        validateDeadlineExtension(deadlineExtension);
+
+        if (deadlineExtensionsDb.getDeadlineExtension(deadlineExtension.getId()) != null) {
+            throw new EntityAlreadyExistsException(
+                    String.format(Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS, deadlineExtension.toString()));
+        }
+
         return deadlineExtensionsDb.createDeadlineExtension(deadlineExtension);
     }
 

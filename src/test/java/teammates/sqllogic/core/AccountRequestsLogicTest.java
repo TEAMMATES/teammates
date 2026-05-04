@@ -3,6 +3,7 @@ package teammates.sqllogic.core;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -60,16 +61,14 @@ public class AccountRequestsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateAccountRequest_invalidParams_failure() throws Exception {
+    public void testCreateAccountRequest_invalidParams_failure() {
         AccountRequest invalidEmailAccountRequest = getTypicalAccountRequest();
         invalidEmailAccountRequest.setEmail("invalid email");
-        when(accountRequestsDb.createAccountRequest(invalidEmailAccountRequest))
-                .thenThrow(new InvalidParametersException("test exception"));
 
         assertThrows(InvalidParametersException.class, () -> {
             accountRequestsLogic.createAccountRequest(invalidEmailAccountRequest);
         });
-        verify(accountRequestsDb, times(1)).createAccountRequest(invalidEmailAccountRequest);
+        verify(accountRequestsDb, never()).createAccountRequest(invalidEmailAccountRequest);
     }
 
     @Test

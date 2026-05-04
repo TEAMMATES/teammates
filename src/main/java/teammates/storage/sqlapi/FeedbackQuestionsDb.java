@@ -1,7 +1,5 @@
 package teammates.storage.sqlapi;
 
-import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -11,8 +9,6 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackQuestion;
@@ -39,21 +35,9 @@ public final class FeedbackQuestionsDb {
      * Creates a new feedback question.
      *
      * @return the created question
-     * @throws InvalidParametersException if the question is invalid
-     * @throws EntityAlreadyExistsException if the question already exists
      */
-    public FeedbackQuestion createFeedbackQuestion(FeedbackQuestion feedbackQuestion)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public FeedbackQuestion createFeedbackQuestion(FeedbackQuestion feedbackQuestion) {
         assert feedbackQuestion != null;
-
-        if (!feedbackQuestion.isValid()) {
-            throw new InvalidParametersException(feedbackQuestion.getInvalidityInfo());
-        }
-
-        if (getFeedbackQuestion(feedbackQuestion.getId()) != null) {
-            String errorMessage = String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, feedbackQuestion.toString());
-            throw new EntityAlreadyExistsException(errorMessage);
-        }
 
         HibernateUtil.persist(feedbackQuestion);
         return feedbackQuestion;

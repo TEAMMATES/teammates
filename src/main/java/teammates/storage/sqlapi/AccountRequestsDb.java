@@ -12,7 +12,6 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.AccountRequest;
@@ -47,12 +46,9 @@ public final class AccountRequestsDb {
     /**
      * Creates an AccountRequest in the database.
      */
-    public AccountRequest createAccountRequest(AccountRequest accountRequest) throws InvalidParametersException {
+    public AccountRequest createAccountRequest(AccountRequest accountRequest) {
         assert accountRequest != null;
 
-        if (!accountRequest.isValid()) {
-            throw new InvalidParametersException(accountRequest.getInvalidityInfo());
-        }
         HibernateUtil.persist(accountRequest);
         return accountRequest;
     }

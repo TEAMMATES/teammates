@@ -1,5 +1,7 @@
 package teammates.sqllogic.core;
 
+import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -81,6 +83,13 @@ public final class AccountsLogic {
     public Account createAccount(Account account)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert account != null;
+
+        validateAccount(account);
+
+        if (getAccountForGoogleId(account.getGoogleId()) != null) {
+            throw new EntityAlreadyExistsException(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, account.toString()));
+        }
+
         return accountsDb.createAccount(account);
     }
 
@@ -244,5 +253,11 @@ public final class AccountsLogic {
         }
 
         return studentRole;
+    }
+
+    private void validateAccount(Account account) throws InvalidParametersException {
+        if (!account.isValid()) {
+            throw new InvalidParametersException(account.getInvalidityInfo());
+        }
     }
 }

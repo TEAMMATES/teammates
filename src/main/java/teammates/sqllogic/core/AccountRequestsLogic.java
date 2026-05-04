@@ -40,6 +40,7 @@ public final class AccountRequestsLogic {
      * Creates an account request.
      */
     public AccountRequest createAccountRequest(AccountRequest accountRequest) throws InvalidParametersException {
+        validateAccountRequest(accountRequest);
         return accountRequestDb.createAccountRequest(accountRequest);
     }
 
@@ -50,7 +51,7 @@ public final class AccountRequestsLogic {
             String comments) throws InvalidParametersException {
         AccountRequest toCreate = new AccountRequest(email, name, institute, status, comments);
 
-        return accountRequestDb.createAccountRequest(toCreate);
+        return createAccountRequest(toCreate);
     }
 
     /**
