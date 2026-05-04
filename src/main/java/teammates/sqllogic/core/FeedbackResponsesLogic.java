@@ -199,9 +199,7 @@ public final class FeedbackResponsesLogic {
      */
     public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse feedbackResponse)
             throws InvalidParametersException, EntityDoesNotExistException {
-        if (!feedbackResponse.isValid()) {
-            throw new InvalidParametersException(feedbackResponse.getInvalidityInfo());
-        }
+        validateFeedbackResponse(feedbackResponse);
 
         // TODO: investigate for bugs, oldResponse and newResponse are the same object.
         FeedbackResponse oldResponse = frDb.getFeedbackResponse(feedbackResponse.getId());
@@ -1146,6 +1144,12 @@ public final class FeedbackResponsesLogic {
     private List<FeedbackResponse> getFeedbackResponsesForRecipientForQuestion(
             UUID feedbackQuestionId, String userEmail) {
         return frDb.getFeedbackResponsesForRecipientForQuestion(feedbackQuestionId, userEmail);
+    }
+
+    private void validateFeedbackResponse(FeedbackResponse feedbackResponse) throws InvalidParametersException {
+        if (!feedbackResponse.isValid()) {
+            throw new InvalidParametersException(feedbackResponse.getInvalidityInfo());
+        }
     }
 
     /**

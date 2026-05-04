@@ -93,10 +93,7 @@ public final class FeedbackResponseCommentsLogic {
      */
     public FeedbackResponseComment updateFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment)
             throws InvalidParametersException {
-        if (!feedbackResponseComment.isValid()) {
-            throw new InvalidParametersException(feedbackResponseComment.getInvalidityInfo());
-        }
-
+        validateFeedbackResponseComment(feedbackResponseComment);
         return feedbackResponseComment;
     }
 
@@ -281,6 +278,13 @@ public final class FeedbackResponseCommentsLogic {
         }
 
         return checkIsFeedbackParticipantNameVisibleToUser(response, userEmail, roster, showNameTo);
+    }
+
+    private void validateFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment)
+            throws InvalidParametersException {
+        if (!feedbackResponseComment.isValid()) {
+            throw new InvalidParametersException(feedbackResponseComment.getInvalidityInfo());
+        }
     }
 
     private boolean checkIsFeedbackParticipantNameVisibleToUser(FeedbackResponse response,

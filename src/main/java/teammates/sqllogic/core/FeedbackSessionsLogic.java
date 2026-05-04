@@ -233,9 +233,7 @@ public final class FeedbackSessionsLogic {
         session.setClosingSoonEmailEnabled(updateRequest.isClosingSoonEmailEnabled());
         session.setPublishedEmailEnabled(updateRequest.isPublishedEmailEnabled());
 
-        if (!session.isValid()) {
-            throw new InvalidParametersException(session.getInvalidityInfo());
-        }
+        validateFeedbackSession(session);
 
         return session;
     }
@@ -606,5 +604,12 @@ public final class FeedbackSessionsLogic {
      */
     public int getActualTotalSubmission(FeedbackSession fs) {
         return getGiverSetThatAnsweredFeedbackSession(fs).size();
+    }
+
+    private void validateFeedbackSession(FeedbackSession feedbackSession)
+            throws InvalidParametersException {
+        if (!feedbackSession.isValid()) {
+            throw new InvalidParametersException(feedbackSession.getInvalidityInfo());
+        }
     }
 }

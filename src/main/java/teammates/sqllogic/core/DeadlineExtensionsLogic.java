@@ -106,9 +106,8 @@ public final class DeadlineExtensionsLogic {
         if (existing == null) {
             throw new EntityDoesNotExistException("Trying to update non-existent Entity: " + de);
         }
-        if (!de.isValid()) {
-            throw new InvalidParametersException(de.getInvalidityInfo());
-        }
+
+        validateDeadlineExtension(de);
         return de;
     }
 
@@ -139,5 +138,11 @@ public final class DeadlineExtensionsLogic {
                 deleteDeadlineExtension(deadlineExtension);
             }
         });
+    }
+
+    private void validateDeadlineExtension(DeadlineExtension deadlineExtension) throws InvalidParametersException {
+        if (!deadlineExtension.isValid()) {
+            throw new InvalidParametersException(deadlineExtension.getInvalidityInfo());
+        }
     }
 }
