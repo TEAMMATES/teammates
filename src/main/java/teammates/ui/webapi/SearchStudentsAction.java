@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 import teammates.ui.output.StudentData;
 import teammates.ui.output.StudentsData;
 
@@ -35,16 +35,15 @@ public class SearchStudentsAction extends Action {
         List<Student> students;
 
         if (userInfo.isInstructor && Const.EntityType.INSTRUCTOR.equals(entity)) {
-            List<Instructor> instructors = sqlLogic.getInstructorsForGoogleId(userInfo.id);
-            students = sqlLogic.searchStudents(searchKey, instructors);
+            List<Instructor> instructors = logic.getInstructorsForGoogleId(userInfo.id);
+            students = logic.searchStudents(searchKey, instructors);
         } else if (userInfo.isAdmin && Const.EntityType.ADMIN.equals(entity)) {
-            students = sqlLogic.searchStudentsInWholeSystem(searchKey);
+            students = logic.searchStudentsInWholeSystem(searchKey);
         } else {
             throw new InvalidHttpParameterException("Invalid entity type for search");
         }
 
         List<StudentData> studentDataList = new ArrayList<>();
-        // Add students from sql database
         for (Student s : students) {
             StudentData studentData = new StudentData(s);
 

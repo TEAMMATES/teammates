@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
 import teammates.ui.output.OngoingSession;
 import teammates.ui.output.OngoingSessionsData;
 
@@ -31,7 +31,7 @@ public class GetOngoingSessionsAction extends AdminOnlyAction {
         validateTimeParameters(startTime, endTime);
         Instant rangeStart = Instant.ofEpochMilli(startTime);
         Instant rangeEnd = Instant.ofEpochMilli(endTime);
-        List<FeedbackSession> ongoingSessions = sqlLogic.getOngoingSessions(rangeStart, rangeEnd);
+        List<FeedbackSession> ongoingSessions = logic.getOngoingSessions(rangeStart, rangeEnd);
         Map<String, List<FeedbackSession>> courseIdToFeedbackSessionsMap =
                 createCourseIdToFeedbackSessionsMap(ongoingSessions);
         Map<String, List<OngoingSession>> instituteToFeedbackSessionsMap =
@@ -86,9 +86,9 @@ public class GetOngoingSessionsAction extends AdminOnlyAction {
         for (var courseIdFeedbackSessionList : courseIdToFeedbackSessionsMap.entrySet()) {
             String courseId = courseIdFeedbackSessionList.getKey();
             List<FeedbackSession> feedbackSessions = courseIdFeedbackSessionList.getValue();
-            List<Instructor> instructors = sqlLogic.getInstructorsByCourse(courseId);
+            List<Instructor> instructors = logic.getInstructorsByCourse(courseId);
             String googleId = getRegisteredInstructorGoogleIdFromInstructors(instructors);
-            String institute = sqlLogic.getCourse(courseId).getInstitute();
+            String institute = logic.getCourse(courseId).getInstitute();
             List<OngoingSession> sessions = feedbackSessions.stream()
                     .map(session -> new OngoingSession(session, googleId))
                     .collect(Collectors.toList());

@@ -6,8 +6,8 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.questions.FeedbackTextQuestion;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.questions.FeedbackTextQuestion;
 import teammates.test.BaseTestCase;
 
 /**
@@ -90,7 +90,7 @@ public class FeedbackTextQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidateGiverRecipientVisibilitySql_shouldReturnEmptyString() {
+    public void testValidateGiverRecipientVisibility_shouldReturnEmptyString() {
         FeedbackQuestion feedbackQuestion = new FeedbackTextQuestion(
                 null, 1, null,
                 FeedbackParticipantType.STUDENTS, FeedbackParticipantType.OWN_TEAM_MEMBERS,

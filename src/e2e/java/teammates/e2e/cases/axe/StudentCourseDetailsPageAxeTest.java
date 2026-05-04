@@ -6,7 +6,7 @@ import com.deque.html.axecore.results.Results;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.StudentCourseDetailsPageSql;
+import teammates.e2e.pageobjects.StudentCourseDetailsPage;
 
 /**
  * SUT: {@link Const.WebPageURIs#STUDENT_COURSE_DETAILS_PAGE}.
@@ -25,7 +25,7 @@ public class StudentCourseDetailsPageAxeTest extends BaseAxeTestCase {
 
         AppUrl url = createFrontendUrl(Const.WebPageURIs.STUDENT_COURSE_DETAILS_PAGE)
                 .withCourseId("tm.e2e.SCDet.CS2104");
-        StudentCourseDetailsPageSql detailsPage = loginToPage(url, StudentCourseDetailsPageSql.class,
+        StudentCourseDetailsPage detailsPage = loginToPage(url, StudentCourseDetailsPage.class,
                 testData.students.get("SCDet.alice").getGoogleId());
 
         Results results = getAxeBuilder().analyze(detailsPage.getBrowser().getDriver());

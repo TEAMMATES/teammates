@@ -11,7 +11,7 @@ import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.storage.sqlentity.Notification;
+import teammates.storage.entity.Notification;
 
 /**
  * Page Object Model for the admin notifications page.

@@ -4,10 +4,10 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorCourseStudentDetailsEditPageSql;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlentity.Team;
+import teammates.e2e.pageobjects.InstructorCourseStudentDetailsEditPage;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Student;
+import teammates.storage.entity.Team;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_PAGE}.
@@ -33,8 +33,8 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
         AppUrl editPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_PAGE)
                 .withCourseId(course.getId())
                 .withStudentEmail(student.getEmail());
-        InstructorCourseStudentDetailsEditPageSql editPage =
-                loginToPage(editPageUrl, InstructorCourseStudentDetailsEditPageSql.class,
+        InstructorCourseStudentDetailsEditPage editPage =
+                loginToPage(editPageUrl, InstructorCourseStudentDetailsEditPage.class,
                         testData.instructors.get("ICSDetEdit.instr").getGoogleId());
 
         ______TS("verify loaded data");
@@ -51,7 +51,7 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
         verifyPresentInDatabase(student);
 
         ______TS("cannot edit to an existing email");
-        editPage = getNewPageInstance(editPageUrl, InstructorCourseStudentDetailsEditPageSql.class);
+        editPage = getNewPageInstance(editPageUrl, InstructorCourseStudentDetailsEditPage.class);
         editPage.editStudentEmailAndResendLinks(otherStudent.getEmail());
 
         editPage.verifyStatusMessage("Trying to update to an email that is already in use");

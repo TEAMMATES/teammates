@@ -9,7 +9,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
-import teammates.storage.sqlentity.AccountRequest;
+import teammates.storage.entity.AccountRequest;
 import teammates.ui.output.JoinLinkData;
 
 /**
@@ -23,7 +23,7 @@ public class ResetAccountRequestAction extends AdminOnlyAction {
     public JsonResult execute() throws InvalidOperationException {
         UUID id = getUuidRequestParamValue(Const.ParamsNames.ACCOUNT_REQUEST_ID);
 
-        AccountRequest accountRequest = sqlLogic.getAccountRequest(id);
+        AccountRequest accountRequest = logic.getAccountRequest(id);
 
         if (accountRequest == null) {
             throw new EntityNotFoundException("Account request with id: " + id.toString() + " does not exist.");
@@ -33,7 +33,7 @@ public class ResetAccountRequestAction extends AdminOnlyAction {
         }
 
         try {
-            accountRequest = sqlLogic.resetAccountRequest(id);
+            accountRequest = logic.resetAccountRequest(id);
         } catch (InvalidParametersException | EntityDoesNotExistException ue) {
             // InvalidParametersException and EntityDoesNotExistException should not be thrown as
             // validity of params has been verified when fetching entity.

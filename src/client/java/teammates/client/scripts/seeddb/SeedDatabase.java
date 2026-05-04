@@ -21,11 +21,11 @@ import teammates.common.util.Config;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.Logger;
 import teammates.common.util.Templates;
-import teammates.sqllogic.api.Logic;
-import teammates.sqllogic.core.DataBundleLogic;
-import teammates.sqllogic.core.LogicStarter;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Instructor;
+import teammates.logic.api.Logic;
+import teammates.logic.core.DataBundleLogic;
+import teammates.logic.core.LogicStarter;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Instructor;
 import teammates.test.FileHelper;
 
 /**

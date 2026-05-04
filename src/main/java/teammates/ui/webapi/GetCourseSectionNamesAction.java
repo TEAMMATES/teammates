@@ -4,8 +4,8 @@ import java.util.List;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Instructor;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Instructor;
 import teammates.ui.output.CourseSectionNamesData;
 
 /**
@@ -21,8 +21,8 @@ public class GetCourseSectionNamesAction extends Action {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Course course = sqlLogic.getCourse(courseId);
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+        Course course = logic.getCourse(courseId);
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.id);
 
         gateKeeper.verifyAccessible(instructor, course);
     }
@@ -31,7 +31,7 @@ public class GetCourseSectionNamesAction extends Action {
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         try {
-            List<String> sectionNames = sqlLogic.getSectionNamesForCourse(courseId);
+            List<String> sectionNames = logic.getSectionNamesForCourse(courseId);
             return new JsonResult(new CourseSectionNamesData(sectionNames));
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);

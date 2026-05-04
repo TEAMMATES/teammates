@@ -16,14 +16,14 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorFeedbackResultsPageSql;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackResponse;
-import teammates.storage.sqlentity.FeedbackResponseComment;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.e2e.pageobjects.InstructorFeedbackResultsPage;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackResponseComment;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 import teammates.test.ThreadHelper;
 import teammates.ui.output.FeedbackSessionData;
 
@@ -40,7 +40,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     private Collection<Student> students;
 
     private AppUrl resultsUrl;
-    private InstructorFeedbackResultsPageSql resultsPage;
+    private InstructorFeedbackResultsPage resultsPage;
 
     // Maps to organise responses
     private Map<FeedbackQuestion, List<FeedbackResponse>> questionToResponses;
@@ -121,14 +121,13 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         );
 
         responseWithComment = testData.feedbackResponses.get("qn2response1");
-        FeedbackResponseComment sqlComment = testData.feedbackResponseComments.get("qn2Comment2");
+        comment = testData.feedbackResponseComments.get("qn2Comment2");
         // Update the comment via API to ensure updatedAt differs from createdAt
         // (The frontend only shows "edited by" when lastEditedAt !== createdAt)
-        String updatedCommentText = sqlComment.getCommentText() + " (edited)";
-        updateFeedbackResponseComment(sqlComment.getId(), updatedCommentText, instructor.getGoogleId());
+        String updatedCommentText = comment.getCommentText() + " (edited)";
+        updateFeedbackResponseComment(comment.getId(), updatedCommentText, instructor.getGoogleId());
         // Update local object to match the new comment text in the database
-        sqlComment.setCommentText(updatedCommentText);
-        comment = sqlComment;
+        comment.setCommentText(updatedCommentText);
     }
 
     @Test
@@ -143,7 +142,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     }
 
     private void testQuestionView() {
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
 
         ______TS("Question view: no missing responses");
         resultsPage.includeMissingResponses(false);
@@ -180,7 +179,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     }
 
     private void testGrqView() {
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
 
         ______TS("GRQ view: no missing responses");
         boolean isGroupedByTeam = true;
@@ -213,7 +212,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     }
 
     private void testRgqView() {
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
 
         ______TS("RGQ view: no missing responses");
         boolean isGroupedByTeam = true;
@@ -247,7 +246,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     }
 
     private void testGqrView() {
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
 
         ______TS("GQR view: no missing responses");
         boolean isGroupedByTeam = true;
@@ -289,7 +288,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     }
 
     private void testRqgView() {
-        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
 
         ______TS("RQG view: no missing responses");
         boolean isGroupedByTeam = true;
@@ -339,7 +338,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
                 .withCourseId(course.getId())
                 .withFeedbackSessionId(feedbackSession.getId().toString())
                 .withSessionName(feedbackSession.getName());
-        resultsPage = loginToPage(url, InstructorFeedbackResultsPageSql.class, instructor.getGoogleId());
+        resultsPage = loginToPage(url, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
 
         ______TS("verify loaded session details");
         // Sync resultsVisibleFromTime from database as it may differ from JSON test data
@@ -433,7 +432,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         });
     }
 
-    private String getTeamNameSql(String participantEmail) {
+    private String getTeamName(String participantEmail) {
         return students.stream()
                 .filter(s -> s.getEmail().equals(participantEmail))
                 .findFirst()
@@ -449,7 +448,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         Map<String, List<FeedbackResponse>> teamResponses = new HashMap<>();
         for (Map.Entry<String, List<FeedbackResponse>> entry : userToResponses.entrySet()) {
             String user = entry.getKey();
-            String team = getTeamNameSql(user);
+            String team = getTeamName(user);
             List<FeedbackResponse> responses = entry.getValue();
             teamResponses.computeIfAbsent(team, k -> new ArrayList<>()).addAll(responses);
         }

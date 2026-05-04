@@ -8,8 +8,8 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Instructor;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Instructor;
 import teammates.ui.output.CourseData;
 import teammates.ui.request.CourseCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -31,10 +31,10 @@ public class CreateCourseAction extends Action {
         }
 
         String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
-        List<Instructor> existingInstructors = sqlLogic.getInstructorsForGoogleId(userInfo.getId());
+        List<Instructor> existingInstructors = logic.getInstructorsForGoogleId(userInfo.getId());
         boolean canCreateCourse = existingInstructors.stream()
                 .filter(Instructor::hasCoownerPrivileges)
-                .map(instructor -> sqlLogic.getCourse(instructor.getCourseId()))
+                .map(instructor -> logic.getCourse(instructor.getCourseId()))
                 .filter(Objects::nonNull)
                 .anyMatch(course -> institute.equals(course.getInstitute()));
 
@@ -62,7 +62,7 @@ public class CreateCourseAction extends Action {
         course.setCreatedAt(Instant.now());
 
         try {
-            Course createdCourse = sqlLogic.createCourseAndInstructor(userInfo.getId(), course);
+            Course createdCourse = logic.createCourseAndInstructor(userInfo.getId(), course);
             return new JsonResult(new CourseData(createdCourse));
 
         } catch (EntityAlreadyExistsException e) {

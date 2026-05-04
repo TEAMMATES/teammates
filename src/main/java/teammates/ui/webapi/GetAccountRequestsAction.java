@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.AccountRequest;
+import teammates.storage.entity.AccountRequest;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.output.AccountRequestsData;
 
@@ -21,7 +21,7 @@ public class GetAccountRequestsAction extends AdminOnlyAction {
             throw new InvalidHttpParameterException("Only 'pending' is allowed for account request status.");
         }
 
-        List<AccountRequest> accountRequests = sqlLogic.getPendingAccountRequests();
+        List<AccountRequest> accountRequests = logic.getPendingAccountRequests();
         List<AccountRequestData> accountRequestDatas = accountRequests
                 .stream()
                 .map(ar -> new AccountRequestData(ar))

@@ -9,14 +9,14 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
+import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorStudentActivityLogsPage;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackResponse;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_STUDENT_ACTIVITY_LOGS_PAGE}.
@@ -70,8 +70,8 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
                 .withCourseId(course.getId())
                 .withFeedbackSessionId(feedbackSession.getId().toString())
                 .withSessionName(feedbackSession.getName());
-        FeedbackSubmitPageSql studentSubmissionPage = loginToPage(studentSubmissionPageUrl,
-                FeedbackSubmitPageSql.class, student.getGoogleId());
+        FeedbackSubmitPage studentSubmissionPage = loginToPage(studentSubmissionPageUrl,
+                FeedbackSubmitPage.class, student.getGoogleId());
 
         Student receiver = testData.students.get("benny.tmms@ISActLogs.CS2104");
 

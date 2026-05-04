@@ -15,7 +15,7 @@ public class CleanupFeedbackSessionLogsAction extends AdminOnlyAction {
     @Override
     public JsonResult execute() {
         Instant cutoffTime = Instant.now(clock).minus(Const.STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD);
-        sqlLogic.deleteFeedbackSessionLogsOlderThan(cutoffTime);
+        logic.deleteFeedbackSessionLogsOlderThan(cutoffTime);
         return new JsonResult("Successful");
     }
 }

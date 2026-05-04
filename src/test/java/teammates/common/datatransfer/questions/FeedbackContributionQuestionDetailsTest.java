@@ -13,7 +13,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.questions.FeedbackContributionQuestion;
+import teammates.storage.entity.questions.FeedbackContributionQuestion;
 import teammates.test.BaseTestCase;
 
 /**

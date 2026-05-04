@@ -5,7 +5,7 @@ import java.util.List;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
-import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.entity.FeedbackSession;
 
 /**
  * Cron job: schedules feedback session opened emails to be sent.
@@ -16,7 +16,7 @@ public class FeedbackSessionOpenedRemindersAction extends AutomatedServiceAction
 
     @Override
     public JsonResult execute() {
-        List<FeedbackSession> sessions = sqlLogic.getFeedbackSessionsWhichNeedOpenedEmailsToBeSent();
+        List<FeedbackSession> sessions = logic.getFeedbackSessionsWhichNeedOpenedEmailsToBeSent();
 
         for (FeedbackSession session : sessions) {
             RequestTracer.checkRemainingTime();

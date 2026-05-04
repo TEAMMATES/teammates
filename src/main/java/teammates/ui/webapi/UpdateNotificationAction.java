@@ -6,7 +6,7 @@ import java.util.UUID;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Notification;
+import teammates.storage.entity.Notification;
 import teammates.ui.output.NotificationData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.NotificationUpdateRequest;
@@ -25,7 +25,7 @@ public class UpdateNotificationAction extends AdminOnlyAction {
         Instant endTime = Instant.ofEpochMilli(notificationRequest.getEndTimestamp());
 
         try {
-            Notification updateNotification = sqlLogic.updateNotification(notificationId, startTime, endTime,
+            Notification updateNotification = logic.updateNotification(notificationId, startTime, endTime,
                     notificationRequest.getStyle(), notificationRequest.getTargetUser(), notificationRequest.getTitle(),
                     notificationRequest.getMessage());
 

@@ -8,10 +8,10 @@ import java.util.UUID;
 
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlentity.User;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 import teammates.ui.request.FeedbackSessionRespondentRemindRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
@@ -28,12 +28,12 @@ public class RemindFeedbackSessionResultAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
+        Instructor instructor = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
         gateKeeper.verifyAccessible(instructor, feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
@@ -41,7 +41,7 @@ public class RemindFeedbackSessionResultAction extends Action {
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
@@ -58,10 +58,10 @@ public class RemindFeedbackSessionResultAction extends Action {
         // Generate reminder emails for specified users
         List<Student> studentsToRemindList = new ArrayList<>();
         List<Instructor> instructorsToRemindList = new ArrayList<>();
-        Instructor instructorToNotify = sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
+        Instructor instructorToNotify = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
 
         for (UUID userId : usersToRemind) {
-            User user = sqlLogic.getUser(userId);
+            User user = logic.getUser(userId);
             if (user == null) {
                 throw new EntityNotFoundException("User with ID " + userId + " not found");
             }

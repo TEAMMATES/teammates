@@ -7,7 +7,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Logger;
-import teammates.storage.sqlentity.Notification;
+import teammates.storage.entity.Notification;
 import teammates.ui.output.NotificationData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.NotificationCreateRequest;
@@ -29,7 +29,7 @@ public class CreateNotificationAction extends AdminOnlyAction {
                 notificationRequest.getTargetUser(), notificationRequest.getTitle(), notificationRequest.getMessage());
 
         try {
-            return new JsonResult(new NotificationData(sqlLogic.createNotification(newNotification)));
+            return new JsonResult(new NotificationData(logic.createNotification(newNotification)));
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         } catch (EntityAlreadyExistsException e) {

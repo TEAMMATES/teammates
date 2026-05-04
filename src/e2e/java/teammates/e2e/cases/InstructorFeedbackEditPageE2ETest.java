@@ -12,13 +12,13 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
-import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
+import teammates.e2e.pageobjects.FeedbackSubmitPage;
+import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
 import teammates.e2e.util.EntityCopyUtil;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}.
@@ -45,8 +45,8 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
                 .withCourseId(course.getId())
                 .withFeedbackSessionId(feedbackSession.getId().toString())
                 .withSessionName(feedbackSession.getName());
-        InstructorFeedbackEditPageSql feedbackEditPage =
-                loginToPage(url, InstructorFeedbackEditPageSql.class, instructor.getGoogleId());
+        InstructorFeedbackEditPage feedbackEditPage =
+                loginToPage(url, InstructorFeedbackEditPage.class, instructor.getGoogleId());
 
         ______TS("verify loaded data");
         feedbackEditPage.verifySessionDetails(course, feedbackSession);
@@ -131,7 +131,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         feedbackEditPage.verifyQuestionDetails(3, editedQuestion);
 
         ______TS("preview session as student");
-        FeedbackSubmitPageSql previewPage = feedbackEditPage.previewAsStudent(testData.students.get("InstFEP.jose.tmms"));
+        FeedbackSubmitPage previewPage = feedbackEditPage.previewAsStudent(testData.students.get("InstFEP.jose.tmms"));
         previewPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("preview session as instructor");

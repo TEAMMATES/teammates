@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackQuestion;
 
 /**
  * Contains specific structure and processing logic for rank options feedback questions.
