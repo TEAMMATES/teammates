@@ -81,7 +81,7 @@ public final class CoursesLogic {
      * <br/>Preconditions: <br/>
      * * {@code instructorGoogleId} already has an account and instructor privileges.
      */
-    public void createCourseAndInstructor(String instructorGoogleId, Course courseToCreate)
+    public Course createCourseAndInstructor(String instructorGoogleId, Course courseToCreate)
             throws InvalidParametersException, EntityAlreadyExistsException {
 
         Account courseCreator = accountsLogic.getAccountForGoogleId(instructorGoogleId);
@@ -109,6 +109,8 @@ public final class CoursesLogic {
                                   + System.lineSeparator() + courseToCreate.toString();
             assert false : errorMessage;
         }
+
+        return createdCourse;
     }
 
     /**
