@@ -2,7 +2,10 @@
 
 exports[`InstructorCourseStudentEditPageComponent should snap when student is still loading 1`] = `
 <tm-instructor-course-student-edit-page
-  FormValidator={[Function Object]}
+  EMAIL_MAX_LENGTH={[Function Number]}
+  SECTION_NAME_MAX_LENGTH={[Function Number]}
+  STUDENT_NAME_MAX_LENGTH={[Function Number]}
+  TEAM_NAME_MAX_LENGTH={[Function Number]}
   courseId="undefined"
   editForm="undefined"
   emailFieldSubscription="undefined"
@@ -47,7 +50,10 @@ exports[`InstructorCourseStudentEditPageComponent should snap when student is st
 
 exports[`InstructorCourseStudentEditPageComponent should snap with default fields 1`] = `
 <tm-instructor-course-student-edit-page
-  FormValidator={[Function Object]}
+  EMAIL_MAX_LENGTH={[Function Number]}
+  SECTION_NAME_MAX_LENGTH={[Function Number]}
+  STUDENT_NAME_MAX_LENGTH={[Function Number]}
+  TEAM_NAME_MAX_LENGTH={[Function Number]}
   courseId="undefined"
   editForm="undefined"
   emailFieldSubscription="undefined"
@@ -92,7 +98,10 @@ exports[`InstructorCourseStudentEditPageComponent should snap with default field
 
 exports[`InstructorCourseStudentEditPageComponent should snap with student details 1`] = `
 <tm-instructor-course-student-edit-page
-  FormValidator={[Function Object]}
+  EMAIL_MAX_LENGTH={[Function Number]}
+  SECTION_NAME_MAX_LENGTH={[Function Number]}
+  STUDENT_NAME_MAX_LENGTH={[Function Number]}
+  TEAM_NAME_MAX_LENGTH={[Function Number]}
   courseId="undefined"
   editForm={[Function FormGroup]}
   emailFieldSubscription="undefined"
