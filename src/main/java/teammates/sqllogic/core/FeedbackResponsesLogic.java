@@ -22,6 +22,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.sqlapi.FeedbackResponsesDb;
@@ -199,11 +200,14 @@ public final class FeedbackResponsesLogic {
      */
     public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse feedbackResponse)
             throws InvalidParametersException, EntityDoesNotExistException {
-        // TODO: do not pass detached entities around
+
         FeedbackResponse oldResponse = frDb.getFeedbackResponse(feedbackResponse.getId());
         if (oldResponse == null) {
             throw new EntityDoesNotExistException("Trying to update non-existent Entity: " + feedbackResponse);
         }
+
+        // TODO: do not pass detached entities around
+        HibernateUtil.merge(feedbackResponse);
 
         List<FeedbackResponseComment> oldResponseComments = oldResponse.getFeedbackResponseComments();
 
@@ -214,9 +218,9 @@ public final class FeedbackResponsesLogic {
             frcLogic.updateFeedbackResponseComment(oldResponseComment);
         }
 
-        validateFeedbackResponse(oldResponse);
+        validateFeedbackResponse(feedbackResponse);
 
-        return oldResponse;
+        return feedbackResponse;
     }
 
     /**
