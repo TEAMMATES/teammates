@@ -69,7 +69,7 @@ ${
         }),
       ];
       if (statsCalculation.hasWeights) {
-        currRow.push(String(this.getDisplayWeight(statsCalculation.subQuestionWeightAverage[questionIndex])));
+        currRow.push(this.getDisplayWeight(statsCalculation.subQuestionWeightAverage[questionIndex]));
       }
       statsRows.push(currRow);
     });
@@ -108,8 +108,8 @@ ${
 (${perRecipientStats.answers[questionIndex][choiceIndex]}) \
 [${this.getDisplayWeight(statsCalculation.weights[questionIndex][choiceIndex])}]`;
             }),
-            String(this.getDisplayWeight(perRecipientStats.subQuestionTotalChosenWeight[questionIndex])),
-            String(this.getDisplayWeight(perRecipientStats.subQuestionWeightAverage[questionIndex])),
+            this.getDisplayWeight(perRecipientStats.subQuestionTotalChosenWeight[questionIndex]),
+            this.getDisplayWeight(perRecipientStats.subQuestionWeightAverage[questionIndex]),
           ]);
         });
       });
@@ -145,9 +145,9 @@ ${
 (${perRecipientStats.answersSum[choiceIndex]}) \
 [${this.getDisplayWeight(perRecipientStats.weightsAverage[choiceIndex])}]`;
           }),
-          String(this.getDisplayWeight(perRecipientStats.overallWeightedSum)),
-          String(this.getDisplayWeight(perRecipientStats.overallWeightAverage)),
-          String(perCriterionAverage),
+          this.getDisplayWeight(perRecipientStats.overallWeightedSum),
+          this.getDisplayWeight(perRecipientStats.overallWeightAverage),
+          perCriterionAverage,
         ]);
       });
 
@@ -162,7 +162,7 @@ ${
     return true;
   }
 
-  private getDisplayWeight(weight: number): any {
-    return weight === null || weight === NO_VALUE ? '-' : weight;
+  private getDisplayWeight(weight: number): string {
+    return weight === null || weight === NO_VALUE ? '-' : String(weight);
   }
 }
