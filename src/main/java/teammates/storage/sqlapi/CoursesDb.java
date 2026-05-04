@@ -46,7 +46,6 @@ public final class CoursesDb {
         assert course != null;
 
         HibernateUtil.persist(course);
-        HibernateUtil.flushSession();
         return course;
     }
 

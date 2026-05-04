@@ -278,14 +278,14 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponse> responsesFromStudent =
                 getFeedbackResponsesFromGiverForCourse(courseId, entityEmail);
         for (FeedbackResponse response : responsesFromStudent) {
-            frDb.deleteFeedbackResponse(response);
+            deleteFeedbackResponsesAndCommentsCascade(response);
         }
 
         // delete responses to the entity
         List<FeedbackResponse> responsesToStudent =
                 getFeedbackResponsesForRecipientForCourse(courseId, entityEmail);
         for (FeedbackResponse response : responsesToStudent) {
-            frDb.deleteFeedbackResponse(response);
+            deleteFeedbackResponsesAndCommentsCascade(response);
         }
     }
 

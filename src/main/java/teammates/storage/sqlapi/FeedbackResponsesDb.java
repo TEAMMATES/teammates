@@ -96,9 +96,7 @@ public final class FeedbackResponsesDb {
      * Deletes a feedbackResponse.
      */
     public void deleteFeedbackResponse(FeedbackResponse feedbackResponse) {
-        if (feedbackResponse != null) {
-            HibernateUtil.remove(feedbackResponse);
-        }
+        HibernateUtil.remove(feedbackResponse);
     }
 
     /**
