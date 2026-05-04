@@ -1,7 +1,6 @@
 package teammates.storage.sqlapi;
 
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
-import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.time.Instant;
 import java.util.List;
@@ -14,7 +13,6 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.TimeHelper;
@@ -87,28 +85,6 @@ public final class DeadlineExtensionsDb {
 
         TypedQuery<DeadlineExtension> query = HibernateUtil.createQuery(cr);
         return query.getResultStream().findFirst().orElse(null);
-    }
-
-    /**
-     * Saves an updated {@code DeadlineExtension} to the db.
-     *
-     * @return updated deadline extension
-     * @throws InvalidParametersException  if attributes to update are not valid
-     * @throws EntityDoesNotExistException if the deadline extension cannot be found
-     */
-    public DeadlineExtension updateDeadlineExtension(DeadlineExtension deadlineExtension)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        assert deadlineExtension != null;
-
-        if (!deadlineExtension.isValid()) {
-            throw new InvalidParametersException(deadlineExtension.getInvalidityInfo());
-        }
-
-        if (getDeadlineExtension(deadlineExtension.getId()) == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        return HibernateUtil.merge(deadlineExtension);
     }
 
     /**

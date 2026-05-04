@@ -1,7 +1,5 @@
 package teammates.storage.sqlapi;
 
-import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +12,6 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
@@ -124,26 +121,6 @@ public final class AccountRequestsDb {
 
         TypedQuery<AccountRequest> query = HibernateUtil.createQuery(cr);
         return query.getResultList();
-    }
-
-    /**
-     * Updates or creates (if does not exist) the AccountRequest in the database.
-     */
-    public AccountRequest updateAccountRequest(AccountRequest accountRequest)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        assert accountRequest != null;
-
-        if (!accountRequest.isValid()) {
-            throw new InvalidParametersException(accountRequest.getInvalidityInfo());
-        }
-
-        if (getAccountRequest(accountRequest.getId()) == null) {
-            throw new EntityDoesNotExistException(
-                String.format(ERROR_UPDATE_NON_EXISTENT, accountRequest.toString()));
-        }
-
-        HibernateUtil.merge(accountRequest);
-        return accountRequest;
     }
 
     /**

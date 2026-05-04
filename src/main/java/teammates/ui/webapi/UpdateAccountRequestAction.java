@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.sqlentity.AccountRequest;
@@ -39,8 +38,6 @@ public class UpdateAccountRequestAction extends AdminOnlyAction {
             accountRequest = sqlLogic.updateAccountRequest(accountRequest);
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
-        } catch (EntityDoesNotExistException e) {
-            throw new EntityNotFoundException(e);
         }
 
         return new JsonResult(new AccountRequestData(accountRequest));

@@ -129,7 +129,7 @@ public class Logic {
      * @return the updated account request.
      */
     public AccountRequest updateAccountRequest(AccountRequest accountRequest)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException {
         return accountRequestLogic.updateAccountRequest(accountRequest);
     }
 

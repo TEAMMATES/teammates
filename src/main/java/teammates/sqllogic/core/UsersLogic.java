@@ -385,8 +385,6 @@ public final class UsersLogic {
         } else {
             instructor.setGoogleId(googleId);
         }
-        usersDb.updateUser(instructor);
-
         // Update the googleId of the student entity for the instructor which was created from sample data.
         Student student = getStudentForEmail(instructor.getCourseId(), instructor.getEmail());
         if (student != null) {
@@ -396,7 +394,13 @@ public final class UsersLogic {
             } else {
                 student.getAccount().setGoogleId(googleId);
             }
-            usersDb.updateUser(student);
+            if (!student.isValid()) {
+                throw new InvalidParametersException(student.getInvalidityInfo());
+            }
+        }
+
+        if (!instructor.isValid()) {
+            throw new InvalidParametersException(instructor.getInvalidityInfo());
         }
 
         return instructor;
@@ -746,6 +750,9 @@ public final class UsersLogic {
 
         String courseId = student.getCourseId();
         Student originalStudent = getStudent(student.getId());
+        if (originalStudent == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
         String originalEmail = originalStudent.getEmail();
         boolean changedEmail = isEmailChanged(originalEmail, student.getEmail());
 
@@ -762,11 +769,16 @@ public final class UsersLogic {
         boolean changedSection = isSectionChanged(originalSection, student.getSection());
 
         // update student
-        usersDb.checkBeforeUpdateStudent(student);
+        if (!student.isValid()) {
+            throw new InvalidParametersException(student.getInvalidityInfo());
+        }
         originalStudent.setName(student.getName());
         originalStudent.setTeam(student.getTeam());
         originalStudent.setEmail(student.getEmail());
         originalStudent.setComments(student.getComments());
+        if (!originalStudent.isValid()) {
+            throw new InvalidParametersException(originalStudent.getInvalidityInfo());
+        }
 
         // cascade email changes to responses and comments
         if (changedEmail) {

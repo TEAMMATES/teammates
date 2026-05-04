@@ -1,7 +1,5 @@
 package teammates.storage.sqlapi;
 
-import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +16,6 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
@@ -247,15 +244,6 @@ public final class UsersDb {
         studentsCr.select(studentsRoot).where(cb.equal(accountsJoin.get("googleId"), googleId));
 
         return HibernateUtil.createQuery(studentsCr).getResultList();
-    }
-
-    /**
-     * Gets all instructors.
-     */
-    public <T extends User> T updateUser(T user) {
-        assert user != null;
-
-        return HibernateUtil.merge(user);
     }
 
     /**
@@ -756,32 +744,6 @@ public final class UsersDb {
         }
 
         return team;
-    }
-
-    /**
-     * Updates a student.
-     */
-    public Student updateStudent(Student student)
-            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
-        checkBeforeUpdateStudent(student);
-
-        return HibernateUtil.merge(student);
-    }
-
-    /**
-     * Performs checks on student without updating.
-     */
-    public void checkBeforeUpdateStudent(Student student)
-            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
-        assert student != null;
-
-        if (!student.isValid()) {
-            throw new InvalidParametersException(student.getInvalidityInfo());
-        }
-
-        if (getStudent(student.getId()) == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
     }
 
 }

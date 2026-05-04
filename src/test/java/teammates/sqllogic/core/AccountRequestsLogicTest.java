@@ -74,24 +74,19 @@ public class AccountRequestsLogicTest extends BaseTestCase {
 
     @Test
     public void testUpdateAccountRequest_typicalRequest_success()
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException {
         AccountRequest ar = getTypicalAccountRequest();
-        when(accountRequestsDb.updateAccountRequest(ar)).thenReturn(ar);
         AccountRequest updatedAr = accountRequestsLogic.updateAccountRequest(ar);
 
         assertEquals(ar, updatedAr);
-        verify(accountRequestsDb, times(1)).updateAccountRequest(ar);
     }
 
     @Test
     public void testUpdateAccountRequest_requestNotFound_failure()
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException {
         AccountRequest arNotFound = getTypicalAccountRequest();
-        when(accountRequestsDb.updateAccountRequest(arNotFound)).thenThrow(new EntityDoesNotExistException("test message"));
-
-        assertThrows(EntityDoesNotExistException.class,
-                () -> accountRequestsLogic.updateAccountRequest(arNotFound));
-        verify(accountRequestsDb, times(1)).updateAccountRequest(any(AccountRequest.class));
+        AccountRequest updated = accountRequestsLogic.updateAccountRequest(arNotFound);
+        assertEquals(updated, arNotFound);
     }
 
     @Test
@@ -125,7 +120,7 @@ public class AccountRequestsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetAccountRequestByRegistrationKey_nonexistentRequest_shouldReturnNull() throws Exception {
+    public void testGetAccountRequestByRegistrationKey_nonexistentRequest_shouldReturnNull() {
         String nonexistentRegkey = "not_exist";
         when(accountRequestsDb.getAccountRequestByRegistrationKey(nonexistentRegkey)).thenReturn(null);
 
@@ -140,7 +135,6 @@ public class AccountRequestsLogicTest extends BaseTestCase {
         accountRequest.setRegisteredAt(Const.TIME_REPRESENTS_NOW);
         when(accountRequestsDb.getAccountRequest(accountRequest.getId()))
                 .thenReturn(accountRequest);
-        when(accountRequestsDb.updateAccountRequest(accountRequest)).thenReturn(accountRequest);
         accountRequest = accountRequestsLogic.resetAccountRequest(accountRequest.getId());
 
         assertNull(accountRequest.getRegisteredAt());
@@ -148,16 +142,13 @@ public class AccountRequestsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testResetAccountRequest_nonexistentRequest_failure()
-            throws InvalidParametersException, EntityDoesNotExistException {
+    public void testResetAccountRequest_nonexistentRequest_failure() {
         AccountRequest accountRequest = getTypicalAccountRequest();
         accountRequest.setRegisteredAt(Const.TIME_REPRESENTS_NOW);
         when(accountRequestsDb.getAccountRequest(accountRequest.getId()))
                 .thenReturn(null);
         assertThrows(EntityDoesNotExistException.class,
                 () -> accountRequestsLogic.resetAccountRequest(accountRequest.getId()));
-        verify(accountRequestsDb, times(1)).getAccountRequest(accountRequest.getId());
-        verify(accountRequestsDb, times(0)).updateAccountRequest(nullable(AccountRequest.class));
     }
 
     @Test

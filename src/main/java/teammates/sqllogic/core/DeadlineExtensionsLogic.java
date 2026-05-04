@@ -102,7 +102,14 @@ public final class DeadlineExtensionsLogic {
      */
     public DeadlineExtension updateDeadlineExtension(DeadlineExtension de)
             throws InvalidParametersException, EntityDoesNotExistException {
-        return deadlineExtensionsDb.updateDeadlineExtension(de);
+        DeadlineExtension existing = deadlineExtensionsDb.getDeadlineExtension(de.getId());
+        if (existing == null) {
+            throw new EntityDoesNotExistException("Trying to update non-existent Entity: " + de);
+        }
+        if (!de.isValid()) {
+            throw new InvalidParametersException(de.getInvalidityInfo());
+        }
+        return de;
     }
 
     /**

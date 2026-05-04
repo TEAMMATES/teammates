@@ -199,9 +199,16 @@ public final class FeedbackResponsesLogic {
      */
     public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse feedbackResponse)
             throws InvalidParametersException, EntityDoesNotExistException {
+        if (!feedbackResponse.isValid()) {
+            throw new InvalidParametersException(feedbackResponse.getInvalidityInfo());
+        }
+
         // TODO: investigate for bugs, oldResponse and newResponse are the same object.
         FeedbackResponse oldResponse = frDb.getFeedbackResponse(feedbackResponse.getId());
-        FeedbackResponse newResponse = frDb.updateFeedbackResponse(feedbackResponse);
+        if (oldResponse == null) {
+            throw new EntityDoesNotExistException("Trying to update non-existent Entity: " + feedbackResponse);
+        }
+        FeedbackResponse newResponse = feedbackResponse;
 
         List<FeedbackResponseComment> oldResponseComments = oldResponse.getFeedbackResponseComments();
 
@@ -457,9 +464,7 @@ public final class FeedbackResponsesLogic {
      *     This is done by deleting responses that are no longer relevant to him in his new team.
      * </p>
      */
-    public void updateFeedbackResponsesForChangingTeam(Course course, String newEmail, Team newTeam, Team oldTeam)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
+    public void updateFeedbackResponsesForChangingTeam(Course course, String newEmail, Team newTeam, Team oldTeam) {
         FeedbackQuestion qn;
 
         List<FeedbackResponse> responsesFromUser =
@@ -493,14 +498,16 @@ public final class FeedbackResponsesLogic {
      * Updates responses for a student when his section changes.
      */
     public void updateFeedbackResponsesForChangingSection(Course course, String newEmail, Section newSection)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException {
 
         List<FeedbackResponse> responsesFromUser =
                 getFeedbackResponsesFromGiverForCourse(course.getId(), newEmail);
 
         for (FeedbackResponse response : responsesFromUser) {
             response.setGiverSection(newSection);
-            frDb.updateFeedbackResponse(response);
+            if (!response.isValid()) {
+                throw new InvalidParametersException(response.getInvalidityInfo());
+            }
             frcLogic.updateFeedbackResponseCommentsForResponse(response);
         }
 
@@ -509,7 +516,9 @@ public final class FeedbackResponsesLogic {
 
         for (FeedbackResponse response : responsesToUser) {
             response.setRecipientSection(newSection);
-            frDb.updateFeedbackResponse(response);
+            if (!response.isValid()) {
+                throw new InvalidParametersException(response.getInvalidityInfo());
+            }
             frcLogic.updateFeedbackResponseCommentsForResponse(response);
         }
     }
@@ -518,14 +527,15 @@ public final class FeedbackResponsesLogic {
      * Updates a student's email in their given/received responses.
      */
     public void updateFeedbackResponsesForChangingEmail(String courseId, String oldEmail, String newEmail)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
+            throws InvalidParametersException {
         List<FeedbackResponse> responsesFromUser =
                 getFeedbackResponsesFromGiverForCourse(courseId, oldEmail);
 
         for (FeedbackResponse response : responsesFromUser) {
             response.setGiver(newEmail);
-            frDb.updateFeedbackResponse(response);
+            if (!response.isValid()) {
+                throw new InvalidParametersException(response.getInvalidityInfo());
+            }
         }
 
         List<FeedbackResponse> responsesToUser =
@@ -533,7 +543,9 @@ public final class FeedbackResponsesLogic {
 
         for (FeedbackResponse response : responsesToUser) {
             response.setRecipient(newEmail);
-            frDb.updateFeedbackResponse(response);
+            if (!response.isValid()) {
+                throw new InvalidParametersException(response.getInvalidityInfo());
+            }
         }
     }
 

@@ -7,7 +7,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
-import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,7 +17,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.FeedbackResponse;
@@ -109,47 +107,6 @@ public class FeedbackResponsesDbTest extends BaseTestCase {
 
         assertEquals(spyFr.getInvalidityInfo(), List.of(ipe.getMessage()));
         mockHibernateUtil.verify(() -> HibernateUtil.persist(spyFr), never());
-    }
-
-    @Test
-    public void testUpdateFeedbackResponse_success()
-            throws InvalidParametersException, EntityDoesNotExistException {
-        FeedbackResponse fr = getTypicalFeedbackResponse();
-
-        doReturn(fr).when(feedbackResponsesDb).getFeedbackResponse(fr.getId());
-        mockHibernateUtil.when(() -> HibernateUtil.merge(fr)).thenReturn(fr);
-
-        FeedbackResponse result = feedbackResponsesDb.updateFeedbackResponse(fr);
-
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(fr), times(1));
-        assertEquals(fr, result);
-    }
-
-    @Test
-    public void testUpdateFeedbackResponse_invalidFeedbackResponse_throwsInvalidParametersException() {
-        FeedbackResponse fr = getInvalidFeedbackResponse();
-        // Spy on the entity to force invalidity info, since the base implementation returns empty list
-        FeedbackResponse spyFr = spy(fr);
-        doReturn(List.of("Invalid response")).when(spyFr).getInvalidityInfo();
-
-        InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> feedbackResponsesDb.updateFeedbackResponse(spyFr));
-
-        assertEquals(spyFr.getInvalidityInfo(), List.of(ipe.getMessage()));
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(spyFr), never());
-    }
-
-    @Test
-    public void testUpdateFeedbackResponse_feedbackResponseDoesNotExist_throwsEntityDoesNotExistException() {
-        FeedbackResponse fr = getTypicalFeedbackResponse();
-
-        doReturn(null).when(feedbackResponsesDb).getFeedbackResponse(fr.getId());
-
-        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> feedbackResponsesDb.updateFeedbackResponse(fr));
-
-        assertEquals(ERROR_UPDATE_NON_EXISTENT, ednee.getMessage());
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(fr), never());
     }
 
     @Test

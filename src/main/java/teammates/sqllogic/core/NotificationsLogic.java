@@ -97,8 +97,6 @@ public final class NotificationsLogic {
             throw new InvalidParametersException(notification.getInvalidityInfo());
         }
 
-        notificationsDb.updateNotification(notification);
-
         return notification;
     }
 

@@ -64,8 +64,11 @@ public final class AccountRequestsLogic {
      * Updates an account request.
      */
     public AccountRequest updateAccountRequest(AccountRequest accountRequest)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        return accountRequestDb.updateAccountRequest(accountRequest);
+            throws InvalidParametersException {
+        if (!accountRequest.isValid()) {
+            throw new InvalidParametersException(accountRequest.getInvalidityInfo());
+        }
+        return accountRequest;
     }
 
     /**
@@ -102,7 +105,7 @@ public final class AccountRequestsLogic {
         }
         accountRequest.setRegisteredAt(null);
 
-        return accountRequestDb.updateAccountRequest(accountRequest);
+        return accountRequest;
     }
 
     /**

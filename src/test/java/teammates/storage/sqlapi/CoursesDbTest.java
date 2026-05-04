@@ -14,7 +14,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Course;
@@ -92,36 +91,6 @@ public class CoursesDbTest extends BaseTestCase {
         coursesDb.deleteCourse(c);
 
         mockHibernateUtil.verify(() -> HibernateUtil.remove(c));
-    }
-
-    @Test
-    public void testUpdateCourse_courseInvalid_throwsInvalidParametersException() {
-        Course c = new Course("", "new-course-name", null, "institute");
-
-        assertThrows(InvalidParametersException.class, () -> coursesDb.updateCourse(c));
-
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(c), never());
-    }
-
-    @Test
-    public void testUpdateCourse_courseDoesNotExist_throwsEntityDoesNotExistException() {
-        Course c = new Course("course-id", "new-course-name", null, "institute");
-        doReturn(null).when(coursesDb).getCourse(anyString());
-
-        assertThrows(EntityDoesNotExistException.class, () -> coursesDb.updateCourse(c));
-
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(c), never());
-    }
-
-    @Test
-    public void testUpdateCourse_success() throws InvalidParametersException, EntityDoesNotExistException {
-        Course c = new Course("course-id", "new-course-name", null, "institute");
-        doReturn(c).when(coursesDb).getCourse(anyString());
-        mockHibernateUtil.when(() -> HibernateUtil.merge(c)).thenReturn(c);
-
-        coursesDb.updateCourse(c);
-
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(c));
     }
 
     @Test
