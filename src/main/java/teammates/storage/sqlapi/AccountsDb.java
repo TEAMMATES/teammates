@@ -1,7 +1,6 @@
 package teammates.storage.sqlapi;
 
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
-import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.util.List;
 import java.util.UUID;
@@ -11,7 +10,6 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Account;
@@ -82,23 +80,6 @@ public final class AccountsDb {
 
         HibernateUtil.persist(account);
         return account;
-    }
-
-    /**
-     * Saves an updated {@code Account} to the db.
-     */
-    public Account updateAccount(Account account) throws InvalidParametersException, EntityDoesNotExistException {
-        assert account != null;
-
-        if (!account.isValid()) {
-            throw new InvalidParametersException(account.getInvalidityInfo());
-        }
-
-        if (getAccount(account.getId()) == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + account.toString());
-        }
-
-        return HibernateUtil.merge(account);
     }
 
     /**

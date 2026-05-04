@@ -102,7 +102,13 @@ public final class DeadlineExtensionsLogic {
      */
     public DeadlineExtension updateDeadlineExtension(DeadlineExtension de)
             throws InvalidParametersException, EntityDoesNotExistException {
-        return deadlineExtensionsDb.updateDeadlineExtension(de);
+        DeadlineExtension existing = deadlineExtensionsDb.getDeadlineExtension(de.getId());
+        if (existing == null) {
+            throw new EntityDoesNotExistException("Trying to update non-existent Entity: " + de);
+        }
+
+        validateDeadlineExtension(de);
+        return de;
     }
 
     /**
@@ -132,5 +138,11 @@ public final class DeadlineExtensionsLogic {
                 deleteDeadlineExtension(deadlineExtension);
             }
         });
+    }
+
+    private void validateDeadlineExtension(DeadlineExtension deadlineExtension) throws InvalidParametersException {
+        if (!deadlineExtension.isValid()) {
+            throw new InvalidParametersException(deadlineExtension.getInvalidityInfo());
+        }
     }
 }

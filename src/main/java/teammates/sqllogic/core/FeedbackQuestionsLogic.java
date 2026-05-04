@@ -225,6 +225,8 @@ public final class FeedbackQuestionsLogic {
             frLogic.deleteFeedbackResponsesForQuestionCascade(question);
         }
 
+        validateFeedbackQuestion(question);
+
         return question;
     }
 
@@ -319,6 +321,12 @@ public final class FeedbackQuestionsLogic {
         }
         default -> Optional.empty();
         };
+    }
+
+    private void validateFeedbackQuestion(FeedbackQuestion feedbackQuestion) throws InvalidParametersException {
+        if (!feedbackQuestion.isValid()) {
+            throw new InvalidParametersException(feedbackQuestion.getInvalidityInfo());
+        }
     }
 
     /**

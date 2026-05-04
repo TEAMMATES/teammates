@@ -5,7 +5,6 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.CoursesDb;
@@ -57,33 +56,6 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         assertNotSame(course, identicalCourse);
 
         assertThrows(EntityAlreadyExistsException.class, () -> coursesDb.createCourse(identicalCourse));
-    }
-
-    @Test
-    public void testUpdateCourse() throws Exception {
-        ______TS("failure: update course that does not exist, exception thrown");
-        Course course = getTypicalCourse();
-        assertThrows(EntityDoesNotExistException.class, () -> coursesDb.updateCourse(course));
-
-        ______TS("failure: null course assertion exception thrown");
-        assertThrows(AssertionError.class, () -> coursesDb.updateCourse(null));
-
-        ______TS("success: update course that already exists");
-        coursesDb.createCourse(course);
-        course.setName("new course name");
-
-        coursesDb.updateCourse(course);
-        Course actual = coursesDb.getCourse("course-id");
-        verifyEquals(course, actual);
-
-        ______TS("success: update detached course that already exists");
-
-        // same id, different name
-        Course detachedCourse = getTypicalCourse();
-        detachedCourse.setName("different-name");
-
-        coursesDb.updateCourse(detachedCourse);
-        verifyEquals(course, detachedCourse);
     }
 
     @Test

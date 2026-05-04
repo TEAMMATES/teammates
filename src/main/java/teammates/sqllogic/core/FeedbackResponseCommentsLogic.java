@@ -90,12 +90,11 @@ public final class FeedbackResponseCommentsLogic {
      *
      * @return updated comment
      * @throws InvalidParametersException if attributes to update are not valid
-     * @throws EntityDoesNotExistException if the comment cannot be found
      */
     public FeedbackResponseComment updateFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        return frcDb.updateFeedbackResponseComment(feedbackResponseComment);
+            throws InvalidParametersException {
+        validateFeedbackResponseComment(feedbackResponseComment);
+        return feedbackResponseComment;
     }
 
     /**
@@ -130,12 +129,12 @@ public final class FeedbackResponseCommentsLogic {
      * Updates all feedback response comments with new sections.
      */
     public void updateFeedbackResponseCommentsForResponse(FeedbackResponse response)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException {
         List<FeedbackResponseComment> comments = response.getFeedbackResponseComments();
         for (FeedbackResponseComment comment : comments) {
             comment.setGiverSection(response.getGiverSection());
             comment.setRecipientSection(response.getRecipientSection());
-            frcDb.updateFeedbackResponseComment(comment);
+            updateFeedbackResponseComment(comment);
         }
     }
 
@@ -279,6 +278,13 @@ public final class FeedbackResponseCommentsLogic {
         }
 
         return checkIsFeedbackParticipantNameVisibleToUser(response, userEmail, roster, showNameTo);
+    }
+
+    private void validateFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment)
+            throws InvalidParametersException {
+        if (!feedbackResponseComment.isValid()) {
+            throw new InvalidParametersException(feedbackResponseComment.getInvalidityInfo());
+        }
     }
 
     private boolean checkIsFeedbackParticipantNameVisibleToUser(FeedbackResponse response,

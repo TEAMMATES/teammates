@@ -70,8 +70,8 @@ public class CreateAccountAction extends Action {
 
         try {
             courseId = importDemoData(instructorEmail, instructorName, instructorInstitution, timezone);
-        } catch (InvalidParametersException | EntityAlreadyExistsException | EntityDoesNotExistException e) {
-            // There should not be any invalid parameter or entity conflict here
+        } catch (InvalidParametersException e) {
+            // There should not be any invalid parameter here
             log.severe("Unexpected error", e);
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
@@ -93,8 +93,7 @@ public class CreateAccountAction extends Action {
 
         try {
             setAccountRequestAsRegistered(accountRequest);
-        } catch (EntityDoesNotExistException | InvalidParametersException e) {
-            // EntityDoesNotExistException should not be thrown as existence of account request has been validated before.
+        } catch (InvalidParametersException e) {
             // InvalidParametersException should not be thrown as there should not be any invalid parameters.
             log.severe("Unexpected error", e);
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
@@ -109,7 +108,7 @@ public class CreateAccountAction extends Action {
      * @return the updated account request
      */
     private AccountRequest setAccountRequestAsRegistered(AccountRequest accountRequest)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException {
         accountRequest.setStatus(AccountRequestStatus.REGISTERED);
         accountRequest.setRegisteredAt(Instant.now());
         sqlLogic.updateAccountRequest(accountRequest);
@@ -126,7 +125,7 @@ public class CreateAccountAction extends Action {
      * @return the ID of demo course
      */
     private String importDemoData(String instructorEmail, String instructorName, String instructorInstitute, String timezone)
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws InvalidParametersException {
 
         String courseId = generateDemoCourseId(instructorEmail);
         Instant now = Instant.now();

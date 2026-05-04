@@ -64,8 +64,9 @@ public final class AccountRequestsLogic {
      * Updates an account request.
      */
     public AccountRequest updateAccountRequest(AccountRequest accountRequest)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        return accountRequestDb.updateAccountRequest(accountRequest);
+            throws InvalidParametersException {
+        validateAccountRequest(accountRequest);
+        return accountRequest;
     }
 
     /**
@@ -101,8 +102,9 @@ public final class AccountRequestsLogic {
                     + "the given id cannot be found.");
         }
         accountRequest.setRegisteredAt(null);
+        validateAccountRequest(accountRequest);
 
-        return accountRequestDb.updateAccountRequest(accountRequest);
+        return accountRequest;
     }
 
     /**
@@ -127,5 +129,11 @@ public final class AccountRequestsLogic {
      */
     public List<AccountRequest> searchAccountRequestsInWholeSystem(String queryString) {
         return accountRequestDb.searchAccountRequestsInWholeSystem(queryString);
+    }
+
+    private void validateAccountRequest(AccountRequest accountRequest) throws InvalidParametersException {
+        if (!accountRequest.isValid()) {
+            throw new InvalidParametersException(accountRequest.getInvalidityInfo());
+        }
     }
 }

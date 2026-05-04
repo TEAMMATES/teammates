@@ -122,17 +122,15 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     private void setUserDeadlineExtension(FeedbackSession session, User user, int days)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        DeadlineExtension newDeadline =
-                new DeadlineExtension(user, session, TimeHelper.getInstantDaysOffsetFromNow(days));
-
-        newDeadline.setFeedbackSession(session);
-        newDeadline.setUser(user);
-
-        DeadlineExtension existingDeadlineEndTime = logic.getDeadlineExtensionEntityForUser(session, user);
-        if (existingDeadlineEndTime != null) {
-            newDeadline.setId(existingDeadlineEndTime.getId());
-            logic.updateDeadlineExtension(newDeadline);
+        Instant endTime = TimeHelper.getInstantDaysOffsetFromNow(days);
+        DeadlineExtension existingDeadline = logic.getDeadlineExtensionEntityForUser(session, user);
+        if (existingDeadline != null) {
+            existingDeadline.setEndTime(endTime);
+            logic.updateDeadlineExtension(existingDeadline);
         } else {
+            DeadlineExtension newDeadline = new DeadlineExtension(user, session, endTime);
+            newDeadline.setFeedbackSession(session);
+            newDeadline.setUser(user);
             logic.createDeadlineExtension(newDeadline);
         }
     }

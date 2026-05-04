@@ -152,9 +152,7 @@ public final class UsersLogic {
             needsCascade = true;
         }
 
-        if (!instructor.isValid()) {
-            throw new InvalidParametersException(instructor.getInvalidityInfo());
-        }
+        validateUser(instructor);
 
         if (needsCascade) {
             // cascade responses
@@ -385,7 +383,7 @@ public final class UsersLogic {
         } else {
             instructor.setGoogleId(googleId);
         }
-        usersDb.updateUser(instructor);
+        validateUser(instructor);
 
         // Update the googleId of the student entity for the instructor which was created from sample data.
         Student student = getStudentForEmail(instructor.getCourseId(), instructor.getEmail());
@@ -396,7 +394,7 @@ public final class UsersLogic {
             } else {
                 student.getAccount().setGoogleId(googleId);
             }
-            usersDb.updateUser(student);
+            validateUser(student);
         }
 
         return instructor;
@@ -743,9 +741,11 @@ public final class UsersLogic {
      */
     public Student updateStudentCascade(Student student)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-
         String courseId = student.getCourseId();
         Student originalStudent = getStudent(student.getId());
+        if (originalStudent == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
+        }
         String originalEmail = originalStudent.getEmail();
         boolean changedEmail = isEmailChanged(originalEmail, student.getEmail());
 
@@ -762,7 +762,6 @@ public final class UsersLogic {
         boolean changedSection = isSectionChanged(originalSection, student.getSection());
 
         // update student
-        usersDb.checkBeforeUpdateStudent(student);
         originalStudent.setName(student.getName());
         originalStudent.setTeam(student.getTeam());
         originalStudent.setEmail(student.getEmail());
@@ -770,14 +769,16 @@ public final class UsersLogic {
 
         // cascade email changes to responses and comments
         if (changedEmail) {
-            feedbackResponsesLogic.updateFeedbackResponsesForChangingEmail(courseId, originalEmail, student.getEmail());
-            feedbackResponseCommentsLogic.updateFeedbackResponseCommentsEmails(courseId, originalEmail, student.getEmail());
+            feedbackResponsesLogic
+                    .updateFeedbackResponsesForChangingEmail(courseId, originalEmail, student.getEmail());
+            feedbackResponseCommentsLogic
+                    .updateFeedbackResponseCommentsEmails(courseId, originalEmail, student.getEmail());
         }
 
         // adjust submissions if moving to a different team
         if (changedTeam) {
-            feedbackResponsesLogic.updateFeedbackResponsesForChangingTeam(student.getCourse(), student.getEmail(),
-                    student.getTeam(), originalTeam);
+            feedbackResponsesLogic
+                    .updateFeedbackResponsesForChangingTeam(student.getCourse(), student.getEmail(), originalTeam);
         }
 
         // update the new section name in responses
@@ -785,6 +786,8 @@ public final class UsersLogic {
             feedbackResponsesLogic.updateFeedbackResponsesForChangingSection(
                     student.getCourse(), student.getEmail(), student.getSection());
         }
+
+        validateUser(originalStudent);
 
         return originalStudent;
     }
@@ -971,4 +974,9 @@ public final class UsersLogic {
         return emailUserMap;
     }
 
+    private void validateUser(User user) throws InvalidParametersException {
+        if (!user.isValid()) {
+            throw new InvalidParametersException(user.getInvalidityInfo());
+        }
+    }
 }

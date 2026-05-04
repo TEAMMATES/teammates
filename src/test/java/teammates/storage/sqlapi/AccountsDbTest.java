@@ -11,7 +11,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.sqlentity.Account;
@@ -97,50 +96,6 @@ public class AccountsDbTest extends BaseTestCase {
 
         InvalidParametersException ex = assertThrows(InvalidParametersException.class,
                 () -> accountsDb.createAccount(account));
-
-        assertEquals(
-                "\"invalid\" is not acceptable to TEAMMATES as a/an email because it is not in the correct format. "
-                        + "An email address contains some text followed by one '@' sign followed by some more text, "
-                        + "and should end with a top level domain address like .com. "
-                        + "It cannot be longer than 254 characters, "
-                        + "cannot be empty and cannot contain spaces.",
-                ex.getMessage());
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(account), never());
-    }
-
-    @Test
-    public void testUpdateAccount_accountAlreadyExists_success()
-            throws InvalidParametersException, EntityDoesNotExistException {
-        Account account = getTypicalAccount();
-        mockHibernateUtil.when(() -> HibernateUtil.get(Account.class, account.getId()))
-                .thenReturn(account);
-        mockHibernateUtil.when(() -> HibernateUtil.merge(account)).thenReturn(account);
-        account.setName("new name");
-
-        accountsDb.updateAccount(account);
-
-        mockHibernateUtil.verify(() -> HibernateUtil.merge(account));
-    }
-
-    @Test
-    public void testUpdateAccount_accountDoesNotExist_throwsEntityDoesNotExistException()
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        Account account = getTypicalAccount();
-
-        EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
-                () -> accountsDb.updateAccount(account));
-
-        assertEquals("Trying to update non-existent Entity: " + account.toString(), ex.getMessage());
-        mockHibernateUtil.verify(() -> HibernateUtil.persist(account), never());
-    }
-
-    @Test
-    public void testUpdateAccount_invalidEmail_throwsInvalidParametersException() {
-        Account account = getTypicalAccount();
-        account.setEmail("invalid");
-
-        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
-                () -> accountsDb.updateAccount(account));
 
         assertEquals(
                 "\"invalid\" is not acceptable to TEAMMATES as a/an email because it is not in the correct format. "

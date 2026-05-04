@@ -200,21 +200,20 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         Student student = getTypicalStudent();
-        Instant originalDeadline = Instant.now().plusSeconds(86400);
-        Instant updatedDeadline = Instant.now().plusSeconds(172800); // 2 days later
+        Instant originalDeadline = Instant.now().plusSeconds(8 * 24 * 60 * 60);
+        Instant updatedDeadline = Instant.now().plusSeconds(9 * 24 * 60 * 60);
 
         DeadlineExtension de = new DeadlineExtension(student, session, originalDeadline);
         de.setId(UUID.randomUUID());
         de.setEndTime(updatedDeadline);
 
-        when(deDb.updateDeadlineExtension(de)).thenReturn(de);
+        when(deDb.getDeadlineExtension(de.getId())).thenReturn(de);
 
         DeadlineExtension result = deLogic.updateDeadlineExtension(de);
 
         assertNotNull(result);
         assertEquals(de, result);
         assertEquals(updatedDeadline, result.getEndTime());
-        verify(deDb, times(1)).updateDeadlineExtension(de);
     }
 
     @Test

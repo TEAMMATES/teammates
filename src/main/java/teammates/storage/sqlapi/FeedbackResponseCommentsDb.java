@@ -1,7 +1,6 @@
 package teammates.storage.sqlapi;
 
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
-import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
 import java.util.List;
 import java.util.UUID;
@@ -12,7 +11,6 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.SanitizationHelper;
@@ -109,7 +107,6 @@ public final class FeedbackResponseCommentsDb {
 
         for (FeedbackResponseComment responseComment : responseComments) {
             responseComment.setGiver(updatedEmail);
-            HibernateUtil.merge(responseComment);
         }
     }
 
@@ -167,24 +164,6 @@ public final class FeedbackResponseCommentsDb {
                     cb.equal(root.get("lastEditorEmail"), lastEditorEmail)));
 
         return HibernateUtil.createQuery(cq).getResultList();
-    }
-
-    /**
-     * Updates the feedback response comment.
-     */
-    public FeedbackResponseComment updateFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        assert feedbackResponseComment != null;
-
-        if (!feedbackResponseComment.isValid()) {
-            throw new InvalidParametersException(feedbackResponseComment.getInvalidityInfo());
-        }
-
-        if (getFeedbackResponseComment(feedbackResponseComment.getId()) == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT);
-        }
-
-        return HibernateUtil.merge(feedbackResponseComment);
     }
 
     /**
