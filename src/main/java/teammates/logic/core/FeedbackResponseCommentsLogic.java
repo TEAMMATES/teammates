@@ -17,7 +17,7 @@ import teammates.logic.entity.FeedbackQuestion;
 import teammates.logic.entity.FeedbackResponse;
 import teammates.logic.entity.FeedbackResponseComment;
 import teammates.logic.entity.Student;
-import teammates.storage.sqlapi.FeedbackResponseCommentsDb;
+import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 
 /**

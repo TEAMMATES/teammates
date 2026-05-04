@@ -23,7 +23,7 @@ import teammates.logic.entity.DeadlineExtension;
 import teammates.logic.entity.FeedbackSession;
 import teammates.logic.entity.Instructor;
 import teammates.logic.entity.Student;
-import teammates.storage.sqlapi.DeadlineExtensionsDb;
+import teammates.storage.api.DeadlineExtensionsDb;
 import teammates.test.BaseTestCase;
 
 /**

@@ -17,7 +17,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.entity.FeedbackResponseComment;
-import teammates.storage.sqlapi.FeedbackResponseCommentsDb;
+import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.test.BaseTestCase;
 import teammates.ui.output.CommentVisibilityType;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;

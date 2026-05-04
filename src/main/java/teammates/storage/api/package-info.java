@@ -1,4 +1,4 @@
 /**
  * Contains classes handling CRUD operations against the databse.
  */
-package teammates.storage.sqlapi;
+package teammates.storage.api;

@@ -1,4 +1,4 @@
-package teammates.storage.sqlapi;
+package teammates.storage.api;
 
 import java.util.List;
 import java.util.UUID;

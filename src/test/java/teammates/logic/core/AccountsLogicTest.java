@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 
 import teammates.logic.entity.Account;
 import teammates.logic.entity.User;
-import teammates.storage.sqlapi.AccountsDb;
+import teammates.storage.api.AccountsDb;
 import teammates.test.BaseTestCase;
 
 /**

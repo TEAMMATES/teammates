@@ -7,8 +7,7 @@
             <package name="teammates.it.test" />
             <package name="teammates.it.logic.api" />
             <package name="teammates.it.logic.core" />
-            <package name="teammates.it.storage.sqlapi" />
-            <package name="teammates.it.storage.sqlsearch" />
+            <package name="teammates.it.storage.api" />
             <package name="teammates.it.ui.webapi" />
         </packages>
     </test>

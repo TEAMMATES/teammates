@@ -7,7 +7,7 @@ import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.entity.AccountRequest;
-import teammates.storage.sqlapi.AccountRequestsDb;
+import teammates.storage.api.AccountRequestsDb;
 
 /**
  * Handles operations related to account requests.

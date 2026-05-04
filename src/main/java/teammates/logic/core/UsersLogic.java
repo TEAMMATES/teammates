@@ -31,7 +31,7 @@ import teammates.logic.entity.Section;
 import teammates.logic.entity.Student;
 import teammates.logic.entity.Team;
 import teammates.logic.entity.User;
-import teammates.storage.sqlapi.UsersDb;
+import teammates.storage.api.UsersDb;
 import teammates.ui.request.InstructorCreateRequest;
 
 /**

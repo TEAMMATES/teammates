@@ -9,7 +9,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.logic.entity.FeedbackSession;
 import teammates.logic.entity.FeedbackSessionLog;
 import teammates.logic.entity.Student;
-import teammates.storage.sqlapi.FeedbackSessionLogsDb;
+import teammates.storage.api.FeedbackSessionLogsDb;
 
 /**
  * Handles operations related to feedback sessions.

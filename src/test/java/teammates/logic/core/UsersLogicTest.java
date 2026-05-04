@@ -22,7 +22,7 @@ import teammates.logic.entity.Account;
 import teammates.logic.entity.Course;
 import teammates.logic.entity.Instructor;
 import teammates.logic.entity.Student;
-import teammates.storage.sqlapi.UsersDb;
+import teammates.storage.api.UsersDb;
 import teammates.test.BaseTestCase;
 
 /**

@@ -1,4 +1,4 @@
-package teammates.it.storage.sqlapi;
+package teammates.it.storage.api;
 
 import java.util.HashSet;
 import java.util.List;
@@ -17,7 +17,7 @@ import teammates.logic.entity.FeedbackQuestion;
 import teammates.logic.entity.FeedbackResponse;
 import teammates.logic.entity.FeedbackSession;
 import teammates.logic.entity.Section;
-import teammates.storage.sqlapi.FeedbackResponsesDb;
+import teammates.storage.api.FeedbackResponsesDb;
 
 /**
  * SUT: {@link FeedbackResponsesDb}.

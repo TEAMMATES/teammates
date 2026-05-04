@@ -1,4 +1,4 @@
-package teammates.it.storage.sqlapi;
+package teammates.it.storage.api;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.logic.entity.Course;
 import teammates.logic.entity.Section;
 import teammates.logic.entity.Team;
-import teammates.storage.sqlapi.CoursesDb;
+import teammates.storage.api.CoursesDb;
 
 /**
  * SUT: {@link CoursesDb}.

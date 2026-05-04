@@ -1,4 +1,4 @@
-package teammates.it.storage.sqlapi;
+package teammates.it.storage.api;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.logic.entity.UsageStatistics;
-import teammates.storage.sqlapi.UsageStatisticsDb;
+import teammates.storage.api.UsageStatisticsDb;
 
 /**
  * SUT: {@link UsageStatisticsDb}.

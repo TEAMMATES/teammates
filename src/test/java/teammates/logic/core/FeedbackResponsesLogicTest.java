@@ -19,7 +19,7 @@ import teammates.logic.entity.FeedbackResponse;
 import teammates.logic.entity.FeedbackSession;
 import teammates.logic.entity.Instructor;
 import teammates.logic.entity.Student;
-import teammates.storage.sqlapi.FeedbackResponsesDb;
+import teammates.storage.api.FeedbackResponsesDb;
 import teammates.test.BaseTestCase;
 
 /**

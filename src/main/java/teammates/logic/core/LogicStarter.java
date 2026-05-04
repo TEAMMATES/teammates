@@ -4,18 +4,18 @@ import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 
 import teammates.common.util.Logger;
-import teammates.storage.sqlapi.AccountRequestsDb;
-import teammates.storage.sqlapi.AccountsDb;
-import teammates.storage.sqlapi.CoursesDb;
-import teammates.storage.sqlapi.DeadlineExtensionsDb;
-import teammates.storage.sqlapi.FeedbackQuestionsDb;
-import teammates.storage.sqlapi.FeedbackResponseCommentsDb;
-import teammates.storage.sqlapi.FeedbackResponsesDb;
-import teammates.storage.sqlapi.FeedbackSessionLogsDb;
-import teammates.storage.sqlapi.FeedbackSessionsDb;
-import teammates.storage.sqlapi.NotificationsDb;
-import teammates.storage.sqlapi.UsageStatisticsDb;
-import teammates.storage.sqlapi.UsersDb;
+import teammates.storage.api.AccountRequestsDb;
+import teammates.storage.api.AccountsDb;
+import teammates.storage.api.CoursesDb;
+import teammates.storage.api.DeadlineExtensionsDb;
+import teammates.storage.api.FeedbackQuestionsDb;
+import teammates.storage.api.FeedbackResponseCommentsDb;
+import teammates.storage.api.FeedbackResponsesDb;
+import teammates.storage.api.FeedbackSessionLogsDb;
+import teammates.storage.api.FeedbackSessionsDb;
+import teammates.storage.api.NotificationsDb;
+import teammates.storage.api.UsageStatisticsDb;
+import teammates.storage.api.UsersDb;
 
 /**
  * Setup in web.xml to register logic classes at application startup.

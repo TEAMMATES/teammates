@@ -35,7 +35,7 @@ import teammates.logic.entity.Section;
 import teammates.logic.entity.Student;
 import teammates.logic.entity.Team;
 import teammates.logic.entity.responses.FeedbackRankRecipientsResponse;
-import teammates.storage.sqlapi.FeedbackResponsesDb;
+import teammates.storage.api.FeedbackResponsesDb;
 
 /**
  * Handles operations related to feedback responses.

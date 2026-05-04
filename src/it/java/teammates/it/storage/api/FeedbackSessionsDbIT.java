@@ -1,4 +1,4 @@
-package teammates.it.storage.sqlapi;
+package teammates.it.storage.api;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -13,8 +13,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.logic.entity.Course;
 import teammates.logic.entity.FeedbackSession;
-import teammates.storage.sqlapi.CoursesDb;
-import teammates.storage.sqlapi.FeedbackSessionsDb;
+import teammates.storage.api.CoursesDb;
+import teammates.storage.api.FeedbackSessionsDb;
 
 /**
  * SUT: {@link FeedbackSessionsDb}.

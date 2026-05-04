@@ -1,4 +1,4 @@
-package teammates.it.storage.sqlsearch;
+package teammates.it.storage.api;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +11,7 @@ import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.logic.entity.Instructor;
 import teammates.logic.entity.Student;
-import teammates.storage.sqlapi.UsersDb;
+import teammates.storage.api.UsersDb;
 import teammates.test.AssertHelper;
 
 /**

@@ -25,7 +25,7 @@ import teammates.logic.entity.FeedbackSession;
 import teammates.logic.entity.Instructor;
 import teammates.logic.entity.Student;
 import teammates.logic.entity.Team;
-import teammates.storage.sqlapi.FeedbackQuestionsDb;
+import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.test.BaseTestCase;
 
 /**

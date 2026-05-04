@@ -1,4 +1,4 @@
-package teammates.it.storage.sqlapi;
+package teammates.it.storage.api;
 
 import java.time.Instant;
 import java.util.Iterator;
@@ -12,7 +12,7 @@ import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.logic.entity.Notification;
-import teammates.storage.sqlapi.NotificationsDb;
+import teammates.storage.api.NotificationsDb;
 
 /**
  * SUT: {@link NotificationsDb}.

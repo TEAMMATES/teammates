@@ -1,4 +1,4 @@
-package teammates.it.storage.sqlapi;
+package teammates.it.storage.api;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,7 +13,7 @@ import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.logic.entity.Course;
 import teammates.logic.entity.FeedbackQuestion;
 import teammates.logic.entity.FeedbackSession;
-import teammates.storage.sqlapi.FeedbackQuestionsDb;
+import teammates.storage.api.FeedbackQuestionsDb;
 
 /**
  * SUT: {@link FeedbackQuestionsDb}.

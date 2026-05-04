@@ -26,7 +26,7 @@ import teammates.common.util.HibernateUtil;
 import teammates.logic.entity.Account;
 import teammates.logic.entity.Notification;
 import teammates.logic.entity.ReadNotification;
-import teammates.storage.sqlapi.NotificationsDb;
+import teammates.storage.api.NotificationsDb;
 import teammates.test.BaseTestCase;
 
 /**

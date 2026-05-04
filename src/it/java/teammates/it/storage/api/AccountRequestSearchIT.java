@@ -1,4 +1,4 @@
-package teammates.it.storage.sqlsearch;
+package teammates.it.storage.api;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +11,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.logic.entity.AccountRequest;
-import teammates.storage.sqlapi.AccountRequestsDb;
+import teammates.storage.api.AccountRequestsDb;
 import teammates.test.AssertHelper;
 
 /**

@@ -1,4 +1,4 @@
-package teammates.it.storage.sqlapi;
+package teammates.it.storage.api;
 
 import java.util.List;
 import java.util.UUID;
@@ -9,7 +9,7 @@ import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.logic.entity.AccountRequest;
-import teammates.storage.sqlapi.AccountRequestsDb;
+import teammates.storage.api.AccountRequestsDb;
 
 /**
  * SUT: {@link AccountRequestsDb}.

@@ -4,13 +4,13 @@ import java.time.Instant;
 import java.util.List;
 
 import teammates.logic.entity.UsageStatistics;
-import teammates.storage.sqlapi.UsageStatisticsDb;
+import teammates.storage.api.UsageStatisticsDb;
 
 /**
  * Handles operations related to system usage statistics objects.
  *
  * @see UsageStatistics
- * @see teammates.storage.sqlapi.UsageStatisticsDb
+ * @see teammates.storage.api.UsageStatisticsDb
  */
 public final class UsageStatisticsLogic {
 

@@ -12,7 +12,7 @@ import teammates.common.util.Const;
 import teammates.logic.entity.DeadlineExtension;
 import teammates.logic.entity.FeedbackSession;
 import teammates.logic.entity.User;
-import teammates.storage.sqlapi.DeadlineExtensionsDb;
+import teammates.storage.api.DeadlineExtensionsDb;
 
 /**
  * Handles operations related to deadline extensions.

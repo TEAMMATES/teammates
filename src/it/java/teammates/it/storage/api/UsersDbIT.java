@@ -1,4 +1,4 @@
-package teammates.it.storage.sqlapi;
+package teammates.it.storage.api;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,9 +18,9 @@ import teammates.logic.entity.Section;
 import teammates.logic.entity.Student;
 import teammates.logic.entity.Team;
 import teammates.logic.entity.User;
-import teammates.storage.sqlapi.AccountsDb;
-import teammates.storage.sqlapi.CoursesDb;
-import teammates.storage.sqlapi.UsersDb;
+import teammates.storage.api.AccountsDb;
+import teammates.storage.api.CoursesDb;
+import teammates.storage.api.UsersDb;
 
 /**
  * SUT: {@link UsersDb}.

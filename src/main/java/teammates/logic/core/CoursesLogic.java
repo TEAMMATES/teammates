@@ -21,7 +21,7 @@ import teammates.logic.entity.Instructor;
 import teammates.logic.entity.Section;
 import teammates.logic.entity.Student;
 import teammates.logic.entity.Team;
-import teammates.storage.sqlapi.CoursesDb;
+import teammates.storage.api.CoursesDb;
 
 /**
  * Handles operations related to courses.

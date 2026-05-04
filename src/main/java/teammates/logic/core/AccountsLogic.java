@@ -13,7 +13,7 @@ import teammates.logic.entity.Course;
 import teammates.logic.entity.Instructor;
 import teammates.logic.entity.Student;
 import teammates.logic.entity.User;
-import teammates.storage.sqlapi.AccountsDb;
+import teammates.storage.api.AccountsDb;
 
 /**
  * Handles operations related to accounts.

@@ -1,4 +1,4 @@
-package teammates.it.storage.sqlapi;
+package teammates.it.storage.api;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import teammates.logic.entity.Course;
 import teammates.logic.entity.FeedbackSession;
 import teammates.logic.entity.FeedbackSessionLog;
 import teammates.logic.entity.Student;
-import teammates.storage.sqlapi.FeedbackSessionLogsDb;
+import teammates.storage.api.FeedbackSessionLogsDb;
 
 /**
  * SUT: {@link FeedbackSessionLogsDb}.

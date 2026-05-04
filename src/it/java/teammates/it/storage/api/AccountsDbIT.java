@@ -1,4 +1,4 @@
-package teammates.it.storage.sqlapi;
+package teammates.it.storage.api;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.logic.entity.Account;
-import teammates.storage.sqlapi.AccountsDb;
+import teammates.storage.api.AccountsDb;
 
 /**
  * SUT: {@link AccountsDb}.

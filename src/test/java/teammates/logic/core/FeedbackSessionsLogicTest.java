@@ -24,7 +24,7 @@ import teammates.logic.entity.FeedbackResponse;
 import teammates.logic.entity.FeedbackSession;
 import teammates.logic.entity.Instructor;
 import teammates.logic.entity.Student;
-import teammates.storage.sqlapi.FeedbackSessionsDb;
+import teammates.storage.api.FeedbackSessionsDb;
 import teammates.test.BaseTestCase;
 import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.output.SessionVisibleSetting;

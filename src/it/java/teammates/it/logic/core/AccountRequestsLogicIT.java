@@ -11,7 +11,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.logic.core.AccountRequestsLogic;
 import teammates.logic.entity.AccountRequest;
-import teammates.storage.sqlapi.AccountRequestsDb;
+import teammates.storage.api.AccountRequestsDb;
 
 /**
  * SUT: {@link AccountRequestsLogic}.

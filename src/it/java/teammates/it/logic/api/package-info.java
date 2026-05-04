@@ -1,4 +1,4 @@
 /**
- * Contains test cases for {@link teammates.storage.sqlapi} package.
+ * Contains test cases for {@link teammates.storage.api} package.
  */
 package teammates.it.logic.api;
