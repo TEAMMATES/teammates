@@ -17,7 +17,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
-import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.DeadlineExtension;
 import teammates.storage.sqlentity.FeedbackSession;
@@ -100,19 +99,6 @@ public class UpdateDeadlineExtensionsAction extends Action {
             throw new EntityNotFoundException("There are instructors which do not exist in the course.");
         }
 
-        String timeZone = feedbackSession.getCourse().getTimeZone();
-
-        studentDeadlines = studentDeadlines.entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry ->
-                        TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                                entry.getValue(), timeZone, true)));
-        instructorDeadlines = instructorDeadlines.entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry ->
-                        TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                                entry.getValue(), timeZone, true)));
-
         boolean notifyAboutDeadlines = getBooleanRequestParamValue(Const.ParamsNames.NOTIFY_ABOUT_DEADLINES);
 
         List<EmailWrapper> emailsToSend = new ArrayList<>();
@@ -129,9 +115,8 @@ public class UpdateDeadlineExtensionsAction extends Action {
         // Refresh to get updated deadline extensions
         feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
         List<DeadlineExtension> deadlineExtensions = feedbackSession.getDeadlineExtensions();
-        String updatedTimeZone = feedbackSession.getCourse().getTimeZone();
         DeadlineExtensionsData responseData = new DeadlineExtensionsData(
-                updatedTimeZone, deadlineExtensions, studentsByUserId, instructorsByUserId);
+                deadlineExtensions, studentsByUserId, instructorsByUserId);
 
         return new JsonResult(responseData);
     }

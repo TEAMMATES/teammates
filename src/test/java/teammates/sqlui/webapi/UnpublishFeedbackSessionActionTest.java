@@ -19,7 +19,6 @@ import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.TimeHelper;
 import teammates.storage.sqlentity.Course;
 import teammates.storage.sqlentity.FeedbackSession;
 import teammates.storage.sqlentity.Instructor;
@@ -244,19 +243,14 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
         assertEquals(output.getTimeZone(), session.getCourse().getTimeZone());
         assertEquals(output.getFeedbackSessionName(), session.getName());
         assertEquals(output.getInstructions(), session.getInstructions());
-        assertEquals(output.getSubmissionStartTimestamp(), TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                session.getStartTime(), session.getCourse().getTimeZone(), true).toEpochMilli());
-        assertEquals(output.getSubmissionEndTimestamp(), TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                session.getEndTime(), session.getCourse().getTimeZone(), true).toEpochMilli());
-        assertEquals(output.getSubmissionEndWithExtensionTimestamp(), TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                session.getEndTime(), session.getCourse().getTimeZone(), true).toEpochMilli());
+        assertEquals(output.getSubmissionStartTimestamp(), session.getStartTime().toEpochMilli());
+        assertEquals(output.getSubmissionEndTimestamp(), session.getEndTime().toEpochMilli());
+        assertEquals(output.getSubmissionEndWithExtensionTimestamp(), session.getEndTime().toEpochMilli());
         assertEquals((long) output.getGracePeriod(), session.getGracePeriod().toMinutes());
-        assertEquals((long) output.getSessionVisibleFromTimestamp(), TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                session.getSessionVisibleFromTime(), session.getCourse().getTimeZone(), true).toEpochMilli());
+        assertEquals((long) output.getSessionVisibleFromTimestamp(), session.getSessionVisibleFromTime().toEpochMilli());
         assertEquals(output.getSessionVisibleSetting(), SessionVisibleSetting.CUSTOM);
         assertEquals(output.getCustomSessionVisibleTimestamp(), output.getSessionVisibleFromTimestamp());
-        assertEquals((long) output.getResultVisibleFromTimestamp(), TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                session.getResultsVisibleFromTime(), session.getCourse().getTimeZone(), true).toEpochMilli());
+        assertEquals((long) output.getResultVisibleFromTimestamp(), session.getResultsVisibleFromTime().toEpochMilli());
         assertEquals(output.getResponseVisibleSetting(), ResponseVisibleSetting.CUSTOM);
         assertEquals(output.getCustomResponseVisibleTimestamp(), output.getResultVisibleFromTimestamp());
         assertEquals(output.getSubmissionStatus(), FeedbackSessionSubmissionStatus.NOT_VISIBLE);

@@ -50,10 +50,9 @@ public class GetDeadlineExtensionsAction extends Action {
                 .collect(Collectors.toMap(Instructor::getId, i -> i));
 
         List<DeadlineExtension> deadlineExtensions = feedbackSession.getDeadlineExtensions();
-        String timeZone = feedbackSession.getCourse().getTimeZone();
 
         DeadlineExtensionsData responseData = new DeadlineExtensionsData(
-                timeZone, deadlineExtensions, studentsByUserId, instructorsByUserId);
+                deadlineExtensions, studentsByUserId, instructorsByUserId);
 
         return new JsonResult(responseData);
     }
