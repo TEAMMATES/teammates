@@ -72,7 +72,7 @@ export class AdminSearchPageComponent {
 
           this.instructors = resp.instructors;
           this.students = resp.students;
-          this.accountRequests = this.formatAccountRequests(resp.accountRequests);
+          this.accountRequests = resp.accountRequests;
 
           const limit: number = ApiConst.SEARCH_QUERY_SIZE_LIMIT;
           const limitsReached: string[] = [];
@@ -98,22 +98,5 @@ export class AdminSearchPageComponent {
           this.statusMessageService.showErrorToast(resp.error.message);
         },
       });
-  }
-
-  private formatAccountRequests(accountRequests: AccountRequestSearchResult[]): AccountRequestSearchResult[] {
-    return accountRequests.map((accountRequest: AccountRequestSearchResult): AccountRequestSearchResult => {
-      return {
-        id: accountRequest.id,
-        name: accountRequest.name,
-        email: accountRequest.email,
-        status: accountRequest.status,
-        institute: accountRequest.institute,
-        createdAtText: accountRequest.createdAtText,
-        registeredAtText: accountRequest.registeredAtText || '',
-        comments: accountRequest.comments,
-        registrationLink: accountRequest.registrationLink,
-        showLinks: accountRequest.showLinks,
-      };
-    });
   }
 }
