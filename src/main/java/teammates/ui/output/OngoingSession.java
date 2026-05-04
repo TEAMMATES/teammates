@@ -1,3 +1,4 @@
+
 package teammates.ui.output;
 
 import java.util.ArrayList;
