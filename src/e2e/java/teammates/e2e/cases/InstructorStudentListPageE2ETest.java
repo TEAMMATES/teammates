@@ -7,14 +7,14 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorCourseEnrollPageSql;
-import teammates.e2e.pageobjects.InstructorCourseStudentDetailsEditPageSql;
-import teammates.e2e.pageobjects.InstructorCourseStudentDetailsViewPageSql;
-import teammates.e2e.pageobjects.InstructorStudentListPageSql;
-import teammates.e2e.pageobjects.InstructorStudentRecordsPageSql;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.e2e.pageobjects.InstructorCourseEnrollPage;
+import teammates.e2e.pageobjects.InstructorCourseStudentDetailsEditPage;
+import teammates.e2e.pageobjects.InstructorCourseStudentDetailsViewPage;
+import teammates.e2e.pageobjects.InstructorStudentListPage;
+import teammates.e2e.pageobjects.InstructorStudentRecordsPage;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_STUDENT_LIST_PAGE}.
@@ -37,7 +37,7 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
         String instructorId = instructor.getGoogleId();
 
         AppUrl listPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE);
-        InstructorStudentListPageSql listPage = loginToPage(listPageUrl, InstructorStudentListPageSql.class, instructorId);
+        InstructorStudentListPage listPage = loginToPage(listPageUrl, InstructorStudentListPage.class, instructorId);
 
         listPage.verifyAllCoursesHaveTabs(testData.courses.values());
 
@@ -73,10 +73,10 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
 
         ______TS("link: enroll page");
 
-        InstructorCourseEnrollPageSql enrollPage = listPage.clickEnrollStudents(course3);
+        InstructorCourseEnrollPage enrollPage = listPage.clickEnrollStudents(course3);
         enrollPage.verifyIsCorrectPage(course3.getId());
 
-        listPage = getNewPageInstance(listPageUrl, InstructorStudentListPageSql.class);
+        listPage = getNewPageInstance(listPageUrl, InstructorStudentListPage.class);
         listPage.clickCourseTabHeader(course3);
 
         ______TS("link: view student details page");
@@ -84,21 +84,21 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
         Student studentToView = testData.students.get("Student1Course3");
         String studentEmail = studentToView.getEmail();
 
-        InstructorCourseStudentDetailsViewPageSql studentDetailsViewPage =
+        InstructorCourseStudentDetailsViewPage studentDetailsViewPage =
                 listPage.clickViewStudent(course3, studentEmail);
         studentDetailsViewPage.verifyIsCorrectPage(course3.getId(), studentEmail);
         studentDetailsViewPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("link: edit student details page");
 
-        InstructorCourseStudentDetailsEditPageSql studentDetailsEditPage =
+        InstructorCourseStudentDetailsEditPage studentDetailsEditPage =
                 listPage.clickEditStudent(course3, studentEmail);
         studentDetailsEditPage.verifyIsCorrectPage(course3.getId(), studentEmail);
         studentDetailsEditPage.closeCurrentWindowAndSwitchToParentWindow();
 
         ______TS("link: view all records page");
 
-        InstructorStudentRecordsPageSql studentRecordsPage =
+        InstructorStudentRecordsPage studentRecordsPage =
                 listPage.clickViewAllRecords(course3, studentEmail);
         studentRecordsPage.verifyIsCorrectPage(course3.getId(), studentToView.getName());
         studentRecordsPage.closeCurrentWindowAndSwitchToParentWindow();

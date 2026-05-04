@@ -6,7 +6,7 @@ import com.deque.html.axecore.results.Results;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorStudentRecordsPageSql;
+import teammates.e2e.pageobjects.InstructorStudentRecordsPage;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_STUDENT_RECORDS_PAGE}.
@@ -26,8 +26,8 @@ public class InstructorStudentRecordsPageAxeTest extends BaseAxeTestCase {
                 .withCourseId(testData.courses.get("CS2104").getId())
                 .withStudentEmail(testData.students.get("benny.c.tmms@ISR.CS2104").getEmail());
 
-        InstructorStudentRecordsPageSql recordsPage =
-                loginToPage(recordsPageUrl, InstructorStudentRecordsPageSql.class,
+        InstructorStudentRecordsPage recordsPage =
+                loginToPage(recordsPageUrl, InstructorStudentRecordsPage.class,
                 testData.instructors.get("teammates.test.CS2104").getGoogleId());
 
         Results results = getAxeBuilder().analyze(recordsPage.getBrowser().getDriver());

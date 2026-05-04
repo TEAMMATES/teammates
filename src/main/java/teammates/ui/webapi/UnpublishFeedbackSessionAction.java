@@ -7,8 +7,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
 import teammates.ui.output.FeedbackSessionData;
 
 /**
@@ -25,11 +25,11 @@ public class UnpublishFeedbackSessionAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
+        Instructor instructor = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
 
         gateKeeper.verifyAccessible(instructor, feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
@@ -40,7 +40,7 @@ public class UnpublishFeedbackSessionAction extends Action {
 
         try {
             FeedbackSession unpublishFeedbackSession =
-                    sqlLogic.unpublishFeedbackSession(feedbackSessionId);
+                    logic.unpublishFeedbackSession(feedbackSessionId);
 
             sendUnpublishedEmails(unpublishFeedbackSession);
             return new JsonResult(new FeedbackSessionData(unpublishFeedbackSession));

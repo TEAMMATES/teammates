@@ -5,7 +5,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.storage.sqlentity.FeedbackResponseComment;
+import teammates.storage.entity.FeedbackResponseComment;
 
 /**
  * The API output format of {@link FeedbackResponseComment}.

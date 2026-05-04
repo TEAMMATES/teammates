@@ -5,7 +5,7 @@ import java.util.List;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
-import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.entity.FeedbackSession;
 
 /**
  * Cron job: schedules feedback session published emails to be sent.
@@ -16,14 +16,14 @@ public class FeedbackSessionPublishedRemindersAction extends AutomatedServiceAct
 
     @Override
     public JsonResult execute() {
-        List<FeedbackSession> sessions = sqlLogic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
+        List<FeedbackSession> sessions = logic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
         for (FeedbackSession session : sessions) {
             RequestTracer.checkRemainingTime();
             List<EmailWrapper> emailsToBeSent = emailGenerator.generateFeedbackSessionPublishedEmails(session);
             try {
                 taskQueuer.scheduleEmailsForSending(emailsToBeSent);
                 session.setPublishedEmailSent(true);
-                sqlLogic.adjustFeedbackSessionEmailStatusAfterUpdate(session);
+                logic.adjustFeedbackSessionEmailStatusAfterUpdate(session);
             } catch (Exception e) {
                 log.severe("Unexpected error", e);
             }

@@ -4,11 +4,11 @@ import java.util.UUID;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.SanitizationHelper;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackResponse;
-import teammates.storage.sqlentity.FeedbackResponseComment;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackResponseComment;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 
 /**
  * Basic action class for feedback response comment related operation.
@@ -18,10 +18,10 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
     static final String FEEDBACK_RESPONSE_COMMENT_EMPTY = "Comment cannot be empty";
 
     /**
-     * Validates comment of corresponding response doesn't exist in SQL DB.
+     * Validates comment of corresponding response doesn't exist in DB.
      */
     void verifyCommentNotExist(UUID feedbackResponseId) throws InvalidOperationException {
-        FeedbackResponseComment comment = sqlLogic
+        FeedbackResponseComment comment = logic
                 .getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
 
         if (comment != null) {

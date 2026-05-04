@@ -5,12 +5,12 @@ import java.util.UUID;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackResponse;
-import teammates.storage.sqlentity.FeedbackResponseComment;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackResponseComment;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 import teammates.ui.request.Intent;
 
 /**
@@ -26,7 +26,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackResponseCommentId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
-        FeedbackResponseComment comment = sqlLogic.getFeedbackResponseComment(feedbackResponseCommentId);
+        FeedbackResponseComment comment = logic.getFeedbackResponseComment(feedbackResponseCommentId);
 
         String courseId;
         if (comment != null) {
@@ -41,7 +41,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getSqlStudentOfCourseFromRequest(courseId);
+            Student student = getStudentOfCourseFromRequest(courseId);
 
             gateKeeper.verifyAnswerableForStudent(question);
             verifyInstructorCanSeeQuestionIfInModeration(question);
@@ -54,7 +54,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
                             ? student.getTeamName() : student.getEmail());
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructorAsFeedbackParticipant = getSqlInstructorOfCourseFromRequest(courseId);
+            Instructor instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
 
             gateKeeper.verifyAnswerableForInstructor(question);
             verifyInstructorCanSeeQuestionIfInModeration(question);
@@ -66,7 +66,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
             break;
         case INSTRUCTOR_RESULT:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+            Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
             if (instructor == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
             }
@@ -90,7 +90,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
     public JsonResult execute() {
         UUID feedbackResponseCommentId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
 
-        FeedbackResponseComment comment = sqlLogic.getFeedbackResponseComment(feedbackResponseCommentId);
+        FeedbackResponseComment comment = logic.getFeedbackResponseComment(feedbackResponseCommentId);
 
         JsonResult successfulJsonResult = new JsonResult("Successfully deleted feedback response comment.");
 
@@ -98,7 +98,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
             return successfulJsonResult;
         }
 
-        sqlLogic.deleteFeedbackResponseComment(feedbackResponseCommentId);
+        logic.deleteFeedbackResponseComment(feedbackResponseCommentId);
 
         return successfulJsonResult;
     }

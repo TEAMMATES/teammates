@@ -19,14 +19,14 @@ import teammates.common.util.StringHelper;
 import teammates.logic.api.AuthProxy;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
+import teammates.logic.api.Logic;
 import teammates.logic.api.LogsProcessor;
 import teammates.logic.api.RecaptchaVerifier;
 import teammates.logic.api.TaskQueuer;
-import teammates.sqllogic.api.Logic;
-import teammates.sqllogic.api.UserProvision;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.logic.api.UserProvision;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 import teammates.ui.request.BasicRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
@@ -37,7 +37,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  */
 public abstract class Action {
 
-    Logic sqlLogic = Logic.inst();
+    Logic logic = Logic.inst();
     UserProvision userProvision = UserProvision.inst();
     GateKeeper gateKeeper = GateKeeper.inst();
     EmailGenerator emailGenerator = EmailGenerator.inst();
@@ -51,8 +51,8 @@ public abstract class Action {
     UserInfo userInfo;
     AuthType authType;
 
-    private Student unregisteredSqlStudent;
-    private Instructor unregisteredSqlInstructor;
+    private Student unregisteredStudent;
+    private Instructor unregisteredInstructor;
 
     // buffer to store the request body
     private String requestBody;
@@ -69,7 +69,7 @@ public abstract class Action {
      * Inject logic class for use in tests.
      */
     public void setLogic(Logic logic) {
-        this.sqlLogic = logic;
+        this.logic = logic;
     }
 
     public void setUserProvision(UserProvision userProvision) {
@@ -133,14 +133,14 @@ public abstract class Action {
         String googleId = userInfo == null ? null : userInfo.getId();
 
         user.setGoogleId(googleId);
-        if (unregisteredSqlStudent == null && unregisteredSqlInstructor == null) {
+        if (unregisteredStudent == null && unregisteredInstructor == null) {
             user.setRegkey(getRequestParamValue(Const.ParamsNames.REGKEY));
-        } else if (unregisteredSqlStudent != null) {
-            user.setRegkey(unregisteredSqlStudent.getRegKey());
-            user.setEmail(unregisteredSqlStudent.getEmail());
+        } else if (unregisteredStudent != null) {
+            user.setRegkey(unregisteredStudent.getRegKey());
+            user.setEmail(unregisteredStudent.getEmail());
         } else {
-            user.setRegkey(unregisteredSqlInstructor.getRegKey());
-            user.setEmail(unregisteredSqlInstructor.getEmail());
+            user.setRegkey(unregisteredInstructor.getRegKey());
+            user.setEmail(unregisteredInstructor.getEmail());
         }
         return user;
     }
@@ -276,7 +276,7 @@ public abstract class Action {
     }
 
     FeedbackSession getNonNullFeedbackSession(String feedbackSessionName, String courseId) {
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
@@ -298,15 +298,14 @@ public abstract class Action {
     /**
      * Gets the unregistered student by the HTTP param.
      */
-    Optional<Student> getUnregisteredSqlStudent() {
-        // TODO: Remove Sql from method name after migration
+    Optional<Student> getUnregisteredStudent() {
         String key = getRequestParamValue(Const.ParamsNames.REGKEY);
         if (!StringHelper.isEmpty(key)) {
-            Student student = sqlLogic.getStudentByRegistrationKey(key);
+            Student student = logic.getStudentByRegistrationKey(key);
             if (student == null) {
                 return Optional.empty();
             }
-            unregisteredSqlStudent = student;
+            unregisteredStudent = student;
             return Optional.of(student);
         }
         return Optional.empty();
@@ -315,35 +314,34 @@ public abstract class Action {
     /**
      * Gets the unregistered instructor by the HTTP param.
      */
-    Optional<Instructor> getUnregisteredSqlInstructor() {
-        // TODO: Remove Sql from method name after migration
+    Optional<Instructor> getUnregisteredInstructor() {
         String key = getRequestParamValue(Const.ParamsNames.REGKEY);
         if (!StringHelper.isEmpty(key)) {
-            Instructor instructor = sqlLogic.getInstructorByRegistrationKey(key);
+            Instructor instructor = logic.getInstructorByRegistrationKey(key);
             if (instructor == null) {
                 return Optional.empty();
             }
-            unregisteredSqlInstructor = instructor;
+            unregisteredInstructor = instructor;
             return Optional.of(instructor);
         }
         return Optional.empty();
     }
 
-    Instructor getPossiblyUnregisteredSqlInstructor(String courseId) {
-        return getUnregisteredSqlInstructor().orElseGet(() -> {
+    Instructor getPossiblyUnregisteredInstructor(String courseId) {
+        return getUnregisteredInstructor().orElseGet(() -> {
             if (userInfo == null) {
                 return null;
             }
-            return sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+            return logic.getInstructorByGoogleId(courseId, userInfo.getId());
         });
     }
 
-    Student getPossiblyUnregisteredSqlStudent(String courseId) {
-        return getUnregisteredSqlStudent().orElseGet(() -> {
+    Student getPossiblyUnregisteredStudent(String courseId) {
+        return getUnregisteredStudent().orElseGet(() -> {
             if (userInfo == null) {
                 return null;
             }
-            return sqlLogic.getStudentByGoogleId(courseId, userInfo.getId());
+            return logic.getStudentByGoogleId(courseId, userInfo.getId());
         });
     }
 

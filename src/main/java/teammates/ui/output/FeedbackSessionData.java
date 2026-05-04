@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.entity.FeedbackSession;
 
 /**
  * The API output format of {@link FeedbackSession}.

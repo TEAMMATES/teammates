@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
-import teammates.storage.sqlentity.AccountRequest;
+import teammates.storage.entity.AccountRequest;
 import teammates.ui.output.JoinStatus;
 import teammates.ui.webapi.GetCourseJoinStatusAction;
 import teammates.ui.webapi.JsonResult;

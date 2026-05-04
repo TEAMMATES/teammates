@@ -1,7 +1,7 @@
 package teammates.ui.webapi;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Instructor;
+import teammates.storage.entity.Instructor;
 
 /**
  * Action: deletes all students in a course.
@@ -21,16 +21,16 @@ public class DeleteStudentsAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.id);
         gateKeeper.verifyAccessible(
-                    instructor, sqlLogic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+                    instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }
 
     @Override
     public JsonResult execute() {
         var courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        sqlLogic.deleteStudentsInCourseCascade(courseId);
+        logic.deleteStudentsInCourseCascade(courseId);
 
         return new JsonResult("Successful");
     }

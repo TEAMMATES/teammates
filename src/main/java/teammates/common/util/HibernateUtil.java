@@ -15,42 +15,42 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.MutationQuery;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 
-import teammates.storage.sqlentity.Account;
-import teammates.storage.sqlentity.AccountRequest;
-import teammates.storage.sqlentity.BaseEntity;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.DeadlineExtension;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackResponse;
-import teammates.storage.sqlentity.FeedbackResponseComment;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.FeedbackSessionLog;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Notification;
-import teammates.storage.sqlentity.ReadNotification;
-import teammates.storage.sqlentity.Section;
-import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlentity.Team;
-import teammates.storage.sqlentity.UsageStatistics;
-import teammates.storage.sqlentity.User;
-import teammates.storage.sqlentity.questions.FeedbackConstantSumQuestion;
-import teammates.storage.sqlentity.questions.FeedbackContributionQuestion;
-import teammates.storage.sqlentity.questions.FeedbackMcqQuestion;
-import teammates.storage.sqlentity.questions.FeedbackMsqQuestion;
-import teammates.storage.sqlentity.questions.FeedbackNumericalScaleQuestion;
-import teammates.storage.sqlentity.questions.FeedbackRankOptionsQuestion;
-import teammates.storage.sqlentity.questions.FeedbackRankRecipientsQuestion;
-import teammates.storage.sqlentity.questions.FeedbackRubricQuestion;
-import teammates.storage.sqlentity.questions.FeedbackTextQuestion;
-import teammates.storage.sqlentity.responses.FeedbackConstantSumResponse;
-import teammates.storage.sqlentity.responses.FeedbackContributionResponse;
-import teammates.storage.sqlentity.responses.FeedbackMcqResponse;
-import teammates.storage.sqlentity.responses.FeedbackMsqResponse;
-import teammates.storage.sqlentity.responses.FeedbackNumericalScaleResponse;
-import teammates.storage.sqlentity.responses.FeedbackRankOptionsResponse;
-import teammates.storage.sqlentity.responses.FeedbackRankRecipientsResponse;
-import teammates.storage.sqlentity.responses.FeedbackRubricResponse;
-import teammates.storage.sqlentity.responses.FeedbackTextResponse;
+import teammates.storage.entity.Account;
+import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.BaseEntity;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.DeadlineExtension;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackResponseComment;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.FeedbackSessionLog;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Notification;
+import teammates.storage.entity.ReadNotification;
+import teammates.storage.entity.Section;
+import teammates.storage.entity.Student;
+import teammates.storage.entity.Team;
+import teammates.storage.entity.UsageStatistics;
+import teammates.storage.entity.User;
+import teammates.storage.entity.questions.FeedbackConstantSumQuestion;
+import teammates.storage.entity.questions.FeedbackContributionQuestion;
+import teammates.storage.entity.questions.FeedbackMcqQuestion;
+import teammates.storage.entity.questions.FeedbackMsqQuestion;
+import teammates.storage.entity.questions.FeedbackNumericalScaleQuestion;
+import teammates.storage.entity.questions.FeedbackRankOptionsQuestion;
+import teammates.storage.entity.questions.FeedbackRankRecipientsQuestion;
+import teammates.storage.entity.questions.FeedbackRubricQuestion;
+import teammates.storage.entity.questions.FeedbackTextQuestion;
+import teammates.storage.entity.responses.FeedbackConstantSumResponse;
+import teammates.storage.entity.responses.FeedbackContributionResponse;
+import teammates.storage.entity.responses.FeedbackMcqResponse;
+import teammates.storage.entity.responses.FeedbackMsqResponse;
+import teammates.storage.entity.responses.FeedbackNumericalScaleResponse;
+import teammates.storage.entity.responses.FeedbackRankOptionsResponse;
+import teammates.storage.entity.responses.FeedbackRankRecipientsResponse;
+import teammates.storage.entity.responses.FeedbackRubricResponse;
+import teammates.storage.entity.responses.FeedbackTextResponse;
 
 /**
  * Utility class for Hibernate related methods.
@@ -123,7 +123,7 @@ public final class HibernateUtil {
                 .setProperty("hibernate.hikari.minimumIdle", "10")
                 .setProperty("hibernate.hikari.maximumPoolSize", "10")
                 .setProperty("hibernate.hikari.connectionTimeout", "30000")
-                .addPackage("teammates.storage.sqlentity");
+                .addPackage("teammates.storage.entity");
 
         for (Class<? extends BaseEntity> cls : ANNOTATED_CLASSES) {
             config = config.addAnnotatedClass(cls);

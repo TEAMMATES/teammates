@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
-import teammates.storage.sqlentity.DeadlineExtension;
-import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.entity.DeadlineExtension;
+import teammates.storage.entity.FeedbackSession;
 
 /**
  * Cron job: schedules feedback session closing soon emails to be sent.
@@ -19,7 +19,7 @@ public class FeedbackSessionClosingSoonRemindersAction extends AutomatedServiceA
 
     @Override
     public JsonResult execute() {
-        List<FeedbackSession> sessions = sqlLogic.getFeedbackSessionsClosingWithinTimeLimit();
+        List<FeedbackSession> sessions = logic.getFeedbackSessionsClosingWithinTimeLimit();
 
         for (FeedbackSession session : sessions) {
             RequestTracer.checkRemainingTime();
@@ -34,7 +34,7 @@ public class FeedbackSessionClosingSoonRemindersAction extends AutomatedServiceA
 
         // Group deadline extensions by feedback sessions
         Collection<List<DeadlineExtension>> groupedDeadlineExtensions =
-                sqlLogic.getDeadlineExtensionsPossiblyNeedingClosingSoonEmail()
+                logic.getDeadlineExtensionsPossiblyNeedingClosingSoonEmail()
                     .stream()
                     .collect(Collectors.groupingBy(de -> de.getFeedbackSession()))
                     .values();

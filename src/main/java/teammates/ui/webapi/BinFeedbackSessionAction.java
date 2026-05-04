@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.entity.FeedbackSession;
 import teammates.ui.output.FeedbackSessionData;
 
 /**
@@ -21,12 +21,12 @@ public class BinFeedbackSessionAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
         gateKeeper.verifyAccessible(
-                sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
+                logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
                 feedbackSession,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
@@ -36,7 +36,7 @@ public class BinFeedbackSessionAction extends Action {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
         try {
-            FeedbackSession fs = sqlLogic.moveFeedbackSessionToRecycleBin(feedbackSessionId);
+            FeedbackSession fs = logic.moveFeedbackSessionToRecycleBin(feedbackSessionId);
             return new JsonResult(new FeedbackSessionData(fs));
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);

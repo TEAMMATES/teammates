@@ -7,8 +7,8 @@ import java.util.UUID;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Student;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Student;
 
 /**
  * Action: creates a feedback session log for the purposes of tracking and auditing.
@@ -24,12 +24,12 @@ public class CreateFeedbackSessionLogAction extends Action {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("The feedback session does not exist.");
         }
 
-        Student authenticatedStudent = getPossiblyUnregisteredSqlStudent(feedbackSession.getCourseId());
+        Student authenticatedStudent = getPossiblyUnregisteredStudent(feedbackSession.getCourseId());
         if (authenticatedStudent == null) {
             throw new UnauthorizedAccessException("No authenticated student found for the course.");
         }
@@ -57,16 +57,16 @@ public class CreateFeedbackSessionLogAction extends Action {
         }
 
         UUID fsId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(fsId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(fsId);
         if (feedbackSession == null) {
             throw new InvalidHttpParameterException("The feedback session does not exist.");
         }
 
         Instant now = Instant.now(clock);
-        Student student = getPossiblyUnregisteredSqlStudent(feedbackSession.getCourseId());
+        Student student = getPossiblyUnregisteredStudent(feedbackSession.getCourseId());
 
         try {
-            sqlLogic.createFeedbackSessionLog(feedbackSession, student, convertedFslType, now);
+            logic.createFeedbackSessionLog(feedbackSession, student, convertedFslType, now);
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpParameterException(ipe);
         }

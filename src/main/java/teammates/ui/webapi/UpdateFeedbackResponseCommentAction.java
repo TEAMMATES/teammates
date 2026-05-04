@@ -6,12 +6,12 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackResponse;
-import teammates.storage.sqlentity.FeedbackResponseComment;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackResponseComment;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 import teammates.ui.request.Intent;
@@ -31,7 +31,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackResponseCommentId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
 
-        FeedbackResponseComment feedbackResponseComment = sqlLogic.getFeedbackResponseComment(feedbackResponseCommentId);
+        FeedbackResponseComment feedbackResponseComment = logic.getFeedbackResponseComment(feedbackResponseCommentId);
 
         String courseId;
 
@@ -48,7 +48,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getSqlStudentOfCourseFromRequest(courseId);
+            Student student = getStudentOfCourseFromRequest(courseId);
             if (student == null) {
                 throw new EntityNotFoundException("Student does not exist.");
             }
@@ -64,7 +64,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
                             ? student.getTeamName() : student.getEmail());
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructorAsFeedbackParticipant = getSqlInstructorOfCourseFromRequest(courseId);
+            Instructor instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
             if (instructorAsFeedbackParticipant == null) {
                 throw new EntityNotFoundException("Instructor does not exist.");
             }
@@ -79,7 +79,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             break;
         case INSTRUCTOR_RESULT:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+            Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
             if (instructor == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
             }
@@ -101,7 +101,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
     public JsonResult execute() throws InvalidHttpRequestBodyException {
         UUID feedbackResponseCommentId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
 
-        FeedbackResponseComment feedbackResponseComment = sqlLogic.getFeedbackResponseComment(feedbackResponseCommentId);
+        FeedbackResponseComment feedbackResponseComment = logic.getFeedbackResponseComment(feedbackResponseCommentId);
 
         String courseId;
 
@@ -116,15 +116,15 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getSqlStudentOfCourseFromRequest(courseId);
+            Student student = getStudentOfCourseFromRequest(courseId);
             email = student.getEmail();
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructorAsFeedbackParticipant = getSqlInstructorOfCourseFromRequest(courseId);
+            Instructor instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
             email = instructorAsFeedbackParticipant.getEmail();
             break;
         case INSTRUCTOR_RESULT:
-            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+            Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.id);
             email = instructor.getEmail();
             break;
         default:
@@ -141,7 +141,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
         try {
             FeedbackResponseComment updatedFeedbackResponseComment =
-                    sqlLogic.updateFeedbackResponseComment(feedbackResponseCommentId, comment, email);
+                    logic.updateFeedbackResponseComment(feedbackResponseCommentId, comment, email);
             return new JsonResult(new FeedbackResponseCommentData(updatedFeedbackResponseComment));
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);

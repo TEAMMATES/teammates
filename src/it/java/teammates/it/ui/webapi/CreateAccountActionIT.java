@@ -14,11 +14,11 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.StringHelperExtension;
-import teammates.storage.sqlentity.Account;
-import teammates.storage.sqlentity.AccountRequest;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
+import teammates.storage.entity.Account;
+import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
 import teammates.ui.webapi.CreateAccountAction;
 import teammates.ui.webapi.InvalidHttpParameterException;
 

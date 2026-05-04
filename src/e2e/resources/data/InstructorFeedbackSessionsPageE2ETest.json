@@ -2,37 +2,37 @@
   "accounts": {
     "IFSessionPage.alice": {
       "id": "00000001-0000-4000-8000-000000000001",
-      "googleId": "tm.e2e.sql.IFSessionPage.alice.tmms",
+      "googleId": "tm.e2e.IFSessionPage.alice.tmms",
       "name": "Alice Betsy",
       "email": "alice.b.tmms@gmail.tmt"
     },
     "IFSessionPage.benny": {
       "id": "00000001-0000-4000-8000-000000000002",
-      "googleId": "tm.e2e.sql.IFSessionPage.benny.tmms",
+      "googleId": "tm.e2e.IFSessionPage.benny.tmms",
       "name": "Benny Charles",
       "email": "benny.tmms@gmail.tmt"
     },
     "IFSessionPage.charlie": {
       "id": "00000001-0000-4000-8000-000000000003",
-      "googleId": "tm.e2e.sql.IFSessionPage.charlie.tmms",
+      "googleId": "tm.e2e.IFSessionPage.charlie.tmms",
       "name": "Charlie Davis",
       "email": "charlie.tmms@gmail.tmt"
     },
     "IFSessionPage.danny": {
       "id": "00000001-0000-4000-8000-000000000004",
-      "googleId": "tm.e2e.sql.IFSessionPage.danny.tmms",
+      "googleId": "tm.e2e.IFSessionPage.danny.tmms",
       "name": "Danny Engrid",
       "email": "ifsessionpage.danny.tmms@gmail.tmt"
     },
     "IFSessionPage.emma": {
       "id": "00000001-0000-4000-8000-000000000005",
-      "googleId": "tm.e2e.sql.IFSessionPage.emma.tmms",
+      "googleId": "tm.e2e.IFSessionPage.emma.tmms",
       "name": "Emma Farrell",
       "email": "ifsessionpage.emma.tmms@gmail.tmt"
     },
     "IFSessionPage.instr1": {
       "id": "00000000-0000-4000-8000-000000000001",
-      "googleId": "tm.e2e.sql.IFSessionPage.instr1",
+      "googleId": "tm.e2e.IFSessionPage.instr1",
       "name": "Instructor 1",
       "email": "ifsessionpage.instr@gmail.tmt"
     }
@@ -40,13 +40,13 @@
   "accountRequests": {},
   "courses": {
     "IFSessionPage.CS2104": {
-      "id": "tm.e2e.sql.CS2104",
+      "id": "tm.e2e.CS2104",
       "name": "Programming Language Concepts",
       "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "IFSessionPage.CS1101": {
-      "id": "tm.e2e.sql.CS1101",
+      "id": "tm.e2e.CS1101",
       "name": "Programming Methodology",
       "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Africa/Johannesburg"
@@ -56,12 +56,12 @@
     "IFSessionPage.CS2104": {
       "id": "00000000-0011-4000-8000-000000000001",
       "name": "Section A",
-      "courseId": "tm.e2e.sql.CS2104"
+      "courseId": "tm.e2e.CS2104"
     },
     "IFSessionPage.CS1101": {
       "id": "00000000-0011-4000-8000-000000000002",
       "name": "None",
-      "courseId": "tm.e2e.sql.CS1101"
+      "courseId": "tm.e2e.CS1101"
     }
   },
   "teams": {
@@ -85,7 +85,7 @@
   "instructors": {
     "IFSessionPage.instr1": {
       "id": "00000000-0000-4000-8000-000000000501",
-      "courseId": "tm.e2e.sql.CS2104",
+      "courseId": "tm.e2e.CS2104",
       "name": "Instructor 1",
       "email": "ifsessionpage.instr@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -109,7 +109,7 @@
     },
     "IFSessionPage.instr2": {
       "id": "00000000-0000-4000-8000-000000000502",
-      "courseId": "tm.e2e.sql.CS1101",
+      "courseId": "tm.e2e.CS1101",
       "name": "Instructor 2",
       "email": "ifsessionpage.instr2@gmail.tmt",
       "role": "INSTRUCTOR_PERMISSION_ROLE_COOWNER",
@@ -135,7 +135,7 @@
   "students": {
     "IFSessionPage.alice": {
       "id": "00000001-0000-4000-8000-000000000501",
-      "courseId": "tm.e2e.sql.CS2104",
+      "courseId": "tm.e2e.CS2104",
       "email": "alice.b.tmms@gmail.tmt",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
@@ -144,7 +144,7 @@
     },
     "IFSessionPage.benny": {
       "id": "00000001-0000-4000-8000-000000000502",
-      "courseId": "tm.e2e.sql.CS2104",
+      "courseId": "tm.e2e.CS2104",
       "email": "benny.tmms@gmail.tmt",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
@@ -153,7 +153,7 @@
     },
     "IFSessionPage.charlie": {
       "id": "00000001-0000-4000-8000-000000000503",
-      "courseId": "tm.e2e.sql.CS2104",
+      "courseId": "tm.e2e.CS2104",
       "email": "charlie.tmms@gmail.tmt",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
@@ -162,7 +162,7 @@
     },
     "IFSessionPage.danny": {
       "id": "00000001-0000-4000-8000-000000000504",
-      "courseId": "tm.e2e.sql.CS1101",
+      "courseId": "tm.e2e.CS1101",
       "email": "ifsessionpage.danny.tmms@gmail.tmt",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
@@ -171,7 +171,7 @@
     },
     "IFSessionPage.emma": {
       "id": "00000001-0000-4000-8000-000000000505",
-      "courseId": "tm.e2e.sql.CS1101",
+      "courseId": "tm.e2e.CS1101",
       "email": "ifsessionpage.emma.tmms@gmail.tmt",
       "name": "Emma Farrell",
       "comments": "This student's name is Emma Farrell",
@@ -196,7 +196,7 @@
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "id": "00000000-0000-4000-8000-000000000701",
-      "courseId": "tm.e2e.sql.CS2104",
+      "courseId": "tm.e2e.CS2104",
       "name": "First Session"
     },
     "closedSession": {
@@ -215,7 +215,7 @@
       "isClosingSoonEmailEnabled": true,
       "isPublishedEmailEnabled": true,
       "id": "00000000-0000-4000-8000-000000000702",
-      "courseId": "tm.e2e.sql.CS1101",
+      "courseId": "tm.e2e.CS1101",
       "name": "Second Session"
     }
   },

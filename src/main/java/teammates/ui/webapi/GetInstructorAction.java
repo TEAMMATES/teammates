@@ -1,7 +1,7 @@
 package teammates.ui.webapi;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Instructor;
+import teammates.storage.entity.Instructor;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.Intent;
 
@@ -24,7 +24,7 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
         case INSTRUCTOR_SUBMISSION:
         case INSTRUCTOR_RESULT:
             String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-            Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
+            Instructor instructor = getInstructorOfCourseFromRequest(courseId);
             if (instructor == null) {
                 throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
             }
@@ -54,10 +54,10 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
         switch (intent) {
         case INSTRUCTOR_SUBMISSION:
         case INSTRUCTOR_RESULT:
-            instructor = getSqlInstructorOfCourseFromRequest(courseId);
+            instructor = getInstructorOfCourseFromRequest(courseId);
             break;
         case FULL_DETAIL:
-            instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+            instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);

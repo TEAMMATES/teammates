@@ -9,16 +9,16 @@ import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.TimeHelper;
-import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.api.EmailGenerator;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Student;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Student;
 import teammates.test.EmailChecker;
 
 /**
  * SUT: {@link EmailGenerator}.
  */
-public class EmailGeneratorTestIT extends BaseTestCaseWithSqlDatabaseAccess {
+public class EmailGeneratorTestIT extends BaseTestCaseWithDatabaseAccess {
 
     private final EmailGenerator emailGenerator = EmailGenerator.inst();
 
