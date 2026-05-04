@@ -11,7 +11,6 @@ import { StripHtmlTagsPipe } from '../../teammates-common/strip-html-tags.pipe';
 @Component({
   selector: 'tm-mcq-question-additional-info',
   templateUrl: './mcq-question-additional-info.component.html',
-  styleUrls: ['./mcq-question-additional-info.component.scss'],
   imports: [StripHtmlTagsPipe, GeneratedChoicePipe],
 })
 export class McqQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<FeedbackMcqQuestionDetails> {

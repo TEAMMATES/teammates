@@ -14,7 +14,6 @@ import { FeedbackResponseRecipientSubmissionFormModel } from '../../question-sub
 @Component({
   selector: 'tm-constsum-recipients-question-constraint',
   templateUrl: './constsum-recipients-question-constraint.component.html',
-  styleUrls: ['./constsum-recipients-question-constraint.component.scss'],
   imports: [],
 })
 export class ConstsumRecipientsQuestionConstraintComponent extends QuestionConstraintComponent<FeedbackConstantSumQuestionDetails> {

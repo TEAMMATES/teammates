@@ -38,7 +38,6 @@ export interface CommentEditFormModel {
 @Component({
   selector: 'tm-comment-edit-form',
   templateUrl: './comment-edit-form.component.html',
-  styleUrls: ['./comment-edit-form.component.scss'],
   animations: [collapseAnim],
   imports: [
     NgbTooltip,

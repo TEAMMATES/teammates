@@ -9,7 +9,6 @@ import { UserNotificationsListComponent } from '../../components/user-notificati
 @Component({
   selector: 'tm-student-notifications-page',
   templateUrl: './student-notifications-page.component.html',
-  styleUrls: ['./student-notifications-page.component.scss'],
   imports: [UserNotificationsListComponent],
 })
 export class StudentNotificationsPageComponent implements OnInit {

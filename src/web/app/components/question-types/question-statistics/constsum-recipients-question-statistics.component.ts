@@ -14,7 +14,6 @@ import {
 @Component({
   selector: 'tm-constsum-recipients-question-statistics',
   templateUrl: './constsum-recipients-question-statistics.component.html',
-  styleUrls: ['./constsum-recipients-question-statistics.component.scss'],
   imports: [SortableTableComponent],
 })
 export class ConstsumRecipientsQuestionStatisticsComponent

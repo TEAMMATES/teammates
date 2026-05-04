@@ -9,7 +9,6 @@ import { DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/
 @Component({
   selector: 'tm-constsum-recipients-question-additional-info',
   templateUrl: './constsum-recipients-question-additional-info.component.html',
-  styleUrls: ['./constsum-recipients-question-additional-info.component.scss'],
   imports: [],
 })
 export class ConstsumRecipientsQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<FeedbackConstantSumQuestionDetails> {

@@ -9,7 +9,6 @@ import { DEFAULT_TEXT_QUESTION_DETAILS } from '../../../../types/default-questio
 @Component({
   selector: 'tm-text-question-statistics',
   templateUrl: './text-question-statistics.component.html',
-  styleUrls: ['./text-question-statistics.component.scss'],
 })
 export class TextQuestionStatisticsComponent extends QuestionStatistics<
   FeedbackTextQuestionDetails,

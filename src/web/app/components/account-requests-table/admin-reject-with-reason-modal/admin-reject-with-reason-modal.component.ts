@@ -14,7 +14,6 @@ import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor
 @Component({
   selector: 'tm-reject-with-reason-modal',
   templateUrl: './admin-reject-with-reason-modal.component.html',
-  styleUrls: ['./admin-reject-with-reason-modal.component.scss'],
   imports: [RichTextEditorComponent],
 })
 export class RejectWithReasonModalComponent implements OnInit {

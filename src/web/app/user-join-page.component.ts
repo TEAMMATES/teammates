@@ -21,7 +21,6 @@ import { LoadingSpinnerDirective } from './components/loading-spinner/loading-sp
 @Component({
   selector: 'tm-user-join-page',
   templateUrl: './user-join-page.component.html',
-  styleUrls: ['./user-join-page.component.scss'],
   imports: [LoadingSpinnerDirective],
 })
 export class UserJoinPageComponent implements OnInit {

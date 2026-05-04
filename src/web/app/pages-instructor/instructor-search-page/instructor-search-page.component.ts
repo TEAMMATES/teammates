@@ -22,7 +22,6 @@ import { ErrorMessageOutput } from '../../error-message-output';
 @Component({
   selector: 'tm-instructor-search-page',
   templateUrl: './instructor-search-page.component.html',
-  styleUrls: ['./instructor-search-page.component.scss'],
   imports: [InstructorSearchBarComponent, LoadingSpinnerDirective, StudentResultTableComponent],
 })
 export class InstructorSearchPageComponent {

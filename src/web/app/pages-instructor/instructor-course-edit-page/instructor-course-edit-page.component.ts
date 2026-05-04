@@ -78,7 +78,6 @@ interface InstructorEditPanelDetail {
 @Component({
   selector: 'tm-instructor-course-edit-page',
   templateUrl: './instructor-course-edit-page.component.html',
-  styleUrls: ['./instructor-course-edit-page.component.scss'],
   imports: [
     LoadingRetryComponent,
     LoadingSpinnerDirective,

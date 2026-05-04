@@ -9,7 +9,6 @@ import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-que
 @Component({
   selector: 'tm-num-scale-question-additional-info',
   templateUrl: './num-scale-question-additional-info.component.html',
-  styleUrls: ['./num-scale-question-additional-info.component.scss'],
 })
 export class NumScaleQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<FeedbackNumericalScaleQuestionDetails> {
   constructor() {

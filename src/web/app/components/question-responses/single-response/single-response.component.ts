@@ -23,7 +23,6 @@ import { TextQuestionResponseComponent } from '../../question-types/question-res
 @Component({
   selector: 'tm-single-response',
   templateUrl: './single-response.component.html',
-  styleUrls: ['./single-response.component.scss'],
   imports: [
     ContributionQuestionResponseComponent,
     TextQuestionResponseComponent,

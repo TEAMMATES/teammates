@@ -13,7 +13,6 @@ import { QuestionSubmissionFormModel } from '../../../components/question-submis
 @Component({
   selector: 'tm-saving-complete-modal',
   templateUrl: './saving-complete-modal.component.html',
-  styleUrls: ['./saving-complete-modal.component.scss'],
   imports: [NgClass, KeyValuePipe],
 })
 export class SavingCompleteModalComponent {

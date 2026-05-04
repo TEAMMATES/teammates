@@ -11,7 +11,6 @@ import { FeedbackResponseRecipientSubmissionFormModel } from '../../question-sub
 @Component({
   selector: 'tm-contribution-question-constraint',
   templateUrl: './contribution-question-constraint.component.html',
-  styleUrls: ['./contribution-question-constraint.component.scss'],
   imports: [],
 })
 export class ContributionQuestionConstraintComponent extends QuestionConstraintComponent<FeedbackContributionQuestionDetails> {

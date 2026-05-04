@@ -29,7 +29,6 @@ export interface NotificationTab {
 @Component({
   selector: 'tm-user-notifications-list',
   templateUrl: './user-notifications-list.component.html',
-  styleUrls: ['./user-notifications-list.component.scss'],
   imports: [
     LoadingRetryComponent,
     LoadingSpinnerDirective,
