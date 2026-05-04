@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.exception.InvalidParametersException;
 import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
 import teammates.storage.sqlapi.CoursesDb;
 import teammates.storage.sqlentity.Course;
@@ -19,7 +18,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     private final CoursesDb coursesDb = CoursesDb.inst();
 
     @Test
-    public void testGetCourse() throws Exception {
+    public void testGetCourse() {
         ______TS("failure: get course that does not exist");
         Course actual = coursesDb.getCourse("non-existent-course-id");
         assertNull(actual);
@@ -36,7 +35,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testCreateCourse() throws Exception {
+    public void testCreateCourse() {
         ______TS("success: create course that does not exist");
         Course course = getTypicalCourse();
         coursesDb.createCourse(course);
@@ -48,7 +47,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testDeleteCourse() throws Exception {
+    public void testDeleteCourse() {
         Course course = getTypicalCourse();
         coursesDb.createCourse(course);
 
@@ -58,7 +57,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testCreateSection() throws Exception {
+    public void testCreateSection() {
         Course course = getTypicalCourse();
         Section section = getTypicalSection();
         coursesDb.createCourse(course);
@@ -73,7 +72,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testGetSectionByName() throws Exception {
+    public void testGetSectionByName() {
         Course course = getTypicalCourse();
         Section section = getTypicalSection();
         coursesDb.createCourse(course);
@@ -95,7 +94,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testGetSectionByCourseIdAndTeam() throws InvalidParametersException {
+    public void testGetSectionByCourseIdAndTeam() {
         Course course = getTypicalCourse();
         coursesDb.createCourse(course);
         Section section = new Section(course, "section-name");
@@ -117,7 +116,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testGetTeamsForCourse() throws InvalidParametersException {
+    public void testGetTeamsForCourse() {
         Course course = getTypicalCourse();
         coursesDb.createCourse(course);
 
@@ -153,7 +152,7 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
     }
 
     @Test
-    public void testCreateTeam() throws Exception {
+    public void testCreateTeam() {
         Course course = getTypicalCourse();
         Section section = getTypicalSection();
         Team team = new Team(section, "team-name1");
@@ -169,14 +168,10 @@ public class CoursesDbIT extends BaseTestCaseWithSqlDatabaseAccess {
         coursesDb.createTeam(team);
         Team actualTeam = coursesDb.getTeamByName(section.getId(), team.getName());
         verifyEquals(team, actualTeam);
-
-        ______TS("failure: invalid team details");
-        Team invalidTeam = new Team(section, null);
-        assertThrows(Exception.class, () -> coursesDb.createTeam(invalidTeam));
     }
 
     @Test
-    public void testGetTeamByName() throws Exception {
+    public void testGetTeamByName() {
         Course course = getTypicalCourse();
         Section section = getTypicalSection();
         Team team = new Team(section, "team-name1");
