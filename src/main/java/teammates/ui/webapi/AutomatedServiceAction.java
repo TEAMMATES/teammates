@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import teammates.ui.exception.UnauthorizedAccessException;
+
 /**
  * Actions callable by verified automated jobs (cron/worker) and by human application administrators.
  *

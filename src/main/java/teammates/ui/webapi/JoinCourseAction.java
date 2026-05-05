@@ -11,6 +11,9 @@ import teammates.common.util.Logger;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidOperationException;
 
 /**
  * Action: joins a course for a student/instructor.

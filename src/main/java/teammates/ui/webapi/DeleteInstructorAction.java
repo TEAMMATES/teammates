@@ -5,6 +5,9 @@ import java.util.List;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Instructor;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Deletes an instructor from a course, unless it's the last instructor in the course.

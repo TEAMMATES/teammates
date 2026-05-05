@@ -1,4 +1,4 @@
-package teammates.ui.webapi;
+package teammates.ui.exception;
 
 import teammates.common.exception.EntityDoesNotExistException;
 

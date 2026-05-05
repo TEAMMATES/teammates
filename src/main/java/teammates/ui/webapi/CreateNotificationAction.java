@@ -8,6 +8,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Logger;
 import teammates.storage.entity.Notification;
+import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.NotificationData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.NotificationCreateRequest;

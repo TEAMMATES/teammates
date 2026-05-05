@@ -9,10 +9,10 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
+import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.InstructorCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
-import teammates.ui.webapi.InvalidOperationException;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.UpdateInstructorAction;
 

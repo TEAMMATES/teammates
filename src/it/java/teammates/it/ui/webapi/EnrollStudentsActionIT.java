@@ -18,10 +18,10 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
+import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.EnrollStudentsData;
 import teammates.ui.request.StudentsEnrollRequest;
 import teammates.ui.webapi.EnrollStudentsAction;
-import teammates.ui.webapi.InvalidOperationException;
 import teammates.ui.webapi.JsonResult;
 
 /**

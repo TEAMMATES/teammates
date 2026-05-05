@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import teammates.common.util.Const;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Action: deletes a student from a course.

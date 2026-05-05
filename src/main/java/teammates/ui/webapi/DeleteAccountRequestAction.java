@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import teammates.common.util.Const;
 import teammates.storage.entity.AccountRequest;
+import teammates.ui.exception.InvalidOperationException;
 
 /**
  * Deletes an existing account request.

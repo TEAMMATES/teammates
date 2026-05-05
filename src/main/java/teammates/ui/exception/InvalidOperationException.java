@@ -1,4 +1,4 @@
-package teammates.ui.webapi;
+package teammates.ui.exception;
 
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;

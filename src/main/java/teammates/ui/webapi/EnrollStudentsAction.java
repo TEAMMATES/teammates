@@ -17,6 +17,8 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.EnrollStudentsData;
 import teammates.ui.output.StudentData;
 import teammates.ui.output.StudentsData;

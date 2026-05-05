@@ -23,6 +23,7 @@ import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.request.Intent;

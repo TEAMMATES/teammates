@@ -21,9 +21,9 @@ import teammates.common.util.HibernateUtil;
 import teammates.test.BaseTestCase;
 import teammates.test.MockHttpServletRequest;
 import teammates.test.MockHttpServletResponse;
+import teammates.ui.exception.ActionMappingException;
 import teammates.ui.webapi.Action;
 import teammates.ui.webapi.ActionFactory;
-import teammates.ui.webapi.ActionMappingException;
 import teammates.ui.webapi.JsonResult;
 
 /**

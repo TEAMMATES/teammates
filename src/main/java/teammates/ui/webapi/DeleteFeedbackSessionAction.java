@@ -5,6 +5,7 @@ import java.util.UUID;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Delete a feedback session.
