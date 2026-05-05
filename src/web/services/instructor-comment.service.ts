@@ -28,7 +28,7 @@ export class InstructorCommentService {
   ): void {
     const commentTableModel: CommentTableModel = instructorCommentTableModel[data.responseId];
     const commentToDelete: FeedbackResponseComment =
-      instructorCommentTableModel[data.responseId].commentRows[data.index].originalComment!;
+      commentTableModel.commentRows[data.index].originalComment!;
 
     this.commentService.deleteComment(commentToDelete.feedbackResponseCommentId, Intent.INSTRUCTOR_RESULT).subscribe({
       next: () => {
