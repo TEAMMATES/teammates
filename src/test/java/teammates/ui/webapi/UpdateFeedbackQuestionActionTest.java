@@ -1,6 +1,6 @@
 package teammates.ui.webapi;
 
-import static org.mockito.Mockito.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER;
 
@@ -167,10 +167,11 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
     @Test
     void testExecute_invalidGiverRecipientType_throwsInvalidHttpRequestBodyException() throws Exception {
         FeedbackContributionQuestionDetails questionDetails = new FeedbackContributionQuestionDetails();
-        FeedbackQuestion contributionQuestion = FeedbackQuestion.makeQuestion(typicalFeedbackSession, 2,
+        FeedbackQuestion contributionQuestion = FeedbackQuestion.makeQuestion(2,
                 "contribution question", FeedbackParticipantType.STUDENTS,
                 FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, 4,
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), questionDetails);
+        typicalFeedbackSession.addFeedbackQuestion(contributionQuestion);
 
         when(mockLogic.getFeedbackQuestion(contributionQuestion.getId())).thenReturn(contributionQuestion);
 
@@ -268,11 +269,13 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
                 new FeedbackTextQuestionDetails("this is the brief");
         textQuestionDetails.setRecommendedLength(800);
 
-        FeedbackQuestion updatedQuestion = FeedbackQuestion.makeQuestion(typicalFeedbackSession, 2,
+        FeedbackQuestion updatedQuestion = FeedbackQuestion.makeQuestion(2,
                 "this is the description", FeedbackParticipantType.STUDENTS,
                 FeedbackParticipantType.INSTRUCTORS, 2, new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(),
                 textQuestionDetails);
+        typicalFeedbackSession.addFeedbackQuestion(updatedQuestion);
+
         updatedQuestion.setId(typicalFeedbackQuestion.getId());
         return updatedQuestion;
     }

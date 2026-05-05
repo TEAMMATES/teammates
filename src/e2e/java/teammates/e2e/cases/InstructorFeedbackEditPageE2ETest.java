@@ -164,8 +164,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         detail.setQuestionText("How much work did each team member contribute?"
                 + " (response will be shown anonymously to each team member).");
 
-        return FeedbackQuestion.makeQuestion(
-                feedbackSession,
+        FeedbackQuestion fq = FeedbackQuestion.makeQuestion(
                 2,
                 "",
                 FeedbackParticipantType.STUDENTS,
@@ -177,5 +176,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS,
                         FeedbackParticipantType.RECEIVER), detail);
 
+        feedbackSession.addFeedbackQuestion(fq);
+        return fq;
     }
 }

@@ -747,7 +747,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
             Team team = logic.getTeamOrCreate(section, "team name");
 
             student = new Student(course, "student-name", email, "");
-            student.setTeam(team);
             team.addUser(student);
             logic.createStudent(student);
 

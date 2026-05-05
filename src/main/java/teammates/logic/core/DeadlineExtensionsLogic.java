@@ -2,6 +2,7 @@ package teammates.logic.core;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -136,12 +137,12 @@ public final class DeadlineExtensionsLogic {
         List<FeedbackSession> feedbackSessions = feedbackSessionsLogic.getFeedbackSessionsForCourse(courseId);
 
         feedbackSessions.forEach(feedbackSession -> {
-            List<DeadlineExtension> deadlineExtensions = feedbackSession.getDeadlineExtensions();
+            Set<DeadlineExtension> deadlineExtensions = feedbackSession.getDeadlineExtensions();
 
             deadlineExtensions = deadlineExtensions
                     .stream()
                     .filter(deadlineExtension -> deadlineExtension.getUser().equals(user))
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toSet());
 
             for (DeadlineExtension deadlineExtension : deadlineExtensions) {
                 deleteDeadlineExtension(deadlineExtension);

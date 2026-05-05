@@ -391,12 +391,16 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         typicalFeedbackQuestion.setGiverType(FeedbackParticipantType.TEAMS);
 
         FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromTeam();
+        Section section = getTypicalSection();
+        Team team = new Team("first team");
+        section.addTeam(team);
+        typicalStudent.setTeam(team);
 
-        typicalStudent.setTeam(new Team(getTypicalSection(), "first team"));
-
+        Team differentTeam = new Team("different team");
+        section.addTeam(differentTeam);
         Student differentStudentInDifferentTeam = new Student(typicalCourse, "differentStudent",
-                "differentstudent@teammates.tmt", "comments",
-                new Team(getTypicalSection(), "different team"));
+                "differentstudent@teammates.tmt", "comments");
+        differentTeam.addUser(differentStudentInDifferentTeam);
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
@@ -420,12 +424,15 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         typicalFeedbackQuestion.setGiverType(FeedbackParticipantType.TEAMS);
 
         FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromTeam();
-
-        typicalStudent.setTeam(new Team(new Section(typicalCourse, "Section A"), "first team"));
+        Section section = new Section("Section A");
+        typicalCourse.addSection(section);
+        Team team = new Team("first team");
+        section.addTeam(team);
+        typicalStudent.setTeam(team);
 
         Student differentStudentInSameTeam = new Student(typicalCourse, "differentStudent",
-                "differentstudent@teammates.tmt", "comments",
-                new Team(new Section(typicalCourse, "Section A"), "first team"));
+                "differentstudent@teammates.tmt", "comments");
+        team.addUser(differentStudentInSameTeam);
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, typicalFeedbackResponseComment.getId().toString(),
@@ -624,7 +631,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     private FeedbackResponseComment getTypicalCommentFromStudent() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
-                typicalFeedbackResponse,
                 typicalStudent.getEmail(),
                 FeedbackParticipantType.STUDENTS,
                 typicalFeedbackResponse.getGiverSection(),
@@ -635,6 +641,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 typicalStudent.getEmail());
+        typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000001"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
         feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
@@ -643,7 +650,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     private FeedbackResponseComment getTypicalCommentFromInstructor() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
-                typicalFeedbackResponse,
                 typicalInstructor.getEmail(),
                 FeedbackParticipantType.INSTRUCTORS,
                 typicalFeedbackResponse.getGiverSection(),
@@ -654,6 +660,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 typicalInstructor.getEmail());
+        typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000002"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
         feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
@@ -662,7 +669,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     private FeedbackResponseComment getTypicalCommentFromInstructorAsParticipant() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
-                typicalFeedbackResponse,
                 typicalInstructor.getEmail(),
                 FeedbackParticipantType.INSTRUCTORS,
                 typicalFeedbackResponse.getGiverSection(),
@@ -673,6 +679,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 typicalInstructor.getEmail());
+        typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000003"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
         feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
@@ -680,12 +687,14 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     }
 
     private FeedbackResponseComment getTypicalCommentFromTeam() {
-        Section sectionA = new Section(typicalCourse, "Section A");
-        Section sectionB = new Section(typicalCourse, "Section B");
-        typicalFeedbackResponse = FeedbackResponse.makeResponse(typicalFeedbackQuestion, "Section A", sectionA,
+        Section sectionA = new Section("Section A");
+        typicalCourse.addSection(sectionA);
+        Section sectionB = new Section("Section B");
+        typicalCourse.addSection(sectionB);
+        typicalFeedbackResponse = FeedbackResponse.makeResponse("Section A", sectionA,
                 "Section B", sectionB, getTypicalFeedbackResponseDetails());
+        typicalFeedbackQuestion.addFeedbackResponse(typicalFeedbackResponse);
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
-                typicalFeedbackResponse,
                 "first team",
                 FeedbackParticipantType.TEAMS,
                 sectionA,
@@ -696,6 +705,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
                 "first team");
+        typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000004"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
         feedbackResponseComment.setUpdatedAt(Instant.EPOCH);

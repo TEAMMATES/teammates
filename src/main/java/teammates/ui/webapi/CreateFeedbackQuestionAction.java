@@ -49,7 +49,6 @@ public class CreateFeedbackQuestionAction extends Action {
         FeedbackQuestionCreateRequest request = getAndValidateRequestBody(FeedbackQuestionCreateRequest.class);
 
         FeedbackQuestion feedbackQuestion = FeedbackQuestion.makeQuestion(
-                feedbackSession,
                 request.getQuestionNumber(),
                 request.getQuestionDescription(),
                 request.getGiverType(),
@@ -60,6 +59,7 @@ public class CreateFeedbackQuestionAction extends Action {
                 request.getShowRecipientNameTo(),
                 request.getQuestionDetails()
         );
+        feedbackSession.addFeedbackQuestion(feedbackQuestion);
 
         try {
             // validate questions (giver & recipient)

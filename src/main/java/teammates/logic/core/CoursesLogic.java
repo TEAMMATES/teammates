@@ -253,7 +253,7 @@ public final class CoursesLogic {
                     + sectionName + " already exists in course " + course.getId());
         }
 
-        Section section = new Section(course, sectionName);
+        Section section = new Section(sectionName);
         course.addSection(section);
 
         validateSection(section);
@@ -284,8 +284,9 @@ public final class CoursesLogic {
 
         return course.getSections()
                 .stream()
-                .map(section -> section.getName())
-                .collect(Collectors.toList());
+                .map(Section::getName)
+                .sorted()
+                .toList();
     }
 
     /**
@@ -298,7 +299,7 @@ public final class CoursesLogic {
                     + teamName + " already exists in section " + section.getId());
         }
 
-        Team team = new Team(section, teamName);
+        Team team = new Team(teamName);
         section.addTeam(team);
 
         validateTeam(team);

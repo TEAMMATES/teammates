@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -115,14 +116,16 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("verify sections deserialized correctly");
 
         Section actualSection = dataBundle.sections.get("section1InTypicalCourse");
-        Section expectedSection = new Section(expectedTypicalCourse, "Section 1");
+        Section expectedSection = new Section("Section 1");
+        expectedTypicalCourse.addSection(expectedSection);
         expectedSection.setId(actualSection.getId());
         verifyEquals(expectedSection, actualSection);
 
         ______TS("verify teams deserialized correctly");
 
         Team actualTeam = dataBundle.teams.get("team1InTypicalCourse");
-        Team expectedTeam = new Team(expectedSection, "Team 1");
+        Team expectedTeam = new Team("Team 1");
+        expectedSection.addTeam(expectedTeam);
         expectedTeam.setId(actualTeam.getId());
         verifyEquals(expectedTeam, actualTeam);
 
@@ -185,27 +188,30 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         FeedbackQuestion actualQuestion1 = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         FeedbackQuestionDetails questionDetails1 =
                 new FeedbackTextQuestionDetails("What is the best selling point of your product?");
-        FeedbackQuestion expectedQuestion1 = FeedbackQuestion.makeQuestion(expectedSession1, 1,
+        FeedbackQuestion expectedQuestion1 = FeedbackQuestion.makeQuestion(1,
                 "This is a text question.", FeedbackParticipantType.STUDENTS, FeedbackParticipantType.SELF,
                 1, List.of(FeedbackParticipantType.INSTRUCTORS), List.of(FeedbackParticipantType.INSTRUCTORS),
                 List.of(FeedbackParticipantType.INSTRUCTORS), questionDetails1);
+        expectedSession1.addFeedbackQuestion(expectedQuestion1);
         expectedQuestion1.setId(actualQuestion1.getId());
         verifyEquals(expectedQuestion1, actualQuestion1);
 
         ______TS("verify feedback responses deserialized correctly");
         FeedbackResponse actualResponse1 = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
         FeedbackResponseDetails responseDetails1 = new FeedbackTextResponseDetails("Student 1 self feedback.");
-        FeedbackResponse expectedResponse1 = FeedbackResponse.makeResponse(actualQuestion1, "student1@teammates.tmt",
+        FeedbackResponse expectedResponse1 = FeedbackResponse.makeResponse("student1@teammates.tmt",
                 expectedSection, "student1@teammates.tmt", expectedSection, responseDetails1);
+        actualQuestion1.addFeedbackResponse(expectedResponse1);
         expectedResponse1.setId(actualResponse1.getId());
         verifyEquals(expectedResponse1, actualResponse1);
 
         ______TS("verify feedback response comments deserialized correctly");
         FeedbackResponseComment actualComment1 = dataBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
-        FeedbackResponseComment expectedComment1 = new FeedbackResponseComment(expectedResponse1, "instr1@teammates.tmt",
+        FeedbackResponseComment expectedComment1 = new FeedbackResponseComment("instr1@teammates.tmt",
                 FeedbackParticipantType.INSTRUCTORS, expectedSection, expectedSection,
                 "Instructor 1 comment to student 1 self feedback", false, false,
                 new ArrayList<>(), new ArrayList<>(), "instr1@teammates.tmt");
+        expectedResponse1.addFeedbackResponseComment(expectedComment1);
         expectedComment1.setId(actualComment1.getId());
         verifyEquals(expectedComment1, actualComment1);
     }
@@ -291,8 +297,8 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("verify feedback questions, responses, response comments and deadline extensions "
                 + "related to session1InTypicalCourse are removed correctly");
 
-        List<FeedbackQuestion> fqs = session1InTypicalCourse.getFeedbackQuestions();
-        List<DeadlineExtension> des = session1InTypicalCourse.getDeadlineExtensions();
+        Set<FeedbackQuestion> fqs = session1InTypicalCourse.getFeedbackQuestions();
+        Set<DeadlineExtension> des = session1InTypicalCourse.getDeadlineExtensions();
         List<FeedbackResponse> frs = new ArrayList<>();
         List<FeedbackResponseComment> frcs = new ArrayList<>();
 

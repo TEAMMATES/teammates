@@ -98,19 +98,22 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         FeedbackTextQuestionDetails fq1Details =
                 new FeedbackTextQuestionDetails("What is the best selling point of your product?");
         FeedbackQuestion fq1 = FeedbackQuestion.makeQuestion(
-                                    feedbackSession, 1, "This is a text question.",
+                                    1, "This is a text question.",
                                     FeedbackParticipantType.STUDENTS, FeedbackParticipantType.SELF, 1,
                                     feedbackQuestionParticipantTypes, feedbackQuestionParticipantTypes,
                                     feedbackQuestionParticipantTypes, fq1Details);
+        feedbackSession.addFeedbackQuestion(fq1);
 
         FeedbackTextQuestionDetails fq2Details =
                 new FeedbackTextQuestionDetails("Rate 1 other student's product");
         fq2Details.setRecommendedLength(0);
         FeedbackQuestion fq2 = FeedbackQuestion.makeQuestion(
-                feedbackSession, 2, "This is a text question.",
+                2, "This is a text question.",
                 FeedbackParticipantType.STUDENTS, FeedbackParticipantType.STUDENTS_EXCLUDING_SELF, 1,
                 feedbackQuestionParticipantTypes, feedbackQuestionParticipantTypes, feedbackQuestionParticipantTypes,
                 fq2Details);
+        feedbackSession.addFeedbackQuestion(fq2);
+
         return List.of(fq1, fq2);
     }
 

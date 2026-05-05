@@ -77,8 +77,9 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
 
         FeedbackTextResponseDetails details = new FeedbackTextResponseDetails("Response");
         FeedbackResponse response = FeedbackResponse.makeResponse(
-                feedbackQuestion, student.getEmail(), student.getSection(),
+                student.getEmail(), student.getSection(),
                 receiver.getEmail(), receiver.getSection(), details);
+        feedbackQuestion.addFeedbackResponse(response);
 
         studentSubmissionPage.fillTextResponse(1, receiver.getName(), response);
         studentSubmissionPage.clickSubmitQuestionButton(1);

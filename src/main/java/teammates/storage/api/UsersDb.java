@@ -686,12 +686,14 @@ public final class UsersDb {
     public Section getSectionOrCreate(String courseId, String sectionName) {
         assert courseId != null;
         assert sectionName != null;
+        // TODO: this shouldn't be in db layer
 
         Section section = getSection(courseId, sectionName);
 
         if (section == null) {
             Course course = CoursesDb.inst().getCourse(courseId);
-            section = new Section(course, sectionName);
+            section = new Section(sectionName);
+            course.addSection(section);
             HibernateUtil.persist(section);
         }
 
@@ -724,11 +726,13 @@ public final class UsersDb {
     public Team getTeamOrCreate(Section section, String teamName) {
         assert teamName != null;
         assert section != null;
+        // TODO: this shouldn't be in db layer
 
         Team team = getTeam(section, teamName);
 
         if (team == null) {
-            team = new Team(section, teamName);
+            team = new Team(teamName);
+            section.addTeam(team);
             HibernateUtil.persist(team);
         }
 

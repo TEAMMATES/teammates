@@ -1,8 +1,8 @@
 package teammates.ui.output;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import teammates.storage.entity.DeadlineExtension;
@@ -20,7 +20,7 @@ public class DeadlineExtensionsData extends ApiOutput {
         // for Jackson deserialization
     }
 
-    public DeadlineExtensionsData(List<DeadlineExtension> deadlineExtensions,
+    public DeadlineExtensionsData(Set<DeadlineExtension> deadlineExtensions,
             Map<UUID, Student> studentsByUserId, Map<UUID, Instructor> instructorsByUserId) {
         this.studentDeadlines = new HashMap<>();
         this.instructorDeadlines = new HashMap<>();

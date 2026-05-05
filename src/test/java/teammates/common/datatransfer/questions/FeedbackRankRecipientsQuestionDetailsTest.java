@@ -180,7 +180,7 @@ public class FeedbackRankRecipientsQuestionDetailsTest extends BaseTestCase {
         FeedbackRankRecipientsQuestionDetails feedbackRankRecipientsQuestionDetails =
                 new FeedbackRankRecipientsQuestionDetails();
         FeedbackQuestion feedbackQuestion = new FeedbackRankRecipientsQuestion(
-                null, 1, null,
+                1, null,
                 FeedbackParticipantType.STUDENTS, FeedbackParticipantType.OWN_TEAM_MEMBERS,
                 1, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
                 new FeedbackRankRecipientsQuestionDetails());

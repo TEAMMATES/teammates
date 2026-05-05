@@ -111,15 +111,10 @@ public class CoursesLogicTest extends BaseTestCase {
 
         Section s1 = getTypicalSection();
         s1.setName("test-sectionName1");
-
+        course.addSection(s1);
         Section s2 = getTypicalSection();
         s2.setName("test-sectionName2");
-
-        List<Section> sections = new ArrayList<>();
-        sections.add(s1);
-        sections.add(s2);
-
-        course.setSections(sections);
+        course.addSection(s2);
 
         when(coursesDb.getCourse(courseId)).thenReturn(course);
 

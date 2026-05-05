@@ -97,10 +97,10 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
     public void testGetSectionByCourseIdAndTeam() {
         Course course = getTypicalCourse();
         coursesDb.createCourse(course);
-        Section section = new Section(course, "section-name");
+        Section section = new Section("section-name");
         coursesDb.createSection(section);
         course.addSection(section);
-        Team team = new Team(section, "team-name");
+        Team team = new Team("team-name");
         coursesDb.createTeam(team);
         section.addTeam(team);
 
@@ -120,23 +120,23 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         Course course = getTypicalCourse();
         coursesDb.createCourse(course);
 
-        Section section1 = new Section(course, "section-name1");
+        Section section1 = new Section("section-name1");
         coursesDb.createSection(section1);
         course.addSection(section1);
-        Team team1 = new Team(section1, "team-name1");
+        Team team1 = new Team("team-name1");
         coursesDb.createTeam(team1);
         section1.addTeam(team1);
-        Team team2 = new Team(section1, "team-name2");
+        Team team2 = new Team("team-name2");
         coursesDb.createTeam(team2);
         section1.addTeam(team2);
 
-        Section section2 = new Section(course, "section-name2");
+        Section section2 = new Section("section-name2");
         coursesDb.createSection(section2);
         course.addSection(section2);
-        Team team3 = new Team(section2, "team-name3");
+        Team team3 = new Team("team-name3");
         coursesDb.createTeam(team3);
         section2.addTeam(team3);
-        Team team4 = new Team(section2, "team-name4");
+        Team team4 = new Team("team-name4");
         coursesDb.createTeam(team4);
         section2.addTeam(team4);
 
@@ -155,7 +155,8 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
     public void testCreateTeam() {
         Course course = getTypicalCourse();
         Section section = getTypicalSection();
-        Team team = new Team(section, "team-name1");
+        Team team = new Team("team-name1");
+        section.addTeam(team);
         coursesDb.createCourse(course);
         coursesDb.createSection(section);
 
@@ -174,7 +175,8 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
     public void testGetTeamByName() {
         Course course = getTypicalCourse();
         Section section = getTypicalSection();
-        Team team = new Team(section, "team-name1");
+        Team team = new Team("team-name1");
+        section.addTeam(team);
         coursesDb.createCourse(course);
         coursesDb.createSection(section);
         coursesDb.createTeam(team);

@@ -105,7 +105,9 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
     }
 
     private Student createCourseStudent(Course course, String name, String email, String comments, Team team) {
-        return new Student(course, name, email, comments, team);
+        Student student = new Student(course, name, email, comments);
+        team.addUser(student);
+        return student;
     }
 
 }

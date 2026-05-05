@@ -248,9 +248,10 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         when(mockLogic.getDefaultSectionOrCreate(stubCourse.getId())).thenReturn(stubSection);
 
         FeedbackResponse createdResponse = FeedbackResponse.makeResponse(
-                spyFeedbackQuestion, stubStudent.getEmail(), stubSection,
+                stubStudent.getEmail(), stubSection,
                 recipientStudent1.getEmail(), stubSection,
                 new FeedbackTextResponseDetails("Response for " + recipientStudent1.getEmail()));
+        spyFeedbackQuestion.addFeedbackResponse(createdResponse);
         when(mockLogic.createFeedbackResponse(any(FeedbackResponse.class)))
                 .thenReturn(createdResponse);
 
@@ -298,9 +299,10 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         when(mockLogic.getDefaultSectionOrCreate(stubCourse.getId())).thenReturn(stubSection);
 
         FeedbackResponse createdResponse = FeedbackResponse.makeResponse(
-                spyFeedbackQuestion, stubInstructor.getEmail(), stubSection,
+                stubInstructor.getEmail(), stubSection,
                 recipientInstructor1.getEmail(), stubSection,
                 new FeedbackTextResponseDetails("Response for " + recipientInstructor1.getEmail()));
+        spyFeedbackQuestion.addFeedbackResponse(createdResponse);
         when(mockLogic.createFeedbackResponse(any(FeedbackResponse.class)))
                 .thenReturn(createdResponse);
 
@@ -337,15 +339,17 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         };
 
         FeedbackResponse existingResponse1 = FeedbackResponse.makeResponse(
-                spyFeedbackQuestion, stubStudent.getEmail(), stubSection,
+                stubStudent.getEmail(), stubSection,
                 recipientStudent1.getEmail(), stubSection,
                 new FeedbackTextResponseDetails("Old response 1"));
+        spyFeedbackQuestion.addFeedbackResponse(existingResponse1);
         existingResponse1.setId(UUID.randomUUID());
 
         FeedbackResponse existingResponse2 = FeedbackResponse.makeResponse(
-                spyFeedbackQuestion, stubStudent.getEmail(), stubSection,
+                stubStudent.getEmail(), stubSection,
                 recipientStudent2.getEmail(), stubSection,
                 new FeedbackTextResponseDetails("Old response 2"));
+        spyFeedbackQuestion.addFeedbackResponse(existingResponse2);
         existingResponse2.setId(UUID.randomUUID());
 
         when(mockLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(spyFeedbackQuestion, stubStudent))
@@ -362,9 +366,10 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         when(mockLogic.getDefaultSectionOrCreate(stubCourse.getId())).thenReturn(stubSection);
 
         FeedbackResponse updatedResponse = FeedbackResponse.makeResponse(
-                spyFeedbackQuestion, stubStudent.getEmail(), stubSection,
+                stubStudent.getEmail(), stubSection,
                 recipientStudent1.getEmail(), stubSection,
                 new FeedbackTextResponseDetails("Updated response 1"));
+        spyFeedbackQuestion.addFeedbackResponse(updatedResponse);
         when(mockLogic.updateFeedbackResponseCascade(any(FeedbackResponse.class)))
                 .thenReturn(updatedResponse);
 

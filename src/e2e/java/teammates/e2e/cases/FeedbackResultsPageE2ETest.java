@@ -487,11 +487,13 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
     private List<FeedbackResponse> deepCopyResponses(List<FeedbackResponse> responses) {
         List<FeedbackResponse> copiedResponses = new ArrayList<>();
         for (FeedbackResponse response : responses) {
-            copiedResponses.add(FeedbackResponse.makeResponse(response.getFeedbackQuestion(),
+            FeedbackResponse responseCopy = FeedbackResponse.makeResponse(
                     response.getGiver(),
                     response.getGiverSection(), response.getRecipient(),
                     response.getRecipientSection(),
-                    response.getFeedbackResponseDetailsCopy()));
+                    response.getFeedbackResponseDetailsCopy());
+            response.getFeedbackQuestion().addFeedbackResponse(responseCopy);
+            copiedResponses.add(responseCopy);
         }
         return copiedResponses;
     }

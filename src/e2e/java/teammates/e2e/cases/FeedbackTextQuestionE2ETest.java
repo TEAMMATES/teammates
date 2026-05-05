@@ -104,7 +104,9 @@ public class FeedbackTextQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
     private FeedbackResponse getResponse(FeedbackQuestion feedbackQuestion, Instructor instructor, String answer) {
         FeedbackTextResponseDetails details = new FeedbackTextResponseDetails(answer);
-        return FeedbackResponse.makeResponse(
-            feedbackQuestion, student.getEmail(), null, instructor.getEmail(), null, details);
+        FeedbackResponse response = FeedbackResponse.makeResponse(
+                student.getEmail(), null, instructor.getEmail(), null, details);
+        feedbackQuestion.addFeedbackResponse(response);
+        return response;
     }
 }

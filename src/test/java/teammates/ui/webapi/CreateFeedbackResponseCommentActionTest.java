@@ -487,7 +487,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     @Test
     void testAccessControl_contributionQuestionResponse_instructorNotAllowedToAddComment() {
         FeedbackQuestion contributionQuestion = FeedbackQuestion.makeQuestion(
-                typicalFeedbackSession,
                 2,
                 "contribution question",
                 FeedbackParticipantType.SELF,
@@ -497,14 +496,15 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 new ArrayList<>(),
                 new ArrayList<>(),
                 new FeedbackContributionQuestionDetails("test contribution question"));
+        typicalFeedbackSession.addFeedbackQuestion(contributionQuestion);
 
         FeedbackResponse contributionResponse = FeedbackResponse.makeResponse(
-                contributionQuestion,
                 "test giver",
                 getTypicalSection(),
                 "test recipient",
                 getTypicalSection(),
                 new FeedbackContributionResponseDetails());
+        contributionQuestion.addFeedbackResponse(contributionResponse);
 
         String[] params = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(), Const.ParamsNames.FEEDBACK_RESPONSE_ID,
@@ -659,12 +659,12 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackSession feedbackSessionPastEndTime = getFeedbackSessionPastEndTime();
         FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(feedbackSessionPastEndTime);
         FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
-                feedbackQuestion,
                 typicalInstructor.getEmail(),
                 getTypicalSection(),
                 "test recipient",
                 getTypicalSection(),
                 getTypicalFeedbackResponseDetails());
+        feedbackQuestion.addFeedbackResponse(feedbackResponse);
 
         when(mockLogic.getFeedbackResponse(feedbackResponse.getId())).thenReturn(feedbackResponse);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
@@ -689,12 +689,12 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackSession feedbackSessionPastEndTime = getFeedbackSessionPastEndTime();
         FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(feedbackSessionPastEndTime);
         FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
-                feedbackQuestion,
                 typicalInstructor.getEmail(),
                 getTypicalSection(),
                 "test recipient",
                 getTypicalSection(),
                 getTypicalFeedbackResponseDetails());
+        feedbackQuestion.addFeedbackResponse(feedbackResponse);
 
         when(mockLogic.getFeedbackResponse(feedbackResponse.getId())).thenReturn(feedbackResponse);
         when(mockLogic.getInstructorByGoogleId(typicalCourse.getId(), typicalInstructor.getGoogleId()))
@@ -718,12 +718,12 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(feedbackSessionPastEndTime);
         feedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
         FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
-                feedbackQuestion,
                 typicalStudent.getEmail(),
                 getTypicalSection(),
                 "test recipient",
                 getTypicalSection(),
                 getTypicalFeedbackResponseDetails());
+        feedbackQuestion.addFeedbackResponse(feedbackResponse);
 
         when(mockLogic.getFeedbackResponse(feedbackResponse.getId())).thenReturn(feedbackResponse);
         when(mockLogic.getStudentByGoogleId(typicalCourse.getId(), typicalStudent.getGoogleId()))
@@ -749,12 +749,12 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(feedbackSessionPastEndTime);
         feedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
         FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
-                feedbackQuestion,
                 typicalStudent.getEmail(),
                 getTypicalSection(),
                 "test recipient",
                 getTypicalSection(),
                 getTypicalFeedbackResponseDetails());
+        feedbackQuestion.addFeedbackResponse(feedbackResponse);
 
         when(mockLogic.getFeedbackResponse(feedbackResponse.getId())).thenReturn(feedbackResponse);
         when(mockLogic.getStudentByGoogleId(typicalCourse.getId(), typicalStudent.getGoogleId()))
@@ -774,7 +774,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
     private FeedbackResponseComment getTypicalCommentForInstructorResult() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
-                typicalFeedbackResponse,
                 typicalInstructor.getEmail(),
                 FeedbackParticipantType.INSTRUCTORS,
                 typicalFeedbackResponse.getGiverSection(),
@@ -785,6 +784,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 typicalRequestBody.getShowCommentTo(),
                 typicalRequestBody.getShowGiverNameTo(),
                 typicalInstructor.getEmail());
+        typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000001"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
         feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
@@ -793,7 +793,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
     private FeedbackResponseComment getTypicalCommentForInstructorSubmission() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
-                typicalFeedbackResponse,
                 typicalInstructor.getEmail(),
                 FeedbackParticipantType.INSTRUCTORS,
                 typicalFeedbackResponse.getGiverSection(),
@@ -804,6 +803,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 typicalRequestBody.getShowCommentTo(),
                 typicalRequestBody.getShowGiverNameTo(),
                 typicalInstructor.getEmail());
+        typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000002"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
         feedbackResponseComment.setUpdatedAt(Instant.EPOCH);
@@ -812,7 +812,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
     private FeedbackResponseComment getTypicalCommentForStudentSubmission() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
-                typicalFeedbackResponse,
                 typicalStudent.getEmail(),
                 FeedbackParticipantType.STUDENTS,
                 typicalFeedbackResponse.getGiverSection(),
@@ -823,6 +822,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 typicalRequestBody.getShowCommentTo(),
                 typicalRequestBody.getShowGiverNameTo(),
                 typicalStudent.getEmail());
+        typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000003"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
         feedbackResponseComment.setUpdatedAt(Instant.EPOCH);

@@ -2,6 +2,7 @@ package teammates.logic.core;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -404,8 +405,8 @@ public final class FeedbackSessionsLogic {
         }
 
         // Allow user to view the feedback session if there are any question whose responses are visible to the user
-        List<FeedbackQuestion> questionsWithVisibleResponses = new ArrayList<>();
-        List<FeedbackQuestion> questionsForUser = session.getFeedbackQuestions();
+        Set<FeedbackQuestion> questionsWithVisibleResponses = new HashSet<>();
+        Set<FeedbackQuestion> questionsForUser = session.getFeedbackQuestions();
         for (FeedbackQuestion question : questionsForUser) {
             if (!isInstructor && frLogic.isResponseOfFeedbackQuestionVisibleToStudent(question)
                     || isInstructor && frLogic.isResponseOfFeedbackQuestionVisibleToInstructor(question)) {
@@ -580,7 +581,7 @@ public final class FeedbackSessionsLogic {
      */
     public int getExpectedTotalSubmission(FeedbackSession fs) {
         int expectedTotal = 0;
-        List<FeedbackQuestion> questions = fs.getFeedbackQuestions();
+        Set<FeedbackQuestion> questions = fs.getFeedbackQuestions();
         if (fqLogic.hasFeedbackQuestionsForStudents(questions)) {
             expectedTotal += usersLogic.getStudentsForCourse(fs.getCourseId()).size();
         }

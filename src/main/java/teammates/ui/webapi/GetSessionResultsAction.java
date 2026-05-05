@@ -113,7 +113,8 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
 
             // Build a fake student object, as the results will be displayed as if they are displayed to a student
             student = new Student(instructor.getCourse(), instructor.getName(), instructor.getEmail(), "");
-            student.setTeam(new Team(null, Const.USER_TEAM_FOR_INSTRUCTOR));
+            Team team = new Team(Const.USER_TEAM_FOR_INSTRUCTOR);
+            student.setTeam(team);
 
             return new JsonResult(SessionResultsData.initForStudent(bundle, student));
         case STUDENT_RESULT:

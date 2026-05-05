@@ -46,9 +46,10 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithDatabaseAccess {
         FeedbackTextQuestionDetails newQuestionDetails = new FeedbackTextQuestionDetails("New question text.");
         List<FeedbackParticipantType> showTos = new ArrayList<>();
         showTos.add(FeedbackParticipantType.INSTRUCTORS);
-        FeedbackQuestion newQuestion = FeedbackQuestion.makeQuestion(fs, 6, "This is a new text question",
+        FeedbackQuestion newQuestion = FeedbackQuestion.makeQuestion(6, "This is a new text question",
                 FeedbackParticipantType.STUDENTS, FeedbackParticipantType.OWN_TEAM_MEMBERS, -100,
                 showTos, showTos, showTos, newQuestionDetails);
+        fs.addFeedbackQuestion(newQuestion);
 
         newQuestion = fqLogic.createFeedbackQuestion(newQuestion);
 

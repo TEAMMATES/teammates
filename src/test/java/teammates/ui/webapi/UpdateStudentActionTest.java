@@ -88,7 +88,8 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         StudentUpdateRequest studentUpdateRequest = new StudentUpdateRequest(newName, newEmail, team.getName(),
                 section.getName(), student.getComments(), true);
 
-        Student updatedStudent = new Student(course, newName, newEmail, student.getComments(), team);
+        Student updatedStudent = new Student(course, newName, newEmail, student.getComments());
+        team.addUser(updatedStudent);
         updatedStudent.setId(student.getId());
         when(mockLogic.updateStudentCascade(any(Student.class))).thenReturn(updatedStudent);
 
@@ -136,7 +137,8 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         StudentUpdateRequest studentUpdateRequest = new StudentUpdateRequest(newName, newEmail, team.getName(),
                 section.getName(), student.getComments(), true);
 
-        Student updatedStudent = new Student(course, newName, newEmail, student.getComments(), team);
+        Student updatedStudent = new Student(course, newName, newEmail, student.getComments());
+        team.addUser(updatedStudent);
         updatedStudent.setId(student.getId());
         when(mockLogic.updateStudentCascade(any(Student.class))).thenReturn(updatedStudent);
 
@@ -184,7 +186,8 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         StudentUpdateRequest studentUpdateRequest = new StudentUpdateRequest(newName, newEmail, team.getName(),
                 section.getName(), student.getComments(), false);
 
-        Student updatedStudent = new Student(course, newName, newEmail, student.getComments(), team);
+        Student updatedStudent = new Student(course, newName, newEmail, student.getComments());
+        team.addUser(updatedStudent);
         updatedStudent.setId(student.getId());
         when(mockLogic.updateStudentCascade(any(Student.class))).thenReturn(updatedStudent);
 
@@ -219,7 +222,8 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         StudentUpdateRequest studentUpdateRequest = new StudentUpdateRequest(newName, student.getEmail(), team.getName(),
                 section.getName(), student.getComments(), true);
 
-        Student updatedStudent = new Student(course, newName, student.getEmail(), student.getComments(), team);
+        Student updatedStudent = new Student(course, newName, student.getEmail(), student.getComments());
+        team.addUser(updatedStudent);
         updatedStudent.setId(student.getId());
         when(mockLogic.updateStudentCascade(any(Student.class))).thenReturn(updatedStudent);
 
@@ -254,7 +258,8 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         StudentUpdateRequest studentUpdateRequest = new StudentUpdateRequest(newName, student.getEmail(), team.getName(),
                 section.getName(), student.getComments(), false);
 
-        Student updatedStudent = new Student(course, newName, student.getEmail(), student.getComments(), team);
+        Student updatedStudent = new Student(course, newName, student.getEmail(), student.getComments());
+        team.addUser(updatedStudent);
         updatedStudent.setId(student.getId());
         when(mockLogic.updateStudentCascade(any(Student.class))).thenReturn(updatedStudent);
 
@@ -331,7 +336,8 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         StudentUpdateRequest studentUpdateRequest = new StudentUpdateRequest(newName, newEmail, team.getName(),
                 section.getName(), student.getComments(), true);
 
-        Student updatedStudent = new Student(course, newName, newEmail, student.getComments(), team);
+        Student updatedStudent = new Student(course, newName, newEmail, student.getComments());
+        team.addUser(updatedStudent);
         updatedStudent.setId(student.getId());
         when(mockLogic.updateStudentCascade(any(Student.class))).thenThrow(InvalidParametersException.class);
 
@@ -360,8 +366,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
     }
 
     @Test
-    void testExecute_whitespaceOnlyTeamName_throwsInvalidHttpRequestBodyException()
-            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
+    void testExecute_whitespaceOnlyTeamName_throwsInvalidHttpRequestBodyException() {
         StudentUpdateRequest studentUpdateRequest = new StudentUpdateRequest(newName, newEmail, "   ",
                 section.getName(), student.getComments(), true);
 
@@ -408,7 +413,8 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         StudentUpdateRequest studentUpdateRequest = new StudentUpdateRequest(newName, newEmail, team.getName(),
                 section.getName(), student.getComments(), true);
 
-        Student updatedStudent = new Student(course, newName, newEmail, student.getComments(), team);
+        Student updatedStudent = new Student(course, newName, newEmail, student.getComments());
+        team.addUser(updatedStudent);
         updatedStudent.setId(student.getId());
         when(mockLogic.updateStudentCascade(any(Student.class))).thenThrow(EntityDoesNotExistException.class);
 
@@ -442,7 +448,8 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         StudentUpdateRequest studentUpdateRequest = new StudentUpdateRequest(newName, newEmail, team.getName(),
                 section.getName(), student.getComments(), true);
 
-        Student updatedStudent = new Student(course, newName, newEmail, student.getComments(), team);
+        Student updatedStudent = new Student(course, newName, newEmail, student.getComments());
+        team.addUser(updatedStudent);
         updatedStudent.setId(student.getId());
         when(mockLogic.updateStudentCascade(any(Student.class))).thenThrow(EntityAlreadyExistsException.class);
 

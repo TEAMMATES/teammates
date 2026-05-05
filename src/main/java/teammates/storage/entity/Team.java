@@ -2,7 +2,9 @@ package teammates.storage.entity;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -37,7 +39,7 @@ public class Team extends BaseEntity {
     private UUID sectionId;
 
     @OneToMany(mappedBy = "team")
-    private List<Student> users;
+    private Set<Student> users = new HashSet<>();
 
     @Column(nullable = false)
     private String name;
@@ -49,11 +51,9 @@ public class Team extends BaseEntity {
         // required by hibernate
     }
 
-    public Team(Section section, String name) {
+    public Team(String name) {
         this.setId(UUID.randomUUID());
-        this.setSection(section);
         this.setName(name);
-        this.setUsers(new ArrayList<>());
     }
 
     /**
@@ -61,6 +61,7 @@ public class Team extends BaseEntity {
      */
     public void addUser(Student student) {
         this.users.add(student);
+        student.setTeam(this);
     }
 
     @Override
@@ -114,11 +115,11 @@ public class Team extends BaseEntity {
         this.sectionId = section == null ? null : section.getId();
     }
 
-    public List<Student> getUsers() {
+    public Set<Student> getUsers() {
         return users;
     }
 
-    public void setUsers(List<Student> users) {
+    public void setUsers(Set<Student> users) {
         this.users = users;
     }
 

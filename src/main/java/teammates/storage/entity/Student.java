@@ -41,12 +41,6 @@ public class Student extends User {
         this.setComments(comments);
     }
 
-    public Student(Course course, String name, String email, String comments, Team team) {
-        super(course, name, email);
-        this.setComments(comments);
-        this.setTeam(team);
-    }
-
     @Override
     public UserType getUserType() {
         return UserType.STUDENT;

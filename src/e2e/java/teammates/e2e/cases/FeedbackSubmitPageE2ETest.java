@@ -243,13 +243,17 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         } else {
             details.setAnswer(answer);
         }
-        return FeedbackResponse.makeResponse(question, student.getEmail(), student.getSection(),
+        FeedbackResponse response = FeedbackResponse.makeResponse(student.getEmail(), student.getSection(),
                 recipient, student.getSection(), details);
+        question.addFeedbackResponse(response);
+        return response;
     }
 
     private FeedbackResponseComment getFeedbackResponseComment(FeedbackResponse response, String comment) {
-        return new FeedbackResponseComment(response, student.getEmail(),
+        FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(student.getEmail(),
                 FeedbackParticipantType.STUDENTS, student.getSection(), student.getSection(), comment,
                 true, true, Collections.emptyList(), Collections.emptyList(), student.getEmail());
+        response.addFeedbackResponseComment(feedbackResponseComment);
+        return feedbackResponseComment;
     }
 }

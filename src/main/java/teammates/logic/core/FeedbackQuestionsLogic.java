@@ -125,7 +125,7 @@ public final class FeedbackQuestionsLogic {
     /**
      * Checks if there are any questions for the given session that instructors can view/submit.
      */
-    public boolean hasFeedbackQuestionsForInstructors(List<FeedbackQuestion> fqs, boolean isCreator) {
+    public boolean hasFeedbackQuestionsForInstructors(Set<FeedbackQuestion> fqs, boolean isCreator) {
         boolean hasQuestions = hasFeedbackQuestionsForGiverType(fqs, FeedbackParticipantType.INSTRUCTORS);
         if (hasQuestions) {
             return true;
@@ -240,7 +240,7 @@ public final class FeedbackQuestionsLogic {
     /**
      * Checks if there are any questions for the given session that students can view/submit.
      */
-    public boolean hasFeedbackQuestionsForStudents(List<FeedbackQuestion> fqs) {
+    public boolean hasFeedbackQuestionsForStudents(Set<FeedbackQuestion> fqs) {
         return hasFeedbackQuestionsForGiverType(fqs, FeedbackParticipantType.STUDENTS)
                 || hasFeedbackQuestionsForGiverType(fqs, FeedbackParticipantType.TEAMS);
     }
@@ -249,7 +249,7 @@ public final class FeedbackQuestionsLogic {
      * Checks if there is any feedback questions in a session in a course for the given giver type.
      */
     public boolean hasFeedbackQuestionsForGiverType(
-            List<FeedbackQuestion> feedbackQuestions, FeedbackParticipantType giverType) {
+            Set<FeedbackQuestion> feedbackQuestions, FeedbackParticipantType giverType) {
         assert feedbackQuestions != null;
         assert giverType != null;
 

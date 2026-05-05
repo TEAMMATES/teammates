@@ -271,7 +271,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
     public void testValidateGiverRecipientVisibility() {
         FeedbackContributionQuestionDetails details = new FeedbackContributionQuestionDetails();
         FeedbackContributionQuestion feedbackQuestion = new FeedbackContributionQuestion(
-                null, 1, "description",
+                1, "description",
                 FeedbackParticipantType.STUDENTS,
                 FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
                 Const.MAX_POSSIBLE_RECIPIENTS,

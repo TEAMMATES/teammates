@@ -12,6 +12,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -82,9 +83,8 @@ public class UpdateDeadlineExtensionsActionTest
                 Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
 
-        List<DeadlineExtension> originalDeadlines = new ArrayList<>();
-        originalDeadlines.add(new DeadlineExtension(instructor, originalFeedbackSession, nearestHour));
-        originalFeedbackSession.setDeadlineExtensions(originalDeadlines);
+        DeadlineExtension de = new DeadlineExtension(instructor, nearestHour);
+        originalFeedbackSession.addDeadlineExtension(de);
 
         when(mockLogic.getFeedbackSession(originalFeedbackSession.getId())).thenReturn(originalFeedbackSession);
 
@@ -94,7 +94,7 @@ public class UpdateDeadlineExtensionsActionTest
         getJsonResult(a);
 
         verify(mockLogic, times(1)).updateDeadlineExtension(any());
-        verify(mockLogic).updateDeadlineExtension(argThat((DeadlineExtension de) -> de.getEndTime().equals(endHour)));
+        verify(mockLogic).updateDeadlineExtension(argThat((DeadlineExtension de1) -> de1.getEndTime().equals(endHour)));
     }
 
     @Test
@@ -108,7 +108,7 @@ public class UpdateDeadlineExtensionsActionTest
                 Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
 
-        originalFeedbackSession.setDeadlineExtensions(new ArrayList<>());
+        originalFeedbackSession.setDeadlineExtensions(new HashSet<>());
 
         when(mockLogic.getFeedbackSession(originalFeedbackSession.getId())).thenReturn(originalFeedbackSession);
         when(mockLogic.getInstructorForEmail(originalFeedbackSession.getCourseId(), instructor.getEmail()))
