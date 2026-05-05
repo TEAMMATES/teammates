@@ -22,31 +22,31 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
-import teammates.it.test.BaseTestCaseWithSqlDatabaseAccess;
+import teammates.it.test.BaseTestCaseWithDatabaseAccess;
+import teammates.logic.api.Logic;
 import teammates.logic.api.MockEmailSender;
 import teammates.logic.api.MockLogsProcessor;
 import teammates.logic.api.MockRecaptchaVerifier;
 import teammates.logic.api.MockTaskQueuer;
-import teammates.sqllogic.api.Logic;
-import teammates.sqllogic.api.MockUserProvision;
-import teammates.storage.sqlentity.Account;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Section;
-import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlentity.Team;
+import teammates.logic.api.MockUserProvision;
+import teammates.storage.entity.Account;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Section;
+import teammates.storage.entity.Student;
+import teammates.storage.entity.Team;
 import teammates.test.MockHttpServletRequest;
+import teammates.ui.exception.ActionMappingException;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.request.BasicRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.webapi.Action;
 import teammates.ui.webapi.ActionFactory;
-import teammates.ui.webapi.ActionMappingException;
 import teammates.ui.webapi.ActionResult;
-import teammates.ui.webapi.EntityNotFoundException;
-import teammates.ui.webapi.InvalidHttpParameterException;
-import teammates.ui.webapi.InvalidOperationException;
 import teammates.ui.webapi.JsonResult;
-import teammates.ui.webapi.UnauthorizedAccessException;
 
 /**
  * Base class for all action tests.
@@ -56,7 +56,7 @@ import teammates.ui.webapi.UnauthorizedAccessException;
  *
  * @param <T> The action class being tested.
  */
-public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSqlDatabaseAccess {
+public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDatabaseAccess {
 
     static final String GET = HttpGet.METHOD_NAME;
     static final String POST = HttpPost.METHOD_NAME;
@@ -747,7 +747,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithSql
             Team team = logic.getTeamOrCreate(section, "team name");
 
             student = new Student(course, "student-name", email, "");
-            student.setTeam(team);
             team.addUser(student);
             logic.createStudent(student);
 

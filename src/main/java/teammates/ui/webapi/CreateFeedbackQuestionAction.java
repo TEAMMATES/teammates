@@ -7,9 +7,12 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.request.FeedbackQuestionCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -27,13 +30,13 @@ public class CreateFeedbackQuestionAction extends Action {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
         Instructor instructorDetailForCourse =
-                sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
+                logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
         gateKeeper.verifyAccessible(instructorDetailForCourse,
                 feedbackSession,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
@@ -42,14 +45,13 @@ public class CreateFeedbackQuestionAction extends Action {
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
         FeedbackQuestionCreateRequest request = getAndValidateRequestBody(FeedbackQuestionCreateRequest.class);
 
         FeedbackQuestion feedbackQuestion = FeedbackQuestion.makeQuestion(
-                feedbackSession,
                 request.getQuestionNumber(),
                 request.getQuestionDescription(),
                 request.getGiverType(),
@@ -60,6 +62,7 @@ public class CreateFeedbackQuestionAction extends Action {
                 request.getShowRecipientNameTo(),
                 request.getQuestionDetails()
         );
+        feedbackSession.addFeedbackQuestion(feedbackQuestion);
 
         try {
             // validate questions (giver & recipient)
@@ -74,7 +77,7 @@ public class CreateFeedbackQuestionAction extends Action {
             if (!questionDetailsErrors.isEmpty()) {
                 throw new InvalidHttpRequestBodyException(questionDetailsErrors.toString());
             }
-            feedbackQuestion = sqlLogic.createFeedbackQuestion(feedbackQuestion);
+            feedbackQuestion = logic.createFeedbackQuestion(feedbackQuestion);
             return new JsonResult(new FeedbackQuestionData(feedbackQuestion));
         } catch (InvalidParametersException ex) {
             throw new InvalidHttpRequestBodyException(ex);

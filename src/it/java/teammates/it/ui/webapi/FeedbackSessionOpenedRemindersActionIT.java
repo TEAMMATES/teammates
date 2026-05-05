@@ -2,8 +2,9 @@ package teammates.it.ui.webapi;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -14,9 +15,9 @@ import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.TaskWrapper;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackSession;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.request.SendEmailRequest;
 import teammates.ui.webapi.FeedbackSessionOpenedRemindersAction;
@@ -47,7 +48,7 @@ public class FeedbackSessionOpenedRemindersActionIT extends BaseActionIT<Feedbac
                 "qn5InSession1InCourse1",
                 "qn6InSession1InCourse1NoResponses",
         };
-        List<FeedbackQuestion> qns = new ArrayList<>();
+        Set<FeedbackQuestion> qns = new HashSet<>();
         for (String fqKey : fqKeys) {
             qns.add(typicalBundle.feedbackQuestions.get(fqKey));
         }

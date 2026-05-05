@@ -8,9 +8,9 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.HibernateUtil;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
-import teammates.ui.webapi.InvalidOperationException;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
+import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.webapi.JoinCourseAction;
 
 /**

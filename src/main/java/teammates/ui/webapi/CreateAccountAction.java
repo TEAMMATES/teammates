@@ -20,9 +20,11 @@ import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.TimeHelper;
-import teammates.sqllogic.core.DataBundleLogic;
-import teammates.storage.sqlentity.AccountRequest;
-import teammates.storage.sqlentity.Instructor;
+import teammates.logic.core.DataBundleLogic;
+import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.Instructor;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
@@ -52,7 +54,7 @@ public class CreateAccountAction extends Action {
             timezone = Const.DEFAULT_TIME_ZONE;
         }
 
-        AccountRequest accountRequest = sqlLogic.getAccountRequestByRegistrationKey(registrationKey);
+        AccountRequest accountRequest = logic.getAccountRequestByRegistrationKey(registrationKey);
 
         if (accountRequest == null) {
             throw new EntityNotFoundException("Account request with registration key "
@@ -70,18 +72,18 @@ public class CreateAccountAction extends Action {
 
         try {
             courseId = importDemoData(instructorEmail, instructorName, instructorInstitution, timezone);
-        } catch (InvalidParametersException | EntityAlreadyExistsException | EntityDoesNotExistException e) {
-            // There should not be any invalid parameter or entity conflict here
+        } catch (InvalidParametersException e) {
+            // There should not be any invalid parameter here
             log.severe("Unexpected error", e);
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
-        List<Instructor> instructorList = sqlLogic.getInstructorsByCourse(courseId);
+        List<Instructor> instructorList = logic.getInstructorsByCourse(courseId);
 
         assert !instructorList.isEmpty();
 
         try {
-            sqlLogic.joinCourseForInstructor(instructorList.get(0).getRegKey(), userInfo.id);
+            logic.joinCourseForInstructor(instructorList.get(0).getRegKey(), userInfo.id);
         } catch (EntityDoesNotExistException | EntityAlreadyExistsException | InvalidParametersException e) {
             // EntityDoesNotExistException should not be thrown as all entities should exist in demo course.
             // EntityAlreadyExistsException should not be thrown as updated entities should not have
@@ -93,8 +95,7 @@ public class CreateAccountAction extends Action {
 
         try {
             setAccountRequestAsRegistered(accountRequest);
-        } catch (EntityDoesNotExistException | InvalidParametersException e) {
-            // EntityDoesNotExistException should not be thrown as existence of account request has been validated before.
+        } catch (InvalidParametersException e) {
             // InvalidParametersException should not be thrown as there should not be any invalid parameters.
             log.severe("Unexpected error", e);
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
@@ -109,10 +110,10 @@ public class CreateAccountAction extends Action {
      * @return the updated account request
      */
     private AccountRequest setAccountRequestAsRegistered(AccountRequest accountRequest)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException {
         accountRequest.setStatus(AccountRequestStatus.REGISTERED);
         accountRequest.setRegisteredAt(Instant.now());
-        sqlLogic.updateAccountRequest(accountRequest);
+        logic.updateAccountRequest(accountRequest);
         return accountRequest;
     }
 
@@ -126,7 +127,7 @@ public class CreateAccountAction extends Action {
      * @return the ID of demo course
      */
     private String importDemoData(String instructorEmail, String instructorName, String instructorInstitute, String timezone)
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+            throws InvalidParametersException {
 
         String courseId = generateDemoCourseId(instructorEmail);
         Instant now = Instant.now();
@@ -169,7 +170,7 @@ public class CreateAccountAction extends Action {
 
         DataBundle dataBundle = DataBundleLogic.deserializeDataBundle(dataBundleString);
 
-        sqlLogic.persistDataBundle(dataBundle);
+        logic.persistDataBundle(dataBundle);
 
         return courseId;
     }
@@ -202,7 +203,7 @@ public class CreateAccountAction extends Action {
      */
     private String generateDemoCourseId(String instructorEmail) {
         String proposedCourseId = generateNextDemoCourseId(instructorEmail, FieldValidator.COURSE_ID_MAX_LENGTH);
-        while (sqlLogic.getCourse(proposedCourseId) != null) {
+        while (logic.getCourse(proposedCourseId) != null) {
             proposedCourseId = generateNextDemoCourseId(proposedCourseId, FieldValidator.COURSE_ID_MAX_LENGTH);
         }
         return proposedCourseId;

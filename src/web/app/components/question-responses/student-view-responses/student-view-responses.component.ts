@@ -20,7 +20,6 @@ import { SingleResponseComponent } from '../single-response/single-response.comp
 @Component({
   selector: 'tm-student-view-responses',
   templateUrl: './student-view-responses.component.html',
-  styleUrls: ['./student-view-responses.component.scss'],
   imports: [
     NgClass,
     SingleResponseComponent,

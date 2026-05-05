@@ -1,0 +1,368 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AdminInstructorSearchTableComponent should snap with a deleted course 1`] = `
+<tm-admin-instructor-search-table
+  accountService={[Function AccountService]}
+  instructorReset={[Function EventEmitter_]}
+  instructorService={[Function InstructorService]}
+  instructors={[Function Array]}
+  isRegeneratingInstructorKeys={[Function Array]}
+  searchString=""
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+>
+  <div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-header bg-info"
+    >
+      <strong>
+        Instructors Found
+      </strong>
+      <div
+        class="card-header-btn-toolbar"
+      >
+        <button
+          class="btn btn-light btn-sm"
+          id="show-instructor-links"
+          style="margin-right: 10px;"
+          type="button"
+        >
+           Expand All 
+        </button>
+        <button
+          class="btn btn-light btn-sm"
+          id="hide-instructor-links"
+          type="button"
+        >
+           Collapse All 
+        </button>
+      </div>
+    </div>
+    <div
+      class="table-responsive"
+    >
+      <table
+        class="table table-striped data-table"
+        id="search-table-instructor"
+      >
+        <thead>
+          <tr>
+            <th>
+              Course
+            </th>
+            <th>
+              Name
+            </th>
+            <th>
+              Google ID
+            </th>
+            <th>
+              Institute
+            </th>
+            <th>
+              Options
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td
+              class="text-break"
+            >
+              <span
+                class="ngb-tooltip-class text-course-deleted"
+              >
+                deleted-course
+              </span>
+              <i
+                class="fas fa-trash-alt text-course-deleted margin-left-5px bin-icon"
+              />
+              <br />
+              <div
+                class="col-sm-1"
+              >
+                <button
+                  aria-label="Expand"
+                  class="btn"
+                >
+                  <i
+                    class="fas fa-chevron-circle-down"
+                    style="color: blue;"
+                  />
+                </button>
+              </div>
+            </td>
+            <td>
+              instructor
+            </td>
+            <td>
+              <a
+                href="home-page-link"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                ins-google-id
+              </a>
+            </td>
+            <td>
+              institute
+            </td>
+            <td>
+              <a
+                href="manage-account-link"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <i
+                  class="fas fa-info-circle"
+                />
+                 Manage this account 
+              </a>
+              <br />
+              <a
+                href="javascript:;"
+                id="reset-instructor-id-0"
+              >
+                <i
+                  class="fas fa-sync"
+                />
+                 Reset Google ID 
+              </a>
+              <br />
+              <button
+                class="btn btn-danger"
+                data-testid="regenerate-instructor-key"
+                id="regenerate-instructor-key-0"
+              >
+                 Regenerate key 
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</tm-admin-instructor-search-table>
+`;
+
+exports[`AdminInstructorSearchTableComponent should snap with an expanded instructor table 1`] = `
+<tm-admin-instructor-search-table
+  accountService={[Function AccountService]}
+  instructorReset={[Function EventEmitter_]}
+  instructorService={[Function InstructorService]}
+  instructors={[Function Array]}
+  isRegeneratingInstructorKeys={[Function Array]}
+  searchString=""
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+>
+  <div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-header bg-info"
+    >
+      <strong>
+        Instructors Found
+      </strong>
+      <div
+        class="card-header-btn-toolbar"
+      >
+        <button
+          class="btn btn-light btn-sm"
+          id="show-instructor-links"
+          style="margin-right: 10px;"
+          type="button"
+        >
+           Expand All 
+        </button>
+        <button
+          class="btn btn-light btn-sm"
+          id="hide-instructor-links"
+          type="button"
+        >
+           Collapse All 
+        </button>
+      </div>
+    </div>
+    <div
+      class="table-responsive"
+    >
+      <table
+        class="table table-striped data-table"
+        id="search-table-instructor"
+      >
+        <thead>
+          <tr>
+            <th>
+              Course
+            </th>
+            <th>
+              Name
+            </th>
+            <th>
+              Google ID
+            </th>
+            <th>
+              Institute
+            </th>
+            <th>
+              Options
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td
+              class="text-break"
+            >
+              <span
+                class="ngb-tooltip-class"
+              >
+                test-exa.demo
+              </span>
+              <br />
+              <div
+                class="col-sm-1"
+              >
+                <button
+                  aria-label="Collapse"
+                  class="btn"
+                >
+                  <i
+                    class="fas fa-chevron-circle-up"
+                    style="color: blue;"
+                  />
+                </button>
+              </div>
+            </td>
+            <td>
+              tester
+            </td>
+            <td>
+              <a
+                href="home-page-link"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                instructor-google-id
+              </a>
+            </td>
+            <td>
+              institute
+            </td>
+            <td>
+              <a
+                href="manage-account-link"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <i
+                  class="fas fa-info-circle"
+                />
+                 Manage this account 
+              </a>
+              <br />
+              <a
+                href="javascript:;"
+                id="reset-instructor-id-0"
+              >
+                <i
+                  class="fas fa-sync"
+                />
+                 Reset Google ID 
+              </a>
+              <br />
+              <button
+                class="btn btn-danger"
+                data-testid="regenerate-instructor-key"
+                id="regenerate-instructor-key-0"
+              >
+                 Regenerate key 
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td
+              colspan="5"
+            >
+              <ul
+                class="list-group"
+              >
+                <li
+                  class="list-group-item list-group-item-success has-success"
+                >
+                  <strong>
+                    Email
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+                <li
+                  class="list-group-item list-group-item-info"
+                >
+                  <strong>
+                    Course Join Link
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+                <li
+                  class="list-group-item list-group-item-light"
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+                <li
+                  class="list-group-item list-group-item-warning"
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+                <li
+                  class="list-group-item list-group-item-danger"
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+                <li
+                  class="list-group-item list-group-item-success"
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <input
+                    class="form-control"
+                    disabled=""
+                  />
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</tm-admin-instructor-search-table>
+`;

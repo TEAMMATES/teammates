@@ -15,7 +15,6 @@ import { TeammatesRouterDirective } from '../../teammates-router/teammates-route
 @Component({
   selector: 'tm-contribution-question-edit-details-form',
   templateUrl: './contribution-question-edit-details-form.component.html',
-  styleUrls: ['./contribution-question-edit-details-form.component.scss'],
   imports: [FormsModule, TeammatesRouterDirective, NgbTooltip, NgClass],
 })
 export class ContributionQuestionEditDetailsFormComponent extends QuestionEditDetailsFormComponent<FeedbackContributionQuestionDetails> {

@@ -1,15 +1,17 @@
 package teammates.ui.webapi;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.DeadlineExtension;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.storage.entity.DeadlineExtension;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.DeadlineExtensionsData;
 
 /**
@@ -26,13 +28,13 @@ public class GetDeadlineExtensionsAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
         gateKeeper.verifyAccessible(
-                sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
+                logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
                 feedbackSession,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
@@ -41,19 +43,18 @@ public class GetDeadlineExtensionsAction extends Action {
     public JsonResult execute() {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         String courseId = feedbackSession.getCourseId();
 
-        Map<UUID, Student> studentsByUserId = sqlLogic.getStudentsForCourse(courseId).stream()
+        Map<UUID, Student> studentsByUserId = logic.getStudentsForCourse(courseId).stream()
                 .collect(Collectors.toMap(Student::getId, s -> s));
-        Map<UUID, Instructor> instructorsByUserId = sqlLogic.getInstructorsByCourse(courseId).stream()
+        Map<UUID, Instructor> instructorsByUserId = logic.getInstructorsByCourse(courseId).stream()
                 .collect(Collectors.toMap(Instructor::getId, i -> i));
 
-        List<DeadlineExtension> deadlineExtensions = feedbackSession.getDeadlineExtensions();
-        String timeZone = feedbackSession.getCourse().getTimeZone();
+        Set<DeadlineExtension> deadlineExtensions = feedbackSession.getDeadlineExtensions();
 
         DeadlineExtensionsData responseData = new DeadlineExtensionsData(
-                timeZone, deadlineExtensions, studentsByUserId, instructorsByUserId);
+                deadlineExtensions, studentsByUserId, instructorsByUserId);
 
         return new JsonResult(responseData);
     }

@@ -4,6 +4,8 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
@@ -28,7 +30,7 @@ public class PutDataBundleAction extends Action {
         DataBundle dataBundle = JsonUtils.fromJson(getRequestBody(), DataBundle.class);
 
         try {
-            dataBundle = sqlLogic.persistDataBundle(dataBundle);
+            dataBundle = logic.persistDataBundle(dataBundle);
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         }

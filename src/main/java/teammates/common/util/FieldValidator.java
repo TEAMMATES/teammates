@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.storage.sqlentity.DeadlineExtension;
+import teammates.storage.entity.DeadlineExtension;
 
 /**
  * Used to handle the data validation aspect e.g. validate emails, names, etc.
@@ -788,7 +788,7 @@ public final class FieldValidator {
      * @return Error string if any deadline in {@code deadlines} is before {@code sessionEnd}, an empty one otherwise.
      */
     public static String getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
-            Instant sessionEnd, List<DeadlineExtension> deadlineExtensions) {
+            Instant sessionEnd, Set<DeadlineExtension> deadlineExtensions) {
         for (DeadlineExtension de : deadlineExtensions) {
             String err = getInvalidityInfoForFirstTimeIsStrictlyBeforeSecondTime(sessionEnd, de.getEndTime(),
                     SESSION_NAME, SESSION_END_TIME_FIELD_NAME, EXTENDED_DEADLINES_FIELD_NAME);

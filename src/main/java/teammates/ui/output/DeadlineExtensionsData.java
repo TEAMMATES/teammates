@@ -1,14 +1,13 @@
 package teammates.ui.output;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
-import teammates.common.util.TimeHelper;
-import teammates.storage.sqlentity.DeadlineExtension;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.storage.entity.DeadlineExtension;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 
 /**
  * The API output format for deadline extensions.
@@ -21,15 +20,14 @@ public class DeadlineExtensionsData extends ApiOutput {
         // for Jackson deserialization
     }
 
-    public DeadlineExtensionsData(String timeZone, List<DeadlineExtension> deadlineExtensions,
+    public DeadlineExtensionsData(Set<DeadlineExtension> deadlineExtensions,
             Map<UUID, Student> studentsByUserId, Map<UUID, Instructor> instructorsByUserId) {
         this.studentDeadlines = new HashMap<>();
         this.instructorDeadlines = new HashMap<>();
 
         for (DeadlineExtension de : deadlineExtensions) {
             UUID userId = de.getUserId();
-            long epochMilli = TimeHelper.getMidnightAdjustedInstantBasedOnZone(
-                    de.getEndTime(), timeZone, true).toEpochMilli();
+            long epochMilli = de.getEndTime().toEpochMilli();
 
             if (studentsByUserId.containsKey(userId)) {
                 this.studentDeadlines.put(studentsByUserId.get(userId).getEmail(), epochMilli);

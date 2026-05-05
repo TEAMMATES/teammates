@@ -3,7 +3,7 @@ package teammates.ui.output;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import teammates.storage.sqlentity.Notification;
+import teammates.storage.entity.Notification;
 
 /**
  * The API output for a list of notifications.

@@ -1,7 +1,8 @@
 package teammates.ui.webapi;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Account;
+import teammates.storage.entity.Account;
+import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.output.AccountData;
 
 /**
@@ -13,7 +14,7 @@ public class GetAccountAction extends AdminOnlyAction {
     public JsonResult execute() {
         String googleId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
 
-        Account account = sqlLogic.getAccountForGoogleId(googleId);
+        Account account = logic.getAccountForGoogleId(googleId);
 
         if (account == null) {
             throw new EntityNotFoundException("Account does not exist.");

@@ -6,7 +6,7 @@ import com.deque.html.axecore.results.Results;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
+import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}.
@@ -27,7 +27,7 @@ public class InstructorFeedbackEditPageAxeTest extends BaseAxeTestCase {
                 .withFeedbackSessionId(testData.feedbackSessions.get("openSession").getId().toString())
                 .withSessionName(testData.feedbackSessions.get("openSession").getName());
 
-        InstructorFeedbackEditPageSql feedbackEditPage = loginToPage(url, InstructorFeedbackEditPageSql.class,
+        InstructorFeedbackEditPage feedbackEditPage = loginToPage(url, InstructorFeedbackEditPage.class,
                 testData.instructors.get("InstFEP.instr").getGoogleId());
 
         // landmark-unique might be caused by tinymce

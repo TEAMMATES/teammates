@@ -11,7 +11,6 @@ import { NO_VALUE } from '../../../../types/feedback-response-details';
 @Component({
   selector: 'tm-rank-recipients-question-edit-details-form',
   templateUrl: './rank-recipients-question-edit-details-form.component.html',
-  styleUrls: ['./rank-recipients-question-edit-details-form.component.scss'],
   imports: [FormsModule],
 })
 export class RankRecipientsQuestionEditDetailsFormComponent extends QuestionEditDetailsFormComponent<FeedbackRankRecipientsQuestionDetails> {

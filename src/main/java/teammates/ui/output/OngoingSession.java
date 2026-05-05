@@ -1,3 +1,4 @@
+
 package teammates.ui.output;
 
 import java.util.ArrayList;
@@ -6,9 +7,8 @@ import java.util.UUID;
 
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackSession;
 
 /**
  * A single ongoing session.
@@ -37,11 +37,8 @@ public class OngoingSession {
         }
         this.instructorHomePageLink = instructorHomePageLink;
         Course course = fs.getCourse();
-        String timeZone = course.getTimeZone();
-        this.startTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(fs.getStartTime(), timeZone, true)
-                .toEpochMilli();
-        this.endTime = TimeHelper.getMidnightAdjustedInstantBasedOnZone(fs.getEndTime(), timeZone, true)
-                .toEpochMilli();
+        this.startTime = fs.getStartTime().toEpochMilli();
+        this.endTime = fs.getEndTime().toEpochMilli();
         this.creatorEmail = fs.getCreatorEmail();
         this.courseId = course.getId();
         this.feedbackSessionName = fs.getName();

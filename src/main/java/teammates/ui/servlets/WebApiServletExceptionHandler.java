@@ -9,13 +9,13 @@ import org.hibernate.HibernateException;
 
 import teammates.common.exception.DeadlineExceededException;
 import teammates.common.util.Logger;
+import teammates.ui.exception.ActionMappingException;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.request.InvalidHttpRequestBodyException;
-import teammates.ui.webapi.ActionMappingException;
-import teammates.ui.webapi.EntityNotFoundException;
-import teammates.ui.webapi.InvalidHttpParameterException;
-import teammates.ui.webapi.InvalidOperationException;
 import teammates.ui.webapi.JsonResult;
-import teammates.ui.webapi.UnauthorizedAccessException;
 
 /**
  * Maps servlet-layer exceptions to HTTP responses. Extracted from {@link WebApiServlet} for unit testing.

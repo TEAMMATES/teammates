@@ -18,7 +18,6 @@ import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.dire
 @Component({
   selector: 'tm-constsum-options-question-edit-answer-form',
   templateUrl: './constsum-options-question-edit-answer-form.component.html',
-  styleUrls: ['./constsum-options-question-edit-answer-form.component.scss'],
   imports: [FormsModule, WheelDisablerDirective],
 })
 export class ConstsumOptionsQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent<

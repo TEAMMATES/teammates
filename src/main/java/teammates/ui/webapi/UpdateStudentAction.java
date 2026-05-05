@@ -11,11 +11,14 @@ import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.SanitizationHelper;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Section;
-import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlentity.Team;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Section;
+import teammates.storage.entity.Student;
+import teammates.storage.entity.Team;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.StudentUpdateRequest;
 
@@ -57,9 +60,9 @@ public class UpdateStudentAction extends Action {
         }
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.id);
         gateKeeper.verifyAccessible(
-                instructor, sqlLogic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+                instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }
 
     @Override
@@ -67,28 +70,31 @@ public class UpdateStudentAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
-        Student existingStudent = sqlLogic.getStudentForEmail(courseId, studentEmail);
+        Student existingStudent = logic.getStudentForEmail(courseId, studentEmail);
         if (existingStudent == null) {
             throw new EntityNotFoundException(STUDENT_NOT_FOUND_FOR_EDIT);
         }
 
         StudentUpdateRequest updateRequest = getAndValidateRequestBody(StudentUpdateRequest.class);
 
-        Course course = sqlLogic.getCourse(courseId);
-        Section section = sqlLogic.getSectionOrCreate(courseId, updateRequest.getSection());
-        Team team = sqlLogic.getTeamOrCreate(section, updateRequest.getTeam());
+        Course course = logic.getCourse(courseId);
+        Section section = logic.getSectionOrCreate(courseId, updateRequest.getSection());
+        Team team = logic.getTeamOrCreate(section, updateRequest.getTeam());
         Student studentToUpdate = new Student(course, updateRequest.getName(), updateRequest.getEmail(),
-                updateRequest.getComments(), team);
+                updateRequest.getComments());
+
         try {
             //we swap out email before we validate
             //TODO: this is duct tape at the moment, need to refactor how we do the validation
             String newEmail = studentToUpdate.getEmail();
             studentToUpdate.setEmail(existingStudent.getEmail());
-            sqlLogic.validateSectionsAndTeams(Arrays.asList(studentToUpdate), courseId);
+            studentToUpdate.setTeam(team);
+            logic.validateSectionsAndTeams(Arrays.asList(studentToUpdate), courseId);
             studentToUpdate.setEmail(newEmail);
 
             studentToUpdate.setId(existingStudent.getId());
-            sqlLogic.updateStudentCascade(studentToUpdate);
+            studentToUpdate.setTeam(team);
+            logic.updateStudentCascade(studentToUpdate);
 
             if (!SanitizationHelper.areEmailsEqual(studentEmail, updateRequest.getEmail())
                     && updateRequest.getIsSessionSummarySendEmail()) {

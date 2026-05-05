@@ -8,7 +8,6 @@ import { FeedbackSession } from '../../../../types/api-output';
 @Component({
   selector: 'tm-sessions-permanent-deletion-confirm-modal',
   templateUrl: './sessions-permanent-deletion-confirm-modal.component.html',
-  styleUrls: ['./sessions-permanent-deletion-confirm-modal.component.scss'],
   imports: [],
 })
 export class SessionsPermanentDeletionConfirmModalComponent {

@@ -6,7 +6,7 @@ import com.deque.html.axecore.results.Results;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
+import teammates.e2e.pageobjects.FeedbackSubmitPage;
 
 /**
  * SUT: {@link Const.WebPageURIs#STUDENT_SESSION_SUBMISSION_PAGE}.
@@ -26,7 +26,7 @@ public class FeedbackSubmitPageAxeTest extends BaseAxeTestCase {
                 .withFeedbackSessionId(testData.feedbackSessions.get("Open Session").getId().toString())
                 .withSessionName(testData.feedbackSessions.get("Open Session").getName());
 
-        FeedbackSubmitPageSql feedbackSubmitPage = loginToPage(url, FeedbackSubmitPageSql.class,
+        FeedbackSubmitPage feedbackSubmitPage = loginToPage(url, FeedbackSubmitPage.class,
                 testData.students.get("alice.tmms@FSubmit.CS2104").getGoogleId());
 
         Results results = getAxeBuilder().analyze(feedbackSubmitPage.getBrowser().getDriver());

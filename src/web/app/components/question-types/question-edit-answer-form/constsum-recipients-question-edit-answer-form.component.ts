@@ -14,7 +14,6 @@ import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.dire
 @Component({
   selector: 'tm-constsum-recipients-question-edit-answer-form',
   templateUrl: './constsum-recipients-question-edit-answer-form.component.html',
-  styleUrls: ['./constsum-recipients-question-edit-answer-form.component.scss'],
   imports: [FormsModule, WheelDisablerDirective],
 })
 export class ConstsumRecipientsQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent<

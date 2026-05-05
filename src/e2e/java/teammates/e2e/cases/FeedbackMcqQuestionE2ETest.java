@@ -9,10 +9,10 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
-import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.e2e.pageobjects.FeedbackSubmitPage;
+import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE},
@@ -41,7 +41,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
     @Override
     protected void testEditPage() {
-        InstructorFeedbackEditPageSql feedbackEditPage = loginToFeedbackEditPage();
+        InstructorFeedbackEditPage feedbackEditPage = loginToFeedbackEditPage();
 
         ______TS("verify loaded question");
         FeedbackQuestion loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession");
@@ -78,7 +78,8 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         List<String> choices = questionDetails.getMcqChoices();
         choices.add("Edited choice");
         questionDetails.setMcqChoices(choices);
-        loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession").makeDeepCopy(feedbackSession);
+        loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession").makeDeepCopy();
+        feedbackSession.addFeedbackQuestion(loadedQuestion);
         loadedQuestion.setQuestionDetails(questionDetails);
         feedbackEditPage.editMcqQuestion(2, questionDetails);
         feedbackEditPage.waitForPageToLoad();
@@ -89,7 +90,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
     @Override
     protected void testSubmitPage() {
-        FeedbackSubmitPageSql feedbackSubmitPage = loginToFeedbackSubmitPage();
+        FeedbackSubmitPage feedbackSubmitPage = loginToFeedbackSubmitPage();
 
         ______TS("verify loaded question");
         FeedbackQuestion question = testData.feedbackQuestions.get("qn1ForFirstSession");
@@ -135,7 +136,9 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         } else {
             details.setAnswer(answer);
         }
-        return FeedbackResponse.makeResponse(feedbackQuestion, student.getEmail(), null,
+        FeedbackResponse response = FeedbackResponse.makeResponse(student.getEmail(), null,
                 Const.GENERAL_QUESTION, null, details);
+        feedbackQuestion.addFeedbackResponse(response);
+        return response;
     }
 }

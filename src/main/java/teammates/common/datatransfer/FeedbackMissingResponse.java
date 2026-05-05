@@ -2,7 +2,7 @@ package teammates.common.datatransfer;
 
 import java.util.UUID;
 
-import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackQuestion;
 
 /**
  * DTO representing a missing response.

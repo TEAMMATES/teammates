@@ -6,6 +6,7 @@ import java.time.zone.ZoneRulesProvider;
 import java.util.Map;
 import java.util.TreeMap;
 
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.TimeZonesData;
 
 /**

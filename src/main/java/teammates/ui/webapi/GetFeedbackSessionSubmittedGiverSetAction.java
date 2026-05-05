@@ -5,8 +5,10 @@ import java.util.UUID;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.FeedbackSessionSubmittedGiverSet;
 
 /**
@@ -23,12 +25,12 @@ public class GetFeedbackSessionSubmittedGiverSetAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
+        Instructor instructor = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
 
         gateKeeper.verifyAccessible(instructor, feedbackSession);
     }
@@ -39,7 +41,7 @@ public class GetFeedbackSessionSubmittedGiverSetAction extends Action {
 
         Set<String> giverSet;
         try {
-            giverSet = sqlLogic.getGiverSetThatAnsweredFeedbackSession(feedbackSessionId);
+            giverSet = logic.getGiverSetThatAnsweredFeedbackSession(feedbackSessionId);
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         }

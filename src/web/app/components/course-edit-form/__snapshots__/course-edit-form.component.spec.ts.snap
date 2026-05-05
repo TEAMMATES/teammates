@@ -2,8 +2,9 @@
 
 exports[`CourseEditFormComponent should snap when in ADD Mode and is display only 1`] = `
 <tm-course-edit-form
+  COURSE_ID_MAX_LENGTH={[Function Number]}
+  COURSE_NAME_MAX_LENGTH={[Function Number]}
   CourseEditFormMode={[Function Object]}
-  FormValidator={[Function Object]}
   addModel="undefined"
   closeFormEvent={[Function EventEmitter_]}
   copyCourseEvent={[Function EventEmitter_]}
@@ -222,8 +223,9 @@ exports[`CourseEditFormComponent should snap when in ADD Mode and is display onl
 
 exports[`CourseEditFormComponent should snap when in ADD Mode with default fields 1`] = `
 <tm-course-edit-form
+  COURSE_ID_MAX_LENGTH={[Function Number]}
+  COURSE_NAME_MAX_LENGTH={[Function Number]}
   CourseEditFormMode={[Function Object]}
-  FormValidator={[Function Object]}
   addModel={[Function Object]}
   closeFormEvent={[Function EventEmitter_]}
   copyCourseEvent={[Function EventEmitter_]}
@@ -446,8 +448,9 @@ exports[`CourseEditFormComponent should snap when in ADD Mode with default field
 
 exports[`CourseEditFormComponent should snap when in EDIT Mode and is display only 1`] = `
 <tm-course-edit-form
+  COURSE_ID_MAX_LENGTH={[Function Number]}
+  COURSE_NAME_MAX_LENGTH={[Function Number]}
   CourseEditFormMode={[Function Object]}
-  FormValidator={[Function Object]}
   addModel="undefined"
   closeFormEvent={[Function EventEmitter_]}
   copyCourseEvent={[Function EventEmitter_]}
@@ -661,8 +664,9 @@ exports[`CourseEditFormComponent should snap when in EDIT Mode and is display on
 
 exports[`CourseEditFormComponent should snap when in EDIT Mode with default fields 1`] = `
 <tm-course-edit-form
+  COURSE_ID_MAX_LENGTH={[Function Number]}
+  COURSE_NAME_MAX_LENGTH={[Function Number]}
   CourseEditFormMode={[Function Object]}
-  FormValidator={[Function Object]}
   addModel="undefined"
   closeFormEvent={[Function EventEmitter_]}
   copyCourseEvent={[Function EventEmitter_]}

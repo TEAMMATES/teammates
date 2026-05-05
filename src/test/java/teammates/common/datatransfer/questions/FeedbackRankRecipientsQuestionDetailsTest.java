@@ -8,8 +8,8 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.questions.FeedbackRankRecipientsQuestion;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.questions.FeedbackRankRecipientsQuestion;
 import teammates.test.BaseTestCase;
 
 /**
@@ -176,11 +176,11 @@ public class FeedbackRankRecipientsQuestionDetailsTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidateGiverRecipientVisibilitySql() {
+    public void testValidateGiverRecipientVisibility() {
         FeedbackRankRecipientsQuestionDetails feedbackRankRecipientsQuestionDetails =
                 new FeedbackRankRecipientsQuestionDetails();
         FeedbackQuestion feedbackQuestion = new FeedbackRankRecipientsQuestion(
-                null, 1, null,
+                1, null,
                 FeedbackParticipantType.STUDENTS, FeedbackParticipantType.OWN_TEAM_MEMBERS,
                 1, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
                 new FeedbackRankRecipientsQuestionDetails());

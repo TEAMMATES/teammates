@@ -21,7 +21,6 @@ import {
 @Component({
   selector: 'tm-rubric-question-statistics',
   templateUrl: './rubric-question-statistics.component.html',
-  styleUrls: ['./rubric-question-statistics.component.scss'],
   imports: [NgbTooltip, FormsModule, SortableTableComponent],
 })
 export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsCalculation implements OnChanges {
@@ -166,7 +165,7 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
     });
   }
 
-  private getDisplayWeight(weight: number): any {
-    return weight === null || weight === NO_VALUE ? '-' : weight;
+  private getDisplayWeight(weight: number): string {
+    return weight === null || weight === NO_VALUE ? '-' : String(weight);
   }
 }

@@ -6,7 +6,7 @@ import jakarta.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import teammates.storage.sqlentity.Student;
+import teammates.storage.entity.Student;
 
 /**
  * The API output format of {@link Student}.

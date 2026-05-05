@@ -6,7 +6,7 @@ import com.deque.html.axecore.results.Results;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.AdminSearchPageSql;
+import teammates.e2e.pageobjects.AdminSearchPage;
 
 /**
  * SUT: {@link Const.WebPageURIs#ADMIN_SEARCH_PAGE}.
@@ -22,7 +22,7 @@ public class AdminSearchPageAxeTest extends BaseAxeTestCase {
     @Override
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.ADMIN_SEARCH_PAGE);
-        AdminSearchPageSql searchPage = loginAdminToPage(url, AdminSearchPageSql.class);
+        AdminSearchPage searchPage = loginAdminToPage(url, AdminSearchPage.class);
 
         searchPage.inputSearchContent(testData.students.get("student1InCourse1").getEmail());
         searchPage.clickSearchButton();

@@ -31,7 +31,7 @@
                       {{ displayEmptyFieldMessage('Student Name') }}
                     </span>
                     <span [hidden]="!editForm.get('student-name')!.errors!['maxlength']">
-                      {{ displayExceedMaxLengthMessage('Student Name', FormValidator.STUDENT_NAME_MAX_LENGTH) }}
+                      {{ displayExceedMaxLengthMessage('Student Name', STUDENT_NAME_MAX_LENGTH) }}
                     </span>
                   </div>
                 }
@@ -51,7 +51,7 @@
                       {{ displayEmptyFieldMessage('Section Name') }}
                     </span>
                     <span [hidden]="!editForm.get('section-name')!.errors!['maxlength']">
-                      {{ displayExceedMaxLengthMessage('Section Name', FormValidator.SECTION_NAME_MAX_LENGTH) }}
+                      {{ displayExceedMaxLengthMessage('Section Name', SECTION_NAME_MAX_LENGTH) }}
                     </span>
                   </div>
                 }
@@ -81,7 +81,7 @@
                       {{ displayEmptyFieldMessage('Team Name') }}
                     </span>
                     <span [hidden]="!editForm.get('team-name')!.errors!['maxlength']">
-                      {{ displayExceedMaxLengthMessage('Team Name', FormValidator.TEAM_NAME_MAX_LENGTH) }}
+                      {{ displayExceedMaxLengthMessage('Team Name', TEAM_NAME_MAX_LENGTH) }}
                     </span>
                   </div>
                 }
@@ -101,7 +101,7 @@
                       {{ displayEmptyFieldMessage('E-mail Address') }}
                     </span>
                     <span [hidden]="!editForm.get('new-student-email')!.errors!['maxlength']">
-                      {{ displayExceedMaxLengthMessage('E-mail Address', FormValidator.EMAIL_MAX_LENGTH) }}
+                      {{ displayExceedMaxLengthMessage('E-mail Address', EMAIL_MAX_LENGTH) }}
                     </span>
                   </div>
                 }

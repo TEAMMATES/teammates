@@ -9,7 +9,6 @@ import { castAsInputElement, castAsTextAreaElement } from '../../../../types/eve
 @Component({
   selector: 'tm-edit-request-modal',
   templateUrl: './admin-edit-request-modal.component.html',
-  styleUrls: ['./admin-edit-request-modal.component.scss'],
 })
 export class EditRequestModalComponent {
   readonly castAsInputElement = castAsInputElement;

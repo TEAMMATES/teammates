@@ -10,10 +10,13 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.request.FeedbackSessionCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -34,8 +37,8 @@ public class CreateFeedbackSessionAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
-        Course course = sqlLogic.getCourse(courseId);
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
+        Course course = logic.getCourse(courseId);
 
         gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
@@ -47,11 +50,11 @@ public class CreateFeedbackSessionAction extends Action {
                     getAndValidateRequestBody(FeedbackSessionCreateRequest.class);
         String feedbackSessionName = SanitizationHelper.sanitizeTitle(createRequest.getFeedbackSessionName());
 
-        Course course = sqlLogic.getCourse(courseId);
+        Course course = logic.getCourse(courseId);
         if (course == null) {
             throw new InvalidHttpParameterException("Failed to find course with the given course id.");
         }
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
         if (instructor == null) {
             throw new InvalidHttpParameterException("Failed to find instructor with the given courseId and googleId.");
         }
@@ -61,28 +64,27 @@ public class CreateFeedbackSessionAction extends Action {
         // TODO: Refactor to reuse the validation logic in FeedbackSessionsLogic.
         // and to move business logic to logic layer.
         // See UpdateFeedbackSessionAction and updateFeedbackSession for reference.
-        Instant startTime = createRequest.getAdjustedSubmissionStartTime(timeZone);
+        Instant startTime = createRequest.getSubmissionStartTime();
         String startTimeError = FieldValidator.getInvalidityInfoForNewStartTime(startTime, timeZone);
         if (!startTimeError.isEmpty()) {
             throw new InvalidHttpRequestBodyException("Invalid submission opening time: " + startTimeError);
         }
-        Instant endTime = createRequest.getAdjustedSubmissionEndTime(timeZone);
+        Instant endTime = createRequest.getSubmissionEndTime();
         String endTimeError = FieldValidator.getInvalidityInfoForNewEndTime(endTime, timeZone);
         if (!endTimeError.isEmpty()) {
             throw new InvalidHttpRequestBodyException("Invalid submission closing time: " + endTimeError);
         }
-        Instant sessionVisibleTime = createRequest.getAdjustedSessionVisibleFromTime(timeZone);
+        Instant sessionVisibleTime = createRequest.getSessionVisibleFromTime();
         String visibilityStartAndSessionStartTimeError =
                 FieldValidator.getInvalidityInfoForTimeForNewVisibilityStart(sessionVisibleTime, startTime);
         if (!visibilityStartAndSessionStartTimeError.isEmpty()) {
             throw new InvalidHttpRequestBodyException("Invalid session visible time: "
                     + visibilityStartAndSessionStartTimeError);
         }
-        Instant resultsVisibleTime = createRequest.getAdjustedResultsVisibleFromTime(timeZone);
+        Instant resultsVisibleTime = createRequest.getResultsVisibleFromTime();
 
         FeedbackSession feedbackSession = new FeedbackSession(
                 feedbackSessionName,
-                course,
                 instructor.getEmail(),
                 createRequest.getInstructions(),
                 startTime,
@@ -93,9 +95,10 @@ public class CreateFeedbackSessionAction extends Action {
                 createRequest.isClosingSoonEmailEnabled(),
                 createRequest.isPublishedEmailEnabled()
         );
+        course.addFeedbackSession(feedbackSession);
 
         try {
-            feedbackSession = sqlLogic.createFeedbackSession(feedbackSession);
+            feedbackSession = logic.createFeedbackSession(feedbackSession);
             HibernateUtil.flushSession();
         } catch (EntityAlreadyExistsException e) {
             throw new InvalidOperationException("A session named " + feedbackSessionName
@@ -118,12 +121,13 @@ public class CreateFeedbackSessionAction extends Action {
 
     private void createCopiedFeedbackQuestions(String oldCourseId, String newCourseId,
             String newFeedbackSessionName, String oldFeedbackSessionName) {
-        FeedbackSession oldFeedbackSession = sqlLogic.getFeedbackSession(oldFeedbackSessionName, oldCourseId);
-        FeedbackSession newFeedbackSession = sqlLogic.getFeedbackSession(newFeedbackSessionName, newCourseId);
-        sqlLogic.getFeedbackQuestionsForSession(oldFeedbackSession).forEach(question -> {
-            FeedbackQuestion feedbackQuestion = question.makeDeepCopy(newFeedbackSession);
+        FeedbackSession oldFeedbackSession = logic.getFeedbackSession(oldFeedbackSessionName, oldCourseId);
+        FeedbackSession newFeedbackSession = logic.getFeedbackSession(newFeedbackSessionName, newCourseId);
+        logic.getFeedbackQuestionsForSession(oldFeedbackSession).forEach(question -> {
+            FeedbackQuestion feedbackQuestion = question.makeDeepCopy();
+            newFeedbackSession.addFeedbackQuestion(feedbackQuestion);
             try {
-                sqlLogic.createFeedbackQuestion(feedbackQuestion);
+                logic.createFeedbackQuestion(feedbackQuestion);
             } catch (InvalidParametersException | EntityAlreadyExistsException e) {
                 log.severe("Error when copying feedback question: " + e.getMessage());
             }

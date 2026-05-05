@@ -4,8 +4,10 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Instructor;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Instructor;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.CourseData;
 import teammates.ui.request.CourseUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -27,8 +29,8 @@ public class UpdateCourseAction extends Action {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Course course = sqlLogic.getCourse(courseId);
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+        Course course = logic.getCourse(courseId);
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.id);
 
         gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
@@ -47,7 +49,7 @@ public class UpdateCourseAction extends Action {
         String courseName = courseUpdateRequest.getCourseName();
 
         try {
-            Course updatedCourse = sqlLogic.updateCourse(courseId, courseName, courseTimeZone);
+            Course updatedCourse = logic.updateCourse(courseId, courseName, courseTimeZone);
 
             return new JsonResult(new CourseData(updatedCourse));
 

@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import teammates.storage.sqlentity.FeedbackResponse;
+import teammates.storage.entity.FeedbackResponse;
 
 /**
  * The API output format of a list of {@link FeedbackResponse}.

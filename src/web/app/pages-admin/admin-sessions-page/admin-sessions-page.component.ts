@@ -133,11 +133,13 @@ export class AdminSessionsPageComponent implements OnInit {
       { year: this.startDate.year, month: this.startDate.month, day: this.startDate.day },
       { hour: this.startTime.hour, minute: this.startTime.minute },
       timezone,
+      true,
     );
     const endTime: number = this.timezoneService.resolveLocalDateTime(
       { year: this.endDate.year, month: this.endDate.month, day: this.endDate.day },
       { hour: this.endTime.hour, minute: this.endTime.minute },
       timezone,
+      true,
     );
     const displayFormat = 'ddd, DD MMM YYYY, hh:mm a';
     this.startTimeString = this.timezoneService.formatToString(startTime, timezone, displayFormat);
