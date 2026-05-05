@@ -20,6 +20,7 @@ import {
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.model';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
@@ -50,7 +51,7 @@ interface SessionTab {
     GrqRgqViewResponsesComponent,
     NgbCollapse,
   ],
-  providers: [CommentsToCommentTableModelPipe, CommentToCommentRowModelPipe, InstructorCommentService],
+  providers: [CommentsToCommentTableModelPipe, CommentToCommentRowModelPipe],
 })
 export class InstructorStudentRecordsPageComponent implements OnInit {
   courseId = '';
@@ -61,6 +62,9 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   sessionTabs: SessionTab[] = [];
   isStudentResultsLoading = false;
   hasStudentResultsLoadingFailed = false;
+
+  currInstructorName?: string;
+  instructorCommentTableModel: Record<string, CommentTableModel> = {};
 
   constructor(
     private route: ActivatedRoute,
@@ -98,7 +102,7 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
         intent: Intent.FULL_DETAIL,
       })
       .subscribe((instructor: Instructor) => {
-        this.commentService.currInstructorName = instructor.name;
+        this.currInstructorName = instructor.name;
       });
   }
 
@@ -226,12 +230,12 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
    */
   preprocessComments(responses: ResponseOutput[], timezone: string): void {
     responses.forEach((response: ResponseOutput) => {
-      this.commentService.instructorCommentTableModel[response.responseId] = this.commentsToCommentTableModel.transform(
+      this.instructorCommentTableModel[response.responseId] = this.commentsToCommentTableModel.transform(
         response.instructorComments,
         false,
         timezone,
       );
-      this.commentService.sortComments(this.commentService.instructorCommentTableModel[response.responseId]);
+      this.commentService.sortComments(this.instructorCommentTableModel[response.responseId]);
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
       response.instructorComments = [];
     });

@@ -43,6 +43,7 @@ import {
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
+import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.model';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
@@ -79,7 +80,7 @@ const TIME_FORMAT = 'ddd, DD MMM, YYYY, hh:mm A zz';
     InstructorSessionNoResponsePanelComponent,
     PreviewSessionResultPanelComponent,
   ],
-  providers: [CommentsToCommentTableModelPipe, CommentToCommentRowModelPipe, InstructorCommentService],
+  providers: [CommentsToCommentTableModelPipe, CommentToCommentRowModelPipe],
 })
 export class InstructorSessionResultPageComponent implements OnInit {
   // enum
@@ -99,6 +100,9 @@ export class InstructorSessionResultPageComponent implements OnInit {
   groupByTeam = true;
   showStatistics = true;
   indicateMissingResponses = true;
+
+  currInstructorName?: string;
+  instructorCommentTableModel: Record<string, CommentTableModel> = {};
 
   // below are two models contain similar and duplicate data
   // they are for different views
@@ -333,7 +337,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
               intent: Intent.FULL_DETAIL,
             })
             .subscribe((instructor: Instructor) => {
-              this.commentService.currInstructorName = instructor.name;
+              this.currInstructorName = instructor.name;
             });
         },
         error: (resp: ErrorMessageOutput) => {
@@ -494,12 +498,12 @@ export class InstructorSessionResultPageComponent implements OnInit {
    */
   preprocessComments(responses: ResponseOutput[]): void {
     responses.forEach((response: ResponseOutput) => {
-      this.commentService.instructorCommentTableModel[response.responseId] = this.commentsToCommentTableModel.transform(
+      this.instructorCommentTableModel[response.responseId] = this.commentsToCommentTableModel.transform(
         response.instructorComments,
         false,
         this.session.timeZone,
       );
-      this.commentService.sortComments(this.commentService.instructorCommentTableModel[response.responseId]);
+      this.commentService.sortComments(this.instructorCommentTableModel[response.responseId]);
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
       response.instructorComments = [];
     });

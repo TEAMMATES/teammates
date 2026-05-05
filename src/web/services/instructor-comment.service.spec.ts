@@ -12,7 +12,6 @@ describe('InstructorCommentService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        InstructorCommentService,
         { provide: HttpRequestService, useValue: {} },
         { provide: FeedbackResponseCommentService, useValue: {} },
         { provide: StatusMessageService, useValue: {} },
