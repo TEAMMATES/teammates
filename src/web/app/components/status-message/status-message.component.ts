@@ -7,7 +7,6 @@ import { StatusMessage } from './status-message';
 @Component({
   selector: 'tm-status-message',
   templateUrl: './status-message.component.html',
-  styleUrls: ['./status-message.component.scss'],
   imports: [],
 })
 export class StatusMessageComponent {

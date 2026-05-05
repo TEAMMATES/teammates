@@ -11,7 +11,6 @@ import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-que
 @Component({
   selector: 'tm-num-scale-question-edit-details-form',
   templateUrl: './num-scale-question-edit-details-form.component.html',
-  styleUrls: ['./num-scale-question-edit-details-form.component.scss'],
   imports: [NgbTooltip, FormsModule],
 })
 export class NumScaleQuestionEditDetailsFormComponent extends QuestionEditDetailsFormComponent<FeedbackNumericalScaleQuestionDetails> {

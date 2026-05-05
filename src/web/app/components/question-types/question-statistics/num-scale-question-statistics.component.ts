@@ -14,7 +14,6 @@ import {
 @Component({
   selector: 'tm-num-scale-question-statistics',
   templateUrl: './num-scale-question-statistics.component.html',
-  styleUrls: ['./num-scale-question-statistics.component.scss'],
   imports: [SortableTableComponent],
 })
 export class NumScaleQuestionStatisticsComponent

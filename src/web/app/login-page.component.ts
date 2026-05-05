@@ -17,7 +17,6 @@ import { LoadingSpinnerDirective } from './components/loading-spinner/loading-sp
 @Component({
   selector: 'tm-login-page',
   templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.scss'],
   imports: [LoadingSpinnerDirective, AjaxLoadingComponent, FormsModule, ReactiveFormsModule, NgxCaptchaModule],
 })
 export class LoginPageComponent implements OnInit {

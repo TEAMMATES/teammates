@@ -8,7 +8,6 @@ import { CONTRIBUTION_POINT_NOT_SUBMITTED } from '../../../../../types/feedback-
 @Component({
   selector: 'tm-contribution-ratings-list',
   templateUrl: './contribution-ratings-list.component.html',
-  styleUrls: ['./contribution-ratings-list.component.scss'],
   imports: [ContributionComponent],
 })
 export class ContributionRatingsListComponent {

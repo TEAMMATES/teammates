@@ -8,7 +8,6 @@ import { DateFormat, TimeFormat, getDefaultTimeFormat, getDefaultDateFormat } fr
 @Component({
   selector: 'tm-timepicker',
   templateUrl: './timepicker.component.html',
-  styleUrls: ['./timepicker.component.scss'],
   imports: [FormsModule],
 })
 export class TimepickerComponent {
