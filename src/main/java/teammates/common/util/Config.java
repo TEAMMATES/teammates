@@ -153,7 +153,7 @@ public final class Config {
     public static final boolean TASKQUEUE_ACTIVE;
 
     /**
-     * Value of {@code allow.emails.to.test.domain} (default {@code false} if unset).
+     * Value of {@code app.email.allow.sending.to.test.domain} (default {@code false} if unset).
      * When {@code true}, outbound email to TEAMMATES test/demo domains is allowed; see {@link Const#TEST_EMAIL_DOMAIN}.
      */
     public static final boolean ALLOW_EMAILS_TO_TEST_DOMAIN;
@@ -239,7 +239,7 @@ public final class Config {
         TASKQUEUE_ACTIVE = Boolean.parseBoolean(
                 getProperty(properties, devProperties, "app.taskqueue.active", "true"));
         ALLOW_EMAILS_TO_TEST_DOMAIN = Boolean.parseBoolean(
-                getProperty(properties, devProperties, "allow.emails.to.test.domain", "false"));
+                getProperty(properties, devProperties, "app.email.allow.sending.to.test.domain", "false"));
         TASKQUEUE_SERVICE = getProperty(properties, devProperties, "app.taskqueue.service",
                 IS_DEV_SERVER ? "local" : "google-cloud-tasks");
     }
