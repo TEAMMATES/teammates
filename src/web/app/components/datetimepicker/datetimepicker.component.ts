@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DateFormat, TimeFormat } from '../../../types/datetime-const';
+import { DateFormat, TimeFormat, getDefaultDateFormat, getDefaultTimeFormat } from '../../../types/datetime-const';
 import { DatepickerComponent } from '../datepicker/datepicker.component';
 import { TimepickerComponent } from '../timepicker/timepicker.component';
 
@@ -55,6 +55,14 @@ export class DatetimepickerComponent {
 
   @Output()
   dateTimeChange: EventEmitter<{ date: DateFormat; time: TimeFormat }> = new EventEmitter();
+
+  get defaultDate(): DateFormat {
+    return getDefaultDateFormat();
+  }
+
+  get defaultTime(): TimeFormat {
+    return getDefaultTimeFormat();
+  }
 
   onDateChange(newDate: DateFormat): void {
     this.date = newDate;

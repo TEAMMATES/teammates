@@ -1,7 +1,7 @@
 <div class="row align-items-center">
   <div [id]="dateId" [ngClass]="dateColClass">
     <tm-datepicker
-      [date]="date"
+      [date]="date || defaultDate"
       [isDisabled]="isDisabled"
       [minDate]="minDate!"
       [maxDate]="maxDate!"
@@ -11,8 +11,8 @@
   <div [ngClass]="timeColClass">
     <tm-timepicker
       [id]="timeId"
-      [date]="date!"
-      [time]="time!"
+      [date]="date || defaultDate"
+      [time]="time || defaultTime"
       [isDisabled]="isDisabled"
       [minDate]="minDate!"
       [maxDate]="maxDate!"
