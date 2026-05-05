@@ -54,23 +54,15 @@
     <div>
       <small>The new deadline of the feedback session will be:</small>
       <div id="submission-start-date">
-        <div class="input-group">
-          <tm-datepicker
-            id="submission-end-date"
-            [date]="extendToDatePicker"
-            (dateChangeCallback)="onChangeDateTime($event, DateTime.DATE)"
-            [minDate]="getDateFormat(feedbackSessionEndingTimestamp)"
-          >
-          </tm-datepicker>
-          <div class="col-md-5">
-            <tm-timepicker
-              id="submission-end-time"
-              [time]="extendToTimePicker"
-              (timeChange)="onChangeDateTime($event, DateTime.TIME)"
-            >
-            </tm-timepicker>
-          </div>
-        </div>
+        <tm-datetimepicker
+          dateId="submission-end-date"
+          timeId="submission-end-time"
+          [date]="extendToDatePicker"
+          [time]="extendToTimePicker"
+          [minDate]="getDateFormat(feedbackSessionEndingTimestamp)"
+          (dateChange)="onChangeDateTime($event, DateTime.DATE)"
+          (timeChange)="onChangeDateTime($event, DateTime.TIME)"
+        ></tm-datetimepicker>
       </div>
     </div>
   }

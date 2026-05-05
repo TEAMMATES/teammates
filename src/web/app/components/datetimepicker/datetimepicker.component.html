@@ -1,0 +1,24 @@
+<div class="row align-items-center">
+  <div [id]="dateId" [ngClass]="dateColClass">
+    <tm-datepicker
+      [date]="date"
+      [isDisabled]="isDisabled"
+      [minDate]="minDate!"
+      [maxDate]="maxDate!"
+      (dateChangeCallback)="onDateChange($event)"
+    ></tm-datepicker>
+  </div>
+  <div [ngClass]="timeColClass">
+    <tm-timepicker
+      [id]="timeId"
+      [date]="date!"
+      [time]="time!"
+      [isDisabled]="isDisabled"
+      [minDate]="minDate!"
+      [maxDate]="maxDate!"
+      [minTime]="minTime"
+      [maxTime]="maxTime"
+      (timeChange)="onTimeChange($event)"
+    ></tm-timepicker>
+  </div>
+</div>

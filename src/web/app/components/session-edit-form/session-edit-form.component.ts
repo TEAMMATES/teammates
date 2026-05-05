@@ -25,6 +25,7 @@ import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { DatePickerFormatter } from '../datepicker/datepicker-formatter';
 import { DatepickerComponent } from '../datepicker/datepicker.component';
+import { DatetimepickerComponent } from '../datetimepicker/datetimepicker.component';
 import { RichTextEditorComponent } from '../rich-text-editor/rich-text-editor.component';
 import { SimpleModalType } from '../simple-modal/simple-modal-type';
 import { PublishStatusNamePipe } from '../teammates-common/publish-status-name.pipe';
@@ -48,6 +49,7 @@ import { TimepickerComponent } from '../timepicker/timepicker.component';
     NgClass,
     RichTextEditorComponent,
     DatepickerComponent,
+    DatetimepickerComponent,
     TimepickerComponent,
     SubmissionStatusNamePipe,
     PublishStatusNamePipe,

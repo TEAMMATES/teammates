@@ -14,6 +14,7 @@ import {
   Milliseconds,
 } from '../../../../types/datetime-const';
 import { DatepickerComponent } from '../../../components/datepicker/datepicker.component';
+import { DatetimepickerComponent } from '../../../components/datetimepicker/datetimepicker.component';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { FormatDateDetailPipe } from '../../../components/teammates-common/format-date-detail.pipe';
 import { TimepickerComponent } from '../../../components/timepicker/timepicker.component';
@@ -32,7 +33,7 @@ enum DateTime {
   selector: 'tm-individual-extension-date-modal',
   templateUrl: './individual-extension-date-modal.component.html',
   styleUrls: ['./individual-extension-date-modal.component.scss'],
-  imports: [FormsModule, DatepickerComponent, TimepickerComponent, KeyValuePipe],
+  imports: [FormsModule, DatepickerComponent, DatetimepickerComponent, TimepickerComponent, KeyValuePipe],
 })
 export class IndividualExtensionDateModalComponent {
   private readonly timeZoneService = inject(TimezoneService);

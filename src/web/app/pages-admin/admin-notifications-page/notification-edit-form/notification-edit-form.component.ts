@@ -10,6 +10,7 @@ import { getDefaultTimeFormat, getDefaultDateFormat } from '../../../../types/da
 import { AjaxLoadingComponent } from '../../../components/ajax-loading/ajax-loading.component';
 import { DatePickerFormatter } from '../../../components/datepicker/datepicker-formatter';
 import { DatepickerComponent } from '../../../components/datepicker/datepicker.component';
+import { DatetimepickerComponent } from '../../../components/datetimepicker/datetimepicker.component';
 import { RichTextEditorComponent } from '../../../components/rich-text-editor/rich-text-editor.component';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { NotificationStyleClassPipe } from '../../../components/teammates-common/notification-style-class.pipe';
@@ -27,6 +28,7 @@ import { TimepickerComponent } from '../../../components/timepicker/timepicker.c
     NgClass,
     RichTextEditorComponent,
     DatepickerComponent,
+    DatetimepickerComponent,
     TimepickerComponent,
     AjaxLoadingComponent,
     KeyValuePipe,

@@ -2,7 +2,6 @@ import { NgClass, KeyValuePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NgbDateParserFormatter, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -31,7 +30,7 @@ import {
 } from '../../../types/datetime-const';
 import { castAsInputElement } from '../../../types/event-target-caster';
 import { SortBy } from '../../../types/sort-properties';
-import { DatePickerFormatter } from '../../components/datepicker/datepicker-formatter';
+import { DatetimepickerComponent } from '../../components/datetimepicker/datetimepicker.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { PanelChevronComponent } from '../../components/panel-chevron/panel-chevron.component';
 import {
@@ -89,12 +88,11 @@ interface FeedbackSessionLogModel {
 @Component({
   selector: 'tm-instructor-student-activity-logs',
   templateUrl: './instructor-student-activity-logs.component.html',
-  providers: [{ provide: NgbDateParserFormatter, useClass: DatePickerFormatter }],
   styleUrls: ['./instructor-student-activity-logs.component.scss'],
   imports: [
     LoadingSpinnerDirective,
     FormsModule,
-    NgbInputDatepicker,
+    DatetimepickerComponent,
     TimepickerComponent,
     NgClass,
     PanelChevronComponent,

@@ -128,21 +128,15 @@
                 </label>
               </div>
             </div>
-            <div class="row text-center align-items-center">
-              <div id="notification-start-date" class="col-md-7 col-xs-center">
-                <tm-datepicker
-                  (dateChangeCallback)="triggerModelChange('startDate', $event)"
-                  [date]="model.startDate"
-                ></tm-datepicker>
-              </div>
-              <div class="col-md-5">
-                <tm-timepicker
-                  id="notification-start-time"
-                  [time]="model.startTime"
-                  (timeChange)="triggerModelChange('startTime', $event)"
-                ></tm-timepicker>
-              </div>
-            </div>
+            <tm-datetimepicker
+              class="text-center"
+              dateId="notification-start-date"
+              timeId="notification-start-time"
+              [date]="model.startDate"
+              [time]="model.startTime"
+              (dateChange)="triggerModelChange('startDate', $event)"
+              (timeChange)="triggerModelChange('startTime', $event)"
+            ></tm-datetimepicker>
           </div>
           <div class="col-md-6 border-left-gray">
             <div class="row text-center">
@@ -155,22 +149,15 @@
                 </label>
               </div>
             </div>
-            <div class="row align-items-center">
-              <div id="notification-end-date" class="col-md-7 col-xs-center">
-                <tm-datepicker
-                  (dateChangeCallback)="triggerModelChange('endDate', $event)"
-                  [minDate]="model.startDate"
-                  [date]="model.endDate"
-                ></tm-datepicker>
-              </div>
-              <div class="col-md-5">
-                <tm-timepicker
-                  id="notification-end-time"
-                  [time]="model.endTime"
-                  (timeChange)="triggerModelChange('endTime', $event)"
-                ></tm-timepicker>
-              </div>
-            </div>
+            <tm-datetimepicker
+              dateId="notification-end-date"
+              timeId="notification-end-time"
+              [date]="model.endDate"
+              [time]="model.endTime"
+              [minDate]="model.startDate"
+              (dateChange)="triggerModelChange('endDate', $event)"
+              (timeChange)="triggerModelChange('endTime', $event)"
+            ></tm-datetimepicker>
           </div>
         </div>
       </div>
