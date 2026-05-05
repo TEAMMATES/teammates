@@ -703,9 +703,8 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     }
 
     private FeedbackSession getFeedbackSessionPastEndTime() {
-        return new FeedbackSession(
+        FeedbackSession feedbackSession = new FeedbackSession(
                 typicalFeedbackSession.getName(),
-                typicalFeedbackSession.getCourse(),
                 typicalFeedbackSession.getCreatorEmail(),
                 typicalFeedbackSession.getInstructions(),
                 Instant.now().minus(Duration.ofHours(2)),
@@ -715,6 +714,8 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 Duration.ofMinutes(15),
                 false,
                 false);
+        typicalFeedbackSession.getCourse().addFeedbackSession(feedbackSession);
+        return feedbackSession;
     }
 
 }

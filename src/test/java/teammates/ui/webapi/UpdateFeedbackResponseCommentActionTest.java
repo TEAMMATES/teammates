@@ -820,9 +820,8 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     }
 
     private FeedbackSession getFeedbackSessionPastEndTime() {
-        return new FeedbackSession(
+        FeedbackSession feedbackSession = new FeedbackSession(
                 typicalFeedbackSession.getName(),
-                typicalFeedbackSession.getCourse(),
                 typicalFeedbackSession.getCreatorEmail(),
                 typicalFeedbackSession.getInstructions(),
                 Instant.now().minus(Duration.ofHours(2)),
@@ -832,6 +831,8 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Duration.ofMinutes(15),
                 false,
                 false);
+        typicalFeedbackSession.getCourse().addFeedbackSession(feedbackSession);
+        return feedbackSession;
     }
 
     private void checkJsonResponse(FeedbackResponseComment updatedComment, FeedbackResponseCommentData response) {

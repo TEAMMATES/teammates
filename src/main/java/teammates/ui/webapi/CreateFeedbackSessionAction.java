@@ -82,7 +82,6 @@ public class CreateFeedbackSessionAction extends Action {
 
         FeedbackSession feedbackSession = new FeedbackSession(
                 feedbackSessionName,
-                course,
                 instructor.getEmail(),
                 createRequest.getInstructions(),
                 startTime,
@@ -93,6 +92,7 @@ public class CreateFeedbackSessionAction extends Action {
                 createRequest.isClosingSoonEmailEnabled(),
                 createRequest.isPublishedEmailEnabled()
         );
+        course.addFeedbackSession(feedbackSession);
 
         try {
             feedbackSession = logic.createFeedbackSession(feedbackSession);

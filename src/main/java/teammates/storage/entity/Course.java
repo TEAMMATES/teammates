@@ -2,7 +2,9 @@ package teammates.storage.entity;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -37,7 +39,7 @@ public class Course extends BaseEntity {
     private String institute;
 
     @OneToMany(mappedBy = "course")
-    private List<FeedbackSession> feedbackSessions = new ArrayList<>();
+    private Set<FeedbackSession> feedbackSessions = new HashSet<>();
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE)
     private List<Section> sections = new ArrayList<>();
@@ -81,6 +83,7 @@ public class Course extends BaseEntity {
      */
     public void addFeedbackSession(FeedbackSession feedbackSession) {
         this.feedbackSessions.add(feedbackSession);
+        feedbackSession.setCourse(this);
     }
 
     public String getId() {
@@ -115,11 +118,11 @@ public class Course extends BaseEntity {
         this.institute = SanitizationHelper.sanitizeTitle(institute);
     }
 
-    public List<FeedbackSession> getFeedbackSessions() {
+    public Set<FeedbackSession> getFeedbackSessions() {
         return feedbackSessions;
     }
 
-    public void setFeedbackSessions(List<FeedbackSession> feedbackSessions) {
+    public void setFeedbackSessions(Set<FeedbackSession> feedbackSessions) {
         this.feedbackSessions = feedbackSessions;
     }
 

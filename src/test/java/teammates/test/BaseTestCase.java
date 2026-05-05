@@ -172,8 +172,7 @@ public class BaseTestCase {
     protected FeedbackSession getTypicalFeedbackSessionForCourse(Course course) {
         Instant startTime = TimeHelperExtension.getInstantDaysOffsetFromNow(1);
         Instant endTime = TimeHelperExtension.getInstantDaysOffsetFromNow(7);
-        return new FeedbackSession("test-feedbacksession",
-                course,
+        FeedbackSession feedbackSession = new FeedbackSession("test-feedbacksession",
                 "test@teammates.tmt",
                 "<p>test-instructions</p>",
                 startTime,
@@ -183,6 +182,8 @@ public class BaseTestCase {
                 Duration.ofMinutes(5),
                 false,
                 false);
+        course.addFeedbackSession(feedbackSession);
+        return feedbackSession;
     }
 
     protected FeedbackQuestion getTypicalFeedbackQuestionForSession(FeedbackSession session) {

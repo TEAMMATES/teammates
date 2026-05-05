@@ -6,6 +6,7 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
@@ -175,7 +176,7 @@ public final class CoursesLogic {
             return;
         }
 
-        List<FeedbackSession> feedbackSessions = course.getFeedbackSessions();
+        Set<FeedbackSession> feedbackSessions = course.getFeedbackSessions();
         feedbackSessions.forEach(feedbackSession ->
                 fsLogic.deleteFeedbackSessionCascade(feedbackSession.getId())
         );

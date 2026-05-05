@@ -106,12 +106,11 @@ public class FeedbackSession extends BaseEntity {
         // required by Hibernate
     }
 
-    public FeedbackSession(String name, Course course, String creatorEmail, String instructions, Instant startTime,
+    public FeedbackSession(String name, String creatorEmail, String instructions, Instant startTime,
             Instant endTime, Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, Duration gracePeriod,
             boolean isClosingSoonEmailEnabled, boolean isPublishedEmailEnabled) {
         this.setId(UUID.randomUUID());
         this.setName(name);
-        this.setCourse(course);
         this.setCreatorEmail(creatorEmail);
         this.setInstructions(StringUtils.defaultString(instructions));
         this.setStartTime(startTime);
