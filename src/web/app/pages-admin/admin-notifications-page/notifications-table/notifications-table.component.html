@@ -176,11 +176,12 @@
               >
             </td>
             <td class="text-break">{{ notificationsTableRowModel.notification.targetUser }}</td>
-            <!-- <td class="text-break" [ngClass]="notificationsTableRowModel.notification.style | notificationStyleClass">
-              {{ notificationsTableRowModel.notification.style | notificationStyleDescription }}
-            </td> -->
-            <td class="text-break">
-              <span [ngClass]="notificationsTableRowModel.notification.style | notificationStyleClass">
+            
+            <td 
+                class="text-break"
+                [ngClass]="notificationsTableRowModel.notification.style | notificationStyleClass"
+            >
+              <span>  
                 {{ notificationsTableRowModel.notification.style | notificationStyleDescription }}
               </span>
             </td>
