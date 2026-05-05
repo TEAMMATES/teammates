@@ -40,14 +40,8 @@ public class ReadNotification extends BaseEntity {
     @Column(name = "notification_id", nullable = false, insertable = false, updatable = false)
     private UUID notificationId;
 
-    protected ReadNotification() {
-        // required by Hibernate
-    }
-
-    public ReadNotification(Account account, Notification notification) {
+    public ReadNotification() {
         this.setId(UUID.randomUUID());
-        this.setAccount(account);
-        this.setNotification(notification);
     }
 
     public UUID getId() {

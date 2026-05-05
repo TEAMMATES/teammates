@@ -793,8 +793,9 @@ public class Logic {
 
     /**
      * Creates a read notification for the account with {@code accountId} and the notification with {@code notificationId}.
+     * @throws EntityDoesNotExistException if the account or notification does not exist.
      */
-    public ReadNotification createReadNotification(UUID accountId, UUID notificationId) {
+    public ReadNotification createReadNotification(UUID accountId, UUID notificationId) throws EntityDoesNotExistException {
         return notificationsLogic.createReadNotification(accountId, notificationId);
     }
 

@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Notification;
@@ -37,8 +38,11 @@ public class MarkNotificationAsReadActionTest extends BaseActionTest<MarkNotific
     }
 
     @Test
-    protected void testExecute_markNotificationAsRead_shouldSucceed() {
-        ReadNotification readNotification = new ReadNotification(account, testNotification);
+    protected void testExecute_markNotificationAsRead_shouldSucceed() throws EntityDoesNotExistException {
+        ReadNotification readNotification = new ReadNotification();
+        account.addReadNotification(readNotification);
+        testNotification.addReadNotification(readNotification);
+
         when(mockLogic.createReadNotification(
                 account.getId(),
                 testNotification.getId()

@@ -37,7 +37,10 @@ public class GetReadNotificationsActionTest extends BaseActionTest<GetReadNotifi
 
         loginAsInstructor(account.getGoogleId());
         for (int i = 0; i < READ_NOTIFICATION_COUNT; i++) {
-            testReadNotifications.add(new ReadNotification(account, getTypicalNotificationWithId()));
+            ReadNotification readNotification = new ReadNotification();
+            account.addReadNotification(readNotification);
+            getTypicalNotificationWithId().addReadNotification(readNotification);
+            testReadNotifications.add(readNotification);
         }
 
         when(mockLogic.getAccountForGoogleId(account.getGoogleId())).thenReturn(account);

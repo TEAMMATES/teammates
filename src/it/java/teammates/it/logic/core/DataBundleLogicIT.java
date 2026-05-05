@@ -98,8 +98,10 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("verify read notifications deserialized correctly");
 
         ReadNotification actualReadNotification = dataBundle.readNotifications.get("notification1Instructor1");
-        ReadNotification expectedReadNotification = new ReadNotification(expectedInstructorAccount,
-                expectedNotification);
+        ReadNotification expectedReadNotification = new ReadNotification();
+        expectedInstructorAccount.addReadNotification(expectedReadNotification);
+        expectedNotification.addReadNotification(expectedReadNotification);
+
         expectedNotification.setId(actualNotification.getId());
         verifyEquals(expectedReadNotification, actualReadNotification);
 

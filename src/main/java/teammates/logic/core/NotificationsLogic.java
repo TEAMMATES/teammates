@@ -12,7 +12,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.storage.api.NotificationsDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Notification;
@@ -27,6 +26,8 @@ public final class NotificationsLogic {
 
     private NotificationsDb notificationsDb;
 
+    private AccountsLogic accountsLogic;
+
     private NotificationsLogic() {
         // prevent initialization
     }
@@ -38,8 +39,9 @@ public final class NotificationsLogic {
     /**
      * Initialise dependencies for {@code NotificationLogic} object.
      */
-    public void initLogicDependencies(NotificationsDb notificationsDb) {
+    public void initLogicDependencies(NotificationsDb notificationsDb, AccountsLogic accountsLogic) {
         this.notificationsDb = notificationsDb;
+        this.accountsLogic = accountsLogic;
     }
 
     /**
@@ -153,15 +155,21 @@ public final class NotificationsLogic {
 
     /**
      * Creates a read notification for the account with {@code accountId} and the notification with {@code notificationId}.
+     * @throws EntityDoesNotExistException if the account or notification does not exist.
      */
-    public ReadNotification createReadNotification(UUID accountId, UUID notificationId) {
-        assert accountId != null;
-        assert notificationId != null;
+    public ReadNotification createReadNotification(UUID accountId, UUID notificationId) throws EntityDoesNotExistException {
+        Account account = accountsLogic.getAccount(accountId);
+        if (account == null) {
+            throw new EntityDoesNotExistException("Account with id " + accountId + " does not exist");
+        }
+        Notification notification = getNotification(notificationId);
+        if (notification == null) {
+            throw new EntityDoesNotExistException("Notification with id " + notificationId + " does not exist");
+        }
 
-        Account account = HibernateUtil.getReference(Account.class, accountId);
-        Notification notification = HibernateUtil.getReference(Notification.class, notificationId);
-
-        ReadNotification readNotification = new ReadNotification(account, notification);
+        ReadNotification readNotification = new ReadNotification();
+        account.addReadNotification(readNotification);
+        notification.addReadNotification(readNotification);
 
         return notificationsDb.createReadNotification(readNotification);
     }

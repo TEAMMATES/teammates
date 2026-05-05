@@ -226,10 +226,9 @@ public final class DataBundleLogic {
         for (ReadNotification readNotification : readNotifications) {
             readNotification.setId(UUID.randomUUID());
             Account account = accountsMap.get(readNotification.getAccountId());
-            readNotification.setAccount(account);
             account.addReadNotification(readNotification);
             Notification notification = notificationsMap.get(readNotification.getNotificationId());
-            readNotification.setNotification(notification);
+            notification.addReadNotification(readNotification);
         }
 
         for (DeadlineExtension deadlineExtension : deadlineExtensions) {

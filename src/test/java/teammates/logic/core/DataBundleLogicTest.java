@@ -279,7 +279,9 @@ public class DataBundleLogicTest extends BaseTestCase {
         DataBundle dataBundle = new DataBundle();
         Account account = getTypicalAccount();
         Notification notification = getTypicalNotificationWithId();
-        ReadNotification readNotification = new ReadNotification(account, notification);
+        ReadNotification readNotification = new ReadNotification();
+        account.addReadNotification(readNotification);
+        notification.addReadNotification(readNotification);
 
         dataBundle.accounts.put("account1", account);
         dataBundle.notifications.put("notification1", notification);

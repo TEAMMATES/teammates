@@ -2,7 +2,9 @@ package teammates.storage.entity;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
@@ -61,7 +63,7 @@ public class Notification extends BaseEntity {
 
     @OneToMany(mappedBy = "notification", cascade = CascadeType.REMOVE)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<ReadNotification> readNotifications = new ArrayList<>();
+    private Set<ReadNotification> readNotifications = new HashSet<>();
 
     /**
      * Instantiates a new notification.
@@ -172,12 +174,20 @@ public class Notification extends BaseEntity {
         this.updatedAt = updatedAt;
     }
 
-    public List<ReadNotification> getReadNotifications() {
+    public Set<ReadNotification> getReadNotifications() {
         return readNotifications;
     }
 
-    public void setReadNotifications(List<ReadNotification> readNotifications) {
+    public void setReadNotifications(Set<ReadNotification> readNotifications) {
         this.readNotifications = readNotifications;
+    }
+
+    /**
+     * Adds a read notification to this notification.
+     */
+    public void addReadNotification(ReadNotification readNotification) {
+        this.readNotifications.add(readNotification);
+        readNotification.setNotification(this);
     }
 
     @Override
