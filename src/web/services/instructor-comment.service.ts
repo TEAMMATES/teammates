@@ -68,13 +68,15 @@ export class InstructorCommentService {
       )
       .subscribe({
         next: (commentResponse: FeedbackResponseComment) => {
+          // Only override lastEditorName when the caller provided a current instructor name.
+          const transformedUpdatedComment = {
+            ...commentResponse,
+            commentGiverName: commentRowToUpdate.commentGiverName,
+            ...(currInstructorName ? { lastEditorName: currInstructorName } : {}),
+          };
+
           commentTableModel.commentRows[data.index] = this.commentToCommentRowModel.transform(
-            {
-              ...commentResponse,
-              commentGiverName: commentRowToUpdate.commentGiverName,
-              // the current instructor will become the last editor
-              lastEditorName: currInstructorName,
-            },
+            transformedUpdatedComment,
             timezone,
           );
           instructorCommentTableModel[data.responseId] = {
@@ -116,8 +118,9 @@ export class InstructorCommentService {
               {
                 ...commentResponse,
                 // the giver and editor name will be the current login instructor
-                commentGiverName: currInstructorName,
-                lastEditorName: currInstructorName,
+                ...(currInstructorName
+                  ? { commentGiverName: currInstructorName, lastEditorName: currInstructorName }
+                  : {}),
               },
               timezone,
             ),
