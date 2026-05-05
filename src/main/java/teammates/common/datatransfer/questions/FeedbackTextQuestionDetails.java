@@ -6,7 +6,7 @@ import java.util.Objects;
 
 import jakarta.annotation.Nullable;
 
-import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackQuestion;
 
 /**
  * Contains specific structure and processing logic for text feedback questions.

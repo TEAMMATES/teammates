@@ -8,12 +8,12 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
-import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
-import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackResponse;
-import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlentity.questions.FeedbackRubricQuestion;
+import teammates.e2e.pageobjects.FeedbackSubmitPage;
+import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.Student;
+import teammates.storage.entity.questions.FeedbackRubricQuestion;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}, {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}
@@ -42,7 +42,7 @@ public class FeedbackRubricQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
     @Override
     protected void testEditPage() {
-        InstructorFeedbackEditPageSql feedbackEditPage = loginToFeedbackEditPage();
+        InstructorFeedbackEditPage feedbackEditPage = loginToFeedbackEditPage();
 
         ______TS("verify loaded question");
         FeedbackQuestion loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession");
@@ -105,7 +105,7 @@ public class FeedbackRubricQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
     @Override
     protected void testSubmitPage() {
-        FeedbackSubmitPageSql feedbackSubmitPage = loginToFeedbackSubmitPage();
+        FeedbackSubmitPage feedbackSubmitPage = loginToFeedbackSubmitPage();
         FeedbackQuestion question = testData.feedbackQuestions.get("qn1ForFirstSession");
         question.setQuestionNumber(1);
         ______TS("verify loaded question");

@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.apache.http.HttpStatus;
 
-import teammates.storage.sqlentity.Account;
+import teammates.storage.entity.Account;
 import teammates.ui.output.ReadNotificationsData;
 
 /**
@@ -24,13 +24,13 @@ public class GetReadNotificationsAction extends Action {
 
     @Override
     public ActionResult execute() {
-        Account account = sqlLogic.getAccountForGoogleId(userInfo.getId());
+        Account account = logic.getAccountForGoogleId(userInfo.getId());
         if (account == null) {
             // This should not happen as the user is authenticated
             return new JsonResult("Account not found", HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
         List<UUID> readNotifications =
-                sqlLogic.getReadNotificationsByAccountId(account.getId()).stream()
+                logic.getReadNotificationsByAccountId(account.getId()).stream()
                         .map(n -> n.getNotification().getId())
                         .toList();
         ReadNotificationsData output = new ReadNotificationsData(readNotifications);

@@ -4,8 +4,9 @@ import java.util.UUID;
 
 import org.apache.http.HttpStatus;
 
-import teammates.storage.sqlentity.Account;
-import teammates.storage.sqlentity.ReadNotification;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.storage.entity.Account;
+import teammates.storage.entity.ReadNotification;
 import teammates.ui.output.ReadNotificationData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.MarkNotificationAsReadRequest;
@@ -31,12 +32,17 @@ public class MarkNotificationAsReadAction extends Action {
                 getAndValidateRequestBody(MarkNotificationAsReadRequest.class);
         UUID notificationId = UUID.fromString(readNotificationCreateRequest.getNotificationId());
 
-        Account account = sqlLogic.getAccountForGoogleId(userInfo.getId());
+        Account account = logic.getAccountForGoogleId(userInfo.getId());
         if (account == null) {
             // This should not happen as the user is authenticated
             return new JsonResult("Account not found", HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
-        ReadNotification readNotification = sqlLogic.createReadNotification(account.getId(), notificationId);
+        ReadNotification readNotification;
+        try {
+            readNotification = logic.createReadNotification(account.getId(), notificationId);
+        } catch (EntityDoesNotExistException e) {
+            throw new EntityNotFoundException(e);
+        }
         ReadNotificationData output = new ReadNotificationData(readNotification);
 
         return new JsonResult(output);

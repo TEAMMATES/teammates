@@ -7,7 +7,14 @@ import { InstructorRequestFormModel } from './instructor-request-form-model';
 import { environment } from '../../../../environments/environment';
 import { AccountService } from '../../../../services/account.service';
 import { AccountCreateRequest } from '../../../../types/api-request';
-import { FormValidator } from '../../../../types/form-validator';
+import {
+  STUDENT_NAME_MAX_LENGTH,
+  INSTITUTION_NAME_MAX_LENGTH,
+  COUNTRY_NAME_MAX_LENGTH,
+  EMAIL_MAX_LENGTH,
+  NAME_REGEX,
+  EMAIL_REGEX,
+} from '../../../../types/field-validator';
 import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
 import { ErrorMessageOutput } from '../../../error-message-output';
 
@@ -21,10 +28,10 @@ export class InstructorRequestFormComponent {
   constructor(private accountService: AccountService) {}
 
   // Create members to be accessed in template
-  readonly STUDENT_NAME_MAX_LENGTH = FormValidator.STUDENT_NAME_MAX_LENGTH;
-  readonly INSTITUTION_NAME_MAX_LENGTH = FormValidator.INSTITUTION_NAME_MAX_LENGTH;
-  readonly COUNTRY_NAME_MAX_LENGTH = FormValidator.COUNTRY_NAME_MAX_LENGTH;
-  readonly EMAIL_MAX_LENGTH = FormValidator.EMAIL_MAX_LENGTH;
+  readonly STUDENT_NAME_MAX_LENGTH = STUDENT_NAME_MAX_LENGTH;
+  readonly INSTITUTION_NAME_MAX_LENGTH = INSTITUTION_NAME_MAX_LENGTH;
+  readonly COUNTRY_NAME_MAX_LENGTH = COUNTRY_NAME_MAX_LENGTH;
+  readonly EMAIL_MAX_LENGTH = EMAIL_MAX_LENGTH;
 
   // Captcha
   captchaSiteKey: string = environment.captchaSiteKey;
@@ -37,23 +44,23 @@ export class InstructorRequestFormComponent {
     {
       name: new FormControl('', [
         Validators.required,
-        Validators.maxLength(FormValidator.STUDENT_NAME_MAX_LENGTH),
-        Validators.pattern(FormValidator.NAME_REGEX),
+        Validators.maxLength(STUDENT_NAME_MAX_LENGTH),
+        Validators.pattern(NAME_REGEX),
       ]),
       institution: new FormControl('', [
         Validators.required,
-        Validators.maxLength(FormValidator.INSTITUTION_NAME_MAX_LENGTH),
-        Validators.pattern(FormValidator.NAME_REGEX),
+        Validators.maxLength(INSTITUTION_NAME_MAX_LENGTH),
+        Validators.pattern(NAME_REGEX),
       ]),
       country: new FormControl('', [
         Validators.required,
-        Validators.maxLength(FormValidator.COUNTRY_NAME_MAX_LENGTH),
-        Validators.pattern(FormValidator.NAME_REGEX),
+        Validators.maxLength(COUNTRY_NAME_MAX_LENGTH),
+        Validators.pattern(NAME_REGEX),
       ]),
       email: new FormControl('', [
         Validators.required,
-        Validators.pattern(FormValidator.EMAIL_REGEX),
-        Validators.maxLength(FormValidator.EMAIL_MAX_LENGTH),
+        Validators.pattern(EMAIL_REGEX),
+        Validators.maxLength(EMAIL_MAX_LENGTH),
       ]),
       comments: new FormControl(''),
       recaptcha: new FormControl(''),

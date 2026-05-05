@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 import teammates.ui.output.StudentData;
 import teammates.ui.output.StudentsData;
 
@@ -27,12 +27,12 @@ public class GetStudentsAction extends Action {
 
         if (teamName == null) {
             // request to get all students of a course by instructor
-            Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
-            gateKeeper.verifyAccessible(instructor, sqlLogic.getCourse(courseId),
+            Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.id);
+            gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
                     Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
         } else {
             // request to get team member by current student
-            Student student = sqlLogic.getStudentByGoogleId(courseId, userInfo.id);
+            Student student = logic.getStudentByGoogleId(courseId, userInfo.id);
             if (student == null || !teamName.equals(student.getTeamName())) {
                 throw new UnauthorizedAccessException("You are not part of the team");
             }
@@ -44,7 +44,7 @@ public class GetStudentsAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String teamName = getRequestParamValue(Const.ParamsNames.TEAM_NAME);
 
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.id);
         String privilegeName = Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS;
         boolean hasCoursePrivilege = instructor != null
                 && instructor.isAllowedForPrivilege(privilegeName);
@@ -53,12 +53,12 @@ public class GetStudentsAction extends Action {
 
         if (teamName == null && hasCoursePrivilege) {
             // request to get all course students by instructor with course privilege
-            List<Student> studentsForCourse = sqlLogic.getStudentsForCourse(courseId);
+            List<Student> studentsForCourse = logic.getStudentsForCourse(courseId);
 
             return new JsonResult(new StudentsData(studentsForCourse));
         } else if (teamName == null && hasSectionPrivilege) {
             // request to get students by instructor with section privilege
-            List<Student> studentsForCourse = sqlLogic.getStudentsForCourse(courseId);
+            List<Student> studentsForCourse = logic.getStudentsForCourse(courseId);
             List<Student> studentsToReturn = new LinkedList<>();
             Set<String> sectionsWithViewPrivileges = instructor
                     .getSectionsWithPrivilege(privilegeName).keySet();
@@ -72,7 +72,7 @@ public class GetStudentsAction extends Action {
             return new JsonResult(new StudentsData(studentsToReturn));
         } else {
             // request to get team members by current student
-            List<Student> studentsForTeam = sqlLogic.getStudentsByTeamName(teamName, courseId);
+            List<Student> studentsForTeam = logic.getStudentsByTeamName(teamName, courseId);
             StudentsData data = new StudentsData(studentsForTeam);
 
             data.getStudents().forEach(StudentData::hideInformationForStudent);

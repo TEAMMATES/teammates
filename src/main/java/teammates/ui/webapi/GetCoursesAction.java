@@ -7,9 +7,9 @@ import java.util.Map;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.util.Const;
-import teammates.sqllogic.core.CoursesLogic;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Instructor;
+import teammates.logic.core.CoursesLogic;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Instructor;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
 
@@ -48,7 +48,7 @@ public class GetCoursesAction extends Action {
     }
 
     private JsonResult getStudentCourses() {
-        List<Course> courses = sqlLogic.getCoursesForStudentAccount(userInfo.id);
+        List<Course> courses = logic.getCoursesForStudentAccount(userInfo.id);
         CoursesData coursesData = new CoursesData(courses);
         List<CourseData> courseDataList = coursesData.getCourses();
 
@@ -60,15 +60,15 @@ public class GetCoursesAction extends Action {
     private JsonResult getInstructorCourses() {
         String courseStatus = getNonNullRequestParamValue(Const.ParamsNames.COURSE_STATUS);
 
-        List<Instructor> instructors = sqlLogic.getInstructorsForGoogleId(userInfo.id);
+        List<Instructor> instructors = logic.getInstructorsForGoogleId(userInfo.id);
         List<Course> courses;
 
         switch (courseStatus) {
         case Const.CourseStatus.ACTIVE:
-            courses = sqlLogic.getCoursesForInstructors(instructors);
+            courses = logic.getCoursesForInstructors(instructors);
             break;
         case Const.CourseStatus.SOFT_DELETED:
-            courses = sqlLogic.getSoftDeletedCoursesForInstructors(instructors);
+            courses = logic.getSoftDeletedCoursesForInstructors(instructors);
             break;
         default:
             throw new InvalidHttpParameterException("Error: invalid course status");

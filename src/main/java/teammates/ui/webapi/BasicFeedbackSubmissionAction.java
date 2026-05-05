@@ -5,12 +5,12 @@ import java.time.Instant;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Section;
-import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlentity.User;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Section;
+import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 
 /**
  * The basic action for feedback submission.
@@ -45,17 +45,16 @@ abstract class BasicFeedbackSubmissionAction extends Action {
     /**
      * Gets the student involved in the submission process.
      */
-    Student getSqlStudentOfCourseFromRequest(String courseId) {
-        // TODO: Rename method to remove Sql after migration.
+    Student getStudentOfCourseFromRequest(String courseId) {
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
         if (!StringHelper.isEmpty(moderatedPerson)) {
-            return sqlLogic.getStudentForEmail(courseId, moderatedPerson);
+            return logic.getStudentForEmail(courseId, moderatedPerson);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
-            return sqlLogic.getStudentForEmail(courseId, previewAsPerson);
+            return logic.getStudentForEmail(courseId, previewAsPerson);
         } else {
-            return getPossiblyUnregisteredSqlStudent(courseId);
+            return getPossiblyUnregisteredStudent(courseId);
         }
     }
 
@@ -74,13 +73,13 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         if (!StringHelper.isEmpty(moderatedPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             gateKeeper.verifyAccessible(
-                    sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
+                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
                     student.getSectionName(),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             gateKeeper.verifyAccessible(
-                    sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
+                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
             gateKeeper.verifyAccessible(student, feedbackSession);
@@ -118,16 +117,16 @@ abstract class BasicFeedbackSubmissionAction extends Action {
     /**
      * Gets the instructor involved in the submission process.
      */
-    Instructor getSqlInstructorOfCourseFromRequest(String courseId) {
+    Instructor getInstructorOfCourseFromRequest(String courseId) {
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
         if (!StringHelper.isEmpty(moderatedPerson)) {
-            return sqlLogic.getInstructorForEmail(courseId, moderatedPerson);
+            return logic.getInstructorForEmail(courseId, moderatedPerson);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
-            return sqlLogic.getInstructorForEmail(courseId, previewAsPerson);
+            return logic.getInstructorForEmail(courseId, previewAsPerson);
         } else {
-            return getPossiblyUnregisteredSqlInstructor(courseId);
+            return getPossiblyUnregisteredInstructor(courseId);
         }
     }
 
@@ -146,12 +145,12 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         if (!StringHelper.isEmpty(moderatedPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             gateKeeper.verifyAccessible(
-                    sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
+                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
                     feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             gateKeeper.verifyAccessible(
-                    sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
+                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
                     feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
             gateKeeper.verifySessionSubmissionPrivilegeForInstructor(feedbackSession, instructor);
@@ -207,11 +206,11 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         gateKeeper.verifyLoggedInUserPrivileges(userInfo);
         if (isInstructor) {
             gateKeeper.verifyAccessible(
-                    sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
+                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
             gateKeeper.verifyAccessible(
-                    sqlLogic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
+                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION);
         }
     }
@@ -235,7 +234,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
     void verifySessionOpenExceptForModeration(FeedbackSession feedbackSession, User user)
             throws UnauthorizedAccessException {
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
-        Instant deadlineExtension = sqlLogic.getDeadlineForUser(feedbackSession, user);
+        Instant deadlineExtension = logic.getDeadlineForUser(feedbackSession, user);
 
         if (StringHelper.isEmpty(moderatedPerson) && !(feedbackSession.isOpenedGivenExtendedDeadline(deadlineExtension)
                 || feedbackSession.isInGracePeriodGivenExtendedDeadline(deadlineExtension))) {
@@ -256,35 +255,35 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             switch (giverType) {
             case INSTRUCTORS:
             case SELF:
-                return sqlLogic.getDefaultSectionOrCreate(courseId);
+                return logic.getDefaultSectionOrCreate(courseId);
             case TEAMS:
             case TEAMS_IN_SAME_SECTION:
-                Section section = sqlLogic.getSectionByCourseIdAndTeam(courseId, recipientIdentifier);
-                return section == null ? sqlLogic.getDefaultSectionOrCreate(courseId) : section;
+                Section section = logic.getSectionByCourseIdAndTeam(courseId, recipientIdentifier);
+                return section == null ? logic.getDefaultSectionOrCreate(courseId) : section;
             case STUDENTS:
             case STUDENTS_IN_SAME_SECTION:
-                Student student = sqlLogic.getStudentForEmail(courseId, recipientIdentifier);
-                return student == null ? sqlLogic.getDefaultSectionOrCreate(courseId) : student.getSection();
+                Student student = logic.getStudentForEmail(courseId, recipientIdentifier);
+                return student == null ? logic.getDefaultSectionOrCreate(courseId) : student.getSection();
             default:
                 assert false : "Invalid giver type " + giverType + " for recipient type " + recipientType;
                 return null;
             }
         case INSTRUCTORS:
         case NONE:
-            return sqlLogic.getDefaultSectionOrCreate(courseId);
+            return logic.getDefaultSectionOrCreate(courseId);
         case TEAMS:
         case TEAMS_EXCLUDING_SELF:
         case TEAMS_IN_SAME_SECTION:
         case OWN_TEAM:
-            Section section = sqlLogic.getSectionByCourseIdAndTeam(courseId, recipientIdentifier);
-            return section == null ? sqlLogic.getDefaultSectionOrCreate(courseId) : section;
+            Section section = logic.getSectionByCourseIdAndTeam(courseId, recipientIdentifier);
+            return section == null ? logic.getDefaultSectionOrCreate(courseId) : section;
         case STUDENTS:
         case STUDENTS_EXCLUDING_SELF:
         case STUDENTS_IN_SAME_SECTION:
         case OWN_TEAM_MEMBERS:
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-            Student student = sqlLogic.getStudentForEmail(courseId, recipientIdentifier);
-            return student == null ? sqlLogic.getDefaultSectionOrCreate(courseId) : student.getSection();
+            Student student = logic.getStudentForEmail(courseId, recipientIdentifier);
+            return student == null ? logic.getDefaultSectionOrCreate(courseId) : student.getSection();
         default:
             assert false : "Unknown recipient type " + recipientType;
             return null;

@@ -10,7 +10,7 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.e2e.pageobjects.AdminSessionsPage;
-import teammates.storage.sqlentity.FeedbackSession;
+import teammates.storage.entity.FeedbackSession;
 
 /**
  * SUT: {@link Const.WebPageURIs#ADMIN_SESSIONS_PAGE}.

@@ -10,12 +10,12 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelperExtension;
-import teammates.e2e.pageobjects.AdminSearchPageSql;
-import teammates.storage.sqlentity.AccountRequest;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.e2e.pageobjects.AdminSearchPage;
+import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 
 /**
  * SUT: {@link Const.WebPageURIs#ADMIN_SEARCH_PAGE}.
@@ -31,7 +31,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.ADMIN_SEARCH_PAGE);
-        AdminSearchPageSql searchPage = loginAdminToPage(url, AdminSearchPageSql.class);
+        AdminSearchPage searchPage = loginAdminToPage(url, AdminSearchPage.class);
 
         Course course = testData.courses.get("typicalCourse1");
         Student student = testData.students.get("student1InCourse1");

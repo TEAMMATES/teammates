@@ -5,7 +5,7 @@ import java.time.Instant;
 import java.util.List;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.UsageStatistics;
+import teammates.storage.entity.UsageStatistics;
 import teammates.ui.output.UsageStatisticsRangeData;
 
 /**
@@ -58,7 +58,7 @@ public class GetUsageStatisticsAction extends Action {
         }
 
         List<UsageStatistics> usageStatisticsInRange =
-                sqlLogic.getUsageStatisticsForTimeRange(Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
+                logic.getUsageStatisticsForTimeRange(Instant.ofEpochMilli(startTime), Instant.ofEpochMilli(endTime));
 
         UsageStatisticsRangeData output = new UsageStatisticsRangeData(usageStatisticsInRange);
         return new JsonResult(output);

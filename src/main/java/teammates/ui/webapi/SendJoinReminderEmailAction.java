@@ -5,10 +5,10 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.storage.sqlentity.Account;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.storage.entity.Account;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 
 /**
  * Send join reminder emails to register for a course.
@@ -23,14 +23,14 @@ public class SendJoinReminderEmailAction extends Action {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Course course = sqlLogic.getCourse(courseId);
+        Course course = logic.getCourse(courseId);
         if (course == null) {
             throw new EntityNotFoundException("Course with ID " + courseId + " does not exist!");
         }
 
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.id);
 
         boolean isSendingToStudent = studentEmail != null;
         boolean isSendingToInstructor = instructorEmail != null;
@@ -48,7 +48,7 @@ public class SendJoinReminderEmailAction extends Action {
     @Override
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Course course = sqlLogic.getCourse(courseId);
+        Course course = logic.getCourse(courseId);
         if (course == null) {
             throw new EntityNotFoundException("Course with ID " + courseId + " does not exist!");
         }
@@ -61,7 +61,7 @@ public class SendJoinReminderEmailAction extends Action {
         JsonResult statusMsg;
 
         if (isSendingToStudent) {
-            Student studentData = sqlLogic.getStudentForEmail(courseId, studentEmail);
+            Student studentData = logic.getStudentForEmail(courseId, studentEmail);
             if (studentData == null) {
                 throw new EntityNotFoundException(
                         "Student with email " + studentEmail + " does not exist in course " + courseId + "!");
@@ -73,12 +73,12 @@ public class SendJoinReminderEmailAction extends Action {
             statusMsg = new JsonResult("An email has been sent to " + studentEmail);
 
         } else if (isSendingToInstructor) {
-            Instructor instructorData = sqlLogic.getInstructorForEmail(courseId, instructorEmail);
+            Instructor instructorData = logic.getInstructorForEmail(courseId, instructorEmail);
             if (instructorData == null) {
                 throw new EntityNotFoundException(
                         "Instructor with email " + instructorEmail + " does not exist in course " + courseId + "!");
             }
-            Account inviter = sqlLogic.getAccountForGoogleId(userInfo.id);
+            Account inviter = logic.getAccountForGoogleId(userInfo.id);
             if (inviter == null) {
                 throw new EntityNotFoundException("Inviter account does not exist.");
             }
@@ -89,7 +89,7 @@ public class SendJoinReminderEmailAction extends Action {
             statusMsg = new JsonResult("An email has been sent to " + instructorEmail);
 
         } else {
-            List<Student> studentDataList = sqlLogic.getUnregisteredStudentsForCourse(courseId);
+            List<Student> studentDataList = logic.getUnregisteredStudentsForCourse(courseId);
             List<EmailWrapper> emails = new ArrayList<>();
             for (Student student : studentDataList) {
                 EmailWrapper email = emailGenerator.generateStudentCourseJoinEmail(course, student);

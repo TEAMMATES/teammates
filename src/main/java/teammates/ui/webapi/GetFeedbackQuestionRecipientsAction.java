@@ -5,10 +5,10 @@ import java.util.UUID;
 
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 import teammates.ui.output.FeedbackQuestionRecipientsData;
 import teammates.ui.request.Intent;
 
@@ -33,7 +33,7 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
 
         feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
 
-        feedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionId);
+        feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
 
         if (feedbackQuestion == null) {
             throw new EntityNotFoundException("Feedback Question not found");
@@ -48,12 +48,12 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
         switch (intent) {
         case STUDENT_SUBMISSION:
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
-            Student student = getSqlStudentOfCourseFromRequest(feedbackSession.getCourseId());
+            Student student = getStudentOfCourseFromRequest(feedbackSession.getCourseId());
             checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
             gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
-            Instructor instructor = getSqlInstructorOfCourseFromRequest(feedbackSession.getCourseId());
+            Instructor instructor = getInstructorOfCourseFromRequest(feedbackSession.getCourseId());
             checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
             break;
         default:
@@ -70,7 +70,7 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
 
         feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
 
-        feedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionId);
+        feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
 
         if (feedbackQuestion != null) {
             courseId = feedbackQuestion.getCourseId();
@@ -83,14 +83,14 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
         Map<String, FeedbackQuestionRecipient> recipient;
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getSqlStudentOfCourseFromRequest(courseId);
+            Student student = getStudentOfCourseFromRequest(courseId);
 
-            recipient = sqlLogic.getRecipientsOfQuestion(feedbackQuestion, null, student);
+            recipient = logic.getRecipientsOfQuestion(feedbackQuestion, null, student);
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
+            Instructor instructor = getInstructorOfCourseFromRequest(courseId);
 
-            recipient = sqlLogic.getRecipientsOfQuestion(feedbackQuestion, instructor, null);
+            recipient = logic.getRecipientsOfQuestion(feedbackQuestion, instructor, null);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);

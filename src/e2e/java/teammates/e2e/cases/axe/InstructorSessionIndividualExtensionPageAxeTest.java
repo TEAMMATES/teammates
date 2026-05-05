@@ -6,7 +6,7 @@ import com.deque.html.axecore.results.Results;
 
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.InstructorSessionIndividualExtensionPageSql;
+import teammates.e2e.pageobjects.InstructorSessionIndividualExtensionPage;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_INDIVIDUAL_EXTENSION_PAGE}.
@@ -27,8 +27,8 @@ public class InstructorSessionIndividualExtensionPageAxeTest extends BaseAxeTest
                 .withFeedbackSessionId(testData.feedbackSessions.get("firstSession").getId().toString())
                 .withSessionName(testData.feedbackSessions.get("firstSession").getName());
 
-        InstructorSessionIndividualExtensionPageSql individualExtensionPage =
-                loginToPage(url, InstructorSessionIndividualExtensionPageSql.class,
+        InstructorSessionIndividualExtensionPage individualExtensionPage =
+                loginToPage(url, InstructorSessionIndividualExtensionPage.class,
                 testData.instructors.get("ISesIe.instructor1").getGoogleId());
 
         Results results = getAxeBuilder().analyze(individualExtensionPage.getBrowser().getDriver());

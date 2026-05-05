@@ -21,13 +21,13 @@ import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.TimeHelper;
-import teammates.storage.sqlentity.DeadlineExtension;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackResponse;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlentity.User;
+import teammates.storage.entity.DeadlineExtension;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.FeedbackResponsesRequest;
@@ -122,17 +122,15 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     private void setUserDeadlineExtension(FeedbackSession session, User user, int days)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        DeadlineExtension newDeadline =
-                new DeadlineExtension(user, session, TimeHelper.getInstantDaysOffsetFromNow(days));
-
-        newDeadline.setFeedbackSession(session);
-        newDeadline.setUser(user);
-
-        DeadlineExtension existingDeadlineEndTime = logic.getDeadlineExtensionEntityForUser(session, user);
-        if (existingDeadlineEndTime != null) {
-            newDeadline.setId(existingDeadlineEndTime.getId());
-            logic.updateDeadlineExtension(newDeadline);
+        Instant endTime = TimeHelper.getInstantDaysOffsetFromNow(days);
+        DeadlineExtension existingDeadline = logic.getDeadlineExtensionEntityForUser(session, user);
+        if (existingDeadline != null) {
+            existingDeadline.setEndTime(endTime);
+            logic.updateDeadlineExtension(existingDeadline);
         } else {
+            DeadlineExtension newDeadline = new DeadlineExtension(user, session, endTime);
+            newDeadline.setFeedbackSession(session);
+            newDeadline.setUser(user);
             logic.createDeadlineExtension(newDeadline);
         }
     }

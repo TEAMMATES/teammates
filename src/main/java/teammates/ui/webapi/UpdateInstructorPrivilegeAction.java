@@ -2,7 +2,7 @@ package teammates.ui.webapi;
 
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Instructor;
+import teammates.storage.entity.Instructor;
 import teammates.ui.output.InstructorPrivilegeData;
 import teammates.ui.request.InstructorPrivilegeUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -22,9 +22,9 @@ public class UpdateInstructorPrivilegeAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId());
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
         gateKeeper.verifyAccessible(
-                instructor, sqlLogic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+                instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class UpdateInstructorPrivilegeAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String emailOfInstructorToUpdate = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
 
-        Instructor instructorToUpdate = sqlLogic.getInstructorForEmail(courseId, emailOfInstructorToUpdate);
+        Instructor instructorToUpdate = logic.getInstructorForEmail(courseId, emailOfInstructorToUpdate);
 
         if (instructorToUpdate == null) {
             throw new EntityNotFoundException("Instructor does not exist.");
@@ -43,7 +43,7 @@ public class UpdateInstructorPrivilegeAction extends Action {
         newPrivileges.validatePrivileges();
 
         instructorToUpdate.setPrivileges(newPrivileges);
-        sqlLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
+        logic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
 
         InstructorPrivilegeData response = new InstructorPrivilegeData(instructorToUpdate.getPrivileges());
         return new JsonResult(response);

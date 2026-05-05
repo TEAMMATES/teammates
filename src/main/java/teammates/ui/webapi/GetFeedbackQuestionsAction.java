@@ -8,10 +8,10 @@ import java.util.UUID;
 
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackQuestionsData;
 import teammates.ui.request.Intent;
@@ -31,7 +31,7 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
@@ -39,24 +39,24 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
 
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getSqlStudentOfCourseFromRequest(courseId);
+            Student student = getStudentOfCourseFromRequest(courseId);
             checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;
         case FULL_DETAIL:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(courseId, userInfo.getId()),
+            gateKeeper.verifyAccessible(logic.getInstructorByGoogleId(courseId, userInfo.getId()),
                     feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
+            Instructor instructor = getInstructorOfCourseFromRequest(courseId);
             checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
             break;
         case INSTRUCTOR_RESULT:
-            instructor = getSqlInstructorOfCourseFromRequest(courseId);
+            instructor = getInstructorOfCourseFromRequest(courseId);
             checkAccessControlForInstructorFeedbackResult(instructor, feedbackSession);
             break;
         case STUDENT_RESULT:
-            student = getSqlStudentOfCourseFromRequest(courseId);
+            student = getStudentOfCourseFromRequest(courseId);
             checkAccessControlForStudentFeedbackResult(student, feedbackSession);
             break;
         default:
@@ -69,7 +69,7 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
-        FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
         if (feedbackSession == null) {
             throw new EntityNotFoundException("Feedback session not found");
         }
@@ -78,23 +78,23 @@ public class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
         Map<UUID, Optional<List<String>>> dynamicallyGeneratedOptions = new HashMap<>();
         switch (intent) {
         case STUDENT_SUBMISSION:
-            questions = sqlLogic.getFeedbackQuestionsForStudents(feedbackSession);
-            Student student = getSqlStudentOfCourseFromRequest(feedbackSession.getCourseId());
+            questions = logic.getFeedbackQuestionsForStudents(feedbackSession);
+            Student student = getStudentOfCourseFromRequest(feedbackSession.getCourseId());
             for (FeedbackQuestion question : questions) {
-                Optional<List<String>> options = sqlLogic.getDynamicallyGeneratedOptions(question, student);
+                Optional<List<String>> options = logic.getDynamicallyGeneratedOptions(question, student);
                 dynamicallyGeneratedOptions.put(question.getId(), options);
             }
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructor = getSqlInstructorOfCourseFromRequest(feedbackSession.getCourseId());
-            questions = sqlLogic.getFeedbackQuestionsForInstructors(feedbackSession, instructor.getEmail());
+            Instructor instructor = getInstructorOfCourseFromRequest(feedbackSession.getCourseId());
+            questions = logic.getFeedbackQuestionsForInstructors(feedbackSession, instructor.getEmail());
             for (FeedbackQuestion question : questions) {
-                Optional<List<String>> options = sqlLogic.getDynamicallyGeneratedOptions(question, null);
+                Optional<List<String>> options = logic.getDynamicallyGeneratedOptions(question, null);
                 dynamicallyGeneratedOptions.put(question.getId(), options);
             }
             break;
         case FULL_DETAIL, INSTRUCTOR_RESULT, STUDENT_RESULT:
-            questions = sqlLogic.getFeedbackQuestionsForSession(feedbackSession);
+            questions = logic.getFeedbackQuestionsForSession(feedbackSession);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);

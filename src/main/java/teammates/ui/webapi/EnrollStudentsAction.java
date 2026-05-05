@@ -12,11 +12,11 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Section;
-import teammates.storage.sqlentity.Student;
-import teammates.storage.sqlentity.Team;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Section;
+import teammates.storage.entity.Student;
+import teammates.storage.entity.Team;
 import teammates.ui.output.EnrollStudentsData;
 import teammates.ui.output.StudentData;
 import teammates.ui.output.StudentsData;
@@ -46,9 +46,9 @@ public class EnrollStudentsAction extends Action {
         }
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = sqlLogic.getInstructorByGoogleId(courseId, userInfo.id);
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.id);
         gateKeeper.verifyAccessible(
-                    instructor, sqlLogic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+                    instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class EnrollStudentsAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         StudentsEnrollRequest enrollRequests = getAndValidateRequestBody(StudentsEnrollRequest.class);
         List<StudentsEnrollRequest.StudentEnrollRequest> studentEnrollRequests = enrollRequests.getStudentEnrollRequests();
-        Course course = sqlLogic.getCourse(courseId);
+        Course course = logic.getCourse(courseId);
 
         List<Student> studentsToEnroll = new ArrayList<>();
         studentEnrollRequests.forEach(studentEnrollRequest -> {
@@ -69,7 +69,7 @@ public class EnrollStudentsAction extends Action {
                     normalizedEmail, studentEnrollRequest.getComments(), team));
         });
         try {
-            sqlLogic.validateSectionsAndTeams(studentsToEnroll, courseId);
+            logic.validateSectionsAndTeams(studentsToEnroll, courseId);
         } catch (EnrollException e) {
             throw new InvalidOperationException(e);
         }
@@ -78,7 +78,7 @@ public class EnrollStudentsAction extends Action {
         List<EnrollStudentsData.EnrollErrorResults> failToEnrollStudents = new ArrayList<>();
         Set<String> existingStudentsEmail;
 
-        List<Student> existingStudents = sqlLogic.getStudentsForCourse(courseId);
+        List<Student> existingStudents = logic.getStudentsForCourse(courseId);
         existingStudentsEmail = existingStudents.stream()
                 .map(Student::getEmail)
                 .map(EnrollStudentsAction::normalizeEmail)
@@ -91,7 +91,7 @@ public class EnrollStudentsAction extends Action {
             String normalizedEmail = normalizeEmail(requestEmail);
 
             // Check if email already belongs to an instructor in this course
-            Instructor existingInstructor = sqlLogic.getInstructorForEmail(courseId, normalizedEmail);
+            Instructor existingInstructor = logic.getInstructorForEmail(courseId, normalizedEmail);
             if (existingInstructor != null) {
                 failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(requestEmail,
                         "Cannot enroll student with email " + requestEmail
@@ -102,14 +102,14 @@ public class EnrollStudentsAction extends Action {
             if (existingStudentsEmail.contains(normalizedEmail)) {
                 // The student has been enrolled in the course.
                 try {
-                    Section section = sqlLogic.getSectionOrCreate(courseId, enrollRequest.getSection());
-                    Team team = sqlLogic.getTeamOrCreate(section, enrollRequest.getTeam());
-                    Student existingStudent = sqlLogic.getStudentForEmail(courseId, normalizedEmail);
+                    Section section = logic.getSectionOrCreate(courseId, enrollRequest.getSection());
+                    Team team = logic.getTeamOrCreate(section, enrollRequest.getTeam());
+                    Student existingStudent = logic.getStudentForEmail(courseId, normalizedEmail);
                     Student newStudent = new Student(
                             course, enrollRequest.getName(),
                             normalizedEmail, enrollRequest.getComments(), team);
                     newStudent.setId(existingStudent.getId());
-                    Student updatedStudent = sqlLogic.updateStudentCascade(newStudent);
+                    Student updatedStudent = logic.updateStudentCascade(newStudent);
                     enrolledStudents.add(updatedStudent);
                 } catch (InvalidParametersException | EntityDoesNotExistException
                         | EntityAlreadyExistsException exception) {
@@ -120,12 +120,12 @@ public class EnrollStudentsAction extends Action {
             } else {
                 // The student is new.
                 try {
-                    Section section = sqlLogic.getSectionOrCreate(courseId, enrollRequest.getSection());
-                    Team team = sqlLogic.getTeamOrCreate(section, enrollRequest.getTeam());
+                    Section section = logic.getSectionOrCreate(courseId, enrollRequest.getSection());
+                    Team team = logic.getTeamOrCreate(section, enrollRequest.getTeam());
                     Student newStudent = new Student(
                             course, enrollRequest.getName(),
                             normalizedEmail, enrollRequest.getComments(), team);
-                    newStudent = sqlLogic.createStudent(newStudent);
+                    newStudent = logic.createStudent(newStudent);
                     enrolledStudents.add(newStudent);
                 } catch (InvalidParametersException | EntityAlreadyExistsException exception) {
                     // Unsuccessfully enrolled students will not be returned.

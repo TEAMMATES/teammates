@@ -3,9 +3,9 @@ package teammates.ui.output;
 import java.util.List;
 import java.util.Map;
 
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.FeedbackSessionLog;
-import teammates.storage.sqlentity.Student;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.FeedbackSessionLog;
+import teammates.storage.entity.Student;
 
 /**
  * The API output format for logs on all feedback sessions in a course.

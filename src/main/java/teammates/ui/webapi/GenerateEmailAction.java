@@ -8,9 +8,9 @@ import java.util.UUID;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Student;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Student;
 import teammates.ui.output.EmailData;
 
 /**
@@ -21,7 +21,7 @@ public class GenerateEmailAction extends AdminOnlyAction {
     @Override
     public JsonResult execute() {
         UUID studentId = getUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
-        Student student = sqlLogic.getStudent(studentId);
+        Student student = logic.getStudent(studentId);
         if (student == null) {
             throw new EntityNotFoundException("Student does not exist");
         }
@@ -41,7 +41,7 @@ public class GenerateEmailAction extends AdminOnlyAction {
         }
         case FEEDBACK_SESSION_REMINDER -> {
             UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
-            FeedbackSession feedbackSession = sqlLogic.getFeedbackSession(feedbackSessionId);
+            FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
             if (feedbackSession == null) {
                 throw new EntityNotFoundException(
                         "Feedback session with ID " + feedbackSessionId + " does not exist");

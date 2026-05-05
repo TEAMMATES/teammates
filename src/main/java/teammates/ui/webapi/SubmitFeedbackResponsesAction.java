@@ -20,12 +20,12 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackResponse;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Section;
-import teammates.storage.sqlentity.Student;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Section;
+import teammates.storage.entity.Student;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.Intent;
@@ -50,7 +50,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
 
-        final FeedbackQuestion feedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionId);
+        final FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
 
         if (feedbackQuestion == null) {
             throw new EntityNotFoundException("The feedback question does not exist.");
@@ -64,7 +64,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         switch (intent) {
         case STUDENT_SUBMISSION:
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
-            Student student = getSqlStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
+            Student student = getStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
             if (student == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
             }
@@ -73,7 +73,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             break;
         case INSTRUCTOR_SUBMISSION:
             gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
-            Instructor instructor = getSqlInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
+            Instructor instructor = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
             if (instructor == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
             }
@@ -92,7 +92,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         UUID feedbackQuestionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
 
-        final FeedbackQuestion feedbackQuestion = sqlLogic.getFeedbackQuestion(feedbackQuestionId);
+        final FeedbackQuestion feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
 
         if (feedbackQuestion == null) {
             throw new EntityNotFoundException("The feedback question does not exist.");
@@ -110,22 +110,22 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getSqlStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
+            Student student = getStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
             giverIdentifier =
                     feedbackQuestion.getGiverType() == FeedbackParticipantType.TEAMS
                             ? student.getTeamName() : student.getEmail();
             giverSection = student.getSection();
-            existingResponses = sqlLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(feedbackQuestion, student);
-            recipientsOfTheQuestion = sqlLogic.getRecipientsOfQuestion(feedbackQuestion, null, student);
-            dynamicallyGeneratedOptions = sqlLogic.getDynamicallyGeneratedOptions(feedbackQuestion, student);
+            existingResponses = logic.getFeedbackResponsesFromStudentOrTeamForQuestion(feedbackQuestion, student);
+            recipientsOfTheQuestion = logic.getRecipientsOfQuestion(feedbackQuestion, null, student);
+            dynamicallyGeneratedOptions = logic.getDynamicallyGeneratedOptions(feedbackQuestion, student);
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructor = getSqlInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
+            Instructor instructor = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
             giverIdentifier = instructor.getEmail();
-            giverSection = sqlLogic.getDefaultSectionOrCreate(courseId);
-            existingResponses = sqlLogic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructor);
-            recipientsOfTheQuestion = sqlLogic.getRecipientsOfQuestion(feedbackQuestion, instructor, null);
-            dynamicallyGeneratedOptions = sqlLogic.getDynamicallyGeneratedOptions(feedbackQuestion, null);
+            giverSection = logic.getDefaultSectionOrCreate(courseId);
+            existingResponses = logic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructor);
+            recipientsOfTheQuestion = logic.getRecipientsOfQuestion(feedbackQuestion, instructor, null);
+            dynamicallyGeneratedOptions = logic.getDynamicallyGeneratedOptions(feedbackQuestion, null);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
@@ -219,14 +219,14 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
                 .collect(Collectors.toList());
 
         for (FeedbackResponse feedbackResponse : feedbackResponsesToDelete) {
-            sqlLogic.deleteFeedbackResponsesAndCommentsCascade(feedbackResponse);
+            logic.deleteFeedbackResponsesAndCommentsCascade(feedbackResponse);
         }
 
         List<FeedbackResponse> output = new ArrayList<>();
 
         for (FeedbackResponse feedbackResponse : feedbackResponsesToAdd) {
             try {
-                output.add(sqlLogic.createFeedbackResponse(feedbackResponse));
+                output.add(logic.createFeedbackResponse(feedbackResponse));
             } catch (InvalidParametersException | EntityAlreadyExistsException e) {
                 // None of the exceptions should be happening as the responses have been pre-validated
                 log.severe("Encountered exception when creating response: " + e.getMessage(), e);
@@ -235,7 +235,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
 
         for (FeedbackResponse feedbackResponse : feedbackResponsesToUpdate) {
             try {
-                output.add(sqlLogic.updateFeedbackResponseCascade(feedbackResponse));
+                output.add(logic.updateFeedbackResponseCascade(feedbackResponse));
             } catch (InvalidParametersException | EntityDoesNotExistException e) {
                 // None of the exceptions should be happening as the responses have been pre-validated
                 log.severe("Encountered exception when updating response: " + e.getMessage(), e);

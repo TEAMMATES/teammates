@@ -77,7 +77,7 @@
             #courseId="ngModel"
             [(ngModel)]="model.course.courseId"
             [disabled]="isInEditMode || isInputDisabled"
-            [maxlength]="FormValidator.COURSE_ID_MAX_LENGTH"
+            [maxlength]="COURSE_ID_MAX_LENGTH"
             required
           />
           <div
@@ -101,7 +101,7 @@
             [disabled]="isInputDisabled"
             #courseName="ngModel"
             [(ngModel)]="model.course.courseName"
-            [maxlength]="FormValidator.COURSE_NAME_MAX_LENGTH"
+            [maxlength]="COURSE_NAME_MAX_LENGTH"
             required
           />
           <div

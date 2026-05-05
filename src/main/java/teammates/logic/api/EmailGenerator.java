@@ -20,17 +20,17 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.EmailTemplates;
 import teammates.common.util.TimeHelper;
-import teammates.sqllogic.core.CoursesLogic;
-import teammates.sqllogic.core.DeadlineExtensionsLogic;
-import teammates.sqllogic.core.FeedbackSessionsLogic;
-import teammates.sqllogic.core.UsersLogic;
-import teammates.storage.sqlentity.Account;
-import teammates.storage.sqlentity.AccountRequest;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.DeadlineExtension;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.logic.core.CoursesLogic;
+import teammates.logic.core.DeadlineExtensionsLogic;
+import teammates.logic.core.FeedbackSessionsLogic;
+import teammates.logic.core.UsersLogic;
+import teammates.storage.entity.Account;
+import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.DeadlineExtension;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 
 /**
  * Handles operations related to generating emails to be sent from provided templates.

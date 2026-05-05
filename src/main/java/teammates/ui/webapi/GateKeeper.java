@@ -3,12 +3,12 @@ package teammates.ui.webapi;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackResponseComment;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponseComment;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 
 /**
  * Provides access control mechanisms.

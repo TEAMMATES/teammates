@@ -5,12 +5,12 @@ import java.util.UUID;
 import org.apache.http.HttpStatus;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackResponse;
-import teammates.storage.sqlentity.FeedbackResponseComment;
-import teammates.storage.sqlentity.FeedbackSession;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.FeedbackResponseComment;
+import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.request.Intent;
 
@@ -30,7 +30,7 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
 
         FeedbackResponse feedbackResponse = null;
 
-        feedbackResponse = sqlLogic.getFeedbackResponse(feedbackResponseId);
+        feedbackResponse = logic.getFeedbackResponse(feedbackResponseId);
 
         if (feedbackResponse == null) {
             throw new EntityNotFoundException("The feedback response does not exist.");
@@ -49,12 +49,12 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
         switch (intent) {
         case STUDENT_SUBMISSION:
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
-            Student student = getSqlStudentOfCourseFromRequest(courseId);
+            Student student = getStudentOfCourseFromRequest(courseId);
             checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
             gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
-            Instructor instructor = getSqlInstructorOfCourseFromRequest(courseId);
+            Instructor instructor = getInstructorOfCourseFromRequest(courseId);
             checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
             break;
         default:
@@ -68,7 +68,7 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
 
         FeedbackResponse feedbackResponse = null;
 
-        feedbackResponse = sqlLogic.getFeedbackResponse(feedbackResponseId);
+        feedbackResponse = logic.getFeedbackResponse(feedbackResponseId);
 
         if (feedbackResponse == null) {
             throw new EntityNotFoundException("The feedback response does not exist.");
@@ -80,9 +80,9 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
         case STUDENT_SUBMISSION:
         case INSTRUCTOR_SUBMISSION:
             FeedbackResponseComment comment =
-                    sqlLogic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
+                    logic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
             if (comment == null) {
-                FeedbackResponse fr = sqlLogic.getFeedbackResponse(feedbackResponseId);
+                FeedbackResponse fr = logic.getFeedbackResponse(feedbackResponseId);
                 if (fr == null) {
                     throw new EntityNotFoundException("The feedback response does not exist.");
                 }

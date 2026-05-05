@@ -3,11 +3,10 @@ package teammates.ui.webapi;
 import java.util.UUID;
 
 import teammates.common.datatransfer.AccountRequestStatus;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.storage.sqlentity.AccountRequest;
+import teammates.storage.entity.AccountRequest;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountRequestRejectionRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -20,7 +19,7 @@ public class RejectAccountRequestAction extends AdminOnlyAction {
     public JsonResult execute() throws InvalidOperationException, InvalidHttpRequestBodyException {
         UUID accountRequestId = getUuidRequestParamValue(Const.ParamsNames.ACCOUNT_REQUEST_ID);
 
-        AccountRequest accountRequest = sqlLogic.getAccountRequest(accountRequestId);
+        AccountRequest accountRequest = logic.getAccountRequest(accountRequestId);
 
         if (accountRequest == null) {
             String errorMessage = String.format("Account request with id = %s not found", accountRequestId.toString());
@@ -38,7 +37,7 @@ public class RejectAccountRequestAction extends AdminOnlyAction {
 
         try {
             accountRequest.setStatus(AccountRequestStatus.REJECTED);
-            accountRequest = sqlLogic.updateAccountRequest(accountRequest);
+            accountRequest = logic.updateAccountRequest(accountRequest);
             if (accountRequestRejectionRequest.checkHasReason()
                     && initialStatus != AccountRequestStatus.REJECTED) {
                 EmailWrapper email = emailGenerator.generateAccountRequestRejectionEmail(accountRequest,
@@ -47,8 +46,6 @@ public class RejectAccountRequestAction extends AdminOnlyAction {
             }
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
-        } catch (EntityDoesNotExistException e) {
-            throw new EntityNotFoundException(e);
         }
 
         return new JsonResult(new AccountRequestData(accountRequest));

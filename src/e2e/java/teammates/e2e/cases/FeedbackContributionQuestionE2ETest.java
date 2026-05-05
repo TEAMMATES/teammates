@@ -8,11 +8,11 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.FeedbackSubmitPageSql;
-import teammates.e2e.pageobjects.InstructorFeedbackEditPageSql;
-import teammates.storage.sqlentity.FeedbackQuestion;
-import teammates.storage.sqlentity.FeedbackResponse;
-import teammates.storage.sqlentity.Student;
+import teammates.e2e.pageobjects.FeedbackSubmitPage;
+import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
+import teammates.storage.entity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.Student;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}, {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}
@@ -41,7 +41,7 @@ public class FeedbackContributionQuestionE2ETest extends BaseFeedbackQuestionE2E
 
     @Override
     protected void testEditPage() {
-        InstructorFeedbackEditPageSql feedbackEditPage = loginToFeedbackEditPage();
+        InstructorFeedbackEditPage feedbackEditPage = loginToFeedbackEditPage();
 
         ______TS("verify loaded question");
         FeedbackQuestion loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession")
@@ -83,7 +83,7 @@ public class FeedbackContributionQuestionE2ETest extends BaseFeedbackQuestionE2E
 
     @Override
     protected void testSubmitPage() {
-        FeedbackSubmitPageSql feedbackSubmitPage = loginToFeedbackSubmitPage();
+        FeedbackSubmitPage feedbackSubmitPage = loginToFeedbackSubmitPage();
 
         ______TS("verify loaded question");
         FeedbackQuestion question = testData.feedbackQuestions.get("qn1ForFirstSession");

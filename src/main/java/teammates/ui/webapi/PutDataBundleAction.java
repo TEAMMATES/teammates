@@ -28,7 +28,7 @@ public class PutDataBundleAction extends Action {
         DataBundle dataBundle = JsonUtils.fromJson(getRequestBody(), DataBundle.class);
 
         try {
-            dataBundle = sqlLogic.persistDataBundle(dataBundle);
+            dataBundle = logic.persistDataBundle(dataBundle);
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         }

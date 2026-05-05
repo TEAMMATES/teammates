@@ -1,9 +1,9 @@
 package teammates.ui.webapi;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.AccountRequest;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.storage.entity.AccountRequest;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 import teammates.ui.output.JoinStatus;
 
 /**
@@ -38,7 +38,7 @@ public class GetCourseJoinStatusAction extends Action {
     }
 
     private JsonResult getStudentJoinStatus(String regkey) {
-        Student student = sqlLogic.getStudentByRegistrationKey(regkey);
+        Student student = logic.getStudentByRegistrationKey(regkey);
 
         if (student == null) {
             throw new EntityNotFoundException("No student with given registration key: " + regkey);
@@ -48,7 +48,7 @@ public class GetCourseJoinStatusAction extends Action {
 
     private JsonResult getInstructorJoinStatus(String regkey, boolean isCreatingAccount) {
         if (isCreatingAccount) {
-            AccountRequest accountRequest = sqlLogic.getAccountRequestByRegistrationKey(regkey);
+            AccountRequest accountRequest = logic.getAccountRequestByRegistrationKey(regkey);
 
             if (accountRequest == null) {
                 throw new EntityNotFoundException("No account request with given registration key: " + regkey);
@@ -57,7 +57,7 @@ public class GetCourseJoinStatusAction extends Action {
             return getJoinStatusResult(accountRequest.getRegisteredAt() != null);
         }
 
-        Instructor instructor = sqlLogic.getInstructorByRegistrationKey(regkey);
+        Instructor instructor = logic.getInstructorByRegistrationKey(regkey);
 
         if (instructor == null) {
             throw new EntityNotFoundException("No instructor with given registration key: " + regkey);

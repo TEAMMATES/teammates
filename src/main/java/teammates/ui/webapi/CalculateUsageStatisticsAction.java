@@ -8,7 +8,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
-import teammates.storage.sqlentity.UsageStatistics;
+import teammates.storage.entity.UsageStatistics;
 
 /**
  * Gathers usage-related statistics (e.g. new created entities) in the past defined time period and store in the database.'
@@ -23,7 +23,7 @@ public class CalculateUsageStatisticsAction extends AutomatedServiceAction {
         Instant endTime = TimeHelper.getInstantNearestHourBefore(Instant.now());
         Instant startTime = endTime.minus(COLLECTION_TIME_PERIOD, ChronoUnit.MINUTES);
 
-        UsageStatistics sqlEntitiesStats = sqlLogic.calculateEntitiesStatisticsForTimeRange(startTime, endTime);
+        UsageStatistics entitiesStats = logic.calculateEntitiesStatisticsForTimeRange(startTime, endTime);
 
         int numEmailsSent = logsProcessor.getNumberOfLogsForEvent(startTime, endTime, LogEvent.EMAIL_SENT, "");
         int numSubmissions = logsProcessor.getNumberOfLogsForEvent(startTime, endTime, LogEvent.FEEDBACK_SESSION_AUDIT,
@@ -31,15 +31,15 @@ public class CalculateUsageStatisticsAction extends AutomatedServiceAction {
 
         UsageStatistics overallUsageStats = new UsageStatistics(
                 startTime, COLLECTION_TIME_PERIOD,
-                sqlEntitiesStats.getNumResponses(),
-                sqlEntitiesStats.getNumCourses(),
-                sqlEntitiesStats.getNumStudents(),
-                sqlEntitiesStats.getNumInstructors(),
-                sqlEntitiesStats.getNumAccountRequests(),
+                entitiesStats.getNumResponses(),
+                entitiesStats.getNumCourses(),
+                entitiesStats.getNumStudents(),
+                entitiesStats.getNumInstructors(),
+                entitiesStats.getNumAccountRequests(),
                 numEmailsSent, numSubmissions);
 
         try {
-            sqlLogic.createUsageStatistics(overallUsageStats);
+            logic.createUsageStatistics(overallUsageStats);
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
             log.severe("Unexpected error", e);
         }

@@ -6,7 +6,7 @@ import org.threeten.bp.Instant;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.storage.sqlentity.Notification;
+import teammates.storage.entity.Notification;
 
 /**
  * The API output format of a notification.

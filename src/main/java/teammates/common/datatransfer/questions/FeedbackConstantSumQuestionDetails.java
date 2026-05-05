@@ -9,7 +9,7 @@ import java.util.Set;
 import jakarta.annotation.Nullable;
 
 import teammates.common.util.FieldValidator;
-import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackQuestion;
 
 /**
  * Contains specific structure and processing logic for constant sum feedback questions.

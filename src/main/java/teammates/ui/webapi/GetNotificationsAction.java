@@ -8,8 +8,8 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.storage.sqlentity.Account;
-import teammates.storage.sqlentity.Notification;
+import teammates.storage.entity.Account;
+import teammates.storage.entity.Notification;
 import teammates.ui.output.NotificationsData;
 
 /**
@@ -49,7 +49,7 @@ public class GetNotificationsAction extends Action {
 
         if (targetUserString == null && userInfo.isAdmin) {
             // if request is from admin and targetUser is not specified, retrieve all notifications
-            notifications = sqlLogic.getAllNotifications();
+            notifications = logic.getAllNotifications();
             return new JsonResult(new NotificationsData(notifications));
         }
 
@@ -62,7 +62,7 @@ public class GetNotificationsAction extends Action {
         if (targetUser == NotificationTargetUser.GENERAL) {
             throw new InvalidHttpParameterException(INVALID_TARGET_USER);
         }
-        notifications = sqlLogic.getActiveNotificationsByTargetUser(targetUser);
+        notifications = logic.getActiveNotificationsByTargetUser(targetUser);
 
         boolean isFetchingAll = false;
         if (getRequestParamValue(Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL) != null) {
@@ -73,12 +73,12 @@ public class GetNotificationsAction extends Action {
             return new JsonResult(new NotificationsData(notifications));
         }
 
-        Account account = sqlLogic.getAccountForGoogleId(userInfo.getId());
+        Account account = logic.getAccountForGoogleId(userInfo.getId());
         if (account == null) {
             // This should not happen as the user is authenticated
             return new JsonResult("Account not found", HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
-        notifications = sqlLogic.getUnreadActiveNotificationsByTargetUser(
+        notifications = logic.getUnreadActiveNotificationsByTargetUser(
                 List.of(targetUser, NotificationTargetUser.GENERAL), account.getId(), Instant.now());
 
         if (userInfo.isAdmin) {

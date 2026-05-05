@@ -6,9 +6,9 @@ import java.util.List;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.storage.sqlentity.Course;
-import teammates.storage.sqlentity.Instructor;
-import teammates.storage.sqlentity.Student;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 
 /**
  * Action: resets an account ID.
@@ -25,13 +25,13 @@ public class ResetAccountAction extends AdminOnlyAction {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Course course = sqlLogic.getCourse(courseId);
+        Course course = logic.getCourse(courseId);
         if (course == null) {
             throw new EntityNotFoundException("Course does not exist");
         }
 
         if (studentEmail != null) {
-            Student existingStudent = sqlLogic.getStudentForEmail(courseId, studentEmail);
+            Student existingStudent = logic.getStudentForEmail(courseId, studentEmail);
 
             if (existingStudent == null) {
                 throw new EntityNotFoundException("Student does not exist.");
@@ -39,7 +39,7 @@ public class ResetAccountAction extends AdminOnlyAction {
 
             try {
                 if (existingStudent.getGoogleId() != null) {
-                    sqlLogic.resetStudentGoogleId(studentEmail, courseId, existingStudent.getGoogleId());
+                    logic.resetStudentGoogleId(studentEmail, courseId, existingStudent.getGoogleId());
                 }
                 // Generate and queue rejoin email to priority queue
                 EmailWrapper email = emailGenerator
@@ -51,7 +51,7 @@ public class ResetAccountAction extends AdminOnlyAction {
                 throw new EntityNotFoundException(e);
             }
         } else if (instructorEmail != null) {
-            Instructor existingInstructor = sqlLogic.getInstructorForEmail(courseId, instructorEmail);
+            Instructor existingInstructor = logic.getInstructorForEmail(courseId, instructorEmail);
 
             if (existingInstructor == null) {
                 throw new EntityNotFoundException("Instructor does not exist.");
@@ -59,7 +59,7 @@ public class ResetAccountAction extends AdminOnlyAction {
 
             try {
                 if (existingInstructor.getGoogleId() != null) {
-                    sqlLogic.resetInstructorGoogleId(instructorEmail, courseId, existingInstructor.getGoogleId());
+                    logic.resetInstructorGoogleId(instructorEmail, courseId, existingInstructor.getGoogleId());
                 }
                 // Generate and queue rejoin email to priority queue
                 EmailWrapper email = emailGenerator

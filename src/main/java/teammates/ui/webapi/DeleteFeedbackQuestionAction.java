@@ -3,7 +3,7 @@ package teammates.ui.webapi;
 import java.util.UUID;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackQuestion;
 
 /**
  * Deletes a feedback question.
@@ -21,13 +21,13 @@ public class DeleteFeedbackQuestionAction extends Action {
         FeedbackQuestion question = null;
 
         questionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        question = sqlLogic.getFeedbackQuestion(questionId);
+        question = logic.getFeedbackQuestion(questionId);
 
         if (question == null) {
             throw new EntityNotFoundException("Unknown question id");
         }
 
-        gateKeeper.verifyAccessible(sqlLogic.getInstructorByGoogleId(question.getCourseId(), userInfo.getId()),
+        gateKeeper.verifyAccessible(logic.getInstructorByGoogleId(question.getCourseId(), userInfo.getId()),
                 getNonNullFeedbackSession(question.getFeedbackSession().getName(), question.getCourseId()),
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
 
@@ -39,7 +39,7 @@ public class DeleteFeedbackQuestionAction extends Action {
         FeedbackQuestion question = null;
 
         questionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-        question = sqlLogic.getFeedbackQuestion(questionId);
+        question = logic.getFeedbackQuestion(questionId);
 
         JsonResult successfulJsonResult = new JsonResult("Feedback question deleted!");
 
@@ -47,7 +47,7 @@ public class DeleteFeedbackQuestionAction extends Action {
             return successfulJsonResult;
         }
 
-        sqlLogic.deleteFeedbackQuestionCascade(questionId);
+        logic.deleteFeedbackQuestionCascade(questionId);
 
         return successfulJsonResult;
     }

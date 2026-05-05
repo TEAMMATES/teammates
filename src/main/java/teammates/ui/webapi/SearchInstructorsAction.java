@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.util.Const;
-import teammates.storage.sqlentity.Instructor;
+import teammates.storage.entity.Instructor;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
 
@@ -15,13 +15,11 @@ public class SearchInstructorsAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
-        // Search for sql db
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
-        List<Instructor> instructors = sqlLogic.searchInstructorsInWholeSystem(searchKey);
+        List<Instructor> instructors = logic.searchInstructorsInWholeSystem(searchKey);
 
         List<InstructorData> instructorDataList = new ArrayList<>();
 
-        // Add instructors from sql db
         for (Instructor instructor : instructors) {
             InstructorData instructorData = new InstructorData(instructor);
             instructorData.addAdditionalInformationForAdminSearch(

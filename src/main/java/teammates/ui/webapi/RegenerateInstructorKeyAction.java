@@ -8,7 +8,7 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.storage.sqlentity.Instructor;
+import teammates.storage.entity.Instructor;
 import teammates.ui.output.RegenerateKeyData;
 
 /**
@@ -40,7 +40,7 @@ public class RegenerateInstructorKeyAction extends AdminOnlyAction {
 
         Instructor updatedInstructor;
         try {
-            updatedInstructor = sqlLogic.regenerateInstructorRegistrationKey(courseId, instructorEmailAddress);
+            updatedInstructor = logic.regenerateInstructorRegistrationKey(courseId, instructorEmailAddress);
         } catch (EntityDoesNotExistException ex) {
             throw new EntityNotFoundException(ex);
         } catch (InstructorUpdateException ex) {

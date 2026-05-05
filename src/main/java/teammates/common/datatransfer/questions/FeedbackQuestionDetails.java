@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.util.JsonUtils;
-import teammates.storage.sqlentity.FeedbackQuestion;
+import teammates.storage.entity.FeedbackQuestion;
 
 /**
  * A class holding the details for a specific question type.
