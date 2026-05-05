@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
 import teammates.ui.output.AccountData;
+import teammates.ui.exception.EntityNotFoundException;
 
 /**
  * Gets account's information.

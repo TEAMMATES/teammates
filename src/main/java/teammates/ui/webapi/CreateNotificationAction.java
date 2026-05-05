@@ -11,6 +11,7 @@ import teammates.storage.entity.Notification;
 import teammates.ui.output.NotificationData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.NotificationCreateRequest;
+import teammates.ui.exception.InvalidOperationException;
 
 /**
  * Action: Creates a new notification banner.

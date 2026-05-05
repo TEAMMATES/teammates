@@ -17,6 +17,9 @@ import teammates.storage.entity.Instructor;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.request.FeedbackSessionCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Create a feedback session.

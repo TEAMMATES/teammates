@@ -22,6 +22,8 @@ import teammates.ui.output.StudentData;
 import teammates.ui.output.StudentsData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.StudentsEnrollRequest;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Enroll a list of students.

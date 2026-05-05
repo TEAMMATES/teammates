@@ -12,6 +12,8 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Gets all courses for the instructor, and filtered by active and soft-deleted.

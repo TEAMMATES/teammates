@@ -10,11 +10,11 @@ import teammates.common.exception.DeadlineExceededException;
 import teammates.test.BaseTestCase;
 import teammates.test.MockHttpServletResponse;
 import teammates.ui.request.InvalidHttpRequestBodyException;
-import teammates.ui.webapi.ActionMappingException;
-import teammates.ui.webapi.EntityNotFoundException;
-import teammates.ui.webapi.InvalidHttpParameterException;
-import teammates.ui.webapi.InvalidOperationException;
-import teammates.ui.webapi.UnauthorizedAccessException;
+import teammates.ui.exception.ActionMappingException;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * SUT: {@link WebApiServletExceptionHandler}.

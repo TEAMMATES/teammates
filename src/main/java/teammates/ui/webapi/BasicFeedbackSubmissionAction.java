@@ -11,6 +11,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * The basic action for feedback submission.

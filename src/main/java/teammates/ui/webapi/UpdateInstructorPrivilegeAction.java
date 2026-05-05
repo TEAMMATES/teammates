@@ -6,6 +6,8 @@ import teammates.storage.entity.Instructor;
 import teammates.ui.output.InstructorPrivilegeData;
 import teammates.ui.request.InstructorPrivilegeUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Updates an instructor's privileges.

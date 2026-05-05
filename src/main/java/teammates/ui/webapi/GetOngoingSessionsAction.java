@@ -12,6 +12,7 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.ui.output.OngoingSession;
 import teammates.ui.output.OngoingSessionsData;
+import teammates.ui.exception.InvalidHttpParameterException;
 
 /**
  * Gets the list of all ongoing sessions.

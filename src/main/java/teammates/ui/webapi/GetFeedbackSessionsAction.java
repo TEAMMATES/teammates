@@ -16,6 +16,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.FeedbackSessionsData;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Get a list of feedback sessions.

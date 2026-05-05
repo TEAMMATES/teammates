@@ -9,6 +9,8 @@ import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.AccountRequest;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidOperationException;
 
 /**
  * Approves an account request.

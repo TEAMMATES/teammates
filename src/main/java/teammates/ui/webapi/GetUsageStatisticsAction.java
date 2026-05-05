@@ -7,6 +7,8 @@ import java.util.List;
 import teammates.common.util.Const;
 import teammates.storage.entity.UsageStatistics;
 import teammates.ui.output.UsageStatisticsRangeData;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Gets usage statistics for a specified time period.

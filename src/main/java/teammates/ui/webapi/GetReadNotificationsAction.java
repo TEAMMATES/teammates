@@ -7,6 +7,7 @@ import org.apache.http.HttpStatus;
 
 import teammates.storage.entity.Account;
 import teammates.ui.output.ReadNotificationsData;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Action: Gets read notifications from account entity.

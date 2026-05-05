@@ -5,6 +5,8 @@ import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.output.JoinStatus;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpParameterException;
 
 /**
  * Get the join status of a course.

@@ -4,6 +4,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.ui.output.CourseData;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Move a course to the recycle bin.

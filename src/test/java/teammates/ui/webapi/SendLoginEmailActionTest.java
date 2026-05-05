@@ -9,6 +9,8 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.ui.output.SendLoginEmailResponseData;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidOperationException;
 
 /**
  * SUT: {@link SendLoginEmailAction}.

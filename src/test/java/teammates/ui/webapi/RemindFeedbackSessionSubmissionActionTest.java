@@ -24,6 +24,7 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.request.FeedbackSessionRespondentRemindRequest;
+import teammates.ui.exception.InvalidOperationException;
 
 /**
  * SUT: {@link RemindFeedbackSessionSubmissionAction}.

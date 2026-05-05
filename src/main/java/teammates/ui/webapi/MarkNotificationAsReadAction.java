@@ -10,6 +10,9 @@ import teammates.storage.entity.ReadNotification;
 import teammates.ui.output.ReadNotificationData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.MarkNotificationAsReadRequest;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Action: Marks a notification as read in account entity.

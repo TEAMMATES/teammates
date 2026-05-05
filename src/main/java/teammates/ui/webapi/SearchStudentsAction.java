@@ -8,6 +8,8 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.output.StudentData;
 import teammates.ui.output.StudentsData;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Action for searching for students.

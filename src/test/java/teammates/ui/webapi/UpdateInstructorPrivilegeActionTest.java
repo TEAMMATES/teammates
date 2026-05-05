@@ -13,6 +13,7 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.output.InstructorPrivilegeData;
 import teammates.ui.request.InstructorPrivilegeUpdateRequest;
+import teammates.ui.exception.EntityNotFoundException;
 
 /**
  * SUT: {@link UpdateInstructorPrivilegeAction}.

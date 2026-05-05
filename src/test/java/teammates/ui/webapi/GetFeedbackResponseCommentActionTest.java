@@ -26,6 +26,7 @@ import teammates.storage.entity.Student;
 import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.request.Intent;
+import teammates.ui.exception.EntityNotFoundException;
 
 /**
  * SUT: {@link GetFeedbackResponseCommentAction}.

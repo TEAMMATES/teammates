@@ -8,6 +8,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.test.BaseTestCase;
 import teammates.test.MockHttpServletRequest;
+import teammates.ui.exception.ActionMappingException;
 
 /**
  * SUT: {@link ActionFactory}.

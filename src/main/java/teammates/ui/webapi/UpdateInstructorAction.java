@@ -8,6 +8,9 @@ import teammates.storage.entity.Instructor;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.InstructorCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Edits an instructor in a course.

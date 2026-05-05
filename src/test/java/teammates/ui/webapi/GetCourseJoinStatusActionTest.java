@@ -13,6 +13,7 @@ import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.output.JoinStatus;
+import teammates.ui.exception.EntityNotFoundException;
 
 /**
  * SUT: {@link GetCourseJoinStatusAction}.

@@ -8,6 +8,7 @@ import teammates.common.util.Const;
 import teammates.storage.entity.AccountRequest;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.output.AccountRequestsData;
+import teammates.ui.exception.InvalidHttpParameterException;
 
 /**
  * Action: Gets pending account requests.

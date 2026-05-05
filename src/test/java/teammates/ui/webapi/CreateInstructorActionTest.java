@@ -21,6 +21,7 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.InstructorCreateRequest;
+import teammates.ui.exception.InvalidOperationException;
 
 /**
  * SUT: {@link CreateInstructorAction}.

@@ -9,6 +9,8 @@ import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpParameterException;
 
 /**
  * Action: resets an account ID.

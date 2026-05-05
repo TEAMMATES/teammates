@@ -8,6 +8,8 @@ import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Restore a feedback session from the recycle bin.

@@ -9,6 +9,9 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.request.Intent;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Get a feedback session.

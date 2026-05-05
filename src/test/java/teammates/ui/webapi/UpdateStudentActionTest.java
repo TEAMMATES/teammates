@@ -34,6 +34,8 @@ import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.request.StudentUpdateRequest;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidOperationException;
 
 /**
  * SUT: {@link UpdateStudentAction}.

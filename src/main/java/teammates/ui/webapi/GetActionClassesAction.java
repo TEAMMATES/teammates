@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import teammates.ui.output.ActionClasses;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Retrieves a list of action class names.

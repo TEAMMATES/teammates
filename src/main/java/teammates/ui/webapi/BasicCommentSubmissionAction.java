@@ -9,6 +9,8 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Basic action class for feedback response comment related operation.

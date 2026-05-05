@@ -10,6 +10,9 @@ import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.ui.output.FeedbackSessionData;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Unpublish a feedback session.

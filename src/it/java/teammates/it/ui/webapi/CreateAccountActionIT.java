@@ -20,7 +20,7 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.ui.webapi.CreateAccountAction;
-import teammates.ui.webapi.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidHttpParameterException;
 
 /**
  * SUT: {@link CreateAccountAction}.

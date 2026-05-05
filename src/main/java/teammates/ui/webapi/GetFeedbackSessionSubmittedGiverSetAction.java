@@ -8,6 +8,8 @@ import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.ui.output.FeedbackSessionSubmittedGiverSet;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Get a set of givers that has given at least one response in the feedback session.

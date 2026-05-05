@@ -24,6 +24,7 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.output.HasResponsesData;
+import teammates.ui.exception.EntityNotFoundException;
 
 /**
  * SUT: {@link GetHasResponsesAction}.

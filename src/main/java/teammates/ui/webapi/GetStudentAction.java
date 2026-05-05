@@ -8,6 +8,8 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.output.StudentData;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Get the information of a student inside a course.

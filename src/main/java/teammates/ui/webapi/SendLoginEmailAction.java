@@ -8,6 +8,9 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
 import teammates.ui.output.SendLoginEmailResponseData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Sends a login email.

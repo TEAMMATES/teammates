@@ -15,6 +15,7 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.output.MessageOutput;
+import teammates.ui.exception.InvalidOperationException;
 
 /**
  * SUT: {@link JoinCourseAction}.

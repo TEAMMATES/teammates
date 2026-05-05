@@ -7,6 +7,7 @@ import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
 import teammates.ui.output.SessionLinksRecoveryResponseData;
+import teammates.ui.exception.InvalidHttpParameterException;
 
 /**
  * Action specifically created for confirming email and sending session recovery links.

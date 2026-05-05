@@ -31,6 +31,9 @@ import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.FeedbackResponseData;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.Intent;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * SUT: {@link GetFeedbackResponsesAction}.

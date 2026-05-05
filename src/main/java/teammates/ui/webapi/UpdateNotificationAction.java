@@ -10,6 +10,7 @@ import teammates.storage.entity.Notification;
 import teammates.ui.output.NotificationData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.NotificationUpdateRequest;
+import teammates.ui.exception.EntityNotFoundException;
 
 /**
  * Action: Updates a new notification banner.

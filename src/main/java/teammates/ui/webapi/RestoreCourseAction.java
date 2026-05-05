@@ -3,6 +3,8 @@ package teammates.ui.webapi;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Action: Restores a course from Recycle Bin.

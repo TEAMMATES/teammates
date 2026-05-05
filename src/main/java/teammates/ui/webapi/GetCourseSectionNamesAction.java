@@ -7,6 +7,8 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.output.CourseSectionNamesData;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Gets the section names of a course.

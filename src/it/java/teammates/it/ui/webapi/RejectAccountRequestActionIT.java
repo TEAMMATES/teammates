@@ -20,9 +20,9 @@ import teammates.storage.entity.Course;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountRequestRejectionRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
-import teammates.ui.webapi.EntityNotFoundException;
-import teammates.ui.webapi.InvalidHttpParameterException;
-import teammates.ui.webapi.InvalidOperationException;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.RejectAccountRequestAction;
 

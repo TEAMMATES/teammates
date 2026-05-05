@@ -10,6 +10,9 @@ import teammates.storage.entity.Student;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
 import teammates.ui.request.Intent;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Get a list of instructors of a course.

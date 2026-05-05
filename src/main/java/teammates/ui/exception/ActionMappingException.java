@@ -1,4 +1,4 @@
-package teammates.ui.webapi;
+package teammates.ui.exception;
 
 /**
  * Exception thrown when a controller class is failed to be instantiated from a given resource URL.

@@ -9,6 +9,7 @@ import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Provides access control mechanisms.

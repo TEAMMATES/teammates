@@ -17,6 +17,10 @@ import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.request.FeedbackResponseCommentCreateRequest;
 import teammates.ui.request.Intent;
 import teammates.ui.request.InvalidHttpRequestBodyException;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Creates a new feedback response comment.

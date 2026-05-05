@@ -11,6 +11,9 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.output.FeedbackQuestionRecipientsData;
 import teammates.ui.request.Intent;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Get the recipients of a feedback question.

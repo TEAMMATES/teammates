@@ -9,6 +9,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.ui.output.StudentData;
 import teammates.ui.output.StudentsData;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Get a list of students.

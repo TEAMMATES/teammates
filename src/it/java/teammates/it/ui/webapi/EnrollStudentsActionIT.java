@@ -21,7 +21,7 @@ import teammates.storage.entity.Team;
 import teammates.ui.output.EnrollStudentsData;
 import teammates.ui.request.StudentsEnrollRequest;
 import teammates.ui.webapi.EnrollStudentsAction;
-import teammates.ui.webapi.InvalidOperationException;
+import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.webapi.JsonResult;
 
 /**
