@@ -90,7 +90,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 session.isPublishedEmailEnabled()
         );
         copySession.setId(null);
-        copyCourse.addFeedbackSession(session);
+        copyCourse.addFeedbackSession(copySession);
 
         copySession2 = new FeedbackSession(
                 "Second Session",

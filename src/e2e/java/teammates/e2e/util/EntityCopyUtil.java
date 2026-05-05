@@ -29,7 +29,7 @@ public final class EntityCopyUtil {
         fs.setCreatedAt(original.getCreatedAt());
         fs.setUpdatedAt(original.getUpdatedAt());
         fs.setDeletedAt(original.getDeletedAt());
-        original.getCourse().addFeedbackSession(fs);
+        fs.setCourse(original.getCourse());
 
         return fs;
     }
