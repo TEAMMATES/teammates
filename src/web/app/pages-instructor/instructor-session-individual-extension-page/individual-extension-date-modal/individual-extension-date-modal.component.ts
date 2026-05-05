@@ -31,7 +31,6 @@ enum DateTime {
 @Component({
   selector: 'tm-individual-extension-date-modal',
   templateUrl: './individual-extension-date-modal.component.html',
-  styleUrls: ['./individual-extension-date-modal.component.scss'],
   imports: [FormsModule, DatepickerComponent, TimepickerComponent, KeyValuePipe],
 })
 export class IndividualExtensionDateModalComponent {

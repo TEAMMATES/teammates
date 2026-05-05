@@ -10,7 +10,6 @@ import { MSQ_ANSWER_NONE_OF_THE_ABOVE } from '../../../../types/feedback-respons
 @Component({
   selector: 'tm-msq-question-response',
   templateUrl: './msq-question-response.component.html',
-  styleUrls: ['./msq-question-response.component.scss'],
   imports: [],
 })
 export class MsqQuestionResponseComponent extends QuestionResponse<

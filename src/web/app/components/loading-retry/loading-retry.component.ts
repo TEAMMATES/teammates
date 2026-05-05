@@ -6,7 +6,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'tm-loading-retry',
   templateUrl: './loading-retry.component.html',
-  styleUrls: ['./loading-retry.component.scss'],
   imports: [],
 })
 export class LoadingRetryComponent {
