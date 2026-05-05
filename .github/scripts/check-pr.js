@@ -82,7 +82,8 @@ module.exports = async ({ github, context }) => {
     const formatted = orphanLockDirs
       .map((d) => (d === '' ? '`package-lock.json`' : `\`${d}/package-lock.json\``))
       .join(', ');
-    body += `- ${formatted} changed without a corresponding \`package.json\` change. ` +
+    body +=
+      `- ${formatted} changed without a corresponding \`package.json\` change. ` +
       'Lockfile updates should accompany dependency changes in `package.json`; if this PR is intentionally only refreshing the lockfile, please call that out in the description.\n';
   }
   body += '\nPlease address the above before we proceed to review your PR.';
