@@ -3,7 +3,6 @@ package teammates.storage.entity;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
@@ -63,22 +62,21 @@ public class Section extends BaseEntity {
     }
 
     @Override
-    public int hashCode() {
-        return this.getId().hashCode();
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof Section other)) {
+            return false;
+        }
+
+        return getId() != null && getId().equals(other.getId());
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (other == null) {
-            return false;
-        } else if (this == other) {
-            return true;
-        } else if (this.getClass() == other.getClass()) {
-            Section otherSection = (Section) other;
-            return Objects.equals(this.getId(), otherSection.getId());
-        } else {
-            return false;
-        }
+    public int hashCode() {
+        return getClass().hashCode();
     }
 
     @Override

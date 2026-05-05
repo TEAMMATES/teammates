@@ -3,7 +3,6 @@ package teammates.storage.entity;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
@@ -387,23 +386,21 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     }
 
     @Override
-    public int hashCode() {
-        // FeedbackQuestion ID uniquely identifies a FeedbackQuestion.
-        return this.getId().hashCode();
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof FeedbackQuestion other)) {
+            return false;
+        }
+
+        return getId() != null && getId().equals(other.getId());
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (other == null) {
-            return false;
-        } else if (this == other) {
-            return true;
-        } else if (this.getClass() == other.getClass()) {
-            FeedbackQuestion otherQuestion = (FeedbackQuestion) other;
-            return Objects.equals(this.getId(), otherQuestion.getId());
-        } else {
-            return false;
-        }
+    public int hashCode() {
+        return getClass().hashCode();
     }
 
     /**

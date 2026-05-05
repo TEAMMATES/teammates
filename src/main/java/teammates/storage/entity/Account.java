@@ -124,22 +124,21 @@ public class Account extends BaseEntity {
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (other == null) {
-            return false;
-        } else if (this == other) {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
-        } else if (this.getClass() == other.getClass()) {
-            Account otherAccount = (Account) other;
-            return Objects.equals(this.getId(), otherAccount.getId());
-        } else {
+        }
+
+        if (!(o instanceof Account other)) {
             return false;
         }
+        
+        return getId() != null && getId().equals(other.getId());
     }
 
     @Override
     public int hashCode() {
-        return this.getId().hashCode();
+        return getClass().hashCode();
     }
 
     @Override

@@ -128,22 +128,21 @@ public class FeedbackSessionLog extends BaseEntity {
     }
 
     @Override
-    public int hashCode() {
-        return this.getId().hashCode();
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof FeedbackSessionLog other)) {
+            return false;
+        }
+
+        return getId() != null && getId().equals(other.getId());
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (other == null) {
-            return false;
-        } else if (this == other) {
-            return true;
-        } else if (this.getClass() == other.getClass()) {
-            FeedbackSessionLog otherFeedbackSessionLog = (FeedbackSessionLog) other;
-            return Objects.equals(this.getId(), otherFeedbackSessionLog.getId());
-        } else {
-            return false;
-        }
+    public int hashCode() {
+        return getClass().hashCode();
     }
 
     @Override

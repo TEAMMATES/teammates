@@ -2,7 +2,6 @@ package teammates.storage.entity;
 
 import java.security.SecureRandom;
 import java.time.Instant;
-import java.util.Objects;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -192,25 +191,6 @@ public abstract class User extends BaseEntity {
         if (googleId != null && getAccount() != null) {
             getAccount().setGoogleId(googleId);
         }
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (other == null) {
-            return false;
-        } else if (this == other) {
-            return true;
-        } else if (this.getClass() == other.getClass()) {
-            User otherUser = (User) other;
-            return Objects.equals(this.getId(), otherUser.getId());
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public int hashCode() {
-        return this.getId().hashCode();
     }
 
     public boolean isRegistered() {
