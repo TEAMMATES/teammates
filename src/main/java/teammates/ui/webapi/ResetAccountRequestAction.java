@@ -10,9 +10,9 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.storage.entity.AccountRequest;
-import teammates.ui.output.JoinLinkData;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.output.JoinLinkData;
 
 /**
  * Action: resets an account request.

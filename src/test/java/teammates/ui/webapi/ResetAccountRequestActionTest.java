@@ -16,9 +16,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.entity.AccountRequest;
-import teammates.ui.output.JoinLinkData;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.output.JoinLinkData;
 
 /**
  * SUT: {@link ResetAccountRequestAction}.

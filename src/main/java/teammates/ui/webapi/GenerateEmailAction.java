@@ -11,9 +11,9 @@ import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Student;
-import teammates.ui.output.EmailData;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.output.EmailData;
 
 /**
  * Generate email content.

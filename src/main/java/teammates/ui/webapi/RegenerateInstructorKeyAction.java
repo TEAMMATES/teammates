@@ -9,8 +9,8 @@ import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.Instructor;
-import teammates.ui.output.RegenerateKeyData;
 import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.output.RegenerateKeyData;
 
 /**
  * Regenerates the key for a given instructor in a course. This will also resend the course registration

@@ -7,12 +7,12 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
-import teammates.ui.output.InstructorData;
-import teammates.ui.output.InstructorsData;
-import teammates.ui.request.Intent;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
+import teammates.ui.output.InstructorData;
+import teammates.ui.output.InstructorsData;
+import teammates.ui.request.Intent;
 
 /**
  * Get a list of instructors of a course.

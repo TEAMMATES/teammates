@@ -9,12 +9,12 @@ import org.testng.annotations.Test;
 import teammates.common.exception.DeadlineExceededException;
 import teammates.test.BaseTestCase;
 import teammates.test.MockHttpServletResponse;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.exception.ActionMappingException;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * SUT: {@link WebApiServletExceptionHandler}.

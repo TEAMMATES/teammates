@@ -19,9 +19,9 @@ import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
+import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.InstructorCreateRequest;
-import teammates.ui.exception.InvalidOperationException;
 
 /**
  * SUT: {@link CreateInstructorAction}.

@@ -15,8 +15,8 @@ import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Student;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.output.MessageOutput;
 
 /**
  * SUT: {@link CreateFeedbackSessionLogAction}.

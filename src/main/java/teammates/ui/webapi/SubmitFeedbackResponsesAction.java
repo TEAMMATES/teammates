@@ -26,14 +26,14 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
-import teammates.ui.output.FeedbackResponsesData;
-import teammates.ui.request.FeedbackResponsesRequest;
-import teammates.ui.request.Intent;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
+import teammates.ui.output.FeedbackResponsesData;
+import teammates.ui.request.FeedbackResponsesRequest;
+import teammates.ui.request.Intent;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Submits a list of feedback responses to a feedback question.

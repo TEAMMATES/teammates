@@ -6,8 +6,8 @@ import java.time.zone.ZoneRulesProvider;
 import java.util.Map;
 import java.util.TreeMap;
 
-import teammates.ui.output.TimeZonesData;
 import teammates.ui.exception.UnauthorizedAccessException;
+import teammates.ui.output.TimeZonesData;
 
 /**
  * Action: get supported time zones.

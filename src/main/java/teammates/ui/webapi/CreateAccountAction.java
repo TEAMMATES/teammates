@@ -23,9 +23,9 @@ import teammates.common.util.TimeHelper;
 import teammates.logic.core.DataBundleLogic;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Instructor;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Creates a new instructor account with sample courses.

@@ -13,12 +13,12 @@ import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
-import teammates.ui.output.InstructorData;
-import teammates.ui.request.InstructorCreateRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
+import teammates.ui.output.InstructorData;
+import teammates.ui.request.InstructorCreateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Action: adds another instructor to a course that already exists.

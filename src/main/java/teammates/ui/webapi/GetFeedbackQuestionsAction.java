@@ -12,12 +12,12 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
-import teammates.ui.output.FeedbackQuestionData;
-import teammates.ui.output.FeedbackQuestionsData;
-import teammates.ui.request.Intent;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
+import teammates.ui.output.FeedbackQuestionData;
+import teammates.ui.output.FeedbackQuestionsData;
+import teammates.ui.request.Intent;
 
 /**
  * Get a list of feedback questions for a feedback session.

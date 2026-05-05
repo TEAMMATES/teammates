@@ -14,8 +14,8 @@ import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.output.MessageOutput;
 
 /**
  * SUT: {@link JoinCourseAction}.

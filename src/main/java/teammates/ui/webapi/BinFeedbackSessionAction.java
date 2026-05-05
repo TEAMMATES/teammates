@@ -5,9 +5,9 @@ import java.util.UUID;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackSession;
-import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
+import teammates.ui.output.FeedbackSessionData;
 
 /**
  * Move the feedback session to the recycle bin.

@@ -9,8 +9,8 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.storage.entity.AccountRequest;
-import teammates.ui.output.AccountRequestData;
 import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.output.AccountRequestData;
 
 /**
  * SUT: {@link GetAccountRequestAction}.

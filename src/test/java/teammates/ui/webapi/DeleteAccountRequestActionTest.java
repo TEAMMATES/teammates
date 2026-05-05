@@ -12,8 +12,8 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.storage.entity.AccountRequest;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.output.MessageOutput;
 
 /**
  * SUT: {@link DeleteAccountRequestAction}.

@@ -10,9 +10,9 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.storage.entity.Notification;
-import teammates.ui.output.NotificationData;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.output.NotificationData;
 
 /**
  * SUT: {@link GetNotificationAction}.

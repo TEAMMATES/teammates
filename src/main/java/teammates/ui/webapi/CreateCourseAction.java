@@ -10,11 +10,11 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.CourseData;
 import teammates.ui.request.CourseCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
-import teammates.ui.exception.InvalidOperationException;
-import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Create a new course for an instructor.

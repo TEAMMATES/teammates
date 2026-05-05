@@ -27,12 +27,12 @@ import teammates.logic.api.UserProvision;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
-import teammates.ui.request.BasicRequest;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
+import teammates.ui.request.BasicRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * An "action" to be performed by the system.

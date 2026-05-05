@@ -10,11 +10,11 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
-import teammates.ui.output.SessionResultsData;
-import teammates.ui.request.Intent;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
+import teammates.ui.output.SessionResultsData;
+import teammates.ui.request.Intent;
 
 /**
  * Gets feedback session results including statistics where necessary.

@@ -7,11 +7,11 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.AccountRequest;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountRequestRejectionRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
-import teammates.ui.exception.EntityNotFoundException;
-import teammates.ui.exception.InvalidOperationException;
 
 /**
  * Rejects an account request.

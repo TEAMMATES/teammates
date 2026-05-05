@@ -10,9 +10,9 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Notification;
-import teammates.ui.output.NotificationsData;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
+import teammates.ui.output.NotificationsData;
 
 /**
  * Action: Gets a list of notifications.

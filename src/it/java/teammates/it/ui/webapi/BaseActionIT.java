@@ -36,17 +36,17 @@ import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.test.MockHttpServletRequest;
+import teammates.ui.exception.ActionMappingException;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.request.BasicRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.webapi.Action;
 import teammates.ui.webapi.ActionFactory;
-import teammates.ui.exception.ActionMappingException;
 import teammates.ui.webapi.ActionResult;
-import teammates.ui.exception.EntityNotFoundException;
-import teammates.ui.exception.InvalidHttpParameterException;
-import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.webapi.JsonResult;
-import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Base class for all action tests.

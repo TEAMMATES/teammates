@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.output.OngoingSession;
 import teammates.ui.output.OngoingSessionsData;
-import teammates.ui.exception.InvalidHttpParameterException;
 
 /**
  * Gets the list of all ongoing sessions.
