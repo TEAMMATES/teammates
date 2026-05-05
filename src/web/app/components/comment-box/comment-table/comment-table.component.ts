@@ -4,7 +4,6 @@ import { FeedbackResponseComment, FeedbackVisibilityType, ResponseOutput } from 
 import { collapseAnim } from '../../teammates-common/collapse-anim';
 import { CommentRowModel, CommentRowComponent } from '../comment-row/comment-row.component';
 import { CommentRowMode } from '../comment-row/comment-row.mode';
-import { CommentToCommentRowModelPipe } from '../comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../comments-to-comment-table-model.pipe';
 
 /**
@@ -16,7 +15,7 @@ import { CommentsToCommentTableModelPipe } from '../comments-to-comment-table-mo
   styleUrls: ['./comment-table.component.scss'],
   animations: [collapseAnim],
   imports: [CommentRowComponent],
-  providers: [CommentToCommentRowModelPipe, CommentsToCommentTableModelPipe],
+  providers: [CommentsToCommentTableModelPipe],
 })
 export class CommentTableComponent {
   // enum
