@@ -19,7 +19,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
@@ -35,7 +34,7 @@ import teammates.test.BaseTestCase;
 public class NotificationsLogicTest extends BaseTestCase {
 
     private NotificationsLogic notificationsLogic = NotificationsLogic.inst();
-
+    private AccountsLogic accountsLogic;
     private NotificationsDb notificationsDb;
 
     private MockedStatic<HibernateUtil> mockHibernateUtil;
@@ -43,7 +42,8 @@ public class NotificationsLogicTest extends BaseTestCase {
     @BeforeMethod
     public void setUpMethod() {
         notificationsDb = mock(NotificationsDb.class);
-        notificationsLogic.initLogicDependencies(notificationsDb);
+        accountsLogic = mock(AccountsLogic.class);
+        notificationsLogic.initLogicDependencies(notificationsDb, accountsLogic);
         mockHibernateUtil = mockStatic(HibernateUtil.class);
     }
 
@@ -53,8 +53,7 @@ public class NotificationsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateNotification_endTimeIsBeforeStartTime_throwsInvalidParametersException()
-            throws EntityAlreadyExistsException {
+    public void testCreateNotification_endTimeIsBeforeStartTime_throwsInvalidParametersException() {
         Notification invalidNotification = new Notification(Instant.parse("2011-02-01T00:00:00Z"),
                 Instant.parse("2011-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>");
@@ -64,7 +63,7 @@ public class NotificationsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateNotification_emptyTitle_throwsInvalidParametersException() throws EntityAlreadyExistsException {
+    public void testCreateNotification_emptyTitle_throwsInvalidParametersException() {
         Notification invalidNotification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
                 Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "", "<p>Deprecation happens in three minutes</p>");
@@ -74,7 +73,7 @@ public class NotificationsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateNotification_emptyMessage_throwsInvalidParametersException() throws EntityAlreadyExistsException {
+    public void testCreateNotification_emptyMessage_throwsInvalidParametersException() {
         Notification invalidNotification = new Notification(Instant.parse("2011-01-01T00:00:00Z"),
                 Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "A deprecation note", "");
@@ -182,9 +181,16 @@ public class NotificationsLogicTest extends BaseTestCase {
         Notification notification1 = getTypicalNotificationWithId();
         Notification notification2 = getTypicalNotificationWithId();
 
+        ReadNotification readNotification1 = new ReadNotification();
+        account.addReadNotification(readNotification1);
+        notification1.addReadNotification(readNotification1);
+
+        ReadNotification readNotification2 = new ReadNotification();
+        account.addReadNotification(readNotification2);
+        notification2.addReadNotification(readNotification2);
+
         when(notificationsDb.getReadNotificationsByAccountId(account.getId())).thenReturn(List.of(
-                new ReadNotification(account, notification1),
-                new ReadNotification(account, notification2)
+                readNotification1, readNotification2
         ));
 
         List<ReadNotification> readNotifications = notificationsLogic.getReadNotificationsByAccountId(account.getId());
@@ -198,12 +204,12 @@ public class NotificationsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testCreateReadNotification_success() {
+    public void testCreateReadNotification_success() throws EntityDoesNotExistException {
         Account account = getTypicalAccount();
         Notification notification = getTypicalNotificationWithId();
 
-        when(HibernateUtil.getReference(Account.class, account.getId())).thenReturn(account);
-        when(HibernateUtil.getReference(Notification.class, notification.getId())).thenReturn(notification);
+        when(accountsLogic.getAccount(account.getId())).thenReturn(account);
+        when(notificationsDb.getNotification(notification.getId())).thenReturn(notification);
         when(notificationsDb.createReadNotification(any())).thenAnswer(invocation -> invocation.getArgument(0));
 
         ReadNotification result = notificationsLogic.createReadNotification(account.getId(), notification.getId());

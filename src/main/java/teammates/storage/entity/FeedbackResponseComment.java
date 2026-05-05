@@ -3,7 +3,6 @@ package teammates.storage.entity;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -87,13 +86,12 @@ public class FeedbackResponseComment extends BaseEntity {
     }
 
     public FeedbackResponseComment(
-            FeedbackResponse feedbackResponse, String giver, FeedbackParticipantType giverType,
+            String giver, FeedbackParticipantType giverType,
             Section giverSection, Section recipientSection, String commentText,
             boolean isVisibilityFollowingFeedbackQuestion, boolean isCommentFromFeedbackParticipant,
             List<FeedbackParticipantType> showCommentTo, List<FeedbackParticipantType> showGiverNameTo,
             String lastEditorEmail
     ) {
-        this.setFeedbackResponse(feedbackResponse);
         this.setGiver(giver);
         this.setGiverType(giverType);
         this.setGiverSection(giverSection);
@@ -237,7 +235,6 @@ public class FeedbackResponseComment extends BaseEntity {
 
     /**
      * Formats the entity before persisting in database.
-     * TODO: Override when BaseEntity adds abstract sanitizeForSaving
      */
     public void sanitizeForSaving() {
         this.commentText = SanitizationHelper.sanitizeForRichText(this.commentText);
@@ -272,21 +269,20 @@ public class FeedbackResponseComment extends BaseEntity {
     }
 
     @Override
-    public int hashCode() {
-        return this.getId().hashCode();
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof FeedbackResponseComment other)) {
+            return false;
+        }
+
+        return getId() != null && getId().equals(other.getId());
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (other == null) {
-            return false;
-        } else if (this == other) {
-            return true;
-        } else if (this.getClass() == other.getClass()) {
-            FeedbackResponseComment otherResponse = (FeedbackResponseComment) other;
-            return Objects.equals(this.getId(), otherResponse.getId());
-        } else {
-            return false;
-        }
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

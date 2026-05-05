@@ -202,14 +202,15 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER));
     }
 
-    private FeedbackSession generateSession1InCourse(Course c, Instructor inst) {
-        FeedbackSession fs = new FeedbackSession("feedbacksession-1", c,
+    private FeedbackSession generateSession1InCourse(Course course, Instructor inst) {
+        FeedbackSession fs = new FeedbackSession("feedbacksession-1",
                 inst.getEmail(), "generic instructions",
                 nearestHour, endHour,
                 nearestHour, responseVisibleHour,
                 Duration.ofHours(10), false, false);
         fs.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
+        course.addFeedbackSession(fs);
         return fs;
     }
 }

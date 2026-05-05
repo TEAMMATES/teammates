@@ -3,7 +3,7 @@ package teammates.storage.entity;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -57,10 +57,9 @@ public class DeadlineExtension extends BaseEntity {
         // required by Hibernate
     }
 
-    public DeadlineExtension(User user, FeedbackSession feedbackSession, Instant endTime) {
+    public DeadlineExtension(User user, Instant endTime) {
         this.setId(UUID.randomUUID());
         this.setUser(user);
-        this.setFeedbackSession(feedbackSession);
         this.setEndTime(endTime);
     }
 
@@ -136,22 +135,21 @@ public class DeadlineExtension extends BaseEntity {
     }
 
     @Override
-    public int hashCode() {
-        return this.getId().hashCode();
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof DeadlineExtension other)) {
+            return false;
+        }
+
+        return getId() != null && getId().equals(other.getId());
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (other == null) {
-            return false;
-        } else if (this == other) {
-            return true;
-        } else if (this.getClass() == other.getClass()) {
-            DeadlineExtension otherDe = (DeadlineExtension) other;
-            return Objects.equals(this.getId(), otherDe.getId());
-        } else {
-            return false;
-        }
+    public int hashCode() {
+        return getClass().hashCode();
     }
 
     @Override
@@ -159,7 +157,7 @@ public class DeadlineExtension extends BaseEntity {
         List<String> errors = new ArrayList<>();
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
-                feedbackSession.getEndTime(), List.of(this)), errors);
+                feedbackSession.getEndTime(), Set.of(this)), errors);
 
         return errors;
     }

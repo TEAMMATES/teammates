@@ -2,7 +2,6 @@ package teammates.storage.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -41,14 +40,8 @@ public class ReadNotification extends BaseEntity {
     @Column(name = "notification_id", nullable = false, insertable = false, updatable = false)
     private UUID notificationId;
 
-    protected ReadNotification() {
-        // required by Hibernate
-    }
-
-    public ReadNotification(Account account, Notification notification) {
+    public ReadNotification() {
         this.setId(UUID.randomUUID());
-        this.setAccount(account);
-        this.setNotification(notification);
     }
 
     public UUID getId() {
@@ -97,22 +90,21 @@ public class ReadNotification extends BaseEntity {
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (other == null) {
-            return false;
-        } else if (this == other) {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
-        } else if (this.getClass() == other.getClass()) {
-            ReadNotification otherReadNotification = (ReadNotification) other;
-            return Objects.equals(this.getId(), otherReadNotification.getId());
-        } else {
+        }
+
+        if (!(o instanceof ReadNotification other)) {
             return false;
         }
+
+        return getId() != null && getId().equals(other.getId());
     }
 
     @Override
     public int hashCode() {
-        return this.getId().hashCode();
+        return getClass().hashCode();
     }
 
     @Override

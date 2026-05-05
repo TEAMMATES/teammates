@@ -4,6 +4,7 @@ import static org.mockito.Mockito.when;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.testng.annotations.BeforeMethod;
@@ -47,7 +48,7 @@ public class GetDeadlineExtensionsActionTest
 
         typicalFeedbackSession = getTypicalFeedbackSessionForCourse(course);
         typicalFeedbackSession.setName(FEEDBACK_SESSION_NAME);
-        typicalFeedbackSession.setDeadlineExtensions(new ArrayList<>());
+        typicalFeedbackSession.setDeadlineExtensions(new HashSet<>());
 
         typicalInstructor = getTypicalInstructor();
         typicalStudent = getTypicalStudent();
@@ -100,8 +101,8 @@ public class GetDeadlineExtensionsActionTest
     @Test
     void testExecute_withStudentDeadlineExtension_returnsStudentDeadline() {
         Instant extensionEndTime = Instant.parse("2030-01-01T00:00:00Z");
-        DeadlineExtension studentDeadline = new DeadlineExtension(typicalStudent, typicalFeedbackSession, extensionEndTime);
-        typicalFeedbackSession.setDeadlineExtensions(List.of(studentDeadline));
+        DeadlineExtension studentDeadline = new DeadlineExtension(typicalStudent, extensionEndTime);
+        typicalFeedbackSession.addDeadlineExtension(studentDeadline);
 
         when(mockLogic.getStudentsForCourse(COURSE_ID)).thenReturn(List.of(typicalStudent));
         loginAsInstructor(typicalInstructor.getGoogleId());
@@ -122,8 +123,8 @@ public class GetDeadlineExtensionsActionTest
     void testExecute_withInstructorDeadlineExtension_returnsInstructorDeadline() {
         Instant extensionEndTime = Instant.parse("2030-01-01T00:00:00Z");
         DeadlineExtension instructorDeadline =
-                new DeadlineExtension(typicalInstructor, typicalFeedbackSession, extensionEndTime);
-        typicalFeedbackSession.setDeadlineExtensions(List.of(instructorDeadline));
+                new DeadlineExtension(typicalInstructor, extensionEndTime);
+        typicalFeedbackSession.addDeadlineExtension(instructorDeadline);
 
         when(mockLogic.getInstructorsByCourse(COURSE_ID)).thenReturn(List.of(typicalInstructor));
         loginAsInstructor(typicalInstructor.getGoogleId());

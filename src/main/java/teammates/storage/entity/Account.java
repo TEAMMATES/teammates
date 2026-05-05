@@ -2,8 +2,9 @@ package teammates.storage.entity;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
@@ -41,7 +42,7 @@ public class Account extends BaseEntity {
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<ReadNotification> readNotifications = new ArrayList<>();
+    private Set<ReadNotification> readNotifications = new HashSet<>();
 
     @UpdateTimestamp
     private Instant updatedAt;
@@ -62,6 +63,7 @@ public class Account extends BaseEntity {
      */
     public void addReadNotification(ReadNotification readNotification) {
         readNotifications.add(readNotification);
+        readNotification.setAccount(this);
     }
 
     public UUID getId() {
@@ -96,11 +98,11 @@ public class Account extends BaseEntity {
         this.email = SanitizationHelper.sanitizeEmail(email);
     }
 
-    public List<ReadNotification> getReadNotifications() {
+    public Set<ReadNotification> getReadNotifications() {
         return readNotifications;
     }
 
-    public void setReadNotifications(List<ReadNotification> readNotifications) {
+    public void setReadNotifications(Set<ReadNotification> readNotifications) {
         this.readNotifications = readNotifications;
     }
 
@@ -124,22 +126,21 @@ public class Account extends BaseEntity {
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (other == null) {
-            return false;
-        } else if (this == other) {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
-        } else if (this.getClass() == other.getClass()) {
-            Account otherAccount = (Account) other;
-            return Objects.equals(this.getId(), otherAccount.getId());
-        } else {
+        }
+
+        if (!(o instanceof Account other)) {
             return false;
         }
+
+        return getId() != null && getId().equals(other.getId());
     }
 
     @Override
     public int hashCode() {
-        return this.getId().hashCode();
+        return getClass().hashCode();
     }
 
     @Override

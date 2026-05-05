@@ -20,7 +20,7 @@ public final class EntityCopyUtil {
      */
     public static FeedbackSession copyFeedbackSession(FeedbackSession original) {
         FeedbackSession fs = new FeedbackSession(
-                original.getName(), original.getCourse(), original.getCreatorEmail(), original.getInstructions(),
+                original.getName(), original.getCreatorEmail(), original.getInstructions(),
                 original.getStartTime(),
                 original.getEndTime(), original.getSessionVisibleFromTime(), original.getResultsVisibleFromTime(),
                 original.getGracePeriod(), original.isClosingSoonEmailEnabled(),
@@ -29,6 +29,7 @@ public final class EntityCopyUtil {
         fs.setCreatedAt(original.getCreatedAt());
         fs.setUpdatedAt(original.getUpdatedAt());
         fs.setDeletedAt(original.getDeletedAt());
+        fs.setCourse(original.getCourse());
 
         return fs;
     }

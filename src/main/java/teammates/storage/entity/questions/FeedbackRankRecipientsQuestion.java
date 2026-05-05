@@ -13,7 +13,6 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsQuestionDetails;
 import teammates.storage.entity.FeedbackQuestion;
-import teammates.storage.entity.FeedbackSession;
 
 /**
  * Represents a rank recipients question.
@@ -30,13 +29,13 @@ public class FeedbackRankRecipientsQuestion extends FeedbackQuestion {
     }
 
     public FeedbackRankRecipientsQuestion(
-            FeedbackSession feedbackSession, Integer questionNumber,
+            Integer questionNumber,
             String description, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
             Integer numOfEntitiesToGiveFeedbackTo, List<FeedbackParticipantType> showResponsesTo,
             List<FeedbackParticipantType> showGiverNameTo, List<FeedbackParticipantType> showRecipientNameTo,
             FeedbackQuestionDetails feedbackQuestionDetails
     ) {
-        super(feedbackSession, questionNumber, description, giverType, recipientType,
+        super(questionNumber, description, giverType, recipientType,
                 numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo);
         setFeedBackQuestionDetails((FeedbackRankRecipientsQuestionDetails) feedbackQuestionDetails);
     }
@@ -52,9 +51,9 @@ public class FeedbackRankRecipientsQuestion extends FeedbackQuestion {
     }
 
     @Override
-    public FeedbackRankRecipientsQuestion makeDeepCopy(FeedbackSession newFeedbackSession) {
+    public FeedbackRankRecipientsQuestion makeDeepCopy() {
         return new FeedbackRankRecipientsQuestion(
-                newFeedbackSession, this.getQuestionNumber(), this.getDescription(), this.getGiverType(),
+                this.getQuestionNumber(), this.getDescription(), this.getGiverType(),
                 this.getRecipientType(), this.getNumOfEntitiesToGiveFeedbackTo(), new ArrayList<>(this.getShowResponsesTo()),
                 new ArrayList<>(this.getShowGiverNameTo()), new ArrayList<>(this.getShowRecipientNameTo()),
                 this.questionDetails.getDeepCopy()

@@ -108,7 +108,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
 
         Student noResponseStudent = testData.students.get("IFRep.benny@CS2104");
         Student teammate = testData.students.get("IFRep.alice@CS2104");
-        missingResponse = getMissingResponse(qn2.getQuestionNumber(), noResponseStudent, teammate);
+        missingResponse = getMissingResponse(noResponseStudent, teammate);
         qn2GiverResponsesWithMissing = addMissingResponseToMap(
             qn2GiverResponses,
             missingResponse,
@@ -485,19 +485,13 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
                 .collect(Collectors.toList());
     }
 
-    private FeedbackResponse getMissingResponse(int qnNum, Student giver, Student recipient) {
-        // Represent a missing response by only tracking giver/recipient and question number
-        // The feedbackQuestion is set to null so that isMissingResponse() returns true
-        FeedbackResponse missingResp = FeedbackResponse.makeResponse(
-                testData.feedbackQuestions.values().stream()
-                        .filter(q -> q.getQuestionNumber() == qnNum)
-                        .findFirst().orElseThrow(),
+    private FeedbackResponse getMissingResponse(Student giver, Student recipient) {
+        // Represent a missing response by only tracking giver/recipient
+        // The feedbackQuestion is not set so that isMissingResponse() returns true
+        return FeedbackResponse.makeResponse(
                 giver.getEmail(), giver.getSection(), recipient.getEmail(), recipient.getSection(),
                 new FeedbackTextResponseDetails("")
         );
-        // Set feedbackQuestion to null so isMissingResponse() in page object returns true
-        missingResp.setFeedbackQuestion(null);
-        return missingResp;
     }
 
     private void verifyGqrViewResponses(FeedbackQuestion question,

@@ -98,7 +98,7 @@ public final class EmailGenerator {
                 : new ArrayList<>();
 
         if (emailType == EmailType.FEEDBACK_CLOSING_SOON) {
-            List<DeadlineExtension> deadlines = session.getDeadlineExtensions();
+            Set<DeadlineExtension> deadlines = session.getDeadlineExtensions();
             Set<UUID> userIds = deadlines.stream()
                     .map(d -> d.getUser().getId())
                     .collect(Collectors.toSet());

@@ -248,8 +248,8 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         Team team = logic.getTeamOrCreate(section, "randomTeamName");
 
         for (int i = 0; i < Const.SECTION_SIZE_LIMIT; i++) {
-            Student addedStudent = new Student(course, "Name " + i, i + "email@test.com", "cmt" + i, team);
-
+            Student addedStudent = new Student(course, "Name " + i, i + "email@test.com", "cmt" + i);
+            team.addUser(addedStudent);
             logic.createStudent(addedStudent);
         }
 

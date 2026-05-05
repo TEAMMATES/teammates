@@ -12,6 +12,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -82,9 +83,8 @@ public class UpdateDeadlineExtensionsActionTest
                 Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
 
-        List<DeadlineExtension> originalDeadlines = new ArrayList<>();
-        originalDeadlines.add(new DeadlineExtension(instructor, originalFeedbackSession, nearestHour));
-        originalFeedbackSession.setDeadlineExtensions(originalDeadlines);
+        DeadlineExtension de = new DeadlineExtension(instructor, nearestHour);
+        originalFeedbackSession.addDeadlineExtension(de);
 
         when(mockLogic.getFeedbackSession(originalFeedbackSession.getId())).thenReturn(originalFeedbackSession);
 
@@ -94,7 +94,7 @@ public class UpdateDeadlineExtensionsActionTest
         getJsonResult(a);
 
         verify(mockLogic, times(1)).updateDeadlineExtension(any());
-        verify(mockLogic).updateDeadlineExtension(argThat((DeadlineExtension de) -> de.getEndTime().equals(endHour)));
+        verify(mockLogic).updateDeadlineExtension(argThat((DeadlineExtension de1) -> de1.getEndTime().equals(endHour)));
     }
 
     @Test
@@ -108,7 +108,7 @@ public class UpdateDeadlineExtensionsActionTest
                 Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
 
-        originalFeedbackSession.setDeadlineExtensions(new ArrayList<>());
+        originalFeedbackSession.setDeadlineExtensions(new HashSet<>());
 
         when(mockLogic.getFeedbackSession(originalFeedbackSession.getId())).thenReturn(originalFeedbackSession);
         when(mockLogic.getInstructorForEmail(originalFeedbackSession.getCourseId(), instructor.getEmail()))
@@ -160,13 +160,14 @@ public class UpdateDeadlineExtensionsActionTest
     }
 
     private FeedbackSession generateSession1InCourse(Course course, Instructor instructor) {
-        FeedbackSession fs = new FeedbackSession("feedbacksession-1", course,
+        FeedbackSession fs = new FeedbackSession("feedbacksession-1",
                 instructor.getEmail(), "generic instructions",
                 nearestHour, endHour,
                 nearestHour, responseVisibleHour,
                 Duration.ofHours(10), false, false);
         fs.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
+        course.addFeedbackSession(fs);
         return fs;
     }
 }

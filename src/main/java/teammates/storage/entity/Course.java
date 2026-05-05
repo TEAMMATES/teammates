@@ -2,8 +2,9 @@ package teammates.storage.entity;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -38,10 +39,10 @@ public class Course extends BaseEntity {
     private String institute;
 
     @OneToMany(mappedBy = "course")
-    private List<FeedbackSession> feedbackSessions = new ArrayList<>();
+    private Set<FeedbackSession> feedbackSessions = new HashSet<>();
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE)
-    private List<Section> sections = new ArrayList<>();
+    private Set<Section> sections = new HashSet<>();
 
     @UpdateTimestamp
     private Instant updatedAt;
@@ -75,6 +76,7 @@ public class Course extends BaseEntity {
      */
     public void addSection(Section section) {
         this.sections.add(section);
+        section.setCourse(this);
     }
 
     /**
@@ -82,6 +84,7 @@ public class Course extends BaseEntity {
      */
     public void addFeedbackSession(FeedbackSession feedbackSession) {
         this.feedbackSessions.add(feedbackSession);
+        feedbackSession.setCourse(this);
     }
 
     public String getId() {
@@ -116,19 +119,19 @@ public class Course extends BaseEntity {
         this.institute = SanitizationHelper.sanitizeTitle(institute);
     }
 
-    public List<FeedbackSession> getFeedbackSessions() {
+    public Set<FeedbackSession> getFeedbackSessions() {
         return feedbackSessions;
     }
 
-    public void setFeedbackSessions(List<FeedbackSession> feedbackSessions) {
+    public void setFeedbackSessions(Set<FeedbackSession> feedbackSessions) {
         this.feedbackSessions = feedbackSessions;
     }
 
-    public List<Section> getSections() {
+    public Set<Section> getSections() {
         return sections;
     }
 
-    public void setSections(List<Section> sections) {
+    public void setSections(Set<Section> sections) {
         this.sections = sections;
     }
 
@@ -160,21 +163,20 @@ public class Course extends BaseEntity {
     }
 
     @Override
-    public int hashCode() {
-        return this.id.hashCode();
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof Course other)) {
+            return false;
+        }
+
+        return getId() != null && getId().equals(other.getId());
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (other == null) {
-            return false;
-        } else if (this == other) {
-            return true;
-        } else if (this.getClass() == other.getClass()) {
-            Course otherCourse = (Course) other;
-            return Objects.equals(this.id, otherCourse.id);
-        } else {
-            return false;
-        }
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

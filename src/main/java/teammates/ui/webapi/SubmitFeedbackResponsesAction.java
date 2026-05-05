@@ -180,7 +180,6 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
                 feedbackResponsesToUpdate.add(updatedFeedbackResponse);
             } else {
                 FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
-                        feedbackQuestion,
                         giverIdentifier,
                         giverSection,
                         recipient,
@@ -190,6 +189,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
                         responseDetails
                     );
 
+                feedbackQuestion.addFeedbackResponse(feedbackResponse);
                 feedbackResponsesToValidate.add(feedbackResponse);
                 feedbackResponsesToAdd.add(feedbackResponse);
             }

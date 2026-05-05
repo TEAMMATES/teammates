@@ -82,7 +82,6 @@ public class CreateFeedbackSessionAction extends Action {
 
         FeedbackSession feedbackSession = new FeedbackSession(
                 feedbackSessionName,
-                course,
                 instructor.getEmail(),
                 createRequest.getInstructions(),
                 startTime,
@@ -93,6 +92,7 @@ public class CreateFeedbackSessionAction extends Action {
                 createRequest.isClosingSoonEmailEnabled(),
                 createRequest.isPublishedEmailEnabled()
         );
+        course.addFeedbackSession(feedbackSession);
 
         try {
             feedbackSession = logic.createFeedbackSession(feedbackSession);
@@ -121,7 +121,8 @@ public class CreateFeedbackSessionAction extends Action {
         FeedbackSession oldFeedbackSession = logic.getFeedbackSession(oldFeedbackSessionName, oldCourseId);
         FeedbackSession newFeedbackSession = logic.getFeedbackSession(newFeedbackSessionName, newCourseId);
         logic.getFeedbackQuestionsForSession(oldFeedbackSession).forEach(question -> {
-            FeedbackQuestion feedbackQuestion = question.makeDeepCopy(newFeedbackSession);
+            FeedbackQuestion feedbackQuestion = question.makeDeepCopy();
+            newFeedbackSession.addFeedbackQuestion(feedbackQuestion);
             try {
                 logic.createFeedbackQuestion(feedbackQuestion);
             } catch (InvalidParametersException | EntityAlreadyExistsException e) {

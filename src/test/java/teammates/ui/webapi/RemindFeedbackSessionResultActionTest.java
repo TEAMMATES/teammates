@@ -138,21 +138,21 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
 
     private FeedbackSession generatePublishedSessionInCourse(Course course, Instructor instructor) {
         Instant beforeNow = nearestHour.minus(3, java.time.temporal.ChronoUnit.HOURS);
-        FeedbackSession fs = new FeedbackSession("published-feedback-session", course,
+        FeedbackSession fs = new FeedbackSession("published-feedback-session",
                 instructor.getEmail(), "generic instructions",
                 beforeNow, beforeNow,
                 beforeNow, beforeNow,
                 Duration.ofHours(10), false, false);
         fs.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
-
+        course.addFeedbackSession(fs);
         return fs;
     }
 
     private FeedbackSession generateUnpublishedSessionInCourse(Course course, Instructor instructor) {
         Instant afterNowStartTime = nearestHour.plus(10, java.time.temporal.ChronoUnit.HOURS);
         Instant afterNowEndTime = nearestHour.plus(15, java.time.temporal.ChronoUnit.HOURS);
-        FeedbackSession fs = new FeedbackSession("unpublished-feedback-session", course,
+        FeedbackSession fs = new FeedbackSession("unpublished-feedback-session",
                 instructor.getEmail(), "generic instructions",
                 afterNowStartTime,
                 afterNowEndTime,
@@ -160,7 +160,7 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
                 Duration.ofHours(10), false, false);
         fs.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
-
+        course.addFeedbackSession(fs);
         return fs;
     }
 }

@@ -138,20 +138,20 @@ public class RemindFeedbackSessionSubmissionActionTest
     private FeedbackSession generateOpenedSessionInCourse(Course course, Instructor instructor) {
         Instant beforeNow = nearestHour.minus(3, java.time.temporal.ChronoUnit.HOURS);
         Instant afterNow = nearestHour.plus(3, java.time.temporal.ChronoUnit.HOURS);
-        FeedbackSession fs = new FeedbackSession("published-feedback-session", course,
+        FeedbackSession fs = new FeedbackSession("published-feedback-session",
                 instructor.getEmail(), "generic instructions",
                 beforeNow, afterNow,
                 beforeNow, afterNow,
                 Duration.ofHours(0), false, false);
         fs.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
-
+        course.addFeedbackSession(fs);
         return fs;
     }
 
     private FeedbackSession generateClosedSessionInCourse(Course course, Instructor instructor) {
         Instant beforeNow = nearestHour.minus(3, java.time.temporal.ChronoUnit.HOURS);
-        FeedbackSession fs = new FeedbackSession("unpublished-feedback-session", course,
+        FeedbackSession fs = new FeedbackSession("unpublished-feedback-session",
                 instructor.getEmail(), "generic instructions",
                 beforeNow,
                 beforeNow,
@@ -159,7 +159,7 @@ public class RemindFeedbackSessionSubmissionActionTest
                 Duration.ofHours(0), false, false);
         fs.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
-
+        course.addFeedbackSession(fs);
         return fs;
     }
 }

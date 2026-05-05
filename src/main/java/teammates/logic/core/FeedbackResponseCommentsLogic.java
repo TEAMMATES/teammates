@@ -138,7 +138,7 @@ public final class FeedbackResponseCommentsLogic {
      */
     public void updateFeedbackResponseCommentsForResponse(FeedbackResponse response)
             throws InvalidParametersException {
-        List<FeedbackResponseComment> comments = response.getFeedbackResponseComments();
+        Set<FeedbackResponseComment> comments = response.getFeedbackResponseComments();
         for (FeedbackResponseComment comment : comments) {
             comment.setGiverSection(response.getGiverSection());
             comment.setRecipientSection(response.getRecipientSection());

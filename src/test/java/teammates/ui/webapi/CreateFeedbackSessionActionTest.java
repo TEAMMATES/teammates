@@ -173,14 +173,14 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
     }
 
     private FeedbackSession generateSession1InCourse(Course course, Instructor instructor) {
-        FeedbackSession fs = new FeedbackSession("feedbacksession-1", course,
+        FeedbackSession fs = new FeedbackSession("feedbacksession-1",
                 instructor.getEmail(), "generic instructions",
                 nearestHour, endHour,
                 nearestHour, responseVisibleHour,
                 Duration.ofHours(10), false, false);
         fs.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
-
+        course.addFeedbackSession(fs);
         return fs;
     }
 }

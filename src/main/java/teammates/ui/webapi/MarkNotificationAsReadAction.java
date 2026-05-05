@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.apache.http.HttpStatus;
 
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.ReadNotification;
 import teammates.ui.output.ReadNotificationData;
@@ -36,7 +37,12 @@ public class MarkNotificationAsReadAction extends Action {
             // This should not happen as the user is authenticated
             return new JsonResult("Account not found", HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
-        ReadNotification readNotification = logic.createReadNotification(account.getId(), notificationId);
+        ReadNotification readNotification;
+        try {
+            readNotification = logic.createReadNotification(account.getId(), notificationId);
+        } catch (EntityDoesNotExistException e) {
+            throw new EntityNotFoundException(e);
+        }
         ReadNotificationData output = new ReadNotificationData(readNotification);
 
         return new JsonResult(output);

@@ -173,18 +173,21 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
                 new InstructorPrivileges(InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
         instructor4.setAccount(instructor4Account);
         when(mockLogic.getInstructorsByCourse(course3.getId())).thenReturn(Collections.singletonList(instructor4));
-        FeedbackSession c1Fs2 = new FeedbackSession("name1-2", course1, "test2@test.com", "test-instruction",
+        FeedbackSession c1Fs2 = new FeedbackSession("name1-2", "test2@test.com", "test-instruction",
                 instantNow.plus(Duration.ofHours(12L)), instantNow.plus(Duration.ofDays(7L)),
                 instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
                 true, true);
-        FeedbackSession c2Fs1 = new FeedbackSession("name2-1", course2, "test3@test.com", "test-instruction",
+        course1.addFeedbackSession(c1Fs2);
+        FeedbackSession c2Fs1 = new FeedbackSession("name2-1", "test3@test.com", "test-instruction",
                 instantNow.minus(Duration.ofHours(12L)), instantNow.plus(Duration.ofHours(12L)),
                 instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
                 true, true);
-        FeedbackSession c3Fs1 = new FeedbackSession("name3-1", course3, "test4@test.com", "test-instruction",
+        course2.addFeedbackSession(c2Fs1);
+        FeedbackSession c3Fs1 = new FeedbackSession("name3-1", "test4@test.com", "test-instruction",
                 instantNow.minus(Duration.ofDays(7L)), instantNow.minus(Duration.ofHours(12L)),
                 instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
                 true, true);
+        course3.addFeedbackSession(c3Fs1);
         List<FeedbackSession> ongoingSessions = new ArrayList<>();
         ongoingSessions.add(c1Fs2);
         ongoingSessions.add(c2Fs1);
@@ -245,14 +248,16 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
                 new InstructorPrivileges(InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
         instructor3.setAccount(instructor3Account);
         when(mockLogic.getInstructorsByCourse(course2.getId())).thenReturn(Collections.singletonList(instructor3));
-        FeedbackSession c1Fs2 = new FeedbackSession("name1-2", course1, "test2@test.com", "test-instruction",
+        FeedbackSession c1Fs2 = new FeedbackSession("name1-2", "test2@test.com", "test-instruction",
                 instantNow.plus(Duration.ofHours(12L)), instantNow.plus(Duration.ofDays(7L)),
                 instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
                 true, true);
-        FeedbackSession c2Fs1 = new FeedbackSession("name2-1", course2, "test3@test.com", "test-instruction",
+        course1.addFeedbackSession(c1Fs2);
+        FeedbackSession c2Fs1 = new FeedbackSession("name2-1", "test3@test.com", "test-instruction",
                 instantNow.minus(Duration.ofHours(12L)), instantNow.plus(Duration.ofHours(12L)),
                 instantNow.minus(Duration.ofDays(7L)), instantNow.plus(Duration.ofDays(7L)), Duration.ofMinutes(10L),
                 true, true);
+        course2.addFeedbackSession(c2Fs1);
         List<FeedbackSession> ongoingSessions = new ArrayList<>();
         ongoingSessions.add(c1Fs2);
         ongoingSessions.add(c2Fs1);

@@ -91,15 +91,20 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         stubInstructorWithCourseLevelPrivilege.setPrivileges(customInstructorPrivileges3);
 
         // Section one
-        Section stubSection = new Section(stubCourse, "section-1");
-        stubTeamOne = new Team(stubSection, "team-1");
-        Team stubTeamTwo = new Team(stubSection, "team-2");
+        Section stubSection = new Section("section-1");
+        stubCourse.addSection(stubSection);
+        stubTeamOne = new Team("team-1");
+        stubSection.addTeam(stubTeamOne);
+        Team stubTeamTwo = new Team("team-2");
+        stubSection.addTeam(stubTeamTwo);
         stubStudentListSectionOneTeamOne = new ArrayList<>();
         stubStudentListSectionOne = new ArrayList<>();
 
         //Section two
-        Section stubSectionTwo = new Section(stubCourse, "section-2");
-        Team stubTeamThree = new Team(stubSectionTwo, "team-3");
+        Section stubSectionTwo = new Section("section-2");
+        stubCourse.addSection(stubSectionTwo);
+        Team stubTeamThree = new Team("team-3");
+        stubSectionTwo.addTeam(stubTeamThree);
         stubStudentListSectionTwo = new ArrayList<>();
 
         stubStudentListAll = new ArrayList<>();
@@ -107,15 +112,18 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         // Students in section one
         stubStudentOne = getTypicalStudent();
         stubStudentOne.setTeam(stubTeamOne);
-        stubStudentTwo = new Student(stubCourse, "student-2", "student2@teammates.tmt", "comments", stubTeamTwo);
-        Student stubStudentThree = new Student(stubCourse, "student-3", "student3@teammates.tmt", "comments", stubTeamTwo);
+        stubStudentTwo = new Student(stubCourse, "student-2", "student2@teammates.tmt", "comments");
+        stubTeamTwo.addUser(stubStudentTwo);
+        Student stubStudentThree = new Student(stubCourse, "student-3", "student3@teammates.tmt", "comments");
+        stubTeamTwo.addUser(stubStudentThree);
         stubStudentListSectionOne.add(stubStudentOne);
         stubStudentListSectionOne.add(stubStudentTwo);
         stubStudentListSectionOne.add(stubStudentThree);
         stubStudentListSectionOneTeamOne.add(stubStudentOne);
 
         // Students in section two
-        Student stubStudentFour = new Student(stubCourse, "student-4", "student4@teammates.tmt", "comments", stubTeamThree);
+        Student stubStudentFour = new Student(stubCourse, "student-4", "student4@teammates.tmt", "comments");
+        stubTeamThree.addUser(stubStudentFour);
         stubStudentListSectionTwo.add(stubStudentFour);
 
         // Students in the entire Course

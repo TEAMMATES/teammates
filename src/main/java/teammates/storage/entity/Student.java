@@ -41,12 +41,6 @@ public class Student extends User {
         this.setComments(comments);
     }
 
-    public Student(Course course, String name, String email, String comments, Team team) {
-        super(course, name, email);
-        this.setComments(comments);
-        this.setTeam(team);
-    }
-
     @Override
     public UserType getUserType() {
         return UserType.STUDENT;
@@ -92,6 +86,24 @@ public class Student extends User {
 
     public Section getSection() {
         return getTeam().getSection();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof Student other)) {
+            return false;
+        }
+
+        return getId() != null && getId().equals(other.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 
     @Override

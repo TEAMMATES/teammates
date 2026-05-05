@@ -366,8 +366,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
     private FeedbackSession getTypicalFeedbackSession(Course course) {
         Instant startTime = Instant.now().minus(Duration.ofDays(3));
         Instant endTime = Instant.now().minus(Duration.ofDays(1));
-        return new FeedbackSession("Template feedback session",
-                course,
+        FeedbackSession fs = new FeedbackSession("Template feedback session",
                 "test@teammates.tmt",
                 "test-instructions",
                 startTime,
@@ -377,6 +376,8 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
                 Duration.ofMinutes(5),
                 false,
                 false);
+        course.addFeedbackSession(fs);
+        return fs;
     }
 
     private List<FeedbackSession> getTypicalFeedbackSessions(Course course) {

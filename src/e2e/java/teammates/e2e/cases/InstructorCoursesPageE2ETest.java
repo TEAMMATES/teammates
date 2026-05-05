@@ -70,7 +70,6 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         copySession = new FeedbackSession(
                 "Second Session",
-                copyCourse,
                 instructor.getEmail(),
                 session.getInstructions(),
                 ZonedDateTime.now(ZoneId.of(copyCourse.getTimeZone()))
@@ -91,10 +90,10 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 session.isPublishedEmailEnabled()
         );
         copySession.setId(null);
+        copyCourse.addFeedbackSession(copySession);
 
         copySession2 = new FeedbackSession(
                 "Second Session",
-                copyCourse2,
                 instructor.getEmail(),
                 copySession.getInstructions(),
                 copySession.getStartTime(),
@@ -106,6 +105,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 copySession.isPublishedEmailEnabled()
         );
         copySession2.setId(null);
+        copyCourse2.addFeedbackSession(copySession2);
     }
 
     @Test

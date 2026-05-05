@@ -72,18 +72,20 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         responseForQ1 = getTypicalFeedbackResponseForQuestion(qn1InSession1InCourse1);
         responseForQ2 = getTypicalFeedbackResponseForQuestion(qn2InSession1InCourse1);
 
-        commentForQ1Response1 = new FeedbackResponseComment(responseForQ1, "student-1@teammates.tmt",
+        commentForQ1Response1 = new FeedbackResponseComment("student-1@teammates.tmt",
                 FeedbackParticipantType.STUDENTS, getTypicalSection(), getTypicalSection(),
                 "Student 1 comment", false, false,
                 new ArrayList<>(), new ArrayList<>(), "student-1@teammates.tmt");
+        responseForQ1.addFeedbackResponseComment(commentForQ1Response1);
         commentForQ1Response1.setId(UUID.randomUUID());
         commentForQ1Response1.setCreatedAt(Instant.now());
         commentForQ1Response1.setUpdatedAt(Instant.now());
 
-        commentForQ2Response1 = new FeedbackResponseComment(responseForQ2, "instructor-1@teammates.tmt",
+        commentForQ2Response1 = new FeedbackResponseComment("instructor-1@teammates.tmt",
                 FeedbackParticipantType.INSTRUCTORS, getTypicalSection(), getTypicalSection(),
                 "Instructor 1 comment", false, false,
                 new ArrayList<>(), new ArrayList<>(), "instructor-1@teammates.tmt");
+        responseForQ2.addFeedbackResponseComment(commentForQ2Response1);
         commentForQ2Response1.setId(UUID.randomUUID());
         commentForQ2Response1.setCreatedAt(Instant.now());
         commentForQ2Response1.setUpdatedAt(Instant.now());
@@ -312,14 +314,14 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
     }
 
     private FeedbackSession generateSessionInCourse(Course course) {
-        FeedbackSession fs = new FeedbackSession("feedbacksession-1", course,
+        FeedbackSession fs = new FeedbackSession("feedbacksession-1",
                 "instructor1@gmail.com", "generic instructions",
                 Instant.parse("2012-04-01T22:00:00Z"), Instant.parse("2027-04-30T22:00:00Z"),
                 Instant.parse("2012-03-28T22:00:00Z"), Instant.parse("2027-05-01T22:00:00Z"),
                 Duration.ofHours(10), true, true);
         fs.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         fs.setUpdatedAt(Instant.parse("2023-01-01T00:00:00Z"));
-
+        course.addFeedbackSession(fs);
         return fs;
     }
 }

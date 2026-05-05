@@ -152,10 +152,11 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
-        FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(feedbackResponse, email,
+        FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(email,
                 commentGiverType, feedbackResponse.getGiverSection(), feedbackResponse.getRecipientSection(), commentText,
                 isFollowingQuestionVisibility, isFromParticipant, comment.getShowCommentTo(), comment.getShowGiverNameTo(),
                 email);
+        feedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         try {
             FeedbackResponseComment createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
             HibernateUtil.flushSession();

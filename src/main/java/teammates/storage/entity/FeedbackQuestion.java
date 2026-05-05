@@ -2,8 +2,9 @@ package teammates.storage.entity;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
@@ -54,7 +55,7 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     private UUID sessionId;
 
     @OneToMany(mappedBy = "feedbackQuestion", cascade = CascadeType.REMOVE)
-    private List<FeedbackResponse> feedbackResponses = new ArrayList<>();
+    private Set<FeedbackResponse> feedbackResponses = new HashSet<>();
 
     @Column(nullable = false)
     private Integer questionNumber;
@@ -94,7 +95,7 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     }
 
     protected FeedbackQuestion(
-            FeedbackSession feedbackSession, Integer questionNumber,
+            Integer questionNumber,
             String description, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
             Integer numOfEntitiesToGiveFeedbackTo, List<FeedbackParticipantType> showResponsesTo,
             List<FeedbackParticipantType> showGiverNameTo, List<FeedbackParticipantType> showRecipientNameTo
@@ -124,13 +125,13 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     /**
      * Make a copy of the FeedbackQuestion.
      */
-    public abstract FeedbackQuestion makeDeepCopy(FeedbackSession newFeedbackSession);
+    public abstract FeedbackQuestion makeDeepCopy();
 
     /**
      * Creates a feedback question according to its {@code FeedbackQuestionType}.
      */
     public static FeedbackQuestion makeQuestion(
-            FeedbackSession feedbackSession, Integer questionNumber,
+            Integer questionNumber,
             String description, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
             Integer numOfEntitiesToGiveFeedbackTo, List<FeedbackParticipantType> showResponsesTo,
             List<FeedbackParticipantType> showGiverNameTo, List<FeedbackParticipantType> showRecipientNameTo,
@@ -140,63 +141,63 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
         switch (feedbackQuestionDetails.getQuestionType()) {
         case TEXT:
             feedbackQuestion = new FeedbackTextQuestion(
-                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    questionNumber, description, giverType, recipientType,
                     numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
                     feedbackQuestionDetails
             );
             break;
         case MCQ:
             feedbackQuestion = new FeedbackMcqQuestion(
-                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    questionNumber, description, giverType, recipientType,
                     numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
                     feedbackQuestionDetails
             );
             break;
         case MSQ:
             feedbackQuestion = new FeedbackMsqQuestion(
-                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    questionNumber, description, giverType, recipientType,
                     numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
                     feedbackQuestionDetails
             );
             break;
         case NUMSCALE:
             feedbackQuestion = new FeedbackNumericalScaleQuestion(
-                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    questionNumber, description, giverType, recipientType,
                     numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
                     feedbackQuestionDetails
             );
             break;
         case CONSTSUM, CONSTSUM_OPTIONS, CONSTSUM_RECIPIENTS:
             feedbackQuestion = new FeedbackConstantSumQuestion(
-                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    questionNumber, description, giverType, recipientType,
                     numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
                     feedbackQuestionDetails
             );
             break;
         case CONTRIB:
             feedbackQuestion = new FeedbackContributionQuestion(
-                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    questionNumber, description, giverType, recipientType,
                     numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
                     feedbackQuestionDetails
             );
             break;
         case RUBRIC:
             feedbackQuestion = new FeedbackRubricQuestion(
-                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    questionNumber, description, giverType, recipientType,
                     numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
                     feedbackQuestionDetails
             );
             break;
         case RANK_OPTIONS:
             feedbackQuestion = new FeedbackRankOptionsQuestion(
-                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    questionNumber, description, giverType, recipientType,
                     numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
                     feedbackQuestionDetails
             );
             break;
         case RANK_RECIPIENTS:
             feedbackQuestion = new FeedbackRankRecipientsQuestion(
-                    feedbackSession, questionNumber, description, giverType, recipientType,
+                    questionNumber, description, giverType, recipientType,
                     numOfEntitiesToGiveFeedbackTo, showResponsesTo, showGiverNameTo, showRecipientNameTo,
                     feedbackQuestionDetails
             );
@@ -239,6 +240,7 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
      */
     public void addFeedbackResponse(FeedbackResponse feedbackResponse) {
         this.feedbackResponses.add(feedbackResponse);
+        feedbackResponse.setFeedbackQuestion(this);
     }
 
     public UUID getId() {
@@ -269,11 +271,11 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
         this.sessionId = feedbackSession == null ? null : feedbackSession.getId();
     }
 
-    public List<FeedbackResponse> getFeedbackResponses() {
+    public Set<FeedbackResponse> getFeedbackResponses() {
         return feedbackResponses;
     }
 
-    public void setFeedbackResponses(List<FeedbackResponse> feedbackResponses) {
+    public void setFeedbackResponses(Set<FeedbackResponse> feedbackResponses) {
         this.feedbackResponses = feedbackResponses;
     }
 
@@ -387,23 +389,21 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     }
 
     @Override
-    public int hashCode() {
-        // FeedbackQuestion ID uniquely identifies a FeedbackQuestion.
-        return this.getId().hashCode();
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof FeedbackQuestion other)) {
+            return false;
+        }
+
+        return getId() != null && getId().equals(other.getId());
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (other == null) {
-            return false;
-        } else if (this == other) {
-            return true;
-        } else if (this.getClass() == other.getClass()) {
-            FeedbackQuestion otherQuestion = (FeedbackQuestion) other;
-            return Objects.equals(this.getId(), otherQuestion.getId());
-        } else {
-            return false;
-        }
+    public int hashCode() {
+        return getClass().hashCode();
     }
 
     /**
