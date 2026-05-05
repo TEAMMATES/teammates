@@ -9,6 +9,9 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Student;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Action: creates a feedback session log for the purposes of tracking and auditing.

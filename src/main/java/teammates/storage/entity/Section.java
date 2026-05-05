@@ -2,7 +2,9 @@ package teammates.storage.entity;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
@@ -45,7 +47,7 @@ public class Section extends BaseEntity {
 
     @OneToMany(mappedBy = "section", cascade = CascadeType.REMOVE)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<Team> teams = new ArrayList<>();
+    private Set<Team> teams = new HashSet<>();
 
     @UpdateTimestamp
     private Instant updatedAt;
@@ -54,11 +56,9 @@ public class Section extends BaseEntity {
         // required by hibernate
     }
 
-    public Section(Course course, String name) {
+    public Section(String name) {
         this.setId(UUID.randomUUID());
-        this.setCourse(course);
         this.setName(name);
-        this.setTeams(new ArrayList<>());
     }
 
     @Override
@@ -93,6 +93,7 @@ public class Section extends BaseEntity {
      */
     public void addTeam(Team team) {
         this.teams.add(team);
+        team.setSection(this);
     }
 
     public UUID getId() {
@@ -127,11 +128,11 @@ public class Section extends BaseEntity {
         this.name = SanitizationHelper.sanitizeName(name);
     }
 
-    public List<Team> getTeams() {
+    public Set<Team> getTeams() {
         return teams;
     }
 
-    public void setTeams(List<Team> teams) {
+    public void setTeams(Set<Team> teams) {
         this.teams = teams;
     }
 

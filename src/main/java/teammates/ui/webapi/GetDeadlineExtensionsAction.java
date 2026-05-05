@@ -1,7 +1,7 @@
 package teammates.ui.webapi;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -10,6 +10,8 @@ import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.DeadlineExtensionsData;
 
 /**
@@ -49,7 +51,7 @@ public class GetDeadlineExtensionsAction extends Action {
         Map<UUID, Instructor> instructorsByUserId = logic.getInstructorsByCourse(courseId).stream()
                 .collect(Collectors.toMap(Instructor::getId, i -> i));
 
-        List<DeadlineExtension> deadlineExtensions = feedbackSession.getDeadlineExtensions();
+        Set<DeadlineExtension> deadlineExtensions = feedbackSession.getDeadlineExtensions();
 
         DeadlineExtensionsData responseData = new DeadlineExtensionsData(
                 deadlineExtensions, studentsByUserId, instructorsByUserId);

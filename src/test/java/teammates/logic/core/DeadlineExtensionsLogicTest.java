@@ -9,7 +9,9 @@ import static org.mockito.Mockito.when;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
@@ -57,7 +59,8 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         assertTrue("Extended deadline should be after session end time",
                 extendedDeadline.isAfter(sessionEndTime));
 
-        DeadlineExtension de = new DeadlineExtension(student, session, extendedDeadline);
+        DeadlineExtension de = new DeadlineExtension(student, extendedDeadline);
+        session.addDeadlineExtension(de);
 
         when(deDb.getDeadlineExtension(studentId, sessionId)).thenReturn(de);
 
@@ -101,7 +104,8 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         // Extension that is before session end (shouldn't happen in practice but test edge case)
         Instant extendedDeadline = session.getEndTime().minusSeconds(3600);
 
-        DeadlineExtension de = new DeadlineExtension(student, session, extendedDeadline);
+        DeadlineExtension de = new DeadlineExtension(student, extendedDeadline);
+        session.addDeadlineExtension(de);
 
         when(deDb.getDeadlineExtension(studentId, sessionId)).thenReturn(de);
 
@@ -122,8 +126,8 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         student.setId(studentId);
         Instant extendedDeadline = Instant.now().plusSeconds(86400);
 
-        DeadlineExtension de = new DeadlineExtension(student, session, extendedDeadline);
-        de.setId(UUID.randomUUID());
+        DeadlineExtension de = new DeadlineExtension(student, extendedDeadline);
+        session.addDeadlineExtension(de);
 
         when(deDb.getDeadlineExtension(studentId, sessionId)).thenReturn(de);
 
@@ -159,7 +163,8 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         Student student = getTypicalStudent();
         Instant extendedDeadline = session.getEndTime().plusSeconds(3600);
 
-        DeadlineExtension de = new DeadlineExtension(student, session, extendedDeadline);
+        DeadlineExtension de = new DeadlineExtension(student, extendedDeadline);
+        session.addDeadlineExtension(de);
 
         when(deDb.createDeadlineExtension(de)).thenReturn(de);
 
@@ -185,8 +190,8 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         Student student = getTypicalStudent();
         Instant extendedDeadline = Instant.now().plusSeconds(86400);
 
-        DeadlineExtension de = new DeadlineExtension(student, session, extendedDeadline);
-        de.setId(UUID.randomUUID());
+        DeadlineExtension de = new DeadlineExtension(student, extendedDeadline);
+        session.addDeadlineExtension(de);
 
         deLogic.deleteDeadlineExtension(de);
 
@@ -202,8 +207,8 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         Instant originalDeadline = Instant.now().plusSeconds(8 * 24 * 60 * 60);
         Instant updatedDeadline = Instant.now().plusSeconds(9 * 24 * 60 * 60);
 
-        DeadlineExtension de = new DeadlineExtension(student, session, originalDeadline);
-        de.setId(UUID.randomUUID());
+        DeadlineExtension de = new DeadlineExtension(student, originalDeadline);
+        session.addDeadlineExtension(de);
         de.setEndTime(updatedDeadline);
 
         when(deDb.getDeadlineExtension(de.getId())).thenReturn(de);
@@ -225,8 +230,10 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         Instant extendedDeadline1 = Instant.now().plusSeconds(3600); // Closing soon
         Instant extendedDeadline2 = Instant.now().plusSeconds(7200); // Closing soon
 
-        DeadlineExtension de1 = new DeadlineExtension(student1, session1, extendedDeadline1);
-        DeadlineExtension de2 = new DeadlineExtension(student2, session2, extendedDeadline2);
+        DeadlineExtension de1 = new DeadlineExtension(student1, extendedDeadline1);
+        session1.addDeadlineExtension(de1);
+        DeadlineExtension de2 = new DeadlineExtension(student2, extendedDeadline2);
+        session2.addDeadlineExtension(de2);
         List<DeadlineExtension> extensions = List.of(de1, de2);
 
         when(deDb.getDeadlineExtensionsPossiblyNeedingClosingSoonEmail()).thenReturn(extensions);
@@ -259,14 +266,17 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         FeedbackSession session1 = getTypicalFeedbackSessionForCourse(course);
         FeedbackSession session2 = getTypicalFeedbackSessionForCourse(course);
 
-        DeadlineExtension de1 = new DeadlineExtension(student, session1, Instant.now().plusSeconds(86400));
-        DeadlineExtension de2 = new DeadlineExtension(student, session2, Instant.now().plusSeconds(86400));
+        DeadlineExtension de1 = new DeadlineExtension(student, Instant.now().plusSeconds(86400));
+        session1.addDeadlineExtension(de1);
+        DeadlineExtension de2 = new DeadlineExtension(student, Instant.now().plusSeconds(86400));
+        session2.addDeadlineExtension(de2);
         // Add extension for different user that should not be deleted
         Student otherStudent = getTypicalStudent();
-        DeadlineExtension de3 = new DeadlineExtension(otherStudent, session1, Instant.now().plusSeconds(86400));
+        DeadlineExtension de3 = new DeadlineExtension(otherStudent, Instant.now().plusSeconds(86400));
+        session1.addDeadlineExtension(de3);
 
-        session1.setDeadlineExtensions(new ArrayList<>(List.of(de1, de3)));
-        session2.setDeadlineExtensions(new ArrayList<>(List.of(de2)));
+        session1.setDeadlineExtensions(new HashSet<>(Set.of(de1, de3)));
+        session2.setDeadlineExtensions(new HashSet<>(Set.of(de2)));
 
         when(fsLogic.getFeedbackSessionsForCourse(courseId)).thenReturn(List.of(session1, session2));
 
@@ -287,7 +297,7 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         student.setCourse(course);
 
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-        session.setDeadlineExtensions(new ArrayList<>());
+        session.setDeadlineExtensions(new HashSet<>());
 
         when(fsLogic.getFeedbackSessionsForCourse(course.getId())).thenReturn(List.of(session));
 
@@ -305,7 +315,8 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         Instructor instructor = getTypicalInstructor();
         Instant extendedDeadline = session.getEndTime().plusSeconds(3600);
 
-        DeadlineExtension de = new DeadlineExtension(instructor, session, extendedDeadline);
+        DeadlineExtension de = new DeadlineExtension(instructor, extendedDeadline);
+        session.addDeadlineExtension(de);
 
         when(deDb.createDeadlineExtension(de)).thenReturn(de);
 
@@ -329,13 +340,15 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         UUID student1Id = UUID.randomUUID();
         student1.setId(student1Id);
         Instant extendedDeadline1 = Instant.now().plusSeconds(86400);
-        DeadlineExtension de1 = new DeadlineExtension(student1, session, extendedDeadline1);
+        DeadlineExtension de1 = new DeadlineExtension(student1, extendedDeadline1);
+        session.addDeadlineExtension(de1);
 
         Student student2 = getTypicalStudent();
         UUID student2Id = UUID.randomUUID();
         student2.setId(student2Id);
         Instant extendedDeadline2 = Instant.now().plusSeconds(172800);
-        DeadlineExtension de2 = new DeadlineExtension(student2, session, extendedDeadline2);
+        DeadlineExtension de2 = new DeadlineExtension(student2, extendedDeadline2);
+        session.addDeadlineExtension(de2);
 
         when(deDb.getDeadlineExtension(student1Id, sessionId)).thenReturn(de1);
         when(deDb.getDeadlineExtension(student2Id, sessionId)).thenReturn(de2);

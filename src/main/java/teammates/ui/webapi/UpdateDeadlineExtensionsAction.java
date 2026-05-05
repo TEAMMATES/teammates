@@ -23,6 +23,8 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.DeadlineExtensionsData;
 import teammates.ui.request.DeadlineExtensionsUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -65,7 +67,7 @@ public class UpdateDeadlineExtensionsAction extends Action {
         DeadlineExtensionsUpdateRequest updateRequest =
                 getAndValidateRequestBody(DeadlineExtensionsUpdateRequest.class);
 
-        List<DeadlineExtension> prevDeadlineExtensions = feedbackSession.getDeadlineExtensions();
+        Set<DeadlineExtension> prevDeadlineExtensions = feedbackSession.getDeadlineExtensions();
         String courseId = feedbackSession.getCourseId();
 
         // Use userIds to map to users to avoid querying the db for each user multiple times during processing later on
@@ -114,7 +116,7 @@ public class UpdateDeadlineExtensionsAction extends Action {
 
         // Refresh to get updated deadline extensions
         feedbackSession = logic.getFeedbackSession(feedbackSessionId);
-        List<DeadlineExtension> deadlineExtensions = feedbackSession.getDeadlineExtensions();
+        Set<DeadlineExtension> deadlineExtensions = feedbackSession.getDeadlineExtensions();
         DeadlineExtensionsData responseData = new DeadlineExtensionsData(
                 deadlineExtensions, studentsByUserId, instructorsByUserId);
 
@@ -152,7 +154,9 @@ public class UpdateDeadlineExtensionsAction extends Action {
                     User u = areInstructors
                             ? logic.getInstructorForEmail(courseId, entry.getKey())
                             : logic.getStudentForEmail(courseId, entry.getKey());
-                    return new DeadlineExtension(u, session, entry.getValue());
+                    DeadlineExtension newDeadlineExtension = new DeadlineExtension(u, entry.getValue());
+                    session.addDeadlineExtension(newDeadlineExtension);
+                    return newDeadlineExtension;
                 })
                 .forEach(deadlineExtension -> {
                     try {

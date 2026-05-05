@@ -23,6 +23,7 @@ import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.request.Intent;
@@ -72,18 +73,20 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         responseForQ1 = getTypicalFeedbackResponseForQuestion(qn1InSession1InCourse1);
         responseForQ2 = getTypicalFeedbackResponseForQuestion(qn2InSession1InCourse1);
 
-        commentForQ1Response1 = new FeedbackResponseComment(responseForQ1, "student-1@teammates.tmt",
+        commentForQ1Response1 = new FeedbackResponseComment("student-1@teammates.tmt",
                 FeedbackParticipantType.STUDENTS, getTypicalSection(), getTypicalSection(),
                 "Student 1 comment", false, false,
                 new ArrayList<>(), new ArrayList<>(), "student-1@teammates.tmt");
+        responseForQ1.addFeedbackResponseComment(commentForQ1Response1);
         commentForQ1Response1.setId(UUID.randomUUID());
         commentForQ1Response1.setCreatedAt(Instant.now());
         commentForQ1Response1.setUpdatedAt(Instant.now());
 
-        commentForQ2Response1 = new FeedbackResponseComment(responseForQ2, "instructor-1@teammates.tmt",
+        commentForQ2Response1 = new FeedbackResponseComment("instructor-1@teammates.tmt",
                 FeedbackParticipantType.INSTRUCTORS, getTypicalSection(), getTypicalSection(),
                 "Instructor 1 comment", false, false,
                 new ArrayList<>(), new ArrayList<>(), "instructor-1@teammates.tmt");
+        responseForQ2.addFeedbackResponseComment(commentForQ2Response1);
         commentForQ2Response1.setId(UUID.randomUUID());
         commentForQ2Response1.setCreatedAt(Instant.now());
         commentForQ2Response1.setUpdatedAt(Instant.now());

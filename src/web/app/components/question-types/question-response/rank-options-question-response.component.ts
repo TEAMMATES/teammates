@@ -18,7 +18,6 @@ interface RankOption {
 @Component({
   selector: 'tm-rank-options-question-response',
   templateUrl: './rank-options-question-response.component.html',
-  styleUrls: ['./rank-options-question-response.component.scss'],
   imports: [],
 })
 export class RankOptionsQuestionResponseComponent

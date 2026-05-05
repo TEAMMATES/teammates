@@ -26,6 +26,10 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.Intent;
@@ -180,7 +184,6 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
                 feedbackResponsesToUpdate.add(updatedFeedbackResponse);
             } else {
                 FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
-                        feedbackQuestion,
                         giverIdentifier,
                         giverSection,
                         recipient,
@@ -190,6 +193,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
                         responseDetails
                     );
 
+                feedbackQuestion.addFeedbackResponse(feedbackResponse);
                 feedbackResponsesToValidate.add(feedbackResponse);
                 feedbackResponsesToAdd.add(feedbackResponse);
             }

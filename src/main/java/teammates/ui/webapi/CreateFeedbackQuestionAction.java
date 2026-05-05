@@ -10,6 +10,9 @@ import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.request.FeedbackQuestionCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -49,7 +52,6 @@ public class CreateFeedbackQuestionAction extends Action {
         FeedbackQuestionCreateRequest request = getAndValidateRequestBody(FeedbackQuestionCreateRequest.class);
 
         FeedbackQuestion feedbackQuestion = FeedbackQuestion.makeQuestion(
-                feedbackSession,
                 request.getQuestionNumber(),
                 request.getQuestionDescription(),
                 request.getGiverType(),
@@ -60,6 +62,7 @@ public class CreateFeedbackQuestionAction extends Action {
                 request.getShowRecipientNameTo(),
                 request.getQuestionDetails()
         );
+        feedbackSession.addFeedbackQuestion(feedbackQuestion);
 
         try {
             // validate questions (giver & recipient)

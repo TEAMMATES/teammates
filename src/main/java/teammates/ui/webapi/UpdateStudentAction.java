@@ -16,6 +16,9 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.StudentUpdateRequest;
 
@@ -78,16 +81,19 @@ public class UpdateStudentAction extends Action {
         Section section = logic.getSectionOrCreate(courseId, updateRequest.getSection());
         Team team = logic.getTeamOrCreate(section, updateRequest.getTeam());
         Student studentToUpdate = new Student(course, updateRequest.getName(), updateRequest.getEmail(),
-                updateRequest.getComments(), team);
+                updateRequest.getComments());
+
         try {
             //we swap out email before we validate
             //TODO: this is duct tape at the moment, need to refactor how we do the validation
             String newEmail = studentToUpdate.getEmail();
             studentToUpdate.setEmail(existingStudent.getEmail());
+            studentToUpdate.setTeam(team);
             logic.validateSectionsAndTeams(Arrays.asList(studentToUpdate), courseId);
             studentToUpdate.setEmail(newEmail);
 
             studentToUpdate.setId(existingStudent.getId());
+            studentToUpdate.setTeam(team);
             logic.updateStudentCascade(studentToUpdate);
 
             if (!SanitizationHelper.areEmailsEqual(studentEmail, updateRequest.getEmail())

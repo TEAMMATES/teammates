@@ -2,6 +2,8 @@ package teammates.ui.webapi;
 
 import teammates.common.util.Const;
 import teammates.storage.entity.Instructor;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.InstructorPrivilegeData;
 
 /**

@@ -17,11 +17,11 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.StudentUpdateRequest;
-import teammates.ui.webapi.EntityNotFoundException;
-import teammates.ui.webapi.InvalidOperationException;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.UpdateStudentAction;
 
@@ -248,8 +248,8 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         Team team = logic.getTeamOrCreate(section, "randomTeamName");
 
         for (int i = 0; i < Const.SECTION_SIZE_LIMIT; i++) {
-            Student addedStudent = new Student(course, "Name " + i, i + "email@test.com", "cmt" + i, team);
-
+            Student addedStudent = new Student(course, "Name " + i, i + "email@test.com", "cmt" + i);
+            team.addUser(addedStudent);
             logic.createStudent(addedStudent);
         }
 

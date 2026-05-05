@@ -17,6 +17,8 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.EnrollStudentsData;
 import teammates.ui.output.StudentData;
 import teammates.ui.output.StudentsData;
@@ -62,11 +64,15 @@ public class EnrollStudentsAction extends Action {
         List<Student> studentsToEnroll = new ArrayList<>();
         studentEnrollRequests.forEach(studentEnrollRequest -> {
             String normalizedEmail = normalizeEmail(studentEnrollRequest.getEmail());
-            Section section = new Section(course, studentEnrollRequest.getSection());
-            Team team = new Team(section, studentEnrollRequest.getTeam());
-            studentsToEnroll.add(new Student(
+            Section section = new Section(studentEnrollRequest.getSection());
+            course.addSection(section);
+            Team team = new Team(studentEnrollRequest.getTeam());
+            section.addTeam(team);
+            Student student = new Student(
                     course, studentEnrollRequest.getName(),
-                    normalizedEmail, studentEnrollRequest.getComments(), team));
+                    normalizedEmail, studentEnrollRequest.getComments());
+            team.addUser(student);
+            studentsToEnroll.add(student);
         });
         try {
             logic.validateSectionsAndTeams(studentsToEnroll, courseId);
@@ -107,8 +113,9 @@ public class EnrollStudentsAction extends Action {
                     Student existingStudent = logic.getStudentForEmail(courseId, normalizedEmail);
                     Student newStudent = new Student(
                             course, enrollRequest.getName(),
-                            normalizedEmail, enrollRequest.getComments(), team);
+                            normalizedEmail, enrollRequest.getComments());
                     newStudent.setId(existingStudent.getId());
+                    team.addUser(newStudent);
                     Student updatedStudent = logic.updateStudentCascade(newStudent);
                     enrolledStudents.add(updatedStudent);
                 } catch (InvalidParametersException | EntityDoesNotExistException
@@ -124,7 +131,8 @@ public class EnrollStudentsAction extends Action {
                     Team team = logic.getTeamOrCreate(section, enrollRequest.getTeam());
                     Student newStudent = new Student(
                             course, enrollRequest.getName(),
-                            normalizedEmail, enrollRequest.getComments(), team);
+                            normalizedEmail, enrollRequest.getComments());
+                    team.addUser(newStudent);
                     newStudent = logic.createStudent(newStudent);
                     enrolledStudents.add(newStudent);
                 } catch (InvalidParametersException | EntityAlreadyExistsException exception) {
@@ -138,7 +146,7 @@ public class EnrollStudentsAction extends Action {
         List<StudentData> studentDataList = enrolledStudents
                 .stream()
                 .map(StudentData::new)
-                .collect(Collectors.toList());
+                .toList();
         StudentsData data = new StudentsData();
 
         data.setStudents(studentDataList);

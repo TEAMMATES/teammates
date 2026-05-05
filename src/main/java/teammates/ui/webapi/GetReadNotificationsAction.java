@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.apache.http.HttpStatus;
 
 import teammates.storage.entity.Account;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.ReadNotificationsData;
 
 /**

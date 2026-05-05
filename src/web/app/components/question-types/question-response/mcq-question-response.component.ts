@@ -10,7 +10,6 @@ import { SafeHtmlPipe } from '../../teammates-common/safe-html.pipe';
 @Component({
   selector: 'tm-mcq-question-response',
   templateUrl: './mcq-question-response.component.html',
-  styleUrls: ['./mcq-question-response.component.scss'],
   imports: [SafeHtmlPipe],
 })
 export class McqQuestionResponseComponent extends QuestionResponse<

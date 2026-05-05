@@ -14,6 +14,9 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.request.FeedbackSessionCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -121,7 +124,8 @@ public class CreateFeedbackSessionAction extends Action {
         FeedbackSession oldFeedbackSession = logic.getFeedbackSession(oldFeedbackSessionName, oldCourseId);
         FeedbackSession newFeedbackSession = logic.getFeedbackSession(newFeedbackSessionName, newCourseId);
         logic.getFeedbackQuestionsForSession(oldFeedbackSession).forEach(question -> {
-            FeedbackQuestion feedbackQuestion = question.makeDeepCopy(newFeedbackSession);
+            FeedbackQuestion feedbackQuestion = question.makeDeepCopy();
+            newFeedbackSession.addFeedbackQuestion(feedbackQuestion);
             try {
                 logic.createFeedbackQuestion(feedbackQuestion);
             } catch (InvalidParametersException | EntityAlreadyExistsException e) {

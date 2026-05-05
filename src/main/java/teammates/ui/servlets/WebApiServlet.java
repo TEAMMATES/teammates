@@ -9,12 +9,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.Logger;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.webapi.Action;
 import teammates.ui.webapi.ActionFactory;
 import teammates.ui.webapi.ActionResult;
-import teammates.ui.webapi.InvalidOperationException;
-import teammates.ui.webapi.UnauthorizedAccessException;
 
 /**
  * Servlet that handles all requests from the web application.

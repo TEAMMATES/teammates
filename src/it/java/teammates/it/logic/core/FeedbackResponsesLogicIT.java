@@ -1,6 +1,6 @@
 package teammates.it.logic.core;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
@@ -38,7 +38,7 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("success: typical case");
         FeedbackResponse fr1 = typicalDataBundle.feedbackResponses.get("response1ForQ1");
         fr1 = frLogic.getFeedbackResponse(fr1.getId());
-        UUID frcId = fr1.getFeedbackResponseComments().get(0).getId();
+        UUID frcId = fr1.getFeedbackResponseComments().iterator().next().getId();
         assertNotNull(fr1);
         assertFalse(fr1.getFeedbackResponseComments().isEmpty());
 
@@ -53,7 +53,7 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("success: feedbackresponse and feedbackresponsecomment has been updated");
         FeedbackResponse fr = typicalDataBundle.feedbackResponses.get("response1ForQ1");
         fr = frLogic.getFeedbackResponse(fr.getId());
-        List<FeedbackResponseComment> oldComments = fr.getFeedbackResponseComments();
+        Set<FeedbackResponseComment> oldComments = fr.getFeedbackResponseComments();
 
         Section newGiverSection = typicalDataBundle.sections.get("section1InCourse2");
         Section newRecipientSection = typicalDataBundle.sections.get("section2InCourse1");
@@ -78,7 +78,7 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithDatabaseAccess {
         fr = frLogic.updateFeedbackResponseCascade(fr);
 
         fr = frLogic.getFeedbackResponse(fr.getId());
-        List<FeedbackResponseComment> updatedComments = fr.getFeedbackResponseComments();
+        Set<FeedbackResponseComment> updatedComments = fr.getFeedbackResponseComments();
         for (FeedbackResponseComment frc : updatedComments) {
             assertEquals(frc.getGiverSection(), newGiverSection);
             assertEquals(frc.getRecipientSection(), newRecipientSection);

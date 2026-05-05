@@ -42,7 +42,7 @@ public class Course extends BaseEntity {
     private Set<FeedbackSession> feedbackSessions = new HashSet<>();
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE)
-    private List<Section> sections = new ArrayList<>();
+    private Set<Section> sections = new HashSet<>();
 
     @UpdateTimestamp
     private Instant updatedAt;
@@ -76,6 +76,7 @@ public class Course extends BaseEntity {
      */
     public void addSection(Section section) {
         this.sections.add(section);
+        section.setCourse(this);
     }
 
     /**
@@ -126,11 +127,11 @@ public class Course extends BaseEntity {
         this.feedbackSessions = feedbackSessions;
     }
 
-    public List<Section> getSections() {
+    public Set<Section> getSections() {
         return sections;
     }
 
-    public void setSections(List<Section> sections) {
+    public void setSections(Set<Section> sections) {
         this.sections = sections;
     }
 

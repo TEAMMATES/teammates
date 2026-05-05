@@ -23,6 +23,7 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.request.FeedbackSessionRespondentRemindRequest;
 
 /**

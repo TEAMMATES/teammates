@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
@@ -366,7 +367,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         Student user2 = getMockStudent(UUID.randomUUID(), "Alice");
 
         when(currentStudent.getTeam()).thenReturn(team);
-        when(team.getUsers()).thenReturn(List.of(user1, user2));
+        when(team.getUsers()).thenReturn(Set.of(user1, user2));
 
         Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, currentStudent);
 
@@ -389,7 +390,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         when(currentStudent.getId()).thenReturn(currentStudentId);
         when(currentStudent.getTeam()).thenReturn(team);
-        when(team.getUsers()).thenReturn(List.of(currentUser, otherUser));
+        when(team.getUsers()).thenReturn(Set.of(currentUser, otherUser));
 
         Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, currentStudent);
 

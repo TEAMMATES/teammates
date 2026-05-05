@@ -10,7 +10,6 @@ import { GeneratedChoicePipe } from '../../teammates-common/generated-choice.pip
 @Component({
   selector: 'tm-msq-question-additional-info',
   templateUrl: './msq-question-additional-info.component.html',
-  styleUrls: ['./msq-question-additional-info.component.scss'],
   imports: [GeneratedChoicePipe],
 })
 export class MsqQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<FeedbackMsqQuestionDetails> {

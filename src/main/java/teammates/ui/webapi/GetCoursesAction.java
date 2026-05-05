@@ -10,6 +10,8 @@ import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
 

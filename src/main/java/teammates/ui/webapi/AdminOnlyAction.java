@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import teammates.ui.exception.UnauthorizedAccessException;
+
 /**
  * An action that is permitted only for administrators.
  */

@@ -78,7 +78,8 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         List<String> choices = questionDetails.getMcqChoices();
         choices.add("Edited choice");
         questionDetails.setMcqChoices(choices);
-        loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession").makeDeepCopy(feedbackSession);
+        loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession").makeDeepCopy();
+        feedbackSession.addFeedbackQuestion(loadedQuestion);
         loadedQuestion.setQuestionDetails(questionDetails);
         feedbackEditPage.editMcqQuestion(2, questionDetails);
         feedbackEditPage.waitForPageToLoad();
@@ -135,7 +136,9 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         } else {
             details.setAnswer(answer);
         }
-        return FeedbackResponse.makeResponse(feedbackQuestion, student.getEmail(), null,
+        FeedbackResponse response = FeedbackResponse.makeResponse(student.getEmail(), null,
                 Const.GENERAL_QUESTION, null, details);
+        feedbackQuestion.addFeedbackResponse(response);
+        return response;
     }
 }

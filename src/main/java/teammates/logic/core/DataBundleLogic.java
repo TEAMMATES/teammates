@@ -117,7 +117,6 @@ public final class DataBundleLogic {
             section.setId(UUID.randomUUID());
             sectionsMap.put(placeholderId, section);
             Course course = coursesMap.get(section.getCourseId());
-            section.setCourse(course);
             course.addSection(section);
         }
 
@@ -126,7 +125,6 @@ public final class DataBundleLogic {
             team.setId(UUID.randomUUID());
             teamsMap.put(placeholderId, team);
             Section section = sectionsMap.get(team.getSectionId());
-            team.setSection(section);
             section.addTeam(team);
         }
 
@@ -144,7 +142,6 @@ public final class DataBundleLogic {
             question.setId(UUID.randomUUID());
             questionMap.put(placeholderId, question);
             FeedbackSession fs = sessionsMap.get(question.getSessionId());
-            question.setFeedbackSession(fs);
             fs.addFeedbackQuestion(question);
         }
 
@@ -156,7 +153,6 @@ public final class DataBundleLogic {
             Section giverSection = sectionsMap.get(response.getGiverSectionId());
             Section recipientSection = response.getRecipientSectionId() != null
                     ? sectionsMap.get(response.getRecipientSectionId()) : null;
-            response.setFeedbackQuestion(fq);
             response.setGiverSection(giverSection);
             response.setRecipientSection(recipientSection);
             fq.addFeedbackResponse(response);
@@ -167,7 +163,6 @@ public final class DataBundleLogic {
             FeedbackResponse fr = responseMap.get(responseComment.getResponseId());
             Section giverSection = sectionsMap.get(responseComment.getGiverSectionId());
             Section recipientSection = sectionsMap.get(responseComment.getRecipientSectionId());
-            responseComment.setFeedbackResponse(fr);
             responseComment.setGiverSection(giverSection);
             responseComment.setRecipientSection(recipientSection);
             fr.addFeedbackResponseComment(responseComment);
@@ -234,7 +229,6 @@ public final class DataBundleLogic {
         for (DeadlineExtension deadlineExtension : deadlineExtensions) {
             deadlineExtension.setId(UUID.randomUUID());
             FeedbackSession session = sessionsMap.get(deadlineExtension.getSessionId());
-            deadlineExtension.setFeedbackSession(session);
             session.addDeadlineExtension(deadlineExtension);
             User user = usersMap.get(deadlineExtension.getUserId());
             deadlineExtension.setUser(user);

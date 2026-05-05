@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.testng.annotations.BeforeMethod;
@@ -97,7 +97,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     private FeedbackQuestion getQuestion(
             FeedbackSession session, int questionNumber) {
-        List<FeedbackQuestion> questions = session.getFeedbackQuestions();
+        Set<FeedbackQuestion> questions = session.getFeedbackQuestions();
         return questions.stream()
                 .filter(question -> question.getQuestionNumber() == questionNumber)
                 .findFirst()
@@ -128,9 +128,8 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
             existingDeadline.setEndTime(endTime);
             logic.updateDeadlineExtension(existingDeadline);
         } else {
-            DeadlineExtension newDeadline = new DeadlineExtension(user, session, endTime);
-            newDeadline.setFeedbackSession(session);
-            newDeadline.setUser(user);
+            DeadlineExtension newDeadline = new DeadlineExtension(user, endTime);
+            session.addDeadlineExtension(newDeadline);
             logic.createDeadlineExtension(newDeadline);
         }
     }
@@ -158,8 +157,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     }
 
     private void setSubmitSessionInSectionsInstructorPrivilege(FeedbackSession session,
-                                                        Instructor instructor, boolean value)
-            throws Exception {
+                                                        Instructor instructor, boolean value) {
         String courseId = session.getCourseId();
 
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
@@ -172,11 +170,11 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     }
 
     private List<String> extractStudentEmails(List<Student> students) {
-        return students.stream().map(User::getEmail).collect(Collectors.toList());
+        return students.stream().map(User::getEmail).toList();
     }
 
     private List<String> extractStudentTeams(List<Student> students) {
-        return students.stream().map(Student::getTeamName).collect(Collectors.toList());
+        return students.stream().map(Student::getTeamName).toList();
     }
 
     private FeedbackResponsesRequest buildRequestBodyWithStudentRecipientsEmail(
@@ -193,7 +191,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     private List<String> extractInstructorEmails(
             List<Instructor> students) {
-        return students.stream().map(recipient -> recipient.getEmail()).collect(Collectors.toList());
+        return students.stream().map(User::getEmail).toList();
     }
 
     private FeedbackResponsesRequest buildRequestBodyWithInstructorRecipients(List<Instructor> recipients) {
