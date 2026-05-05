@@ -7,8 +7,8 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPermissionSet;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.util.Const.InstructorPermissions;
 import teammates.common.util.Const;
+import teammates.common.util.Const.InstructorPermissions;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
