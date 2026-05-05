@@ -21,7 +21,6 @@ import {
 import { Intent } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.model';
-import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
@@ -51,7 +50,7 @@ interface SessionTab {
     GrqRgqViewResponsesComponent,
     NgbCollapse,
   ],
-  providers: [CommentsToCommentTableModelPipe, CommentToCommentRowModelPipe],
+  providers: [CommentsToCommentTableModelPipe],
 })
 export class InstructorStudentRecordsPageComponent implements OnInit {
   courseId = '';

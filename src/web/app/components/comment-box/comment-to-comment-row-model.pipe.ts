@@ -1,10 +1,11 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Injectable, Pipe, PipeTransform } from '@angular/core';
 import { CommentRowModel } from './comment-row/comment-row.component';
 import { CommentOutput } from '../../../types/api-output';
 
 /**
  * Transforms comment to comment row model.
  */
+@Injectable({ providedIn: 'root' })
 @Pipe({ name: 'commentToCommentRowModel' })
 export class CommentToCommentRowModelPipe implements PipeTransform {
   transform(comment: CommentOutput, timezone?: string): CommentRowModel {

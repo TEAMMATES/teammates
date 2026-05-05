@@ -44,7 +44,6 @@ import {
 import { Intent } from '../../../types/api-request';
 import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
 import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.model';
-import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
@@ -80,7 +79,7 @@ const TIME_FORMAT = 'ddd, DD MMM, YYYY, hh:mm A zz';
     InstructorSessionNoResponsePanelComponent,
     PreviewSessionResultPanelComponent,
   ],
-  providers: [CommentsToCommentTableModelPipe, CommentToCommentRowModelPipe],
+  providers: [CommentsToCommentTableModelPipe],
 })
 export class InstructorSessionResultPageComponent implements OnInit {
   // enum
