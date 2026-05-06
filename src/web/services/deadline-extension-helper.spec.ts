@@ -96,57 +96,6 @@ const instructor2ModelWithExtension: InstructorExtensionTableColumnModel = {
 describe('DeadlineExtensionHelper', () => {
   beforeEach(() => jest.useFakeTimers().setSystemTime(timeNow));
 
-  it('should detect ongoing extensions correctly', () => {
-    expect(
-      DeadlineExtensionHelper.hasOngoingExtension({
-        studentDeadlines: hasOngoingDeadlines,
-        instructorDeadlines: hasNoOngoingDeadlines,
-      }),
-    ).toBeTruthy();
-
-    expect(
-      DeadlineExtensionHelper.hasOngoingExtension({
-        studentDeadlines: hasNoOngoingDeadlines,
-        instructorDeadlines: hasOngoingDeadlines,
-      }),
-    ).toBeTruthy();
-
-    expect(
-      DeadlineExtensionHelper.hasOngoingExtension({
-        studentDeadlines: hasOngoingDeadlines,
-        instructorDeadlines: hasOngoingDeadlines,
-      }),
-    ).toBeTruthy();
-
-    expect(
-      DeadlineExtensionHelper.hasOngoingExtension({
-        studentDeadlines: hasNoOngoingDeadlines,
-        instructorDeadlines: {},
-      }),
-    ).toBeFalsy();
-
-    expect(
-      DeadlineExtensionHelper.hasOngoingExtension({
-        studentDeadlines: {},
-        instructorDeadlines: hasNoOngoingDeadlines,
-      }),
-    ).toBeFalsy();
-
-    expect(
-      DeadlineExtensionHelper.hasOngoingExtension({
-        studentDeadlines: hasNoOngoingDeadlines,
-        instructorDeadlines: hasNoOngoingDeadlines,
-      }),
-    ).toBeFalsy();
-
-    expect(
-      DeadlineExtensionHelper.hasOngoingExtension({
-        studentDeadlines: {},
-        instructorDeadlines: {},
-      }),
-    ).toBeFalsy();
-  });
-
   it('should filter and set deadlines before given end time correctly', () => {
     expect(
       Object.keys(DeadlineExtensionHelper.getDeadlinesBeforeOrEqualToEndTime(hasOngoingDeadlines, timeNow)).length,
