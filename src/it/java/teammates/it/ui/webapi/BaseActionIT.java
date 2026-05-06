@@ -711,6 +711,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         assertEquals(emailCount, mockEmailSender.getEmailsSent().size());
     }
 
+    // TODO: createXX methods should be deprecated and replaced with proper test data builders.
     private Course createTestCourseOther() throws InvalidParametersException, EntityAlreadyExistsException {
         if (testCourseOther == null) {
             testCourseOther = new Course("test-course-other-id", "test course other", Const.DEFAULT_TIME_ZONE,
@@ -744,11 +745,19 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
                 section = logic.createSection(course, "section name");
             }
 
-            Team team = logic.getTeamOrCreate(section, "team name");
+            final Section finalSection = section;
+            Team team = section.getTeams().stream()
+                    .filter(t -> "team name".equals(t.getName()))
+                    .findFirst()
+                    .orElseGet(() -> {
+                        try {
+                            return logic.createTeam(finalSection, "team name");
+                        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
 
-            student = new Student(course, "student-name", email, "");
-            team.addUser(student);
-            logic.createStudent(student);
+            student = logic.createStudent(course, team, "student-name", email, "");
 
             Account account = new Account(email, "account", email);
             logic.createAccount(account);

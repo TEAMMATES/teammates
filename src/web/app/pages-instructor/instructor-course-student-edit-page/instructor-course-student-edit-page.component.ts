@@ -225,11 +225,12 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
     this.isFormSaving = true;
 
     this.studentService
-      .updateStudent({
-        courseId: this.courseId,
-        studentEmail: this.student.email,
-        requestBody: reqBody,
-      })
+      .updateStudent(
+        {
+          studentId: this.student.userId,
+        },
+        reqBody,
+      )
       .pipe(
         finalize(() => {
           this.isFormSaving = false;

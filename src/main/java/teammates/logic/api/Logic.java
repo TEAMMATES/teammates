@@ -11,6 +11,7 @@ import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.EnrollResults;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.NotificationStyle;
@@ -59,6 +60,8 @@ import teammates.ui.request.FeedbackQuestionUpdateRequest;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 import teammates.ui.request.InstructorCreateRequest;
+import teammates.ui.request.StudentEnrollRequest;
+import teammates.ui.request.StudentUpdateRequest;
 
 /**
  * Provides the business logic for production usage of the system.
@@ -332,40 +335,6 @@ public class Logic {
      */
     public void deleteCourseCascade(String courseId) {
         coursesLogic.deleteCourseCascade(courseId);
-    }
-
-    /**
-     * Updates a student by {@link Student}.
-     *
-     * <p>
-     * If email changed, update by recreating the student and cascade update all
-     * responses
-     * and comments the student gives/receives.
-     *
-     * <p>
-     * If team changed, cascade delete all responses the student gives/receives
-     * within that team.
-     *
-     * <p>
-     * If section changed, cascade update all responses the student gives/receives.
-     *
-     * <br/>
-     * Preconditions: <br/>
-     * * Student parameter is non-null.
-     *
-     * @return updated student
-     * @throws InvalidParametersException   if attributes to update are not valid
-     * @throws EntityDoesNotExistException  if the student cannot be found
-     * @throws EntityAlreadyExistsException if the student cannot be updated
-     *                                      by recreation because of an existent
-     *                                      student
-     */
-    public Student updateStudentCascade(Student student)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-
-        assert student != null;
-
-        return usersLogic.updateStudentCascade(student);
     }
 
     /**
@@ -928,6 +897,22 @@ public class Logic {
     }
 
     /**
+     * Updates a student by student id and update request, and cascades to responses and comments if needed.
+     */
+    public Student updateStudent(UUID studentId, StudentUpdateRequest updateRequest)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException, EnrollException {
+        return usersLogic.updateStudent(studentId, updateRequest);
+    }
+
+    /**
+     * Enrolls students in a course according to the enroll requests, creating the section and team if needed.
+     */
+    public EnrollResults enrollStudents(Course course,
+            List<StudentEnrollRequest> enrollRequests) throws EnrollException {
+        return usersLogic.enrollStudents(course, enrollRequests);
+    }
+
+    /**
      * Check if the students with the provided emails exist in the course.
      */
     public boolean verifyStudentsExistInCourse(String courseId, List<String> emails) {
@@ -950,6 +935,14 @@ public class Logic {
     public List<Student> getStudentsForCourse(String courseId) {
         assert courseId != null;
         return usersLogic.getStudentsForCourse(courseId);
+    }
+
+    /**
+     * Creates a student with the given parameters.
+     */
+    public Student createStudent(Course course, Team team, String name, String email, String comments)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        return usersLogic.createStudent(course, team, name, email, comments);
     }
 
     /**
@@ -989,33 +982,7 @@ public class Logic {
      * If it does not exist, create and return it.
      */
     public Section getDefaultSectionOrCreate(String courseId) {
-        return getSectionOrCreate(courseId, Const.DEFAULT_SECTION);
-    }
-
-    /**
-     * Gets a team by associated {@code courseId} and {@code sectionName}.
-     */
-    public Section getSectionOrCreate(String courseId, String sectionName) {
-        return usersLogic.getSectionOrCreate(courseId, sectionName);
-    }
-
-    /**
-     * Gets a team by associated {@code section} and {@code teamName}.
-     */
-    public Team getTeamOrCreate(Section section, String teamName) {
-        return usersLogic.getTeamOrCreate(section, teamName);
-    }
-
-    /**
-     * Creates a student.
-     *
-     * @return the created student
-     * @throws InvalidParametersException   if the student is not valid
-     * @throws EntityAlreadyExistsException if the student already exists in the
-     *                                      database.
-     */
-    public Student createStudent(Student student) throws InvalidParametersException, EntityAlreadyExistsException {
-        return usersLogic.createStudent(student);
+        return usersLogic.getSectionOrCreate(courseId, Const.DEFAULT_SECTION);
     }
 
     /**
@@ -1518,25 +1485,6 @@ public class Logic {
      */
     public List<FeedbackResponse> getFeedbackResponsesForRecipientForCourse(String courseId, String recipientEmail) {
         return feedbackResponsesLogic.getFeedbackResponsesForRecipientForCourse(courseId, recipientEmail);
-    }
-
-    /**
-     * Validates sections for any limit violations and teams for any team name
-     * violations.
-     *
-     * <p>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @see StudentsLogic#validateSectionsAndTeams(List, String)
-     */
-    public void validateSectionsAndTeams(
-            List<Student> studentList, String courseId) throws EnrollException {
-
-        assert studentList != null;
-        assert courseId != null;
-
-        usersLogic.validateSectionsAndTeams(studentList, courseId);
     }
 
     /**

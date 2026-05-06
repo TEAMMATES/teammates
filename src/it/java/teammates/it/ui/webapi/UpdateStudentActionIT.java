@@ -56,28 +56,13 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
     }
 
     @Test
-    public void testExecute_invalidParameters_failure() throws Exception {
-        Student student1 = typicalBundle.students.get("student1InCourse1");
-
+    public void testExecute_invalidParameters_failure() {
         ______TS("no parameters");
         verifyHttpParameterFailure();
-
-        ______TS("null student email");
-        String[] invalidParams = new String[] {
-                Const.ParamsNames.COURSE_ID, student1.getCourseId(),
-        };
-        verifyHttpParameterFailure(invalidParams);
-
-        ______TS("null course id");
-        invalidParams = new String[] {
-                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
-        };
-        verifyHttpParameterFailure(invalidParams);
-        verifyNoTasksAdded();
     }
 
     @Test
-    public void testExecute_typicalCase_success() throws Exception {
+    public void testExecute_typicalCase_success() {
         Student student1 = typicalBundle.students.get("student1InCourse1");
 
         String originalEmail = student1.getEmail();
@@ -91,8 +76,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
                 newStudentTeam, student1.getSectionName(), newStudentComments, true);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, student1.getCourseId(),
-                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
+                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
         };
 
         UpdateStudentAction updateAction = getAction(updateRequest, submissionParams);
@@ -117,7 +101,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
     }
 
     @Test
-    public void testExecute_studentDetailsWithWhitespace_success() throws Exception {
+    public void testExecute_studentDetailsWithWhitespace_success() {
         Student student1 = typicalBundle.students.get("student1InCourse1");
 
         String originalEmail = student1.getEmail();
@@ -131,16 +115,14 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
                 newStudentTeamToBeTrimmed, student1.getSectionName(), newStudentCommentsToBeTrimmed, true);
 
         String[] submissionParamsToBeTrimmed = new String[] {
-                Const.ParamsNames.COURSE_ID, student1.getCourseId(),
-                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
+                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
         };
 
         UpdateStudentAction actionToBeTrimmed = getAction(updateRequest, submissionParamsToBeTrimmed);
         JsonResult outputToBeTrimmed = getJsonResult(actionToBeTrimmed);
 
         MessageOutput msgTrimmedOutput = (MessageOutput) outputToBeTrimmed.getOutput();
-        assertEquals("Student has been updated", msgTrimmedOutput.getMessage());
-        verifyNoEmailsSent();
+        assertEquals("Student has been updated and email sent", msgTrimmedOutput.getMessage());
 
         resetStudent(student1.getId(), originalEmail, originalTeam, originalComments);
     }
@@ -157,8 +139,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
                 student1.getTeamName(), student1.getSectionName(), student1.getComments(), false);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, student1.getCourseId(),
-                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
+                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
         };
 
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(updateRequest, submissionParams);
@@ -182,8 +163,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
                 student1.getTeamName(), student1.getSectionName(), student1.getComments(), false);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, student1.getCourseId(),
-                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
+                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
         };
 
         InvalidOperationException ioe = verifyInvalidOperation(updateRequest, submissionParams);
@@ -200,21 +180,18 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
                 student1.getTeamName(), student1.getSectionName(), student1.getComments(), false);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, student1.getCourseId(),
-                Const.ParamsNames.STUDENT_EMAIL, "notinuseemail@gmail.tmt",
+                Const.ParamsNames.STUDENT_SQL_ID, UUID.randomUUID().toString(),
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(updateRequest, submissionParams);
-        assertEquals("The student you tried to edit does not exist. "
-                + "If the student was created during the last few minutes, "
-                + "try again in a few more minutes as the student may still be being saved.",
+        assertEquals("The student you tried to edit does not exist.",
                 enfe.getMessage());
 
         verifyNoTasksAdded();
     }
 
     @Test
-    public void testExecute_studentTeamExistsInAnotherSection_failure() throws Exception {
+    public void testExecute_studentTeamExistsInAnotherSection_failure() {
         Student student1 = typicalBundle.students.get("student1InCourse1");
         Student student4 = typicalBundle.students.get("student4InCourse1");
 
@@ -224,14 +201,12 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
                 student4.getTeamName(), student1.getSectionName(), student1.getComments(), true);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, student1.getCourseId(),
-                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
+                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
         };
 
         InvalidOperationException ioe = verifyInvalidOperation(updateRequest, submissionParams);
-        String expectedErrorMessage = String.format("Team \"%s\" is detected in both Section \"%s\" and Section \"%s\"."
-                + " Please use different team names in different sections.", student4.getTeamName(),
-                student1.getSectionName(), student4.getSectionName());
+        String expectedErrorMessage = "Team \"Team 4\" is detected in Sections \"Section 1\", \"Section 3\"."
+                + " Please use different team names in different sections.";
         assertEquals(expectedErrorMessage, ioe.getMessage());
 
         verifyNoTasksAdded();
@@ -244,13 +219,11 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         Course course = typicalBundle.courses.get("course1");
         String courseId = studentToJoinMaxSection.getCourseId();
         String sectionInMaxCapacity = "sectionInMaxCapacity";
-        Section section = logic.getSectionOrCreate(courseId, sectionInMaxCapacity);
-        Team team = logic.getTeamOrCreate(section, "randomTeamName");
+        Section section = logic.createSection(course, sectionInMaxCapacity);
+        Team team = logic.createTeam(section, "randomTeamName");
 
         for (int i = 0; i < Const.SECTION_SIZE_LIMIT; i++) {
-            Student addedStudent = new Student(course, "Name " + i, i + "email@test.com", "cmt" + i);
-            team.addUser(addedStudent);
-            logic.createStudent(addedStudent);
+            logic.createStudent(course, team, "Name " + i, i + "email@test.com", "cmt" + i);
         }
 
         List<Student> studentList = logic.getStudentsForCourse(courseId);
@@ -265,8 +238,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
                         studentToJoinMaxSection.getComments(), true);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, studentToJoinMaxSection.getCourseId(),
-                Const.ParamsNames.STUDENT_EMAIL, studentToJoinMaxSection.getEmail(),
+                Const.ParamsNames.STUDENT_SQL_ID, studentToJoinMaxSection.getId().toString(),
         };
 
         InvalidOperationException ioe = verifyInvalidOperation(updateRequest, submissionParams);
@@ -288,16 +260,14 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
                 student4.getTeamName(), "", student4.getComments(), true);
 
         String[] emptySectionSubmissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, student4.getCourseId(),
-                Const.ParamsNames.STUDENT_EMAIL, student4.getEmail(),
+                Const.ParamsNames.STUDENT_SQL_ID, student4.getId().toString(),
         };
 
         UpdateStudentAction updateEmptySectionAction = getAction(emptySectionUpdateRequest, emptySectionSubmissionParams);
         JsonResult emptySectionActionOutput = getJsonResult(updateEmptySectionAction);
 
         MessageOutput emptySectionMsgOutput = (MessageOutput) emptySectionActionOutput.getOutput();
-        assertEquals("Student has been updated", emptySectionMsgOutput.getMessage());
-        verifyNoEmailsSent();
+        assertEquals("Student has been updated and email sent", emptySectionMsgOutput.getMessage());
 
         // verify student in database
         Student actualStudent =
@@ -319,8 +289,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         Course course = typicalBundle.courses.get("course1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, student1.getCourseId(),
-                Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
+                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(

@@ -20,46 +20,47 @@ public class StudentUpdateRequest extends BasicRequest {
 
     public StudentUpdateRequest(String name, String email, String team, String section, String comments,
                                 Boolean isSessionSummarySendEmail) {
-        this.name = SanitizationHelper.sanitizeName(name);
-        this.email = SanitizationHelper.sanitizeEmail(email);
-        this.team = SanitizationHelper.sanitizeName(team);
-        this.section = SanitizationHelper.sanitizeName(section);
-        this.comments = SanitizationHelper.sanitizeTextField(comments);
+        this.name = name;
+        this.email = email;
+        this.team = team;
+        this.section = section;
+        this.comments = comments;
         this.isSessionSummarySendEmail = isSessionSummarySendEmail;
     }
 
     @Override
     public void validate() throws InvalidHttpRequestBodyException {
-        assertTrue(name != null, "name cannot be null");
-        assertTrue(email != null, "email cannot be null");
-        assertTrue(team != null, "team cannot be null");
-        assertTrue(!team.trim().isEmpty(), "team cannot be blank");
-        assertTrue(section != null, "section cannot be null");
-        assertTrue(comments != null, "comments cannot be null");
+        assertTrue(getName() != null, "name cannot be null");
+        assertTrue(getEmail() != null, "email cannot be null");
+        assertTrue(this.team != null, "team cannot be null");
+        assertFalse(getTeam().trim().isEmpty(), "team cannot be blank");
+        assertTrue(this.section != null, "section cannot be null");
+        assertFalse(getSection().trim().isEmpty(), "section cannot be blank");
+        assertTrue(getComments() != null, "comments cannot be null");
         assertTrue(isSessionSummarySendEmail != null, "session summary boolean cannot be null");
     }
 
     public String getName() {
-        return this.name;
+        return SanitizationHelper.sanitizeName(this.name);
     }
 
     public String getEmail() {
-        return this.email;
+        return SanitizationHelper.sanitizeEmail(this.email);
     }
 
     public String getTeam() {
-        return this.team;
+        return SanitizationHelper.sanitizeName(this.team);
     }
 
     public String getSection() {
-        return this.section.isEmpty() ? Const.DEFAULT_SECTION : this.section;
+        return this.section.isEmpty() ? Const.DEFAULT_SECTION : SanitizationHelper.sanitizeName(this.section);
     }
 
     public String getComments() {
-        return this.comments;
+        return SanitizationHelper.sanitizeTextField(this.comments);
     }
 
-    public Boolean getIsSessionSummarySendEmail() {
-        return this.isSessionSummarySendEmail;
+    public boolean getIsSessionSummarySendEmail() {
+        return this.isSessionSummarySendEmail != null && this.isSessionSummarySendEmail;
     }
 }

@@ -1,6 +1,5 @@
 package teammates.storage.api;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -375,36 +374,6 @@ public final class UsersDb {
     }
 
     /**
-     * Gets the number of instructors created within a specified time range.
-     */
-    public long getNumInstructorsByTimeRange(Instant startTime, Instant endTime) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Long> cr = cb.createQuery(Long.class);
-        Root<Instructor> root = cr.from(Instructor.class);
-
-        cr.select(cb.count(root.get("id"))).where(cb.and(
-                cb.greaterThanOrEqualTo(root.get("createdAt"), startTime),
-                cb.lessThan(root.get("createdAt"), endTime)));
-
-        return HibernateUtil.createQuery(cr).getSingleResult();
-    }
-
-    /**
-     * Gets the number of students created within a specified time range.
-     */
-    public long getNumStudentsByTimeRange(Instant startTime, Instant endTime) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Long> cr = cb.createQuery(Long.class);
-        Root<Student> root = cr.from(Student.class);
-
-        cr.select(cb.count(root.get("id"))).where(cb.and(
-                cb.greaterThanOrEqualTo(root.get("createdAt"), startTime),
-                cb.lessThan(root.get("createdAt"), endTime)));
-
-        return HibernateUtil.createQuery(cr).getSingleResult();
-    }
-
-    /**
      * Gets the list of instructors for the specified {@code courseId}.
      */
     public List<Instructor> getInstructorsForCourse(String courseId) {
@@ -432,22 +401,6 @@ public final class UsersDb {
         cr.select(root).where(cb.equal(root.get("courseId"), courseId));
 
         return HibernateUtil.createQuery(cr).getResultList();
-    }
-
-    /**
-     * Gets the list of students for the specified {@code courseId} in batches with
-     * {@code batchSize}.
-     */
-    public List<Student> getStudentsForCourse(String courseId, int batchSize) {
-        assert courseId != null;
-
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
-        Root<Student> root = cr.from(Student.class);
-
-        cr.select(root).where(cb.equal(root.get("courseId"), courseId));
-
-        return HibernateUtil.createQuery(cr).setMaxResults(batchSize).getResultList();
     }
 
     /**
@@ -681,26 +634,6 @@ public final class UsersDb {
     }
 
     /**
-     * Gets a section by its {@code courseId} and {@code sectionName}.
-     */
-    public Section getSectionOrCreate(String courseId, String sectionName) {
-        assert courseId != null;
-        assert sectionName != null;
-        // TODO: this shouldn't be in db layer
-
-        Section section = getSection(courseId, sectionName);
-
-        if (section == null) {
-            Course course = CoursesDb.inst().getCourse(courseId);
-            section = new Section(sectionName);
-            course.addSection(section);
-            HibernateUtil.persist(section);
-        }
-
-        return section;
-    }
-
-    /**
      * Gets a team by its {@code section} and {@code teamName}.
      */
     public Team getTeam(Section section, String teamName) {
@@ -718,25 +651,6 @@ public final class UsersDb {
                         cb.equal(teamRoot.get("name"), teamName)));
 
         return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
-    }
-
-    /**
-     * Gets a team by its {@code section} and {@code teamName}.
-     */
-    public Team getTeamOrCreate(Section section, String teamName) {
-        assert teamName != null;
-        assert section != null;
-        // TODO: this shouldn't be in db layer
-
-        Team team = getTeam(section, teamName);
-
-        if (team == null) {
-            team = new Team(teamName);
-            section.addTeam(team);
-            HibernateUtil.persist(team);
-        }
-
-        return team;
     }
 
 }
