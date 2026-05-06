@@ -262,5 +262,4 @@ describe('InstructorCommentService', () => {
     expect(instructorCommentTableModel['response-id'].commentRows).toHaveLength(0);
     expect(instructorCommentTableModel['response-id'].isAddingNewComment).toBe(true);
   });
-
 });
