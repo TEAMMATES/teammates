@@ -8,6 +8,7 @@ import teammates.common.datatransfer.UpdateExtensionsResult;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
+import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -71,14 +72,15 @@ public class UpdateDeadlineExtensionsAction extends Action {
 
     private void sendEmails(List<UpdateExtensionsResult> updateResults, String courseId, FeedbackSession feedbackSession) {
         List<EmailWrapper> emailsToSend = new ArrayList<>();
+        Course course = logic.getCourse(courseId);
         for (UpdateExtensionsResult result : updateResults) {
             EmailWrapper email = switch (result.updateType()) {
             case CREATED -> emailGenerator.generateDeadlineGrantedEmails(
-                    logic.getCourse(courseId), feedbackSession, result.oldEndTime(), result.newEndTime(), result.user());
+                    course, feedbackSession, result.oldEndTime(), result.newEndTime(), result.user());
             case UPDATED -> emailGenerator.generateDeadlineUpdatedEmails(
-                    logic.getCourse(courseId), feedbackSession, result.oldEndTime(), result.newEndTime(), result.user());
+                    course, feedbackSession, result.oldEndTime(), result.newEndTime(), result.user());
             case DELETED -> emailGenerator.generateDeadlineRevokedEmails(
-                    logic.getCourse(courseId), feedbackSession, result.oldEndTime(), result.newEndTime(), result.user());
+                    course, feedbackSession, result.oldEndTime(), result.newEndTime(), result.user());
             };
             emailsToSend.add(email);
         }
