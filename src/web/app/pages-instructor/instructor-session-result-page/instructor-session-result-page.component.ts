@@ -17,7 +17,7 @@ import { FeedbackQuestionsService } from '../../../services/feedback-questions.s
 import { FeedbackSessionActionsService } from '../../../services/feedback-session-actions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { FileSaveService } from '../../../services/file-save.service';
-import { InstructorCommentService } from '../../../services/instructor-comment.service';
+import { InstructorCommentEventData, InstructorCommentService } from '../../../services/instructor-comment.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -163,7 +163,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
     private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
     private navigationService: NavigationService,
     private statusMessageService: StatusMessageService,
-    public commentService: InstructorCommentService,
+    private commentService: InstructorCommentService,
   ) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
@@ -505,6 +505,40 @@ export class InstructorSessionResultPageComponent implements OnInit {
       this.commentService.sortComments(this.instructorCommentTableModel[response.responseId]);
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
       response.instructorComments = [];
+    });
+  }
+
+  /**
+   * Handles saving a new instructor comment.
+   */
+  saveNewCommentEventHandler(responseId: string): void {
+    this.commentService.saveNewComment({
+      responseId,
+      timezone: this.session.timeZone,
+      instructorCommentTableModel: this.instructorCommentTableModel,
+      currInstructorName: this.currInstructorName,
+    });
+  }
+
+  /**
+   * Handles deleting an instructor comment.
+   */
+  deleteCommentEventHandler(data: InstructorCommentEventData): void {
+    this.commentService.deleteComment({
+      data,
+      instructorCommentTableModel: this.instructorCommentTableModel,
+    });
+  }
+
+  /**
+   * Handles updating an instructor comment.
+   */
+  updateCommentEventHandler(data: InstructorCommentEventData): void {
+    this.commentService.updateComment({
+      data,
+      timezone: this.session.timeZone,
+      instructorCommentTableModel: this.instructorCommentTableModel,
+      currInstructorName: this.currInstructorName,
     });
   }
 

@@ -24,9 +24,9 @@
               [groupByTeam]="false"
               [isGrq]="false"
               [instructorCommentTableModel]="instructorCommentTableModel"
-              (saveNewCommentEvent)="commentService.saveNewComment($event, session.feedbackSession.timeZone, instructorCommentTableModel, currInstructorName)"
-              (deleteCommentEvent)="commentService.deleteComment($event, instructorCommentTableModel)"
-              (updateCommentEvent)="commentService.updateComment($event, session.feedbackSession.timeZone, instructorCommentTableModel, currInstructorName)"
+              (saveNewCommentEvent)="saveNewCommentEventHandler($event, session.feedbackSession.timeZone)"
+              (deleteCommentEvent)="deleteCommentEventHandler($event)"
+              (updateCommentEvent)="updateCommentEventHandler($event, session.feedbackSession.timeZone)"
               [isExpandAll]="true"
             >
             </tm-grq-rgq-view-responses>
@@ -41,9 +41,9 @@
               [groupByTeam]="false"
               [isGrq]="true"
               [instructorCommentTableModel]="instructorCommentTableModel"
-              (saveNewCommentEvent)="commentService.saveNewComment($event, session.feedbackSession.timeZone, instructorCommentTableModel, currInstructorName)"
-              (deleteCommentEvent)="commentService.deleteComment($event, instructorCommentTableModel)"
-              (updateCommentEvent)="commentService.updateComment($event, session.feedbackSession.timeZone, instructorCommentTableModel, currInstructorName)"
+              (saveNewCommentEvent)="saveNewCommentEventHandler($event, session.feedbackSession.timeZone)"
+              (deleteCommentEvent)="deleteCommentEventHandler($event)"
+              (updateCommentEvent)="updateCommentEventHandler($event, session.feedbackSession.timeZone)"
               [isExpandAll]="true"
             ></tm-grq-rgq-view-responses>
           }
