@@ -26,6 +26,8 @@
       <table id="instructor-table" class="table table-striped">
         <thead>
           <tr>
+            <th>Name</th>
+            <th>Email</th>
             <th>Course</th>
             <th>Institute</th>
             <th>Options</th>
@@ -34,6 +36,8 @@
         <tbody>
           @for (course of instructorCourses; track course) {
             <tr>
+              <td class="text-break">{{ accountInfo.instructorName }}</td>
+              <td class="text-break">{{ accountInfo.instructorEmail }}</td>
               <td class="text-break">[{{ course.courseId }}] {{ course.courseName }}</td>
               <td class="text-break">{{ course.institute }}</td>
               <td>
@@ -56,6 +60,8 @@
       <table id="student-table" class="table table-striped">
         <thead>
           <tr>
+            <th>Name</th>
+            <th>Email</th>
             <th>Course</th>
             <th>Institute</th>
             <th>Options</th>
@@ -64,6 +70,8 @@
         <tbody>
           @for (course of studentCourses; track course) {
             <tr>
+              <td class="text-break">{{ accountInfo.studentName }}</td>
+              <td class="text-break">{{ accountInfo.studentEmail }}</td>
               <td class="text-break">[{{ course.courseId }}] {{ course.courseName }}</td>
               <td class="text-break">{{ course.institute }}</td>
               <td>
