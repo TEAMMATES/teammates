@@ -555,13 +555,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     });
   }
 
-  private getIndividualDeadlinesToDelete(
-    submissionEndTimestamp: number,
-  ): Record<string, number> {
-    return DeadlineExtensionHelper.getDeadlinesBeforeOrEqualToEndTime(
-      this.userDeadlines,
-      submissionEndTimestamp,
-    );
+  private getIndividualDeadlinesToDelete(submissionEndTimestamp: number): Record<string, number> {
+    return DeadlineExtensionHelper.getDeadlinesBeforeOrEqualToEndTime(this.userDeadlines, submissionEndTimestamp);
   }
 
   /**
@@ -593,7 +588,11 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     students: StudentExtensionTableColumnModel[],
     instructors: InstructorExtensionTableColumnModel[],
   ): void {
-    this.userDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(students, instructors, this.userDeadlines);
+    this.userDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
+      students,
+      instructors,
+      this.userDeadlines,
+    );
   }
   /**
    * Handles canceling existing session event without saving changes.

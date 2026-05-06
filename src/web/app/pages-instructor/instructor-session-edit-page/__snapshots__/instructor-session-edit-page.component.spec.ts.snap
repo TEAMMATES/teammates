@@ -24,7 +24,6 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed={[Function Boolean]}
   hasLoadingFeedbackSessionFailed="false"
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
@@ -47,11 +46,11 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div
@@ -122,7 +121,6 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
@@ -145,11 +143,11 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div
@@ -220,7 +218,6 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed={[Function Boolean]}
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
@@ -243,11 +240,11 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div
@@ -321,7 +318,6 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
@@ -344,11 +340,11 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div
@@ -419,7 +415,6 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
@@ -442,11 +437,11 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div
@@ -517,7 +512,6 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
@@ -540,11 +534,11 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div
@@ -3784,7 +3778,6 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
@@ -3807,11 +3800,11 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   sessionEditFormModel={[Function Object]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div
