@@ -3,7 +3,9 @@ package teammates.e2e.cases;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.testng.annotations.Test;
 
@@ -14,6 +16,7 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 import teammates.ui.output.DeadlineExtensionsData;
 
 /**
@@ -23,6 +26,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
     private Instructor instructor;
     private Course course;
     private FeedbackSession feedbackSession;
+    private Map<String, User> users;
     private Collection<Student> students;
     private Collection<Instructor> instructors;
 
@@ -36,6 +40,14 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
         feedbackSession = testData.feedbackSessions.get("firstSession");
         students = testData.students.values();
         instructors = testData.instructors.values();
+        users = new HashMap<>();
+
+        for (Student s : students) {
+            users.put(s.getEmail(), s);
+        }
+        for (Instructor i : instructors) {
+            users.put(i.getEmail(), i);
+        }
     }
 
     @Test
@@ -59,13 +71,12 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
 
         DeadlineExtensionsData updatedExtensionsData =
                 getDeadlineExtensions(feedbackSession.getId());
-        Map<String, Long> updatedStudentDeadlines = updatedExtensionsData.getStudentDeadlines();
-        Map<String, Long> updatedInstructorDeadlines = updatedExtensionsData.getInstructorDeadlines();
+        Map<UUID, Long> updatedDeadlines = updatedExtensionsData.getUserDeadlines();
         Instant expectedDeadline = feedbackSession.getEndTime().plus(Duration.ofHours(12));
 
-        verifyUpdatedDeadlinesMap(updatedStudentDeadlines, "alice.tmms@gmail.tmt", "charlie.tmms@gmail.tmt");
-        verifyUpdatedDeadlinesMap(updatedInstructorDeadlines, "instructor1.tmms@gmail.tmt");
-        verifyDeadlineExtensionsPresentOrAbsent(updatedStudentDeadlines, updatedInstructorDeadlines, expectedDeadline);
+        verifyUpdatedDeadlinesMap(updatedDeadlines, "alice.tmms@gmail.tmt",
+                "charlie.tmms@gmail.tmt", "instructor1.tmms@gmail.tmt");
+        verifyDeadlineExtensionsUpdated(updatedDeadlines, expectedDeadline);
 
         ______TS("verify updated some deadlines, notifyUsers enabled");
 
@@ -79,12 +90,11 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
 
         updatedExtensionsData =
                 getDeadlineExtensions(feedbackSession.getId());
-        updatedStudentDeadlines = updatedExtensionsData.getStudentDeadlines();
-        updatedInstructorDeadlines = updatedExtensionsData.getInstructorDeadlines();
+        updatedDeadlines = updatedExtensionsData.getUserDeadlines();
 
-        verifyUpdatedDeadlinesMap(updatedStudentDeadlines, "alice.tmms@gmail.tmt", "charlie.tmms@gmail.tmt");
-        verifyUpdatedDeadlinesMap(updatedInstructorDeadlines, "instructor1.tmms@gmail.tmt");
-        verifyDeadlineExtensionsPresentOrAbsent(updatedStudentDeadlines, updatedInstructorDeadlines, expectedDeadline);
+        verifyUpdatedDeadlinesMap(updatedDeadlines, "alice.tmms@gmail.tmt",
+                "charlie.tmms@gmail.tmt", "instructor1.tmms@gmail.tmt");
+        verifyDeadlineExtensionsUpdated(updatedDeadlines, expectedDeadline);
 
         ______TS("verify delete some deadlines, notifyUsers enabled");
 
@@ -95,13 +105,9 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
 
         updatedExtensionsData =
                 getDeadlineExtensions(feedbackSession.getId());
-        updatedStudentDeadlines = updatedExtensionsData.getStudentDeadlines();
-        updatedInstructorDeadlines = updatedExtensionsData.getInstructorDeadlines();
+        updatedDeadlines = updatedExtensionsData.getUserDeadlines();
 
-        assertTrue(updatedStudentDeadlines.isEmpty());
-        assertTrue(updatedInstructorDeadlines.isEmpty());
-
-        verifyDeadlineExtensionsPresentOrAbsent(updatedStudentDeadlines, updatedInstructorDeadlines, expectedDeadline);
+        assertTrue(updatedDeadlines.isEmpty());
 
         ______TS("verify extend all deadlines, notifyUsers disabled");
 
@@ -112,13 +118,11 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
 
         updatedExtensionsData =
                 getDeadlineExtensions(feedbackSession.getId());
-        updatedStudentDeadlines = updatedExtensionsData.getStudentDeadlines();
-        updatedInstructorDeadlines = updatedExtensionsData.getInstructorDeadlines();
+        updatedDeadlines = updatedExtensionsData.getUserDeadlines();
 
-        assertEquals(5, updatedStudentDeadlines.size());
-        assertEquals(2, updatedInstructorDeadlines.size());
-
-        verifyDeadlineExtensionsPresentOrAbsent(updatedStudentDeadlines, updatedInstructorDeadlines, expectedDeadline);
+        // 5 students and 2 instructors
+        assertEquals(7, updatedDeadlines.size());
+        verifyDeadlineExtensionsUpdated(updatedDeadlines, expectedDeadline);
 
         ______TS("verify delete all deadlines, notifyUsers disabled");
 
@@ -129,43 +133,22 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
 
         updatedExtensionsData =
                 getDeadlineExtensions(feedbackSession.getId());
-        updatedStudentDeadlines = updatedExtensionsData.getStudentDeadlines();
-        updatedInstructorDeadlines = updatedExtensionsData.getInstructorDeadlines();
+        updatedDeadlines = updatedExtensionsData.getUserDeadlines();
 
-        assertTrue(updatedStudentDeadlines.isEmpty());
-        assertTrue(updatedInstructorDeadlines.isEmpty());
-
-        verifyDeadlineExtensionsPresentOrAbsent(updatedStudentDeadlines, updatedInstructorDeadlines, expectedDeadline);
+        assertTrue(updatedDeadlines.isEmpty());
     }
 
-    private void verifyUpdatedDeadlinesMap(Map<String, Long> updatedDeadlines, String... emails) {
+    private void verifyUpdatedDeadlinesMap(Map<UUID, Long> updatedDeadlines, String... emails) {
         assertEquals(emails.length, updatedDeadlines.size());
         for (String email : emails) {
-            assertTrue(updatedDeadlines.containsKey(email));
+            User user = users.get(email);
+            assertTrue(updatedDeadlines.containsKey(user.getId()));
         }
     }
 
-    private void verifyDeadlineExtensionsPresentOrAbsent(Map<String, Long> updatedStudentDeadlines,
-                                                         Map<String, Long> updatedInstructorDeadlines,
-                                                         Instant extendedDeadline) {
-        for (var s : students) {
-            String email = s.getEmail();
-            if (updatedStudentDeadlines.containsKey(email)) {
-                assertTrue(updatedStudentDeadlines.containsKey(email));
-                assertEquals(extendedDeadline, Instant.ofEpochMilli(updatedStudentDeadlines.get(email)));
-            } else {
-                assertFalse(updatedStudentDeadlines.containsKey(email));
-            }
-        }
-
-        for (var i : instructors) {
-            String email = i.getEmail();
-            if (updatedInstructorDeadlines.containsKey(email)) {
-                assertTrue(updatedInstructorDeadlines.containsKey(email));
-                assertEquals(extendedDeadline, Instant.ofEpochMilli(updatedInstructorDeadlines.get(email)));
-            } else {
-                assertFalse(updatedInstructorDeadlines.containsKey(email));
-            }
+    private void verifyDeadlineExtensionsUpdated(Map<UUID, Long> updatedDeadlines, Instant extendedDeadline) {
+        for (Map.Entry<UUID, Long> entry : updatedDeadlines.entrySet()) {
+            assertEquals(extendedDeadline, Instant.ofEpochMilli(entry.getValue()));
         }
     }
 

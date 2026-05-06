@@ -102,6 +102,16 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets users for the specified course.
+     */
+    public List<User> getUsersForCourse(String courseId) {
+        List<User> userReturnList = usersDb.getUsersForCourse(courseId);
+        sortByName(userReturnList);
+
+        return userReturnList;
+    }
+
+    /**
      * Create an instructor.
      *
      * @return the created instructor

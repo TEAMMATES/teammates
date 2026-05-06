@@ -17,6 +17,7 @@ import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SessionResultsBundle;
+import teammates.common.datatransfer.UpdateExtensionsResult;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -382,6 +383,18 @@ public class Logic {
     }
 
     /**
+     * Gets the deadline extensions for a feedback session.
+     */
+    public Set<DeadlineExtension> getDeadlineExtensions(UUID feedbackSessionId) throws EntityDoesNotExistException {
+        FeedbackSession feedbackSession = feedbackSessionsLogic.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityDoesNotExistException("Feedback session does not exist: " + feedbackSessionId);
+        }
+
+        return feedbackSession.getDeadlineExtensions();
+    }
+
+    /**
      * Gets a deadline extension by its id.
      */
     public DeadlineExtension getDeadlineExtension(UUID id) {
@@ -398,6 +411,17 @@ public class Logic {
     public DeadlineExtension createDeadlineExtension(DeadlineExtension deadlineExtension)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return deadlineExtensionsLogic.createDeadlineExtension(deadlineExtension);
+    }
+
+    /**
+     * Updates the deadline extensions for a feedback session based on the provided extensions map.
+     *
+     * <p>The method will create new deadline extensions, update existing ones,
+     * and delete any deadline extensions that are not present in the provided map.
+     */
+    public List<UpdateExtensionsResult> updateDeadlineExtensions(
+            FeedbackSession feedbackSession, Map<UUID, Instant> extensions) throws InvalidParametersException {
+        return deadlineExtensionsLogic.updateDeadlineExtensions(feedbackSession, extensions);
     }
 
     /**

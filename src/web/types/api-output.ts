@@ -80,8 +80,7 @@ export interface CourseSectionNames extends ApiOutput {
 }
 
 export interface DeadlineExtensions extends ApiOutput {
-  studentDeadlines: { [index: string]: number };
-  instructorDeadlines: { [index: string]: number };
+  userDeadlines: { [index: string]: number };
 }
 
 export interface DefaultLogDetails extends LogDetails {

@@ -1,11 +1,15 @@
 package teammates.logic.core;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import teammates.common.datatransfer.ExtensionUpdateType;
+import teammates.common.datatransfer.UpdateExtensionsResult;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -29,6 +33,8 @@ public final class DeadlineExtensionsLogic {
 
     private FeedbackSessionsLogic feedbackSessionsLogic;
 
+    private UsersLogic usersLogic;
+
     private DeadlineExtensionsLogic() {
         // prevent initialization
     }
@@ -37,9 +43,23 @@ public final class DeadlineExtensionsLogic {
         return instance;
     }
 
-    void initLogicDependencies(DeadlineExtensionsDb deadlineExtensionsDb, FeedbackSessionsLogic feedbackSessionsLogic) {
+    void initLogicDependencies(DeadlineExtensionsDb deadlineExtensionsDb,
+            FeedbackSessionsLogic feedbackSessionsLogic, UsersLogic usersLogic) {
         this.deadlineExtensionsDb = deadlineExtensionsDb;
         this.feedbackSessionsLogic = feedbackSessionsLogic;
+        this.usersLogic = usersLogic;
+    }
+
+    /**
+     * Gets the deadline extensions for a feedback session.
+     */
+    public Set<DeadlineExtension> getDeadlineExtensions(UUID feedbackSessionId) throws EntityDoesNotExistException {
+        FeedbackSession feedbackSession = feedbackSessionsLogic.getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityDoesNotExistException("Feedback session does not exist: " + feedbackSessionId);
+        }
+
+        return feedbackSession.getDeadlineExtensions();
     }
 
     /**
@@ -89,6 +109,64 @@ public final class DeadlineExtensionsLogic {
         }
 
         return deadlineExtensionsDb.createDeadlineExtension(deadlineExtension);
+    }
+
+    /**
+     * Updates the deadline extensions for a feedback session based on the provided extensions map.
+     *
+     * <p>The method will create new deadline extensions, update existing ones,
+     * and delete any deadline extensions that are not present in the provided map.
+     */
+    public List<UpdateExtensionsResult> updateDeadlineExtensions(
+            FeedbackSession feedbackSession, Map<UUID, Instant> extensions) throws InvalidParametersException {
+        Instant sessionDeadline = feedbackSession.getEndTime();
+        Map<UUID, User> userMap = usersLogic.getUsersForCourse(feedbackSession.getCourseId())
+                .stream()
+                .collect(Collectors.toMap(User::getId, user -> user));
+
+        Map<UUID, DeadlineExtension> existingDeadlineExtensions = feedbackSession.getDeadlineExtensions()
+                .stream()
+                .collect(Collectors.toMap(DeadlineExtension::getUserId, deadlineExtension -> deadlineExtension));
+
+        List<UpdateExtensionsResult> results = new ArrayList<>();
+        for (Map.Entry<UUID, Instant> entry : extensions.entrySet()) {
+            UUID userId = entry.getKey();
+            User user = userMap.get(userId);
+            if (user == null) {
+                throw new InvalidParametersException("User with ID " + userId
+                        + " does not exist in course " + feedbackSession.getCourseId());
+            }
+
+            Instant newDeadline = entry.getValue();
+            DeadlineExtension existingDeadlineExtension = existingDeadlineExtensions.get(userId);
+            if (existingDeadlineExtension == null) {
+                // Create new deadline extension
+                DeadlineExtension newDeadlineExtension = new DeadlineExtension(user, newDeadline);
+                feedbackSession.addDeadlineExtension(newDeadlineExtension);
+
+                validateDeadlineExtension(newDeadlineExtension);
+                deadlineExtensionsDb.createDeadlineExtension(newDeadlineExtension);
+                results.add(new UpdateExtensionsResult(user, sessionDeadline, newDeadline, ExtensionUpdateType.CREATED));
+            } else if (!existingDeadlineExtension.getEndTime().equals(newDeadline)) {
+                Instant oldDeadline = existingDeadlineExtension.getEndTime();
+                existingDeadlineExtension.setEndTime(newDeadline);
+
+                validateDeadlineExtension(existingDeadlineExtension);
+                results.add(new UpdateExtensionsResult(user, oldDeadline, newDeadline, ExtensionUpdateType.UPDATED));
+            }
+        }
+
+        for (DeadlineExtension existingDeadlineExtension : existingDeadlineExtensions.values()) {
+            if (!extensions.containsKey(existingDeadlineExtension.getUserId())) {
+                User user = existingDeadlineExtension.getUser();
+                deleteDeadlineExtension(existingDeadlineExtension);
+                feedbackSession.removeDeadlineExtension(existingDeadlineExtension);
+                results.add(new UpdateExtensionsResult(user, existingDeadlineExtension.getEndTime(),
+                        sessionDeadline, ExtensionUpdateType.DELETED));
+            }
+        }
+
+        return results;
     }
 
     /**
