@@ -130,12 +130,8 @@
             </div>
             <tm-datetimepicker
               class="text-center"
-              dateId="notification-start-date"
-              timeId="notification-start-time"
-              [date]="model.startDate"
-              [time]="model.startTime"
-              (dateChange)="triggerModelChange('startDate', $event)"
-              (timeChange)="triggerModelChange('startTime', $event)"
+              [dateTime]="startDateTime"
+              (dateTimeChange)="triggerStartDateTimeModelChange($event)"
             ></tm-datetimepicker>
           </div>
           <div class="col-md-6 border-left-gray">
@@ -150,13 +146,9 @@
               </div>
             </div>
             <tm-datetimepicker
-              dateId="notification-end-date"
-              timeId="notification-end-time"
-              [date]="model.endDate"
-              [time]="model.endTime"
-              [minDate]="model.startDate"
-              (dateChange)="triggerModelChange('endDate', $event)"
-              (timeChange)="triggerModelChange('endTime', $event)"
+              [dateTime]="endDateTime"
+              [minDateTime]="minEndDateTime"
+              (dateTimeChange)="triggerEndDateTimeModelChange($event)"
             ></tm-datetimepicker>
           </div>
         </div>

@@ -10,6 +10,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when page is still l
   course={[Function Object]}
   courseService={[Function CourseService]}
   dateToday={[Function Object]}
+  datetimeService={[Function DateTimeService]}
   earliestSearchDate={[Function Object]}
   feedbackSessions={[Function Map]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -70,6 +71,7 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
   course={[Function Object]}
   courseService={[Function CourseService]}
   dateToday={[Function Object]}
+  datetimeService={[Function DateTimeService]}
   earliestSearchDate={[Function Object]}
   feedbackSessions={[Function Map]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -219,17 +221,11 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
           >
             Search period from
           </label>
-          <tm-datetimepicker
-            dateid="logs-from-datepicker"
-            timeid="logs-from-timepicker"
-          >
+          <tm-datetimepicker>
             <div
-              class="row align-items-center"
+              class="d-flex align-items-center gap-2"
             >
-              <div
-                class="col-md-7 col-xs-center"
-                id="logs-from-datepicker"
-              >
+              <div>
                 <tm-datepicker>
                   <div
                     class="input-group"
@@ -253,132 +249,152 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
                   </div>
                 </tm-datepicker>
               </div>
-              <div
-                class="col-md-5"
-              >
-                <tm-timepicker
-                  id="logs-from-timepicker"
-                >
+              <div>
+                <tm-timepicker>
                   <select
                     aria-label="Select time"
                     class="form-control form-select ng-untouched ng-pristine ng-valid"
                   >
                     <option
+                      disabled=""
                       value="1: Object"
                     >
                        01:00H 
                     </option>
                     <option
+                      disabled=""
                       value="2: Object"
                     >
                        02:00H 
                     </option>
                     <option
+                      disabled=""
                       value="3: Object"
                     >
                        03:00H 
                     </option>
                     <option
+                      disabled=""
                       value="4: Object"
                     >
                        04:00H 
                     </option>
                     <option
+                      disabled=""
                       value="5: Object"
                     >
                        05:00H 
                     </option>
                     <option
+                      disabled=""
                       value="6: Object"
                     >
                        06:00H 
                     </option>
                     <option
+                      disabled=""
                       value="7: Object"
                     >
                        07:00H 
                     </option>
                     <option
+                      disabled=""
                       value="8: Object"
                     >
                        08:00H 
                     </option>
                     <option
+                      disabled=""
                       value="9: Object"
                     >
                        09:00H 
                     </option>
                     <option
+                      disabled=""
                       value="10: Object"
                     >
                        10:00H 
                     </option>
                     <option
+                      disabled=""
                       value="11: Object"
                     >
                        11:00H 
                     </option>
                     <option
+                      disabled=""
                       value="12: Object"
                     >
                        12:00H 
                     </option>
                     <option
+                      disabled=""
                       value="13: Object"
                     >
                        13:00H 
                     </option>
                     <option
+                      disabled=""
                       value="14: Object"
                     >
                        14:00H 
                     </option>
                     <option
+                      disabled=""
                       value="15: Object"
                     >
                        15:00H 
                     </option>
                     <option
+                      disabled=""
                       value="16: Object"
                     >
                        16:00H 
                     </option>
                     <option
+                      disabled=""
                       value="17: Object"
                     >
                        17:00H 
                     </option>
                     <option
+                      disabled=""
                       value="18: Object"
                     >
                        18:00H 
                     </option>
                     <option
+                      disabled=""
                       value="19: Object"
                     >
                        19:00H 
                     </option>
                     <option
+                      disabled=""
                       value="20: Object"
                     >
                        20:00H 
                     </option>
                     <option
+                      disabled=""
                       value="21: Object"
                     >
                        21:00H 
                     </option>
                     <option
+                      disabled=""
                       value="22: Object"
                     >
                        22:00H 
                     </option>
                     <option
+                      disabled=""
                       value="23: Object"
                     >
                        23:00H 
                     </option>
                     <option
+                      disabled=""
                       value="0: Object"
                     >
                       23:59H
@@ -398,17 +414,11 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
           >
             Search period until
           </label>
-          <tm-datetimepicker
-            dateid="logs-to-datepicker"
-            timeid="logs-to-timepicker"
-          >
+          <tm-datetimepicker>
             <div
-              class="row align-items-center"
+              class="d-flex align-items-center gap-2"
             >
-              <div
-                class="col-md-7 col-xs-center"
-                id="logs-to-datepicker"
-              >
+              <div>
                 <tm-datepicker>
                   <div
                     class="input-group"
@@ -432,12 +442,8 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
                   </div>
                 </tm-datepicker>
               </div>
-              <div
-                class="col-md-5"
-              >
-                <tm-timepicker
-                  id="logs-to-timepicker"
-                >
+              <div>
+                <tm-timepicker>
                   <select
                     aria-label="Select time"
                     class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -641,6 +647,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with default fields 
   course={[Function Object]}
   courseService={[Function CourseService]}
   dateToday={[Function Object]}
+  datetimeService={[Function DateTimeService]}
   earliestSearchDate={[Function Object]}
   feedbackSessions={[Function Map]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -701,6 +708,7 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
   course={[Function Object]}
   courseService={[Function CourseService]}
   dateToday={[Function Object]}
+  datetimeService={[Function DateTimeService]}
   earliestSearchDate={[Function Object]}
   feedbackSessions={[Function Map]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -845,17 +853,11 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
           >
             Search period from
           </label>
-          <tm-datetimepicker
-            dateid="logs-from-datepicker"
-            timeid="logs-from-timepicker"
-          >
+          <tm-datetimepicker>
             <div
-              class="row align-items-center"
+              class="d-flex align-items-center gap-2"
             >
-              <div
-                class="col-md-7 col-xs-center"
-                id="logs-from-datepicker"
-              >
+              <div>
                 <tm-datepicker>
                   <div
                     class="input-group"
@@ -879,12 +881,8 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
                   </div>
                 </tm-datepicker>
               </div>
-              <div
-                class="col-md-5"
-              >
-                <tm-timepicker
-                  id="logs-from-timepicker"
-                >
+              <div>
+                <tm-timepicker>
                   <select
                     aria-label="Select time"
                     class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -1024,17 +1022,11 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
           >
             Search period until
           </label>
-          <tm-datetimepicker
-            dateid="logs-to-datepicker"
-            timeid="logs-to-timepicker"
-          >
+          <tm-datetimepicker>
             <div
-              class="row align-items-center"
+              class="d-flex align-items-center gap-2"
             >
-              <div
-                class="col-md-7 col-xs-center"
-                id="logs-to-datepicker"
-              >
+              <div>
                 <tm-datepicker>
                   <div
                     class="input-group"
@@ -1058,12 +1050,8 @@ exports[`InstructorStudentActivityLogsComponent should snap with results of a se
                   </div>
                 </tm-datepicker>
               </div>
-              <div
-                class="col-md-5"
-              >
-                <tm-timepicker
-                  id="logs-to-timepicker"
-                >
+              <div>
+                <tm-timepicker>
                   <select
                     aria-label="Select time"
                     class="form-control form-select ng-untouched ng-pristine ng-valid"

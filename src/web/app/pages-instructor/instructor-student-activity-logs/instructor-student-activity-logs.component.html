@@ -56,27 +56,19 @@
       <div class="col-6">
         <label for="logs-from-datepicker" class="fw-bold">Search period from</label>
         <tm-datetimepicker
-          dateId="logs-from-datepicker"
-          timeId="logs-from-timepicker"
-          [date]="formModel.logsDateFrom"
-          [time]="formModel.logsTimeFrom"
-          [minDate]="earliestSearchDate"
-          [maxDate]="formModel.logsDateTo"
-          (dateChange)="formModel.logsDateFrom = $event"
-          (timeChange)="formModel.logsTimeFrom = $event"
+          [dateTime]="logsDateTimeFrom"
+          [minDateTime]="earliestSearchDateTime"
+          [maxDateTime]="logsDateTimeTo"
+          (dateTimeChange)="triggerLogsDateTimeFromChange($event)"
         ></tm-datetimepicker>
       </div>
       <div class="col-6">
         <label for="logs-to-datepicker" class="fw-bold">Search period until</label>
         <tm-datetimepicker
-          dateId="logs-to-datepicker"
-          timeId="logs-to-timepicker"
-          [date]="formModel.logsDateTo"
-          [time]="formModel.logsTimeTo"
-          [minDate]="formModel.logsDateFrom"
-          [maxDate]="dateToday"
-          (dateChange)="formModel.logsDateTo = $event"
-          (timeChange)="formModel.logsTimeTo = $event"
+          [dateTime]="logsDateTimeTo"
+          [minDateTime]="logsDateTimeFrom"
+          [maxDateTime]="dateTodayDateTime"
+          (dateTimeChange)="triggerLogsDateTimeToChange($event)"
         ></tm-datetimepicker>
       </div>
       <div class="col-12">

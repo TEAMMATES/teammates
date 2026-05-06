@@ -9,6 +9,7 @@ import { LogService } from '../../../services/log.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
+import { DateTimeService } from '../../../services/datetime.service';
 import { ApiConst } from '../../../types/api-const';
 import {
   Course,
@@ -150,7 +151,42 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     private logsService: LogService,
     private timezoneService: TimezoneService,
     private statusMessageService: StatusMessageService,
+    private datetimeService: DateTimeService,
   ) {}
+
+  get logsDateTimeFrom(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.formModel.logsDateFrom,
+      this.formModel.logsTimeFrom,
+    );
+  }
+
+  get logsDateTimeTo(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.formModel.logsDateTo,
+      this.formModel.logsTimeTo,
+    );
+  }
+
+  get earliestSearchDateTime(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(this.earliestSearchDate, { hour: 0, minute: 0 });
+  }
+
+  get dateTodayDateTime(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(this.dateToday, { hour: 23, minute: 59 });
+  }
+
+  triggerLogsDateTimeFromChange(date: Date): void {
+    const [newDate, newTime] = this.datetimeService.convertDateToDateFormatAndTimeFormat(date);
+    this.triggerModelChange('logsDateFrom', newDate);
+    this.triggerModelChange('logsTimeFrom', newTime);
+  }
+
+  triggerLogsDateTimeToChange(date: Date): void {
+    const [newDate, newTime] = this.datetimeService.convertDateToDateFormatAndTimeFormat(date);
+    this.triggerModelChange('logsDateTo', newDate);
+    this.triggerModelChange('logsTimeTo', newTime);
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {

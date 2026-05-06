@@ -9,6 +9,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
+  datetimeService={[Function DateTimeService]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey={[Function String]}
   extendByDeadlineOptions={[Function Map]}
@@ -159,6 +160,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
+  datetimeService={[Function DateTimeService]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey={[Function String]}
   extendByDeadlineOptions={[Function Map]}
@@ -354,6 +356,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
+  datetimeService={[Function DateTimeService]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey=""
   extendByDeadlineOptions={[Function Map]}
@@ -427,17 +430,11 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
       <div
         id="submission-start-date"
       >
-        <tm-datetimepicker
-          dateid="submission-end-date"
-          timeid="submission-end-time"
-        >
+        <tm-datetimepicker>
           <div
-            class="row align-items-center"
+            class="d-flex align-items-center gap-2"
           >
-            <div
-              class="col-md-7 col-xs-center"
-              id="submission-end-date"
-            >
+            <div>
               <tm-datepicker>
                 <div
                   class="input-group"
@@ -461,12 +458,8 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
                 </div>
               </tm-datepicker>
             </div>
-            <div
-              class="col-md-5"
-            >
-              <tm-timepicker
-                id="submission-end-time"
-              >
+            <div>
+              <tm-timepicker>
                 <select
                   aria-label="Select time"
                   class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -632,6 +625,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
+  datetimeService={[Function DateTimeService]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey=""
   extendByDeadlineOptions={[Function Map]}
@@ -783,6 +777,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the warning moda
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function FormatDateDetailPipe]}
+  datetimeService={[Function DateTimeService]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey=""
   extendByDeadlineOptions={[Function Map]}

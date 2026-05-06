@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DateFormat, TimeFormat, getDefaultDateFormat, getDefaultTimeFormat } from '../../../types/datetime-const';
 import { DatepickerComponent } from '../datepicker/datepicker.component';
@@ -10,73 +9,92 @@ import { TimepickerComponent } from '../timepicker/timepicker.component';
 @Component({
   selector: 'tm-datetimepicker',
   templateUrl: './datetimepicker.component.html',
-  styleUrls: ['./datetimepicker.component.scss'],
-  imports: [DatepickerComponent, TimepickerComponent, NgClass],
+  imports: [DatepickerComponent, TimepickerComponent],
 })
 export class DatetimepickerComponent {
   @Input()
-  dateId = '';
-
-  @Input()
-  timeId = '';
-
-  @Input()
-  dateColClass = 'col-md-7 col-xs-center';
-
-  @Input()
-  timeColClass = 'col-md-5';
-
-  @Input()
-  date: DateFormat | undefined;
-
-  @Input()
-  time: TimeFormat | undefined;
+  dateTime: Date | undefined;
 
   @Input()
   isDisabled = false;
 
   @Input()
-  minDate?: DateFormat;
+  minDateTime?: Date;
 
   @Input()
-  maxDate?: DateFormat;
-
-  @Input()
-  minTime?: TimeFormat;
-
-  @Input()
-  maxTime?: TimeFormat;
+  maxDateTime?: Date;
 
   @Output()
-  dateChange: EventEmitter<DateFormat> = new EventEmitter<DateFormat>();
+  dateTimeChange: EventEmitter<Date> = new EventEmitter<Date>();
 
-  @Output()
-  timeChange: EventEmitter<TimeFormat> = new EventEmitter<TimeFormat>();
+  get minDate(): DateFormat | undefined {
+    return this.minDateTime
+      ? {
+          year: this.minDateTime.getFullYear(),
+          month: this.minDateTime.getMonth() + 1,
+          day: this.minDateTime.getDate(),
+        }
+      : undefined;
+  }
 
-  @Output()
-  dateTimeChange: EventEmitter<{ date: DateFormat; time: TimeFormat }> = new EventEmitter();
+  get maxDate(): DateFormat | undefined {
+    return this.maxDateTime
+      ? {
+          year: this.maxDateTime.getFullYear(),
+          month: this.maxDateTime.getMonth() + 1,
+          day: this.maxDateTime.getDate(),
+        }
+      : undefined;
+  }
 
-  get defaultDate(): DateFormat {
+  get minTime(): TimeFormat | undefined {
+    return this.minDateTime
+      ? {
+          hour: this.minDateTime.getHours(),
+          minute: this.minDateTime.getMinutes(),
+        }
+      : undefined;
+  }
+
+  get maxTime(): TimeFormat | undefined {
+    return this.maxDateTime
+      ? {
+          hour: this.maxDateTime.getHours(),
+          minute: this.maxDateTime.getMinutes(),
+        }
+      : undefined;
+  }
+
+  get date(): DateFormat {
+    if (this.dateTime) {
+      return {
+        year: this.dateTime.getFullYear(),
+        month: this.dateTime.getMonth() + 1,
+        day: this.dateTime.getDate(),
+      };
+    }
     return getDefaultDateFormat();
   }
 
-  get defaultTime(): TimeFormat {
+  get time(): TimeFormat {
+    if (this.dateTime) {
+      return {
+        hour: this.dateTime.getHours(),
+        minute: this.dateTime.getMinutes(),
+      };
+    }
     return getDefaultTimeFormat();
   }
 
   onDateChange(newDate: DateFormat): void {
-    this.date = newDate;
-    this.dateChange.emit(newDate);
-    if (this.time) {
-      this.dateTimeChange.emit({ date: newDate, time: this.time });
-    }
+    const time = this.time;
+    this.dateTime = new Date(newDate.year, newDate.month - 1, newDate.day, time.hour, time.minute);
+    this.dateTimeChange.emit(this.dateTime);
   }
 
   onTimeChange(newTime: TimeFormat): void {
-    this.time = newTime;
-    this.timeChange.emit(newTime);
-    if (this.date) {
-      this.dateTimeChange.emit({ date: this.date, time: newTime });
-    }
+    const date = this.date;
+    this.dateTime = new Date(date.year, date.month - 1, date.day, newTime.hour, newTime.minute);
+    this.dateTimeChange.emit(this.dateTime);
   }
 }

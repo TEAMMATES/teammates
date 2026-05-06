@@ -55,13 +55,9 @@
       <small>The new deadline of the feedback session will be:</small>
       <div id="submission-start-date">
         <tm-datetimepicker
-          dateId="submission-end-date"
-          timeId="submission-end-time"
-          [date]="extendToDatePicker"
-          [time]="extendToTimePicker"
-          [minDate]="getDateFormat(feedbackSessionEndingTimestamp)"
-          (dateChange)="onChangeDateTime($event, DateTime.DATE)"
-          (timeChange)="onChangeDateTime($event, DateTime.TIME)"
+          [dateTime]="extendToDateTime"
+          [minDateTime]="minExtendToDateTime"
+          (dateTimeChange)="onChangeDateTimeUnified($event)"
         ></tm-datetimepicker>
       </div>
     </div>

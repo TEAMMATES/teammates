@@ -9,6 +9,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
   addNewNotificationEvent={[Function EventEmitter_]}
   cancelEditingNotificationEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
+  datetimeService={[Function DateTimeService]}
   editExistingNotificationEvent={[Function EventEmitter_]}
   formMode="0"
   guessTimezone={[Function String]}
@@ -253,16 +254,11 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
               </div>
               <tm-datetimepicker
                 class="text-center"
-                dateid="notification-start-date"
-                timeid="notification-start-time"
               >
                 <div
-                  class="row align-items-center"
+                  class="d-flex align-items-center gap-2"
                 >
-                  <div
-                    class="col-md-7 col-xs-center"
-                    id="notification-start-date"
-                  >
+                  <div>
                     <tm-datepicker>
                       <div
                         class="input-group"
@@ -286,12 +282,8 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
                       </div>
                     </tm-datepicker>
                   </div>
-                  <div
-                    class="col-md-5"
-                  >
-                    <tm-timepicker
-                      id="notification-start-time"
-                    >
+                  <div>
+                    <tm-timepicker>
                       <select
                         aria-label="Select time"
                         class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -444,17 +436,11 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
                   </label>
                 </div>
               </div>
-              <tm-datetimepicker
-                dateid="notification-end-date"
-                timeid="notification-end-time"
-              >
+              <tm-datetimepicker>
                 <div
-                  class="row align-items-center"
+                  class="d-flex align-items-center gap-2"
                 >
-                  <div
-                    class="col-md-7 col-xs-center"
-                    id="notification-end-date"
-                  >
+                  <div>
                     <tm-datepicker>
                       <div
                         class="input-group"
@@ -478,12 +464,8 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
                       </div>
                     </tm-datepicker>
                   </div>
-                  <div
-                    class="col-md-5"
-                  >
-                    <tm-timepicker
-                      id="notification-end-time"
-                    >
+                  <div>
+                    <tm-timepicker>
                       <select
                         aria-label="Select time"
                         class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -656,6 +638,7 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
   addNewNotificationEvent={[Function EventEmitter_]}
   cancelEditingNotificationEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
+  datetimeService={[Function DateTimeService]}
   editExistingNotificationEvent={[Function EventEmitter_]}
   formMode="0"
   guessTimezone={[Function String]}
@@ -900,23 +883,18 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
               </div>
               <tm-datetimepicker
                 class="text-center"
-                dateid="notification-start-date"
-                timeid="notification-start-time"
               >
                 <div
-                  class="row align-items-center"
+                  class="d-flex align-items-center gap-2"
                 >
-                  <div
-                    class="col-md-7 col-xs-center"
-                    id="notification-start-date"
-                  >
+                  <div>
                     <tm-datepicker>
                       <div
                         class="input-group"
                       >
                         <input
                           aria-label="Date"
-                          class="form-control ng-untouched ng-pristine ng-invalid"
+                          class="form-control ng-untouched ng-pristine ng-valid"
                           ngbdatepicker=""
                           readonly=""
                           type="text"
@@ -933,12 +911,8 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
                       </div>
                     </tm-datepicker>
                   </div>
-                  <div
-                    class="col-md-5"
-                  >
-                    <tm-timepicker
-                      id="notification-start-time"
-                    >
+                  <div>
+                    <tm-timepicker>
                       <select
                         aria-label="Select time"
                         class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -1091,24 +1065,18 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
                   </label>
                 </div>
               </div>
-              <tm-datetimepicker
-                dateid="notification-end-date"
-                timeid="notification-end-time"
-              >
+              <tm-datetimepicker>
                 <div
-                  class="row align-items-center"
+                  class="d-flex align-items-center gap-2"
                 >
-                  <div
-                    class="col-md-7 col-xs-center"
-                    id="notification-end-date"
-                  >
+                  <div>
                     <tm-datepicker>
                       <div
                         class="input-group"
                       >
                         <input
                           aria-label="Date"
-                          class="form-control ng-untouched ng-pristine ng-invalid"
+                          class="form-control ng-untouched ng-pristine ng-valid"
                           ngbdatepicker=""
                           readonly=""
                           type="text"
@@ -1125,12 +1093,8 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
                       </div>
                     </tm-datepicker>
                   </div>
-                  <div
-                    class="col-md-5"
-                  >
-                    <tm-timepicker
-                      id="notification-end-time"
-                    >
+                  <div>
+                    <tm-timepicker>
                       <select
                         aria-label="Select time"
                         class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -1303,6 +1267,7 @@ exports[`NotificationEditFormComponent should snap with notification that has be
   addNewNotificationEvent={[Function EventEmitter_]}
   cancelEditingNotificationEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
+  datetimeService={[Function DateTimeService]}
   editExistingNotificationEvent={[Function EventEmitter_]}
   formMode="0"
   guessTimezone={[Function String]}
@@ -1564,23 +1529,18 @@ exports[`NotificationEditFormComponent should snap with notification that has be
               </div>
               <tm-datetimepicker
                 class="text-center"
-                dateid="notification-start-date"
-                timeid="notification-start-time"
               >
                 <div
-                  class="row align-items-center"
+                  class="d-flex align-items-center gap-2"
                 >
-                  <div
-                    class="col-md-7 col-xs-center"
-                    id="notification-start-date"
-                  >
+                  <div>
                     <tm-datepicker>
                       <div
                         class="input-group"
                       >
                         <input
                           aria-label="Date"
-                          class="form-control ng-untouched ng-pristine ng-invalid"
+                          class="form-control ng-untouched ng-pristine ng-valid"
                           ngbdatepicker=""
                           readonly=""
                           type="text"
@@ -1597,12 +1557,8 @@ exports[`NotificationEditFormComponent should snap with notification that has be
                       </div>
                     </tm-datepicker>
                   </div>
-                  <div
-                    class="col-md-5"
-                  >
-                    <tm-timepicker
-                      id="notification-start-time"
-                    >
+                  <div>
+                    <tm-timepicker>
                       <select
                         aria-label="Select time"
                         class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -1755,24 +1711,18 @@ exports[`NotificationEditFormComponent should snap with notification that has be
                   </label>
                 </div>
               </div>
-              <tm-datetimepicker
-                dateid="notification-end-date"
-                timeid="notification-end-time"
-              >
+              <tm-datetimepicker>
                 <div
-                  class="row align-items-center"
+                  class="d-flex align-items-center gap-2"
                 >
-                  <div
-                    class="col-md-7 col-xs-center"
-                    id="notification-end-date"
-                  >
+                  <div>
                     <tm-datepicker>
                       <div
                         class="input-group"
                       >
                         <input
                           aria-label="Date"
-                          class="form-control ng-untouched ng-pristine ng-invalid"
+                          class="form-control ng-untouched ng-pristine ng-valid"
                           ngbdatepicker=""
                           readonly=""
                           type="text"
@@ -1789,12 +1739,8 @@ exports[`NotificationEditFormComponent should snap with notification that has be
                       </div>
                     </tm-datepicker>
                   </div>
-                  <div
-                    class="col-md-5"
-                  >
-                    <tm-timepicker
-                      id="notification-end-time"
-                    >
+                  <div>
+                    <tm-timepicker>
                       <select
                         aria-label="Select time"
                         class="form-control form-select ng-untouched ng-pristine ng-valid"

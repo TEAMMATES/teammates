@@ -344,16 +344,11 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
                     </div>
                     <tm-datetimepicker
                       class="text-center"
-                      dateid="submission-start-date"
-                      timeid="submission-start-time"
                     >
                       <div
-                        class="row align-items-center"
+                        class="d-flex align-items-center gap-2"
                       >
-                        <div
-                          class="col-md-7 col-xs-center"
-                          id="submission-start-date"
-                        >
+                        <div>
                           <tm-datepicker>
                             <div
                               class="input-group"
@@ -377,12 +372,8 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
                             </div>
                           </tm-datepicker>
                         </div>
-                        <div
-                          class="col-md-5"
-                        >
-                          <tm-timepicker
-                            id="submission-start-time"
-                          >
+                        <div>
+                          <tm-timepicker>
                             <select
                               aria-label="Select time"
                               class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -554,17 +545,11 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
                         </label>
                       </div>
                     </div>
-                    <tm-datetimepicker
-                      dateid="submission-end-date"
-                      timeid="submission-end-time"
-                    >
+                    <tm-datetimepicker>
                       <div
-                        class="row align-items-center"
+                        class="d-flex align-items-center gap-2"
                       >
-                        <div
-                          class="col-md-7 col-xs-center"
-                          id="submission-end-date"
-                        >
+                        <div>
                           <tm-datepicker>
                             <div
                               class="input-group"
@@ -588,12 +573,8 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
                             </div>
                           </tm-datepicker>
                         </div>
-                        <div
-                          class="col-md-5"
-                        >
-                          <tm-timepicker
-                            id="submission-end-time"
-                          >
+                        <div>
+                          <tm-timepicker>
                             <select
                               aria-label="Select time"
                               class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -897,16 +878,11 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
                       </div>
                       <tm-datetimepicker
                         class="col-md-10 mt-md-0 mt-2"
-                        dateid="session-visibility-date"
-                        timeid="session-visibility-time"
                       >
                         <div
-                          class="row align-items-center"
+                          class="d-flex align-items-center gap-2"
                         >
-                          <div
-                            class="col-md-7 col-xs-center"
-                            id="session-visibility-date"
-                          >
+                          <div>
                             <tm-datepicker>
                               <div
                                 class="input-group"
@@ -932,12 +908,8 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
                               </div>
                             </tm-datepicker>
                           </div>
-                          <div
-                            class="col-md-5"
-                          >
-                            <tm-timepicker
-                              id="session-visibility-time"
-                            >
+                          <div>
+                            <tm-timepicker>
                               <select
                                 aria-label="Select time"
                                 class="form-control form-select ng-untouched ng-pristine"
@@ -1130,16 +1102,11 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
                       </div>
                       <tm-datetimepicker
                         class="col-md-10 mt-md-0 mt-2"
-                        dateid="response-visibility-date"
-                        timeid="response-visibility-time"
                       >
                         <div
-                          class="row align-items-center"
+                          class="d-flex align-items-center gap-2"
                         >
-                          <div
-                            class="col-md-7 col-xs-center"
-                            id="response-visibility-date"
-                          >
+                          <div>
                             <tm-datepicker>
                               <div
                                 class="input-group"
@@ -1165,12 +1132,8 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
                               </div>
                             </tm-datepicker>
                           </div>
-                          <div
-                            class="col-md-5"
-                          >
-                            <tm-timepicker
-                              id="response-visibility-time"
-                            >
+                          <div>
+                            <tm-timepicker>
                               <select
                                 aria-label="Select time"
                                 class="form-control form-select ng-untouched ng-pristine"
@@ -1901,16 +1864,11 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
                     </div>
                     <tm-datetimepicker
                       class="text-center"
-                      dateid="submission-start-date"
-                      timeid="submission-start-time"
                     >
                       <div
-                        class="row align-items-center"
+                        class="d-flex align-items-center gap-2"
                       >
-                        <div
-                          class="col-md-7 col-xs-center"
-                          id="submission-start-date"
-                        >
+                        <div>
                           <tm-datepicker>
                             <div
                               class="input-group"
@@ -1934,12 +1892,8 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
                             </div>
                           </tm-datepicker>
                         </div>
-                        <div
-                          class="col-md-5"
-                        >
-                          <tm-timepicker
-                            id="submission-start-time"
-                          >
+                        <div>
+                          <tm-timepicker>
                             <select
                               aria-label="Select time"
                               class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -2111,17 +2065,11 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
                         </label>
                       </div>
                     </div>
-                    <tm-datetimepicker
-                      dateid="submission-end-date"
-                      timeid="submission-end-time"
-                    >
+                    <tm-datetimepicker>
                       <div
-                        class="row align-items-center"
+                        class="d-flex align-items-center gap-2"
                       >
-                        <div
-                          class="col-md-7 col-xs-center"
-                          id="submission-end-date"
-                        >
+                        <div>
                           <tm-datepicker>
                             <div
                               class="input-group"
@@ -2145,12 +2093,8 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
                             </div>
                           </tm-datepicker>
                         </div>
-                        <div
-                          class="col-md-5"
-                        >
-                          <tm-timepicker
-                            id="submission-end-time"
-                          >
+                        <div>
+                          <tm-timepicker>
                             <select
                               aria-label="Select time"
                               class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -2454,16 +2398,11 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
                       </div>
                       <tm-datetimepicker
                         class="col-md-10 mt-md-0 mt-2"
-                        dateid="session-visibility-date"
-                        timeid="session-visibility-time"
                       >
                         <div
-                          class="row align-items-center"
+                          class="d-flex align-items-center gap-2"
                         >
-                          <div
-                            class="col-md-7 col-xs-center"
-                            id="session-visibility-date"
-                          >
+                          <div>
                             <tm-datepicker>
                               <div
                                 class="input-group"
@@ -2489,12 +2428,8 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
                               </div>
                             </tm-datepicker>
                           </div>
-                          <div
-                            class="col-md-5"
-                          >
-                            <tm-timepicker
-                              id="session-visibility-time"
-                            >
+                          <div>
+                            <tm-timepicker>
                               <select
                                 aria-label="Select time"
                                 class="form-control form-select ng-untouched ng-pristine"
@@ -2687,16 +2622,11 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
                       </div>
                       <tm-datetimepicker
                         class="col-md-10 mt-md-0 mt-2"
-                        dateid="response-visibility-date"
-                        timeid="response-visibility-time"
                       >
                         <div
-                          class="row align-items-center"
+                          class="d-flex align-items-center gap-2"
                         >
-                          <div
-                            class="col-md-7 col-xs-center"
-                            id="response-visibility-date"
-                          >
+                          <div>
                             <tm-datepicker>
                               <div
                                 class="input-group"
@@ -2722,12 +2652,8 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
                               </div>
                             </tm-datepicker>
                           </div>
-                          <div
-                            class="col-md-5"
-                          >
-                            <tm-timepicker
-                              id="response-visibility-time"
-                            >
+                          <div>
+                            <tm-timepicker>
                               <select
                                 aria-label="Select time"
                                 class="form-control form-select ng-untouched ng-pristine"
@@ -3458,16 +3384,11 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
                     </div>
                     <tm-datetimepicker
                       class="text-center"
-                      dateid="submission-start-date"
-                      timeid="submission-start-time"
                     >
                       <div
-                        class="row align-items-center"
+                        class="d-flex align-items-center gap-2"
                       >
-                        <div
-                          class="col-md-7 col-xs-center"
-                          id="submission-start-date"
-                        >
+                        <div>
                           <tm-datepicker>
                             <div
                               class="input-group"
@@ -3491,12 +3412,8 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
                             </div>
                           </tm-datepicker>
                         </div>
-                        <div
-                          class="col-md-5"
-                        >
-                          <tm-timepicker
-                            id="submission-start-time"
-                          >
+                        <div>
+                          <tm-timepicker>
                             <select
                               aria-label="Select time"
                               class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -3668,17 +3585,11 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
                         </label>
                       </div>
                     </div>
-                    <tm-datetimepicker
-                      dateid="submission-end-date"
-                      timeid="submission-end-time"
-                    >
+                    <tm-datetimepicker>
                       <div
-                        class="row align-items-center"
+                        class="d-flex align-items-center gap-2"
                       >
-                        <div
-                          class="col-md-7 col-xs-center"
-                          id="submission-end-date"
-                        >
+                        <div>
                           <tm-datepicker>
                             <div
                               class="input-group"
@@ -3702,12 +3613,8 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
                             </div>
                           </tm-datepicker>
                         </div>
-                        <div
-                          class="col-md-5"
-                        >
-                          <tm-timepicker
-                            id="submission-end-time"
-                          >
+                        <div>
+                          <tm-timepicker>
                             <select
                               aria-label="Select time"
                               class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -4011,16 +3918,11 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
                       </div>
                       <tm-datetimepicker
                         class="col-md-10 mt-md-0 mt-2"
-                        dateid="session-visibility-date"
-                        timeid="session-visibility-time"
                       >
                         <div
-                          class="row align-items-center"
+                          class="d-flex align-items-center gap-2"
                         >
-                          <div
-                            class="col-md-7 col-xs-center"
-                            id="session-visibility-date"
-                          >
+                          <div>
                             <tm-datepicker>
                               <div
                                 class="input-group"
@@ -4046,12 +3948,8 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
                               </div>
                             </tm-datepicker>
                           </div>
-                          <div
-                            class="col-md-5"
-                          >
-                            <tm-timepicker
-                              id="session-visibility-time"
-                            >
+                          <div>
+                            <tm-timepicker>
                               <select
                                 aria-label="Select time"
                                 class="form-control form-select ng-untouched ng-pristine"
@@ -4244,16 +4142,11 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
                       </div>
                       <tm-datetimepicker
                         class="col-md-10 mt-md-0 mt-2"
-                        dateid="response-visibility-date"
-                        timeid="response-visibility-time"
                       >
                         <div
-                          class="row align-items-center"
+                          class="d-flex align-items-center gap-2"
                         >
-                          <div
-                            class="col-md-7 col-xs-center"
-                            id="response-visibility-date"
-                          >
+                          <div>
                             <tm-datepicker>
                               <div
                                 class="input-group"
@@ -4279,12 +4172,8 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
                               </div>
                             </tm-datepicker>
                           </div>
-                          <div
-                            class="col-md-5"
-                          >
-                            <tm-timepicker
-                              id="response-visibility-time"
-                            >
+                          <div>
+                            <tm-timepicker>
                               <select
                                 aria-label="Select time"
                                 class="form-control form-select ng-untouched ng-pristine"
@@ -4996,16 +4885,11 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                     </div>
                     <tm-datetimepicker
                       class="text-center"
-                      dateid="submission-start-date"
-                      timeid="submission-start-time"
                     >
                       <div
-                        class="row align-items-center"
+                        class="d-flex align-items-center gap-2"
                       >
-                        <div
-                          class="col-md-7 col-xs-center"
-                          id="submission-start-date"
-                        >
+                        <div>
                           <tm-datepicker>
                             <div
                               class="input-group"
@@ -5029,12 +4913,8 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                             </div>
                           </tm-datepicker>
                         </div>
-                        <div
-                          class="col-md-5"
-                        >
-                          <tm-timepicker
-                            id="submission-start-time"
-                          >
+                        <div>
+                          <tm-timepicker>
                             <select
                               aria-label="Select time"
                               class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -5206,17 +5086,11 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                         </label>
                       </div>
                     </div>
-                    <tm-datetimepicker
-                      dateid="submission-end-date"
-                      timeid="submission-end-time"
-                    >
+                    <tm-datetimepicker>
                       <div
-                        class="row align-items-center"
+                        class="d-flex align-items-center gap-2"
                       >
-                        <div
-                          class="col-md-7 col-xs-center"
-                          id="submission-end-date"
-                        >
+                        <div>
                           <tm-datepicker>
                             <div
                               class="input-group"
@@ -5240,12 +5114,8 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                             </div>
                           </tm-datepicker>
                         </div>
-                        <div
-                          class="col-md-5"
-                        >
-                          <tm-timepicker
-                            id="submission-end-time"
-                          >
+                        <div>
+                          <tm-timepicker>
                             <select
                               aria-label="Select time"
                               class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -5549,16 +5419,11 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                       </div>
                       <tm-datetimepicker
                         class="col-md-10 mt-md-0 mt-2"
-                        dateid="session-visibility-date"
-                        timeid="session-visibility-time"
                       >
                         <div
-                          class="row align-items-center"
+                          class="d-flex align-items-center gap-2"
                         >
-                          <div
-                            class="col-md-7 col-xs-center"
-                            id="session-visibility-date"
-                          >
+                          <div>
                             <tm-datepicker>
                               <div
                                 class="input-group"
@@ -5584,12 +5449,8 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                               </div>
                             </tm-datepicker>
                           </div>
-                          <div
-                            class="col-md-5"
-                          >
-                            <tm-timepicker
-                              id="session-visibility-time"
-                            >
+                          <div>
+                            <tm-timepicker>
                               <select
                                 aria-label="Select time"
                                 class="form-control form-select ng-untouched ng-pristine"
@@ -5782,16 +5643,11 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                       </div>
                       <tm-datetimepicker
                         class="col-md-10 mt-md-0 mt-2"
-                        dateid="response-visibility-date"
-                        timeid="response-visibility-time"
                       >
                         <div
-                          class="row align-items-center"
+                          class="d-flex align-items-center gap-2"
                         >
-                          <div
-                            class="col-md-7 col-xs-center"
-                            id="response-visibility-date"
-                          >
+                          <div>
                             <tm-datepicker>
                               <div
                                 class="input-group"
@@ -5817,12 +5673,8 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
                               </div>
                             </tm-datepicker>
                           </div>
-                          <div
-                            class="col-md-5"
-                          >
-                            <tm-timepicker
-                              id="response-visibility-time"
-                            >
+                          <div>
+                            <tm-timepicker>
                               <select
                                 aria-label="Select time"
                                 class="form-control form-select ng-untouched ng-pristine"
@@ -6557,16 +6409,11 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
                     </div>
                     <tm-datetimepicker
                       class="text-center"
-                      dateid="submission-start-date"
-                      timeid="submission-start-time"
                     >
                       <div
-                        class="row align-items-center"
+                        class="d-flex align-items-center gap-2"
                       >
-                        <div
-                          class="col-md-7 col-xs-center"
-                          id="submission-start-date"
-                        >
+                        <div>
                           <tm-datepicker>
                             <div
                               class="input-group"
@@ -6590,12 +6437,8 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
                             </div>
                           </tm-datepicker>
                         </div>
-                        <div
-                          class="col-md-5"
-                        >
-                          <tm-timepicker
-                            id="submission-start-time"
-                          >
+                        <div>
+                          <tm-timepicker>
                             <select
                               aria-label="Select time"
                               class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -6767,17 +6610,11 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
                         </label>
                       </div>
                     </div>
-                    <tm-datetimepicker
-                      dateid="submission-end-date"
-                      timeid="submission-end-time"
-                    >
+                    <tm-datetimepicker>
                       <div
-                        class="row align-items-center"
+                        class="d-flex align-items-center gap-2"
                       >
-                        <div
-                          class="col-md-7 col-xs-center"
-                          id="submission-end-date"
-                        >
+                        <div>
                           <tm-datepicker>
                             <div
                               class="input-group"
@@ -6801,12 +6638,8 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
                             </div>
                           </tm-datepicker>
                         </div>
-                        <div
-                          class="col-md-5"
-                        >
-                          <tm-timepicker
-                            id="submission-end-time"
-                          >
+                        <div>
+                          <tm-timepicker>
                             <select
                               aria-label="Select time"
                               class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -7110,16 +6943,11 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
                       </div>
                       <tm-datetimepicker
                         class="col-md-10 mt-md-0 mt-2"
-                        dateid="session-visibility-date"
-                        timeid="session-visibility-time"
                       >
                         <div
-                          class="row align-items-center"
+                          class="d-flex align-items-center gap-2"
                         >
-                          <div
-                            class="col-md-7 col-xs-center"
-                            id="session-visibility-date"
-                          >
+                          <div>
                             <tm-datepicker>
                               <div
                                 class="input-group"
@@ -7145,12 +6973,8 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
                               </div>
                             </tm-datepicker>
                           </div>
-                          <div
-                            class="col-md-5"
-                          >
-                            <tm-timepicker
-                              id="session-visibility-time"
-                            >
+                          <div>
+                            <tm-timepicker>
                               <select
                                 aria-label="Select time"
                                 class="form-control form-select ng-untouched ng-pristine"
@@ -7343,16 +7167,11 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
                       </div>
                       <tm-datetimepicker
                         class="col-md-10 mt-md-0 mt-2"
-                        dateid="response-visibility-date"
-                        timeid="response-visibility-time"
                       >
                         <div
-                          class="row align-items-center"
+                          class="d-flex align-items-center gap-2"
                         >
-                          <div
-                            class="col-md-7 col-xs-center"
-                            id="response-visibility-date"
-                          >
+                          <div>
                             <tm-datepicker>
                               <div
                                 class="input-group"
@@ -7378,12 +7197,8 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
                               </div>
                             </tm-datepicker>
                           </div>
-                          <div
-                            class="col-md-5"
-                          >
-                            <tm-timepicker
-                              id="response-visibility-time"
-                            >
+                          <div>
+                            <tm-timepicker>
                               <select
                                 aria-label="Select time"
                                 class="form-control form-select ng-untouched ng-pristine"
@@ -8114,16 +7929,11 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
                     </div>
                     <tm-datetimepicker
                       class="text-center"
-                      dateid="submission-start-date"
-                      timeid="submission-start-time"
                     >
                       <div
-                        class="row align-items-center"
+                        class="d-flex align-items-center gap-2"
                       >
-                        <div
-                          class="col-md-7 col-xs-center"
-                          id="submission-start-date"
-                        >
+                        <div>
                           <tm-datepicker>
                             <div
                               class="input-group"
@@ -8147,12 +7957,8 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
                             </div>
                           </tm-datepicker>
                         </div>
-                        <div
-                          class="col-md-5"
-                        >
-                          <tm-timepicker
-                            id="submission-start-time"
-                          >
+                        <div>
+                          <tm-timepicker>
                             <select
                               aria-label="Select time"
                               class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -8324,17 +8130,11 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
                         </label>
                       </div>
                     </div>
-                    <tm-datetimepicker
-                      dateid="submission-end-date"
-                      timeid="submission-end-time"
-                    >
+                    <tm-datetimepicker>
                       <div
-                        class="row align-items-center"
+                        class="d-flex align-items-center gap-2"
                       >
-                        <div
-                          class="col-md-7 col-xs-center"
-                          id="submission-end-date"
-                        >
+                        <div>
                           <tm-datepicker>
                             <div
                               class="input-group"
@@ -8358,12 +8158,8 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
                             </div>
                           </tm-datepicker>
                         </div>
-                        <div
-                          class="col-md-5"
-                        >
-                          <tm-timepicker
-                            id="submission-end-time"
-                          >
+                        <div>
+                          <tm-timepicker>
                             <select
                               aria-label="Select time"
                               class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -8667,16 +8463,11 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
                       </div>
                       <tm-datetimepicker
                         class="col-md-10 mt-md-0 mt-2"
-                        dateid="session-visibility-date"
-                        timeid="session-visibility-time"
                       >
                         <div
-                          class="row align-items-center"
+                          class="d-flex align-items-center gap-2"
                         >
-                          <div
-                            class="col-md-7 col-xs-center"
-                            id="session-visibility-date"
-                          >
+                          <div>
                             <tm-datepicker>
                               <div
                                 class="input-group"
@@ -8702,12 +8493,8 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
                               </div>
                             </tm-datepicker>
                           </div>
-                          <div
-                            class="col-md-5"
-                          >
-                            <tm-timepicker
-                              id="session-visibility-time"
-                            >
+                          <div>
+                            <tm-timepicker>
                               <select
                                 aria-label="Select time"
                                 class="form-control form-select ng-untouched ng-pristine"
@@ -8900,16 +8687,11 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
                       </div>
                       <tm-datetimepicker
                         class="col-md-10 mt-md-0 mt-2"
-                        dateid="response-visibility-date"
-                        timeid="response-visibility-time"
                       >
                         <div
-                          class="row align-items-center"
+                          class="d-flex align-items-center gap-2"
                         >
-                          <div
-                            class="col-md-7 col-xs-center"
-                            id="response-visibility-date"
-                          >
+                          <div>
                             <tm-datepicker>
                               <div
                                 class="input-group"
@@ -8935,12 +8717,8 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
                               </div>
                             </tm-datepicker>
                           </div>
-                          <div
-                            class="col-md-5"
-                          >
-                            <tm-timepicker
-                              id="response-visibility-time"
-                            >
+                          <div>
+                            <tm-timepicker>
                               <select
                                 aria-label="Select time"
                                 class="form-control form-select ng-untouched ng-pristine"
@@ -9671,16 +9449,11 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
                     </div>
                     <tm-datetimepicker
                       class="text-center"
-                      dateid="submission-start-date"
-                      timeid="submission-start-time"
                     >
                       <div
-                        class="row align-items-center"
+                        class="d-flex align-items-center gap-2"
                       >
-                        <div
-                          class="col-md-7 col-xs-center"
-                          id="submission-start-date"
-                        >
+                        <div>
                           <tm-datepicker>
                             <div
                               class="input-group"
@@ -9704,12 +9477,8 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
                             </div>
                           </tm-datepicker>
                         </div>
-                        <div
-                          class="col-md-5"
-                        >
-                          <tm-timepicker
-                            id="submission-start-time"
-                          >
+                        <div>
+                          <tm-timepicker>
                             <select
                               aria-label="Select time"
                               class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -9881,17 +9650,11 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
                         </label>
                       </div>
                     </div>
-                    <tm-datetimepicker
-                      dateid="submission-end-date"
-                      timeid="submission-end-time"
-                    >
+                    <tm-datetimepicker>
                       <div
-                        class="row align-items-center"
+                        class="d-flex align-items-center gap-2"
                       >
-                        <div
-                          class="col-md-7 col-xs-center"
-                          id="submission-end-date"
-                        >
+                        <div>
                           <tm-datepicker>
                             <div
                               class="input-group"
@@ -9915,12 +9678,8 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
                             </div>
                           </tm-datepicker>
                         </div>
-                        <div
-                          class="col-md-5"
-                        >
-                          <tm-timepicker
-                            id="submission-end-time"
-                          >
+                        <div>
+                          <tm-timepicker>
                             <select
                               aria-label="Select time"
                               class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -10224,16 +9983,11 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
                       </div>
                       <tm-datetimepicker
                         class="col-md-10 mt-md-0 mt-2"
-                        dateid="session-visibility-date"
-                        timeid="session-visibility-time"
                       >
                         <div
-                          class="row align-items-center"
+                          class="d-flex align-items-center gap-2"
                         >
-                          <div
-                            class="col-md-7 col-xs-center"
-                            id="session-visibility-date"
-                          >
+                          <div>
                             <tm-datepicker>
                               <div
                                 class="input-group"
@@ -10258,12 +10012,8 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
                               </div>
                             </tm-datepicker>
                           </div>
-                          <div
-                            class="col-md-5"
-                          >
-                            <tm-timepicker
-                              id="session-visibility-time"
-                            >
+                          <div>
+                            <tm-timepicker>
                               <select
                                 aria-label="Select time"
                                 class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -10456,16 +10206,11 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
                       </div>
                       <tm-datetimepicker
                         class="col-md-10 mt-md-0 mt-2"
-                        dateid="response-visibility-date"
-                        timeid="response-visibility-time"
                       >
                         <div
-                          class="row align-items-center"
+                          class="d-flex align-items-center gap-2"
                         >
-                          <div
-                            class="col-md-7 col-xs-center"
-                            id="response-visibility-date"
-                          >
+                          <div>
                             <tm-datepicker>
                               <div
                                 class="input-group"
@@ -10490,12 +10235,8 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
                               </div>
                             </tm-datepicker>
                           </div>
-                          <div
-                            class="col-md-5"
-                          >
-                            <tm-timepicker
-                              id="response-visibility-time"
-                            >
+                          <div>
+                            <tm-timepicker>
                               <select
                                 aria-label="Select time"
                                 class="form-control form-select ng-untouched ng-pristine ng-valid"

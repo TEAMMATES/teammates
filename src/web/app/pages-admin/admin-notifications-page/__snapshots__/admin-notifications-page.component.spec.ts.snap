@@ -283,16 +283,11 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                   </div>
                   <tm-datetimepicker
                     class="text-center"
-                    dateid="notification-start-date"
-                    timeid="notification-start-time"
                   >
                     <div
-                      class="row align-items-center"
+                      class="d-flex align-items-center gap-2"
                     >
-                      <div
-                        class="col-md-7 col-xs-center"
-                        id="notification-start-date"
-                      >
+                      <div>
                         <tm-datepicker>
                           <div
                             class="input-group"
@@ -316,12 +311,8 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                           </div>
                         </tm-datepicker>
                       </div>
-                      <div
-                        class="col-md-5"
-                      >
-                        <tm-timepicker
-                          id="notification-start-time"
-                        >
+                      <div>
+                        <tm-timepicker>
                           <select
                             aria-label="Select time"
                             class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -469,17 +460,11 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                       </label>
                     </div>
                   </div>
-                  <tm-datetimepicker
-                    dateid="notification-end-date"
-                    timeid="notification-end-time"
-                  >
+                  <tm-datetimepicker>
                     <div
-                      class="row align-items-center"
+                      class="d-flex align-items-center gap-2"
                     >
-                      <div
-                        class="col-md-7 col-xs-center"
-                        id="notification-end-date"
-                      >
+                      <div>
                         <tm-datepicker>
                           <div
                             class="input-group"
@@ -503,12 +488,8 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
                           </div>
                         </tm-datepicker>
                       </div>
-                      <div
-                        class="col-md-5"
-                      >
-                        <tm-timepicker
-                          id="notification-end-time"
-                        >
+                      <div>
+                        <tm-timepicker>
                           <select
                             aria-label="Select time"
                             class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -968,16 +949,11 @@ exports[`AdminNotificationsPageComponent should snap when notifications are load
                   </div>
                   <tm-datetimepicker
                     class="text-center"
-                    dateid="notification-start-date"
-                    timeid="notification-start-time"
                   >
                     <div
-                      class="row align-items-center"
+                      class="d-flex align-items-center gap-2"
                     >
-                      <div
-                        class="col-md-7 col-xs-center"
-                        id="notification-start-date"
-                      >
+                      <div>
                         <tm-datepicker>
                           <div
                             class="input-group"
@@ -1001,12 +977,8 @@ exports[`AdminNotificationsPageComponent should snap when notifications are load
                           </div>
                         </tm-datepicker>
                       </div>
-                      <div
-                        class="col-md-5"
-                      >
-                        <tm-timepicker
-                          id="notification-start-time"
-                        >
+                      <div>
+                        <tm-timepicker>
                           <select
                             aria-label="Select time"
                             class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -1154,17 +1126,11 @@ exports[`AdminNotificationsPageComponent should snap when notifications are load
                       </label>
                     </div>
                   </div>
-                  <tm-datetimepicker
-                    dateid="notification-end-date"
-                    timeid="notification-end-time"
-                  >
+                  <tm-datetimepicker>
                     <div
-                      class="row align-items-center"
+                      class="d-flex align-items-center gap-2"
                     >
-                      <div
-                        class="col-md-7 col-xs-center"
-                        id="notification-end-date"
-                      >
+                      <div>
                         <tm-datepicker>
                           <div
                             class="input-group"
@@ -1188,12 +1154,8 @@ exports[`AdminNotificationsPageComponent should snap when notifications are load
                           </div>
                         </tm-datepicker>
                       </div>
-                      <div
-                        class="col-md-5"
-                      >
-                        <tm-timepicker
-                          id="notification-end-time"
-                        >
+                      <div>
+                        <tm-timepicker>
                           <select
                             aria-label="Select time"
                             class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -1660,16 +1622,11 @@ exports[`AdminNotificationsPageComponent should snap when notifications failed t
                   </div>
                   <tm-datetimepicker
                     class="text-center"
-                    dateid="notification-start-date"
-                    timeid="notification-start-time"
                   >
                     <div
-                      class="row align-items-center"
+                      class="d-flex align-items-center gap-2"
                     >
-                      <div
-                        class="col-md-7 col-xs-center"
-                        id="notification-start-date"
-                      >
+                      <div>
                         <tm-datepicker>
                           <div
                             class="input-group"
@@ -1693,12 +1650,8 @@ exports[`AdminNotificationsPageComponent should snap when notifications failed t
                           </div>
                         </tm-datepicker>
                       </div>
-                      <div
-                        class="col-md-5"
-                      >
-                        <tm-timepicker
-                          id="notification-start-time"
-                        >
+                      <div>
+                        <tm-timepicker>
                           <select
                             aria-label="Select time"
                             class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -1846,17 +1799,11 @@ exports[`AdminNotificationsPageComponent should snap when notifications failed t
                       </label>
                     </div>
                   </div>
-                  <tm-datetimepicker
-                    dateid="notification-end-date"
-                    timeid="notification-end-time"
-                  >
+                  <tm-datetimepicker>
                     <div
-                      class="row align-items-center"
+                      class="d-flex align-items-center gap-2"
                     >
-                      <div
-                        class="col-md-7 col-xs-center"
-                        id="notification-end-date"
-                      >
+                      <div>
                         <tm-datepicker>
                           <div
                             class="input-group"
@@ -1880,12 +1827,8 @@ exports[`AdminNotificationsPageComponent should snap when notifications failed t
                           </div>
                         </tm-datepicker>
                       </div>
-                      <div
-                        class="col-md-5"
-                      >
-                        <tm-timepicker
-                          id="notification-end-time"
-                        >
+                      <div>
+                        <tm-timepicker>
                           <select
                             aria-label="Select time"
                             class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -2350,16 +2293,11 @@ exports[`AdminNotificationsPageComponent should snap with default view 1`] = `
                   </div>
                   <tm-datetimepicker
                     class="text-center"
-                    dateid="notification-start-date"
-                    timeid="notification-start-time"
                   >
                     <div
-                      class="row align-items-center"
+                      class="d-flex align-items-center gap-2"
                     >
-                      <div
-                        class="col-md-7 col-xs-center"
-                        id="notification-start-date"
-                      >
+                      <div>
                         <tm-datepicker>
                           <div
                             class="input-group"
@@ -2383,12 +2321,8 @@ exports[`AdminNotificationsPageComponent should snap with default view 1`] = `
                           </div>
                         </tm-datepicker>
                       </div>
-                      <div
-                        class="col-md-5"
-                      >
-                        <tm-timepicker
-                          id="notification-start-time"
-                        >
+                      <div>
+                        <tm-timepicker>
                           <select
                             aria-label="Select time"
                             class="form-control form-select ng-untouched ng-pristine ng-valid"
@@ -2536,17 +2470,11 @@ exports[`AdminNotificationsPageComponent should snap with default view 1`] = `
                       </label>
                     </div>
                   </div>
-                  <tm-datetimepicker
-                    dateid="notification-end-date"
-                    timeid="notification-end-time"
-                  >
+                  <tm-datetimepicker>
                     <div
-                      class="row align-items-center"
+                      class="d-flex align-items-center gap-2"
                     >
-                      <div
-                        class="col-md-7 col-xs-center"
-                        id="notification-end-date"
-                      >
+                      <div>
                         <tm-datepicker>
                           <div
                             class="input-group"
@@ -2570,12 +2498,8 @@ exports[`AdminNotificationsPageComponent should snap with default view 1`] = `
                           </div>
                         </tm-datepicker>
                       </div>
-                      <div
-                        class="col-md-5"
-                      >
-                        <tm-timepicker
-                          id="notification-end-time"
-                        >
+                      <div>
+                        <tm-timepicker>
                           <select
                             aria-label="Select time"
                             class="form-control form-select ng-untouched ng-pristine ng-valid"

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbDateParserFormatter, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationEditFormMode, NotificationEditFormModel } from './notification-edit-form-model';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
+import { DateTimeService } from '../../../../services/datetime.service';
 import { ApiConst } from '../../../../types/api-const';
 import { NotificationTargetUser, NotificationStyle } from '../../../../types/api-request';
 import { getDefaultTimeFormat, getDefaultDateFormat } from '../../../../types/datetime-const';
@@ -85,7 +86,34 @@ export class NotificationEditFormComponent {
   @Output()
   cancelEditingNotificationEvent = new EventEmitter<void>();
 
-  constructor(private simpleModalService: SimpleModalService) {}
+  constructor(
+    private simpleModalService: SimpleModalService,
+    private datetimeService: DateTimeService,
+  ) {}
+
+  get startDateTime(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(this.model.startDate, this.model.startTime);
+  }
+
+  get endDateTime(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(this.model.endDate, this.model.endTime);
+  }
+
+  get minEndDateTime(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(this.model.startDate, { hour: 0, minute: 0 });
+  }
+
+  triggerStartDateTimeModelChange(date: Date): void {
+    const [newDate, newTime] = this.datetimeService.convertDateToDateFormatAndTimeFormat(date);
+    this.triggerModelChange('startDate', newDate);
+    this.triggerModelChange('startTime', newTime);
+  }
+
+  triggerEndDateTimeModelChange(date: Date): void {
+    const [newDate, newTime] = this.datetimeService.convertDateToDateFormatAndTimeFormat(date);
+    this.triggerModelChange('endDate', newDate);
+    this.triggerModelChange('endTime', newTime);
+  }
 
   /**
    * Triggers the change of the model for the form.

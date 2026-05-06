@@ -15,6 +15,7 @@ import {
 } from '../../../../types/datetime-const';
 import { DatepickerComponent } from '../../../components/datepicker/datepicker.component';
 import { DatetimepickerComponent } from '../../../components/datetimepicker/datetimepicker.component';
+import { DateTimeService } from '../../../../services/datetime.service';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { FormatDateDetailPipe } from '../../../components/teammates-common/format-date-detail.pipe';
 import { TimepickerComponent } from '../../../components/timepicker/timepicker.component';
@@ -56,6 +57,7 @@ export class IndividualExtensionDateModalComponent {
   constructor(
     public activeModal: NgbActiveModal,
     private simpleModalService: SimpleModalService,
+    private datetimeService: DateTimeService,
   ) {}
 
   RadioOptions: typeof RadioOptions = RadioOptions;
@@ -109,6 +111,23 @@ export class IndividualExtensionDateModalComponent {
     } else if (field === DateTime.TIME) {
       this.extendToTimePicker = data as TimeFormat;
     }
+  }
+
+  get extendToDateTime(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(this.extendToDatePicker, this.extendToTimePicker);
+  }
+
+  get minExtendToDateTime(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.getDateFormat(this.feedbackSessionEndingTimestamp),
+      { hour: 0, minute: 0 },
+    );
+  }
+
+  onChangeDateTimeUnified(date: Date): void {
+    const [newDate, newTime] = this.datetimeService.convertDateToDateFormatAndTimeFormat(date);
+    this.extendToDatePicker = newDate;
+    this.extendToTimePicker = newTime;
   }
 
   getDateFormat(timestamp: number): DateFormat {

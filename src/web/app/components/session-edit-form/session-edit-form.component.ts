@@ -251,6 +251,58 @@ export class SessionEditFormComponent {
     this.triggerModelChange(field, time);
   }
 
+  get submissionStartDateTime(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.model.submissionStartDate,
+      this.model.submissionStartTime,
+    );
+  }
+
+  get submissionEndDateTime(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.model.submissionEndDate,
+      this.model.submissionEndTime,
+    );
+  }
+
+  get customSessionVisibleDateTime(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.model.customSessionVisibleDate,
+      this.model.customSessionVisibleTime,
+    );
+  }
+
+  get customResponseVisibleDateTime(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.model.customResponseVisibleDate,
+      this.model.customResponseVisibleTime,
+    );
+  }
+
+  triggerSubmissionOpeningDateTimeModelChange(date: Date): void {
+    const [newDate, newTime] = this.datetimeService.convertDateToDateFormatAndTimeFormat(date);
+    this.triggerSubmissionOpeningDateModelChange('submissionStartDate', newDate);
+    this.triggerSubmissionOpeningTimeModelChange('submissionStartTime', newTime);
+  }
+
+  triggerSubmissionEndDateTimeModelChange(date: Date): void {
+    const [newDate, newTime] = this.datetimeService.convertDateToDateFormatAndTimeFormat(date);
+    this.triggerModelChange('submissionEndDate', newDate);
+    this.triggerModelChange('submissionEndTime', newTime);
+  }
+
+  triggerCustomSessionVisibleDateTimeModelChange(date: Date): void {
+    const [newDate, newTime] = this.datetimeService.convertDateToDateFormatAndTimeFormat(date);
+    this.triggerModelChange('customSessionVisibleDate', newDate);
+    this.triggerModelChange('customSessionVisibleTime', newTime);
+  }
+
+  triggerCustomResponseVisibleDateTimeModelChange(date: Date): void {
+    const [newDate, newTime] = this.datetimeService.convertDateToDateFormatAndTimeFormat(date);
+    this.triggerModelChange('customResponseVisibleDate', newDate);
+    this.triggerModelChange('customResponseVisibleTime', newTime);
+  }
+
   /**
    * Configures the session visible date and time to ensure it is not after submission opening time.
    */
@@ -296,6 +348,13 @@ export class SessionEditFormComponent {
     return this.datetimeService.getDateInstance(twoHoursBeforeNow);
   }
 
+  get minDateTimeForSubmissionStart(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.minDateForSubmissionStart,
+      this.minTimeForSubmissionStart,
+    );
+  }
+
   /**
    * Gets the minimum time for a session to be opened.
    *
@@ -314,6 +373,13 @@ export class SessionEditFormComponent {
   get maxDateForSubmissionStart(): DateFormat {
     const twelveMonthsFromNow = moment().tz(this.model.timeZone).add(12, 'months');
     return this.datetimeService.getDateInstance(twelveMonthsFromNow);
+  }
+
+  get maxDateTimeForSubmissionStart(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.maxDateForSubmissionStart,
+      this.maxTimeForSubmissionStart,
+    );
   }
 
   /**
@@ -339,6 +405,13 @@ export class SessionEditFormComponent {
     return submissionStartDate.isAfter(oneHourBeforeNow)
       ? this.model.submissionStartDate
       : this.datetimeService.getDateInstance(oneHourBeforeNow);
+  }
+
+  get minDateTimeForSubmissionEnd(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.minDateForSubmissionEnd,
+      this.minTimeForSubmissionEnd,
+    );
   }
 
   /**
@@ -386,6 +459,13 @@ export class SessionEditFormComponent {
     return getLatestTimeFormat();
   }
 
+  get maxDateTimeForSubmissionEnd(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.maxDateForSubmissionEnd,
+      this.maxTimeForSubmissionEnd,
+    );
+  }
+
   /**
    * Gets the minimum date for a session to be visible based on the input model.
    *
@@ -396,6 +476,13 @@ export class SessionEditFormComponent {
       .getMomentInstanceFromDate(this.model.submissionStartDate)
       .subtract(30, 'days');
     return this.datetimeService.getDateInstance(thirtyDaysBeforeSubmissionStartDate);
+  }
+
+  get minDateTimeForSessionVisible(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.minDateForSessionVisible,
+      this.minTimeForSessionVisible,
+    );
   }
 
   /**
@@ -471,6 +558,13 @@ export class SessionEditFormComponent {
     }
   }
 
+  get maxDateTimeForSessionVisible(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.maxDateForSessionVisible,
+      this.maxTimeForSessionVisible,
+    );
+  }
+
   /**
    * Gets the minimum date for responses to be visible based on the input model.
    *
@@ -501,6 +595,13 @@ export class SessionEditFormComponent {
       default:
         return getDefaultTimeFormat();
     }
+  }
+
+  get minDateTimeForResponseVisible(): Date {
+    return this.datetimeService.convertDateFormatAndTimeFormatToDate(
+      this.minDateForResponseVisible,
+      this.minTimeForResponseVisible,
+    );
   }
 
   /**
