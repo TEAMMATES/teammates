@@ -40,7 +40,6 @@ import {
   SortableTableComponent,
 } from '../../components/sortable-table/sortable-table.component';
 import { areEmailsEqual } from '../../components/teammates-common/email-utils';
-import { TimepickerComponent } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -94,7 +93,6 @@ interface FeedbackSessionLogModel {
     LoadingSpinnerDirective,
     FormsModule,
     DatetimepickerComponent,
-    TimepickerComponent,
     NgClass,
     PanelChevronComponent,
     SortableTableComponent,
