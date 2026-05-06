@@ -55,8 +55,7 @@ public final class UsersDb {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<User> cr = cb.createQuery(User.class);
         Root<User> userRoot = cr.from(User.class);
-        Join<User, Course> courseJoin = userRoot.join("course");
-        cr.select(userRoot).where(cb.equal(courseJoin.get("id"), courseId));
+        cr.select(userRoot).where(cb.equal(userRoot.get("courseId"), courseId));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }

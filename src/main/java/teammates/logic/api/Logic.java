@@ -386,12 +386,7 @@ public class Logic {
      * Gets the deadline extensions for a feedback session.
      */
     public Set<DeadlineExtension> getDeadlineExtensions(UUID feedbackSessionId) throws EntityDoesNotExistException {
-        FeedbackSession feedbackSession = feedbackSessionsLogic.getFeedbackSession(feedbackSessionId);
-        if (feedbackSession == null) {
-            throw new EntityDoesNotExistException("Feedback session does not exist: " + feedbackSessionId);
-        }
-
-        return feedbackSession.getDeadlineExtensions();
+        return deadlineExtensionsLogic.getDeadlineExtensions(feedbackSessionId);
     }
 
     /**
