@@ -147,4 +147,12 @@ describe('AccountService', () => {
     };
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, paramMap, updateRequest);
   });
+
+  it('should execute GET on account with users endpoint', () => {
+    service.getAccountWithUsers('testGoogleId');
+    const paramMap: Record<string, string> = {
+      instructorid: 'testGoogleId',
+    };
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_WITH_USERS, paramMap);
+  });
 });
