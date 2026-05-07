@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
 import {
-  Account,
   AccountRequest,
   AccountRequests,
   JoinLink,

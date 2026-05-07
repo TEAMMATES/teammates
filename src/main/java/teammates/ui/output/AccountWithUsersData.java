@@ -4,6 +4,9 @@ import java.util.List;
 
 import teammates.storage.entity.Account;
 
+/**
+ * Output format of account data with associated users information.
+ */
 public class AccountWithUsersData extends AccountData {
     private final List<InstructorData> instructors;
     private final List<StudentData> students;
