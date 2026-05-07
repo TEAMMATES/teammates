@@ -15,11 +15,11 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.EnrollStudentsData;
+import teammates.ui.request.StudentEnrollRequest;
 import teammates.ui.request.StudentsEnrollRequest;
 import teammates.ui.webapi.EnrollStudentsAction;
 import teammates.ui.webapi.JsonResult;
@@ -49,13 +49,7 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         return PUT;
     }
 
-    private StudentsEnrollRequest prepareRequest(List<Student> students) {
-        List<StudentsEnrollRequest.StudentEnrollRequest> studentEnrollRequests = new ArrayList<>();
-        students.forEach(student -> {
-            studentEnrollRequests.add(new StudentsEnrollRequest.StudentEnrollRequest(student.getName(),
-                    student.getEmail(), student.getTeamName(), student.getSectionName(), student.getComments()));
-        });
-
+    private StudentsEnrollRequest prepareRequest(List<StudentEnrollRequest> studentEnrollRequests) {
         return new StudentsEnrollRequest(studentEnrollRequests);
     }
 
@@ -63,12 +57,11 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
     @Test
     public void testExecute() throws Exception {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        String courseId = typicalBundle.students.get("student1InCourse1").getCourseId();
-        Course course = logic.getCourse(courseId);
-        Section section = logic.getSection(courseId, "Section 1");
-        Team team = logic.getTeamOrCreate(section, "Team 1");
-        Student newStudent = new Student(course, "Test Student", "test@email.com", "Test Comment");
-        team.addUser(newStudent);
+        String courseId = typicalBundle.courses.get("course1").getId();
+        Team team = typicalBundle.teams.get("team1InCourse1");
+        StudentEnrollRequest enrollRequest = new StudentEnrollRequest(
+                "Test Student", "test@email.com", team.getName(),
+                team.getSection().getName(), "Test Comment");
 
         loginAsInstructor(instructor.getGoogleId());
 
@@ -81,7 +74,7 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
 
         ______TS("Typical Success Case For Enrolling a Student");
 
-        StudentsEnrollRequest request = prepareRequest(Arrays.asList(newStudent));
+        StudentsEnrollRequest request = prepareRequest(Arrays.asList(enrollRequest));
         EnrollStudentsAction enrollStudentsAction = getAction(request, params);
         JsonResult res = getJsonResult(enrollStudentsAction);
         EnrollStudentsData data = (EnrollStudentsData) res.getOutput();
@@ -89,30 +82,15 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         List<Student> studentsInCourse = logic.getStudentsForCourse(courseId);
         assertEquals(6, studentsInCourse.size());
 
-        ______TS("Fail to enroll due to duplicate team name across sections");
+        ______TS("Typical Success Case For Changing Details of a Student");
 
-        String expectedMessage = "Team \"%s\" is detected in both Section \"%s\" and Section \"%s\"."
-                + " Please use different team names in different sections.";
-        Section newSection = logic.getSection(courseId, "Section 3");
-        Team newTeam = new Team("Team 1");
-        newSection.addTeam(newTeam);
-        newStudent = new Student(course, "Test Student", "test@email.com", "Test Comment");
-        newTeam.addUser(newStudent);
-        Student secondStudent = new Student(course, "Test Student 2", "test2@email.com", "Test Comment");
-        newTeam.addUser(secondStudent);
-        StudentsEnrollRequest req = prepareRequest(Arrays.asList(secondStudent, newStudent));
-        InvalidOperationException exception = verifyInvalidOperation(req, params);
-        assertEquals(String.format(expectedMessage, "Team 1", "Section 3", "Section 1"), exception.getMessage());
+        Team team2 = typicalBundle.teams.get("team3InCourse1");
+        String giverEmail = "student1@teammates.tmt";
+        StudentEnrollRequest enrollRequestNewTeam = new StudentEnrollRequest(
+                "New Student", giverEmail, team2.getName(),
+                team2.getSection().getName(), "New Comment");
 
-        ______TS("Typical Success Case For Changing Details (except email) of a Student");
-
-        Section section3 = logic.getSection(courseId, "Section 3");
-        Team team3 = logic.getTeamOrCreate(section3, "Team 3");
-
-        Student changedTeam = new Student(course, "Student 1", "student1@teammates.tmt", "Test Comment");
-        team3.addUser(changedTeam);
-
-        request = prepareRequest(Arrays.asList(changedTeam));
+        request = prepareRequest(Arrays.asList(enrollRequestNewTeam));
         enrollStudentsAction = getAction(request, params);
         res = getJsonResult(enrollStudentsAction);
         data = (EnrollStudentsData) res.getOutput();
@@ -121,8 +99,6 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         assertEquals(6, studentsInCourse.size());
 
         // Verify that changes have cascaded to feedback responses
-        String giverEmail = "student1@teammates.tmt";
-
         List<FeedbackResponse> responsesFromUser =
                 logic.getFeedbackResponsesFromGiverForCourse(courseId, giverEmail);
 
@@ -142,6 +118,20 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
                 }
             }
         }
+
+        ______TS("Fail to enroll due to duplicate team name across sections");
+
+        String expectedMessage = "Team \"Team Duplicate\" is detected in Sections \"Section 5\", \"Section 6\"."
+                + " Please use different team names in different sections.";
+        StudentEnrollRequest enrollRequest1 = new StudentEnrollRequest(
+                "Test Student", "test-failure1@email.com", "Team Duplicate",
+                "Section 5", "Test Comment");
+        StudentEnrollRequest enrollRequest2 = new StudentEnrollRequest(
+                "Test Student", "test-failure2@email.com", "Team Duplicate",
+                "Section 6", "Test Comment");
+        StudentsEnrollRequest req = prepareRequest(Arrays.asList(enrollRequest1, enrollRequest2));
+        InvalidOperationException exception = verifyInvalidOperation(req, params);
+        assertEquals(expectedMessage, exception.getMessage());
     }
 
     @Test

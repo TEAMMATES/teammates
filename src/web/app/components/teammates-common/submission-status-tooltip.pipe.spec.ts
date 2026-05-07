@@ -12,48 +12,28 @@ describe('SubmissionStatusTooltipPipe', () => {
     expect(pipe).toBeTruthy();
   });
 
-  it('transform with no deadlines correctly', () => {
-    jest.useFakeTimers().setSystemTime(new Date('2020-01-01').getTime());
-    const hasNoDeadlines = {
-      studentDeadlines: {},
-      instructorDeadlines: {},
-    };
-    const hasNoOngoingDeadlines = {
-      studentDeadlines: { nonOngoingExtension1: new Date('2019-01-01').valueOf() },
-      instructorDeadlines: { nonOngoingExtension2: new Date('2019-02-01').valueOf() },
-    };
-
-    expect(pipe.transform(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN, hasNoDeadlines)).toEqual(
-      pipe.transform(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN),
+  it('transforms correctly', () => {
+    const notVisibleWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.NOT_VISIBLE);
+    expect(notVisibleWithExtension).toEqual(
+      'The feedback session is waiting to open for submissions, and is not yet visible to respondents.',
     );
 
-    expect(pipe.transform(FeedbackSessionSubmissionStatus.OPEN, hasNoOngoingDeadlines)).toEqual(
-      pipe.transform(FeedbackSessionSubmissionStatus.OPEN),
+    const visibleWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN);
+    expect(visibleWithExtension).toEqual(
+      'The feedback session is waiting to open for submissions, but is visible to respondents.',
     );
-  });
 
-  it('transform with deadlines correctly', () => {
-    jest.useFakeTimers().setSystemTime(new Date('2020-01-01').getTime());
-    const hasOngoingDeadlines = {
-      studentDeadlines: { ongoingDeadline: new Date('2021-01-01').valueOf() },
-      instructorDeadlines: { nonOngoingDeadline: new Date('2019-01-01').valueOf() },
-    };
+    const openWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.OPEN);
+    expect(openWithExtension).toEqual('The feedback session is open for submissions, and is visible to respondents.');
 
-    const extensionMessage = ', with current ongoing individual deadline extensions.';
+    const gracePeriodWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.GRACE_PERIOD);
+    expect(gracePeriodWithExtension).toEqual(
+      'The feedback session is open for submissions, is in the grace period, and is visible to respondents.',
+    );
 
-    const notVisibleWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.NOT_VISIBLE, hasOngoingDeadlines);
-    expect(notVisibleWithExtension.endsWith(extensionMessage)).toBeTruthy();
-
-    const visibleWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN, hasOngoingDeadlines);
-    expect(visibleWithExtension.endsWith(extensionMessage)).toBeTruthy();
-
-    const openWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.OPEN, hasOngoingDeadlines);
-    expect(openWithExtension.endsWith(extensionMessage)).toBeTruthy();
-
-    const gracePeriodWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.GRACE_PERIOD, hasOngoingDeadlines);
-    expect(gracePeriodWithExtension.endsWith(extensionMessage)).toBeTruthy();
-
-    const closedWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.CLOSED, hasOngoingDeadlines);
-    expect(closedWithExtension.endsWith(extensionMessage)).toBeTruthy();
+    const closedWithExtension = pipe.transform(FeedbackSessionSubmissionStatus.CLOSED);
+    expect(closedWithExtension).toEqual(
+      'The feedback session is closed for submissions, and is visible to respondents.',
+    );
   });
 });

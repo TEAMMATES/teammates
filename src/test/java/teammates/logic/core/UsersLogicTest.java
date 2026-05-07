@@ -51,7 +51,8 @@ public class UsersLogicTest extends BaseTestCase {
         FeedbackResponsesLogic feedbackResponsesLogic = mock(FeedbackResponsesLogic.class);
         FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = mock(FeedbackResponseCommentsLogic.class);
         DeadlineExtensionsLogic deadlineExtensionsLogic = mock(DeadlineExtensionsLogic.class);
-        usersLogic.initLogicDependencies(usersDb, accountsLogic, feedbackResponsesLogic,
+        CoursesLogic coursesLogic = mock(CoursesLogic.class);
+        usersLogic.initLogicDependencies(usersDb, accountsLogic, coursesLogic, feedbackResponsesLogic,
                 feedbackResponseCommentsLogic, deadlineExtensionsLogic);
 
         course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
@@ -85,8 +86,7 @@ public class UsersLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testResetInstructorGoogleId_instructorDoesNotExists_throwsEntityDoesNotExistException()
-            throws EntityDoesNotExistException {
+    public void testResetInstructorGoogleId_instructorDoesNotExists_throwsEntityDoesNotExistException() {
         String courseId = instructor.getCourseId();
         String email = instructor.getEmail();
         String googleId = account.getGoogleId();
@@ -118,8 +118,7 @@ public class UsersLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testResetStudentGoogleId_entityDoesNotExists_throwsEntityDoesNotExistException()
-            throws EntityDoesNotExistException {
+    public void testResetStudentGoogleId_entityDoesNotExists_throwsEntityDoesNotExistException() {
         String courseId = student.getCourseId();
         String email = student.getEmail();
         String googleId = account.getGoogleId();

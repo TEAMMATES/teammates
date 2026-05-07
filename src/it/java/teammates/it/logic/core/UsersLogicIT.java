@@ -9,6 +9,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.InstructorPermissions;
+import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
@@ -81,12 +82,10 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
         instructor.setCourse(course);
         instructor.setAccount(anotherAccount);
 
-        Student anotherUser = getTypicalStudent();
-        anotherUser.setCourse(course);
+        Student anotherUser = usersLogic.createStudent(course, team, "name", "student-email@gmail.tmt", "comments");
         anotherUser.setAccount(anotherAccount);
-        anotherUser.setTeam(team);
+        HibernateUtil.flushSession();
 
-        usersLogic.createStudent(anotherUser);
         usersLogic.resetInstructorGoogleId(email, courseId, googleId);
 
         assertNull(instructor.getAccount());
@@ -96,21 +95,18 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
     @Test
     public void testResetStudentGoogleId()
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        Student student = getTypicalStudent();
-        student.setCourse(course);
-        student.setAccount(account);
-        student.setTeam(team);
-
-        String email = student.getEmail();
-        String courseId = student.getCourseId();
-        String googleId = student.getGoogleId();
+        String email = "email@gmail.tmt";
+        String courseId = course.getId();
+        String googleId = account.getGoogleId();
 
         ______TS("success: reset student that does not exist");
         assertThrows(EntityDoesNotExistException.class,
                 () -> usersLogic.resetStudentGoogleId(email, courseId, googleId));
 
         ______TS("success: reset student that exists");
-        usersLogic.createStudent(student);
+        Student student = usersLogic.createStudent(course, team, "name", email, "comments");
+        student.setAccount(account);
+
         usersLogic.resetStudentGoogleId(email, courseId, googleId);
 
         assertNull(student.getAccount());

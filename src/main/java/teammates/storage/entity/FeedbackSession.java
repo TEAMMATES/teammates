@@ -199,6 +199,14 @@ public class FeedbackSession extends BaseEntity {
         deadlineExtension.setFeedbackSession(this);
     }
 
+    /**
+     * Removes a deadline extension from the feedback session.
+     */
+    public void removeDeadlineExtension(DeadlineExtension deadlineExtension) {
+        this.deadlineExtensions.remove(deadlineExtension);
+        deadlineExtension.setFeedbackSession(null);
+    }
+
     public UUID getId() {
         return id;
     }

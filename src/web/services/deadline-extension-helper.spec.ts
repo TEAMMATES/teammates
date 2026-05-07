@@ -23,6 +23,7 @@ const hasNoOngoingDeadlines: Record<string, number> = {
 };
 
 const student1: Student = {
+  userId: 'student1-id',
   email: 'student1Model@example.com',
   courseId: 'course1',
   name: 'student1Model',
@@ -30,6 +31,7 @@ const student1: Student = {
   sectionName: '1',
 };
 const student1Model: StudentExtensionTableColumnModel = {
+  userId: 'student1-id',
   sectionName: '1',
   teamName: '1',
   name: 'student1Model',
@@ -39,6 +41,7 @@ const student1Model: StudentExtensionTableColumnModel = {
   isSelected: false,
 };
 const student2: Student = {
+  userId: 'student2-id',
   email: 'student2Model@example.com',
   courseId: 'course1',
   name: 'student2Model',
@@ -46,6 +49,7 @@ const student2: Student = {
   sectionName: '1',
 };
 const student2Model: StudentExtensionTableColumnModel = {
+  userId: 'student2-id',
   sectionName: '1',
   teamName: '2',
   name: 'student2Model',
@@ -55,6 +59,7 @@ const student2Model: StudentExtensionTableColumnModel = {
   isSelected: false,
 };
 const instructor1: Instructor = {
+  userId: 'instructor1-id',
   courseId: '1',
   role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
   email: 'instructor1Model@example.com',
@@ -62,6 +67,7 @@ const instructor1: Instructor = {
   joinState: JoinState.JOINED,
 };
 const instructor1ModelWithExtension: InstructorExtensionTableColumnModel = {
+  userId: 'instructor1-id',
   name: 'instructor1Model',
   email: 'instructor1Model@example.com',
   role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
@@ -70,6 +76,7 @@ const instructor1ModelWithExtension: InstructorExtensionTableColumnModel = {
   isSelected: false,
 };
 const instructor2: Instructor = {
+  userId: 'instructor2-id',
   courseId: '1',
   role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
   email: 'instructor2Model@example.com',
@@ -77,6 +84,7 @@ const instructor2: Instructor = {
   joinState: JoinState.JOINED,
 };
 const instructor2ModelWithExtension: InstructorExtensionTableColumnModel = {
+  userId: 'instructor2-id',
   name: 'instructor2Model',
   email: 'instructor2Model@example.com',
   role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
@@ -88,57 +96,6 @@ const instructor2ModelWithExtension: InstructorExtensionTableColumnModel = {
 describe('DeadlineExtensionHelper', () => {
   beforeEach(() => jest.useFakeTimers().setSystemTime(timeNow));
 
-  it('should detect ongoing extensions correctly', () => {
-    expect(
-      DeadlineExtensionHelper.hasOngoingExtension({
-        studentDeadlines: hasOngoingDeadlines,
-        instructorDeadlines: hasNoOngoingDeadlines,
-      }),
-    ).toBeTruthy();
-
-    expect(
-      DeadlineExtensionHelper.hasOngoingExtension({
-        studentDeadlines: hasNoOngoingDeadlines,
-        instructorDeadlines: hasOngoingDeadlines,
-      }),
-    ).toBeTruthy();
-
-    expect(
-      DeadlineExtensionHelper.hasOngoingExtension({
-        studentDeadlines: hasOngoingDeadlines,
-        instructorDeadlines: hasOngoingDeadlines,
-      }),
-    ).toBeTruthy();
-
-    expect(
-      DeadlineExtensionHelper.hasOngoingExtension({
-        studentDeadlines: hasNoOngoingDeadlines,
-        instructorDeadlines: {},
-      }),
-    ).toBeFalsy();
-
-    expect(
-      DeadlineExtensionHelper.hasOngoingExtension({
-        studentDeadlines: {},
-        instructorDeadlines: hasNoOngoingDeadlines,
-      }),
-    ).toBeFalsy();
-
-    expect(
-      DeadlineExtensionHelper.hasOngoingExtension({
-        studentDeadlines: hasNoOngoingDeadlines,
-        instructorDeadlines: hasNoOngoingDeadlines,
-      }),
-    ).toBeFalsy();
-
-    expect(
-      DeadlineExtensionHelper.hasOngoingExtension({
-        studentDeadlines: {},
-        instructorDeadlines: {},
-      }),
-    ).toBeFalsy();
-  });
-
   it('should filter and set deadlines before given end time correctly', () => {
     expect(
       Object.keys(DeadlineExtensionHelper.getDeadlinesBeforeOrEqualToEndTime(hasOngoingDeadlines, timeNow)).length,
@@ -149,8 +106,8 @@ describe('DeadlineExtensionHelper', () => {
   });
 
   it('should map students correctly', () => {
-    const student1Extension: Record<string, number> = { 'student1Model@example.com': 0 };
-    const student2Extension: Record<string, number> = { 'student2Model@example.com': 0 };
+    const student1Extension: Record<string, number> = { 'student1-id': 0 };
+    const student2Extension: Record<string, number> = { 'student2-id': 0 };
     const studentModels = DeadlineExtensionHelper.mapStudentsToStudentModels(
       [student1, student2],
       { ...student1Extension, ...student2Extension },
@@ -161,8 +118,8 @@ describe('DeadlineExtensionHelper', () => {
   });
 
   it('should map instructors correctly', () => {
-    const instructor1Extension: Record<string, number> = { 'instructor1Model@example.com': 3 };
-    const instructor2Extension: Record<string, number> = { 'instructor2Model@example.com': 3 };
+    const instructor1Extension: Record<string, number> = { 'instructor1-id': 3 };
+    const instructor2Extension: Record<string, number> = { 'instructor2-id': 3 };
     const instructorModels = DeadlineExtensionHelper.mapInstructorsToInstructorModels(
       [instructor1, instructor2],
       { ...instructor1Extension, ...instructor2Extension },
@@ -173,49 +130,38 @@ describe('DeadlineExtensionHelper', () => {
   });
 
   it('should get deadlines correctly after updating deadlines for creation', () => {
-    const existingExtensionForStudentModel1: Record<string, number> = { 'student1Model@example.com': 0 };
-    const existingExtensionForInstructorModel1: Record<string, number> = { 'instructor1Model@example.com': 0 };
-    const hasOngoingDeadlinesWithStudent = { ...hasOngoingDeadlines, ...existingExtensionForStudentModel1 };
-    const hasOngoingDeadlinesWithInstructor = { ...hasOngoingDeadlines, ...existingExtensionForInstructorModel1 };
+    const existingExtensionForStudentModel1: Record<string, number> = { 'student1-id': 0 };
+    const existingExtensionForInstructorModel1: Record<string, number> = { 'instructor1-id': 0 };
+    const deadlinesToCopyFrom = {
+      ...hasOngoingDeadlines,
+      ...existingExtensionForStudentModel1,
+      ...existingExtensionForInstructorModel1,
+    };
 
-    const updatedStudentDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForCreation(
+    const updatedDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForCreation(
       [student1Model, student2Model],
-      hasOngoingDeadlinesWithStudent,
+      [instructor1ModelWithExtension, instructor2ModelWithExtension],
+      deadlinesToCopyFrom,
       100,
     );
-    expect(Object.keys(updatedStudentDeadlines).length).toEqual(5);
-    expect(updatedStudentDeadlines['student1Model@example.com']).toEqual(100);
-    expect(updatedStudentDeadlines['student2Model@example.com']).toEqual(100);
-
-    const updatedInstructorDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForCreation(
-      [instructor1ModelWithExtension, instructor2ModelWithExtension],
-      hasOngoingDeadlinesWithInstructor,
-      200,
-    );
-    expect(Object.keys(updatedInstructorDeadlines).length).toEqual(5);
-    expect(updatedInstructorDeadlines['instructor1Model@example.com']).toEqual(200);
-    expect(updatedInstructorDeadlines['instructor2Model@example.com']).toEqual(200);
+    expect(Object.keys(updatedDeadlines).length).toEqual(7);
+    expect(updatedDeadlines['student1-id']).toEqual(100);
+    expect(updatedDeadlines['student2-id']).toEqual(100);
+    expect(updatedDeadlines['instructor1-id']).toEqual(100);
+    expect(updatedDeadlines['instructor2-id']).toEqual(100);
   });
 
   it('should get deadlines correctly after updating deadlines for deletion', () => {
-    const student1ModelExtension: Record<string, number> = { 'student1Model@example.com': 0 };
-    const instructor1ModelExtension: Record<string, number> = { 'instructor1Model@example.com': 0 };
-    const hasOngoingDeadlinesWithStudent = { ...hasOngoingDeadlines, ...student1ModelExtension };
-    const hasOngoingDeadlinesWithInstructor = { ...hasOngoingDeadlines, ...instructor1ModelExtension };
+    const student1ModelExtension: Record<string, number> = { 'student1-id': 0 };
+    const instructor1ModelExtension: Record<string, number> = { 'instructor1-id': 0 };
+    const deadlinesToCopyFrom = { ...hasOngoingDeadlines, ...student1ModelExtension, ...instructor1ModelExtension };
 
     expect(
       Object.keys(
         DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
           [student1Model, student2Model],
-          hasOngoingDeadlinesWithStudent,
-        ),
-      ).length,
-    ).toEqual(3);
-    expect(
-      Object.keys(
-        DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
           [instructor1ModelWithExtension, instructor2ModelWithExtension],
-          hasOngoingDeadlinesWithInstructor,
+          deadlinesToCopyFrom,
         ),
       ).length,
     ).toEqual(3);

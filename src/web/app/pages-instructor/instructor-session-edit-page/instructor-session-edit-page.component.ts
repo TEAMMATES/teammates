@@ -107,8 +107,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   isEditingMode = false;
 
   courseName = '';
-  studentDeadlines: Record<string, number> = {};
-  instructorDeadlines: Record<string, number> = {};
+  userDeadlines: Record<string, number> = {};
 
   // to get the original session model on discard changes
   feedbackSessionModelBeforeEditing: SessionEditFormModel = JSON.parse(JSON.stringify(this.sessionEditFormModel));
@@ -249,8 +248,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             next: ([feedbackSession, deadlineExtensions]: [FeedbackSession, DeadlineExtensions]) => {
               this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession, this.isEditingMode);
               this.feedbackSessionModelBeforeEditing = this.getSessionEditFormModel(feedbackSession);
-              this.studentDeadlines = deadlineExtensions.studentDeadlines;
-              this.instructorDeadlines = deadlineExtensions.instructorDeadlines;
+              this.userDeadlines = deadlineExtensions.userDeadlines;
             },
             error: (resp: ErrorMessageOutput) => {
               this.hasLoadingFeedbackSessionFailed = true;
@@ -501,11 +499,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Prompts the user to delete individual extensions that are before or equal to the new session end time.
    */
   deleteDeadlineExtensionsHandler(submissionEndTimestamp: number): Observable<boolean> {
-    const [studentDeadlinesToDelete, instructorDeadlinesToDelete] =
-      this.getIndividualDeadlinesToDelete(submissionEndTimestamp);
+    const deadlinesToDelete = this.getIndividualDeadlinesToDelete(submissionEndTimestamp);
 
-    const isAllDeadlinesAfterUpdatedEndTime =
-      Object.values(studentDeadlinesToDelete).length === 0 && Object.values(instructorDeadlinesToDelete).length === 0;
+    const isAllDeadlinesAfterUpdatedEndTime = Object.values(deadlinesToDelete).length === 0;
 
     if (isAllDeadlinesAfterUpdatedEndTime) {
       return of(true); // no need to prompt for deletion
@@ -513,8 +509,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
     const [affectedStudentModels, affectedInstructorModels] = this.getAffectedIndividualModels(
       submissionEndTimestamp,
-      studentDeadlinesToDelete,
-      instructorDeadlinesToDelete,
+      deadlinesToDelete,
     );
 
     const modalRef: NgbModalRef = this.ngbModal.open(ExtensionConfirmModalComponent);
@@ -527,18 +522,16 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     return new Observable((subscribeIsUserAccept) => {
       modalRef.componentInstance.confirmExtensionCallbackEvent.subscribe(
         (isNotifyDeadlines: boolean) => {
-          const updatedStudentDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
+          const updatedDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
             affectedStudentModels,
-            this.studentDeadlines,
-          );
-          const updatedInstructorDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
             affectedInstructorModels,
-            this.instructorDeadlines,
+            this.userDeadlines,
           );
+
           this.feedbackSessionsService
             .updateFeedbackSessionDeadlineExtensions(
               this.feedbackSessionId,
-              { studentDeadlines: updatedStudentDeadlines, instructorDeadlines: updatedInstructorDeadlines },
+              { userDeadlines: updatedDeadlines },
               isNotifyDeadlines,
             )
             .subscribe({
@@ -562,18 +555,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     });
   }
 
-  private getIndividualDeadlinesToDelete(
-    submissionEndTimestamp: number,
-  ): [Record<string, number>, Record<string, number>] {
-    const studentDeadlinesToDelete = DeadlineExtensionHelper.getDeadlinesBeforeOrEqualToEndTime(
-      this.studentDeadlines,
-      submissionEndTimestamp,
-    );
-    const instructorDeadlinesToDelete = DeadlineExtensionHelper.getDeadlinesBeforeOrEqualToEndTime(
-      this.instructorDeadlines,
-      submissionEndTimestamp,
-    );
-    return [studentDeadlinesToDelete, instructorDeadlinesToDelete];
+  private getIndividualDeadlinesToDelete(submissionEndTimestamp: number): Record<string, number> {
+    return DeadlineExtensionHelper.getDeadlinesBeforeOrEqualToEndTime(this.userDeadlines, submissionEndTimestamp);
   }
 
   /**
@@ -581,22 +564,21 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   private getAffectedIndividualModels(
     submissionEndTimestamp: number,
-    affectedStudentDeadlines: Record<string, number>,
-    affectedInstructorDeadlines: Record<string, number>,
+    affectedUserDeadlines: Record<string, number>,
   ): [StudentExtensionTableColumnModel[], InstructorExtensionTableColumnModel[]] {
-    const affectedStudents = this.studentsOfCourse.filter((student) => affectedStudentDeadlines[student.email]);
+    const affectedStudents = this.studentsOfCourse.filter((student) => affectedUserDeadlines[student.userId]);
     const affectedInstructors = this.instructorsOfCourse.filter(
-      (instructor) => affectedInstructorDeadlines[instructor.email],
+      (instructor) => affectedUserDeadlines[instructor.userId],
     );
 
     const affectedStudentModels = DeadlineExtensionHelper.mapStudentsToStudentModels(
       affectedStudents,
-      affectedStudentDeadlines,
+      affectedUserDeadlines,
       submissionEndTimestamp,
     );
     const affectedInstructorModels = DeadlineExtensionHelper.mapInstructorsToInstructorModels(
       affectedInstructors,
-      affectedInstructorDeadlines,
+      affectedUserDeadlines,
       submissionEndTimestamp,
     );
     return [affectedStudentModels, affectedInstructorModels];
@@ -606,10 +588,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     students: StudentExtensionTableColumnModel[],
     instructors: InstructorExtensionTableColumnModel[],
   ): void {
-    this.studentDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(students, this.studentDeadlines);
-    this.instructorDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
+    this.userDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
+      students,
       instructors,
-      this.instructorDeadlines,
+      this.userDeadlines,
     );
   }
   /**

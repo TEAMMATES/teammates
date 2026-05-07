@@ -79,8 +79,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
   studentsOfCourse: StudentExtensionTableColumnModel[] = [];
   instructorsOfCourse: InstructorExtensionTableColumnModel[] = [];
-  studentDeadlines: Record<string, number> = {};
-  instructorDeadlines: Record<string, number> = {};
+  userDeadlines: Record<string, number> = {};
 
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
@@ -155,8 +154,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         next: ([course, feedbackSession, deadlineExtensions]: [Course, FeedbackSession, DeadlineExtensions]) => {
           this.courseName = course.courseName;
           this.setFeedbackSessionDetails(feedbackSession);
-          this.studentDeadlines = deadlineExtensions.studentDeadlines;
-          this.instructorDeadlines = deadlineExtensions.instructorDeadlines;
+          this.userDeadlines = deadlineExtensions.userDeadlines;
           this.getAllStudentsOfCourse(); // Both students and instructors need feedback ending time.
           this.getAllInstructorsOfCourse();
         },
@@ -177,7 +175,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         map(({ students }: Students) =>
           DeadlineExtensionHelper.mapStudentsToStudentModels(
             students,
-            this.studentDeadlines,
+            this.userDeadlines,
             this.feedbackSessionEndingTimestamp,
           ),
         ),
@@ -268,7 +266,7 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         map(({ instructors }: Instructors) =>
           DeadlineExtensionHelper.mapInstructorsToInstructorModels(
             instructors,
-            this.instructorDeadlines,
+            this.userDeadlines,
             this.feedbackSessionEndingTimestamp,
           ),
         ),
@@ -448,35 +446,28 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     selectedStudents: StudentExtensionTableColumnModel[],
     selectedInstructors: InstructorExtensionTableColumnModel[],
     extensionTimestamp: number,
-  ): { studentDeadlines: Record<string, number>; instructorDeadlines: Record<string, number> } {
-    const studentDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForCreation(
+  ): { userDeadlines: Record<string, number> } {
+    const userDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForCreation(
       selectedStudents,
-      this.studentDeadlines,
-      extensionTimestamp,
-    );
-    const instructorDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForCreation(
       selectedInstructors,
-      this.instructorDeadlines,
+      this.userDeadlines,
       extensionTimestamp,
     );
 
-    return { studentDeadlines, instructorDeadlines };
+    return { userDeadlines };
   }
 
   private getUpdatedDeadlinesForDeletion(
     selectedStudents: StudentExtensionTableColumnModel[],
     selectedInstructors: InstructorExtensionTableColumnModel[],
-  ): { studentDeadlines: Record<string, number>; instructorDeadlines: Record<string, number> } {
-    const studentDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
+  ): { userDeadlines: Record<string, number> } {
+    const userDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
       selectedStudents,
-      this.studentDeadlines,
-    );
-    const instructorDeadlines = DeadlineExtensionHelper.getUpdatedDeadlinesForDeletion(
       selectedInstructors,
-      this.instructorDeadlines,
+      this.userDeadlines,
     );
 
-    return { studentDeadlines, instructorDeadlines };
+    return { userDeadlines };
   }
 
   private showSuccessToast(updateAction: string, numOfStudentsUpdated: number, numOfInstructorsUpdated: number): void {

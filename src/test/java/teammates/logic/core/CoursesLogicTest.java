@@ -348,8 +348,7 @@ public class CoursesLogicTest extends BaseTestCase {
         EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
                 () -> coursesLogic.createTeam(section, "team-name"));
 
-        assertEquals(String.format("Team with name %s already exists in section %s",
-                "team-name", section.getId()), ex.getMessage());
+        assertEquals("Team with name team-name already exists in section test-section", ex.getMessage());
     }
 
     @Test

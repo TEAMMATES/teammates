@@ -8,25 +8,14 @@ import { FeedbackSession, Instructor, Student } from '../types/api-output';
  * Deadline Extension utility functions.
  */
 export class DeadlineExtensionHelper {
-  public static hasOngoingExtension(deadlines: {
-    studentDeadlines: Record<string, number>;
-    instructorDeadlines: Record<string, number>;
-  }): boolean {
-    const timeNow = Date.now();
-    return (
-      Object.values(deadlines.studentDeadlines).some((deadlineTimestamp) => deadlineTimestamp > timeNow) ||
-      Object.values(deadlines.instructorDeadlines).some((deadlineTimestamp) => deadlineTimestamp > timeNow)
-    );
-  }
-
   public static getDeadlinesBeforeOrEqualToEndTime(
     deadlines: Record<string, number>,
     submissionEndTime: number,
   ): Record<string, number> {
     const deadlinesBeforeOrEqualToEndTime: Record<string, number> = {};
-    for (const [emailOfIndividual, deadlineOfIndividual] of Object.entries(deadlines)) {
+    for (const [id, deadlineOfIndividual] of Object.entries(deadlines)) {
       if (deadlineOfIndividual <= submissionEndTime) {
-        deadlinesBeforeOrEqualToEndTime[emailOfIndividual] = deadlineOfIndividual;
+        deadlinesBeforeOrEqualToEndTime[id] = deadlineOfIndividual;
       }
     }
     return deadlinesBeforeOrEqualToEndTime;
@@ -34,11 +23,12 @@ export class DeadlineExtensionHelper {
 
   public static mapStudentsToStudentModels(
     students: Student[],
-    studentDeadlines: Record<string, number>,
+    userDeadlines: Record<string, number>,
     feedbackSessionEndingTimestamp: number,
   ): StudentExtensionTableColumnModel[] {
     return students.map((student) => {
       const studentData: StudentExtensionTableColumnModel = {
+        userId: student.userId,
         sectionName: student.sectionName,
         teamName: student.teamName,
         name: student.name,
@@ -48,9 +38,9 @@ export class DeadlineExtensionHelper {
         isSelected: false,
       };
 
-      if (student.email in studentDeadlines) {
+      if (student.userId in userDeadlines) {
         studentData.hasExtension = true;
-        studentData.extensionDeadline = studentDeadlines[student.email];
+        studentData.extensionDeadline = userDeadlines[student.userId];
       }
       return studentData;
     });
@@ -58,11 +48,12 @@ export class DeadlineExtensionHelper {
 
   public static mapInstructorsToInstructorModels(
     instructors: Instructor[],
-    instructorDeadlines: Record<string, number>,
+    userDeadlines: Record<string, number>,
     feedbackSessionEndingTimestamp: number,
   ): InstructorExtensionTableColumnModel[] {
     return instructors.map((instructor) => {
       const instructorData: InstructorExtensionTableColumnModel = {
+        userId: instructor.userId,
         name: instructor.name,
         role: instructor.role,
         email: instructor.email,
@@ -71,33 +62,41 @@ export class DeadlineExtensionHelper {
         isSelected: false,
       };
 
-      if (instructor.email in instructorDeadlines) {
+      if (instructor.userId in userDeadlines) {
         instructorData.hasExtension = true;
-        instructorData.extensionDeadline = instructorDeadlines[instructor.email];
+        instructorData.extensionDeadline = userDeadlines[instructor.userId];
       }
       return instructorData;
     });
   }
 
   public static getUpdatedDeadlinesForCreation(
-    selectedIndividuals: StudentExtensionTableColumnModel[] | InstructorExtensionTableColumnModel[],
+    selectedStudents: StudentExtensionTableColumnModel[],
+    selectedInstructors: InstructorExtensionTableColumnModel[],
     deadlinesToCopyFrom: Record<string, number>,
     extensionTimestamp?: number,
   ): Record<string, number> {
     const record: Record<string, number> = { ...deadlinesToCopyFrom };
-    selectedIndividuals.forEach((x) => {
-      record[x.email] = extensionTimestamp!;
+    selectedStudents.forEach((x) => {
+      record[x.userId] = extensionTimestamp!;
+    });
+    selectedInstructors.forEach((x) => {
+      record[x.userId] = extensionTimestamp!;
     });
     return record;
   }
 
   public static getUpdatedDeadlinesForDeletion(
-    selectedIndividuals: StudentExtensionTableColumnModel[] | InstructorExtensionTableColumnModel[],
+    selectedStudents: StudentExtensionTableColumnModel[],
+    selectedInstructors: InstructorExtensionTableColumnModel[],
     deadlinesToCopyFrom: Record<string, number>,
   ): Record<string, number> {
     const record: Record<string, number> = { ...deadlinesToCopyFrom };
-    selectedIndividuals.forEach((x) => {
-      delete record[x.email];
+    selectedStudents.forEach((x) => {
+      delete record[x.userId];
+    });
+    selectedInstructors.forEach((x) => {
+      delete record[x.userId];
     });
     return record;
   }
