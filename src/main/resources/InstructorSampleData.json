@@ -838,7 +838,7 @@
     "FS2.Q1.Charlie.2": {
       "id": "00000000-0000-4000-8000-000000000718",
       "giver": "charlie.d.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "answer": 110,
         "questionType": "CONTRIB"
@@ -994,7 +994,7 @@
     "FS2.Q1.Francis.3": {
       "id": "00000000-0000-4000-8000-000000000731",
       "giver": "francis.g.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "answer": 110,
         "questionType": "CONTRIB"
@@ -1042,7 +1042,7 @@
     "FS2.Q1.Gene.3": {
       "id": "00000000-0000-4000-8000-000000000735",
       "giver": "gene.h.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "answer": 110,
         "questionType": "CONTRIB"
@@ -1065,8 +1065,8 @@
     },
     "FS2.Q1.Inst.1": {
       "id": "00000000-0000-4000-8000-000000000737",
-      "giver": "teammates.demo.instructor@demo.course",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "answer": 110,
         "questionType": "CONTRIB"
@@ -1077,7 +1077,7 @@
     },
     "FS2.Q1.Inst.2": {
       "id": "00000000-0000-4000-8000-000000000738",
-      "giver": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "charlie.d.tmms@gmail.tmt",
       "answer": {
         "answer": 80,
@@ -1089,7 +1089,7 @@
     },
     "FS2.Q1.Inst.3": {
       "id": "00000000-0000-4000-8000-000000000739",
-      "giver": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "francis.g.tmms@gmail.tmt",
       "answer": {
         "answer": 110,
@@ -1101,7 +1101,7 @@
     },
     "FS2.Q1.Inst.4": {
       "id": "00000000-0000-4000-8000-000000000740",
-      "giver": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "gene.h.tmms@gmail.tmt",
       "answer": {
         "answer": 110,
@@ -3506,7 +3506,7 @@
     "charlieResponse9.4": {
       "id": "00000000-0000-4000-8000-000000000940",
       "giver": "charlie.d.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "answer": 150,
         "questionType": "CONTRIB"
