@@ -35,14 +35,13 @@
         </thead>
         <tbody>
           @for (instructor of accountWithUsersInfo.instructors; track instructor) {
-             course = instructor.course;
             <tr>
               <td class="text-break">{{ instructor.name }}</td>
               <td class="text-break">{{ instructor.email }}</td>
-              <td class="text-break">[{{ course.courseId }}] {{ course.courseName }}</td>
-              <td class="text-break">{{ course.institute }}</td>
+              <td class="text-break">[{{ instructor.courseId }}] {{ instructor.courseName }}</td>
+              <td class="text-break">{{ instructor.institute }}</td>
               <td>
-                <button class="btn btn-sm btn-danger" (click)="removeInstructorFromCourse(course.courseId)">
+                <button class="btn btn-sm btn-danger" (click)="removeInstructorFromCourse(instructor.courseId)">
                   <i class="fas fa-trash-alt"></i> Remove From Course
                 </button>
               </td>
@@ -50,6 +49,12 @@
           }
         </tbody>
       </table>
+    </div>
+  }
+
+  @if (!accountWithUsersInfo.instructors.length) {
+    <div class="alert alert-warning">
+      <i class="fas fa-exclamation-circle"></i> No instructor courses found for this account.
     </div>
   }
 </div>
@@ -70,14 +75,13 @@
         </thead>
         <tbody>
           @for (student of accountWithUsersInfo.students; track student) {
-             course = student.course;
             <tr>
               <td class="text-break">{{ student.name }}</td>
               <td class="text-break">{{ student.email }}</td>
-              <td class="text-break">[{{ course.courseId }}] {{ course.courseName }}</td>
-              <td class="text-break">{{ course.institute }}</td>
+              <td class="text-break">[{{ student.courseId }}] {{ student.courseName }}</td>
+              <td class="text-break">{{ student.institute }}</td>
               <td>
-                <button class="btn btn-sm btn-danger" (click)="removeStudentFromCourse(course.courseId)">
+                <button class="btn btn-sm btn-danger" (click)="removeStudentFromCourse(student.courseId)">
                   <i class="fas fa-trash-alt"></i> Remove From Course
                 </button>
               </td>

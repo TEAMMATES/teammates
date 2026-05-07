@@ -30,6 +30,7 @@ public class InstructorData extends ApiOutput {
     private String key;
     @Nullable
     private String institute;
+    @Nullable
     private String courseName;
 
     @JsonCreator

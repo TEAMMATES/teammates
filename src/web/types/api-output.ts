@@ -399,7 +399,7 @@ export interface Instructor extends ApiOutput {
   joinState: JoinState;
   key?: string;
   institute?: string;
-  courseName: string;
+  courseName?: string;
 }
 
 export interface InstructorPermissionSet {
