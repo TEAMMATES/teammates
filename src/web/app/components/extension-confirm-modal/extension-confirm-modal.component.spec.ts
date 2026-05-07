@@ -18,6 +18,7 @@ import {
 
 describe('ExtensionConfirmModalComponent', () => {
   const testFeedbackSession: FeedbackSession = {
+    feedbackSessionId: 'testFeedbackSessionId',
     courseId: 'testId1',
     timeZone: 'Asia/Singapore',
     feedbackSessionName: 'Test Session',
@@ -35,6 +36,7 @@ describe('ExtensionConfirmModalComponent', () => {
   };
 
   const studentModel1: StudentExtensionTableColumnModel = {
+    userId: 'testStudent1Id',
     sectionName: 'Test Section 1',
     teamName: 'Test Section 1',
     name: 'Test Student 1',
@@ -44,6 +46,7 @@ describe('ExtensionConfirmModalComponent', () => {
     isSelected: true,
   };
   const studentModel2: StudentExtensionTableColumnModel = {
+    userId: 'testStudent2Id',
     sectionName: 'Test Section 2',
     teamName: 'Test Section 2',
     name: 'Test Student 2',
@@ -53,6 +56,7 @@ describe('ExtensionConfirmModalComponent', () => {
     isSelected: true,
   };
   const studentModel3: StudentExtensionTableColumnModel = {
+    userId: 'testStudent3Id',
     sectionName: 'Test Section 3',
     teamName: 'Test Section 3',
     name: 'Test Student 3',
@@ -63,6 +67,7 @@ describe('ExtensionConfirmModalComponent', () => {
   };
 
   const instructorModel1: InstructorExtensionTableColumnModel = {
+    userId: 'testInstructor1Id',
     name: 'Test InstructorTutor 1',
     email: 'testInstructorTutor1@gmail.com',
     role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_TUTOR,
@@ -72,6 +77,7 @@ describe('ExtensionConfirmModalComponent', () => {
   };
 
   const instructorModel2: InstructorExtensionTableColumnModel = {
+    userId: 'testInstructor2Id',
     name: 'Test Instructor 2',
     email: 'testInstructor2@gmail.com',
     extensionDeadline: 1100000000,
@@ -80,6 +86,7 @@ describe('ExtensionConfirmModalComponent', () => {
   };
 
   const instructorModel3: InstructorExtensionTableColumnModel = {
+    userId: 'testInstructor3Id',
     name: 'Test InstructorManager 3',
     email: 'testInstructorManager3@gmail.com',
     role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_MANAGER,
@@ -89,6 +96,7 @@ describe('ExtensionConfirmModalComponent', () => {
   };
 
   const instructorModel4: InstructorExtensionTableColumnModel = {
+    userId: 'testInstructor4Id',
     name: 'Test Instructor 4',
     email: 'testInstructor4@gmail.com',
     extensionDeadline: 1300000000,
@@ -466,6 +474,7 @@ describe('ExtensionConfirmModalComponent', () => {
    * Test ExtentionModalType.DELETE branch
    */
   const studentModel4: StudentExtensionTableColumnModel = {
+    userId: 'testStudent4Id',
     sectionName: 'Test Section 4',
     teamName: 'Test Section 4',
     name: 'Test Student 4',
@@ -488,6 +497,7 @@ describe('ExtensionConfirmModalComponent', () => {
    * Test ExtentionModalType.SESSION_DELETE branch
    */
   const instructorModel5: InstructorExtensionTableColumnModel = {
+    userId: 'testInstructor5Id',
     name: 'Test InstructorCustom 5',
     email: 'testInstructorCustom5@gmail.com',
     role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM,
@@ -497,6 +507,7 @@ describe('ExtensionConfirmModalComponent', () => {
   };
 
   const studentModel5: StudentExtensionTableColumnModel = {
+    userId: 'testStudent5Id',
     sectionName: 'Test Section 5',
     teamName: 'Test Section 5',
     name: 'Test Student 5',

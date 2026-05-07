@@ -241,12 +241,12 @@ describe('InstructorSessionEditPageComponent', () => {
   };
 
   const testStudentDeadlines: Record<string, number> = {
-    'alice@tmms.com': 1400000000000,
-    'bob@tmms.com': 1400000000000,
+    'student-id-1': 1400000000000,
+    'student-id-2': 1400000000000,
   };
   const testInstructorDeadlines: Record<string, number> = {
-    'testB@example.com': 1300000000000,
-    'testA@example.com': 1300000000000,
+    'instructor-id-1': 1300000000000,
+    'instructor-id-2': 1300000000000,
   };
   const userDeadlines: Record<string, number> = {
     ...testStudentDeadlines,
@@ -416,7 +416,7 @@ describe('InstructorSessionEditPageComponent', () => {
 
   it('should get all students of the course', () => {
     const testStudent1: Student = {
-      userId: 'user-id-1',
+      userId: 'student-id-1',
       email: 'alice@tmms.com',
       courseId: 'testId',
       name: 'Alice',
@@ -424,7 +424,7 @@ describe('InstructorSessionEditPageComponent', () => {
       sectionName: 'Section 1',
     };
     const testStudent2: Student = {
-      userId: 'user-id-2',
+      userId: 'student-id-2',
       email: 'bob@tmms.com',
       courseId: 'testId',
       name: 'Bob',
@@ -462,16 +462,16 @@ describe('InstructorSessionEditPageComponent', () => {
 
   it('should get all instructors of the course', () => {
     const testInstructor1: Instructor = {
-      userId: 'user-id-1',
+      userId: 'instructor-id-1',
       courseId: 'testId',
-      email: 'testB@example.com',
+      email: 'testA@example.com',
       name: 'Instructor A',
       joinState: JoinState.JOINED,
     };
     const testInstructor2: Instructor = {
-      userId: 'user-id-2',
+      userId: 'instructor-id-2',
       courseId: 'testId',
-      email: 'testA@example.com',
+      email: 'testB@example.com',
       name: 'Instructor B',
       joinState: JoinState.JOINED,
     };
