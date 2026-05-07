@@ -30,6 +30,7 @@ public class InstructorData extends ApiOutput {
     private String key;
     @Nullable
     private String institute;
+    private String courseName;
 
     @JsonCreator
     private InstructorData(UUID userId, String courseId, String email, String name) {
@@ -49,6 +50,7 @@ public class InstructorData extends ApiOutput {
         this.name = instructor.getName();
         this.joinState = instructor.getAccount() == null ? JoinState.NOT_JOINED : JoinState.JOINED;
         this.institute = instructor.getCourse().getInstitute();
+        this.courseName = instructor.getCourse().getName();
     }
 
     public UUID getUserId() {
@@ -121,6 +123,10 @@ public class InstructorData extends ApiOutput {
 
     public void setInstitute(String institute) {
         this.institute = institute;
+    }
+
+    public String getCourseName() {
+        return courseName;
     }
 
     /**

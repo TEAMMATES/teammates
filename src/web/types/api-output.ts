@@ -24,6 +24,11 @@ export interface AccountRequests extends ApiOutput {
   accountRequests: AccountRequest[];
 }
 
+export interface AccountWithUsers extends Account {
+  instructors: Instructor[];
+  students: Student[];
+}
+
 export interface ActionClasses extends ApiOutput {
   actionClasses: string[];
 }
@@ -394,6 +399,7 @@ export interface Instructor extends ApiOutput {
   joinState: JoinState;
   key?: string;
   institute?: string;
+  courseName: string;
 }
 
 export interface InstructorPermissionSet {
@@ -595,6 +601,7 @@ export interface Student extends ApiOutput {
   comments?: string;
   key?: string;
   institute?: string;
+  courseName?: string;
   joinState?: JoinState;
 }
 

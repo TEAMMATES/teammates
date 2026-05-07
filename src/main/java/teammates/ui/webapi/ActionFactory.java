@@ -43,6 +43,7 @@ public final class ActionFactory {
         map(ResourceURIs.ACCOUNT, POST, CreateAccountAction.class);
         map(ResourceURIs.ACCOUNT, DELETE, DeleteAccountAction.class);
         map(ResourceURIs.ACCOUNT_RESET, PUT, ResetAccountAction.class);
+        map(ResourceURIs.ACCOUNT_WITH_USERS, GET, GetAccountWithUsersAction.class);
         map(ResourceURIs.ACCOUNT_REQUEST, GET, GetAccountRequestAction.class);
         map(ResourceURIs.ACCOUNT_REQUEST, POST, CreateAccountRequestAction.class);
         map(ResourceURIs.ACCOUNT_REQUEST, DELETE, DeleteAccountRequestAction.class);

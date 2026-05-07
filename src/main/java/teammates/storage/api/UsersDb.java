@@ -236,6 +236,34 @@ public final class UsersDb {
     }
 
     /**
+     * Gets all instructors associated with {@code accountId}.
+     */
+    public List<Instructor> getInstructorsByAccountId(UUID accountId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
+        Root<Instructor> instructorRoot = cr.from(Instructor.class);
+        Join<Instructor, Account> accountsJoin = instructorRoot.join("account");
+
+        cr.select(instructorRoot).where(cb.equal(accountsJoin.get("id"), accountId));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
+     * Gets all students associated with {@code accountId}.
+     */
+    public List<Student> getStudentsByAccountId(UUID accountId) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
+        Root<Student> studentRoot = cr.from(Student.class);
+        Join<Student, Account> accountsJoin = studentRoot.join("account");
+
+        cr.select(studentRoot).where(cb.equal(accountsJoin.get("id"), accountId));
+
+        return HibernateUtil.createQuery(cr).getResultList();
+    }
+
+    /**
      * Escapes LIKE pattern metacharacters so user input is treated literally.
      */
     private static String escapeLikePattern(String pattern, char escapeChar) {

@@ -348,6 +348,14 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets all instructors associated with {@code accountId}.
+     */
+    public List<Instructor> getInstructorsByAccountId(UUID accountId) {
+        assert accountId != null;
+        return usersDb.getInstructorsByAccountId(accountId);
+    }
+
+    /**
      * Gets a non-soft-deleted instructor with the specified email and institute.
      */
     public Instructor getInstructorForEmailAndInstitute(String email, String institute) {
@@ -605,6 +613,14 @@ public final class UsersLogic {
         assert googleId != null;
 
         return usersDb.getStudentsByGoogleId(googleId);
+    }
+
+    /**
+     * Gets all students associated with {@code accountId}.
+     */
+    public List<Student> getStudentsByAccountId(UUID accountId) {
+        assert accountId != null;
+        return usersDb.getStudentsByAccountId(accountId);
     }
 
     /**

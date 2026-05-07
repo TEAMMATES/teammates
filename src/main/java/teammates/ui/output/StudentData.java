@@ -27,6 +27,8 @@ public class StudentData extends ApiOutput {
     @Nullable
     private String institute;
     @Nullable
+    private String courseName;
+    @Nullable
     private JoinState joinState;
 
     private final String teamName;
@@ -136,5 +138,17 @@ public class StudentData extends ApiOutput {
         this.setKey(key);
         this.setInstitute(institute);
         this.setGoogleId(googleId);
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    /**
+     * Adds course info for display in admin context.
+     */
+    public void addCourseInfo(String courseName, String institute) {
+        this.courseName = courseName;
+        this.setInstitute(institute);
     }
 }

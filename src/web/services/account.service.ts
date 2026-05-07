@@ -127,6 +127,16 @@ export class AccountService {
   }
 
   /**
+   * Gets an account with associated users by calling API.
+   */
+  getAccountWithUsers(googleId: string): Observable<Account> {
+    const paramMap: Record<string, string> = {
+      instructorid: googleId,
+    };
+    return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_WITH_USERS, paramMap);
+  }
+
+  /**
    * Gets account requests by calling API.
    */
   getPendingAccountRequests(): Observable<AccountRequests> {
