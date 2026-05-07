@@ -29,14 +29,6 @@ describe('AccountService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should execute GET on account endpoint', () => {
-    service.getAccount(id);
-    const paramMap: Record<string, string> = {
-      instructorid: id,
-    };
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
-  });
-
   it('should execute POST on account endpoint with timezone string', () => {
     const testKey = 'testKey';
     const testTimezone = 'UTC';
