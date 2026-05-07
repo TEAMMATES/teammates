@@ -10,6 +10,9 @@ import teammates.ui.output.AccountWithUsersData;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.StudentData;
 
+/**
+ * Gets account's information with associated users information.
+ */
 public class GetAccountWithUsersAction extends AdminOnlyAction {
 
     @Override
