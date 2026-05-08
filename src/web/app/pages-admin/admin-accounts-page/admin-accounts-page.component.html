@@ -34,7 +34,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (instructor of accountInfo.instructors; track instructor) {
+          @for (instructor of accountInfo.instructors; track instructor.userId) {
             <tr>
               <td class="text-break">{{ instructor.name }}</td>
               <td class="text-break">{{ instructor.email }}</td>
@@ -74,7 +74,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (student of accountInfo.students; track student) {
+          @for (student of accountInfo.students; track student.userId) {
             <tr>
               <td class="text-break">{{ student.name }}</td>
               <td class="text-break">{{ student.email }}</td>
