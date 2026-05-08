@@ -135,12 +135,10 @@ public class InstructorData extends ApiOutput {
      * Adds additional attributes only for search result for admin.
      *
      * @param key Registration key
-     * @param institute Institute of the instructor
      * @param googleId Google ID of the instructor
      */
-    public void addAdditionalInformationForAdminSearch(String key, String institute, String googleId) {
+    public void addAdditionalInformationForAdminSearch(String key, String googleId) {
         setKey(key);
-        setInstitute(institute);
         setGoogleId(googleId);
     }
 }
