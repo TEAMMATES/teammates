@@ -1,5 +1,7 @@
 package teammates.common.datatransfer.questions;
 
+import static teammates.test.AssertHelper.assertJsonEquals;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -374,354 +376,360 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
 
         ______TS("(student email specified): all students have response");
         fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-        assertEquals("{\n"
-                + "  \"results\": {\n"
-                + "    \"student1incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": 10,\n"
-                + "      \"perceived\": 17,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student2incourse1@gmail.tmt\": 20,\n"
-                + "        \"student3incourse1@gmail.tmt\": 30\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        24,\n"
-                + "        19\n"
-                + "      ]\n"
-                + "    }\n"
-                + "  }\n"
-                + "}",
+        assertJsonEquals("""
+                        {
+                          "results": {
+                            "student1incourse1@gmail.tmt": {
+                              "claimed": 10,
+                              "perceived": 17,
+                              "claimedOthers": {
+                                "student2incourse1@gmail.tmt": 20,
+                                "student3incourse1@gmail.tmt": 30
+                              },
+                              "perceivedOthers": [
+                                24,
+                                19
+                              ]
+                            }
+                          }
+                        }""",
                 feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa,
                         "student1incourse1@gmail.tmt", resultsBundle));
 
         ______TS("(student email specified): mix of students with responses and students without responses");
         fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn2InSession1InCourse1");
-        assertEquals("{\n"
-                + "  \"results\": {\n"
-                + "    \"student5incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": 10,\n"
-                + "      \"perceived\": 15,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student4incourse1@gmail.tmt\": -999,\n"
-                + "        \"student6incourse1@gmail.tmt\": 20\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        15,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    }\n"
-                + "  }\n"
-                + "}",
+        assertJsonEquals("""
+                        {
+                          "results": {
+                            "student5incourse1@gmail.tmt": {
+                              "claimed": 10,
+                              "perceived": 15,
+                              "claimedOthers": {
+                                "student4incourse1@gmail.tmt": -999,
+                                "student6incourse1@gmail.tmt": 20
+                              },
+                              "perceivedOthers": [
+                                15,
+                                -9999
+                              ]
+                            }
+                          }
+                        }""",
                 feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa,
                         "student5incourse1@gmail.tmt", resultsBundle));
 
         ______TS("(student email specified): all students do not have responses");
         fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn3InSession1InCourse1");
-        assertEquals("{\n"
-                + "  \"results\": {}\n"
-                + "}",
+        assertJsonEquals("""
+                        {
+                          "results": {}
+                        }""",
                 feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa,
                         "student8incourse1@gmail.tmt", resultsBundle));
 
         ______TS("(student email not specified): qn1");
         fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-        assertEquals("{\n"
-                + "  \"results\": {\n"
-                + "    \"student8incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student7incourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student2incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": 100,\n"
-                + "      \"perceived\": 93,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student1incourse1@gmail.tmt\": 80,\n"
-                + "        \"student3incourse1@gmail.tmt\": 120\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        107,\n"
-                + "        80\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student5incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student4incourse1@gmail.tmt\": -9999,\n"
-                + "        \"student6incourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student1incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": 50,\n"
-                + "      \"perceived\": 87,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student2incourse1@gmail.tmt\": 80,\n"
-                + "        \"student3incourse1@gmail.tmt\": 120\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        93,\n"
-                + "        80\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student4incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student5incourse1@gmail.tmt\": -9999,\n"
-                + "        \"student6incourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student3incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": 113,\n"
-                + "      \"perceived\": 120,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student2incourse1@gmail.tmt\": 107,\n"
-                + "        \"student1incourse1@gmail.tmt\": 93\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        120,\n"
-                + "        120\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student6incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student5incourse1@gmail.tmt\": -9999,\n"
-                + "        \"student4incourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student7incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student8incourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    }\n"
-                + "  }\n"
-                + "}",
+        assertJsonEquals("""
+                        {
+                          "results": {
+                            "student8incourse1@gmail.tmt": {
+                              "claimed": -999,
+                              "perceived": -9999,
+                              "claimedOthers": {
+                                "student7incourse1@gmail.tmt": -9999
+                              },
+                              "perceivedOthers": [
+                                -9999
+                              ]
+                            },
+                            "student2incourse1@gmail.tmt": {
+                              "claimed": 100,
+                              "perceived": 93,
+                              "claimedOthers": {
+                                "student1incourse1@gmail.tmt": 80,
+                                "student3incourse1@gmail.tmt": 120
+                              },
+                              "perceivedOthers": [
+                                107,
+                                80
+                              ]
+                            },
+                            "student5incourse1@gmail.tmt": {
+                              "claimed": -999,
+                              "perceived": -9999,
+                              "claimedOthers": {
+                                "student4incourse1@gmail.tmt": -9999,
+                                "student6incourse1@gmail.tmt": -9999
+                              },
+                              "perceivedOthers": [
+                                -9999,
+                                -9999
+                              ]
+                            },
+                            "student1incourse1@gmail.tmt": {
+                              "claimed": 50,
+                              "perceived": 87,
+                              "claimedOthers": {
+                                "student2incourse1@gmail.tmt": 80,
+                                "student3incourse1@gmail.tmt": 120
+                              },
+                              "perceivedOthers": [
+                                93,
+                                80
+                              ]
+                            },
+                            "student4incourse1@gmail.tmt": {
+                              "claimed": -999,
+                              "perceived": -9999,
+                              "claimedOthers": {
+                                "student5incourse1@gmail.tmt": -9999,
+                                "student6incourse1@gmail.tmt": -9999
+                              },
+                              "perceivedOthers": [
+                                -9999,
+                                -9999
+                              ]
+                            },
+                            "student3incourse1@gmail.tmt": {
+                              "claimed": 113,
+                              "perceived": 120,
+                              "claimedOthers": {
+                                "student2incourse1@gmail.tmt": 107,
+                                "student1incourse1@gmail.tmt": 93
+                              },
+                              "perceivedOthers": [
+                                120,
+                                120
+                              ]
+                            },
+                            "student6incourse1@gmail.tmt": {
+                              "claimed": -999,
+                              "perceived": -9999,
+                              "claimedOthers": {
+                                "student5incourse1@gmail.tmt": -9999,
+                                "student4incourse1@gmail.tmt": -9999
+                              },
+                              "perceivedOthers": [
+                                -9999,
+                                -9999
+                              ]
+                            },
+                            "student7incourse1@gmail.tmt": {
+                              "claimed": -999,
+                              "perceived": -9999,
+                              "claimedOthers": {
+                                "student8incourse1@gmail.tmt": -9999
+                              },
+                              "perceivedOthers": [
+                                -9999
+                              ]
+                            }
+                          }
+                        }""",
                 feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa, null,
                         resultsBundle));
 
         ______TS("(student email not specified): qn2");
         fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn2InSession1InCourse1");
-        assertEquals("{\n"
-                + "  \"results\": {\n"
-                + "    \"student8incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student7incourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student2incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student1incourse1@gmail.tmt\": -9999,\n"
-                + "        \"student3incourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student5incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": 67,\n"
-                + "      \"perceived\": 100,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student4incourse1@gmail.tmt\": -9999,\n"
-                + "        \"student6incourse1@gmail.tmt\": 100\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        100,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student1incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student2incourse1@gmail.tmt\": -9999,\n"
-                + "        \"student3incourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student4incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student5incourse1@gmail.tmt\": -9999,\n"
-                + "        \"student6incourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student3incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student2incourse1@gmail.tmt\": -9999,\n"
-                + "        \"student1incourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student6incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": 114,\n"
-                + "      \"perceived\": 100,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student5incourse1@gmail.tmt\": 100,\n"
-                + "        \"student4incourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        100,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student7incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student8incourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    }\n"
-                + "  }\n"
-                + "}",
+        assertJsonEquals("""
+                        {
+                          "results": {
+                            "student8incourse1@gmail.tmt": {
+                              "claimed": -999,
+                              "perceived": -9999,
+                              "claimedOthers": {
+                                "student7incourse1@gmail.tmt": -9999
+                              },
+                              "perceivedOthers": [
+                                -9999
+                              ]
+                            },
+                            "student2incourse1@gmail.tmt": {
+                              "claimed": -999,
+                              "perceived": -9999,
+                              "claimedOthers": {
+                                "student1incourse1@gmail.tmt": -9999,
+                                "student3incourse1@gmail.tmt": -9999
+                              },
+                              "perceivedOthers": [
+                                -9999,
+                                -9999
+                              ]
+                            },
+                            "student5incourse1@gmail.tmt": {
+                              "claimed": 67,
+                              "perceived": 100,
+                              "claimedOthers": {
+                                "student4incourse1@gmail.tmt": -9999,
+                                "student6incourse1@gmail.tmt": 100
+                              },
+                              "perceivedOthers": [
+                                100,
+                                -9999
+                              ]
+                            },
+                            "student1incourse1@gmail.tmt": {
+                              "claimed": -999,
+                              "perceived": -9999,
+                              "claimedOthers": {
+                                "student2incourse1@gmail.tmt": -9999,
+                                "student3incourse1@gmail.tmt": -9999
+                              },
+                              "perceivedOthers": [
+                                -9999,
+                                -9999
+                              ]
+                            },
+                            "student4incourse1@gmail.tmt": {
+                              "claimed": -999,
+                              "perceived": -9999,
+                              "claimedOthers": {
+                                "student5incourse1@gmail.tmt": -9999,
+                                "student6incourse1@gmail.tmt": -9999
+                              },
+                              "perceivedOthers": [
+                                -9999,
+                                -9999
+                              ]
+                            },
+                            "student3incourse1@gmail.tmt": {
+                              "claimed": -999,
+                              "perceived": -9999,
+                              "claimedOthers": {
+                                "student2incourse1@gmail.tmt": -9999,
+                                "student1incourse1@gmail.tmt": -9999
+                              },
+                              "perceivedOthers": [
+                                -9999,
+                                -9999
+                              ]
+                            },
+                            "student6incourse1@gmail.tmt": {
+                              "claimed": 114,
+                              "perceived": 100,
+                              "claimedOthers": {
+                                "student5incourse1@gmail.tmt": 100,
+                                "student4incourse1@gmail.tmt": -9999
+                              },
+                              "perceivedOthers": [
+                                100,
+                                -9999
+                              ]
+                            },
+                            "student7incourse1@gmail.tmt": {
+                              "claimed": -999,
+                              "perceived": -9999,
+                              "claimedOthers": {
+                                "student8incourse1@gmail.tmt": -9999
+                              },
+                              "perceivedOthers": [
+                                -9999
+                              ]
+                            }
+                          }
+                        }""",
                 feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa, null,
                         resultsBundle));
 
         ______TS("(student email not specified): qn3");
         fqa = (FeedbackContributionQuestion) responseBundle.feedbackQuestions.get("qn3InSession1InCourse1");
-        assertEquals("{\n"
-                + "  \"results\": {\n"
-                + "    \"student8incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student7incourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student2incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student1incourse1@gmail.tmt\": -9999,\n"
-                + "        \"student3incourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student5incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student4incourse1@gmail.tmt\": -9999,\n"
-                + "        \"student6incourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student1incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student2incourse1@gmail.tmt\": -9999,\n"
-                + "        \"student3incourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student4incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student5incourse1@gmail.tmt\": -9999,\n"
-                + "        \"student6incourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student3incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student2incourse1@gmail.tmt\": -9999,\n"
-                + "        \"student1incourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student6incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student5incourse1@gmail.tmt\": -9999,\n"
-                + "        \"student4incourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999,\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    },\n"
-                + "    \"student7incourse1@gmail.tmt\": {\n"
-                + "      \"claimed\": -999,\n"
-                + "      \"perceived\": -9999,\n"
-                + "      \"claimedOthers\": {\n"
-                + "        \"student8incourse1@gmail.tmt\": -9999\n"
-                + "      },\n"
-                + "      \"perceivedOthers\": [\n"
-                + "        -9999\n"
-                + "      ]\n"
-                + "    }\n"
-                + "  }\n"
-                + "}",
+        assertJsonEquals("""
+                        {
+                          "results": {
+                            "student8incourse1@gmail.tmt": {
+                              "claimed": -999,
+                              "perceived": -9999,
+                              "claimedOthers": {
+                                "student7incourse1@gmail.tmt": -9999
+                              },
+                              "perceivedOthers": [
+                                -9999
+                              ]
+                            },
+                            "student2incourse1@gmail.tmt": {
+                              "claimed": -999,
+                              "perceived": -9999,
+                              "claimedOthers": {
+                                "student1incourse1@gmail.tmt": -9999,
+                                "student3incourse1@gmail.tmt": -9999
+                              },
+                              "perceivedOthers": [
+                                -9999,
+                                -9999
+                              ]
+                            },
+                            "student5incourse1@gmail.tmt": {
+                              "claimed": -999,
+                              "perceived": -9999,
+                              "claimedOthers": {
+                                "student4incourse1@gmail.tmt": -9999,
+                                "student6incourse1@gmail.tmt": -9999
+                              },
+                              "perceivedOthers": [
+                                -9999,
+                                -9999
+                              ]
+                            },
+                            "student1incourse1@gmail.tmt": {
+                              "claimed": -999,
+                              "perceived": -9999,
+                              "claimedOthers": {
+                                "student2incourse1@gmail.tmt": -9999,
+                                "student3incourse1@gmail.tmt": -9999
+                              },
+                              "perceivedOthers": [
+                                -9999,
+                                -9999
+                              ]
+                            },
+                            "student4incourse1@gmail.tmt": {
+                              "claimed": -999,
+                              "perceived": -9999,
+                              "claimedOthers": {
+                                "student5incourse1@gmail.tmt": -9999,
+                                "student6incourse1@gmail.tmt": -9999
+                              },
+                              "perceivedOthers": [
+                                -9999,
+                                -9999
+                              ]
+                            },
+                            "student3incourse1@gmail.tmt": {
+                              "claimed": -999,
+                              "perceived": -9999,
+                              "claimedOthers": {
+                                "student2incourse1@gmail.tmt": -9999,
+                                "student1incourse1@gmail.tmt": -9999
+                              },
+                              "perceivedOthers": [
+                                -9999,
+                                -9999
+                              ]
+                            },
+                            "student6incourse1@gmail.tmt": {
+                              "claimed": -999,
+                              "perceived": -9999,
+                              "claimedOthers": {
+                                "student5incourse1@gmail.tmt": -9999,
+                                "student4incourse1@gmail.tmt": -9999
+                              },
+                              "perceivedOthers": [
+                                -9999,
+                                -9999
+                              ]
+                            },
+                            "student7incourse1@gmail.tmt": {
+                              "claimed": -999,
+                              "perceived": -9999,
+                              "claimedOthers": {
+                                "student8incourse1@gmail.tmt": -9999
+                              },
+                              "perceivedOthers": [
+                                -9999
+                              ]
+                            }
+                          }
+                        }""",
                 feedbackContributionQuestionDetails.getQuestionResultStatisticsJson(fqa, null,
                         resultsBundle));
 
