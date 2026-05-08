@@ -833,13 +833,6 @@ public class Logic {
     }
 
     /**
-     * Gets list of instructors associated with {@code accountId}.
-     */
-    public List<Instructor> getInstructorsByAccountId(UUID accountId) {
-        return usersLogic.getInstructorsByAccountId(accountId);
-    }
-
-    /**
      * Gets a non-soft-deleted instructor with the specified email and institute.
      */
     public Instructor getInstructorForEmailAndInstitute(String email, String institute) {
@@ -994,13 +987,6 @@ public class Logic {
      */
     public Student getStudentByGoogleId(String courseId, String googleId) {
         return usersLogic.getStudentByGoogleId(courseId, googleId);
-    }
-
-    /**
-     * Gets all students associated with {@code accountId}.
-     */
-    public List<Student> getStudentsByAccountId(UUID accountId) {
-        return usersLogic.getStudentsByAccountId(accountId);
     }
 
     /**
