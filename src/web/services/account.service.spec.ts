@@ -29,6 +29,14 @@ describe('AccountService', () => {
     expect(service).toBeTruthy();
   });
 
+  it('should execute GET on account endpoint', () => {
+    service.getAccount(id);
+    const paramMap: Record<string, string> = {
+      instructorid: id,
+    };
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT, paramMap);
+  });
+
   it('should execute POST on account endpoint with timezone string', () => {
     const testKey = 'testKey';
     const testTimezone = 'UTC';
@@ -146,13 +154,5 @@ describe('AccountService', () => {
       id: 'testId',
     };
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST, paramMap, updateRequest);
-  });
-
-  it('should execute GET on account with users endpoint', () => {
-    service.getAccountWithUsers('testGoogleId');
-    const paramMap: Record<string, string> = {
-      instructorid: 'testGoogleId',
-    };
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_WITH_USERS, paramMap);
   });
 });

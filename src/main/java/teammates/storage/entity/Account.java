@@ -45,10 +45,10 @@ public class Account extends BaseEntity {
     private Set<ReadNotification> readNotifications = new HashSet<>();
 
     @OneToMany(mappedBy = "account")
-    private List<Instructor> instructors = new ArrayList<>();
+    private Set<Instructor> instructors = new HashSet<>();
 
     @OneToMany(mappedBy = "account")
-    private List<Student> students = new ArrayList<>();
+    private Set<Student> students = new HashSet<>();
 
     @UpdateTimestamp
     private Instant updatedAt;
@@ -112,11 +112,11 @@ public class Account extends BaseEntity {
         this.readNotifications = readNotifications;
     }
 
-    public List<Instructor> getInstructors() {
+    public Set<Instructor> getInstructors() {
         return instructors;
     }
 
-    public List<Student> getStudents() {
+    public Set<Student> getStudents() {
         return students;
     }
 
