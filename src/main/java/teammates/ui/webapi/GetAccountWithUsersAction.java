@@ -34,7 +34,6 @@ public class GetAccountWithUsersAction extends AdminOnlyAction {
                 .stream()
                 .map(student -> {
                     StudentData studentData = new StudentData(student);
-                    studentData.addCourseInfo(student.getCourse().getName(), student.getCourse().getInstitute());
                     return studentData;
                 })
                 .collect(Collectors.toList());

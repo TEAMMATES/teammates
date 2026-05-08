@@ -73,6 +73,8 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
         teamName: 'Team A',
         sectionName: 'Section A',
         joinState: JoinState.JOINED,
+        institute: 'NUS',
+        courseName: 'CS3281',
       };
       this.initEditForm();
       return;

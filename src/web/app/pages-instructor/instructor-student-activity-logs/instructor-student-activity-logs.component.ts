@@ -330,6 +330,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
             name: '',
             sectionName: '',
             teamName: '',
+            institute: '',
+            courseName: '',
           };
           students.sort((a: Student, b: Student): number => a.name.localeCompare(b.name));
 

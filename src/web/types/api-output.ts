@@ -391,14 +391,14 @@ export interface Instructor extends ApiOutput {
   courseId: string;
   email: string;
   name: string;
+  institute: string;
+  courseName: string;
   googleId?: string;
   isDisplayedToStudents?: boolean;
   displayedToStudentsAs?: string;
   role?: InstructorPermissionRole;
   joinState: JoinState;
   key?: string;
-  institute?: string;
-  courseName?: string;
 }
 
 export interface InstructorPermissionSet {
@@ -596,11 +596,11 @@ export interface Student extends ApiOutput {
   name: string;
   teamName: string;
   sectionName: string;
+  institute: string;
+  courseName: string;
   googleId?: string;
   comments?: string;
   key?: string;
-  institute?: string;
-  courseName?: string;
   joinState?: JoinState;
 }
 

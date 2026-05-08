@@ -28,17 +28,18 @@ public class InstructorData extends ApiOutput {
     private JoinState joinState;
     @Nullable
     private String key;
-    @Nullable
     private String institute;
-    @Nullable
     private String courseName;
 
     @JsonCreator
-    private InstructorData(UUID userId, String courseId, String email, String name) {
+    private InstructorData(UUID userId, String courseId, String email, String name,
+                            String institute, String courseName) {
         this.userId = userId;
         this.courseId = courseId;
         this.email = email;
         this.name = name;
+        this.institute = institute;
+        this.courseName = courseName;
     }
 
     public InstructorData(Instructor instructor) {

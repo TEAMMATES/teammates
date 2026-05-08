@@ -37,6 +37,8 @@ export class StudentCourseDetailsPageComponent implements OnInit {
     joinState: JoinState.NOT_JOINED,
     teamName: '',
     sectionName: '',
+    institute: '',
+    courseName: '',
   };
 
   course: Course = {
