@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { AuthInfo } from '../../types/api-output';
 import { PageComponent } from '../page.component';
@@ -13,8 +12,6 @@ import { PageComponent } from '../page.component';
   imports: [PageComponent],
 })
 export class StaticPageComponent implements OnInit {
-  studentLoginUrl = '';
-  instructorLoginUrl = '';
   user = '';
   isInstructor = false;
   isStudent = false;
@@ -61,8 +58,6 @@ export class StaticPageComponent implements OnInit {
   ];
   isFetchingAuthDetails = false;
 
-  private backendUrl: string = environment.backendUrl;
-
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
@@ -78,9 +73,6 @@ export class StaticPageComponent implements OnInit {
           this.isStudent = res.user.isStudent;
           this.isAdmin = res.user.isAdmin;
           this.isMaintainer = res.user.isMaintainer;
-        } else {
-          this.studentLoginUrl = `${this.backendUrl}${res.studentLoginUrl}`;
-          this.instructorLoginUrl = `${this.backendUrl}${res.instructorLoginUrl}`;
         }
         this.isFetchingAuthDetails = false;
       },

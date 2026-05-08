@@ -61,7 +61,7 @@ export class AdminPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.isFetchingAuthDetails = true;
-    this.authService.getAuthUser().subscribe({
+    this.authService.getAuthUser(undefined, '/web/admin/home').subscribe({
       next: (res: AuthInfo) => {
         if (res.user) {
           this.user = res.user.id;
@@ -74,7 +74,7 @@ export class AdminPageComponent implements OnInit {
             this.navigationService.navigateWithErrorMessage('/web', 'You are not authorized to view the page.');
           }
         } else {
-          window.location.href = `${this.backendUrl}${res.adminLoginUrl}`;
+          window.location.href = `${this.backendUrl}${res.loginUrl}`;
         }
         this.isFetchingAuthDetails = false;
       },

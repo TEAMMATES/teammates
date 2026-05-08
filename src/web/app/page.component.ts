@@ -16,6 +16,7 @@ import { NotificationBannerComponent } from './components/notification-banner/no
 import { TeammatesRouterDirective } from './components/teammates-router/teammates-router.directive';
 import { Toast } from './components/toast/toast';
 import { ToastComponent } from './components/toast/toast.component';
+import { RouterLink } from '@angular/router';
 
 const DEFAULT_TITLE = 'TEAMMATES - Online Peer Feedback/Evaluation System for Student Team Projects';
 
@@ -62,6 +63,7 @@ export class ClickOutsideDirective {
     LoadingSpinnerDirective,
     RouterOutlet,
     AsyncPipe,
+    RouterLink,
   ],
 })
 export class PageComponent {
@@ -69,8 +71,6 @@ export class PageComponent {
   NotificationTargetUser: typeof NotificationTargetUser = NotificationTargetUser;
 
   @Input() isFetchingAuthDetails = false;
-  @Input() studentLoginUrl = '';
-  @Input() instructorLoginUrl = '';
   @Input() user = '';
   @Input() isStudent = false;
   @Input() isInstructor = false;

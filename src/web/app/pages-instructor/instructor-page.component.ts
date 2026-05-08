@@ -71,7 +71,11 @@ export class InstructorPageComponent implements OnInit {
   ngOnInit(): void {
     this.isFetchingAuthDetails = true;
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.authService.getAuthUser(queryParams.user).subscribe({
+      const requestedUser = queryParams.user;
+      // If a user is provided, we don't need a nextUrl
+      const nextUrl = requestedUser ? undefined : '/web/instructor/home';
+
+      this.authService.getAuthUser(requestedUser, nextUrl).subscribe({
         next: (res: AuthInfo) => {
           if (res.user) {
             this.user = res.user.id;
@@ -83,7 +87,7 @@ export class InstructorPageComponent implements OnInit {
             this.isAdmin = res.user.isAdmin;
             this.isMaintainer = res.user.isMaintainer;
           } else {
-            window.location.href = `${this.backendUrl}${res.instructorLoginUrl}`;
+            window.location.href = `${this.backendUrl}${res.loginUrl}`;
           }
           this.isFetchingAuthDetails = false;
         },

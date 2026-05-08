@@ -39,19 +39,9 @@ public class GetAuthInfoAction extends Action {
         AuthInfo output;
         if (userInfo == null) {
             if (nextUrl == null) {
-                output = new AuthInfo(
-                        createLoginUrl(frontendUrl, Const.WebPageURIs.STUDENT_HOME_PAGE),
-                        createLoginUrl(frontendUrl, Const.WebPageURIs.INSTRUCTOR_HOME_PAGE),
-                        createLoginUrl(frontendUrl, Const.WebPageURIs.ADMIN_HOME_PAGE),
-                        createLoginUrl(frontendUrl, Const.WebPageURIs.MAINTAINER_HOME_PAGE)
-                );
+                output = new AuthInfo();
             } else {
-                output = new AuthInfo(
-                        createLoginUrl(frontendUrl, nextUrl),
-                        createLoginUrl(frontendUrl, nextUrl),
-                        createLoginUrl(frontendUrl, nextUrl),
-                        createLoginUrl(frontendUrl, nextUrl)
-                );
+                output = new AuthInfo(createLoginUrl(frontendUrl, nextUrl));
             }
         } else {
             output = new AuthInfo(userInfo, authType == AuthType.MASQUERADE);
