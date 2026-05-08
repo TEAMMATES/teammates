@@ -143,6 +143,9 @@ public final class Config {
     /** Value of {@code app.mailjet.secretkey}. */
     public static final String MAILJET_SECRETKEY;
 
+    /** Value of {@code app.email.sendToTestDomain}. */
+    public static final boolean EMAIL_SEND_TO_TEST_DOMAIN;
+
     /** Value of {@code app.maintenance}. */
     public static final boolean MAINTENANCE;
 
@@ -226,6 +229,8 @@ public final class Config {
         MAILGUN_DOMAINNAME = getProperty(properties, devProperties, "app.mailgun.domainname");
         MAILJET_APIKEY = getProperty(properties, devProperties, "app.mailjet.apikey");
         MAILJET_SECRETKEY = getProperty(properties, devProperties, "app.mailjet.secretkey");
+        EMAIL_SEND_TO_TEST_DOMAIN = Boolean.parseBoolean(
+                getProperty(properties, devProperties, "app.email.sendToTestDomain", "false"));
         MAINTENANCE = Boolean.parseBoolean(getProperty(properties, devProperties, "app.maintenance", "false"));
 
         ENABLE_DEVSERVER_LOGIN = Boolean.parseBoolean(
@@ -381,6 +386,10 @@ public final class Config {
      */
     public static String getDbConnectionUrl() {
         return String.format("jdbc:postgresql://%s:%s/%s", POSTGRES_HOST, POSTGRES_PORT, POSTGRES_DATABASENAME);
+    }
+
+    public static boolean isEmailSendingToTestDomainEnabled() {
+        return IS_DEV_SERVER && EMAIL_SEND_TO_TEST_DOMAIN;
     }
 
     public static boolean isUsingSendgrid() {

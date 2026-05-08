@@ -86,7 +86,7 @@ public class EmailSender {
     }
 
     private boolean isTestingAccount(String email) {
-        return email.endsWith(Const.TEST_EMAIL_DOMAIN);
+        return !Config.isEmailSendingToTestDomainEnabled() && email.endsWith(Const.TEST_EMAIL_DOMAIN);
     }
 
 }
