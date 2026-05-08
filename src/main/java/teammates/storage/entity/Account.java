@@ -44,6 +44,12 @@ public class Account extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<ReadNotification> readNotifications = new HashSet<>();
 
+    @OneToMany(mappedBy = "account")
+    private List<Instructor> instructors = new ArrayList<>();
+
+    @OneToMany(mappedBy = "account")
+    private List<Student> students = new ArrayList<>();
+
     @UpdateTimestamp
     private Instant updatedAt;
 
@@ -104,6 +110,14 @@ public class Account extends BaseEntity {
 
     public void setReadNotifications(Set<ReadNotification> readNotifications) {
         this.readNotifications = readNotifications;
+    }
+
+    public List<Instructor> getInstructors() {
+        return instructors;
+    }
+
+    public List<Student> getStudents() {
+        return students;
     }
 
     public Instant getUpdatedAt() {

@@ -6,6 +6,8 @@ export interface Account extends ApiOutput {
   googleId: string;
   name: string;
   email: string;
+  instructors: Instructor[];
+  students: Student[];
 }
 
 export interface AccountRequest extends ApiOutput {
@@ -22,11 +24,6 @@ export interface AccountRequest extends ApiOutput {
 
 export interface AccountRequests extends ApiOutput {
   accountRequests: AccountRequest[];
-}
-
-export interface AccountWithUsers extends Account {
-  instructors: Instructor[];
-  students: Student[];
 }
 
 export interface ActionClasses extends ApiOutput {

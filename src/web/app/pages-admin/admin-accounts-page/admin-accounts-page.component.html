@@ -1,13 +1,13 @@
-<div *tmIsLoading="isLoadingAccountWithUsersInfo">
-  @if (accountWithUsersInfo.googleId) {
+<div *tmIsLoading="isLoadingAccountInfo">
+  @if (accountInfo.googleId) {
     <div class="card bg-light" style="margin-top: 30px">
       <div class="card-body row" style="padding: 25px 40px">
         <label class="col-sm-2 control-label">Google ID:</label>
-        <div id="account-google-id" class="col-sm-10">{{ accountWithUsersInfo.googleId }}</div>
+        <div id="account-google-id" class="col-sm-10">{{ accountInfo.googleId }}</div>
         <label class="col-sm-2 control-label">Name:</label>
-        <div id="account-name" class="col-sm-10">{{ accountWithUsersInfo.name }}</div>
+        <div id="account-name" class="col-sm-10">{{ accountInfo.name }}</div>
         <label class="col-sm-2 control-label">Email:</label>
-        <div id="account-email" class="col-sm-10">{{ accountWithUsersInfo.email }}</div>
+        <div id="account-email" class="col-sm-10">{{ accountInfo.email }}</div>
         <div class="text-center" style="margin-top: 20px">
           <button id="btn-delete-account" class="btn btn-sm btn-danger" (click)="deleteAccount()">
             <i class="fas fa-trash-alt"></i> Delete Account
@@ -18,10 +18,10 @@
   }
 </div>
 
-<h2 class="my-3">Instructor For {{ accountWithUsersInfo.instructors.length }} Courses</h2>
+<h2 class="my-3">Instructor For {{ accountInfo.instructors.length }} Courses</h2>
 
-<div *tmIsLoading="isLoadingAccountWithUsersInfo">
-  @if (accountWithUsersInfo.instructors.length) {
+<div *tmIsLoading="isLoadingAccountInfo">
+  @if (accountInfo.instructors.length) {
     <div class="card bg-light">
       <table id="instructor-table" class="table table-striped">
         <thead>
@@ -34,7 +34,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (instructor of accountWithUsersInfo.instructors; track instructor) {
+          @for (instructor of accountInfo.instructors; track instructor) {
             <tr>
               <td class="text-break">{{ instructor.name }}</td>
               <td class="text-break">{{ instructor.email }}</td>
@@ -52,16 +52,16 @@
     </div>
   }
 
-  @if (!accountWithUsersInfo.instructors.length) {
+  @if (!accountInfo.instructors.length) {
     <div class="alert alert-warning">
       <i class="fas fa-exclamation-circle"></i> No instructor courses found for this account.
     </div>
   }
 </div>
 
-<h2 class="my-3">Student For {{ accountWithUsersInfo.students.length }} Courses</h2>
-<div *tmIsLoading="isLoadingAccountWithUsersInfo">
-  @if (accountWithUsersInfo.students.length) {
+<h2 class="my-3">Student For {{ accountInfo.students.length }} Courses</h2>
+<div *tmIsLoading="isLoadingAccountInfo">
+  @if (accountInfo.students.length) {
     <div class="card bg-light">
       <table id="student-table" class="table table-striped">
         <thead>
@@ -74,7 +74,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (student of accountWithUsersInfo.students; track student) {
+          @for (student of accountInfo.students; track student) {
             <tr>
               <td class="text-break">{{ student.name }}</td>
               <td class="text-break">{{ student.email }}</td>
@@ -91,7 +91,7 @@
       </table>
     </div>
   }
-  @if (!accountWithUsersInfo.students.length) {
+  @if (!accountInfo.students.length) {
     <div class="alert alert-warning">
       <i class="fas fa-exclamation-circle"></i> No student courses found for this account.
     </div>

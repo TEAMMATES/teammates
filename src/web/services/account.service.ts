@@ -8,7 +8,7 @@ import {
   JoinLink,
   MessageOutput,
   AccountRequestStatus,
-  AccountWithUsers,
+  Account,
 } from '../types/api-output';
 import {
   AccountCreateRequest,
@@ -117,13 +117,13 @@ export class AccountService {
   }
 
   /**
-   * Gets an account with associated users by calling API.
+   * Gets an account by calling API.
    */
-  getAccountWithUsers(googleId: string): Observable<AccountWithUsers> {
+  getAccount(googleId: string): Observable<Account> {
     const paramMap: Record<string, string> = {
       instructorid: googleId,
     };
-    return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_WITH_USERS, paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.ACCOUNT, paramMap);
   }
 
   /**

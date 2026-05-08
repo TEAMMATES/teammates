@@ -6,7 +6,7 @@ import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { AccountWithUsers } from '../../../types/api-output';
+import { Account } from '../../../types/api-output';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -20,7 +20,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
   imports: [LoadingSpinnerDirective],
 })
 export class AdminAccountsPageComponent implements OnInit {
-  accountWithUsersInfo: AccountWithUsers = {
+  accountInfo: Account = {
     accountId: '',
     googleId: '',
     name: '',
@@ -29,7 +29,7 @@ export class AdminAccountsPageComponent implements OnInit {
     instructors: [],
   };
 
-  isLoadingAccountWithUsersInfo = false;
+  isLoadingAccountInfo = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -50,17 +50,17 @@ export class AdminAccountsPageComponent implements OnInit {
    * Loads the account information based on the given ID.
    */
   loadAccountInfo(instructorid: string): void {
-    this.isLoadingAccountWithUsersInfo = true;
+    this.isLoadingAccountInfo = true;
     this.accountService
-      .getAccountWithUsers(instructorid)
+      .getAccount(instructorid)
       .pipe(
         finalize(() => {
-          this.isLoadingAccountWithUsersInfo = false;
+          this.isLoadingAccountInfo = false;
         }),
       )
       .subscribe({
-        next: (resp: AccountWithUsers) => {
-          this.accountWithUsersInfo = resp;
+        next: (resp: Account) => {
+          this.accountInfo = resp;
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
@@ -72,7 +72,7 @@ export class AdminAccountsPageComponent implements OnInit {
    * Deletes the entire account.
    */
   deleteAccount(): void {
-    const id: string = this.accountWithUsersInfo.googleId;
+    const id: string = this.accountInfo.googleId;
     this.accountService.deleteAccount(id).subscribe({
       next: () => {
         this.navigationService.navigateWithSuccessMessage(
@@ -93,11 +93,11 @@ export class AdminAccountsPageComponent implements OnInit {
     this.studentService
       .deleteStudent({
         courseId,
-        googleId: this.accountWithUsersInfo.googleId,
+        googleId: this.accountInfo.googleId,
       })
       .subscribe({
         next: () => {
-          this.accountWithUsersInfo.students = this.accountWithUsersInfo.students.filter(
+          this.accountInfo.students = this.accountInfo.students.filter(
             (student) => student.courseId !== courseId,
           );
           this.statusMessageService.showSuccessToast(`Student is successfully deleted from course "${courseId}"`);
@@ -115,11 +115,11 @@ export class AdminAccountsPageComponent implements OnInit {
     this.instructorService
       .deleteInstructor({
         courseId,
-        instructorId: this.accountWithUsersInfo.googleId,
+        instructorId: this.accountInfo.googleId,
       })
       .subscribe({
         next: () => {
-          this.accountWithUsersInfo.instructors = this.accountWithUsersInfo.instructors.filter(
+          this.accountInfo.instructors = this.accountInfo.instructors.filter(
             (instructor) => instructor.courseId !== courseId,
           );
           this.statusMessageService.showSuccessToast(`Instructor is successfully deleted from course "${courseId}"`);
