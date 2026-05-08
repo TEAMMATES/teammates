@@ -31,6 +31,19 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
     }
 
     @Test
+    void testExecute_noLoggedInUser() {
+        logoutUser();
+
+        GetAuthInfoAction a = getAction();
+        JsonResult r = getJsonResult(a);
+
+        AuthInfo output = (AuthInfo) r.getOutput();
+        assertNull(output.getLoginUrl());
+        assertNull(output.getUser());
+        assertFalse(output.isMasquerade());
+    }
+
+    @Test
     void testExecute_noLoggedInUser_hasNextUrlParameter() {
         logoutUser();
         String nextUrl = "/web/join";
