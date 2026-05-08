@@ -97,9 +97,7 @@ export class AdminAccountsPageComponent implements OnInit {
       })
       .subscribe({
         next: () => {
-          this.accountInfo.students = this.accountInfo.students.filter(
-            (student) => student.courseId !== courseId,
-          );
+          this.accountInfo.students = this.accountInfo.students.filter((student) => student.courseId !== courseId);
           this.statusMessageService.showSuccessToast(`Student is successfully deleted from course "${courseId}"`);
         },
         error: (resp: ErrorMessageOutput) => {
