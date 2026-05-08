@@ -41,7 +41,7 @@ jobs:
         with:
           path: |
             ./.eslintcache
-          key: ${{ runner.os }}-eslint-${{ hashFiles('.eslintcache') }}
+          key: ${{ runner.os }}-eslint-${{ hashFiles('package-lock.json', 'eslint.config.*') }}
           restore-keys: |
             ${{ runner.os }}-eslint-
       - name: Cache stylelint
@@ -49,7 +49,7 @@ jobs:
         with:
           path: |
             ./.stylelintcache
-          key: ${{ runner.os }}-stylelint-${{ hashFiles('.stylelintcache') }}
+          key: ${{ runner.os }}-stylelint-${{ hashFiles('package-lock.json', 'stylelint.config.*') }}
           restore-keys: |
             ${{ runner.os }}-stylelint-
       - name: Run Backend Linting
