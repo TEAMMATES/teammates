@@ -174,7 +174,7 @@ public abstract class Action {
         String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
 
         if (userInfo == null) {
-            authType = regKey != null ? AuthType.REG_KEY : AuthType.PUBLIC;
+            authType = !StringHelper.isEmpty(regKey) ? AuthType.REG_KEY : AuthType.PUBLIC;
         } else if (userParam != null && userInfo.isAdmin) {
             userInfo = userProvision.getMasqueradeUser(userParam);
             authType = AuthType.MASQUERADE;
