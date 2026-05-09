@@ -162,6 +162,8 @@ export const EXAMPLE_STUDENTS: Student[] = [
     teamName: 'Team A',
     sectionName: 'Section A',
     joinState: JoinState.JOINED,
+    institute: 'NUS',
+    courseName: 'CS3281',
   },
 ];
 /**
@@ -179,6 +181,8 @@ export const EXAMPLE_INSTRUCTORS: Instructor[] = [
     key: 'impicklerick',
     role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
     joinState: JoinState.JOINED,
+    institute: 'NUS',
+    courseName: 'CS3281',
   },
 ];
 

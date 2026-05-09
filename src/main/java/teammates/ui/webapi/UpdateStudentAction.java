@@ -1,6 +1,6 @@
 package teammates.ui.webapi;
 
-import java.util.Arrays;
+import java.util.UUID;
 
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -10,12 +10,8 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.SanitizationHelper;
-import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
-import teammates.storage.entity.Team;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -27,9 +23,8 @@ import teammates.ui.request.StudentUpdateRequest;
  */
 public class UpdateStudentAction extends Action {
     /** Message indicating that the student to be edited could not be found in the system. */
-    public static final String STUDENT_NOT_FOUND_FOR_EDIT = "The student you tried to edit does not exist. "
-            + "If the student was created during the last few minutes, "
-            + "try again in a few more minutes as the student may still be being saved.";
+    public static final String STUDENT_NOT_FOUND_FOR_EDIT = "The student you tried to edit does not exist.";
+
     /** Message indicating that the student information was successfully updated. */
     public static final String SUCCESSFUL_UPDATE = "Student has been updated";
     /**
@@ -58,51 +53,29 @@ public class UpdateStudentAction extends Action {
         if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.id);
-        gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
-    }
-
-    @Override
-    public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-
-        Student existingStudent = logic.getStudentForEmail(courseId, studentEmail);
+        UUID studentId = getUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
+        Student existingStudent = logic.getStudent(studentId);
         if (existingStudent == null) {
             throw new EntityNotFoundException(STUDENT_NOT_FOUND_FOR_EDIT);
         }
 
+        Instructor instructor = logic.getInstructorByGoogleId(existingStudent.getCourseId(), userInfo.id);
+        gateKeeper.verifyAccessible(
+                instructor, logic.getCourse(existingStudent.getCourseId()), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+    }
+
+    @Override
+    public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
+        UUID studentId = getUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
         StudentUpdateRequest updateRequest = getAndValidateRequestBody(StudentUpdateRequest.class);
 
-        Course course = logic.getCourse(courseId);
-        Section section = logic.getSectionOrCreate(courseId, updateRequest.getSection());
-        Team team = logic.getTeamOrCreate(section, updateRequest.getTeam());
-        Student studentToUpdate = new Student(course, updateRequest.getName(), updateRequest.getEmail(),
-                updateRequest.getComments());
+        Student existingStudent = logic.getStudent(studentId);
+        if (existingStudent == null) {
+            throw new EntityNotFoundException(STUDENT_NOT_FOUND_FOR_EDIT);
+        }
 
         try {
-            //we swap out email before we validate
-            //TODO: this is duct tape at the moment, need to refactor how we do the validation
-            String newEmail = studentToUpdate.getEmail();
-            studentToUpdate.setEmail(existingStudent.getEmail());
-            studentToUpdate.setTeam(team);
-            logic.validateSectionsAndTeams(Arrays.asList(studentToUpdate), courseId);
-            studentToUpdate.setEmail(newEmail);
-
-            studentToUpdate.setId(existingStudent.getId());
-            studentToUpdate.setTeam(team);
-            logic.updateStudentCascade(studentToUpdate);
-
-            if (!SanitizationHelper.areEmailsEqual(studentEmail, updateRequest.getEmail())
-                    && updateRequest.getIsSessionSummarySendEmail()) {
-                boolean emailSent = sendEmail(courseId, updateRequest.getEmail());
-                String statusMessage = emailSent ? SUCCESSFUL_UPDATE_WITH_EMAIL
-                        : SUCCESSFUL_UPDATE_BUT_EMAIL_FAILED;
-                return new JsonResult(statusMessage);
-            }
+            logic.updateStudent(studentId, updateRequest);
         } catch (EnrollException e) {
             throw new InvalidOperationException(e);
         } catch (InvalidParametersException e) {
@@ -111,6 +84,14 @@ public class UpdateStudentAction extends Action {
             throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException e) {
             throw new InvalidOperationException(ERROR_EMAIL_ALREADY_EXISTS, e);
+        }
+
+        if (updateRequest.getIsSessionSummarySendEmail()) {
+            String courseId = existingStudent.getCourseId();
+            boolean emailSent = sendEmail(courseId, updateRequest.getEmail());
+            String statusMessage = emailSent ? SUCCESSFUL_UPDATE_WITH_EMAIL
+                    : SUCCESSFUL_UPDATE_BUT_EMAIL_FAILED;
+            return new JsonResult(statusMessage);
         }
 
         return new JsonResult(SUCCESSFUL_UPDATE);

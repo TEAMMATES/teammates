@@ -458,6 +458,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
           teamName: request.team,
           comments: request.comments,
           joinState: JoinState.NOT_JOINED,
+          institute: '',
+          courseName: '',
         });
       }
     }

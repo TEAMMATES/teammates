@@ -3,13 +3,13 @@ package teammates.ui.webapi;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Set;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
@@ -54,8 +54,6 @@ public class GetDeadlineExtensionsActionTest
         typicalStudent = getTypicalStudent();
 
         when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId())).thenReturn(typicalFeedbackSession);
-        when(mockLogic.getStudentsForCourse(COURSE_ID)).thenReturn(new ArrayList<>());
-        when(mockLogic.getInstructorsByCourse(COURSE_ID)).thenReturn(new ArrayList<>());
     }
 
     @Test
@@ -84,61 +82,23 @@ public class GetDeadlineExtensionsActionTest
     }
 
     @Test
-    void testExecute_noDeadlineExtensions_returnsEmptyMaps() {
-        loginAsInstructor(typicalInstructor.getGoogleId());
-        when(mockLogic.getInstructorByGoogleId(COURSE_ID, typicalInstructor.getGoogleId()))
-                .thenReturn(typicalInstructor);
-
-        GetDeadlineExtensionsAction action = getAction(getTypicalParams());
-        JsonResult result = getJsonResult(action);
-
-        DeadlineExtensionsData response =
-                (DeadlineExtensionsData) result.getOutput();
-        assertTrue(response.getStudentDeadlines().isEmpty());
-        assertTrue(response.getInstructorDeadlines().isEmpty());
-    }
-
-    @Test
-    void testExecute_withStudentDeadlineExtension_returnsStudentDeadline() {
+    void testExecute_withDeadlineExtensions_returnsDeadlineExtensions() throws EntityDoesNotExistException {
         Instant extensionEndTime = Instant.parse("2030-01-01T00:00:00Z");
         DeadlineExtension studentDeadline = new DeadlineExtension(typicalStudent, extensionEndTime);
-        typicalFeedbackSession.addDeadlineExtension(studentDeadline);
+        DeadlineExtension instructorDeadline = new DeadlineExtension(typicalInstructor, extensionEndTime);
 
-        when(mockLogic.getStudentsForCourse(COURSE_ID)).thenReturn(List.of(typicalStudent));
-        loginAsInstructor(typicalInstructor.getGoogleId());
-        when(mockLogic.getInstructorByGoogleId(COURSE_ID, typicalInstructor.getGoogleId()))
-                .thenReturn(typicalInstructor);
+        when(mockLogic.getDeadlineExtensions(typicalFeedbackSession.getId())).thenReturn(
+                Set.of(studentDeadline, instructorDeadline));
 
         GetDeadlineExtensionsAction action = getAction(getTypicalParams());
         JsonResult result = getJsonResult(action);
 
         DeadlineExtensionsData response =
                 (DeadlineExtensionsData) result.getOutput();
-        assertTrue(response.getInstructorDeadlines().isEmpty());
-        assertEquals(1, response.getStudentDeadlines().size());
-        assertTrue(response.getStudentDeadlines().containsKey(typicalStudent.getEmail()));
-    }
 
-    @Test
-    void testExecute_withInstructorDeadlineExtension_returnsInstructorDeadline() {
-        Instant extensionEndTime = Instant.parse("2030-01-01T00:00:00Z");
-        DeadlineExtension instructorDeadline =
-                new DeadlineExtension(typicalInstructor, extensionEndTime);
-        typicalFeedbackSession.addDeadlineExtension(instructorDeadline);
-
-        when(mockLogic.getInstructorsByCourse(COURSE_ID)).thenReturn(List.of(typicalInstructor));
-        loginAsInstructor(typicalInstructor.getGoogleId());
-        when(mockLogic.getInstructorByGoogleId(COURSE_ID, typicalInstructor.getGoogleId()))
-                .thenReturn(typicalInstructor);
-
-        GetDeadlineExtensionsAction action = getAction(getTypicalParams());
-        JsonResult result = getJsonResult(action);
-
-        DeadlineExtensionsData response =
-                (DeadlineExtensionsData) result.getOutput();
-        assertTrue(response.getStudentDeadlines().isEmpty());
-        assertEquals(1, response.getInstructorDeadlines().size());
-        assertTrue(response.getInstructorDeadlines().containsKey(typicalInstructor.getEmail()));
+        assertEquals(2, response.getUserDeadlines().size());
+        assertEquals(extensionEndTime, Instant.ofEpochMilli(response.getUserDeadlines().get(typicalStudent.getId())));
+        assertEquals(extensionEndTime, Instant.ofEpochMilli(response.getUserDeadlines().get(typicalInstructor.getId())));
     }
 
     private String[] getTypicalParams() {

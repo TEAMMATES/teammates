@@ -854,7 +854,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
         GetFeedbackResponsesAction action1 = getAction(params1);
         UnauthorizedAccessException uae1 = assertThrows(UnauthorizedAccessException.class, action1::checkAccessControl);
-        assertEquals("User is not logged in", uae1.getMessage());
+        assertEquals("Not authorized to access this resource.", uae1.getMessage());
 
         when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), null)).thenReturn(null);
         String[] params2 = {
@@ -863,7 +863,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
         GetFeedbackResponsesAction action2 = getAction(params2);
         UnauthorizedAccessException uae2 = assertThrows(UnauthorizedAccessException.class, action2::checkAccessControl);
-        assertEquals("Trying to access system using a non-existent instructor entity", uae2.getMessage());
+        assertEquals("Not authorized to access this resource.", uae2.getMessage());
         verify(mockLogic, never()).getInstructorByGoogleId(stubCourse.getId(), null);
 
         // Student
@@ -879,7 +879,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
         GetFeedbackResponsesAction action3 = getAction(params3);
         UnauthorizedAccessException uae3 = assertThrows(UnauthorizedAccessException.class, action3::checkAccessControl);
-        assertEquals("Trying to access system using a non-existent student entity", uae3.getMessage());
+        assertEquals("Not authorized to access this resource.", uae3.getMessage());
 
         questionAnswerableToStudent.setShowResponsesTo(List.of(FeedbackParticipantType.INSTRUCTORS));
         questionAnswerableToStudent.setShowRecipientNameTo(List.of(FeedbackParticipantType.INSTRUCTORS));
@@ -893,7 +893,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
         GetFeedbackResponsesAction action4 = getAction(params4);
         UnauthorizedAccessException uae4 = assertThrows(UnauthorizedAccessException.class, action4::checkAccessControl);
-        assertEquals("User is not logged in", uae4.getMessage());
+        assertEquals("Not authorized to access this resource.", uae4.getMessage());
     }
 
     @Test

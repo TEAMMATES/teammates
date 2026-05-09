@@ -29,7 +29,9 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
     @Override
     AuthType getMinAuthLevel() {
-        return AuthType.PUBLIC;
+        // Creating a comment requires the caller to be identified as a student or instructor
+        // (via reg key or login) before response ownership and session access are verified.
+        return AuthType.REG_KEY;
     }
 
     @Override

@@ -1,15 +1,12 @@
 package teammates.ui.webapi;
 
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackSession;
-import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.DeadlineExtensionsData;
@@ -43,18 +40,14 @@ public class GetDeadlineExtensionsAction extends Action {
     public JsonResult execute() {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
-        String courseId = feedbackSession.getCourseId();
+        Set<DeadlineExtension> deadlineExtensions;
+        try {
+            deadlineExtensions = logic.getDeadlineExtensions(feedbackSessionId);
+        } catch (EntityDoesNotExistException e) {
+            throw new EntityNotFoundException(e);
+        }
 
-        Map<UUID, Student> studentsByUserId = logic.getStudentsForCourse(courseId).stream()
-                .collect(Collectors.toMap(Student::getId, s -> s));
-        Map<UUID, Instructor> instructorsByUserId = logic.getInstructorsByCourse(courseId).stream()
-                .collect(Collectors.toMap(Instructor::getId, i -> i));
-
-        Set<DeadlineExtension> deadlineExtensions = feedbackSession.getDeadlineExtensions();
-
-        DeadlineExtensionsData responseData = new DeadlineExtensionsData(
-                deadlineExtensions, studentsByUserId, instructorsByUserId);
+        DeadlineExtensionsData responseData = new DeadlineExtensionsData(deadlineExtensions);
 
         return new JsonResult(responseData);
     }

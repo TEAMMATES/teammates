@@ -296,7 +296,7 @@ public final class CoursesLogic {
             throws InvalidParametersException, EntityAlreadyExistsException {
         if (coursesDb.getTeamByName(section.getId(), teamName) != null) {
             throw new EntityAlreadyExistsException("Team with name "
-                    + teamName + " already exists in section " + section.getId());
+                    + teamName + " already exists in section " + section.getName());
         }
 
         Team team = new Team(teamName);

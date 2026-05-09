@@ -31,6 +31,7 @@ import teammates.storage.entity.DeadlineExtension;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 
 /**
  * Handles operations related to generating emails to be sent from provided templates.
@@ -616,50 +617,35 @@ public final class EmailGenerator {
     }
 
     /**
-     * Generates deadline extension granted emails.
+     * Generates deadline extension granted email.
      */
-    public List<EmailWrapper> generateDeadlineGrantedEmails(Course course,
-            FeedbackSession session, Map<String, Instant> createdDeadlines, boolean areInstructors) {
-        return createdDeadlines.entrySet()
-                .stream()
-                .map(entry ->
-                        generateDeadlineExtensionEmail(course, session,
-                                session.getEndTime(), entry.getValue(), EmailType.DEADLINE_EXTENSION_GRANTED,
-                                entry.getKey(), areInstructors))
-                .collect(Collectors.toList());
+    public EmailWrapper generateDeadlineGrantedEmails(Course course,
+            FeedbackSession session, Instant oldEndTime, Instant newEndTime, User user) {
+        return generateDeadlineExtensionEmail(course, session, oldEndTime, newEndTime,
+                EmailType.DEADLINE_EXTENSION_GRANTED, user);
     }
 
     /**
-     * Generates deadline extension updated emails.
+     * Generates deadline extension updated email.
      */
-    public List<EmailWrapper> generateDeadlineUpdatedEmails(Course course, FeedbackSession session,
-            Map<String, Instant> updatedDeadlines, Map<String, Instant> oldDeadlines, boolean areInstructors) {
-        return updatedDeadlines.entrySet()
-                .stream()
-                .map(entry ->
-                        generateDeadlineExtensionEmail(course, session,
-                                oldDeadlines.get(entry.getKey()), entry.getValue(), EmailType.DEADLINE_EXTENSION_UPDATED,
-                                entry.getKey(), areInstructors))
-                .collect(Collectors.toList());
+    public EmailWrapper generateDeadlineUpdatedEmails(Course course,
+            FeedbackSession session, Instant oldEndTime, Instant newEndTime, User user) {
+        return generateDeadlineExtensionEmail(course, session, oldEndTime, newEndTime,
+                EmailType.DEADLINE_EXTENSION_UPDATED, user);
     }
 
     /**
-     * Generates deadline extension revoked emails.
+     * Generates deadline extension revoked email.
      */
-    public List<EmailWrapper> generateDeadlineRevokedEmails(Course course,
-            FeedbackSession session, Map<String, Instant> revokedDeadlines, boolean areInstructors) {
-        return revokedDeadlines.entrySet()
-                .stream()
-                .map(entry ->
-                        generateDeadlineExtensionEmail(course, session,
-                                entry.getValue(), session.getEndTime(), EmailType.DEADLINE_EXTENSION_REVOKED,
-                                entry.getKey(), areInstructors))
-                .collect(Collectors.toList());
+    public EmailWrapper generateDeadlineRevokedEmails(Course course,
+            FeedbackSession session, Instant oldEndTime, Instant newEndTime, User user) {
+        return generateDeadlineExtensionEmail(course, session, oldEndTime, newEndTime,
+                EmailType.DEADLINE_EXTENSION_REVOKED, user);
     }
 
     private EmailWrapper generateDeadlineExtensionEmail(
             Course course, FeedbackSession session, Instant oldEndTime, Instant endTime,
-            EmailType emailType, String userEmail, boolean isInstructor) {
+            EmailType emailType, User user) {
         String status;
 
         switch (emailType) {
@@ -676,6 +662,7 @@ public final class EmailGenerator {
             throw new AssertionError("Invalid email type: " + emailType);
         }
 
+        boolean isInstructor = user instanceof Instructor;
         String additionalContactInformation = getAdditionalContactInformationFragment(course, isInstructor);
         Instant oldEndTimeFormatted =
                 TimeHelper.getMidnightAdjustedInstantBasedOnZone(oldEndTime, session.getCourse().getTimeZone(), false);
@@ -691,21 +678,13 @@ public final class EmailGenerator {
                                 session.getCourse().getTimeZone(), DATETIME_DISPLAY_FORMAT)));
         String feedbackAction = FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW;
 
-        if (isInstructor) {
-            Instructor instructor = usersLogic.getInstructorForEmail(course.getId(), userEmail);
-            if (instructor == null) {
-                return null;
-            }
-            return generateFeedbackSessionEmailBaseForInstructors(
-                    course, session, instructor, template, emailType, feedbackAction, additionalContactInformation);
-        } else {
-            Student student = usersLogic.getStudentForEmail(course.getId(), userEmail);
-            if (student == null) {
-                return null;
-            }
-            return generateFeedbackSessionEmailBaseForStudents(
-                    course, session, student, template, emailType, feedbackAction, additionalContactInformation);
-        }
+        return switch (user) {
+        case Instructor instructor -> generateFeedbackSessionEmailBaseForInstructors(
+                course, session, instructor, template, emailType, feedbackAction, additionalContactInformation);
+        case Student student -> generateFeedbackSessionEmailBaseForStudents(
+                course, session, student, template, emailType, feedbackAction, additionalContactInformation);
+        default -> throw new AssertionError("User must be either an instructor or a student: " + user);
+        };
     }
 
     private List<EmailWrapper> generateFeedbackSessionEmailBases(

@@ -16,7 +16,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select student
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
@@ -34,10 +33,10 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select student
   sortStudentOrder="0"
   sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div
@@ -510,7 +509,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select those t
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
@@ -528,10 +526,10 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select those t
   sortStudentOrder="0"
   sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div
@@ -1070,7 +1068,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected={[Function Boolean]}
@@ -1088,10 +1085,10 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   sortStudentOrder="0"
   sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div
@@ -1630,7 +1627,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
@@ -1648,10 +1644,10 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   sortStudentOrder="0"
   sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div
@@ -2190,7 +2186,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
@@ -2208,10 +2203,10 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
   sortStudentOrder="0"
   sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div
@@ -2506,7 +2501,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
@@ -2524,10 +2518,10 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   sortStudentOrder="0"
   sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div
@@ -3002,7 +2996,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
@@ -3020,10 +3013,10 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   sortStudentOrder="0"
   sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div
@@ -3464,7 +3457,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
@@ -3482,10 +3474,10 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
   sortStudentOrder="0"
   sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div
@@ -4026,7 +4018,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
@@ -4044,10 +4035,10 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
   sortStudentOrder="0"
   sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div
@@ -4351,7 +4342,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
@@ -4369,10 +4359,10 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
   sortStudentOrder="0"
   sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div
@@ -4661,7 +4651,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed={[Function Boolean]}
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
@@ -4679,10 +4668,10 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   sortStudentOrder="0"
   sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div
@@ -4980,7 +4969,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   hasLoadedAllInstructorsFailed={[Function Boolean]}
   hasLoadedAllStudentsFailed={[Function Boolean]}
   hasLoadingFeedbackSessionFailed="false"
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
@@ -4998,10 +4986,10 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   sortStudentOrder="0"
   sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div
@@ -5233,7 +5221,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed={[Function Boolean]}
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
@@ -5251,10 +5238,10 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   sortStudentOrder="0"
   sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div
@@ -5552,7 +5539,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   hasLoadedAllInstructorsFailed={[Function Boolean]}
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
@@ -5570,10 +5556,10 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   sortStudentOrder="0"
   sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div
@@ -5984,7 +5970,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed={[Function Boolean]}
   hasLoadingFeedbackSessionFailed="false"
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
@@ -6002,10 +5987,10 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   sortStudentOrder="0"
   sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div
@@ -6367,7 +6352,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect instr
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
@@ -6385,10 +6369,10 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect instr
   sortStudentOrder="0"
   sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div
@@ -6828,7 +6812,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect only 
   hasLoadedAllInstructorsFailed="false"
   hasLoadedAllStudentsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  instructorDeadlines={[Function Object]}
   instructorService={[Function InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAllInstructorsSelected="false"
@@ -6846,10 +6829,10 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect only 
   sortStudentOrder="0"
   sortStudentsBy={[Function Number]}
   statusMessageService={[Function StatusMessageService]}
-  studentDeadlines={[Function Object]}
   studentService={[Function StudentService]}
   studentsOfCourse={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
+  userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
     <div

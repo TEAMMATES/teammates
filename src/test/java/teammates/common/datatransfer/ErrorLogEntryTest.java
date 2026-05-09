@@ -1,5 +1,7 @@
 package teammates.common.datatransfer;
 
+import static teammates.test.AssertHelper.assertJsonEquals;
+
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
@@ -39,11 +41,12 @@ public class ErrorLogEntryTest extends BaseTestCase {
         logEntry.setDetails(instanceLogDetails);
 
         ErrorLogEntry errorLogEntry = ErrorLogEntry.fromLogEntry(logEntry);
-        assertEquals("{\n"
-                + "  \"event\": \"INSTANCE_LOG\",\n"
-                + "  \"instanceId\": \"instanceid123\",\n"
-                + "  \"instanceEvent\": \"STARTUP\"\n"
-                + "}", errorLogEntry.getMessage());
+        assertJsonEquals("""
+                {
+                  "event": "INSTANCE_LOG",
+                  "instanceId": "instanceid123",
+                  "instanceEvent": "STARTUP"
+                }""", errorLogEntry.getMessage());
         assertEquals("ERROR", errorLogEntry.getSeverity());
         assertEquals("traceid", errorLogEntry.getTraceId());
     }

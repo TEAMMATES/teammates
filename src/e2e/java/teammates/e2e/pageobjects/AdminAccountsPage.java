@@ -56,8 +56,8 @@ public class AdminAccountsPage extends AppPage {
         WebElement deleteButton = null;
         for (WebElement instructorRow : instructorRows) {
             List<WebElement> cells = instructorRow.findElements(By.tagName("td"));
-            if (cells.get(0).getText().startsWith("[" + courseId + "]")) {
-                deleteButton = cells.get(2).findElement(By.className("btn-danger"));
+            if (cells.get(2).getText().startsWith("[" + courseId + "]")) {
+                deleteButton = cells.get(4).findElement(By.className("btn-danger"));
             }
         }
 
@@ -75,8 +75,8 @@ public class AdminAccountsPage extends AppPage {
         WebElement deleteButton = null;
         for (WebElement studentRow : studentRows) {
             List<WebElement> cells = studentRow.findElements(By.tagName("td"));
-            if (cells.get(0).getText().startsWith("[" + courseId + "]")) {
-                deleteButton = cells.get(2).findElement(By.className("btn-danger"));
+            if (cells.get(2).getText().startsWith("[" + courseId + "]")) {
+                deleteButton = cells.get(4).findElement(By.className("btn-danger"));
             }
         }
 

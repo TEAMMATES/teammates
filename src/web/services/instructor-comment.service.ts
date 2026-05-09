@@ -10,14 +10,32 @@ import { FeedbackResponseComment } from '../types/api-output';
 import { Intent } from '../types/api-request';
 import { SortBy, SortOrder } from '../types/sort-properties';
 
-@Injectable()
-export class InstructorCommentService {
+export interface InstructorCommentEventData {
+  responseId: string;
+  index: number;
+}
+
+export interface InstructorCommentUpdateParams {
+  data: InstructorCommentEventData;
+  timezone: string;
+  instructorCommentTableModel: Record<string, CommentTableModel>;
   currInstructorName?: string;
+}
 
-  // this is a separate model for instructor comments
-  // from responseID to comment table model
-  instructorCommentTableModel: Record<string, CommentTableModel> = {};
+export interface InstructorCommentSaveParams {
+  responseId: string;
+  timezone: string;
+  instructorCommentTableModel: Record<string, CommentTableModel>;
+  currInstructorName?: string;
+}
 
+export interface InstructorCommentDeleteParams {
+  data: InstructorCommentEventData;
+  instructorCommentTableModel: Record<string, CommentTableModel>;
+}
+
+@Injectable({ providedIn: 'root' })
+export class InstructorCommentService {
   constructor(
     private commentToCommentRowModel: CommentToCommentRowModelPipe,
     private commentService: FeedbackResponseCommentService,
@@ -28,15 +46,14 @@ export class InstructorCommentService {
   /**
    * Deletes an instructor comment.
    */
-  deleteComment(data: { responseId: string; index: number }): void {
-    const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
-    const commentToDelete: FeedbackResponseComment =
-      this.instructorCommentTableModel[data.responseId].commentRows[data.index].originalComment!;
+  deleteComment({ data, instructorCommentTableModel }: InstructorCommentDeleteParams): void {
+    const commentTableModel: CommentTableModel = instructorCommentTableModel[data.responseId];
+    const commentToDelete: FeedbackResponseComment = commentTableModel.commentRows[data.index].originalComment!;
 
     this.commentService.deleteComment(commentToDelete.feedbackResponseCommentId, Intent.INSTRUCTOR_RESULT).subscribe({
       next: () => {
         commentTableModel.commentRows.splice(data.index, 1);
-        this.instructorCommentTableModel[data.responseId] = {
+        instructorCommentTableModel[data.responseId] = {
           ...commentTableModel,
         };
       },
@@ -49,8 +66,13 @@ export class InstructorCommentService {
   /**
    * Updates an instructor comment.
    */
-  updateComment(data: { responseId: string; index: number }, timezone: string): void {
-    const commentTableModel: CommentTableModel = this.instructorCommentTableModel[data.responseId];
+  updateComment({
+    data,
+    timezone,
+    instructorCommentTableModel,
+    currInstructorName,
+  }: InstructorCommentUpdateParams): void {
+    const commentTableModel: CommentTableModel = instructorCommentTableModel[data.responseId];
     const commentRowToUpdate: CommentRowModel = commentTableModel.commentRows[data.index];
     const commentToUpdate: FeedbackResponseComment = commentRowToUpdate.originalComment!;
 
@@ -66,16 +88,18 @@ export class InstructorCommentService {
       )
       .subscribe({
         next: (commentResponse: FeedbackResponseComment) => {
+          // Only override lastEditorName when the caller provided a current instructor name.
+          const transformedUpdatedComment = {
+            ...commentResponse,
+            commentGiverName: commentRowToUpdate.commentGiverName,
+            ...(currInstructorName ? { lastEditorName: currInstructorName } : {}),
+          };
+
           commentTableModel.commentRows[data.index] = this.commentToCommentRowModel.transform(
-            {
-              ...commentResponse,
-              commentGiverName: commentRowToUpdate.commentGiverName,
-              // the current instructor will become the last editor
-              lastEditorName: this.currInstructorName,
-            },
+            transformedUpdatedComment,
             timezone,
           );
-          this.instructorCommentTableModel[data.responseId] = {
+          instructorCommentTableModel[data.responseId] = {
             ...commentTableModel,
           };
         },
@@ -88,8 +112,13 @@ export class InstructorCommentService {
   /**
    * Saves an instructor comment.
    */
-  saveNewComment(responseId: string, timezone: string): void {
-    const commentTableModel: CommentTableModel = this.instructorCommentTableModel[responseId];
+  saveNewComment({
+    responseId,
+    timezone,
+    instructorCommentTableModel,
+    currInstructorName,
+  }: InstructorCommentSaveParams): void {
+    const commentTableModel: CommentTableModel = instructorCommentTableModel[responseId];
     const commentRowToAdd: CommentRowModel = commentTableModel.newCommentRow;
 
     this.commentService
@@ -109,13 +138,15 @@ export class InstructorCommentService {
               {
                 ...commentResponse,
                 // the giver and editor name will be the current login instructor
-                commentGiverName: this.currInstructorName,
-                lastEditorName: this.currInstructorName,
+                ...(currInstructorName
+                  ? { commentGiverName: currInstructorName, lastEditorName: currInstructorName }
+                  : {}),
               },
               timezone,
             ),
           );
-          this.instructorCommentTableModel[responseId] = {
+          this.sortComments(commentTableModel);
+          instructorCommentTableModel[responseId] = {
             ...commentTableModel,
             newCommentRow: {
               commentEditFormModel: {

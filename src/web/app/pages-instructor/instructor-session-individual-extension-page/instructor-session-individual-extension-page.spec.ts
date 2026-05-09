@@ -58,12 +58,14 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
   };
 
   const testDeadlineExtensions: DeadlineExtensions = {
-    studentDeadlines: { 'alice@tmms.com': 1510000000000 },
-    instructorDeadlines: { 'tester2@tester.com': 1510000000000 },
+    userDeadlines: {
+      'alice-id': 1510000000000,
+      'tester2-id': 1510000000000,
+    },
   };
 
   const testStudent1: Student = {
-    userId: 'f89937f2-d6ca-4547-8a2a-9dae1aba2b3e',
+    userId: 'alice-id',
     email: 'alice@tmms.com',
     courseId: 'testId',
     name: 'AliceHasExtension',
@@ -71,7 +73,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     sectionName: 'Section 1',
   };
   const testStudent2: Student = {
-    userId: '72184baf-5068-4a2c-a977-b80549f18f19',
+    userId: 'bob-id',
     email: 'bob@tmms.com',
     courseId: 'testId',
     name: 'Bob',
@@ -79,7 +81,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     sectionName: 'Section 1',
   };
   const testStudent3: Student = {
-    userId: '7b8a0665-a83e-423f-b095-194b0688deef',
+    userId: 'alex-id',
     email: 'alex@tmms.com',
     courseId: 'testId',
     name: 'Alex',
@@ -91,7 +93,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
   };
 
   const testInstructor1: Instructor = {
-    userId: '7f518f5f-e2f0-4060-bb74-5326fb5103ac',
+    userId: 'tester1-id',
     name: 'tester1',
     email: 'tester1@tester.com',
     googleId: 'instructor-google-id',
@@ -100,7 +102,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     joinState: JoinState.JOINED,
   };
   const testInstructor2: Instructor = {
-    userId: '056d31f1-d738-48a5-8337-2202027acf98',
+    userId: 'tester2-id',
     name: 'tester2HasExtension',
     email: 'tester2@tester.com',
     googleId: 'instructor-google-id',
@@ -697,11 +699,11 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
 
-    const instructorOneCheckBox: any = fixture.debugElement.nativeElement.querySelector('#instructor-checkbox-0');
-    const instructorTwoCheckBox: any = fixture.debugElement.nativeElement.querySelector('#instructor-checkbox-1');
-    const studentOneCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-0');
-    const studentTwoCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-1');
-    const studentThreeCheckBox: any = fixture.debugElement.nativeElement.querySelector('#student-checkbox-2');
+    const instructorOneCheckBox = fixture.debugElement.nativeElement.querySelector('#instructor-checkbox-0');
+    const instructorTwoCheckBox = fixture.debugElement.nativeElement.querySelector('#instructor-checkbox-1');
+    const studentOneCheckBox = fixture.debugElement.nativeElement.querySelector('#student-checkbox-0');
+    const studentTwoCheckBox = fixture.debugElement.nativeElement.querySelector('#student-checkbox-1');
+    const studentThreeCheckBox = fixture.debugElement.nativeElement.querySelector('#student-checkbox-2');
 
     expect(component.isAllYetToSubmitInstructorsSelected).toBeTruthy();
     expect(component.isAllYetToSubmitStudentsSelected).toBeTruthy();
@@ -752,6 +754,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
 
   describe('sortStudentColumnsBy team name', () => {
     const makeStudent = (teamName: string, sectionName: string, name: string): StudentExtensionTableColumnModel => ({
+      userId: `${name.toLowerCase()}-id`,
       teamName,
       sectionName,
       name,

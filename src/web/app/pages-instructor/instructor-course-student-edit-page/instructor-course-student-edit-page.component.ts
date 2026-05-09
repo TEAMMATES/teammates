@@ -73,6 +73,8 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
         teamName: 'Team A',
         sectionName: 'Section A',
         joinState: JoinState.JOINED,
+        institute: 'NUS',
+        courseName: 'CS3281',
       };
       this.initEditForm();
       return;
@@ -225,11 +227,12 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
     this.isFormSaving = true;
 
     this.studentService
-      .updateStudent({
-        courseId: this.courseId,
-        studentEmail: this.student.email,
-        requestBody: reqBody,
-      })
+      .updateStudent(
+        {
+          studentId: this.student.userId,
+        },
+        reqBody,
+      )
       .pipe(
         finalize(() => {
           this.isFormSaving = false;

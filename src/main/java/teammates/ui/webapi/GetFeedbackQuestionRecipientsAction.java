@@ -24,7 +24,7 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
 
     @Override
     AuthType getMinAuthLevel() {
-        return AuthType.PUBLIC;
+        return AuthType.REG_KEY;
     }
 
     @Override

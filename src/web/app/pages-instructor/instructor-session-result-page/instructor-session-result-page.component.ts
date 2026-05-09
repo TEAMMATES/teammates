@@ -17,7 +17,7 @@ import { FeedbackQuestionsService } from '../../../services/feedback-questions.s
 import { FeedbackSessionActionsService } from '../../../services/feedback-session-actions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { FileSaveService } from '../../../services/file-save.service';
-import { InstructorCommentService } from '../../../services/instructor-comment.service';
+import { InstructorCommentEventData, InstructorCommentService } from '../../../services/instructor-comment.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -43,7 +43,7 @@ import {
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
-import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
+import { CommentTableModel } from '../../components/comment-box/comment-table/comment-table.model';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
@@ -79,7 +79,7 @@ const TIME_FORMAT = 'ddd, DD MMM, YYYY, hh:mm A zz';
     InstructorSessionNoResponsePanelComponent,
     PreviewSessionResultPanelComponent,
   ],
-  providers: [CommentsToCommentTableModelPipe, CommentToCommentRowModelPipe, InstructorCommentService],
+  providers: [CommentsToCommentTableModelPipe],
 })
 export class InstructorSessionResultPageComponent implements OnInit {
   // enum
@@ -99,6 +99,9 @@ export class InstructorSessionResultPageComponent implements OnInit {
   groupByTeam = true;
   showStatistics = true;
   indicateMissingResponses = true;
+
+  currInstructorName?: string;
+  instructorCommentTableModel: Record<string, CommentTableModel> = {};
 
   // below are two models contain similar and duplicate data
   // they are for different views
@@ -160,7 +163,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
     private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
     private navigationService: NavigationService,
     private statusMessageService: StatusMessageService,
-    public commentService: InstructorCommentService,
+    private commentService: InstructorCommentService,
   ) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
@@ -333,7 +336,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
               intent: Intent.FULL_DETAIL,
             })
             .subscribe((instructor: Instructor) => {
-              this.commentService.currInstructorName = instructor.name;
+              this.currInstructorName = instructor.name;
             });
         },
         error: (resp: ErrorMessageOutput) => {
@@ -494,14 +497,48 @@ export class InstructorSessionResultPageComponent implements OnInit {
    */
   preprocessComments(responses: ResponseOutput[]): void {
     responses.forEach((response: ResponseOutput) => {
-      this.commentService.instructorCommentTableModel[response.responseId] = this.commentsToCommentTableModel.transform(
+      this.instructorCommentTableModel[response.responseId] = this.commentsToCommentTableModel.transform(
         response.instructorComments,
         false,
         this.session.timeZone,
       );
-      this.commentService.sortComments(this.commentService.instructorCommentTableModel[response.responseId]);
+      this.commentService.sortComments(this.instructorCommentTableModel[response.responseId]);
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
       response.instructorComments = [];
+    });
+  }
+
+  /**
+   * Handles saving a new instructor comment.
+   */
+  saveNewCommentEventHandler(responseId: string): void {
+    this.commentService.saveNewComment({
+      responseId,
+      timezone: this.session.timeZone,
+      instructorCommentTableModel: this.instructorCommentTableModel,
+      currInstructorName: this.currInstructorName,
+    });
+  }
+
+  /**
+   * Handles deleting an instructor comment.
+   */
+  deleteCommentEventHandler(data: InstructorCommentEventData): void {
+    this.commentService.deleteComment({
+      data,
+      instructorCommentTableModel: this.instructorCommentTableModel,
+    });
+  }
+
+  /**
+   * Handles updating an instructor comment.
+   */
+  updateCommentEventHandler(data: InstructorCommentEventData): void {
+    this.commentService.updateComment({
+      data,
+      timezone: this.session.timeZone,
+      instructorCommentTableModel: this.instructorCommentTableModel,
+      currInstructorName: this.currInstructorName,
     });
   }
 

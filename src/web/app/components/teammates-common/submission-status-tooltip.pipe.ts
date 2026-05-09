@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
 import { FeedbackSessionSubmissionStatus } from '../../../types/api-output';
 
 /**
@@ -10,13 +9,7 @@ export class SubmissionStatusTooltipPipe implements PipeTransform {
   /**
    * Transforms {@link FeedbackSessionSubmissionStatus} to a tooltip description.
    */
-  transform(
-    status: FeedbackSessionSubmissionStatus,
-    deadlines?: {
-      studentDeadlines: Record<string, number>;
-      instructorDeadlines: Record<string, number>;
-    },
-  ): string {
+  transform(status: FeedbackSessionSubmissionStatus): string {
     let msg = 'The feedback session';
 
     switch (status) {
@@ -49,10 +42,6 @@ export class SubmissionStatusTooltipPipe implements PipeTransform {
         msg += ', and is not yet visible to respondents';
         break;
       default:
-    }
-
-    if (deadlines && DeadlineExtensionHelper.hasOngoingExtension(deadlines)) {
-      msg += ', with current ongoing individual deadline extensions';
     }
 
     msg += '.';
