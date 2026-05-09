@@ -31,22 +31,13 @@ public class GetAuthInfoAction extends Action {
     @Override
     public JsonResult execute() {
         String frontendUrl = getRequestParamValue("frontendUrl");
-        String nextUrl = getRequestParamValue("nextUrl");
+        String nextUrl = getNonNullRequestParamValue("nextUrl");
+        boolean isMasquerade = (userInfo != null) && (authType == AuthType.MASQUERADE);
         if (frontendUrl == null) {
             frontendUrl = "";
         }
 
-        AuthInfo output;
-        if (userInfo == null) {
-            if (nextUrl == null) {
-                output = new AuthInfo();
-            } else {
-                output = new AuthInfo(createLoginUrl(frontendUrl, nextUrl));
-            }
-        } else {
-            output = new AuthInfo(userInfo, authType == AuthType.MASQUERADE);
-        }
-
+        AuthInfo output = new AuthInfo(createLoginUrl(frontendUrl, nextUrl), userInfo, isMasquerade);
         String existingCsrfToken = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.CSRF_COOKIE_NAME);
         if (existingCsrfToken != null && isMatchingCsrfToken(existingCsrfToken, req.getSession().getId())) {
             return new JsonResult(output);

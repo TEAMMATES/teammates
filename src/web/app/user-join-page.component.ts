@@ -60,9 +60,7 @@ export class UserJoinPageComponent implements OnInit {
       this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
         if (!auth.user) {
           this.isLoading = false;
-          if (['student', 'instructor'].includes(this.entityType)) {
-            window.location.href = `${this.backendUrl}${auth.loginUrl}`;
-          }
+          window.location.href = `${this.backendUrl}${auth.loginUrl}`;
           return;
         }
         this.userId = auth.user.id;

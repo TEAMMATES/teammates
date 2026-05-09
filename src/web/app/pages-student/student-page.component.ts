@@ -46,11 +46,7 @@ export class StudentPageComponent implements OnInit {
   ngOnInit(): void {
     this.isFetchingAuthDetails = true;
     this.route.queryParams.subscribe((queryParams: any) => {
-      const requestedUser = queryParams.user;
-      // If a user is provided, we don't need a nextUrl
-      const nextUrl = requestedUser ? undefined : '/web/student/home';
-
-      this.authService.getAuthUser(requestedUser, nextUrl).subscribe({
+      this.authService.getAuthUser(queryParams.user, '/web/student/home').subscribe({
         next: (res: AuthInfo) => {
           if (res.user) {
             this.user = res.user.id;

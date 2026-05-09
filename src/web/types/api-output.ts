@@ -33,7 +33,7 @@ export interface ApiOutput {
 }
 
 export interface AuthInfo extends ApiOutput {
-  loginUrl?: string;
+  loginUrl: string;
   user?: UserInfo;
   masquerade: boolean;
 }
