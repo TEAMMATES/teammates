@@ -81,10 +81,6 @@ public class CreateAccountRequestAction extends Action {
                     .generateNewAccountRequestAcknowledgementEmail(accountRequest);
             emailSender.sendEmail(adminAlertEmail);
             emailSender.sendEmail(userAcknowledgementEmail);
-        } else {
-            EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
-                    accountRequest.getEmail(), accountRequest.getName(), accountRequest.getRegistrationUrl());
-            emailSender.sendEmail(email);
         }
 
         AccountRequestData output = new AccountRequestData(accountRequest);
