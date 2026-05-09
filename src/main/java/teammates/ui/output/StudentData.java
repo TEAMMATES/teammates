@@ -25,22 +25,24 @@ public class StudentData extends ApiOutput {
     @Nullable
     private String key;
     @Nullable
-    private String institute;
-    @Nullable
     private JoinState joinState;
 
     private final String teamName;
     private final String sectionName;
+    private String institute;
+    private String courseName;
 
     @JsonCreator
     private StudentData(UUID userId, String email, String courseId, String name,
-            String teamName, String sectionName) {
+            String teamName, String sectionName, String institute, String courseName) {
         this.userId = userId;
         this.email = email;
         this.courseId = courseId;
         this.name = name;
         this.teamName = teamName;
         this.sectionName = sectionName;
+        this.institute = institute;
+        this.courseName = courseName;
     }
 
     public StudentData(Student student) {
@@ -52,6 +54,8 @@ public class StudentData extends ApiOutput {
         this.comments = student.getComments();
         this.teamName = student.getTeamName();
         this.sectionName = student.getSectionName();
+        this.institute = student.getCourse().getInstitute();
+        this.courseName = student.getCourse().getName();
     }
 
     public UUID getUserId() {
@@ -129,12 +133,14 @@ public class StudentData extends ApiOutput {
     /**
      * Adds additional information only for search result for admin.
      * @param key The registration key
-     * @param institute The institute of the student
      * @param googleId The googleId of the student
      */
-    public void addAdditionalInformationForAdminSearch(String key, String institute, String googleId) {
+    public void addAdditionalInformationForAdminSearch(String key, String googleId) {
         this.setKey(key);
-        this.setInstitute(institute);
         this.setGoogleId(googleId);
+    }
+
+    public String getCourseName() {
+        return courseName;
     }
 }

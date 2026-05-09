@@ -6,6 +6,8 @@ export interface Account extends ApiOutput {
   googleId: string;
   name: string;
   email: string;
+  instructors: Instructor[];
+  students: Student[];
 }
 
 export interface AccountRequest extends ApiOutput {
@@ -383,13 +385,14 @@ export interface Instructor extends ApiOutput {
   courseId: string;
   email: string;
   name: string;
+  institute: string;
+  courseName: string;
   googleId?: string;
   isDisplayedToStudents?: boolean;
   displayedToStudentsAs?: string;
   role?: InstructorPermissionRole;
   joinState: JoinState;
   key?: string;
-  institute?: string;
 }
 
 export interface InstructorPermissionSet {
@@ -587,10 +590,11 @@ export interface Student extends ApiOutput {
   name: string;
   teamName: string;
   sectionName: string;
+  institute: string;
+  courseName: string;
   googleId?: string;
   comments?: string;
   key?: string;
-  institute?: string;
   joinState?: JoinState;
 }
 

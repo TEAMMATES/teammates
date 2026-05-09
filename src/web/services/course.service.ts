@@ -73,30 +73,6 @@ export class CourseService {
   }
 
   /**
-   * Get student courses data of a given google id in masquerade mode by calling API.
-   */
-  getStudentCoursesInMasqueradeMode(googleId: string): Observable<Courses> {
-    const paramMap: Record<string, string> = {
-      entitytype: 'student',
-      user: googleId,
-    };
-    return this.httpRequestService.get(ResourceEndpoints.COURSES, paramMap);
-  }
-
-  /**
-   * Get instructor courses data of a given google id in masquerade mode by calling API.
-   */
-  getInstructorCoursesInMasqueradeMode(googleId: string): Observable<Courses> {
-    const activeCoursesParamMap: Record<string, string> = {
-      coursestatus: 'active',
-      entitytype: 'instructor',
-      user: googleId,
-    };
-
-    return this.httpRequestService.get(ResourceEndpoints.COURSES, activeCoursesParamMap);
-  }
-
-  /**
    * Get active instructor courses.
    */
   getInstructorCoursesThatAreActive(): Observable<Courses> {
