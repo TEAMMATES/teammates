@@ -31,7 +31,7 @@ public class EmailSenderTest extends BaseTestCase {
     public void testSendEmail_allowEmailsToTestDomainFalse_blocksTestRecipient() {
         try (MockedStatic<Config> mockConfig = mockStatic(Config.class,
                 Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS))) {
-            mockConfig.when(Config::isAllowEmailsToTestDomain).thenReturn(false);
+            mockConfig.when(Config::isAllowSendingEmailsToTestDomain).thenReturn(false);
             EmailSender emailSender = new EmailSender();
             EmailSendingStatus status = emailSender.sendEmail(getEmailToTestDomain());
             assertEquals(HttpStatus.SC_OK, status.getStatusCode());
@@ -43,7 +43,7 @@ public class EmailSenderTest extends BaseTestCase {
     public void testSendEmail_allowEmailsToTestDomainTrue_doesNotBlockTestRecipient() {
         try (MockedStatic<Config> mockConfig = mockStatic(Config.class,
                 Mockito.withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS))) {
-            mockConfig.when(Config::isAllowEmailsToTestDomain).thenReturn(true);
+            mockConfig.when(Config::isAllowSendingEmailsToTestDomain).thenReturn(true);
             EmailSender emailSender = new EmailSender();
             EmailSendingStatus status = emailSender.sendEmail(getEmailToTestDomain());
             assertTrue(status.isSuccess());
