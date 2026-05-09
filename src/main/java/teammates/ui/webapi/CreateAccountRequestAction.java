@@ -46,10 +46,29 @@ public class CreateAccountRequestAction extends Action {
             comments = comments.trim();
         }
         AccountRequest accountRequest;
+        AccountRequestStatus initialStatus = AccountRequestStatus.PENDING;
+
+        if (userInfo != null && userInfo.isAdmin) {
+            initialStatus = AccountRequestStatus.APPROVED;
+
+            if (!logic.getApprovedAccountRequestsForEmailAndInstitute(instructorEmail, instructorInstitution).isEmpty()) {
+                throw new InvalidOperationException(String.format(
+                        "An account request with email %s and institute %s has already been approved. "
+                                + "Please reject or delete the account request instead.",
+                        instructorEmail, instructorInstitution));
+            }
+
+            if (logic.getInstructorForEmailAndInstitute(instructorEmail, instructorInstitution) != null) {
+                throw new InvalidOperationException(String.format(
+                        "An instructor with email %s and institute %s already exists. "
+                                + "Please reject or delete the account request instead.",
+                        instructorEmail, instructorInstitution));
+            }
+        }
 
         try {
             accountRequest = logic.createAccountRequest(instructorName, instructorEmail,
-                    instructorInstitution, AccountRequestStatus.PENDING, comments);
+                    instructorInstitution, initialStatus, comments);
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
         }
@@ -62,6 +81,10 @@ public class CreateAccountRequestAction extends Action {
                     .generateNewAccountRequestAcknowledgementEmail(accountRequest);
             emailSender.sendEmail(adminAlertEmail);
             emailSender.sendEmail(userAcknowledgementEmail);
+        } else {
+            EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
+                    accountRequest.getEmail(), accountRequest.getName(), accountRequest.getRegistrationUrl());
+            emailSender.sendEmail(email);
         }
 
         AccountRequestData output = new AccountRequestData(accountRequest);

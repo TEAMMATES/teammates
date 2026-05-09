@@ -25,10 +25,14 @@ public class AccountRequestData extends ApiOutput {
     @Nullable
     private final Long registeredAt;
     private final long createdAt;
+    private boolean isDuplicateEmail;
+    private boolean hasExistingInstructor;
+    private int sameInstituteCount;
 
     @JsonCreator
     private AccountRequestData(UUID id, String email, String name, String institute, String registrationKey,
-                                AccountRequestStatus status, String comments, Long registeredAt, long createdAt) {
+                                AccountRequestStatus status, String comments, Long registeredAt, long createdAt,
+                                boolean isDuplicateEmail, boolean hasExistingInstructor, int sameInstituteCount) {
         this.id = id;
         this.email = email;
         this.name = name;
@@ -38,6 +42,9 @@ public class AccountRequestData extends ApiOutput {
         this.comments = comments;
         this.registeredAt = registeredAt;
         this.createdAt = createdAt;
+        this.isDuplicateEmail = isDuplicateEmail;
+        this.hasExistingInstructor = hasExistingInstructor;
+        this.sameInstituteCount = sameInstituteCount;
     }
 
     public AccountRequestData(AccountRequest accountRequest) {
@@ -55,6 +62,30 @@ public class AccountRequestData extends ApiOutput {
         } else {
             this.registeredAt = accountRequest.getRegisteredAt().toEpochMilli();
         }
+    }
+
+    public void setIsDuplicateEmail(boolean isDuplicateEmail) {
+        this.isDuplicateEmail = isDuplicateEmail;
+    }
+
+    public boolean getIsDuplicateEmail() {
+        return isDuplicateEmail;
+    }
+
+    public void setHasExistingInstructor(boolean hasExistingInstructor) {
+        this.hasExistingInstructor = hasExistingInstructor;
+    }
+
+    public boolean getHasExistingInstructor() {
+        return hasExistingInstructor;
+    }
+
+    public void setSameInstituteCount(int sameInstituteCount) {
+        this.sameInstituteCount = sameInstituteCount;
+    }
+
+    public int getSameInstituteCount() {
+        return sameInstituteCount;
     }
 
     public UUID getId() {

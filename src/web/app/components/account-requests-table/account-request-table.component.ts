@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import {
   NgbModalRef,
   NgbModal,
@@ -27,11 +28,26 @@ import { SimpleModalType } from '../simple-modal/simple-modal-type';
   selector: 'tm-account-request-table',
   templateUrl: './account-request-table.component.html',
   styleUrls: ['./account-request-table.component.scss'],
-  imports: [NgbTooltip, AjaxLoadingComponent, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu],
+  imports: [NgbTooltip, AjaxLoadingComponent, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, FormsModule],
 })
 export class AccountRequestTableComponent {
   @Input()
   accountRequests: AccountRequestTableRowModel[] = [];
+
+  searchQuery = '';
+
+  get filteredAccountRequests(): AccountRequestTableRowModel[] {
+    if (!this.searchQuery) {
+      return this.accountRequests;
+    }
+    const lowerQuery = this.searchQuery.toLowerCase();
+    return this.accountRequests.filter(
+      (req) =>
+        req.name.toLowerCase().includes(lowerQuery) ||
+        req.email.toLowerCase().includes(lowerQuery) ||
+        req.instituteAndCountry.toLowerCase().includes(lowerQuery)
+    );
+  }
 
   isRejectingAccount: boolean[] = new Array(this.accountRequests.length).fill(false);
   isApprovingAccount: boolean[] = new Array(this.accountRequests.length).fill(false);

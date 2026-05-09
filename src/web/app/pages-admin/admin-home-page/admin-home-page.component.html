@@ -1,71 +1,28 @@
-<div class="card bg-light top-padded">
-  <div class="card-body">
+<div class="card bg-light top-padded mb-4">
+  <div class="card-body d-flex justify-content-between align-items-center">
     <div>
-      <strong>Adding Multiple Instructors</strong>
-      <p class="text-muted">
-        <i class="fas fa-exclamation-circle"></i> Add Instructor Details in the format: Name | Email | Institution
-      </p>
-      <textarea
-        class="form-control"
-        id="instructor-details-single-line"
-        [(ngModel)]="instructorDetails"
-        aria-label="Add multiple instructors"
-      ></textarea>
-    </div>
-
-    <div class="top-padded">
       <button
         class="btn btn-primary"
-        id="add-instructor-single-line"
-        (click)="validateAndAddInstructorDetails()"
-        [disabled]="isAddingMultipleInstructors"
+        id="btn-add-instructor"
+        (click)="openAddInstructorModal()"
       >
-        Add Instructors
+        <i class="fa-solid fa-plus"></i> Add Instructor
       </button>
+    </div>
+    
+    <div class="form-check form-switch">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="toggle-show-all-requests"
+        [(ngModel)]="showAllRequests"
+        (change)="fetchAccountRequests()"
+      />
+      <label class="form-check-label" for="toggle-show-all-requests">
+        Show all requests
+      </label>
     </div>
   </div>
 </div>
 
-<div class="card bg-light top-padded">
-  <div class="card-body">
-    <div>
-      <strong>Adding a Single Instructor</strong>
-    </div>
-
-    <div class="top-padded">
-      <label for="instructor-name">
-        <strong>Name:</strong>
-      </label>
-      <input class="form-control" type="text" id="instructor-name" [(ngModel)]="instructorName" />
-    </div>
-
-    <div class="top-padded">
-      <label for="instructor-email">
-        <strong>Email:</strong>
-      </label>
-      <input class="form-control" type="text" id="instructor-email" [(ngModel)]="instructorEmail" />
-    </div>
-
-    <div class="top-padded">
-      <label for="instructor-institution">
-        <strong>Institution:</strong>
-      </label>
-      <input class="form-control" type="text" id="instructor-institution" [(ngModel)]="instructorInstitution" />
-    </div>
-
-    <div class="top-padded">
-      <button
-        class="btn btn-primary"
-        id="add-instructor"
-        (click)="validateAndAddInstructorDetail()"
-        [disabled]="isAddingSingleInstructor"
-      >
-        Add Instructor
-      </button>
-    </div>
-  </div>
-</div>
-
-@if (accountReqs.length) {
-  <tm-account-request-table [accountRequests]="accountReqs"></tm-account-request-table>
-}
+<tm-account-request-table [accountRequests]="accountReqs"></tm-account-request-table>

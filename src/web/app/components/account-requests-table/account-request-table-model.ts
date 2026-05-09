@@ -14,4 +14,8 @@ export interface AccountRequestTableRowModel {
   comments: string;
   registrationLink: string;
   showLinks: boolean;
+  isDuplicateEmail: boolean;
+  hasExistingInstructor: boolean;
+  sameInstituteCount: number;
+  instituteDomain: string;
 }

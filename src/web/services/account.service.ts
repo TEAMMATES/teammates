@@ -129,9 +129,9 @@ export class AccountService {
   /**
    * Gets account requests by calling API.
    */
-  getPendingAccountRequests(): Observable<AccountRequests> {
+  getAccountRequests(status: string = AccountRequestStatus.PENDING): Observable<AccountRequests> {
     const paramMap = {
-      status: AccountRequestStatus.PENDING,
+      status,
     };
 
     return this.httpRequestService.get(ResourceEndpoints.ACCOUNT_REQUESTS, paramMap);

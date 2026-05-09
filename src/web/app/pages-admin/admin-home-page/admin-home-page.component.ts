@@ -8,6 +8,9 @@ import { TimezoneService } from '../../../services/timezone.service';
 import { AccountRequests } from '../../../types/api-output';
 import { AccountRequestTableRowModel } from '../../components/account-requests-table/account-request-table-model';
 import { AccountRequestTableComponent } from '../../components/account-requests-table/account-request-table.component';
+import { AdminAddInstructorModalComponent } from '../components/admin-add-instructor-modal/admin-add-instructor-modal.component';
+import { AdminAddInstructorModalComponentResult } from '../components/admin-add-instructor-modal/admin-add-instructor-modal-model';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -22,13 +25,7 @@ import { ErrorMessageOutput } from '../../error-message-output';
   providers: [FormatDateDetailPipe],
 })
 export class AdminHomePageComponent implements OnInit {
-  instructorDetails = '';
-  instructorName = '';
-  instructorEmail = '';
-  instructorInstitution = '';
-  isAddingMultipleInstructors = false;
-  isAddingSingleInstructor = false;
-
+  showAllRequests = false;
   accountReqs: AccountRequestTableRowModel[] = [];
 
   constructor(
@@ -36,6 +33,7 @@ export class AdminHomePageComponent implements OnInit {
     private statusMessageService: StatusMessageService,
     private timezoneService: TimezoneService,
     private formatDateDetailPipe: FormatDateDetailPipe,
+    private ngbModal: NgbModal,
   ) {}
 
   ngOnInit(): void {
@@ -43,112 +41,30 @@ export class AdminHomePageComponent implements OnInit {
   }
 
   /**
-   * Validates and adds the instructor details filled with first form.
+   * Opens the modal to add a new instructor.
    */
-  validateAndAddInstructorDetails(): void {
-    let invalidLinesCount = 0;
-    const validRequests: { instructorDetail: string; instructorDetailSplit: string[] }[] = [];
-
-    for (const instructorDetail of this.instructorDetails.split(/\r?\n/)) {
-      if (!instructorDetail.trim()) {
-        continue;
-      }
-      const instructorDetailSplit: string[] = instructorDetail.split(/[|\t]/).map((item: string) => item.trim());
-      if (instructorDetailSplit.length < 3) {
-        invalidLinesCount += 1;
-        continue;
-      }
-      if (!instructorDetailSplit[0] || !instructorDetailSplit[1] || !instructorDetailSplit[2]) {
-        invalidLinesCount += 1;
-        continue;
-      }
-      validRequests.push({ instructorDetail, instructorDetailSplit });
-    }
-
-    // Do not proceed with backend calls if there are invalid lines
-    if (invalidLinesCount > 0) {
-      this.statusMessageService.showWarningToast(
-        `${invalidLinesCount} line(s) with missing or invalid fields.` + ' Format required: Name | Email | Institution',
-      );
-      return;
-    }
-
-    this.isAddingMultipleInstructors = true;
-
-    forkJoin(
-      validRequests.map(({ instructorDetail, instructorDetailSplit }) => {
-        const instructorName: string = instructorDetailSplit[0];
-        return this.accountService
+  openAddInstructorModal(): void {
+    const modalRef: NgbModalRef = this.ngbModal.open(AdminAddInstructorModalComponent);
+    modalRef.result.then(
+      (result: AdminAddInstructorModalComponentResult) => {
+        this.accountService
           .createAccountRequest({
-            instructorName,
-            instructorEmail: instructorDetailSplit[1],
-            instructorInstitution: instructorDetailSplit[2],
+            instructorName: result.instructorName,
+            instructorEmail: result.instructorEmail,
+            instructorInstitution: result.instructorInstitution,
           })
-          .pipe(
-            map(() => ({ success: true, instructorDetail })),
-            catchError(() => of({ success: false, instructorDetail })),
-          );
-      }),
-    )
-      .pipe(
-        finalize(() => {
-          this.isAddingMultipleInstructors = false;
-        }),
-      )
-      .subscribe((results: { success: boolean; instructorDetail: string }[]) => {
-        const failedLines: string[] = results.filter((r) => !r.success).map((r) => r.instructorDetail);
-        const successCount: number = results.length - failedLines.length;
-        this.instructorDetails = failedLines.join('\r\n');
-        if (successCount > 0) {
-          const message: string =
-            failedLines.length > 0
-              ? `${successCount} account request(s) created, ${failedLines.length} failed`
-              : `${successCount} account request(s) were successfully created`;
-          this.statusMessageService.showSuccessToast(message);
-          this.fetchAccountRequests();
-        } else {
-          this.statusMessageService.showErrorToast(
-            'Failed to create account requests. Use single add to identify errors.',
-          );
-        }
-      });
-  }
-
-  /**
-   * Validates and adds the instructor detail filled with second form.
-   */
-  validateAndAddInstructorDetail(): void {
-    if (!this.instructorName || !this.instructorEmail || !this.instructorInstitution) {
-      this.statusMessageService.showWarningToast('Please fill in all fields: Name, Email, and Institution.');
-      return;
-    }
-    const instructorName: string = this.instructorName;
-    const instructorEmail: string = this.instructorEmail;
-    const instructorInstitution: string = this.instructorInstitution;
-    this.isAddingSingleInstructor = true;
-    this.accountService
-      .createAccountRequest({
-        instructorName,
-        instructorEmail,
-        instructorInstitution,
-      })
-      .pipe(
-        finalize(() => {
-          this.isAddingSingleInstructor = false;
-        }),
-      )
-      .subscribe({
-        next: () => {
-          this.statusMessageService.showSuccessToast('Account request was successfully created');
-          this.fetchAccountRequests();
-          this.instructorName = '';
-          this.instructorEmail = '';
-          this.instructorInstitution = '';
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
+          .subscribe({
+            next: () => {
+              this.statusMessageService.showSuccessToast('Account request was successfully created');
+              this.fetchAccountRequests();
+            },
+            error: (resp: ErrorMessageOutput) => {
+              this.statusMessageService.showErrorToast(resp.error.message);
+            },
+          });
+      },
+      () => {}, // modal dismissed
+    );
   }
 
   private formatAccountRequests(requests: AccountRequests): AccountRequestTableRowModel[] {
@@ -167,12 +83,17 @@ export class AdminHomePageComponent implements OnInit {
         comments: request.comments || '',
         registrationLink: '',
         showLinks: false,
+        isDuplicateEmail: (request as any).isDuplicateEmail || false,
+        hasExistingInstructor: (request as any).hasExistingInstructor || false,
+        sameInstituteCount: (request as any).sameInstituteCount || 0,
+        instituteDomain: request.email ? request.email.split('@')[1] : '',
       };
     });
   }
 
   fetchAccountRequests(): void {
-    this.accountService.getPendingAccountRequests().subscribe({
+    const status = this.showAllRequests ? 'ALL' : 'PENDING';
+    this.accountService.getAccountRequests(status).subscribe({
       next: (resp: AccountRequests) => {
         this.accountReqs = this.formatAccountRequests(resp);
       },
