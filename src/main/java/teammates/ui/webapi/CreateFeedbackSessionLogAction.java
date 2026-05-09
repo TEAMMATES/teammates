@@ -21,7 +21,7 @@ public class CreateFeedbackSessionLogAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
-        return AuthType.PUBLIC;
+        return AuthType.REG_KEY;
     }
 
     @Override

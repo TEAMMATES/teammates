@@ -170,12 +170,16 @@ public abstract class Action {
             userInfo = userProvision.getCurrentUser(uic);
         }
 
-        authType = userInfo == null ? AuthType.PUBLIC : AuthType.LOGGED_IN;
-
+        String regKey = getRequestParamValue(Const.ParamsNames.REGKEY);
         String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
-        if (userInfo != null && userParam != null && userInfo.isAdmin) {
+
+        if (userInfo == null) {
+            authType = StringHelper.isEmpty(regKey) ? AuthType.PUBLIC : AuthType.REG_KEY;
+        } else if (userParam != null && userInfo.isAdmin) {
             userInfo = userProvision.getMasqueradeUser(userParam);
             authType = AuthType.MASQUERADE;
+        } else {
+            authType = AuthType.LOGGED_IN;
         }
     }
 
