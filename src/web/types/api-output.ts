@@ -18,6 +18,9 @@ export interface AccountRequest extends ApiOutput {
   comments?: string;
   registeredAt?: number;
   createdAt: number;
+  isDuplicateEmail: boolean;
+  hasExistingInstructor: boolean;
+  sameInstituteCount: number;
 }
 
 export interface AccountRequests extends ApiOutput {
