@@ -6,40 +6,30 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Actions: sends an error report to the system admin.
- */
-public class SendErrorReportAction extends Action {
-    private static final Logger log = Logger.getLogger();
+     */
+public class SendErrorReportAction extends PublicAction {
+        private static final Logger log = Logger.getLogger();
 
     @Override
-    AuthType getMinAuthLevel() {
-        // Anyone can submit an error report
-        return AuthType.PUBLIC;
-    }
+        public JsonResult execute() throws InvalidHttpRequestBodyException {
+                    ErrorReportRequest report = getAndValidateRequestBody(ErrorReportRequest.class);
 
-    @Override
-    void checkSpecificAccessControl() {
-        // Anyone can submit an error report
-    }
+            // Severe logs will trigger email to the system admin
+            log.severe(getUserErrorReportLogMessage(report));
 
-    @Override
-    public JsonResult execute() throws InvalidHttpRequestBodyException {
-        ErrorReportRequest report = getAndValidateRequestBody(ErrorReportRequest.class);
-
-        // Severe logs will trigger email to the system admin
-        log.severe(getUserErrorReportLogMessage(report));
-
-        return new JsonResult("Error report successfully sent");
-    }
+            return new JsonResult("Error report successfully sent");
+        }
 
     /**
      * Gets the user error report that will be sent to the system admin.
-     */
+         */
     public String getUserErrorReportLogMessage(ErrorReportRequest report) {
-        String user = userInfo == null ? "Non-logged in user" : userInfo.id;
-        return "====== USER FEEDBACK ABOUT ERROR ======" + System.lineSeparator()
-                + "USER: " + user + System.lineSeparator()
-                + "REQUEST ID: " + report.getRequestId() + System.lineSeparator()
-                + "SUBJECT: " + report.getSubject() + System.lineSeparator()
-                + "CONTENT: " + report.getContent();
+                String user = userInfo == null ? "Non-logged in user" : userInfo.id;
+                return "====== USER FEEDBACK ABOUT ERROR ======" + System.lineSeparator()
+                                    + "USER: " + user + System.lineSeparator()
+                                    + "REQUEST ID: " + report.getRequestId() + System.lineSeparator()
+                                    + "SUBJECT: " + report.getSubject() + System.lineSeparator()
+                                    + "CONTENT: " + report.getContent();
     }
+
 }
