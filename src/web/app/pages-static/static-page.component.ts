@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { AuthInfo } from '../../types/api-output';
 import { PageComponent } from '../page.component';
+import { forkJoin } from 'rxjs';
 
 /**
  * Base skeleton for static pages.
@@ -13,6 +14,8 @@ import { PageComponent } from '../page.component';
 })
 export class StaticPageComponent implements OnInit {
   user = '';
+  studentLoginUrl = '';
+  instructorLoginUrl = '';
   isInstructor = false;
   isStudent = false;
   isAdmin = false;
@@ -62,8 +65,13 @@ export class StaticPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.isFetchingAuthDetails = true;
-    this.authService.getAuthUser().subscribe({
-      next: (res: AuthInfo) => {
+    forkJoin({
+      studentAuth: this.authService.getAuthUser(undefined, '/web/student/home'),
+      instructorAuth: this.authService.getAuthUser(undefined, '/web/instructor/home'),
+    }).subscribe({
+      next: (responses) => {
+        // both responses have the same UserInfo, so it doesn't matter which one we use
+        const res: AuthInfo = responses.studentAuth;
         if (res.user) {
           this.user = res.user.id;
           if (res.masquerade) {
@@ -73,6 +81,10 @@ export class StaticPageComponent implements OnInit {
           this.isStudent = res.user.isStudent;
           this.isAdmin = res.user.isAdmin;
           this.isMaintainer = res.user.isMaintainer;
+        } else {
+          // If NOT logged in, save the generated URLs for the dropdown
+          this.studentLoginUrl = responses.studentAuth.loginUrl;
+          this.instructorLoginUrl = responses.instructorAuth.loginUrl;
         }
         this.isFetchingAuthDetails = false;
       },

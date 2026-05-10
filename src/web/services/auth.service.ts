@@ -31,12 +31,15 @@ export class AuthService {
   /**
    * Gets the user authentication information.
    */
-  getAuthUser(user?: string, nextUrl = ''): Observable<AuthInfo> {
+  getAuthUser(user?: string, nextUrl?: string): Observable<AuthInfo> {
     const params: Record<string, string> = { frontendUrl: this.frontendUrl };
     if (user) {
       params['user'] = user;
     }
-    params['nextUrl'] = nextUrl;
+    if (nextUrl) {
+      params['nextUrl'] = nextUrl;
+    }
+
     return this.httpRequestService.get(ResourceEndpoints.AUTH, params);
   }
 

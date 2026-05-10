@@ -60,8 +60,8 @@
               Login
             </button>
             <div class="dropdown-menu-right" ngbDropdownMenu>
-              <a class="dropdown-item" id="student-login-btn" routerLink="/web/student/home">Student Login</a>
-              <a class="dropdown-item" id="instructor-login-btn" routerLink="/web/instructor/home">Instructor Login</a>
+              <a class="dropdown-item" id="student-login-btn" [href]="studentLoginUrl">Student Login</a>
+              <a class="dropdown-item" id="instructor-login-btn" [href]="instructorLoginUrl">Instructor Login</a>
             </div>
           </li>
         }

@@ -31,10 +31,13 @@ public class GetAuthInfoAction extends Action {
     @Override
     public JsonResult execute() {
         String frontendUrl = getRequestParamValue("frontendUrl");
-        String nextUrl = getNonNullRequestParamValue("nextUrl");
+        String nextUrl = getRequestParamValue("nextUrl");
         boolean isMasquerade = userInfo != null && authType == AuthType.MASQUERADE;
         if (frontendUrl == null) {
             frontendUrl = "";
+        }
+        if (nextUrl == null) {
+            nextUrl = "";
         }
 
         AuthInfo output = new AuthInfo(createLoginUrl(frontendUrl, nextUrl), userInfo, isMasquerade);
