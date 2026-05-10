@@ -11,43 +11,39 @@ import teammates.ui.output.SessionLinksRecoveryResponseData;
 
 /**
  * Action specifically created for confirming email and sending session recovery links.
- */
-public class SessionLinksRecoveryAction extends Action {
+     */
+public class SessionLinksRecoveryAction extends PublicAction {
 
     @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.PUBLIC;
-    }
+        public JsonResult execute() {
+                    String recoveryEmailAddress = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
-    @Override
-    void checkSpecificAccessControl() {
-        // no specific access control needed.
-    }
+            if (recoveryEmailAddress == null || !recoveryEmailAddress.matches(REGEX_EMAIL)) {
+                            throw new InvalidHttpParameterException("Invalid email address: " + recoveryEmailAddress);
+            }
 
-    @Override
-    public JsonResult execute() {
-        String recoveryEmailAddress = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+            String recoveryEmailAddressParam = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+                    if (recoveryEmailAddressParam != null) {
+                                    recoveryEmailAddress = recoveryEmailAddressParam;
+                    }
 
-        if (!StringHelper.isMatching(recoveryEmailAddress, REGEX_EMAIL)) {
-            throw new InvalidHttpParameterException("Invalid email address: " + recoveryEmailAddress);
+            String userCaptchaResponse = getRequestParamValue(Const.ParamsNames.USER_CAPTCHA_RESPONSE);
+                    if (!recaptchaVerifier.isVerificationSuccessful(userCaptchaResponse)) {
+                                    return new JsonResult(new SessionLinksRecoveryResponseData(false, "Something went wrong with "
+                                                                                                                   + "the reCAPTCHA verification. Please try again."));
+                    }
+
+            EmailWrapper email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(recoveryEmailAddress);
+                    EmailSendingStatus status = emailSender.sendEmail(email);
+
+            if (status.isSuccess()) {
+                            return new JsonResult(new SessionLinksRecoveryResponseData(true,
+                                                                                                           "The recovery links for your feedback sessions have been sent to the "
+                                                                                                                   + "specified email address: " + recoveryEmailAddress));
+            } else {
+                            return new JsonResult(new SessionLinksRecoveryResponseData(false, "An error occurred. "
+                                                                                                           + "The email could not be sent."));
+            }
         }
 
-        String userCaptchaResponse = getRequestParamValue(Const.ParamsNames.USER_CAPTCHA_RESPONSE);
-        if (!recaptchaVerifier.isVerificationSuccessful(userCaptchaResponse)) {
-            return new JsonResult(new SessionLinksRecoveryResponseData(false, "Something went wrong with "
-                    + "the reCAPTCHA verification. Please try again."));
-        }
-
-        EmailWrapper email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(recoveryEmailAddress);
-        EmailSendingStatus status = emailSender.sendEmail(email);
-
-        if (status.isSuccess()) {
-            return new JsonResult(new SessionLinksRecoveryResponseData(true,
-                    "The recovery links for your feedback sessions have been sent to the "
-                            + "specified email address: " + recoveryEmailAddress));
-        } else {
-            return new JsonResult(new SessionLinksRecoveryResponseData(false, "An error occurred. "
-                    + "The email could not be sent."));
-        }
-    }
 }
