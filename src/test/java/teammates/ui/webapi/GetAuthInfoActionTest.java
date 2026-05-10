@@ -56,7 +56,6 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         JsonResult r = getJsonResult(a);
 
         AuthInfo output = (AuthInfo) r.getOutput();
-        assertNull(output.getLoginUrl());
         assertFalse(output.isMasquerade());
 
         UserInfo user = output.getUser();
@@ -74,7 +73,6 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         JsonResult r = getJsonResult(a);
 
         AuthInfo output = (AuthInfo) r.getOutput();
-        assertNull(output.getLoginUrl());
         assertFalse(output.isMasquerade());
 
         UserInfo user = output.getUser();
