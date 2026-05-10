@@ -13,74 +13,52 @@ import teammates.ui.output.AuthInfo;
 
 /**
  * Action: gets user authentication information.
- *
- * <p>This does not log in or log out the user.
- */
-public class GetAuthInfoAction extends Action {
+     *
+     * <p>This does not log in or log out the user.
+     */
+public class GetAuthInfoAction extends PublicAction {
 
     @Override
-    public AuthType getMinAuthLevel() {
-        return AuthType.PUBLIC;
-    }
+        public JsonResult execute() {
+                    AuthInfo output;
 
-    @Override
-    void checkSpecificAccessControl() {
-        // Login information is available to everyone
-    }
+            UserInfo userInfo = getCurrentUserInfo();
+                    AuthType authType = getAuthType();
 
-    @Override
-    public JsonResult execute() {
-        String frontendUrl = getRequestParamValue("frontendUrl");
-        String nextUrl = getRequestParamValue("nextUrl");
-        if (frontendUrl == null) {
-            frontendUrl = "";
-        }
-
-        AuthInfo output;
-        if (userInfo == null) {
-            if (nextUrl == null) {
-                output = new AuthInfo(
-                        createLoginUrl(frontendUrl, Const.WebPageURIs.STUDENT_HOME_PAGE),
-                        createLoginUrl(frontendUrl, Const.WebPageURIs.INSTRUCTOR_HOME_PAGE),
-                        createLoginUrl(frontendUrl, Const.WebPageURIs.ADMIN_HOME_PAGE),
-                        createLoginUrl(frontendUrl, Const.WebPageURIs.MAINTAINER_HOME_PAGE)
-                );
+            if (userInfo == null) {
+                            output = new AuthInfo(null, false);
+            } else if (authType == AuthType.MASQUERADE) {
+                            output = new AuthInfo(userInfo, true);
             } else {
-                output = new AuthInfo(
-                        createLoginUrl(frontendUrl, nextUrl),
-                        createLoginUrl(frontendUrl, nextUrl),
-                        createLoginUrl(frontendUrl, nextUrl),
-                        createLoginUrl(frontendUrl, nextUrl)
-                );
+                            output = new AuthInfo(userInfo, authType == AuthType.MASQUERADE);
             }
-        } else {
-            output = new AuthInfo(userInfo, authType == AuthType.MASQUERADE);
-        }
 
-        String existingCsrfToken = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.CSRF_COOKIE_NAME);
-        if (existingCsrfToken != null && isMatchingCsrfToken(existingCsrfToken, req.getSession().getId())) {
-            return new JsonResult(output);
+            String existingCsrfToken = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.CSRF_COOKIE_NAME);
+                    if (existingCsrfToken != null && isMatchingCsrfToken(existingCsrfToken, req.getSession().getId())) {
+                                    return new JsonResult(output);
+                    }
+
+            // Regenerate CSRF token
+            String newCsrfToken = StringHelper.encrypt(req.getSession().getId());
+                    Cookie csrfTokenCookie = new Cookie(Const.SecurityConfig.CSRF_COOKIE_NAME, newCsrfToken);
+                    csrfTokenCookie.setPath("/");
+                    List<Cookie> cookieList = Collections.singletonList(csrfTokenCookie);
+                    return new JsonResult(output, cookieList);
         }
-        String csrfToken = StringHelper.encrypt(req.getSession().getId());
-        Cookie csrfTokenCookie = new Cookie(Const.SecurityConfig.CSRF_COOKIE_NAME, csrfToken);
-        csrfTokenCookie.setPath("/");
-        List<Cookie> cookieList = Collections.singletonList(csrfTokenCookie);
-        return new JsonResult(output, cookieList);
-    }
 
     private static boolean isMatchingCsrfToken(String existingCsrfToken, String sessionId) {
-        try {
-            return sessionId.equals(StringHelper.decrypt(existingCsrfToken));
-        } catch (InvalidParametersException e) {
-            return false;
-        }
+                try {
+                                return sessionId.equals(StringHelper.decrypt(existingCsrfToken));
+                } catch (InvalidParametersException e) {
+                                return false;
+                }
     }
 
     /**
      * Returns a LoginURL based on the frontendURL and nextURL.
-     */
+         */
     public static String createLoginUrl(String frontendUrl, String nextUrl) {
-        return Const.WebPageURIs.LOGIN + "?nextUrl=" + frontendUrl + nextUrl;
+                return Const.WebPageURIs.LOGIN + "?nextUrl=" + frontendUrl + nextUrl;
     }
 
 }
