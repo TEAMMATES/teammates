@@ -16,6 +16,7 @@ import teammates.ui.webapi.InvalidHttpParameterException;
 import teammates.ui.webapi.InvalidOperationException;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.UnauthorizedAccessException;
+import teammates.ui.webapi.UnexpectedServerException;
 
 /**
  * Maps servlet-layer exceptions to HTTP responses. Extracted from {@link WebApiServlet} for unit testing.
@@ -74,6 +75,13 @@ final class WebApiServletExceptionHandler {
             int statusCode = HttpStatus.SC_GATEWAY_TIMEOUT;
             log.severe(dee.getClass().getSimpleName() + " caught by WebApiServlet", dee);
             throwError(resp, statusCode, "The request exceeded the server timeout limit. Please try again later.");
+            return statusCode;
+        }
+        if (t instanceof UnexpectedServerException) {
+            UnexpectedServerException use = (UnexpectedServerException) t;
+            int statusCode = HttpStatus.SC_INTERNAL_SERVER_ERROR;
+            log.severe(use.getClass().getSimpleName() + " caught by WebApiServlet: " + use.getMessage(), use);
+            throwError(resp, statusCode, use.getMessage());
             return statusCode;
         }
         if (t instanceof HibernateException) {

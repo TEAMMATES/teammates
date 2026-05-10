@@ -5,8 +5,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -81,7 +79,7 @@ public class GetNotificationsAction extends Action {
         Account account = sqlLogic.getAccountForGoogleId(userInfo.getId());
         if (account == null) {
             // This should not happen as the user is authenticated
-            return new JsonResult("Account not found", HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new UnexpectedServerException("Account not found");
         }
         Set<UUID> readNotifications = sqlLogic.getReadNotificationsByAccountId(account.getId())
                 .stream()

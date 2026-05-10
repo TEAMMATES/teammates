@@ -47,6 +47,7 @@ import teammates.ui.webapi.InvalidHttpParameterException;
 import teammates.ui.webapi.InvalidOperationException;
 import teammates.ui.webapi.JsonResult;
 import teammates.ui.webapi.UnauthorizedAccessException;
+import teammates.ui.webapi.UnexpectedServerException;
 
 /**
  * Base class for all action tests.
@@ -373,6 +374,15 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     protected InvalidOperationException verifyInvalidOperation(BasicRequest requestBody, String... params) {
         Action c = getAction(requestBody, params);
         return assertThrows(InvalidOperationException.class, c::execute);
+    }
+
+    /**
+     * Verifies that the executed action results in
+     * {@link UnexpectedServerException} being thrown.
+     */
+    protected UnexpectedServerException verifyUnexpectedServerException(String... params) {
+        Action c = getAction(params);
+        return assertThrows(UnexpectedServerException.class, c::execute);
     }
 
     /**

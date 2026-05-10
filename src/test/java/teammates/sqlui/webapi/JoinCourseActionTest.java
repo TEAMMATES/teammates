@@ -130,9 +130,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.REGKEY, "invalid-reg-key",
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
-        JoinCourseAction action = getAction(params);
-        JsonResult jsonResult = getJsonResult(action, 500);
-        assertEquals(500, jsonResult.getStatusCode());
+        verifyUnexpectedServerException(params);
         verifyNoEmailsSent();
     }
 
@@ -202,9 +200,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.REGKEY, "invalid-reg-key",
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
-        JoinCourseAction action = getAction(params);
-        JsonResult jsonResult = getJsonResult(action, 500);
-        assertEquals(500, jsonResult.getStatusCode());
+        verifyUnexpectedServerException(params);
         verifyNoEmailsSent();
     }
 

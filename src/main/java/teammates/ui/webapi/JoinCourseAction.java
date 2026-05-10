@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -56,7 +54,7 @@ public class JoinCourseAction extends Action {
         } catch (InvalidParametersException ipe) {
             // There should not be any invalid parameter here
             log.severe("Unexpected error", ipe);
-            return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new UnexpectedServerException(ipe);
         }
 
         sendJoinEmail(student.getCourseId(), student.getName(), student.getEmail(), false);
@@ -76,7 +74,7 @@ public class JoinCourseAction extends Action {
         } catch (InvalidParametersException ipe) {
             // There should not be any invalid parameter here
             log.severe("Unexpected error", ipe);
-            return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new UnexpectedServerException(ipe);
         }
 
         sendJoinEmail(instructor.getCourseId(), instructor.getName(), instructor.getEmail(), true);
