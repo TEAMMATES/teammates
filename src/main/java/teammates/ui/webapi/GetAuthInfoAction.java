@@ -20,18 +20,32 @@ public class GetAuthInfoAction extends PublicAction {
 
     @Override
         public JsonResult execute() {
-                    AuthInfo output;
+                    String frontendUrl = getRequestParamValue("frontendUrl");
+                    String nextUrl = getRequestParamValue("nextUrl");
+                    if (frontendUrl == null) {
+                                    frontendUrl = "";
+                    }
 
-            UserInfo userInfo = getCurrentUserInfo();
-                    AuthType authType = getAuthType();
-
-            if (userInfo == null) {
-                            output = new AuthInfo(null, false);
-            } else if (authType == AuthType.MASQUERADE) {
-                            output = new AuthInfo(userInfo, true);
-            } else {
-                            output = new AuthInfo(userInfo, authType == AuthType.MASQUERADE);
-            }
+            AuthInfo output;
+                    if (userInfo == null) {
+                                    if (nextUrl == null) {
+                                                        output = new AuthInfo(
+                                                                                    createLoginUrl(frontendUrl, Const.WebPageURIs.STUDENT_HOME_PAGE),
+                                                                                    createLoginUrl(frontendUrl, Const.WebPageURIs.INSTRUCTOR_HOME_PAGE),
+                                                                                    createLoginUrl(frontendUrl, Const.WebPageURIs.ADMIN_HOME_PAGE),
+                                                                                    createLoginUrl(frontendUrl, Const.WebPageURIs.MAINTAINER_HOME_PAGE)
+                                                                            );
+                                    } else {
+                                                        output = new AuthInfo(
+                                                                                    createLoginUrl(frontendUrl, nextUrl),
+                                                                                    createLoginUrl(frontendUrl, nextUrl),
+                                                                                    createLoginUrl(frontendUrl, nextUrl),
+                                                                                    createLoginUrl(frontendUrl, nextUrl)
+                                                                            );
+                                    }
+                    } else {
+                                    output = new AuthInfo(userInfo, authType == AuthType.MASQUERADE);
+                    }
 
             String existingCsrfToken = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.CSRF_COOKIE_NAME);
                     if (existingCsrfToken != null && isMatchingCsrfToken(existingCsrfToken, req.getSession().getId())) {
@@ -58,7 +72,7 @@ public class GetAuthInfoAction extends PublicAction {
      * Returns a LoginURL based on the frontendURL and nextURL.
          */
     public static String createLoginUrl(String frontendUrl, String nextUrl) {
-                return Const.WebPageURIs.LOGIN + "?nextUrl=" + frontendUrl + nextUrl;
+                return frontendUrl + Const.WebPageURIs.LOGIN_PAGE + "?nextUrl=" + nextUrl;
     }
 
 }
