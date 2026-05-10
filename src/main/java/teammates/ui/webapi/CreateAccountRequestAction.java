@@ -12,60 +12,48 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Creates a new account request.
- */
-public class CreateAccountRequestAction extends Action {
+     */
+public class CreateAccountRequestAction extends PublicAction {
 
     @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.PUBLIC;
-    }
+        public JsonResult execute()
+                throws InvalidHttpRequestBodyException, InvalidOperationException {
+                            AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
 
-    @Override
-    void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        // Nothing needs to be done here because anybody should be able to create an account request.
-    }
+            String captchaResponse = createRequest.getCaptchaResponse();
+                            if (!recaptchaVerifier.isVerificationSuccessful(captchaResponse)) {
+                                            throw new InvalidHttpRequestBodyException("Something went wrong with"
+                                                                                                          + "the reCAPTCHA verification. Please try again.");
+                            }
 
-    @Override
-    public JsonResult execute()
-            throws InvalidHttpRequestBodyException, InvalidOperationException {
-        AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
+            String instructorName = createRequest.getInstructorName().trim();
+                            String instructorEmail = createRequest.getInstructorEmail().trim();
+                            String instructorInstitution = createRequest.getInstructorInstitution().trim();
+                            String comments = createRequest.getInstructorComments();
+                            if (comments != null) {
+                                            comments = comments.trim();
+                            }
+                            AccountRequest accountRequest;
 
-        if (userInfo == null || !userInfo.isAdmin) {
-            String userCaptchaResponse = createRequest.getCaptchaResponse();
-            if (!recaptchaVerifier.isVerificationSuccessful(userCaptchaResponse)) {
-                throw new InvalidHttpRequestBodyException("Something went wrong with "
-                        + "the reCAPTCHA verification. Please try again.");
+            try {
+                            accountRequest = logic.createAccountRequest(instructorName, instructorEmail,
+                                                                                            instructorInstitution, AccountRequestStatus.PENDING, comments);
+            } catch (InvalidParametersException ipe) {
+                            throw new InvalidHttpRequestBodyException(ipe);
             }
-        }
 
-        String instructorName = createRequest.getInstructorName().trim();
-        String instructorEmail = createRequest.getInstructorEmail().trim();
-        String instructorInstitution = createRequest.getInstructorInstitution().trim();
-        String comments = createRequest.getInstructorComments();
-        if (comments != null) {
-            comments = comments.trim();
-        }
-        AccountRequest accountRequest;
+            assert accountRequest != null;
 
-        try {
-            accountRequest = logic.createAccountRequest(instructorName, instructorEmail,
-                    instructorInstitution, AccountRequestStatus.PENDING, comments);
-        } catch (InvalidParametersException ipe) {
-            throw new InvalidHttpRequestBodyException(ipe);
-        }
+            if (userInfo == null || !userInfo.isAdmin) {
+                            EmailWrapper adminAlertEmail = emailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
+                            EmailWrapper userAcknowledgementEmail = emailGenerator
+                                                    .generateNewAccountRequestAcknowledgementEmail(accountRequest);
+                            emailSender.sendEmail(adminAlertEmail);
+                            emailSender.sendEmail(userAcknowledgementEmail);
+            }
 
-        assert accountRequest != null;
-
-        if (userInfo == null || !userInfo.isAdmin) {
-            EmailWrapper adminAlertEmail = emailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
-            EmailWrapper userAcknowledgementEmail = emailGenerator
-                    .generateNewAccountRequestAcknowledgementEmail(accountRequest);
-            emailSender.sendEmail(adminAlertEmail);
-            emailSender.sendEmail(userAcknowledgementEmail);
-        }
-
-        AccountRequestData output = new AccountRequestData(accountRequest);
-        return new JsonResult(output);
-    }
+            AccountRequestData output = new AccountRequestData(accountRequest);
+                            return new JsonResult(output);
+                }
 
 }
