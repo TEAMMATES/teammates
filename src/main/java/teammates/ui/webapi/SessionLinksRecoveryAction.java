@@ -12,17 +12,7 @@ import teammates.ui.output.SessionLinksRecoveryResponseData;
 /**
  * Action specifically created for confirming email and sending session recovery links.
  */
-public class SessionLinksRecoveryAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.PUBLIC;
-    }
-
-    @Override
-    void checkSpecificAccessControl() {
-        // no specific access control needed.
-    }
+public class SessionLinksRecoveryAction extends PublicAction {
 
     @Override
     public JsonResult execute() {

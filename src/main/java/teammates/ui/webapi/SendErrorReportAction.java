@@ -7,19 +7,8 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Actions: sends an error report to the system admin.
  */
-public class SendErrorReportAction extends Action {
+public class SendErrorReportAction extends PublicAction {
     private static final Logger log = Logger.getLogger();
-
-    @Override
-    AuthType getMinAuthLevel() {
-        // Anyone can submit an error report
-        return AuthType.PUBLIC;
-    }
-
-    @Override
-    void checkSpecificAccessControl() {
-        // Anyone can submit an error report
-    }
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {

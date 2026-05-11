@@ -16,17 +16,7 @@ import teammates.ui.output.AuthInfo;
  *
  * <p>This does not log in or log out the user.
  */
-public class GetAuthInfoAction extends Action {
-
-    @Override
-    public AuthType getMinAuthLevel() {
-        return AuthType.PUBLIC;
-    }
-
-    @Override
-    void checkSpecificAccessControl() {
-        // Login information is available to everyone
-    }
+public class GetAuthInfoAction extends PublicAction {
 
     @Override
     public JsonResult execute() {
