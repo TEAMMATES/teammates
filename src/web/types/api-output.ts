@@ -566,11 +566,6 @@ export interface ResponseOutput {
   instructorComments: CommentOutput[];
 }
 
-export interface SendLoginEmailResponse extends ApiOutput {
-  isEmailSent: boolean;
-  message: string;
-}
-
 export interface SessionLinksRecoveryResponse extends ApiOutput {
   isEmailSent: boolean;
   message: string;
