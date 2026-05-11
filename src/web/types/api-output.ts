@@ -6,6 +6,8 @@ export interface Account extends ApiOutput {
   googleId: string;
   name: string;
   email: string;
+  instructors: Instructor[];
+  students: Student[];
 }
 
 export interface AccountRequest extends ApiOutput {
@@ -33,10 +35,7 @@ export interface ApiOutput {
 }
 
 export interface AuthInfo extends ApiOutput {
-  studentLoginUrl?: string;
-  instructorLoginUrl?: string;
-  adminLoginUrl?: string;
-  maintainerLoginUrl?: string;
+  loginUrl: string;
   user?: UserInfo;
   masquerade: boolean;
 }
@@ -386,13 +385,14 @@ export interface Instructor extends ApiOutput {
   courseId: string;
   email: string;
   name: string;
+  institute: string;
+  courseName: string;
   googleId?: string;
   isDisplayedToStudents?: boolean;
   displayedToStudentsAs?: string;
   role?: InstructorPermissionRole;
   joinState: JoinState;
   key?: string;
-  institute?: string;
 }
 
 export interface InstructorPermissionSet {
@@ -563,11 +563,6 @@ export interface ResponseOutput {
   instructorComments: CommentOutput[];
 }
 
-export interface SendLoginEmailResponse extends ApiOutput {
-  isEmailSent: boolean;
-  message: string;
-}
-
 export interface SessionLinksRecoveryResponse extends ApiOutput {
   isEmailSent: boolean;
   message: string;
@@ -590,10 +585,11 @@ export interface Student extends ApiOutput {
   name: string;
   teamName: string;
   sectionName: string;
+  institute: string;
+  courseName: string;
   googleId?: string;
   comments?: string;
   key?: string;
-  institute?: string;
   joinState?: JoinState;
 }
 

@@ -22,7 +22,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
     @Override
     AuthType getMinAuthLevel() {
-        return AuthType.PUBLIC;
+        return AuthType.REG_KEY;
     }
 
     @Override

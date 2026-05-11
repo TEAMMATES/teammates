@@ -16,7 +16,6 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.AuthProxy;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.Logic;
@@ -49,7 +48,6 @@ public abstract class Action {
     EmailSender emailSender = EmailSender.inst();
     RecaptchaVerifier recaptchaVerifier = RecaptchaVerifier.inst();
     LogsProcessor logsProcessor = LogsProcessor.inst();
-    AuthProxy authProxy = AuthProxy.inst();
 
     HttpServletRequest req;
     UserInfo userInfo;
@@ -94,10 +92,6 @@ public abstract class Action {
 
     public void setLogsProcessor(LogsProcessor logsProcessor) {
         this.logsProcessor = logsProcessor;
-    }
-
-    public void setAuthProxy(AuthProxy authProxy) {
-        this.authProxy = authProxy;
     }
 
     public void setEmailGenerator(EmailGenerator emailGenerator) {
@@ -170,12 +164,16 @@ public abstract class Action {
             userInfo = userProvision.getCurrentUser(uic);
         }
 
-        authType = userInfo == null ? AuthType.PUBLIC : AuthType.LOGGED_IN;
-
+        String regKey = getRequestParamValue(Const.ParamsNames.REGKEY);
         String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
-        if (userInfo != null && userParam != null && userInfo.isAdmin) {
+
+        if (userInfo == null) {
+            authType = StringHelper.isEmpty(regKey) ? AuthType.PUBLIC : AuthType.REG_KEY;
+        } else if (userParam != null && userInfo.isAdmin) {
             userInfo = userProvision.getMasqueradeUser(userParam);
             authType = AuthType.MASQUERADE;
+        } else {
+            authType = AuthType.LOGGED_IN;
         }
     }
 

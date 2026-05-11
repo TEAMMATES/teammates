@@ -182,11 +182,7 @@ export class SessionResultPageComponent implements OnInit {
                       );
                     } else {
                       // There is no logged in user for a valid, used registration key, redirect to login page
-                      if (this.entityType === 'student') {
-                        window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
-                      } else if (this.entityType === 'instructor') {
-                        window.location.href = `${this.backendUrl}${auth.instructorLoginUrl}`;
-                      }
+                      window.location.href = `${this.backendUrl}${auth.loginUrl}`;
                     }
                   } else {
                     // The registration key is invalid

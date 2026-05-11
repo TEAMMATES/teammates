@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.google.common.base.Joiner;
 
+import teammates.common.util.JsonUtils;
 import teammates.common.util.TimeHelperExtension;
 
 /**
@@ -62,4 +63,10 @@ public final class AssertHelper {
 
     }
 
+    /**
+     * Asserts that the given json strings have the same parsed value.
+     */
+    public static void assertJsonEquals(String expected, String actual) {
+        assertEquals(JsonUtils.parse(expected), JsonUtils.parse(actual));
+    }
 }

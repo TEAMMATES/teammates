@@ -36,18 +36,4 @@ describe('AuthService', () => {
     service.getAuthRegkeyValidity(key, intent);
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.AUTH_REGKEY, paramMap);
   });
-
-  it('should execute sendLoginEmail', () => {
-    const userEmail = 'abc@gmail.com';
-    const continueUrl = 'continueUrl';
-    const captchaResponse = 'captchaResponse';
-    const queryParam = { userEmail, continueUrl, captchaResponse };
-    const paramMap: Record<string, string> = {
-      useremail: queryParam.userEmail,
-      continueurl: queryParam.continueUrl,
-      captcharesponse: queryParam.captchaResponse,
-    };
-    service.sendLoginEmail(queryParam);
-    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.LOGIN_EMAIL, paramMap);
-  });
 });

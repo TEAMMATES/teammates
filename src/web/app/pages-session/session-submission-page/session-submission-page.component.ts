@@ -498,11 +498,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           } else if (resp.status === 403) {
             if (loginRequired && !auth.user) {
               // There is no logged in user for a valid, used registration key, redirect to login page
-              if (this.entityType === 'student') {
-                window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
-              } else if (this.entityType === 'instructor') {
-                window.location.href = `${this.backendUrl}${auth.instructorLoginUrl}`;
-              }
+              window.location.href = `${this.backendUrl}${auth.loginUrl}`;
             } else {
               this.simpleModalService.openInformationModal(
                 'Not Authorised To Access!',

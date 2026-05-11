@@ -27,16 +27,6 @@ const routes: Routes = [
         ],
       },
       {
-        path: 'login',
-        component: PublicPageComponent,
-        children: [
-          {
-            path: '',
-            loadComponent: () => import('./login-page.component').then((m) => m.LoginPageComponent),
-          },
-        ],
-      },
-      {
         path: 'sessions',
         component: PublicPageComponent,
         children: [

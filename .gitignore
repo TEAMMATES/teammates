@@ -61,7 +61,6 @@ config.ts
 app.yaml
 geckodriver*
 chromedriver*
-src/main/resources/firebase-credentials.json
 src/client/java/teammates/client/scripts/statistics/data/
 src/client/java/teammates/client/scripts/log/
 src/e2e/resources/gmail-api/

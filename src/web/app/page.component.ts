@@ -7,7 +7,6 @@ import { fromEvent, merge, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import uaParser from 'ua-parser-js';
 import { environment } from '../environments/environment';
-import { AuthService } from '../services/auth.service';
 import { StatusMessageService } from '../services/status-message.service';
 import { NotificationTargetUser } from '../types/api-output';
 import { LoaderBarComponent } from './components/loader-bar/loader-bar.component';
@@ -69,8 +68,6 @@ export class PageComponent {
   NotificationTargetUser: typeof NotificationTargetUser = NotificationTargetUser;
 
   @Input() isFetchingAuthDetails = false;
-  @Input() studentLoginUrl = '';
-  @Input() instructorLoginUrl = '';
   @Input() user = '';
   @Input() isStudent = false;
   @Input() isInstructor = false;
@@ -112,7 +109,6 @@ export class PageComponent {
     private ngbModal: NgbModal,
     location: Location,
     private statusMessageService: StatusMessageService,
-    private authService: AuthService,
   ) {
     this.checkBrowserVersion();
     this.router.events.subscribe((val: any) => {
@@ -187,12 +183,6 @@ export class PageComponent {
   }
 
   logout(): void {
-    if (environment.firebaseConfig?.projectId) {
-      this.authService.logout().then(() => {
-        window.location.href = this.logoutUrl;
-      });
-    } else {
-      window.location.href = this.logoutUrl;
-    }
+    window.location.href = this.logoutUrl;
   }
 }

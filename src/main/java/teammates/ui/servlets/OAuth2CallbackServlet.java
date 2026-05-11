@@ -13,13 +13,9 @@ import org.apache.http.HttpStatus;
 
 import com.google.api.client.auth.oauth2.AuthorizationCodeResponseUrl;
 import com.google.api.client.auth.oauth2.TokenResponse;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.FirebaseToken;
 
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Config;
 import teammates.common.util.HttpRequest;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
@@ -38,11 +34,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         AuthResult authResult;
-        if (Config.isUsingFirebase()) {
-            authResult = getFirebaseAuthResult(req, resp);
-        } else {
-            authResult = getGoogleOauth2AuthResult(req, resp);
-        }
+        authResult = getGoogleOauth2AuthResult(req, resp);
         if (authResult == null) {
             return;
         }
@@ -120,32 +112,6 @@ public class OAuth2CallbackServlet extends AuthServlet {
         } catch (URISyntaxException | IOException | JacksonException e) {
             // if any of the operation fail, googleId is kept at null
             log.warning("Failed to get Google ID", e);
-        }
-        return new AuthResult(email, nextUrl);
-    }
-
-    private AuthResult getFirebaseAuthResult(HttpServletRequest req, HttpServletResponse resp) {
-        String nextUrl = req.getParameter("nextUrl");
-        if (nextUrl == null) {
-            nextUrl = "/";
-        }
-        // Prevent HTTP response splitting
-        nextUrl = resp.encodeRedirectURL(nextUrl.replace("\r\n", ""));
-
-        String email = null;
-        String idToken = req.getParameter("idToken");
-        if (idToken == null) {
-            return null;
-        } else {
-            FirebaseAuth instance = FirebaseAuth.getInstance();
-            try {
-                FirebaseToken userToken = instance.verifyIdToken(idToken);
-                email = userToken.getEmail();
-                // Delete the user immediately as we do not need to keep user info
-                instance.deleteUser(userToken.getUid());
-            } catch (FirebaseAuthException e) {
-                log.warning("Invalid user ID token", e);
-            }
         }
         return new AuthResult(email, nextUrl);
     }

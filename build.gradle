@@ -57,12 +57,11 @@ dependencies {
     staticAnalysis("com.github.spotbugs:spotbugs:${spotbugsVersion}")
     staticAnalysis("org.jacoco:org.jacoco.build:${jacocoVersion}")
 
-    implementation("com.google.auth:google-auth-library-oauth2-http:1.42.1")
+    implementation("com.google.api-client:google-api-client:2.9.0")
     implementation(platform("com.google.cloud:google-cloud-bom:0.256.0"))
     implementation("com.google.cloud:google-cloud-tasks")
     implementation("com.google.cloud:google-cloud-logging")
     implementation("tools.jackson.core:jackson-databind:3.1.1")
-    implementation("com.google.firebase:firebase-admin:9.2.0")
     implementation("com.google.guava:guava:33.5.0-jre")
     implementation("commons-lang:commons-lang:2.6")
     implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20260102.1")
