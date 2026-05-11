@@ -35,10 +35,7 @@ export interface ApiOutput {
 }
 
 export interface AuthInfo extends ApiOutput {
-  studentLoginUrl?: string;
-  instructorLoginUrl?: string;
-  adminLoginUrl?: string;
-  maintainerLoginUrl?: string;
+  loginUrl: string;
   user?: UserInfo;
   masquerade: boolean;
 }

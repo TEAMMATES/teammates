@@ -60,8 +60,10 @@
               Login
             </button>
             <div class="dropdown-menu-right" ngbDropdownMenu>
-              <a class="dropdown-item" id="student-login-btn" [href]="studentLoginUrl">Student Login</a>
-              <a class="dropdown-item" id="instructor-login-btn" [href]="instructorLoginUrl">Instructor Login</a>
+              <a class="dropdown-item" id="student-login-btn" tmRouterLink="/web/student/home">Student Login</a>
+              <a class="dropdown-item" id="instructor-login-btn" tmRouterLink="/web/instructor/home"
+                >Instructor Login</a
+              >
             </div>
           </li>
         }
