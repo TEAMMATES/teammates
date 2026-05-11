@@ -24,12 +24,4 @@ export const config: any = {
    * Under maintenance mode, all requests to the front-end will be routed to the "under maintenance" page.
    */
   maintenance: false,
-
-  /**
-   * Set to true if Firebase login is to be supported.
-   * Note that the backend needs to be configured separately for Firebase login to be fully supported.
-   */
-  allowFirebaseLogin: false,
-
-  firebaseConfig: {},
 };
