@@ -8,24 +8,13 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.InvalidOperationException;
-import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.SendLoginEmailResponseData;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Sends a login email.
  */
-public class SendLoginEmailAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.PUBLIC;
-    }
-
-    @Override
-    void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        // Sending of login emails can be requested by anyone
-    }
+public class SendLoginEmailAction extends PublicAction {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
