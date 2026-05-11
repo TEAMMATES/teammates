@@ -25,7 +25,7 @@ public class WebSecurityHeaderFilter implements Filter {
             "default-src 'none'",
             "script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://cdn.jsdelivr.net/  https://apis.google.com/",
             "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net/ https://fonts.googleapis.com/",
-            "frame-src 'self' docs.google.com https://www.google.com/recaptcha/ https://*.firebaseapp.com/",
+            "frame-src 'self' docs.google.com https://www.google.com/recaptcha/",
             "img-src " + IMG_SRC_CSP,
             "font-src 'self' https://cdn.jsdelivr.net/ https://fonts.gstatic.com/",
             "connect-src 'self' https://*.googleapis.com/",

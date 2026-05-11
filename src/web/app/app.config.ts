@@ -24,10 +24,6 @@ export const appConfig: ApplicationConfig = {
       }),
       FormsModule,
       NgbDatepickerModule,
-      environment.allowFirebaseLogin && environment.firebaseConfig?.projectId
-        ? AngularFireModule.initializeApp(environment.firebaseConfig)
-        : [],
-      environment.allowFirebaseLogin && environment.firebaseConfig?.projectId ? AngularFireAuthModule : [],
     ),
     customUrlSerializerProvider,
     provideHttpClient(withInterceptorsFromDi()),
