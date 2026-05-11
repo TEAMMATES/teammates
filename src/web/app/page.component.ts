@@ -70,8 +70,6 @@ export class PageComponent {
 
   @Input() isFetchingAuthDetails = false;
   @Input() user = '';
-  @Input() studentLoginUrl = '';
-  @Input() instructorLoginUrl = '';
   @Input() isStudent = false;
   @Input() isInstructor = false;
   @Input() isAdmin = false;

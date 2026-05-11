@@ -31,7 +31,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
     }
 
     @Test
-    void testExecute_noLoggedInUser_hasNextUrlParameter() {
+    void testExecute_noLoggedInUser() {
         logoutUser();
         String nextUrl = "/web/join";
 

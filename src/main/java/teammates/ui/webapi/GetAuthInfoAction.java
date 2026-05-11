@@ -32,7 +32,6 @@ public class GetAuthInfoAction extends Action {
     public JsonResult execute() {
         String frontendUrl = getRequestParamValue("frontendUrl");
         String nextUrl = getRequestParamValue("nextUrl");
-        boolean isMasquerade = userInfo != null && authType == AuthType.MASQUERADE;
         if (frontendUrl == null) {
             frontendUrl = "";
         }
@@ -40,7 +39,7 @@ public class GetAuthInfoAction extends Action {
             nextUrl = "";
         }
 
-        AuthInfo output = new AuthInfo(createLoginUrl(frontendUrl, nextUrl), userInfo, isMasquerade);
+        AuthInfo output = new AuthInfo(createLoginUrl(frontendUrl, nextUrl), userInfo, authType == AuthType.MASQUERADE);
         String existingCsrfToken = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.CSRF_COOKIE_NAME);
         if (existingCsrfToken != null && isMatchingCsrfToken(existingCsrfToken, req.getSession().getId())) {
             return new JsonResult(output);
