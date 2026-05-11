@@ -18,7 +18,7 @@ import teammates.test.BaseTestCase;
  *      {@link MailgunService},
  *      {@link MailjetService}.
  */
-public class EmailSenderTest extends BaseTestCase {
+public class EmailSenderServiceTest extends BaseTestCase {
 
     private EmailWrapper getTypicalEmailWrapper() {
         String senderName = "Sender Name";
