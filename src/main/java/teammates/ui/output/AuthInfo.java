@@ -1,6 +1,5 @@
 package teammates.ui.output;
 
-import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.UserInfo;
@@ -14,7 +13,7 @@ public class AuthInfo extends ApiOutput {
     private final UserInfo user;
     private final boolean masquerade;
 
-    public AuthInfo(@Nonnull String loginUrl, @Nullable UserInfo user, boolean masquerade) {
+    public AuthInfo(String loginUrl, @Nullable UserInfo user, boolean masquerade) {
         this.loginUrl = loginUrl;
         this.user = user;
         this.masquerade = masquerade;
