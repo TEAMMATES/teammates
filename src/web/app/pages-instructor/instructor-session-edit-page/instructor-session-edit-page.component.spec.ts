@@ -47,6 +47,8 @@ import { CopySessionModalComponent } from '../../components/copy-session-modal/c
 import { ExtensionConfirmModalComponent } from '../../components/extension-confirm-modal/extension-confirm-modal.component';
 import { QuestionEditFormModel } from '../../components/question-edit-form/question-edit-form-model';
 import { SessionEditFormModel } from '../../components/session-edit-form/session-edit-form-model';
+import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
+import { InstructorRoleNamePipe } from '../../components/teammates-common/instructor-role-name.pipe';
 
 describe('InstructorSessionEditPageComponent', () => {
   const testCourse1: Course = {
@@ -269,7 +271,13 @@ describe('InstructorSessionEditPageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [BrowserAnimationsModule],
-      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
+      providers: [
+        FormatDateDetailPipe,
+        InstructorRoleNamePipe,
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
     }).compileComponents();
   }));
 

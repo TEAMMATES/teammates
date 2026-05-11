@@ -15,6 +15,8 @@ import {
   InstructorExtensionTableColumnModel,
   StudentExtensionTableColumnModel,
 } from '../../pages-instructor/instructor-session-individual-extension-page/extension-table-column-model';
+import { FormatDateDetailPipe } from '../teammates-common/format-date-detail.pipe';
+import { InstructorRoleNamePipe } from '../teammates-common/instructor-role-name.pipe';
 
 describe('ExtensionConfirmModalComponent', () => {
   const testFeedbackSession: FeedbackSession = {
@@ -118,7 +120,13 @@ describe('ExtensionConfirmModalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
+      providers: [
+        NgbActiveModal,
+        FormatDateDetailPipe,
+        InstructorRoleNamePipe,
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
     }).compileComponents();
   }));
 
