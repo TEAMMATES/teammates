@@ -23,7 +23,6 @@ export interface CourseStatistics {
 export class CourseService {
   private httpRequestService = inject(HttpRequestService);
 
-
   /**
    * Gets all course data for an instructor by calling API.
    */

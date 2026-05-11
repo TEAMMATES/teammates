@@ -8,7 +8,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class SafeHtmlPipe implements PipeTransform {
   private domSanitizer = inject(DomSanitizer);
 
-
   /**
    * Transforms HTML to value that can be displayed without sanitization.
    */

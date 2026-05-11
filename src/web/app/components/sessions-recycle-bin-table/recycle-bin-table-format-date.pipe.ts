@@ -8,7 +8,6 @@ import { TimezoneService } from '../../../services/timezone.service';
 export class RecycleBinTableFormatDatePipe implements PipeTransform {
   private timezoneService = inject(TimezoneService);
 
-
   /**
    * Transforms timestamp to a date in a timezone in recycle bin table.
    */

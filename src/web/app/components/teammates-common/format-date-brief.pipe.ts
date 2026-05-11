@@ -8,7 +8,6 @@ import { TimezoneService } from '../../../services/timezone.service';
 export class FormatDateBriefPipe implements PipeTransform {
   private timezoneService = inject(TimezoneService);
 
-
   /**
    * Transforms a timestamp to a date string briefly.
    */

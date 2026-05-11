@@ -26,7 +26,6 @@ export class FeedbackSessionActionsService {
   private progressBarService = inject(ProgressBarService);
   private statusMessageService = inject(StatusMessageService);
 
-
   /**
    * Downloads session result.
    */

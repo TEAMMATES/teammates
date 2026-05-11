@@ -27,7 +27,6 @@ import { ErrorMessageOutput } from '../../../error-message-output';
 export class InstructorRequestFormComponent {
   private accountService = inject(AccountService);
 
-
   // Create members to be accessed in template
   readonly STUDENT_NAME_MAX_LENGTH = STUDENT_NAME_MAX_LENGTH;
   readonly INSTITUTION_NAME_MAX_LENGTH = INSTITUTION_NAME_MAX_LENGTH;

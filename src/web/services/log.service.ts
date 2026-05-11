@@ -13,7 +13,6 @@ import { FeedbackSessionLogs, FeedbackSessionLogType } from '../types/api-output
 export class LogService {
   private httpRequestService = inject(HttpRequestService);
 
-
   /**
    * Creates a log for feedback session by calling API.
    */

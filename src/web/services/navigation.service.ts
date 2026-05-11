@@ -19,7 +19,6 @@ export class NavigationService {
   private router = inject(Router);
   private location = inject(Location);
 
-
   encodeParams(params: Record<string, string>): string {
     if (Object.values(params).length === 0) {
       return '';

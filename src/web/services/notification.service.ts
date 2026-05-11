@@ -24,7 +24,6 @@ import {
 export class NotificationService {
   private httpRequestService = inject(HttpRequestService);
 
-
   /**
    * Creates a notification by calling API.
    */

@@ -13,7 +13,6 @@ import { UsageStatisticsRange } from '../types/api-output';
 export class UsageStatisticsService {
   private httpRequestService = inject(HttpRequestService);
 
-
   getUsageStatistics(startTime: number, endTime: number): Observable<UsageStatisticsRange> {
     const paramMap: Record<string, string> = {
       starttime: `${startTime}`,

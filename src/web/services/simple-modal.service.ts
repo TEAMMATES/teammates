@@ -24,7 +24,6 @@ export interface SimpleModalOptions {
 export class SimpleModalService {
   private ngbModal = inject(NgbModal);
 
-
   /**
    * Opens a confirmation modal.
    *

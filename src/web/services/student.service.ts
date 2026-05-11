@@ -22,7 +22,6 @@ export class StudentService {
   private tableComparatorService = inject(TableComparatorService);
   private courseService = inject(CourseService);
 
-
   /**
    * Get a list of students of a course by calling API.
    * If teamName is provided, only students in that team will be returned.

@@ -17,7 +17,6 @@ import { FeedbackResponseDetailsFactory } from '../types/response-details-impl/f
 export class SessionResultCsvService {
   private feedbackResponsesService = inject(FeedbackResponsesService);
 
-
   /**
    * Generates CSV string for non-responders.
    */

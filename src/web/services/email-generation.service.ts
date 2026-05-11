@@ -14,7 +14,6 @@ import { EmailType } from '../types/api-request';
 export class EmailGenerationService {
   private httpRequestService = inject(HttpRequestService);
 
-
   getCourseJoinEmail(studentId: string): Observable<Email> {
     return this.getEmail({
       studentId,

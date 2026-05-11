@@ -55,7 +55,6 @@ export interface FeedbackResponsesResponse {
 export class FeedbackResponsesService {
   private httpRequestService = inject(HttpRequestService);
 
-
   /**
    * Gets the default feedback response details based on {@code questionType}.
    */

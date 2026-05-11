@@ -50,7 +50,6 @@ export class FeedbackSessionsService {
   private sessionResultCsvService = inject(SessionResultCsvService);
   private studentService = inject(StudentService);
 
-
   /**
    * Gets template sessions.
    */

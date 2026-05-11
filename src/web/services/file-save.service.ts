@@ -10,7 +10,6 @@ import { Injectable, inject } from '@angular/core';
 export class FileSaveService {
   private document = inject<Document>(DOCUMENT);
 
-
   saveFile(blob: Blob, filename: string): void {
     const url: string = URL.createObjectURL(blob);
     const anchor: HTMLAnchorElement = this.document.createElement('a');

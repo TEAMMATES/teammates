@@ -51,7 +51,6 @@ export interface TemplateQuestion {
 export class FeedbackQuestionsService {
   private httpRequestService = inject(HttpRequestService);
 
-
   /**
    * Gets allowed feedback paths based on question type as some feedback paths does not make
    * sense under certain question.

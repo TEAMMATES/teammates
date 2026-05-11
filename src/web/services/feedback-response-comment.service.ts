@@ -19,7 +19,6 @@ import {
 export class FeedbackResponseCommentService {
   private httpRequestService = inject(HttpRequestService);
 
-
   /**
    * Create a comment by calling API.
    */

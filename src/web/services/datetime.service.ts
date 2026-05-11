@@ -9,7 +9,6 @@ import { DateFormat, TimeFormat } from '../types/datetime-const';
 export class DateTimeService {
   private timezoneService = inject(TimezoneService);
 
-
   /**
    * Get the local date and time of timezone from timestamp.
    */

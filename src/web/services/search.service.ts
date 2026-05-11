@@ -38,7 +38,6 @@ export class SearchService {
   private linkService = inject(LinkService);
   private timezoneService = inject(TimezoneService);
 
-
   searchInstructor(searchKey: string): Observable<InstructorSearchResult> {
     return this.searchStudents(searchKey, 'instructor').pipe(
       map((studentsRes: Students) => {

@@ -14,7 +14,6 @@ import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest, Intent } fro
 export class InstructorService {
   private httpRequestService = inject(HttpRequestService);
 
-
   /**
    * Get a list of instructors of a course by calling API.
    */

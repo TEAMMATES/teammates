@@ -13,7 +13,6 @@ import { ErrorReportRequest } from '../types/api-request';
 export class ErrorReportService {
   private httpRequestService = inject(HttpRequestService);
 
-
   /**
    * Sends an error report.
    */

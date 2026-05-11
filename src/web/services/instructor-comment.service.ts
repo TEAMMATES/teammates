@@ -41,7 +41,6 @@ export class InstructorCommentService {
   private statusMessageService = inject(StatusMessageService);
   private tableComparatorService = inject(TableComparatorService);
 
-
   /**
    * Deletes an instructor comment.
    */

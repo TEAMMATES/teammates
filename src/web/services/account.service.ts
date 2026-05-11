@@ -25,7 +25,6 @@ import {
 export class AccountService {
   private httpRequestService = inject(HttpRequestService);
 
-
   /**
    * Creates an account by calling API.
    */

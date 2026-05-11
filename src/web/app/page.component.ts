@@ -1,5 +1,15 @@
 import { Location, NgStyle, AsyncPipe } from '@angular/common';
-import { Component, Directive, ElementRef, EventEmitter, HostListener, Input, Output, forwardRef, inject } from '@angular/core';
+import {
+  Component,
+  Directive,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output,
+  forwardRef,
+  inject,
+} from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { NgbModal, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
