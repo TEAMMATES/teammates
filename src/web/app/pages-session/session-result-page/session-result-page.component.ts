@@ -106,6 +106,7 @@ export class SessionResultPageComponent implements OnInit {
   isFeedbackSessionResultsLoading = true;
   hasFeedbackSessionResultsLoadingFailed = false;
   retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
+  hideSelfResponses = false;
 
   feedbackSessionId = '';
   studentId: string | undefined = '';
@@ -210,6 +211,10 @@ export class SessionResultPageComponent implements OnInit {
           },
         });
       });
+  }
+
+  setHideSelfResponses(event: Event): void {
+    this.hideSelfResponses = (event.target as HTMLInputElement).checked;
   }
 
   private loadCourseInfo(): void {

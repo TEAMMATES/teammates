@@ -1,10 +1,12 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { ActivatedRoute, provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { FeedbackQuestionModel } from './feedback-question.model';
 import { SessionResultPageComponent } from './session-result-page.component';
+import { QuestionResponsePanelComponent } from '../../components/question-response-panel/question-response-panel.component';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
@@ -143,6 +145,39 @@ describe('SessionResultPageComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should pass hideSelfResponses to the question response panel when enabled', () => {
+    component.session = testFeedbackSession;
+    component.intent = Intent.STUDENT_RESULT;
+    component.questions = [
+      {
+        feedbackQuestion: testFeedbackQuestion,
+        questionStatistics: '',
+        allResponses: [],
+        responsesToSelf: [],
+        responsesFromSelf: [],
+        otherResponses: [],
+        isLoading: false,
+        isLoaded: true,
+        hasResponse: false,
+        hasResponseButNotVisibleForPreview: false,
+        hasCommentNotVisibleForPreview: false,
+      },
+    ];
+
+    fixture.detectChanges();
+
+    const hideOwnResponsesCheckbox: HTMLInputElement = fixture.debugElement.query(
+      By.css('#hide-own-responses'),
+    ).nativeElement;
+    hideOwnResponsesCheckbox.click();
+    fixture.detectChanges();
+
+    const questionResponsePanel = fixture.debugElement.query(By.directive(QuestionResponsePanelComponent))
+      .componentInstance as QuestionResponsePanelComponent;
+    expect(component.hideSelfResponses).toBe(true);
+    expect(questionResponsePanel.hideSelfResponses).toBe(true);
   });
 
   it('should snap with default fields', () => {

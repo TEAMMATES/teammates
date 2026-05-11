@@ -4,6 +4,7 @@ exports[`QuestionResponsePanelComponent > should snap with feedback session with
 <tm-question-response-panel
   RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
   feedbackSessionsService={[Function _FeedbackSessionsService]}
+  hideSelfResponses="false"
   intent={[Function String]}
   previewAsPerson=""
   questions={[Function Array]}
@@ -447,6 +448,7 @@ exports[`QuestionResponsePanelComponent > should snap with feedback session with
 <tm-question-response-panel
   RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
   feedbackSessionsService={[Function _FeedbackSessionsService]}
+  hideSelfResponses="false"
   intent={[Function String]}
   previewAsPerson=""
   questions={[Function Array]}
@@ -760,6 +762,7 @@ exports[`QuestionResponsePanelComponent > should snap with questions and respons
 <tm-question-response-panel
   RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
   feedbackSessionsService={[Function _FeedbackSessionsService]}
+  hideSelfResponses="false"
   intent={[Function String]}
   previewAsPerson=""
   questions={[Function Array]}

@@ -2,6 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { By } from '@angular/platform-browser';
 import { of, throwError } from 'rxjs';
 import { QuestionResponsePanelComponent } from './question-response-panel.component';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -220,6 +221,50 @@ describe('QuestionResponsePanelComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should hide self responses when hideSelfResponses is enabled', () => {
+    component.session = testFeedbackSession;
+    component.questions = [
+      {
+        feedbackQuestion: testQuestion1,
+        questionStatistics: '',
+        allResponses: [],
+        responsesToSelf: [],
+        responsesFromSelf: [
+          {
+            isMissingResponse: false,
+            responseId: 'resp-id-1',
+            giver: 'giver1',
+            giverTeam: 'team1',
+            giverSection: 'section1',
+            recipient: 'recipient1',
+            recipientTeam: 'team1',
+            recipientSection: 'section1',
+            responseDetails: {
+              answer: 'Good',
+              isOther: false,
+              otherFieldContent: '',
+            } as FeedbackMcqResponseDetails,
+            instructorComments: [],
+          },
+        ],
+        otherResponses: [[]],
+        isLoading: false,
+        isLoaded: true,
+        hasResponse: true,
+        hasResponseButNotVisibleForPreview: false,
+        hasCommentNotVisibleForPreview: false,
+      },
+    ];
+
+    fixture.detectChanges();
+    expect(fixture.debugElement.queryAll(By.css('tm-student-view-responses'))).toHaveLength(1);
+
+    component.hideSelfResponses = true;
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.queryAll(By.css('tm-student-view-responses'))).toHaveLength(0);
   });
 
   it('should snap with feedback session with questions', () => {

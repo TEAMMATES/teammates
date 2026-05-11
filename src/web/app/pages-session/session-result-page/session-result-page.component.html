@@ -132,12 +132,33 @@
           </div>
         </div>
       }
+      @if (intent === Intent.STUDENT_RESULT && questions.length !== 0) {
+        <div class="card bg-light top-padded text-center text-sm-start">
+          <div class="card-body row">
+            <div class="col-md-6">
+              <label class="control-label"><b>Additional settings:</b></label>
+              <div>
+                <label class="form-check-label">
+                  <input
+                    id="hide-own-responses"
+                    type="checkbox"
+                    [checked]="hideSelfResponses"
+                    (change)="setHideSelfResponses($event)"
+                  />
+                  Hide my own responses
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
       <tm-question-response-panel
         [questions]="questions"
         [session]="session"
         [intent]="intent"
         [regKey]="regKey"
         [previewAsPerson]="previewAsPerson"
+        [hideSelfResponses]="hideSelfResponses"
       ></tm-question-response-panel>
     </div>
   </tm-loading-retry>

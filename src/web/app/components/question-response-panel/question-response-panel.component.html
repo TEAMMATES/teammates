@@ -70,7 +70,7 @@
                     <strong>Other responses (to you): </strong>Responses are not visible to you.
                   </div>
                 }
-                @if (question.responsesFromSelf.length) {
+                @if (question.responsesFromSelf.length && !hideSelfResponses) {
                   <div class="given-responses mt-4">
                     <strong>Your own responses (to others):</strong>
                     @for (responseFromSelf of question.responsesFromSelf; track responseFromSelf) {
