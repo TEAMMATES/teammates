@@ -366,7 +366,6 @@ public final class Const {
         public static final String TIMEZONE = URI_PREFIX + "/timezone";
         public static final String SESSION_LINKS_RECOVERY = URI_PREFIX + "/sessionlinksrecovery";
         public static final String EMAIL = URI_PREFIX + "/email";
-        public static final String LOGIN_EMAIL = URI_PREFIX + "/email/login";
         public static final String SESSION_LOGS = URI_PREFIX + "/logs/session";
         public static final String ACTION_CLASS = URI_PREFIX + "/actionclass";
         public static final String USER_COOKIE = URI_PREFIX + "/cookie";
