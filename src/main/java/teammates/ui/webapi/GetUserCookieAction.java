@@ -4,6 +4,7 @@ import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
+import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Action specifically created for returning user cookie value.

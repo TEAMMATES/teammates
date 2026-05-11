@@ -14,6 +14,7 @@ import org.apache.http.client.methods.HttpPut;
 import teammates.common.util.Const.CronJobURIs;
 import teammates.common.util.Const.ResourceURIs;
 import teammates.common.util.Const.TaskQueue;
+import teammates.ui.exception.ActionMappingException;
 
 /**
  * Generates the matching {@link Action} for a given URI and request method.

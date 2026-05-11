@@ -46,7 +46,7 @@ public class LogicStarter implements ServletContextListener {
         accountsLogic.initLogicDependencies(AccountsDb.inst(), usersLogic, coursesLogic);
         coursesLogic.initLogicDependencies(CoursesDb.inst(), fsLogic, usersLogic, accountsLogic);
         dataBundleLogic.initLogicDependencies(accountsLogic, accountRequestsLogic, coursesLogic, notificationsLogic);
-        deadlineExtensionsLogic.initLogicDependencies(DeadlineExtensionsDb.inst(), fsLogic);
+        deadlineExtensionsLogic.initLogicDependencies(DeadlineExtensionsDb.inst(), fsLogic, usersLogic);
         fsLogic.initLogicDependencies(FeedbackSessionsDb.inst(), coursesLogic, frLogic, fqLogic, usersLogic);
         fslLogic.initLogicDependencies(FeedbackSessionLogsDb.inst());
         frLogic.initLogicDependencies(FeedbackResponsesDb.inst(), usersLogic, fqLogic, frcLogic);
@@ -54,7 +54,8 @@ public class LogicStarter implements ServletContextListener {
         fqLogic.initLogicDependencies(FeedbackQuestionsDb.inst(), coursesLogic, frLogic, usersLogic, fsLogic);
         notificationsLogic.initLogicDependencies(NotificationsDb.inst(), accountsLogic);
         usageStatisticsLogic.initLogicDependencies(UsageStatisticsDb.inst());
-        usersLogic.initLogicDependencies(UsersDb.inst(), accountsLogic, frLogic, frcLogic, deadlineExtensionsLogic);
+        usersLogic.initLogicDependencies(UsersDb.inst(), accountsLogic, coursesLogic,
+                frLogic, frcLogic, deadlineExtensionsLogic);
         log.info("Initialized dependencies between logic classes");
     }
 

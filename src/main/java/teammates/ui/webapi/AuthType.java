@@ -11,19 +11,24 @@ public enum AuthType {
     PUBLIC(0),
 
     /**
+     * Access via registration key.
+     */
+    REG_KEY(1),
+
+    /**
      * Logged in user.
      */
-    LOGGED_IN(1),
+    LOGGED_IN(2),
 
     /**
      * Admin masquerading as another user.
      */
-    MASQUERADE(1),
+    MASQUERADE(2),
 
     /**
      * All-access pass via secret key.
      */
-    ALL_ACCESS(2);
+    ALL_ACCESS(3);
 
     private final int level;
 

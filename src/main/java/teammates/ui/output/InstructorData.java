@@ -28,15 +28,18 @@ public class InstructorData extends ApiOutput {
     private JoinState joinState;
     @Nullable
     private String key;
-    @Nullable
     private String institute;
+    private String courseName;
 
     @JsonCreator
-    private InstructorData(UUID userId, String courseId, String email, String name) {
+    private InstructorData(UUID userId, String courseId, String email, String name,
+                            String institute, String courseName) {
         this.userId = userId;
         this.courseId = courseId;
         this.email = email;
         this.name = name;
+        this.institute = institute;
+        this.courseName = courseName;
     }
 
     public InstructorData(Instructor instructor) {
@@ -49,6 +52,7 @@ public class InstructorData extends ApiOutput {
         this.name = instructor.getName();
         this.joinState = instructor.getAccount() == null ? JoinState.NOT_JOINED : JoinState.JOINED;
         this.institute = instructor.getCourse().getInstitute();
+        this.courseName = instructor.getCourse().getName();
     }
 
     public UUID getUserId() {
@@ -123,16 +127,18 @@ public class InstructorData extends ApiOutput {
         this.institute = institute;
     }
 
+    public String getCourseName() {
+        return courseName;
+    }
+
     /**
      * Adds additional attributes only for search result for admin.
      *
      * @param key Registration key
-     * @param institute Institute of the instructor
      * @param googleId Google ID of the instructor
      */
-    public void addAdditionalInformationForAdminSearch(String key, String institute, String googleId) {
+    public void addAdditionalInformationForAdminSearch(String key, String googleId) {
         setKey(key);
-        setInstitute(institute);
         setGoogleId(googleId);
     }
 }

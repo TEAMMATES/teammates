@@ -6,6 +6,8 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.storage.entity.UsageStatistics;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.UsageStatisticsRangeData;
 
 /**

@@ -2,6 +2,8 @@ package teammates.ui.output;
 
 import java.util.List;
 
+import teammates.common.datatransfer.EnrollResults;
+
 /**
  * The API output wrapper for enroll results.
  */
@@ -10,9 +12,11 @@ public class EnrollStudentsData extends ApiOutput {
     private StudentsData studentsData;
     private List<EnrollErrorResults> unsuccessfulEnrolls;
 
-    public EnrollStudentsData(StudentsData studentsData, List<EnrollErrorResults> unsuccessfulEnrolls) {
-        this.studentsData = studentsData;
-        this.unsuccessfulEnrolls = unsuccessfulEnrolls;
+    public EnrollStudentsData(EnrollResults enrollResults) {
+        this.studentsData = new StudentsData(enrollResults.getEnrolledStudents());
+        this.unsuccessfulEnrolls = enrollResults.getUnsuccessfulEnrolls().entrySet().stream()
+                .map(entry -> new EnrollErrorResults(entry.getKey(), entry.getValue()))
+                .toList();
     }
 
     public List<EnrollErrorResults> getUnsuccessfulEnrolls() {

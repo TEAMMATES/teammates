@@ -116,8 +116,10 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
     private FeedbackResponse getResponse(FeedbackQuestion feedbackQuestion, Student receiver, Double answer) {
         FeedbackNumericalScaleResponseDetails details = new FeedbackNumericalScaleResponseDetails();
         details.setAnswer(answer);
-        return FeedbackResponse.makeResponse(
-                feedbackQuestion, student.getEmail(), null, receiver.getTeamName(), null, details);
+        FeedbackResponse response = FeedbackResponse.makeResponse(
+                student.getEmail(), null, receiver.getTeamName(), null, details);
+        feedbackQuestion.addFeedbackResponse(response);
+        return response;
     }
 
 }

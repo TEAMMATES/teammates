@@ -38,8 +38,7 @@ export interface CourseUpdateRequest extends CourseBasicRequest {
 }
 
 export interface DeadlineExtensionsUpdateRequest extends BasicRequest {
-  studentDeadlines: { [index: string]: number };
-  instructorDeadlines: { [index: string]: number };
+  userDeadlines: { [index: string]: number };
 }
 
 export interface EmailWrapper {

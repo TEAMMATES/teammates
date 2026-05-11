@@ -66,16 +66,16 @@ export class StudentService {
   /**
    * Updates the details of a student in a course by calling API.
    */
-  updateStudent(queryParams: {
-    courseId: string;
-    studentEmail: string;
-    requestBody: StudentUpdateRequest;
-  }): Observable<MessageOutput> {
+  updateStudent(
+    queryParams: {
+      studentId: string;
+    },
+    requestBody: StudentUpdateRequest,
+  ): Observable<MessageOutput> {
     const paramsMap: { [key: string]: string } = {
-      courseid: queryParams.courseId,
-      studentemail: queryParams.studentEmail,
+      studentid: queryParams.studentId,
     };
-    return this.httpRequestService.put(ResourceEndpoints.STUDENT, paramsMap, queryParams.requestBody);
+    return this.httpRequestService.put(ResourceEndpoints.STUDENT, paramsMap, requestBody);
   }
 
   /**

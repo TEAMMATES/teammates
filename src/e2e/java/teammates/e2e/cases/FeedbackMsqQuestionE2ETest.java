@@ -46,7 +46,8 @@ public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
         ______TS("verify loaded question");
         FeedbackQuestion loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession")
-                .makeDeepCopy(feedbackSession);
+                .makeDeepCopy();
+        feedbackSession.addFeedbackQuestion(loadedQuestion);
         FeedbackMsqQuestionDetails questionDetails = (FeedbackMsqQuestionDetails) loadedQuestion
                 .getQuestionDetailsCopy();
         feedbackEditPage.verifyMsqQuestionDetails(1, questionDetails);
@@ -143,7 +144,9 @@ public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         }
         details.setAnswers(answers);
 
-        return FeedbackResponse.makeResponse(feedbackQuestion, student.getEmail(), student.getSection(),
+        FeedbackResponse response = FeedbackResponse.makeResponse(student.getEmail(), student.getSection(),
                 receiver.getEmail(), receiver.getSection(), details);
+        feedbackQuestion.addFeedbackResponse(response);
+        return response;
     }
 }

@@ -2,8 +2,9 @@ package teammates.it.ui.webapi;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -47,7 +48,7 @@ public class FeedbackSessionOpenedRemindersActionIT extends BaseActionIT<Feedbac
                 "qn5InSession1InCourse1",
                 "qn6InSession1InCourse1NoResponses",
         };
-        List<FeedbackQuestion> qns = new ArrayList<>();
+        Set<FeedbackQuestion> qns = new HashSet<>();
         for (String fqKey : fqKeys) {
             qns.add(typicalBundle.feedbackQuestions.get(fqKey));
         }

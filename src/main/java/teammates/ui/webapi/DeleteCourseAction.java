@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.MessageOutput;
 
 /**

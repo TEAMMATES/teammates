@@ -13,6 +13,10 @@ import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.request.FeedbackResponseCommentCreateRequest;
 import teammates.ui.request.Intent;
@@ -25,7 +29,9 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
     @Override
     AuthType getMinAuthLevel() {
-        return AuthType.PUBLIC;
+        // Creating a comment requires the caller to be identified as a student or instructor
+        // (via reg key or login) before response ownership and session access are verified.
+        return AuthType.REG_KEY;
     }
 
     @Override
@@ -152,10 +158,11 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
-        FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(feedbackResponse, email,
+        FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(email,
                 commentGiverType, feedbackResponse.getGiverSection(), feedbackResponse.getRecipientSection(), commentText,
                 isFollowingQuestionVisibility, isFromParticipant, comment.getShowCommentTo(), comment.getShowGiverNameTo(),
                 email);
+        feedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         try {
             FeedbackResponseComment createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
             HibernateUtil.flushSession();

@@ -7,6 +7,8 @@ import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.StudentData;
 
 /**
@@ -22,7 +24,7 @@ public class GetStudentAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
-        return AuthType.PUBLIC;
+        return AuthType.REG_KEY;
     }
 
     @Override

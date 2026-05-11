@@ -63,6 +63,8 @@ describe('InstructorStudentActivityLogsComponent', () => {
     sectionName: '',
     teamName: '',
     userId: '',
+    institute: '',
+    courseName: '',
   };
   const testStudent: Student = {
     userId: '00000000-0000-4000-8000-000000000001',
@@ -71,6 +73,8 @@ describe('InstructorStudentActivityLogsComponent', () => {
     name: 'Doe John',
     teamName: 'team 1',
     sectionName: 'section 1',
+    institute: 'Test Institute',
+    courseName: 'CS9999',
   };
   const testFeedbackSession: FeedbackSession = {
     feedbackSessionId: '00000000-0000-4000-8000-000000000001',

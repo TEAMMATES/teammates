@@ -15,7 +15,6 @@ import { ErrorMessageOutput } from '../../error-message-output';
 @Component({
   selector: 'tm-session-links-recovery-page',
   templateUrl: './session-links-recovery-page.component.html',
-  styleUrls: ['./session-links-recovery-page.component.scss'],
   imports: [FormsModule, ReactiveFormsModule, NgxCaptchaModule, AjaxLoadingComponent],
 })
 export class SessionLinksRecoveryPageComponent implements OnInit {

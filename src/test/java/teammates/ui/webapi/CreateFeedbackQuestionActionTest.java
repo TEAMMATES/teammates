@@ -228,10 +228,12 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
                 new FeedbackTextQuestionDetails("this is the brief");
         textQuestionDetails.setRecommendedLength(800);
 
-        return FeedbackQuestion.makeQuestion(typicalFeedbackSession, 2,
+        FeedbackQuestion createdQuestion = FeedbackQuestion.makeQuestion(2,
                 "this is the description", FeedbackParticipantType.STUDENTS,
                 FeedbackParticipantType.INSTRUCTORS, Const.MAX_POSSIBLE_RECIPIENTS, new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(), textQuestionDetails);
+        typicalFeedbackSession.addFeedbackQuestion(createdQuestion);
+        return createdQuestion;
     }
 
 }

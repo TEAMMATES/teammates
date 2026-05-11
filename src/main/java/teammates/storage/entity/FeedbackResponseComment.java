@@ -86,13 +86,12 @@ public class FeedbackResponseComment extends BaseEntity {
     }
 
     public FeedbackResponseComment(
-            FeedbackResponse feedbackResponse, String giver, FeedbackParticipantType giverType,
+            String giver, FeedbackParticipantType giverType,
             Section giverSection, Section recipientSection, String commentText,
             boolean isVisibilityFollowingFeedbackQuestion, boolean isCommentFromFeedbackParticipant,
             List<FeedbackParticipantType> showCommentTo, List<FeedbackParticipantType> showGiverNameTo,
             String lastEditorEmail
     ) {
-        this.setFeedbackResponse(feedbackResponse);
         this.setGiver(giver);
         this.setGiverType(giverType);
         this.setGiverSection(giverSection);
@@ -236,7 +235,6 @@ public class FeedbackResponseComment extends BaseEntity {
 
     /**
      * Formats the entity before persisting in database.
-     * TODO: Override when BaseEntity adds abstract sanitizeForSaving
      */
     public void sanitizeForSaving() {
         this.commentText = SanitizationHelper.sanitizeForRichText(this.commentText);

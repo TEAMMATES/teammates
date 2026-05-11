@@ -3,6 +3,7 @@ package teammates.storage.entity;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -56,10 +57,9 @@ public class DeadlineExtension extends BaseEntity {
         // required by Hibernate
     }
 
-    public DeadlineExtension(User user, FeedbackSession feedbackSession, Instant endTime) {
+    public DeadlineExtension(User user, Instant endTime) {
         this.setId(UUID.randomUUID());
         this.setUser(user);
-        this.setFeedbackSession(feedbackSession);
         this.setEndTime(endTime);
     }
 
@@ -157,7 +157,7 @@ public class DeadlineExtension extends BaseEntity {
         List<String> errors = new ArrayList<>();
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
-                feedbackSession.getEndTime(), List.of(this)), errors);
+                feedbackSession.getEndTime(), Set.of(this)), errors);
 
         return errors;
     }

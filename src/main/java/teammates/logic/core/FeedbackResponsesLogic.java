@@ -115,7 +115,7 @@ public final class FeedbackResponsesLogic {
     /**
      * Checks whether a giver has responded a session.
      */
-    public boolean hasGiverRespondedForSession(String giverIdentifier, List<FeedbackQuestion> questions) {
+    public boolean hasGiverRespondedForSession(String giverIdentifier, Set<FeedbackQuestion> questions) {
         assert questions != null;
 
         for (FeedbackQuestion question : questions) {
@@ -216,7 +216,7 @@ public final class FeedbackResponsesLogic {
         // TODO: do not pass detached entities around
         HibernateUtil.merge(feedbackResponse);
 
-        List<FeedbackResponseComment> oldResponseComments = oldResponse.getFeedbackResponseComments();
+        Set<FeedbackResponseComment> oldResponseComments = oldResponse.getFeedbackResponseComments();
 
         for (FeedbackResponseComment oldResponseComment : oldResponseComments) {
             oldResponseComment.setGiverSection(feedbackResponse.getGiverSection());
@@ -247,7 +247,7 @@ public final class FeedbackResponsesLogic {
      * Deletes all feedback responses of a question and its associated comments.
      */
     public void deleteFeedbackResponsesForQuestionCascade(FeedbackQuestion feedbackQuestion) {
-        List<FeedbackResponse> responses = feedbackQuestion.getFeedbackResponses();
+        Set<FeedbackResponse> responses = feedbackQuestion.getFeedbackResponses();
         for (FeedbackResponse response : responses) {
             deleteFeedbackResponsesAndCommentsCascade(response);
         }

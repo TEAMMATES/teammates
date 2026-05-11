@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,13 +13,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
@@ -73,7 +71,7 @@ public class UpdateDeadlineExtensionsActionTest
 
     @Test
     void testExecute_updateDeadlineExtensionEndTime_success()
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException {
         loginAsInstructor(instructor.getGoogleId());
         FeedbackSession originalFeedbackSession = generateSession1InCourse(course, instructor);
 
@@ -82,64 +80,32 @@ public class UpdateDeadlineExtensionsActionTest
                 Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
         };
 
-        List<DeadlineExtension> originalDeadlines = new ArrayList<>();
-        originalDeadlines.add(new DeadlineExtension(instructor, originalFeedbackSession, nearestHour));
-        originalFeedbackSession.setDeadlineExtensions(originalDeadlines);
+        DeadlineExtension de = new DeadlineExtension(instructor, nearestHour);
+        originalFeedbackSession.addDeadlineExtension(de);
 
         when(mockLogic.getFeedbackSession(originalFeedbackSession.getId())).thenReturn(originalFeedbackSession);
 
         DeadlineExtensionsUpdateRequest updateRequest =
-                buildUpdateRequest(instructor.getEmail(), endHour);
+                buildUpdateRequest(instructor.getId(), endHour);
         UpdateDeadlineExtensionsAction a = getAction(updateRequest, param);
         getJsonResult(a);
 
-        verify(mockLogic, times(1)).updateDeadlineExtension(any());
-        verify(mockLogic).updateDeadlineExtension(argThat((DeadlineExtension de) -> de.getEndTime().equals(endHour)));
-    }
-
-    @Test
-    void testExecute_createDeadlineExtensionEndTime_success()
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        loginAsInstructor(instructor.getGoogleId());
-        FeedbackSession originalFeedbackSession = generateSession1InCourse(course, instructor);
-
-        String[] param = new String[] {
-                Const.ParamsNames.FEEDBACK_SESSION_ID, originalFeedbackSession.getId().toString(),
-                Const.ParamsNames.NOTIFY_ABOUT_DEADLINES, String.valueOf(false),
-        };
-
-        originalFeedbackSession.setDeadlineExtensions(new ArrayList<>());
-
-        when(mockLogic.getFeedbackSession(originalFeedbackSession.getId())).thenReturn(originalFeedbackSession);
-        when(mockLogic.getInstructorForEmail(originalFeedbackSession.getCourseId(), instructor.getEmail()))
-                .thenReturn(instructor);
-
-        DeadlineExtensionsUpdateRequest updateRequest =
-                buildUpdateRequest(instructor.getEmail(), nearestHour);
-        UpdateDeadlineExtensionsAction a = getAction(updateRequest, param);
-        getJsonResult(a);
-
-        verify(mockLogic, times(1)).createDeadlineExtension(any());
-        verify(mockLogic).createDeadlineExtension(argThat((DeadlineExtension de) -> de.getEndTime().equals(nearestHour)));
+        verify(mockLogic, times(1)).updateDeadlineExtensions(any(), any());
     }
 
     /**
-     * Builds a {@link DeadlineExtensionsUpdateRequest} with the given deadline values.
-     * Pass null for an email to omit that user from the request.
+     * Builds a {@link DeadlineExtensionsUpdateRequest} with the given deadline value.
      */
     private DeadlineExtensionsUpdateRequest buildUpdateRequest(
-            String instructorEmail, Instant instructorDeadlineInstant) {
+            UUID userId, Instant userDeadlineInstant) {
         DeadlineExtensionsUpdateRequest request =
                 new DeadlineExtensionsUpdateRequest();
 
-        Map<String, Long> instructorDeadlines = new HashMap<>();
-        if (instructorEmail != null && instructorDeadlineInstant != null) {
-            instructorDeadlines.put(instructorEmail, instructorDeadlineInstant.toEpochMilli());
+        Map<UUID, Long> userDeadlines = new HashMap<>();
+        if (userId != null && userDeadlineInstant != null) {
+            userDeadlines.put(userId, userDeadlineInstant.toEpochMilli());
         }
-        request.setInstructorDeadlines(instructorDeadlines);
-
-        Map<String, Long> studentDeadlines = new HashMap<>();
-        request.setStudentDeadlines(studentDeadlines);
+        request.setUserDeadlines(userDeadlines);
 
         return request;
     }

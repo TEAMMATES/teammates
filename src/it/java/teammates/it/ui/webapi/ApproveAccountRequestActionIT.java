@@ -17,11 +17,11 @@ import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.webapi.ApproveAccountRequestAction;
-import teammates.ui.webapi.EntityNotFoundException;
-import teammates.ui.webapi.InvalidHttpParameterException;
-import teammates.ui.webapi.InvalidOperationException;
 import teammates.ui.webapi.JsonResult;
 
 /**

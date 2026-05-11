@@ -134,8 +134,6 @@ public class BaseTestCase {
         Team team = getTypicalTeam();
         Course course = team.getSection().getCourse();
         Student student = new Student(course, "student-name", "validstudent@teammates.tmt", "comments");
-
-        student.setTeam(team);
         team.addUser(student);
 
         return student;
@@ -143,14 +141,14 @@ public class BaseTestCase {
 
     protected Section getTypicalSection() {
         Course course = getTypicalCourse();
-        Section section = new Section(course, "test-section");
+        Section section = new Section("test-section");
         course.addSection(section);
         return section;
     }
 
     protected Team getTypicalTeam() {
         Section section = getTypicalSection();
-        Team team = new Team(section, "test-team");
+        Team team = new Team("test-team");
         section.addTeam(team);
         return team;
     }
@@ -159,10 +157,11 @@ public class BaseTestCase {
         FeedbackSession typicalFeedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         FeedbackQuestion typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
         FeedbackResponse typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(typicalFeedbackQuestion);
-        FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(typicalFeedbackResponse,
+        FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 "typical-giver", FeedbackParticipantType.RECEIVER, getTypicalSection(), getTypicalSection(),
                 "typical-comment", true, true, List.of(FeedbackParticipantType.GIVER, FeedbackParticipantType.INSTRUCTORS),
                 List.of(FeedbackParticipantType.RECEIVER, FeedbackParticipantType.INSTRUCTORS), "email");
+        typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000010"));
         feedbackResponseComment.setCreatedAt(Instant.now());
         feedbackResponseComment.setUpdatedAt(Instant.now());
@@ -187,15 +186,20 @@ public class BaseTestCase {
     }
 
     protected FeedbackQuestion getTypicalFeedbackQuestionForSession(FeedbackSession session) {
-        return FeedbackQuestion.makeQuestion(session, 1, "test-description",
+        FeedbackQuestion fq = FeedbackQuestion.makeQuestion(1, "test-description",
                 FeedbackParticipantType.SELF, FeedbackParticipantType.SELF, 1, new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(),
                 new FeedbackTextQuestionDetails("test question text"));
+        session.addFeedbackQuestion(fq);
+        return fq;
     }
 
     protected FeedbackResponse getTypicalFeedbackResponseForQuestion(FeedbackQuestion question) {
-        return FeedbackResponse.makeResponse(question, "test-giver", getTypicalSection(), "test-recipient",
+        FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
+                "test-giver", getTypicalSection(), "test-recipient",
                 getTypicalSection(), getTypicalFeedbackResponseDetails());
+        question.addFeedbackResponse(feedbackResponse);
+        return feedbackResponse;
     }
 
     protected FeedbackResponseDetails getTypicalFeedbackResponseDetails() {
@@ -203,7 +207,7 @@ public class BaseTestCase {
     }
 
     protected FeedbackResponseComment getTypicalResponseComment(UUID id) {
-        FeedbackResponseComment comment = new FeedbackResponseComment(null, "",
+        FeedbackResponseComment comment = new FeedbackResponseComment("",
                 FeedbackParticipantType.STUDENTS, null, null, "",
                 false, false,
                 null, null, null);
@@ -225,17 +229,19 @@ public class BaseTestCase {
     }
 
     protected DeadlineExtension getTypicalDeadlineExtensionStudent() {
-        return new DeadlineExtension(
+        DeadlineExtension de = new DeadlineExtension(
                 getTypicalStudent(),
-                getTypicalFeedbackSessionForCourse(getTypicalCourse()),
                 Instant.now());
+        getTypicalFeedbackSessionForCourse(getTypicalCourse()).addDeadlineExtension(de);
+        return de;
     }
 
     protected DeadlineExtension getTypicalDeadlineExtensionInstructor() {
-        return new DeadlineExtension(
+        DeadlineExtension de = new DeadlineExtension(
                 getTypicalInstructor(),
-                getTypicalFeedbackSessionForCourse(getTypicalCourse()),
                 Instant.now());
+        getTypicalFeedbackSessionForCourse(getTypicalCourse()).addDeadlineExtension(de);
+        return de;
     }
 
     /**

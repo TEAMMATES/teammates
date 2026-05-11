@@ -1,6 +1,7 @@
 import { InstructorPermissionRole } from '../../../types/api-output';
 
 export interface StudentExtensionTableColumnModel {
+  userId: string;
   sectionName: string;
   teamName: string;
   name: string;
@@ -12,6 +13,7 @@ export interface StudentExtensionTableColumnModel {
 }
 
 export interface InstructorExtensionTableColumnModel {
+  userId: string;
   name: string;
   email: string;
   role?: InstructorPermissionRole;

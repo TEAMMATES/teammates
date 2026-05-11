@@ -10,7 +10,7 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
-import teammates.ui.webapi.InvalidOperationException;
+import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.webapi.JoinCourseAction;
 
 /**

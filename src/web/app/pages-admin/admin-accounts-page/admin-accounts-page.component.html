@@ -18,26 +18,30 @@
   }
 </div>
 
-<h2 class="my-3">Instructor For {{ instructorCourses.length }} Courses</h2>
+<h2 class="my-3">Instructor For {{ accountInfo.instructors.length }} Courses</h2>
 
-<div *tmIsLoading="isLoadingInstructorCourses">
-  @if (instructorCourses.length) {
+<div *tmIsLoading="isLoadingAccountInfo">
+  @if (accountInfo.instructors.length) {
     <div class="card bg-light">
       <table id="instructor-table" class="table table-striped">
         <thead>
           <tr>
+            <th>Name</th>
+            <th>Email</th>
             <th>Course</th>
             <th>Institute</th>
             <th>Options</th>
           </tr>
         </thead>
         <tbody>
-          @for (course of instructorCourses; track course) {
+          @for (instructor of accountInfo.instructors; track instructor.userId) {
             <tr>
-              <td class="text-break">[{{ course.courseId }}] {{ course.courseName }}</td>
-              <td class="text-break">{{ course.institute }}</td>
+              <td class="text-break">{{ instructor.name }}</td>
+              <td class="text-break">{{ instructor.email }}</td>
+              <td class="text-break">[{{ instructor.courseId }}] {{ instructor.courseName }}</td>
+              <td class="text-break">{{ instructor.institute }}</td>
               <td>
-                <button class="btn btn-sm btn-danger" (click)="removeInstructorFromCourse(course.courseId)">
+                <button class="btn btn-sm btn-danger" (click)="removeInstructorFromCourse(instructor.courseId)">
                   <i class="fas fa-trash-alt"></i> Remove From Course
                 </button>
               </td>
@@ -45,29 +49,39 @@
           }
         </tbody>
       </table>
+    </div>
+  }
+
+  @if (!accountInfo.instructors.length) {
+    <div class="alert alert-warning">
+      <i class="fas fa-exclamation-circle"></i> No instructor courses found for this account.
     </div>
   }
 </div>
 
-<h2 class="my-3">Student For {{ studentCourses.length }} Courses</h2>
-<div *tmIsLoading="isLoadingStudentCourses">
-  @if (studentCourses.length) {
+<h2 class="my-3">Student For {{ accountInfo.students.length }} Courses</h2>
+<div *tmIsLoading="isLoadingAccountInfo">
+  @if (accountInfo.students.length) {
     <div class="card bg-light">
       <table id="student-table" class="table table-striped">
         <thead>
           <tr>
+            <th>Name</th>
+            <th>Email</th>
             <th>Course</th>
             <th>Institute</th>
             <th>Options</th>
           </tr>
         </thead>
         <tbody>
-          @for (course of studentCourses; track course) {
+          @for (student of accountInfo.students; track student.userId) {
             <tr>
-              <td class="text-break">[{{ course.courseId }}] {{ course.courseName }}</td>
-              <td class="text-break">{{ course.institute }}</td>
+              <td class="text-break">{{ student.name }}</td>
+              <td class="text-break">{{ student.email }}</td>
+              <td class="text-break">[{{ student.courseId }}] {{ student.courseName }}</td>
+              <td class="text-break">{{ student.institute }}</td>
               <td>
-                <button class="btn btn-sm btn-danger" (click)="removeStudentFromCourse(course.courseId)">
+                <button class="btn btn-sm btn-danger" (click)="removeStudentFromCourse(student.courseId)">
                   <i class="fas fa-trash-alt"></i> Remove From Course
                 </button>
               </td>
@@ -77,7 +91,7 @@
       </table>
     </div>
   }
-  @if (!studentCourses.length) {
+  @if (!accountInfo.students.length) {
     <div class="alert alert-warning">
       <i class="fas fa-exclamation-circle"></i> No student courses found for this account.
     </div>

@@ -10,8 +10,8 @@ import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
+import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.output.InstructorPrivilegeData;
-import teammates.ui.webapi.EntityNotFoundException;
 import teammates.ui.webapi.GetInstructorPrivilegeAction;
 
 /**

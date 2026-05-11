@@ -27,6 +27,10 @@ import teammates.logic.api.UserProvision;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.ui.exception.EntityNotFoundException;
+import teammates.ui.exception.InvalidHttpParameterException;
+import teammates.ui.exception.InvalidOperationException;
+import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.request.BasicRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
@@ -166,12 +170,16 @@ public abstract class Action {
             userInfo = userProvision.getCurrentUser(uic);
         }
 
-        authType = userInfo == null ? AuthType.PUBLIC : AuthType.LOGGED_IN;
-
+        String regKey = getRequestParamValue(Const.ParamsNames.REGKEY);
         String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
-        if (userInfo != null && userParam != null && userInfo.isAdmin) {
+
+        if (userInfo == null) {
+            authType = StringHelper.isEmpty(regKey) ? AuthType.PUBLIC : AuthType.REG_KEY;
+        } else if (userParam != null && userInfo.isAdmin) {
             userInfo = userProvision.getMasqueradeUser(userParam);
             authType = AuthType.MASQUERADE;
+        } else {
+            authType = AuthType.LOGGED_IN;
         }
     }
 

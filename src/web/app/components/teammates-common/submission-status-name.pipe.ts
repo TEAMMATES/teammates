@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
 import { FeedbackSessionSubmissionStatus } from '../../../types/api-output';
 
 /**
@@ -10,13 +9,7 @@ export class SubmissionStatusNamePipe implements PipeTransform {
   /**
    * Transforms {@link FeedbackSessionSubmissionStatus} to a simple name.
    */
-  transform(
-    status: FeedbackSessionSubmissionStatus,
-    deadlines?: {
-      studentDeadlines: Record<string, number>;
-      instructorDeadlines: Record<string, number>;
-    },
-  ): string {
+  transform(status: FeedbackSessionSubmissionStatus): string {
     let string = '';
     switch (status) {
       case FeedbackSessionSubmissionStatus.NOT_VISIBLE:
@@ -34,10 +27,6 @@ export class SubmissionStatusNamePipe implements PipeTransform {
         break;
       default:
         return 'Unknown';
-    }
-
-    if (deadlines && DeadlineExtensionHelper.hasOngoingExtension(deadlines)) {
-      string += ' (Ext. ongoing)';
     }
 
     return string;

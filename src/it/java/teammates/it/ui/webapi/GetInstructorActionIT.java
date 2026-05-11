@@ -8,9 +8,9 @@ import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
+import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.Intent;
-import teammates.ui.webapi.EntityNotFoundException;
 import teammates.ui.webapi.GetInstructorAction;
 import teammates.ui.webapi.JsonResult;
 

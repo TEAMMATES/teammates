@@ -192,8 +192,10 @@ public class DataBundleLogicTest extends BaseTestCase {
             throws InvalidParametersException {
         DataBundle dataBundle = new DataBundle();
         Course course = getTypicalCourse();
-        Section section = new Section(course, "Section 1");
-        Team team = new Team(section, "Team 1");
+        Section section = new Section("Section 1");
+        course.addSection(section);
+        Team team = new Team("Team 1");
+        section.addTeam(team);
 
         dataBundle.courses.put("course1", course);
         dataBundle.sections.put("section1", section);
@@ -223,8 +225,10 @@ public class DataBundleLogicTest extends BaseTestCase {
             throws InvalidParametersException {
         DataBundle dataBundle = new DataBundle();
         Course course = getTypicalCourse();
-        Section section = new Section(course, "Section 1");
-        Team team = new Team(section, "Team 1");
+        Section section = new Section("Section 1");
+        course.addSection(section);
+        Team team = new Team("Team 1");
+        section.addTeam(team);
         Student student = getTypicalStudent();
         Instructor instructor = getTypicalInstructor();
 

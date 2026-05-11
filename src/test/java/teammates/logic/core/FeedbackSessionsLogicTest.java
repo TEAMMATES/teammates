@@ -7,7 +7,9 @@ import static org.mockito.Mockito.when;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
@@ -278,7 +280,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
     public void testIsFeedbackSessionAttemptedByStudent_noQuestions_returnsTrue() {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
-        session.setFeedbackQuestions(new ArrayList<>());
+        session.setFeedbackQuestions(new HashSet<>());
         Student student = getTypicalStudent();
         student.setTeam(getTypicalTeam());
 
@@ -295,7 +297,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         session.setSessionVisibleFromTime(Instant.now().minusSeconds(3600)); // Visible
         FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
-        session.setFeedbackQuestions(List.of(question));
+        session.setFeedbackQuestions(Set.of(question));
 
         when(fqLogic.hasFeedbackQuestionsForStudents(session.getFeedbackQuestions())).thenReturn(true);
 
@@ -321,7 +323,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         String courseId = course.getId();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
-        List<FeedbackQuestion> questions = List.of(question);
+        Set<FeedbackQuestion> questions = Set.of(question);
         Student student1 = getTypicalStudent();
         Student student2 = getTypicalStudent();
         List<Student> students = List.of(student1, student2);
@@ -345,7 +347,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         String courseId = course.getId();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
-        List<FeedbackQuestion> questions = List.of(question);
+        Set<FeedbackQuestion> questions = Set.of(question);
         List<Student> students = List.of(getTypicalStudent());
         Instructor instructor1 = getTypicalInstructor();
         Instructor instructor2 = getTypicalInstructor();
@@ -370,18 +372,18 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         FeedbackQuestion question1 = getTypicalFeedbackQuestionForSession(session);
         FeedbackQuestion question2 = getTypicalFeedbackQuestionForSession(session);
-        session.setFeedbackQuestions(List.of(question1, question2));
+        session.setFeedbackQuestions(Set.of(question1, question2));
 
         // Mock responses from different givers
         FeedbackResponse response1 = getTypicalFeedbackResponseForQuestion(question1);
         response1.setGiver("student1@email.com");
+        question1.addFeedbackResponse(response1);
         FeedbackResponse response2 = getTypicalFeedbackResponseForQuestion(question1);
         response2.setGiver("student2@email.com");
+        question1.addFeedbackResponse(response2);
         FeedbackResponse response3 = getTypicalFeedbackResponseForQuestion(question2);
         response3.setGiver("student1@email.com"); // Same giver as response1
-
-        question1.setFeedbackResponses(List.of(response1, response2));
-        question2.setFeedbackResponses(List.of(response3));
+        question2.addFeedbackResponse(response3);
 
         int result = fsLogic.getActualTotalSubmission(session);
 
@@ -394,8 +396,8 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
-        session.setFeedbackQuestions(List.of(question));
-        question.setFeedbackResponses(new ArrayList<>());
+        session.setFeedbackQuestions(Set.of(question));
+        question.setFeedbackResponses(new HashSet<>());
 
         int result = fsLogic.getActualTotalSubmission(session);
 

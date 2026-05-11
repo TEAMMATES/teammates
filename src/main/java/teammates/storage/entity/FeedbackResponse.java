@@ -2,7 +2,9 @@ package teammates.storage.entity;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
@@ -47,7 +49,7 @@ public abstract class FeedbackResponse extends BaseEntity {
     private UUID questionId;
 
     @OneToMany(mappedBy = "feedbackResponse", cascade = CascadeType.REMOVE)
-    private List<FeedbackResponseComment> feedbackResponseComments = new ArrayList<>();
+    private Set<FeedbackResponseComment> feedbackResponseComments = new HashSet<>();
 
     @Column(nullable = false)
     private String giver;
@@ -76,12 +78,10 @@ public abstract class FeedbackResponse extends BaseEntity {
         // required by Hibernate
     }
 
-    public FeedbackResponse(
-            FeedbackQuestion feedbackQuestion, String giver,
-            Section giverSection, String recipient, Section recipientSection
+    protected FeedbackResponse(
+            String giver, Section giverSection, String recipient, Section recipientSection
     ) {
         this.setId(UUID.randomUUID());
-        this.setFeedbackQuestion(feedbackQuestion);
         this.setGiver(giver);
         this.setGiverSection(giverSection);
         this.setRecipient(recipient);
@@ -92,57 +92,56 @@ public abstract class FeedbackResponse extends BaseEntity {
      * Creates a feedback response according to its {@code FeedbackQuestionType}.
      */
     public static FeedbackResponse makeResponse(
-            FeedbackQuestion feedbackQuestion, String giver,
-            Section giverSection, String receiver, Section receiverSection,
+            String giver, Section giverSection, String receiver, Section receiverSection,
             FeedbackResponseDetails responseDetails
     ) {
         FeedbackResponse feedbackResponse = null;
         switch (responseDetails.getQuestionType()) {
         case TEXT:
             feedbackResponse = new FeedbackTextResponse(
-                    feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+                    giver, giverSection, receiver, receiverSection, responseDetails
             );
             break;
         case MCQ:
             feedbackResponse = new FeedbackMcqResponse(
-                    feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+                    giver, giverSection, receiver, receiverSection, responseDetails
             );
             break;
         case MSQ:
             feedbackResponse = new FeedbackMsqResponse(
-                    feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+                    giver, giverSection, receiver, receiverSection, responseDetails
             );
             break;
         case NUMSCALE:
             feedbackResponse = new FeedbackNumericalScaleResponse(
-                    feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+                    giver, giverSection, receiver, receiverSection, responseDetails
             );
             break;
         case CONSTSUM:
         case CONSTSUM_OPTIONS:
         case CONSTSUM_RECIPIENTS:
             feedbackResponse = new FeedbackConstantSumResponse(
-                    feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+                    giver, giverSection, receiver, receiverSection, responseDetails
             );
             break;
         case CONTRIB:
             feedbackResponse = new FeedbackContributionResponse(
-                    feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+                    giver, giverSection, receiver, receiverSection, responseDetails
             );
             break;
         case RUBRIC:
             feedbackResponse = new FeedbackRubricResponse(
-                    feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+                    giver, giverSection, receiver, receiverSection, responseDetails
             );
             break;
         case RANK_OPTIONS:
             feedbackResponse = new FeedbackRankOptionsResponse(
-                    feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+                    giver, giverSection, receiver, receiverSection, responseDetails
             );
             break;
         case RANK_RECIPIENTS:
             feedbackResponse = new FeedbackRankRecipientsResponse(
-                    feedbackQuestion, giver, giverSection, receiver, receiverSection, responseDetails
+                    giver, giverSection, receiver, receiverSection, responseDetails
             );
             break;
         }
@@ -158,8 +157,8 @@ public abstract class FeedbackResponse extends BaseEntity {
             Section giverSection, String receiver, Section receiverSection,
             FeedbackResponseDetails responseDetails
     ) {
+        // TODO: update should be in logic layer
         FeedbackResponse updatedFeedbackResponse = makeResponse(
-                feedbackQuestion,
                 giver,
                 giverSection,
                 receiver,
@@ -168,6 +167,7 @@ public abstract class FeedbackResponse extends BaseEntity {
         );
         updatedFeedbackResponse.setCreatedAt(originalFeedbackResponse.getCreatedAt());
         updatedFeedbackResponse.setId(originalFeedbackResponse.getId());
+        feedbackQuestion.addFeedbackResponse(updatedFeedbackResponse);
         return updatedFeedbackResponse;
     }
 
@@ -181,6 +181,7 @@ public abstract class FeedbackResponse extends BaseEntity {
      */
     public void addFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment) {
         this.feedbackResponseComments.add(feedbackResponseComment);
+        feedbackResponseComment.setFeedbackResponse(this);
     }
 
     public UUID getId() {
@@ -207,11 +208,11 @@ public abstract class FeedbackResponse extends BaseEntity {
         this.questionId = feedbackQuestion == null ? null : feedbackQuestion.getId();
     }
 
-    public List<FeedbackResponseComment> getFeedbackResponseComments() {
+    public Set<FeedbackResponseComment> getFeedbackResponseComments() {
         return feedbackResponseComments;
     }
 
-    public void setFeedbackResponseComments(List<FeedbackResponseComment> feedbackResponseComments) {
+    public void setFeedbackResponseComments(Set<FeedbackResponseComment> feedbackResponseComments) {
         this.feedbackResponseComments = feedbackResponseComments;
     }
 

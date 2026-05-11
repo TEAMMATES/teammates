@@ -9,6 +9,7 @@ import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.Student;
+import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.output.RegenerateKeyData;
 
 /**

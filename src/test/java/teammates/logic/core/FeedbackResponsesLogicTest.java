@@ -6,7 +6,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
@@ -359,8 +361,8 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
         FeedbackResponse response = getTypicalFeedbackResponseForQuestion(question);
         response.setGiver("student@email.com");
-        question.setFeedbackResponses(List.of(response));
-        List<FeedbackQuestion> questions = List.of(question);
+        question.addFeedbackResponse(response);
+        Set<FeedbackQuestion> questions = Set.of(question);
 
         boolean result = frLogic.hasGiverRespondedForSession("student@email.com", questions);
 
@@ -372,8 +374,8 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
-        question.setFeedbackResponses(new ArrayList<>());
-        List<FeedbackQuestion> questions = List.of(question);
+        question.setFeedbackResponses(new HashSet<>());
+        Set<FeedbackQuestion> questions = Set.of(question);
 
         boolean result = frLogic.hasGiverRespondedForSession("student@email.com", questions);
 
