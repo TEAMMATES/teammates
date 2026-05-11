@@ -15,9 +15,7 @@ import { Intent } from '../types/api-request';
 export class AuthService {
   private frontendUrl: string = environment.frontendUrl;
 
-  constructor(
-    private httpRequestService: HttpRequestService,
-  ) {}
+  constructor(private httpRequestService: HttpRequestService) {}
 
   /**
    * Gets the user authentication information.
