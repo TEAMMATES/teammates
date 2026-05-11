@@ -1,5 +1,5 @@
 import { NgClass, KeyValuePipe } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbDateParserFormatter, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationEditFormMode, NotificationEditFormModel } from './notification-edit-form-model';
@@ -35,6 +35,8 @@ import { TimepickerComponent } from '../../../components/timepicker/timepicker.c
   ],
 })
 export class NotificationEditFormComponent {
+  private simpleModalService = inject(SimpleModalService);
+
   NotificationEditFormMode = NotificationEditFormMode;
   NotificationStyle = NotificationStyle;
   NotificationTargetUser = NotificationTargetUser;
@@ -82,8 +84,6 @@ export class NotificationEditFormComponent {
 
   @Output()
   cancelEditingNotificationEvent = new EventEmitter<void>();
-
-  constructor(private simpleModalService: SimpleModalService) {}
 
   /**
    * Triggers the change of the model for the form.

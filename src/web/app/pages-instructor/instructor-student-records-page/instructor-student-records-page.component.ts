@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { combineLatest, Observable } from 'rxjs';
@@ -52,6 +52,15 @@ interface SessionTab {
   providers: [CommentsToCommentTableModelPipe],
 })
 export class InstructorStudentRecordsPageComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private feedbackSessionsService = inject(FeedbackSessionsService);
+  private studentService = inject(StudentService);
+  private instructorService = inject(InstructorService);
+  private commentsToCommentTableModel = inject(CommentsToCommentTableModelPipe);
+  private tableComparatorService = inject(TableComparatorService);
+  private statusMessageService = inject(StatusMessageService);
+  private commentService = inject(InstructorCommentService);
+
   courseId = '';
   studentName = '';
   studentEmail = '';
@@ -63,17 +72,6 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
 
   currInstructorName?: string;
   instructorCommentTableModel: Record<string, CommentTableModel> = {};
-
-  constructor(
-    private route: ActivatedRoute,
-    private feedbackSessionsService: FeedbackSessionsService,
-    private studentService: StudentService,
-    private instructorService: InstructorService,
-    private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
-    private tableComparatorService: TableComparatorService,
-    private statusMessageService: StatusMessageService,
-    private commentService: InstructorCommentService,
-  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe({

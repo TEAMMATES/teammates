@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationsTableHeaderColorScheme, NotificationsTableRowModel } from './notifications-table-model';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
@@ -25,6 +25,8 @@ import { NotificationStyleDescriptionPipe } from '../../../components/teammates-
   ],
 })
 export class NotificationsTableComponent {
+  private simpleModalService = inject(SimpleModalService);
+
   SortBy = SortBy;
   SortOrder = SortOrder;
   NotificationsTableHeaderColorScheme = NotificationsTableHeaderColorScheme;
@@ -52,8 +54,6 @@ export class NotificationsTableComponent {
 
   @Output()
   loadNotificationEditFormEvent: EventEmitter<Notification> = new EventEmitter();
-
-  constructor(private simpleModalService: SimpleModalService) {}
 
   /**
    * Sorts the list of feedback session row.

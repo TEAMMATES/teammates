@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, inject } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
   FeedbackParticipantType,
@@ -40,6 +40,8 @@ import { TextQuestionStatisticsComponent } from '../../question-types/question-s
   ],
 })
 export class SingleStatisticsComponent implements OnInit, OnChanges {
+  private feedbackResponsesService = inject(FeedbackResponsesService);
+
   readonly QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;
   readonly ResponseOutputCaster = ResponseOutputCaster;
 
@@ -56,8 +58,6 @@ export class SingleStatisticsComponent implements OnInit, OnChanges {
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
 
   responsesToUse: ResponseOutput[] = [];
-
-  constructor(private feedbackResponsesService: FeedbackResponsesService) {}
 
   ngOnInit(): void {
     this.filterResponses();

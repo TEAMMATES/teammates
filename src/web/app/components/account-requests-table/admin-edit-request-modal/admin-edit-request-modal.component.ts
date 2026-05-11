@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditRequestModalComponentResult } from './admin-edit-request-modal-model';
 import { castAsInputElement, castAsTextAreaElement } from '../../../../types/event-target-caster';
@@ -11,6 +11,8 @@ import { castAsInputElement, castAsTextAreaElement } from '../../../../types/eve
   templateUrl: './admin-edit-request-modal.component.html',
 })
 export class EditRequestModalComponent {
+  activeModal = inject(NgbActiveModal);
+
   readonly castAsInputElement = castAsInputElement;
   readonly castAsTextAreaElement = castAsTextAreaElement;
 
@@ -22,8 +24,6 @@ export class EditRequestModalComponent {
   accountRequestInstitution = '';
   @Input()
   accountRequestComments = '';
-
-  constructor(public activeModal: NgbActiveModal) {}
 
   /**
    * Fires the edit event.

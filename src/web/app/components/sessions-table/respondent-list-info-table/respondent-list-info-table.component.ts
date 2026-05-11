@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { InstructorListInfoTableRowModel, StudentListInfoTableRowModel } from './respondent-list-info-table-model';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
@@ -15,6 +15,8 @@ import { SortBy, SortOrder } from '../../../../types/sort-properties';
   imports: [FormsModule, NgClass],
 })
 export class RespondentListInfoTableComponent {
+  private tableComparatorService = inject(TableComparatorService);
+
   // enum
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
@@ -39,8 +41,6 @@ export class RespondentListInfoTableComponent {
 
   instructorListInfoTableSortBy: SortBy = SortBy.NONE;
   instructorListInfoTableSortOrder: SortOrder = SortOrder.ASC;
-
-  constructor(private tableComparatorService: TableComparatorService) {}
 
   /**
    * Sorts the students according to selection option.

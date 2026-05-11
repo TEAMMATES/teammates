@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { NavigationService } from '../../services/navigation.service';
@@ -14,6 +14,9 @@ import { PageComponent } from '../page.component';
   imports: [PageComponent],
 })
 export class AdminPageComponent implements OnInit {
+  private authService = inject(AuthService);
+  private navigationService = inject(NavigationService);
+
   user = '';
   isInstructor = false;
   isStudent = false;
@@ -53,11 +56,6 @@ export class AdminPageComponent implements OnInit {
   isFetchingAuthDetails = false;
 
   private backendUrl: string = environment.backendUrl;
-
-  constructor(
-    private authService: AuthService,
-    private navigationService: NavigationService,
-  ) {}
 
   ngOnInit(): void {
     this.isFetchingAuthDetails = true;

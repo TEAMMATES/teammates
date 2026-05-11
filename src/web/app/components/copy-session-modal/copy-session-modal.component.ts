@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Course } from '../../../types/api-output';
@@ -15,6 +15,8 @@ import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator
   imports: [FormsModule, NgClass],
 })
 export class CopySessionModalComponent {
+  activeModal = inject(NgbActiveModal);
+
   // const
   FEEDBACK_SESSION_NAME_MAX_LENGTH: number = FEEDBACK_SESSION_NAME_MAX_LENGTH;
 
@@ -26,8 +28,6 @@ export class CopySessionModalComponent {
 
   newFeedbackSessionName = '';
   copyToCourseSet: Set<string> = new Set<string>();
-
-  constructor(public activeModal: NgbActiveModal) {}
 
   /**
    * Whether copied session name is non-empty after trimming whitespace.

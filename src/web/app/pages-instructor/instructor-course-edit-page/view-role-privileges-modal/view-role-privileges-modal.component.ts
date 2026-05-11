@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { InstructorPermissionRole, InstructorPermissionSet } from '../../../../types/api-output';
 import { InstructorRoleNamePipe } from '../../../components/teammates-common/instructor-role-name.pipe';
@@ -12,6 +12,8 @@ import { InstructorRoleNamePipe } from '../../../components/teammates-common/ins
   imports: [InstructorRoleNamePipe],
 })
 export class ViewRolePrivilegesModalComponent {
+  activeModal = inject(NgbActiveModal);
+
   @Input()
   role: InstructorPermissionRole = InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM;
 
@@ -26,6 +28,4 @@ export class ViewRolePrivilegesModalComponent {
     canViewSessionInSections: false,
     canSubmitSessionInSections: false,
   };
-
-  constructor(public activeModal: NgbActiveModal) {}
 }

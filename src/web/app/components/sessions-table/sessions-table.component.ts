@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { GroupButtonsComponent } from './cell-with-group-buttons.component';
 import { ResponseRateComponent } from './cell-with-response-rate.component';
@@ -56,6 +56,15 @@ export type Index = number;
   ],
 })
 export class SessionsTableComponent implements OnInit {
+  private ngbModal = inject(NgbModal);
+  private simpleModalService = inject(SimpleModalService);
+  private formatDateDetailPipe = inject(FormatDateDetailPipe);
+  private formatDateBriefPipe = inject(FormatDateBriefPipe);
+  private publishStatusName = inject(PublishStatusNamePipe);
+  private publishStatusTooltip = inject(PublishStatusTooltipPipe);
+  private submissionStatusTooltip = inject(SubmissionStatusTooltipPipe);
+  private submissionStatusName = inject(SubmissionStatusNamePipe);
+
   // enum
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
@@ -130,17 +139,6 @@ export class SessionsTableComponent implements OnInit {
   private sessionsTableRowModelsVar: SessionsTableRowModel[] = [];
   rowsData: SortableTableCellData[][] = [];
   columnsData: ColumnData[] = [];
-
-  constructor(
-    private ngbModal: NgbModal,
-    private simpleModalService: SimpleModalService,
-    private formatDateDetailPipe: FormatDateDetailPipe,
-    private formatDateBriefPipe: FormatDateBriefPipe,
-    private publishStatusName: PublishStatusNamePipe,
-    private publishStatusTooltip: PublishStatusTooltipPipe,
-    private submissionStatusTooltip: SubmissionStatusTooltipPipe,
-    private submissionStatusName: SubmissionStatusNamePipe,
-  ) {}
 
   ngOnInit(): void {
     this.setColumnData();

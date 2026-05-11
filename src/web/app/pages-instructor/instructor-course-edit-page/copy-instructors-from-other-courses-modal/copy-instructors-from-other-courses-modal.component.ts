@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CourseTabModel, InstructorToCopyCandidateModel } from './copy-instructors-from-other-courses-modal-model';
@@ -35,6 +35,11 @@ import { ErrorMessageOutput } from '../../../error-message-output';
   ],
 })
 export class CopyInstructorsFromOtherCoursesModalComponent {
+  activeModal = inject(NgbActiveModal);
+  statusMessageService = inject(StatusMessageService);
+  instructorService = inject(InstructorService);
+  private tableComparatorService = inject(TableComparatorService);
+
   @Output()
   copyClickedEvent: EventEmitter<Instructor[]> = new EventEmitter();
 
@@ -49,13 +54,6 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
   readonly notDisplayedToStudentText: string = '(NOT displayed to students)';
   coursesSortBy: SortBy | undefined;
   isCopyingSelectedInstructors = false;
-
-  constructor(
-    public activeModal: NgbActiveModal,
-    public statusMessageService: StatusMessageService,
-    public instructorService: InstructorService,
-    private tableComparatorService: TableComparatorService,
-  ) {}
 
   /**
    * Toggles specific card and loads instructors if needed.

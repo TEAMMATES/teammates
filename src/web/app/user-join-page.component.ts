@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
@@ -24,6 +24,15 @@ import { LoadingSpinnerDirective } from './components/loading-spinner/loading-sp
   imports: [LoadingSpinnerDirective],
 })
 export class UserJoinPageComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private accountService = inject(AccountService);
+  private courseService = inject(CourseService);
+  private navigationService = inject(NavigationService);
+  private authService = inject(AuthService);
+  private simpleModalService = inject(SimpleModalService);
+  private timezoneService = inject(TimezoneService);
+  private ngbModal = inject(NgbModal);
+
   isLoading = true;
   isCreatingAccount = false;
   hasJoined = false;
@@ -33,17 +42,6 @@ export class UserJoinPageComponent implements OnInit {
   userId = '';
 
   private backendUrl: string = environment.backendUrl;
-
-  constructor(
-    private route: ActivatedRoute,
-    private accountService: AccountService,
-    private courseService: CourseService,
-    private navigationService: NavigationService,
-    private authService: AuthService,
-    private simpleModalService: SimpleModalService,
-    private timezoneService: TimezoneService,
-    private ngbModal: NgbModal,
-  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {

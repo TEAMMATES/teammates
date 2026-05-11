@@ -1,5 +1,5 @@
 import { NgClass, KeyValuePipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FileSaveService } from '../../../../services/file-save.service';
 import { TimezoneService } from '../../../../services/timezone.service';
@@ -16,6 +16,10 @@ import { QuestionSubmissionFormModel } from '../../../components/question-submis
   imports: [NgClass, KeyValuePipe],
 })
 export class SavingCompleteModalComponent {
+  activeModal = inject(NgbActiveModal);
+  private fileSaveService = inject(FileSaveService);
+  private timezoneService = inject(TimezoneService);
+
   @Input()
   courseId = '';
 
@@ -53,12 +57,6 @@ export class SavingCompleteModalComponent {
   get isAllQuestionSavingFailed(): boolean {
     return Object.keys(this.failToSaveQuestions).length === this.questions.length;
   }
-
-  constructor(
-    public activeModal: NgbActiveModal,
-    private fileSaveService: FileSaveService,
-    private timezoneService: TimezoneService,
-  ) {}
 
   downloadProofOfSubmission(): void {
     const time: number = new Date().getTime();

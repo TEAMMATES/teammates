@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionEditFormMode, QuestionEditFormModel } from './question-edit-form-model';
@@ -82,6 +82,9 @@ const QUESTION_DETAIL_PROPERTIES: Set<string> = new Set<string>([
   ],
 })
 export class QuestionEditFormComponent {
+  private feedbackQuestionsService = inject(FeedbackQuestionsService);
+  private simpleModalService = inject(SimpleModalService);
+
   // enum
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
   QuestionEditFormMode: typeof QuestionEditFormMode = QuestionEditFormMode;
@@ -235,10 +238,7 @@ export class QuestionEditFormComponent {
 
   visibilityStateMachine: VisibilityStateMachine;
 
-  constructor(
-    private feedbackQuestionsService: FeedbackQuestionsService,
-    private simpleModalService: SimpleModalService,
-  ) {
+  constructor() {
     this.visibilityStateMachine = this.feedbackQuestionsService.getNewVisibilityStateMachine(
       this.model.giverType,
       this.model.recipientType,

@@ -1,18 +1,20 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { inject, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { RecycleBinTableFormatDatePipe } from './recycle-bin-table-format-date.pipe';
-import { TimezoneService } from '../../../services/timezone.service';
 
 describe('RecycleBinTableFormatDatePipe', () => {
+  let pipe: RecycleBinTableFormatDatePipe;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      providers: [RecycleBinTableFormatDatePipe, provideHttpClient(), provideHttpClientTesting()],
     });
+
+    pipe = TestBed.inject(RecycleBinTableFormatDatePipe);
   });
 
-  it('create an instance', inject([TimezoneService], (timezoneService: TimezoneService) => {
-    const pipe: RecycleBinTableFormatDatePipe = new RecycleBinTableFormatDatePipe(timezoneService);
+  it('should create an instance', () => {
     expect(pipe).toBeTruthy();
-  }));
+  });
 });

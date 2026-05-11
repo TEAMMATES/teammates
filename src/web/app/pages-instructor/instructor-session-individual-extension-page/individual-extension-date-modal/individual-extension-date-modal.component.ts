@@ -34,6 +34,9 @@ enum DateTime {
   imports: [FormsModule, DatepickerComponent, TimepickerComponent, KeyValuePipe],
 })
 export class IndividualExtensionDateModalComponent {
+  activeModal = inject(NgbActiveModal);
+  private simpleModalService = inject(SimpleModalService);
+
   private readonly timeZoneService = inject(TimezoneService);
 
   @Input()
@@ -50,11 +53,6 @@ export class IndividualExtensionDateModalComponent {
 
   @Output()
   confirmCallbackEvent: EventEmitter<number> = new EventEmitter();
-
-  constructor(
-    public activeModal: NgbActiveModal,
-    private simpleModalService: SimpleModalService,
-  ) {}
 
   RadioOptions: typeof RadioOptions = RadioOptions;
   radioOption: RadioOptions = RadioOptions.EXTEND_BY;

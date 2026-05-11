@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
@@ -11,7 +11,9 @@ import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
   imports: [RouterOutlet],
 })
 export class AppComponent {
-  constructor(tooltipConfig: NgbTooltipConfig) {
+  constructor() {
+    const tooltipConfig = inject(NgbTooltipConfig);
+
     tooltipConfig.openDelay = 400;
     tooltipConfig.closeDelay = 100;
     tooltipConfig.triggers = 'hover';

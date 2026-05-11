@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
@@ -23,6 +23,13 @@ import { ErrorMessageOutput } from '../../error-message-output';
   imports: [LoadingRetryComponent, LoadingSpinnerDirective],
 })
 export class StudentCourseDetailsPageComponent implements OnInit {
+  private tableComparatorService = inject(TableComparatorService);
+  private route = inject(ActivatedRoute);
+  private instructorService = inject(InstructorService);
+  private studentService = inject(StudentService);
+  private courseService = inject(CourseService);
+  private statusMessageService = inject(StatusMessageService);
+
   // enum
   SortBy: typeof SortBy = SortBy;
   teammateProfilesSortBy: SortBy = SortBy.NONE;
@@ -59,15 +66,6 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   isLoadingInstructor = false;
   isLoadingTeammates = false;
   hasLoadingFailed = false;
-
-  constructor(
-    private tableComparatorService: TableComparatorService,
-    private route: ActivatedRoute,
-    private instructorService: InstructorService,
-    private studentService: StudentService,
-    private courseService: CourseService,
-    private statusMessageService: StatusMessageService,
-  ) {}
 
   /**
    * Fetches relevant data to be displayed on page.

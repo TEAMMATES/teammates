@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbCollapse, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of } from 'rxjs';
@@ -88,6 +88,17 @@ interface InstructorEditPanelDetail {
   ],
 })
 export class InstructorCourseEditPageComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private navigationService = inject(NavigationService);
+  private studentService = inject(StudentService);
+  private instructorService = inject(InstructorService);
+  private feedbackSessionsService = inject(FeedbackSessionsService);
+  private statusMessageService = inject(StatusMessageService);
+  private courseService = inject(CourseService);
+  private authService = inject(AuthService);
+  private ngbModal = inject(NgbModal);
+  private simpleModalService = inject(SimpleModalService);
+
   // enum
   EditMode: typeof EditMode = EditMode;
   CoursesSectionQuestions: typeof CoursesSectionQuestions = CoursesSectionQuestions;
@@ -127,19 +138,6 @@ export class InstructorCourseEditPageComponent implements OnInit {
   isInstructorsLoading = false;
   hasInstructorsLoadingFailed = false;
   isSavingNewInstructor = false;
-
-  constructor(
-    private route: ActivatedRoute,
-    private navigationService: NavigationService,
-    private studentService: StudentService,
-    private instructorService: InstructorService,
-    private feedbackSessionsService: FeedbackSessionsService,
-    private statusMessageService: StatusMessageService,
-    private courseService: CourseService,
-    private authService: AuthService,
-    private ngbModal: NgbModal,
-    private simpleModalService: SimpleModalService,
-  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from 'rxjs';
@@ -82,6 +82,21 @@ const TIME_FORMAT = 'ddd, DD MMM, YYYY, hh:mm A zz';
   providers: [CommentsToCommentTableModelPipe],
 })
 export class InstructorSessionResultPageComponent implements OnInit {
+  private feedbackSessionsService = inject(FeedbackSessionsService);
+  private feedbackSessionActionsService = inject(FeedbackSessionActionsService);
+  private feedbackQuestionsService = inject(FeedbackQuestionsService);
+  private courseService = inject(CourseService);
+  private fileSaveService = inject(FileSaveService);
+  private studentService = inject(StudentService);
+  private instructorService = inject(InstructorService);
+  private route = inject(ActivatedRoute);
+  private timezoneService = inject(TimezoneService);
+  private simpleModalService = inject(SimpleModalService);
+  private commentsToCommentTableModel = inject(CommentsToCommentTableModelPipe);
+  private navigationService = inject(NavigationService);
+  private statusMessageService = inject(StatusMessageService);
+  private commentService = inject(InstructorCommentService);
+
   // enum
   InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
   InstructorSessionResultViewType: typeof InstructorSessionResultViewType = InstructorSessionResultViewType;
@@ -149,22 +164,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
 
   @ViewChild(InstructorSessionNoResponsePanelComponent) noResponsePanel?: InstructorSessionNoResponsePanelComponent;
 
-  constructor(
-    private feedbackSessionsService: FeedbackSessionsService,
-    private feedbackSessionActionsService: FeedbackSessionActionsService,
-    private feedbackQuestionsService: FeedbackQuestionsService,
-    private courseService: CourseService,
-    private fileSaveService: FileSaveService,
-    private studentService: StudentService,
-    private instructorService: InstructorService,
-    private route: ActivatedRoute,
-    private timezoneService: TimezoneService,
-    private simpleModalService: SimpleModalService,
-    private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
-    private navigationService: NavigationService,
-    private statusMessageService: StatusMessageService,
-    private commentService: InstructorCommentService,
-  ) {
+  constructor() {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CellWithActionsComponent } from './cell-with-actions.component';
 import { CourseService } from '../../../services/course.service';
@@ -37,6 +37,11 @@ export interface StudentListRowModel {
   providers: [SearchTermsHighlighterPipe],
 })
 export class StudentListComponent implements OnInit {
+  private statusMessageService = inject(StatusMessageService);
+  private courseService = inject(CourseService);
+  private simpleModalService = inject(SimpleModalService);
+  private searchTermsHighlighterPipe = inject(SearchTermsHighlighterPipe);
+
   @Input() courseId = '';
   @Input() useGrayHeading = true;
   @Input() listOfStudentsToHide: string[] = [];
@@ -72,13 +77,6 @@ export class StudentListComponent implements OnInit {
   SortOrder: typeof SortOrder = SortOrder;
   JoinState: typeof JoinState = JoinState;
   SortableTableHeaderColorScheme: typeof SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
-
-  constructor(
-    private statusMessageService: StatusMessageService,
-    private courseService: CourseService,
-    private simpleModalService: SimpleModalService,
-    private searchTermsHighlighterPipe: SearchTermsHighlighterPipe,
-  ) {}
 
   /**
    * Returns whether this course are divided into sections

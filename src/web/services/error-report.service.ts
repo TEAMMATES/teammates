@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
@@ -11,7 +11,8 @@ import { ErrorReportRequest } from '../types/api-request';
   providedIn: 'root',
 })
 export class ErrorReportService {
-  constructor(private httpRequestService: HttpRequestService) {}
+  private httpRequestService = inject(HttpRequestService);
+
 
   /**
    * Sends an error report.

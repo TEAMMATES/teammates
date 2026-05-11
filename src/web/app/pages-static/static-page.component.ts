@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { PageComponent } from '../page.component';
 
@@ -11,6 +11,8 @@ import { PageComponent } from '../page.component';
   imports: [PageComponent],
 })
 export class StaticPageComponent implements OnInit {
+  private authService = inject(AuthService);
+
   user = '';
   isInstructor = false;
   isStudent = false;
@@ -56,8 +58,6 @@ export class StaticPageComponent implements OnInit {
     },
   ];
   isFetchingAuthDetails = false;
-
-  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.isFetchingAuthDetails = true;

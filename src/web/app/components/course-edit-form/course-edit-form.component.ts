@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { UntypedFormGroup, FormsModule } from '@angular/forms';
 import { NgbModal, NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -37,6 +37,11 @@ const formatTwoDigits = (n: number): string => {
   imports: [NgClass, NgbTooltip, AjaxLoadingComponent, FormsModule],
 })
 export class CourseEditFormComponent implements OnInit, OnDestroy {
+  private timezoneService = inject(TimezoneService);
+  private ngbModal = inject(NgbModal);
+  private feedbackSessionsService = inject(FeedbackSessionsService);
+  private statusMessageService = inject(StatusMessageService);
+
   // enum
   CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
 
@@ -79,13 +84,6 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
   editModel: CourseEditFormModel | undefined = undefined;
   addModel: CourseAddFormModel | undefined = undefined;
   resetEventSubscription: Subscription = new Subscription();
-
-  constructor(
-    private timezoneService: TimezoneService,
-    private ngbModal: NgbModal,
-    private feedbackSessionsService: FeedbackSessionsService,
-    private statusMessageService: StatusMessageService,
-  ) {}
 
   get isInAddMode(): boolean {
     return this.formMode === CourseEditFormMode.ADD;

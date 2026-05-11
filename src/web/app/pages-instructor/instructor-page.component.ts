@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
@@ -14,6 +14,9 @@ import { PageComponent } from '../page.component';
   imports: [PageComponent],
 })
 export class InstructorPageComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private authService = inject(AuthService);
+
   user = '';
   isInstructor = false;
   isStudent = false;
@@ -62,11 +65,6 @@ export class InstructorPageComponent implements OnInit {
   notificationTargetUser: NotificationTargetUser = NotificationTargetUser.INSTRUCTOR;
 
   private backendUrl: string = environment.backendUrl;
-
-  constructor(
-    private route: ActivatedRoute,
-    private authService: AuthService,
-  ) {}
 
   ngOnInit(): void {
     this.isFetchingAuthDetails = true;

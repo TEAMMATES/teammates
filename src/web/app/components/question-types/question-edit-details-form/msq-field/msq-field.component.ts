@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { StatusMessageService } from '../../../../../services/status-message.service';
 
@@ -12,6 +12,8 @@ import { StatusMessageService } from '../../../../../services/status-message.ser
   imports: [FormsModule],
 })
 export class MsqFieldComponent {
+  private statusMessageService = inject(StatusMessageService);
+
   @Input()
   isEditable = false;
 
@@ -29,8 +31,6 @@ export class MsqFieldComponent {
 
   @Output()
   msqText: EventEmitter<any> = new EventEmitter();
-
-  constructor(private statusMessageService: StatusMessageService) {}
 
   /**
    * Deletes a Msq option.

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { InstructorRequestFormModel } from './instructor-request-form/instructor-request-form-model';
 import { InstructorRequestFormComponent } from './instructor-request-form/instructor-request-form.component';
@@ -15,11 +15,13 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
   imports: [TeammatesRouterDirective, InstructorRequestFormComponent],
 })
 export class RequestPageComponent {
+  private sanitizer = inject(DomSanitizer);
+
   accountRequestFormUrl: SafeResourceUrl | null;
   isDeclarationDone = false;
   submittedFormData: InstructorRequestFormModel | null = null;
 
-  constructor(private sanitizer: DomSanitizer) {
+  constructor() {
     this.accountRequestFormUrl = environment.accountRequestFormUrl
       ? this.sanitizer.bypassSecurityTrustResourceUrl(environment.accountRequestFormUrl)
       : null;

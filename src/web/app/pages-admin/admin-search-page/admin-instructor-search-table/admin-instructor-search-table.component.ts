@@ -1,5 +1,5 @@
 import { KeyValuePipe, NgClass } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
 import { NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from '../../../../services/account.service';
 import { InstructorService } from '../../../../services/instructor.service';
@@ -18,6 +18,11 @@ import { SearchTermsHighlighterPipe } from '../../../pipes/search-terms-highligh
   imports: [NgClass, NgbTooltip, AjaxLoadingComponent, KeyValuePipe, SearchTermsHighlighterPipe],
 })
 export class AdminInstructorSearchTableComponent implements OnChanges {
+  private statusMessageService = inject(StatusMessageService);
+  private simpleModalService = inject(SimpleModalService);
+  private accountService = inject(AccountService);
+  private instructorService = inject(InstructorService);
+
   @Input()
   instructors: InstructorAccountSearchResult[] = [];
 
@@ -28,13 +33,6 @@ export class AdminInstructorSearchTableComponent implements OnChanges {
   instructorReset = new EventEmitter<void>();
 
   isRegeneratingInstructorKeys: boolean[] = [];
-
-  constructor(
-    private statusMessageService: StatusMessageService,
-    private simpleModalService: SimpleModalService,
-    private accountService: AccountService,
-    private instructorService: InstructorService,
-  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['instructors']) {

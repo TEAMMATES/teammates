@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReCaptcha2Component, NgxCaptchaModule } from 'ngx-captcha';
 import { finalize } from 'rxjs/operators';
@@ -18,6 +18,10 @@ import { ErrorMessageOutput } from '../../error-message-output';
   imports: [FormsModule, ReactiveFormsModule, NgxCaptchaModule, AjaxLoadingComponent],
 })
 export class SessionLinksRecoveryPageComponent implements OnInit {
+  private feedbackSessionsService = inject(FeedbackSessionsService);
+  private statusMessageService = inject(StatusMessageService);
+  private formBuilder = inject(UntypedFormBuilder);
+
   // ngx-recaptcha2 element properties
   captchaSuccess = false;
   captchaResponse?: string;
@@ -31,12 +35,6 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
   readonly captchaSiteKey: string = environment.captchaSiteKey;
 
   @ViewChild('captchaElem') captchaElem!: ReCaptcha2Component;
-
-  constructor(
-    private feedbackSessionsService: FeedbackSessionsService,
-    private statusMessageService: StatusMessageService,
-    private formBuilder: UntypedFormBuilder,
-  ) {}
 
   ngOnInit(): void {
     this.formSessionLinksRecovery = this.formBuilder.group({

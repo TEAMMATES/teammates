@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 import { JoinStatePipe } from '../../../components/student-list/join-state.pipe';
@@ -24,6 +24,8 @@ export interface SearchStudentsListRowTable {
   imports: [StudentListComponent, SearchTermsHighlighterPipe],
 })
 export class StudentResultTableComponent {
+  private tableComparatorService = inject(TableComparatorService);
+
   @Input() studentTables: SearchStudentsListRowTable[] = [];
   @Input() isActionButtonsEnabled = true;
   @Input() isPartialMatchHighlightingEnabled = false;
@@ -33,8 +35,6 @@ export class StudentResultTableComponent {
 
   studentSortBy: SortBy = SortBy.NONE;
   studentSortOrder: SortOrder = SortOrder.ASC;
-
-  constructor(private tableComparatorService: TableComparatorService) {}
 
   /**
    * Sorts the student list.

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, TemplateRef } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, TemplateRef, inject } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { ContributionRatingsListComponent } from './contribution-ratings-list.component';
 import { ContributionComponent } from './contribution.component';
@@ -29,6 +29,8 @@ export class ContributionQuestionStatisticsComponent
   extends ContributionQuestionStatisticsCalculation
   implements OnInit, OnChanges
 {
+  private simpleModalService = inject(SimpleModalService);
+
   // enum
   QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
   Sections: typeof Sections = Sections;
@@ -38,7 +40,7 @@ export class ContributionQuestionStatisticsComponent
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
 
-  constructor(private simpleModalService: SimpleModalService) {
+  constructor() {
     super(DEFAULT_CONTRIBUTION_QUESTION_DETAILS());
   }
 

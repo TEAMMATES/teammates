@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { forkJoin, of } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
@@ -22,6 +22,11 @@ import { ErrorMessageOutput } from '../../error-message-output';
   providers: [FormatDateDetailPipe],
 })
 export class AdminHomePageComponent implements OnInit {
+  private accountService = inject(AccountService);
+  private statusMessageService = inject(StatusMessageService);
+  private timezoneService = inject(TimezoneService);
+  private formatDateDetailPipe = inject(FormatDateDetailPipe);
+
   instructorDetails = '';
   instructorName = '';
   instructorEmail = '';
@@ -30,13 +35,6 @@ export class AdminHomePageComponent implements OnInit {
   isAddingSingleInstructor = false;
 
   accountReqs: AccountRequestTableRowModel[] = [];
-
-  constructor(
-    private accountService: AccountService,
-    private statusMessageService: StatusMessageService,
-    private timezoneService: TimezoneService,
-    private formatDateDetailPipe: FormatDateDetailPipe,
-  ) {}
 
   ngOnInit(): void {
     this.fetchAccountRequests();

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import {
   NgbModalRef,
   NgbModal,
@@ -30,18 +30,16 @@ import { SimpleModalType } from '../simple-modal/simple-modal-type';
   imports: [NgbTooltip, AjaxLoadingComponent, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu],
 })
 export class AccountRequestTableComponent {
+  private statusMessageService = inject(StatusMessageService);
+  private simpleModalService = inject(SimpleModalService);
+  private accountService = inject(AccountService);
+  private ngbModal = inject(NgbModal);
+
   @Input()
   accountRequests: AccountRequestTableRowModel[] = [];
 
   isRejectingAccount: boolean[] = new Array(this.accountRequests.length).fill(false);
   isApprovingAccount: boolean[] = new Array(this.accountRequests.length).fill(false);
-
-  constructor(
-    private statusMessageService: StatusMessageService,
-    private simpleModalService: SimpleModalService,
-    private accountService: AccountService,
-    private ngbModal: NgbModal,
-  ) {}
 
   editAccountRequest(accountRequest: AccountRequestTableRowModel): void {
     const modalRef: NgbModalRef = this.ngbModal.open(EditRequestModalComponent);

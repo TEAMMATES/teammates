@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { FeedbackRubricQuestionDetails, FeedbackRubricResponseDetails } from '../../../../types/api-output';
@@ -23,6 +23,8 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
   FeedbackRubricQuestionDetails,
   FeedbackRubricResponseDetails
 > {
+  private simpleModalService = inject(SimpleModalService);
+
   /**
    * The unique ID in the page where the component is used.
    *
@@ -34,7 +36,7 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
   // constant
   readonly RUBRIC_ANSWER_NOT_CHOSEN: number = RUBRIC_ANSWER_NOT_CHOSEN;
 
-  constructor(private simpleModalService: SimpleModalService) {
+  constructor() {
     super(DEFAULT_RUBRIC_QUESTION_DETAILS(), DEFAULT_RUBRIC_RESPONSE_DETAILS());
   }
 

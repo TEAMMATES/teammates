@@ -1,5 +1,5 @@
 import { Location, NgStyle, AsyncPipe } from '@angular/common';
-import { Component, Directive, ElementRef, EventEmitter, HostListener, Input, Output, forwardRef } from '@angular/core';
+import { Component, Directive, ElementRef, EventEmitter, HostListener, Input, Output, forwardRef, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { NgbModal, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
@@ -23,9 +23,9 @@ const DEFAULT_TITLE = 'TEAMMATES - Online Peer Feedback/Evaluation System for St
  */
 @Directive({ selector: '[tmClickOutside]' })
 export class ClickOutsideDirective {
-  @Output() tmClickOutside: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+  private elementRef = inject(ElementRef);
 
-  constructor(private elementRef: ElementRef) {}
+  @Output() tmClickOutside: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   /**
    * Method to execute when any part of the document is clicked.
@@ -64,6 +64,12 @@ export class ClickOutsideDirective {
   ],
 })
 export class PageComponent {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private title = inject(Title);
+  private ngbModal = inject(NgbModal);
+  private statusMessageService = inject(StatusMessageService);
+
   // enum
   NotificationTargetUser: typeof NotificationTargetUser = NotificationTargetUser;
 
@@ -102,14 +108,9 @@ export class PageComponent {
     Edge: 88,
   };
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private title: Title,
-    private ngbModal: NgbModal,
-    location: Location,
-    private statusMessageService: StatusMessageService,
-  ) {
+  constructor() {
+    const location = inject(Location);
+
     this.checkBrowserVersion();
     this.router.events.subscribe((val: any) => {
       if (val instanceof NavigationEnd) {

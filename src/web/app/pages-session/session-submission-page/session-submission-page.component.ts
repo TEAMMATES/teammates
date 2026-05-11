@@ -1,5 +1,5 @@
 import { KeyValuePipe } from '@angular/common';
-import { AfterViewInit, Component, Inject, OnInit, DOCUMENT } from '@angular/core';
+import { AfterViewInit, Component, OnInit, DOCUMENT, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -88,6 +88,24 @@ interface FeedbackQuestionsResponse {
   ],
 })
 export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
+  private route = inject(ActivatedRoute);
+  private statusMessageService = inject(StatusMessageService);
+  private timezoneService = inject(TimezoneService);
+  private feedbackQuestionsService = inject(FeedbackQuestionsService);
+  private feedbackResponsesService = inject(FeedbackResponsesService);
+  private feedbackSessionsService = inject(FeedbackSessionsService);
+  private studentService = inject(StudentService);
+  private instructorService = inject(InstructorService);
+  private courseService = inject(CourseService);
+  private ngbModal = inject(NgbModal);
+  private simpleModalService = inject(SimpleModalService);
+  private pageScrollService = inject(PageScrollService);
+  private authService = inject(AuthService);
+  private navigationService = inject(NavigationService);
+  private commentService = inject(FeedbackResponseCommentService);
+  private logService = inject(LogService);
+  private document = inject(DOCUMENT);
+
   readonly castAsSelectElement = castAsSelectElement;
 
   // enum
@@ -147,25 +165,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(
-    private route: ActivatedRoute,
-    private statusMessageService: StatusMessageService,
-    private timezoneService: TimezoneService,
-    private feedbackQuestionsService: FeedbackQuestionsService,
-    private feedbackResponsesService: FeedbackResponsesService,
-    private feedbackSessionsService: FeedbackSessionsService,
-    private studentService: StudentService,
-    private instructorService: InstructorService,
-    private courseService: CourseService,
-    private ngbModal: NgbModal,
-    private simpleModalService: SimpleModalService,
-    private pageScrollService: PageScrollService,
-    private authService: AuthService,
-    private navigationService: NavigationService,
-    private commentService: FeedbackResponseCommentService,
-    private logService: LogService,
-    @Inject(DOCUMENT) private document: any,
-  ) {
+  constructor() {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 

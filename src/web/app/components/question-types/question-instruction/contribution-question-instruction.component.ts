@@ -1,4 +1,4 @@
-import { Component, Input, TemplateRef } from '@angular/core';
+import { Component, Input, TemplateRef, inject } from '@angular/core';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { FeedbackContributionQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../types/default-question-structs';
@@ -14,13 +14,13 @@ import { SimpleModalType } from '../../simple-modal/simple-modal-type';
   imports: [],
 })
 export class ContributionQuestionInstructionComponent {
+  private simpleModalService = inject(SimpleModalService);
+
   @Input()
   questionDetails: FeedbackContributionQuestionDetails = DEFAULT_CONTRIBUTION_QUESTION_DETAILS();
 
   @Input()
   numOfRecipients = 0;
-
-  constructor(private simpleModalService: SimpleModalService) {}
 
   openHelpModal(modal: TemplateRef<any>): void {
     const modalHeader = 'More info about the <code>Equal Share</code> scale';

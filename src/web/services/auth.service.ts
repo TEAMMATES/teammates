@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { environment } from '../environments/environment';
@@ -13,9 +13,9 @@ import { Intent } from '../types/api-request';
   providedIn: 'root',
 })
 export class AuthService {
-  private frontendUrl: string = environment.frontendUrl;
+  private httpRequestService = inject(HttpRequestService);
 
-  constructor(private httpRequestService: HttpRequestService) {}
+  private frontendUrl: string = environment.frontendUrl;
 
   /**
    * Gets the user authentication information.

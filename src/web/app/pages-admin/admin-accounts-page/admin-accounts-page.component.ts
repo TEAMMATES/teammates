@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
@@ -20,6 +20,13 @@ import { ErrorMessageOutput } from '../../error-message-output';
   imports: [LoadingSpinnerDirective],
 })
 export class AdminAccountsPageComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private instructorService = inject(InstructorService);
+  private studentService = inject(StudentService);
+  private navigationService = inject(NavigationService);
+  private statusMessageService = inject(StatusMessageService);
+  private accountService = inject(AccountService);
+
   accountInfo: Account = {
     accountId: '',
     googleId: '',
@@ -30,15 +37,6 @@ export class AdminAccountsPageComponent implements OnInit {
   };
 
   isLoadingAccountInfo = false;
-
-  constructor(
-    private route: ActivatedRoute,
-    private instructorService: InstructorService,
-    private studentService: StudentService,
-    private navigationService: NavigationService,
-    private statusMessageService: StatusMessageService,
-    private accountService: AccountService,
-  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {

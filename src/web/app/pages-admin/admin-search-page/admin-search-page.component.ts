@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import { LoadingBarService } from '../../../services/loading-bar.service';
@@ -31,18 +31,16 @@ import { ErrorMessageOutput } from '../../error-message-output';
   ],
 })
 export class AdminSearchPageComponent {
+  private statusMessageService = inject(StatusMessageService);
+  private searchService = inject(SearchService);
+  private loadingBarService = inject(LoadingBarService);
+
   searchQuery = '';
   searchString = '';
   instructors: InstructorAccountSearchResult[] = [];
   students: StudentAccountSearchResult[] = [];
   accountRequests: AccountRequestSearchResult[] = [];
   characterLimit = 100;
-
-  constructor(
-    private statusMessageService: StatusMessageService,
-    private searchService: SearchService,
-    private loadingBarService: LoadingBarService,
-  ) {}
 
   /**
    * Searches for students and instructors matching the search query.

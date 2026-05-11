@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -33,6 +33,13 @@ import { noWhitespaceValidator } from '../../validators/no-whitespace.validator'
   imports: [LoadingRetryComponent, LoadingSpinnerDirective, FormsModule, ReactiveFormsModule, NgClass],
 })
 export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestroy {
+  private route = inject(ActivatedRoute);
+  private statusMessageService = inject(StatusMessageService);
+  private studentService = inject(StudentService);
+  private navigationService = inject(NavigationService);
+  private ngbModal = inject(NgbModal);
+  private simpleModalService = inject(SimpleModalService);
+
   readonly STUDENT_NAME_MAX_LENGTH = STUDENT_NAME_MAX_LENGTH;
   readonly SECTION_NAME_MAX_LENGTH = SECTION_NAME_MAX_LENGTH;
   readonly TEAM_NAME_MAX_LENGTH = TEAM_NAME_MAX_LENGTH;
@@ -52,15 +59,6 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   editForm!: UntypedFormGroup;
   teamFieldSubscription?: Subscription;
   emailFieldSubscription?: Subscription;
-
-  constructor(
-    private route: ActivatedRoute,
-    private statusMessageService: StatusMessageService,
-    private studentService: StudentService,
-    private navigationService: NavigationService,
-    private ngbModal: NgbModal,
-    private simpleModalService: SimpleModalService,
-  ) {}
 
   ngOnInit(): void {
     if (!this.isEnabled) {

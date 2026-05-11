@@ -1,5 +1,5 @@
 import { NgClass, NgTemplateOutlet } from '@angular/common';
-import { Component, Input, TemplateRef } from '@angular/core';
+import { Component, Input, TemplateRef, inject } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SimpleModalType } from './simple-modal-type';
 import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
@@ -14,6 +14,8 @@ import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
   imports: [NgClass, NgTemplateOutlet, ProgressBarComponent],
 })
 export class SimpleModalComponent {
+  activeModal = inject(NgbActiveModal);
+
   // enum
   SimpleModalType: typeof SimpleModalType = SimpleModalType;
 
@@ -31,6 +33,4 @@ export class SimpleModalComponent {
   get contentAsTemplateRef(): TemplateRef<any> {
     return this.content as TemplateRef<any>;
   }
-
-  constructor(public activeModal: NgbActiveModal) {}
 }

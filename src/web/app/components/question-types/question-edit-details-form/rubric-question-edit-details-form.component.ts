@@ -1,6 +1,6 @@
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
@@ -19,10 +19,12 @@ import { SimpleModalType } from '../../simple-modal/simple-modal-type';
   imports: [NgbTooltip, FormsModule, NgClass],
 })
 export class RubricQuestionEditDetailsFormComponent extends QuestionEditDetailsFormComponent<FeedbackRubricQuestionDetails> {
+  private simpleModalService = inject(SimpleModalService);
+
   rowToHighlight = -1;
   columnToHighlight = -1;
 
-  constructor(private simpleModalService: SimpleModalService) {
+  constructor() {
     super(DEFAULT_RUBRIC_QUESTION_DETAILS());
   }
 

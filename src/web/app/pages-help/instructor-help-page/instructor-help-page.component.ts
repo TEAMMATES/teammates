@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, ViewChild, DOCUMENT } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, DOCUMENT, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PageScrollService } from 'ngx-page-scroll-core';
@@ -31,6 +31,10 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
   ],
 })
 export class InstructorHelpPageComponent implements AfterViewInit {
+  private route = inject(ActivatedRoute);
+  private pageScrollService = inject(PageScrollService);
+  private document = inject<Document>(DOCUMENT);
+
   // enum
   Sections: typeof Sections = Sections;
   readonly supportEmail: string = environment.supportEmail;
@@ -48,11 +52,7 @@ export class InstructorHelpPageComponent implements AfterViewInit {
   @ViewChild('questionsHelpSection') questionsHelpSection?: InstructorHelpQuestionsSectionComponent;
   @ViewChild('generalHelpSection') generalHelpSection?: InstructorHelpGeneralSectionComponent;
 
-  constructor(
-    private route: ActivatedRoute,
-    private pageScrollService: PageScrollService,
-    @Inject(DOCUMENT) private document: Document,
-  ) {
+  constructor() {
     let r: ActivatedRoute = this.route;
     while (r.firstChild) {
       r = r.firstChild;

@@ -32,6 +32,9 @@ export enum ExtensionModalType {
   imports: [NgClass, SortableTableComponent, FormsModule, FormatDateDetailPipe],
 })
 export class ExtensionConfirmModalComponent implements OnInit {
+  activeModal = inject(NgbActiveModal);
+  private tableComparatorService = inject(TableComparatorService);
+
   private readonly timeZoneService = inject(TimezoneService);
 
   @Input()
@@ -81,11 +84,6 @@ export class ExtensionConfirmModalComponent implements OnInit {
   instructorRowsData: SortableTableCellData[][] = [];
   dateDetailPipe = new FormatDateDetailPipe(this.timeZoneService);
   instructorRoleNamePipe = new InstructorRoleNamePipe();
-
-  constructor(
-    public activeModal: NgbActiveModal,
-    private tableComparatorService: TableComparatorService,
-  ) {}
 
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;

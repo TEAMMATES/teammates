@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
@@ -49,6 +49,19 @@ import { ErrorMessageOutput } from '../../error-message-output';
   imports: [LoadingSpinnerDirective, LoadingRetryComponent, QuestionResponsePanelComponent],
 })
 export class SessionResultPageComponent implements OnInit {
+  private feedbackQuestionsService = inject(FeedbackQuestionsService);
+  private feedbackSessionsService = inject(FeedbackSessionsService);
+  private route = inject(ActivatedRoute);
+  private timezoneService = inject(TimezoneService);
+  private navigationService = inject(NavigationService);
+  private authService = inject(AuthService);
+  private studentService = inject(StudentService);
+  private instructorService = inject(InstructorService);
+  private courseService = inject(CourseService);
+  private statusMessageService = inject(StatusMessageService);
+  private logService = inject(LogService);
+  private ngbModal = inject(NgbModal);
+
   // enum
   Intent: typeof Intent = Intent;
 
@@ -99,20 +112,7 @@ export class SessionResultPageComponent implements OnInit {
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(
-    private feedbackQuestionsService: FeedbackQuestionsService,
-    private feedbackSessionsService: FeedbackSessionsService,
-    private route: ActivatedRoute,
-    private timezoneService: TimezoneService,
-    private navigationService: NavigationService,
-    private authService: AuthService,
-    private studentService: StudentService,
-    private instructorService: InstructorService,
-    private courseService: CourseService,
-    private statusMessageService: StatusMessageService,
-    private logService: LogService,
-    private ngbModal: NgbModal,
-  ) {
+  constructor() {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 

@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -57,6 +57,15 @@ import { ErrorMessageOutput } from '../../error-message-output';
   ],
 })
 export class InstructorSessionIndividualExtensionPageComponent implements OnInit {
+  private statusMessageService = inject(StatusMessageService);
+  private feedbackSessionsService = inject(FeedbackSessionsService);
+  private studentService = inject(StudentService);
+  private ngbModal = inject(NgbModal);
+  private route = inject(ActivatedRoute);
+  private courseService = inject(CourseService);
+  private tableComparatorService = inject(TableComparatorService);
+  private instructorService = inject(InstructorService);
+
   feedbackSessionDetails: FeedbackSessionBasicRequest = {
     instructions: '',
     submissionStartTimestamp: 0,
@@ -112,17 +121,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
       this.loadFeedbackSessionAndIndividuals();
     });
   }
-
-  constructor(
-    private statusMessageService: StatusMessageService,
-    private feedbackSessionsService: FeedbackSessionsService,
-    private studentService: StudentService,
-    private ngbModal: NgbModal,
-    private route: ActivatedRoute,
-    private courseService: CourseService,
-    private tableComparatorService: TableComparatorService,
-    private instructorService: InstructorService,
-  ) {}
 
   /**
    * Loads a feedback session and individuals
