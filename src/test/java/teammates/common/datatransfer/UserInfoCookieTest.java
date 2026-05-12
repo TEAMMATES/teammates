@@ -2,6 +2,7 @@ package teammates.common.datatransfer;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.UUID;
 
 import org.testng.annotations.Test;
 
@@ -12,6 +13,9 @@ import teammates.test.BaseTestCase;
  */
 public class UserInfoCookieTest extends BaseTestCase {
     private UserInfoCookie uc = new UserInfoCookie("MockId");
+    {
+        uc.setAccountId(UUID.randomUUID());
+    }
 
     @Test
     public void testIsValid() {
