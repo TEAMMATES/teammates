@@ -1,6 +1,7 @@
 package teammates.common.datatransfer;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -16,14 +17,17 @@ public class UserInfoCookie {
 
     private String userId;
 
+    private UUID accountId;
+
     private long expiryTime;
 
     private UserInfoCookie() {
         // for Jackson deserialization
     }
 
-    public UserInfoCookie(String userId) {
+    public UserInfoCookie(String userId, UUID accountId) {
         this.userId = userId;
+        this.accountId = accountId;
         this.expiryTime = Instant.now().plus(Const.COOKIE_VALIDITY_PERIOD).toEpochMilli();
     }
 
@@ -50,6 +54,14 @@ public class UserInfoCookie {
         this.userId = userId;
     }
 
+    public UUID getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
+    }
+
     public long getExpiryTime() {
         return expiryTime;
     }
@@ -64,6 +76,7 @@ public class UserInfoCookie {
     public boolean isValid() {
         return userId != null
                 && !userId.trim().isEmpty()
+                && accountId != null
                 && Instant.now().isBefore(Instant.ofEpochMilli(expiryTime));
     }
 
