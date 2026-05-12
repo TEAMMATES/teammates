@@ -8,7 +8,7 @@ import java.util.UUID;
  *  is an admin, instructor, student.
  */
 public class UserInfo {
-    
+
     // A temporary placeholder account ID until we have finished migrating to using account ID in cookies.
     public static final UUID NULL_ACCOUNT_ID = new UUID(0L, 0L);
 
