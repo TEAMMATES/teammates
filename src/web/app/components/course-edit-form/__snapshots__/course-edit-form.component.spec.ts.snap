@@ -58,7 +58,7 @@ exports[`CourseEditFormComponent should snap when in ADD Mode and is display onl
       </div>
     </div>
     <div
-      class="card-body fill-plain"
+      class="card-body bg-light"
     >
       <form
         class="ng-untouched ng-pristine ng-valid"
@@ -279,7 +279,7 @@ exports[`CourseEditFormComponent should snap when in ADD Mode with default field
       </div>
     </div>
     <div
-      class="card-body fill-plain"
+      class="card-body bg-light"
     >
       <form
         class="ng-untouched ng-pristine ng-valid"
@@ -507,7 +507,7 @@ exports[`CourseEditFormComponent should snap when in EDIT Mode and is display on
       </div>
     </div>
     <div
-      class="card-body fill-plain"
+      class="card-body bg-light"
     >
       <form
         class="ng-untouched ng-pristine ng-valid"
@@ -723,7 +723,7 @@ exports[`CourseEditFormComponent should snap when in EDIT Mode with default fiel
       </div>
     </div>
     <div
-      class="card-body fill-plain"
+      class="card-body bg-light"
     >
       <form
         class="ng-untouched ng-pristine ng-valid"

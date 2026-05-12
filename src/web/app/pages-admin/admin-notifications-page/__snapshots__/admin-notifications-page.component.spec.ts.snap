@@ -47,7 +47,7 @@ exports[`AdminNotificationsPageComponent should snap when notification edit form
   >
     <tm-notification-edit-form>
       <div
-        class="card card-plain"
+        class="card bg-light"
       >
         <div
           class="close-header"
@@ -721,7 +721,7 @@ exports[`AdminNotificationsPageComponent should snap when notifications are load
   >
     <tm-notification-edit-form>
       <div
-        class="card card-plain"
+        class="card bg-light"
       >
         <div
           class="close-header"
@@ -1402,7 +1402,7 @@ exports[`AdminNotificationsPageComponent should snap when notifications failed t
   >
     <tm-notification-edit-form>
       <div
-        class="card card-plain"
+        class="card bg-light"
       >
         <div
           class="close-header"
@@ -2081,7 +2081,7 @@ exports[`AdminNotificationsPageComponent should snap with default view 1`] = `
   >
     <tm-notification-edit-form>
       <div
-        class="card card-plain"
+        class="card bg-light"
       >
         <div
           class="close-header"

@@ -17,7 +17,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
   simpleModalService={[Function SimpleModalService]}
 >
   <div
-    class="card card-plain"
+    class="card bg-light"
   >
     <div
       class="close-header"
@@ -653,7 +653,7 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
   simpleModalService={[Function SimpleModalService]}
 >
   <div
-    class="card card-plain"
+    class="card bg-light"
   >
     <div
       class="close-header"
@@ -1289,7 +1289,7 @@ exports[`NotificationEditFormComponent should snap with notification that has be
   simpleModalService={[Function SimpleModalService]}
 >
   <div
-    class="card card-plain"
+    class="card bg-light"
   >
     <div
       class="close-header"

@@ -546,7 +546,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
     />
     <tm-session-edit-form>
       <div
-        class="card card-plain"
+        class="card bg-light"
         id="session-edit-form"
       >
         <div
@@ -2014,7 +2014,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 class="card-body"
               >
                 <div
-                  class="background-color-light-blue"
+                  class="bg-light"
                 >
                   <div
                     class="row"
@@ -2024,7 +2024,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     >
                       <tm-question-edit-brief-description-form>
                         <div
-                          class="background-color-light-blue"
+                          class="bg-light"
                         >
                           <div
                             class="row padding-15px text-start"
@@ -2747,7 +2747,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                 class="card-body"
               >
                 <div
-                  class="background-color-light-blue"
+                  class="bg-light"
                 >
                   <div
                     class="row"
@@ -2757,7 +2757,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     >
                       <tm-question-edit-brief-description-form>
                         <div
-                          class="background-color-light-blue"
+                          class="bg-light"
                         >
                           <div
                             class="row padding-15px text-start"
@@ -3377,7 +3377,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
     >
       <tm-adding-question-panel>
         <div
-          class="card-body background-color-light-blue text-center responsive-padding"
+          class="card-body bg-light text-center responsive-padding"
         >
           <div
             class="d-inline-block"
@@ -3684,7 +3684,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
     >
       <tm-preview-session-panel>
         <div
-          class="card-body background-color-light-blue text-center"
+          class="card-body bg-light text-center"
         >
           <div
             class="row align-items-center"
@@ -3812,7 +3812,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
     />
     <tm-session-edit-form>
       <div
-        class="card card-plain"
+        class="card bg-light"
         id="session-edit-form"
       >
         <div
@@ -5240,7 +5240,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
             class="card-body"
           >
             <div
-              class="background-color-light-blue"
+              class="bg-light"
             >
               <div
                 class="row"
@@ -5250,7 +5250,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                 >
                   <tm-question-edit-brief-description-form>
                     <div
-                      class="background-color-light-blue"
+                      class="bg-light"
                     >
                       <div
                         class="row padding-15px text-start"
@@ -6036,7 +6036,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
     >
       <tm-preview-session-panel>
         <div
-          class="card-body background-color-light-blue text-center"
+          class="card-body bg-light text-center"
         >
           <div
             class="row align-items-center"

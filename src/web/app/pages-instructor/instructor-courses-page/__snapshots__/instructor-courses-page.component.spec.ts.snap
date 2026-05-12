@@ -91,7 +91,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
           </div>
         </div>
         <div
-          class="card-body fill-plain"
+          class="card-body bg-light"
         >
           <form
             class="ng-untouched ng-pristine ng-invalid"
@@ -3359,7 +3359,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
           </div>
         </div>
         <div
-          class="card-body fill-plain"
+          class="card-body bg-light"
         >
           <form
             class="ng-untouched ng-pristine ng-invalid"
@@ -7114,7 +7114,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
           </div>
         </div>
         <div
-          class="card-body fill-plain"
+          class="card-body bg-light"
         >
           <form
             class="ng-untouched ng-pristine ng-invalid"
@@ -10368,7 +10368,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
           </div>
         </div>
         <div
-          class="card-body fill-plain"
+          class="card-body bg-light"
         >
           <form
             class="ng-untouched ng-pristine ng-invalid"
@@ -14126,7 +14126,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
           </div>
         </div>
         <div
-          class="card-body fill-plain"
+          class="card-body bg-light"
         >
           <form
             class="ng-untouched ng-pristine ng-valid"
@@ -17394,7 +17394,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
           </div>
         </div>
         <div
-          class="card-body fill-plain"
+          class="card-body bg-light"
         >
           <form
             class="ng-untouched ng-pristine ng-invalid"

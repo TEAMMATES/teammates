@@ -21,7 +21,7 @@ exports[`UsageStatisticsPageComponent should snap with default fields 1`] = `
   <p>
     Data available from: 1 January 2016, 00:00 UTC
   </p><div
-    class="card bg-form no-border"
+    class="card bg-light no-border"
   >
     <div
       class="card-body"
