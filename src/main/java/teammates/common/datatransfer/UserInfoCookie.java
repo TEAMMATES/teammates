@@ -76,7 +76,6 @@ public class UserInfoCookie {
     public boolean isValid() {
         return userId != null
                 && !userId.trim().isEmpty()
-                && accountId != null
                 && Instant.now().isBefore(Instant.ofEpochMilli(expiryTime));
     }
 
