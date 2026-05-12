@@ -24,7 +24,7 @@ public class GetUserCookieAction extends Action {
     @Override
     public JsonResult execute() {
         String user = getNonNullRequestParamValue(Const.ParamsNames.USER_ID);
-        UserInfoCookie uic = new UserInfoCookie(user, null);
+        UserInfoCookie uic = new UserInfoCookie(user, UserInfoCookie.NULL_ACCOUNT_ID);
         return new JsonResult(StringHelper.encrypt(JsonUtils.toCompactJson(uic)));
     }
 

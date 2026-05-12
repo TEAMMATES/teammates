@@ -60,7 +60,7 @@ public class DevServerLoginServlet extends AuthServlet {
             return;
         }
 
-        UserInfoCookie uic = new UserInfoCookie(email, null);
+        UserInfoCookie uic = new UserInfoCookie(email, UserInfoCookie.NULL_ACCOUNT_ID);
         Cookie cookie = getLoginCookie(uic);
         resp.addCookie(cookie);
 

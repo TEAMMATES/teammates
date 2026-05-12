@@ -15,6 +15,9 @@ import tools.jackson.core.JacksonException;
  */
 public class UserInfoCookie {
 
+    // A temporary placeholder account ID until we have finished migrating to using account ID in cookies.
+    public static final UUID NULL_ACCOUNT_ID = new UUID(0L, 0L);
+
     private String userId;
 
     private UUID accountId;
@@ -27,7 +30,7 @@ public class UserInfoCookie {
 
     public UserInfoCookie(String userId, UUID accountId) {
         this.userId = userId;
-        this.accountId = accountId;
+        this.accountId = accountId != null ? accountId : NULL_ACCOUNT_ID;
         this.expiryTime = Instant.now().plus(Const.COOKIE_VALIDITY_PERIOD).toEpochMilli();
     }
 
@@ -59,7 +62,7 @@ public class UserInfoCookie {
     }
 
     public void setAccountId(UUID accountId) {
-        this.accountId = accountId;
+        this.accountId = accountId != null ? accountId : NULL_ACCOUNT_ID;
     }
 
     public long getExpiryTime() {
@@ -76,6 +79,7 @@ public class UserInfoCookie {
     public boolean isValid() {
         return userId != null
                 && !userId.trim().isEmpty()
+                && accountId != null
                 && Instant.now().isBefore(Instant.ofEpochMilli(expiryTime));
     }
 

@@ -46,7 +46,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
             cookie = getLoginInvalidationCookie();
         } else {
-            UserInfoCookie uic = new UserInfoCookie(authResult.email, null);
+            UserInfoCookie uic = new UserInfoCookie(authResult.email, UserInfoCookie.NULL_ACCOUNT_ID);
             cookie = getLoginCookie(uic);
         }
 
