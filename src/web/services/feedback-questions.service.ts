@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { VisibilityStateMachine } from './visibility-state-machine';
@@ -49,7 +49,7 @@ export interface TemplateQuestion {
   providedIn: 'root',
 })
 export class FeedbackQuestionsService {
-  constructor(private httpRequestService: HttpRequestService) {}
+  private httpRequestService = inject(HttpRequestService);
 
   /**
    * Gets allowed feedback paths based on question type as some feedback paths does not make

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, inject } from '@angular/core';
 import { NgbCollapse, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
@@ -27,6 +27,9 @@ import { TeammatesRouterDirective } from '../../components/teammates-router/team
   imports: [TeammatesRouterDirective, PanelChevronComponent, LoadingSpinnerDirective, NgbCollapse],
 })
 export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChanges {
+  private ngbModal = inject(NgbModal);
+  private tableComparatorService = inject(TableComparatorService);
+
   // enum
   FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
   SortBy: typeof SortBy = SortBy;
@@ -62,11 +65,6 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
   noResponseStudentsInSection: Student[] = [];
 
   @Output() studentsToRemindEvent: EventEmitter<ReminderResponseModel> = new EventEmitter();
-
-  constructor(
-    private ngbModal: NgbModal,
-    private tableComparatorService: TableComparatorService,
-  ) {}
 
   ngOnInit(): void {
     this.filterStudentsBySection();

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { CourseService } from './course.service';
@@ -31,14 +31,12 @@ import { Intent } from '../types/api-request';
   providedIn: 'root',
 })
 export class SearchService {
-  constructor(
-    private instructorService: InstructorService,
-    private httpRequestService: HttpRequestService,
-    private feedbackSessionService: FeedbackSessionsService,
-    private courseService: CourseService,
-    private linkService: LinkService,
-    private timezoneService: TimezoneService,
-  ) {}
+  private instructorService = inject(InstructorService);
+  private httpRequestService = inject(HttpRequestService);
+  private feedbackSessionService = inject(FeedbackSessionsService);
+  private courseService = inject(CourseService);
+  private linkService = inject(LinkService);
+  private timezoneService = inject(TimezoneService);
 
   searchInstructor(searchKey: string): Observable<InstructorSearchResult> {
     return this.searchStudents(searchKey, 'instructor').pipe(

@@ -32,8 +32,12 @@ enum DateTime {
   selector: 'tm-individual-extension-date-modal',
   templateUrl: './individual-extension-date-modal.component.html',
   imports: [FormsModule, DatepickerComponent, TimepickerComponent, KeyValuePipe],
+  providers: [FormatDateDetailPipe],
 })
 export class IndividualExtensionDateModalComponent {
+  activeModal = inject(NgbActiveModal);
+  private simpleModalService = inject(SimpleModalService);
+  private dateDetailPipe = inject(FormatDateDetailPipe);
   private readonly timeZoneService = inject(TimezoneService);
 
   @Input()
@@ -50,11 +54,6 @@ export class IndividualExtensionDateModalComponent {
 
   @Output()
   confirmCallbackEvent: EventEmitter<number> = new EventEmitter();
-
-  constructor(
-    public activeModal: NgbActiveModal,
-    private simpleModalService: SimpleModalService,
-  ) {}
 
   RadioOptions: typeof RadioOptions = RadioOptions;
   radioOption: RadioOptions = RadioOptions.EXTEND_BY;
@@ -74,7 +73,6 @@ export class IndividualExtensionDateModalComponent {
   MAX_EPOCH_TIME_IN_MILLISECONDS = this.MAX_EPOCH_TIME_IN_DAYS * Milliseconds.IN_ONE_DAY;
   extendToDatePicker: DateFormat = getDefaultDateFormat();
   extendToTimePicker: TimeFormat = getLatestTimeFormat();
-  dateDetailPipe = new FormatDateDetailPipe(this.timeZoneService);
 
   sortMapByOriginalOrder = (): number => 0;
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { TimezoneService } from '../../../services/timezone.service';
 import { NotificationTargetUser } from '../../../types/api-output';
 import { UserNotificationsListComponent } from '../../components/user-notifications-list/user-notifications-list.component';
@@ -12,10 +12,10 @@ import { UserNotificationsListComponent } from '../../components/user-notificati
   imports: [UserNotificationsListComponent],
 })
 export class InstructorNotificationsPageComponent implements OnInit {
+  private timezoneService = inject(TimezoneService);
+
   userType: NotificationTargetUser = NotificationTargetUser.INSTRUCTOR;
   timezone = '';
-
-  constructor(private timezoneService: TimezoneService) {}
 
   ngOnInit(): void {
     this.timezone = this.timezoneService.guessTimezone();

@@ -123,7 +123,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 GetNotificationsAction.class,
                 MarkNotificationAsReadAction.class,
                 GetReadNotificationsAction.class,
-                SendLoginEmailAction.class,
                 PutDataBundleAction.class,
                 DeleteDataBundleAction.class,
                 GetDeadlineExtensionsAction.class

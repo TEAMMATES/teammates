@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, DoCheck, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, DoCheck, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -113,6 +113,9 @@ import { VisibilityEntityNamePipe } from '../visibility-messages/visibility-enti
   ],
 })
 export class QuestionSubmissionFormComponent implements DoCheck {
+  private feedbackQuestionsService = inject(FeedbackQuestionsService);
+  private feedbackResponseService = inject(FeedbackResponsesService);
+
   readonly QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;
   readonly ResponseDetailsTypeChecker = ResponseDetailsTypeChecker;
 
@@ -232,10 +235,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   visibilityStateMachine: VisibilityStateMachine;
   isEveryRecipientSorted = false;
 
-  constructor(
-    private feedbackQuestionsService: FeedbackQuestionsService,
-    private feedbackResponseService: FeedbackResponsesService,
-  ) {
+  constructor() {
     this.visibilityStateMachine = this.feedbackQuestionsService.getNewVisibilityStateMachine(
       this.model.giverType,
       this.model.recipientType,

@@ -388,10 +388,6 @@ public final class Config {
         return new AppUrl(APP_FRONTEND_URL + relativeUrl);
     }
 
-    public static boolean isUsingFirebase() {
-        return "firebase".equalsIgnoreCase(AUTH_TYPE);
-    }
-
     /**
      * Returns db connection URL.
      */

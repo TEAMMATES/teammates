@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CsvHelper } from './csv-helper';
 import { FeedbackResponsesService } from './feedback-responses.service';
 import { StringHelper } from './string-helper';
@@ -15,7 +15,7 @@ import { FeedbackResponseDetailsFactory } from '../types/response-details-impl/f
   providedIn: 'root',
 })
 export class SessionResultCsvService {
-  constructor(private feedbackResponsesService: FeedbackResponsesService) {}
+  private feedbackResponsesService = inject(FeedbackResponsesService);
 
   /**
    * Generates CSV string for non-responders.

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbCalendar, NgbDateStruct, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { DateFormat } from '../../../types/datetime-const';
@@ -13,6 +13,8 @@ import { DateFormat } from '../../../types/datetime-const';
   imports: [NgbInputDatepicker, FormsModule],
 })
 export class DatepickerComponent {
+  calendar = inject(NgbCalendar);
+
   @Input()
   date: DateFormat | undefined;
 
@@ -27,8 +29,6 @@ export class DatepickerComponent {
 
   @Output()
   dateChangeCallback: EventEmitter<DateFormat> = new EventEmitter<DateFormat>();
-
-  constructor(public calendar: NgbCalendar) {}
 
   changeDate(date: DateFormat): void {
     this.dateChangeCallback.emit(date);

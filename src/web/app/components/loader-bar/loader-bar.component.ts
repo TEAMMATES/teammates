@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingBarService } from '../../../services/loading-bar.service';
 
@@ -12,9 +12,9 @@ import { LoadingBarService } from '../../../services/loading-bar.service';
   imports: [NgbProgressbar],
 })
 export class LoaderBarComponent implements OnInit {
-  isShown = false;
+  private loadingBarService = inject(LoadingBarService);
 
-  constructor(private loadingBarService: LoadingBarService) {}
+  isShown = false;
 
   ngOnInit(): void {
     this.loadingBarService.isShown.subscribe((isShown: boolean) => {

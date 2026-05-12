@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   InstructorListInfoTableRowModel,
@@ -16,13 +16,13 @@ import { RespondentListInfoTableComponent } from '../respondent-list-info-table/
   imports: [RespondentListInfoTableComponent],
 })
 export class ResendResultsLinkToRespondentModalComponent {
+  activeModal = inject(NgbActiveModal);
+
   // values below will be injected by other component
   courseId = '';
   feedbackSessionName = '';
   studentListInfoTableRowModels: StudentListInfoTableRowModel[] = [];
   instructorListInfoTableRowModels: InstructorListInfoTableRowModel[] = [];
-
-  constructor(public activeModal: NgbActiveModal) {}
 
   /**
    * Collates a list of selected respondents with selected status.

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
@@ -14,6 +14,9 @@ import { PageComponent } from '../page.component';
   imports: [PageComponent],
 })
 export class InstructorPageComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private authService = inject(AuthService);
+
   user = '';
   isInstructor = false;
   isStudent = false;
@@ -63,15 +66,10 @@ export class InstructorPageComponent implements OnInit {
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(
-    private route: ActivatedRoute,
-    private authService: AuthService,
-  ) {}
-
   ngOnInit(): void {
     this.isFetchingAuthDetails = true;
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.authService.getAuthUser(queryParams.user).subscribe({
+      this.authService.getAuthUser(queryParams.user, '/web/instructor/home').subscribe({
         next: (res: AuthInfo) => {
           if (res.user) {
             this.user = res.user.id;
@@ -83,7 +81,7 @@ export class InstructorPageComponent implements OnInit {
             this.isAdmin = res.user.isAdmin;
             this.isMaintainer = res.user.isMaintainer;
           } else {
-            window.location.href = `${this.backendUrl}${res.instructorLoginUrl}`;
+            window.location.href = `${this.backendUrl}${res.loginUrl}`;
           }
           this.isFetchingAuthDetails = false;
         },

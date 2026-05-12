@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbCalendar, NgbCollapse, NgbDateParserFormatter, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
@@ -55,6 +55,10 @@ import { TimepickerComponent } from '../timepicker/timepicker.component';
   ],
 })
 export class SessionEditFormComponent {
+  private simpleModalService = inject(SimpleModalService);
+  private datetimeService = inject(DateTimeService);
+  calendar = inject(NgbCalendar);
+
   // enum
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
   SessionVisibleSetting: typeof SessionVisibleSetting = SessionVisibleSetting;
@@ -139,12 +143,6 @@ export class SessionEditFormComponent {
 
   @Output()
   closeEditFormEvent: EventEmitter<void> = new EventEmitter<void>();
-
-  constructor(
-    private simpleModalService: SimpleModalService,
-    private datetimeService: DateTimeService,
-    public calendar: NgbCalendar,
-  ) {}
 
   /**
    * Triggers the change of the model for the form.

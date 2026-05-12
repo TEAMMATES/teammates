@@ -39,10 +39,6 @@
                   "with": "src/web/environments/environment.prod.ts"
                 }
               ],
-              "index": {
-                "input": "src/web/index.prod.html",
-                "output": "index.html"
-              },
               "optimization": {
                 "scripts": true,
                 "styles": {

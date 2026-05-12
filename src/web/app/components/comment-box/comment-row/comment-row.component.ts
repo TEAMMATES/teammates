@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, inject } from '@angular/core';
 import { NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CommentRowMode } from './comment-row.mode';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
@@ -56,6 +56,9 @@ export interface CommentRowModel {
   ],
 })
 export class CommentRowComponent implements OnChanges {
+  private simpleModalService = inject(SimpleModalService);
+  private commentService = inject(FeedbackResponseCommentService);
+
   // enum
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
   CommentVisibilityControl: typeof CommentVisibilityControl = CommentVisibilityControl;
@@ -114,10 +117,7 @@ export class CommentRowComponent implements OnChanges {
 
   visibilityStateMachine: CommentVisibilityStateMachine;
 
-  constructor(
-    private simpleModalService: SimpleModalService,
-    private commentService: FeedbackResponseCommentService,
-  ) {
+  constructor() {
     this.visibilityStateMachine = this.commentService.getNewVisibilityStateMachine(this.questionShowResponsesTo);
   }
 

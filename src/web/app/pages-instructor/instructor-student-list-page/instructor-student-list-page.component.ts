@@ -1,5 +1,5 @@
 import { HttpStatusCode } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { CourseService, CourseStatistics } from '../../../services/course.service';
@@ -57,6 +57,12 @@ export interface CourseTab {
   ],
 })
 export class InstructorStudentListPageComponent implements OnInit {
+  private instructorService = inject(InstructorService);
+  private courseService = inject(CourseService);
+  private studentService = inject(StudentService);
+  private statusMessageService = inject(StatusMessageService);
+  private tableComparatorService = inject(TableComparatorService);
+
   courseTabList: CourseTab[] = [];
   hasLoadingFailed = false;
   isLoadingCourses = false;
@@ -65,14 +71,6 @@ export class InstructorStudentListPageComponent implements OnInit {
   SortBy: typeof SortBy = SortBy;
 
   coursesSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
-
-  constructor(
-    private instructorService: InstructorService,
-    private courseService: CourseService,
-    private studentService: StudentService,
-    private statusMessageService: StatusMessageService,
-    private tableComparatorService: TableComparatorService,
-  ) {}
 
   ngOnInit(): void {
     this.loadCourses();

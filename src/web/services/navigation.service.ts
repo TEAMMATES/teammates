@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Params, Router } from '@angular/router';
 import { MasqueradeModeService } from './masquerade-mode.service';
 import { StatusMessageService } from './status-message.service';
@@ -13,13 +13,11 @@ import { StatusMessageService } from './status-message.service';
   providedIn: 'root',
 })
 export class NavigationService {
-  constructor(
-    private statusMessageService: StatusMessageService,
-    private masqueradeModeService: MasqueradeModeService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private location: Location,
-  ) {}
+  private statusMessageService = inject(StatusMessageService);
+  private masqueradeModeService = inject(MasqueradeModeService);
+  private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
+  private location = inject(Location);
 
   encodeParams(params: Record<string, string>): string {
     if (Object.values(params).length === 0) {

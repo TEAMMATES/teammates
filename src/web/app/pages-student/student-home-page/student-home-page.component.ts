@@ -62,8 +62,16 @@ interface StudentSession {
     ResponseStatusPipe,
     NgbCollapse,
   ],
+  providers: [FormatDateDetailPipe],
 })
 export class StudentHomePageComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private courseService = inject(CourseService);
+  private statusMessageService = inject(StatusMessageService);
+  private feedbackSessionsService = inject(FeedbackSessionsService);
+  private tableComparatorService = inject(TableComparatorService);
+  private formatDateDetailPipe = inject(FormatDateDetailPipe);
+
   private readonly timezoneService = inject(TimezoneService);
 
   // enum
@@ -90,15 +98,8 @@ export class StudentHomePageComponent implements OnInit {
   sortBy: SortBy = SortBy.COURSE_CREATION_DATE;
 
   sessionSubmissionStatusPipe = new SubmissionStatusPipe();
-  formatDateDetailPipe = new FormatDateDetailPipe(this.timezoneService);
 
-  constructor(
-    private route: ActivatedRoute,
-    private courseService: CourseService,
-    private statusMessageService: StatusMessageService,
-    private feedbackSessionsService: FeedbackSessionsService,
-    private tableComparatorService: TableComparatorService,
-  ) {
+  constructor() {
     this.timezoneService.getTzVersion();
   }
 

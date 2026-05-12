@@ -1,6 +1,6 @@
 import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
 
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { ConstsumOptionsFieldComponent } from './constsum-options-field/constsum-options-field.component';
@@ -25,11 +25,13 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
   extends QuestionEditDetailsFormComponent<FeedbackConstantSumQuestionDetails>
   implements OnChanges
 {
+  private statusMessageService = inject(StatusMessageService);
+
   // enum
   FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =
     FeedbackConstantSumDistributePointsType;
 
-  constructor(private statusMessageService: StatusMessageService) {
+  constructor() {
     super(DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS());
   }
 

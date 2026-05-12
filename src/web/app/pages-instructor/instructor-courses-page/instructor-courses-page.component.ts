@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
   NgbModal,
@@ -85,6 +85,17 @@ interface CourseModel {
   ],
 })
 export class InstructorCoursesPageComponent implements OnInit {
+  private ngbModal = inject(NgbModal);
+  private route = inject(ActivatedRoute);
+  private statusMessageService = inject(StatusMessageService);
+  private courseService = inject(CourseService);
+  private studentService = inject(StudentService);
+  private simpleModalService = inject(SimpleModalService);
+  private tableComparatorService = inject(TableComparatorService);
+  private feedbackSessionsService = inject(FeedbackSessionsService);
+  private progressBarService = inject(ProgressBarService);
+  private timezoneService = inject(TimezoneService);
+
   activeCourses: CourseModel[] = [];
   softDeletedCourses: CourseModel[] = [];
   allCoursesList: Course[] = [];
@@ -120,19 +131,6 @@ export class InstructorCoursesPageComponent implements OnInit {
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
 
   @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
-
-  constructor(
-    private ngbModal: NgbModal,
-    private route: ActivatedRoute,
-    private statusMessageService: StatusMessageService,
-    private courseService: CourseService,
-    private studentService: StudentService,
-    private simpleModalService: SimpleModalService,
-    private tableComparatorService: TableComparatorService,
-    private feedbackSessionsService: FeedbackSessionsService,
-    private progressBarService: ProgressBarService,
-    private timezoneService: TimezoneService,
-  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {

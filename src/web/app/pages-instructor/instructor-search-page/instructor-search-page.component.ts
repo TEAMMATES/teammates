@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { finalize, map, mergeMap } from 'rxjs/operators';
 import { SearchParams, InstructorSearchBarComponent } from './instructor-search-bar/instructor-search-bar.component';
@@ -25,19 +25,17 @@ import { ErrorMessageOutput } from '../../error-message-output';
   imports: [InstructorSearchBarComponent, LoadingSpinnerDirective, StudentResultTableComponent],
 })
 export class InstructorSearchPageComponent {
+  private statusMessageService = inject(StatusMessageService);
+  private searchService = inject(SearchService);
+  private courseService = inject(CourseService);
+  private instructorService = inject(InstructorService);
+
   searchParams: SearchParams = {
     searchKey: '',
   };
   searchString = '';
   studentsListRowTables: SearchStudentsListRowTable[] = [];
   isSearching = false;
-
-  constructor(
-    private statusMessageService: StatusMessageService,
-    private searchService: SearchService,
-    private courseService: CourseService,
-    private instructorService: InstructorService,
-  ) {}
 
   /**
    * Searches for students matching the search query.

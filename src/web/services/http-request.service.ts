@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams, HttpUrlEncodingCodec } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MasqueradeModeService } from './masquerade-mode.service';
 import { environment } from '../environments/environment';
@@ -37,14 +37,12 @@ class CustomEncoder extends HttpUrlEncodingCodec {
   providedIn: 'root',
 })
 export class HttpRequestService {
+  private httpClient = inject(HttpClient);
+  private masqueradeModeService = inject(MasqueradeModeService);
+
   private backendUrl: string = environment.backendUrl;
   private withCredentials: boolean = environment.withCredentials;
   private version: string = environment.version;
-
-  constructor(
-    private httpClient: HttpClient,
-    private masqueradeModeService: MasqueradeModeService,
-  ) {}
 
   /**
    * Builds an HttpParams object from a standard key-value mapping.

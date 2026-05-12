@@ -1,5 +1,5 @@
 import { KeyValuePipe, NgClass } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
 import { NgbCollapse, NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from '../../../../services/account.service';
 import { EmailGenerationService } from '../../../../services/email-generation.service';
@@ -19,6 +19,12 @@ import { SearchTermsHighlighterPipe } from '../../../pipes/search-terms-highligh
   imports: [NgClass, NgbTooltip, AjaxLoadingComponent, KeyValuePipe, SearchTermsHighlighterPipe, NgbCollapse],
 })
 export class AdminStudentSearchTableComponent implements OnChanges {
+  private statusMessageService = inject(StatusMessageService);
+  private simpleModalService = inject(SimpleModalService);
+  private accountService = inject(AccountService);
+  private studentService = inject(StudentService);
+  private emailGenerationService = inject(EmailGenerationService);
+
   @Input()
   students: StudentAccountSearchResult[] = [];
 
@@ -29,14 +35,6 @@ export class AdminStudentSearchTableComponent implements OnChanges {
   studentReset = new EventEmitter<void>();
 
   isRegeneratingStudentKeys: boolean[] = [];
-
-  constructor(
-    private statusMessageService: StatusMessageService,
-    private simpleModalService: SimpleModalService,
-    private accountService: AccountService,
-    private studentService: StudentService,
-    private emailGenerationService: EmailGenerationService,
-  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['students']) {

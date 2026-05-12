@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackQuestionsService, TemplateQuestion } from '../../../../services/feedback-questions.service';
@@ -22,12 +22,12 @@ interface TemplateQuestionModel {
   imports: [FormsModule, QuestionEditFormComponent, NgbCollapse],
 })
 export class TemplateQuestionModalComponent {
+  activeModal = inject(NgbActiveModal);
+  private feedbackQuestionsService = inject(FeedbackQuestionsService);
+
   templateQuestionModels: TemplateQuestionModel[] = [];
 
-  constructor(
-    public activeModal: NgbActiveModal,
-    private feedbackQuestionsService: FeedbackQuestionsService,
-  ) {
+  constructor() {
     this.templateQuestionModels = this.feedbackQuestionsService
       .getTemplateQuestions()
       .map((template: TemplateQuestion) => ({

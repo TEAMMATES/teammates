@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackSession } from '../../../../types/api-output';
 
@@ -11,8 +11,8 @@ import { FeedbackSession } from '../../../../types/api-output';
   imports: [],
 })
 export class SessionsPermanentDeletionConfirmModalComponent {
+  activeModal = inject(NgbActiveModal);
+
   @Input()
   sessionsToDelete: FeedbackSession[] = [];
-
-  constructor(public activeModal: NgbActiveModal) {}
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackSessionTabModel, QuestionToCopyCandidate } from './copy-questions-from-other-sessions-modal-model';
@@ -24,6 +24,11 @@ import { ErrorMessageOutput } from '../../../error-message-output';
   imports: [PanelChevronComponent, LoadingRetryComponent, LoadingSpinnerDirective, FormsModule, QuestionTypeNamePipe],
 })
 export class CopyQuestionsFromOtherSessionsModalComponent {
+  activeModal = inject(NgbActiveModal);
+  statusMessageService = inject(StatusMessageService);
+  feedbackQuestionsService = inject(FeedbackQuestionsService);
+  private tableComparatorService = inject(TableComparatorService);
+
   // enum
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
@@ -31,13 +36,6 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
   // data
   feedbackSessionTabModels: FeedbackSessionTabModel[] = [];
   feedbackSessionTabModelsSortBy: SortBy = SortBy.COURSE_ID;
-
-  constructor(
-    public activeModal: NgbActiveModal,
-    public statusMessageService: StatusMessageService,
-    public feedbackQuestionsService: FeedbackQuestionsService,
-    private tableComparatorService: TableComparatorService,
-  ) {}
 
   /**
    * Toggles specific card and loads questions if needed.

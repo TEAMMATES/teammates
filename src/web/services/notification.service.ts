@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
@@ -22,7 +22,7 @@ import {
   providedIn: 'root',
 })
 export class NotificationService {
-  constructor(private httpRequestService: HttpRequestService) {}
+  private httpRequestService = inject(HttpRequestService);
 
   /**
    * Creates a notification by calling API.

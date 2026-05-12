@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import moment from 'moment-timezone';
 import { TimezoneService } from './timezone.service';
 import { DateFormat, TimeFormat } from '../types/datetime-const';
@@ -7,7 +7,7 @@ import { DateFormat, TimeFormat } from '../types/datetime-const';
   providedIn: 'root',
 })
 export class DateTimeService {
-  constructor(private timezoneService: TimezoneService) {}
+  private timezoneService = inject(TimezoneService);
 
   /**
    * Get the local date and time of timezone from timestamp.

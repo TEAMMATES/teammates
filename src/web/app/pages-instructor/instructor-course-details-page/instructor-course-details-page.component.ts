@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { generate } from 'rxjs';
@@ -59,6 +59,17 @@ interface StudentIndexedData {
   ],
 })
 export class InstructorCourseDetailsPageComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private statusMessageService = inject(StatusMessageService);
+  private progressBarService = inject(ProgressBarService);
+  private courseService = inject(CourseService);
+  private fileSaveService = inject(FileSaveService);
+  private ngbModal = inject(NgbModal);
+  private simpleModalService = inject(SimpleModalService);
+  private studentService = inject(StudentService);
+  private instructorService = inject(InstructorService);
+  private tableComparatorService = inject(TableComparatorService);
+
   courseDetails: CourseDetailsBundle = {
     course: {
       courseId: '',
@@ -85,19 +96,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
 
   studentSortBy: SortBy = SortBy.NONE;
   studentSortOrder: SortOrder = SortOrder.ASC;
-
-  constructor(
-    private route: ActivatedRoute,
-    private statusMessageService: StatusMessageService,
-    private progressBarService: ProgressBarService,
-    private courseService: CourseService,
-    private fileSaveService: FileSaveService,
-    private ngbModal: NgbModal,
-    private simpleModalService: SimpleModalService,
-    private studentService: StudentService,
-    private instructorService: InstructorService,
-    private tableComparatorService: TableComparatorService,
-  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {

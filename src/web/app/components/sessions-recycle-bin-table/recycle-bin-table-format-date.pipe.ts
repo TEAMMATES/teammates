@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, inject } from '@angular/core';
 import { TimezoneService } from '../../../services/timezone.service';
 
 /**
@@ -6,7 +6,7 @@ import { TimezoneService } from '../../../services/timezone.service';
  */
 @Pipe({ name: 'recycleBinTableFormatDate' })
 export class RecycleBinTableFormatDatePipe implements PipeTransform {
-  constructor(private timezoneService: TimezoneService) {}
+  private timezoneService = inject(TimezoneService);
 
   /**
    * Transforms timestamp to a date in a timezone in recycle bin table.

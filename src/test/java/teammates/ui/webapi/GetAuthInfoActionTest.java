@@ -33,22 +33,6 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
     @Test
     void testExecute_noLoggedInUser() {
         logoutUser();
-
-        GetAuthInfoAction a = getAction();
-        JsonResult r = getJsonResult(a);
-
-        AuthInfo output = (AuthInfo) r.getOutput();
-        assertEquals(createLoginUrl("", Const.WebPageURIs.STUDENT_HOME_PAGE), output.getStudentLoginUrl());
-        assertEquals(createLoginUrl("", Const.WebPageURIs.INSTRUCTOR_HOME_PAGE), output.getInstructorLoginUrl());
-        assertEquals(createLoginUrl("", Const.WebPageURIs.ADMIN_HOME_PAGE), output.getAdminLoginUrl());
-        assertEquals(createLoginUrl("", Const.WebPageURIs.MAINTAINER_HOME_PAGE), output.getMaintainerLoginUrl());
-        assertNull(output.getUser());
-        assertFalse(output.isMasquerade());
-    }
-
-    @Test
-    void testExecute_noLoggedInUser_hasNextUrlParameter() {
-        logoutUser();
         String nextUrl = "/web/join";
 
         String[] params = new String[] {
@@ -59,10 +43,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         JsonResult r = getJsonResult(a);
 
         AuthInfo output = (AuthInfo) r.getOutput();
-        assertEquals(createLoginUrl("", nextUrl), output.getStudentLoginUrl());
-        assertEquals(createLoginUrl("", nextUrl), output.getInstructorLoginUrl());
-        assertEquals(createLoginUrl("", nextUrl), output.getAdminLoginUrl());
-        assertEquals(createLoginUrl("", nextUrl), output.getMaintainerLoginUrl());
+        assertEquals(createLoginUrl("", nextUrl), output.getLoginUrl());
         assertNull(output.getUser());
         assertFalse(output.isMasquerade());
     }
@@ -75,10 +56,6 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         JsonResult r = getJsonResult(a);
 
         AuthInfo output = (AuthInfo) r.getOutput();
-        assertNull(output.getStudentLoginUrl());
-        assertNull(output.getInstructorLoginUrl());
-        assertNull(output.getAdminLoginUrl());
-        assertNull(output.getMaintainerLoginUrl());
         assertFalse(output.isMasquerade());
 
         UserInfo user = output.getUser();
@@ -96,10 +73,6 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         JsonResult r = getJsonResult(a);
 
         AuthInfo output = (AuthInfo) r.getOutput();
-        assertNull(output.getStudentLoginUrl());
-        assertNull(output.getInstructorLoginUrl());
-        assertNull(output.getAdminLoginUrl());
-        assertNull(output.getMaintainerLoginUrl());
         assertFalse(output.isMasquerade());
 
         UserInfo user = output.getUser();

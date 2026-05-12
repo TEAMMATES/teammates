@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, inject } from '@angular/core';
 import { CommentTableModel } from './comment-table/comment-table.model';
 import { CommentToCommentRowModelPipe } from './comment-to-comment-row-model.pipe';
 import { CommentOutput } from '../../../types/api-output';
@@ -8,7 +8,8 @@ import { CommentOutput } from '../../../types/api-output';
  */
 @Pipe({ name: 'commentsToCommentTableModel' })
 export class CommentsToCommentTableModelPipe implements PipeTransform {
-  constructor(private commentToCommentRowModel: CommentToCommentRowModelPipe) {}
+  private commentToCommentRowModel = inject(CommentToCommentRowModelPipe);
+
   transform(comments: CommentOutput[], isReadOnly: boolean, timezone?: string): CommentTableModel {
     return {
       isReadOnly,

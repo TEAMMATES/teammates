@@ -12,17 +12,7 @@ import teammates.ui.request.Intent;
  *
  * <p>This does not log in or log out the user.
  */
-public class GetRegkeyValidityAction extends Action {
-
-    @Override
-    public AuthType getMinAuthLevel() {
-        return AuthType.PUBLIC;
-    }
-
-    @Override
-    void checkSpecificAccessControl() {
-        // Regkey information is available to everyone
-    }
+public class GetRegkeyValidityAction extends PublicAction {
 
     @Override
     public JsonResult execute() {

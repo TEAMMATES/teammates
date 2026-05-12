@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import * as d3 from 'd3';
 import { DataPoint } from '../data-point.model';
 
@@ -13,6 +13,8 @@ import { DataPoint } from '../data-point.model';
   styleUrls: ['./stats-line-chart.component.scss'],
 })
 export class StatsLineChartComponent implements OnChanges {
+  private chartElem = inject(ElementRef);
+
   @Input()
   data!: DataPoint[];
 
@@ -32,8 +34,6 @@ export class StatsLineChartComponent implements OnChanges {
   private xAxis: any;
   private yAxis: any;
   private lineGroup: any;
-
-  constructor(private chartElem: ElementRef) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data'] && this.data && this.timeRange) {

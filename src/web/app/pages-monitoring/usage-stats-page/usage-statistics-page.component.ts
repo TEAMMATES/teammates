@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbInputDatepicker, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
 import { DataPoint } from './data-point.model';
@@ -52,6 +52,10 @@ interface FormQueryModel {
   imports: [NgbInputDatepicker, FormsModule, NgbTimepicker, LoadingSpinnerDirective, StatsLineChartComponent],
 })
 export class UsageStatisticsPageComponent implements OnInit {
+  private usageStatisticsService = inject(UsageStatisticsService);
+  private timezoneService = inject(TimezoneService);
+  private statusMessageService = inject(StatusMessageService);
+
   StatisticsType = StatisticsType;
   AggregationType = AggregationType;
 
@@ -73,12 +77,6 @@ export class UsageStatisticsPageComponent implements OnInit {
   fetchedData: UsageStatistics[] = [];
   dataToDraw: DataPoint[] = [];
   timezone = 'UTC';
-
-  constructor(
-    private usageStatisticsService: UsageStatisticsService,
-    private timezoneService: TimezoneService,
-    private statusMessageService: StatusMessageService,
-  ) {}
 
   ngOnInit(): void {
     this.timezone = this.timezoneService.guessTimezone();

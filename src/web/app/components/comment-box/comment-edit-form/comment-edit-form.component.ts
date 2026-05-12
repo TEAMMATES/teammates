@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, inject } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
@@ -49,6 +49,8 @@ export interface CommentEditFormModel {
   ],
 })
 export class CommentEditFormComponent implements OnInit, OnChanges {
+  private commentService = inject(FeedbackResponseCommentService);
+
   readonly castAsInputElement = castAsInputElement;
 
   // enum
@@ -101,7 +103,7 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
   isVisibilityTableExpanded = false;
   visibilityStateMachine: CommentVisibilityStateMachine;
 
-  constructor(private commentService: FeedbackResponseCommentService) {
+  constructor() {
     this.visibilityStateMachine = this.commentService.getNewVisibilityStateMachine(this.questionShowResponsesTo);
   }
 

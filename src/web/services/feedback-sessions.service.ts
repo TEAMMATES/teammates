@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpRequestService } from './http-request.service';
@@ -46,11 +46,9 @@ export interface TemplateSession {
   providedIn: 'root',
 })
 export class FeedbackSessionsService {
-  constructor(
-    private httpRequestService: HttpRequestService,
-    private sessionResultCsvService: SessionResultCsvService,
-    private studentService: StudentService,
-  ) {}
+  private httpRequestService = inject(HttpRequestService);
+  private sessionResultCsvService = inject(SessionResultCsvService);
+  private studentService = inject(StudentService);
 
   /**
    * Gets template sessions.

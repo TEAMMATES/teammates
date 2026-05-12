@@ -1,12 +1,20 @@
 import { CommentToCommentRowModelPipe } from './comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from './comments-to-comment-table-model.pipe';
 import { CommentOutput } from '../../../types/api-output';
+import { TestBed } from '@angular/core/testing';
 
 describe('CommentsToCommentTableModelPipe', () => {
+  let pipe: CommentsToCommentTableModelPipe;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [CommentsToCommentTableModelPipe, CommentToCommentRowModelPipe],
+    });
+
+    pipe = TestBed.inject(CommentsToCommentTableModelPipe);
+  });
+
   it('converts comments to comment table model correctly', () => {
-    const pipe: CommentsToCommentTableModelPipe = new CommentsToCommentTableModelPipe(
-      new CommentToCommentRowModelPipe(),
-    );
     const comments: CommentOutput[] = [
       {
         commentGiverName: 'commentGiverName',

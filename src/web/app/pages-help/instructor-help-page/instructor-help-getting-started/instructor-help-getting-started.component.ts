@@ -1,4 +1,4 @@
-import { Component, Inject, DOCUMENT } from '@angular/core';
+import { Component, DOCUMENT, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { environment } from '../../../../environments/environment';
@@ -22,6 +22,10 @@ import { Sections } from '../sections';
   imports: [TeammatesRouterDirective, ExampleBoxComponent, CourseEditFormComponent],
 })
 export class InstructorHelpGettingStartedComponent {
+  private route = inject(ActivatedRoute);
+  private pageScrollService = inject(PageScrollService);
+  private document = inject(DOCUMENT);
+
   // enum
   StudentsSectionQuestions: typeof StudentsSectionQuestions = StudentsSectionQuestions;
   CoursesSectionQuestions: typeof CoursesSectionQuestions = CoursesSectionQuestions;
@@ -33,11 +37,7 @@ export class InstructorHelpGettingStartedComponent {
   readonly supportEmail: string = environment.supportEmail;
   instructorHelpPath = '';
 
-  constructor(
-    private route: ActivatedRoute,
-    private pageScrollService: PageScrollService,
-    @Inject(DOCUMENT) private document: any,
-  ) {
+  constructor() {
     let r: ActivatedRoute = this.route;
     while (r.firstChild) {
       r = r.firstChild;

@@ -15,6 +15,7 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
 } from '../../../types/api-output';
+import { FormatDateDetailPipe } from '../../components/teammates-common/format-date-detail.pipe';
 
 const studentCourseA: any = {
   course: {
@@ -270,7 +271,7 @@ describe('StudentHomePageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
+      providers: [FormatDateDetailPipe, provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
   }));
 

@@ -1,5 +1,5 @@
 import { NgClass, KeyValuePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbDateParserFormatter, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
@@ -103,6 +103,14 @@ interface FeedbackSessionLogModel {
   ],
 })
 export class InstructorStudentActivityLogsComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private courseService = inject(CourseService);
+  private feedbackSessionsService = inject(FeedbackSessionsService);
+  private studentService = inject(StudentService);
+  private logsService = inject(LogService);
+  private timezoneService = inject(TimezoneService);
+  private statusMessageService = inject(StatusMessageService);
+
   readonly castAsInputElement = castAsInputElement;
 
   LOGS_DATE_TIME_FORMAT = 'ddd, DD MMM YYYY hh:mm:ss A';
@@ -143,16 +151,6 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   searchResults: FeedbackSessionLogModel[] = [];
   isLoading = true;
   isSearching = false;
-
-  constructor(
-    private route: ActivatedRoute,
-    private courseService: CourseService,
-    private feedbackSessionsService: FeedbackSessionsService,
-    private studentService: StudentService,
-    private logsService: LogService,
-    private timezoneService: TimezoneService,
-    private statusMessageService: StatusMessageService,
-  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {

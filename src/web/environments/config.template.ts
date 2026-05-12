@@ -1,12 +1,9 @@
+import { AppConfig } from './environment.model';
+
 /**
  * Contains some configuration values required to build and run the web application.
  */
-export const config: any = {
-  /**
-   * The URL of page to be loaded for the account request page.
-   */
-  accountRequestFormUrl: '',
-
+export const config: AppConfig = {
   /**
    * The support email shown to the user in various pages of the web application.
    */
@@ -24,12 +21,4 @@ export const config: any = {
    * Under maintenance mode, all requests to the front-end will be routed to the "under maintenance" page.
    */
   maintenance: false,
-
-  /**
-   * Set to true if Firebase login is to be supported.
-   * Note that the backend needs to be configured separately for Firebase login to be fully supported.
-   */
-  allowFirebaseLogin: false,
-
-  firebaseConfig: {},
 };

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -39,12 +39,10 @@ import { QuestionTextWithInfoComponent } from '../question-text-with-info/questi
   ],
 })
 export class QuestionResponsePanelComponent {
-  readonly RESPONSE_HIDDEN_QUESTIONS: FeedbackQuestionType[] = [FeedbackQuestionType.CONTRIB];
+  private feedbackSessionsService = inject(FeedbackSessionsService);
+  private statusMessageService = inject(StatusMessageService);
 
-  constructor(
-    private feedbackSessionsService: FeedbackSessionsService,
-    private statusMessageService: StatusMessageService,
-  ) {}
+  readonly RESPONSE_HIDDEN_QUESTIONS: FeedbackQuestionType[] = [FeedbackQuestionType.CONTRIB];
 
   @Input()
   questions: FeedbackQuestionModel[] = [];

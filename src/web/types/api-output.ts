@@ -35,10 +35,7 @@ export interface ApiOutput {
 }
 
 export interface AuthInfo extends ApiOutput {
-  studentLoginUrl?: string;
-  instructorLoginUrl?: string;
-  adminLoginUrl?: string;
-  maintainerLoginUrl?: string;
+  loginUrl: string;
   user?: UserInfo;
   masquerade: boolean;
 }
@@ -564,11 +561,6 @@ export interface ResponseOutput {
   responseDetails: FeedbackResponseDetails;
   participantComment?: CommentOutput;
   instructorComments: CommentOutput[];
-}
-
-export interface SendLoginEmailResponse extends ApiOutput {
-  isEmailSent: boolean;
-  message: string;
 }
 
 export interface SessionLinksRecoveryResponse extends ApiOutput {

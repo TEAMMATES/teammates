@@ -3,7 +3,6 @@ import { Component, EventEmitter, Input, Output, OnInit, inject } from '@angular
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TableComparatorService } from '../../../services/table-comparator.service';
-import { TimezoneService } from '../../../services/timezone.service';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import {
   StudentExtensionTableColumnModel,
@@ -30,9 +29,13 @@ export enum ExtensionModalType {
   templateUrl: './extension-confirm-modal.component.html',
   styleUrls: ['./extension-confirm-modal.component.scss'],
   imports: [NgClass, SortableTableComponent, FormsModule, FormatDateDetailPipe],
+  providers: [FormatDateDetailPipe, InstructorRoleNamePipe],
 })
 export class ExtensionConfirmModalComponent implements OnInit {
-  private readonly timeZoneService = inject(TimezoneService);
+  activeModal = inject(NgbActiveModal);
+  private tableComparatorService = inject(TableComparatorService);
+  private dateDetailPipe = inject(FormatDateDetailPipe);
+  private instructorRoleNamePipe = inject(InstructorRoleNamePipe);
 
   @Input()
   modalType: ExtensionModalType = ExtensionModalType.EXTEND;
@@ -79,13 +82,6 @@ export class ExtensionConfirmModalComponent implements OnInit {
   studentRowsData: SortableTableCellData[][] = [];
   instructorColumnsData: ColumnData[] = [];
   instructorRowsData: SortableTableCellData[][] = [];
-  dateDetailPipe = new FormatDateDetailPipe(this.timeZoneService);
-  instructorRoleNamePipe = new InstructorRoleNamePipe();
-
-  constructor(
-    public activeModal: NgbActiveModal,
-    private tableComparatorService: TableComparatorService,
-  ) {}
 
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;

@@ -1,4 +1,4 @@
-import { Injectable, TemplateRef } from '@angular/core';
+import { Injectable, TemplateRef, inject } from '@angular/core';
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { SimpleModalType } from '../app/components/simple-modal/simple-modal-type';
 import { SimpleModalComponent } from '../app/components/simple-modal/simple-modal.component';
@@ -22,7 +22,7 @@ export interface SimpleModalOptions {
   providedIn: 'root',
 })
 export class SimpleModalService {
-  constructor(private ngbModal: NgbModal) {}
+  private ngbModal = inject(NgbModal);
 
   /**
    * Opens a confirmation modal.

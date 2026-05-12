@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
@@ -39,6 +39,11 @@ export interface NotificationTab {
   ],
 })
 export class UserNotificationsListComponent implements OnInit {
+  private notificationService = inject(NotificationService);
+  private statusMessageService = inject(StatusMessageService);
+  private timezoneService = inject(TimezoneService);
+  private tableComparatorService = inject(TableComparatorService);
+
   // enum
   NotificationTargetUser: typeof NotificationTargetUser = NotificationTargetUser;
   SortBy: typeof SortBy = SortBy;
@@ -56,13 +61,6 @@ export class UserNotificationsListComponent implements OnInit {
   hasLoadingFailed = false;
 
   DATE_FORMAT = 'DD MMM YYYY';
-
-  constructor(
-    private notificationService: NotificationService,
-    private statusMessageService: StatusMessageService,
-    private timezoneService: TimezoneService,
-    private tableComparatorService: TableComparatorService,
-  ) {}
 
   ngOnInit(): void {
     this.loadNotifications();

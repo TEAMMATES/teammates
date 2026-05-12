@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, inject } from '@angular/core';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { NavigationService } from '../../../../services/navigation.service';
 import { PanelChevronComponent } from '../../../components/panel-chevron/panel-chevron.component';
@@ -13,6 +13,9 @@ import { PanelChevronComponent } from '../../../components/panel-chevron/panel-c
   imports: [PanelChevronComponent, NgbCollapse],
 })
 export class InstructorHelpPanelComponent {
+  elementRef = inject(ElementRef);
+  private navigationService = inject(NavigationService);
+
   @Input() id = '';
   @Input() section = '';
   @Input() headerText = '';
@@ -28,11 +31,6 @@ export class InstructorHelpPanelComponent {
     this.isPanelExpandedValue = value;
     this.isPanelExpandedChange.emit(value);
   }
-
-  constructor(
-    public elementRef: ElementRef,
-    private navigationService: NavigationService,
-  ) {}
 
   changeBrowserUrl(event: Event): void {
     // Prevent panel from changing state

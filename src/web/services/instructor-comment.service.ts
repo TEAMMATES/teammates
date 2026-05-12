@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { FeedbackResponseCommentService } from './feedback-response-comment.service';
 import { StatusMessageService } from './status-message.service';
 import { TableComparatorService } from './table-comparator.service';
@@ -36,12 +36,10 @@ export interface InstructorCommentDeleteParams {
 
 @Injectable({ providedIn: 'root' })
 export class InstructorCommentService {
-  constructor(
-    private commentToCommentRowModel: CommentToCommentRowModelPipe,
-    private commentService: FeedbackResponseCommentService,
-    private statusMessageService: StatusMessageService,
-    private tableComparatorService: TableComparatorService,
-  ) {}
+  private commentToCommentRowModel = inject(CommentToCommentRowModelPipe);
+  private commentService = inject(FeedbackResponseCommentService);
+  private statusMessageService = inject(StatusMessageService);
+  private tableComparatorService = inject(TableComparatorService);
 
   /**
    * Deletes an instructor comment.

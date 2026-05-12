@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { finalize } from 'rxjs/operators';
@@ -36,6 +36,12 @@ import { LoadingSpinnerDirective } from '../../components/loading-spinner/loadin
   ],
 })
 export class AdminNotificationsPageComponent implements OnInit {
+  private notificationService = inject(NotificationService);
+  private simpleModalService = inject(SimpleModalService);
+  private statusMessageService = inject(StatusMessageService);
+  private tableComparatorService = inject(TableComparatorService);
+  private timezoneService = inject(TimezoneService);
+
   NotificationEditFormMode = NotificationEditFormMode;
 
   currentNotificationEditFormMode = NotificationEditFormMode.ADD;
@@ -68,14 +74,6 @@ export class AdminNotificationsPageComponent implements OnInit {
   notificationsTableRowModelsSortOrder = SortOrder.DESC;
 
   guessTimezone = 'UTC';
-
-  constructor(
-    private notificationService: NotificationService,
-    private simpleModalService: SimpleModalService,
-    private statusMessageService: StatusMessageService,
-    private tableComparatorService: TableComparatorService,
-    private timezoneService: TimezoneService,
-  ) {}
 
   ngOnInit(): void {
     this.initNotificationEditFormModel();

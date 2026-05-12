@@ -1,5 +1,5 @@
 import { NgTemplateOutlet, KeyValuePipe } from '@angular/common';
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, inject } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
   FeedbackParticipantType,
@@ -46,6 +46,8 @@ interface QuestionTab {
   ],
 })
 export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
+  private feedbackResponsesService = inject(FeedbackResponsesService);
+
   @Input() responses: QuestionOutput[] = [];
   @Input() sectionOfView = '';
   @Input() section = '';
@@ -83,10 +85,6 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
 
   responsesToShow: Record<string, QuestionTab[]> = {};
   teamsToQuestions: Record<string, QuestionOutput[]> = {};
-
-  constructor(private feedbackResponsesService: FeedbackResponsesService) {
-    super();
-  }
 
   ngOnInit(): void {
     this.filterResponses();

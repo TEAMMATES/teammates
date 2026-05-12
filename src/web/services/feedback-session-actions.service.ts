@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { concat } from 'rxjs';
 import { finalize, takeWhile } from 'rxjs/operators';
@@ -20,13 +20,11 @@ import { Intent } from '../types/api-request';
   providedIn: 'root',
 })
 export class FeedbackSessionActionsService {
-  constructor(
-    private feedbackSessionsService: FeedbackSessionsService,
-    private fileSaveService: FileSaveService,
-    private simpleModalService: SimpleModalService,
-    private progressBarService: ProgressBarService,
-    private statusMessageService: StatusMessageService,
-  ) {}
+  private feedbackSessionsService = inject(FeedbackSessionsService);
+  private fileSaveService = inject(FileSaveService);
+  private simpleModalService = inject(SimpleModalService);
+  private progressBarService = inject(ProgressBarService);
+  private statusMessageService = inject(StatusMessageService);
 
   /**
    * Downloads session result.

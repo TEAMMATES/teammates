@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { CourseService } from './course.service';
@@ -18,11 +18,9 @@ import { SortBy, SortOrder } from '../types/sort-properties';
   providedIn: 'root',
 })
 export class StudentService {
-  constructor(
-    private httpRequestService: HttpRequestService,
-    private tableComparatorService: TableComparatorService,
-    private courseService: CourseService,
-  ) {}
+  private httpRequestService = inject(HttpRequestService);
+  private tableComparatorService = inject(TableComparatorService);
+  private courseService = inject(CourseService);
 
   /**
    * Get a list of students of a course by calling API.

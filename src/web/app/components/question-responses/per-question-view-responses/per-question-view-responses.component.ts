@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, inject } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import { TableComparatorService } from '../../../../services/table-comparator.service';
@@ -35,6 +35,10 @@ import { SingleResponseComponent } from '../single-response/single-response.comp
   ],
 })
 export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBase implements OnInit, OnChanges {
+  private tableComparatorService = inject(TableComparatorService);
+  private feedbackResponsesService = inject(FeedbackResponsesService);
+  private ngbModal = inject(NgbModal);
+
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
 
@@ -70,14 +74,6 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
   sortOrder: SortOrder = SortOrder.ASC;
 
   currResponseToAdd?: ResponseOutput;
-
-  constructor(
-    private tableComparatorService: TableComparatorService,
-    private feedbackResponsesService: FeedbackResponsesService,
-    private ngbModal: NgbModal,
-  ) {
-    super();
-  }
 
   ngOnInit(): void {
     this.filterResponses();

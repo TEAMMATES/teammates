@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import {
   NgbModalRef,
   NgbModal,
@@ -40,6 +40,11 @@ import { collapseAnim } from '../../../components/teammates-common/collapse-anim
   ],
 })
 export class AdminAccountSearchTableComponent implements OnChanges {
+  private statusMessageService = inject(StatusMessageService);
+  private simpleModalService = inject(SimpleModalService);
+  private accountService = inject(AccountService);
+  private ngbModal = inject(NgbModal);
+
   @Input()
   accountRequests: AccountRequestSearchResult[] = [];
 
@@ -49,13 +54,6 @@ export class AdminAccountSearchTableComponent implements OnChanges {
   isRejectingAccount: boolean[] = [];
   isApprovingAccount: boolean[] = [];
   isResettingAccount: boolean[] = [];
-
-  constructor(
-    private statusMessageService: StatusMessageService,
-    private simpleModalService: SimpleModalService,
-    private accountService: AccountService,
-    private ngbModal: NgbModal,
-  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['accountRequests']) {

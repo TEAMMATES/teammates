@@ -1,5 +1,6 @@
 import { APPLICATION_VERSION } from './application-version';
 import { config } from './config';
+import { Environment } from './environment.model';
 
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
@@ -8,7 +9,7 @@ import { config } from './config';
 /**
  * Environment variables for development mode.
  */
-export const environment: any = {
+export const environment: Environment = {
   ...config,
   version: APPLICATION_VERSION,
   production: false,

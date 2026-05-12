@@ -1,5 +1,5 @@
 import { KeyValuePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { TimezoneService } from '../../../services/timezone.service';
 import { TimeZones } from '../../../types/api-output';
@@ -14,14 +14,14 @@ import { LoadingSpinnerDirective } from '../../components/loading-spinner/loadin
   imports: [LoadingSpinnerDirective, KeyValuePipe],
 })
 export class TimezonePageComponent implements OnInit {
+  private timezoneService = inject(TimezoneService);
+
   javaTzVersion = '';
   javaTimezones: Record<string, number> = {};
   momentTzVersion = '';
   momentTimezones: Record<string, number> = {};
 
   isTimezonesLoading = false;
-
-  constructor(private timezoneService: TimezoneService) {}
 
   ngOnInit(): void {
     this.momentTzVersion = this.timezoneService.getTzVersion();

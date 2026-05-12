@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PageComponent } from './page.component';
 import { environment } from '../environments/environment';
@@ -13,10 +13,10 @@ import { AuthService } from '../services/auth.service';
   imports: [PageComponent],
 })
 export class PublicPageComponent {
-  constructor(
-    private route: ActivatedRoute,
-    private authService: AuthService,
-  ) {
+  private route = inject(ActivatedRoute);
+  private authService = inject(AuthService);
+
+  constructor() {
     if (environment.maintenance) {
       return;
     }

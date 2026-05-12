@@ -27,7 +27,6 @@ exports[`ExtensionConfirmModalComponent Test ExtentionModalType.DELETE branch 1`
   studentColumnsData={[Function Array]}
   studentRowsData={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  timeZoneService={[Function TimezoneService]}
 >
   <fieldset>
     <div
@@ -402,7 +401,6 @@ exports[`ExtensionConfirmModalComponent Test ExtentionModalType.SESSION_DELETE b
   studentColumnsData={[Function Array]}
   studentRowsData={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  timeZoneService={[Function TimezoneService]}
 >
   <fieldset>
     <div
@@ -765,7 +763,6 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
   studentColumnsData={[Function Array]}
   studentRowsData={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  timeZoneService={[Function TimezoneService]}
 >
   <fieldset>
     <div
@@ -1216,7 +1213,6 @@ exports[`ExtensionConfirmModalComponent use ngOnInit to initialise 1`] = `
   studentColumnsData={[Function Array]}
   studentRowsData={[Function Array]}
   tableComparatorService={[Function TableComparatorService]}
-  timeZoneService={[Function TimezoneService]}
 >
   <fieldset>
     <div

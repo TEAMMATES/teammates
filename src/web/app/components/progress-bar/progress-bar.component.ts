@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap';
 import { ProgressBarService } from '../../../services/progress-bar.service';
 
@@ -11,9 +11,9 @@ import { ProgressBarService } from '../../../services/progress-bar.service';
   imports: [NgbProgressbar],
 })
 export class ProgressBarComponent implements OnInit {
-  progressPercentage = 10;
+  private progressBarService = inject(ProgressBarService);
 
-  constructor(private progressBarService: ProgressBarService) {}
+  progressPercentage = 10;
 
   ngOnInit(): void {
     this.getProgress();

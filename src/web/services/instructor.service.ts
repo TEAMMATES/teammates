@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
@@ -12,7 +12,7 @@ import { InstructorCreateRequest, InstructorPrivilegeUpdateRequest, Intent } fro
   providedIn: 'root',
 })
 export class InstructorService {
-  constructor(private httpRequestService: HttpRequestService) {}
+  private httpRequestService = inject(HttpRequestService);
 
   /**
    * Get a list of instructors of a course by calling API.

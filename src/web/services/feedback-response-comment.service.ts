@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CommentVisibilityStateMachine } from './comment-visibility-state-machine';
 import { HttpRequestService } from './http-request.service';
@@ -17,7 +17,7 @@ import {
   providedIn: 'root',
 })
 export class FeedbackResponseCommentService {
-  constructor(private httpRequestService: HttpRequestService) {}
+  private httpRequestService = inject(HttpRequestService);
 
   /**
    * Create a comment by calling API.

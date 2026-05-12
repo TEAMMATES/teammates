@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { NavigationService } from './navigation.service';
 import { Instructor, Student } from '../types/api-output';
@@ -10,6 +10,8 @@ import { Instructor, Student } from '../types/api-output';
   providedIn: 'root',
 })
 export class LinkService {
+  private navigationService = inject(NavigationService);
+
   URI_PREFIX = '/web';
   JOIN_PAGE = '/join';
   STUDENT_HOME_PAGE = '/student/home';
@@ -18,8 +20,6 @@ export class LinkService {
   INSTRUCTOR_STUDENT_PROFILE_PAGE = '/instructor/courses/student/details';
   SESSIONS_SUBMISSION_PAGE = '/sessions/submission';
   SESSIONS_RESULT_PAGE = '/sessions/result';
-
-  constructor(private navigationService: NavigationService) {}
 
   /**
    * Generates course join link for student/instructor.

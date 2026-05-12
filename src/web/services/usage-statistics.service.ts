@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
@@ -11,7 +11,7 @@ import { UsageStatisticsRange } from '../types/api-output';
   providedIn: 'root',
 })
 export class UsageStatisticsService {
-  constructor(private httpRequestService: HttpRequestService) {}
+  private httpRequestService = inject(HttpRequestService);
 
   getUsageStatistics(startTime: number, endTime: number): Observable<UsageStatisticsRange> {
     const paramMap: Record<string, string> = {

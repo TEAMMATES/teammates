@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { InstructorSessionResultSectionType } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
@@ -53,7 +53,7 @@ export interface FeedbackResponsesResponse {
   providedIn: 'root',
 })
 export class FeedbackResponsesService {
-  constructor(private httpRequestService: HttpRequestService) {}
+  private httpRequestService = inject(HttpRequestService);
 
   /**
    * Gets the default feedback response details based on {@code questionType}.

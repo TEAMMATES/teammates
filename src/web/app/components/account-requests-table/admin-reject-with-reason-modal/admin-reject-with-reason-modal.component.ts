@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { RejectWithReasonModalComponentResult } from './admin-reject-with-reason-modal-model';
 import { environment } from '../../../../environments/environment';
@@ -17,6 +17,10 @@ import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor
   imports: [RichTextEditorComponent],
 })
 export class RejectWithReasonModalComponent implements OnInit {
+  activeModal = inject(NgbActiveModal);
+  statusMessageService = inject(StatusMessageService);
+  private searchService = inject(SearchService);
+
   readonly castAsInputElement = castAsInputElement;
 
   @Input()
@@ -64,13 +68,6 @@ export class RejectWithReasonModalComponent implements OnInit {
     'feel free to contact us at {supportEmail}</p>' +
     '<p>Regards,<br />TEAMMATES Team.</p>';
   rejectionReasonTitle = 'We are Unable to Create an Account for you';
-
-  constructor(
-    public activeModal: NgbActiveModal,
-    public statusMessageService: StatusMessageService,
-
-    private searchService: SearchService,
-  ) {}
 
   ngOnInit(): void {
     this.rejectionReasonBody = this.rejectionReasonBody.replace('{accountRequestName}', this.accountRequestName);

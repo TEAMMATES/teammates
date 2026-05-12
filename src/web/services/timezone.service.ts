@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import moment from 'moment-timezone';
 import { Observable } from 'rxjs';
 
@@ -15,6 +15,8 @@ import { DateFormat, TimeFormat } from '../types/datetime-const';
   providedIn: 'root',
 })
 export class TimezoneService {
+  private httpRequestService = inject(HttpRequestService);
+
   tzVersion = '';
   tzOffsets: Record<string, number> = {};
   guessedTimezone = '';
@@ -30,7 +32,7 @@ export class TimezoneService {
     ROC: true,
   };
 
-  constructor(private httpRequestService: HttpRequestService) {
+  constructor() {
     const d: Date = new Date();
     moment.tz.load(timezone);
     this.tzVersion = (moment.tz as any).dataVersion;

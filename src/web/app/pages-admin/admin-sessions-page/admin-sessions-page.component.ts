@@ -1,5 +1,5 @@
 import { KeyValuePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbCollapse, NgbInputDatepicker, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
@@ -38,6 +38,10 @@ interface OngoingSessionModel {
   ],
 })
 export class AdminSessionsPageComponent implements OnInit {
+  private timezoneService = inject(TimezoneService);
+  private statusMessageService = inject(StatusMessageService);
+  private feedbackSessionsService = inject(FeedbackSessionsService);
+
   totalOngoingSessions = 0;
   totalOpenSessions = 0;
   totalClosedSessions = 0;
@@ -62,12 +66,6 @@ export class AdminSessionsPageComponent implements OnInit {
   endTimeString = '';
 
   isLoadingOngoingSessions = false;
-
-  constructor(
-    private timezoneService: TimezoneService,
-    private statusMessageService: StatusMessageService,
-    private feedbackSessionsService: FeedbackSessionsService,
-  ) {}
 
   ngOnInit(): void {
     this.timezones = Object.keys(this.timezoneService.getTzOffsets());

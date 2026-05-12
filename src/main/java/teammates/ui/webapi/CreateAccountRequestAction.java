@@ -5,7 +5,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.AccountRequest;
 import teammates.ui.exception.InvalidOperationException;
-import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.request.AccountCreateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -13,17 +12,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
 /**
  * Creates a new account request.
  */
-public class CreateAccountRequestAction extends Action {
-
-    @Override
-    AuthType getMinAuthLevel() {
-        return AuthType.PUBLIC;
-    }
-
-    @Override
-    void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        // Nothing needs to be done here because anybody should be able to create an account request.
-    }
+public class CreateAccountRequestAction extends PublicAction {
 
     @Override
     public JsonResult execute()

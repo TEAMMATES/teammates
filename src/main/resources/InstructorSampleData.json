@@ -838,7 +838,7 @@
     "FS2.Q1.Charlie.2": {
       "id": "00000000-0000-4000-8000-000000000718",
       "giver": "charlie.d.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "answer": 110,
         "questionType": "CONTRIB"
@@ -994,7 +994,7 @@
     "FS2.Q1.Francis.3": {
       "id": "00000000-0000-4000-8000-000000000731",
       "giver": "francis.g.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "answer": 110,
         "questionType": "CONTRIB"
@@ -1042,7 +1042,7 @@
     "FS2.Q1.Gene.3": {
       "id": "00000000-0000-4000-8000-000000000735",
       "giver": "gene.h.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "answer": 110,
         "questionType": "CONTRIB"
@@ -1065,8 +1065,8 @@
     },
     "FS2.Q1.Inst.1": {
       "id": "00000000-0000-4000-8000-000000000737",
-      "giver": "teammates.demo.instructor@demo.course",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "answer": 110,
         "questionType": "CONTRIB"
@@ -1077,7 +1077,7 @@
     },
     "FS2.Q1.Inst.2": {
       "id": "00000000-0000-4000-8000-000000000738",
-      "giver": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "charlie.d.tmms@gmail.tmt",
       "answer": {
         "answer": 80,
@@ -1089,7 +1089,7 @@
     },
     "FS2.Q1.Inst.3": {
       "id": "00000000-0000-4000-8000-000000000739",
-      "giver": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "francis.g.tmms@gmail.tmt",
       "answer": {
         "answer": 110,
@@ -1101,7 +1101,7 @@
     },
     "FS2.Q1.Inst.4": {
       "id": "00000000-0000-4000-8000-000000000740",
-      "giver": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "gene.h.tmms@gmail.tmt",
       "answer": {
         "answer": 110,
@@ -1149,8 +1149,8 @@
     },
     "FS2.Q2.Inst.1": {
       "id": "00000000-0000-4000-8000-000000000744",
-      "giver": "teammates.demo.instructor@demo.course",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "questionType": "TEXT",
         "answer": "I was the project lead. I designed the application architecture and managed the project to ensure we deliver the product on time."
@@ -1258,7 +1258,7 @@
     "FS2.Q3.Charlie.3": {
       "id": "00000000-0000-4000-8000-000000000753",
       "giver": "charlie.d.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "questionType": "TEXT",
         "answer": "Demo_Instructor is a patient and good project lead."
@@ -1342,7 +1342,7 @@
     "FS2.Q3.Francis.1": {
       "id": "00000000-0000-4000-8000-000000000760",
       "giver": "francis.g.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "questionType": "TEXT",
         "answer": "Demo_Instructor was the project lead who put a lot of effort in this project."
@@ -1378,7 +1378,7 @@
     "FS2.Q3.Gene.1": {
       "id": "00000000-0000-4000-8000-000000000763",
       "giver": "gene.h.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "questionType": "TEXT",
         "answer": "Demo_Instructor was our team leader. Demo_Instructor helped us a lot, especially Charlie."
@@ -1413,7 +1413,7 @@
     },
     "FS2.Q3.Inst.1": {
       "id": "00000000-0000-4000-8000-000000000766",
-      "giver": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "francis.g.tmms@gmail.tmt",
       "answer": {
         "questionType": "TEXT",
@@ -1425,7 +1425,7 @@
     },
     "FS2.Q3.Inst.2": {
       "id": "00000000-0000-4000-8000-000000000767",
-      "giver": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "charlie.d.tmms@gmail.tmt",
       "answer": {
         "questionType": "TEXT",
@@ -1437,7 +1437,7 @@
     },
     "FS2.Q3.Inst.3": {
       "id": "00000000-0000-4000-8000-000000000768",
-      "giver": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "gene.h.tmms@gmail.tmt",
       "answer": {
         "questionType": "TEXT",
@@ -1533,7 +1533,7 @@
     },
     "FS2.Q4.Inst.1": {
       "id": "00000000-0000-4000-8000-000000000776",
-      "giver": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "Team 2",
       "answer": {
         "questionType": "TEXT",
@@ -1642,7 +1642,7 @@
     "FS2.Q5.Charlie.3": {
       "id": "00000000-0000-4000-8000-000000000785",
       "giver": "charlie.d.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "questionType": "TEXT",
         "answer": "Thank you Demo_Instructor for all the help in the project."
@@ -1726,7 +1726,7 @@
     "FS2.Q5.Francis.1": {
       "id": "00000000-0000-4000-8000-000000000792",
       "giver": "francis.g.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "questionType": "TEXT",
         "answer": "Thank you Demo_Instructor for all the hardwork!"
@@ -1762,7 +1762,7 @@
     "FS2.Q5.Gene.1": {
       "id": "00000000-0000-4000-8000-000000000795",
       "giver": "gene.h.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "questionType": "TEXT",
         "answer": "Thank you Demo_Instructor for being such a good team leader!"
@@ -1797,7 +1797,7 @@
     },
     "FS2.Q5.Inst.1": {
       "id": "00000000-0000-4000-8000-000000000798",
-      "giver": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "francis.g.tmms@gmail.tmt",
       "answer": {
         "questionType": "TEXT",
@@ -1809,7 +1809,7 @@
     },
     "FS2.Q5.Inst.2": {
       "id": "00000000-0000-4000-8000-000000000799",
-      "giver": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "charlie.d.tmms@gmail.tmt",
       "answer": {
         "questionType": "TEXT",
@@ -1821,7 +1821,7 @@
     },
     "FS2.Q5.Inst.3": {
       "id": "00000000-0000-4000-8000-000000000800",
-      "giver": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "gene.h.tmms@gmail.tmt",
       "answer": {
         "questionType": "TEXT",
@@ -1942,7 +1942,7 @@
     "FS3.Q1.Charlie.2": {
       "id": "00000000-0000-4000-8000-000000000810",
       "giver": "charlie.d.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "answers": [120],
         "questionType": "CONSTSUM"
@@ -2098,7 +2098,7 @@
     "FS3.Q1.Francis.3": {
       "id": "00000000-0000-4000-8000-000000000823",
       "giver": "francis.g.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "answers": [100],
         "questionType": "CONSTSUM"
@@ -2146,7 +2146,7 @@
     "FS3.Q1.Gene.3": {
       "id": "00000000-0000-4000-8000-000000000827",
       "giver": "gene.h.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "answers": [100],
         "questionType": "CONSTSUM"
@@ -2169,8 +2169,8 @@
     },
     "FS3.Q1.Inst.1": {
       "id": "00000000-0000-4000-8000-000000000829",
-      "giver": "teammates.demo.instructor@demo.course",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "answers": [100],
         "questionType": "CONSTSUM"
@@ -2181,7 +2181,7 @@
     },
     "FS3.Q1.Inst.2": {
       "id": "00000000-0000-4000-8000-000000000830",
-      "giver": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "charlie.d.tmms@gmail.tmt",
       "answer": {
         "answers": [100],
@@ -2193,7 +2193,7 @@
     },
     "FS3.Q1.Inst.3": {
       "id": "00000000-0000-4000-8000-000000000831",
-      "giver": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "francis.g.tmms@gmail.tmt",
       "answer": {
         "answers": [100],
@@ -2205,7 +2205,7 @@
     },
     "FS3.Q1.Inst.4": {
       "id": "00000000-0000-4000-8000-000000000832",
-      "giver": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "gene.h.tmms@gmail.tmt",
       "answer": {
         "answers": [100],
@@ -2301,8 +2301,8 @@
     },
     "FS3.Q2.Inst.1": {
       "id": "00000000-0000-4000-8000-000000000840",
-      "giver": "teammates.demo.instructor@demo.course",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "questionType": "TEXT",
         "answer": "I was the project lead. I designed the application architecture and managed the project to ensure we deliver the product on time."
@@ -2410,7 +2410,7 @@
     "FS3.Q3.Charlie.3": {
       "id": "00000000-0000-4000-8000-000000000849",
       "giver": "charlie.d.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "questionType": "TEXT",
         "answer": "Demo_Instructor is a patient and good project lead."
@@ -2494,7 +2494,7 @@
     "FS3.Q3.Francis.1": {
       "id": "00000000-0000-4000-8000-000000000856",
       "giver": "francis.g.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "questionType": "TEXT",
         "answer": "Demo_Instructor was the project lead who put a lot of effort in this project."
@@ -2530,7 +2530,7 @@
     "FS3.Q3.Gene.1": {
       "id": "00000000-0000-4000-8000-000000000859",
       "giver": "gene.h.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "questionType": "TEXT",
         "answer": "Demo_Instructor was our team leader. Demo_Instructor helped us a lot, especially Charlie."
@@ -2565,7 +2565,7 @@
     },
     "FS3.Q3.Inst.1": {
       "id": "00000000-0000-4000-8000-000000000862",
-      "giver": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "francis.g.tmms@gmail.tmt",
       "answer": {
         "questionType": "TEXT",
@@ -2577,7 +2577,7 @@
     },
     "FS3.Q3.Inst.2": {
       "id": "00000000-0000-4000-8000-000000000863",
-      "giver": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "charlie.d.tmms@gmail.tmt",
       "answer": {
         "questionType": "TEXT",
@@ -2589,7 +2589,7 @@
     },
     "FS3.Q3.Inst.3": {
       "id": "00000000-0000-4000-8000-000000000864",
-      "giver": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "gene.h.tmms@gmail.tmt",
       "answer": {
         "questionType": "TEXT",
@@ -2685,7 +2685,7 @@
     },
     "FS3.Q4.Inst.1": {
       "id": "00000000-0000-4000-8000-000000000872",
-      "giver": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "Team 2",
       "answer": {
         "questionType": "TEXT",
@@ -2794,7 +2794,7 @@
     "FS3.Q5.Charlie.3": {
       "id": "00000000-0000-4000-8000-000000000881",
       "giver": "charlie.d.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "questionType": "TEXT",
         "answer": "Thank you Demo_Instructor for all the help in the project."
@@ -2878,7 +2878,7 @@
     "FS3.Q5.Francis.1": {
       "id": "00000000-0000-4000-8000-000000000888",
       "giver": "francis.g.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "questionType": "TEXT",
         "answer": "Thank you Demo_Instructor for all the hardwork!"
@@ -2914,7 +2914,7 @@
     "FS3.Q5.Gene.1": {
       "id": "00000000-0000-4000-8000-000000000891",
       "giver": "gene.h.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "questionType": "TEXT",
         "answer": "Thank you Demo_Instructor for being such a good team leader!"
@@ -2949,7 +2949,7 @@
     },
     "FS3.Q5.Inst.1": {
       "id": "00000000-0000-4000-8000-000000000894",
-      "giver": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "francis.g.tmms@gmail.tmt",
       "answer": {
         "questionType": "TEXT",
@@ -2961,7 +2961,7 @@
     },
     "FS3.Q5.Inst.2": {
       "id": "00000000-0000-4000-8000-000000000895",
-      "giver": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "charlie.d.tmms@gmail.tmt",
       "answer": {
         "questionType": "TEXT",
@@ -2973,7 +2973,7 @@
     },
     "FS3.Q5.Inst.3": {
       "id": "00000000-0000-4000-8000-000000000896",
-      "giver": "teammates.demo.instructor@demo.course",
+      "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "gene.h.tmms@gmail.tmt",
       "answer": {
         "questionType": "TEXT",
@@ -3398,7 +3398,7 @@
     "charlieResponse6.3": {
       "id": "00000000-0000-4000-8000-000000000931",
       "giver": "charlie.d.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "questionType": "TEXT",
         "answer": "Thank you Demo_Instructor for all the help in the project."
@@ -3458,7 +3458,7 @@
     "charlieResponse8.4": {
       "id": "00000000-0000-4000-8000-000000000936",
       "giver": "charlie.d.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "answers": [150],
         "questionType": "CONSTSUM"
@@ -3506,7 +3506,7 @@
     "charlieResponse9.4": {
       "id": "00000000-0000-4000-8000-000000000940",
       "giver": "charlie.d.tmms@gmail.tmt",
-      "recipient": "teammates.demo.instructor@demo.course",
+      "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
         "answer": 150,
         "questionType": "CONTRIB"

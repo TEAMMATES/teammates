@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from '../../../environments/environment';
@@ -17,6 +17,10 @@ import { ErrorMessageOutput } from '../../error-message-output';
   imports: [FormsModule],
 })
 export class ErrorReportComponent implements OnInit {
+  private errorReportService = inject(ErrorReportService);
+  private ngbActiveModal = inject(NgbActiveModal);
+  private statusMessageService = inject(StatusMessageService);
+
   errorMessage = '';
   subject = 'User-submitted Error Report';
   content = '';
@@ -26,12 +30,6 @@ export class ErrorReportComponent implements OnInit {
   errorReportSubmitted = false;
   csrfErrorMessages: string[] = ['Missing CSRF token.', 'Invalid CSRF token.'];
   readonly supportEmail: string = environment.supportEmail;
-
-  constructor(
-    private errorReportService: ErrorReportService,
-    private ngbActiveModal: NgbActiveModal,
-    private statusMessageService: StatusMessageService,
-  ) {}
 
   ngOnInit(): void {
     if (this.csrfErrorMessages.includes(this.errorMessage)) {

@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, Input, OnChanges, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, ChangeDetectorRef, inject } from '@angular/core';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -17,6 +17,10 @@ import { NotificationStyleClassPipe } from '../teammates-common/notification-sty
   imports: [NgClass, NotificationStyleClassPipe, NgbCollapse],
 })
 export class NotificationBannerComponent implements OnInit, OnChanges {
+  private notificationService = inject(NotificationService);
+  private statusMessageService = inject(StatusMessageService);
+  private cdr = inject(ChangeDetectorRef);
+
   @Input()
   url = '';
 
@@ -25,12 +29,6 @@ export class NotificationBannerComponent implements OnInit, OnChanges {
 
   isShown = false;
   notifications: Notification[] = [];
-
-  constructor(
-    private notificationService: NotificationService,
-    private statusMessageService: StatusMessageService,
-    private cdr: ChangeDetectorRef,
-  ) {}
 
   ngOnInit(): void {
     if (this.notificationTargetUser !== NotificationTargetUser.GENERAL) {

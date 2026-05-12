@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 /**
  * Triggers a file download using native browser APIs.
@@ -8,7 +8,7 @@ import { Inject, Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class FileSaveService {
-  constructor(@Inject(DOCUMENT) private document: Document) {}
+  private document = inject<Document>(DOCUMENT);
 
   saveFile(blob: Blob, filename: string): void {
     const url: string = URL.createObjectURL(blob);

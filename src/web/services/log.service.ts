@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpRequestService } from './http-request.service';
 import { ResourceEndpoints } from '../types/api-const';
@@ -11,7 +11,7 @@ import { FeedbackSessionLogs, FeedbackSessionLogType } from '../types/api-output
   providedIn: 'root',
 })
 export class LogService {
-  constructor(private httpRequestService: HttpRequestService) {}
+  private httpRequestService = inject(HttpRequestService);
 
   /**
    * Creates a log for feedback session by calling API.

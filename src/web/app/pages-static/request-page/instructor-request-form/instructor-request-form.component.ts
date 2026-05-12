@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
 import { NgxCaptchaModule } from 'ngx-captcha';
@@ -25,7 +25,7 @@ import { ErrorMessageOutput } from '../../../error-message-output';
   imports: [FormsModule, ReactiveFormsModule, NgxCaptchaModule, NgbAlert, TeammatesRouterDirective],
 })
 export class InstructorRequestFormComponent {
-  constructor(private accountService: AccountService) {}
+  private accountService = inject(AccountService);
 
   // Create members to be accessed in template
   readonly STUDENT_NAME_MAX_LENGTH = STUDENT_NAME_MAX_LENGTH;

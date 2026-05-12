@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { NavigationService } from '../../services/navigation.service';
@@ -14,6 +14,9 @@ import { PageComponent } from '../page.component';
   imports: [PageComponent],
 })
 export class AdminPageComponent implements OnInit {
+  private authService = inject(AuthService);
+  private navigationService = inject(NavigationService);
+
   user = '';
   isInstructor = false;
   isStudent = false;
@@ -54,14 +57,9 @@ export class AdminPageComponent implements OnInit {
 
   private backendUrl: string = environment.backendUrl;
 
-  constructor(
-    private authService: AuthService,
-    private navigationService: NavigationService,
-  ) {}
-
   ngOnInit(): void {
     this.isFetchingAuthDetails = true;
-    this.authService.getAuthUser().subscribe({
+    this.authService.getAuthUser(undefined, '/web/admin/home').subscribe({
       next: (res: AuthInfo) => {
         if (res.user) {
           this.user = res.user.id;
@@ -74,7 +72,7 @@ export class AdminPageComponent implements OnInit {
             this.navigationService.navigateWithErrorMessage('/web', 'You are not authorized to view the page.');
           }
         } else {
-          window.location.href = `${this.backendUrl}${res.adminLoginUrl}`;
+          window.location.href = `${this.backendUrl}${res.loginUrl}`;
         }
         this.isFetchingAuthDetails = false;
       },

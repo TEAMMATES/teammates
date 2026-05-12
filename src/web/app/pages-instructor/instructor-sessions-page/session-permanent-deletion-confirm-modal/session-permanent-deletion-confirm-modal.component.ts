@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 /**
@@ -9,11 +9,11 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './session-permanent-deletion-confirm-modal.component.html',
 })
 export class SessionPermanentDeletionConfirmModalComponent {
+  activeModal = inject(NgbActiveModal);
+
   @Input()
   courseId = '';
 
   @Input()
   feedbackSessionName = '';
-
-  constructor(public activeModal: NgbActiveModal) {}
 }

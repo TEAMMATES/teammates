@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReminderResponseModel } from './send-reminders-to-respondents-model';
@@ -18,6 +18,8 @@ import { RespondentListInfoTableComponent } from '../respondent-list-info-table/
   imports: [FormsModule, RespondentListInfoTableComponent],
 })
 export class SendRemindersToRespondentsModalComponent {
+  activeModal = inject(NgbActiveModal);
+
   // values below will be injected by other component
   courseId = '';
   feedbackSessionName = '';
@@ -25,8 +27,6 @@ export class SendRemindersToRespondentsModalComponent {
   instructorListInfoTableRowModels: InstructorListInfoTableRowModel[] = [];
 
   isSendingCopyToInstructor = true;
-
-  constructor(public activeModal: NgbActiveModal) {}
 
   /**
    * Changes selection state for all students.
