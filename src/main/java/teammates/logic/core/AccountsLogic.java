@@ -73,6 +73,25 @@ public final class AccountsLogic {
     }
 
     /**
+     * Creates an account for the given email.
+     * 
+     * @return the created account
+     * @throws InvalidParametersException   if the email is invalid
+     * @throws EntityAlreadyExistsException if the account already exists in the
+     *                                      database.
+     */
+    public Account createAccountForEmail(String email)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert email != null;
+
+        // TODO: Account googleId will be replaced by OIDC subject in the future,
+        // for now we can just use email as googleId.
+        // Account name will also be removed, use a generic "User" for now.
+        Account account = new Account(email, "User", email);
+        return createAccount(account);
+    }
+
+    /**
      * Creates an account.
      *
      * @return the created account
@@ -143,6 +162,9 @@ public final class AccountsLogic {
         if (account == null) {
             account = new Account(googleId, student.getName(), student.getEmail());
             createAccount(account);
+        } else {
+            account.setName(student.getName());
+            account.setEmail(student.getEmail());
         }
 
         if (student.getAccount() == null) {
@@ -167,11 +189,15 @@ public final class AccountsLogic {
             } catch (EntityAlreadyExistsException e) {
                 assert false : "Account already exists.";
             }
+        } else {
+            account.setName(instructor.getName());
+            account.setEmail(instructor.getEmail());
         }
 
         instructor.setAccount(account);
 
         // Update the googleId of the student entity for the instructor which was created from sample data.
+        // TODO: Sample data joining should use joinCourseForStudent instead, email used here may also be incorrect.
         Student student = usersLogic.getStudentForEmail(instructor.getCourseId(), instructor.getEmail());
         if (student != null) {
             student.setAccount(account);
