@@ -14,11 +14,15 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
 import teammates.common.util.HttpRequestHelper;
+import teammates.logic.core.AccountsLogic;
+import teammates.storage.entity.Account;
 
 /**
  * Servlet that handles dev server login.
  */
 public class DevServerLoginServlet extends AuthServlet {
+
+    private final AccountsLogic accountsLogic = AccountsLogic.inst();
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -60,7 +64,13 @@ public class DevServerLoginServlet extends AuthServlet {
             return;
         }
 
-        UserInfoCookie uic = new UserInfoCookie(email, UserInfoCookie.NULL_ACCOUNT_ID);
+        Account account = accountsLogic.createOrGetAccountForEmail(email);
+        if (account == null) {
+            resp.setStatus(HttpStatus.SC_BAD_REQUEST);
+            return;
+        }
+
+        UserInfoCookie uic = new UserInfoCookie(email, account.getId());
         Cookie cookie = getLoginCookie(uic);
         resp.addCookie(cookie);
 

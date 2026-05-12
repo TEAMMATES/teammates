@@ -15,7 +15,6 @@ import com.google.api.client.auth.oauth2.AuthorizationCodeResponseUrl;
 import com.google.api.client.auth.oauth2.TokenResponse;
 
 import teammates.common.datatransfer.UserInfoCookie;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HttpRequest;
 import teammates.common.util.JsonUtils;
@@ -23,6 +22,7 @@ import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.storage.entity.Account;
+
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.type.TypeReference;
 
@@ -33,7 +33,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
     private static final Logger log = Logger.getLogger();
 
-    private static final AccountsLogic accountsLogic = AccountsLogic.inst();
+    private final AccountsLogic accountsLogic = AccountsLogic.inst();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -50,15 +50,17 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
             cookie = getLoginInvalidationCookie();
         } else {
-            try {
-                Account account = accountsLogic.createAccountForEmail(authResult.email);
-                UserInfoCookie uic = new UserInfoCookie(authResult.email, account.getId());
-                cookie = getLoginCookie(uic);
-            } catch (EntityAlreadyExistsException | InvalidParametersException e) {
-                log.warning("Failed to create account or login cookie", e);
+            Account account = accountsLogic.createOrGetAccountForEmail(authResult.email);
+            if (account == null) {
+                log.warning("Failed to create account");
                 req.getSession().invalidate();
                 cookie = getLoginInvalidationCookie();
+                resp.addCookie(cookie);
+                resp.sendRedirect(authResult.nextUrl);
+                return;
             }
+            UserInfoCookie uic = new UserInfoCookie(authResult.email, account.getId());
+            cookie = getLoginCookie(uic);
         }
 
         log.info("Going to redirect to: " + authResult.nextUrl);

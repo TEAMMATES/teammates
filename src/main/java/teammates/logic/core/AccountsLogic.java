@@ -73,8 +73,25 @@ public final class AccountsLogic {
     }
 
     /**
+     * Creates an account for the given email if it does not exist,
+     * otherwise returns the existing account.
+     *
+     * @param email the email of the account
+     * @return the created or existing account
+     */
+    public Account createOrGetAccountForEmail(String email) {
+        try {
+            return createAccountForEmail(email);
+        } catch (EntityAlreadyExistsException e) {
+            return getAccountForGoogleId(email);
+        } catch (InvalidParametersException e) {
+            return null;
+        }
+    }
+
+    /**
      * Creates an account for the given email.
-     * 
+     *
      * @return the created account
      * @throws InvalidParametersException   if the email is invalid
      * @throws EntityAlreadyExistsException if the account already exists in the

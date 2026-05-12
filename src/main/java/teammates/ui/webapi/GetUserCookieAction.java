@@ -4,12 +4,16 @@ import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
+import teammates.logic.core.AccountsLogic;
+import teammates.storage.entity.Account;
 import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
  * Action specifically created for returning user cookie value.
  */
 public class GetUserCookieAction extends Action {
+
+    private final AccountsLogic accountsLogic = AccountsLogic.inst();
 
     @Override
     AuthType getMinAuthLevel() {
@@ -24,7 +28,8 @@ public class GetUserCookieAction extends Action {
     @Override
     public JsonResult execute() {
         String user = getNonNullRequestParamValue(Const.ParamsNames.USER_ID);
-        UserInfoCookie uic = new UserInfoCookie(user, UserInfoCookie.NULL_ACCOUNT_ID);
+        Account account = accountsLogic.createOrGetAccountForEmail(user);
+        UserInfoCookie uic = new UserInfoCookie(user, account == null ? null : account.getId());
         return new JsonResult(StringHelper.encrypt(JsonUtils.toCompactJson(uic)));
     }
 
