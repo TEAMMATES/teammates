@@ -8,6 +8,9 @@ import java.util.UUID;
  *  is an admin, instructor, student.
  */
 public class UserInfo {
+    
+    // A temporary placeholder account ID until we have finished migrating to using account ID in cookies.
+    public static final UUID NULL_ACCOUNT_ID = new UUID(0L, 0L);
 
     /**
      * The user's Google ID.
@@ -47,7 +50,7 @@ public class UserInfo {
 
     public UserInfo(String googleId, UUID accountId) {
         this.id = googleId;
-        this.accountId = accountId;
+        this.accountId = accountId != null ? accountId : NULL_ACCOUNT_ID;
     }
 
     public String getId() {

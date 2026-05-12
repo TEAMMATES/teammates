@@ -55,7 +55,7 @@ public class UserProvision {
      * Gets the information of the current masqueraded user.
      */
     public UserInfo getMasqueradeUser(String googleId) {
-        UserInfo userInfo = new UserInfo(googleId, null);
+        UserInfo userInfo = new UserInfo(googleId, UserInfo.NULL_ACCOUNT_ID);
         userInfo.isAdmin = false;
         userInfo.isInstructor = usersLogic.isInstructorInAnyCourse(googleId);
         userInfo.isStudent = usersLogic.isStudentInAnyCourse(googleId);
@@ -67,7 +67,7 @@ public class UserProvision {
      * Gets the information of a user who has administrator role only.
      */
     public UserInfo getAdminOnlyUser(String userId) {
-        UserInfo userInfo = new UserInfo(userId, null);
+        UserInfo userInfo = new UserInfo(userId, UserInfo.NULL_ACCOUNT_ID);
         userInfo.isAdmin = true;
         return userInfo;
     }
@@ -76,7 +76,7 @@ public class UserProvision {
      * User principal for verified cron/worker requests: not a human app admin; {@link UserInfo#isAutomatedService} only.
      */
     public UserInfo getAutomatedServiceUser(String serviceId) {
-        UserInfo userInfo = new UserInfo(serviceId, null);
+        UserInfo userInfo = new UserInfo(serviceId, UserInfo.NULL_ACCOUNT_ID);
         userInfo.isAutomatedService = true;
         return userInfo;
     }
