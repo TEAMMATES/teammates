@@ -13,7 +13,6 @@ import { StudentService } from '../../../services/student.service';
 import { EnrollStudents, HasResponses, JoinState, Student, Students } from '../../../types/api-output';
 import { StudentEnrollRequest, StudentsEnrollRequest } from '../../../types/api-request';
 import { AjaxLoadingComponent } from '../../components/ajax-loading/ajax-loading.component';
-import { AjaxPreloadComponent } from '../../components/ajax-preload/ajax-preload.component';
 import { DataGridComponent } from '../../components/data-grid/data-grid.component';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
@@ -42,7 +41,6 @@ interface EnrollResultPanel {
     LoadingSpinnerDirective,
     LoadingRetryComponent,
     StatusMessageComponent,
-    AjaxPreloadComponent,
     PanelChevronComponent,
     NgClass,
     ProgressBarComponent,
