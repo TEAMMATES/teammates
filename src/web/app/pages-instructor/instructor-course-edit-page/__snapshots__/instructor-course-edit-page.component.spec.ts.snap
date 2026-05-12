@@ -121,7 +121,7 @@ exports[`InstructorCourseEditPageComponent should snap when editing course detai
           </div>
         </div>
         <div
-          class="card-body text-center fill-plain"
+          class="card-body text-center bg-light"
         >
           <div
             class="row form-group"
@@ -426,7 +426,7 @@ exports[`InstructorCourseEditPageComponent should snap with course details 1`] =
           </div>
         </div>
         <div
-          class="card-body text-center fill-plain"
+          class="card-body text-center bg-light"
         >
           <div
             class="row form-group"
@@ -731,7 +731,7 @@ exports[`InstructorCourseEditPageComponent should snap with default fields 1`] =
           </div>
         </div>
         <div
-          class="card-body text-center fill-plain"
+          class="card-body text-center bg-light"
         >
           <div
             class="row form-group"
@@ -1195,7 +1195,7 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
           </div>
         </div>
         <div
-          class="card-body text-center fill-plain"
+          class="card-body text-center bg-light"
         >
           <div
             class="row form-group"

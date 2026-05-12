@@ -81,7 +81,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
         class="card"
       >
         <div
-          class="card-body fill-plain"
+          class="card-body bg-light"
         >
           <div
             class="row"
@@ -247,7 +247,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
         class="card"
       >
         <div
-          class="card-body fill-plain"
+          class="card-body bg-light"
         >
           <div
             class="row"

@@ -600,10 +600,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
       </div>
     </div>
   </div><div
-    class="card card-plain"
+    class="card bg-light"
   >
     <div
-      class="card card-plain"
+      class="card bg-light"
     >
       <div
         class="card-body"
@@ -890,10 +890,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
       </div>
     </div>
   </div><div
-    class="card card-plain"
+    class="card bg-light"
   >
     <div
-      class="card card-plain"
+      class="card bg-light"
     >
       <div
         class="card-body"
@@ -3928,10 +3928,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
       </div>
     </div>
   </div><div
-    class="card card-plain"
+    class="card bg-light"
   >
     <div
-      class="card card-plain"
+      class="card bg-light"
     >
       <div
         class="card-body"

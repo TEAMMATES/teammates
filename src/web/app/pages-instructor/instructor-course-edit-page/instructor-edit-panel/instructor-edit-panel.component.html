@@ -55,7 +55,7 @@
     </div>
   </div>
 
-  <div class="card-body text-center" [ngClass]="{ 'fill-plain': editMode === EditMode.ADD }">
+  <div class="card-body text-center" [ngClass]="{ 'bg-light': editMode === EditMode.ADD }">
     @if (editMode === EditMode.EDIT && currInstructorCoursePrivilege.canModifyInstructor) {
       <div class="row form-group">
         <label for="google-id-instructor-{{ instructorIndex + 1 }}" class="col-sm-2 control-label"> Google ID: </label>

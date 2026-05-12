@@ -167,7 +167,7 @@ exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`]
         class="card"
       >
         <div
-          class="card-body fill-plain"
+          class="card-body bg-light"
         >
           <div
             class="row"

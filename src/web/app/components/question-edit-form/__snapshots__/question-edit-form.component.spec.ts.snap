@@ -125,7 +125,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
         class="card-body"
       >
         <div
-          class="background-color-light-blue"
+          class="bg-light"
         >
           <div
             class="row"
@@ -135,7 +135,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             >
               <tm-question-edit-brief-description-form>
                 <div
-                  class="background-color-light-blue"
+                  class="bg-light"
                 >
                   <div
                     class="row padding-15px text-start"

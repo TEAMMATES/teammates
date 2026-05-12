@@ -68,7 +68,7 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
     <div>
       <tm-session-edit-form>
         <div
-          class="card card-plain"
+          class="card bg-light"
           id="session-edit-form"
         >
           <div
@@ -1594,7 +1594,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
     <div>
       <tm-session-edit-form>
         <div
-          class="card card-plain"
+          class="card bg-light"
           id="session-edit-form"
         >
           <div
@@ -3120,7 +3120,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
     <div>
       <tm-session-edit-form>
         <div
-          class="card card-plain"
+          class="card bg-light"
           id="session-edit-form"
         >
           <div
@@ -4627,7 +4627,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
     <div>
       <tm-session-edit-form>
         <div
-          class="card card-plain"
+          class="card bg-light"
           id="session-edit-form"
         >
           <div
@@ -6157,7 +6157,7 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
     <div>
       <tm-session-edit-form>
         <div
-          class="card card-plain"
+          class="card bg-light"
           id="session-edit-form"
         >
           <div
@@ -7683,7 +7683,7 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
     <div>
       <tm-session-edit-form>
         <div
-          class="card card-plain"
+          class="card bg-light"
           id="session-edit-form"
         >
           <div
@@ -9209,7 +9209,7 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
     <div>
       <tm-session-edit-form>
         <div
-          class="card card-plain"
+          class="card bg-light"
           id="session-edit-form"
         >
           <div
