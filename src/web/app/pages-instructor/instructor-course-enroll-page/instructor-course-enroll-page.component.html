@@ -35,7 +35,7 @@
                 <b>Existing Students</b>
                 <div class="card-header-btn-toolbar">
                   @if (isLoadingExistingStudents) {
-                    <tm-ajax-preload></tm-ajax-preload>
+                    <tm-ajax-loading [useBlueSpinner]="true"></tm-ajax-loading>
                   }
                   <b class="existing-students-status-message">{{
                     isExistingStudentsPresent

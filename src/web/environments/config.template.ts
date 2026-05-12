@@ -1,12 +1,9 @@
+import { AppConfig } from './environment.model';
+
 /**
  * Contains some configuration values required to build and run the web application.
  */
-export const config: any = {
-  /**
-   * The URL of page to be loaded for the account request page.
-   */
-  accountRequestFormUrl: '',
-
+export const config: AppConfig = {
   /**
    * The support email shown to the user in various pages of the web application.
    */
