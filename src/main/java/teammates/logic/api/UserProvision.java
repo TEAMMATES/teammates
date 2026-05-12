@@ -72,7 +72,7 @@ public class UserProvision {
      * Gets the information of a user who has administrator role only.
      */
     public UserInfo getAdminOnlyUser(String userId) {
-        Account account = accountsLogic.getAccountForGoogleId(userId);
+        Account account = userId == null ? null : accountsLogic.getAccountForGoogleId(userId);
         UserInfo userInfo = new UserInfo(userId, account == null ? null : account.getId());
         userInfo.isAdmin = true;
         return userInfo;
