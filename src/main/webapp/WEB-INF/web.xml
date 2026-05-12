@@ -95,6 +95,17 @@
     </servlet-mapping>
 
     <servlet>
+        <description>Servlet that handles dev server login requests</description>
+        <servlet-name>DevServerLoginServlet</servlet-name>
+        <servlet-class>teammates.ui.servlets.DevServerLoginServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DevServerLoginServlet</servlet-name>
+        <url-pattern>/devServerLogin</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <description>Servlet that handles OAuth2 callback</description>
         <servlet-name>OAuth2CallbackServlet</servlet-name>
         <servlet-class>teammates.ui.servlets.OAuth2CallbackServlet</servlet-class>

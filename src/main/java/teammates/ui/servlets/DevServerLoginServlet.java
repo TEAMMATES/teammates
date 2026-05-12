@@ -13,6 +13,7 @@ import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.HttpRequestHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.storage.entity.Account;
@@ -64,7 +65,16 @@ public class DevServerLoginServlet extends AuthServlet {
             return;
         }
 
-        Account account = accountsLogic.createOrGetAccountForEmail(email);
+        Account account;
+        try {
+            HibernateUtil.beginTransaction();
+            account = accountsLogic.createOrGetAccountForEmail(email);
+            HibernateUtil.commitTransaction();
+        } catch (Exception e) {
+            HibernateUtil.rollbackTransaction();
+            resp.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            return;
+        }
         if (account == null) {
             resp.setStatus(HttpStatus.SC_BAD_REQUEST);
             return;

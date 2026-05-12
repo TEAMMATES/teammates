@@ -16,6 +16,7 @@ import com.google.api.client.auth.oauth2.TokenResponse;
 
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.HttpRequest;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
@@ -50,7 +51,20 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
             cookie = getLoginInvalidationCookie();
         } else {
-            Account account = accountsLogic.createOrGetAccountForEmail(authResult.email);
+            Account account;
+            try {
+                HibernateUtil.beginTransaction();
+                account = accountsLogic.createOrGetAccountForEmail(authResult.email);
+                HibernateUtil.commitTransaction();
+            } catch (Exception e) {
+                HibernateUtil.rollbackTransaction();
+                log.warning("Failed to create or get account");
+                req.getSession().invalidate();
+                cookie = getLoginInvalidationCookie();
+                resp.addCookie(cookie);
+                resp.sendRedirect(authResult.nextUrl);
+                return;
+            }
             if (account == null) {
                 log.warning("Failed to create account");
                 req.getSession().invalidate();

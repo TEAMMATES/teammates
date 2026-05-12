@@ -75,9 +75,10 @@ public final class AccountsLogic {
     /**
      * Creates an account for the given email if it does not exist,
      * otherwise returns the existing account.
+     * The account can be null if the email is invalid.
      *
      * @param email the email of the account
-     * @return the created or existing account
+     * @return the created or existing account or null
      */
     public Account createOrGetAccountForEmail(String email) {
         try {
