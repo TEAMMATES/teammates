@@ -25,8 +25,12 @@ public class UserInfoCookie {
         // for Jackson deserialization
     }
 
-    public UserInfoCookie(String userId, UUID accountId) {
+    public UserInfoCookie(String userId) {
         this.userId = userId;
+        this.expiryTime = Instant.now().plus(Const.COOKIE_VALIDITY_PERIOD).toEpochMilli();
+    }
+
+    public UserInfoCookie(UUID accountId) {
         this.accountId = accountId;
         this.expiryTime = Instant.now().plus(Const.COOKIE_VALIDITY_PERIOD).toEpochMilli();
     }
