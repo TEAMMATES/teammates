@@ -45,11 +45,8 @@ public class UserInfo {
      */
     public boolean isAutomatedService;
 
-    public UserInfo(String googleId) {
+    public UserInfo(String googleId, UUID accountId) {
         this.id = googleId;
-    }
-
-    public UserInfo(UUID accountId) {
         this.accountId = accountId;
     }
 

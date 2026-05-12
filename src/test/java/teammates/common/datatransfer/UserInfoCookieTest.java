@@ -12,10 +12,7 @@ import teammates.test.BaseTestCase;
  * SUT: {@link UserInfoCookie}.
  */
 public class UserInfoCookieTest extends BaseTestCase {
-    private UserInfoCookie uc = new UserInfoCookie("MockId");
-    {
-        uc.setAccountId(UUID.randomUUID());
-    }
+    private UserInfoCookie uc = new UserInfoCookie("MockId", UUID.randomUUID());
 
     @Test
     public void testIsValid() {
