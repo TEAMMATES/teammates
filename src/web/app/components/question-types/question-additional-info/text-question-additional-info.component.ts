@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { QuestionAdditionalInfo } from './question-additional-info';
+import { Component, Input } from '@angular/core';
 import { FeedbackTextQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_TEXT_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 
@@ -10,8 +9,6 @@ import { DEFAULT_TEXT_QUESTION_DETAILS } from '../../../../types/default-questio
   selector: 'tm-text-question-additional-info',
   templateUrl: './text-question-additional-info.component.html',
 })
-export class TextQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<FeedbackTextQuestionDetails> {
-  constructor() {
-    super(DEFAULT_TEXT_QUESTION_DETAILS());
-  }
+export class TextQuestionAdditionalInfoComponent {
+  @Input() questionDetails: FeedbackTextQuestionDetails = DEFAULT_TEXT_QUESTION_DETAILS();
 }
