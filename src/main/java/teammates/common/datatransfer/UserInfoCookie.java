@@ -59,6 +59,9 @@ public class UserInfoCookie {
         return accountId;
     }
 
+    /**
+     * Sets the account ID.
+     */
     public void setAccountId(UUID accountId) {
         assert accountId != null;
         this.accountId = accountId;
