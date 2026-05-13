@@ -34,6 +34,6 @@ public class CourseJoinConfirmationPage extends AppPage {
     }
 
     public void verifyDisplayedMessage(String message) {
-        assertEquals(waitForElementPresence(By.className("card-body")).getText(), message);
+        assertEquals(browser.driver.findElement(By.className("card-body")).getText(), message);
     }
 }
