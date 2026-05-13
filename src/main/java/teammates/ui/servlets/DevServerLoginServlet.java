@@ -15,6 +15,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.Logger;
 import teammates.logic.core.AccountsLogic;
 import teammates.storage.entity.Account;
 
@@ -24,6 +25,7 @@ import teammates.storage.entity.Account;
 public class DevServerLoginServlet extends AuthServlet {
 
     private final AccountsLogic accountsLogic = AccountsLogic.inst();
+    private static final Logger log = Logger.getLogger();
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -73,6 +75,7 @@ public class DevServerLoginServlet extends AuthServlet {
         } catch (Exception e) {
             HibernateUtil.rollbackTransaction();
             resp.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            log.severe("Error occurred while logging into dev server", e);
             return;
         }
         if (account == null) {
