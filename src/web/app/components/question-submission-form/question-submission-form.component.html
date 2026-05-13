@@ -196,6 +196,7 @@
                     ResponseDetailsTypeChecker.isContrib(recipientSubmissionFormModel.responseDetails)
                   ) {
                     <tm-contribution-question-edit-answer-form
+                      [questionDetails]="model.questionDetails"
                       [responseDetails]="recipientSubmissionFormModel.responseDetails"
                       (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
                       [isDisabled]="isFormsDisabled"
