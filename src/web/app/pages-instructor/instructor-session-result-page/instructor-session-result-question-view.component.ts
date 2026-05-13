@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 
 import { InstructorSessionResultView } from './instructor-session-result-view';
-import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
 import { QuestionTabModel } from './instructor-session-tab.model';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
@@ -44,10 +43,6 @@ export class InstructorSessionResultQuestionViewComponent
   }> = new EventEmitter();
 
   questionsOrder: QuestionTabModel[] = [];
-
-  constructor() {
-    super(InstructorSessionResultViewType.QUESTION);
-  }
 
   ngOnInit(): void {
     this.sortQuestion();

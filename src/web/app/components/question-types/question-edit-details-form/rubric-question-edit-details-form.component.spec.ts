@@ -5,6 +5,7 @@ import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { createBuilder } from '../../../../test-helpers/generic-builder';
 import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-ref';
 import { FeedbackQuestionType, FeedbackRubricQuestionDetails } from '../../../../types/api-output';
+import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 
 describe('RubricQuestionEditDetailsFormComponent', () => {
   let component: RubricQuestionEditDetailsFormComponent;
@@ -27,6 +28,7 @@ describe('RubricQuestionEditDetailsFormComponent', () => {
     fixture = TestBed.createComponent(RubricQuestionEditDetailsFormComponent);
     simpleModalService = TestBed.inject(SimpleModalService);
     component = fixture.componentInstance;
+    component.model = DEFAULT_RUBRIC_QUESTION_DETAILS();
     triggerModelChangeSpy = jest.spyOn(component, 'triggerModelChange');
     triggerModelChangeBatchSpy = jest.spyOn(component, 'triggerModelChangeBatch');
     fixture.detectChanges();

@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { QuestionResponse } from './question-response';
+import { Component, Input, OnInit } from '@angular/core';
 import { FeedbackRankOptionsQuestionDetails, FeedbackRankOptionsResponseDetails } from '../../../../types/api-output';
 import {
   DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
@@ -20,15 +19,11 @@ interface RankOption {
   templateUrl: './rank-options-question-response.component.html',
   imports: [],
 })
-export class RankOptionsQuestionResponseComponent
-  extends QuestionResponse<FeedbackRankOptionsResponseDetails, FeedbackRankOptionsQuestionDetails>
-  implements OnInit
-{
-  orderedAnswer: RankOption[] = [];
+export class RankOptionsQuestionResponseComponent implements OnInit {
+  @Input() responseDetails: FeedbackRankOptionsResponseDetails = DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS();
+  @Input() questionDetails: FeedbackRankOptionsQuestionDetails = DEFAULT_RANK_OPTIONS_QUESTION_DETAILS();
 
-  constructor() {
-    super(DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS(), DEFAULT_RANK_OPTIONS_QUESTION_DETAILS());
-  }
+  orderedAnswer: RankOption[] = [];
 
   ngOnInit(): void {
     let arrayOfRanks: RankOption[][] = [];
@@ -43,7 +38,7 @@ export class RankOptionsQuestionResponseComponent
         option: this.questionDetails.options[i],
       });
     }
-    arrayOfRanks = arrayOfRanks.filter((answer) => answer);
+    arrayOfRanks = arrayOfRanks.filter(Boolean);
     for (const answers of arrayOfRanks) {
       for (const answer of answers) {
         this.orderedAnswer.push(answer);

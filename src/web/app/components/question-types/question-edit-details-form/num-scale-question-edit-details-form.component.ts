@@ -3,7 +3,6 @@ import { FormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import { FeedbackNumericalScaleQuestionDetails } from '../../../../types/api-output';
-import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 
 /**
  * Question details edit form component for numerical scale question.
@@ -15,10 +14,6 @@ import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-que
 })
 export class NumScaleQuestionEditDetailsFormComponent extends QuestionEditDetailsFormComponent<FeedbackNumericalScaleQuestionDetails> {
   Math: typeof Math = Math;
-
-  constructor() {
-    super(DEFAULT_NUMSCALE_QUESTION_DETAILS());
-  }
 
   /**
    * Returns the number of possible values acceptable as answers.

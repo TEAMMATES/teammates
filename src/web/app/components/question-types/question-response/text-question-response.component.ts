@@ -1,10 +1,6 @@
-import { Component } from '@angular/core';
-import { QuestionResponse } from './question-response';
-import { FeedbackTextQuestionDetails, FeedbackTextResponseDetails } from '../../../../types/api-output';
-import {
-  DEFAULT_TEXT_QUESTION_DETAILS,
-  DEFAULT_TEXT_RESPONSE_DETAILS,
-} from '../../../../types/default-question-structs';
+import { Component, Input } from '@angular/core';
+import { FeedbackTextResponseDetails } from '../../../../types/api-output';
+import { DEFAULT_TEXT_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
 
 /**
  * Text question response.
@@ -13,11 +9,6 @@ import {
   selector: 'tm-text-question-response',
   templateUrl: './text-question-response.component.html',
 })
-export class TextQuestionResponseComponent extends QuestionResponse<
-  FeedbackTextResponseDetails,
-  FeedbackTextQuestionDetails
-> {
-  constructor() {
-    super(DEFAULT_TEXT_RESPONSE_DETAILS(), DEFAULT_TEXT_QUESTION_DETAILS());
-  }
+export class TextQuestionResponseComponent {
+  @Input() responseDetails: FeedbackTextResponseDetails = DEFAULT_TEXT_RESPONSE_DETAILS();
 }

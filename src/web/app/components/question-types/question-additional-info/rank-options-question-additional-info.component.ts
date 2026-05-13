@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { QuestionAdditionalInfo } from './question-additional-info';
+import { Component, Input } from '@angular/core';
 import { FeedbackRankOptionsQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_RANK_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 
@@ -11,8 +10,6 @@ import { DEFAULT_RANK_OPTIONS_QUESTION_DETAILS } from '../../../../types/default
   templateUrl: './rank-options-question-additional-info.component.html',
   imports: [],
 })
-export class RankOptionsQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<FeedbackRankOptionsQuestionDetails> {
-  constructor() {
-    super(DEFAULT_RANK_OPTIONS_QUESTION_DETAILS());
-  }
+export class RankOptionsQuestionAdditionalInfoComponent {
+  @Input() questionDetails: FeedbackRankOptionsQuestionDetails = DEFAULT_RANK_OPTIONS_QUESTION_DETAILS();
 }

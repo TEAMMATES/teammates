@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
@@ -6,10 +6,7 @@ import {
   FeedbackNumericalScaleQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
 } from '../../../../types/api-output';
-import {
-  DEFAULT_NUMSCALE_QUESTION_DETAILS,
-  DEFAULT_NUMSCALE_RESPONSE_DETAILS,
-} from '../../../../types/default-question-structs';
+import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../../../../types/feedback-response-details';
 import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.directive';
 
@@ -22,15 +19,10 @@ import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.dire
   styleUrls: ['./num-scale-question-edit-answer-form.component.scss'],
   imports: [FormsModule, WheelDisablerDirective],
 })
-export class NumScaleQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent<
-  FeedbackNumericalScaleQuestionDetails,
-  FeedbackNumericalScaleResponseDetails
-> {
-  readonly NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED: number = NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED;
+export class NumScaleQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent<FeedbackNumericalScaleResponseDetails> {
+  @Input() questionDetails: FeedbackNumericalScaleQuestionDetails = DEFAULT_NUMSCALE_QUESTION_DETAILS();
 
-  constructor() {
-    super(DEFAULT_NUMSCALE_QUESTION_DETAILS(), DEFAULT_NUMSCALE_RESPONSE_DETAILS());
-  }
+  readonly NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED: number = NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED;
 
   get numberOfPossibleValues(): number {
     const minValue: number = this.questionDetails.minScale;

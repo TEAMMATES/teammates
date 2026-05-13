@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { QuestionAdditionalInfo } from './question-additional-info';
+import { Component, Input } from '@angular/core';
 import { FeedbackRubricQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 
@@ -11,8 +10,6 @@ import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-quest
   templateUrl: './rubric-question-additional-info.component.html',
   imports: [],
 })
-export class RubricQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<FeedbackRubricQuestionDetails> {
-  constructor() {
-    super(DEFAULT_RUBRIC_QUESTION_DETAILS());
-  }
+export class RubricQuestionAdditionalInfoComponent {
+  @Input() questionDetails: FeedbackRubricQuestionDetails = DEFAULT_RUBRIC_QUESTION_DETAILS();
 }

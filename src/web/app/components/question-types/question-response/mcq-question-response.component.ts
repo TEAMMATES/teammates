@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
-import { QuestionResponse } from './question-response';
-import { FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails } from '../../../../types/api-output';
-import { DEFAULT_MCQ_QUESTION_DETAILS, DEFAULT_MCQ_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
+import { Component, Input } from '@angular/core';
+import { FeedbackMcqResponseDetails } from '../../../../types/api-output';
+import { DEFAULT_MCQ_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
 import { SafeHtmlPipe } from '../../teammates-common/safe-html.pipe';
 
 /**
@@ -12,11 +11,6 @@ import { SafeHtmlPipe } from '../../teammates-common/safe-html.pipe';
   templateUrl: './mcq-question-response.component.html',
   imports: [SafeHtmlPipe],
 })
-export class McqQuestionResponseComponent extends QuestionResponse<
-  FeedbackMcqResponseDetails,
-  FeedbackMcqQuestionDetails
-> {
-  constructor() {
-    super(DEFAULT_MCQ_RESPONSE_DETAILS(), DEFAULT_MCQ_QUESTION_DETAILS());
-  }
+export class McqQuestionResponseComponent {
+  @Input() responseDetails: FeedbackMcqResponseDetails = DEFAULT_MCQ_RESPONSE_DETAILS();
 }

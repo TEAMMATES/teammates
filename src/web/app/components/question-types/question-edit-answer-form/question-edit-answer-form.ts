@@ -1,33 +1,22 @@
 import { Directive, EventEmitter, Input, Output } from '@angular/core';
-import { FeedbackQuestionDetails, FeedbackResponseDetails } from '../../../../types/api-output';
+import { FeedbackResponseDetails } from '../../../../types/api-output';
 
 /**
  * The abstract recipient submission form.
  */
 @Directive()
-export abstract class QuestionEditAnswerFormComponent<
-  Q extends FeedbackQuestionDetails,
-  R extends FeedbackResponseDetails,
-> {
+export abstract class QuestionEditAnswerFormComponent<R extends FeedbackResponseDetails> {
   @Input()
   isDisabled = false;
 
   @Input()
-  questionDetails: Q;
-
-  @Input()
-  responseDetails: R;
+  responseDetails!: R;
 
   @Input()
   recipient = '';
 
   @Output()
-  responseDetailsChange: EventEmitter<FeedbackResponseDetails> = new EventEmitter();
-
-  protected constructor(questionDetails: Q, responseDetails: R) {
-    this.questionDetails = questionDetails;
-    this.responseDetails = responseDetails;
-  }
+  responseDetailsChange: EventEmitter<R> = new EventEmitter();
 
   getAriaLabel(): string {
     if (this.recipient === '' || this.recipient === '%GENERAL%' || this.recipient === 'Myself') {

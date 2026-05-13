@@ -7,6 +7,7 @@ import {
   FeedbackConstantSumResponseDetails,
   FeedbackQuestionType,
 } from '../../../../types/api-output';
+import { DEFAULT_CONSTSUM_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
 
 describe('ConstsumOptionsQuestionEditAnswerFormComponent', () => {
   let component: ConstsumOptionsQuestionEditAnswerFormComponent;
@@ -31,6 +32,7 @@ describe('ConstsumOptionsQuestionEditAnswerFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConstsumOptionsQuestionEditAnswerFormComponent);
     component = fixture.componentInstance;
+    component.responseDetails = DEFAULT_CONSTSUM_RESPONSE_DETAILS();
     fixture.detectChanges();
   });
 

@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { QuestionAdditionalInfo } from './question-additional-info';
+import { Component, Input } from '@angular/core';
 import { FeedbackContributionQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 
@@ -10,8 +9,6 @@ import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../types/default
   selector: 'tm-contribution-question-additional-info',
   templateUrl: './contribution-question-additional-info.component.html',
 })
-export class ContributionQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<FeedbackContributionQuestionDetails> {
-  constructor() {
-    super(DEFAULT_CONTRIBUTION_QUESTION_DETAILS());
-  }
+export class ContributionQuestionAdditionalInfoComponent {
+  @Input() questionDetails: FeedbackContributionQuestionDetails = DEFAULT_CONTRIBUTION_QUESTION_DETAILS();
 }

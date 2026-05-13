@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { QuestionAdditionalInfo } from './question-additional-info';
+import { Component, Input } from '@angular/core';
 import { FeedbackMsqQuestionDetails, FeedbackParticipantType } from '../../../../types/api-output';
 import { DEFAULT_MSQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { GeneratedChoicePipe } from '../../teammates-common/generated-choice.pipe';
@@ -12,11 +11,9 @@ import { GeneratedChoicePipe } from '../../teammates-common/generated-choice.pip
   templateUrl: './msq-question-additional-info.component.html',
   imports: [GeneratedChoicePipe],
 })
-export class MsqQuestionAdditionalInfoComponent extends QuestionAdditionalInfo<FeedbackMsqQuestionDetails> {
+export class MsqQuestionAdditionalInfoComponent {
   // enum
   FeedbackParticipantType: typeof FeedbackParticipantType = FeedbackParticipantType;
 
-  constructor() {
-    super(DEFAULT_MSQ_QUESTION_DETAILS());
-  }
+  @Input() questionDetails: FeedbackMsqQuestionDetails = DEFAULT_MSQ_QUESTION_DETAILS();
 }

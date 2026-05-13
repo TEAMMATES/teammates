@@ -1,7 +1,6 @@
 import { KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { InstructorSessionResultView } from './instructor-session-result-view';
-import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
 import { SectionTabModel } from './instructor-session-tab.model';
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
@@ -30,8 +29,4 @@ export class InstructorSessionResultGrqViewComponent extends InstructorSessionRe
   loadSection: EventEmitter<string> = new EventEmitter();
 
   @Input() responses: Record<string, SectionTabModel> = {};
-
-  constructor() {
-    super(InstructorSessionResultViewType.GRQ);
-  }
 }

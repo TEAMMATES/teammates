@@ -10,7 +10,6 @@ import {
   FeedbackConstantSumDistributePointsType,
   FeedbackConstantSumQuestionDetails,
 } from '../../../../types/api-output';
-import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 
 /**
  * Question details edit form component for constsum options question.
@@ -30,10 +29,6 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
   // enum
   FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =
     FeedbackConstantSumDistributePointsType;
-
-  constructor() {
-    super(DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS());
-  }
 
   @Input() questionNumber = 0;
   pointsRadioGroupName = '';

@@ -1,8 +1,9 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { FeedbackMcqQuestionDetails } from 'src/web/types/api-output';
 import { McqQuestionEditAnswerFormComponent } from './mcq-question-edit-answer-form.component';
+import { DEFAULT_MCQ_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
+import { FeedbackMcqQuestionDetails } from '../../../../types/api-output';
 
 describe('McqQuestionEditAnswerFormComponent', () => {
   let component: McqQuestionEditAnswerFormComponent;
@@ -11,6 +12,7 @@ describe('McqQuestionEditAnswerFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(McqQuestionEditAnswerFormComponent);
     component = fixture.componentInstance;
+    component.responseDetails = DEFAULT_MCQ_RESPONSE_DETAILS();
     fixture.detectChanges();
   });
 

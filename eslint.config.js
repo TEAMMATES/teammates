@@ -70,7 +70,6 @@ module.exports = defineConfig(
       '@typescript-eslint/consistent-generic-constructors': 'off',
       // The rules below are temporarily disabled to allow gradual migration to the recommended ruleset.
       // They should be re-enabled in the future.
-      '@angular-eslint/prefer-inject': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unsafe-return': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ConstsumOptionsQuestionEditDetailsFormComponent } from './constsum-options-question-edit-details-form.component';
+import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 
 describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
   let component: ConstsumOptionsQuestionEditDetailsFormComponent;
@@ -9,6 +10,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConstsumOptionsQuestionEditDetailsFormComponent);
     component = fixture.componentInstance;
+    component.model = DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS();
     fixture.detectChanges();
   });
 
@@ -93,6 +95,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
   it('should maintain independent radio selection across components', waitForAsync(async () => {
     const fixtureA = TestBed.createComponent(ConstsumOptionsQuestionEditDetailsFormComponent);
     const compA = fixtureA.componentInstance;
+    compA.model = DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS();
     compA.questionNumber = 1;
     compA.ngOnChanges();
     fixtureA.detectChanges();
@@ -100,6 +103,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
 
     const fixtureB = TestBed.createComponent(ConstsumOptionsQuestionEditDetailsFormComponent);
     const compB = fixtureB.componentInstance;
+    compB.model = DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS();
     compB.questionNumber = 2;
     compB.ngOnChanges();
     fixtureB.detectChanges();

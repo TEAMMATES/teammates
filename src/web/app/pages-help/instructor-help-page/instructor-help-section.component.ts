@@ -2,7 +2,6 @@ import {
   AfterViewInit,
   Directive,
   EventEmitter,
-  Inject,
   Input,
   OnChanges,
   OnInit,
@@ -11,6 +10,7 @@ import {
   SimpleChanges,
   ViewChildren,
   DOCUMENT,
+  inject,
 } from '@angular/core';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { InstructorHelpPanelComponent } from './instructor-help-panel/instructor-help-panel.component';
@@ -29,24 +29,18 @@ interface QuestionDetail {
  */
 @Directive()
 export abstract class InstructorHelpSectionComponent implements OnInit, OnChanges, AfterViewInit {
-  @Input() key: string;
+  protected simpleModalService = inject(SimpleModalService);
+  private readonly pageScrollService = inject(PageScrollService);
+  private readonly navigationService = inject(NavigationService);
+  private readonly document = inject(DOCUMENT);
+
+  @Input() key = '';
   @Output() matchFound: EventEmitter<number> = new EventEmitter<number>();
   @ViewChildren('question') questionHtml!: QueryList<InstructorHelpPanelComponent>;
 
-  showQuestion: string[];
-  questionDetails: QuestionDetail[];
+  showQuestion: string[] = [];
+  questionDetails: QuestionDetail[] = [];
   questionsToCollapsed: Record<string, boolean> = {};
-
-  constructor(
-    protected simpleModalService: SimpleModalService,
-    private pageScrollService: PageScrollService,
-    private navigationService: NavigationService,
-    @Inject(DOCUMENT) private document: any,
-  ) {
-    this.key = '';
-    this.showQuestion = [];
-    this.questionDetails = [];
-  }
 
   ngOnInit(): void {
     for (const question of this.getQuestionsOrder()) {

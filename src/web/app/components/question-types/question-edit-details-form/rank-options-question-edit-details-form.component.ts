@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import { RankOptionsFieldComponent } from './rank-options-field/rank-options-field.component';
 import { FeedbackRankOptionsQuestionDetails } from '../../../../types/api-output';
-import { DEFAULT_RANK_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { NO_VALUE } from '../../../../types/feedback-response-details';
 
 /**
@@ -18,10 +17,6 @@ import { NO_VALUE } from '../../../../types/feedback-response-details';
   imports: [CdkDropList, CdkDrag, CdkDragHandle, RankOptionsFieldComponent, FormsModule],
 })
 export class RankOptionsQuestionEditDetailsFormComponent extends QuestionEditDetailsFormComponent<FeedbackRankOptionsQuestionDetails> {
-  constructor() {
-    super(DEFAULT_RANK_OPTIONS_QUESTION_DETAILS());
-  }
-
   /**
    * Increases number of Rank options.
    */

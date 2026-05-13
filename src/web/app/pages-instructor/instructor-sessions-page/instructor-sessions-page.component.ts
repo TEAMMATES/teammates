@@ -1,6 +1,6 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbCollapse, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
@@ -9,17 +9,7 @@ import { CopyFromOtherSessionsModalComponent } from './copy-from-other-sessions-
 import { SessionPermanentDeletionConfirmModalComponent } from './session-permanent-deletion-confirm-modal/session-permanent-deletion-confirm-modal.component';
 import { SessionsPermanentDeletionConfirmModalComponent } from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
 import { CourseService } from '../../../services/course.service';
-import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
-import { FeedbackSessionActionsService } from '../../../services/feedback-session-actions.service';
-import { FeedbackSessionsService, TemplateSession } from '../../../services/feedback-sessions.service';
-import { InstructorService } from '../../../services/instructor.service';
-import { NavigationService } from '../../../services/navigation.service';
-import { ProgressBarService } from '../../../services/progress-bar.service';
-import { SimpleModalService } from '../../../services/simple-modal.service';
-import { StatusMessageService } from '../../../services/status-message.service';
-import { StudentService } from '../../../services/student.service';
-import { TableComparatorService } from '../../../services/table-comparator.service';
-import { TimezoneService } from '../../../services/timezone.service';
+import { TemplateSession } from '../../../services/feedback-sessions.service';
 import {
   Course,
   Courses,
@@ -74,6 +64,9 @@ interface RecycleBinFeedbackSessionRowModel {
   ],
 })
 export class InstructorSessionsPageComponent extends InstructorSessionModalPageComponent implements OnInit {
+  private readonly courseService = inject(CourseService);
+  private readonly route = inject(ActivatedRoute);
+
   // enum
   SortBy: typeof SortBy = SortBy;
   SortOrder: typeof SortOrder = SortOrder;
@@ -110,36 +103,8 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
 
   @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
 
-  constructor(
-    statusMessageService: StatusMessageService,
-    navigationService: NavigationService,
-    feedbackSessionsService: FeedbackSessionsService,
-    feedbackQuestionsService: FeedbackQuestionsService,
-    ngbModalService: NgbModal,
-    studentService: StudentService,
-    instructorService: InstructorService,
-    tableComparatorService: TableComparatorService,
-    simpleModalService: SimpleModalService,
-    progressBarService: ProgressBarService,
-    feedbackSessionActionsService: FeedbackSessionActionsService,
-    timezoneService: TimezoneService,
-    private courseService: CourseService,
-    private route: ActivatedRoute,
-  ) {
-    super(
-      instructorService,
-      statusMessageService,
-      navigationService,
-      feedbackSessionsService,
-      feedbackQuestionsService,
-      tableComparatorService,
-      ngbModalService,
-      simpleModalService,
-      progressBarService,
-      feedbackSessionActionsService,
-      timezoneService,
-      studentService,
-    );
+  constructor() {
+    super();
 
     this.sessionEditFormModel = {
       ...this.sessionEditFormModel,

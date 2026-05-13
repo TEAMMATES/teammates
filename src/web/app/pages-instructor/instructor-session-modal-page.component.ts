@@ -1,18 +1,8 @@
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { InstructorSessionBasePageComponent } from './instructor-session-base-page.component';
-import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
-import { FeedbackSessionActionsService } from '../../services/feedback-session-actions.service';
-import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
-import { InstructorService } from '../../services/instructor.service';
-import { NavigationService } from '../../services/navigation.service';
-import { ProgressBarService } from '../../services/progress-bar.service';
-import { SimpleModalService } from '../../services/simple-modal.service';
-import { StatusMessageService } from '../../services/status-message.service';
 import { StudentService } from '../../services/student.service';
-import { TableComparatorService } from '../../services/table-comparator.service';
-import { TimezoneService } from '../../services/timezone.service';
 import { FeedbackSessionSubmittedGiverSet, Instructor, Instructors, Student, Students } from '../../types/api-output';
 import { Intent } from '../../types/api-request';
 import { ResendResultsLinkToRespondentModalComponent } from '../components/sessions-table/resend-results-link-to-respondent-modal/resend-results-link-to-respondent-modal.component';
@@ -24,41 +14,15 @@ import { SendRemindersToRespondentsModalComponent } from '../components/sessions
 import { ReminderResponseModel } from '../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-model';
 import { SessionsTableRowModel } from '../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../error-message-output';
+import { inject } from '@angular/core';
 
 /**
  * The base page for session related page.
  */
 export abstract class InstructorSessionModalPageComponent extends InstructorSessionBasePageComponent {
-  isSendReminderLoading = false;
+  protected studentService = inject(StudentService);
 
-  protected constructor(
-    instructorService: InstructorService,
-    statusMessageService: StatusMessageService,
-    navigationService: NavigationService,
-    feedbackSessionsService: FeedbackSessionsService,
-    feedbackQuestionsService: FeedbackQuestionsService,
-    tableComparatorService: TableComparatorService,
-    ngbModal: NgbModal,
-    simpleModalService: SimpleModalService,
-    progressBarService: ProgressBarService,
-    feedbackSessionActionsService: FeedbackSessionActionsService,
-    timezoneService: TimezoneService,
-    protected studentService: StudentService,
-  ) {
-    super(
-      instructorService,
-      statusMessageService,
-      navigationService,
-      feedbackSessionsService,
-      feedbackQuestionsService,
-      tableComparatorService,
-      ngbModal,
-      simpleModalService,
-      progressBarService,
-      feedbackSessionActionsService,
-      timezoneService,
-    );
-  }
+  isSendReminderLoading = false;
 
   /**
    * Sends e-mails to remind respondents on the published results link.

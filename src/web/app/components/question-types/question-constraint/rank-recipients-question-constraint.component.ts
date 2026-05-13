@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { QuestionConstraintComponent } from './question-constraint.component';
 import {
   FeedbackRankRecipientsQuestionDetails,
@@ -15,10 +15,9 @@ import { NO_VALUE, RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED } from '../../../../type
   templateUrl: './rank-recipients-question-constraint.component.html',
   imports: [],
 })
-export class RankRecipientsQuestionConstraintComponent extends QuestionConstraintComponent<FeedbackRankRecipientsQuestionDetails> {
-  constructor() {
-    super(DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS());
-  }
+export class RankRecipientsQuestionConstraintComponent extends QuestionConstraintComponent {
+  @Input()
+  questionDetails: FeedbackRankRecipientsQuestionDetails = DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS();
 
   /**
    * Checks if the answer has same Ranks for different recipients.

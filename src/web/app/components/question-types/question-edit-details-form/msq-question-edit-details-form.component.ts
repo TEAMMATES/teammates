@@ -48,10 +48,6 @@ export class MsqQuestionEditDetailsFormComponent extends QuestionEditDetailsForm
     maxSelectableChoices: NO_VALUE,
   };
 
-  constructor() {
-    super(DEFAULT_MSQ_QUESTION_DETAILS());
-  }
-
   /**
    * Reorders the list on dragging the Msq options.
    */
