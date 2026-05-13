@@ -12,7 +12,6 @@ import jakarta.persistence.MappedSuperclass;
 import org.hibernate.annotations.CreationTimestamp;
 
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
@@ -87,23 +86,6 @@ public abstract class BaseEntity {
         @Override
         public Duration convertToEntityAttribute(Long minutes) {
             return Duration.ofMinutes(minutes);
-        }
-    }
-
-    /**
-     * Attribute converter between QuestionGiverType and JSON.
-     */
-    @Converter
-    public static class QuestionGiverTypeConverter implements AttributeConverter<QuestionGiverType, String> {
-
-        @Override
-        public String convertToDatabaseColumn(QuestionGiverType attribute) {
-            return JsonUtils.toJson(attribute);
-        }
-
-        @Override
-        public QuestionGiverType convertToEntityAttribute(String dbData) {
-            return JsonUtils.fromJson(dbData, QuestionGiverType.class);
         }
     }
 
