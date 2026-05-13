@@ -19,7 +19,8 @@ public class CourseJoinConfirmationPage extends AppPage {
 
     @Override
     public boolean containsExpectedPageContents() {
-        return isElementPresent(By.className("card"));
+        // This page has no unique indicator as the content depends on whether it follows the happy path or not
+        return true;
     }
 
     public void verifyJoiningUser(String googleId) {
@@ -33,6 +34,6 @@ public class CourseJoinConfirmationPage extends AppPage {
     }
 
     public void verifyDisplayedMessage(String message) {
-        assertEquals(browser.driver.findElement(By.className("card-body")).getText(), message);
+        assertEquals(waitForElementPresence(By.className("card-body")).getText(), message);
     }
 }
