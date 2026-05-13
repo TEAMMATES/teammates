@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
 import { FeedbackSessionTabModel } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal-model';
@@ -9,21 +9,8 @@ import { TemplateQuestionModalComponent } from './template-question-modal/templa
 import { CourseService } from '../../../services/course.service';
 import { DateTimeService } from '../../../services/datetime.service';
 import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
-import {
-  CommonVisibilitySetting,
-  FeedbackQuestionsService,
-  NewQuestionModel,
-} from '../../../services/feedback-questions.service';
-import { FeedbackSessionActionsService } from '../../../services/feedback-session-actions.service';
-import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
-import { InstructorService } from '../../../services/instructor.service';
-import { NavigationService } from '../../../services/navigation.service';
-import { ProgressBarService } from '../../../services/progress-bar.service';
-import { SimpleModalService } from '../../../services/simple-modal.service';
-import { StatusMessageService } from '../../../services/status-message.service';
+import { CommonVisibilitySetting, NewQuestionModel } from '../../../services/feedback-questions.service';
 import { StudentService } from '../../../services/student.service';
-import { TableComparatorService } from '../../../services/table-comparator.service';
-import { TimezoneService } from '../../../services/timezone.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 import {
   Course,
@@ -94,6 +81,12 @@ import {
   ],
 })
 export class InstructorSessionEditPageComponent extends InstructorSessionBasePageComponent implements OnInit {
+  private datetimeService = inject(DateTimeService);
+  private studentService = inject(StudentService);
+  private courseService = inject(CourseService);
+  private route = inject(ActivatedRoute);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+
   // enum
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
   QuestionEditFormMode: typeof QuestionEditFormMode = QuestionEditFormMode;
@@ -173,39 +166,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   }
 
   @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
-
-  constructor(
-    instructorService: InstructorService,
-    statusMessageService: StatusMessageService,
-    navigationService: NavigationService,
-    feedbackSessionsService: FeedbackSessionsService,
-    feedbackQuestionsService: FeedbackQuestionsService,
-    tableComparatorService: TableComparatorService,
-    ngbModal: NgbModal,
-    simpleModalService: SimpleModalService,
-    progressBarService: ProgressBarService,
-    feedbackSessionActionsService: FeedbackSessionActionsService,
-    timezoneService: TimezoneService,
-    private datetimeService: DateTimeService,
-    private studentService: StudentService,
-    private courseService: CourseService,
-    private route: ActivatedRoute,
-    private changeDetectorRef: ChangeDetectorRef,
-  ) {
-    super(
-      instructorService,
-      statusMessageService,
-      navigationService,
-      feedbackSessionsService,
-      feedbackQuestionsService,
-      tableComparatorService,
-      ngbModal,
-      simpleModalService,
-      progressBarService,
-      feedbackSessionActionsService,
-      timezoneService,
-    );
-  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {

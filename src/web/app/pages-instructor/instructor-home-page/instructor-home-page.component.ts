@@ -1,6 +1,5 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import {
-  NgbModal,
   NgbModalRef,
   NgbDropdown,
   NgbDropdownToggle,
@@ -11,17 +10,6 @@ import {
 import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
-import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
-import { FeedbackSessionActionsService } from '../../../services/feedback-session-actions.service';
-import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
-import { InstructorService } from '../../../services/instructor.service';
-import { NavigationService } from '../../../services/navigation.service';
-import { ProgressBarService } from '../../../services/progress-bar.service';
-import { SimpleModalService } from '../../../services/simple-modal.service';
-import { StatusMessageService } from '../../../services/status-message.service';
-import { StudentService } from '../../../services/student.service';
-import { TableComparatorService } from '../../../services/table-comparator.service';
-import { TimezoneService } from '../../../services/timezone.service';
 import { Course, Courses, FeedbackSession, FeedbackSessions, InstructorPermissionSet } from '../../../types/api-output';
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/default-instructor-privilege';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
@@ -86,6 +74,8 @@ export interface CourseTabModel {
   ],
 })
 export class InstructorHomePageComponent extends InstructorSessionModalPageComponent implements OnInit {
+  private readonly courseService = inject(CourseService);
+
   private static readonly coursesToLoad: number = 3;
   // enum
   SessionsTableColumn: typeof SessionsTableColumn = SessionsTableColumn;
@@ -112,37 +102,6 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   sortOrder = SortOrder.DESC;
 
   @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
-
-  constructor(
-    statusMessageService: StatusMessageService,
-    navigationService: NavigationService,
-    feedbackSessionsService: FeedbackSessionsService,
-    feedbackQuestionsService: FeedbackQuestionsService,
-    ngbModal: NgbModal,
-    studentService: StudentService,
-    instructorService: InstructorService,
-    tableComparatorService: TableComparatorService,
-    simpleModalService: SimpleModalService,
-    progressBarService: ProgressBarService,
-    feedbackSessionActionsService: FeedbackSessionActionsService,
-    timezoneService: TimezoneService,
-    private courseService: CourseService,
-  ) {
-    super(
-      instructorService,
-      statusMessageService,
-      navigationService,
-      feedbackSessionsService,
-      feedbackQuestionsService,
-      tableComparatorService,
-      ngbModal,
-      simpleModalService,
-      progressBarService,
-      feedbackSessionActionsService,
-      timezoneService,
-      studentService,
-    );
-  }
 
   ngOnInit(): void {
     this.loadCourses();

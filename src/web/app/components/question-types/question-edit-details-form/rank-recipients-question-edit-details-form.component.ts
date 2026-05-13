@@ -13,7 +13,6 @@ import { NO_VALUE } from '../../../../types/feedback-response-details';
   imports: [FormsModule],
 })
 export class RankRecipientsQuestionEditDetailsFormComponent extends QuestionEditDetailsFormComponent<FeedbackRankRecipientsQuestionDetails> {
-
   /**
    * Assigns a default value to minOptionsToBeRanked when checkbox is clicked.
    */

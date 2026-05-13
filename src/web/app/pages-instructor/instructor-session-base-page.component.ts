@@ -1,4 +1,4 @@
-import { TemplateRef } from '@angular/core';
+import { inject, TemplateRef } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { Observable, of } from 'rxjs';
@@ -45,6 +45,18 @@ import { ErrorMessageOutput } from '../error-message-output';
  * The base page for session related page.
  */
 export abstract class InstructorSessionBasePageComponent {
+  protected instructorService = inject(InstructorService);
+  protected statusMessageService = inject(StatusMessageService);
+  protected navigationService = inject(NavigationService);
+  protected feedbackSessionsService = inject(FeedbackSessionsService);
+  protected feedbackQuestionsService = inject(FeedbackQuestionsService);
+  protected tableComparatorService = inject(TableComparatorService);
+  protected ngbModal = inject(NgbModal);
+  protected simpleModalService = inject(SimpleModalService);
+  protected progressBarService = inject(ProgressBarService);
+  protected feedbackSessionActionsService = inject(FeedbackSessionActionsService);
+  protected timezoneService = inject(TimezoneService);
+
   isResultActionLoading = false;
 
   protected failedToCopySessions: Record<string, string> = {}; // Map of failed session copy to error message
@@ -92,20 +104,6 @@ export abstract class InstructorSessionBasePageComponent {
     hasVisibleSettingsPanelExpanded: false,
     hasEmailSettingsPanelExpanded: false,
   };
-
-  protected constructor(
-    protected instructorService: InstructorService,
-    protected statusMessageService: StatusMessageService,
-    protected navigationService: NavigationService,
-    protected feedbackSessionsService: FeedbackSessionsService,
-    protected feedbackQuestionsService: FeedbackQuestionsService,
-    protected tableComparatorService: TableComparatorService,
-    protected ngbModal: NgbModal,
-    protected simpleModalService: SimpleModalService,
-    protected progressBarService: ProgressBarService,
-    protected feedbackSessionActionsService: FeedbackSessionActionsService,
-    protected timezoneService: TimezoneService,
-  ) {}
 
   /**
    * Copies a feedback session.
