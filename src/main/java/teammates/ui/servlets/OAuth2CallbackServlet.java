@@ -60,19 +60,13 @@ public class OAuth2CallbackServlet extends AuthServlet {
                 HibernateUtil.rollbackTransaction();
                 log.warning("Failed to create or get account", e);
                 req.getSession().invalidate();
+
                 cookie = getLoginInvalidationCookie();
                 resp.addCookie(cookie);
                 resp.sendRedirect(authResult.nextUrl);
                 return;
             }
-            if (account == null) {
-                log.warning("Failed to create account");
-                req.getSession().invalidate();
-                cookie = getLoginInvalidationCookie();
-                resp.addCookie(cookie);
-                resp.sendRedirect(authResult.nextUrl);
-                return;
-            }
+
             UserInfoCookie uic = new UserInfoCookie(authResult.email, account.getId());
             cookie = getLoginCookie(uic);
         }

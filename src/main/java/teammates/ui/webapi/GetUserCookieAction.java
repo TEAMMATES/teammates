@@ -29,7 +29,7 @@ public class GetUserCookieAction extends Action {
     public JsonResult execute() {
         String user = getNonNullRequestParamValue(Const.ParamsNames.USER_ID);
         Account account = accountsLogic.createOrGetAccountForEmail(user);
-        UserInfoCookie uic = new UserInfoCookie(user, account == null ? null : account.getId());
+        UserInfoCookie uic = new UserInfoCookie(user, account.getId());
         return new JsonResult(StringHelper.encrypt(JsonUtils.toCompactJson(uic)));
     }
 

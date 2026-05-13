@@ -81,11 +81,18 @@ public final class AccountsLogic {
      * @return the created or existing account or null
      */
     public Account createOrGetAccountForEmail(String email) {
+        assert email != null;
+
+        Account account = getAccountForGoogleId(email);
+        if (account != null) {
+            return account;
+        }
+
         try {
             return createAccountForEmail(email);
-        } catch (EntityAlreadyExistsException e) {
-            return getAccountForGoogleId(email);
-        } catch (InvalidParametersException e) {
+        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
+            // This should not happen
+            assert false : "Failed to create account for email: " + email;
             return null;
         }
     }

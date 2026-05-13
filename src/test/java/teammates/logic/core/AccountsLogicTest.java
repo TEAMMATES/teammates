@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -67,5 +68,37 @@ public class AccountsLogicTest extends BaseTestCase {
             verify(usersLogic, times(1)).deleteUser(user);
         }
         verify(accountsDb, times(1)).deleteAccount(account);
+    }
+
+    @Test
+    public void testCreateOrGetAccountForEmail_accountExists_success() {
+        Account account = getTypicalAccount();
+        String email = account.getEmail();
+
+        when(accountsDb.getAccountByGoogleId(email)).thenReturn(account);
+
+        Account result = accountsLogic.createOrGetAccountForEmail(email);
+
+        assertEquals(result, account);
+    }
+
+    @Test
+    public void testCreateOrGetAccountForEmail_accountDoesNotExist_success() {
+        String email = "nonexistent@example.com";
+
+        when(accountsDb.getAccountByGoogleId(email)).thenReturn(null);
+        when(accountsDb.createAccount(any(Account.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        Account result = accountsLogic.createOrGetAccountForEmail(email);
+
+        verify(accountsDb, times(1)).createAccount(result);
+        assertNotNull(result);
+        assertEquals(result.getEmail(), email);
+    }
+
+    @Test
+    public void testCreateOrGetAccountForEmail_nullEmail_throwsException() {
+        assertThrows(AssertionError.class,
+                () -> accountsLogic.createOrGetAccountForEmail(null));
     }
 }
