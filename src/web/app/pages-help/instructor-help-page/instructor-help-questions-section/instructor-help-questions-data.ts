@@ -30,10 +30,10 @@ import {
   DEFAULT_RUBRIC_QUESTION_DETAILS,
   DEFAULT_TEXT_QUESTION_DETAILS,
 } from '../../../../types/default-question-structs';
+import { Response } from '../../../../types/question-statistics.model';
 import { CommentTableModel } from '../../../components/comment-box/comment-table/comment-table.model';
 import { QuestionEditFormModel } from '../../../components/question-edit-form/question-edit-form-model';
 import { QuestionSubmissionFormModel } from '../../../components/question-submission-form/question-submission-form-model';
-import { Response } from '../../../components/question-types/question-statistics/question-statistics';
 import { QuestionTabModel } from '../../../pages-instructor/instructor-session-result-page/instructor-session-tab.model';
 
 /**

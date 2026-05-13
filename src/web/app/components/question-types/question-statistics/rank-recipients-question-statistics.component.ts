@@ -1,12 +1,13 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
-import { RankRecipientsQuestionStatisticsCalculation } from './question-statistics-calculation/rank-recipients-question-statistics-calculation';
-import { DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { Component, Input, OnChanges } from '@angular/core';
 import { SortBy } from '../../../../types/sort-properties';
 import {
   ColumnData,
   SortableTableCellData,
   SortableTableComponent,
 } from '../../sortable-table/sortable-table.component';
+import { FeedbackParticipantType, FeedbackRankRecipientsResponseDetails } from '../../../../types/api-output';
+import { RankRecipientsQuestionStatistics, Response } from '../../../../types/question-statistics.model';
+import { calculateRankRecipientsQuestionStatistics } from '../../../utils/question-statistics.util';
 
 /**
  * Statistics for rank recipients questions.
@@ -16,31 +17,26 @@ import {
   templateUrl: './rank-recipients-question-statistics.component.html',
   imports: [SortableTableComponent],
 })
-export class RankRecipientsQuestionStatisticsComponent
-  extends RankRecipientsQuestionStatisticsCalculation
-  implements OnInit, OnChanges
-{
+export class RankRecipientsQuestionStatisticsComponent implements OnChanges {
+  @Input()
+  responses: Response<FeedbackRankRecipientsResponseDetails>[] = [];
+  @Input()
+  isStudent = false;
+  @Input()
+  recipientType: FeedbackParticipantType = FeedbackParticipantType.NONE;
+
   // enum
   SortBy: typeof SortBy = SortBy;
 
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
 
-  constructor() {
-    super(DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS());
-  }
-
-  ngOnInit(): void {
-    this.calculateStatistics();
-    this.getTableData();
-  }
-
   ngOnChanges(): void {
-    this.calculateStatistics();
-    this.getTableData();
+    const stats = calculateRankRecipientsQuestionStatistics(this.responses, this.recipientType);
+    this.getTableData(stats);
   }
 
-  private getTableData(): void {
+  private getTableData(stats: RankRecipientsQuestionStatistics): void {
     this.columnsData = [
       { header: 'Team', sortBy: SortBy.RANK_RECIPIENTS_TEAM },
       { header: 'Recipient', sortBy: SortBy.RANK_RECIPIENTS_RECIPIENT },
@@ -52,18 +48,18 @@ export class RankRecipientsQuestionStatisticsComponent
       { header: 'Team Rank Excluding Self', sortBy: SortBy.RANK_RECIPIENTS_TEAM_RANK_EXCLUDING_SELF },
     ];
 
-    this.rowsData = Object.keys(this.ranksReceivedPerOption).map((key: string) => {
+    this.rowsData = Object.keys(stats.ranksReceivedPerOption).map((key: string) => {
       return [
-        { value: this.emailToTeamName[key] },
+        { value: stats.emailToTeamName[key] },
         {
-          value: this.emailToName[key] + (key === this.emailToName[key] ? '' : key),
+          value: stats.emailToName[key] + (key === stats.emailToName[key] ? '' : ` (${key})`),
         },
-        { value: this.ranksReceivedPerOption[key].join(', ') },
-        { value: this.selfRankPerOption[key] || '-' },
-        { value: this.rankPerOption[key] || '-' },
-        { value: this.rankPerOptionExcludeSelf[key] || '-' },
-        { value: this.rankPerOptionInTeam[key] || '-' },
-        { value: this.rankPerOptionInTeamExcludeSelf[key] || '-' },
+        { value: stats.ranksReceivedPerOption[key].join(', ') },
+        { value: stats.selfRankPerOption[key] || '-' },
+        { value: stats.rankPerOption[key] || '-' },
+        { value: stats.rankPerOptionExcludeSelf[key] || '-' },
+        { value: stats.rankPerOptionInTeam[key] || '-' },
+        { value: stats.rankPerOptionInTeamExcludeSelf[key] || '-' },
       ];
     });
   }

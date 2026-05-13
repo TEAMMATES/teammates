@@ -18,7 +18,6 @@ import { NumScaleQuestionStatisticsComponent } from '../../question-types/questi
 import { RankOptionsQuestionStatisticsComponent } from '../../question-types/question-statistics/rank-options-question-statistics.component';
 import { RankRecipientsQuestionStatisticsComponent } from '../../question-types/question-statistics/rank-recipients-question-statistics.component';
 import { RubricQuestionStatisticsComponent } from '../../question-types/question-statistics/rubric-question-statistics.component';
-import { TextQuestionStatisticsComponent } from '../../question-types/question-statistics/text-question-statistics.component';
 
 /**
  * The component that will map a generic response statistics to its specialized view component.
@@ -28,7 +27,6 @@ import { TextQuestionStatisticsComponent } from '../../question-types/question-s
   templateUrl: './single-statistics.component.html',
   imports: [
     ContributionQuestionStatisticsComponent,
-    TextQuestionStatisticsComponent,
     ConstsumOptionsQuestionStatisticsComponent,
     ConstsumRecipientsQuestionStatisticsComponent,
     NumScaleQuestionStatisticsComponent,

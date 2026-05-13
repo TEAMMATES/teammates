@@ -1,4 +1,3 @@
-import { Response } from '../../app/components/question-types/question-statistics/question-statistics';
 import {
   FeedbackConstantSumResponseDetails,
   FeedbackContributionResponseDetails,
@@ -13,6 +12,7 @@ import {
   FeedbackTextResponseDetails,
   ResponseOutput,
 } from '../api-output';
+import { Response } from '../question-statistics.model';
 
 export class ResponseDetailsTypeChecker {
   static isConstSum(d: FeedbackResponseDetails): d is FeedbackConstantSumResponseDetails {

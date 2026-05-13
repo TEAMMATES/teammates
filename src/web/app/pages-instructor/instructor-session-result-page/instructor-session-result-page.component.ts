@@ -25,6 +25,8 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
+  ContributionStatistics,
+  ContributionStatisticsEntry,
   CourseSectionNames,
   FeedbackQuestions,
   FeedbackSession,
@@ -48,7 +50,6 @@ import { CommentsToCommentTableModelPipe } from '../../components/comment-box/co
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { PreviewSessionResultPanelComponent } from '../../components/preview-session-result-panel/preview-session-result-panel.component';
-import { QuestionStatistics } from '../../components/question-types/question-statistics/question-statistics';
 import { ReminderResponseModel } from '../../components/sessions-table/send-reminders-to-respondents-modal/send-reminders-to-respondents-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { TeammatesRouterDirective } from '../../components/teammates-router/teammates-router.directive';
@@ -419,7 +420,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
               ? missingRespMap.set(response.responseId, response)
               : tmpMap.set(response.responseId, response),
           );
-          this.questionsModel[questionId].statistics = QuestionStatistics.appendStats(
+          this.questionsModel[questionId].statistics = this.mergeStatistics(
             this.questionsModel[questionId].statistics,
             responses.questionStatistics,
           );
@@ -730,6 +731,37 @@ export class InstructorSessionResultPageComponent implements OnInit {
           this.statusMessageService.showErrorToast(resp.error.message);
         },
       });
+  }
+
+  /**
+   * Merges the existing statistics with the new statistics.
+   *
+   * Since only statistics for contribution question is calculated on the backend,
+   * the merging logic is based on contribution question statistics only.
+   */
+  private mergeStatistics(prevStats: string, newStats: string): string {
+    if (prevStats === '') {
+      return newStats;
+    }
+    if (newStats === '') {
+      return prevStats;
+    }
+
+    // Only statistics for contribution question is calculated on the backend.
+    const prevStatsJSON: ContributionStatistics = JSON.parse(prevStats);
+    const newStatsJSON: ContributionStatistics = JSON.parse(newStats);
+    for (const email of Object.keys(newStatsJSON.results)) {
+      const newStatsEntryForEmail: ContributionStatisticsEntry = newStatsJSON.results[email];
+      const { claimed }: { claimed: number } = newStatsEntryForEmail;
+      const { perceived }: { perceived: number } = newStatsEntryForEmail;
+      if (claimed < 0 && perceived < 0) {
+        continue;
+      }
+      // If new entry has submitted stats, overwrite the old data
+      prevStatsJSON.results[email] = newStatsEntryForEmail;
+    }
+
+    return JSON.stringify(prevStatsJSON);
   }
 
   navigateToIndividualSessionResultPage(): void {

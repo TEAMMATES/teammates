@@ -1,5 +1,4 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
-import { RankOptionsQuestionStatisticsCalculation } from './question-statistics-calculation/rank-options-question-statistics-calculation';
+import { Component, Input, OnChanges } from '@angular/core';
 import { DEFAULT_RANK_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
 import {
@@ -7,6 +6,9 @@ import {
   SortableTableCellData,
   SortableTableComponent,
 } from '../../sortable-table/sortable-table.component';
+import { FeedbackRankOptionsQuestionDetails, FeedbackRankOptionsResponseDetails } from '../../../../types/api-output';
+import { RankOptionsQuestionStatistics, Response } from '../../../../types/question-statistics.model';
+import { calculateRankOptionsQuestionStatistics } from '../../../utils/question-statistics.util';
 
 /**
  * Statistics for rank options questions.
@@ -16,42 +18,37 @@ import {
   templateUrl: './rank-options-question-statistics.component.html',
   imports: [SortableTableComponent],
 })
-export class RankOptionsQuestionStatisticsComponent
-  extends RankOptionsQuestionStatisticsCalculation
-  implements OnInit, OnChanges
-{
+export class RankOptionsQuestionStatisticsComponent implements OnChanges {
+  @Input()
+  question: FeedbackRankOptionsQuestionDetails = DEFAULT_RANK_OPTIONS_QUESTION_DETAILS();
+  @Input()
+  responses: Response<FeedbackRankOptionsResponseDetails>[] = [];
+  @Input()
+  isStudent = false;
+
   // enum
   SortBy: typeof SortBy = SortBy;
 
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
 
-  constructor() {
-    super(DEFAULT_RANK_OPTIONS_QUESTION_DETAILS());
-  }
-
-  ngOnInit(): void {
-    this.calculateStatistics();
-    this.getTableData();
-  }
-
   ngOnChanges(): void {
-    this.calculateStatistics();
-    this.getTableData();
+    const stats = calculateRankOptionsQuestionStatistics(this.question, this.responses);
+    this.getTableData(stats);
   }
 
-  private getTableData(): void {
+  private getTableData(stats: RankOptionsQuestionStatistics): void {
     this.columnsData = [
       { header: 'Option', sortBy: SortBy.RANK_OPTIONS_OPTION },
       { header: 'Ranks Received' },
       { header: 'Overall Rank', sortBy: SortBy.RANK_OPTIONS_OVERALL_RANK },
     ];
 
-    this.rowsData = Object.keys(this.ranksReceivedPerOption).map((key: string) => {
+    this.rowsData = Object.keys(stats.ranksReceivedPerOption).map((key: string) => {
       return [
         { value: key },
-        { value: this.ranksReceivedPerOption[key].join(', ') },
-        { value: this.rankPerOption[key] ? this.rankPerOption[key] : '' },
+        { value: stats.ranksReceivedPerOption[key].join(', ') },
+        { value: stats.rankPerOption[key] ? stats.rankPerOption[key] : '' },
       ];
     });
   }

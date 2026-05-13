@@ -1,12 +1,14 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
-import { ConstsumOptionsQuestionStatisticsCalculation } from './question-statistics-calculation/constsum-options-question-statistics-calculation';
-import { DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { Component, Input, OnChanges } from '@angular/core';
+import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
 import {
   ColumnData,
   SortableTableCellData,
   SortableTableComponent,
 } from '../../sortable-table/sortable-table.component';
+import { FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails } from '../../../../types/api-output';
+import { calculateConstsumOptionsQuestionStatistics } from '../../../utils/question-statistics.util';
+import { ConstsumOptionsQuestionStatistics, Response } from '../../../../types/question-statistics.model';
 
 /**
  * Statistics for constsum options questions.
@@ -16,31 +18,26 @@ import {
   templateUrl: './constsum-options-question-statistics.component.html',
   imports: [SortableTableComponent],
 })
-export class ConstsumOptionsQuestionStatisticsComponent
-  extends ConstsumOptionsQuestionStatisticsCalculation
-  implements OnInit, OnChanges
-{
+export class ConstsumOptionsQuestionStatisticsComponent implements OnChanges {
   // enum
+  @Input()
+  question: FeedbackConstantSumQuestionDetails = DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS();
+  @Input()
+  responses: Response<FeedbackConstantSumResponseDetails>[] = [];
+  @Input()
+  isStudent = false;
+
   SortBy: typeof SortBy = SortBy;
 
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
 
-  constructor() {
-    super(DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS());
-  }
-
-  ngOnInit(): void {
-    this.calculateStatistics();
-    this.getTableData();
-  }
-
   ngOnChanges(): void {
-    this.calculateStatistics();
-    this.getTableData();
+    const stats = calculateConstsumOptionsQuestionStatistics(this.question, this.responses);
+    this.getTableData(stats);
   }
 
-  private getTableData(): void {
+  private getTableData(stats: ConstsumOptionsQuestionStatistics): void {
     this.columnsData = [
       { header: 'Option', sortBy: SortBy.CONSTSUM_OPTIONS_OPTION },
       { header: 'Points Received' },
@@ -48,11 +45,11 @@ export class ConstsumOptionsQuestionStatisticsComponent
       { header: 'Average Points', sortBy: SortBy.CONSTSUM_OPTIONS_POINTS },
     ];
 
-    this.rowsData = Object.keys(this.pointsPerOption).map((option: string) => [
+    this.rowsData = Object.keys(stats.pointsPerOption).map((option: string) => [
       { value: option },
-      { value: this.pointsPerOption[option].join(', ') },
-      { value: this.totalPointsPerOption[option] },
-      { value: this.averagePointsPerOption[option] },
+      { value: stats.pointsPerOption[option].join(', ') },
+      { value: stats.totalPointsPerOption[option] },
+      { value: stats.averagePointsPerOption[option] },
     ]);
   }
 }

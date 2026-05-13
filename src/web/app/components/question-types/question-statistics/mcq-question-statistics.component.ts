@@ -1,5 +1,4 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
-import { McqQuestionStatisticsCalculation } from './question-statistics-calculation/mcq-question-statistics-calculation';
+import { Component, Input, OnChanges } from '@angular/core';
 import { DEFAULT_MCQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
 import {
@@ -7,6 +6,9 @@ import {
   SortableTableCellData,
   SortableTableComponent,
 } from '../../sortable-table/sortable-table.component';
+import { FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails } from '../../../../types/api-output';
+import { calculateMcqQuestionStatistics } from '../../../utils/question-statistics.util';
+import { McqQuestionStatistics, Response } from '../../../../types/question-statistics.model';
 
 /**
  * Statistics for MCQ questions.
@@ -16,7 +18,14 @@ import {
   templateUrl: './mcq-question-statistics.component.html',
   imports: [SortableTableComponent],
 })
-export class McqQuestionStatisticsComponent extends McqQuestionStatisticsCalculation implements OnInit, OnChanges {
+export class McqQuestionStatisticsComponent implements OnChanges {
+  @Input()
+  question: FeedbackMcqQuestionDetails = DEFAULT_MCQ_QUESTION_DETAILS();
+  @Input()
+  responses: Response<FeedbackMcqResponseDetails>[] = [];
+  @Input()
+  isStudent = false;
+
   // enum
   SortBy: typeof SortBy = SortBy;
 
@@ -25,21 +34,12 @@ export class McqQuestionStatisticsComponent extends McqQuestionStatisticsCalcula
   perRecipientColumnsData: ColumnData[] = [];
   perRecipientRowsData: SortableTableCellData[][] = [];
 
-  constructor() {
-    super(DEFAULT_MCQ_QUESTION_DETAILS());
-  }
-
-  ngOnInit(): void {
-    this.calculateStatistics();
-    this.getTableData();
-  }
-
   ngOnChanges(): void {
-    this.calculateStatistics();
-    this.getTableData();
+    const stats = calculateMcqQuestionStatistics(this.question, this.responses);
+    this.getTableData(stats);
   }
 
-  private getTableData(): void {
+  private getTableData(stats: McqQuestionStatistics): void {
     this.summaryColumnsData = [
       { header: 'Choice', sortBy: SortBy.MCQ_CHOICE },
       { header: 'Weight', sortBy: SortBy.MCQ_WEIGHT },
@@ -48,22 +48,22 @@ export class McqQuestionStatisticsComponent extends McqQuestionStatisticsCalcula
       { header: 'Weighted Percentage (%)', sortBy: SortBy.MCQ_WEIGHTED_PERCENTAGE },
     ];
 
-    this.summaryRowsData = Object.keys(this.answerFrequency).map((key: string) => {
+    this.summaryRowsData = Object.keys(stats.answerFrequency).map((key: string) => {
       return [
         { value: key },
-        { value: this.weightPerOption[key] === 0 ? 0 : this.weightPerOption[key] || '-' },
-        { value: this.answerFrequency[key] },
-        { value: this.percentagePerOption[key] },
-        { value: this.weightedPercentagePerOption[key] === 0 ? 0 : this.weightedPercentagePerOption[key] || '-' },
+        { value: stats.weightPerOption[key] === 0 ? 0 : stats.weightPerOption[key] || '-' },
+        { value: stats.answerFrequency[key] },
+        { value: stats.percentagePerOption[key] },
+        { value: stats.weightedPercentagePerOption[key] === 0 ? 0 : stats.weightedPercentagePerOption[key] || '-' },
       ];
     });
 
     this.perRecipientColumnsData = [
       { header: 'Team', sortBy: SortBy.MCQ_TEAM },
       { header: 'Recipient Name', sortBy: SortBy.MCQ_RECIPIENT_NAME },
-      ...Object.keys(this.weightPerOption).map((key: string) => {
+      ...Object.keys(stats.weightPerOption).map((key: string) => {
         return {
-          header: `${key}[${this.weightPerOption[key].toFixed(2)}]`,
+          header: `${key}[${stats.weightPerOption[key].toFixed(2)}]`,
           sortBy: SortBy.MCQ_OPTION_SELECTED_TIMES,
         };
       }),
@@ -71,20 +71,20 @@ export class McqQuestionStatisticsComponent extends McqQuestionStatisticsCalcula
       { header: 'Average', sortBy: SortBy.MCQ_WEIGHT_AVERAGE },
     ];
 
-    this.perRecipientRowsData = Object.keys(this.perRecipientResponses).map((key: string) => {
-      const recipientEmail: string = this.perRecipientResponses[key].recipientEmail;
+    this.perRecipientRowsData = Object.keys(stats.perRecipientResponses).map((key: string) => {
+      const recipientEmail: string = stats.perRecipientResponses[key].recipientEmail;
       return [
-        { value: this.perRecipientResponses[key].recipientTeam },
+        { value: stats.perRecipientResponses[key].recipientTeam },
         {
-          value: this.perRecipientResponses[key].recipient + (recipientEmail ? ` (${recipientEmail})` : ''),
+          value: stats.perRecipientResponses[key].recipient + (recipientEmail ? ` (${recipientEmail})` : ''),
         },
-        ...Object.keys(this.weightPerOption).map((option: string) => {
+        ...Object.keys(stats.weightPerOption).map((option: string) => {
           return {
-            value: this.perRecipientResponses[key].responses[option],
+            value: stats.perRecipientResponses[key].responses[option],
           };
         }),
-        { value: this.perRecipientResponses[key].total.toFixed(2) },
-        { value: this.perRecipientResponses[key].average.toFixed(2) },
+        { value: stats.perRecipientResponses[key].total.toFixed(2) },
+        { value: stats.perRecipientResponses[key].average.toFixed(2) },
       ];
     });
   }

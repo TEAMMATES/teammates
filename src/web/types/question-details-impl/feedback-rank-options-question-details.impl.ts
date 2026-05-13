@@ -1,7 +1,13 @@
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
-import { RankOptionsQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/rank-options-question-statistics-calculation';
-import { FeedbackQuestionType, FeedbackRankOptionsQuestionDetails, QuestionOutput } from '../api-output';
+import {
+  FeedbackQuestionType,
+  FeedbackRankOptionsQuestionDetails,
+  FeedbackRankOptionsResponseDetails,
+  QuestionOutput,
+} from '../api-output';
 import { NO_VALUE } from '../feedback-response-details';
+import { Response } from '../question-statistics.model';
+import { calculateRankOptionsQuestionStatistics } from '../../app/utils/question-statistics.util';
 
 /**
  * Concrete implementation of {@link FeedbackRankOptionsQuestionDetails}.
@@ -34,15 +40,16 @@ export class FeedbackRankOptionsQuestionDetailsImpl
   getQuestionCsvStats(question: QuestionOutput): string[][] {
     const statsRows: string[][] = [];
 
-    const statsCalculation: RankOptionsQuestionStatisticsCalculation = new RankOptionsQuestionStatisticsCalculation(
-      this,
-    );
-    this.populateQuestionStatistics(statsCalculation, question);
-    if (statsCalculation.responses.length === 0) {
+    const questionDetails = question.feedbackQuestion.questionDetails as FeedbackRankOptionsQuestionDetails;
+    const responses = question.allResponses
+      // Missing response is meaningless for statistics
+      .filter((response) => !response.isMissingResponse) as unknown as Response<FeedbackRankOptionsResponseDetails>[];
+
+    if (responses.length === 0) {
       // skip stats for no response
       return [];
     }
-    statsCalculation.calculateStatistics();
+    const statsCalculation = calculateRankOptionsQuestionStatistics(questionDetails, responses);
 
     statsRows.push(['Option', 'Overall Rank', 'Ranks Received']);
 
