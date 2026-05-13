@@ -64,7 +64,7 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithDatabaseAccess {
         fr.setGiverSection(newGiverSection);
         fr.setRecipientSection(newRecipientSection);
 
-        fr = frLogic.updateFeedbackResponseCascade(fr);
+        fr = frLogic.updateFeedbackResponse(fr);
 
         fr = frLogic.getFeedbackResponse(fr.getId());
         assertEquals(fr.getGiver(), newGiver);

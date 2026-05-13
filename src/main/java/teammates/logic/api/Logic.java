@@ -1447,7 +1447,7 @@ public class Logic {
             throws InvalidParametersException, EntityDoesNotExistException {
         assert feedbackResponse != null;
 
-        return feedbackResponsesLogic.updateFeedbackResponseCascade(feedbackResponse);
+        return feedbackResponsesLogic.updateFeedbackResponse(feedbackResponse);
     }
 
     /**

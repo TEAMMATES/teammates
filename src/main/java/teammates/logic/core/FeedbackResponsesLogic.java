@@ -201,13 +201,11 @@ public final class FeedbackResponsesLogic {
     /**
      * Updates a feedback response.
      *
-     * <p>Cascade-updates the associated feedback response comments.
-     *
      * @return updated feedback response
      * @throws InvalidParametersException if attributes to update are not valid
-     * @throws EntityDoesNotExistException if the comment cannot be found
+     * @throws EntityDoesNotExistException if the response cannot be found
      */
-    public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse feedbackResponse)
+    public FeedbackResponse updateFeedbackResponse(FeedbackResponse feedbackResponse)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         FeedbackResponse oldResponse = frDb.getFeedbackResponse(feedbackResponse.getId());
