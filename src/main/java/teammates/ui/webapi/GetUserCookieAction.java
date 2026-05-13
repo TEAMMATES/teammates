@@ -28,6 +28,7 @@ public class GetUserCookieAction extends Action {
     @Override
     public JsonResult execute() {
         // TODO: Directly get existing account with accountId. Account should not be created here.
+        // Warning: createOrGetAccountForEmail may fail silently here for tests if the email is invalid.
         String user = getNonNullRequestParamValue(Const.ParamsNames.USER_ID);
         Account account = accountsLogic.createOrGetAccountForEmail(user);
         UserInfoCookie uic = new UserInfoCookie(user, account.getId());
