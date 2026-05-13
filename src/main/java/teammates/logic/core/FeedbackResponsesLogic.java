@@ -218,15 +218,6 @@ public final class FeedbackResponsesLogic {
         // TODO: do not pass detached entities around
         HibernateUtil.merge(feedbackResponse);
 
-        Set<FeedbackResponseComment> oldResponseComments = oldResponse.getFeedbackResponseComments();
-
-        for (FeedbackResponseComment oldResponseComment : oldResponseComments) {
-            oldResponseComment.setGiverSection(feedbackResponse.getGiverSection());
-            oldResponseComment.setRecipientSection(feedbackResponse.getRecipientSection());
-
-            frcLogic.updateFeedbackResponseComment(oldResponseComment);
-        }
-
         validateFeedbackResponse(feedbackResponse);
 
         return feedbackResponse;
@@ -516,7 +507,6 @@ public final class FeedbackResponsesLogic {
             if (!response.isValid()) {
                 throw new InvalidParametersException(response.getInvalidityInfo());
             }
-            frcLogic.updateFeedbackResponseCommentsForResponse(response);
         }
 
         List<FeedbackResponse> responsesToUser =
@@ -527,7 +517,6 @@ public final class FeedbackResponsesLogic {
             if (!response.isValid()) {
                 throw new InvalidParametersException(response.getInvalidityInfo());
             }
-            frcLogic.updateFeedbackResponseCommentsForResponse(response);
         }
     }
 

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
@@ -581,10 +582,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
         click(responseRow.findElement(By.id("btn-add-comment")));
         WebElement commentModal = waitForElementPresence(By.className("modal-body"));
 
-        String editor = getName(comment.getGiverType(),
-                comment.getLastEditorEmail(), instructors, students);
-        String commentGiver = getName(comment.getGiverType(), comment.getGiver(),
-                instructors, students);
+        String editor = getCommentParticipantName(comment.getLastEditorEmail(), instructors, students);
+        String commentGiver = getCommentParticipantName(comment.getGiver(), instructors, students);
         verifyCommentDetails(commentModal, commentGiver, editor, comment.getCommentText(), true);
     }
 
@@ -594,10 +593,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                               Collection<Student> students) {
         WebElement questionPanel = getQuestionPanel(groupedResponses, qnNum);
 
-        String editor = getName(comment.getGiverType(), comment.getLastEditorEmail(),
-                instructors, students);
-        String commentGiver = getName(comment.getGiverType(), comment.getGiver(),
-                instructors, students);
+        String editor = getCommentParticipantName(comment.getLastEditorEmail(), instructors, students);
+        String commentGiver = getCommentParticipantName(comment.getGiver(), instructors, students);
         verifyCommentDetails(questionPanel, commentGiver, editor, comment.getCommentText(), false);
     }
 
@@ -1337,5 +1334,25 @@ public class InstructorFeedbackResultsPage extends AppPage {
         }
 
         return name;
+    }
+
+    private String getCommentParticipantName(String participant,
+                                             Collection<Instructor> instructors,
+                                             Collection<Student> students) {
+        Optional<String> instructorName = instructors.stream()
+                .filter(instructor -> instructor.getEmail().equals(participant))
+                .findFirst()
+                .map(Instructor::getName);
+        if (instructorName.isPresent()) {
+            return instructorName.get();
+        }
+        Optional<String> studentName = students.stream()
+                .filter(student -> student.getEmail().equals(participant))
+                .findFirst()
+                .map(Student::getName);
+        if (studentName.isPresent()) {
+            return studentName.get();
+        }
+        return participant;
     }
 }

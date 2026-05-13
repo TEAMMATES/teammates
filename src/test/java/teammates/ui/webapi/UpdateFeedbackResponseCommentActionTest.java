@@ -683,9 +683,6 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     private FeedbackResponseComment getTypicalCommentFromStudent() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalStudent.getEmail(),
-                QuestionGiverType.STUDENTS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 "typical comment",
                 true,
                 true,
@@ -702,9 +699,6 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     private FeedbackResponseComment getUpdatedCommentFromStudent() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalStudent.getEmail(),
-                QuestionGiverType.STUDENTS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 "updated comment",
                 true,
                 true,
@@ -721,9 +715,6 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     private FeedbackResponseComment getTypicalCommentFromInstructor() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalInstructor.getEmail(),
-                QuestionGiverType.INSTRUCTORS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 "typical comment",
                 false,
                 false,
@@ -740,9 +731,6 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     private FeedbackResponseComment getUpdatedCommentFromInstructor() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalInstructor.getEmail(),
-                QuestionGiverType.INSTRUCTORS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 "updated comment",
                 false,
                 false,
@@ -759,9 +747,6 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     private FeedbackResponseComment getTypicalCommentFromInstructorAsParticipant() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalInstructor.getEmail(),
-                QuestionGiverType.INSTRUCTORS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 "typical comment",
                 true,
                 true,
@@ -778,9 +763,6 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     private FeedbackResponseComment getUpdatedCommentFromInstructorAsParticipant() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalInstructor.getEmail(),
-                QuestionGiverType.INSTRUCTORS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 "updated comment",
                 true,
                 true,
@@ -804,9 +786,6 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         typicalFeedbackQuestion.addFeedbackResponse(typicalFeedbackResponse);
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 "first team",
-                QuestionGiverType.TEAMS,
-                sectionA,
-                sectionB,
                 "typical comment",
                 true,
                 true,

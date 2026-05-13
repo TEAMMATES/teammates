@@ -776,9 +776,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     private FeedbackResponseComment getTypicalCommentForInstructorResult() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalInstructor.getEmail(),
-                QuestionGiverType.INSTRUCTORS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 typicalRequestBody.getCommentText(),
                 false,
                 false,
@@ -795,9 +792,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     private FeedbackResponseComment getTypicalCommentForInstructorSubmission() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalInstructor.getEmail(),
-                QuestionGiverType.INSTRUCTORS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 typicalRequestBody.getCommentText(),
                 true,
                 true,
@@ -814,9 +808,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     private FeedbackResponseComment getTypicalCommentForStudentSubmission() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalStudent.getEmail(),
-                QuestionGiverType.STUDENTS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 typicalRequestBody.getCommentText(),
                 true,
                 true,
