@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import jakarta.annotation.Nullable;
-
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
@@ -149,34 +147,10 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     /**
-     * Gets all feedback response comments for session in a section.
-     *
-     * @param courseId the course ID of the feedback session
-     * @param feedbackSessionName the feedback session name
-     * @param sectionName if null, will retrieve all comments in the session
-     * @return a list of feedback response comments
+     * Gets all feedback response comments for the given feedback response IDs.
      */
-    public List<FeedbackResponseComment> getFeedbackResponseCommentForSessionInSection(
-            String courseId, String feedbackSessionName, @Nullable String sectionName) {
-        if (sectionName == null) {
-            return frcDb.getFeedbackResponseCommentsForSession(courseId, feedbackSessionName);
-        }
-        return frcDb.getFeedbackResponseCommentsForSessionInSection(courseId, feedbackSessionName, sectionName);
-    }
-
-    /**
-     * Gets all feedback response comments for a question in a section.
-     *
-     * @param questionId the ID of the question
-     * @param sectionName if null, will retrieve all comments for the question
-     * @return a list of feedback response comments
-     */
-    public List<FeedbackResponseComment> getFeedbackResponseCommentForQuestionInSection(
-            UUID questionId, @Nullable String sectionName) {
-        if (sectionName == null) {
-            return frcDb.getFeedbackResponseCommentsForQuestion(questionId);
-        }
-        return frcDb.getFeedbackResponseCommentsForQuestionInSection(questionId, sectionName);
+    public List<FeedbackResponseComment> getFeedbackResponseCommentsForResponses(List<UUID> feedbackResponseIds) {
+        return frcDb.getFeedbackResponseCommentsForResponses(feedbackResponseIds);
     }
 
     /**

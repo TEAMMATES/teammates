@@ -567,7 +567,7 @@ public final class FeedbackResponsesLogic {
     }
 
     private SessionResultsBundle buildResultsBundle(
-            boolean isCourseWide, FeedbackSession feedbackSession, String courseId, String sectionName, UUID questionId,
+            boolean isCourseWide, String sectionName,
             boolean isInstructor, String userEmail, Instructor instructor, Student student,
             CourseRoster roster, List<FeedbackQuestion> allQuestions,
             List<FeedbackResponse> allResponses, boolean isPreviewResults) {
@@ -580,16 +580,6 @@ public final class FeedbackResponsesLogic {
                 questionsNotVisibleToInstructors.add(qn);
             }
         }
-
-        // load comment(s)
-        List<FeedbackResponseComment> allComments;
-        if (questionId == null) {
-            allComments = frcLogic.getFeedbackResponseCommentForSessionInSection(
-                    courseId, feedbackSession.getName(), sectionName);
-        } else {
-            allComments = frcLogic.getFeedbackResponseCommentForQuestionInSection(questionId, sectionName);
-        }
-        RequestTracer.checkRemainingTime();
 
         // related questions, responses, and comment
         List<FeedbackQuestion> relatedQuestions = new ArrayList<>();
@@ -658,6 +648,14 @@ public final class FeedbackResponsesLogic {
                     isNameVisibleToUser(correspondingQuestion, response.getGiver(), response.getRecipient(),
                         userEmail, isInstructor, false, roster));
         }
+        RequestTracer.checkRemainingTime();
+
+        // load comment(s) for related responses only
+        List<UUID> relatedResponseIds = new ArrayList<>();
+        for (FeedbackResponse relatedResponse : relatedResponses) {
+            relatedResponseIds.add(relatedResponse.getId());
+        }
+        List<FeedbackResponseComment> allComments = frcLogic.getFeedbackResponseCommentsForResponses(relatedResponseIds);
         RequestTracer.checkRemainingTime();
 
         // build comment
@@ -743,7 +741,7 @@ public final class FeedbackResponsesLogic {
         // consider the current viewing user
         Instructor instructor = usersLogic.getInstructorForEmail(courseId, instructorEmail);
 
-        return buildResultsBundle(true, feedbackSession, courseId, sectionName, questionId, true, instructorEmail,
+        return buildResultsBundle(true, sectionName, true, instructorEmail,
                 instructor, null, roster, allQuestions, allResponses, false);
     }
 
@@ -783,7 +781,7 @@ public final class FeedbackResponsesLogic {
         }
         RequestTracer.checkRemainingTime();
 
-        return buildResultsBundle(false, feedbackSession, courseId, null, questionId, isInstructor, userEmail,
+        return buildResultsBundle(false, null, isInstructor, userEmail,
                 instructor, student, roster, allQuestions, allResponses, isPreviewResults);
     }
 
