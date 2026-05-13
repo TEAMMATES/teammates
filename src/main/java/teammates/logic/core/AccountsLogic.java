@@ -89,10 +89,15 @@ public final class AccountsLogic {
 
         try {
             return createAccountForEmail(email);
-        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-            // This should not happen
-            assert false : "Failed to create account for email: " + email;
-            return null;
+        } catch (EntityAlreadyExistsException e) {
+            // Retry in case of a race condition
+            Account existingAccount = getAccountForGoogleId(email);
+            if (existingAccount != null) {
+                return existingAccount;
+            }
+            throw new IllegalStateException("Account already exists but could not be retrieved: " + email, e);
+        } catch (InvalidParametersException e) {
+            throw new IllegalStateException("Failed to create account with invalid parameters: " + email, e);
         }
     }
 
