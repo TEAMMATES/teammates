@@ -1,11 +1,17 @@
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
-import { ContributionQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/contribution-question-statistics-calculation';
-import { FeedbackContributionQuestionDetails, FeedbackQuestionType, QuestionOutput } from '../api-output';
+import {
+  FeedbackContributionQuestionDetails,
+  FeedbackContributionResponseDetails,
+  FeedbackQuestionType,
+  QuestionOutput,
+} from '../api-output';
 import {
   CONTRIBUTION_POINT_NOT_INITIALIZED,
   CONTRIBUTION_POINT_NOT_SUBMITTED,
   CONTRIBUTION_POINT_NOT_SURE,
 } from '../feedback-response-details';
+import { Response } from '../question-statistics.model';
+import { calculateContributionQuestionStatistics } from '../../app/utils/question-statistics.util';
 
 /**
  * Concrete implementation of {@link FeedbackContributionQuestionDetails}.
@@ -28,14 +34,12 @@ export class FeedbackContributionQuestionDetailsImpl
 
   getQuestionCsvStats(question: QuestionOutput): string[][] {
     const statsRows: string[][] = [];
+    const responses = question.allResponses
+      // Missing response is meaningless for statistics
+      .filter((response) => !response.isMissingResponse) as unknown as Response<FeedbackContributionResponseDetails>[];
 
-    const statsCalculation: ContributionQuestionStatisticsCalculation = new ContributionQuestionStatisticsCalculation(
-      this,
-    );
-    this.populateQuestionStatistics(statsCalculation, question);
-    statsCalculation.statistics = question.questionStatistics;
-    statsCalculation.parseStatistics();
-    if (!statsCalculation.questionOverallStatistics || !statsCalculation.questionOverallStatistics) {
+    const statsCalculation = calculateContributionQuestionStatistics(responses, question.questionStatistics, false);
+    if (!statsCalculation.questionOverallStatistics) {
       return [];
     }
 

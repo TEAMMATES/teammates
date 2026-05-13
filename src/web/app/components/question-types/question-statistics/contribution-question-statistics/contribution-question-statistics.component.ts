@@ -1,9 +1,14 @@
-import { Component, Input, OnChanges, OnInit, TemplateRef, inject } from '@angular/core';
+import { Component, Input, OnChanges, TemplateRef, inject } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { ContributionRatingsListComponent } from './contribution-ratings-list.component';
 import { ContributionComponent } from './contribution.component';
 import { SimpleModalService } from '../../../../../services/simple-modal.service';
-import { ContributionStatistics } from '../../../../../types/api-output';
+import {
+  ContributionStatistics,
+  ContributionStatisticsEntry,
+  FeedbackContributionQuestionDetails,
+  FeedbackContributionResponseDetails,
+} from '../../../../../types/api-output';
 import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../../types/default-question-structs';
 import { SortBy } from '../../../../../types/sort-properties';
 import { QuestionsSectionQuestions } from '../../../../pages-help/instructor-help-page/instructor-help-questions-section/questions-section-questions';
@@ -15,7 +20,8 @@ import {
   SortableTableComponent,
 } from '../../../sortable-table/sortable-table.component';
 import { TeammatesRouterDirective } from '../../../teammates-router/teammates-router.directive';
-import { ContributionQuestionStatisticsCalculation } from '../question-statistics-calculation/contribution-question-statistics-calculation';
+import { ContributionQuestionStatistics, Response } from '../../../../../types/question-statistics.model';
+import { calculateContributionQuestionStatistics } from '../../../../utils/question-statistics.util';
 
 /**
  * Statistics for contribution questions.
@@ -25,40 +31,39 @@ import { ContributionQuestionStatisticsCalculation } from '../question-statistic
   templateUrl: './contribution-question-statistics.component.html',
   imports: [NgbTooltip, ContributionComponent, TeammatesRouterDirective, SortableTableComponent],
 })
-export class ContributionQuestionStatisticsComponent
-  extends ContributionQuestionStatisticsCalculation
-  implements OnInit, OnChanges
-{
+export class ContributionQuestionStatisticsComponent implements OnChanges {
   private simpleModalService = inject(SimpleModalService);
+
+  @Input()
+  question: FeedbackContributionQuestionDetails = DEFAULT_CONTRIBUTION_QUESTION_DETAILS();
+  @Input()
+  responses: Response<FeedbackContributionResponseDetails>[] = [];
+  @Input()
+  isStudent = false;
+  @Input() statistics = '';
+  @Input() displayContributionStats = true;
 
   // enum
   QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
   Sections: typeof Sections = Sections;
 
-  @Input() displayContributionStats = true;
-
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
-
-  constructor() {
-    super(DEFAULT_CONTRIBUTION_QUESTION_DETAILS());
-  }
-
-  ngOnInit(): void {
-    this.parseStatistics();
-    this.getTableData();
-  }
+  questionOverallStatistics?: ContributionStatistics;
+  questionStatisticsForStudent?: ContributionStatisticsEntry & { claimedOthersValues: number[] };
 
   ngOnChanges(): void {
-    this.parseStatistics();
-    this.getTableData();
+    const stats = calculateContributionQuestionStatistics(this.responses, this.statistics, this.isStudent);
+    this.getTableData(stats);
+    this.questionOverallStatistics = stats.questionOverallStatistics;
+    this.questionStatisticsForStudent = stats.questionStatisticsForStudent;
   }
 
-  private getTableData(): void {
-    if (!this.questionOverallStatistics) {
+  private getTableData(stats: ContributionQuestionStatistics): void {
+    if (!stats.questionOverallStatistics) {
       return;
     }
-    const statistics: ContributionStatistics = this.questionOverallStatistics;
+    const statistics: ContributionStatistics = stats.questionOverallStatistics;
 
     this.columnsData = [
       { header: 'Team', sortBy: SortBy.CONTRIBUTION_TEAM },
@@ -82,10 +87,10 @@ export class ContributionQuestionStatisticsComponent
       { header: 'Ratings Received', headerToolTip: 'The list of points that this student received from others' },
     ];
 
-    this.rowsData = Object.keys(this.emailToName).map((email: string) => {
+    this.rowsData = Object.keys(stats.emailToName).map((email: string) => {
       return [
-        { value: this.emailToTeamName[email] },
-        { value: `${this.emailToName[email]} (${email})` },
+        { value: stats.emailToTeamName[email] },
+        { value: `${stats.emailToName[email]} (${email})` },
         {
           value: statistics.results[email].claimed,
           customComponent: {
@@ -109,12 +114,12 @@ export class ContributionQuestionStatisticsComponent
           },
         },
         {
-          value: this.emailToDiff[email],
+          value: stats.emailToDiff[email],
           customComponent: {
             component: ContributionComponent,
             componentData: () => {
               return {
-                value: this.emailToDiff[email],
+                value: stats.emailToDiff[email],
                 diffOnly: true,
               };
             },

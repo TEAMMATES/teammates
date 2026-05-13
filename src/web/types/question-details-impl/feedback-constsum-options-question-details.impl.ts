@@ -1,11 +1,13 @@
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
-import { ConstsumOptionsQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/constsum-options-question-statistics-calculation';
 import {
   FeedbackConstantSumDistributePointsType,
   FeedbackConstantSumQuestionDetails,
+  FeedbackConstantSumResponseDetails,
   FeedbackQuestionType,
   QuestionOutput,
 } from '../api-output';
+import { calculateConstsumOptionsQuestionStatistics } from '../../app/utils/question-statistics.util';
+import { Response } from '../question-statistics.model';
 
 /**
  * Concrete implementation of {@link FeedbackConstantSumQuestionDetails}.
@@ -43,15 +45,17 @@ export class FeedbackConstantSumOptionsQuestionDetailsImpl
 
   getQuestionCsvStats(question: QuestionOutput): string[][] {
     const statsRows: string[][] = [];
+    const questionDetails = question.feedbackQuestion.questionDetails as FeedbackConstantSumQuestionDetails;
+    const responses = question.allResponses
+      // Missing response is meaningless for statistics
+      .filter((response) => !response.isMissingResponse) as unknown as Response<FeedbackConstantSumResponseDetails>[];
 
-    const statsCalculation: ConstsumOptionsQuestionStatisticsCalculation =
-      new ConstsumOptionsQuestionStatisticsCalculation(this);
-    this.populateQuestionStatistics(statsCalculation, question);
-    if (statsCalculation.responses.length === 0) {
+    if (responses.length === 0) {
       // skip stats for no response
       return [];
     }
-    statsCalculation.calculateStatistics();
+
+    const statsCalculation = calculateConstsumOptionsQuestionStatistics(questionDetails, responses);
 
     statsRows.push(['Option', 'Total Points', 'Average Points', 'Points Received']);
 

@@ -49,7 +49,6 @@ import {
 import { QuestionEditFormComponent } from '../../../components/question-edit-form/question-edit-form.component';
 import { QuestionSubmissionFormModel } from '../../../components/question-submission-form/question-submission-form-model';
 import { QuestionSubmissionFormComponent } from '../../../components/question-submission-form/question-submission-form.component';
-import { Response } from '../../../components/question-types/question-statistics/question-statistics';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { TeammatesRouterDirective } from '../../../components/teammates-router/teammates-router.directive';
 import { InstructorSessionResultQuestionViewComponent } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-question-view.component';
@@ -59,6 +58,7 @@ import { ExampleBoxComponent } from '../example-box/example-box.component';
 import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 import { Sections } from '../sections';
+import { Response } from '../../../../types/question-statistics.model';
 
 /**
  * Questions Section of the Instructor Help Page.

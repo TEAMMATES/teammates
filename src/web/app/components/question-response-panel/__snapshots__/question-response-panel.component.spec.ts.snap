@@ -1033,7 +1033,6 @@ exports[`QuestionResponsePanelComponent should snap with questions and responses
               class="other-responses"
             >
               <tm-single-statistics>
-                <tm-text-question-statistics />
               </tm-single-statistics>
               <div>
               </div>

@@ -1,12 +1,18 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
-import { ConstsumRecipientsQuestionStatisticsCalculation } from './question-statistics-calculation/constsum-recipients-question-statistics-calculation';
-import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { Component, Input, OnChanges } from '@angular/core';
+import { DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
 import {
   ColumnData,
   SortableTableCellData,
   SortableTableComponent,
 } from '../../sortable-table/sortable-table.component';
+import {
+  FeedbackConstantSumQuestionDetails,
+  FeedbackConstantSumResponseDetails,
+  FeedbackParticipantType,
+} from '../../../../types/api-output';
+import { calculateConstsumRecipientsQuestionStatistics } from '../../../utils/question-statistics.util';
+import { ConstsumRecipientsQuestionStatistics, Response } from '../../../../types/question-statistics.model';
 
 /**
  * Statistics for constsum recipients questions.
@@ -16,31 +22,28 @@ import {
   templateUrl: './constsum-recipients-question-statistics.component.html',
   imports: [SortableTableComponent],
 })
-export class ConstsumRecipientsQuestionStatisticsComponent
-  extends ConstsumRecipientsQuestionStatisticsCalculation
-  implements OnInit, OnChanges
-{
+export class ConstsumRecipientsQuestionStatisticsComponent implements OnChanges {
+  @Input()
+  question: FeedbackConstantSumQuestionDetails = DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS();
+  @Input()
+  responses: Response<FeedbackConstantSumResponseDetails>[] = [];
+  @Input()
+  recipientType: FeedbackParticipantType = FeedbackParticipantType.NONE;
+  @Input()
+  isStudent = false;
+
   // enum
   SortBy: typeof SortBy = SortBy;
 
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
 
-  constructor() {
-    super(DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS());
-  }
-
-  ngOnInit(): void {
-    this.calculateStatistics();
-    this.getTableData();
-  }
-
   ngOnChanges(): void {
-    this.calculateStatistics();
-    this.getTableData();
+    const stats = calculateConstsumRecipientsQuestionStatistics(this.responses, this.recipientType);
+    this.getTableData(stats);
   }
 
-  private getTableData(): void {
+  private getTableData(stats: ConstsumRecipientsQuestionStatistics): void {
     this.columnsData = [
       { header: 'Team', sortBy: SortBy.TEAM_NAME },
       { header: 'Recipient', sortBy: SortBy.RECIPIENT_NAME },
@@ -50,15 +53,15 @@ export class ConstsumRecipientsQuestionStatisticsComponent
       { header: 'Average Excluding Self', sortBy: SortBy.CONSTSUM_RECIPIENTS_POINTS },
     ];
 
-    this.rowsData = Object.keys(this.pointsPerOption).map((recipient: string) => [
-      { value: this.emailToTeamName[recipient] },
+    this.rowsData = Object.keys(stats.pointsPerOption).map((recipient: string) => [
+      { value: stats.emailToTeamName[recipient] },
       {
-        value: this.emailToName[recipient] + (this.emailToTeamName[recipient] ? ` (${recipient})` : ''),
+        value: stats.emailToName[recipient] + (stats.emailToTeamName[recipient] ? ` (${recipient})` : ''),
       },
-      { value: this.pointsPerOption[recipient].join(', ') },
-      { value: this.totalPointsPerOption[recipient] },
-      { value: this.averagePointsPerOption[recipient] },
-      { value: this.averagePointsExcludingSelf[recipient] },
+      { value: stats.pointsPerOption[recipient].join(', ') },
+      { value: stats.totalPointsPerOption[recipient] },
+      { value: stats.averagePointsPerOption[recipient] },
+      { value: stats.averagePointsExcludingSelf[recipient] },
     ]);
   }
 }

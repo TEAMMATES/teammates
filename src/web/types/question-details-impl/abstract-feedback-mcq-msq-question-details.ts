@@ -1,12 +1,12 @@
+import { McqMsqQuestionStatistics } from '../question-statistics.model';
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
-import { McqMsqQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/mcq-msq-question-statistics-calculation';
 
 /**
  * Abstract class for MCQ/MSQ question detail.
  */
 export abstract class AbstractFeedbackMcqMsqQuestionDetails extends AbstractFeedbackQuestionDetails {
   protected getQuestionCsvStatsFrom(
-    statsCalculation: McqMsqQuestionStatisticsCalculation,
+    statsCalculation: McqMsqQuestionStatistics,
     hasAssignedWeights: boolean,
   ): string[][] {
     const statsRows: string[][] = [];

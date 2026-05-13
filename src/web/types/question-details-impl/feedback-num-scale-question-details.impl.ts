@@ -1,11 +1,13 @@
 import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-details';
-import { NumScaleQuestionStatisticsCalculation } from '../../app/components/question-types/question-statistics/question-statistics-calculation/num-scale-question-statistics-calculation';
 import {
   FeedbackNumericalScaleQuestionDetails,
+  FeedbackNumericalScaleResponseDetails,
   FeedbackParticipantType,
   FeedbackQuestionType,
   QuestionOutput,
 } from '../api-output';
+import { NumScaleQuestionStatistics, Response } from '../question-statistics.model';
+import { calculateNumScaleQuestionStatistics } from '../../app/utils/question-statistics.util';
 
 /**
  * Concrete implementation of {@link FeedbackNumericalScaleQuestionDetails}.
@@ -30,14 +32,18 @@ export class FeedbackNumericalScaleQuestionDetailsImpl
 
   getQuestionCsvStats(question: QuestionOutput): string[][] {
     const statsRows: string[][] = [];
+    const responses = question.allResponses
+      // Missing response is meaningless for statistics
+      .filter(
+        (response) => !response.isMissingResponse,
+      ) as unknown as Response<FeedbackNumericalScaleResponseDetails>[];
 
-    const statsCalculation: NumScaleQuestionStatisticsCalculation = new NumScaleQuestionStatisticsCalculation(this);
-    this.populateQuestionStatistics(statsCalculation, question);
-    if (statsCalculation.responses.length === 0) {
+    if (responses.length === 0) {
       // skip stats for no response
       return [];
     }
-    statsCalculation.calculateStatistics();
+
+    const statsCalculation = calculateNumScaleQuestionStatistics(responses);
 
     const header: string[] = ['Team', 'Recipient', 'Recipient Email', 'Average', 'Minimum', 'Maximum'];
     const shouldShowAvgExcludingSelf: boolean = this.shouldShowAverageExcludingSelfInCsvStats(
@@ -75,7 +81,7 @@ export class FeedbackNumericalScaleQuestionDetailsImpl
    */
   shouldShowAverageExcludingSelfInCsvStats(
     question: QuestionOutput,
-    statsCalculation: NumScaleQuestionStatisticsCalculation,
+    statsCalculation: NumScaleQuestionStatistics,
   ): boolean {
     if (question.feedbackQuestion.recipientType === FeedbackParticipantType.NONE) {
       // General recipient type would not give self response

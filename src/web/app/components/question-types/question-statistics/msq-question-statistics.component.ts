@@ -1,5 +1,4 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
-import { MsqQuestionStatisticsCalculation } from './question-statistics-calculation/msq-question-statistics-calculation';
+import { Component, Input, OnChanges } from '@angular/core';
 import { DEFAULT_MSQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
 import {
@@ -7,6 +6,9 @@ import {
   SortableTableCellData,
   SortableTableComponent,
 } from '../../sortable-table/sortable-table.component';
+import { FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails } from '../../../../types/api-output';
+import { calculateMsqQuestionStatistics } from '../../../utils/question-statistics.util';
+import { MsqQuestionStatistics, Response } from '../../../../types/question-statistics.model';
 
 /**
  * Statistics for MSQ questions.
@@ -16,7 +18,14 @@ import {
   templateUrl: './msq-question-statistics.component.html',
   imports: [SortableTableComponent],
 })
-export class MsqQuestionStatisticsComponent extends MsqQuestionStatisticsCalculation implements OnInit, OnChanges {
+export class MsqQuestionStatisticsComponent implements OnChanges {
+  @Input()
+  question: FeedbackMsqQuestionDetails = DEFAULT_MSQ_QUESTION_DETAILS();
+  @Input()
+  responses: Response<FeedbackMsqResponseDetails>[] = [];
+  @Input()
+  isStudent = false;
+
   // enum
   SortBy: typeof SortBy = SortBy;
 
@@ -24,22 +33,15 @@ export class MsqQuestionStatisticsComponent extends MsqQuestionStatisticsCalcula
   summaryRowsData: SortableTableCellData[][] = [];
   perRecipientColumnsData: ColumnData[] = [];
   perRecipientRowsData: SortableTableCellData[][] = [];
-
-  constructor() {
-    super(DEFAULT_MSQ_QUESTION_DETAILS());
-  }
-
-  ngOnInit(): void {
-    this.calculateStatistics();
-    this.getTableData();
-  }
+  hasAnswers = false;
 
   ngOnChanges(): void {
-    this.calculateStatistics();
-    this.getTableData();
+    const stats = calculateMsqQuestionStatistics(this.question, this.responses);
+    this.getTableData(stats);
+    this.hasAnswers = stats.hasAnswers;
   }
 
-  private getTableData(): void {
+  private getTableData(stats: MsqQuestionStatistics): void {
     this.summaryColumnsData = [
       { header: 'Choice', sortBy: SortBy.MSQ_CHOICE },
       { header: 'Weight', sortBy: SortBy.MSQ_WEIGHT },
@@ -48,22 +50,22 @@ export class MsqQuestionStatisticsComponent extends MsqQuestionStatisticsCalcula
       { header: 'Weighted Percentage (%)', sortBy: SortBy.MSQ_WEIGHTED_PERCENTAGE },
     ];
 
-    this.summaryRowsData = Object.keys(this.answerFrequency).map((key: string) => {
+    this.summaryRowsData = Object.keys(stats.answerFrequency).map((key: string) => {
       return [
         { value: key },
-        { value: this.weightPerOption[key] === 0 ? 0 : this.weightPerOption[key] || '-' },
-        { value: this.answerFrequency[key] },
-        { value: this.percentagePerOption[key] },
-        { value: this.weightedPercentagePerOption[key] === 0 ? 0 : this.weightedPercentagePerOption[key] || '-' },
+        { value: stats.weightPerOption[key] === 0 ? 0 : stats.weightPerOption[key] || '-' },
+        { value: stats.answerFrequency[key] },
+        { value: stats.percentagePerOption[key] },
+        { value: stats.weightedPercentagePerOption[key] === 0 ? 0 : stats.weightedPercentagePerOption[key] || '-' },
       ];
     });
 
     this.perRecipientColumnsData = [
       { header: 'Team', sortBy: SortBy.MSQ_TEAM },
       { header: 'Recipient Name', sortBy: SortBy.MSQ_RECIPIENT_NAME },
-      ...Object.keys(this.weightPerOption).map((key: string) => {
+      ...Object.keys(stats.weightPerOption).map((key: string) => {
         return {
-          header: `${key} [${this.weightPerOption[key].toFixed(2)}]`,
+          header: `${key} [${stats.weightPerOption[key].toFixed(2)}]`,
           sortBy: SortBy.MSQ_OPTION_SELECTED_TIMES,
         };
       }),
@@ -71,20 +73,20 @@ export class MsqQuestionStatisticsComponent extends MsqQuestionStatisticsCalcula
       { header: 'Average', sortBy: SortBy.MSQ_WEIGHT_AVERAGE },
     ];
 
-    this.perRecipientRowsData = Object.keys(this.perRecipientResponses).map((key: string) => {
-      const recipientEmail: string = this.perRecipientResponses[key].recipientEmail;
+    this.perRecipientRowsData = Object.keys(stats.perRecipientResponses).map((key: string) => {
+      const recipientEmail: string = stats.perRecipientResponses[key].recipientEmail;
       return [
-        { value: this.perRecipientResponses[key].recipientTeam },
+        { value: stats.perRecipientResponses[key].recipientTeam },
         {
-          value: this.perRecipientResponses[key].recipient + (recipientEmail ? ` (${recipientEmail})` : ''),
+          value: stats.perRecipientResponses[key].recipient + (recipientEmail ? ` (${recipientEmail})` : ''),
         },
-        ...Object.keys(this.weightPerOption).map((option: string) => {
+        ...Object.keys(stats.weightPerOption).map((option: string) => {
           return {
-            value: this.perRecipientResponses[key].responses[option],
+            value: stats.perRecipientResponses[key].responses[option],
           };
         }),
-        { value: this.perRecipientResponses[key].total.toFixed(2) },
-        { value: this.perRecipientResponses[key].average.toFixed(2) },
+        { value: stats.perRecipientResponses[key].total.toFixed(2) },
+        { value: stats.perRecipientResponses[key].average.toFixed(2) },
       ];
     });
   }

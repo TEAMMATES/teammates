@@ -11,9 +11,9 @@
         container="body"
         [ngbTooltip]="
           'Format: Response percentage (Response count)' +
-          (hasWeights ? '[Weight of option]' : '') +
+          (stats.hasWeights ? '[Weight of option]' : '') +
           ', e.g. 50% (2) ' +
-          (hasWeights ? '[1.0]' : '')
+          (stats.hasWeights ? '[1.0]' : '')
         "
         class="fa fa-info-circle"
       ></span>
@@ -24,7 +24,7 @@
           id="exclude-self-checkbox"
           type="checkbox"
           [(ngModel)]="excludeSelf"
-          (ngModelChange)="getTableData()"
+          (ngModelChange)="getTableData(stats)"
           class="form-check-input"
         />
         <span
@@ -41,7 +41,7 @@
       <tm-sortable-table [rows]="summaryRowsData" [columns]="summaryColumnsData"></tm-sortable-table>
     </div>
   </div>
-  @if (isWeightStatsVisible) {
+  @if (stats.isWeightStatsVisible) {
     <div class="row">
       <div class="col-sm-4 text-color-gray">
         <strong> Per Recipient Statistics (Per Criterion) </strong>
