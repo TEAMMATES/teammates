@@ -75,7 +75,7 @@ public class DevServerLoginServlet extends AuthServlet {
         } catch (Exception e) {
             HibernateUtil.rollbackTransaction();
             resp.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);
-            log.severe("Error occurred while logging into dev server", e);
+            log.severe("Error occurred while logging into dev server with email: " + email, e);
             return;
         }
 
