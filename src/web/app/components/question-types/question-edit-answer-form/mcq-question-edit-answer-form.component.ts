@@ -3,7 +3,7 @@ import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, 
 import { FormsModule } from '@angular/forms';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import { FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails } from '../../../../types/api-output';
-import { DEFAULT_MCQ_QUESTION_DETAILS, DEFAULT_MCQ_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
+import { DEFAULT_MCQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SafeHtmlPipe } from '../../teammates-common/safe-html.pipe';
 
 /**
@@ -16,7 +16,7 @@ import { SafeHtmlPipe } from '../../teammates-common/safe-html.pipe';
   imports: [FormsModule, SafeHtmlPipe],
 })
 export class McqQuestionEditAnswerFormComponent
-  extends QuestionEditAnswerFormComponent<FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails>
+  extends QuestionEditAnswerFormComponent<FeedbackMcqResponseDetails>
   implements OnChanges, OnInit
 {
   /**
@@ -24,6 +24,8 @@ export class McqQuestionEditAnswerFormComponent
    *
    * <p>This is to ensure that only one MCQ option can be selected.
    */
+  @Input() questionDetails: FeedbackMcqQuestionDetails = DEFAULT_MCQ_QUESTION_DETAILS();
+
   @Input()
   id = '';
 
@@ -35,10 +37,6 @@ export class McqQuestionEditAnswerFormComponent
 
   @Output()
   cssRefresh: EventEmitter<boolean> = new EventEmitter<boolean>();
-
-  constructor() {
-    super(DEFAULT_MCQ_QUESTION_DETAILS(), DEFAULT_MCQ_RESPONSE_DETAILS());
-  }
 
   ngOnInit(): void {
     this.valueSelected = this.responseDetails.answer;

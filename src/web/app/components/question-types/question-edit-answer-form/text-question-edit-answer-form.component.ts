@@ -1,13 +1,10 @@
 import { NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import { FeedbackTextQuestionDetails, FeedbackTextResponseDetails } from '../../../../types/api-output';
-import {
-  DEFAULT_TEXT_QUESTION_DETAILS,
-  DEFAULT_TEXT_RESPONSE_DETAILS,
-} from '../../../../types/default-question-structs';
+import { DEFAULT_TEXT_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor.component';
 
 /**
@@ -19,13 +16,8 @@ import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor
   styleUrls: ['./text-question-edit-answer-form.component.scss'],
   imports: [FormsModule, RichTextEditorComponent, NgClass],
 })
-export class TextQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent<
-  FeedbackTextQuestionDetails,
-  FeedbackTextResponseDetails
-> {
-  constructor() {
-    super(DEFAULT_TEXT_QUESTION_DETAILS(), DEFAULT_TEXT_RESPONSE_DETAILS());
-  }
+export class TextQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent<FeedbackTextResponseDetails> {
+  @Input() questionDetails: FeedbackTextQuestionDetails = DEFAULT_TEXT_QUESTION_DETAILS();
 
   decodeHtml(html: string): string {
     const txt = document.createElement('textarea');

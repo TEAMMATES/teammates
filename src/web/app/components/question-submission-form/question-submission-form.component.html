@@ -196,7 +196,6 @@
                     ResponseDetailsTypeChecker.isContrib(recipientSubmissionFormModel.responseDetails)
                   ) {
                     <tm-contribution-question-edit-answer-form
-                      [questionDetails]="model.questionDetails"
                       [responseDetails]="recipientSubmissionFormModel.responseDetails"
                       (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
                       [isDisabled]="isFormsDisabled"
@@ -232,7 +231,6 @@
                     ResponseDetailsTypeChecker.isRankRecipients(recipientSubmissionFormModel.responseDetails)
                   ) {
                     <tm-rank-recipients-question-edit-answer-form
-                      [questionDetails]="model.questionDetails"
                       [responseDetails]="recipientSubmissionFormModel.responseDetails"
                       (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
                       [isDisabled]="isFormsDisabled"
@@ -310,7 +308,6 @@
                     ResponseDetailsTypeChecker.isConstSum(recipientSubmissionFormModel.responseDetails)
                   ) {
                     <tm-constsum-recipients-question-edit-answer-form
-                      [questionDetails]="model.questionDetails"
                       [responseDetails]="recipientSubmissionFormModel.responseDetails"
                       (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
                       [isDisabled]="isFormsDisabled"

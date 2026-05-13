@@ -1,13 +1,10 @@
 import { NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ContributionPointDescriptionPipe } from './contribution-point-description.pipe';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import { FeedbackContributionQuestionDetails, FeedbackContributionResponseDetails } from '../../../../types/api-output';
-import {
-  DEFAULT_CONTRIBUTION_QUESTION_DETAILS,
-  DEFAULT_CONTRIBUTION_RESPONSE_DETAILS,
-} from '../../../../types/default-question-structs';
+import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
   CONTRIBUTION_POINT_NOT_SURE,
@@ -22,16 +19,11 @@ import {
   styleUrls: ['./contribution-question-edit-answer-form.component.scss'],
   imports: [FormsModule, NgClass, ContributionPointDescriptionPipe],
 })
-export class ContributionQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent<
-  FeedbackContributionQuestionDetails,
-  FeedbackContributionResponseDetails
-> {
+export class ContributionQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent<FeedbackContributionResponseDetails> {
+  @Input() questionDetails: FeedbackContributionQuestionDetails = DEFAULT_CONTRIBUTION_QUESTION_DETAILS();
+
   CONTRIBUTION_POINT_NOT_SUBMITTED: number = CONTRIBUTION_POINT_NOT_SUBMITTED;
   CONTRIBUTION_POINT_NOT_SURE: number = CONTRIBUTION_POINT_NOT_SURE;
-
-  constructor() {
-    super(DEFAULT_CONTRIBUTION_QUESTION_DETAILS(), DEFAULT_CONTRIBUTION_RESPONSE_DETAILS());
-  }
 
   get contributionQuestionPoints(): number[] {
     const points: number[] = [];

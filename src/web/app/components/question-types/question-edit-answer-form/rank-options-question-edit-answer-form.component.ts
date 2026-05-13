@@ -1,11 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
 import { FeedbackRankOptionsQuestionDetails, FeedbackRankOptionsResponseDetails } from '../../../../types/api-output';
-import {
-  DEFAULT_RANK_OPTIONS_QUESTION_DETAILS,
-  DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS,
-} from '../../../../types/default-question-structs';
+import { DEFAULT_RANK_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { NO_VALUE, RANK_OPTIONS_ANSWER_NOT_SUBMITTED } from '../../../../types/feedback-response-details';
 
 /**
@@ -17,15 +14,10 @@ import { NO_VALUE, RANK_OPTIONS_ANSWER_NOT_SUBMITTED } from '../../../../types/f
   styleUrls: ['./rank-options-question-edit-answer-form.component.scss'],
   imports: [FormsModule],
 })
-export class RankOptionsQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent<
-  FeedbackRankOptionsQuestionDetails,
-  FeedbackRankOptionsResponseDetails
-> {
-  readonly RANK_OPTIONS_ANSWER_NOT_SUBMITTED: number = RANK_OPTIONS_ANSWER_NOT_SUBMITTED;
+export class RankOptionsQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent<FeedbackRankOptionsResponseDetails> {
+  @Input() questionDetails: FeedbackRankOptionsQuestionDetails = DEFAULT_RANK_OPTIONS_QUESTION_DETAILS();
 
-  constructor() {
-    super(DEFAULT_RANK_OPTIONS_QUESTION_DETAILS(), DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS());
-  }
+  readonly RANK_OPTIONS_ANSWER_NOT_SUBMITTED: number = RANK_OPTIONS_ANSWER_NOT_SUBMITTED;
 
   /**
    * Populates the possible Ranks that can be assigned.
