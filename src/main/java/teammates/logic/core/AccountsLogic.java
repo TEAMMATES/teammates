@@ -172,6 +172,8 @@ public final class AccountsLogic {
      */
     public Student joinCourseForStudent(String registrationKey, String googleId)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        // TODO: Fetch corresponding student's account from db with accountId, no need to create account here.
+        // Account creation should have happened before joining course.
         Student student = validateStudentJoinRequest(registrationKey, googleId);
 
         Account account = accountsDb.getAccountByGoogleId(googleId);
@@ -179,9 +181,6 @@ public final class AccountsLogic {
         if (account == null) {
             account = new Account(googleId, student.getName(), student.getEmail());
             createAccount(account);
-        } else {
-            account.setName(student.getName());
-            account.setEmail(student.getEmail());
         }
 
         if (student.getAccount() == null) {
@@ -196,6 +195,8 @@ public final class AccountsLogic {
      */
     public Instructor joinCourseForInstructor(String key, String googleId)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        // TODO: Fetch corresponding instructor's account from db with accountId, no need to create account here.
+        // Account creation should have happened before joining course.
         Instructor instructor = validateInstructorJoinRequest(key, googleId);
 
         Account account = accountsDb.getAccountByGoogleId(googleId);
@@ -206,9 +207,6 @@ public final class AccountsLogic {
             } catch (EntityAlreadyExistsException e) {
                 assert false : "Account already exists.";
             }
-        } else {
-            account.setName(instructor.getName());
-            account.setEmail(instructor.getEmail());
         }
 
         instructor.setAccount(account);

@@ -4,11 +4,13 @@ import java.io.File;
 import java.time.zone.ZoneRulesProvider;
 
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.component.LifeCycle;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 import teammates.common.util.Config;
 import teammates.common.util.Logger;
+import teammates.ui.servlets.DevServerLoginServlet;
 
 /**
  * Entrypoint to the system.
@@ -35,6 +37,14 @@ public final class Application {
         String classPath = Application.class.getProtectionDomain().getCodeSource().getLocation().getFile();
         String warPath = new File(classPath).getParentFile().getParentFile().getAbsolutePath();
         webapp.setWar(warPath);
+
+        if (Config.isDevServerLoginEnabled()) {
+            // For dev server, we dynamically add servlet to serve the dev server login page.
+
+            ServletHolder devServerLoginServlet =
+                    new ServletHolder("DevServerLoginServlet", new DevServerLoginServlet());
+            webapp.addServlet(devServerLoginServlet, "/devServerLogin");
+        }
 
         LifeCycle.Listener customLifeCycleListener = new LifeCycle.Listener() {
             @Override
