@@ -43,7 +43,6 @@ public final class FeedbackSessionsLogic {
     private FeedbackSessionsDb fsDb;
     private FeedbackQuestionsLogic fqLogic;
     private FeedbackResponsesLogic frLogic;
-    private CoursesLogic coursesLogic;
     private UsersLogic usersLogic;
 
     private FeedbackSessionsLogic() {
@@ -54,12 +53,11 @@ public final class FeedbackSessionsLogic {
         return instance;
     }
 
-    void initLogicDependencies(FeedbackSessionsDb fsDb, CoursesLogic coursesLogic,
+    void initLogicDependencies(FeedbackSessionsDb fsDb,
             FeedbackResponsesLogic frLogic, FeedbackQuestionsLogic fqLogic, UsersLogic usersLogic) {
         this.fsDb = fsDb;
         this.frLogic = frLogic;
         this.fqLogic = fqLogic;
-        this.coursesLogic = coursesLogic;
         this.usersLogic = usersLogic;
     }
 
@@ -125,17 +123,11 @@ public final class FeedbackSessionsLogic {
     public List<FeedbackSession> getFeedbackSessionsForInstructors(
             List<Instructor> instructorList) {
 
-        List<Instructor> courseNotDeletedInstructorList = instructorList.stream()
-                .filter(instructor -> coursesLogic.getCourse(instructor.getCourseId()).getDeletedAt() == null)
+        List<String> courseIds = instructorList.stream()
+                .map(Instructor::getCourseId)
+                .distinct()
                 .collect(Collectors.toList());
-
-        List<FeedbackSession> fsList = new ArrayList<>();
-
-        for (Instructor instructor : courseNotDeletedInstructorList) {
-            fsList.addAll(getFeedbackSessionsForCourse(instructor.getCourseId()));
-        }
-
-        return fsList;
+        return fsDb.getFeedbackSessionsForCourses(courseIds);
     }
 
     /**
@@ -146,17 +138,11 @@ public final class FeedbackSessionsLogic {
     public List<FeedbackSession> getSoftDeletedFeedbackSessionsForInstructors(
             List<Instructor> instructorList) {
 
-        List<Instructor> courseNotDeletedInstructorList = instructorList.stream()
-                .filter(instructor -> coursesLogic.getCourse(instructor.getCourseId()).getDeletedAt() == null)
+        List<String> courseIds = instructorList.stream()
+                .map(Instructor::getCourseId)
+                .distinct()
                 .collect(Collectors.toList());
-
-        List<FeedbackSession> fsList = new ArrayList<>();
-
-        for (Instructor instructor : courseNotDeletedInstructorList) {
-            fsList.addAll(fsDb.getSoftDeletedFeedbackSessionsForCourse(instructor.getCourseId()));
-        }
-
-        return fsList;
+        return fsDb.getSoftDeletedFeedbackSessionsForCourses(courseIds);
     }
 
     /**
