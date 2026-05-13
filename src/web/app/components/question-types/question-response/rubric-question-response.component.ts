@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { QuestionResponse } from './question-response';
+import { Component, Input, OnInit } from '@angular/core';
 import { FeedbackRubricQuestionDetails, FeedbackRubricResponseDetails } from '../../../../types/api-output';
 import {
   DEFAULT_RUBRIC_QUESTION_DETAILS,
@@ -15,15 +14,12 @@ import {
   styleUrls: ['./rubric-question-response.component.scss'],
   imports: [],
 })
-export class RubricQuestionResponseComponent
-  extends QuestionResponse<FeedbackRubricResponseDetails, FeedbackRubricQuestionDetails>
-  implements OnInit
-{
-  answers: any[] = [];
+export class RubricQuestionResponseComponent implements OnInit {
+  @Input() responseDetails: FeedbackRubricResponseDetails = DEFAULT_RUBRIC_RESPONSE_DETAILS();
+  @Input() questionDetails: FeedbackRubricQuestionDetails = DEFAULT_RUBRIC_QUESTION_DETAILS();
+  @Input() isStudentPage = false;
 
-  constructor() {
-    super(DEFAULT_RUBRIC_RESPONSE_DETAILS(), DEFAULT_RUBRIC_QUESTION_DETAILS());
-  }
+  answers: any[] = [];
 
   ngOnInit(): void {
     for (const chosenIndex of this.responseDetails.answer) {

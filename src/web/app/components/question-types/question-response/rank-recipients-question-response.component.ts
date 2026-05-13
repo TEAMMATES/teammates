@@ -1,13 +1,6 @@
-import { Component } from '@angular/core';
-import { QuestionResponse } from './question-response';
-import {
-  FeedbackRankRecipientsQuestionDetails,
-  FeedbackRankRecipientsResponseDetails,
-} from '../../../../types/api-output';
-import {
-  DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS,
-  DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS,
-} from '../../../../types/default-question-structs';
+import { Component, Input } from '@angular/core';
+import { FeedbackRankRecipientsResponseDetails } from '../../../../types/api-output';
+import { DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
 
 /**
  * Rank recipients question response.
@@ -16,11 +9,6 @@ import {
   selector: 'tm-rank-recipients-question-response',
   templateUrl: './rank-recipients-question-response.component.html',
 })
-export class RankRecipientsQuestionResponseComponent extends QuestionResponse<
-  FeedbackRankRecipientsResponseDetails,
-  FeedbackRankRecipientsQuestionDetails
-> {
-  constructor() {
-    super(DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS(), DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS());
-  }
+export class RankRecipientsQuestionResponseComponent {
+  @Input() responseDetails: FeedbackRankRecipientsResponseDetails = DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS();
 }

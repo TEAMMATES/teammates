@@ -1,13 +1,6 @@
-import { Component } from '@angular/core';
-import { QuestionResponse } from './question-response';
-import {
-  FeedbackNumericalScaleQuestionDetails,
-  FeedbackNumericalScaleResponseDetails,
-} from '../../../../types/api-output';
-import {
-  DEFAULT_NUMSCALE_QUESTION_DETAILS,
-  DEFAULT_NUMSCALE_RESPONSE_DETAILS,
-} from '../../../../types/default-question-structs';
+import { Component, Input } from '@angular/core';
+import { FeedbackNumericalScaleResponseDetails } from '../../../../types/api-output';
+import { DEFAULT_NUMSCALE_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
 
 /**
  * Numerical scale question response.
@@ -16,11 +9,6 @@ import {
   selector: 'tm-num-scale-question-response',
   templateUrl: './num-scale-question-response.component.html',
 })
-export class NumScaleQuestionResponseComponent extends QuestionResponse<
-  FeedbackNumericalScaleResponseDetails,
-  FeedbackNumericalScaleQuestionDetails
-> {
-  constructor() {
-    super(DEFAULT_NUMSCALE_RESPONSE_DETAILS(), DEFAULT_NUMSCALE_QUESTION_DETAILS());
-  }
+export class NumScaleQuestionResponseComponent {
+  @Input() responseDetails: FeedbackNumericalScaleResponseDetails = DEFAULT_NUMSCALE_RESPONSE_DETAILS();
 }

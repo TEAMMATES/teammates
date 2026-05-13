@@ -1,7 +1,6 @@
 @if (QuestionDetailsTypeChecker.isContrib(questionDetails) && ResponseDetailsTypeChecker.isContrib(responseDetails)) {
   <tm-contribution-question-response
     [responseDetails]="responseDetails"
-    [questionDetails]="questionDetails"
     [statistics]="statistics"
     [giverEmail]="giverEmail"
     [recipientEmail]="recipientEmail"
@@ -19,10 +18,7 @@
   ></tm-constsum-question-response>
 }
 @if (QuestionDetailsTypeChecker.isNumscale(questionDetails) && ResponseDetailsTypeChecker.isNumscale(responseDetails)) {
-  <tm-num-scale-question-response
-    [responseDetails]="responseDetails"
-    [questionDetails]="questionDetails"
-  ></tm-num-scale-question-response>
+  <tm-num-scale-question-response [responseDetails]="responseDetails"></tm-num-scale-question-response>
 }
 @if (QuestionDetailsTypeChecker.isRubric(questionDetails) && ResponseDetailsTypeChecker.isRubric(responseDetails)) {
   <tm-rubric-question-response
@@ -43,29 +39,17 @@
   QuestionDetailsTypeChecker.isRankRecipients(questionDetails) &&
   ResponseDetailsTypeChecker.isRankRecipients(responseDetails)
 ) {
-  <tm-rank-recipients-question-response
-    [responseDetails]="responseDetails"
-    [questionDetails]="questionDetails"
-  ></tm-rank-recipients-question-response>
+  <tm-rank-recipients-question-response [responseDetails]="responseDetails"></tm-rank-recipients-question-response>
 }
 @if (QuestionDetailsTypeChecker.isMsq(questionDetails) && ResponseDetailsTypeChecker.isMsq(responseDetails)) {
-  <tm-msq-question-response
-    [responseDetails]="responseDetails"
-    [questionDetails]="questionDetails"
-  ></tm-msq-question-response>
+  <tm-msq-question-response [responseDetails]="responseDetails"></tm-msq-question-response>
 }
 @if (QuestionDetailsTypeChecker.isMcq(questionDetails) && ResponseDetailsTypeChecker.isMcq(responseDetails)) {
-  <tm-mcq-question-response
-    [responseDetails]="responseDetails"
-    [questionDetails]="questionDetails"
-  ></tm-mcq-question-response>
+  <tm-mcq-question-response [responseDetails]="responseDetails"></tm-mcq-question-response>
 }
 
 <!-- For cases of "No Response", the response typing is hard-coded with feedback question type = TEXT -->
 <!-- Thus, for responses with question type = TEXT, we (safely) skip the question type checking -->
 @if (ResponseDetailsTypeChecker.isText(responseDetails)) {
-  <tm-text-question-response
-    [responseDetails]="responseDetails"
-    [questionDetails]="castAsTextQuestion(questionDetails)"
-  ></tm-text-question-response>
+  <tm-text-question-response [responseDetails]="responseDetails"></tm-text-question-response>
 }

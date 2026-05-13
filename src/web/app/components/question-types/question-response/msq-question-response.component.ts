@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
-import { QuestionResponse } from './question-response';
-import { FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails } from '../../../../types/api-output';
-import { DEFAULT_MSQ_QUESTION_DETAILS, DEFAULT_MSQ_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
+import { Component, Input } from '@angular/core';
+import { FeedbackMsqResponseDetails } from '../../../../types/api-output';
+import { DEFAULT_MSQ_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
 import { MSQ_ANSWER_NONE_OF_THE_ABOVE } from '../../../../types/feedback-response-details';
 
 /**
@@ -12,13 +11,8 @@ import { MSQ_ANSWER_NONE_OF_THE_ABOVE } from '../../../../types/feedback-respons
   templateUrl: './msq-question-response.component.html',
   imports: [],
 })
-export class MsqQuestionResponseComponent extends QuestionResponse<
-  FeedbackMsqResponseDetails,
-  FeedbackMsqQuestionDetails
-> {
-  constructor() {
-    super(DEFAULT_MSQ_RESPONSE_DETAILS(), DEFAULT_MSQ_QUESTION_DETAILS());
-  }
+export class MsqQuestionResponseComponent {
+  @Input() responseDetails: FeedbackMsqResponseDetails = DEFAULT_MSQ_RESPONSE_DETAILS();
 
   /**
    * Checks whether the MSQ answer is 'None of the above'.

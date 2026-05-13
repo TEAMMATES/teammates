@@ -1,6 +1,5 @@
 import { KeyValuePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { QuestionResponse } from './question-response';
+import { Component, Input, OnInit } from '@angular/core';
 import { FeedbackConstantSumQuestionDetails, FeedbackConstantSumResponseDetails } from '../../../../types/api-output';
 import {
   DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS,
@@ -15,15 +14,11 @@ import {
   templateUrl: './constsum-question-response.component.html',
   imports: [KeyValuePipe],
 })
-export class ConstsumQuestionResponseComponent
-  extends QuestionResponse<FeedbackConstantSumResponseDetails, FeedbackConstantSumQuestionDetails>
-  implements OnInit
-{
-  optionToAnswer: Record<string, number> = {};
+export class ConstsumQuestionResponseComponent implements OnInit {
+  @Input() responseDetails: FeedbackConstantSumResponseDetails = DEFAULT_CONSTSUM_RESPONSE_DETAILS();
+  @Input() questionDetails: FeedbackConstantSumQuestionDetails = DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS();
 
-  constructor() {
-    super(DEFAULT_CONSTSUM_RESPONSE_DETAILS(), DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS());
-  }
+  optionToAnswer: Record<string, number> = {};
 
   ngOnInit(): void {
     for (let i = 0; i < this.questionDetails.constSumOptions.length; i += 1) {
