@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { McqQuestionEditDetailsFormComponent } from './mcq-question-edit-details-form.component';
+import { DEFAULT_MCQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 
 describe('McqQuestionEditDetailsFormComponent', () => {
   let component: McqQuestionEditDetailsFormComponent;
@@ -8,6 +9,7 @@ describe('McqQuestionEditDetailsFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(McqQuestionEditDetailsFormComponent);
     component = fixture.componentInstance;
+    component.model = DEFAULT_MCQ_QUESTION_DETAILS();
     fixture.detectChanges();
   });
 

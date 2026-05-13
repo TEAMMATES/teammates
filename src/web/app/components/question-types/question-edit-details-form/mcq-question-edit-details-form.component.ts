@@ -45,10 +45,6 @@ export class McqQuestionEditDetailsFormComponent extends QuestionEditDetailsForm
     mcqChoices: ['', ''],
   };
 
-  constructor() {
-    super(DEFAULT_MCQ_QUESTION_DETAILS());
-  }
-
   /**
    * Reorders the list on dragging the Mcq options.
    */

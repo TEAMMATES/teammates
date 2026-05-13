@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { By } from '@angular/platform-browser';
 import { ConstsumRecipientsQuestionEditDetailsFormComponent } from './constsum-recipients-question-edit-details-form.component';
+import { DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 
 describe('ConstsumRecipientsQuestionEditDetailsFormComponent', () => {
   let component: ConstsumRecipientsQuestionEditDetailsFormComponent;
@@ -10,6 +11,7 @@ describe('ConstsumRecipientsQuestionEditDetailsFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConstsumRecipientsQuestionEditDetailsFormComponent);
     component = fixture.componentInstance;
+    component.model = DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS();
     fixture.detectChanges();
   });
 
@@ -95,6 +97,7 @@ describe('ConstsumRecipientsQuestionEditDetailsFormComponent', () => {
     const fixtureA = TestBed.createComponent(ConstsumRecipientsQuestionEditDetailsFormComponent);
     const compA = fixtureA.componentInstance;
     compA.questionNumber = 1;
+    compA.model = DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS();
     compA.ngOnChanges();
     fixtureA.detectChanges();
     await fixtureA.whenStable();
@@ -102,6 +105,7 @@ describe('ConstsumRecipientsQuestionEditDetailsFormComponent', () => {
     const fixtureB = TestBed.createComponent(ConstsumRecipientsQuestionEditDetailsFormComponent);
     const compB = fixtureB.componentInstance;
     compB.questionNumber = 2;
+    compB.model = DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS();
     compB.ngOnChanges();
     fixtureB.detectChanges();
     await fixtureB.whenStable();

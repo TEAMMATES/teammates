@@ -9,7 +9,7 @@ import { castAsInputElement } from '../../../../types/event-target-caster';
 export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestionDetails> {
   readonly castAsInputElement = castAsInputElement;
 
-  model: D;
+  model!: D;
 
   @Input()
   isEditable = true;
@@ -21,10 +21,6 @@ export abstract class QuestionEditDetailsFormComponent<D extends FeedbackQuestio
 
   @Output()
   detailsChange: EventEmitter<FeedbackQuestionDetails> = new EventEmitter();
-
-  protected constructor(model: D) {
-    this.model = model;
-  }
 
   /**
    * Triggers the change of the model for the form.

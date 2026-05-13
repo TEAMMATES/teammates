@@ -6,7 +6,6 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { FeedbackRubricQuestionDetails } from '../../../../types/api-output';
-import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SimpleModalType } from '../../simple-modal/simple-modal-type';
 
 /**
@@ -23,10 +22,6 @@ export class RubricQuestionEditDetailsFormComponent extends QuestionEditDetailsF
 
   rowToHighlight = -1;
   columnToHighlight = -1;
-
-  constructor() {
-    super(DEFAULT_RUBRIC_QUESTION_DETAILS());
-  }
 
   /**
    * Triggers change of rubric choice.

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NumScaleQuestionEditDetailsFormComponent } from './num-scale-question-edit-details-form.component';
+import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 
 describe('NumScaleQuestionEditDetailsFormComponent', () => {
   let component: NumScaleQuestionEditDetailsFormComponent;
@@ -9,6 +10,7 @@ describe('NumScaleQuestionEditDetailsFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(NumScaleQuestionEditDetailsFormComponent);
     component = fixture.componentInstance;
+    component.model = DEFAULT_NUMSCALE_QUESTION_DETAILS();
     fixture.detectChanges();
   });
 
