@@ -149,9 +149,6 @@ public class GoogleCloudLoggingService implements LogService {
             if (q.getUserInfoParams().getGoogleId() != null) {
                 logFilters.add("jsonPayload.userInfo.googleId=\"" + q.getUserInfoParams().getGoogleId() + "\"");
             }
-            if (q.getUserInfoParams().getRegkey() != null) {
-                logFilters.add("jsonPayload.userInfo.regkey=\"" + q.getUserInfoParams().getRegkey() + "\"");
-            }
             if (q.getUserInfoParams().getEmail() != null) {
                 logFilters.add("jsonPayload.userInfo.email=\"" + q.getUserInfoParams().getEmail() + "\"");
             }

@@ -541,7 +541,6 @@ export interface RequestLogDetails extends LogDetails {
 }
 
 export interface RequestLogUser {
-  regkey: string;
   email: string;
   googleId: string;
 }
