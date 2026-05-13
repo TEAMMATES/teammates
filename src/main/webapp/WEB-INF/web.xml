@@ -22,7 +22,6 @@
         <filter-name>RequestTraceFilter</filter-name>
         <url-pattern>/login</url-pattern>
         <url-pattern>/logout</url-pattern>
-        <url-pattern>/devServerLogin</url-pattern>
         <url-pattern>/oauth2callback/*</url-pattern>
         <url-pattern>/page/*</url-pattern>
         <url-pattern>/webapi/*</url-pattern>
@@ -93,17 +92,6 @@
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <description>Servlet that handles dev server login requests</description>
-        <servlet-name>DevServerLoginServlet</servlet-name>
-        <servlet-class>teammates.ui.servlets.DevServerLoginServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>DevServerLoginServlet</servlet-name>
-        <url-pattern>/devServerLogin</url-pattern>
     </servlet-mapping>
 
     <servlet>

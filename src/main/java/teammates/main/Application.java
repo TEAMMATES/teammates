@@ -10,7 +10,6 @@ import org.eclipse.jetty.webapp.WebAppContext;
 
 import teammates.common.util.Config;
 import teammates.common.util.Logger;
-import teammates.ui.servlets.DevServerLoginServlet;
 
 /**
  * Entrypoint to the system.
@@ -41,8 +40,11 @@ public final class Application {
         if (Config.isDevServerLoginEnabled()) {
             // For dev server, we dynamically add servlet to serve the dev server login page.
 
-            ServletHolder devServerLoginServlet =
-                    new ServletHolder("DevServerLoginServlet", new DevServerLoginServlet());
+            ServletHolder devServerLoginServlet = new ServletHolder();
+            devServerLoginServlet.setName("DevServerLoginServlet");
+
+            // Register by class name so that Jetty's webapp classloader loads it.
+            devServerLoginServlet.setClassName("teammates.ui.servlets.DevServerLoginServlet");
             webapp.addServlet(devServerLoginServlet, "/devServerLogin");
         }
 
