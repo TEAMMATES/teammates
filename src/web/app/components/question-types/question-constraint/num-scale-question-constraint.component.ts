@@ -8,11 +8,7 @@ import { QuestionConstraintComponent } from './question-constraint.component';
   selector: 'tm-num-scale-question-constraint',
   templateUrl: './num-scale-question-constraint.component.html',
 })
-export class NumScaleQuestionConstraintComponent extends QuestionConstraintComponent<any> {
-  constructor() {
-    super(null);
-  }
-
+export class NumScaleQuestionConstraintComponent extends QuestionConstraintComponent {
   override get isValid(): boolean {
     return true;
   }

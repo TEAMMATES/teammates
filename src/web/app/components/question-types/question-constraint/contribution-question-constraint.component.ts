@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { QuestionConstraintComponent } from './question-constraint.component';
 import { FeedbackContributionQuestionDetails, FeedbackContributionResponseDetails } from '../../../../types/api-output';
 import { DEFAULT_CONTRIBUTION_QUESTION_DETAILS } from '../../../../types/default-question-structs';
@@ -13,10 +13,9 @@ import { FeedbackResponseRecipientSubmissionFormModel } from '../../question-sub
   templateUrl: './contribution-question-constraint.component.html',
   imports: [],
 })
-export class ContributionQuestionConstraintComponent extends QuestionConstraintComponent<FeedbackContributionQuestionDetails> {
-  constructor() {
-    super(DEFAULT_CONTRIBUTION_QUESTION_DETAILS());
-  }
+export class ContributionQuestionConstraintComponent extends QuestionConstraintComponent {
+  @Input()
+  questionDetails: FeedbackContributionQuestionDetails = DEFAULT_CONTRIBUTION_QUESTION_DETAILS();
 
   get isAllFormsAnswered(): boolean {
     return this.recipientSubmissionForms.every((form: FeedbackResponseRecipientSubmissionFormModel) => {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { QuestionConstraintComponent } from './question-constraint.component';
 import {
   FeedbackConstantSumDistributePointsType,
@@ -16,14 +16,13 @@ import { FeedbackResponseRecipientSubmissionFormModel } from '../../question-sub
   templateUrl: './constsum-recipients-question-constraint.component.html',
   imports: [],
 })
-export class ConstsumRecipientsQuestionConstraintComponent extends QuestionConstraintComponent<FeedbackConstantSumQuestionDetails> {
+export class ConstsumRecipientsQuestionConstraintComponent extends QuestionConstraintComponent {
   // enum
   FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =
     FeedbackConstantSumDistributePointsType;
 
-  constructor() {
-    super(DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS());
-  }
+  @Input()
+  questionDetails: FeedbackConstantSumQuestionDetails = DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS();
 
   /**
    * Checks if all forms are not answered.
