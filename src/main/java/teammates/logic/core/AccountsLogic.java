@@ -97,15 +97,7 @@ public final class AccountsLogic {
         }
     }
 
-    /**
-     * Creates an account for the given email.
-     *
-     * @return the created account
-     * @throws InvalidParametersException   if the email is invalid
-     * @throws EntityAlreadyExistsException if the account already exists in the
-     *                                      database.
-     */
-    public Account createAccountForEmail(String email)
+    private Account createAccountForEmail(String email)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert email != null;
 
