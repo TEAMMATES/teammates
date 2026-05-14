@@ -43,7 +43,7 @@ public final class Application {
             ServletHolder devServerLoginServlet = new ServletHolder();
             devServerLoginServlet.setName("DevServerLoginServlet");
 
-            // Register by class name so that Jetty's webapp classloader loads it.
+            // Register by class name so that Jetty's webapp classloader loads it and its dependencies correctly.
             devServerLoginServlet.setClassName("teammates.ui.servlets.DevServerLoginServlet");
             webapp.addServlet(devServerLoginServlet, "/devServerLogin");
         }

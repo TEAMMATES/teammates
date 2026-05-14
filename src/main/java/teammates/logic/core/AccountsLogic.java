@@ -90,7 +90,7 @@ public final class AccountsLogic {
         try {
             return createAccountForEmail(email);
         } catch (EntityAlreadyExistsException e) {
-            //This should not happen.
+            // This should not happen.
             throw new IllegalStateException("Failed to create existing account for email: " + email, e);
         } catch (InvalidParametersException e) {
             throw new IllegalStateException("Failed to create account with invalid parameters: " + email, e);
