@@ -393,7 +393,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     void testAccessControl_differentStudentInDifferentTeam_cannotAccessTeamComment() {
         typicalFeedbackQuestion.setGiverType(QuestionGiverType.TEAMS);
 
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromTeam();
+        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromTeam(typicalStudent.getTeam());
         Section section = getTypicalSection();
         Team team = new Team("first team");
         section.addTeam(team);
@@ -426,12 +426,13 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     void testAccessControl_differentStudentInSameTeam_canAccessTeamComment() {
         typicalFeedbackQuestion.setGiverType(QuestionGiverType.TEAMS);
 
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromTeam();
         Section section = new Section("Section A");
         typicalCourse.addSection(section);
         Team team = new Team("first team");
         section.addTeam(team);
         typicalStudent.setTeam(team);
+
+        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromTeam(team);
 
         Student differentStudentInSameTeam = new Student(typicalCourse, "differentStudent",
                 "differentstudent@teammates.tmt", "comments");
@@ -456,7 +457,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     void testAccessControl_instructorWithCorrectPrivilege_canAccessCrossSectionComment() {
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromTeam();
+        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromTeam(typicalStudent.getTeam());
 
         Instructor instructorWithPrivilege = getTypicalInstructor();
         instructorWithPrivilege.setEmail("instructorWithPrivilege@teammates.tmt");
@@ -484,7 +485,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     void testAccessControl_instructorWithoutGiverSectionPrivilege_cannotAccessCrossSectionComment() {
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromTeam();
+        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromTeam(typicalStudent.getTeam());
 
         Instructor instructorWithoutPrivilege = getTypicalInstructor();
         instructorWithoutPrivilege.setEmail("instructorWithPrivilege@teammates.tmt");
@@ -510,7 +511,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     void testAccessControl_instructorWithoutRecipientSectionPrivilege_cannotAccessCrossSectionComment() {
-        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromTeam();
+        FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromTeam(typicalStudent.getTeam());
 
         Instructor instructorWithoutPrivilege = getTypicalInstructor();
         instructorWithoutPrivilege.setEmail("instructorWithPrivilege@teammates.tmt");
@@ -683,7 +684,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         return feedbackResponseComment;
     }
 
-    private FeedbackResponseComment getTypicalCommentFromTeam() {
+    private FeedbackResponseComment getTypicalCommentFromTeam(Team team) {
         Section sectionA = new Section("Section A");
         typicalCourse.addSection(sectionA);
         Section sectionB = new Section("Section B");
@@ -691,8 +692,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         typicalFeedbackResponse = FeedbackResponse.makeResponse("Section A", sectionA,
                 "Section B", sectionB, getTypicalFeedbackResponseDetails());
         typicalFeedbackQuestion.addFeedbackResponse(typicalFeedbackResponse);
-        ResponseGiver giver = new ResponseGiver(ResponseGiverType.TEAM,
-                UUID.fromString("00000000-0000-4000-8000-000000000014"));
+        ResponseGiver giver = new ResponseGiver(ResponseGiverType.TEAM, team.getId());
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 giver,
                 "typical comment",

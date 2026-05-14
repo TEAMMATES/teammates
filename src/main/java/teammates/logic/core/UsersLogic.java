@@ -71,8 +71,6 @@ public final class UsersLogic {
 
     private FeedbackResponsesLogic feedbackResponsesLogic;
 
-    private FeedbackResponseCommentsLogic feedbackResponseCommentsLogic;
-
     private DeadlineExtensionsLogic deadlineExtensionsLogic;
 
     private UsersLogic() {
@@ -85,13 +83,11 @@ public final class UsersLogic {
 
     void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic, CoursesLogic coursesLogic,
                                FeedbackResponsesLogic feedbackResponsesLogic,
-                               FeedbackResponseCommentsLogic feedbackResponseCommentsLogic,
                                DeadlineExtensionsLogic deadlineExtensionsLogic) {
         this.usersDb = usersDb;
         this.accountsLogic = accountsLogic;
         this.coursesLogic = coursesLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
-        this.feedbackResponseCommentsLogic = feedbackResponseCommentsLogic;
         this.deadlineExtensionsLogic = deadlineExtensionsLogic;
     }
 
@@ -646,6 +642,9 @@ public final class UsersLogic {
         return usersDb.getAllUsersByGoogleId(googleId);
     }
 
+    /**
+     * Gets team by ID.
+     */
     public Team getTeam(UUID teamId) {
         return usersDb.getTeam(teamId);
     }

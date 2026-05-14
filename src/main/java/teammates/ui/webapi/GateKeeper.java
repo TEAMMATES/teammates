@@ -8,8 +8,8 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Student;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.Student;
 import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
@@ -222,7 +222,7 @@ final class GateKeeper {
      * Verifies that comment is created by feedback participant.
      *
      * @param frc comment to be accessed
-     * @param feedbackParticipant email or team of feedback participant
+     * @param participant the response giver who is trying to access the comment
      */
     void verifyOwnership(FeedbackResponseComment frc, ResponseGiver participant)
             throws UnauthorizedAccessException {

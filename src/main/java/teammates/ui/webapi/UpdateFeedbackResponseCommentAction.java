@@ -11,8 +11,8 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Student;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -63,10 +63,10 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             verifyNotPreview();
 
             checkAccessControlForStudentFeedbackSubmission(student, session);
-                gateKeeper.verifyOwnership(feedbackResponseComment,
+            gateKeeper.verifyOwnership(feedbackResponseComment,
                     question.getGiverType() == QuestionGiverType.TEAMS
-                        ? new ResponseGiver(ResponseGiverType.TEAM, student.getTeamId())
-                        : new ResponseGiver(ResponseGiverType.STUDENT, student.getId()));
+                            ? new ResponseGiver(ResponseGiverType.TEAM, student.getTeamId())
+                            : new ResponseGiver(ResponseGiverType.STUDENT, student.getId()));
             break;
         case INSTRUCTOR_SUBMISSION:
             Instructor instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
@@ -80,7 +80,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             verifyNotPreview();
 
             checkAccessControlForInstructorFeedbackSubmission(instructorAsFeedbackParticipant, session);
-                gateKeeper.verifyOwnership(feedbackResponseComment,
+            gateKeeper.verifyOwnership(feedbackResponseComment,
                     new ResponseGiver(ResponseGiverType.INSTRUCTOR, instructorAsFeedbackParticipant.getId()));
             break;
         case INSTRUCTOR_RESULT:
@@ -154,7 +154,8 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
                     logic.updateFeedbackResponseComment(feedbackResponseCommentId, comment, updater);
             String commentGiver = logic.resolveGiver(updatedFeedbackResponseComment.getGiver());
             String lastEditedBy = logic.resolveGiver(updatedFeedbackResponseComment.getLastEditedBy());
-            return new JsonResult(new FeedbackResponseCommentData(updatedFeedbackResponseComment, commentGiver, lastEditedBy));
+            return new JsonResult(new FeedbackResponseCommentData(
+                    updatedFeedbackResponseComment, commentGiver, lastEditedBy));
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         }

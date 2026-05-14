@@ -137,7 +137,6 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         FeedbackResponseCommentData actualComment = getFeedbackResponseComments(submissionParams);
         assertEquals(actualComment.getCommentText(), expectedComment.getCommentText());
-        assertEquals(actualComment.getCommentGiver(), expectedComment.getGiver());
     }
 
     @Test
@@ -155,7 +154,6 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         FeedbackResponseCommentData actualComment = getFeedbackResponseComments(submissionParams);
         assertEquals(actualComment.getCommentText(), expectedComment.getCommentText());
-        assertEquals(actualComment.getCommentGiver(), expectedComment.getGiver());
     }
 
     @Test

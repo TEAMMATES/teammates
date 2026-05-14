@@ -10,9 +10,9 @@ import java.util.UUID;
 import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.util.Const;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
-import teammates.storage.entity.ResponseGiver;
 
 /**
  * Contains a list of students and instructors in a course. Useful for caching
@@ -167,6 +167,9 @@ public class CourseRoster {
         return new ParticipantInfo(name, teamName, sectionName);
     }
 
+    /**
+     * Gets info of a participant associated with a response giver.
+     */
     public ParticipantInfo getInfoForResponseGiver(ResponseGiver giver) {
         if (giver == null) {
             return getInfoForIdentifier(null);
@@ -176,7 +179,7 @@ public class CourseRoster {
             Team team = teamIdToTeam.get(giver.getGiverId());
             if (team == null) {
                 return getInfoForIdentifier(null);
-             }
+            }
             String teamName = team.getName();
             String sectionName = team.getSection().getName();
             return new ParticipantInfo(teamName, teamName, sectionName);

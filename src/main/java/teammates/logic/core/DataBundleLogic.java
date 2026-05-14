@@ -23,11 +23,11 @@ import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
+import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.storage.entity.User;
-import teammates.storage.entity.ResponseGiver;
 
 /**
  * Handles operations related to data bundles.
@@ -225,7 +225,6 @@ public final class DataBundleLogic {
             User user = usersMap.get(deadlineExtension.getUserId());
             deadlineExtension.setUser(user);
         }
-
 
         for (FeedbackResponseComment responseComment : responseComments) {
             responseComment.setId(UUID.randomUUID());

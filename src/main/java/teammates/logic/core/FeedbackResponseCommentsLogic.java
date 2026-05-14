@@ -128,21 +128,6 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     /**
-     * Legacy compatibility overload for string-based updater identifiers.
-     */
-    public FeedbackResponseComment updateFeedbackResponseComment(UUID frcId,
-            FeedbackResponseCommentUpdateRequest updateRequest, String updaterIdentifier)
-            throws EntityDoesNotExistException {
-        if (updaterIdentifier == null) {
-            return updateFeedbackResponseComment(frcId, updateRequest, (ResponseGiver) null);
-        }
-        ResponseGiverType type = updaterIdentifier.contains("@")
-                ? ResponseGiverType.STUDENT : ResponseGiverType.TEAM;
-        ResponseGiver updater = new ResponseGiver(type, UUID.nameUUIDFromBytes(updaterIdentifier.getBytes()));
-        return updateFeedbackResponseComment(frcId, updateRequest, updater);
-    }
-
-    /**
      * Gets all feedback response comments for the given feedback response IDs.
      */
     public List<FeedbackResponseComment> getFeedbackResponseCommentsForResponses(List<UUID> feedbackResponseIds) {
@@ -163,10 +148,10 @@ public final class FeedbackResponseCommentsLogic {
 
         boolean isVisibilityFollowingFeedbackQuestion = relatedComment.getIsVisibilityFollowingFeedbackQuestion();
         boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion
-                                 || relatedComment.checkIsVisibleTo(ViewerType.GIVER);
+                || relatedComment.checkIsVisibleTo(ViewerType.GIVER);
 
         boolean isVisibleToUser = checkIsVisibleToUser(userEmail, student, response, relatedQuestion, relatedComment,
-            isVisibleToGiver, isInstructor, !isInstructor);
+                isVisibleToGiver, isInstructor, !isInstructor);
 
         boolean isVisibleToUserTeam = checkIsVisibleToUserTeam(student, studentsEmailInTeam, response,
                 relatedQuestion, relatedComment, !isInstructor);

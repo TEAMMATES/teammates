@@ -232,33 +232,6 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         resultsPage.verifyCommentDetails(questionNum, giver, editor, comment.getCommentText());
     }
 
-        private String getIdentifier(Student currentStudent, ResponseGiver giver) {
-            if (giver == null) {
-                    return "";
-            }
-            if (giver.getGiverType() == ResponseGiverType.TEAM) {
-                    return getIdentifier(currentStudent, currentStudent.getTeamId().equals(giver.getGiverId())
-                            ? currentStudent.getTeamName()
-                            : testData.students.values().stream()
-                                    .filter(student -> student.getTeamId().equals(giver.getGiverId()))
-                                    .findFirst()
-                                    .map(Student::getTeamName)
-                                    .orElse(""));
-            }
-
-            String userEmail = testData.students.values().stream()
-                    .filter(student -> student.getId().equals(giver.getGiverId()))
-                    .map(Student::getEmail)
-                    .findFirst()
-                    .orElseGet(() -> testData.instructors.values().stream()
-                            .filter(instructor -> instructor.getId().equals(giver.getGiverId()))
-                            .map(Instructor::getEmail)
-                            .findFirst()
-                            .orElse(""));
-
-            return getIdentifier(currentStudent, userEmail);
-        }
-
     private boolean canInstructorSeeQuestion(FeedbackQuestion feedbackQuestion) {
         boolean isGiverVisibleToInstructor = feedbackQuestion.getShowGiverNameTo()
                 .contains(ViewerType.INSTRUCTORS);
@@ -457,6 +430,33 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
             fr.setRecipient(getIdentifier(currentInstructor, fr.getRecipient()));
         });
         return editedResponses;
+    }
+
+    private String getIdentifier(Student currentStudent, ResponseGiver giver) {
+        if (giver == null) {
+            return "";
+        }
+        if (giver.getGiverType() == ResponseGiverType.TEAM) {
+            return getIdentifier(currentStudent, currentStudent.getTeamId().equals(giver.getGiverId())
+                    ? currentStudent.getTeamName()
+                    : testData.students.values().stream()
+                            .filter(student -> student.getTeamId().equals(giver.getGiverId()))
+                            .findFirst()
+                            .map(Student::getTeamName)
+                            .orElse(""));
+        }
+
+        String userEmail = testData.students.values().stream()
+                .filter(student -> student.getId().equals(giver.getGiverId()))
+                .map(Student::getEmail)
+                .findFirst()
+                .orElseGet(() -> testData.instructors.values().stream()
+                        .filter(instructor -> instructor.getId().equals(giver.getGiverId()))
+                        .map(Instructor::getEmail)
+                        .findFirst()
+                        .orElse(""));
+
+        return getIdentifier(currentStudent, userEmail);
     }
 
     private String getIdentifier(Student currentStudent, String user) {

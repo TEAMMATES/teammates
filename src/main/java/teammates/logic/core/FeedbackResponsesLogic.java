@@ -132,7 +132,7 @@ public final class FeedbackResponsesLogic {
             Team team = usersLogic.getTeam(giver.getGiverId());
             return team != null ? team.getName() : null;
         }
-        
+
         // Student or Instructor giver type
         User user = usersLogic.getUser(giver.getGiverId());
         return user != null ? user.getEmail() : null;
