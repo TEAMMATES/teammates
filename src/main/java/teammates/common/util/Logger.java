@@ -125,9 +125,6 @@ public final class Logger {
         details.setRequestParams(HttpRequestHelper.getRequestParameters(request));
         details.setRequestHeaders(HttpRequestHelper.getRequestHeaders(request));
 
-        if (request.getParameter(Const.ParamsNames.REGKEY) != null && userInfo.getRegkey() == null) {
-            userInfo.setRegkey(request.getParameter(Const.ParamsNames.REGKEY));
-        }
         details.setUserInfo(userInfo);
         details.setRequestBody(requestBody);
         details.setActionClass(actionClass);

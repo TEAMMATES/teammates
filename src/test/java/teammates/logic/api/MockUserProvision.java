@@ -1,5 +1,7 @@
 package teammates.logic.api;
 
+import java.util.UUID;
+
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
 
@@ -10,7 +12,8 @@ import teammates.common.datatransfer.UserInfoCookie;
  * the API will return pre-determined information instead.
  */
 public class MockUserProvision extends UserProvision {
-    private UserInfo mockUser = new UserInfo("user.id");
+    private static final UUID MOCK_ACCOUNT_ID = UUID.randomUUID();
+    private UserInfo mockUser = new UserInfo("user.id", MOCK_ACCOUNT_ID);
     private boolean isLoggedIn;
     private boolean isMaintainer;
     private boolean isAdmin;
@@ -109,7 +112,7 @@ public class MockUserProvision extends UserProvision {
 
     @Override
     public UserInfo getMasqueradeUser(String googleId) {
-        UserInfo userInfo = new UserInfo(googleId);
+        UserInfo userInfo = new UserInfo(googleId, MOCK_ACCOUNT_ID);
         userInfo.isAdmin = isAdmin;
         userInfo.isInstructor = isInstructor;
         userInfo.isStudent = isStudent;

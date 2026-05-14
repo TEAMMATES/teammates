@@ -3,7 +3,9 @@ package teammates.logic.api;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
+import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.UsersLogic;
+import teammates.storage.entity.Account;
 
 /**
  * Handles logic related to username and user role provisioning.
@@ -13,6 +15,8 @@ public class UserProvision {
     private static final UserProvision instance = new UserProvision();
 
     private final UsersLogic usersLogic = UsersLogic.inst();
+
+    private final AccountsLogic accountsLogic = AccountsLogic.inst();
 
     UserProvision() {
         // prevent initialization
@@ -48,14 +52,15 @@ public class UserProvision {
             return null;
         }
 
-        return new UserInfo(uic.getUserId());
+        return new UserInfo(uic.getUserId(), uic.getAccountId());
     }
 
     /**
      * Gets the information of the current masqueraded user.
      */
     public UserInfo getMasqueradeUser(String googleId) {
-        UserInfo userInfo = new UserInfo(googleId);
+        Account account = accountsLogic.getAccountForGoogleId(googleId);
+        UserInfo userInfo = new UserInfo(googleId, account == null ? null : account.getId());
         userInfo.isAdmin = false;
         userInfo.isInstructor = usersLogic.isInstructorInAnyCourse(googleId);
         userInfo.isStudent = usersLogic.isStudentInAnyCourse(googleId);
@@ -67,7 +72,8 @@ public class UserProvision {
      * Gets the information of a user who has administrator role only.
      */
     public UserInfo getAdminOnlyUser(String userId) {
-        UserInfo userInfo = new UserInfo(userId);
+        Account account = userId == null ? null : accountsLogic.getAccountForGoogleId(userId);
+        UserInfo userInfo = new UserInfo(userId, account == null ? null : account.getId());
         userInfo.isAdmin = true;
         return userInfo;
     }
@@ -76,7 +82,7 @@ public class UserProvision {
      * User principal for verified cron/worker requests: not a human app admin; {@link UserInfo#isAutomatedService} only.
      */
     public UserInfo getAutomatedServiceUser(String serviceId) {
-        UserInfo userInfo = new UserInfo(serviceId);
+        UserInfo userInfo = new UserInfo(serviceId, null);
         userInfo.isAutomatedService = true;
         return userInfo;
     }

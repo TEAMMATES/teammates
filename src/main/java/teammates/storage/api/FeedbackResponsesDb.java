@@ -122,13 +122,13 @@ public final class FeedbackResponsesDb {
      */
     public boolean areThereResponsesForQuestion(UUID questionId) {
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<FeedbackResponse> cq = cb.createQuery(FeedbackResponse.class);
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
         Root<FeedbackResponse> root = cq.from(FeedbackResponse.class);
         Join<FeedbackResponse, FeedbackQuestion> fqJoin = root.join("feedbackQuestion");
 
-        cq.select(root)
+        cq.select(cb.count(root))
                 .where(cb.equal(fqJoin.get("id"), questionId));
-        return !HibernateUtil.createQuery(cq).getResultList().isEmpty();
+        return HibernateUtil.createQuery(cq).getSingleResult() > 0;
     }
 
     /**

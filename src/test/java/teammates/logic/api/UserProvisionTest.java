@@ -19,7 +19,9 @@ import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.UsersLogic;
+import teammates.storage.entity.Account;
 import teammates.test.BaseTestCase;
 
 /**
@@ -31,6 +33,7 @@ public class UserProvisionTest extends BaseTestCase {
     private UsersLogic mockUsersLogic;
     private MockedStatic<Config> mockConfigStatic;
     private MockedStatic<UsersLogic> mockUsersLogicStatic;
+    private MockedStatic<AccountsLogic> mockAccountsLogicStatic;
 
     @BeforeClass
     public void setUpClass() {
@@ -47,11 +50,18 @@ public class UserProvisionTest extends BaseTestCase {
         mockUsersLogic = mock(UsersLogic.class);
         mockUsersLogicStatic = mockStatic(UsersLogic.class);
         mockUsersLogicStatic.when(UsersLogic::inst).thenReturn(mockUsersLogic);
+
+        AccountsLogic mockAccountsLogic = mock(AccountsLogic.class);
+        mockAccountsLogicStatic = mockStatic(AccountsLogic.class);
+        mockAccountsLogicStatic.when(AccountsLogic::inst).thenReturn(mockAccountsLogic);
+
         userProvision = new UserProvision();
 
         // Default mock to return false for all IDs, individual tests will override as needed
         when(mockUsersLogic.isInstructorInAnyCourse(anyString())).thenReturn(false);
         when(mockUsersLogic.isStudentInAnyCourse(anyString())).thenReturn(false);
+        // Default mock: no account found for any googleId
+        when(mockAccountsLogic.getAccountForGoogleId(anyString())).thenReturn((Account) null);
 
         mockConfigStatic = mockStatic(Config.class);
         mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of());
@@ -62,6 +72,7 @@ public class UserProvisionTest extends BaseTestCase {
     public void tearDownMethod() {
         mockConfigStatic.close();
         mockUsersLogicStatic.close();
+        mockAccountsLogicStatic.close();
     }
 
     @Test

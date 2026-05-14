@@ -13,12 +13,19 @@ import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.Logger;
+import teammates.logic.core.AccountsLogic;
+import teammates.storage.entity.Account;
 
 /**
  * Servlet that handles dev server login.
  */
 public class DevServerLoginServlet extends AuthServlet {
+
+    private static final Logger log = Logger.getLogger();
+    private final AccountsLogic accountsLogic = AccountsLogic.inst();
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -60,7 +67,21 @@ public class DevServerLoginServlet extends AuthServlet {
             return;
         }
 
-        UserInfoCookie uic = new UserInfoCookie(email);
+        // TODO: Redirect to OAuth2CallbackServlet for account creation,
+        // HibernateUtil shouldn't be used here
+        Account account;
+        try {
+            HibernateUtil.beginTransaction();
+            account = accountsLogic.createOrGetAccountForEmail(email);
+            HibernateUtil.commitTransaction();
+        } catch (Exception e) {
+            HibernateUtil.rollbackTransaction();
+            resp.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            log.severe("Error occurred while logging into dev server with email: " + email, e);
+            return;
+        }
+
+        UserInfoCookie uic = new UserInfoCookie(email, account.getId());
         Cookie cookie = getLoginCookie(uic);
         resp.addCookie(cookie);
 

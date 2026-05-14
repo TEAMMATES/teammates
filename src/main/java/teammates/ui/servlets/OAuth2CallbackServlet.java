@@ -16,10 +16,13 @@ import com.google.api.client.auth.oauth2.TokenResponse;
 
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.HttpRequest;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
+import teammates.logic.core.AccountsLogic;
+import teammates.storage.entity.Account;
 
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.type.TypeReference;
@@ -30,6 +33,8 @@ import tools.jackson.core.type.TypeReference;
 public class OAuth2CallbackServlet extends AuthServlet {
 
     private static final Logger log = Logger.getLogger();
+
+    private final AccountsLogic accountsLogic = AccountsLogic.inst();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -46,7 +51,23 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
             cookie = getLoginInvalidationCookie();
         } else {
-            UserInfoCookie uic = new UserInfoCookie(authResult.email);
+            Account account;
+            try {
+                HibernateUtil.beginTransaction();
+                account = accountsLogic.createOrGetAccountForEmail(authResult.email);
+                HibernateUtil.commitTransaction();
+            } catch (Exception e) {
+                HibernateUtil.rollbackTransaction();
+                log.warning("Failed to create or get account for " + authResult.email, e);
+                req.getSession().invalidate();
+
+                cookie = getLoginInvalidationCookie();
+                resp.addCookie(cookie);
+                resp.sendRedirect(authResult.nextUrl);
+                return;
+            }
+
+            UserInfoCookie uic = new UserInfoCookie(authResult.email, account.getId());
             cookie = getLoginCookie(uic);
         }
 

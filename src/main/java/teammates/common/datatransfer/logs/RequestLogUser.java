@@ -5,17 +5,8 @@ package teammates.common.datatransfer.logs;
  */
 public class RequestLogUser {
 
-    private String regkey;
     private String email;
     private String googleId;
-
-    public String getRegkey() {
-        return regkey;
-    }
-
-    public void setRegkey(String regkey) {
-        this.regkey = regkey;
-    }
 
     public String getEmail() {
         return email;

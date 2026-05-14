@@ -541,7 +541,6 @@ export interface RequestLogDetails extends LogDetails {
 }
 
 export interface RequestLogUser {
-  regkey: string;
   email: string;
   googleId: string;
 }
@@ -621,6 +620,7 @@ export interface UsageStatisticsRange extends ApiOutput {
 
 export interface UserInfo {
   id: string;
+  accountId: string;
   isAdmin: boolean;
   isInstructor: boolean;
   isStudent: boolean;

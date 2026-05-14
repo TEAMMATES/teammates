@@ -73,6 +73,42 @@ public final class AccountsLogic {
     }
 
     /**
+     * Creates and returns an account for the given email if it does not exist,
+     * otherwise just return the existing account.
+     *
+     * @param email the email of the account
+     * @return the created or existing account
+     */
+    public Account createOrGetAccountForEmail(String email) {
+        assert email != null;
+
+        Account account = getAccountForGoogleId(email);
+        if (account != null) {
+            return account;
+        }
+
+        try {
+            return createAccountForEmail(email);
+        } catch (EntityAlreadyExistsException e) {
+            // This should not happen.
+            throw new IllegalStateException("Failed to create existing account for email: " + email, e);
+        } catch (InvalidParametersException e) {
+            throw new IllegalStateException("Failed to create account with invalid parameters: " + email, e);
+        }
+    }
+
+    private Account createAccountForEmail(String email)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        assert email != null;
+
+        // TODO: Account googleId will be replaced by OIDC subject in the future,
+        // for now we can just use email as googleId.
+        // Account name will also be removed, use a generic "User" for now.
+        Account account = new Account(email, "User", email);
+        return createAccount(account);
+    }
+
+    /**
      * Creates an account.
      *
      * @return the created account
@@ -136,6 +172,8 @@ public final class AccountsLogic {
      */
     public Student joinCourseForStudent(String registrationKey, String googleId)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        // TODO: Fetch corresponding student's account from db with accountId, no need to create account here.
+        // Account creation should have happened before joining course.
         Student student = validateStudentJoinRequest(registrationKey, googleId);
 
         Account account = accountsDb.getAccountByGoogleId(googleId);
@@ -157,6 +195,8 @@ public final class AccountsLogic {
      */
     public Instructor joinCourseForInstructor(String key, String googleId)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        // TODO: Fetch corresponding instructor's account from db with accountId, no need to create account here.
+        // Account creation should have happened before joining course.
         Instructor instructor = validateInstructorJoinRequest(key, googleId);
 
         Account account = accountsDb.getAccountByGoogleId(googleId);
@@ -172,6 +212,7 @@ public final class AccountsLogic {
         instructor.setAccount(account);
 
         // Update the googleId of the student entity for the instructor which was created from sample data.
+        // TODO: Sample data joining should use joinCourseForStudent instead, email used here may also be incorrect.
         Student student = usersLogic.getStudentForEmail(instructor.getCourseId(), instructor.getEmail());
         if (student != null) {
             student.setAccount(account);
