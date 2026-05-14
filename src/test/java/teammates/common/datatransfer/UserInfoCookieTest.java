@@ -36,5 +36,11 @@ public class UserInfoCookieTest extends BaseTestCase {
         ______TS("Cookie with blank user ID");
         uc.setUserId("   ");
         assertFalse(uc.isValid());
+
+        ______TS("Cookie with null account ID");
+        assertThrows(AssertionError.class,
+                () -> uc.setAccountId(null));
+        assertThrows(AssertionError.class,
+                () -> new UserInfoCookie("MockId", null));
     }
 }

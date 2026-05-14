@@ -43,6 +43,8 @@ public final class Application {
             ServletHolder devServerLoginServlet = new ServletHolder();
             devServerLoginServlet.setName("DevServerLoginServlet");
 
+            // TODO: Revert to use constructor after modifying DevServerLoginServlet to redirect to
+            // Auth2CallbackServlet for account creation. HibernateUtil dependencies wouldn't be needed anymore.
             // Register by class name so that Jetty's webapp classloader loads it and its dependencies correctly.
             devServerLoginServlet.setClassName("teammates.ui.servlets.DevServerLoginServlet");
             webapp.addServlet(devServerLoginServlet, "/devServerLogin");

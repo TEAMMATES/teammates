@@ -16,7 +16,6 @@ import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.FieldValidator;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.Browser;
 import teammates.e2e.pageobjects.HomePage;
@@ -155,45 +154,10 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
         // Use the home page to minimize the page load time.
         browser.goToUrl(TestProperties.TEAMMATES_FRONTEND_URL);
 
-        String cookieValue = BACKDOOR.getUserCookie(userId, getOrCreateAccountId(userId));
+        String cookieValue = BACKDOOR.getUserCookie(userId);
         browser.addCookie(Const.SecurityConfig.AUTH_COOKIE_NAME, cookieValue, true, true);
 
         return getNewPageInstance(url, typeOfPage);
-    }
-
-    /**
-     * Returns the account ID for the given user ID by checking test data, then the database,
-     * and finally creating a minimal account if none exists.
-     */
-    private UUID getOrCreateAccountId(String userId) {
-        Account testDataAccount = testData == null ? null : testData.accounts.get(userId);
-        if (testDataAccount != null) {
-            return testDataAccount.getId();
-        }
-
-        AccountData existingAccount = BACKDOOR.getAccountData(userId);
-        if (existingAccount != null) {
-            return existingAccount.getAccountId();
-        }
-
-        // No account exists yet; create a minimal one so the cookie has a valid account ID.
-        DataBundle bundle = new DataBundle();
-        String email = isValidEmail(userId) ? userId : getUniqueFallbackEmail();
-        bundle.accounts.put(userId, new Account(userId, "Test User", email));
-        try {
-            DataBundle result = BACKDOOR.removeAndRestoreDataBundle(bundle);
-            return result.accounts.get(userId).getId();
-        } catch (HttpRequestFailedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private boolean isValidEmail(String email) {
-        return FieldValidator.getInvalidityInfoForEmail(email).isEmpty();
-    }
-
-    private String getUniqueFallbackEmail() {
-        return "test.user." + UUID.randomUUID() + Const.TEST_EMAIL_DOMAIN;
     }
 
     /**

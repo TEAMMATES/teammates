@@ -14,6 +14,7 @@ import tools.jackson.core.JacksonException;
  * Represents user credential info to be persisted within cookies.
  */
 public class UserInfoCookie {
+
     private String userId;
 
     private UUID accountId;

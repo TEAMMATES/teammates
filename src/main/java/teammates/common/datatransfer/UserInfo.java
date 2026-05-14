@@ -8,6 +8,7 @@ import java.util.UUID;
  *  is an admin, instructor, student.
  */
 public class UserInfo {
+
     /**
      * The user's Google ID.
      */

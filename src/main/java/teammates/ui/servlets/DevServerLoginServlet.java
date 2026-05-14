@@ -67,6 +67,8 @@ public class DevServerLoginServlet extends AuthServlet {
             return;
         }
 
+        // TODO: Redirect to OAuth2CallbackServlet for account creation,
+        // HibernateUtil shouldn't be used here
         Account account;
         try {
             HibernateUtil.beginTransaction();
