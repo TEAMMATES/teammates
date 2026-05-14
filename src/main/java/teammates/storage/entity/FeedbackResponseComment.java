@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -38,8 +41,15 @@ public class FeedbackResponseComment extends BaseEntity {
     @Column(insertable = false, updatable = false)
     private UUID responseId;
 
-    @Column(nullable = false)
-    private String giver;
+    @Embedded
+    private ResponseGiver giver;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "giverType", column = @Column(name = "lastEditedByType", nullable = false)),
+            @AttributeOverride(name = "giverId", column = @Column(name = "lastEditedById", nullable = false))
+    })
+    private ResponseGiver lastEditedBy;
 
     @Column(nullable = false)
     private String commentText;
@@ -61,17 +71,15 @@ public class FeedbackResponseComment extends BaseEntity {
     @UpdateTimestamp
     private Instant updatedAt;
 
-    private String lastEditorEmail;
-
     protected FeedbackResponseComment() {
         // required by Hibernate
     }
 
     public FeedbackResponseComment(
-            String giver, String commentText,
+            ResponseGiver giver, String commentText,
             boolean isVisibilityFollowingFeedbackQuestion, boolean isCommentFromFeedbackParticipant,
             List<ViewerType> showCommentTo, List<ViewerType> showGiverNameTo,
-            String lastEditorEmail
+            ResponseGiver lastEditedBy
     ) {
         this.setGiver(giver);
         this.setCommentText(commentText);
@@ -79,7 +87,7 @@ public class FeedbackResponseComment extends BaseEntity {
         this.setIsCommentFromFeedbackParticipant(isCommentFromFeedbackParticipant);
         this.setShowCommentTo(showCommentTo);
         this.setShowGiverNameTo(showGiverNameTo);
-        this.setLastEditorEmail(lastEditorEmail);
+        this.setLastEditedBy(lastEditedBy);
         this.setId(UUID.randomUUID());
     }
 
@@ -107,11 +115,11 @@ public class FeedbackResponseComment extends BaseEntity {
         this.responseId = feedbackResponse == null ? null : feedbackResponse.getId();
     }
 
-    public String getGiver() {
+    public ResponseGiver getGiver() {
         return giver;
     }
 
-    public void setGiver(String giver) {
+    public void setGiver(ResponseGiver giver) {
         this.giver = giver;
     }
 
@@ -163,12 +171,12 @@ public class FeedbackResponseComment extends BaseEntity {
         this.updatedAt = updatedAt;
     }
 
-    public String getLastEditorEmail() {
-        return lastEditorEmail;
+    public ResponseGiver getLastEditedBy() {
+        return lastEditedBy;
     }
 
-    public void setLastEditorEmail(String lastEditorEmail) {
-        this.lastEditorEmail = lastEditorEmail;
+    public void setLastEditedBy(ResponseGiver lastEditedBy) {
+        this.lastEditedBy = lastEditedBy;
     }
 
     /**
@@ -200,7 +208,7 @@ public class FeedbackResponseComment extends BaseEntity {
         return "FeedbackResponseComment [id=" + id + ", giver=" + giver + ", commentText=" + commentText
                 + ", isVisibilityFollowingFeedbackQuestion=" + isVisibilityFollowingFeedbackQuestion
                 + ", isCommentFromFeedbackParticipant=" + isCommentFromFeedbackParticipant
-                + ", lastEditorEmail=" + lastEditorEmail + ", createdAt=" + getCreatedAt()
+                + ", lastEditedBy=" + lastEditedBy + ", createdAt=" + getCreatedAt()
                 + ", updatedAt=" + updatedAt + "]";
     }
 
