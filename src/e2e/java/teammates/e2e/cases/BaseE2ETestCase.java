@@ -154,10 +154,36 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
         // Use the home page to minimize the page load time.
         browser.goToUrl(TestProperties.TEAMMATES_FRONTEND_URL);
 
-        String cookieValue = BACKDOOR.getUserCookie(userId);
+        String cookieValue = BACKDOOR.getUserCookie(userId, getOrCreateAccountId(userId));
         browser.addCookie(Const.SecurityConfig.AUTH_COOKIE_NAME, cookieValue, true, true);
 
         return getNewPageInstance(url, typeOfPage);
+    }
+
+    /**
+     * Returns the account ID for the given user ID by checking test data, then the database,
+     * and finally creating a minimal account if none exists.
+     */
+    private UUID getOrCreateAccountId(String userId) {
+        Account testDataAccount = testData == null ? null : testData.accounts.get(userId);
+        if (testDataAccount != null) {
+            return testDataAccount.getId();
+        }
+
+        AccountData existingAccount = BACKDOOR.getAccountData(userId);
+        if (existingAccount != null) {
+            return existingAccount.getAccountId();
+        }
+
+        // No account exists yet; create a minimal one so the cookie has a valid account ID.
+        DataBundle bundle = new DataBundle();
+        bundle.accounts.put(userId, new Account(userId, "Test User", userId + "@teammates.tmt"));
+        try {
+            DataBundle result = BACKDOOR.removeAndRestoreDataBundle(bundle);
+            return result.accounts.get(userId).getId();
+        } catch (HttpRequestFailedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
