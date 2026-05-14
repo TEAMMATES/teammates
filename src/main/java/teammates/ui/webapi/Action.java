@@ -131,13 +131,9 @@ public abstract class Action {
         String googleId = userInfo == null ? null : userInfo.getId();
 
         user.setGoogleId(googleId);
-        if (unregisteredStudent == null && unregisteredInstructor == null) {
-            user.setRegkey(getRequestParamValue(Const.ParamsNames.REGKEY));
-        } else if (unregisteredStudent != null) {
-            user.setRegkey(unregisteredStudent.getRegKey());
+        if (unregisteredStudent != null) {
             user.setEmail(unregisteredStudent.getEmail());
-        } else {
-            user.setRegkey(unregisteredInstructor.getRegKey());
+        } else if (unregisteredInstructor != null) {
             user.setEmail(unregisteredInstructor.getEmail());
         }
         return user;

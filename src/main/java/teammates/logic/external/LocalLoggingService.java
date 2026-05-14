@@ -105,12 +105,11 @@ public class LocalLoggingService implements LogService {
         String statusFilter = queryLogsParams.getStatus();
 
         RequestLogUser userInfoFilter = queryLogsParams.getUserInfoParams();
-        String regkeyFilter = userInfoFilter.getRegkey();
         String emailFilter = userInfoFilter.getEmail();
         String googleIdFilter = userInfoFilter.getGoogleId();
 
         if (actionClassFilter == null && exceptionClassFilter == null && logEventFilter == null
-                && latencyFilter == null && statusFilter == null && regkeyFilter == null
+                && latencyFilter == null && statusFilter == null
                 && emailFilter == null && googleIdFilter == null) {
             return true;
         }
@@ -125,7 +124,7 @@ public class LocalLoggingService implements LogService {
             return false;
         }
         return isRequestFilterSatisfied(details, actionClassFilter, latencyFilter, statusFilter,
-                regkeyFilter, emailFilter, googleIdFilter);
+                emailFilter, googleIdFilter);
     }
 
     private boolean isExceptionFilterSatisfied(LogDetails details, String exceptionClassFilter) {
@@ -140,9 +139,9 @@ public class LocalLoggingService implements LogService {
     }
 
     private boolean isRequestFilterSatisfied(LogDetails details, String actionClassFilter,
-            String latencyFilter, String statusFilter, String regkeyFilter, String emailFilter, String googleIdFilter) {
+            String latencyFilter, String statusFilter, String emailFilter, String googleIdFilter) {
         if (actionClassFilter == null && latencyFilter == null && statusFilter == null
-                && regkeyFilter == null && emailFilter == null && googleIdFilter == null) {
+                 && emailFilter == null && googleIdFilter == null) {
             return true;
         }
         if (details.getEvent() != LogEvent.REQUEST_LOG) {
@@ -185,9 +184,6 @@ public class LocalLoggingService implements LogService {
             }
         }
         RequestLogUser userInfo = requestDetails.getUserInfo();
-        if (regkeyFilter != null && (userInfo == null || !regkeyFilter.equals(userInfo.getRegkey()))) {
-            return false;
-        }
         if (emailFilter != null && (userInfo == null
                 || !SanitizationHelper.areEmailsEqual(emailFilter, userInfo.getEmail()))) {
             return false;
