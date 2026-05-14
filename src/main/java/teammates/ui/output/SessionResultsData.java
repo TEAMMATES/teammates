@@ -28,6 +28,7 @@ import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 
 /**
  * API output format for session results, including statistics.
@@ -43,9 +44,9 @@ public class SessionResultsData extends ApiOutput {
     }
 
     /**
-     * Factory method to construct API output for instructor.
+     * Factory method to construct API output for course-wide results.
      */
-    public static SessionResultsData initForInstructor(SessionResultsBundle bundle) {
+    public static SessionResultsData init(SessionResultsBundle bundle) {
         SessionResultsData sessionResultsData = new SessionResultsData();
 
         Map<FeedbackQuestion, List<FeedbackResponse>> questionsWithResponses =
@@ -56,12 +57,12 @@ public class SessionResultsData extends ApiOutput {
             QuestionOutput qnOutput = new QuestionOutput(question,
                     questionDetails.getQuestionResultStatisticsJson(question, null, bundle), false, false);
             // put normal responses
-            List<ResponseOutput> allResponses = buildResponsesForInstructor(responses, bundle);
+            List<ResponseOutput> allResponses = buildResponses(responses, bundle);
             qnOutput.allResponses.addAll(allResponses);
 
             // put missing responses
             List<FeedbackMissingResponse> missingResponses = bundle.getQuestionMissingResponseMap().get(question);
-            qnOutput.allResponses.addAll(buildMissingResponsesForInstructor(missingResponses, bundle));
+            qnOutput.allResponses.addAll(buildMissingResponses(missingResponses, bundle));
 
             sessionResultsData.questions.add(qnOutput);
         });
@@ -70,9 +71,9 @@ public class SessionResultsData extends ApiOutput {
     }
 
     /**
-     * Factory method to construct API output for student.
+     * Factory method to construct API output for user.
      */
-    public static SessionResultsData initForStudent(SessionResultsBundle bundle, Student student) {
+    public static SessionResultsData initForUser(SessionResultsBundle bundle, User user) {
         SessionResultsData sessionResultsData = new SessionResultsData();
 
         Map<FeedbackQuestion, List<FeedbackResponse>> questionsWithResponses =
@@ -84,7 +85,7 @@ public class SessionResultsData extends ApiOutput {
             boolean hasCommentNotVisibleForPreview = bundle.getQuestionsWithCommentNotVisibleForPreviewSet()
                     .contains(question);
             QuestionOutput qnOutput = new QuestionOutput(question,
-                    questionDetails.getQuestionResultStatisticsJson(question, student.getEmail(), bundle),
+                    questionDetails.getQuestionResultStatisticsJson(question, user.getEmail(), bundle),
                     false, hasCommentNotVisibleForPreview);
             Map<String, List<ResponseOutput>> otherResponsesMap = new HashMap<>();
 
@@ -92,15 +93,15 @@ public class SessionResultsData extends ApiOutput {
 
             if (questionDetails.isIndividualResponsesShownToStudents()) {
                 for (FeedbackResponse response : responses) {
-                    boolean isUserInstructor = Const.USER_TEAM_FOR_INSTRUCTOR.equals(student.getTeamName());
+                    boolean isUserInstructor = user instanceof Instructor;
 
-                    boolean isUserGiver = SanitizationHelper.areEmailsEqual(student.getEmail(), response.getGiver())
+                    boolean isUserGiver = SanitizationHelper.areEmailsEqual(user.getEmail(), response.getGiver())
                             && (isUserInstructor && question.getGiverType() == QuestionGiverType.INSTRUCTORS
                             || !isUserInstructor && question.getGiverType() != QuestionGiverType.INSTRUCTORS);
-                    boolean isUserRecipient = SanitizationHelper.areEmailsEqual(student.getEmail(), response.getRecipient())
+                    boolean isUserRecipient = SanitizationHelper.areEmailsEqual(user.getEmail(), response.getRecipient())
                             && (isUserInstructor && question.getRecipientType() == QuestionRecipientType.INSTRUCTORS
                             || !isUserInstructor && question.getRecipientType() != QuestionRecipientType.INSTRUCTORS);
-                    ResponseOutput responseOutput = buildSingleResponseForStudent(response, bundle, student);
+                    ResponseOutput responseOutput = buildSingleResponseForUser(response, bundle, user);
 
                     if (isUserRecipient) {
                         qnOutput.responsesToSelf.add(responseOutput);
@@ -135,17 +136,21 @@ public class SessionResultsData extends ApiOutput {
         return sessionResultsData;
     }
 
-    private static ResponseOutput buildSingleResponseForStudent(
-            FeedbackResponse response, SessionResultsBundle bundle, Student student) {
+    private static ResponseOutput buildSingleResponseForUser(
+            FeedbackResponse response, SessionResultsBundle bundle, User user) {
         FeedbackQuestion question = response.getFeedbackQuestion();
-        boolean isUserInstructor = Const.USER_TEAM_FOR_INSTRUCTOR.equals(student.getTeamName());
+        boolean isUserInstructor = user instanceof Instructor;
 
         // process giver
-        boolean isUserGiver = SanitizationHelper.areEmailsEqual(student.getEmail(), response.getGiver())
+        boolean isUserGiver = SanitizationHelper.areEmailsEqual(user.getEmail(), response.getGiver())
                 && (isUserInstructor && question.getGiverType() == QuestionGiverType.INSTRUCTORS
                 || !isUserInstructor && question.getGiverType() != QuestionGiverType.INSTRUCTORS);
-        boolean isUserTeamGiver = question.getGiverType() == QuestionGiverType.TEAMS
-                && student.getTeamName().equals(response.getGiver());
+        boolean isUserTeamGiver = false;
+        if (user instanceof Student student) {
+            isUserTeamGiver = question.getGiverType() == QuestionGiverType.TEAMS
+                    && student.getTeamName().equals(response.getGiver());
+        }
+
         String giverName;
         String giverTeam = "";
         if (isUserTeamGiver) {
@@ -153,24 +158,34 @@ public class SessionResultsData extends ApiOutput {
             giverTeam = response.getGiver();
         } else if (isUserGiver) {
             giverName = "You";
-            giverTeam = student.getTeamName();
+            giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
+            if (user instanceof Student student) {
+                giverTeam = student.getTeamName();
+            }
         } else {
             // we don't want student to figure out who is who by using the hash
             giverName = removeAnonymousHash(getGiverNameOfResponse(response.getId(), response.getGiver(), question, bundle));
         }
 
         // process recipient
-        boolean isUserRecipient = SanitizationHelper.areEmailsEqual(student.getEmail(), response.getRecipient())
+        boolean isUserRecipient = SanitizationHelper.areEmailsEqual(user.getEmail(), response.getRecipient())
                 && (isUserInstructor && question.getRecipientType() == QuestionRecipientType.INSTRUCTORS
                 || !isUserInstructor && question.getRecipientType() != QuestionRecipientType.INSTRUCTORS);
-        boolean isUserTeamRecipient = (question.getRecipientType() == QuestionRecipientType.TEAMS
-                || question.getRecipientType() == QuestionRecipientType.TEAMS_IN_SAME_SECTION)
-                && student.getTeamName().equals(response.getRecipient());
+        boolean isUserTeamRecipient = false;
+        if (user instanceof Student student) {
+            isUserTeamRecipient = (question.getRecipientType() == QuestionRecipientType.TEAMS
+                    || question.getRecipientType() == QuestionRecipientType.TEAMS_IN_SAME_SECTION)
+                    && student.getTeamName().equals(response.getRecipient());
+        }
+
         String recipientName;
         String recipientTeam = "";
         if (isUserRecipient) {
             recipientName = "You";
-            recipientTeam = student.getTeamName();
+            recipientTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
+            if (user instanceof Student student) {
+                recipientTeam = student.getTeamName();
+            }
         } else if (isUserTeamRecipient) {
             recipientName = String.format("Your Team (%s)", response.getRecipient());
             recipientTeam = response.getRecipient();
@@ -210,18 +225,18 @@ public class SessionResultsData extends ApiOutput {
                 + REGEX_ANONYMOUS_PARTICIPANT_HASH, Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT + " $1");
     }
 
-    private static List<ResponseOutput> buildResponsesForInstructor(
+    private static List<ResponseOutput> buildResponses(
             List<FeedbackResponse> responses, SessionResultsBundle bundle) {
         List<ResponseOutput> output = new ArrayList<>();
 
         for (FeedbackResponse response : responses) {
-            output.add(buildSingleResponseForInstructor(response, bundle));
+            output.add(buildSingleResponse(response, bundle));
         }
 
         return output;
     }
 
-    private static ResponseOutput buildSingleResponseForInstructor(
+    private static ResponseOutput buildSingleResponse(
             FeedbackResponse response, SessionResultsBundle bundle) {
         FeedbackQuestion question = response.getFeedbackQuestion();
         // process giver
@@ -293,18 +308,18 @@ public class SessionResultsData extends ApiOutput {
                 .build();
     }
 
-    private static List<ResponseOutput> buildMissingResponsesForInstructor(
+    private static List<ResponseOutput> buildMissingResponses(
             List<FeedbackMissingResponse> responses, SessionResultsBundle bundle) {
         List<ResponseOutput> output = new ArrayList<>();
 
         for (FeedbackMissingResponse response : responses) {
-            output.add(buildSingleMissingResponseForInstructor(response, bundle));
+            output.add(buildSingleMissingResponse(response, bundle));
         }
 
         return output;
     }
 
-    private static ResponseOutput buildSingleMissingResponseForInstructor(
+    private static ResponseOutput buildSingleMissingResponse(
             FeedbackMissingResponse response, SessionResultsBundle bundle) {
         // process giver
         String giverEmail = null;

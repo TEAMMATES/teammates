@@ -578,8 +578,7 @@ public final class FeedbackResponsesLogic {
     }
 
     private SessionResultsBundle buildResultsBundle(
-            boolean isCourseWide, String sectionName,
-            boolean isInstructor, String userEmail, Instructor instructor, Student student,
+            boolean isCourseWide, String sectionName, User user,
             CourseRoster roster, List<FeedbackQuestion> allQuestions,
             List<FeedbackResponse> allResponses, boolean isPreviewResults) {
 
@@ -606,7 +605,7 @@ public final class FeedbackResponsesLogic {
         }
 
         Set<String> studentsEmailInTeam = new HashSet<>();
-        if (student != null) {
+        if (user instanceof Student student) {
             for (Student studentInTeam
                     : roster.getTeamToMembers().getOrDefault(student.getTeamName(), Collections.emptyList())) {
                 studentsEmailInTeam.add(studentInTeam.getEmail());
@@ -632,7 +631,7 @@ public final class FeedbackResponsesLogic {
             }
             // check visibility of response
             boolean isVisibleResponse = isResponseVisibleForUser(
-                    userEmail, student, instructor, studentsEmailInTeam,
+                    user, studentsEmailInTeam,
                     response.getGiver(), response.getRecipient(),
                     response.getGiverSectionName(), response.getRecipientSectionName(),
                     correspondingQuestion);
@@ -654,10 +653,10 @@ public final class FeedbackResponsesLogic {
             // generate giver/recipient name visibility table
             responseGiverVisibilityTable.put(response.getId(),
                     isNameVisibleToUser(correspondingQuestion, response.getGiver(), response.getRecipient(),
-                        userEmail, isInstructor, true, roster));
+                        user.getEmail(), user instanceof Instructor, true, roster));
             responseRecipientVisibilityTable.put(response.getId(),
                     isNameVisibleToUser(correspondingQuestion, response.getGiver(), response.getRecipient(),
-                        userEmail, isInstructor, false, roster));
+                        user.getEmail(), user instanceof Instructor, false, roster));
         }
         RequestTracer.checkRemainingTime();
 
@@ -682,7 +681,7 @@ public final class FeedbackResponsesLogic {
             }
             // check visibility of comment
             boolean isVisibleResponseComment = frcLogic.checkIsResponseCommentVisibleForUser(
-                    userEmail, isInstructor, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
+                    user, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
             if (!isVisibleResponseComment) {
                 continue;
             }
@@ -697,13 +696,13 @@ public final class FeedbackResponsesLogic {
             relatedCommentsMap.computeIfAbsent(relatedResponse, key -> new ArrayList<>()).add(frc);
             // generate comment giver name visibility table
             commentVisibilityTable.put(frc.getId(),
-                    frcLogic.checkIsNameVisibleToUser(frc, relatedResponse, userEmail, roster));
+                    frcLogic.checkIsNameVisibleToUser(frc, relatedResponse, user.getEmail(), roster));
         }
         RequestTracer.checkRemainingTime();
 
         List<FeedbackResponse> existingResponses = new ArrayList<>(relatedResponses);
         List<FeedbackMissingResponse> missingResponses = Collections.emptyList();
-        if (isCourseWide) {
+        if (isCourseWide && user instanceof Instructor instructor) {
             missingResponses = buildMissingResponses(
                     instructor, responseGiverVisibilityTable, responseRecipientVisibilityTable, relatedQuestions,
                     existingResponses, roster, sectionName);
@@ -752,22 +751,20 @@ public final class FeedbackResponsesLogic {
         // consider the current viewing user
         Instructor instructor = usersLogic.getInstructorForEmail(courseId, instructorEmail);
 
-        return buildResultsBundle(true, sectionName, true, instructorEmail,
-                instructor, null, roster, allQuestions, allResponses, false);
+        return buildResultsBundle(true, sectionName, instructor, roster, allQuestions, allResponses, false);
     }
 
     /**
      * Gets the session result for a feedback session for the given user.
      *
      * @param feedbackSession the feedback session
-     * @param userEmail the user viewing the feedback session
-     * @param isInstructor true if the user is an instructor
+     * @param user the user viewing the feedback session
      * @param questionId if not null, will only return partial bundle for the question
      * @param isPreviewResults true if getting session results for preview purpose
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResultsForUser(
-            FeedbackSession feedbackSession, String userEmail, boolean isInstructor,
+            FeedbackSession feedbackSession, User user,
             @Nullable UUID questionId, boolean isPreviewResults) {
         String courseId = feedbackSession.getCourseId();
         CourseRoster roster = new CourseRoster(
@@ -779,21 +776,22 @@ public final class FeedbackResponsesLogic {
         RequestTracer.checkRemainingTime();
 
         // load response(s)
-        Student student = isInstructor ? null : usersLogic.getStudentForEmail(courseId, userEmail);
-        Instructor instructor = isInstructor ? usersLogic.getInstructorForEmail(courseId, userEmail) : null;
         List<FeedbackResponse> allResponses = new ArrayList<>();
         for (FeedbackQuestion question : allQuestions) {
             // load viewable responses for students/instructors proactively
             // this is cost-effective as in most of time responses for the whole session will not be viewable to individuals
-            List<FeedbackResponse> viewableResponses = isInstructor
-                    ? getFeedbackResponsesToOrFromInstructorForQuestion(question, instructor)
-                    : getViewableFeedbackResponsesForStudentForQuestion(question, student, roster);
+            List<FeedbackResponse> viewableResponses = Collections.emptyList();
+            if (user instanceof Instructor instructor) {
+                viewableResponses = getFeedbackResponsesToOrFromInstructorForQuestion(question, instructor);
+            } else if (user instanceof Student student) {
+                viewableResponses = getViewableFeedbackResponsesForStudentForQuestion(question, student, roster);
+            }
+
             allResponses.addAll(viewableResponses);
         }
         RequestTracer.checkRemainingTime();
 
-        return buildResultsBundle(false, null, isInstructor, userEmail,
-                instructor, student, roster, allQuestions, allResponses, isPreviewResults);
+        return buildResultsBundle(false, null, user, roster, allQuestions, allResponses, isPreviewResults);
     }
 
     /**
@@ -865,7 +863,7 @@ public final class FeedbackResponsesLogic {
                             recipientIdentifier, recipientInfo.getSectionName());
 
                     boolean isVisibleResponse = isResponseVisibleForUser(
-                            instructor.getEmail(), null, instructor, Collections.emptySet(),
+                            instructor, Collections.emptySet(),
                             missingResponse.giver(), missingResponse.recipient(),
                             missingResponse.giverSectionName(), missingResponse.recipientSectionName(),
                             correspondingQuestion);
@@ -978,9 +976,7 @@ public final class FeedbackResponsesLogic {
     }
 
     private boolean isResponseVisibleForUser(
-            String userEmail,
-            Student student,
-            Instructor instructor,
+            User user,
             Set<String> studentsEmailInTeam,
             String giver,
             String recipient,
@@ -988,45 +984,57 @@ public final class FeedbackResponsesLogic {
             String recipientSectionName,
             FeedbackQuestion relatedQuestion
     ) {
-        boolean isInstructor = instructor != null;
+        boolean isVisibleToRecipient = SanitizationHelper.areEmailsEqual(recipient, user.getEmail())
+                && relatedQuestion.isResponseVisibleTo(ViewerType.RECEIVER);
+        boolean isVisibleToGiver = SanitizationHelper.areEmailsEqual(giver, user.getEmail());
 
-        boolean isGiverSectionRestrictedForInstructor = isInstructor && !instructor.isAllowedForPrivilege(
+        boolean isGiverSectionRestrictedForInstructor = false;
+        boolean isRecipientSectionRestrictedForInstructor = false;
+        boolean isVisibleToInstructor = false;
+        if (user instanceof Instructor instructor) {
+            isGiverSectionRestrictedForInstructor = !instructor.isAllowedForPrivilege(
                         giverSectionName,
                         relatedQuestion.getFeedbackSessionName(),
                         Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS
                 );
 
-        boolean isRecipientSectionRestrictedForInstructor = isInstructor
-                && relatedQuestion.getRecipientType() != QuestionRecipientType.NONE
-                && !instructor.isAllowedForPrivilege(
-                        recipientSectionName,
-                        relatedQuestion.getFeedbackSessionName(),
-                        Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS
-                );
+            isRecipientSectionRestrictedForInstructor =
+                    relatedQuestion.getRecipientType() != QuestionRecipientType.NONE
+                    && !instructor.isAllowedForPrivilege(
+                            recipientSectionName,
+                            relatedQuestion.getFeedbackSessionName(),
+                            Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS
+                    );
 
-        boolean isVisibleToInstructor = isInstructor
-                && relatedQuestion.isResponseVisibleTo(ViewerType.INSTRUCTORS)
-                && !isGiverSectionRestrictedForInstructor
-                && !isRecipientSectionRestrictedForInstructor;
-        boolean isVisibleToRecipient = SanitizationHelper.areEmailsEqual(recipient, userEmail)
-                && relatedQuestion.isResponseVisibleTo(ViewerType.RECEIVER);
-        boolean isVisibleToGiver = SanitizationHelper.areEmailsEqual(giver, userEmail);
-        boolean isVisibleToStudents = !isInstructor && relatedQuestion.isResponseVisibleTo(ViewerType.STUDENTS);
-        boolean isVisibleToTeamRecipient = studentsEmailInTeam != null && !isInstructor
-                && (relatedQuestion.getRecipientType() == QuestionRecipientType.TEAMS
-                    || relatedQuestion.getRecipientType() == QuestionRecipientType.TEAMS_IN_SAME_SECTION
-                    || relatedQuestion.getRecipientType() == QuestionRecipientType.TEAMS_EXCLUDING_SELF)
-                && relatedQuestion.isResponseVisibleTo(ViewerType.RECEIVER)
-                && recipient.equals(student.getTeamName());
-        boolean isVisibleToTeamGiver = studentsEmailInTeam != null && !isInstructor
-                && relatedQuestion.getGiverType() == QuestionGiverType.TEAMS
-                && giver.equals(student.getTeamName());
-        boolean isVisibleToOwnTeamMembers = studentsEmailInTeam != null && !isInstructor
-                && relatedQuestion.isResponseVisibleTo(ViewerType.OWN_TEAM_MEMBERS)
-                && studentsEmailInTeam.contains(giver);
-        boolean isVisibleToReceiverTeamMembers = studentsEmailInTeam != null && !isInstructor
-                && relatedQuestion.isResponseVisibleTo(ViewerType.RECEIVER_TEAM_MEMBERS)
-                && studentsEmailInTeam.contains(recipient);
+            isVisibleToInstructor =
+                    relatedQuestion.isResponseVisibleTo(ViewerType.INSTRUCTORS)
+                    && !isGiverSectionRestrictedForInstructor
+                    && !isRecipientSectionRestrictedForInstructor;
+        }
+
+        boolean isVisibleToStudents = false;
+        boolean isVisibleToTeamRecipient = false;
+        boolean isVisibleToTeamGiver = false;
+        boolean isVisibleToOwnTeamMembers = false;
+        boolean isVisibleToReceiverTeamMembers = false;
+        if (user instanceof Student student) {
+            isVisibleToStudents = relatedQuestion.isResponseVisibleTo(ViewerType.STUDENTS);
+            isVisibleToTeamRecipient = studentsEmailInTeam != null
+                    && (relatedQuestion.getRecipientType() == QuestionRecipientType.TEAMS
+                        || relatedQuestion.getRecipientType() == QuestionRecipientType.TEAMS_IN_SAME_SECTION
+                        || relatedQuestion.getRecipientType() == QuestionRecipientType.TEAMS_EXCLUDING_SELF)
+                    && relatedQuestion.isResponseVisibleTo(ViewerType.RECEIVER)
+                    && recipient.equals(student.getTeamName());
+            isVisibleToTeamGiver = studentsEmailInTeam != null
+                    && relatedQuestion.getGiverType() == QuestionGiverType.TEAMS
+                    && giver.equals(student.getTeamName());
+            isVisibleToOwnTeamMembers = studentsEmailInTeam != null
+                    && relatedQuestion.isResponseVisibleTo(ViewerType.OWN_TEAM_MEMBERS)
+                    && studentsEmailInTeam.contains(giver);
+            isVisibleToReceiverTeamMembers = studentsEmailInTeam != null
+                    && relatedQuestion.isResponseVisibleTo(ViewerType.RECEIVER_TEAM_MEMBERS)
+                    && studentsEmailInTeam.contains(recipient);
+        }
 
         return isVisibleToInstructor || isVisibleToRecipient || isVisibleToGiver
                 || isVisibleToStudents || isVisibleToTeamRecipient || isVisibleToTeamGiver

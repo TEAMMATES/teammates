@@ -1274,14 +1274,17 @@ public class Logic {
     /**
      * Gets the session result for a feedback session for the given user.
      *
-     * @see FeedbackResponsesLogic#getSessionResultsForUser(FeedbackSession, String,
-     *      String, boolean, String)
+     * @param feedbackSession the feedback session
+     * @param user the user viewing the feedback session
+     * @param questionId if not null, will only return partial bundle for the question
+     * @param isPreviewResults true if getting session results for preview purpose
+     * @return the session result bundle
      */
     public SessionResultsBundle getSessionResultsForUser(
-            FeedbackSession feedbackSession, String userEmail, boolean isInstructor,
+            FeedbackSession feedbackSession, User user,
             @Nullable UUID questionId, boolean isPreviewResults) {
         return feedbackResponsesLogic.getSessionResultsForUser(
-                feedbackSession, userEmail, isInstructor, questionId, isPreviewResults);
+                feedbackSession, user, questionId, isPreviewResults);
     }
 
     /**

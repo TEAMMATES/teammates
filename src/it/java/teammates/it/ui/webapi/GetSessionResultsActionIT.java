@@ -68,7 +68,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
 
         SessionResultsData output = (SessionResultsData) r.getOutput();
 
-        SessionResultsData expectedResults = SessionResultsData.initForInstructor(
+        SessionResultsData expectedResults = SessionResultsData.init(
                 logic.getSessionResults(accessibleFeedbackSession,
                         instructor.getEmail(),
                         null, null, FeedbackResultFetchType.BOTH));
@@ -97,7 +97,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
 
                 output = (SessionResultsData) r.getOutput();
 
-                expectedResults = SessionResultsData.initForInstructor(
+                expectedResults = SessionResultsData.init(
                         logic.getSessionResults(accessibleFeedbackSession,
                                 instructor.getEmail(),
                                 null, section.getName(), fetchType));
@@ -120,10 +120,9 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         r = getJsonResult(a);
 
         output = (SessionResultsData) r.getOutput();
-        expectedResults = SessionResultsData.initForStudent(
+        expectedResults = SessionResultsData.initForUser(
                 logic.getSessionResultsForUser(accessibleFeedbackSession,
-                        student.getEmail(),
-                        false, null, true),
+                        student, null, true),
                 student);
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
@@ -141,10 +140,9 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         r = getJsonResult(a);
 
         output = (SessionResultsData) r.getOutput();
-        expectedResults = SessionResultsData.initForStudent(
+        expectedResults = SessionResultsData.initForUser(
                 logic.getSessionResultsForUser(accessibleFeedbackSession,
-                        student.getEmail(),
-                        false, null, false),
+                        student, null, false),
                 student);
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
@@ -165,10 +163,9 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         r = getJsonResult(a);
 
         output = (SessionResultsData) r.getOutput();
-        expectedResults = SessionResultsData.initForStudent(
+        expectedResults = SessionResultsData.initForUser(
                 logic.getSessionResultsForUser(accessibleFeedbackSession,
-                        student.getEmail(),
-                        false, question.getId(), false),
+                        student, question.getId(), false),
                 student);
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));

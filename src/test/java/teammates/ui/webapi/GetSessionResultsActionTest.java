@@ -67,7 +67,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 new HashSet<>(), new HashSet<>(), new ArrayList<>(),
                 new ArrayList<>(), new HashMap<>(), new HashMap<>(),
                 new HashMap<>(), new HashMap<>(), new CourseRoster(new ArrayList<>(), new ArrayList<>()));
-        expectedResults = SessionResultsData.initForInstructor(resultsStub);
+        expectedResults = SessionResultsData.init(resultsStub);
         reset(mockLogic);
     }
 
@@ -91,7 +91,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
             when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructorStub);
             when(mockLogic.getSessionResultsForUser(argThat(
                             argument -> Objects.equals(argument.getName(), session.getName())),
-                            eq(instructorStub.getEmail()), eq(true), isNull(), eq(false)))
+                            eq(instructorStub), isNull(), eq(false)))
                     .thenReturn(resultsStub);
             break;
         case STUDENT_RESULT:
@@ -99,7 +99,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
             when(mockLogic.getStudentByGoogleId(session.getCourseId(), googleId)).thenReturn(studentStub);
             when(mockLogic.getSessionResultsForUser(argThat(
                             argument -> Objects.equals(argument.getName(), session.getName())),
-                            eq(studentStub.getEmail()), eq(false), isNull(), eq(false)))
+                            eq(studentStub), isNull(), eq(false)))
                     .thenReturn(resultsStub);
             break;
         case INSTRUCTOR_SUBMISSION, STUDENT_SUBMISSION:
@@ -221,8 +221,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         when(mockLogic.getInstructorByGoogleId(session.getCourseId(), googleId)).thenReturn(instructorStub);
         when(mockLogic.getSessionResultsForUser(argThat(
                         argument -> Objects.equals(argument.getName(), session.getName())),
-                eq(instructorStub.getEmail()),
-                eq(true), eq(questionStub.getId()), eq(true))).thenReturn(resultsStub);
+                eq(instructorStub), eq(questionStub.getId()), eq(true))).thenReturn(resultsStub);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, session.getId().toString(),
@@ -247,8 +246,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         when(mockLogic.getStudentByGoogleId(session.getCourseId(), googleId)).thenReturn(studentStub);
         when(mockLogic.getSessionResultsForUser(argThat(
                         argument -> Objects.equals(argument.getName(), session.getName())),
-                eq(studentStub.getEmail()),
-                eq(false), eq(questionStub.getId()), eq(true))).thenReturn(resultsStub);
+                eq(studentStub), eq(questionStub.getId()), eq(true))).thenReturn(resultsStub);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, session.getId().toString(),
