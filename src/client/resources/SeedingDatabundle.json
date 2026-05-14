@@ -2871,103 +2871,163 @@
   },
   "feedbackResponseComments": {
     "comment1ToResp1ForQ1InSession1InCourse1": {
-      "giver": "alice@teammates.tmt",
+      "giver": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000501"
+      },
+      "lastEditedBy": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000501"
+      },
       "commentText": "Excellent self-awareness, Mei Lin. Your identification of closures as a growth area is spot on. I recommend working through the supplementary exercises on environment model diagrams.",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "alice@teammates.tmt",
       "responseId": "00000000-0000-4000-8000-000000000901"
     },
     "comment2ToResp1ForQ1InSession1InCourse1": {
-      "giver": "mei.lin.chen@teammates.tmt",
+      "giver": {
+        "giverType": "STUDENT",
+        "giverId": "00000000-0000-4000-8000-000000000601"
+      },
+      "lastEditedBy": {
+        "giverType": "STUDENT",
+        "giverId": "00000000-0000-4000-8000-000000000601"
+      },
       "commentText": "Thank you for the feedback, Prof. Khan. I have started the supplementary exercises and they are really helpful for understanding nested closures.",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "mei.lin.chen@teammates.tmt",
       "responseId": "00000000-0000-4000-8000-000000000901"
     },
     "comment1ToResp2ForQ1InSession1InCourse1": {
-      "giver": "alice@teammates.tmt",
+      "giver": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000501"
+      },
+      "lastEditedBy": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000501"
+      },
       "commentText": "Good progress, Carlos. Consider pairing up with a classmate to practice environment model walkthroughs before the midterm.",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "alice@teammates.tmt",
       "responseId": "00000000-0000-4000-8000-000000000902"
     },
     "comment1ToResp1ForQ2InSession1InCourse1": {
-      "giver": "tanaka@teammates.tmt",
+      "giver": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000502"
+      },
+      "lastEditedBy": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000502"
+      },
       "commentText": "Thank you for this evaluation. The peer feedback process is important for team development.",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "tanaka@teammates.tmt",
       "responseId": "00000000-0000-4000-8000-000000000904"
     },
     "comment1ToResp1ForQ1InSession1InCourse2": {
-      "giver": "elena@teammates.tmt",
+      "giver": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000503"
+      },
+      "lastEditedBy": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000503"
+      },
       "commentText": "Great summary, Liam. Setting up the CI/CD pipeline early was a strong strategic decision. Keep documenting your design rationale in the developer guide.",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "elena@teammates.tmt",
       "responseId": "00000000-0000-4000-8000-000000000934"
     },
     "comment2ToResp1ForQ1InSession1InCourse2": {
-      "giver": "liam.obrien@teammates.tmt",
+      "giver": {
+        "giverType": "STUDENT",
+        "giverId": "00000000-0000-4000-8000-000000000611"
+      },
+      "lastEditedBy": {
+        "giverType": "STUDENT",
+        "giverId": "00000000-0000-4000-8000-000000000611"
+      },
       "commentText": "Thanks Dr. Vasquez! I will make sure to improve the developer guide documentation for Sprint 2.",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "liam.obrien@teammates.tmt",
       "responseId": "00000000-0000-4000-8000-000000000934"
     },
     "comment1ToResp1ForQ1InSession1InCourse3": {
-      "giver": "priya.sharma@teammates.tmt",
+      "giver": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000505"
+      },
+      "lastEditedBy": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000505"
+      },
       "commentText": "Thoughtful feedback, Amara. Encouraging your partner to consider edge cases earlier is exactly the kind of constructive observation we value.",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "priya.sharma@teammates.tmt",
       "responseId": "00000000-0000-4000-8000-000000000961"
     },
     "comment1ToResp1ForQ1InSession4InCourse1": {
-      "giver": "alice@teammates.tmt",
+      "giver": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000501"
+      },
+      "lastEditedBy": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000501"
+      },
       "commentText": "Thank you for the positive feedback. I will continue to incorporate more interactive examples in my teaching.",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "alice@teammates.tmt",
       "responseId": "00000000-0000-4000-8000-000000000925"
     },
     "comment1ToResp1ForQ2InSession2InCourse1": {
-      "giver": "alice@teammates.tmt",
+      "giver": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000501"
+      },
+      "lastEditedBy": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000501"
+      },
       "commentText": "This rubric evaluation aligns well with my own observations. Carlos has been steadily improving his communication in team settings.",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "alice@teammates.tmt",
       "responseId": "00000000-0000-4000-8000-000000000919"
     },
     "comment1ToResp1ForQ1InSession2InCourse2": {
-      "giver": "elena@teammates.tmt",
+      "giver": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000503"
+      },
+      "lastEditedBy": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000503"
+      },
       "commentText": "Good evaluation. I notice Anya has been very consistent in following coding standards. Encourage her to also share her documentation practices with the team.",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "lastEditorEmail": "elena@teammates.tmt",
       "responseId": "00000000-0000-4000-8000-000000000949"
     }
   },

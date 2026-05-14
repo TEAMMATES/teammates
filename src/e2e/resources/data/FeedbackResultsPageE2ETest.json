@@ -1075,7 +1075,14 @@
   "feedbackResponseComments": {
     "qn2Comment1": {
       "id": "00000000-0000-4000-8000-000000000961",
-      "giver": "fres.instr@gmail.tmt",
+      "giver": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000501"
+      },
+      "lastEditedBy": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000501"
+      },
       "commentText": "Instructor first comment to Alice",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
@@ -1086,7 +1093,14 @@
     },
     "qn2Comment2": {
       "id": "00000000-0000-4000-8000-000000000962",
-      "giver": "fres.instr@gmail.tmt",
+      "giver": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000501"
+      },
+      "lastEditedBy": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000501"
+      },
       "commentText": "Instructor second comment to Alice",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
@@ -1097,7 +1111,14 @@
     },
     "qn3Comment1": {
       "id": "00000000-0000-4000-8000-000000000963",
-      "giver": "fres.benny.c@gmail.tmt",
+      "giver": {
+        "giverType": "STUDENT",
+        "giverId": "00000000-0000-4000-8000-000000000602"
+      },
+      "lastEditedBy": {
+        "giverType": "STUDENT",
+        "giverId": "00000000-0000-4000-8000-000000000602"
+      },
       "commentText": "Benny comment to Alice",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
@@ -1108,7 +1129,14 @@
     },
     "qn3Comment2": {
       "id": "00000000-0000-4000-8000-000000000964",
-      "giver": "fres.alice.b@gmail.tmt",
+      "giver": {
+        "giverType": "STUDENT",
+        "giverId": "00000000-0000-4000-8000-000000000601"
+      },
+      "lastEditedBy": {
+        "giverType": "STUDENT",
+        "giverId": "00000000-0000-4000-8000-000000000601"
+      },
       "commentText": "Alice comment to Benny",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
@@ -1119,7 +1147,14 @@
     },
     "qn4Comment1": {
       "id": "00000000-0000-4000-8000-000000000965",
-      "giver": "fres.danny.e@gmail.tmt",
+      "giver": {
+        "giverType": "STUDENT",
+        "giverId": "00000000-0000-4000-8000-000000000605"
+      },
+      "lastEditedBy": {
+        "giverType": "STUDENT",
+        "giverId": "00000000-0000-4000-8000-000000000605"
+      },
       "commentText": "Danny comment",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
