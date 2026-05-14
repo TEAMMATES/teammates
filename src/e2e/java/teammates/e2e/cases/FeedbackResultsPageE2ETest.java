@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.util.AppUrl;
@@ -225,7 +224,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         if (comment.getLastEditorEmail() != null) {
             editor = getIdentifier(currentStudent, comment.getLastEditorEmail());
         }
-        if (comment.getGiverType() != QuestionGiverType.STUDENTS) {
+        if (!comment.getIsCommentFromFeedbackParticipant()) {
             giver = getIdentifier(currentStudent, comment.getGiver());
         }
         resultsPage.verifyCommentDetails(questionNum, giver, editor, comment.getCommentText());

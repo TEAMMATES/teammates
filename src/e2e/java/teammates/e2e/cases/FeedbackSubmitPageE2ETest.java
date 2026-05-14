@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
@@ -251,8 +250,8 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
     private FeedbackResponseComment getFeedbackResponseComment(FeedbackResponse response, String comment) {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(student.getEmail(),
-                QuestionGiverType.STUDENTS, student.getSection(), student.getSection(), comment,
-                true, true, Collections.emptyList(), Collections.emptyList(), student.getEmail());
+                comment, true, true,
+                Collections.emptyList(), Collections.emptyList(), student.getEmail());
         response.addFeedbackResponseComment(feedbackResponseComment);
         return feedbackResponseComment;
     }

@@ -633,9 +633,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     private FeedbackResponseComment getTypicalCommentFromStudent() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalStudent.getEmail(),
-                QuestionGiverType.STUDENTS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 "typical comment",
                 true,
                 true,
@@ -652,9 +649,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     private FeedbackResponseComment getTypicalCommentFromInstructor() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalInstructor.getEmail(),
-                QuestionGiverType.INSTRUCTORS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 "typical comment",
                 false,
                 false,
@@ -671,9 +665,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     private FeedbackResponseComment getTypicalCommentFromInstructorAsParticipant() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalInstructor.getEmail(),
-                QuestionGiverType.INSTRUCTORS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 "typical comment",
                 true,
                 true,
@@ -697,9 +688,6 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         typicalFeedbackQuestion.addFeedbackResponse(typicalFeedbackResponse);
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 "first team",
-                QuestionGiverType.TEAMS,
-                sectionA,
-                sectionB,
                 "typical comment",
                 true,
                 true,

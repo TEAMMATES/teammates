@@ -134,19 +134,6 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     /**
-     * Updates all feedback response comments with new sections.
-     */
-    public void updateFeedbackResponseCommentsForResponse(FeedbackResponse response)
-            throws InvalidParametersException {
-        Set<FeedbackResponseComment> comments = response.getFeedbackResponseComments();
-        for (FeedbackResponseComment comment : comments) {
-            comment.setGiverSection(response.getGiverSection());
-            comment.setRecipientSection(response.getRecipientSection());
-            updateFeedbackResponseComment(comment);
-        }
-    }
-
-    /**
      * Gets all feedback response comments for the given feedback response IDs.
      */
     public List<FeedbackResponseComment> getFeedbackResponseCommentsForResponses(List<UUID> feedbackResponseIds) {

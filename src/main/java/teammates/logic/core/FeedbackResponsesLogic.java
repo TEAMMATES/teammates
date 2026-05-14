@@ -201,13 +201,11 @@ public final class FeedbackResponsesLogic {
     /**
      * Updates a feedback response.
      *
-     * <p>Cascade-updates the associated feedback response comments.
-     *
      * @return updated feedback response
      * @throws InvalidParametersException if attributes to update are not valid
-     * @throws EntityDoesNotExistException if the comment cannot be found
+     * @throws EntityDoesNotExistException if the response cannot be found
      */
-    public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse feedbackResponse)
+    public FeedbackResponse updateFeedbackResponse(FeedbackResponse feedbackResponse)
             throws InvalidParametersException, EntityDoesNotExistException {
 
         FeedbackResponse oldResponse = frDb.getFeedbackResponse(feedbackResponse.getId());
@@ -217,15 +215,6 @@ public final class FeedbackResponsesLogic {
 
         // TODO: do not pass detached entities around
         HibernateUtil.merge(feedbackResponse);
-
-        Set<FeedbackResponseComment> oldResponseComments = oldResponse.getFeedbackResponseComments();
-
-        for (FeedbackResponseComment oldResponseComment : oldResponseComments) {
-            oldResponseComment.setGiverSection(feedbackResponse.getGiverSection());
-            oldResponseComment.setRecipientSection(feedbackResponse.getRecipientSection());
-
-            frcLogic.updateFeedbackResponseComment(oldResponseComment);
-        }
 
         validateFeedbackResponse(feedbackResponse);
 
@@ -516,7 +505,6 @@ public final class FeedbackResponsesLogic {
             if (!response.isValid()) {
                 throw new InvalidParametersException(response.getInvalidityInfo());
             }
-            frcLogic.updateFeedbackResponseCommentsForResponse(response);
         }
 
         List<FeedbackResponse> responsesToUser =
@@ -527,7 +515,6 @@ public final class FeedbackResponsesLogic {
             if (!response.isValid()) {
                 throw new InvalidParametersException(response.getInvalidityInfo());
             }
-            frcLogic.updateFeedbackResponseCommentsForResponse(response);
         }
     }
 

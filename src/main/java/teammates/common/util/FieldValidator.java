@@ -885,22 +885,6 @@ public final class FieldValidator {
     }
 
     /**
-     * Checks if comment giver type is either instructor, student or team.
-     *
-     * @param commentGiverType comment giver type to be checked.
-     * @return Error string if type is invalid, otherwise empty string.
-     */
-    public static String getInvalidityInfoForCommentGiverType(QuestionGiverType commentGiverType) {
-        assert commentGiverType != null;
-        if (commentGiverType != QuestionGiverType.STUDENTS
-                && commentGiverType != QuestionGiverType.INSTRUCTORS
-                && commentGiverType != QuestionGiverType.TEAMS) {
-            return "Invalid comment giver type: " + commentGiverType;
-        }
-        return "";
-    }
-
-    /**
      * Checks if visibility of comment is following question when comment is from a feedback participant.
      *
      * @param isCommentFromFeedbackParticipant true if comment is from feedback participant.

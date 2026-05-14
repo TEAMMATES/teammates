@@ -126,7 +126,6 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
         String email;
         boolean isFromParticipant;
         boolean isFollowingQuestionVisibility;
-        QuestionGiverType commentGiverType;
 
         switch (intent) {
         case STUDENT_SUBMISSION:
@@ -136,8 +135,6 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
                     ? student.getTeamName() : student.getEmail();
             isFromParticipant = true;
             isFollowingQuestionVisibility = true;
-            commentGiverType = feedbackQuestion.getGiverType() == QuestionGiverType.TEAMS
-                    ? QuestionGiverType.TEAMS : QuestionGiverType.STUDENTS;
             break;
         case INSTRUCTOR_SUBMISSION:
             verifyCommentNotExist(feedbackResponseId);
@@ -145,23 +142,20 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             email = instructorAsFeedbackParticipant.getEmail();
             isFromParticipant = true;
             isFollowingQuestionVisibility = true;
-            commentGiverType = QuestionGiverType.INSTRUCTORS;
             break;
         case INSTRUCTOR_RESULT:
             Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
             email = instructor.getEmail();
             isFromParticipant = false;
             isFollowingQuestionVisibility = false;
-            commentGiverType = QuestionGiverType.INSTRUCTORS;
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(email,
-                commentGiverType, feedbackResponse.getGiverSection(), feedbackResponse.getRecipientSection(), commentText,
-                isFollowingQuestionVisibility, isFromParticipant, comment.getShowCommentTo(), comment.getShowGiverNameTo(),
-                email);
+                commentText, isFollowingQuestionVisibility, isFromParticipant,
+                comment.getShowCommentTo(), comment.getShowGiverNameTo(), email);
         feedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         try {
             FeedbackResponseComment createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
