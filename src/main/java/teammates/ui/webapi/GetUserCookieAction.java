@@ -1,10 +1,11 @@
 package teammates.ui.webapi;
 
+import java.util.UUID;
+
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
-import teammates.logic.core.AccountsLogic;
 import teammates.storage.entity.Account;
 import teammates.ui.exception.UnauthorizedAccessException;
 
@@ -12,8 +13,6 @@ import teammates.ui.exception.UnauthorizedAccessException;
  * Action specifically created for returning user cookie value.
  */
 public class GetUserCookieAction extends Action {
-
-    private final AccountsLogic accountsLogic = AccountsLogic.inst();
 
     @Override
     AuthType getMinAuthLevel() {
@@ -27,11 +26,14 @@ public class GetUserCookieAction extends Action {
 
     @Override
     public JsonResult execute() {
-        // TODO: Directly get existing account with accountId. Account should not be created here.
-        // Warning: createOrGetAccountForEmail may fail silently here for tests if the email is invalid.
+        // TODO: Fetch account by accountId and update relevant call sites such as the back door.
         String user = getNonNullRequestParamValue(Const.ParamsNames.USER_ID);
-        Account account = accountsLogic.createOrGetAccountForEmail(user);
-        UserInfoCookie uic = new UserInfoCookie(user, account.getId());
+        Account account = logic.getAccountForGoogleId(user);
+
+        assert account != null : "Account should not be null for a valid user id.";
+
+        UUID accountId = account.getId();
+        UserInfoCookie uic = new UserInfoCookie(user, accountId);
         return new JsonResult(StringHelper.encrypt(JsonUtils.toCompactJson(uic)));
     }
 
