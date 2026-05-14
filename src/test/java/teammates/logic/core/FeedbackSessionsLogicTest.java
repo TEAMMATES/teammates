@@ -40,18 +40,16 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
     private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
     private FeedbackSessionsDb fsDb;
-    private CoursesLogic coursesLogic;
     private FeedbackQuestionsLogic fqLogic;
     private UsersLogic usersLogic;
 
     @BeforeMethod
     public void setUpMethod() {
         fsDb = mock(FeedbackSessionsDb.class);
-        coursesLogic = mock(CoursesLogic.class);
         FeedbackResponsesLogic frLogic = mock(FeedbackResponsesLogic.class);
         fqLogic = mock(FeedbackQuestionsLogic.class);
         usersLogic = mock(UsersLogic.class);
-        fsLogic.initLogicDependencies(fsDb, coursesLogic, frLogic, fqLogic, usersLogic);
+        fsLogic.initLogicDependencies(fsDb, frLogic, fqLogic, usersLogic);
     }
 
     @Test
@@ -412,8 +410,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         List<Instructor> instructors = List.of(instructor);
 
-        when(coursesLogic.getCourse(instructor.getCourseId())).thenReturn(course);
-        when(fsDb.getFeedbackSessionEntitiesForCourse(course.getId())).thenReturn(List.of(session));
+        when(fsDb.getFeedbackSessionsForCourses(List.of(course.getId()))).thenReturn(List.of(session));
 
         List<FeedbackSession> result = fsLogic.getFeedbackSessionsForInstructors(instructors);
 
@@ -432,8 +429,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         session.setDeletedAt(Instant.now());
         List<Instructor> instructors = List.of(instructor);
 
-        when(coursesLogic.getCourse(instructor.getCourseId())).thenReturn(course);
-        when(fsDb.getSoftDeletedFeedbackSessionsForCourse(course.getId())).thenReturn(List.of(session));
+        when(fsDb.getSoftDeletedFeedbackSessionsForCourses(List.of(course.getId()))).thenReturn(List.of(session));
 
         List<FeedbackSession> result = fsLogic.getSoftDeletedFeedbackSessionsForInstructors(instructors);
 

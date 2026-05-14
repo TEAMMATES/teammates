@@ -92,6 +92,38 @@ public final class FeedbackSessionsDb {
     }
 
     /**
+     * Gets all non-soft-deleted feedback sessions for the given course IDs, excluding sessions in deleted courses.
+     */
+    public List<FeedbackSession> getFeedbackSessionsForCourses(List<String> courseIds) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackSession> cq = cb.createQuery(FeedbackSession.class);
+        Root<FeedbackSession> fsRoot = cq.from(FeedbackSession.class);
+        Join<FeedbackSession, Course> fsJoin = fsRoot.join("course");
+        cq.select(fsRoot).where(cb.and(
+                fsJoin.get("id").in(courseIds),
+                cb.isNull(fsJoin.get("deletedAt")),
+                cb.isNull(fsRoot.get("deletedAt"))
+        ));
+        return HibernateUtil.createQuery(cq).getResultList();
+    }
+
+    /**
+     * Gets soft-deleted feedback sessions for the given course IDs, excluding sessions in deleted courses.
+     */
+    public List<FeedbackSession> getSoftDeletedFeedbackSessionsForCourses(List<String> courseIds) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackSession> cq = cb.createQuery(FeedbackSession.class);
+        Root<FeedbackSession> fsRoot = cq.from(FeedbackSession.class);
+        Join<FeedbackSession, Course> fsJoin = fsRoot.join("course");
+        cq.select(fsRoot).where(cb.and(
+                fsJoin.get("id").in(courseIds),
+                cb.isNull(fsJoin.get("deletedAt")),
+                cb.isNotNull(fsRoot.get("deletedAt"))
+        ));
+        return HibernateUtil.createQuery(cq).getResultList();
+    }
+
+    /**
      * Gets all and only the feedback sessions ongoing within a range of time.
      */
     public List<FeedbackSession> getOngoingSessions(Instant rangeStart, Instant rangeEnd) {
