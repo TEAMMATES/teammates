@@ -6,7 +6,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
@@ -90,10 +91,10 @@ public class UpdateFeedbackQuestionActionIT extends BaseActionIT<UpdateFeedbackQ
                 typicalQuestion.getQuestionDetailsCopy()).getRecommendedLength().intValue());
 
         assertEquals(typicalQuestion.getGiverType(), typicalQuestion.getGiverType());
-        assertEquals(FeedbackParticipantType.STUDENTS, typicalQuestion.getGiverType());
+        assertEquals(QuestionGiverType.STUDENTS, typicalQuestion.getGiverType());
 
         assertEquals(typicalQuestion.getRecipientType(), typicalQuestion.getRecipientType());
-        assertEquals(FeedbackParticipantType.INSTRUCTORS, typicalQuestion.getRecipientType());
+        assertEquals(QuestionRecipientType.INSTRUCTORS, typicalQuestion.getRecipientType());
 
         assertEquals(NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
                 response.getNumberOfEntitiesToGiveFeedbackToSetting());
@@ -143,8 +144,8 @@ public class UpdateFeedbackQuestionActionIT extends BaseActionIT<UpdateFeedbackQ
         textQuestionDetails.setRecommendedLength(800);
         updateRequest.setQuestionDetails(textQuestionDetails);
         updateRequest.setQuestionType(FeedbackQuestionType.TEXT);
-        updateRequest.setGiverType(FeedbackParticipantType.STUDENTS);
-        updateRequest.setRecipientType(FeedbackParticipantType.INSTRUCTORS);
+        updateRequest.setGiverType(QuestionGiverType.STUDENTS);
+        updateRequest.setRecipientType(QuestionRecipientType.INSTRUCTORS);
         updateRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED);
 
         updateRequest.setShowResponsesTo(new ArrayList<>());

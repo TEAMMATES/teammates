@@ -12,7 +12,7 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -135,11 +135,11 @@ public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
 
         verify(frcDb, times(1)).getFeedbackResponseComment(TYPICAL_ID);
 
-        List<FeedbackParticipantType> expectedShowCommentTo = new ArrayList<>();
-        expectedShowCommentTo.add(FeedbackParticipantType.STUDENTS);
-        expectedShowCommentTo.add(FeedbackParticipantType.INSTRUCTORS);
-        List<FeedbackParticipantType> expectedShowGiverNameTo = new ArrayList<>();
-        expectedShowGiverNameTo.add(FeedbackParticipantType.INSTRUCTORS);
+        List<ViewerType> expectedShowCommentTo = new ArrayList<>();
+        expectedShowCommentTo.add(ViewerType.STUDENTS);
+        expectedShowCommentTo.add(ViewerType.INSTRUCTORS);
+        List<ViewerType> expectedShowGiverNameTo = new ArrayList<>();
+        expectedShowGiverNameTo.add(ViewerType.INSTRUCTORS);
 
         assertEquals(TYPICAL_ID, updatedComment.getId());
         assertEquals(updatedCommentText, updatedComment.getCommentText());

@@ -13,7 +13,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
@@ -602,10 +603,10 @@ public class FeedbackSubmitPage extends AppPage {
         if (feedbackQuestion.getShowResponsesTo().isEmpty()) {
             verifyVisibilityStringPresent(qnNumber, "No-one can see your responses");
         }
-        if (feedbackQuestion.getRecipientType() == FeedbackParticipantType.SELF) {
+        if (feedbackQuestion.getRecipientType() == QuestionRecipientType.SELF) {
             verifyVisibilityStringPresent(qnNumber, "You can see your own feedback in the results page later on.");
         }
-        for (FeedbackParticipantType viewerType : feedbackQuestion.getShowResponsesTo()) {
+        for (ViewerType viewerType : feedbackQuestion.getShowResponsesTo()) {
             verifyVisibilityStringPresent(qnNumber, getVisibilityString(feedbackQuestion, viewerType));
         }
     }
@@ -622,7 +623,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private String getVisibilityString(FeedbackQuestion feedbackQuestion,
-                                       FeedbackParticipantType viewerType) {
+                                       ViewerType viewerType) {
         if (!feedbackQuestion.getShowResponsesTo().contains(viewerType)) {
             return "";
         }
@@ -646,7 +647,7 @@ public class FeedbackSubmitPage extends AppPage {
         return message.toString();
     }
 
-    private String getViewerString(FeedbackParticipantType viewerType, FeedbackParticipantType recipientType) {
+    private String getViewerString(ViewerType viewerType, QuestionRecipientType recipientType) {
         switch (viewerType) {
         case RECEIVER:
             return "The receiving " + getRecipientString(recipientType);
@@ -661,17 +662,13 @@ public class FeedbackSubmitPage extends AppPage {
         }
     }
 
-    private String getRecipientString(FeedbackParticipantType recipientType) {
+    private String getRecipientString(QuestionRecipientType recipientType) {
         switch (recipientType) {
-        case TEAMS:
-        case TEAMS_EXCLUDING_SELF:
-        case TEAMS_IN_SAME_SECTION:
+        case TEAMS, TEAMS_EXCLUDING_SELF, TEAMS_IN_SAME_SECTION:
             return "teams";
         case OWN_TEAM_MEMBERS:
             return "student";
-        case STUDENTS:
-        case STUDENTS_EXCLUDING_SELF:
-        case STUDENTS_IN_SAME_SECTION:
+        case STUDENTS, STUDENTS_EXCLUDING_SELF, STUDENTS_IN_SAME_SECTION:
             return "students";
         case INSTRUCTORS:
             return "instructors";

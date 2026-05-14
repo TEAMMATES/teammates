@@ -3,12 +3,7 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
 import { StringHelper } from '../../../../services/string-helper';
-import {
-  CommentVisibilityType,
-  FeedbackParticipantType,
-  FeedbackVisibilityType,
-  ResponseOutput,
-} from '../../../../types/api-output';
+import { CommentVisibilityType, FeedbackVisibilityType, ResponseOutput } from '../../../../types/api-output';
 import { CommentVisibilityControl } from '../../../../types/comment-visibility-control';
 import { castAsInputElement } from '../../../../types/event-target-caster';
 import { RichTextEditorComponent } from '../../rich-text-editor/rich-text-editor.component';
@@ -54,7 +49,6 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
   readonly castAsInputElement = castAsInputElement;
 
   // enum
-  FeedbackParticipantType: typeof FeedbackParticipantType = FeedbackParticipantType;
   CommentVisibilityType: typeof CommentVisibilityType = CommentVisibilityType;
   CommentVisibilityControl: typeof CommentVisibilityControl = CommentVisibilityControl;
   CommentRowMode: typeof CommentRowMode = CommentRowMode;

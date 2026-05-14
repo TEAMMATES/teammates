@@ -1,26 +1,26 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { FeedbackParticipantType } from '../../../types/api-output';
+import { QuestionRecipientType } from '../../../types/api-output';
 
 /**
- * Transforms {@link FeedbackParticipantType} to a description for generated MCQ/MSQ choices.
+ * Transforms {@link QuestionRecipientType} to a description for generated MCQ/MSQ choices.
  */
 @Pipe({ name: 'generatedChoice' })
 export class GeneratedChoicePipe implements PipeTransform {
-  transform(type: FeedbackParticipantType): string {
+  transform(type: QuestionRecipientType): string {
     switch (type) {
-      case FeedbackParticipantType.STUDENTS:
+      case QuestionRecipientType.STUDENTS:
         return 'students';
-      case FeedbackParticipantType.STUDENTS_EXCLUDING_SELF:
+      case QuestionRecipientType.STUDENTS_EXCLUDING_SELF:
         return 'students (excluding self)';
-      case FeedbackParticipantType.TEAMS:
+      case QuestionRecipientType.TEAMS:
         return 'teams';
-      case FeedbackParticipantType.TEAMS_EXCLUDING_SELF:
+      case QuestionRecipientType.TEAMS_EXCLUDING_SELF:
         return 'teams (excluding own team)';
-      case FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF:
+      case QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF:
         return 'team members';
-      case FeedbackParticipantType.OWN_TEAM_MEMBERS:
+      case QuestionRecipientType.OWN_TEAM_MEMBERS:
         return 'team members (excluding self)';
-      case FeedbackParticipantType.INSTRUCTORS:
+      case QuestionRecipientType.INSTRUCTORS:
         return 'instructors';
       default:
         return 'unknown';

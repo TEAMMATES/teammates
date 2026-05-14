@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.storage.entity.FeedbackResponseComment;
 
 /**
@@ -44,9 +44,9 @@ public class FeedbackResponseCommentData extends ApiOutput {
      * Converts a list of feedback participant type to a list of comment visibility type.
      */
     private List<CommentVisibilityType> convertToFeedbackVisibilityType(
-            List<FeedbackParticipantType> feedbackParticipantTypeList) {
-        return feedbackParticipantTypeList.stream().map(feedbackParticipantType -> {
-            switch (feedbackParticipantType) {
+            List<ViewerType> viewerTypes) {
+        return viewerTypes.stream().map(viewerType -> {
+            switch (viewerType) {
             case INSTRUCTORS:
                 return CommentVisibilityType.INSTRUCTORS;
             case STUDENTS:
@@ -60,7 +60,7 @@ public class FeedbackResponseCommentData extends ApiOutput {
             case RECEIVER_TEAM_MEMBERS:
                 return CommentVisibilityType.RECIPIENT_TEAM_MEMBERS;
             default:
-                assert false : "Unknown feedbackParticipantType" + feedbackParticipantType;
+                assert false : "Unknown ViewerType " + viewerType;
                 break;
             }
             return null;

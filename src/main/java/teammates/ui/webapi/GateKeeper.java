@@ -1,7 +1,7 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.UserInfo;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
@@ -177,8 +177,8 @@ final class GateKeeper {
             throws UnauthorizedAccessException {
         verifyNotNull(feedbackQuestion, "feedback question");
 
-        if (feedbackQuestion.getGiverType() != FeedbackParticipantType.STUDENTS
-                && feedbackQuestion.getGiverType() != FeedbackParticipantType.TEAMS) {
+        if (feedbackQuestion.getGiverType() != QuestionGiverType.STUDENTS
+                && feedbackQuestion.getGiverType() != QuestionGiverType.TEAMS) {
             throw new UnauthorizedAccessException("Feedback question is not answerable for students", true);
         }
     }
@@ -190,8 +190,8 @@ final class GateKeeper {
             throws UnauthorizedAccessException {
         verifyNotNull(feedbackQuestion, "feedback question");
 
-        if (feedbackQuestion.getGiverType() != FeedbackParticipantType.INSTRUCTORS
-                && feedbackQuestion.getGiverType() != FeedbackParticipantType.SELF) {
+        if (feedbackQuestion.getGiverType() != QuestionGiverType.INSTRUCTORS
+                && feedbackQuestion.getGiverType() != QuestionGiverType.SELF) {
             throw new UnauthorizedAccessException("Feedback question is not answerable for instructors", true);
         }
     }

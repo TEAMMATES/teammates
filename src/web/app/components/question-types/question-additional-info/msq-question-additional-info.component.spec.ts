@@ -1,11 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MsqQuestionAdditionalInfoComponent } from './msq-question-additional-info.component';
-import {
-  FeedbackMsqQuestionDetails,
-  FeedbackParticipantType,
-  FeedbackQuestionType,
-} from '../../../../types/api-output';
+import { FeedbackMsqQuestionDetails, FeedbackQuestionType, QuestionRecipientType } from '../../../../types/api-output';
 import { NO_VALUE } from '../../../../types/feedback-response-details';
 
 describe('MsqQuestionAdditionalInfoComponent', () => {
@@ -21,7 +17,7 @@ describe('MsqQuestionAdditionalInfoComponent', () => {
   const msqDetails: FeedbackMsqQuestionDetails = {
     msqChoices: ['1', '2', '3'],
     otherEnabled: false,
-    generateOptionsFor: FeedbackParticipantType.NONE,
+    generateOptionsFor: QuestionRecipientType.NONE,
     maxSelectableChoices: NO_VALUE,
     minSelectableChoices: NO_VALUE,
     hasAssignedWeights: false,
@@ -34,7 +30,7 @@ describe('MsqQuestionAdditionalInfoComponent', () => {
   const msqDetailsWithGeneratedFor: FeedbackMsqQuestionDetails = {
     msqChoices: ['1', '2', '3'],
     otherEnabled: false,
-    generateOptionsFor: FeedbackParticipantType.STUDENTS,
+    generateOptionsFor: QuestionRecipientType.STUDENTS,
     maxSelectableChoices: NO_VALUE,
     minSelectableChoices: NO_VALUE,
     hasAssignedWeights: false,
@@ -47,7 +43,7 @@ describe('MsqQuestionAdditionalInfoComponent', () => {
   const msqDetailsWithOther: FeedbackMsqQuestionDetails = {
     msqChoices: ['1', '2', '3'],
     otherEnabled: true,
-    generateOptionsFor: FeedbackParticipantType.NONE,
+    generateOptionsFor: QuestionRecipientType.NONE,
     maxSelectableChoices: NO_VALUE,
     minSelectableChoices: NO_VALUE,
     hasAssignedWeights: false,

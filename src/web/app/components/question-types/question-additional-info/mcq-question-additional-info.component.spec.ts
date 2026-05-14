@@ -1,11 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { McqQuestionAdditionalInfoComponent } from './mcq-question-additional-info.component';
-import {
-  FeedbackMcqQuestionDetails,
-  FeedbackParticipantType,
-  FeedbackQuestionType,
-} from '../../../../types/api-output';
+import { FeedbackMcqQuestionDetails, FeedbackQuestionType, QuestionRecipientType } from '../../../../types/api-output';
 
 describe('McqQuestionAdditionalInfoComponent', () => {
   let component: McqQuestionAdditionalInfoComponent;
@@ -32,7 +28,7 @@ describe('McqQuestionAdditionalInfoComponent', () => {
     mcqChoices: ['1', '2', '3'],
     otherEnabled: false,
     questionDropdownEnabled: false,
-    generateOptionsFor: FeedbackParticipantType.NONE,
+    generateOptionsFor: QuestionRecipientType.NONE,
     questionType: FeedbackQuestionType.MCQ,
     questionText: 'MCQ question detail',
   };
@@ -44,7 +40,7 @@ describe('McqQuestionAdditionalInfoComponent', () => {
     mcqChoices: ['1', '2', '3'],
     otherEnabled: true,
     questionDropdownEnabled: false,
-    generateOptionsFor: FeedbackParticipantType.NONE,
+    generateOptionsFor: QuestionRecipientType.NONE,
     questionType: FeedbackQuestionType.MCQ,
     questionText: 'MCQ question detail',
   };
@@ -56,7 +52,7 @@ describe('McqQuestionAdditionalInfoComponent', () => {
     mcqChoices: ['1', '2', '3'],
     otherEnabled: false,
     questionDropdownEnabled: false,
-    generateOptionsFor: FeedbackParticipantType.STUDENTS,
+    generateOptionsFor: QuestionRecipientType.STUDENTS,
     questionType: FeedbackQuestionType.MCQ,
     questionText: 'MCQ with generate options question detail',
   };

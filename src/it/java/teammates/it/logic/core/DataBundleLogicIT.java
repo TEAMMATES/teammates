@@ -11,11 +11,13 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
@@ -189,9 +191,9 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         FeedbackQuestionDetails questionDetails1 =
                 new FeedbackTextQuestionDetails("What is the best selling point of your product?");
         FeedbackQuestion expectedQuestion1 = FeedbackQuestion.makeQuestion(1,
-                "This is a text question.", FeedbackParticipantType.STUDENTS, FeedbackParticipantType.SELF,
-                1, List.of(FeedbackParticipantType.INSTRUCTORS), List.of(FeedbackParticipantType.INSTRUCTORS),
-                List.of(FeedbackParticipantType.INSTRUCTORS), questionDetails1);
+                "This is a text question.", QuestionGiverType.STUDENTS, QuestionRecipientType.SELF,
+                1, List.of(ViewerType.INSTRUCTORS), List.of(ViewerType.INSTRUCTORS),
+                List.of(ViewerType.INSTRUCTORS), questionDetails1);
         expectedSession1.addFeedbackQuestion(expectedQuestion1);
         expectedQuestion1.setId(actualQuestion1.getId());
         verifyEquals(expectedQuestion1, actualQuestion1);
@@ -208,7 +210,6 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("verify feedback response comments deserialized correctly");
         FeedbackResponseComment actualComment1 = dataBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
         FeedbackResponseComment expectedComment1 = new FeedbackResponseComment("instr1@teammates.tmt",
-                FeedbackParticipantType.INSTRUCTORS, expectedSection, expectedSection,
                 "Instructor 1 comment to student 1 self feedback", false, false,
                 new ArrayList<>(), new ArrayList<>(), "instr1@teammates.tmt");
         expectedResponse1.addFeedbackResponseComment(expectedComment1);

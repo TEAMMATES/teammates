@@ -5,7 +5,8 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.questions.FeedbackTextQuestion;
 import teammates.test.BaseTestCase;
@@ -93,7 +94,7 @@ public class FeedbackTextQuestionDetailsTest extends BaseTestCase {
     public void testValidateGiverRecipientVisibility_shouldReturnEmptyString() {
         FeedbackQuestion feedbackQuestion = new FeedbackTextQuestion(
                 1, null,
-                FeedbackParticipantType.STUDENTS, FeedbackParticipantType.OWN_TEAM_MEMBERS,
+                QuestionGiverType.STUDENTS, QuestionRecipientType.OWN_TEAM_MEMBERS,
                 1, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
                 new FeedbackTextQuestionDetails());
         assertEquals("", feedbackTextQuestionDetails.validateGiverRecipientVisibility(feedbackQuestion));

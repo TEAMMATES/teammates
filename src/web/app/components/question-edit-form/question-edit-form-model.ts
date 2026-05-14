@@ -1,9 +1,10 @@
 import {
-  FeedbackParticipantType,
   FeedbackQuestionDetails,
   FeedbackQuestionType,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
+  QuestionGiverType,
+  QuestionRecipientType,
 } from '../../../types/api-output';
 
 /**
@@ -36,8 +37,8 @@ export interface QuestionEditFormModel {
   questionType: FeedbackQuestionType;
   questionDetails: FeedbackQuestionDetails;
 
-  giverType: FeedbackParticipantType;
-  recipientType: FeedbackParticipantType;
+  giverType: QuestionGiverType;
+  recipientType: QuestionRecipientType;
 
   numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting;
   customNumberOfEntitiesToGiveFeedbackTo: number;

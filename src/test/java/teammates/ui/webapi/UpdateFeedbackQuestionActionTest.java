@@ -11,8 +11,10 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
@@ -89,10 +91,10 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
                 updatedQuestion.getQuestionDetailsCopy()).getRecommendedLength().intValue());
 
         assertEquals(updatedQuestion.getGiverType(), response.getGiverType());
-        assertEquals(FeedbackParticipantType.STUDENTS, updatedQuestion.getGiverType());
+        assertEquals(QuestionGiverType.STUDENTS, updatedQuestion.getGiverType());
 
         assertEquals(updatedQuestion.getRecipientType(), response.getRecipientType());
-        assertEquals(FeedbackParticipantType.INSTRUCTORS, updatedQuestion.getRecipientType());
+        assertEquals(QuestionRecipientType.INSTRUCTORS, updatedQuestion.getRecipientType());
 
         assertEquals(NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM,
                 response.getNumberOfEntitiesToGiveFeedbackToSetting());
@@ -111,11 +113,11 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         when(mockLogic.getFeedbackQuestion(typicalFeedbackQuestion.getId())).thenReturn(typicalFeedbackQuestion);
 
         FeedbackQuestion updatedQuestion = getUpdatedFeedbackQuestion();
-        updatedQuestion.setGiverType(FeedbackParticipantType.INSTRUCTORS);
-        updatedQuestion.setRecipientType(FeedbackParticipantType.TEAMS);
-        updatedQuestion.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.RECEIVER));
-        updatedQuestion.setShowGiverNameTo(Arrays.asList(FeedbackParticipantType.RECEIVER));
-        updatedQuestion.setShowRecipientNameTo(Arrays.asList(FeedbackParticipantType.RECEIVER));
+        updatedQuestion.setGiverType(QuestionGiverType.INSTRUCTORS);
+        updatedQuestion.setRecipientType(QuestionRecipientType.TEAMS);
+        updatedQuestion.setShowResponsesTo(Arrays.asList(ViewerType.RECEIVER));
+        updatedQuestion.setShowGiverNameTo(Arrays.asList(ViewerType.RECEIVER));
+        updatedQuestion.setShowRecipientNameTo(Arrays.asList(ViewerType.RECEIVER));
 
         when(mockLogic.updateFeedbackQuestionCascade(any(UUID.class), any(FeedbackQuestionUpdateRequest.class)))
                 .thenReturn(updatedQuestion);
@@ -125,8 +127,8 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         };
 
         FeedbackQuestionUpdateRequest updateRequest = getTypicalTextQuestionUpdateRequest();
-        updateRequest.setGiverType(FeedbackParticipantType.INSTRUCTORS);
-        updateRequest.setRecipientType(FeedbackParticipantType.TEAMS);
+        updateRequest.setGiverType(QuestionGiverType.INSTRUCTORS);
+        updateRequest.setRecipientType(QuestionRecipientType.TEAMS);
         updateRequest.setShowResponsesTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
         updateRequest.setShowGiverNameTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
         updateRequest.setShowRecipientNameTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
@@ -136,19 +138,19 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         FeedbackQuestionData response = (FeedbackQuestionData) r.getOutput();
 
         assertEquals(updatedQuestion.getGiverType(), response.getGiverType());
-        assertEquals(FeedbackParticipantType.INSTRUCTORS, updatedQuestion.getGiverType());
+        assertEquals(QuestionGiverType.INSTRUCTORS, updatedQuestion.getGiverType());
 
         assertEquals(updatedQuestion.getRecipientType(), response.getRecipientType());
-        assertEquals(FeedbackParticipantType.TEAMS, updatedQuestion.getRecipientType());
+        assertEquals(QuestionRecipientType.TEAMS, updatedQuestion.getRecipientType());
 
         assertEquals(Arrays.asList(FeedbackVisibilityType.RECIPIENT), response.getShowResponsesTo());
-        assertEquals(Arrays.asList(FeedbackParticipantType.RECEIVER), updatedQuestion.getShowResponsesTo());
+        assertEquals(Arrays.asList(ViewerType.RECEIVER), updatedQuestion.getShowResponsesTo());
 
         assertEquals(Arrays.asList(FeedbackVisibilityType.RECIPIENT), response.getShowGiverNameTo());
-        assertEquals(Arrays.asList(FeedbackParticipantType.RECEIVER), updatedQuestion.getShowGiverNameTo());
+        assertEquals(Arrays.asList(ViewerType.RECEIVER), updatedQuestion.getShowGiverNameTo());
 
         assertEquals(Arrays.asList(FeedbackVisibilityType.RECIPIENT), response.getShowRecipientNameTo());
-        assertEquals(Arrays.asList(FeedbackParticipantType.RECEIVER), updatedQuestion.getShowRecipientNameTo());
+        assertEquals(Arrays.asList(ViewerType.RECEIVER), updatedQuestion.getShowRecipientNameTo());
     }
 
     @Test
@@ -168,8 +170,8 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
     void testExecute_invalidGiverRecipientType_throwsInvalidHttpRequestBodyException() throws Exception {
         FeedbackContributionQuestionDetails questionDetails = new FeedbackContributionQuestionDetails();
         FeedbackQuestion contributionQuestion = FeedbackQuestion.makeQuestion(2,
-                "contribution question", FeedbackParticipantType.STUDENTS,
-                FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, 4,
+                "contribution question", QuestionGiverType.STUDENTS,
+                QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF, 4,
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), questionDetails);
         typicalFeedbackSession.addFeedbackQuestion(contributionQuestion);
 
@@ -177,8 +179,8 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
 
         FeedbackQuestionUpdateRequest updateRequest = getTypicalTextQuestionUpdateRequest();
         updateRequest.setQuestionType(FeedbackQuestionType.CONTRIB);
-        updateRequest.setGiverType(FeedbackParticipantType.INSTRUCTORS);
-        updateRequest.setRecipientType(FeedbackParticipantType.INSTRUCTORS);
+        updateRequest.setGiverType(QuestionGiverType.INSTRUCTORS);
+        updateRequest.setRecipientType(QuestionRecipientType.INSTRUCTORS);
 
         when(mockLogic.updateFeedbackQuestionCascade(any(UUID.class), any(FeedbackQuestionUpdateRequest.class)))
                 .thenThrow(InvalidParametersException.class);
@@ -252,8 +254,8 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         textQuestionDetails.setRecommendedLength(800);
         updateRequest.setQuestionDetails(textQuestionDetails);
         updateRequest.setQuestionType(FeedbackQuestionType.TEXT);
-        updateRequest.setGiverType(FeedbackParticipantType.STUDENTS);
-        updateRequest.setRecipientType(FeedbackParticipantType.INSTRUCTORS);
+        updateRequest.setGiverType(QuestionGiverType.STUDENTS);
+        updateRequest.setRecipientType(QuestionRecipientType.INSTRUCTORS);
         updateRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM);
         updateRequest.setCustomNumberOfEntitiesToGiveFeedbackTo(2);
 
@@ -270,8 +272,8 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         textQuestionDetails.setRecommendedLength(800);
 
         FeedbackQuestion updatedQuestion = FeedbackQuestion.makeQuestion(2,
-                "this is the description", FeedbackParticipantType.STUDENTS,
-                FeedbackParticipantType.INSTRUCTORS, 2, new ArrayList<>(), new ArrayList<>(),
+                "this is the description", QuestionGiverType.STUDENTS,
+                QuestionRecipientType.INSTRUCTORS, 2, new ArrayList<>(), new ArrayList<>(),
                 new ArrayList<>(),
                 textQuestionDetails);
         typicalFeedbackSession.addFeedbackQuestion(updatedQuestion);

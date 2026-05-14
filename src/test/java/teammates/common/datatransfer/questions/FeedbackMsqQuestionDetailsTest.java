@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.util.Const;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCase;
@@ -116,7 +116,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         msqDetails.setMsqChoices(Arrays.asList("a", "b"));
         // 'other' is NOT one of the choices
         msqDetails.setOtherEnabled(false);
-        msqDetails.setGenerateOptionsFor(FeedbackParticipantType.NONE);
+        msqDetails.setGenerateOptionsFor(QuestionRecipientType.NONE);
         msqDetails.setHasAssignedWeights(false);
         msqDetails.setMsqOtherWeight(0);
         msqDetails.setMsqWeights(new ArrayList<>());
@@ -135,7 +135,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         msqDetails.setMsqChoices(Arrays.asList("a", "b"));
         // 'other' is one of the choices
         msqDetails.setOtherEnabled(true);
-        msqDetails.setGenerateOptionsFor(FeedbackParticipantType.NONE);
+        msqDetails.setGenerateOptionsFor(QuestionRecipientType.NONE);
         msqDetails.setHasAssignedWeights(false);
         msqDetails.setMsqOtherWeight(0);
         msqDetails.setMsqWeights(new ArrayList<>());
@@ -429,10 +429,10 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testShouldChangesRequireResponseDeletion_differentGenerateOptionsFor_shouldReturnTrue() {
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
-        msqDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS);
+        msqDetails.setGenerateOptionsFor(QuestionRecipientType.STUDENTS);
 
         FeedbackMsqQuestionDetails newMsqDetails = new FeedbackMsqQuestionDetails();
-        newMsqDetails.setGenerateOptionsFor(FeedbackParticipantType.INSTRUCTORS);
+        newMsqDetails.setGenerateOptionsFor(QuestionRecipientType.INSTRUCTORS);
 
         assertTrue(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));
     }
@@ -496,12 +496,12 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
     public void testShouldChangesRequireResponseDeletion_sameQuestionsDifferentOrder_shouldReturnFalse() {
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
         msqDetails.setMsqChoices(List.of("choice1", "choice2", "choice3"));
-        msqDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS);
+        msqDetails.setGenerateOptionsFor(QuestionRecipientType.STUDENTS);
         msqDetails.setOtherEnabled(false);
 
         FeedbackMsqQuestionDetails newMsqDetails = new FeedbackMsqQuestionDetails();
         newMsqDetails.setMsqChoices(List.of("choice2", "choice3", "choice1"));
-        newMsqDetails.setGenerateOptionsFor(FeedbackParticipantType.STUDENTS);
+        newMsqDetails.setGenerateOptionsFor(QuestionRecipientType.STUDENTS);
         newMsqDetails.setOtherEnabled(false);
 
         assertFalse(msqDetails.shouldChangesRequireResponseDeletion(newMsqDetails));

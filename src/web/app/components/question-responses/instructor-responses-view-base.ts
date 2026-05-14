@@ -1,9 +1,10 @@
 import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import {
-  FeedbackParticipantType,
   FeedbackQuestion,
   FeedbackQuestionType,
   NumberOfEntitiesToGiveFeedbackToSetting,
+  QuestionGiverType,
+  QuestionRecipientType,
 } from '../../../types/api-output';
 import { CommentTableModel } from '../comment-box/comment-table/comment-table.model';
 
@@ -22,8 +23,8 @@ export abstract class InstructorResponsesViewBase {
       questionText: '',
     },
     questionType: FeedbackQuestionType.TEXT,
-    giverType: FeedbackParticipantType.STUDENTS,
-    recipientType: FeedbackParticipantType.STUDENTS,
+    giverType: QuestionGiverType.STUDENTS,
+    recipientType: QuestionRecipientType.STUDENTS,
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 0,
     showResponsesTo: [],

@@ -1,0 +1,53 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="samuelfangjw" id="20260514-frc-remove-section-givertype-fields-1">
+        <dropForeignKeyConstraint baseTableName="feedback_response_comments"
+            constraintName="FKkajx0y4ejp1pavxw5s958xkni" />
+        <rollback>
+            <addForeignKeyConstraint baseColumnNames="recipient_section_id"
+                baseTableName="feedback_response_comments"
+                constraintName="FKkajx0y4ejp1pavxw5s958xkni" deferrable="false"
+                initiallyDeferred="false" referencedColumnNames="id" referencedTableName="sections"
+                validate="true" />
+        </rollback>
+    </changeSet>
+    <changeSet author="samuelfangjw" id="20260514-frc-remove-section-givertype-fields-2">
+        <dropForeignKeyConstraint baseTableName="feedback_response_comments"
+            constraintName="FKp30dvd56oatecs7ra5p1k7ife" />
+        <rollback>
+            <addForeignKeyConstraint baseColumnNames="giver_section_id"
+                baseTableName="feedback_response_comments"
+                constraintName="FKp30dvd56oatecs7ra5p1k7ife" deferrable="false"
+                initiallyDeferred="false" referencedColumnNames="id" referencedTableName="sections"
+                validate="true" />
+        </rollback>
+    </changeSet>
+    <changeSet author="samuelfangjw" id="20260514-frc-remove-section-givertype-fields-3">
+        <dropColumn tableName="feedback_response_comments" columnName="giver_type" />
+        <dropColumn tableName="feedback_response_comments" columnName="giver_section_id" />
+        <dropColumn tableName="feedback_response_comments" columnName="recipient_section_id" />
+        <rollback>
+            <!-- Feedback response comments data will be lost on rollback -->
+            <!-- Not feasible to restore the original data accurately -->
+            <delete tableName="feedback_response_comments" />
+            <addColumn
+                tableName="feedback_response_comments">
+                <column name="giver_type" type="VARCHAR(255)">
+                    <constraints nullable="false" />
+                </column>
+            </addColumn>
+            <addColumn
+                tableName="feedback_response_comments">
+                <column name="giver_section_id" type="UUID" />
+            </addColumn>
+            <addColumn
+                tableName="feedback_response_comments">
+                <column name="recipient_section_id" type="UUID" />
+            </addColumn>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

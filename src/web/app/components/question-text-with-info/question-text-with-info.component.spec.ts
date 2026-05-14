@@ -5,9 +5,9 @@ import { provideRouter } from '@angular/router';
 import { QuestionTextWithInfoComponent } from './question-text-with-info.component';
 import {
   FeedbackMcqQuestionDetails,
-  FeedbackParticipantType,
   FeedbackQuestionType,
   FeedbackTextQuestionDetails,
+  QuestionRecipientType,
 } from '../../../types/api-output';
 
 describe('QuestionTextWithInfoComponent', () => {
@@ -42,7 +42,7 @@ describe('QuestionTextWithInfoComponent', () => {
     mcqChoices: ['a', 'b'],
     otherEnabled: false,
     questionDropdownEnabled: false,
-    generateOptionsFor: FeedbackParticipantType.NONE,
+    generateOptionsFor: QuestionRecipientType.NONE,
   };
 
   it('should create', () => {

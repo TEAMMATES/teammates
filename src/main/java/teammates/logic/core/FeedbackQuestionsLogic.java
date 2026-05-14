@@ -14,8 +14,9 @@ import java.util.stream.Collectors;
 import jakarta.annotation.Nullable;
 
 import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
@@ -126,13 +127,13 @@ public final class FeedbackQuestionsLogic {
      * Checks if there are any questions for the given session that instructors can view/submit.
      */
     public boolean hasFeedbackQuestionsForInstructors(Set<FeedbackQuestion> fqs, boolean isCreator) {
-        boolean hasQuestions = hasFeedbackQuestionsForGiverType(fqs, FeedbackParticipantType.INSTRUCTORS);
+        boolean hasQuestions = hasFeedbackQuestionsForGiverType(fqs, QuestionGiverType.INSTRUCTORS);
         if (hasQuestions) {
             return true;
         }
 
         if (isCreator) {
-            hasQuestions = hasFeedbackQuestionsForGiverType(fqs, FeedbackParticipantType.SELF);
+            hasQuestions = hasFeedbackQuestionsForGiverType(fqs, QuestionGiverType.SELF);
         }
 
         return hasQuestions;
@@ -147,12 +148,12 @@ public final class FeedbackQuestionsLogic {
 
         questions.addAll(
                 fqDb.getFeedbackQuestionsForGiverType(
-                    feedbackSession, FeedbackParticipantType.INSTRUCTORS));
+                    feedbackSession, QuestionGiverType.INSTRUCTORS));
 
         if (SanitizationHelper.areEmailsEqual(feedbackSession.getCreatorEmail(), userEmail)) {
             questions.addAll(
                     fqDb.getFeedbackQuestionsForGiverType(
-                        feedbackSession, FeedbackParticipantType.SELF));
+                        feedbackSession, QuestionGiverType.SELF));
         }
 
         return questions;
@@ -164,8 +165,8 @@ public final class FeedbackQuestionsLogic {
     public List<FeedbackQuestion> getFeedbackQuestionsForStudents(FeedbackSession feedbackSession) {
         List<FeedbackQuestion> questions = new ArrayList<>();
 
-        questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSession, FeedbackParticipantType.STUDENTS));
-        questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSession, FeedbackParticipantType.TEAMS));
+        questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSession, QuestionGiverType.STUDENTS));
+        questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSession, QuestionGiverType.TEAMS));
         questions.sort(null);
         return questions;
     }
@@ -241,15 +242,15 @@ public final class FeedbackQuestionsLogic {
      * Checks if there are any questions for the given session that students can view/submit.
      */
     public boolean hasFeedbackQuestionsForStudents(Set<FeedbackQuestion> fqs) {
-        return hasFeedbackQuestionsForGiverType(fqs, FeedbackParticipantType.STUDENTS)
-                || hasFeedbackQuestionsForGiverType(fqs, FeedbackParticipantType.TEAMS);
+        return hasFeedbackQuestionsForGiverType(fqs, QuestionGiverType.STUDENTS)
+                || hasFeedbackQuestionsForGiverType(fqs, QuestionGiverType.TEAMS);
     }
 
     /**
      * Checks if there is any feedback questions in a session in a course for the given giver type.
      */
     public boolean hasFeedbackQuestionsForGiverType(
-            Set<FeedbackQuestion> feedbackQuestions, FeedbackParticipantType giverType) {
+            Set<FeedbackQuestion> feedbackQuestions, QuestionGiverType giverType) {
         assert feedbackQuestions != null;
         assert giverType != null;
 
@@ -345,7 +346,7 @@ public final class FeedbackQuestionsLogic {
      * @return a list of generated options, or null if the generateOptionsFor type is NONE or invalid
      */
     private List<String> generateMcqMsqOptions(
-            FeedbackParticipantType generateOptionsFor,
+            QuestionRecipientType generateOptionsFor,
             Student student,
             String courseId
     ) {
@@ -467,12 +468,12 @@ public final class FeedbackQuestionsLogic {
             giverSection = Const.DEFAULT_SECTION;
         }
 
-        FeedbackParticipantType recipientType = question.getRecipientType();
-        FeedbackParticipantType generateOptionsFor = recipientType;
+        QuestionRecipientType recipientType = question.getRecipientType();
+        QuestionRecipientType generateOptionsFor = recipientType;
 
         switch (recipientType) {
         case SELF:
-            if (question.getGiverType() == FeedbackParticipantType.TEAMS) {
+            if (question.getGiverType() == QuestionGiverType.TEAMS) {
                 recipients.put(giverTeam,
                        new FeedbackQuestionRecipient(giverTeam, giverTeam));
             } else {
@@ -485,13 +486,13 @@ public final class FeedbackQuestionsLogic {
         case STUDENTS_IN_SAME_SECTION:
             List<Student> studentList;
             if (courseRoster == null) {
-                if (generateOptionsFor == FeedbackParticipantType.STUDENTS_IN_SAME_SECTION) {
+                if (generateOptionsFor == QuestionRecipientType.STUDENTS_IN_SAME_SECTION) {
                     studentList = usersLogic.getStudentsForSection(giverSection, courseId);
                 } else {
                     studentList = usersLogic.getStudentsForCourse(courseId);
                 }
             } else {
-                if (generateOptionsFor == FeedbackParticipantType.STUDENTS_IN_SAME_SECTION) {
+                if (generateOptionsFor == QuestionRecipientType.STUDENTS_IN_SAME_SECTION) {
                     final String finalGiverSection = giverSection;
                     studentList = courseRoster.getStudents().stream()
                             .filter(studentAttributes -> studentAttributes.getSectionName()
@@ -509,7 +510,7 @@ public final class FeedbackQuestionsLogic {
                 }
                 // Ensure student does not evaluate him/herself if it's STUDENTS_EXCLUDING_SELF or
                 // STUDENTS_IN_SAME_SECTION
-                if (giverEmail.equals(student.getEmail()) && generateOptionsFor != FeedbackParticipantType.STUDENTS) {
+                if (giverEmail.equals(student.getEmail()) && generateOptionsFor != QuestionRecipientType.STUDENTS) {
                     continue;
                 }
                 recipients.put(student.getEmail(), new FeedbackQuestionRecipient(student.getName(), student.getEmail(),
@@ -541,14 +542,14 @@ public final class FeedbackQuestionsLogic {
             Map<String, List<Student>> teamToTeamMembersTable;
             List<Student> teamStudents;
             if (courseRoster == null) {
-                if (generateOptionsFor == FeedbackParticipantType.TEAMS_IN_SAME_SECTION) {
+                if (generateOptionsFor == QuestionRecipientType.TEAMS_IN_SAME_SECTION) {
                     teamStudents = usersLogic.getStudentsForSection(giverSection, courseId);
                 } else {
                     teamStudents = usersLogic.getStudentsForCourse(courseId);
                 }
                 teamToTeamMembersTable = CourseRoster.buildTeamToMembersTable(teamStudents);
             } else {
-                if (generateOptionsFor == FeedbackParticipantType.TEAMS_IN_SAME_SECTION) {
+                if (generateOptionsFor == QuestionRecipientType.TEAMS_IN_SAME_SECTION) {
                     final String finalGiverSection = giverSection;
                     teamStudents = courseRoster.getStudents().stream()
                             .filter(student -> student.getSectionName().equals(finalGiverSection))
@@ -568,7 +569,7 @@ public final class FeedbackQuestionsLogic {
                 }
                 // Ensure student('s team) does not evaluate own team if it's TEAMS_EXCLUDING_SELF or
                 // TEAMS_IN_SAME_SECTION
-                if (giverTeam.equals(team.getKey()) && generateOptionsFor != FeedbackParticipantType.TEAMS) {
+                if (giverTeam.equals(team.getKey()) && generateOptionsFor != QuestionRecipientType.TEAMS) {
                     continue;
                 }
                 // recipientEmail doubles as team name in this case.
@@ -619,7 +620,7 @@ public final class FeedbackQuestionsLogic {
      * Returns true if a session has question in a specific giverType.
      */
     public boolean sessionHasQuestionsForGiverType(
-            String feedbackSessionName, String courseId, FeedbackParticipantType giverType) {
+            String feedbackSessionName, String courseId, QuestionGiverType giverType) {
         return fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, giverType);
     }
 
@@ -627,8 +628,8 @@ public final class FeedbackQuestionsLogic {
      * Returns true if a session has question in either STUDENTS type or TEAMS type.
      */
     public boolean sessionHasQuestionsForStudent(String feedbackSessionName, String courseId) {
-        return fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.STUDENTS)
-                || fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.TEAMS);
+        return fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, QuestionGiverType.STUDENTS)
+                || fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, QuestionGiverType.TEAMS);
     }
 
     /**
@@ -751,7 +752,7 @@ public final class FeedbackQuestionsLogic {
      */
     private List<String> getPossibleGivers(
             FeedbackQuestion fq, CourseRoster courseRoster) {
-        FeedbackParticipantType giverType = fq.getGiverType();
+        QuestionGiverType giverType = fq.getGiverType();
         List<String> possibleGivers = new ArrayList<>();
 
         switch (giverType) {

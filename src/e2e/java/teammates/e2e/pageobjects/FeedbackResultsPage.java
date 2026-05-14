@@ -16,7 +16,8 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
@@ -209,10 +210,10 @@ public class FeedbackResultsPage extends AppPage {
         for (String recipient : recipients) {
             List<FeedbackResponse> expectedResponses = otherResponses.stream()
                     .filter(r -> r.getRecipient().equals(recipient)
-                            && (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                                    || question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)
-                                    || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                                    || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)))
+                            && (question.isResponseVisibleTo(ViewerType.RECEIVER)
+                                    || question.isResponseVisibleTo(ViewerType.STUDENTS)
+                                    || question.isResponseVisibleTo(ViewerType.OWN_TEAM_MEMBERS)
+                                    || question.isResponseVisibleTo(ViewerType.RECEIVER_TEAM_MEMBERS)))
                     .collect(Collectors.toList());
 
             verifyResponseForRecipient(question, recipient, expectedResponses, visibleGivers, visibleRecipients);
@@ -233,7 +234,7 @@ public class FeedbackResultsPage extends AppPage {
             boolean isGiverVisible = visibleGivers.contains(response.getGiver())
                     || visibleGivers.contains("RECEIVER") && CURRENT_STUDENT_IDENTIFIER.equals(response.getRecipient())
                     || CURRENT_STUDENT_IDENTIFIER.equals(response.getGiver());
-            boolean isGiverVisibleToInstructor = question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
+            boolean isGiverVisibleToInstructor = question.getRecipientType() == QuestionRecipientType.INSTRUCTORS
                     && visibleGivers.contains("INSTRUCTORS");
             if (isRecipientVisible) {
                 int recipientIndex = getRecipientIndex(question.getQuestionNumber(), recipient);
@@ -380,20 +381,32 @@ public class FeedbackResultsPage extends AppPage {
                 questionDetails.getMsqChoices(), questionDetails.isOtherEnabled());
     }
 
-    private String appendMultiChoiceInfo(String info, FeedbackParticipantType generateOptionsFor, List<String> choices,
+    private String appendMultiChoiceInfo(String info, QuestionRecipientType generateOptionsFor, List<String> choices,
             boolean isOtherEnabled) {
         StringBuilder additionalInfo = new StringBuilder(info);
-        if (generateOptionsFor == FeedbackParticipantType.NONE) {
+        if (generateOptionsFor == QuestionRecipientType.NONE) {
             additionalInfo = appendOptions(additionalInfo, choices);
             if (isOtherEnabled) {
                 additionalInfo.append(TestProperties.LINE_SEPARATOR).append("Other");
             }
         } else {
-            additionalInfo.append("The options for this question is automatically generated from the list of all ")
-                    .append(getDisplayGiverName(generateOptionsFor).toLowerCase())
-                    .append('.');
+            String displayRecipientName = switch (generateOptionsFor) {
+            case STUDENTS:
+                yield "Students in this course";
+            case INSTRUCTORS:
+                yield "Instructors in this course";
+            case TEAMS:
+                yield "Teams in this course";
+            default:
+                assert false : "Unexpected recipient type for option generation: " + generateOptionsFor;
+                yield "";
+            };
 
+            additionalInfo.append("The options for this question is automatically generated from the list of all ")
+                    .append(displayRecipientName.toLowerCase())
+                    .append('.');
         }
+
         return additionalInfo.toString();
     }
 

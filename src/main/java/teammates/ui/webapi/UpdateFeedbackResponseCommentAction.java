@@ -2,7 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
@@ -63,7 +63,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
             checkAccessControlForStudentFeedbackSubmission(student, session);
             gateKeeper.verifyOwnership(feedbackResponseComment,
-                    question.getGiverType() == FeedbackParticipantType.TEAMS
+                    question.getGiverType() == QuestionGiverType.TEAMS
                             ? student.getTeamName() : student.getEmail());
             break;
         case INSTRUCTOR_SUBMISSION:

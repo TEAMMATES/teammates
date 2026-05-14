@@ -469,44 +469,35 @@
     "qn2Comment1": {
       "id": "00000000-0000-4000-8000-000000000971",
       "giver": "ifrep.instr1@gmail.tmt",
-      "giverType": "INSTRUCTORS",
       "commentText": "Instructor first comment to Alice",
       "lastEditorEmail": "ifrep.instr1@gmail.tmt",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": ["STUDENTS"],
       "showGiverNameTo": ["STUDENTS"],
-      "responseId": "00000000-0000-4000-8000-000000000903",
-      "giverSectionId": "00000000-0000-4000-8000-000000000103",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000101"
+      "responseId": "00000000-0000-4000-8000-000000000903"
     },
     "qn2Comment2": {
       "id": "00000000-0000-4000-8000-000000000972",
       "giver": "ifrep.instr1@gmail.tmt",
-      "giverType": "INSTRUCTORS",
       "commentText": "Instructor second comment to Alice",
       "lastEditorEmail": "ifrep.instr1@gmail.tmt",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": ["STUDENTS"],
       "showGiverNameTo": ["STUDENTS"],
-      "responseId": "00000000-0000-4000-8000-000000000903",
-      "giverSectionId": "00000000-0000-4000-8000-000000000103",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000101"
+      "responseId": "00000000-0000-4000-8000-000000000903"
     },
     "qn3Comment1": {
       "id": "00000000-0000-4000-8000-000000000973",
       "giver": "ifrep.charlie.d@gmail.tmt",
-      "giverType": "STUDENTS",
       "commentText": "Charlie comment to alice",
       "lastEditorEmail": "ifrep.charlie.d@gmail.tmt",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
       "showCommentTo": [],
       "showGiverNameTo": [],
-      "responseId": "00000000-0000-4000-8000-000000000907",
-      "giverSectionId": "00000000-0000-4000-8000-000000000102",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000101"
+      "responseId": "00000000-0000-4000-8000-000000000907"
     }
   },
   "deadlineExtensions": {},

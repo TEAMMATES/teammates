@@ -2,7 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -126,18 +126,15 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
         String email;
         boolean isFromParticipant;
         boolean isFollowingQuestionVisibility;
-        FeedbackParticipantType commentGiverType;
 
         switch (intent) {
         case STUDENT_SUBMISSION:
             verifyCommentNotExist(feedbackResponseId);
             Student student = getStudentOfCourseFromRequest(courseId);
-            email = feedbackQuestion.getGiverType() == FeedbackParticipantType.TEAMS
+            email = feedbackQuestion.getGiverType() == QuestionGiverType.TEAMS
                     ? student.getTeamName() : student.getEmail();
             isFromParticipant = true;
             isFollowingQuestionVisibility = true;
-            commentGiverType = feedbackQuestion.getGiverType() == FeedbackParticipantType.TEAMS
-                    ? FeedbackParticipantType.TEAMS : FeedbackParticipantType.STUDENTS;
             break;
         case INSTRUCTOR_SUBMISSION:
             verifyCommentNotExist(feedbackResponseId);
@@ -145,23 +142,20 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             email = instructorAsFeedbackParticipant.getEmail();
             isFromParticipant = true;
             isFollowingQuestionVisibility = true;
-            commentGiverType = FeedbackParticipantType.INSTRUCTORS;
             break;
         case INSTRUCTOR_RESULT:
             Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
             email = instructor.getEmail();
             isFromParticipant = false;
             isFollowingQuestionVisibility = false;
-            commentGiverType = FeedbackParticipantType.INSTRUCTORS;
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(email,
-                commentGiverType, feedbackResponse.getGiverSection(), feedbackResponse.getRecipientSection(), commentText,
-                isFollowingQuestionVisibility, isFromParticipant, comment.getShowCommentTo(), comment.getShowGiverNameTo(),
-                email);
+                commentText, isFollowingQuestionVisibility, isFromParticipant,
+                comment.getShowCommentTo(), comment.getShowGiverNameTo(), email);
         feedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         try {
             FeedbackResponseComment createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);

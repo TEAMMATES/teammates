@@ -1,10 +1,11 @@
 import { NgClass } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import {
-  FeedbackParticipantType,
   FeedbackQuestion,
   FeedbackQuestionType,
   NumberOfEntitiesToGiveFeedbackToSetting,
+  QuestionGiverType,
+  QuestionRecipientType,
   ResponseOutput,
 } from '../../../../types/api-output';
 import { CommentRowComponent } from '../../comment-box/comment-row/comment-row.component';
@@ -43,8 +44,8 @@ export class StudentViewResponsesComponent implements OnInit {
       questionText: '',
     },
     questionType: FeedbackQuestionType.MCQ,
-    giverType: FeedbackParticipantType.STUDENTS,
-    recipientType: FeedbackParticipantType.STUDENTS,
+    giverType: QuestionGiverType.STUDENTS,
+    recipientType: QuestionRecipientType.STUDENTS,
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 0,
     showResponsesTo: [],

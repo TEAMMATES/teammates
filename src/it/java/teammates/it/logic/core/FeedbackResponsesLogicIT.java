@@ -1,6 +1,5 @@
 package teammates.it.logic.core;
 
-import java.util.Set;
 import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
@@ -12,7 +11,6 @@ import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.Section;
 
 /**
@@ -53,36 +51,22 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("success: feedbackresponse and feedbackresponsecomment has been updated");
         FeedbackResponse fr = typicalDataBundle.feedbackResponses.get("response1ForQ1");
         fr = frLogic.getFeedbackResponse(fr.getId());
-        Set<FeedbackResponseComment> oldComments = fr.getFeedbackResponseComments();
 
         Section newGiverSection = typicalDataBundle.sections.get("section1InCourse2");
         Section newRecipientSection = typicalDataBundle.sections.get("section2InCourse1");
         String newGiver = "new test giver";
 
-        for (FeedbackResponseComment frc : oldComments) {
-            assertNotEquals(frc.getGiverSection(), newGiverSection);
-            assertNotEquals(frc.getRecipientSection(), newRecipientSection);
-        }
         assertNotEquals(fr.getGiver(), newGiver);
         assertNotEquals(fr.getGiverSection(), newGiverSection);
         assertNotEquals(fr.getRecipientSection(), newRecipientSection);
 
-        for (FeedbackResponseComment frc : oldComments) {
-            frc.setGiverSection(newGiverSection);
-            frc.setRecipientSection(newRecipientSection);
-        }
         fr.setGiver(newGiver);
         fr.setGiverSection(newGiverSection);
         fr.setRecipientSection(newRecipientSection);
 
-        fr = frLogic.updateFeedbackResponseCascade(fr);
+        fr = frLogic.updateFeedbackResponse(fr);
 
         fr = frLogic.getFeedbackResponse(fr.getId());
-        Set<FeedbackResponseComment> updatedComments = fr.getFeedbackResponseComments();
-        for (FeedbackResponseComment frc : updatedComments) {
-            assertEquals(frc.getGiverSection(), newGiverSection);
-            assertEquals(frc.getRecipientSection(), newRecipientSection);
-        }
         assertEquals(fr.getGiver(), newGiver);
         assertEquals(fr.getGiverSection(), newGiverSection);
         assertEquals(fr.getRecipientSection(), newRecipientSection);

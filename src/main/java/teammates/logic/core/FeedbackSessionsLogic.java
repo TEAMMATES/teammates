@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
@@ -436,7 +436,7 @@ public final class FeedbackSessionsLogic {
             // if there are no questions for student, session is attempted
             return true;
         } else if (fqLogic.hasFeedbackQuestionsForGiverType(
-                session.getFeedbackQuestions(), FeedbackParticipantType.STUDENTS)) {
+                session.getFeedbackQuestions(), QuestionGiverType.STUDENTS)) {
             // case where there are some individual questions
             return frLogic.hasGiverRespondedForSession(userEmail, session.getFeedbackQuestions());
         } else {

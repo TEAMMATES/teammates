@@ -17,8 +17,9 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -489,8 +490,8 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackQuestion contributionQuestion = FeedbackQuestion.makeQuestion(
                 2,
                 "contribution question",
-                FeedbackParticipantType.SELF,
-                FeedbackParticipantType.TEAMS,
+                QuestionGiverType.SELF,
+                QuestionRecipientType.TEAMS,
                 2,
                 new ArrayList<>(),
                 new ArrayList<>(),
@@ -716,7 +717,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     void testAccessControl_studentSubmissionPastEndTimeBeforeDeadlineWithinGracePeriod_canAccess() {
         FeedbackSession feedbackSessionPastEndTime = getFeedbackSessionPastEndTime();
         FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(feedbackSessionPastEndTime);
-        feedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        feedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
         FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
                 typicalStudent.getEmail(),
                 getTypicalSection(),
@@ -747,7 +748,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     void testAccessControl_studentSubmissionPastDeadline_cannotAccess() {
         FeedbackSession feedbackSessionPastEndTime = getFeedbackSessionPastEndTime();
         FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(feedbackSessionPastEndTime);
-        feedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        feedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
         FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
                 typicalStudent.getEmail(),
                 getTypicalSection(),
@@ -775,9 +776,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     private FeedbackResponseComment getTypicalCommentForInstructorResult() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalInstructor.getEmail(),
-                FeedbackParticipantType.INSTRUCTORS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 typicalRequestBody.getCommentText(),
                 false,
                 false,
@@ -794,9 +792,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     private FeedbackResponseComment getTypicalCommentForInstructorSubmission() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalInstructor.getEmail(),
-                FeedbackParticipantType.INSTRUCTORS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 typicalRequestBody.getCommentText(),
                 true,
                 true,
@@ -813,9 +808,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     private FeedbackResponseComment getTypicalCommentForStudentSubmission() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalStudent.getEmail(),
-                FeedbackParticipantType.STUDENTS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 typicalRequestBody.getCommentText(),
                 true,
                 true,

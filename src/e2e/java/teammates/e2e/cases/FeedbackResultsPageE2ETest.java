@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
@@ -224,7 +224,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         if (comment.getLastEditorEmail() != null) {
             editor = getIdentifier(currentStudent, comment.getLastEditorEmail());
         }
-        if (comment.getGiverType() != FeedbackParticipantType.STUDENTS) {
+        if (!comment.getIsCommentFromFeedbackParticipant()) {
             giver = getIdentifier(currentStudent, comment.getGiver());
         }
         resultsPage.verifyCommentDetails(questionNum, giver, editor, comment.getCommentText());
@@ -232,11 +232,11 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
     private boolean canInstructorSeeQuestion(FeedbackQuestion feedbackQuestion) {
         boolean isGiverVisibleToInstructor = feedbackQuestion.getShowGiverNameTo()
-                .contains(FeedbackParticipantType.INSTRUCTORS);
+                .contains(ViewerType.INSTRUCTORS);
         boolean isRecipientVisibleToInstructor = feedbackQuestion.getShowRecipientNameTo()
-                .contains(FeedbackParticipantType.INSTRUCTORS);
+                .contains(ViewerType.INSTRUCTORS);
         boolean isResponseVisibleToInstructor = feedbackQuestion.getShowResponsesTo()
-                .contains(FeedbackParticipantType.INSTRUCTORS);
+                .contains(ViewerType.INSTRUCTORS);
         return isResponseVisibleToInstructor && isGiverVisibleToInstructor && isRecipientVisibleToInstructor;
     }
 
@@ -367,30 +367,30 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .collect(Collectors.toSet());
     }
 
-    private Set<String> getRelevantUsers(Student giver, List<FeedbackParticipantType> relevantParticipants) {
+    private Set<String> getRelevantUsers(Student giver, List<ViewerType> relevantParticipants) {
         Set<String> relevantUsers = new HashSet<>();
         List<Student> students = new ArrayList<>();
-        if (relevantParticipants.contains(FeedbackParticipantType.STUDENTS)) {
+        if (relevantParticipants.contains(ViewerType.STUDENTS)) {
             students.addAll(getOtherStudents(giver));
-        } else if (relevantParticipants.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
+        } else if (relevantParticipants.contains(ViewerType.OWN_TEAM_MEMBERS)) {
             students.addAll(getOtherTeammates(giver));
         }
         students.forEach(s -> relevantUsers.add(s.getEmail()));
         students.forEach(s -> relevantUsers.add(s.getTeamName()));
 
-        if (relevantParticipants.contains(FeedbackParticipantType.RECEIVER)) {
+        if (relevantParticipants.contains(ViewerType.RECEIVER)) {
             relevantUsers.add("RECEIVER");
         }
 
         return relevantUsers;
     }
 
-    private Set<String> getRelevantUsersForInstructors(List<FeedbackParticipantType> relevantParticipants) {
+    private Set<String> getRelevantUsersForInstructors(List<ViewerType> relevantParticipants) {
         Set<String> relevantUsers = new HashSet<>();
-        if (relevantParticipants.contains(FeedbackParticipantType.RECEIVER)) {
+        if (relevantParticipants.contains(ViewerType.RECEIVER)) {
             relevantUsers.add("RECEIVER");
         }
-        if (relevantParticipants.contains(FeedbackParticipantType.INSTRUCTORS)) {
+        if (relevantParticipants.contains(ViewerType.INSTRUCTORS)) {
             relevantUsers.add("INSTRUCTORS");
         }
         return relevantUsers;

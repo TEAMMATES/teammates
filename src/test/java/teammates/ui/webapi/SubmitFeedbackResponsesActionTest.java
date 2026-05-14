@@ -20,9 +20,11 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.Const;
@@ -400,7 +402,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     @Test
     void testExecute_teamGiverType_success() throws Exception {
         loginAsStudent(stubStudent.getGoogleId());
-        spyFeedbackQuestion.setGiverType(FeedbackParticipantType.TEAMS);
+        spyFeedbackQuestion.setGiverType(QuestionGiverType.TEAMS);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -558,7 +560,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     @Test
     void testExecute_teamBasedRecipients_success() throws Exception {
         loginAsStudent(stubStudent.getGoogleId());
-        spyFeedbackQuestion.setRecipientType(FeedbackParticipantType.TEAMS);
+        spyFeedbackQuestion.setRecipientType(QuestionRecipientType.TEAMS);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -685,8 +687,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
-        for (FeedbackParticipantType type : FeedbackParticipantType.values()) {
-            if (type == FeedbackParticipantType.STUDENTS || type == FeedbackParticipantType.TEAMS) {
+        for (QuestionGiverType type : QuestionGiverType.values()) {
+            if (type == QuestionGiverType.STUDENTS || type == QuestionGiverType.TEAMS) {
                 continue;
             }
             spyFeedbackQuestion.setGiverType(type);
@@ -703,8 +705,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
 
-        for (FeedbackParticipantType type : FeedbackParticipantType.values()) {
-            if (type == FeedbackParticipantType.INSTRUCTORS || type == FeedbackParticipantType.SELF) {
+        for (QuestionGiverType type : QuestionGiverType.values()) {
+            if (type == QuestionGiverType.INSTRUCTORS || type == QuestionGiverType.SELF) {
                 continue;
             }
             spyFeedbackQuestion.setGiverType(type);
@@ -724,7 +726,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         privileges.updatePrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, false);
         stubInstructor.setPrivileges(privileges);
 
-        spyFeedbackQuestion.setGiverType(FeedbackParticipantType.INSTRUCTORS);
+        spyFeedbackQuestion.setGiverType(QuestionGiverType.INSTRUCTORS);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -741,7 +743,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
         when(mockLogic.getStudentByGoogleId(stubCourse.getId(), stubStudent.getGoogleId())).thenReturn(null);
 
-        spyFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        spyFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -757,7 +759,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
 
         when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), stubInstructor.getGoogleId())).thenReturn(null);
 
-        spyFeedbackQuestion.setGiverType(FeedbackParticipantType.INSTRUCTORS);
+        spyFeedbackQuestion.setGiverType(QuestionGiverType.INSTRUCTORS);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -777,7 +779,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         when(mockLogic.getDeadlineForUser(stubFeedbackSession, stubStudent))
                 .thenReturn(stubFeedbackSession.getEndTime());
 
-        spyFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        spyFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -797,7 +799,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         when(mockLogic.getDeadlineForUser(stubFeedbackSession, stubStudent))
                 .thenReturn(stubFeedbackSession.getEndTime());
 
-        spyFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        spyFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -818,7 +820,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         when(mockLogic.getDeadlineForUser(stubFeedbackSession, stubStudent))
                 .thenReturn(stubFeedbackSession.getEndTime());
 
-        spyFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        spyFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -839,7 +841,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         when(mockLogic.getDeadlineForUser(stubFeedbackSession, stubStudent))
                 .thenReturn(Instant.now().plus(Duration.ofMinutes(10)));
 
-        spyFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        spyFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -853,7 +855,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     void testSpecificAccessControl_previewMode_cannotAccess() {
         loginAsInstructor(stubInstructor.getGoogleId());
 
-        spyFeedbackQuestion.setGiverType(FeedbackParticipantType.INSTRUCTORS);
+        spyFeedbackQuestion.setGiverType(QuestionGiverType.INSTRUCTORS);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -874,7 +876,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         when(mockLogic.getDeadlineForUser(stubFeedbackSession, stubStudent))
                 .thenReturn(stubFeedbackSession.getEndTime());
 
-        spyFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        spyFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -894,7 +896,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         when(mockLogic.getDeadlineForUser(stubFeedbackSession, stubInstructor))
                 .thenReturn(stubFeedbackSession.getEndTime());
 
-        spyFeedbackQuestion.setGiverType(FeedbackParticipantType.INSTRUCTORS);
+        spyFeedbackQuestion.setGiverType(QuestionGiverType.INSTRUCTORS);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -907,14 +909,14 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     @Test
     void testSpecificAccessControl_instructorWithModeratorPrivilege_canAccess() {
         loginAsInstructor(stubInstructor.getGoogleId());
-        spyFeedbackQuestion.setShowGiverNameTo(List.of(FeedbackParticipantType.INSTRUCTORS));
-        spyFeedbackQuestion.setShowRecipientNameTo(List.of(FeedbackParticipantType.INSTRUCTORS));
-        spyFeedbackQuestion.setShowResponsesTo(List.of(FeedbackParticipantType.INSTRUCTORS));
+        spyFeedbackQuestion.setShowGiverNameTo(List.of(ViewerType.INSTRUCTORS));
+        spyFeedbackQuestion.setShowRecipientNameTo(List.of(ViewerType.INSTRUCTORS));
+        spyFeedbackQuestion.setShowResponsesTo(List.of(ViewerType.INSTRUCTORS));
 
         when(mockLogic.getInstructorForEmail(stubCourse.getId(), stubInstructor.getEmail()))
                 .thenReturn(stubInstructor);
 
-        spyFeedbackQuestion.setGiverType(FeedbackParticipantType.INSTRUCTORS);
+        spyFeedbackQuestion.setGiverType(QuestionGiverType.INSTRUCTORS);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -935,7 +937,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         when(mockLogic.getDeadlineForUser(stubFeedbackSession, stubStudent))
                 .thenReturn(stubFeedbackSession.getEndTime());
 
-        spyFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        spyFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -951,7 +953,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         loginAsStudent(stubStudent.getGoogleId());
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now());
 
-        spyFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        spyFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),
@@ -966,7 +968,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
     void testSpecificAccessControl_notLoggedIn_cannotAccess() {
         logoutUser();
 
-        spyFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        spyFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
 
         String[] params = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, spyFeedbackQuestion.getId().toString(),

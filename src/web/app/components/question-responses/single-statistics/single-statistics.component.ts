@@ -1,9 +1,9 @@
 import { Component, Input, OnChanges, OnInit, inject } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
-  FeedbackParticipantType,
   FeedbackQuestionDetails,
   FeedbackQuestionType,
+  QuestionRecipientType,
   ResponseOutput,
 } from '../../../../types/api-output';
 import { QuestionDetailsTypeChecker } from '../../../../types/question-details-impl/question-details-caster';
@@ -48,7 +48,7 @@ export class SingleStatisticsComponent implements OnInit, OnChanges {
     questionType: FeedbackQuestionType.TEXT,
     questionText: '',
   };
-  @Input() recipientType: FeedbackParticipantType = FeedbackParticipantType.NONE;
+  @Input() recipientType: QuestionRecipientType = QuestionRecipientType.NONE;
   @Input() isStudent = false;
   @Input() statistics = '';
   @Input() displayContributionStats = true;

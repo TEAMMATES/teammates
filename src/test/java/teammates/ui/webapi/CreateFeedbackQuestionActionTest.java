@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
@@ -77,10 +77,10 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         assertEquals(response.getQuestionType(), FeedbackQuestionType.TEXT);
         assertEquals(response.getQuestionType(), createdQuestion.getQuestionType());
 
-        assertEquals(response.getGiverType(), FeedbackParticipantType.STUDENTS);
+        assertEquals(response.getGiverType(), QuestionGiverType.STUDENTS);
         assertEquals(response.getGiverType(), createdQuestion.getGiverType());
 
-        assertEquals(response.getRecipientType(), FeedbackParticipantType.INSTRUCTORS);
+        assertEquals(response.getRecipientType(), QuestionRecipientType.INSTRUCTORS);
         assertEquals(response.getRecipientType(), createdQuestion.getRecipientType());
 
         assertEquals(response.getNumberOfEntitiesToGiveFeedbackToSetting(),
@@ -126,23 +126,6 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
 
         FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
         createRequest.setQuestionNumber(-1);
-
-        verifyHttpRequestBodyFailure(createRequest, params);
-    }
-
-    @Test
-    void testExecute_invalidGiverType_throwsInvalidHttpRequestBodyException() {
-        when(mockLogic.getFeedbackSession(typicalFeedbackSession.getId()))
-                .thenReturn(typicalFeedbackSession);
-
-        String[] params = {
-                Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
-        };
-
-        FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
-        createRequest.setQuestionType(FeedbackQuestionType.CONTRIB);
-        createRequest.setQuestionDetails(new FeedbackContributionQuestionDetails());
-        createRequest.setGiverType(FeedbackParticipantType.NONE);
 
         verifyHttpRequestBodyFailure(createRequest, params);
     }
@@ -212,8 +195,8 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         textQuestionDetails.setRecommendedLength(800);
         createRequest.setQuestionDetails(textQuestionDetails);
         createRequest.setQuestionType(FeedbackQuestionType.TEXT);
-        createRequest.setGiverType(FeedbackParticipantType.STUDENTS);
-        createRequest.setRecipientType(FeedbackParticipantType.INSTRUCTORS);
+        createRequest.setGiverType(QuestionGiverType.STUDENTS);
+        createRequest.setRecipientType(QuestionRecipientType.INSTRUCTORS);
         createRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED);
 
         createRequest.setShowResponsesTo(new ArrayList<>());
@@ -229,8 +212,8 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         textQuestionDetails.setRecommendedLength(800);
 
         FeedbackQuestion createdQuestion = FeedbackQuestion.makeQuestion(2,
-                "this is the description", FeedbackParticipantType.STUDENTS,
-                FeedbackParticipantType.INSTRUCTORS, Const.MAX_POSSIBLE_RECIPIENTS, new ArrayList<>(),
+                "this is the description", QuestionGiverType.STUDENTS,
+                QuestionRecipientType.INSTRUCTORS, Const.MAX_POSSIBLE_RECIPIENTS, new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(), textQuestionDetails);
         typicalFeedbackSession.addFeedbackQuestion(createdQuestion);
         return createdQuestion;

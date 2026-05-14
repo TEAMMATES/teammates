@@ -109,7 +109,7 @@
   <div class="margin-top-15px visibility-message">
     This is the visibility hint as seen by the feedback giver:
     <ul class="text-muted background-color-warning">
-      @if (model.recipientType === FeedbackParticipantType.SELF) {
+      @if (model.recipientType === QuestionRecipientType.SELF) {
         <li>You can see your own feedback in the results page later on.</li>
       }
       @for (visibilityType of FeedbackVisibilityType | enumToArray; track visibilityType) {

@@ -13,7 +13,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
@@ -205,8 +206,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2, fq3, fq4);
 
-        when(fqDb.getFeedbackQuestionsForGiverType(fs, FeedbackParticipantType.TEAMS)).thenReturn(questionsTeam);
-        when(fqDb.getFeedbackQuestionsForGiverType(fs, FeedbackParticipantType.STUDENTS)).thenReturn(questionsStudent);
+        when(fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.TEAMS)).thenReturn(questionsTeam);
+        when(fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.STUDENTS)).thenReturn(questionsStudent);
 
         List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForStudents(fs);
 
@@ -227,9 +228,9 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         List<FeedbackQuestion> questionsInstructors = List.of(fq1, fq2);
         List<FeedbackQuestion> questionsSelf = List.of(fq3, fq4);
 
-        when(fqDb.getFeedbackQuestionsForGiverType(fs, FeedbackParticipantType.INSTRUCTORS))
+        when(fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.INSTRUCTORS))
                 .thenReturn(questionsInstructors);
-        when(fqDb.getFeedbackQuestionsForGiverType(fs, FeedbackParticipantType.SELF)).thenReturn(questionsSelf);
+        when(fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.SELF)).thenReturn(questionsSelf);
 
         List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2, fq3, fq4);
         List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(fs, "instr1@teammates.tmt");
@@ -251,9 +252,9 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         List<FeedbackQuestion> questionsInstructors = List.of(fq1, fq2);
         List<FeedbackQuestion> questionsSelf = List.of(fq3, fq4);
 
-        when(fqDb.getFeedbackQuestionsForGiverType(fs, FeedbackParticipantType.INSTRUCTORS))
+        when(fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.INSTRUCTORS))
                 .thenReturn(questionsInstructors);
-        when(fqDb.getFeedbackQuestionsForGiverType(fs, FeedbackParticipantType.SELF)).thenReturn(questionsSelf);
+        when(fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.SELF)).thenReturn(questionsSelf);
 
         List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2);
         List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(fs, "instr2@teammates.tmt");
@@ -295,7 +296,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
     @Test
     public void testGetDynamicallyGeneratedOptions_mcqStudents_returnsSortedStudentOptions() {
         FeedbackMcqQuestionDetails mcqDetails =
-                getMockMcqQuestionDetails(FeedbackParticipantType.STUDENTS);
+                getMockMcqQuestionDetails(QuestionRecipientType.STUDENTS);
         FeedbackQuestion question = getMockFeedbackQuestionWithDetails(mcqDetails, "course-1");
         when(question.getQuestionType()).thenReturn(FeedbackQuestionType.MCQ);
 
@@ -315,7 +316,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
     @Test
     public void testGetDynamicallyGeneratedOptions_mcqStudentsExcludingSelf_excludesCurrentStudent() {
         FeedbackMcqQuestionDetails mcqDetails =
-                getMockMcqQuestionDetails(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF);
+                getMockMcqQuestionDetails(QuestionRecipientType.STUDENTS_EXCLUDING_SELF);
         FeedbackQuestion question = getMockFeedbackQuestionWithDetails(mcqDetails, "course-1");
         when(question.getQuestionType()).thenReturn(FeedbackQuestionType.MCQ);
 
@@ -335,7 +336,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
     @Test
     public void testGetDynamicallyGeneratedOptions_msqStudentsInSameSection_returnsSortedSectionStudentOptions() {
         FeedbackMsqQuestionDetails msqDetails =
-                getMockMsqQuestionDetails(FeedbackParticipantType.STUDENTS_IN_SAME_SECTION);
+                getMockMsqQuestionDetails(QuestionRecipientType.STUDENTS_IN_SAME_SECTION);
         FeedbackQuestion question = getMockFeedbackQuestionWithDetails(msqDetails, "course-1");
         when(question.getQuestionType()).thenReturn(FeedbackQuestionType.MSQ);
 
@@ -357,7 +358,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
     @Test
     public void testGetDynamicallyGeneratedOptions_mcqOwnTeamMembersIncludingSelf_returnsAllTeamMemberNames() {
         FeedbackMcqQuestionDetails mcqDetails =
-                getMockMcqQuestionDetails(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
+                getMockMcqQuestionDetails(QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
         FeedbackQuestion question = getMockFeedbackQuestionWithDetails(mcqDetails, "course-1");
         when(question.getQuestionType()).thenReturn(FeedbackQuestionType.MCQ);
 
@@ -378,7 +379,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
     @Test
     public void testGetDynamicallyGeneratedOptions_mcqOwnTeamMembers_excludesCurrentStudent() {
         FeedbackMcqQuestionDetails mcqDetails =
-                getMockMcqQuestionDetails(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+                getMockMcqQuestionDetails(QuestionRecipientType.OWN_TEAM_MEMBERS);
         FeedbackQuestion question = getMockFeedbackQuestionWithDetails(mcqDetails, "course-1");
         when(question.getQuestionType()).thenReturn(FeedbackQuestionType.MCQ);
 
@@ -401,7 +402,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
     @Test
     public void testGetDynamicallyGeneratedOptions_msqInstructors_returnsSortedInstructorNames() {
         FeedbackMsqQuestionDetails msqDetails =
-                getMockMsqQuestionDetails(FeedbackParticipantType.INSTRUCTORS);
+                getMockMsqQuestionDetails(QuestionRecipientType.INSTRUCTORS);
         FeedbackQuestion question = getMockFeedbackQuestionWithDetails(msqDetails, "course-1");
         when(question.getQuestionType()).thenReturn(FeedbackQuestionType.MSQ);
 
@@ -421,7 +422,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
     @Test
     public void testGetDynamicallyGeneratedOptions_mcqNone_returnsEmptyOptional() {
         FeedbackMcqQuestionDetails mcqDetails =
-                getMockMcqQuestionDetails(FeedbackParticipantType.NONE);
+                getMockMcqQuestionDetails(QuestionRecipientType.NONE);
         FeedbackQuestion question = getMockFeedbackQuestionWithDetails(mcqDetails, "course-1");
         when(question.getQuestionType()).thenReturn(FeedbackQuestionType.MCQ);
 
@@ -452,7 +453,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
     }
 
     private FeedbackMcqQuestionDetails getMockMcqQuestionDetails(
-            FeedbackParticipantType generateOptionsFor) {
+            QuestionRecipientType generateOptionsFor) {
         FeedbackMcqQuestionDetails mcqDetails =
                 mock(FeedbackMcqQuestionDetails.class);
         when(mcqDetails.getGenerateOptionsFor()).thenReturn(generateOptionsFor);
@@ -460,7 +461,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
     }
 
     private FeedbackMsqQuestionDetails getMockMsqQuestionDetails(
-            FeedbackParticipantType generateOptionsFor) {
+            QuestionRecipientType generateOptionsFor) {
         FeedbackMsqQuestionDetails msqDetails =
                 mock(FeedbackMsqQuestionDetails.class);
         when(msqDetails.getGenerateOptionsFor()).thenReturn(generateOptionsFor);

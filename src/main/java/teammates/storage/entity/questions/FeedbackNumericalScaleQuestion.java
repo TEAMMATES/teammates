@@ -8,7 +8,9 @@ import jakarta.persistence.Convert;
 import jakarta.persistence.Converter;
 import jakarta.persistence.Entity;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackNumericalScaleQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
@@ -30,9 +32,9 @@ public class FeedbackNumericalScaleQuestion extends FeedbackQuestion {
 
     public FeedbackNumericalScaleQuestion(
             Integer questionNumber,
-            String description, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
-            Integer numOfEntitiesToGiveFeedbackTo, List<FeedbackParticipantType> showResponsesTo,
-            List<FeedbackParticipantType> showGiverNameTo, List<FeedbackParticipantType> showRecipientNameTo,
+            String description, QuestionGiverType giverType, QuestionRecipientType recipientType,
+            Integer numOfEntitiesToGiveFeedbackTo, List<ViewerType> showResponsesTo,
+            List<ViewerType> showGiverNameTo, List<ViewerType> showRecipientNameTo,
             FeedbackQuestionDetails feedbackQuestionDetails
     ) {
         super(questionNumber, description, giverType, recipientType,

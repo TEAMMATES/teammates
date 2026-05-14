@@ -3519,7 +3519,6 @@
   "feedbackResponseComments": {
     "comment1FromT1C1ToR1Q2S1C1": {
       "giver": "teammates.demo.instructor@demo.course",
-      "giverType": "INSTRUCTORS",
       "commentText": "<p>Alice, good to know that you liked applying software engineering skills in the project. Don't forget to use the project to practice communication skills too.</p>",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
@@ -3528,13 +3527,10 @@
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "createdAt": "demo.date5T21:17:00Z",
       "updatedAt": "demo.date5T21:17:00Z",
-      "responseId": "00000000-0000-4000-8000-000000000701",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "responseId": "00000000-0000-4000-8000-000000000701"
     },
     "comment1FromT1C1ToR1Q5S1C1": {
       "giver": "teammates.demo.instructor@demo.course",
-      "giverType": "INSTRUCTORS",
       "commentText": "<p>Completely agree, the application does look pretty.</p>",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
@@ -3543,13 +3539,10 @@
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "createdAt": "demo.date5T21:20:00Z",
       "updatedAt": "demo.date5T21:20:00Z",
-      "responseId": "00000000-0000-4000-8000-000000000702",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "responseId": "00000000-0000-4000-8000-000000000702"
     },
     "comment1FromT1C1ToR3Q5S1C1": {
       "giver": "teammates.demo.instructor@demo.course",
-      "giverType": "INSTRUCTORS",
       "commentText": "<p>Alice, He's one of the best designers in our institute and always amazes everyone with his work.</p>",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
@@ -3558,13 +3551,10 @@
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "createdAt": "demo.date5T21:23:00Z",
       "updatedAt": "demo.date5T21:23:00Z",
-      "responseId": "00000000-0000-4000-8000-000000000703",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
+      "responseId": "00000000-0000-4000-8000-000000000703"
     },
     "comment1FromT1C1ToR2Q2S1C1": {
       "giver": "teammates.demo.instructor@demo.course",
-      "giverType": "INSTRUCTORS",
       "commentText": "<p>Hoping you keep using them on future projects.</p>",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
@@ -3573,13 +3563,10 @@
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "createdAt": "demo.date5T21:26:00Z",
       "updatedAt": "demo.date5T21:26:00Z",
-      "responseId": "00000000-0000-4000-8000-000000000704",
-      "giverSectionId": "00000000-0000-4000-8000-000000000202",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
+      "responseId": "00000000-0000-4000-8000-000000000704"
     },
     "comment1FromT1C1ToR1Q2S2C1": {
       "giver": "teammates.demo.instructor@demo.course",
-      "giverType": "INSTRUCTORS",
       "commentText": "<p>Nice work Alice, Impressed by clean, portable and well-documented code.</p>",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
@@ -3588,13 +3575,10 @@
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "createdAt": "demo.date5T21:29:00Z",
       "updatedAt": "demo.date5T21:29:00Z",
-      "responseId": "00000000-0000-4000-8000-000000000705",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "responseId": "00000000-0000-4000-8000-000000000705"
     },
     "comment1FromT1C1ToR2Q2S2C1": {
       "giver": "teammates.demo.instructor@demo.course",
-      "giverType": "INSTRUCTORS",
       "commentText": "<p>Although there are some loopholes in UI, But overall looks good.</p>",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
@@ -3603,13 +3587,10 @@
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "createdAt": "demo.date5T21:33:00Z",
       "updatedAt": "demo.date5T21:33:00Z",
-      "responseId": "00000000-0000-4000-8000-000000000706",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "responseId": "00000000-0000-4000-8000-000000000706"
     },
     "comment1FromT1C1ToR5Q2S2C1": {
       "giver": "teammates.demo.instructor@demo.course",
-      "giverType": "INSTRUCTORS",
       "commentText": "<p>Well, Being your first team project always takes some time. I hope you had nice experience working with the team.</p>",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
@@ -3618,13 +3599,10 @@
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "createdAt": "demo.date5T21:36:00Z",
       "updatedAt": "demo.date5T21:36:00Z",
-      "responseId": "00000000-0000-4000-8000-000000000707",
-      "giverSectionId": "00000000-0000-4000-8000-000000000202",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
+      "responseId": "00000000-0000-4000-8000-000000000707"
     },
     "comment1FromT1C1ToR6Q2S2C1": {
       "giver": "teammates.demo.instructor@demo.course",
-      "giverType": "INSTRUCTORS",
       "commentText": "<p>Design could have been more interactive.</p>",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
@@ -3633,9 +3611,7 @@
       "lastEditorEmail": "teammates.demo.instructor@demo.course",
       "createdAt": "demo.date5T21:39:00Z",
       "updatedAt": "demo.date5T21:39:00Z",
-      "responseId": "00000000-0000-4000-8000-000000000708",
-      "giverSectionId": "00000000-0000-4000-8000-000000000202",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
+      "responseId": "00000000-0000-4000-8000-000000000708"
     }
   },
   "feedbackSessionLogs": {},

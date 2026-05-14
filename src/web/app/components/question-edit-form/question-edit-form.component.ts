@@ -6,10 +6,11 @@ import { CommonVisibilitySetting, FeedbackQuestionsService } from '../../../serv
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 import {
-  FeedbackParticipantType,
   FeedbackQuestionType,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
+  QuestionGiverType,
+  QuestionRecipientType,
 } from '../../../types/api-output';
 import { VisibilityControl } from '../../../types/visibility-control';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
@@ -88,7 +89,6 @@ export class QuestionEditFormComponent {
   // enum
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
   QuestionEditFormMode: typeof QuestionEditFormMode = QuestionEditFormMode;
-  FeedbackParticipantType: typeof FeedbackParticipantType = FeedbackParticipantType;
   NumberOfEntitiesToGiveFeedbackToSetting: typeof NumberOfEntitiesToGiveFeedbackToSetting =
     NumberOfEntitiesToGiveFeedbackToSetting;
   VisibilityControl: typeof VisibilityControl = VisibilityControl;
@@ -185,8 +185,8 @@ export class QuestionEditFormComponent {
       questionText: '',
     },
 
-    giverType: FeedbackParticipantType.STUDENTS,
-    recipientType: FeedbackParticipantType.STUDENTS_EXCLUDING_SELF,
+    giverType: QuestionGiverType.STUDENTS,
+    recipientType: QuestionRecipientType.STUDENTS_EXCLUDING_SELF,
 
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 1,
@@ -230,9 +230,9 @@ export class QuestionEditFormComponent {
   @Output()
   createNewQuestionEvent: EventEmitter<void> = new EventEmitter();
 
-  commonFeedbackPaths: Map<FeedbackParticipantType, FeedbackParticipantType[]> = new Map();
+  commonFeedbackPaths: Map<QuestionGiverType, QuestionRecipientType[]> = new Map();
 
-  allowedFeedbackPaths: Map<FeedbackParticipantType, FeedbackParticipantType[]> = new Map();
+  allowedFeedbackPaths: Map<QuestionGiverType, QuestionRecipientType[]> = new Map();
 
   commonFeedbackVisibilitySettings: CommonVisibilitySetting[] = [];
 

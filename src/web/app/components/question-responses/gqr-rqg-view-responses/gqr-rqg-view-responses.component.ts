@@ -2,11 +2,11 @@ import { NgTemplateOutlet, KeyValuePipe } from '@angular/common';
 import { Component, Input, OnChanges, OnInit, inject } from '@angular/core';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import {
-  FeedbackParticipantType,
   FeedbackQuestionType,
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
+  QuestionGiverType,
   QuestionOutput,
   ResponseOutput,
   ResponseVisibleSetting,
@@ -142,8 +142,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
           }
 
           this.userExpanded[response.giver] = this.isExpandAll;
-          this.userIsInstructor[response.giver] =
-            question.feedbackQuestion.giverType === FeedbackParticipantType.INSTRUCTORS;
+          this.userIsInstructor[response.giver] = question.feedbackQuestion.giverType === QuestionGiverType.INSTRUCTORS;
         } else {
           if (!response.recipientTeam) {
             // Recipient is team

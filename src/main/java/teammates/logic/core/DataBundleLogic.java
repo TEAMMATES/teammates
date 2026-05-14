@@ -161,10 +161,6 @@ public final class DataBundleLogic {
         for (FeedbackResponseComment responseComment : responseComments) {
             responseComment.setId(UUID.randomUUID());
             FeedbackResponse fr = responseMap.get(responseComment.getResponseId());
-            Section giverSection = sectionsMap.get(responseComment.getGiverSectionId());
-            Section recipientSection = sectionsMap.get(responseComment.getRecipientSectionId());
-            responseComment.setGiverSection(giverSection);
-            responseComment.setRecipientSection(recipientSection);
             fr.addFeedbackResponseComment(responseComment);
         }
 

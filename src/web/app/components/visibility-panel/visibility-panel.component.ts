@@ -5,10 +5,11 @@ import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbTooltip } from '@ng
 import { CommonVisibilitySetting } from '../../../services/feedback-questions.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 import {
-  FeedbackParticipantType,
   FeedbackQuestionType,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
+  QuestionGiverType,
+  QuestionRecipientType,
 } from '../../../types/api-output';
 import { castAsInputElement } from '../../../types/event-target-caster';
 import { VisibilityControl } from '../../../types/visibility-control';
@@ -47,7 +48,7 @@ export class VisibilityPanelComponent {
   readonly castAsInputElement = castAsInputElement;
 
   // enum
-  FeedbackParticipantType: typeof FeedbackParticipantType = FeedbackParticipantType;
+  QuestionRecipientType: typeof QuestionRecipientType = QuestionRecipientType;
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
   NumberOfEntitiesToGiveFeedbackToSetting: typeof NumberOfEntitiesToGiveFeedbackToSetting =
     NumberOfEntitiesToGiveFeedbackToSetting;
@@ -70,8 +71,8 @@ export class VisibilityPanelComponent {
       questionText: '',
     },
 
-    giverType: FeedbackParticipantType.STUDENTS,
-    recipientType: FeedbackParticipantType.STUDENTS_EXCLUDING_SELF,
+    giverType: QuestionGiverType.STUDENTS,
+    recipientType: QuestionRecipientType.OWN_TEAM_MEMBERS,
 
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM,
     customNumberOfEntitiesToGiveFeedbackTo: 1,

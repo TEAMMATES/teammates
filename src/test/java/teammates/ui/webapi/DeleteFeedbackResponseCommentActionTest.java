@@ -14,8 +14,9 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
@@ -320,7 +321,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     void testAccessControl_studentAsCommentGiver_canAccessStudentComment() {
-        typicalFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        typicalFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
 
         FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromStudent();
 
@@ -343,7 +344,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     void testAccessControl_differentStudentFromSameCourse_cannotAccessStudentComment() {
-        typicalFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        typicalFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
 
         FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromStudent();
 
@@ -369,7 +370,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     void testAccessControl_unregisteredUsers_cannotAccessStudentComment() {
-        typicalFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        typicalFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
 
         FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromStudent();
 
@@ -388,7 +389,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     void testAccessControl_differentStudentInDifferentTeam_cannotAccessTeamComment() {
-        typicalFeedbackQuestion.setGiverType(FeedbackParticipantType.TEAMS);
+        typicalFeedbackQuestion.setGiverType(QuestionGiverType.TEAMS);
 
         FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromTeam();
         Section section = getTypicalSection();
@@ -421,7 +422,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
     @Test
     void testAccessControl_differentStudentInSameTeam_canAccessTeamComment() {
-        typicalFeedbackQuestion.setGiverType(FeedbackParticipantType.TEAMS);
+        typicalFeedbackQuestion.setGiverType(QuestionGiverType.TEAMS);
 
         FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromTeam();
         Section section = new Section("Section A");
@@ -583,7 +584,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     void testAccessControl_studentSubmissionPastEndTimeBeforeDeadlineWithinGracePeriod_canAccess() {
         FeedbackSession feedbackSessionPastEndTime = getFeedbackSessionPastEndTime();
         FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(feedbackSessionPastEndTime);
-        feedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        feedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
         typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(feedbackQuestion);
         FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromStudent();
 
@@ -608,7 +609,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     void testAccessControl_studentSubmissionPastDeadline_cannotAccess() {
         FeedbackSession feedbackSessionPastEndTime = getFeedbackSessionPastEndTime();
         FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(feedbackSessionPastEndTime);
-        feedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        feedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
         typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(feedbackQuestion);
         FeedbackResponseComment typicalFeedbackResponseComment = getTypicalCommentFromStudent();
 
@@ -632,14 +633,11 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     private FeedbackResponseComment getTypicalCommentFromStudent() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalStudent.getEmail(),
-                FeedbackParticipantType.STUDENTS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 "typical comment",
                 true,
                 true,
-                Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
-                Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
+                Arrays.asList(ViewerType.INSTRUCTORS),
+                Arrays.asList(ViewerType.INSTRUCTORS),
                 typicalStudent.getEmail());
         typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000001"));
@@ -651,14 +649,11 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     private FeedbackResponseComment getTypicalCommentFromInstructor() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalInstructor.getEmail(),
-                FeedbackParticipantType.INSTRUCTORS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 "typical comment",
                 false,
                 false,
-                Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
-                Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
+                Arrays.asList(ViewerType.INSTRUCTORS),
+                Arrays.asList(ViewerType.INSTRUCTORS),
                 typicalInstructor.getEmail());
         typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000002"));
@@ -670,14 +665,11 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     private FeedbackResponseComment getTypicalCommentFromInstructorAsParticipant() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalInstructor.getEmail(),
-                FeedbackParticipantType.INSTRUCTORS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 "typical comment",
                 true,
                 true,
-                Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
-                Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
+                Arrays.asList(ViewerType.INSTRUCTORS),
+                Arrays.asList(ViewerType.INSTRUCTORS),
                 typicalInstructor.getEmail());
         typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000003"));
@@ -696,14 +688,11 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         typicalFeedbackQuestion.addFeedbackResponse(typicalFeedbackResponse);
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 "first team",
-                FeedbackParticipantType.TEAMS,
-                sectionA,
-                sectionB,
                 "typical comment",
                 true,
                 true,
-                Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
-                Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
+                Arrays.asList(ViewerType.INSTRUCTORS),
+                Arrays.asList(ViewerType.INSTRUCTORS),
                 "first team");
         typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000004"));

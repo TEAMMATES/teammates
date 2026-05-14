@@ -2,7 +2,9 @@ package teammates.ui.webapi;
 
 import java.time.Instant;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.FeedbackQuestion;
@@ -22,11 +24,11 @@ abstract class BasicFeedbackSubmissionAction extends Action {
      */
     boolean canInstructorSeeQuestion(FeedbackQuestion feedbackQuestion) {
         boolean isGiverVisibleToInstructor =
-                feedbackQuestion.getShowGiverNameTo().contains(FeedbackParticipantType.INSTRUCTORS);
+                feedbackQuestion.getShowGiverNameTo().contains(ViewerType.INSTRUCTORS);
         boolean isRecipientVisibleToInstructor =
-                feedbackQuestion.getShowRecipientNameTo().contains(FeedbackParticipantType.INSTRUCTORS);
+                feedbackQuestion.getShowRecipientNameTo().contains(ViewerType.INSTRUCTORS);
         boolean isResponseVisibleToInstructor =
-                feedbackQuestion.getShowResponsesTo().contains(FeedbackParticipantType.INSTRUCTORS);
+                feedbackQuestion.getShowResponsesTo().contains(ViewerType.INSTRUCTORS);
         return isResponseVisibleToInstructor && isGiverVisibleToInstructor && isRecipientVisibleToInstructor;
     }
 
@@ -248,7 +250,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
      */
     @SuppressWarnings("PMD.ImplicitSwitchFallThrough") // false positive
     Section getRecipientSection(
-            String courseId, FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
+            String courseId, QuestionGiverType giverType, QuestionRecipientType recipientType,
             String recipientIdentifier) {
 
         switch (recipientType) {

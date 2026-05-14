@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.ui.output.CommentVisibilityType;
 
 /**
@@ -36,33 +36,33 @@ class FeedbackResponseCommentBasicRequest extends BasicRequest {
         return commentText;
     }
 
-    public List<FeedbackParticipantType> getShowCommentTo() {
-        return convertToFeedbackParticipantType(showCommentTo);
+    public List<ViewerType> getShowCommentTo() {
+        return convertToViewerType(showCommentTo);
     }
 
-    public List<FeedbackParticipantType> getShowGiverNameTo() {
-        return convertToFeedbackParticipantType(showGiverNameTo);
+    public List<ViewerType> getShowGiverNameTo() {
+        return convertToViewerType(showGiverNameTo);
     }
 
     /**
      * Converts a list of comment visibility type to a list of feedback participant type.
      */
-    private List<FeedbackParticipantType> convertToFeedbackParticipantType(
+    private List<ViewerType> convertToViewerType(
             List<CommentVisibilityType> commentVisibilityTypes) {
         return commentVisibilityTypes.stream().map(commentVisibilityType -> {
             switch (commentVisibilityType) {
             case GIVER:
-                return FeedbackParticipantType.GIVER;
+                return ViewerType.GIVER;
             case RECIPIENT:
-                return FeedbackParticipantType.RECEIVER;
+                return ViewerType.RECEIVER;
             case GIVER_TEAM_MEMBERS:
-                return FeedbackParticipantType.OWN_TEAM_MEMBERS;
+                return ViewerType.OWN_TEAM_MEMBERS;
             case RECIPIENT_TEAM_MEMBERS:
-                return FeedbackParticipantType.RECEIVER_TEAM_MEMBERS;
+                return ViewerType.RECEIVER_TEAM_MEMBERS;
             case STUDENTS:
-                return FeedbackParticipantType.STUDENTS;
+                return ViewerType.STUDENTS;
             case INSTRUCTORS:
-                return FeedbackParticipantType.INSTRUCTORS;
+                return ViewerType.INSTRUCTORS;
             default:
                 assert false : "Unknown commentVisibilityType " + commentVisibilityType;
                 break;

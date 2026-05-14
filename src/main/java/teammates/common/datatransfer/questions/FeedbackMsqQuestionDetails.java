@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 
@@ -48,7 +48,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private boolean hasAssignedWeights;
     private List<Double> msqWeights;
     private double msqOtherWeight;
-    private FeedbackParticipantType generateOptionsFor;
+    private QuestionRecipientType generateOptionsFor;
     private int maxSelectableChoices;
     private int minSelectableChoices;
 
@@ -60,7 +60,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         super(FeedbackQuestionType.MSQ, questionText);
         this.msqChoices = new ArrayList<>();
         this.otherEnabled = false;
-        this.generateOptionsFor = FeedbackParticipantType.NONE;
+        this.generateOptionsFor = QuestionRecipientType.NONE;
         this.maxSelectableChoices = Const.POINTS_NO_VALUE;
         this.minSelectableChoices = Const.POINTS_NO_VALUE;
         this.hasAssignedWeights = false;
@@ -114,7 +114,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<>();
-        if (generateOptionsFor == FeedbackParticipantType.NONE) {
+        if (generateOptionsFor == QuestionRecipientType.NONE) {
 
             if (msqChoices.size() < MSQ_MIN_NUM_OF_CHOICES) {
                 errors.add(MSQ_ERROR_NOT_ENOUGH_CHOICES
@@ -170,7 +170,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
         boolean isMaxSelectableChoicesEnabled = maxSelectableChoices != Const.POINTS_NO_VALUE;
         boolean isMinSelectableChoicesEnabled = minSelectableChoices != Const.POINTS_NO_VALUE;
-        boolean isMsqChoiceValidatable = generateOptionsFor == FeedbackParticipantType.NONE;
+        boolean isMsqChoiceValidatable = generateOptionsFor == QuestionRecipientType.NONE;
 
         int numOfMsqChoices = msqChoices.size() + (otherEnabled ? 1 : 0);
         if (isMsqChoiceValidatable && isMaxSelectableChoicesEnabled) {
@@ -312,11 +312,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.msqOtherWeight = msqOtherWeight;
     }
 
-    public FeedbackParticipantType getGenerateOptionsFor() {
+    public QuestionRecipientType getGenerateOptionsFor() {
         return generateOptionsFor;
     }
 
-    public void setGenerateOptionsFor(FeedbackParticipantType generateOptionsFor) {
+    public void setGenerateOptionsFor(QuestionRecipientType generateOptionsFor) {
         this.generateOptionsFor = generateOptionsFor;
     }
 

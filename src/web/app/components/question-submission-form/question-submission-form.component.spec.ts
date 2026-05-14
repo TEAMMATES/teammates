@@ -25,7 +25,6 @@ import {
   FeedbackMsqResponseDetails,
   FeedbackNumericalScaleQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
-  FeedbackParticipantType,
   FeedbackQuestionType,
   FeedbackRankOptionsQuestionDetails,
   FeedbackRankOptionsResponseDetails,
@@ -36,6 +35,8 @@ import {
   FeedbackTextResponseDetails,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
+  QuestionGiverType,
+  QuestionRecipientType,
 } from '../../../types/api-output';
 import { DEFAULT_TEXT_RESPONSE_DETAILS } from '../../../types/default-question-structs';
 import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../../../types/feedback-response-details';
@@ -93,8 +94,8 @@ const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
     maxScale: 10,
     step: 1,
   } as FeedbackNumericalScaleQuestionDetails,
-  giverType: FeedbackParticipantType.STUDENTS,
-  recipientType: FeedbackParticipantType.STUDENTS,
+  giverType: QuestionGiverType.STUDENTS,
+  recipientType: QuestionRecipientType.STUDENTS,
 
   recipientList: [
     { recipientName: 'Alan Rogers', recipientIdentifier: 'rogers-alan-id' },
@@ -181,7 +182,7 @@ describe('QuestionSubmissionFormComponent', () => {
     mcqChoices: [],
     otherEnabled: false,
     questionDropdownEnabled: false,
-    generateOptionsFor: FeedbackParticipantType.GIVER,
+    generateOptionsFor: QuestionRecipientType.TEAMS,
   });
 
   const feedbackResponseMcqDetailsBuilder = createBuilder<FeedbackMcqResponseDetails>({
@@ -199,7 +200,7 @@ describe('QuestionSubmissionFormComponent', () => {
     hasAssignedWeights: false,
     msqWeights: [],
     msqOtherWeight: 0,
-    generateOptionsFor: FeedbackParticipantType.GIVER,
+    generateOptionsFor: QuestionRecipientType.TEAMS,
     maxSelectableChoices: 1,
     minSelectableChoices: 0,
   });

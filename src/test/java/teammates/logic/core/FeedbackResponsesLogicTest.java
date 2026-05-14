@@ -14,7 +14,9 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
@@ -252,12 +254,12 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
-        question.setShowResponsesTo(List.of(FeedbackParticipantType.STUDENTS));
+        question.setShowResponsesTo(List.of(ViewerType.STUDENTS));
 
         boolean result = frLogic.isResponseOfFeedbackQuestionVisibleToStudent(question);
 
         assertTrue(result);
-        assertTrue(question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS));
+        assertTrue(question.isResponseVisibleTo(ViewerType.STUDENTS));
     }
 
     @Test
@@ -265,14 +267,14 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
-        question.setShowResponsesTo(List.of(FeedbackParticipantType.INSTRUCTORS));
-        question.setRecipientType(FeedbackParticipantType.INSTRUCTORS);
-        question.setGiverType(FeedbackParticipantType.INSTRUCTORS);
+        question.setShowResponsesTo(List.of(ViewerType.INSTRUCTORS));
+        question.setRecipientType(QuestionRecipientType.INSTRUCTORS);
+        question.setGiverType(QuestionGiverType.INSTRUCTORS);
 
         boolean result = frLogic.isResponseOfFeedbackQuestionVisibleToStudent(question);
 
         assertFalse(result);
-        assertFalse(question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS));
+        assertFalse(question.isResponseVisibleTo(ViewerType.STUDENTS));
     }
 
     @Test
@@ -280,7 +282,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
-        question.setShowResponsesTo(List.of(FeedbackParticipantType.INSTRUCTORS));
+        question.setShowResponsesTo(List.of(ViewerType.INSTRUCTORS));
 
         boolean result = frLogic.isResponseOfFeedbackQuestionVisibleToInstructor(question);
 
@@ -292,7 +294,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
-        question.setShowResponsesTo(List.of(FeedbackParticipantType.STUDENTS));
+        question.setShowResponsesTo(List.of(ViewerType.STUDENTS));
 
         boolean result = frLogic.isResponseOfFeedbackQuestionVisibleToInstructor(question);
 
@@ -337,7 +339,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
         UUID questionId = UUID.randomUUID();
         question.setId(questionId);
-        question.setGiverType(FeedbackParticipantType.STUDENTS);
+        question.setGiverType(QuestionGiverType.STUDENTS);
         Student student = getTypicalStudent();
         String studentEmail = student.getEmail();
         FeedbackResponse response = getTypicalFeedbackResponseForQuestion(question);

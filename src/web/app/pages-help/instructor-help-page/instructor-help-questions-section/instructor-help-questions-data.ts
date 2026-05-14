@@ -6,7 +6,6 @@ import {
   FeedbackContributionResponseDetails,
   FeedbackMcqQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
-  FeedbackParticipantType,
   FeedbackQuestionType,
   FeedbackRankRecipientsResponseDetails,
   FeedbackRubricQuestionDetails,
@@ -16,6 +15,8 @@ import {
   FeedbackSessionSubmissionStatus,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
+  QuestionGiverType,
+  QuestionRecipientType,
   ResponseOutput,
   ResponseVisibleSetting,
   SessionVisibleSetting,
@@ -58,8 +59,8 @@ export const EXAMPLE_ESSAY_QUESTION_MODEL: QuestionEditFormModel = {
   isFeedbackPathChanged: false,
   isQuestionDetailsChanged: false,
 
-  giverType: FeedbackParticipantType.STUDENTS,
-  recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+  giverType: QuestionGiverType.STUDENTS,
+  recipientType: QuestionRecipientType.OWN_TEAM_MEMBERS,
 
   customNumberOfEntitiesToGiveFeedbackTo: 0,
   numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
@@ -90,8 +91,8 @@ export const EXAMPLE_NUMERICAL_SCALE_QUESTION_MODEL: QuestionEditFormModel = {
   isFeedbackPathChanged: false,
   isQuestionDetailsChanged: false,
 
-  giverType: FeedbackParticipantType.STUDENTS,
-  recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+  giverType: QuestionGiverType.STUDENTS,
+  recipientType: QuestionRecipientType.OWN_TEAM_MEMBERS,
 
   customNumberOfEntitiesToGiveFeedbackTo: 0,
   numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
@@ -564,8 +565,8 @@ export const EXAMPLE_DISTRIBUTED_POINT_OPTION_MODEL: QuestionEditFormModel = {
   isFeedbackPathChanged: false,
   isQuestionDetailsChanged: false,
 
-  giverType: FeedbackParticipantType.STUDENTS,
-  recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+  giverType: QuestionGiverType.STUDENTS,
+  recipientType: QuestionRecipientType.OWN_TEAM_MEMBERS,
 
   customNumberOfEntitiesToGiveFeedbackTo: 0,
   numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
@@ -753,8 +754,8 @@ export const EXAMPLE_DISTRIBUTED_POINT_RECIPIENT_MODEL: QuestionEditFormModel = 
   isFeedbackPathChanged: false,
   isQuestionDetailsChanged: false,
 
-  giverType: FeedbackParticipantType.STUDENTS,
-  recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+  giverType: QuestionGiverType.STUDENTS,
+  recipientType: QuestionRecipientType.OWN_TEAM_MEMBERS,
 
   customNumberOfEntitiesToGiveFeedbackTo: 0,
   numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
@@ -785,8 +786,8 @@ export const EXAMPLE_TEAM_CONTRIBUTION_QUESTION_MODEL: QuestionEditFormModel = {
   isFeedbackPathChanged: false,
   isQuestionDetailsChanged: false,
 
-  giverType: FeedbackParticipantType.STUDENTS,
-  recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
+  giverType: QuestionGiverType.STUDENTS,
+  recipientType: QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
 
   customNumberOfEntitiesToGiveFeedbackTo: 0,
   numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
@@ -1046,8 +1047,8 @@ export const EXAMPLE_RUBRIC_QUESTION_MODEL: QuestionEditFormModel = {
   isFeedbackPathChanged: false,
   isQuestionDetailsChanged: false,
 
-  giverType: FeedbackParticipantType.STUDENTS,
-  recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+  giverType: QuestionGiverType.STUDENTS,
+  recipientType: QuestionRecipientType.OWN_TEAM_MEMBERS,
 
   customNumberOfEntitiesToGiveFeedbackTo: 0,
   numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
@@ -1235,8 +1236,8 @@ export const EXAMPLE_RANK_RECIPIENT_QUESTION_MODEL: QuestionEditFormModel = {
   isFeedbackPathChanged: false,
   isQuestionDetailsChanged: false,
 
-  giverType: FeedbackParticipantType.STUDENTS,
-  recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+  giverType: QuestionGiverType.STUDENTS,
+  recipientType: QuestionRecipientType.OWN_TEAM_MEMBERS,
 
   customNumberOfEntitiesToGiveFeedbackTo: 0,
   numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
@@ -1424,8 +1425,8 @@ export const EXAMPLE_RANK_OPTION_QUESTION_MODEL: QuestionEditFormModel = {
   isFeedbackPathChanged: false,
   isQuestionDetailsChanged: false,
 
-  giverType: FeedbackParticipantType.STUDENTS,
-  recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+  giverType: QuestionGiverType.STUDENTS,
+  recipientType: QuestionRecipientType.OWN_TEAM_MEMBERS,
 
   customNumberOfEntitiesToGiveFeedbackTo: 0,
   numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
@@ -1465,8 +1466,8 @@ export const EXAMPLE_MCQ_QUESTION_WITHOUT_WEIGHTS_MODEL: QuestionEditFormModel =
   isFeedbackPathChanged: false,
   isQuestionDetailsChanged: false,
 
-  giverType: FeedbackParticipantType.STUDENTS,
-  recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+  giverType: QuestionGiverType.STUDENTS,
+  recipientType: QuestionRecipientType.OWN_TEAM_MEMBERS,
 
   customNumberOfEntitiesToGiveFeedbackTo: 0,
   numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
@@ -1506,8 +1507,8 @@ export const EXAMPLE_MCQ_QUESTION_WITH_WEIGHTS_MODEL: QuestionEditFormModel = {
   isFeedbackPathChanged: false,
   isQuestionDetailsChanged: false,
 
-  giverType: FeedbackParticipantType.STUDENTS,
-  recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+  giverType: QuestionGiverType.STUDENTS,
+  recipientType: QuestionRecipientType.OWN_TEAM_MEMBERS,
 
   customNumberOfEntitiesToGiveFeedbackTo: 0,
   numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
@@ -1559,8 +1560,8 @@ export const EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL: QuestionSubmissionF
   questionBrief: '',
   questionDescription: '',
   questionType: FeedbackQuestionType.RUBRIC,
-  giverType: FeedbackParticipantType.STUDENTS,
-  recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+  giverType: QuestionGiverType.STUDENTS,
+  recipientType: QuestionRecipientType.OWN_TEAM_MEMBERS,
   numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
   showResponsesTo: [FeedbackVisibilityType.INSTRUCTORS, FeedbackVisibilityType.RECIPIENT],
   showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],

@@ -5,7 +5,7 @@ import {
   SortableTableCellData,
   SortableTableComponent,
 } from '../../sortable-table/sortable-table.component';
-import { FeedbackParticipantType, FeedbackRankRecipientsResponseDetails } from '../../../../types/api-output';
+import { FeedbackRankRecipientsResponseDetails, QuestionRecipientType } from '../../../../types/api-output';
 import { RankRecipientsQuestionStatistics, Response } from '../../../../types/question-statistics.model';
 import { calculateRankRecipientsQuestionStatistics } from '../../../utils/question-statistics.util';
 
@@ -23,7 +23,7 @@ export class RankRecipientsQuestionStatisticsComponent implements OnChanges {
   @Input()
   isStudent = false;
   @Input()
-  recipientType: FeedbackParticipantType = FeedbackParticipantType.NONE;
+  recipientType: QuestionRecipientType = QuestionRecipientType.NONE;
 
   // enum
   SortBy: typeof SortBy = SortBy;

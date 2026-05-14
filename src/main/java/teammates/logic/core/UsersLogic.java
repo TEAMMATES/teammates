@@ -17,9 +17,10 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.EnrollResults;
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -184,8 +185,8 @@ public final class UsersLogic {
                     feedbackResponsesLogic.getFeedbackResponsesFromGiverForCourse(courseId, originalEmail);
             for (FeedbackResponse responseFromUser : responsesFromUser) {
                 FeedbackQuestion question = responseFromUser.getFeedbackQuestion();
-                if (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
-                        || question.getGiverType() == FeedbackParticipantType.SELF) {
+                if (question.getGiverType() == QuestionGiverType.INSTRUCTORS
+                        || question.getGiverType() == QuestionGiverType.SELF) {
                     responseFromUser.setGiver(newEmail);
                 }
             }
@@ -193,9 +194,9 @@ public final class UsersLogic {
                     feedbackResponsesLogic.getFeedbackResponsesForRecipientForCourse(courseId, originalEmail);
             for (FeedbackResponse responseToUser : responsesToUser) {
                 FeedbackQuestion question = responseToUser.getFeedbackQuestion();
-                if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
-                        || question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
-                        && question.getRecipientType() == FeedbackParticipantType.SELF) {
+                if (question.getRecipientType() == QuestionRecipientType.INSTRUCTORS
+                        || question.getGiverType() == QuestionGiverType.INSTRUCTORS
+                        && question.getRecipientType() == QuestionRecipientType.SELF) {
                     responseToUser.setRecipient(newEmail);
                 }
             }
