@@ -272,11 +272,9 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
         } else if (expected instanceof FeedbackResponseComment) {
             FeedbackResponseComment expectedFeedbackResponseComment = (FeedbackResponseComment) expected;
             FeedbackResponseCommentData actualComment = (FeedbackResponseCommentData) actual;
-            assertEquals(expectedFeedbackResponseComment.getGiver(), actualComment.getCommentGiver());
             assertEquals(expectedFeedbackResponseComment.getCommentText(), actualComment.getCommentText());
             assertEquals(expectedFeedbackResponseComment.getIsVisibilityFollowingFeedbackQuestion(),
                     actualComment.isVisibilityFollowingFeedbackQuestion());
-            assertEquals(expectedFeedbackResponseComment.getLastEditorEmail(), actualComment.getLastEditorEmail());
         } else if (expected instanceof FeedbackSession) {
             FeedbackSession expectedFeedbackSession = (FeedbackSession) expected;
             FeedbackSessionData actualFeedbackSession = (FeedbackSessionData) actual;

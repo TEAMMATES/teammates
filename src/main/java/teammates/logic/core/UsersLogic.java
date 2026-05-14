@@ -200,8 +200,6 @@ public final class UsersLogic {
                     responseToUser.setRecipient(newEmail);
                 }
             }
-            // cascade comments
-            feedbackResponseCommentsLogic.updateFeedbackResponseCommentsEmails(courseId, originalEmail, newEmail);
         }
 
         return instructor;
@@ -648,6 +646,10 @@ public final class UsersLogic {
         return usersDb.getAllUsersByGoogleId(googleId);
     }
 
+    public Team getTeam(UUID teamId) {
+        return usersDb.getTeam(teamId);
+    }
+
     /**
      * Gets the section with the name in a particular course.
      */
@@ -773,8 +775,6 @@ public final class UsersLogic {
         if (newEmail != null && !student.getEmail().equals(newEmail)) {
             feedbackResponsesLogic
                     .updateFeedbackResponsesForChangingEmail(courseId, student.getEmail(), newEmail);
-            feedbackResponseCommentsLogic
-                    .updateFeedbackResponseCommentsEmails(courseId, student.getEmail(), newEmail);
             student.setEmail(newEmail);
         }
 

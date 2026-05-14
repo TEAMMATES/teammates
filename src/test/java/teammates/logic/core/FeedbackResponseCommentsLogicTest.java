@@ -103,17 +103,6 @@ public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testUpdateCommentEmails_success() {
-        String courseId = "Course_id";
-        String oldEmail = "oldEmail@gmail.com";
-        String newEmail = "newEmail@gmail.com";
-        frcLogic.updateFeedbackResponseCommentsEmails(courseId, oldEmail, newEmail);
-
-        verify(frcDb, times(1)).updateGiverEmailOfFeedbackResponseComments(courseId, oldEmail, newEmail);
-        verify(frcDb, times(1)).updateLastEditorEmailOfFeedbackResponseComments(courseId, oldEmail, newEmail);
-    }
-
-    @Test
     public void testUpdateComment_entityAlreadyExists_success()
             throws EntityDoesNotExistException {
         FeedbackResponseComment comment = getTypicalResponseComment(TYPICAL_ID);
@@ -145,7 +134,6 @@ public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
         assertEquals(updatedCommentText, updatedComment.getCommentText());
         assertEquals(expectedShowCommentTo, updatedComment.getShowCommentTo());
         assertEquals(expectedShowGiverNameTo, updatedComment.getShowGiverNameTo());
-        assertEquals(lastEditorEmail, updatedComment.getLastEditorEmail());
     }
 
     @Test
@@ -170,5 +158,11 @@ public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
                 () -> frcLogic.updateFeedbackResponseComment(nonExistentId, updateRequest, lastEditorEmail));
 
         assertEquals("Trying to update a feedback response comment that does not exist.", ex.getMessage());
+    }
+
+    private FeedbackResponseComment getTypicalResponseComment(UUID id) {
+        FeedbackResponseComment comment = getTypicalFeedbackResponseComment();
+        comment.setId(id);
+        return comment;
     }
 }

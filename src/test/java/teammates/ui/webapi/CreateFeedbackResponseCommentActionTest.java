@@ -20,6 +20,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
+import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -31,6 +32,7 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Student;
 import teammates.ui.output.CommentVisibilityType;
 import teammates.ui.output.FeedbackResponseCommentData;
@@ -774,14 +776,15 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     }
 
     private FeedbackResponseComment getTypicalCommentForInstructorResult() {
+        ResponseGiver giver = new ResponseGiver(ResponseGiverType.INSTRUCTOR, typicalInstructor.getId());
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
-                typicalInstructor.getEmail(),
+                giver,
                 typicalRequestBody.getCommentText(),
                 false,
                 false,
                 typicalRequestBody.getShowCommentTo(),
                 typicalRequestBody.getShowGiverNameTo(),
-                typicalInstructor.getEmail());
+                giver);
         typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000001"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
@@ -790,14 +793,15 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     }
 
     private FeedbackResponseComment getTypicalCommentForInstructorSubmission() {
+        ResponseGiver giver = new ResponseGiver(ResponseGiverType.INSTRUCTOR, typicalInstructor.getId());
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
-                typicalInstructor.getEmail(),
+                giver,
                 typicalRequestBody.getCommentText(),
                 true,
                 true,
                 typicalRequestBody.getShowCommentTo(),
                 typicalRequestBody.getShowGiverNameTo(),
-                typicalInstructor.getEmail());
+                giver);
         typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000002"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);
@@ -806,14 +810,15 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     }
 
     private FeedbackResponseComment getTypicalCommentForStudentSubmission() {
+        ResponseGiver giver = new ResponseGiver(ResponseGiverType.STUDENT, typicalStudent.getId());
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
-                typicalStudent.getEmail(),
+                giver,
                 typicalRequestBody.getCommentText(),
                 true,
                 true,
                 typicalRequestBody.getShowCommentTo(),
                 typicalRequestBody.getShowGiverNameTo(),
-                typicalStudent.getEmail());
+                giver);
         typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000003"));
         feedbackResponseComment.setCreatedAt(Instant.EPOCH);

@@ -9,12 +9,8 @@ import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 
 import teammates.common.util.HibernateUtil;
-import teammates.common.util.SanitizationHelper;
-import teammates.storage.entity.Course;
-import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
-import teammates.storage.entity.FeedbackSession;
 
 /**
  * Handles CRUD operations for feedbackResponseComments.
@@ -91,82 +87,6 @@ public final class FeedbackResponseCommentsDb {
 
         cq.select(root)
                 .where(root.get("responseId").in(feedbackResponseIds));
-
-        return HibernateUtil.createQuery(cq).getResultList();
-    }
-
-    /**
-     * Updates the giver email for all of the giver's comments in a course.
-     */
-    public void updateGiverEmailOfFeedbackResponseComments(String courseId, String oldEmail, String updatedEmail) {
-        assert courseId != null;
-        assert oldEmail != null;
-        assert updatedEmail != null;
-
-        if (SanitizationHelper.areEmailsEqual(oldEmail, updatedEmail)) {
-            return;
-        }
-
-        List<FeedbackResponseComment> responseComments =
-                getFeedbackResponseCommentEntitiesForGiverInCourse(courseId, oldEmail);
-
-        for (FeedbackResponseComment responseComment : responseComments) {
-            responseComment.setGiver(updatedEmail);
-        }
-    }
-
-    /**
-     * Updates the last editor to a new one for all comments in a course.
-     */
-    public void updateLastEditorEmailOfFeedbackResponseComments(String courseId, String oldEmail, String updatedEmail) {
-        assert courseId != null;
-        assert oldEmail != null;
-        assert updatedEmail != null;
-
-        if (SanitizationHelper.areEmailsEqual(oldEmail, updatedEmail)) {
-            return;
-        }
-
-        List<FeedbackResponseComment> responseComments =
-                getFeedbackResponseCommentEntitiesForLastEditorInCourse(courseId, oldEmail);
-
-        for (FeedbackResponseComment responseComment : responseComments) {
-            responseComment.setLastEditorEmail(updatedEmail);
-        }
-    }
-
-    private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForGiverInCourse(
-            String courseId, String giver) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<FeedbackResponseComment> cq = cb.createQuery(FeedbackResponseComment.class);
-        Root<FeedbackResponseComment> root = cq.from(FeedbackResponseComment.class);
-        Join<FeedbackResponseComment, FeedbackResponse> frJoin = root.join("feedbackResponse");
-        Join<FeedbackResponse, FeedbackQuestion> fqJoin = frJoin.join("feedbackQuestion");
-        Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
-        Join<FeedbackSession, Course> cJoin = fsJoin.join("course");
-
-        cq.select(root)
-                .where(cb.and(
-                    cb.equal(cJoin.get("id"), courseId),
-                    cb.equal(root.get("giver"), giver)));
-
-        return HibernateUtil.createQuery(cq).getResultList();
-    }
-
-    private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForLastEditorInCourse(
-            String courseId, String lastEditorEmail) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<FeedbackResponseComment> cq = cb.createQuery(FeedbackResponseComment.class);
-        Root<FeedbackResponseComment> root = cq.from(FeedbackResponseComment.class);
-        Join<FeedbackResponseComment, FeedbackResponse> frJoin = root.join("feedbackResponse");
-        Join<FeedbackResponse, FeedbackQuestion> fqJoin = frJoin.join("feedbackQuestion");
-        Join<FeedbackQuestion, FeedbackSession> fsJoin = fqJoin.join("feedbackSession");
-        Join<FeedbackSession, Course> cJoin = fsJoin.join("course");
-
-        cq.select(root)
-                .where(cb.and(
-                    cb.equal(cJoin.get("id"), courseId),
-                    cb.equal(root.get("lastEditorEmail"), lastEditorEmail)));
 
         return HibernateUtil.createQuery(cq).getResultList();
     }

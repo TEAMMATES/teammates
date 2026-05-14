@@ -98,11 +98,13 @@ public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         List<FeedbackResponseData> responsesData = new LinkedList<>();
         responses.forEach(response -> {
             FeedbackResponseData data = new FeedbackResponseData(response);
-            // Only MCQ and MSQ questions can have participant comment
+            // TODO: fix, n+1 query issue.
             FeedbackResponseComment comment =
                     logic.getFeedbackResponseCommentForResponseFromParticipant(response.getId());
             if (comment != null) {
-                data.setGiverComment(new FeedbackResponseCommentData(comment));
+                data.setGiverComment(new FeedbackResponseCommentData(comment,
+                        response.getGiver(),
+                        response.getGiver()));
             }
             responsesData.add(data);
         });
