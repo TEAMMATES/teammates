@@ -133,7 +133,7 @@ public abstract class Action {
         user.setGoogleId(googleId);
         if (unregisteredStudent != null) {
             user.setEmail(unregisteredStudent.getEmail());
-        } else if(unregisteredInstructor != null) {
+        } else if (unregisteredInstructor != null) {
             user.setEmail(unregisteredInstructor.getEmail());
         }
         return user;
