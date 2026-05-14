@@ -3,6 +3,7 @@ package teammates.e2e.cases;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -223,7 +224,8 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
             Student currentStudent) {
         String editor = "";
         String giver = "";
-        if (comment.getLastEditedBy() != null) {
+
+        if (!Objects.equals(comment.getLastEditedBy(), comment.getGiver())) {
             editor = getIdentifier(currentStudent, comment.getLastEditedBy());
         }
         if (!comment.getIsCommentFromFeedbackParticipant()) {
