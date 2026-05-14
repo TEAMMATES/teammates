@@ -6,15 +6,16 @@ import {
   FeedbackQuestion,
   FeedbackTextQuestionDetails,
   FeedbackTextResponseDetails,
+  QuestionGiverType,
+  QuestionRecipientType,
   ResponseOutput,
-} from 'src/web/types/api-output';
+} from '../../../../types/api-output';
 import SpyInstance = jest.SpyInstance;
 import { PerQuestionViewResponsesComponent } from './per-question-view-responses.component';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import testEventEmission from '../../../../test-helpers/test-event-emitter';
 import {
   CommentVisibilityType,
-  FeedbackParticipantType,
   FeedbackQuestionType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../../types/api-request';
@@ -86,8 +87,8 @@ describe('PerQuestionViewResponsesComponent', () => {
       shouldAllowRichText: true,
     } as FeedbackTextQuestionDetails,
     questionType: FeedbackQuestionType.TEXT,
-    giverType: FeedbackParticipantType.STUDENTS,
-    recipientType: FeedbackParticipantType.STUDENTS_EXCLUDING_SELF,
+    giverType: QuestionGiverType.STUDENTS,
+    recipientType: QuestionRecipientType.STUDENTS_EXCLUDING_SELF,
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     showResponsesTo: [],
     showGiverNameTo: [],

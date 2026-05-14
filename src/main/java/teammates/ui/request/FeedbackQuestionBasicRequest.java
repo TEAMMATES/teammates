@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.util.Const;
@@ -23,8 +25,8 @@ public class FeedbackQuestionBasicRequest extends BasicRequest {
     private Map<String, Object> questionDetails;
 
     private FeedbackQuestionType questionType;
-    private FeedbackParticipantType giverType;
-    private FeedbackParticipantType recipientType;
+    private QuestionGiverType giverType;
+    private QuestionRecipientType recipientType;
 
     private NumberOfEntitiesToGiveFeedbackToSetting numberOfEntitiesToGiveFeedbackToSetting;
     private Integer customNumberOfEntitiesToGiveFeedbackTo;
@@ -78,11 +80,11 @@ public class FeedbackQuestionBasicRequest extends BasicRequest {
         return details;
     }
 
-    public FeedbackParticipantType getGiverType() {
+    public QuestionGiverType getGiverType() {
         return giverType;
     }
 
-    public FeedbackParticipantType getRecipientType() {
+    public QuestionRecipientType getRecipientType() {
         return recipientType;
     }
 
@@ -105,49 +107,49 @@ public class FeedbackQuestionBasicRequest extends BasicRequest {
     /**
      * Get feedback participants who can see responses.
      */
-    public List<FeedbackParticipantType> getShowResponsesTo() {
-        List<FeedbackParticipantType> showResponsesTo =
-                this.convertToFeedbackParticipantType(this.showResponsesTo);
+    public List<ViewerType> getShowResponsesTo() {
+        List<ViewerType> showResponsesTo =
+                this.convertToViewerType(this.showResponsesTo);
 
         // specially handling for contribution questions
         // TODO: remove the hack
         if (this.questionType == FeedbackQuestionType.CONTRIB
-                && this.giverType == FeedbackParticipantType.STUDENTS
-                && this.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF
-                && showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
+                && this.giverType == QuestionGiverType.STUDENTS
+                && this.recipientType == QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF
+                && showResponsesTo.contains(ViewerType.OWN_TEAM_MEMBERS)) {
             // add the redundant participant type OWN_TEAM_MEMBERS even if it is just RECIPIENT_TEAM_MEMBERS
             // contribution question keep the redundancy for legacy reason
-            showResponsesTo.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+            showResponsesTo.add(ViewerType.RECEIVER_TEAM_MEMBERS);
         }
 
         return showResponsesTo;
     }
 
-    public List<FeedbackParticipantType> getShowGiverNameTo() {
-        return this.convertToFeedbackParticipantType(showGiverNameTo);
+    public List<ViewerType> getShowGiverNameTo() {
+        return this.convertToViewerType(showGiverNameTo);
     }
 
-    public List<FeedbackParticipantType> getShowRecipientNameTo() {
-        return this.convertToFeedbackParticipantType(showRecipientNameTo);
+    public List<ViewerType> getShowRecipientNameTo() {
+        return this.convertToViewerType(showRecipientNameTo);
     }
 
     /**
      * Converts a list of feedback visibility type to a list of feedback participant type.
      */
-    private List<FeedbackParticipantType> convertToFeedbackParticipantType(
+    private List<ViewerType> convertToViewerType(
             List<FeedbackVisibilityType> feedbackVisibilityTypes) {
         return feedbackVisibilityTypes.stream().map(feedbackVisibilityType -> {
             switch (feedbackVisibilityType) {
             case STUDENTS:
-                return FeedbackParticipantType.STUDENTS;
+                return ViewerType.STUDENTS;
             case INSTRUCTORS:
-                return FeedbackParticipantType.INSTRUCTORS;
+                return ViewerType.INSTRUCTORS;
             case RECIPIENT:
-                return FeedbackParticipantType.RECEIVER;
+                return ViewerType.RECEIVER;
             case GIVER_TEAM_MEMBERS:
-                return FeedbackParticipantType.OWN_TEAM_MEMBERS;
+                return ViewerType.OWN_TEAM_MEMBERS;
             case RECIPIENT_TEAM_MEMBERS:
-                return FeedbackParticipantType.RECEIVER_TEAM_MEMBERS;
+                return ViewerType.RECEIVER_TEAM_MEMBERS;
             default:
                 assert false : "Unknown feedbackVisibilityType" + feedbackVisibilityType;
                 break;
@@ -176,11 +178,11 @@ public class FeedbackQuestionBasicRequest extends BasicRequest {
         this.questionType = questionType;
     }
 
-    public void setGiverType(FeedbackParticipantType giverType) {
+    public void setGiverType(QuestionGiverType giverType) {
         this.giverType = giverType;
     }
 
-    public void setRecipientType(FeedbackParticipantType recipientType) {
+    public void setRecipientType(QuestionRecipientType recipientType) {
         this.recipientType = recipientType;
     }
 

@@ -8,8 +8,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
@@ -116,7 +116,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         case STUDENT_SUBMISSION:
             Student student = getStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
             giverIdentifier =
-                    feedbackQuestion.getGiverType() == FeedbackParticipantType.TEAMS
+                    feedbackQuestion.getGiverType() == QuestionGiverType.TEAMS
                             ? student.getTeamName() : student.getEmail();
             giverSection = student.getSection();
             existingResponses = logic.getFeedbackResponsesFromStudentOrTeamForQuestion(feedbackQuestion, student);

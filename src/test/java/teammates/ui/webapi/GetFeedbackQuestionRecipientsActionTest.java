@@ -15,8 +15,10 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
@@ -50,7 +52,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
     void setUp() {
         typicalFeedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
-        typicalFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        typicalFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
         typicalFeedbackSession.setSessionVisibleFromTime(Instant.now());
 
         typicalStudent = getTypicalStudent();
@@ -167,7 +169,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
     void testExecute_differentRecipientTypes_shouldReturnRecipientsCorrectly() {
         // Test SELF recipient type
         FeedbackQuestion selfQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
-        selfQuestion.setRecipientType(FeedbackParticipantType.SELF);
+        selfQuestion.setRecipientType(QuestionRecipientType.SELF);
         String[] selfParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, selfQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -192,7 +194,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
 
         // Test TEAMS recipient type
         FeedbackQuestion teamQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
-        teamQuestion.setRecipientType(FeedbackParticipantType.TEAMS);
+        teamQuestion.setRecipientType(QuestionRecipientType.TEAMS);
         String[] teamParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, teamQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -272,12 +274,12 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                 .thenReturn(typicalInstructor);
 
         ______TS("Instructor accessing own feedback - can access");
-        typicalFeedbackQuestion.setGiverType(FeedbackParticipantType.INSTRUCTORS);
+        typicalFeedbackQuestion.setGiverType(QuestionGiverType.INSTRUCTORS);
         loginAsInstructor(typicalInstructor.getGoogleId());
         verifyCanAccess(params);
 
         ______TS("Instructor preview as student - can access");
-        typicalFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        typicalFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
         String[] previewParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
@@ -288,14 +290,14 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         verifyCanAccess(previewParams);
 
         ______TS("Instructor moderating as student - can access");
-        List<FeedbackParticipantType> currentShowResponsesTo = new ArrayList<>(typicalFeedbackQuestion.getShowResponsesTo());
-        List<FeedbackParticipantType> currenShowGiverNameTo = new ArrayList<>(typicalFeedbackQuestion.getShowGiverNameTo());
-        List<FeedbackParticipantType> currentShowRecipientNameTo =
+        List<ViewerType> currentShowResponsesTo = new ArrayList<>(typicalFeedbackQuestion.getShowResponsesTo());
+        List<ViewerType> currenShowGiverNameTo = new ArrayList<>(typicalFeedbackQuestion.getShowGiverNameTo());
+        List<ViewerType> currentShowRecipientNameTo =
                         new ArrayList<>(typicalFeedbackQuestion.getShowRecipientNameTo());
 
-        currentShowResponsesTo.add(FeedbackParticipantType.INSTRUCTORS);
-        currenShowGiverNameTo.add(FeedbackParticipantType.INSTRUCTORS);
-        currentShowRecipientNameTo.add(FeedbackParticipantType.INSTRUCTORS);
+        currentShowResponsesTo.add(ViewerType.INSTRUCTORS);
+        currenShowGiverNameTo.add(ViewerType.INSTRUCTORS);
+        currentShowRecipientNameTo.add(ViewerType.INSTRUCTORS);
         typicalFeedbackQuestion.setShowResponsesTo(currentShowResponsesTo);
         typicalFeedbackQuestion.setShowGiverNameTo(currenShowGiverNameTo);
         typicalFeedbackQuestion.setShowRecipientNameTo(currentShowRecipientNameTo);

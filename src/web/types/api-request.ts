@@ -89,8 +89,8 @@ export interface FeedbackQuestionBasicRequest extends BasicRequest {
   questionDescription: string;
   questionDetails: { [index: string]: any };
   questionType: FeedbackQuestionType;
-  giverType: FeedbackParticipantType;
-  recipientType: FeedbackParticipantType;
+  giverType: QuestionGiverType;
+  recipientType: QuestionRecipientType;
   numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting;
   customNumberOfEntitiesToGiveFeedbackTo: number;
   showResponsesTo: FeedbackVisibilityType[];
@@ -298,24 +298,6 @@ export enum EmailType {
   LOGIN = "LOGIN",
 }
 
-export enum FeedbackParticipantType {
-  SELF = "SELF",
-  STUDENTS = "STUDENTS",
-  STUDENTS_IN_SAME_SECTION = "STUDENTS_IN_SAME_SECTION",
-  STUDENTS_EXCLUDING_SELF = "STUDENTS_EXCLUDING_SELF",
-  INSTRUCTORS = "INSTRUCTORS",
-  TEAMS = "TEAMS",
-  TEAMS_IN_SAME_SECTION = "TEAMS_IN_SAME_SECTION",
-  TEAMS_EXCLUDING_SELF = "TEAMS_EXCLUDING_SELF",
-  OWN_TEAM = "OWN_TEAM",
-  OWN_TEAM_MEMBERS = "OWN_TEAM_MEMBERS",
-  OWN_TEAM_MEMBERS_INCLUDING_SELF = "OWN_TEAM_MEMBERS_INCLUDING_SELF",
-  RECEIVER = "RECEIVER",
-  RECEIVER_TEAM_MEMBERS = "RECEIVER_TEAM_MEMBERS",
-  NONE = "NONE",
-  GIVER = "GIVER",
-}
-
 export enum FeedbackQuestionType {
   TEXT = "TEXT",
   MCQ = "MCQ",
@@ -374,6 +356,30 @@ export enum NotificationTargetUser {
 export enum NumberOfEntitiesToGiveFeedbackToSetting {
   CUSTOM = "CUSTOM",
   UNLIMITED = "UNLIMITED",
+}
+
+export enum QuestionGiverType {
+  SELF = "SELF",
+  STUDENTS = "STUDENTS",
+  STUDENTS_IN_SAME_SECTION = "STUDENTS_IN_SAME_SECTION",
+  INSTRUCTORS = "INSTRUCTORS",
+  TEAMS = "TEAMS",
+  TEAMS_IN_SAME_SECTION = "TEAMS_IN_SAME_SECTION",
+}
+
+export enum QuestionRecipientType {
+  SELF = "SELF",
+  STUDENTS = "STUDENTS",
+  STUDENTS_IN_SAME_SECTION = "STUDENTS_IN_SAME_SECTION",
+  STUDENTS_EXCLUDING_SELF = "STUDENTS_EXCLUDING_SELF",
+  INSTRUCTORS = "INSTRUCTORS",
+  TEAMS = "TEAMS",
+  TEAMS_IN_SAME_SECTION = "TEAMS_IN_SAME_SECTION",
+  TEAMS_EXCLUDING_SELF = "TEAMS_EXCLUDING_SELF",
+  OWN_TEAM = "OWN_TEAM",
+  OWN_TEAM_MEMBERS = "OWN_TEAM_MEMBERS",
+  OWN_TEAM_MEMBERS_INCLUDING_SELF = "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+  NONE = "NONE",
 }
 
 export enum ResponseVisibleSetting {

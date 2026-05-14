@@ -22,12 +22,12 @@ import {
   FeedbackMsqQuestionDetails,
   FeedbackMsqResponseDetails,
   FeedbackNumericalScaleResponseDetails,
-  FeedbackParticipantType,
   FeedbackRankOptionsQuestionDetails,
   FeedbackRankOptionsResponseDetails,
   FeedbackRankRecipientsResponseDetails,
   FeedbackRubricQuestionDetails,
   FeedbackRubricResponseDetails,
+  QuestionRecipientType,
 } from '../../types/api-output';
 import {
   CONTRIBUTION_POINT_NOT_SUBMITTED,
@@ -72,7 +72,7 @@ export function calculateConstsumOptionsQuestionStatistics(
 
 export function calculateConstsumRecipientsQuestionStatistics(
   responses: Response<FeedbackConstantSumResponseDetails>[],
-  recipientType: FeedbackParticipantType,
+  recipientType: QuestionRecipientType,
 ): ConstsumRecipientsQuestionStatistics {
   const stats: ConstsumRecipientsQuestionStatistics = {
     emailToTeamName: {},
@@ -86,7 +86,7 @@ export function calculateConstsumRecipientsQuestionStatistics(
   const pointsPerOptionToSelf: Record<string, number> = {};
 
   const isRecipientTeam: boolean =
-    recipientType === FeedbackParticipantType.TEAMS || recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF;
+    recipientType === QuestionRecipientType.TEAMS || recipientType === QuestionRecipientType.TEAMS_EXCLUDING_SELF;
 
   for (const response of responses) {
     const identifier: string = isRecipientTeam ? response.recipient : response.recipientEmail || response.recipient;
@@ -434,7 +434,7 @@ function updateResponseCountPerOptionForMsqResponse(
       // ignore 'None of the above' answer
       continue;
     }
-    if (!question.msqChoices.includes(answer) && question.generateOptionsFor === FeedbackParticipantType.NONE) {
+    if (!question.msqChoices.includes(answer) && question.generateOptionsFor === QuestionRecipientType.NONE) {
       // ignore other answer if any
       continue;
     }
@@ -573,7 +573,7 @@ function normalizeRanks(ranks: number[]): number[] {
 
 export function calculateRankRecipientsQuestionStatistics(
   responses: Response<FeedbackRankRecipientsResponseDetails>[],
-  recipientType: FeedbackParticipantType,
+  recipientType: QuestionRecipientType,
 ): RankRecipientsQuestionStatistics {
   const stats: RankRecipientsQuestionStatistics = {
     emailToTeamName: {},
@@ -589,11 +589,11 @@ export function calculateRankRecipientsQuestionStatistics(
   const ranksReceivedPerOptionExcludeSelf: Record<string, number[]> = {};
 
   const isRecipientTeam: boolean =
-    recipientType === FeedbackParticipantType.TEAMS || recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF;
+    recipientType === QuestionRecipientType.TEAMS || recipientType === QuestionRecipientType.TEAMS_EXCLUDING_SELF;
 
   const isRecipientOwnTeamMember: boolean =
-    recipientType === FeedbackParticipantType.OWN_TEAM_MEMBERS ||
-    recipientType === FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
+    recipientType === QuestionRecipientType.OWN_TEAM_MEMBERS ||
+    recipientType === QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
 
   const teamMembersPerTeam: Record<string, string[]> = {};
 

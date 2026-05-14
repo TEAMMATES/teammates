@@ -1,10 +1,11 @@
 import {
-  FeedbackParticipantType,
   FeedbackQuestionDetails,
   FeedbackQuestionType,
   FeedbackResponseDetails,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
+  QuestionGiverType,
+  QuestionRecipientType,
 } from '../../../types/api-output';
 import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
 
@@ -36,8 +37,8 @@ export interface QuestionSubmissionFormModel {
   questionType: FeedbackQuestionType;
   questionDetails: FeedbackQuestionDetails;
 
-  giverType: FeedbackParticipantType;
-  recipientType: FeedbackParticipantType;
+  giverType: QuestionGiverType;
+  recipientType: QuestionRecipientType;
   recipientList: FeedbackResponseRecipient[];
   recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[];
 

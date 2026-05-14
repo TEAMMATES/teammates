@@ -8,13 +8,14 @@ import { CopyQuestionsFromOtherSessionsModalComponent } from './copy-questions-f
 import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
 import {
   FeedbackMcqQuestionDetails,
-  FeedbackParticipantType,
   FeedbackQuestion,
   FeedbackQuestions,
   FeedbackQuestionType,
   FeedbackRankRecipientsQuestionDetails,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
+  QuestionGiverType,
+  QuestionRecipientType,
 } from '../../../../types/api-output';
 import { SortBy, SortOrder } from '../../../../types/sort-properties';
 
@@ -29,8 +30,8 @@ describe('CopyQuestionsFromOtherSessionsModalComponent', () => {
       questionType: FeedbackQuestionType.TEXT,
       questionText: 'question text',
     },
-    giverType: FeedbackParticipantType.STUDENTS,
-    recipientType: FeedbackParticipantType.INSTRUCTORS,
+    giverType: QuestionGiverType.STUDENTS,
+    recipientType: QuestionRecipientType.INSTRUCTORS,
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
     showResponsesTo: [FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS],
@@ -49,8 +50,8 @@ describe('CopyQuestionsFromOtherSessionsModalComponent', () => {
       questionText: 'question text',
       mcqChoices: ['choice 1', 'choice 2', 'choice 3'],
     } as FeedbackMcqQuestionDetails,
-    giverType: FeedbackParticipantType.STUDENTS,
-    recipientType: FeedbackParticipantType.INSTRUCTORS,
+    giverType: QuestionGiverType.STUDENTS,
+    recipientType: QuestionRecipientType.INSTRUCTORS,
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
     showResponsesTo: [FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS],
@@ -71,8 +72,8 @@ describe('CopyQuestionsFromOtherSessionsModalComponent', () => {
       maxOptionsToBeRanked: 5,
       areDuplicatesAllowed: true,
     } as FeedbackRankRecipientsQuestionDetails,
-    giverType: FeedbackParticipantType.STUDENTS,
-    recipientType: FeedbackParticipantType.INSTRUCTORS,
+    giverType: QuestionGiverType.STUDENTS,
+    recipientType: QuestionRecipientType.INSTRUCTORS,
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
     showResponsesTo: [FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS],

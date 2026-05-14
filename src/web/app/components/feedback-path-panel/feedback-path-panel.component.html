@@ -101,13 +101,13 @@
     </div>
   }
   @if (
-    model.recipientType === FeedbackParticipantType.STUDENTS ||
-    model.recipientType === FeedbackParticipantType.STUDENTS_EXCLUDING_SELF ||
-    model.recipientType === FeedbackParticipantType.STUDENTS_IN_SAME_SECTION ||
-    model.recipientType === FeedbackParticipantType.TEAMS ||
-    model.recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF ||
-    model.recipientType === FeedbackParticipantType.TEAMS_IN_SAME_SECTION ||
-    model.recipientType === FeedbackParticipantType.INSTRUCTORS
+    model.recipientType === QuestionRecipientType.STUDENTS ||
+    model.recipientType === QuestionRecipientType.STUDENTS_EXCLUDING_SELF ||
+    model.recipientType === QuestionRecipientType.STUDENTS_IN_SAME_SECTION ||
+    model.recipientType === QuestionRecipientType.TEAMS ||
+    model.recipientType === QuestionRecipientType.TEAMS_EXCLUDING_SELF ||
+    model.recipientType === QuestionRecipientType.TEAMS_IN_SAME_SECTION ||
+    model.recipientType === QuestionRecipientType.INSTRUCTORS
   ) {
     <div class="row margin-top-15px align-items-center">
       <div class="offset-1 col-md-4 text-md-end">

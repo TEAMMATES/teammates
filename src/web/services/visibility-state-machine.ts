@@ -1,4 +1,4 @@
-import { FeedbackParticipantType, FeedbackVisibilityType } from '../types/api-output';
+import { FeedbackVisibilityType, QuestionGiverType, QuestionRecipientType } from '../types/api-output';
 import { VisibilityControl } from '../types/visibility-control';
 
 /**
@@ -11,7 +11,7 @@ export class VisibilityStateMachine {
 
   private applicability: Set<FeedbackVisibilityType> = new Set();
 
-  constructor(giverType: FeedbackParticipantType, recipientType: FeedbackParticipantType) {
+  constructor(giverType: QuestionGiverType, recipientType: QuestionRecipientType) {
     // init
     this.reset();
     // start from state
@@ -49,19 +49,19 @@ export class VisibilityStateMachine {
     }
   }
 
-  private startFromNewState(giverType: FeedbackParticipantType, recipientType: FeedbackParticipantType): void {
+  private startFromNewState(giverType: QuestionGiverType, recipientType: QuestionRecipientType): void {
     this.reset();
     // disable according to giver
     switch (giverType) {
-      case FeedbackParticipantType.STUDENTS:
+      case QuestionGiverType.STUDENTS:
         // all options enabled when giverType is STUDENTS (subject to options disabled by recipientType)
         break;
-      case FeedbackParticipantType.SELF:
-      case FeedbackParticipantType.INSTRUCTORS:
+      case QuestionGiverType.SELF:
+      case QuestionGiverType.INSTRUCTORS:
         // GIVER_TEAM_MEMBERS is disabled for SELF and INSTRUCTORS because it is the same as INSTRUCTORS
         this.applicability.delete(FeedbackVisibilityType.GIVER_TEAM_MEMBERS);
         break;
-      case FeedbackParticipantType.TEAMS:
+      case QuestionGiverType.TEAMS:
         // GIVER_TEAM_MEMBERS is disabled for TEAMS because it is the same as TEAMS
         this.applicability.delete(FeedbackVisibilityType.GIVER_TEAM_MEMBERS);
         break;
@@ -70,39 +70,39 @@ export class VisibilityStateMachine {
     }
     // disable according to recipient
     switch (recipientType) {
-      case FeedbackParticipantType.SELF:
+      case QuestionRecipientType.SELF:
         // RECIPIENT is disabled because self-feedback is always visible to giver
         this.applicability.delete(FeedbackVisibilityType.RECIPIENT);
         // RECIPIENT_TEAM_MEMBERS is disabled because it is the same as GIVER_TEAM_MEMBERS
         this.applicability.delete(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS);
         break;
-      case FeedbackParticipantType.STUDENTS:
-      case FeedbackParticipantType.STUDENTS_EXCLUDING_SELF:
-      case FeedbackParticipantType.STUDENTS_IN_SAME_SECTION:
+      case QuestionRecipientType.STUDENTS:
+      case QuestionRecipientType.STUDENTS_EXCLUDING_SELF:
+      case QuestionRecipientType.STUDENTS_IN_SAME_SECTION:
         // all options enabled when recipientType is STUDENTS (subject to options disabled by giverType)
         break;
-      case FeedbackParticipantType.OWN_TEAM:
+      case QuestionRecipientType.OWN_TEAM:
         // RECIPIENT and RECIPIENT_TEAM_MEMBERS are disabled because they are the same as GIVER_TEAM_MEMBERS
         this.applicability.delete(FeedbackVisibilityType.RECIPIENT);
         this.applicability.delete(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS);
         break;
-      case FeedbackParticipantType.INSTRUCTORS:
+      case QuestionRecipientType.INSTRUCTORS:
         // RECIPIENT_TEAM_MEMBERS is disabled because it is the same as INSTRUCTORS
         this.applicability.delete(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS);
         break;
-      case FeedbackParticipantType.TEAMS:
-      case FeedbackParticipantType.TEAMS_EXCLUDING_SELF:
-      case FeedbackParticipantType.TEAMS_IN_SAME_SECTION:
+      case QuestionRecipientType.TEAMS:
+      case QuestionRecipientType.TEAMS_EXCLUDING_SELF:
+      case QuestionRecipientType.TEAMS_IN_SAME_SECTION:
         // RECIPIENT_TEAM_MEMBERS is disabled because it is the same as RECIPIENT
         this.applicability.delete(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS);
         break;
-      case FeedbackParticipantType.OWN_TEAM_MEMBERS:
-      case FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF:
+      case QuestionRecipientType.OWN_TEAM_MEMBERS:
+      case QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF:
         // RECIPIENT_TEAM_MEMBERS is disabled for OWN_TEAM_MEMBERS and OWN_TEAM_MEMBERS_INCLUDING_SELF
         // because it is the same as GIVER_TEAM_MEMBERS
         this.applicability.delete(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS);
         break;
-      case FeedbackParticipantType.NONE:
+      case QuestionRecipientType.NONE:
         // RECIPIENT and RECIPIENT_TEAM_MEMBERS are disabled because there are no recipients
         this.applicability.delete(FeedbackVisibilityType.RECIPIENT);
         this.applicability.delete(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS);
@@ -112,16 +112,16 @@ export class VisibilityStateMachine {
     }
     // disable according to combination
     if (
-      (giverType === FeedbackParticipantType.SELF || giverType === FeedbackParticipantType.INSTRUCTORS) &&
-      recipientType === FeedbackParticipantType.SELF
+      (giverType === QuestionGiverType.SELF || giverType === QuestionGiverType.INSTRUCTORS) &&
+      recipientType === QuestionRecipientType.SELF
     ) {
       // RECIPIENT_TEAM_MEMBERS is disabled because it is the same as INSTRUCTORS
       this.applicability.delete(FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS);
     }
 
     if (
-      giverType === FeedbackParticipantType.TEAMS &&
-      recipientType === FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF
+      giverType === QuestionGiverType.TEAMS &&
+      recipientType === QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF
     ) {
       // RECIPIENT is disabled because this is almost like a self-feedback where giver can always see the response
       this.applicability.delete(FeedbackVisibilityType.RECIPIENT);

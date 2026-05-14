@@ -3,9 +3,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import {
-  FeedbackParticipantType,
   FeedbackQuestionType,
   NumberOfEntitiesToGiveFeedbackToSetting,
+  QuestionGiverType,
+  QuestionRecipientType,
 } from '../../../types/api-output';
 import { QuestionEditFormModel } from '../question-edit-form/question-edit-form-model';
 import {
@@ -34,7 +35,7 @@ import {
 })
 export class FeedbackPathPanelComponent {
   // enum
-  FeedbackParticipantType: typeof FeedbackParticipantType = FeedbackParticipantType;
+  QuestionRecipientType: typeof QuestionRecipientType = QuestionRecipientType;
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
   NumberOfEntitiesToGiveFeedbackToSetting: typeof NumberOfEntitiesToGiveFeedbackToSetting =
     NumberOfEntitiesToGiveFeedbackToSetting;
@@ -55,8 +56,8 @@ export class FeedbackPathPanelComponent {
       questionText: '',
     },
 
-    giverType: FeedbackParticipantType.STUDENTS,
-    recipientType: FeedbackParticipantType.OWN_TEAM_MEMBERS,
+    giverType: QuestionGiverType.STUDENTS,
+    recipientType: QuestionRecipientType.OWN_TEAM_MEMBERS,
 
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 1,
@@ -80,10 +81,10 @@ export class FeedbackPathPanelComponent {
   };
 
   @Input()
-  commonFeedbackPaths: Map<FeedbackParticipantType, FeedbackParticipantType[]> = new Map();
+  commonFeedbackPaths: Map<QuestionGiverType, QuestionRecipientType[]> = new Map();
 
   @Input()
-  allowedFeedbackPaths: Map<FeedbackParticipantType, FeedbackParticipantType[]> = new Map();
+  allowedFeedbackPaths: Map<QuestionGiverType, QuestionRecipientType[]> = new Map();
 
   @Output()
   customFeedbackPath: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -100,7 +101,7 @@ export class FeedbackPathPanelComponent {
     Partial<QuestionEditFormModel>
   >();
 
-  subMenuStatuses: Map<FeedbackParticipantType, boolean> = new Map();
+  subMenuStatuses: Map<QuestionGiverType, boolean> = new Map();
 
   triggerCustomNumberOfEntities(data: number): void {
     this.customNumberOfEntitiesToGiveFeedbackTo.emit(data);
@@ -114,7 +115,7 @@ export class FeedbackPathPanelComponent {
     this.customFeedbackPath.emit(true);
   }
 
-  toggleSubMenu(menu: FeedbackParticipantType): void {
+  toggleSubMenu(menu: QuestionGiverType): void {
     this.subMenuStatuses.set(menu, !this.subMenuStatuses.get(menu));
   }
 
@@ -122,22 +123,20 @@ export class FeedbackPathPanelComponent {
     this.subMenuStatuses.forEach((_, key) => this.subMenuStatuses.set(key, false));
   }
 
-  isSubMenuOpen(menu: FeedbackParticipantType): boolean {
+  isSubMenuOpen(menu: QuestionGiverType): boolean {
     let subMenuState: boolean | undefined = this.subMenuStatuses.get(menu);
-    if (subMenuState === undefined) {
-      subMenuState = false;
-    }
+    subMenuState ??= false;
     return subMenuState;
   }
 
   /**
    * Change the {@code giverType} and {@code recipientType} and reset the visibility settings.
    */
-  changeGiverRecipientType(giverType: FeedbackParticipantType, recipientType: FeedbackParticipantType): void {
+  changeGiverRecipientType(giverType: QuestionGiverType, recipientType: QuestionRecipientType): void {
     // check if current recipientType is allowed for giverType,
     // if not, set default recipientType to the first allowed type as default.
-    const allowedRecipientTypes: FeedbackParticipantType[] = this.allowedFeedbackPaths.get(giverType)!;
-    let newRecipientType: FeedbackParticipantType = recipientType;
+    const allowedRecipientTypes: QuestionRecipientType[] = this.allowedFeedbackPaths.get(giverType)!;
+    let newRecipientType: QuestionRecipientType = recipientType;
     if (!allowedRecipientTypes.includes(recipientType)) {
       newRecipientType = allowedRecipientTypes[0];
     }

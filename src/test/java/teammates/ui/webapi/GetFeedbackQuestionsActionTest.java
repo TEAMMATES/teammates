@@ -9,7 +9,9 @@ import java.util.List;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
@@ -92,14 +94,14 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
     }
 
     private List<FeedbackQuestion> generateFeedbackQuestionsInSession(FeedbackSession feedbackSession) {
-        List<FeedbackParticipantType> feedbackQuestionParticipantTypes =
-                List.of(FeedbackParticipantType.INSTRUCTORS);
+        List<ViewerType> feedbackQuestionParticipantTypes =
+                List.of(ViewerType.INSTRUCTORS);
 
         FeedbackTextQuestionDetails fq1Details =
                 new FeedbackTextQuestionDetails("What is the best selling point of your product?");
         FeedbackQuestion fq1 = FeedbackQuestion.makeQuestion(
                                     1, "This is a text question.",
-                                    FeedbackParticipantType.STUDENTS, FeedbackParticipantType.SELF, 1,
+                                    QuestionGiverType.STUDENTS, QuestionRecipientType.SELF, 1,
                                     feedbackQuestionParticipantTypes, feedbackQuestionParticipantTypes,
                                     feedbackQuestionParticipantTypes, fq1Details);
         feedbackSession.addFeedbackQuestion(fq1);
@@ -109,7 +111,7 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         fq2Details.setRecommendedLength(0);
         FeedbackQuestion fq2 = FeedbackQuestion.makeQuestion(
                 2, "This is a text question.",
-                FeedbackParticipantType.STUDENTS, FeedbackParticipantType.STUDENTS_EXCLUDING_SELF, 1,
+                QuestionGiverType.STUDENTS, QuestionRecipientType.STUDENTS_EXCLUDING_SELF, 1,
                 feedbackQuestionParticipantTypes, feedbackQuestionParticipantTypes, feedbackQuestionParticipantTypes,
                 fq2Details);
         feedbackSession.addFeedbackQuestion(fq2);

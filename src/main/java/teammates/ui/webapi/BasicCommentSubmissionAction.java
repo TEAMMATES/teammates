@@ -2,7 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
@@ -37,11 +37,11 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
     void verifyResponseOwnershipForStudent(Student student, FeedbackResponse response,
             FeedbackQuestion question)
             throws UnauthorizedAccessException {
-        if (question.getGiverType() == FeedbackParticipantType.TEAMS
+        if (question.getGiverType() == QuestionGiverType.TEAMS
                 && !response.getGiver().equals(student.getTeamName())) {
             throw new UnauthorizedAccessException("Response [" + response.getId() + "] is not accessible to "
                     + student.getTeam());
-        } else if (question.getGiverType() == FeedbackParticipantType.STUDENTS
+        } else if (question.getGiverType() == QuestionGiverType.STUDENTS
                 && !SanitizationHelper.areEmailsEqual(response.getGiver(), student.getEmail())) {
             throw new UnauthorizedAccessException("Response [" + response.getId() + "] is not accessible to "
                     + student.getName());

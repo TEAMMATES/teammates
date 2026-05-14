@@ -12,8 +12,8 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
@@ -60,10 +60,10 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         feedbackSessionInCourse1 = generateSessionInCourse(course1);
         FeedbackQuestion qn1InSession1InCourse1 = getTypicalFeedbackQuestionForSession(feedbackSessionInCourse1);
-        qn1InSession1InCourse1.setGiverType(FeedbackParticipantType.STUDENTS);
+        qn1InSession1InCourse1.setGiverType(QuestionGiverType.STUDENTS);
 
         FeedbackQuestion qn2InSession1InCourse1 = getTypicalFeedbackQuestionForSession(feedbackSessionInCourse1);
-        qn2InSession1InCourse1.setGiverType(FeedbackParticipantType.INSTRUCTORS);
+        qn2InSession1InCourse1.setGiverType(QuestionGiverType.INSTRUCTORS);
 
         studentInCourse1 = generateStudentInCourse("student-1", course1);
         studentInCourse2 = generateStudentInCourse("student-2", course2);
@@ -74,7 +74,6 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         responseForQ2 = getTypicalFeedbackResponseForQuestion(qn2InSession1InCourse1);
 
         commentForQ1Response1 = new FeedbackResponseComment("student-1@teammates.tmt",
-                FeedbackParticipantType.STUDENTS, getTypicalSection(), getTypicalSection(),
                 "Student 1 comment", false, false,
                 new ArrayList<>(), new ArrayList<>(), "student-1@teammates.tmt");
         responseForQ1.addFeedbackResponseComment(commentForQ1Response1);
@@ -83,7 +82,6 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         commentForQ1Response1.setUpdatedAt(Instant.now());
 
         commentForQ2Response1 = new FeedbackResponseComment("instructor-1@teammates.tmt",
-                FeedbackParticipantType.INSTRUCTORS, getTypicalSection(), getTypicalSection(),
                 "Instructor 1 comment", false, false,
                 new ArrayList<>(), new ArrayList<>(), "instructor-1@teammates.tmt");
         responseForQ2.addFeedbackResponseComment(commentForQ2Response1);

@@ -15,9 +15,11 @@ import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.storage.entity.DeadlineExtension;
 
 /**
@@ -231,7 +233,6 @@ public final class FieldValidator {
     public static final String TIME_BEFORE_OR_EQUAL_ERROR_MESSAGE =
             "The %s for this %s cannot be earlier than or at the same time as the %s.";
 
-    public static final String PARTICIPANT_TYPE_ERROR_MESSAGE = "%s is not a valid %s.";
     public static final String PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE =
             "The feedback recipients cannot be \"%s\" when the feedback giver is \"%s\". "
             + "Did you mean to use \"Self\" instead?";
@@ -864,22 +865,16 @@ public final class FieldValidator {
      * @return Error string if either type is invalid, otherwise empty string.
      */
     public static List<String> getValidityInfoForFeedbackParticipantType(
-            FeedbackParticipantType giverType, FeedbackParticipantType recipientType) {
+            QuestionGiverType giverType, QuestionRecipientType recipientType) {
 
         assert giverType != null;
         assert recipientType != null;
 
         List<String> errors = new LinkedList<>();
-        if (!giverType.isValidGiver()) {
-            errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, giverType.toString(), GIVER_TYPE_NAME));
-        }
-        if (!recipientType.isValidRecipient()) {
-            errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, recipientType.toString(), RECIPIENT_TYPE_NAME));
-        }
-        if (giverType == FeedbackParticipantType.TEAMS
-                && (recipientType == FeedbackParticipantType.OWN_TEAM
-                        || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
-            String displayRecipientName = recipientType == FeedbackParticipantType.OWN_TEAM
+        if (giverType == QuestionGiverType.TEAMS
+                && (recipientType == QuestionRecipientType.OWN_TEAM
+                        || recipientType == QuestionRecipientType.OWN_TEAM_MEMBERS)) {
+            String displayRecipientName = recipientType == QuestionRecipientType.OWN_TEAM
                     ? "Giver's team" : "Giver's team members";
             errors.add(String.format(PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
                     displayRecipientName,
@@ -887,22 +882,6 @@ public final class FieldValidator {
         }
 
         return errors;
-    }
-
-    /**
-     * Checks if comment giver type is either instructor, student or team.
-     *
-     * @param commentGiverType comment giver type to be checked.
-     * @return Error string if type is invalid, otherwise empty string.
-     */
-    public static String getInvalidityInfoForCommentGiverType(FeedbackParticipantType commentGiverType) {
-        assert commentGiverType != null;
-        if (commentGiverType != FeedbackParticipantType.STUDENTS
-                && commentGiverType != FeedbackParticipantType.INSTRUCTORS
-                && commentGiverType != FeedbackParticipantType.TEAMS) {
-            return "Invalid comment giver type: " + commentGiverType;
-        }
-        return "";
     }
 
     /**
@@ -922,18 +901,18 @@ public final class FieldValidator {
     }
 
     /**
-     * Checks if all the given participant types are valid for the purpose of
+     * Checks if all the given viewer types are valid for the purpose of
      * showing different fields of a feedback response.
      *
-     * @param showResponsesTo the list of participant types to whom responses can be shown
-     * @param showGiverNameTo the list of participant types to whom giver name can be shown
-     * @param showRecipientNameTo the list of participant types to whom recipient name can be shown
+     * @param showResponsesTo the list of viewer types to whom responses can be shown
+     * @param showGiverNameTo the list of viewer types to whom giver name can be shown
+     * @param showRecipientNameTo the list of viewer types to whom recipient name can be shown
      * @return Error string if any type in any list is invalid, otherwise empty string.
      */
     public static List<String> getValidityInfoForFeedbackResponseVisibility(
-            List<FeedbackParticipantType> showResponsesTo,
-            List<FeedbackParticipantType> showGiverNameTo,
-            List<FeedbackParticipantType> showRecipientNameTo) {
+            List<ViewerType> showResponsesTo,
+            List<ViewerType> showGiverNameTo,
+            List<ViewerType> showRecipientNameTo) {
 
         assert showResponsesTo != null;
         assert showGiverNameTo != null;
@@ -944,11 +923,7 @@ public final class FieldValidator {
 
         List<String> errors = new LinkedList<>();
 
-        for (FeedbackParticipantType type : showGiverNameTo) {
-            if (!type.isValidViewer()) {
-                errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
-                        type.toString(), VIEWER_TYPE_NAME));
-            }
+        for (ViewerType type : showGiverNameTo) {
             if (!showResponsesTo.contains(type)) {
                 errors.add("Trying to show giver name to "
                         + type.toString()
@@ -956,22 +931,11 @@ public final class FieldValidator {
             }
         }
 
-        for (FeedbackParticipantType type : showRecipientNameTo) {
-            if (!type.isValidViewer()) {
-                errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
-                        type.toString(), VIEWER_TYPE_NAME));
-            }
+        for (ViewerType type : showRecipientNameTo) {
             if (!showResponsesTo.contains(type)) {
                 errors.add("Trying to show recipient name to "
                         + type.toString()
                         + " without showing response first.");
-            }
-        }
-
-        for (FeedbackParticipantType type : showResponsesTo) {
-            if (!type.isValidViewer()) {
-                errors.add(String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
-                        type.toString(), VIEWER_TYPE_NAME));
             }
         }
 

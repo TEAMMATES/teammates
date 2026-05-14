@@ -34,7 +34,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.util.TimeHelper;
 import teammates.e2e.util.TestProperties;
 import teammates.test.FileHelper;
@@ -745,7 +746,7 @@ public abstract class AppPage {
         browser.closeCurrentWindowAndSwitchToParentWindow();
     }
 
-    String getDisplayGiverName(FeedbackParticipantType type) {
+    String getDisplayGiverName(QuestionGiverType type) {
         switch (type) {
         case SELF:
             return "Feedback session creator (i.e., me)";
@@ -756,11 +757,11 @@ public abstract class AppPage {
         case TEAMS:
             return "Teams in this course";
         default:
-            throw new IllegalArgumentException("Unknown FeedbackParticipantType: " + type);
+            throw new IllegalArgumentException("Unknown QuestionGiverType: " + type);
         }
     }
 
-    String getDisplayRecipientName(FeedbackParticipantType type) {
+    String getDisplayRecipientName(QuestionRecipientType type) {
         switch (type) {
         case SELF:
             return "Giver (Self feedback)";
@@ -787,7 +788,7 @@ public abstract class AppPage {
         case NONE:
             return "Nobody specific (For general class feedback)";
         default:
-            throw new IllegalArgumentException("Unknown FeedbackParticipantType: " + type);
+            throw new IllegalArgumentException("Unknown QuestionRecipientType: " + type);
         }
     }
 

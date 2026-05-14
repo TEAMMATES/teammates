@@ -2,9 +2,9 @@ import { AbstractFeedbackQuestionDetails } from './abstract-feedback-question-de
 import {
   FeedbackNumericalScaleQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
-  FeedbackParticipantType,
   FeedbackQuestionType,
   QuestionOutput,
+  QuestionRecipientType,
 } from '../api-output';
 import { NumScaleQuestionStatistics, Response } from '../question-statistics.model';
 import { calculateNumScaleQuestionStatistics } from '../../app/utils/question-statistics.util';
@@ -83,7 +83,7 @@ export class FeedbackNumericalScaleQuestionDetailsImpl
     question: QuestionOutput,
     statsCalculation: NumScaleQuestionStatistics,
   ): boolean {
-    if (question.feedbackQuestion.recipientType === FeedbackParticipantType.NONE) {
+    if (question.feedbackQuestion.recipientType === QuestionRecipientType.NONE) {
       // General recipient type would not give self response
       // Therefore average exclude self response will always be hidden
       return false;

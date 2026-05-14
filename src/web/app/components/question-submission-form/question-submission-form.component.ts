@@ -18,7 +18,6 @@ import {
   FeedbackMcqResponseDetails,
   FeedbackMsqResponseDetails,
   FeedbackNumericalScaleResponseDetails,
-  FeedbackParticipantType,
   FeedbackQuestionType,
   FeedbackRankOptionsResponseDetails,
   FeedbackResponseDetails,
@@ -26,6 +25,8 @@ import {
   FeedbackTextResponseDetails,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
+  QuestionGiverType,
+  QuestionRecipientType,
 } from '../../../types/api-output';
 import { NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED } from '../../../types/feedback-response-details';
 import { QuestionDetailsTypeChecker } from '../../../types/question-details-impl/question-details-caster';
@@ -121,7 +122,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
 
   // enum
   QuestionSubmissionFormMode: typeof QuestionSubmissionFormMode = QuestionSubmissionFormMode;
-  FeedbackParticipantType: typeof FeedbackParticipantType = FeedbackParticipantType;
+  QuestionGiverType: typeof QuestionGiverType = QuestionGiverType;
+  QuestionRecipientType: typeof QuestionRecipientType = QuestionRecipientType;
   FeedbackVisibilityType: typeof FeedbackVisibilityType = FeedbackVisibilityType;
   CommentRowMode: typeof CommentRowMode = CommentRowMode;
 
@@ -205,8 +207,8 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     questionBrief: '',
     questionDescription: '',
 
-    giverType: FeedbackParticipantType.STUDENTS,
-    recipientType: FeedbackParticipantType.STUDENTS,
+    giverType: QuestionGiverType.STUDENTS,
+    recipientType: QuestionRecipientType.STUDENTS,
     recipientList: [],
     recipientSubmissionForms: [],
 
@@ -488,12 +490,12 @@ export class QuestionSubmissionFormComponent implements DoCheck {
     this.responsesSave.emit(this.model);
   }
 
-  getSelectionLabelType(recipientType: FeedbackParticipantType): FeedbackRecipientLabelType {
+  getSelectionLabelType(recipientType: QuestionRecipientType): FeedbackRecipientLabelType {
     switch (recipientType) {
-      case FeedbackParticipantType.STUDENTS:
-      case FeedbackParticipantType.STUDENTS_EXCLUDING_SELF:
+      case QuestionRecipientType.STUDENTS:
+      case QuestionRecipientType.STUDENTS_EXCLUDING_SELF:
         return FeedbackRecipientLabelType.INCLUDE_SECTION;
-      case FeedbackParticipantType.STUDENTS_IN_SAME_SECTION:
+      case QuestionRecipientType.STUDENTS_IN_SAME_SECTION:
         return FeedbackRecipientLabelType.INCLUDE_TEAM;
       default:
         return FeedbackRecipientLabelType.INCLUDE_NAME;

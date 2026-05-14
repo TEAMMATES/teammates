@@ -37,7 +37,7 @@
         <div class="card-body visibility-card">
           <p class="text-secondary">Only the following persons can see your responses:</p>
           <ul class="visibility-list text-secondary">
-            @if (model.recipientType === FeedbackParticipantType.SELF) {
+            @if (model.recipientType === QuestionRecipientType.SELF) {
               <li>You can see your own feedback in the results page later on.</li>
             }
             @for (visibilityType of FeedbackVisibilityType | enumToArray; track visibilityType) {
@@ -110,8 +110,7 @@
         <div class="row margin-top-30px margin-bottom-0px">
           <div class="col">
             @if (
-              model.recipientType !== FeedbackParticipantType.NONE &&
-              model.recipientType !== FeedbackParticipantType.SELF
+              model.recipientType !== QuestionRecipientType.NONE && model.recipientType !== QuestionRecipientType.SELF
             ) {
               <p>
                 <span class="ngb-tooltip-class font-bold" ngbTooltip="The party being evaluated or given feedback to"
@@ -135,7 +134,7 @@
             </div>
           }
         </div>
-        @if (model.giverType === FeedbackParticipantType.TEAMS) {
+        @if (model.giverType === QuestionGiverType.TEAMS) {
           <div class="alert alert-primary" role="alert">
             Please note that you are submitting this response on behalf of your team.
           </div>
@@ -150,8 +149,8 @@
                   recipientId === recipientSubmissionFormModel.recipientIdentifier)
               ) {
                 @if (
-                  model.recipientType !== FeedbackParticipantType.SELF &&
-                  model.recipientType !== FeedbackParticipantType.NONE
+                  model.recipientType !== QuestionRecipientType.SELF &&
+                  model.recipientType !== QuestionRecipientType.NONE
                 ) {
                   <div class="col-md-5 col-xs-12 margin-top-20px">
                     @if (formMode === QuestionSubmissionFormMode.FIXED_RECIPIENT) {
@@ -326,7 +325,7 @@
                       <div class="card-body visibility-card">
                         <p class="text-secondary">Only the following persons can see your comments:</p>
                         <ul class="visibility-list text-secondary">
-                          @if (model.recipientType === FeedbackParticipantType.SELF) {
+                          @if (model.recipientType === QuestionRecipientType.SELF) {
                             <li>You can see your own feedback in the results page later on.</li>
                           }
                           @for (visibilityType of FeedbackVisibilityType | enumToArray; track visibilityType) {
@@ -465,19 +464,19 @@
         </div>
         @if (!model.recipientList.length && model.isLoaded) {
           <div class="alert alert-warning" role="alert">
-            @if (model.recipientType === FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+            @if (model.recipientType === QuestionRecipientType.OWN_TEAM_MEMBERS) {
               <span
                 >This question is for team members and you don't have any team members. Therefore, you will not be able
                 to answer this question.</span
               >
             }
-            @if (model.recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF) {
+            @if (model.recipientType === QuestionRecipientType.TEAMS_EXCLUDING_SELF) {
               <span
                 >This question is for other teams in this course and this course doesn't have any other team. Therefore,
                 you will not be able to answer this question.</span
               >
             }
-            @if (model.recipientType === FeedbackParticipantType.STUDENTS_EXCLUDING_SELF) {
+            @if (model.recipientType === QuestionRecipientType.STUDENTS_EXCLUDING_SELF) {
               <span
                 >This question is for other students in this course and this course doesn't have any other student.
                 Therefore, you will not be able to answer this question.</span

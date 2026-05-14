@@ -15,11 +15,13 @@ import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
@@ -158,9 +160,8 @@ public class BaseTestCase {
         FeedbackQuestion typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
         FeedbackResponse typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(typicalFeedbackQuestion);
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
-                "typical-giver", FeedbackParticipantType.RECEIVER, getTypicalSection(), getTypicalSection(),
-                "typical-comment", true, true, List.of(FeedbackParticipantType.GIVER, FeedbackParticipantType.INSTRUCTORS),
-                List.of(FeedbackParticipantType.RECEIVER, FeedbackParticipantType.INSTRUCTORS), "email");
+                "typical-giver", "typical-comment", true, true, List.of(ViewerType.GIVER, ViewerType.INSTRUCTORS),
+                List.of(ViewerType.RECEIVER, ViewerType.INSTRUCTORS), "email");
         typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000010"));
         feedbackResponseComment.setCreatedAt(Instant.now());
@@ -187,7 +188,7 @@ public class BaseTestCase {
 
     protected FeedbackQuestion getTypicalFeedbackQuestionForSession(FeedbackSession session) {
         FeedbackQuestion fq = FeedbackQuestion.makeQuestion(1, "test-description",
-                FeedbackParticipantType.SELF, FeedbackParticipantType.SELF, 1, new ArrayList<>(),
+                QuestionGiverType.SELF, QuestionRecipientType.SELF, 1, new ArrayList<>(),
                 new ArrayList<>(), new ArrayList<>(),
                 new FeedbackTextQuestionDetails("test question text"));
         session.addFeedbackQuestion(fq);
@@ -208,8 +209,7 @@ public class BaseTestCase {
 
     protected FeedbackResponseComment getTypicalResponseComment(UUID id) {
         FeedbackResponseComment comment = new FeedbackResponseComment("",
-                FeedbackParticipantType.STUDENTS, null, null, "",
-                false, false,
+                "", false, false,
                 null, null, null);
         comment.setId(id);
         return comment;

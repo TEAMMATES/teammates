@@ -9,7 +9,7 @@ import {
 import {
   FeedbackConstantSumQuestionDetails,
   FeedbackConstantSumResponseDetails,
-  FeedbackParticipantType,
+  QuestionRecipientType,
 } from '../../../../types/api-output';
 import { calculateConstsumRecipientsQuestionStatistics } from '../../../utils/question-statistics.util';
 import { ConstsumRecipientsQuestionStatistics, Response } from '../../../../types/question-statistics.model';
@@ -28,7 +28,7 @@ export class ConstsumRecipientsQuestionStatisticsComponent implements OnChanges 
   @Input()
   responses: Response<FeedbackConstantSumResponseDetails>[] = [];
   @Input()
-  recipientType: FeedbackParticipantType = FeedbackParticipantType.NONE;
+  recipientType: QuestionRecipientType = QuestionRecipientType.NONE;
   @Input()
   isStudent = false;
 

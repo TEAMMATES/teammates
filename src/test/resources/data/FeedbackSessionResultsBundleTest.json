@@ -877,68 +877,53 @@
   "feedbackResponseComments": {
     "comment1ToResponse1ForQ1": {
       "giver": "instr1@teammates.tmt",
-      "giverType": "INSTRUCTORS",
       "commentText": "Instructor 1 comment to student 1 self feedback",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "lastEditorEmail": "instr1@teammates.tmt",
-      "responseId": "00000000-0000-4000-8000-000000000901",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "responseId": "00000000-0000-4000-8000-000000000901"
     },
     "comment2ToResponse1ForQ1": {
       "giver": "student1@teammates.tmt",
-      "giverType": "STUDENTS",
       "commentText": "Student 1 comment to student 1 self feedback",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "lastEditorEmail": "student1@teammates.tmt",
-      "responseId": "00000000-0000-4000-8000-000000000901",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "responseId": "00000000-0000-4000-8000-000000000901"
     },
     "comment2ToResponse2ForQ1": {
       "giver": "instr2@teammates.tmt",
-      "giverType": "INSTRUCTORS",
       "commentText": "Instructor 2 comment to student 2 self feedback",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "lastEditorEmail": "instr2@teammates.tmt",
-      "responseId": "00000000-0000-4000-8000-000000000902",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "responseId": "00000000-0000-4000-8000-000000000902"
     },
     "comment1ToResponse1ForQ2s": {
       "giver": "instr2@teammates.tmt",
-      "giverType": "INSTRUCTORS",
       "commentText": "Instructor 2 comment to student 2 self feedback",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "lastEditorEmail": "instr2@teammates.tmt",
-      "responseId": "00000000-0000-4000-8000-000000000903",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "responseId": "00000000-0000-4000-8000-000000000903"
     },
     "comment1ToResponse1ForQ3": {
       "giver": "instr1@teammates.tmt",
-      "giverType": "INSTRUCTORS",
       "commentText": "Instructor 1 comment to student 1 self feedback",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "lastEditorEmail": "instr1@teammates.tmt",
-      "responseId": "00000000-0000-4000-8000-000000000905",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "responseId": "00000000-0000-4000-8000-000000000905"
     }
   },
   "notifications": {

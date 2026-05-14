@@ -1,11 +1,11 @@
 Multiple-choice (multiple answers) question options:
-@if (questionDetails.generateOptionsFor !== FeedbackParticipantType.NONE) {
+@if (questionDetails.generateOptionsFor !== QuestionRecipientType.NONE) {
   <div>
     The options for this question is automatically generated from the list of all
     {{ questionDetails.generateOptionsFor | generatedChoice }} in this course.
   </div>
 }
-@if (questionDetails.generateOptionsFor === FeedbackParticipantType.NONE) {
+@if (questionDetails.generateOptionsFor === QuestionRecipientType.NONE) {
   <ul>
     @for (choice of questionDetails.msqChoices; track choice) {
       <li>{{ choice }}</li>

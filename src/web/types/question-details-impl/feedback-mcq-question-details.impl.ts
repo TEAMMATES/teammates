@@ -2,9 +2,9 @@ import { AbstractFeedbackMcqMsqQuestionDetails } from './abstract-feedback-mcq-m
 import {
   FeedbackMcqQuestionDetails,
   FeedbackMcqResponseDetails,
-  FeedbackParticipantType,
   FeedbackQuestionType,
   QuestionOutput,
+  QuestionRecipientType,
 } from '../api-output';
 import { Response } from '../question-statistics.model';
 import { calculateMcqQuestionStatistics } from '../../app/utils/question-statistics.util';
@@ -22,7 +22,7 @@ export class FeedbackMcqQuestionDetailsImpl
   mcqChoices: string[] = [];
   otherEnabled = false;
   questionDropdownEnabled = false;
-  generateOptionsFor: FeedbackParticipantType = FeedbackParticipantType.NONE;
+  generateOptionsFor: QuestionRecipientType = QuestionRecipientType.NONE;
   questionText = '';
   questionType: FeedbackQuestionType = FeedbackQuestionType.MCQ;
 

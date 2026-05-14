@@ -1076,72 +1076,57 @@
     "qn2Comment1": {
       "id": "00000000-0000-4000-8000-000000000961",
       "giver": "fres.instr@gmail.tmt",
-      "giverType": "INSTRUCTORS",
       "commentText": "Instructor first comment to Alice",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": ["STUDENTS", "INSTRUCTORS"],
       "showGiverNameTo": ["STUDENTS", "INSTRUCTORS"],
       "createdAt": "2026-02-02T23:59:00Z",
-      "responseId": "00000000-0000-4000-8000-000000000903",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "responseId": "00000000-0000-4000-8000-000000000903"
     },
     "qn2Comment2": {
       "id": "00000000-0000-4000-8000-000000000962",
       "giver": "fres.instr@gmail.tmt",
-      "giverType": "INSTRUCTORS",
       "commentText": "Instructor second comment to Alice",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": ["STUDENTS", "INSTRUCTORS"],
       "showGiverNameTo": ["STUDENTS", "INSTRUCTORS"],
       "createdAt": "2026-03-01T23:59:00Z",
-      "responseId": "00000000-0000-4000-8000-000000000903",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "responseId": "00000000-0000-4000-8000-000000000903"
     },
     "qn3Comment1": {
       "id": "00000000-0000-4000-8000-000000000963",
       "giver": "fres.benny.c@gmail.tmt",
-      "giverType": "STUDENTS",
       "commentText": "Benny comment to Alice",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
       "showCommentTo": [],
       "showGiverNameTo": [],
       "createdAt": "2026-03-02T23:59:00Z",
-      "responseId": "00000000-0000-4000-8000-000000000911",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "responseId": "00000000-0000-4000-8000-000000000911"
     },
     "qn3Comment2": {
       "id": "00000000-0000-4000-8000-000000000964",
       "giver": "fres.alice.b@gmail.tmt",
-      "giverType": "STUDENTS",
       "commentText": "Alice comment to Benny",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
       "showCommentTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
       "createdAt": "2026-03-02T23:59:00Z",
-      "responseId": "00000000-0000-4000-8000-000000000909",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "responseId": "00000000-0000-4000-8000-000000000909"
     },
     "qn4Comment1": {
       "id": "00000000-0000-4000-8000-000000000965",
       "giver": "fres.danny.e@gmail.tmt",
-      "giverType": "STUDENTS",
       "commentText": "Danny comment",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
       "showCommentTo": ["INSTRUCTORS"],
       "showGiverNameTo": ["INSTRUCTORS"],
       "createdAt": "2026-03-02T23:59:00Z",
-      "responseId": "00000000-0000-4000-8000-000000000913",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "responseId": "00000000-0000-4000-8000-000000000913"
     }
   },
   "notifications": {},

@@ -16,7 +16,6 @@ import {
   Course,
   Courses,
   DeadlineExtensions,
-  FeedbackParticipantType,
   FeedbackQuestion,
   FeedbackQuestions,
   FeedbackQuestionType,
@@ -28,6 +27,8 @@ import {
   Instructor,
   Instructors,
   NumberOfEntitiesToGiveFeedbackToSetting,
+  QuestionGiverType,
+  QuestionRecipientType,
   ResponseVisibleSetting,
   SessionVisibleSetting,
   Student,
@@ -124,8 +125,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       questionText: '',
     },
 
-    giverType: FeedbackParticipantType.STUDENTS,
-    recipientType: FeedbackParticipantType.STUDENTS_EXCLUDING_SELF,
+    giverType: QuestionGiverType.STUDENTS,
+    recipientType: QuestionRecipientType.STUDENTS_EXCLUDING_SELF,
 
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 1,
@@ -968,7 +969,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       const lastQuestionEditFormModel: QuestionEditFormModel =
         this.questionEditFormModels[this.questionEditFormModels.length - 1];
 
-      const newQuestionAllowedFeedbackPaths: Map<FeedbackParticipantType, FeedbackParticipantType[]> =
+      const newQuestionAllowedFeedbackPaths: Map<QuestionGiverType, QuestionRecipientType[]> =
         this.feedbackQuestionsService.getAllowedFeedbackPaths(type);
       // inherit feedback path if applicable
       if (

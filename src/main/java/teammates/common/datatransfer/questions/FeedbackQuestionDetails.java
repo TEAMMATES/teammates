@@ -5,8 +5,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SessionResultsBundle;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.util.JsonUtils;
 import teammates.storage.entity.FeedbackQuestion;
 
@@ -110,11 +110,12 @@ public abstract class FeedbackQuestionDetails {
      * Checks whether missing responses should be generated.
      */
     public boolean shouldGenerateMissingResponses(FeedbackQuestion question) {
-        // generate combinations against all students/teams are meaningless
-        return question.getRecipientType() != FeedbackParticipantType.STUDENTS
-                && question.getRecipientType() != FeedbackParticipantType.STUDENTS_EXCLUDING_SELF
-                && question.getRecipientType() != FeedbackParticipantType.TEAMS
-                && question.getRecipientType() != FeedbackParticipantType.TEAMS_EXCLUDING_SELF;
+        // Do not generate missing responses for questions with recipient types
+        // that are not addressed to specific students/teams.
+        return question.getRecipientType() != QuestionRecipientType.STUDENTS
+                && question.getRecipientType() != QuestionRecipientType.STUDENTS_EXCLUDING_SELF
+                && question.getRecipientType() != QuestionRecipientType.TEAMS
+                && question.getRecipientType() != QuestionRecipientType.TEAMS_EXCLUDING_SELF;
     }
 
     /**

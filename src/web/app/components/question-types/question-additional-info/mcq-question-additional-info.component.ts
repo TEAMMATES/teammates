@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FeedbackMcqQuestionDetails, FeedbackParticipantType } from '../../../../types/api-output';
+import { FeedbackMcqQuestionDetails, QuestionRecipientType } from '../../../../types/api-output';
 import { DEFAULT_MCQ_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { GeneratedChoicePipe } from '../../teammates-common/generated-choice.pipe';
 import { StripHtmlTagsPipe } from '../../teammates-common/strip-html-tags.pipe';
@@ -14,7 +14,7 @@ import { StripHtmlTagsPipe } from '../../teammates-common/strip-html-tags.pipe';
 })
 export class McqQuestionAdditionalInfoComponent {
   // enum
-  FeedbackParticipantType: typeof FeedbackParticipantType = FeedbackParticipantType;
+  QuestionRecipientType: typeof QuestionRecipientType = QuestionRecipientType;
 
   @Input() questionDetails: FeedbackMcqQuestionDetails = DEFAULT_MCQ_QUESTION_DETAILS();
 }

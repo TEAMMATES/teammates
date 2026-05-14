@@ -2,7 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackQuestion;
@@ -52,7 +52,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
             checkAccessControlForStudentFeedbackSubmission(student, session);
             verifySessionOpenExceptForModeration(session, student);
             gateKeeper.verifyOwnership(comment,
-                    question.getGiverType() == FeedbackParticipantType.TEAMS
+                    question.getGiverType() == QuestionGiverType.TEAMS
                             ? student.getTeamName() : student.getEmail());
             break;
         case INSTRUCTOR_SUBMISSION:

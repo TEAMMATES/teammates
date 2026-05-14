@@ -149,7 +149,7 @@ export interface FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
   mcqChoices: string[];
   otherEnabled: boolean;
   questionDropdownEnabled: boolean;
-  generateOptionsFor: FeedbackParticipantType;
+  generateOptionsFor: QuestionRecipientType;
 }
 
 export interface FeedbackMcqResponseDetails extends FeedbackResponseDetails {
@@ -164,7 +164,7 @@ export interface FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
   hasAssignedWeights: boolean;
   msqWeights: number[];
   msqOtherWeight: number;
-  generateOptionsFor: FeedbackParticipantType;
+  generateOptionsFor: QuestionRecipientType;
   maxSelectableChoices: number;
   minSelectableChoices: number;
 }
@@ -190,8 +190,8 @@ export interface FeedbackQuestion extends ApiOutput {
   questionBrief: string;
   questionDescription: string;
   questionDetails: FeedbackQuestionDetails;
-  giverType: FeedbackParticipantType;
-  recipientType: FeedbackParticipantType;
+  giverType: QuestionGiverType;
+  recipientType: QuestionRecipientType;
   numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting;
   customNumberOfEntitiesToGiveFeedbackTo: number;
   questionNumber: number;
@@ -678,24 +678,6 @@ export enum FeedbackConstantSumDistributePointsType {
   NONE = "None",
 }
 
-export enum FeedbackParticipantType {
-  SELF = "SELF",
-  STUDENTS = "STUDENTS",
-  STUDENTS_IN_SAME_SECTION = "STUDENTS_IN_SAME_SECTION",
-  STUDENTS_EXCLUDING_SELF = "STUDENTS_EXCLUDING_SELF",
-  INSTRUCTORS = "INSTRUCTORS",
-  TEAMS = "TEAMS",
-  TEAMS_IN_SAME_SECTION = "TEAMS_IN_SAME_SECTION",
-  TEAMS_EXCLUDING_SELF = "TEAMS_EXCLUDING_SELF",
-  OWN_TEAM = "OWN_TEAM",
-  OWN_TEAM_MEMBERS = "OWN_TEAM_MEMBERS",
-  OWN_TEAM_MEMBERS_INCLUDING_SELF = "OWN_TEAM_MEMBERS_INCLUDING_SELF",
-  RECEIVER = "RECEIVER",
-  RECEIVER_TEAM_MEMBERS = "RECEIVER_TEAM_MEMBERS",
-  NONE = "NONE",
-  GIVER = "GIVER",
-}
-
 export enum FeedbackQuestionType {
   TEXT = "TEXT",
   MCQ = "MCQ",
@@ -790,6 +772,30 @@ export enum NumberOfEntitiesToGiveFeedbackToSetting {
   UNLIMITED = "UNLIMITED",
 }
 
+export enum QuestionGiverType {
+  SELF = "SELF",
+  STUDENTS = "STUDENTS",
+  STUDENTS_IN_SAME_SECTION = "STUDENTS_IN_SAME_SECTION",
+  INSTRUCTORS = "INSTRUCTORS",
+  TEAMS = "TEAMS",
+  TEAMS_IN_SAME_SECTION = "TEAMS_IN_SAME_SECTION",
+}
+
+export enum QuestionRecipientType {
+  SELF = "SELF",
+  STUDENTS = "STUDENTS",
+  STUDENTS_IN_SAME_SECTION = "STUDENTS_IN_SAME_SECTION",
+  STUDENTS_EXCLUDING_SELF = "STUDENTS_EXCLUDING_SELF",
+  INSTRUCTORS = "INSTRUCTORS",
+  TEAMS = "TEAMS",
+  TEAMS_IN_SAME_SECTION = "TEAMS_IN_SAME_SECTION",
+  TEAMS_EXCLUDING_SELF = "TEAMS_EXCLUDING_SELF",
+  OWN_TEAM = "OWN_TEAM",
+  OWN_TEAM_MEMBERS = "OWN_TEAM_MEMBERS",
+  OWN_TEAM_MEMBERS_INCLUDING_SELF = "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+  NONE = "NONE",
+}
+
 export enum ResponseVisibleSetting {
   CUSTOM = "CUSTOM",
   AT_VISIBLE = "AT_VISIBLE",
@@ -799,4 +805,15 @@ export enum ResponseVisibleSetting {
 export enum SessionVisibleSetting {
   CUSTOM = "CUSTOM",
   AT_OPEN = "AT_OPEN",
+}
+
+export enum ViewerType {
+  STUDENTS = "STUDENTS",
+  STUDENTS_IN_SAME_SECTION = "STUDENTS_IN_SAME_SECTION",
+  INSTRUCTORS = "INSTRUCTORS",
+  OWN_TEAM_MEMBERS = "OWN_TEAM_MEMBERS",
+  OWN_TEAM_MEMBERS_INCLUDING_SELF = "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+  RECEIVER = "RECEIVER",
+  RECEIVER_TEAM_MEMBERS = "RECEIVER_TEAM_MEMBERS",
+  GIVER = "GIVER",
 }

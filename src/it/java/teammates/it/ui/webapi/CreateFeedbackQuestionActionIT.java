@@ -6,7 +6,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
@@ -72,12 +73,6 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
         createRequest.setQuestionNumber(0);
         verifyHttpRequestBodyFailure(createRequest, params);
 
-        ______TS("Failure: Invalid giverType");
-
-        createRequest = getTypicalTextQuestionCreateRequest();
-        createRequest.setGiverType(FeedbackParticipantType.NONE);
-        verifyHttpRequestBodyFailure(createRequest, params);
-
         ______TS("Failure: empty question brief");
 
         createRequest = getTypicalTextQuestionCreateRequest();
@@ -103,8 +98,8 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
         createRequest = getTypicalTextQuestionCreateRequest();
         createRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM);
         createRequest.setCustomNumberOfEntitiesToGiveFeedbackTo(100);
-        createRequest.setGiverType(FeedbackParticipantType.STUDENTS);
-        createRequest.setRecipientType(FeedbackParticipantType.STUDENTS);
+        createRequest.setGiverType(QuestionGiverType.STUDENTS);
+        createRequest.setRecipientType(QuestionRecipientType.STUDENTS);
         a = getAction(createRequest, params);
         r = getJsonResult(a);
 
@@ -155,8 +150,8 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
         textQuestionDetails.setRecommendedLength(800);
         createRequest.setQuestionDetails(textQuestionDetails);
         createRequest.setQuestionType(FeedbackQuestionType.TEXT);
-        createRequest.setGiverType(FeedbackParticipantType.STUDENTS);
-        createRequest.setRecipientType(FeedbackParticipantType.INSTRUCTORS);
+        createRequest.setGiverType(QuestionGiverType.STUDENTS);
+        createRequest.setRecipientType(QuestionRecipientType.INSTRUCTORS);
         createRequest.setNumberOfEntitiesToGiveFeedbackToSetting(NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED);
 
         createRequest.setShowResponsesTo(new ArrayList<>());

@@ -2,7 +2,6 @@
 
 exports[`QuestionEditFormComponent should snap with default view 1`] = `
 <tm-question-edit-form
-  FeedbackParticipantType={[Function Object]}
   FeedbackQuestionType={[Function Object]}
   FeedbackVisibilityType={[Function Object]}
   NumberOfEntitiesToGiveFeedbackToSetting={[Function Object]}

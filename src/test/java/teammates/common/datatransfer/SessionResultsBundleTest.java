@@ -9,6 +9,8 @@ import java.util.UUID;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
@@ -145,14 +147,13 @@ public class SessionResultsBundleTest extends BaseTestCase {
 
         for (Map.Entry<UUID, Boolean> visibilityEntry : responseGiverVisibilityTable.entrySet()) {
             UUID responseId = visibilityEntry.getKey();
-            FeedbackParticipantType giverType = responses.get(responseId).getFeedbackQuestion().getGiverType();
             assertEquals(visibilityEntry.getValue(),
-                    bundle.isResponseGiverVisible(responseId, giverType));
+                    bundle.isResponseGiverVisible(responseId));
         }
 
         for (Map.Entry<UUID, Boolean> visibilityEntry : responseRecipientVisibilityTable.entrySet()) {
             UUID responseId = visibilityEntry.getKey();
-            FeedbackParticipantType recipientType = responses.get(responseId).getFeedbackQuestion().getRecipientType();
+            QuestionRecipientType recipientType = responses.get(responseId).getFeedbackQuestion().getRecipientType();
             assertEquals(visibilityEntry.getValue(),
                     bundle.isResponseRecipientVisible(responseId, recipientType));
         }
@@ -194,14 +195,29 @@ public class SessionResultsBundleTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetAnonName_typicalCase_shouldGenerateCorrectly() {
-        String anonName = SessionResultsBundle.getAnonName(FeedbackParticipantType.STUDENTS, "");
+    public void testGetAnonGiverName_typicalCase_shouldGenerateCorrectly() {
+        String anonName = SessionResultsBundle.getAnonGiverName(QuestionGiverType.STUDENTS, "");
         assertTrue(anonName.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT));
 
-        String anonName1 = SessionResultsBundle.getAnonName(FeedbackParticipantType.STUDENTS, "test@gmail.com");
-        String anonName2 = SessionResultsBundle.getAnonName(FeedbackParticipantType.STUDENTS, "test@gmail.com");
-        String anotherAnonName = SessionResultsBundle.getAnonName(
-                        FeedbackParticipantType.STUDENTS, "different@gmail.com");
+        String anonName1 = SessionResultsBundle.getAnonGiverName(QuestionGiverType.STUDENTS, "test@gmail.com");
+        String anonName2 = SessionResultsBundle.getAnonGiverName(QuestionGiverType.STUDENTS, "test@gmail.com");
+        String anotherAnonName = SessionResultsBundle.getAnonGiverName(
+                        QuestionGiverType.STUDENTS, "different@gmail.com");
+
+        assertTrue(anonName1.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT));
+        assertEquals(anonName1, anonName2);
+        assertNotEquals(anonName1, anotherAnonName);
+    }
+
+    @Test
+    public void testGetAnonRecipientName_typicalCase_shouldGenerateCorrectly() {
+        String anonName = SessionResultsBundle.getAnonRecipientName(QuestionRecipientType.STUDENTS, "");
+        assertTrue(anonName.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT));
+
+        String anonName1 = SessionResultsBundle.getAnonRecipientName(QuestionRecipientType.STUDENTS, "test@gmail.com");
+        String anonName2 = SessionResultsBundle.getAnonRecipientName(QuestionRecipientType.STUDENTS, "test@gmail.com");
+        String anotherAnonName = SessionResultsBundle.getAnonRecipientName(
+                        QuestionRecipientType.STUDENTS, "different@gmail.com");
 
         assertTrue(anonName1.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT));
         assertEquals(anonName1, anonName2);

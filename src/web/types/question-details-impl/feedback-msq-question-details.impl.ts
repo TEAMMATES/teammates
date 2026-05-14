@@ -2,9 +2,9 @@ import { AbstractFeedbackMcqMsqQuestionDetails } from './abstract-feedback-mcq-m
 import {
   FeedbackMsqQuestionDetails,
   FeedbackMsqResponseDetails,
-  FeedbackParticipantType,
   FeedbackQuestionType,
   QuestionOutput,
+  QuestionRecipientType,
 } from '../api-output';
 import { NO_VALUE } from '../feedback-response-details';
 import { Response } from '../question-statistics.model';
@@ -19,7 +19,7 @@ export class FeedbackMsqQuestionDetailsImpl
 {
   msqChoices: string[] = [];
   otherEnabled = false;
-  generateOptionsFor: FeedbackParticipantType = FeedbackParticipantType.NONE;
+  generateOptionsFor: QuestionRecipientType = QuestionRecipientType.NONE;
   maxSelectableChoices: number = NO_VALUE;
   minSelectableChoices: number = NO_VALUE;
   hasAssignedWeights = false;

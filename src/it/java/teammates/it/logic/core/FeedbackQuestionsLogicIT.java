@@ -7,7 +7,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
@@ -44,10 +46,10 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithDatabaseAccess {
     public void testCreateFeedbackQuestion() throws InvalidParametersException, EntityAlreadyExistsException {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
         FeedbackTextQuestionDetails newQuestionDetails = new FeedbackTextQuestionDetails("New question text.");
-        List<FeedbackParticipantType> showTos = new ArrayList<>();
-        showTos.add(FeedbackParticipantType.INSTRUCTORS);
+        List<ViewerType> showTos = new ArrayList<>();
+        showTos.add(ViewerType.INSTRUCTORS);
         FeedbackQuestion newQuestion = FeedbackQuestion.makeQuestion(6, "This is a new text question",
-                FeedbackParticipantType.STUDENTS, FeedbackParticipantType.OWN_TEAM_MEMBERS, -100,
+                QuestionGiverType.STUDENTS, QuestionRecipientType.OWN_TEAM_MEMBERS, -100,
                 showTos, showTos, showTos, newQuestionDetails);
         fs.addFeedbackQuestion(newQuestion);
 
@@ -109,12 +111,12 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithDatabaseAccess {
             String questionDescription,
             FeedbackQuestionDetails questionDetails,
             FeedbackQuestionType questionType,
-            FeedbackParticipantType giverType,
-            FeedbackParticipantType recipientType,
+            QuestionGiverType giverType,
+            QuestionRecipientType recipientType,
             Integer customNumberOfEntitiesToGiveFeedbackTo,
-            List<FeedbackParticipantType> showResponsesTo,
-            List<FeedbackParticipantType> showGiverNameTo,
-            List<FeedbackParticipantType> showRecipientNameTo
+            List<ViewerType> showResponsesTo,
+            List<ViewerType> showGiverNameTo,
+            List<ViewerType> showRecipientNameTo
     ) {
         FeedbackQuestionUpdateRequest updateRequest = new FeedbackQuestionUpdateRequest();
 
@@ -133,9 +135,9 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     private List<FeedbackVisibilityType> convertToFeedbackVisibilityType(
-            List<FeedbackParticipantType> feedbackParticipantTypes) {
-        return feedbackParticipantTypes.stream().map(feedbackParticipantType -> {
-            switch (feedbackParticipantType) {
+            List<ViewerType> viewerTypes) {
+        return viewerTypes.stream().map(viewerType -> {
+            switch (viewerType) {
             case STUDENTS:
                 return FeedbackVisibilityType.STUDENTS;
             case INSTRUCTORS:
@@ -147,7 +149,7 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithDatabaseAccess {
             case RECEIVER_TEAM_MEMBERS:
                 return FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS;
             default:
-                assert false : "Unknown feedbackParticipantType" + feedbackParticipantType;
+                assert false : "Unknown viewerType" + viewerType;
                 break;
             }
             return null;

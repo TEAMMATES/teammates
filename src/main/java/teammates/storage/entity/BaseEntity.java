@@ -11,8 +11,8 @@ import jakarta.persistence.MappedSuperclass;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
@@ -141,36 +141,19 @@ public abstract class BaseEntity {
     }
 
     /**
-     * Attribute converter between FeedbackParticipantType and JSON.
+     * Attribute converter between a list of ViewerTypes and JSON.
      */
     @Converter
-    public static class FeedbackParticipantTypeConverter implements AttributeConverter<FeedbackParticipantType, String> {
+    public static class ViewerTypeListConverter
+            implements AttributeConverter<List<ViewerType>, String> {
 
         @Override
-        public String convertToDatabaseColumn(FeedbackParticipantType attribute) {
+        public String convertToDatabaseColumn(List<ViewerType> attribute) {
             return JsonUtils.toJson(attribute);
         }
 
         @Override
-        public FeedbackParticipantType convertToEntityAttribute(String dbData) {
-            return JsonUtils.fromJson(dbData, FeedbackParticipantType.class);
-        }
-    }
-
-    /**
-     * Attribute converter between a list of FeedbackParticipantTypes and JSON.
-     */
-    @Converter
-    public static class FeedbackParticipantTypeListConverter
-            implements AttributeConverter<List<FeedbackParticipantType>, String> {
-
-        @Override
-        public String convertToDatabaseColumn(List<FeedbackParticipantType> attribute) {
-            return JsonUtils.toJson(attribute);
-        }
-
-        @Override
-        public List<FeedbackParticipantType> convertToEntityAttribute(String dbData) {
+        public List<ViewerType> convertToEntityAttribute(String dbData) {
             return JsonUtils.fromJson(dbData, new TypeReference<>(){});
         }
     }

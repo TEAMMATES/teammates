@@ -14,8 +14,9 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
@@ -186,7 +187,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     void testExecute_differentVisibilitySetting_success() throws Exception {
         FeedbackResponseComment typicalComment = getTypicalCommentFromInstructor();
         FeedbackResponseComment updatedComment = getUpdatedCommentFromInstructor();
-        updatedComment.setShowCommentTo(Arrays.asList(FeedbackParticipantType.STUDENTS));
+        updatedComment.setShowCommentTo(Arrays.asList(ViewerType.STUDENTS));
         updatedComment.setShowGiverNameTo(new ArrayList<>());
 
         String[] params = new String[] {
@@ -396,7 +397,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
 
     @Test
     void testAccessControl_differentStudentFromSameCourse_cannotAccessStudentComment() {
-        typicalFeedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        typicalFeedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
         FeedbackResponseComment typicalComment = getTypicalCommentFromInstructor();
 
         Student differentStudentFromSameCourse = getTypicalStudent();
@@ -420,7 +421,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
 
     @Test
     void testAccessControl_differentStudentFromDifferentTeam_cannotAccessTeamComment() {
-        typicalFeedbackQuestion.setGiverType(FeedbackParticipantType.TEAMS);
+        typicalFeedbackQuestion.setGiverType(QuestionGiverType.TEAMS);
         FeedbackResponseComment typicalComment = getTypicalCommentFromTeam();
 
         Student differentStudentFromDifferentTeam = getTypicalStudent();
@@ -448,7 +449,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
 
     @Test
     void testAccessControl_differentStudentFromSameTeam_canAccessTeamComment() {
-        typicalFeedbackQuestion.setGiverType(FeedbackParticipantType.TEAMS);
+        typicalFeedbackQuestion.setGiverType(QuestionGiverType.TEAMS);
         FeedbackResponseComment typicalComment = getTypicalCommentFromTeam();
 
         Student differentStudentFromSameTeam = getTypicalStudent();
@@ -635,7 +636,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     void testAccessControl_studentSubmissionPastEndTimeBeforeDeadline_canAccess() {
         FeedbackSession feedbackSessionPastEndTime = getFeedbackSessionPastEndTime();
         FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(feedbackSessionPastEndTime);
-        feedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        feedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
         typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(feedbackQuestion);
         FeedbackResponseComment typicalComment = getTypicalCommentFromStudent();
 
@@ -659,7 +660,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     void testAccessControl_studentSubmissionPastDeadline_cannotAccess() {
         FeedbackSession feedbackSessionPastEndTime = getFeedbackSessionPastEndTime();
         FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(feedbackSessionPastEndTime);
-        feedbackQuestion.setGiverType(FeedbackParticipantType.STUDENTS);
+        feedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
         typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(feedbackQuestion);
         FeedbackResponseComment typicalComment = getTypicalCommentFromStudent();
 
@@ -682,14 +683,11 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     private FeedbackResponseComment getTypicalCommentFromStudent() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalStudent.getEmail(),
-                FeedbackParticipantType.STUDENTS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 "typical comment",
                 true,
                 true,
-                Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
-                Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
+                Arrays.asList(ViewerType.INSTRUCTORS),
+                Arrays.asList(ViewerType.INSTRUCTORS),
                 typicalStudent.getEmail());
         typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000001"));
@@ -701,14 +699,11 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     private FeedbackResponseComment getUpdatedCommentFromStudent() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalStudent.getEmail(),
-                FeedbackParticipantType.STUDENTS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 "updated comment",
                 true,
                 true,
-                Arrays.asList(FeedbackParticipantType.GIVER, FeedbackParticipantType.INSTRUCTORS),
-                Arrays.asList(FeedbackParticipantType.GIVER, FeedbackParticipantType.INSTRUCTORS),
+                Arrays.asList(ViewerType.GIVER, ViewerType.INSTRUCTORS),
+                Arrays.asList(ViewerType.GIVER, ViewerType.INSTRUCTORS),
                 typicalStudent.getEmail());
         typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000001"));
@@ -720,14 +715,11 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     private FeedbackResponseComment getTypicalCommentFromInstructor() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalInstructor.getEmail(),
-                FeedbackParticipantType.INSTRUCTORS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 "typical comment",
                 false,
                 false,
-                Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
-                Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
+                Arrays.asList(ViewerType.INSTRUCTORS),
+                Arrays.asList(ViewerType.INSTRUCTORS),
                 typicalInstructor.getEmail());
         typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000002"));
@@ -739,14 +731,11 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     private FeedbackResponseComment getUpdatedCommentFromInstructor() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalInstructor.getEmail(),
-                FeedbackParticipantType.INSTRUCTORS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 "updated comment",
                 false,
                 false,
-                Arrays.asList(FeedbackParticipantType.GIVER, FeedbackParticipantType.INSTRUCTORS),
-                Arrays.asList(FeedbackParticipantType.GIVER, FeedbackParticipantType.INSTRUCTORS),
+                Arrays.asList(ViewerType.GIVER, ViewerType.INSTRUCTORS),
+                Arrays.asList(ViewerType.GIVER, ViewerType.INSTRUCTORS),
                 typicalInstructor.getEmail());
         typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000002"));
@@ -758,14 +747,11 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     private FeedbackResponseComment getTypicalCommentFromInstructorAsParticipant() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalInstructor.getEmail(),
-                FeedbackParticipantType.INSTRUCTORS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 "typical comment",
                 true,
                 true,
-                Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
-                Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
+                Arrays.asList(ViewerType.INSTRUCTORS),
+                Arrays.asList(ViewerType.INSTRUCTORS),
                 typicalInstructor.getEmail());
         typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000003"));
@@ -777,14 +763,11 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     private FeedbackResponseComment getUpdatedCommentFromInstructorAsParticipant() {
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 typicalInstructor.getEmail(),
-                FeedbackParticipantType.INSTRUCTORS,
-                typicalFeedbackResponse.getGiverSection(),
-                typicalFeedbackResponse.getRecipientSection(),
                 "updated comment",
                 true,
                 true,
-                Arrays.asList(FeedbackParticipantType.GIVER, FeedbackParticipantType.INSTRUCTORS),
-                Arrays.asList(FeedbackParticipantType.GIVER, FeedbackParticipantType.INSTRUCTORS),
+                Arrays.asList(ViewerType.GIVER, ViewerType.INSTRUCTORS),
+                Arrays.asList(ViewerType.GIVER, ViewerType.INSTRUCTORS),
                 typicalInstructor.getEmail());
         typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000003"));
@@ -803,14 +786,11 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         typicalFeedbackQuestion.addFeedbackResponse(typicalFeedbackResponse);
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 "first team",
-                FeedbackParticipantType.TEAMS,
-                sectionA,
-                sectionB,
                 "typical comment",
                 true,
                 true,
-                Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
-                Arrays.asList(FeedbackParticipantType.INSTRUCTORS),
+                Arrays.asList(ViewerType.INSTRUCTORS),
+                Arrays.asList(ViewerType.INSTRUCTORS),
                 "first team");
         typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000004"));

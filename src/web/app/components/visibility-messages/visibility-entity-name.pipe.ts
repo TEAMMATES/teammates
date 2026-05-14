@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import {
-  FeedbackParticipantType,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
+  QuestionRecipientType,
 } from '../../../types/api-output';
 
 /**
@@ -21,7 +21,7 @@ export class VisibilityEntityNamePipe implements PipeTransform {
    */
   transform(
     visibilityType: FeedbackVisibilityType,
-    questionRecipientType?: FeedbackParticipantType,
+    questionRecipientType?: QuestionRecipientType,
     numberOfEntitiesToGiveFeedbackToSetting?: NumberOfEntitiesToGiveFeedbackToSetting,
     customNumberOfEntitiesToGiveFeedbackTo?: number,
   ): string {
@@ -30,20 +30,20 @@ export class VisibilityEntityNamePipe implements PipeTransform {
         // get entity name
         let recipientEntityName = '';
         switch (questionRecipientType) {
-          case FeedbackParticipantType.INSTRUCTORS:
+          case QuestionRecipientType.INSTRUCTORS:
             recipientEntityName = 'instructor';
             break;
-          case FeedbackParticipantType.STUDENTS:
-          case FeedbackParticipantType.STUDENTS_EXCLUDING_SELF:
-          case FeedbackParticipantType.STUDENTS_IN_SAME_SECTION:
-          case FeedbackParticipantType.OWN_TEAM_MEMBERS:
-          case FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF:
+          case QuestionRecipientType.STUDENTS:
+          case QuestionRecipientType.STUDENTS_EXCLUDING_SELF:
+          case QuestionRecipientType.STUDENTS_IN_SAME_SECTION:
+          case QuestionRecipientType.OWN_TEAM_MEMBERS:
+          case QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF:
             recipientEntityName = 'student';
             break;
-          case FeedbackParticipantType.TEAMS:
-          case FeedbackParticipantType.TEAMS_EXCLUDING_SELF:
-          case FeedbackParticipantType.TEAMS_IN_SAME_SECTION:
-          case FeedbackParticipantType.OWN_TEAM:
+          case QuestionRecipientType.TEAMS:
+          case QuestionRecipientType.TEAMS_EXCLUDING_SELF:
+          case QuestionRecipientType.TEAMS_IN_SAME_SECTION:
+          case QuestionRecipientType.OWN_TEAM:
             recipientEntityName = 'team';
             break;
           default:
@@ -52,11 +52,11 @@ export class VisibilityEntityNamePipe implements PipeTransform {
 
         if (
           [
-            FeedbackParticipantType.INSTRUCTORS,
-            FeedbackParticipantType.STUDENTS,
-            FeedbackParticipantType.STUDENTS_EXCLUDING_SELF,
-            FeedbackParticipantType.TEAMS,
-            FeedbackParticipantType.TEAMS_EXCLUDING_SELF,
+            QuestionRecipientType.INSTRUCTORS,
+            QuestionRecipientType.STUDENTS,
+            QuestionRecipientType.STUDENTS_EXCLUDING_SELF,
+            QuestionRecipientType.TEAMS,
+            QuestionRecipientType.TEAMS_EXCLUDING_SELF,
           ].includes(questionRecipientType)
         ) {
           // if questionRecipientType is one of certain participant type, add the plural form

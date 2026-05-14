@@ -27,7 +27,6 @@ import { TimezoneService } from '../../../services/timezone.service';
 import {
   AuthInfo,
   Course,
-  FeedbackParticipantType,
   FeedbackQuestion,
   FeedbackQuestionRecipient,
   FeedbackQuestionRecipients,
@@ -40,6 +39,7 @@ import {
   FeedbackSessionSubmissionStatus,
   Instructor,
   NumberOfEntitiesToGiveFeedbackToSetting,
+  QuestionRecipientType,
   RegkeyValidity,
   Student,
 } from '../../../types/api-output';
@@ -674,13 +674,13 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     recipientListLength: number,
   ): QuestionSubmissionFormMode {
     const isNumberOfEntitiesToGiveFeedbackToSettingLimited: boolean =
-      (model.recipientType === FeedbackParticipantType.STUDENTS ||
-        model.recipientType === FeedbackParticipantType.STUDENTS_EXCLUDING_SELF ||
-        model.recipientType === FeedbackParticipantType.STUDENTS_IN_SAME_SECTION ||
-        model.recipientType === FeedbackParticipantType.TEAMS ||
-        model.recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF ||
-        model.recipientType === FeedbackParticipantType.TEAMS_IN_SAME_SECTION ||
-        model.recipientType === FeedbackParticipantType.INSTRUCTORS) &&
+      (model.recipientType === QuestionRecipientType.STUDENTS ||
+        model.recipientType === QuestionRecipientType.STUDENTS_EXCLUDING_SELF ||
+        model.recipientType === QuestionRecipientType.STUDENTS_IN_SAME_SECTION ||
+        model.recipientType === QuestionRecipientType.TEAMS ||
+        model.recipientType === QuestionRecipientType.TEAMS_EXCLUDING_SELF ||
+        model.recipientType === QuestionRecipientType.TEAMS_IN_SAME_SECTION ||
+        model.recipientType === QuestionRecipientType.INSTRUCTORS) &&
       model.numberOfEntitiesToGiveFeedbackToSetting === NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM &&
       recipientListLength > model.customNumberOfEntitiesToGiveFeedbackTo;
 

@@ -20,13 +20,13 @@ import {
   FeedbackMsqQuestionDetails,
   FeedbackMsqResponseDetails,
   FeedbackNumericalScaleResponseDetails,
-  FeedbackParticipantType,
   FeedbackQuestionType,
   FeedbackRankOptionsQuestionDetails,
   FeedbackRankOptionsResponseDetails,
   FeedbackRankRecipientsResponseDetails,
   FeedbackRubricQuestionDetails,
   FeedbackRubricResponseDetails,
+  QuestionRecipientType,
 } from '../../types/api-output';
 import {
   calculateConstsumOptionsQuestionStatistics,
@@ -256,7 +256,7 @@ describe('Question Statistics Utility Functions', () => {
 
       const stats: ConstsumRecipientsQuestionStatistics = calculateConstsumRecipientsQuestionStatistics(
         responses,
-        FeedbackParticipantType.NONE,
+        QuestionRecipientType.NONE,
       );
 
       const expectedPointsPerOption: Record<string, number[]> = {
@@ -699,7 +699,7 @@ describe('Question Statistics Utility Functions', () => {
       // ranks inside teams are meaningless when ranking across teams
       const stats: RankRecipientsQuestionStatistics = calculateRankRecipientsQuestionStatistics(
         testResponses,
-        FeedbackParticipantType.TEAMS,
+        QuestionRecipientType.TEAMS,
       );
 
       expect(stats.rankPerOptionInTeam).toMatchObject({});
@@ -795,7 +795,7 @@ describe('Question Statistics Utility Functions', () => {
 
       const stats: RankRecipientsQuestionStatistics = calculateRankRecipientsQuestionStatistics(
         testResponses,
-        FeedbackParticipantType.OWN_TEAM_MEMBERS,
+        QuestionRecipientType.OWN_TEAM_MEMBERS,
       );
 
       const bob = 'bob';

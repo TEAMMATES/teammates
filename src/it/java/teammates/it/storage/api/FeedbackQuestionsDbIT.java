@@ -7,7 +7,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -98,14 +98,14 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
 
         List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2, fq9);
 
-        List<FeedbackQuestion> actualQuestions = fqDb.getFeedbackQuestionsForGiverType(fs, FeedbackParticipantType.STUDENTS);
+        List<FeedbackQuestion> actualQuestions = fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.STUDENTS);
 
         assertEquals(expectedQuestions.size(), actualQuestions.size());
         assertTrue(expectedQuestions.containsAll(actualQuestions));
 
         ______TS("failure: session does not exist, returns no questions");
         fs = getTypicalFeedbackSessionForCourse(getTypicalCourse());
-        actualQuestions = fqDb.getFeedbackQuestionsForGiverType(fs, FeedbackParticipantType.STUDENTS);
+        actualQuestions = fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.STUDENTS);
         assertEquals(0, actualQuestions.size());
     }
 
@@ -126,12 +126,12 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
         FeedbackSession fs = typicalDataBundle.feedbackSessions.get("session1InCourse1");
 
         boolean actual = fqDb.hasFeedbackQuestionsForGiverType(
-                fs.getName(), course.getId(), FeedbackParticipantType.STUDENTS);
+                fs.getName(), course.getId(), QuestionGiverType.STUDENTS);
 
         assertTrue(actual);
 
         ______TS("failure: session/course does not exist, returns false");
-        actual = fqDb.hasFeedbackQuestionsForGiverType("session-name", "course-id", FeedbackParticipantType.STUDENTS);
+        actual = fqDb.hasFeedbackQuestionsForGiverType("session-name", "course-id", QuestionGiverType.STUDENTS);
         assertFalse(actual);
     }
 }

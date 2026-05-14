@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
+import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
@@ -30,8 +32,8 @@ public class FeedbackQuestionData extends ApiOutput {
     private final FeedbackQuestionDetails questionDetails;
 
     private FeedbackQuestionType questionType;
-    private final FeedbackParticipantType giverType;
-    private final FeedbackParticipantType recipientType;
+    private final QuestionGiverType giverType;
+    private final QuestionRecipientType recipientType;
 
     private final NumberOfEntitiesToGiveFeedbackToSetting numberOfEntitiesToGiveFeedbackToSetting;
     private final Integer customNumberOfEntitiesToGiveFeedbackTo;
@@ -43,7 +45,7 @@ public class FeedbackQuestionData extends ApiOutput {
     @JsonCreator
     private FeedbackQuestionData(UUID feedbackQuestionId, String questionBrief,
             String questionDescription, FeedbackQuestionDetails questionDetails,
-            FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
+            QuestionGiverType giverType, QuestionRecipientType recipientType,
             NumberOfEntitiesToGiveFeedbackToSetting numberOfEntitiesToGiveFeedbackToSetting,
             Integer customNumberOfEntitiesToGiveFeedbackTo) {
         this.feedbackQuestionId = feedbackQuestionId;
@@ -89,8 +91,8 @@ public class FeedbackQuestionData extends ApiOutput {
         // specially handling for contribution questions
         // TODO: remove the hack
         if (this.questionType == FeedbackQuestionType.CONTRIB
-                && this.giverType == FeedbackParticipantType.STUDENTS
-                && this.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF
+                && this.giverType == QuestionGiverType.STUDENTS
+                && this.recipientType == QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF
                 && this.showResponsesTo.contains(FeedbackVisibilityType.GIVER_TEAM_MEMBERS)) {
             // remove the redundant visibility type as GIVER_TEAM_MEMBERS is just RECIPIENT_TEAM_MEMBERS
             // contribution question keep the redundancy for legacy reason
@@ -121,9 +123,11 @@ public class FeedbackQuestionData extends ApiOutput {
      * Converts a list of feedback participant type to a list of visibility type.
      */
     private List<FeedbackVisibilityType> convertToFeedbackVisibilityType(
-            List<FeedbackParticipantType> feedbackParticipantTypeList) {
-        return feedbackParticipantTypeList.stream().map(feedbackParticipantType -> {
-            switch (feedbackParticipantType) {
+            List<ViewerType> viewerTypes) {
+        // TODO: The conversion is missing STUDENTS_IN_SAME_SECTION.
+        // To investigate if this is required.
+        return viewerTypes.stream().map(viewerType -> {
+            switch (viewerType) {
             case STUDENTS:
                 return FeedbackVisibilityType.STUDENTS;
             case INSTRUCTORS:
@@ -135,7 +139,7 @@ public class FeedbackQuestionData extends ApiOutput {
             case RECEIVER_TEAM_MEMBERS:
                 return FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS;
             default:
-                assert false : "Unknown feedbackParticipantType" + feedbackParticipantType;
+                assert false : "Unknown viewerType " + viewerType;
                 break;
             }
             return null;
@@ -170,11 +174,11 @@ public class FeedbackQuestionData extends ApiOutput {
         return questionType;
     }
 
-    public FeedbackParticipantType getGiverType() {
+    public QuestionGiverType getGiverType() {
         return giverType;
     }
 
-    public FeedbackParticipantType getRecipientType() {
+    public QuestionRecipientType getRecipientType() {
         return recipientType;
     }
 
