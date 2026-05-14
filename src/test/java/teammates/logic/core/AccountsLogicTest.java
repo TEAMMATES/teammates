@@ -101,18 +101,4 @@ public class AccountsLogicTest extends BaseTestCase {
         assertThrows(AssertionError.class,
                 () -> accountsLogic.createOrGetAccountForEmail(null));
     }
-
-    @Test
-    public void testCreateOrGetAccountForEmail_accountCreationRaceCondition_success() {
-        Account account = getTypicalAccount();
-        String email = account.getEmail();
-
-        when(accountsDb.getAccountByGoogleId(email)).thenReturn(null).thenReturn(account);
-
-        Account result = accountsLogic.createOrGetAccountForEmail(email);
-
-        verify(accountsDb, times(0)).createAccount(any(Account.class));
-        assertNotNull(result);
-        assertEquals(result.getEmail(), email);
-    }
 }
