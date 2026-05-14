@@ -16,6 +16,7 @@ import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.Browser;
 import teammates.e2e.pageobjects.HomePage;
@@ -177,13 +178,22 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
 
         // No account exists yet; create a minimal one so the cookie has a valid account ID.
         DataBundle bundle = new DataBundle();
-        bundle.accounts.put(userId, new Account(userId, "Test User", userId + "@teammates.tmt"));
+        String email = isValidEmail(userId) ? userId : getUniqueFallbackEmail();
+        bundle.accounts.put(userId, new Account(userId, "Test User", email));
         try {
             DataBundle result = BACKDOOR.removeAndRestoreDataBundle(bundle);
             return result.accounts.get(userId).getId();
         } catch (HttpRequestFailedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private boolean isValidEmail(String email) {
+        return FieldValidator.getInvalidityInfoForEmail(email).isEmpty();
+    }
+
+    private String getUniqueFallbackEmail() {
+        return "test.user." + UUID.randomUUID() + Const.TEST_EMAIL_DOMAIN;
     }
 
     /**
