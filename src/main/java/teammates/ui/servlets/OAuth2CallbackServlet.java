@@ -88,7 +88,9 @@ public class OAuth2CallbackServlet extends AuthServlet {
     private AuthResult getDevServerAuthResult(HttpServletRequest req) {
         String email = req.getParameter("email");
         String nextUrl = req.getParameter("nextUrl");
-
+        if (nextUrl == null) {
+            nextUrl = "/";
+        }
         return new AuthResult(email, nextUrl);
     }
 
