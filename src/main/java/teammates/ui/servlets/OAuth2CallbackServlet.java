@@ -16,6 +16,7 @@ import com.google.api.client.auth.oauth2.TokenResponse;
 
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.HttpRequest;
 import teammates.common.util.JsonUtils;
@@ -39,14 +40,19 @@ public class OAuth2CallbackServlet extends AuthServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         AuthResult authResult;
-        authResult = getGoogleOauth2AuthResult(req, resp);
+        if (Config.isDevServerLoginEnabled()) {
+            authResult = getDevServerAuthResult(req);
+        } else {
+            authResult = getGoogleOauth2AuthResult(req, resp);
+        }
+
         if (authResult == null) {
             return;
         }
-        Cookie cookie;
 
+        Cookie cookie;
         if (authResult.email == null) {
-            // invalid google ID
+            // invalid email
             req.getSession().invalidate();
 
             cookie = getLoginInvalidationCookie();
@@ -77,6 +83,15 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
         resp.addCookie(cookie);
         resp.sendRedirect(authResult.nextUrl);
+    }
+
+    private AuthResult getDevServerAuthResult(HttpServletRequest req) {
+        String email = req.getParameter("email");
+        String nextUrl = req.getParameter("nextUrl");
+        if (nextUrl == null) {
+            nextUrl = "/";
+        }
+        return new AuthResult(email, nextUrl);
     }
 
     private AuthResult getGoogleOauth2AuthResult(HttpServletRequest req, HttpServletResponse resp) throws IOException {

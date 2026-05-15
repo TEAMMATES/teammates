@@ -10,6 +10,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
 
 import teammates.common.util.Config;
 import teammates.common.util.Logger;
+import teammates.ui.servlets.DevServerLoginServlet;
 
 /**
  * Entrypoint to the system.
@@ -40,13 +41,7 @@ public final class Application {
         if (Config.isDevServerLoginEnabled()) {
             // For dev server, we dynamically add servlet to serve the dev server login page.
 
-            ServletHolder devServerLoginServlet = new ServletHolder();
-            devServerLoginServlet.setName("DevServerLoginServlet");
-
-            // TODO: Revert to use constructor after modifying DevServerLoginServlet to redirect to
-            // Auth2CallbackServlet for account creation. HibernateUtil dependencies wouldn't be needed anymore.
-            // Register by class name so that Jetty's webapp classloader loads it and its dependencies correctly.
-            devServerLoginServlet.setClassName("teammates.ui.servlets.DevServerLoginServlet");
+            ServletHolder devServerLoginServlet = new ServletHolder("DevServerLoginServlet", new DevServerLoginServlet());
             webapp.addServlet(devServerLoginServlet, "/devServerLogin");
         }
 
