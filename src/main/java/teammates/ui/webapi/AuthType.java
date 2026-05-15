@@ -26,6 +26,11 @@ public enum AuthType {
     MASQUERADE(2),
 
     /**
+     * Verified automated service (cron/worker).
+     */
+    AUTOMATED_SERVICE(2),
+
+    /**
      * All-access pass via secret key.
      */
     ALL_ACCESS(3);

@@ -78,13 +78,4 @@ public class UserProvision {
         return userInfo;
     }
 
-    /**
-     * User principal for verified cron/worker requests: not a human app admin; {@link UserInfo#isAutomatedService} only.
-     */
-    public UserInfo getAutomatedServiceUser(String serviceId) {
-        UserInfo userInfo = new UserInfo(serviceId, null);
-        userInfo.isAutomatedService = true;
-        return userInfo;
-    }
-
 }

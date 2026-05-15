@@ -13,18 +13,21 @@ abstract class AutomatedServiceAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
+        return AuthType.AUTOMATED_SERVICE;
     }
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (!canAccessAsAdminOrAutomatedService()) {
-            throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
+            throw new UnauthorizedAccessException(
+                    "Admin or automated service privilege is required to access this resource."
+            );
         }
     }
 
     boolean canAccessAsAdminOrAutomatedService() {
-        return userInfo.isAdmin || userInfo.isAutomatedService;
+        return authType == AuthType.AUTOMATED_SERVICE
+                || userInfo != null && userInfo.isAdmin;
     }
 
 }

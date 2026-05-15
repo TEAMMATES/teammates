@@ -150,15 +150,13 @@ public abstract class Action {
 
         boolean trustedAutomatedCronOrWorker = AutomatedRequestAuth.isTrustedCronOrWorkerRequest(req);
         if (trustedAutomatedCronOrWorker) {
-            userInfo = userProvision.getAutomatedServiceUser(
-                    AutomatedRequestAuth.isCronRequestPath(req)
-                            ? Const.AutomatedService.CRON_SERVICE_USER_ID
-                            : Const.AutomatedService.WORKER_SERVICE_USER_ID);
-        } else {
-            String cookie = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.AUTH_COOKIE_NAME);
-            UserInfoCookie uic = UserInfoCookie.fromCookie(cookie);
-            userInfo = userProvision.getCurrentUser(uic);
+            authType = AuthType.AUTOMATED_SERVICE;
+            return;
         }
+
+        String cookie = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.AUTH_COOKIE_NAME);
+        UserInfoCookie uic = UserInfoCookie.fromCookie(cookie);
+        userInfo = userProvision.getCurrentUser(uic);
 
         String regKey = getRequestParamValue(Const.ParamsNames.REGKEY);
         String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
