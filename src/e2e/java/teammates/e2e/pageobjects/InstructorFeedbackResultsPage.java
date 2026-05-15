@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
@@ -1350,22 +1349,18 @@ public class InstructorFeedbackResultsPage extends AppPage {
                     .findFirst()
                     .map(Student::getTeamName)
                     .orElse("");
+        } else if (participant.getGiverType() == ResponseGiverType.INSTRUCTOR) {
+            return instructors.stream()
+                    .filter(instructor -> instructor.getId().equals(participant.getGiverId()))
+                    .findFirst()
+                    .map(Instructor::getName)
+                    .orElse("");
+        } else {
+            return students.stream()
+                    .filter(student -> student.getId().equals(participant.getGiverId()))
+                    .findFirst()
+                    .map(Student::getName)
+                    .orElse("");
         }
-
-        Optional<String> instructorName = instructors.stream()
-                .filter(instructor -> instructor.getId().equals(participant.getGiverId()))
-                .findFirst()
-                .map(Instructor::getName);
-        if (instructorName.isPresent()) {
-            return instructorName.get();
-        }
-        Optional<String> studentName = students.stream()
-                .filter(student -> student.getId().equals(participant.getGiverId()))
-                .findFirst()
-                .map(Student::getName);
-        if (studentName.isPresent()) {
-            return studentName.get();
-        }
-        return "";
     }
 }
