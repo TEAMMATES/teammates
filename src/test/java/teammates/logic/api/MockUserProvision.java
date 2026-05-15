@@ -92,7 +92,6 @@ public class MockUserProvision extends UserProvision {
      */
     public void loginAsAutomatedService() {
         isAutomatedServiceMode = true;
-        mockUser.isAdmin = false;
     }
 
     public boolean isAutomatedServiceMode() {
