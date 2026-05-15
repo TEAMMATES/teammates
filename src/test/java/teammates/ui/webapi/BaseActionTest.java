@@ -209,6 +209,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      */
     protected void loginAsAutomatedService() {
         mockUserProvision.loginAsAutomatedService();
+        assertTrue(mockUserProvision.isAutomatedServiceMode());
     }
 
     /**
