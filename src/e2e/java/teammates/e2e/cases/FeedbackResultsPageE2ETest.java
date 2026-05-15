@@ -448,15 +448,20 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
                             .orElse(""));
         }
 
-        String userEmail = testData.students.values().stream()
-                .filter(student -> student.getId().equals(giver.getGiverId()))
-                .map(Student::getEmail)
-                .findFirst()
-                .orElseGet(() -> testData.instructors.values().stream()
-                        .filter(instructor -> instructor.getId().equals(giver.getGiverId()))
-                        .map(Instructor::getEmail)
-                        .findFirst()
-                        .orElse(""));
+        String userEmail = "";
+        if (giver.getGiverType() == ResponseGiverType.STUDENT) {
+            userEmail = testData.students.values().stream()
+                    .filter(student -> student.getId().equals(giver.getGiverId()))
+                    .map(Student::getEmail)
+                    .findFirst()
+                    .orElse("");
+        } else if (giver.getGiverType() == ResponseGiverType.INSTRUCTOR) {
+            userEmail = testData.instructors.values().stream()
+                    .filter(instructor -> instructor.getId().equals(giver.getGiverId()))
+                    .map(Instructor::getEmail)
+                    .findFirst()
+                    .orElse("");
+        }
 
         return getIdentifier(currentStudent, userEmail);
     }
