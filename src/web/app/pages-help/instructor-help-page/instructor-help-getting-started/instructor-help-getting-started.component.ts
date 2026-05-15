@@ -55,6 +55,7 @@ export class InstructorHelpGettingStartedComponent {
     if (destination) {
       this.pageScrollService.scroll({
         document: this.document,
+        duration: 500,
         scrollTarget: `#${target}`,
         scrollOffset: 70,
       });
