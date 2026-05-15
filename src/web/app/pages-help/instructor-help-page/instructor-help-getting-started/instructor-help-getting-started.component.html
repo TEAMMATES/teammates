@@ -8,7 +8,7 @@
         For more help, browse the answers to some <a [tmRouterLink]="instructorHelpPath">frequently asked questions</a>.
       </p>
       <div class="separate-content-holder">
-        <hr/>
+        <hr />
       </div>
       <h2 id="course-setup">1. Set up a course</h2>
       <div>
@@ -21,7 +21,8 @@
             <b>Create a course</b><br />
             From the <span class="ui-text">Home</span> page, click
             <button class="btn btn-success btn-sm"><i class="fas fa-plus"></i> Add New Course</button>.<br />
-            Fill out the following form. Hover your mouse over text to reveal tooltips which tell you what the element does.
+            Fill out the following form. Hover your mouse over text to reveal tooltips which tell you what the element
+            does.
             <tm-example-box>
               <tm-course-edit-form [formMode]="CourseEditFormMode.ADD" [isDisplayOnly]="true"></tm-course-edit-form>
             </tm-example-box>
@@ -36,10 +37,10 @@
             ><br />
             Go to the <span class="ui-text">Courses</span> page and click the
             <button class="btn btn-light btn-sm">Enroll</button> button of the corresponding course.<br />
-            Students can be enrolled into teams (e.g., project groups) and sections (e.g., tutorial classes, lecture groups)
-            to facilitate giving feedback in and among these smaller groups.<br />
-            TEAMMATES will <b>not</b> automatically notify students that they have been enrolled, as there is nothing for
-            students to do in TEAMMATES until a session opens for submissions.<br />
+            Students can be enrolled into teams (e.g., project groups) and sections (e.g., tutorial classes, lecture
+            groups) to facilitate giving feedback in and among these smaller groups.<br />
+            TEAMMATES will <b>not</b> automatically notify students that they have been enrolled, as there is nothing
+            for students to do in TEAMMATES until a session opens for submissions.<br />
             TEAMMATES will send an email with access instructions to students only when there is an action for them to
             perform e.g., when a session opens for submissions.
           </li>
@@ -52,16 +53,20 @@
               ></b
             ><br />
             From the <span class="ui-text">Courses</span> page, click the
-            <button class="btn btn-light btn-sm dropdown-toggle">Other Actions</button> button of the course you would like
-            to add instructors to, and select <span class="ui-text">Edit</span> in the drop-down menu. You will be directed
-            to the <span class="ui-text">Edit Course</span> page where you can add a new instructor to your course. You can
-            specify the
+            <button class="btn btn-light btn-sm dropdown-toggle">Other Actions</button> button of the course you would
+            like to add instructors to, and select <span class="ui-text">Edit</span> in the drop-down menu. You will be
+            directed to the <span class="ui-text">Edit Course</span> page where you can add a new instructor to your
+            course. You can specify the
             <a
               [tmRouterLink]="instructorHelpPath"
-              [queryParams]="{ questionId: CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS, section: Sections.courses }"
+              [queryParams]="{
+                questionId: CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS,
+                section: Sections.courses,
+              }"
               >access level</a
             >
-            of any instructor you add to a course. For more information about how to add an instructor to your course, click
+            of any instructor you add to a course. For more information about how to add an instructor to your course,
+            click
             <a
               [tmRouterLink]="instructorHelpPath"
               [queryParams]="{ questionId: CoursesSectionQuestions.COURSE_ADD_INSTRUCTOR, section: Sections.courses }"
@@ -77,8 +82,8 @@
       <div>
         <p>
           A feedback session is a course-specific feedback questionnaire. Design the questions you want answered in your
-          feedback session, then wait for the session to open! Each feedback session will be open to responses between the
-          opening and closing times you specify.
+          feedback session, then wait for the session to open! Each feedback session will be open to responses between
+          the opening and closing times you specify.
         </p>
         <ol>
           <li>
@@ -99,8 +104,8 @@
             <li>Session using template: team peer feedback (percentage-based)</li>
             <ul>
               <li>
-                Similar to above, but uses a percentage-based question (instead of a point-based question) to determine the
-                contribution level of team members
+                Similar to above, but uses a percentage-based question (instead of a point-based question) to determine
+                the contribution level of team members
               </li>
             </ul>
           </ul>
@@ -146,25 +151,27 @@
       <div>
         <p>After you have set up your session, you're all set!</p>
         <p>
-          TEAMMATES automatically sends emails to students and instructors according to the preferences you specify when you
-          create a session. The default settings are:
+          TEAMMATES automatically sends emails to students and instructors according to the preferences you specify when
+          you create a session. The default settings are:
         </p>
         <ul>
           <li>
-            When a session opens, TEAMMATES will automatically email students instructions to access the session. A copy of
-            that email will be sent to you.
+            When a session opens, TEAMMATES will automatically email students instructions to access the session. A copy
+            of that email will be sent to you.
           </li>
           <li>
             24 hours before the closing time of a session, students will be sent a reminder to complete their responses.
           </li>
-          <li>When the results of a session are published, students will be sent instructions to access the results.</li>
+          <li>
+            When the results of a session are published, students will be sent instructions to access the results.
+          </li>
         </ul>
         <p>
           You can manually send reminders to students at any time while a session is open. Use the
           <button class="btn btn-light btn-sm dropdown-toggle">Remind</button> button of the session from the
           <span class="ui-text">Home</span> or <span class="ui-text">Sessions</span> page.<br />
-          In addition, you are welcome to (but not required to) use your own email announcements (outside of TEAMMATES) to
-          inform students to look out for these TEAMMATES emails.
+          In addition, you are welcome to (but not required to) use your own email announcements (outside of TEAMMATES)
+          to inform students to look out for these TEAMMATES emails.
         </p>
         <p>
           Click
@@ -188,8 +195,9 @@
           to find how to extend the deadline for all students, or for specific students.
         </p>
         <p>
-          While not normally needed, if you would like students to access TEAMMATES sooner (e.g., if you would like them to
-          fill in their profile page in advance), you can get them to 'join' the course earlier by following these steps:
+          While not normally needed, if you would like students to access TEAMMATES sooner (e.g., if you would like them
+          to fill in their profile page in advance), you can get them to 'join' the course earlier by following these
+          steps:
         </p>
         <ol>
           <li>
@@ -199,8 +207,8 @@
           </li>
           <li>
             Then, click the
-            <button class="btn btn-sm btn-primary"><i class="fa fa-envelope"></i> Remind Students to Join</button> button,
-            which will send them instructions to 'join' TEAMMATES immediately.
+            <button class="btn btn-sm btn-primary"><i class="fa fa-envelope"></i> Remind Students to Join</button>
+            button, which will send them instructions to 'join' TEAMMATES immediately.
           </li>
         </ol>
         <p>
@@ -242,8 +250,8 @@
             other instructors, the response giver, and/or the response giver's team.
           </li>
           <li>
-            Remind students to submit responses: TEAMMATES automatically sends reminders to students; however, you can also
-            manually send reminder emails to students at any time while a session is open. Use the
+            Remind students to submit responses: TEAMMATES automatically sends reminders to students; however, you can
+            also manually send reminder emails to students at any time while a session is open. Use the
             <button class="btn btn-light btn-sm dropdown-toggle">Remind</button> button of the session from the
             <span class="ui-text">Home</span> or <span class="ui-text">Sessions</span> page.
           </li>
@@ -262,11 +270,12 @@
           <li>
             Publish results: make a session's results visible to students. Click the corresponding
             <button class="btn btn-light btn-sm dropdown-toggle">Results</button> button on the
-            <span class="ui-text">Sessions</span> page, then select <span class="ui-text">Publish Results</span>. Students
-            will not be able to view the session's results until you publish them.
+            <span class="ui-text">Sessions</span> page, then select <span class="ui-text">Publish Results</span>.
+            Students will not be able to view the session's results until you publish them.
           </li>
           <li>
-            Download results of a session in spreadsheet format: first view the course-wide results of a session, then click
+            Download results of a session in spreadsheet format: first view the course-wide results of a session, then
+            click
             <button class="btn btn-sm btn-primary"><i class="fas fa-file-download"></i> Download Results</button> to
             download the results of a session as a CSV file.
           </li>
@@ -291,19 +300,22 @@
             and
             <a
               [tmRouterLink]="instructorHelpPath"
-              [queryParams]="{ questionId: StudentsSectionQuestions.STUDENT_VIEW_RESPONSES, section: Sections.students }"
+              [queryParams]="{
+                questionId: StudentsSectionQuestions.STUDENT_VIEW_RESPONSES,
+                section: Sections.students,
+              }"
               >all past records of a student</a
-            >: view the profile that any enrolled student has written for him/herself, and see in one place all submissions
-            given/received by a student. Handy for examining how a student progressed through a course.
+            >: view the profile that any enrolled student has written for him/herself, and see in one place all
+            submissions given/received by a student. Handy for examining how a student progressed through a course.
           </li>
           <li>
             <a
               [tmRouterLink]="instructorHelpPath"
               [queryParams]="{ questionId: StudentsSectionQuestions.STUDENT_EDIT_DETAILS, section: Sections.students }"
               >Edit a student's data</a
-            >: change a student's registered name, section or team name, or email address. You can also note down comments
-            on students, for example to inform other instructors of information about a student that they should take note
-            of.
+            >: change a student's registered name, section or team name, or email address. You can also note down
+            comments on students, for example to inform other instructors of information about a student that they
+            should take note of.
           </li>
           <li>
             Search:
