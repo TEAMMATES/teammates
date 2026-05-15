@@ -242,9 +242,7 @@ public final class FeedbackResponseCommentsLogic {
      */
     public boolean checkIsNameVisibleToUser(FeedbackResponseComment comment, FeedbackResponse response,
                                    String userEmail, CourseRoster roster) {
-        List<ViewerType> showNameTo = comment.getShowGiverNameTo();
-        //in the old ver, name is always visible
-        if (showNameTo == null || comment.getIsVisibilityFollowingFeedbackQuestion()) {
+        if (comment.getIsVisibilityFollowingFeedbackQuestion()) {
             return true;
         }
 
@@ -260,6 +258,9 @@ public final class FeedbackResponseCommentsLogic {
                 && roster.getInstructorForEmail(userEmail).getId().equals(commentGiver.getGiverId())) {
             return true;
         }
+
+        List<ViewerType> showNameTo = comment.getShowGiverNameTo();
+        assert showNameTo != null : "showNameTo should not be null if isVisibilityFollowingFeedbackQuestion is false";
 
         return checkIsFeedbackParticipantNameVisibleToUser(response, userEmail, roster, showNameTo);
     }
