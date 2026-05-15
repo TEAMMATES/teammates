@@ -625,7 +625,6 @@ export interface UserInfo {
   isInstructor: boolean;
   isStudent: boolean;
   isMaintainer: boolean;
-  isAutomatedService: boolean;
 }
 
 export enum AccountRequestStatus {

@@ -15,20 +15,20 @@ public class MockUserProvision extends UserProvision {
     private static final UUID MOCK_ACCOUNT_ID = UUID.randomUUID();
     private UserInfo mockUser = new UserInfo("user.id", MOCK_ACCOUNT_ID);
     private boolean isLoggedIn;
+    private boolean isAutomatedServiceMode;
     private boolean isMaintainer;
     private boolean isAdmin;
     private boolean isInstructor;
     private boolean isStudent;
 
     private UserInfo loginUser(String userId, boolean isAdmin, boolean isInstructor, boolean isStudent,
-            boolean isMaintainer, boolean isAutomatedService) {
+            boolean isMaintainer) {
         isLoggedIn = true;
         mockUser.id = userId;
         mockUser.isAdmin = isAdmin;
         mockUser.isInstructor = isInstructor;
         mockUser.isStudent = isStudent;
         mockUser.isMaintainer = isMaintainer;
-        mockUser.isAutomatedService = isAutomatedService;
         return mockUser;
     }
 
@@ -38,7 +38,7 @@ public class MockUserProvision extends UserProvision {
      * @return The user info after login process
      */
     public UserInfo loginUser(String userId) {
-        return loginUser(userId, false, false, false, false, false);
+        return loginUser(userId, false, false, false, false);
     }
 
     /**
@@ -47,7 +47,7 @@ public class MockUserProvision extends UserProvision {
      * @return The user info after login process
      */
     public UserInfo loginAsAdmin(String userId) {
-        return loginUser(userId, true, false, false, false, false);
+        return loginUser(userId, true, false, false, false);
     }
 
     /**
@@ -56,7 +56,7 @@ public class MockUserProvision extends UserProvision {
      * @return The user info after login process
      */
     public UserInfo loginAsInstructor(String userId) {
-        return loginUser(userId, false, true, false, false, false);
+        return loginUser(userId, false, true, false, false);
     }
 
     /**
@@ -65,7 +65,7 @@ public class MockUserProvision extends UserProvision {
      * @return The user info after login process
      */
     public UserInfo loginAsStudent(String userId) {
-        return loginUser(userId, false, false, true, false, false);
+        return loginUser(userId, false, false, true, false);
     }
 
     /**
@@ -74,7 +74,7 @@ public class MockUserProvision extends UserProvision {
      * @return The user info after login process
      */
     public UserInfo loginAsStudentInstructor(String userId) {
-        return loginUser(userId, false, true, true, false, false);
+        return loginUser(userId, false, true, true, false);
     }
 
     /**
@@ -83,14 +83,20 @@ public class MockUserProvision extends UserProvision {
      * @return The user info after login process
      */
     public UserInfo loginAsMaintainer(String userId) {
-        return loginUser(userId, false, false, false, true, false);
+        return loginUser(userId, false, false, false, true);
     }
 
     /**
-     * Models a verified cron/worker principal ({@link UserInfo#isAutomatedService}), not a human app admin.
+     * Models a verified cron/worker principal ({@link AuthType#AUTOMATED_SERVICE}), not a human app admin.
+     * Does not log in a user; sets a flag that {@code BaseActionTest} uses to override {@code action.authType}.
      */
-    public UserInfo loginAsAutomatedService(String userId) {
-        return loginUser(userId, false, false, false, false, true);
+    public void loginAsAutomatedService() {
+        isAutomatedServiceMode = true;
+        mockUser.isAdmin = false;
+    }
+
+    public boolean isAutomatedServiceMode() {
+        return isAutomatedServiceMode;
     }
 
     /**
@@ -98,6 +104,7 @@ public class MockUserProvision extends UserProvision {
      */
     public void logoutUser() {
         isLoggedIn = false;
+        isAutomatedServiceMode = false;
     }
 
     @Override
@@ -117,7 +124,6 @@ public class MockUserProvision extends UserProvision {
         userInfo.isInstructor = isInstructor;
         userInfo.isStudent = isStudent;
         userInfo.isMaintainer = isMaintainer;
-        userInfo.isAutomatedService = mockUser.isAutomatedService;
 
         return userInfo;
     }

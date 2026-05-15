@@ -112,6 +112,10 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
             action.setEmailGenerator(mockEmailGenerator);
             action.init(req);
+            if (mockUserProvision.isAutomatedServiceMode()) {
+                action.authType = AuthType.AUTOMATED_SERVICE;
+                action.userInfo = null;
+            }
             return action;
         } catch (ActionMappingException e) {
             throw new RuntimeException(e);
@@ -200,13 +204,11 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     }
 
     /**
-     * Models a verified cron/worker principal ({@link UserInfo#isAutomatedService}), for actions that allow
+     * Models a verified cron/worker principal ({@link AuthType#AUTOMATED_SERVICE}), for actions that allow
      * automated services as well as human admins.
      */
     protected void loginAsAutomatedService() {
-        UserInfo user = mockUserProvision.loginAsAutomatedService(Const.AutomatedService.CRON_SERVICE_USER_ID);
-        assertTrue(user.isAutomatedService);
-        assertFalse(user.isAdmin);
+        mockUserProvision.loginAsAutomatedService();
     }
 
     /**

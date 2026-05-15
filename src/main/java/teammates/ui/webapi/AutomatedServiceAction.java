@@ -7,7 +7,7 @@ import teammates.ui.exception.UnauthorizedAccessException;
  *
  * <p>Application administrators using {@code /webapi} routes are included: authorization is
  * {@link teammates.common.datatransfer.UserInfo#isAdmin} or
- * {@link teammates.common.datatransfer.UserInfo#isAutomatedService}.
+ * {@link teammates.ui.webapi.AuthType#AUTOMATED_SERVICE}.
  */
 abstract class AutomatedServiceAction extends Action {
 

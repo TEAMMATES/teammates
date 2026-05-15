@@ -324,11 +324,10 @@ public class UserProvisionTest extends BaseTestCase {
         assertEquals(expected.contains(Role.INSTRUCTOR), user.isInstructor);
         assertEquals(expected.contains(Role.STUDENT), user.isStudent);
         assertEquals(expected.contains(Role.MAINTAINER), user.isMaintainer);
-        assertEquals(expected.contains(Role.AUTOMATED_SERVICE), user.isAutomatedService);
     }
 
     private enum Role {
-        ADMIN, INSTRUCTOR, STUDENT, MAINTAINER, AUTOMATED_SERVICE
+        ADMIN, INSTRUCTOR, STUDENT, MAINTAINER
     }
 
 }
