@@ -1,0 +1,111 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="samuelfangjw" id="20260516-remove-on-delete-cascade-1">
+        <dropForeignKeyConstraint baseTableName="feedback_session_logs" constraintName="FK1m0hpecbnst5vj578k2mfwuy0" />
+        <addForeignKeyConstraint baseTableName="feedback_session_logs" baseColumnNames="session_id"
+                referencedTableName="feedback_sessions" referencedColumnNames="id"
+                constraintName="FK1m0hpecbnst5vj578k2mfwuy0" deferrable="false" initiallyDeferred="false" validate="true"/>
+
+        <dropForeignKeyConstraint baseTableName="deadline_extensions" constraintName="FK41wmupob1x2gfup53prgathfg" />
+        <addForeignKeyConstraint baseTableName="deadline_extensions" baseColumnNames="user_id"
+                referencedTableName="users" referencedColumnNames="id"
+                constraintName="FK41wmupob1x2gfup53prgathfg" deferrable="false" initiallyDeferred="false" validate="true"/>
+
+        <dropForeignKeyConstraint baseTableName="feedback_questions" constraintName="FK8ca7x73sh6f29r26sk226t65i" />
+        <addForeignKeyConstraint baseTableName="feedback_questions" baseColumnNames="session_id"
+                referencedTableName="feedback_sessions" referencedColumnNames="id"
+                constraintName="FK8ca7x73sh6f29r26sk226t65i" deferrable="false" initiallyDeferred="false" validate="true"/>
+
+        <dropForeignKeyConstraint baseTableName="teams" constraintName="FKd1h70v57s3ehpquw083fa1ov" />
+        <addForeignKeyConstraint baseTableName="teams" baseColumnNames="section_id"
+                referencedTableName="sections" referencedColumnNames="id"
+                constraintName="FKd1h70v57s3ehpquw083fa1ov" deferrable="false" initiallyDeferred="false" validate="true"/>
+
+        <dropForeignKeyConstraint baseTableName="feedback_response_comments" constraintName="FKh13gpp71ocp554jo4rfpoddny" />
+        <addForeignKeyConstraint baseTableName="feedback_response_comments" baseColumnNames="response_id"
+                referencedTableName="feedback_responses" referencedColumnNames="id"
+                constraintName="FKh13gpp71ocp554jo4rfpoddny" deferrable="false" initiallyDeferred="false" validate="true"/>
+
+        <dropForeignKeyConstraint baseTableName="read_notifications" constraintName="FKixesv135gg19mb3ggagnbt417" />
+        <addForeignKeyConstraint baseTableName="read_notifications" baseColumnNames="notification_id"
+                referencedTableName="notifications" referencedColumnNames="id"
+                constraintName="FKixesv135gg19mb3ggagnbt417" deferrable="false" initiallyDeferred="false" validate="true"/>
+
+        <dropForeignKeyConstraint baseTableName="feedback_session_logs" constraintName="FKmalqsiq2978c53gcdrrqmmcho" />
+        <addForeignKeyConstraint baseTableName="feedback_session_logs" baseColumnNames="student_id"
+                referencedTableName="students" referencedColumnNames="id"
+                constraintName="FKmalqsiq2978c53gcdrrqmmcho" deferrable="false" initiallyDeferred="false" validate="true"/>
+
+        <dropForeignKeyConstraint baseTableName="read_notifications" constraintName="FKn2705bbw66x0oqvijwr67evld" />
+        <addForeignKeyConstraint baseTableName="read_notifications" baseColumnNames="account_id"
+                referencedTableName="accounts" referencedColumnNames="id"
+                constraintName="FKn2705bbw66x0oqvijwr67evld" deferrable="false" initiallyDeferred="false" validate="true"/>
+
+        <dropForeignKeyConstraint baseTableName="deadline_extensions" constraintName="FKr994i0bv5oxepfcrs93lg4efd" />
+        <addForeignKeyConstraint baseTableName="deadline_extensions" baseColumnNames="session_id"
+                referencedTableName="feedback_sessions" referencedColumnNames="id"
+                constraintName="FKr994i0bv5oxepfcrs93lg4efd" deferrable="false" initiallyDeferred="false" validate="true"/>
+
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="feedback_session_logs" constraintName="FK1m0hpecbnst5vj578k2mfwuy0" />
+            <addForeignKeyConstraint baseTableName="feedback_session_logs" baseColumnNames="session_id"
+                    referencedTableName="feedback_sessions" referencedColumnNames="id"
+                    constraintName="FK1m0hpecbnst5vj578k2mfwuy0" onDelete="CASCADE"
+                    deferrable="false" initiallyDeferred="false" validate="true"/>
+
+            <dropForeignKeyConstraint baseTableName="deadline_extensions" constraintName="FK41wmupob1x2gfup53prgathfg" />
+            <addForeignKeyConstraint baseTableName="deadline_extensions" baseColumnNames="user_id"
+                    referencedTableName="users" referencedColumnNames="id"
+                    constraintName="FK41wmupob1x2gfup53prgathfg" onDelete="CASCADE"
+                    deferrable="false" initiallyDeferred="false" validate="true"/>
+
+            <dropForeignKeyConstraint baseTableName="feedback_questions" constraintName="FK8ca7x73sh6f29r26sk226t65i" />
+            <addForeignKeyConstraint baseTableName="feedback_questions" baseColumnNames="session_id"
+                    referencedTableName="feedback_sessions" referencedColumnNames="id"
+                    constraintName="FK8ca7x73sh6f29r26sk226t65i" onDelete="CASCADE"
+                    deferrable="false" initiallyDeferred="false" validate="true"/>
+
+            <dropForeignKeyConstraint baseTableName="teams" constraintName="FKd1h70v57s3ehpquw083fa1ov" />
+            <addForeignKeyConstraint baseTableName="teams" baseColumnNames="section_id"
+                    referencedTableName="sections" referencedColumnNames="id"
+                    constraintName="FKd1h70v57s3ehpquw083fa1ov" onDelete="CASCADE"
+                    deferrable="false" initiallyDeferred="false" validate="true"/>
+
+            <dropForeignKeyConstraint baseTableName="feedback_response_comments" constraintName="FKh13gpp71ocp554jo4rfpoddny" />
+            <addForeignKeyConstraint baseTableName="feedback_response_comments" baseColumnNames="response_id"
+                    referencedTableName="feedback_responses" referencedColumnNames="id"
+                    constraintName="FKh13gpp71ocp554jo4rfpoddny" onDelete="CASCADE"
+                    deferrable="false" initiallyDeferred="false" validate="true"/>
+
+            <dropForeignKeyConstraint baseTableName="read_notifications" constraintName="FKixesv135gg19mb3ggagnbt417" />
+            <addForeignKeyConstraint baseTableName="read_notifications" baseColumnNames="notification_id"
+                    referencedTableName="notifications" referencedColumnNames="id"
+                    constraintName="FKixesv135gg19mb3ggagnbt417" onDelete="CASCADE"
+                    deferrable="false" initiallyDeferred="false" validate="true"/>
+
+            <dropForeignKeyConstraint baseTableName="feedback_session_logs" constraintName="FKmalqsiq2978c53gcdrrqmmcho" />
+            <addForeignKeyConstraint baseTableName="feedback_session_logs" baseColumnNames="student_id"
+                    referencedTableName="students" referencedColumnNames="id"
+                    constraintName="FKmalqsiq2978c53gcdrrqmmcho" onDelete="CASCADE"
+                    deferrable="false" initiallyDeferred="false" validate="true"/>
+
+            <dropForeignKeyConstraint baseTableName="read_notifications" constraintName="FKn2705bbw66x0oqvijwr67evld" />
+            <addForeignKeyConstraint baseTableName="read_notifications" baseColumnNames="account_id"
+                    referencedTableName="accounts" referencedColumnNames="id"
+                    constraintName="FKn2705bbw66x0oqvijwr67evld" onDelete="CASCADE"
+                    deferrable="false" initiallyDeferred="false" validate="true"/>
+
+            <dropForeignKeyConstraint baseTableName="deadline_extensions" constraintName="FKr994i0bv5oxepfcrs93lg4efd" />
+            <addForeignKeyConstraint baseTableName="deadline_extensions" baseColumnNames="session_id"
+                    referencedTableName="feedback_sessions" referencedColumnNames="id"
+                    constraintName="FKr994i0bv5oxepfcrs93lg4efd" onDelete="CASCADE"
+                    deferrable="false" initiallyDeferred="false" validate="true"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

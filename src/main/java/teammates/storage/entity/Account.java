@@ -15,8 +15,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import org.hibernate.annotations.NaturalId;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.FieldValidator;
@@ -41,7 +39,6 @@ public class Account extends BaseEntity {
     private String email;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.REMOVE)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<ReadNotification> readNotifications = new HashSet<>();
 
     @OneToMany(mappedBy = "account")

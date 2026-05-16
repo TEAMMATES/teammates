@@ -15,9 +15,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 
 /**
@@ -31,7 +28,6 @@ public class FeedbackSessionLog extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "studentId", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Student student;
 
     @Column(nullable = false, insertable = false, updatable = false)
@@ -39,7 +35,6 @@ public class FeedbackSessionLog extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "sessionId", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private FeedbackSession feedbackSession;
 
     @Column(nullable = false, insertable = false, updatable = false)

@@ -17,8 +17,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.util.FieldValidator;
@@ -46,7 +44,6 @@ public class Section extends BaseEntity {
     private String name;
 
     @OneToMany(mappedBy = "section", cascade = CascadeType.REMOVE)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Team> teams = new HashSet<>();
 
     @UpdateTimestamp
