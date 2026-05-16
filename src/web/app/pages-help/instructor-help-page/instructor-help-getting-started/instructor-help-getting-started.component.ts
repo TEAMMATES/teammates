@@ -50,6 +50,15 @@ export class InstructorHelpGettingStartedComponent {
   /**
    * To scroll to a specific HTML id
    */
+  scroll(section: string): void {
+    this.pageScrollService.scroll({
+      document: this.document,
+      duration: 500,
+      scrollTarget: `#${section}`,
+      scrollOffset: 70,
+    });
+  }
+  
   jumpTo(target: string): boolean {
     const destination: Element | null = document.getElementById(target);
     if (destination) {
