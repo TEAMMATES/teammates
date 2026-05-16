@@ -188,7 +188,6 @@
         "emails": "Emails",
         "supported-services": "Supported Services",
         "sendgrid": "SendGrid",
-        "mailgun": "Mailgun",
         "mailjet": "Mailjet"
       },
       "headingKeywords": {}
