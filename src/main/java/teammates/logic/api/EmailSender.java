@@ -2,6 +2,8 @@ package teammates.logic.api;
 
 import org.apache.http.HttpStatus;
 
+import com.google.common.annotations.VisibleForTesting;
+
 import teammates.common.datatransfer.logs.EmailSentLogDetails;
 import teammates.common.exception.EmailSendingException;
 import teammates.common.util.Config;
@@ -35,6 +37,15 @@ public class EmailSender {
         } else {
             service = new EmptyEmailService();
         }
+    }
+
+    /**
+     * FOR TESTING ONLY.
+     * Allows injecting a mocked service to bypass the Config-driven Singleton.
+     */
+    @VisibleForTesting
+    EmailSender(EmailSenderService service) {
+        this.service = service;
     }
 
     public static EmailSender inst() {
