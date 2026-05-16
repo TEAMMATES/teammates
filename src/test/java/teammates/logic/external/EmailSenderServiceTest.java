@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 import com.mailjet.client.MailjetRequest;
 import com.mailjet.client.resource.Email;
 import com.sendgrid.helpers.mail.Mail;
-import com.sun.jersey.multipart.FormDataMultiPart;
 
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.HtmlHelper;
@@ -15,7 +14,6 @@ import teammates.test.BaseTestCase;
 
 /**
  * SUT: {@link SendgridService},
- *      {@link MailgunService},
  *      {@link MailjetService}.
  */
 public class EmailSenderServiceTest extends BaseTestCase {
@@ -55,21 +53,6 @@ public class EmailSenderServiceTest extends BaseTestCase {
         assertEquals(HtmlHelper.htmlToPlainText(wrapper.getContent()), email.getContent().get(0).getValue());
         assertEquals("text/html", email.getContent().get(1).getType());
         assertEquals(wrapper.getContent(), email.getContent().get(1).getValue());
-    }
-
-    @Test
-    public void testConvertToMailgun() throws Exception {
-        EmailWrapper wrapper = getTypicalEmailWrapper();
-        try (FormDataMultiPart formData = new MailgunService().parseToEmail(wrapper)) {
-
-            assertEquals(wrapper.getSenderName() + " <" + wrapper.getSenderEmail() + ">",
-                    formData.getField("from").getValue());
-            assertEquals(wrapper.getRecipient(), formData.getField("to").getValue());
-            assertEquals(wrapper.getBcc(), formData.getField("bcc").getValue());
-            assertEquals(wrapper.getReplyTo(), formData.getField("h:Reply-To").getValue());
-            assertEquals(wrapper.getSubject(), formData.getField("subject").getValue());
-            assertEquals(wrapper.getContent(), formData.getField("html").getValue());
-        }
     }
 
     @Test

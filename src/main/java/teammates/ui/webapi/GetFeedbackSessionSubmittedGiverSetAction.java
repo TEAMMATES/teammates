@@ -30,7 +30,7 @@ public class GetFeedbackSessionSubmittedGiverSetAction extends Action {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
-        Instructor instructor = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
+        Instructor instructor = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), authContext.id());
 
         gateKeeper.verifyAccessible(instructor, feedbackSession);
     }

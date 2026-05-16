@@ -1,5 +1,6 @@
 package teammates.logic.api;
 
+import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
@@ -29,62 +30,71 @@ public class UserProvision {
     /**
      * Gets the information of the current logged in user.
      */
-    public UserInfo getCurrentUser(UserInfoCookie uic) {
-        UserInfo user = getCurrentLoggedInUser(uic);
+    public AuthContext getCurrentUserContext(UserInfoCookie uic) {
+        AuthContext user = getCurrentLoggedInUserContext(uic);
 
         if (user == null) {
             return null;
         }
 
-        String userId = user.id;
-        user.isAdmin = Config.getAppAdmins().contains(userId);
-        user.isInstructor = usersLogic.isInstructorInAnyCourse(userId);
-        user.isStudent = usersLogic.isStudentInAnyCourse(userId);
-        user.isMaintainer = Config.getAppMaintainers().contains(userId);
-        return user;
+        String userId = user.id();
+        return new AuthContext(
+                userId,
+                user.accountId(),
+                Config.getAppAdmins().contains(userId),
+                usersLogic.isInstructorInAnyCourse(userId),
+                usersLogic.isStudentInAnyCourse(userId),
+                Config.getAppMaintainers().contains(userId));
     }
 
     /**
      * Gets the current logged in user.
      */
-    UserInfo getCurrentLoggedInUser(UserInfoCookie uic) {
+    AuthContext getCurrentLoggedInUserContext(UserInfoCookie uic) {
         if (uic == null || !uic.isValid()) {
             return null;
         }
 
-        return new UserInfo(uic.getUserId(), uic.getAccountId());
+        return new AuthContext(uic.getUserId(), uic.getAccountId(),
+                false, false, false, false);
     }
 
     /**
      * Gets the information of the current masqueraded user.
      */
-    public UserInfo getMasqueradeUser(String googleId) {
+    public AuthContext getMasqueradeUserContext(String googleId) {
         Account account = accountsLogic.getAccountForGoogleId(googleId);
-        UserInfo userInfo = new UserInfo(googleId, account == null ? null : account.getId());
-        userInfo.isAdmin = false;
-        userInfo.isInstructor = usersLogic.isInstructorInAnyCourse(googleId);
-        userInfo.isStudent = usersLogic.isStudentInAnyCourse(googleId);
-        userInfo.isMaintainer = Config.getAppMaintainers().contains(googleId);
-        return userInfo;
+        return new AuthContext(
+                googleId,
+                account == null ? null : account.getId(),
+                false,
+                usersLogic.isInstructorInAnyCourse(googleId),
+                usersLogic.isStudentInAnyCourse(googleId),
+                Config.getAppMaintainers().contains(googleId));
     }
 
     /**
      * Gets the information of a user who has administrator role only.
      */
-    public UserInfo getAdminOnlyUser(String userId) {
+    public AuthContext getAdminOnlyUserContext(String userId) {
+        // Only used for testing. To be removed in the future.
         Account account = userId == null ? null : accountsLogic.getAccountForGoogleId(userId);
-        UserInfo userInfo = new UserInfo(userId, account == null ? null : account.getId());
-        userInfo.isAdmin = true;
-        return userInfo;
+        return new AuthContext(userId, account == null ? null : account.getId(), true, true, true, true);
     }
 
     /**
-     * User principal for verified cron/worker requests: not a human app admin; {@link UserInfo#isAutomatedService} only.
+     * Gets the information of a user from an AuthContext.
      */
-    public UserInfo getAutomatedServiceUser(String serviceId) {
-        UserInfo userInfo = new UserInfo(serviceId, null);
-        userInfo.isAutomatedService = true;
+    public UserInfo getUserInfo(AuthContext authContext) {
+        if (authContext == null) {
+            return null;
+        }
+
+        UserInfo userInfo = new UserInfo(authContext.id(), authContext.accountId());
+        userInfo.isAdmin = authContext.isAdmin();
+        userInfo.isInstructor = authContext.isInstructor();
+        userInfo.isStudent = authContext.isStudent();
+        userInfo.isMaintainer = authContext.isMaintainer();
         return userInfo;
     }
-
 }

@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
@@ -22,6 +23,7 @@ import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
+import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -158,12 +160,6 @@ public final class DataBundleLogic {
             fq.addFeedbackResponse(response);
         }
 
-        for (FeedbackResponseComment responseComment : responseComments) {
-            responseComment.setId(UUID.randomUUID());
-            FeedbackResponse fr = responseMap.get(responseComment.getResponseId());
-            fr.addFeedbackResponseComment(responseComment);
-        }
-
         for (Account account : accounts) {
             UUID placeholderId = account.getId();
             account.setId(UUID.randomUUID());
@@ -228,6 +224,46 @@ public final class DataBundleLogic {
             session.addDeadlineExtension(deadlineExtension);
             User user = usersMap.get(deadlineExtension.getUserId());
             deadlineExtension.setUser(user);
+        }
+
+        for (FeedbackResponseComment responseComment : responseComments) {
+            responseComment.setId(UUID.randomUUID());
+            FeedbackResponse fr = responseMap.get(responseComment.getResponseId());
+            fr.addFeedbackResponseComment(responseComment);
+
+            ResponseGiver giver = responseComment.getGiver();
+            if (giver != null) {
+                UUID placeholderId = giver.getGiverId();
+                if (giver.getGiverType() == ResponseGiverType.TEAM) {
+                    Team team = teamsMap.get(placeholderId);
+                    if (team != null) {
+                        responseComment.setGiver(new ResponseGiver(ResponseGiverType.TEAM, team.getId()));
+                    }
+                } else {
+                    User user = usersMap.get(placeholderId);
+                    if (user != null) {
+                        responseComment.setGiver(new ResponseGiver(giver.getGiverType(), user.getId()));
+                    }
+                }
+            }
+
+            ResponseGiver lastEditedBy = responseComment.getLastEditedBy();
+            if (lastEditedBy != null) {
+                UUID placeholderId = lastEditedBy.getGiverId();
+                if (lastEditedBy.getGiverType() == ResponseGiverType.TEAM) {
+                    Team team = teamsMap.get(placeholderId);
+                    if (team != null) {
+                        responseComment.setLastEditedBy(new ResponseGiver(ResponseGiverType.TEAM, team.getId()));
+                    }
+                } else {
+                    User user = usersMap.get(placeholderId);
+                    if (user != null) {
+                        responseComment.setLastEditedBy(new ResponseGiver(lastEditedBy.getGiverType(), user.getId()));
+                    }
+                }
+            } else {
+                responseComment.setLastEditedBy(responseComment.getGiver());
+            }
         }
 
         return dataBundle;

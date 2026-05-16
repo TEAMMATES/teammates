@@ -625,7 +625,6 @@ export interface UserInfo {
   isInstructor: boolean;
   isStudent: boolean;
   isMaintainer: boolean;
-  isAutomatedService: boolean;
 }
 
 export enum AccountRequestStatus {
@@ -794,6 +793,12 @@ export enum QuestionRecipientType {
   OWN_TEAM_MEMBERS = "OWN_TEAM_MEMBERS",
   OWN_TEAM_MEMBERS_INCLUDING_SELF = "OWN_TEAM_MEMBERS_INCLUDING_SELF",
   NONE = "NONE",
+}
+
+export enum ResponseGiverType {
+  TEAM = "TEAM",
+  STUDENT = "STUDENT",
+  INSTRUCTOR = "INSTRUCTOR",
 }
 
 export enum ResponseVisibleSetting {

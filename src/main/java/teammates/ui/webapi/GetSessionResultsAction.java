@@ -42,8 +42,8 @@ public class GetSessionResultsAction extends BasicFeedbackSubmissionAction {
 
         switch (intent) {
         case FULL_DETAIL:
-            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
+            gateKeeper.verifyLoggedInUserPrivileges(authContext);
+            Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
             gateKeeper.verifyAccessible(instructor, feedbackSession);
             break;
         case INSTRUCTOR_RESULT:

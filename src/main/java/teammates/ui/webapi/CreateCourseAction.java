@@ -28,12 +28,12 @@ public class CreateCourseAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (!userInfo.isInstructor) {
+        if (!authContext.isInstructor()) {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
 
         String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
-        List<Instructor> existingInstructors = logic.getInstructorsForGoogleId(userInfo.getId());
+        List<Instructor> existingInstructors = logic.getInstructorsForGoogleId(authContext.id());
         boolean canCreateCourse = existingInstructors.stream()
                 .filter(Instructor::hasCoownerPrivileges)
                 .map(instructor -> logic.getCourse(instructor.getCourseId()))
@@ -64,7 +64,7 @@ public class CreateCourseAction extends Action {
         course.setCreatedAt(Instant.now());
 
         try {
-            Course createdCourse = logic.createCourseAndInstructor(userInfo.getId(), course);
+            Course createdCourse = logic.createCourseAndInstructor(authContext.id(), course);
             return new JsonResult(new CourseData(createdCourse));
 
         } catch (EntityAlreadyExistsException e) {

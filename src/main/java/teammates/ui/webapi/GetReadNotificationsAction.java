@@ -25,7 +25,7 @@ public class GetReadNotificationsAction extends Action {
 
     @Override
     public ActionResult execute() {
-        Account account = logic.getAccountForGoogleId(userInfo.getId());
+        Account account = logic.getAccountForGoogleId(authContext.id());
         if (account == null) {
             // This should not happen as the user is authenticated
             return new JsonResult("Account not found", HttpStatus.SC_INTERNAL_SERVER_ERROR);

@@ -21,6 +21,7 @@ import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
+import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
@@ -39,6 +40,7 @@ import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
+import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -159,9 +161,11 @@ public class BaseTestCase {
         FeedbackSession typicalFeedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         FeedbackQuestion typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
         FeedbackResponse typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(typicalFeedbackQuestion);
-        FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
-                "typical-giver", "typical-comment", true, true, List.of(ViewerType.GIVER, ViewerType.INSTRUCTORS),
-                List.of(ViewerType.RECEIVER, ViewerType.INSTRUCTORS), "email");
+        ResponseGiver commentGiver = new ResponseGiver(ResponseGiverType.STUDENT,
+                UUID.fromString("00000000-0000-4000-8000-000000000001"));
+        FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(commentGiver,
+                "typical-comment", true, true, List.of(ViewerType.GIVER, ViewerType.INSTRUCTORS),
+                List.of(ViewerType.RECEIVER, ViewerType.INSTRUCTORS), commentGiver);
         typicalFeedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         feedbackResponseComment.setId(UUID.fromString("00000000-0000-4000-8000-000000000010"));
         feedbackResponseComment.setCreatedAt(Instant.now());
@@ -205,14 +209,6 @@ public class BaseTestCase {
 
     protected FeedbackResponseDetails getTypicalFeedbackResponseDetails() {
         return new FeedbackTextResponseDetails();
-    }
-
-    protected FeedbackResponseComment getTypicalResponseComment(UUID id) {
-        FeedbackResponseComment comment = new FeedbackResponseComment("",
-                "", false, false,
-                null, null, null);
-        comment.setId(id);
-        return comment;
     }
 
     protected AccountRequest getTypicalAccountRequest() {

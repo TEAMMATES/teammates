@@ -33,7 +33,7 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
             }
             break;
         case FULL_DETAIL:
-            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
+            gateKeeper.verifyLoggedInUserPrivileges(authContext);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
@@ -60,7 +60,7 @@ public class GetInstructorAction extends BasicFeedbackSubmissionAction {
             instructor = getInstructorOfCourseFromRequest(courseId);
             break;
         case FULL_DETAIL:
-            instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
+            instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);

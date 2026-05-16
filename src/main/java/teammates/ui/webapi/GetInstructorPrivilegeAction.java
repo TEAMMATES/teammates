@@ -18,13 +18,13 @@ public class GetInstructorPrivilegeAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (userInfo.isAdmin) {
+        if (authContext.isAdmin()) {
             return;
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
 
         if (instructor == null) {
             throw new UnauthorizedAccessException("Not instructor of the course");
@@ -41,7 +41,7 @@ public class GetInstructorPrivilegeAction extends Action {
 
         if (instructorId == null) {
             if (instructorEmail == null) {
-                instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
+                instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
             } else {
                 instructor = logic.getInstructorForEmail(courseId, instructorEmail);
 

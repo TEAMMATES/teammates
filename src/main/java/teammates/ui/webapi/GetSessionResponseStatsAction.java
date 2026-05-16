@@ -21,7 +21,7 @@ public class GetSessionResponseStatsAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (userInfo.isAdmin) {
+        if (authContext.isAdmin()) {
             return;
         }
 
@@ -31,7 +31,7 @@ public class GetSessionResponseStatsAction extends Action {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
-        Instructor instructor = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
+        Instructor instructor = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), authContext.id());
         gateKeeper.verifyAccessible(instructor, feedbackSession);
     }
 

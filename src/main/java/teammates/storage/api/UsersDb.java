@@ -646,6 +646,13 @@ public final class UsersDb {
     }
 
     /**
+     * Gets a team by its {@code teamId}.
+     */
+    public Team getTeam(UUID teamId) {
+        return HibernateUtil.get(Team.class, teamId);
+    }
+
+    /**
      * Gets a team by its {@code section} and {@code teamName}.
      */
     public Team getTeam(Section section, String teamName) {

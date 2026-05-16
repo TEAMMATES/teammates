@@ -20,7 +20,7 @@ public class GetCourseAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (userInfo != null && userInfo.isAdmin) {
+        if (authContext != null && authContext.isAdmin()) {
             return;
         }
 

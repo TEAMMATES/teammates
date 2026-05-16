@@ -26,7 +26,7 @@ public class GetInstructorsAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (userInfo.isAdmin) {
+        if (authContext.isAdmin()) {
             return;
         }
 
@@ -43,12 +43,12 @@ public class GetInstructorsAction extends Action {
         if (intentStr == null) {
             // get partial details of instructors with information hiding
             // student should belong to the course
-            Student student = logic.getStudentByGoogleId(courseId, userInfo.getId());
+            Student student = logic.getStudentByGoogleId(courseId, authContext.id());
             gateKeeper.verifyAccessible(student, course);
         } else if (intentStr.equals(Intent.FULL_DETAIL.toString())) {
             // get all instructors of a course without information hiding
             // this need instructor privileges
-            Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
+            Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
             gateKeeper.verifyAccessible(instructor, course);
         } else {
             throw new InvalidHttpParameterException("unknown intent");
@@ -80,14 +80,14 @@ public class GetInstructorsAction extends Action {
         } else if (intentStr.equals(Intent.FULL_DETAIL.toString())) {
             // get all instructors of a course without information hiding
             // adds googleId if caller is admin or has the appropriate privilege to modify instructor
-            if (userInfo.isAdmin || logic.getInstructorByGoogleId(courseId, userInfo.getId()).getPrivileges()
+            if (authContext.isAdmin() || logic.getInstructorByGoogleId(courseId, authContext.id()).getPrivileges()
                     .isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
                 data = new InstructorsData();
 
                 for (Instructor instructor : instructorsOfCourse) {
                     InstructorData instructorData = new InstructorData(instructor);
                     instructorData.setGoogleId(instructor.getGoogleId());
-                    if (userInfo.isAdmin) {
+                    if (authContext.isAdmin()) {
                         instructorData.setKey(instructor.getRegKey());
                     }
                     data.getInstructors().add(instructorData);

@@ -1,25 +1,3 @@
-.side-nav {
-  top: 100px;
-  position: sticky;
-  align-self: flex-start;
-}
-
-.flex-container {
-  display: flex;
-  flex-wrap: nowrap;
-  padding-right: 30px;
-}
-
 .section-body {
   padding-bottom: 5px;
-}
-
-@media (width <= 992px) {
-  .side-nav {
-    display: none;
-  }
-
-  .flex-container {
-    padding-right: 0;
-  }
 }

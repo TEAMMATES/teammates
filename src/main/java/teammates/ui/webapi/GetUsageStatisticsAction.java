@@ -24,7 +24,7 @@ public class GetUsageStatisticsAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (!userInfo.isMaintainer && !userInfo.isAdmin) {
+        if (!authContext.isMaintainer() && !authContext.isAdmin()) {
             throw new UnauthorizedAccessException("Only Maintainers or Admin are allowed to access this resource.");
         }
     }

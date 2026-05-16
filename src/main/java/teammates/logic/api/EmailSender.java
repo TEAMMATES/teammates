@@ -11,7 +11,6 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.logic.external.EmailSenderService;
 import teammates.logic.external.EmptyEmailService;
-import teammates.logic.external.MailgunService;
 import teammates.logic.external.MailjetService;
 import teammates.logic.external.SendgridService;
 import teammates.logic.external.SmtpService;
@@ -29,8 +28,6 @@ public class EmailSender {
     EmailSender() {
         if (Config.isUsingSendgrid()) {
             service = new SendgridService();
-        } else if (Config.isUsingMailgun()) {
-            service = new MailgunService();
         } else if (Config.isUsingMailjet()) {
             service = new MailjetService();
         } else if (Config.isUsingSmtp()) {

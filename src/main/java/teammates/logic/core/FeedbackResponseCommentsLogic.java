@@ -7,6 +7,7 @@ import java.util.UUID;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
+import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -18,6 +19,7 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
@@ -112,7 +114,7 @@ public final class FeedbackResponseCommentsLogic {
      * @throws EntityDoesNotExistException if the comment does not exist
      */
     public FeedbackResponseComment updateFeedbackResponseComment(UUID frcId,
-            FeedbackResponseCommentUpdateRequest updateRequest, String updaterEmail)
+            FeedbackResponseCommentUpdateRequest updateRequest, ResponseGiver updater)
             throws EntityDoesNotExistException {
         FeedbackResponseComment comment = frcDb.getFeedbackResponseComment(frcId);
         if (comment == null) {
@@ -122,17 +124,9 @@ public final class FeedbackResponseCommentsLogic {
         comment.setCommentText(updateRequest.getCommentText());
         comment.setShowCommentTo(updateRequest.getShowCommentTo());
         comment.setShowGiverNameTo(updateRequest.getShowGiverNameTo());
-        comment.setLastEditorEmail(updaterEmail);
+        comment.setLastEditedBy(updater);
 
         return comment;
-    }
-
-    /**
-     * Updates all feedback response comments with new emails.
-     */
-    public void updateFeedbackResponseCommentsEmails(String courseId, String oldEmail, String updatedEmail) {
-        frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, oldEmail, updatedEmail);
-        frcDb.updateLastEditorEmailOfFeedbackResponseComments(courseId, oldEmail, updatedEmail);
     }
 
     /**
@@ -156,7 +150,7 @@ public final class FeedbackResponseCommentsLogic {
 
         boolean isVisibilityFollowingFeedbackQuestion = relatedComment.getIsVisibilityFollowingFeedbackQuestion();
         boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion
-                                 || relatedComment.checkIsVisibleTo(ViewerType.GIVER);
+                || relatedComment.checkIsVisibleTo(ViewerType.GIVER);
 
         boolean isVisibleToUser = checkIsVisibleToUser(user, response, relatedQuestion, relatedComment, isVisibleToGiver);
 
@@ -213,8 +207,15 @@ public final class FeedbackResponseCommentsLogic {
         boolean isUserResponseGiverAndRelatedResponseCommentVisibleToGivers =
                 SanitizationHelper.areEmailsEqual(response.getGiver(), user.getEmail()) && isVisibleToGiver;
 
-        boolean isUserRelatedResponseCommentGiver = SanitizationHelper.areEmailsEqual(relatedComment.getGiver(),
-                user.getEmail());
+        boolean isUserRelatedResponseCommentGiver = false;
+        ResponseGiver commentGiver = relatedComment.getGiver();
+        if (commentGiver.getGiverType() == ResponseGiverType.TEAM && user instanceof Student student) {
+            isUserRelatedResponseCommentGiver = student.getTeamId().equals(commentGiver.getGiverId());
+        } else if (commentGiver.getGiverType() == ResponseGiverType.STUDENT && user instanceof Student student) {
+            isUserRelatedResponseCommentGiver = student.getId().equals(commentGiver.getGiverId());
+        } else if (user instanceof Instructor instructor && commentGiver.getGiverType() == ResponseGiverType.INSTRUCTOR) {
+            isUserRelatedResponseCommentGiver = instructor.getId().equals(commentGiver.getGiverId());
+        }
 
         boolean isUserStudentAndRelatedResponseCommentVisibleToStudents =
                 !isUserInstructor && checkIsResponseCommentVisibleTo(relatedQuestion,
@@ -241,16 +242,25 @@ public final class FeedbackResponseCommentsLogic {
      */
     public boolean checkIsNameVisibleToUser(FeedbackResponseComment comment, FeedbackResponse response,
                                    String userEmail, CourseRoster roster) {
-        List<ViewerType> showNameTo = comment.getShowGiverNameTo();
-        //in the old ver, name is always visible
-        if (showNameTo == null || comment.getIsVisibilityFollowingFeedbackQuestion()) {
+        if (comment.getIsVisibilityFollowingFeedbackQuestion()) {
             return true;
         }
 
         //comment giver can always see
-        if (SanitizationHelper.areEmailsEqual(userEmail, comment.getGiver())) {
+        ResponseGiver commentGiver = comment.getGiver();
+        if (commentGiver != null && commentGiver.getGiverType() == ResponseGiverType.STUDENT
+                && roster.getStudentForEmail(userEmail) != null
+                && roster.getStudentForEmail(userEmail).getId().equals(commentGiver.getGiverId())) {
             return true;
         }
+        if (commentGiver != null && commentGiver.getGiverType() == ResponseGiverType.INSTRUCTOR
+                && roster.getInstructorForEmail(userEmail) != null
+                && roster.getInstructorForEmail(userEmail).getId().equals(commentGiver.getGiverId())) {
+            return true;
+        }
+
+        List<ViewerType> showNameTo = comment.getShowGiverNameTo();
+        assert showNameTo != null : "showNameTo should not be null if isVisibilityFollowingFeedbackQuestion is false";
 
         return checkIsFeedbackParticipantNameVisibleToUser(response, userEmail, roster, showNameTo);
     }

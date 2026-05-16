@@ -1,0 +1,220 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!-- Step 1: Add new columns as nullable to allow backfill -->
+    <changeSet author="samuelfangjw" id="20260515-frc-response-giver-1">
+        <addColumn tableName="feedback_response_comments">
+            <column name="giver_type" type="VARCHAR(255)" />
+        </addColumn>
+        <addColumn tableName="feedback_response_comments">
+            <column name="giver_id" type="UUID" />
+        </addColumn>
+        <addColumn tableName="feedback_response_comments">
+            <column name="last_edited_by_type" type="VARCHAR(255)" />
+        </addColumn>
+        <addColumn tableName="feedback_response_comments">
+            <column name="last_edited_by_id" type="UUID" />
+        </addColumn>
+        <rollback>
+            <dropColumn tableName="feedback_response_comments" columnName="giver_type" />
+            <dropColumn tableName="feedback_response_comments" columnName="giver_id" />
+            <dropColumn tableName="feedback_response_comments" columnName="last_edited_by_type" />
+            <dropColumn tableName="feedback_response_comments" columnName="last_edited_by_id" />
+        </rollback>
+    </changeSet>
+
+    <!-- Step 2a: Backfill giver_* — match giver string as student email -->
+    <changeSet author="samuelfangjw" id="20260515-frc-response-giver-2a">
+        <sql>
+            UPDATE feedback_response_comments frc
+            SET giver_type = 'STUDENT',
+                giver_id   = u.id
+            FROM users u
+            JOIN students s ON s.id = u.id
+            JOIN feedback_responses fr ON true
+            JOIN feedback_questions fq ON fq.id = fr.question_id
+            JOIN feedback_sessions fs ON fs.id = fq.session_id
+            WHERE fr.id = frc.response_id
+              AND u.course_id = fs.course_id
+              AND lower(u.email) = lower(frc.giver)
+              AND frc.giver_id IS NULL;
+        </sql>
+        <rollback />
+    </changeSet>
+
+    <!-- Step 2b: Backfill giver_* — match giver string as instructor email -->
+    <changeSet author="samuelfangjw" id="20260515-frc-response-giver-2b">
+        <sql>
+            UPDATE feedback_response_comments frc
+            SET giver_type = 'INSTRUCTOR',
+                giver_id   = u.id
+            FROM users u
+            JOIN instructors i ON i.id = u.id
+            JOIN feedback_responses fr ON true
+            JOIN feedback_questions fq ON fq.id = fr.question_id
+            JOIN feedback_sessions fs ON fs.id = fq.session_id
+            WHERE fr.id = frc.response_id
+              AND u.course_id = fs.course_id
+              AND lower(u.email) = lower(frc.giver)
+              AND frc.giver_id IS NULL;
+        </sql>
+        <rollback />
+    </changeSet>
+
+    <!-- Step 2c: Backfill giver_* — match giver string as team name -->
+    <changeSet author="samuelfangjw" id="20260515-frc-response-giver-2c">
+        <sql>
+            UPDATE feedback_response_comments frc
+            SET giver_type = 'TEAM',
+                giver_id   = t.id
+            FROM teams t
+            JOIN sections sec ON sec.id = t.section_id
+            JOIN feedback_responses fr ON true
+            JOIN feedback_questions fq ON fq.id = fr.question_id
+            JOIN feedback_sessions fs ON fs.id = fq.session_id
+            WHERE fr.id = frc.response_id
+              AND sec.course_id = fs.course_id
+              AND t.name = frc.giver
+              AND frc.giver_id IS NULL;
+        </sql>
+        <rollback />
+    </changeSet>
+
+    <!-- Step 3a: Backfill last_edited_by_* — match last_editor_email as student email (when not null) -->
+    <changeSet author="samuelfangjw" id="20260515-frc-response-giver-3a">
+        <sql>
+            UPDATE feedback_response_comments frc
+            SET last_edited_by_type = 'STUDENT',
+                last_edited_by_id   = u.id
+            FROM users u
+            JOIN students s ON s.id = u.id
+            JOIN feedback_responses fr ON true
+            JOIN feedback_questions fq ON fq.id = fr.question_id
+            JOIN feedback_sessions fs ON fs.id = fq.session_id
+            WHERE fr.id = frc.response_id
+              AND u.course_id = fs.course_id
+              AND lower(u.email) = lower(frc.last_editor_email)
+              AND frc.last_editor_email IS NOT NULL
+              AND frc.last_edited_by_id IS NULL;
+        </sql>
+        <rollback />
+    </changeSet>
+
+    <!-- Step 3b: Backfill last_edited_by_* — match last_editor_email as instructor email (when not null) -->
+    <changeSet author="samuelfangjw" id="20260515-frc-response-giver-3b">
+        <sql>
+            UPDATE feedback_response_comments frc
+            SET last_edited_by_type = 'INSTRUCTOR',
+                last_edited_by_id   = u.id
+            FROM users u
+            JOIN instructors i ON i.id = u.id
+            JOIN feedback_responses fr ON true
+            JOIN feedback_questions fq ON fq.id = fr.question_id
+            JOIN feedback_sessions fs ON fs.id = fq.session_id
+            WHERE fr.id = frc.response_id
+              AND u.course_id = fs.course_id
+              AND lower(u.email) = lower(frc.last_editor_email)
+              AND frc.last_editor_email IS NOT NULL
+              AND frc.last_edited_by_id IS NULL;
+        </sql>
+        <rollback />
+    </changeSet>
+
+    <!-- Step 3c: Backfill last_edited_by_* — match last_editor_email as team name (when not null) -->
+    <changeSet author="samuelfangjw" id="20260515-frc-response-giver-3c">
+        <sql>
+            UPDATE feedback_response_comments frc
+            SET last_edited_by_type = 'TEAM',
+                last_edited_by_id   = t.id
+            FROM teams t
+            JOIN sections sec ON sec.id = t.section_id
+            JOIN feedback_responses fr ON true
+            JOIN feedback_questions fq ON fq.id = fr.question_id
+            JOIN feedback_sessions fs ON fs.id = fq.session_id
+            WHERE fr.id = frc.response_id
+              AND sec.course_id = fs.course_id
+              AND t.name = frc.last_editor_email
+              AND frc.last_editor_email IS NOT NULL
+              AND frc.last_edited_by_id IS NULL;
+        </sql>
+        <rollback />
+    </changeSet>
+
+    <!-- Step 3d: Backfill last_edited_by_* — copy from giver when last_editor_email was null -->
+    <changeSet author="samuelfangjw" id="20260515-frc-response-giver-3d">
+        <sql>
+            UPDATE feedback_response_comments
+            SET last_edited_by_type = giver_type,
+                last_edited_by_id   = giver_id
+            WHERE last_edited_by_id IS NULL
+              AND giver_id IS NOT NULL;
+        </sql>
+        <rollback />
+    </changeSet>
+
+    <!-- Step 4: Add NOT NULL constraints on all four new columns -->
+    <changeSet author="samuelfangjw" id="20260515-frc-response-giver-4">
+        <addNotNullConstraint tableName="feedback_response_comments" columnName="giver_type" columnDataType="VARCHAR(255)" />
+        <addNotNullConstraint tableName="feedback_response_comments" columnName="giver_id" columnDataType="UUID" />
+        <addNotNullConstraint tableName="feedback_response_comments" columnName="last_edited_by_type" columnDataType="VARCHAR(255)" />
+        <addNotNullConstraint tableName="feedback_response_comments" columnName="last_edited_by_id" columnDataType="UUID" />
+        <rollback>
+            <dropNotNullConstraint tableName="feedback_response_comments" columnName="giver_type" columnDataType="VARCHAR(255)" />
+            <dropNotNullConstraint tableName="feedback_response_comments" columnName="giver_id" columnDataType="UUID" />
+            <dropNotNullConstraint tableName="feedback_response_comments" columnName="last_edited_by_type" columnDataType="VARCHAR(255)" />
+            <dropNotNullConstraint tableName="feedback_response_comments" columnName="last_edited_by_id" columnDataType="UUID" />
+        </rollback>
+    </changeSet>
+
+    <!-- Step 5: Drop old string columns -->
+    <changeSet author="samuelfangjw" id="20260515-frc-response-giver-5">
+        <dropColumn tableName="feedback_response_comments" columnName="giver" />
+        <dropColumn tableName="feedback_response_comments" columnName="last_editor_email" />
+        <rollback>
+            <!-- Re-add the old columns -->
+            <addColumn tableName="feedback_response_comments">
+                <column name="giver" type="VARCHAR(255)" />
+            </addColumn>
+            <addColumn tableName="feedback_response_comments">
+                <column name="last_editor_email" type="VARCHAR(255)" />
+            </addColumn>
+            <!-- Reconstruct giver string: TEAM -> team name, STUDENT/INSTRUCTOR -> user email -->
+            <sql>
+                UPDATE feedback_response_comments frc
+                SET giver = t.name
+                FROM teams t
+                WHERE frc.giver_type = 'TEAM'
+                  AND frc.giver_id = t.id;
+            </sql>
+            <sql>
+                UPDATE feedback_response_comments frc
+                SET giver = u.email
+                FROM users u
+                WHERE frc.giver_type IN ('STUDENT', 'INSTRUCTOR')
+                  AND frc.giver_id = u.id;
+            </sql>
+            <!-- Reconstruct last_editor_email from last_edited_by_* (always populate) -->
+            <sql>
+                UPDATE feedback_response_comments frc
+                SET last_editor_email = t.name
+                FROM teams t
+                WHERE frc.last_edited_by_type = 'TEAM'
+                  AND frc.last_edited_by_id = t.id;
+            </sql>
+            <sql>
+                UPDATE feedback_response_comments frc
+                SET last_editor_email = u.email
+                FROM users u
+                WHERE frc.last_edited_by_type IN ('STUDENT', 'INSTRUCTOR')
+                  AND frc.last_edited_by_id = u.id;
+            </sql>
+            <!-- Add NOT NULL constraint on giver -->
+            <addNotNullConstraint tableName="feedback_response_comments" columnName="giver" columnDataType="VARCHAR(255)" />
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

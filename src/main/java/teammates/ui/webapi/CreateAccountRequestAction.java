@@ -19,7 +19,7 @@ public class CreateAccountRequestAction extends PublicAction {
             throws InvalidHttpRequestBodyException, InvalidOperationException {
         AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
 
-        if (userInfo == null || !userInfo.isAdmin) {
+        if (authContext == null || !authContext.isAdmin()) {
             String userCaptchaResponse = createRequest.getCaptchaResponse();
             if (!recaptchaVerifier.isVerificationSuccessful(userCaptchaResponse)) {
                 throw new InvalidHttpRequestBodyException("Something went wrong with "
@@ -45,7 +45,7 @@ public class CreateAccountRequestAction extends PublicAction {
 
         assert accountRequest != null;
 
-        if (userInfo == null || !userInfo.isAdmin) {
+        if (authContext == null || !authContext.isAdmin()) {
             EmailWrapper adminAlertEmail = emailGenerator.generateNewAccountRequestAdminAlertEmail(accountRequest);
             EmailWrapper userAcknowledgementEmail = emailGenerator
                     .generateNewAccountRequestAcknowledgementEmail(accountRequest);

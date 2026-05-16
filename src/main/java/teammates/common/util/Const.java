@@ -372,14 +372,6 @@ public final class Const {
     }
 
     /**
-     * User principal identifiers for verified automated cron/worker API callers.
-     */
-    public static class AutomatedService {
-        public static final String CRON_SERVICE_USER_ID = "Cron-Service";
-        public static final String WORKER_SERVICE_USER_ID = "Worker-Service";
-    }
-
-    /**
      * Represents URIs of endpoints used by cron jobs.
      */
     public static class CronJobURIs {

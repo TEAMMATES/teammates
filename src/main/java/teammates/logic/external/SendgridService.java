@@ -21,9 +21,6 @@ import teammates.common.util.HtmlHelper;
 
 /**
  * Email sender service provided by SendGrid.
- *
- * @see <a href="https://cloud.google.com/appengine/docs/standard/sending-messages#sendgrid">https://cloud.google.com/appengine/docs/standard/sending-messages#sendgrid</a>
- * @see SendGrid
  */
 public class SendgridService implements EmailSenderService {
 

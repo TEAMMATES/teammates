@@ -19,11 +19,6 @@ import teammates.common.util.HtmlHelper;
 
 /**
  * Email sender service provided by Mailjet.
- *
- * @see <a href="https://cloud.google.com/appengine/docs/standard/sending-messages#mailjet">https://cloud.google.com/appengine/docs/standard/sending-messages#mailjet</a>
- * @see MailjetClient
- * @see MailjetRequest
- * @see MailjetResponse
  */
 public class MailjetService implements EmailSenderService {
 

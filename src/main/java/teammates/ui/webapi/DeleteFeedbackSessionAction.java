@@ -25,7 +25,7 @@ public class DeleteFeedbackSessionAction extends Action {
         if (feedbackSession == null) {
             throw new UnauthorizedAccessException("The feedback session does not exist.");
         }
-        Instructor instructor = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
+        Instructor instructor = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), authContext.id());
         gateKeeper.verifyAccessible(instructor, feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 

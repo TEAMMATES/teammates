@@ -55,7 +55,7 @@ export class UserJoinPageComponent implements OnInit {
       }
 
       const nextUrl = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
-      this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
+      this.authService.getAuthUser(nextUrl).subscribe((auth: AuthInfo) => {
         if (!auth.user) {
           this.isLoading = false;
           window.location.href = `${this.backendUrl}${auth.loginUrl}`;

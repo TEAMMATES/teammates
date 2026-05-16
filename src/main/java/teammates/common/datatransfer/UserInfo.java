@@ -39,12 +39,6 @@ public class UserInfo {
      */
     public boolean isMaintainer;
 
-    /**
-     * True only for verified cron/worker automated callers (bearer + path), not for human app admins.
-     * See {@link teammates.common.util.AutomatedRequestAuth#isTrustedCronOrWorkerRequest}.
-     */
-    public boolean isAutomatedService;
-
     public UserInfo(String googleId, UUID accountId) {
         this.id = googleId;
         this.accountId = accountId;

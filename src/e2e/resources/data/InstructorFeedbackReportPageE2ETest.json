@@ -468,9 +468,15 @@
   "feedbackResponseComments": {
     "qn2Comment1": {
       "id": "00000000-0000-4000-8000-000000000971",
-      "giver": "ifrep.instr1@gmail.tmt",
+      "giver": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000501"
+      },
+      "lastEditedBy": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000501"
+      },
       "commentText": "Instructor first comment to Alice",
-      "lastEditorEmail": "ifrep.instr1@gmail.tmt",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": ["STUDENTS"],
@@ -479,9 +485,15 @@
     },
     "qn2Comment2": {
       "id": "00000000-0000-4000-8000-000000000972",
-      "giver": "ifrep.instr1@gmail.tmt",
+      "giver": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000501"
+      },
+      "lastEditedBy": {
+        "giverType": "INSTRUCTOR",
+        "giverId": "00000000-0000-4000-8000-000000000501"
+      },
       "commentText": "Instructor second comment to Alice",
-      "lastEditorEmail": "ifrep.instr1@gmail.tmt",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
       "showCommentTo": ["STUDENTS"],
@@ -490,9 +502,15 @@
     },
     "qn3Comment1": {
       "id": "00000000-0000-4000-8000-000000000973",
-      "giver": "ifrep.charlie.d@gmail.tmt",
+      "giver": {
+        "giverType": "STUDENT",
+        "giverId": "00000000-0000-4000-8000-000000000603"
+      },
+      "lastEditedBy": {
+        "giverType": "STUDENT",
+        "giverId": "00000000-0000-4000-8000-000000000603"
+      },
       "commentText": "Charlie comment to alice",
-      "lastEditorEmail": "ifrep.charlie.d@gmail.tmt",
       "isVisibilityFollowingFeedbackQuestion": true,
       "isCommentFromFeedbackParticipant": true,
       "showCommentTo": [],

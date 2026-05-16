@@ -1,6 +1,6 @@
 package teammates.ui.webapi;
 
-import teammates.common.datatransfer.UserInfo;
+import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
@@ -8,6 +8,7 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.UnauthorizedAccessException;
 
@@ -29,8 +30,8 @@ final class GateKeeper {
     /**
      * Verifies the user is logged in.
      */
-    void verifyLoggedInUserPrivileges(UserInfo userInfo) throws UnauthorizedAccessException {
-        if (userInfo != null) {
+    void verifyLoggedInUserPrivileges(AuthContext authContext) throws UnauthorizedAccessException {
+        if (authContext != null) {
             return;
         }
 
@@ -221,17 +222,17 @@ final class GateKeeper {
      * Verifies that comment is created by feedback participant.
      *
      * @param frc comment to be accessed
-     * @param feedbackParticipant email or team of feedback participant
+     * @param participant the response giver who is trying to access the comment
      */
-    void verifyOwnership(FeedbackResponseComment frc, String feedbackParticipant)
+    void verifyOwnership(FeedbackResponseComment frc, ResponseGiver participant)
             throws UnauthorizedAccessException {
         verifyNotNull(frc, "feedback response comment");
         verifyNotNull(frc.getGiver(), "feedback response comment giver");
-        verifyNotNull(feedbackParticipant, "comment giver");
+        verifyNotNull(participant, "comment giver");
 
-        if (!frc.getGiver().equals(feedbackParticipant)) {
+        if (!frc.getGiver().equals(participant)) {
             throw new UnauthorizedAccessException("Comment [" + frc.getId() + "] is not accessible to "
-                    + feedbackParticipant);
+                    + participant);
         }
     }
 

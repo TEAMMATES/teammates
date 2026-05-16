@@ -36,7 +36,7 @@ public class RemindFeedbackSessionResultAction extends Action {
             throw new EntityNotFoundException("Feedback session not found");
         }
 
-        Instructor instructor = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
+        Instructor instructor = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), authContext.id());
         gateKeeper.verifyAccessible(instructor, feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
@@ -61,7 +61,7 @@ public class RemindFeedbackSessionResultAction extends Action {
         // Generate reminder emails for specified users
         List<Student> studentsToRemindList = new ArrayList<>();
         List<Instructor> instructorsToRemindList = new ArrayList<>();
-        Instructor instructorToNotify = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), userInfo.getId());
+        Instructor instructorToNotify = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), authContext.id());
 
         for (UUID userId : usersToRemind) {
             User user = logic.getUser(userId);

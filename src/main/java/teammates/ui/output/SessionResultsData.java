@@ -249,7 +249,7 @@ public class SessionResultsData extends ApiOutput {
             if (bundle.getRoster().isTeamInCourse(giverEmail)) {
                 // remove recipient email as it is a team name
                 relatedGiverEmail =
-                        bundle.getRoster().getTeamToMembersTable().get(giverEmail).iterator().next().getEmail();
+                        bundle.getRoster().getTeamToMembers().get(giverEmail).iterator().next().getEmail();
                 giverEmail = null;
             }
         }
@@ -332,7 +332,7 @@ public class SessionResultsData extends ApiOutput {
             if (bundle.getRoster().isTeamInCourse(giverEmail)) {
                 // remove recipient email as it is a team name
                 relatedGiverEmail =
-                        bundle.getRoster().getTeamToMembersTable().get(giverEmail).iterator().next().getEmail();
+                        bundle.getRoster().getTeamToMembers().get(giverEmail).iterator().next().getEmail();
                 giverEmail = null;
             }
         }
@@ -459,10 +459,10 @@ public class SessionResultsData extends ApiOutput {
                 String lastEditorEmail = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
                 String lastEditorName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
                 if (bundle.isCommentGiverVisible(comment)) {
-                    giverEmail = comment.getGiver();
-                    giverName = bundle.getRoster().getInfoForIdentifier(comment.getGiver()).getName();
-                    lastEditorEmail = comment.getLastEditorEmail();
-                    lastEditorName = bundle.getRoster().getInfoForIdentifier(comment.getLastEditorEmail()).getName();
+                    giverEmail = bundle.getRoster().getGiverForResponseGiver(comment.getGiver());
+                    giverName = bundle.getRoster().getInfoForResponseGiver(comment.getGiver()).getName();
+                    lastEditorEmail = bundle.getRoster().getGiverForResponseGiver(comment.getLastEditedBy());
+                    lastEditorName = bundle.getRoster().getInfoForResponseGiver(comment.getLastEditedBy()).getName();
                 }
                 outputs.add(CommentOutput.builder(comment)
                         .withCommentGiver(giverEmail)
@@ -751,7 +751,7 @@ public class SessionResultsData extends ApiOutput {
 
         private CommentOutput(FeedbackResponseComment frc) {
             // use builder instead
-            super(frc);
+            super(frc, null, null);
         }
 
         /**

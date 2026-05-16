@@ -44,8 +44,8 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
             checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
             break;
         case FULL_DETAIL:
-            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            gateKeeper.verifyAccessible(logic.getInstructorByGoogleId(courseId, userInfo.getId()),
+            gateKeeper.verifyLoggedInUserPrivileges(authContext);
+            gateKeeper.verifyAccessible(logic.getInstructorByGoogleId(courseId, authContext.id()),
                     feedbackSession, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
             break;
         default:

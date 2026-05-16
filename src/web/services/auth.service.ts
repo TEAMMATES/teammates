@@ -20,11 +20,8 @@ export class AuthService {
   /**
    * Gets the user authentication information.
    */
-  getAuthUser(user?: string, nextUrl?: string): Observable<AuthInfo> {
+  getAuthUser(nextUrl?: string): Observable<AuthInfo> {
     const params: Record<string, string> = { frontendUrl: this.frontendUrl };
-    if (user) {
-      params['user'] = user;
-    }
     if (nextUrl) {
       params['nextUrl'] = nextUrl;
     }

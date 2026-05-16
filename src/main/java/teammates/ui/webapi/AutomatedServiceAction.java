@@ -7,24 +7,27 @@ import teammates.ui.exception.UnauthorizedAccessException;
  *
  * <p>Application administrators using {@code /webapi} routes are included: authorization is
  * {@link teammates.common.datatransfer.UserInfo#isAdmin} or
- * {@link teammates.common.datatransfer.UserInfo#isAutomatedService}.
+ * {@link teammates.ui.webapi.AuthType#AUTOMATED_SERVICE}.
  */
 abstract class AutomatedServiceAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
-        return AuthType.LOGGED_IN;
+        return AuthType.AUTOMATED_SERVICE;
     }
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (!canAccessAsAdminOrAutomatedService()) {
-            throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
+            throw new UnauthorizedAccessException(
+                    "Admin or automated service privilege is required to access this resource."
+            );
         }
     }
 
     boolean canAccessAsAdminOrAutomatedService() {
-        return userInfo.isAdmin || userInfo.isAutomatedService;
+        return authType == AuthType.AUTOMATED_SERVICE
+                || authContext != null && authContext.isAdmin();
     }
 
 }

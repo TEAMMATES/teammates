@@ -84,7 +84,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         if (isStudent) {
             teamNames = getTeamsWithAtLeastOneResponse(responses, bundle);
         } else {
-            teamNames = new ArrayList<>(bundle.getRoster().getTeamToMembersTable().keySet());
+            teamNames = new ArrayList<>(bundle.getRoster().getTeamToMembers().keySet());
         }
 
         // Each team's member (email) list
@@ -251,7 +251,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             SessionResultsBundle bundle, List<String> teamNames) {
         Map<String, List<String>> teamMembersEmail = new LinkedHashMap<>();
         for (String teamName : teamNames) {
-            List<String> memberEmails = bundle.getRoster().getTeamToMembersTable().get(teamName)
+            List<String> memberEmails = bundle.getRoster().getTeamToMembers().get(teamName)
                     .stream().map(Student::getEmail)
                     .collect(Collectors.toList());
             teamMembersEmail.put(teamName, memberEmails);

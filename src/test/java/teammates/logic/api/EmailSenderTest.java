@@ -21,7 +21,6 @@ public class EmailSenderTest extends BaseTestCase {
 
     private static void stubConfigForEmptyEmailService(MockedStatic<Config> mockConfig) {
         mockConfig.when(Config::isUsingSendgrid).thenReturn(false);
-        mockConfig.when(Config::isUsingMailgun).thenReturn(false);
         mockConfig.when(Config::isUsingMailjet).thenReturn(false);
         mockConfig.when(Config::isUsingSmtp).thenReturn(false);
     }

@@ -556,7 +556,7 @@ public final class FeedbackQuestionsLogic {
                             .collect(Collectors.toList());
                     teamToTeamMembersTable = CourseRoster.buildTeamToMembersTable(teamStudents);
                 } else {
-                    teamToTeamMembersTable = courseRoster.getTeamToMembersTable();
+                    teamToTeamMembersTable = courseRoster.getTeamToMembers();
                 }
             }
             for (Map.Entry<String, List<Student>> team : teamToTeamMembersTable.entrySet()) {
@@ -584,7 +584,7 @@ public final class FeedbackQuestionsLogic {
             if (courseRoster == null) {
                 students = usersLogic.getStudentsForTeam(giverTeam, courseId);
             } else {
-                students = courseRoster.getTeamToMembersTable().getOrDefault(giverTeam, Collections.emptyList());
+                students = courseRoster.getTeamToMembers().getOrDefault(giverTeam, Collections.emptyList());
             }
             for (Student student : students) {
                 if (!SanitizationHelper.areEmailsEqual(student.getEmail(), giverEmail)) {
@@ -598,7 +598,7 @@ public final class FeedbackQuestionsLogic {
             if (courseRoster == null) {
                 teamMembers = usersLogic.getStudentsForTeam(giverTeam, courseId);
             } else {
-                teamMembers = courseRoster.getTeamToMembersTable().getOrDefault(giverTeam, Collections.emptyList());
+                teamMembers = courseRoster.getTeamToMembers().getOrDefault(giverTeam, Collections.emptyList());
             }
             for (Student student : teamMembers) {
                 // accepts self feedback too
@@ -706,7 +706,7 @@ public final class FeedbackQuestionsLogic {
                 break;
             case TEAMS:
                 Student oneTeamMember =
-                        courseRoster.getTeamToMembersTable().get(possibleGiverEmail).iterator().next();
+                        courseRoster.getTeamToMembers().get(possibleGiverEmail).iterator().next();
                 completeGiverRecipientMap
                         .computeIfAbsent(possibleGiverEmail, key -> new HashSet<>())
                         .addAll(getRecipientsOfQuestion(
@@ -769,7 +769,7 @@ public final class FeedbackQuestionsLogic {
                     .collect(Collectors.toList());
             break;
         case TEAMS:
-            possibleGivers = new ArrayList<>(courseRoster.getTeamToMembersTable().keySet());
+            possibleGivers = new ArrayList<>(courseRoster.getTeamToMembers().keySet());
             break;
         case SELF:
             FeedbackSession feedbackSession =

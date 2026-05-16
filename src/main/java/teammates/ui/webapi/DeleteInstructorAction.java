@@ -22,16 +22,16 @@ public class DeleteInstructorAction extends Action {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         //allow access to admins or instructor with modify permission
-        if (userInfo.isAdmin) {
+        if (authContext.isAdmin()) {
             return;
         }
 
-        if (!userInfo.isInstructor) {
+        if (!authContext.isInstructor()) {
             throw new UnauthorizedAccessException("Admin or Instructor privilege is required to access this resource.");
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.id);
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
         gateKeeper.verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }

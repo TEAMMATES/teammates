@@ -52,6 +52,7 @@ import teammates.storage.entity.FeedbackSessionLog;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
+import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -1427,9 +1428,19 @@ public class Logic {
      * @throws EntityDoesNotExistException if the comment does not exist
      */
     public FeedbackResponseComment updateFeedbackResponseComment(UUID frcId,
-            FeedbackResponseCommentUpdateRequest updateRequest, String updaterEmail)
+            FeedbackResponseCommentUpdateRequest updateRequest, ResponseGiver updater)
             throws EntityDoesNotExistException {
-        return feedbackResponseCommentsLogic.updateFeedbackResponseComment(frcId, updateRequest, updaterEmail);
+        return feedbackResponseCommentsLogic.updateFeedbackResponseComment(frcId, updateRequest, updater);
+    }
+
+    /**
+     * Resolves a {@link ResponseGiver} to an String.
+     *
+     * <p>For STUDENT and INSTRUCTOR types, returns the email of the giver; for TEAM type, returns team name.
+     * This is largely for legacy considerations and should not be used in new code if possible.
+     */
+    public String resolveGiver(ResponseGiver giver) {
+        return feedbackResponsesLogic.resolveGiver(giver);
     }
 
     /**

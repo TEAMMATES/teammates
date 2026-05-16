@@ -131,12 +131,6 @@ public final class Config {
     /** Value of {@code app.sendgrid.apikey}. */
     public static final String SENDGRID_APIKEY;
 
-    /** Value of {@code app.mailgun.apikey}. */
-    public static final String MAILGUN_APIKEY;
-
-    /** Value of {@code app.mailgun.domainname}. */
-    public static final String MAILGUN_DOMAINNAME;
-
     /** Value of {@code app.mailjet.apikey}. */
     public static final String MAILJET_APIKEY;
 
@@ -228,8 +222,6 @@ public final class Config {
         SMTP_PASSWORD = getProperty(properties, devProperties, "app.smtp.password");
         SMTP_SECURITY_PROTOCOL = getProperty(properties, devProperties, "app.smtp.security.protocol");
         SENDGRID_APIKEY = getProperty(properties, devProperties, "app.sendgrid.apikey");
-        MAILGUN_APIKEY = getProperty(properties, devProperties, "app.mailgun.apikey");
-        MAILGUN_DOMAINNAME = getProperty(properties, devProperties, "app.mailgun.domainname");
         MAILJET_APIKEY = getProperty(properties, devProperties, "app.mailjet.apikey");
         MAILJET_SECRETKEY = getProperty(properties, devProperties, "app.mailjet.secretkey");
         MAINTENANCE = Boolean.parseBoolean(getProperty(properties, devProperties, "app.maintenance", "false"));
@@ -397,11 +389,6 @@ public final class Config {
 
     public static boolean isUsingSendgrid() {
         return "sendgrid".equalsIgnoreCase(EMAIL_SERVICE) && SENDGRID_APIKEY != null && !SENDGRID_APIKEY.isEmpty();
-    }
-
-    public static boolean isUsingMailgun() {
-        return "mailgun".equalsIgnoreCase(EMAIL_SERVICE) && MAILGUN_APIKEY != null && !MAILGUN_APIKEY.isEmpty()
-                && MAILGUN_DOMAINNAME != null && !MAILGUN_DOMAINNAME.isEmpty();
     }
 
     public static boolean isUsingMailjet() {

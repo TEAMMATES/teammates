@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
@@ -22,6 +23,7 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.output.FeedbackResponseCommentData;
@@ -73,17 +75,19 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         responseForQ1 = getTypicalFeedbackResponseForQuestion(qn1InSession1InCourse1);
         responseForQ2 = getTypicalFeedbackResponseForQuestion(qn2InSession1InCourse1);
 
-        commentForQ1Response1 = new FeedbackResponseComment("student-1@teammates.tmt",
+        ResponseGiver giverForQ1 = new ResponseGiver(ResponseGiverType.STUDENT, studentInCourse1.getId());
+        commentForQ1Response1 = new FeedbackResponseComment(giverForQ1,
                 "Student 1 comment", false, false,
-                new ArrayList<>(), new ArrayList<>(), "student-1@teammates.tmt");
+                new ArrayList<>(), new ArrayList<>(), giverForQ1);
         responseForQ1.addFeedbackResponseComment(commentForQ1Response1);
         commentForQ1Response1.setId(UUID.randomUUID());
         commentForQ1Response1.setCreatedAt(Instant.now());
         commentForQ1Response1.setUpdatedAt(Instant.now());
 
-        commentForQ2Response1 = new FeedbackResponseComment("instructor-1@teammates.tmt",
+        ResponseGiver giverForQ2 = new ResponseGiver(ResponseGiverType.INSTRUCTOR, instructorOfCourse1.getId());
+        commentForQ2Response1 = new FeedbackResponseComment(giverForQ2,
                 "Instructor 1 comment", false, false,
-                new ArrayList<>(), new ArrayList<>(), "instructor-1@teammates.tmt");
+                new ArrayList<>(), new ArrayList<>(), giverForQ2);
         responseForQ2.addFeedbackResponseComment(commentForQ2Response1);
         commentForQ2Response1.setId(UUID.randomUUID());
         commentForQ2Response1.setCreatedAt(Instant.now());
@@ -133,7 +137,6 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         FeedbackResponseCommentData actualComment = getFeedbackResponseComments(submissionParams);
         assertEquals(actualComment.getCommentText(), expectedComment.getCommentText());
-        assertEquals(actualComment.getCommentGiver(), expectedComment.getGiver());
     }
 
     @Test
@@ -151,7 +154,6 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         FeedbackResponseCommentData actualComment = getFeedbackResponseComments(submissionParams);
         assertEquals(actualComment.getCommentText(), expectedComment.getCommentText());
-        assertEquals(actualComment.getCommentGiver(), expectedComment.getGiver());
     }
 
     @Test

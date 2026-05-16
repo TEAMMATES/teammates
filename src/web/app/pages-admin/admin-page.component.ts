@@ -59,7 +59,7 @@ export class AdminPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.isFetchingAuthDetails = true;
-    this.authService.getAuthUser(undefined, '/web/admin/home').subscribe({
+    this.authService.getAuthUser('/web/admin/home').subscribe({
       next: (res: AuthInfo) => {
         if (res.user) {
           this.user = res.user.id;

@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import java.util.UUID;
 
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -12,6 +13,7 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
@@ -38,16 +40,12 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         UUID feedbackResponseId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
 
-        FeedbackResponse feedbackResponse = null;
-
-        feedbackResponse = logic.getFeedbackResponse(feedbackResponseId);
-
+        FeedbackResponse feedbackResponse = logic.getFeedbackResponse(feedbackResponseId);
         if (feedbackResponse == null) {
             throw new EntityNotFoundException("The feedback response does not exist.");
         }
 
         String courseId = feedbackResponse.getFeedbackQuestion().getCourseId();
-
         FeedbackQuestion feedbackQuestion = feedbackResponse.getFeedbackQuestion();
         FeedbackSession session = feedbackQuestion.getFeedbackSession();
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
@@ -65,7 +63,6 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             verifyNotPreview();
 
             checkAccessControlForStudentFeedbackSubmission(student, session);
-
             verifyResponseOwnershipForStudent(student, feedbackResponse, feedbackQuestion);
             break;
         case INSTRUCTOR_SUBMISSION:
@@ -80,12 +77,11 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             verifyNotPreview();
 
             checkAccessControlForInstructorFeedbackSubmission(instructorAsFeedbackParticipant, session);
-
             verifyResponseOwnerShipForInstructor(instructorAsFeedbackParticipant, feedbackResponse);
             break;
         case INSTRUCTOR_RESULT:
-            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
+            gateKeeper.verifyLoggedInUserPrivileges(authContext);
+            Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
             gateKeeper.verifyAccessible(instructor, session, feedbackResponse.getGiverSection().getName(),
                     Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
             gateKeeper.verifyAccessible(instructor, session, feedbackResponse.getRecipientSection().getName(),
@@ -103,9 +99,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         UUID feedbackResponseId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
 
-        FeedbackResponse feedbackResponse = null;
-
-        feedbackResponse = logic.getFeedbackResponse(feedbackResponseId);
+        FeedbackResponse feedbackResponse = logic.getFeedbackResponse(feedbackResponseId);
 
         if (feedbackResponse == null) {
             throw new EntityNotFoundException("The feedback response does not exist.");
@@ -123,44 +117,57 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
         FeedbackQuestion feedbackQuestion = feedbackResponse.getFeedbackQuestion();
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
-        String email;
+        ResponseGiver giverRg;
         boolean isFromParticipant;
         boolean isFollowingQuestionVisibility;
+        String giver;
 
         switch (intent) {
         case STUDENT_SUBMISSION:
             verifyCommentNotExist(feedbackResponseId);
             Student student = getStudentOfCourseFromRequest(courseId);
-            email = feedbackQuestion.getGiverType() == QuestionGiverType.TEAMS
-                    ? student.getTeamName() : student.getEmail();
+            if (student == null) {
+                throw new EntityNotFoundException("Student does not exist.");
+            }
+            giverRg = feedbackQuestion.getGiverType() == QuestionGiverType.TEAMS
+                    ? new ResponseGiver(ResponseGiverType.TEAM, student.getTeamId())
+                    : new ResponseGiver(ResponseGiverType.STUDENT, student.getId());
+            giver = feedbackQuestion.getGiverType() == QuestionGiverType.TEAMS
+                    ? student.getTeamName()
+                    : student.getEmail();
             isFromParticipant = true;
             isFollowingQuestionVisibility = true;
             break;
         case INSTRUCTOR_SUBMISSION:
             verifyCommentNotExist(feedbackResponseId);
             Instructor instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
-            email = instructorAsFeedbackParticipant.getEmail();
+            if (instructorAsFeedbackParticipant == null) {
+                throw new EntityNotFoundException("Instructor does not exist.");
+            }
+            giverRg = new ResponseGiver(ResponseGiverType.INSTRUCTOR, instructorAsFeedbackParticipant.getId());
             isFromParticipant = true;
             isFollowingQuestionVisibility = true;
+            giver = instructorAsFeedbackParticipant.getEmail();
             break;
         case INSTRUCTOR_RESULT:
-            Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
-            email = instructor.getEmail();
+            Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
+            giverRg = new ResponseGiver(ResponseGiverType.INSTRUCTOR, instructor.getId());
             isFromParticipant = false;
             isFollowingQuestionVisibility = false;
+            giver = instructor.getEmail();
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
-        FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(email,
+        FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(giverRg,
                 commentText, isFollowingQuestionVisibility, isFromParticipant,
-                comment.getShowCommentTo(), comment.getShowGiverNameTo(), email);
+                comment.getShowCommentTo(), comment.getShowGiverNameTo(), giverRg);
         feedbackResponse.addFeedbackResponseComment(feedbackResponseComment);
         try {
             FeedbackResponseComment createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
             HibernateUtil.flushSession();
-            return new JsonResult(new FeedbackResponseCommentData(createdComment));
+            return new JsonResult(new FeedbackResponseCommentData(createdComment, giver, giver));
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         } catch (EntityAlreadyExistsException e) {

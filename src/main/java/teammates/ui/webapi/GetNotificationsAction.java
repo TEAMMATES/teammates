@@ -29,7 +29,7 @@ public class GetNotificationsAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (userInfo.isAdmin) {
+        if (authContext.isAdmin()) {
             return;
         }
         String targetUserString = getRequestParamValue(Const.ParamsNames.NOTIFICATION_TARGET_USER);
@@ -38,8 +38,8 @@ public class GetNotificationsAction extends Action {
             throw new InvalidHttpParameterException(targetUserErrorMessage);
         }
         NotificationTargetUser targetUser = NotificationTargetUser.valueOf(targetUserString);
-        if (targetUser == NotificationTargetUser.INSTRUCTOR && !userInfo.isInstructor
-                || targetUser == NotificationTargetUser.STUDENT && !userInfo.isStudent) {
+        if (targetUser == NotificationTargetUser.INSTRUCTOR && !authContext.isInstructor()
+                || targetUser == NotificationTargetUser.STUDENT && !authContext.isStudent()) {
             throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
         }
     }
@@ -49,7 +49,7 @@ public class GetNotificationsAction extends Action {
         String targetUserString = getRequestParamValue(Const.ParamsNames.NOTIFICATION_TARGET_USER);
         List<Notification> notifications;
 
-        if (targetUserString == null && userInfo.isAdmin) {
+        if (targetUserString == null && authContext.isAdmin()) {
             // if request is from admin and targetUser is not specified, retrieve all notifications
             notifications = logic.getAllNotifications();
             return new JsonResult(new NotificationsData(notifications));
@@ -75,7 +75,7 @@ public class GetNotificationsAction extends Action {
             return new JsonResult(new NotificationsData(notifications));
         }
 
-        Account account = logic.getAccountForGoogleId(userInfo.getId());
+        Account account = logic.getAccountForGoogleId(authContext.id());
         if (account == null) {
             // This should not happen as the user is authenticated
             return new JsonResult("Account not found", HttpStatus.SC_INTERNAL_SERVER_ERROR);
@@ -83,7 +83,7 @@ public class GetNotificationsAction extends Action {
         notifications = logic.getUnreadActiveNotificationsByTargetUser(
                 List.of(targetUser, NotificationTargetUser.GENERAL), account.getId(), Instant.now());
 
-        if (userInfo.isAdmin) {
+        if (authContext.isAdmin()) {
             return new JsonResult(new NotificationsData(notifications));
         }
 

@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { PageComponent } from './page.component';
 import { environment } from '../environments/environment';
 import { AuthService } from '../services/auth.service';
@@ -13,17 +12,15 @@ import { AuthService } from '../services/auth.service';
   imports: [PageComponent],
 })
 export class PublicPageComponent {
-  private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
 
   constructor() {
     if (environment.maintenance) {
       return;
     }
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.authService.getAuthUser(queryParams.user).subscribe(() => {
-        // No need to do anything with result; this is necessary to get CSRF token
-      });
+
+    this.authService.getAuthUser().subscribe(() => {
+      // No need to do anything with result; this is necessary to get CSRF token
     });
   }
 }

@@ -24,7 +24,7 @@ public class GetCourseSectionNamesAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         Course course = logic.getCourse(courseId);
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.id);
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
 
         gateKeeper.verifyAccessible(instructor, course);
     }

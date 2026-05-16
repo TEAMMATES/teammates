@@ -3,13 +3,14 @@ package teammates.ui.webapi;
 import java.util.UUID;
 
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
+import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.util.Const;
-import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -53,7 +54,8 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
             verifySessionOpenExceptForModeration(session, student);
             gateKeeper.verifyOwnership(comment,
                     question.getGiverType() == QuestionGiverType.TEAMS
-                            ? student.getTeamName() : student.getEmail());
+                            ? new ResponseGiver(ResponseGiverType.TEAM, student.getTeamId())
+                            : new ResponseGiver(ResponseGiverType.STUDENT, student.getId()));
             break;
         case INSTRUCTOR_SUBMISSION:
             Instructor instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
@@ -64,15 +66,16 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
             checkAccessControlForInstructorFeedbackSubmission(instructorAsFeedbackParticipant, session);
             verifySessionOpenExceptForModeration(session, instructorAsFeedbackParticipant);
-            gateKeeper.verifyOwnership(comment, instructorAsFeedbackParticipant.getEmail());
+            gateKeeper.verifyOwnership(comment,
+                    new ResponseGiver(ResponseGiverType.INSTRUCTOR, instructorAsFeedbackParticipant.getId()));
             break;
         case INSTRUCTOR_RESULT:
-            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
-            Instructor instructor = logic.getInstructorByGoogleId(courseId, userInfo.getId());
+            gateKeeper.verifyLoggedInUserPrivileges(authContext);
+            Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
             if (instructor == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
             }
-            if (SanitizationHelper.areEmailsEqual(comment.getGiver(), instructor.getEmail())) {
+            if (comment.getGiver().equals(new ResponseGiver(ResponseGiverType.INSTRUCTOR, instructor.getId()))) {
                 return;
             }
 

@@ -1,5 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { AuthInfo } from '../../types/api-output';
@@ -14,7 +13,6 @@ import { PageComponent } from '../page.component';
   imports: [PageComponent],
 })
 export class MaintainerPageComponent implements OnInit {
-  private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
 
   user = '';
@@ -42,31 +40,29 @@ export class MaintainerPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.isFetchingAuthDetails = true;
-    this.route.queryParams.subscribe((queryParams: any) => {
-      this.authService.getAuthUser(queryParams.user, '/web/maintainer/home').subscribe({
-        next: (res: AuthInfo) => {
-          if (res.user) {
-            this.user = res.user.id;
-            if (res.masquerade) {
-              this.user += ' (M)';
-            }
-            this.isInstructor = res.user.isInstructor;
-            this.isStudent = res.user.isStudent;
-            this.isAdmin = res.user.isAdmin;
-            this.isMaintainer = res.user.isMaintainer;
-          } else {
-            window.location.href = `${this.backendUrl}${res.loginUrl}`;
+    this.authService.getAuthUser('/web/maintainer/home').subscribe({
+      next: (res: AuthInfo) => {
+        if (res.user) {
+          this.user = res.user.id;
+          if (res.masquerade) {
+            this.user += ' (M)';
           }
-          this.isFetchingAuthDetails = false;
-        },
-        error: () => {
-          this.isInstructor = false;
-          this.isStudent = false;
-          this.isAdmin = false;
-          this.isMaintainer = false;
-          this.isFetchingAuthDetails = false;
-        },
-      });
+          this.isInstructor = res.user.isInstructor;
+          this.isStudent = res.user.isStudent;
+          this.isAdmin = res.user.isAdmin;
+          this.isMaintainer = res.user.isMaintainer;
+        } else {
+          window.location.href = `${this.backendUrl}${res.loginUrl}`;
+        }
+        this.isFetchingAuthDetails = false;
+      },
+      error: () => {
+        this.isInstructor = false;
+        this.isStudent = false;
+        this.isAdmin = false;
+        this.isMaintainer = false;
+        this.isFetchingAuthDetails = false;
+      },
     });
   }
 }

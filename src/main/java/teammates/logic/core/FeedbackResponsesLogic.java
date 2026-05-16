@@ -17,6 +17,7 @@ import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
+import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
@@ -34,6 +35,7 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -116,6 +118,27 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
+     * Resolves a {@link ResponseGiver} to an String.
+     *
+     * <p>For STUDENT and INSTRUCTOR types, returns the email of the giver; for TEAM type, returns team name.
+     * This is largely for legacy considerations and should not be used in new code if possible.
+     */
+    public String resolveGiver(ResponseGiver giver) {
+        if (giver == null) {
+            return null;
+        }
+
+        if (giver.getGiverType() == ResponseGiverType.TEAM) {
+            Team team = usersLogic.getTeam(giver.getGiverId());
+            return team != null ? team.getName() : null;
+        }
+
+        // Student or Instructor giver type
+        User user = usersLogic.getUser(giver.getGiverId());
+        return user != null ? user.getEmail() : null;
+    }
+
+    /**
      * Checks whether a giver has responded a session.
      */
     public boolean hasGiverRespondedForSession(String giverIdentifier, Set<FeedbackQuestion> questions) {
@@ -187,7 +210,7 @@ public final class FeedbackResponsesLogic {
 
         List<FeedbackResponse> responses = new ArrayList<>();
         List<Student> studentsInTeam = courseRoster == null
-                ? usersLogic.getStudentsForTeam(teamName, courseId) : courseRoster.getTeamToMembersTable().get(teamName);
+                ? usersLogic.getStudentsForTeam(teamName, courseId) : courseRoster.getTeamToMembers().get(teamName);
 
         for (Student student : studentsInTeam) {
             responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(
@@ -364,7 +387,7 @@ public final class FeedbackResponsesLogic {
         case TEAMS_IN_SAME_SECTION:
             Student firstMemberOfTeam;
             String team;
-            Map<String, List<Student>> teams = roster.getTeamToMembersTable();
+            Map<String, List<Student>> teams = roster.getTeamToMembers();
             for (Map.Entry<String, List<Student>> entry : teams.entrySet()) {
                 team = entry.getKey();
                 firstMemberOfTeam = entry.getValue().get(0);
@@ -584,7 +607,7 @@ public final class FeedbackResponsesLogic {
         Set<String> studentsEmailInTeam = new HashSet<>();
         if (user instanceof Student student) {
             for (Student studentInTeam
-                    : roster.getTeamToMembersTable().getOrDefault(student.getTeamName(), Collections.emptyList())) {
+                    : roster.getTeamToMembers().getOrDefault(student.getTeamName(), Collections.emptyList())) {
                 studentsEmailInTeam.add(studentInTeam.getEmail());
             }
         }
@@ -1129,7 +1152,7 @@ public final class FeedbackResponsesLogic {
         }
 
         if (question.isResponseVisibleTo(ViewerType.RECEIVER_TEAM_MEMBERS)) {
-            for (Student studentInTeam : courseRoster.getTeamToMembersTable().get(student.getTeamName())) {
+            for (Student studentInTeam : courseRoster.getTeamToMembers().get(student.getTeamName())) {
                 if (SanitizationHelper.areEmailsEqual(studentInTeam.getEmail(), student.getEmail())) {
                     continue;
                 }

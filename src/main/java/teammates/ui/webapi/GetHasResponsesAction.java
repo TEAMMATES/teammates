@@ -44,7 +44,7 @@ public class GetHasResponsesAction extends Action {
             String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
             gateKeeper.verifyAccessible(
-                    logic.getInstructorByGoogleId(courseId, userInfo.getId()),
+                    logic.getInstructorByGoogleId(courseId, authContext.id()),
                     logic.getCourse(courseId));
 
             return;
@@ -62,7 +62,7 @@ public class GetHasResponsesAction extends Action {
             }
 
             gateKeeper.verifyAccessible(
-                    logic.getStudentByGoogleId(courseId, userInfo.getId()),
+                    logic.getStudentByGoogleId(courseId, authContext.id()),
                     feedbackSession);
         }
     }
@@ -82,7 +82,7 @@ public class GetHasResponsesAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         List<FeedbackSession> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
-        Student student = logic.getStudentByGoogleId(courseId, userInfo.getId());
+        Student student = logic.getStudentByGoogleId(courseId, authContext.id());
 
         Map<String, Boolean> sessionsHasResponses = new HashMap<>();
         for (FeedbackSession feedbackSession : feedbackSessions) {
@@ -129,7 +129,7 @@ public class GetHasResponsesAction extends Action {
         String courseId = feedbackQuestion.getCourseId();
         FeedbackSession feedbackSession = feedbackQuestion.getFeedbackSession();
         gateKeeper.verifyAccessible(
-                logic.getInstructorByGoogleId(courseId, userInfo.getId()),
+                logic.getInstructorByGoogleId(courseId, authContext.id()),
                 feedbackSession);
     }
 }

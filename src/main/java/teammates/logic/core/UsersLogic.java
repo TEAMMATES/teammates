@@ -71,8 +71,6 @@ public final class UsersLogic {
 
     private FeedbackResponsesLogic feedbackResponsesLogic;
 
-    private FeedbackResponseCommentsLogic feedbackResponseCommentsLogic;
-
     private DeadlineExtensionsLogic deadlineExtensionsLogic;
 
     private UsersLogic() {
@@ -85,13 +83,11 @@ public final class UsersLogic {
 
     void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic, CoursesLogic coursesLogic,
                                FeedbackResponsesLogic feedbackResponsesLogic,
-                               FeedbackResponseCommentsLogic feedbackResponseCommentsLogic,
                                DeadlineExtensionsLogic deadlineExtensionsLogic) {
         this.usersDb = usersDb;
         this.accountsLogic = accountsLogic;
         this.coursesLogic = coursesLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
-        this.feedbackResponseCommentsLogic = feedbackResponseCommentsLogic;
         this.deadlineExtensionsLogic = deadlineExtensionsLogic;
     }
 
@@ -200,8 +196,6 @@ public final class UsersLogic {
                     responseToUser.setRecipient(newEmail);
                 }
             }
-            // cascade comments
-            feedbackResponseCommentsLogic.updateFeedbackResponseCommentsEmails(courseId, originalEmail, newEmail);
         }
 
         return instructor;
@@ -649,6 +643,13 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets team by ID.
+     */
+    public Team getTeam(UUID teamId) {
+        return usersDb.getTeam(teamId);
+    }
+
+    /**
      * Gets the section with the name in a particular course.
      */
     public Section getSection(String courseId, String sectionName) {
@@ -773,8 +774,6 @@ public final class UsersLogic {
         if (newEmail != null && !student.getEmail().equals(newEmail)) {
             feedbackResponsesLogic
                     .updateFeedbackResponsesForChangingEmail(courseId, student.getEmail(), newEmail);
-            feedbackResponseCommentsLogic
-                    .updateFeedbackResponseCommentsEmails(courseId, student.getEmail(), newEmail);
             student.setEmail(newEmail);
         }
 

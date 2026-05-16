@@ -28,15 +28,21 @@ public class FeedbackResponseCommentData extends ApiOutput {
         // for Jackson deserialization
     }
 
-    public FeedbackResponseCommentData(FeedbackResponseComment frc) {
+    public FeedbackResponseCommentData(FeedbackResponseComment frc,
+            String commentGiver,
+            String lastEditorEmail) {
+        // TODO: commentGiverEmail and lastEditorEmail can be team name or user email.
+        // We should consider changing the field name as when we relook at the API reponse format in the future.
+        // In many cases, there may not be a need to return these fields at all, so we can also consider removing them
+        // and only keeping it in CommentOutput.
         this.feedbackResponseCommentId = frc.getId();
         this.commentText = frc.getCommentText();
-        this.commentGiver = frc.getGiver();
+        this.commentGiver = commentGiver;
         this.showGiverNameTo = convertToFeedbackVisibilityType(frc.getShowGiverNameTo());
         this.showCommentTo = convertToFeedbackVisibilityType(frc.getShowCommentTo());
         this.createdAt = frc.getCreatedAt().toEpochMilli();
         this.lastEditedAt = frc.getUpdatedAt().toEpochMilli();
-        this.lastEditorEmail = frc.getLastEditorEmail();
+        this.lastEditorEmail = lastEditorEmail;
         this.isVisibilityFollowingFeedbackQuestion = frc.getIsVisibilityFollowingFeedbackQuestion();
     }
 

@@ -3,11 +3,13 @@ package teammates.e2e.cases;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.util.AppUrl;
@@ -19,6 +21,7 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Student;
 
 /**
@@ -221,8 +224,9 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
             Student currentStudent) {
         String editor = "";
         String giver = "";
-        if (comment.getLastEditorEmail() != null) {
-            editor = getIdentifier(currentStudent, comment.getLastEditorEmail());
+
+        if (!Objects.equals(comment.getLastEditedBy(), comment.getGiver())) {
+            editor = getIdentifier(currentStudent, comment.getLastEditedBy());
         }
         if (!comment.getIsCommentFromFeedbackParticipant()) {
             giver = getIdentifier(currentStudent, comment.getGiver());
@@ -428,6 +432,38 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
             fr.setRecipient(getIdentifier(currentInstructor, fr.getRecipient()));
         });
         return editedResponses;
+    }
+
+    private String getIdentifier(Student currentStudent, ResponseGiver giver) {
+        if (giver == null) {
+            return "";
+        }
+        if (giver.getGiverType() == ResponseGiverType.TEAM) {
+            return getIdentifier(currentStudent, currentStudent.getTeamId().equals(giver.getGiverId())
+                    ? currentStudent.getTeamName()
+                    : testData.students.values().stream()
+                            .filter(student -> student.getTeamId().equals(giver.getGiverId()))
+                            .findFirst()
+                            .map(Student::getTeamName)
+                            .orElse(""));
+        }
+
+        String userEmail = "";
+        if (giver.getGiverType() == ResponseGiverType.STUDENT) {
+            userEmail = testData.students.values().stream()
+                    .filter(student -> student.getId().equals(giver.getGiverId()))
+                    .map(Student::getEmail)
+                    .findFirst()
+                    .orElse("");
+        } else if (giver.getGiverType() == ResponseGiverType.INSTRUCTOR) {
+            userEmail = testData.instructors.values().stream()
+                    .filter(instructor -> instructor.getId().equals(giver.getGiverId()))
+                    .map(Instructor::getEmail)
+                    .findFirst()
+                    .orElse("");
+        }
+
+        return getIdentifier(currentStudent, userEmail);
     }
 
     private String getIdentifier(Student currentStudent, String user) {

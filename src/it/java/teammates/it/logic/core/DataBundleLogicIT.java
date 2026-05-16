@@ -17,6 +17,7 @@ import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
+import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
@@ -37,6 +38,7 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
+import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -209,9 +211,10 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("verify feedback response comments deserialized correctly");
         FeedbackResponseComment actualComment1 = dataBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
-        FeedbackResponseComment expectedComment1 = new FeedbackResponseComment("instr1@teammates.tmt",
+        ResponseGiver commentGiver = new ResponseGiver(ResponseGiverType.INSTRUCTOR, actualInstructor1.getId());
+        FeedbackResponseComment expectedComment1 = new FeedbackResponseComment(commentGiver,
                 "Instructor 1 comment to student 1 self feedback", false, false,
-                new ArrayList<>(), new ArrayList<>(), "instr1@teammates.tmt");
+                new ArrayList<>(), new ArrayList<>(), commentGiver);
         expectedResponse1.addFeedbackResponseComment(expectedComment1);
         expectedComment1.setId(actualComment1.getId());
         verifyEquals(expectedComment1, actualComment1);
