@@ -230,8 +230,9 @@ public class SessionResultsData extends ApiOutput {
             } else {
                 // team giver, relatedGiverEmail is any team member's email
                 String teamName = responseGiver.getTeamName();
-                relatedGiverEmail =
-                        bundle.getRoster().getTeamToMembers().get(teamName).iterator().next().getEmail();
+                List<Student> teamMembers =
+                        bundle.getRoster().getTeamToMembers().getOrDefault(teamName, Collections.emptyList());
+                relatedGiverEmail = teamMembers.isEmpty() ? null : teamMembers.iterator().next().getEmail();
                 giverEmail = null;
             }
         }
@@ -243,8 +244,8 @@ public class SessionResultsData extends ApiOutput {
         ResponseRecipient responseRecipient = response.getRecipient();
         String recipientEmail = null;
         String recipientName = getRecipientNameOfResponse(response.getId(), responseRecipient, bundle);
-        String recipientTeam = responseGiver.getTeamName();
-        String recipientSectionName = responseGiver.getSectionName();
+        String recipientTeam = responseRecipient.getTeamName();
+        String recipientSectionName = responseRecipient.getSectionName();
 
         if (bundle.isResponseRecipientVisible(response.getId(), responseRecipient.getRecipientType())
                 && responseRecipient.isRecipientUser()) {

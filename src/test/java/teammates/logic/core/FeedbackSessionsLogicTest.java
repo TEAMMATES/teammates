@@ -26,6 +26,7 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Student;
 import teammates.test.BaseTestCase;
 import teammates.ui.output.ResponseVisibleSetting;
@@ -372,15 +373,20 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         FeedbackQuestion question2 = getTypicalFeedbackQuestionForSession(session);
         session.setFeedbackQuestions(Set.of(question1, question2));
 
+        Student student1 = getTypicalStudent();
+        student1.setEmail("student1@email.com");
+        Student student2 = getTypicalStudent();
+        student2.setEmail("student2@email.com");
+
         // Mock responses from different givers
         FeedbackResponse response1 = getTypicalFeedbackResponseForQuestion(question1);
-        response1.setGiver("student1@email.com");
+        response1.setGiver(new ResponseGiver(student1));
         question1.addFeedbackResponse(response1);
         FeedbackResponse response2 = getTypicalFeedbackResponseForQuestion(question1);
-        response2.setGiver("student2@email.com");
+        response2.setGiver(new ResponseGiver(student2));
         question1.addFeedbackResponse(response2);
         FeedbackResponse response3 = getTypicalFeedbackResponseForQuestion(question2);
-        response3.setGiver("student1@email.com"); // Same giver as response1
+        response3.setGiver(new ResponseGiver(student1)); // Same giver as response1
         question2.addFeedbackResponse(response3);
 
         int result = fsLogic.getActualTotalSubmission(session);

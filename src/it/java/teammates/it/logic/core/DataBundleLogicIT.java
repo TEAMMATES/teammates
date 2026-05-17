@@ -38,6 +38,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -202,8 +203,8 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("verify feedback responses deserialized correctly");
         FeedbackResponse actualResponse1 = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
         FeedbackResponseDetails responseDetails1 = new FeedbackTextResponseDetails("Student 1 self feedback.");
-        FeedbackResponse expectedResponse1 = FeedbackResponse.makeResponse("student1@teammates.tmt",
-                expectedSection, "student1@teammates.tmt", expectedSection, responseDetails1);
+        FeedbackResponse expectedResponse1 = FeedbackResponse.makeResponse(
+                new ResponseGiver(actualStudent1), new ResponseRecipient(actualStudent1), responseDetails1);
         actualQuestion1.addFeedbackResponse(expectedResponse1);
         expectedResponse1.setId(actualResponse1.getId());
         verifyEquals(expectedResponse1, actualResponse1);

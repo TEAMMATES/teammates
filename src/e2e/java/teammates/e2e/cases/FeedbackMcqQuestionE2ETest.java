@@ -13,6 +13,8 @@ import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE},
@@ -136,8 +138,9 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         } else {
             details.setAnswer(answer);
         }
-        FeedbackResponse response = FeedbackResponse.makeResponse(student.getEmail(), null,
-                Const.GENERAL_QUESTION, null, details);
+        ResponseGiver giver = new ResponseGiver(student);
+        ResponseRecipient recipient = new ResponseRecipient();
+        FeedbackResponse response = FeedbackResponse.makeResponse(giver, recipient, details);
         feedbackQuestion.addFeedbackResponse(response);
         return response;
     }

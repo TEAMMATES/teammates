@@ -80,11 +80,12 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
             FeedbackResponse response = comment.getFeedbackResponse();
             ResponseGiver giver = response.getGiver();
-            String sectionName = giver.getSectionName();
-            gateKeeper.verifyAccessible(instructor, session, sectionName,
-                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-            gateKeeper.verifyAccessible(instructor, session, sectionName,
-                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+            String giverSectionName = giver.getSectionName();
+            String recipientSectionName = response.getRecipient().getSectionName();
+            gateKeeper.verifyAccessible(instructor, session, giverSectionName,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+            gateKeeper.verifyAccessible(instructor, session, recipientSectionName,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);

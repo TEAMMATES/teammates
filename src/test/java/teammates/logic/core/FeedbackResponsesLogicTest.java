@@ -23,6 +23,7 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Student;
 import teammates.test.BaseTestCase;
 
@@ -52,8 +53,6 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
         FeedbackResponse response = getTypicalFeedbackResponseForQuestion(question);
         response.setId(responseId);
-        String giver = response.getGiver();
-        String recipient = response.getRecipient();
 
         when(frDb.getFeedbackResponse(responseId)).thenReturn(response);
 
@@ -61,8 +60,8 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
 
         assertNotNull(result);
         assertEquals(response, result);
-        assertEquals(giver, result.getGiver());
-        assertEquals(recipient, result.getRecipient());
+        assertEquals(response.getGiver(), result.getGiver());
+        assertEquals(response.getRecipient(), result.getRecipient());
         verify(frDb, times(1)).getFeedbackResponse(responseId);
     }
 
@@ -159,7 +158,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
     @Test
     public void testGetFeedbackResponsesFromGiverForQuestion_responsesExist_success() {
         UUID questionId = UUID.randomUUID();
-        String giverEmail = "giver@email.com";
+        UUID giverUserId = UUID.randomUUID();
         Course course = getTypicalCourse();
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
@@ -167,9 +166,9 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         FeedbackResponse response = getTypicalFeedbackResponseForQuestion(question);
         List<FeedbackResponse> responses = List.of(response);
 
-        when(frDb.getFeedbackResponsesFromGiverForQuestion(questionId, giverEmail)).thenReturn(responses);
+        when(frDb.getFeedbackResponsesFromGiverForQuestion(questionId, giverUserId, null)).thenReturn(responses);
 
-        List<FeedbackResponse> result = frLogic.getFeedbackResponsesFromGiverForQuestion(questionId, giverEmail);
+        List<FeedbackResponse> result = frLogic.getFeedbackResponsesFromGiverForQuestion(questionId, giverUserId);
 
         assertNotNull(result);
         assertEquals(1, result.size());
@@ -249,7 +248,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         Instructor instructor = getTypicalInstructor();
         FeedbackResponse response = getTypicalFeedbackResponseForQuestion(question);
 
-        when(frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), instructor.getEmail()))
+        when(frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), instructor.getId(), null))
                 .thenReturn(List.of(response));
 
         List<FeedbackResponse> result = frLogic.getFeedbackResponsesFromInstructorForQuestion(question, instructor);
@@ -268,11 +267,10 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         question.setId(questionId);
         question.setGiverType(QuestionGiverType.STUDENTS);
         Student student = getTypicalStudent();
-        String studentEmail = student.getEmail();
         FeedbackResponse response = getTypicalFeedbackResponseForQuestion(question);
-        response.setGiver(studentEmail);
+        response.setGiver(new ResponseGiver(student));
 
-        when(frDb.getFeedbackResponsesFromGiverForQuestion(questionId, studentEmail))
+        when(frDb.getFeedbackResponsesFromGiverForQuestion(questionId, student.getId(), null))
                 .thenReturn(List.of(response));
 
         List<FeedbackResponse> result = frLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(question, student);
@@ -280,7 +278,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals(response, result.get(0));
-        verify(frDb, times(1)).getFeedbackResponsesFromGiverForQuestion(questionId, studentEmail);
+        verify(frDb, times(1)).getFeedbackResponsesFromGiverForQuestion(questionId, student.getId(), null);
     }
 
     @Test
@@ -289,7 +287,9 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
         FeedbackSession session = getTypicalFeedbackSessionForCourse(course);
         FeedbackQuestion question = getTypicalFeedbackQuestionForSession(session);
         FeedbackResponse response = getTypicalFeedbackResponseForQuestion(question);
-        response.setGiver("student@email.com");
+        Student student = getTypicalStudent();
+        student.setEmail("student@email.com");
+        response.setGiver(new ResponseGiver(student));
         question.addFeedbackResponse(response);
         Set<FeedbackQuestion> questions = Set.of(question);
 

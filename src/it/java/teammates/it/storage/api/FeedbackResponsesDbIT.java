@@ -16,6 +16,7 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
+import teammates.storage.entity.Student;
 
 /**
  * SUT: {@link FeedbackResponsesDb}.
@@ -44,6 +45,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
     public void testGetFeedbackResponsesFromGiverForQuestion() {
         ______TS("success: typical case");
         FeedbackQuestion fq = testDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        Student giver = testDataBundle.students.get("student1InCourse1");
 
         List<FeedbackResponse> expectedQuestions = List.of(
                 testDataBundle.feedbackResponses.get("response1ForQ1"),
@@ -51,7 +53,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         );
 
         List<FeedbackResponse> actualQuestions =
-                frDb.getFeedbackResponsesFromGiverForQuestion(fq.getId(), "student1@teammates.tmt");
+            frDb.getFeedbackResponsesFromGiverForQuestion(fq.getId(), giver.getId(), null);
 
         assertEquals(expectedQuestions.size(), actualQuestions.size());
         assertTrue(expectedQuestions.containsAll(actualQuestions));
@@ -100,14 +102,15 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
     @Test
     public void testGetFeedbackResponsesForRecipientForQuestion_matchNotFound_shouldReturnEmptyList() {
         ______TS("Question not found");
-        String recipient = "student1@teammates.tmt";
+        Student recipient = testDataBundle.students.get("student1InCourse1");
         UUID nonexistentQuestionId = UUID.fromString("11110000-0000-0000-0000-000000000000");
-        List<FeedbackResponse> results = frDb.getFeedbackResponsesForRecipientForQuestion(nonexistentQuestionId, recipient);
+        List<FeedbackResponse> results = frDb.getFeedbackResponsesForRecipientForQuestion(
+            nonexistentQuestionId, recipient.getId(), null);
         assertEquals(0, results.size());
 
         ______TS("No matching responses exist");
         FeedbackQuestion questionWithNoResponses = testDataBundle.feedbackQuestions.get("qn4InSession1InCourse1");
-        results = frDb.getFeedbackResponsesForRecipientForQuestion(questionWithNoResponses.getId(), recipient);
+        results = frDb.getFeedbackResponsesForRecipientForQuestion(questionWithNoResponses.getId(), recipient.getId(), null);
         assertEquals(0, results.size());
 
     }
@@ -115,12 +118,13 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
     @Test
     public void testGetFeedbackResponsesForRecipientForQuestion_matchFound_success() {
         ______TS("Matching responses exist");
-        String recipient = "student2@teammates.tmt";
+        Student recipient = testDataBundle.students.get("student2InCourse1");
         FeedbackQuestion question = testDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         List<FeedbackResponse> expected = List.of(
                 testDataBundle.feedbackResponses.get("response2ForQ1")
         );
-        List<FeedbackResponse> actual = frDb.getFeedbackResponsesForRecipientForQuestion(question.getId(), recipient);
+        List<FeedbackResponse> actual = frDb.getFeedbackResponsesForRecipientForQuestion(
+            question.getId(), recipient.getId(), null);
         assertListResponsesEqual(expected, actual);
 
     }

@@ -16,6 +16,8 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 
 /**
@@ -77,8 +79,8 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
 
         FeedbackTextResponseDetails details = new FeedbackTextResponseDetails("Response");
         FeedbackResponse response = FeedbackResponse.makeResponse(
-                student.getEmail(), student.getSection(),
-                receiver.getEmail(), receiver.getSection(), details);
+                new ResponseGiver(student),
+                new ResponseRecipient(receiver), details);
         feedbackQuestion.addFeedbackResponse(response);
 
         studentSubmissionPage.fillTextResponse(1, receiver.getName(), response);

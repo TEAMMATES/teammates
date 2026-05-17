@@ -11,6 +11,8 @@ import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 
 /**
@@ -124,8 +126,9 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
     private FeedbackResponse getResponse(FeedbackQuestion question, Student receiver, Integer answer) {
         FeedbackConstantSumResponseDetails details = new FeedbackConstantSumResponseDetails();
         details.setAnswers(Arrays.asList(answer));
-        FeedbackResponse response = FeedbackResponse.makeResponse(student.getEmail(), student.getSection(),
-                receiver.getTeamName(), receiver.getSection(), details);
+        ResponseGiver giver = new ResponseGiver(student);
+        ResponseRecipient recipient = new ResponseRecipient(receiver);
+        FeedbackResponse response = FeedbackResponse.makeResponse(giver, recipient, details);
         question.addFeedbackResponse(response);
         return response;
     }

@@ -32,6 +32,7 @@ import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.ui.output.CommentVisibilityType;
 import teammates.ui.output.FeedbackResponseCommentData;
@@ -501,10 +502,8 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         typicalFeedbackSession.addFeedbackQuestion(contributionQuestion);
 
         FeedbackResponse contributionResponse = FeedbackResponse.makeResponse(
-                "test giver",
-                getTypicalSection(),
-                "test recipient",
-                getTypicalSection(),
+                new ResponseGiver(typicalStudent),
+                new ResponseRecipient(typicalStudent),
                 new FeedbackContributionResponseDetails());
         contributionQuestion.addFeedbackResponse(contributionResponse);
 
@@ -661,10 +660,8 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackSession feedbackSessionPastEndTime = getFeedbackSessionPastEndTime();
         FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(feedbackSessionPastEndTime);
         FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
-                typicalInstructor.getEmail(),
-                getTypicalSection(),
-                "test recipient",
-                getTypicalSection(),
+                new ResponseGiver(typicalInstructor),
+                new ResponseRecipient(typicalStudent),
                 getTypicalFeedbackResponseDetails());
         feedbackQuestion.addFeedbackResponse(feedbackResponse);
 
@@ -691,10 +688,8 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackSession feedbackSessionPastEndTime = getFeedbackSessionPastEndTime();
         FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(feedbackSessionPastEndTime);
         FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
-                typicalInstructor.getEmail(),
-                getTypicalSection(),
-                "test recipient",
-                getTypicalSection(),
+                new ResponseGiver(typicalInstructor),
+                new ResponseRecipient(typicalStudent),
                 getTypicalFeedbackResponseDetails());
         feedbackQuestion.addFeedbackResponse(feedbackResponse);
 
@@ -720,10 +715,8 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(feedbackSessionPastEndTime);
         feedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
         FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
-                typicalStudent.getEmail(),
-                getTypicalSection(),
-                "test recipient",
-                getTypicalSection(),
+                new ResponseGiver(typicalStudent),
+                new ResponseRecipient(typicalStudent),
                 getTypicalFeedbackResponseDetails());
         feedbackQuestion.addFeedbackResponse(feedbackResponse);
 
@@ -751,10 +744,8 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         FeedbackQuestion feedbackQuestion = getTypicalFeedbackQuestionForSession(feedbackSessionPastEndTime);
         feedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
         FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
-                typicalStudent.getEmail(),
-                getTypicalSection(),
-                "test recipient",
-                getTypicalSection(),
+                new ResponseGiver(typicalStudent),
+                new ResponseRecipient(typicalStudent),
                 getTypicalFeedbackResponseDetails());
         feedbackQuestion.addFeedbackResponse(feedbackResponse);
 

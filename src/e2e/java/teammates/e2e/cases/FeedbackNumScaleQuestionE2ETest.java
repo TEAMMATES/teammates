@@ -8,6 +8,8 @@ import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 
 /**
@@ -117,7 +119,7 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
         FeedbackNumericalScaleResponseDetails details = new FeedbackNumericalScaleResponseDetails();
         details.setAnswer(answer);
         FeedbackResponse response = FeedbackResponse.makeResponse(
-                student.getEmail(), null, receiver.getTeamName(), null, details);
+                new ResponseGiver(student), new ResponseRecipient(receiver), details);
         feedbackQuestion.addFeedbackResponse(response);
         return response;
     }
