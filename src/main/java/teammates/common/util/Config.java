@@ -171,6 +171,8 @@ public final class Config {
 
     private static final Logger log = Logger.getLogger();
 
+    public static final boolean RECAPTCHA_VERIFICATION_ENABLED;
+
     static {
         Properties properties = new Properties();
         try (InputStream buildPropStream = FileHelper.getResourceAsStream("build.properties")) {
@@ -242,6 +244,9 @@ public final class Config {
                 getProperty(properties, devProperties, "app.email.allow.sending.to.test.domain", "false"));
         TASKQUEUE_SERVICE = getProperty(properties, devProperties, "app.taskqueue.service",
                 IS_DEV_SERVER ? "local" : "google-cloud-tasks");
+
+        RECAPTCHA_VERIFICATION_ENABLED = Boolean.parseBoolean(
+                getProperty(properties, devProperties, "app.recaptcha.verification.enabled", "true"));
     }
 
     private Config() {
@@ -409,6 +414,14 @@ public final class Config {
                 && MAILJET_SECRETKEY != null && !MAILJET_SECRETKEY.isEmpty();
     }
 
+    public static boolean isUsingRecaptchaVerification(){
+        if(RECAPTCHA_VERIFICATION_ENABLED && CAPTCHA_SECRET_KEY != null && !CAPTCHA_SECRET_KEY.isEmpty()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     /**
      * Indicates whether SMTP email service is used.
      * @return true if SMTP email service is properly configured and can be used; false otherwise.
@@ -424,6 +437,8 @@ public final class Config {
                 && !StringHelper.isEmpty(SMTP_HOST) && !StringHelper.isEmpty(SMTP_PORT)
                 && isSecurityProtocolValid && isSmtpAuthValid && (!isAuthEnabled || isCredentialValid);
     }
+
+
 
     /**
      * Ensures {@link #CRON_AND_WORKER_SECRET} is configured for authenticating worker/cron HTTP requests.
