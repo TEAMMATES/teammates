@@ -689,6 +689,12 @@ public final class FeedbackResponsesLogic {
                 ResponseGiver giver = giverRecipientEntry.getKey();
 
                 for (ResponseRecipient recipient : giverRecipientEntry.getValue()) {
+                    if (sectionName != null
+                            && !sectionName.equals(giver.getSectionName())
+                            && !sectionName.equals(recipient.getSectionName())) {
+                        continue;
+                    }
+
                     // recipient
                     FeedbackMissingResponse missingResponse = new FeedbackMissingResponse(
                             correspondingQuestion,
