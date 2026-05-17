@@ -453,11 +453,14 @@
         "questionType": "TEXT"
       },
       "id": "00000000-0000-4000-8000-000000000901",
-      "giver": "fres.instr@gmail.tmt",
-      "recipient": "fres.alice.b@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000801",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000501"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000801"
     },
     "qn1response2": {
       "answer": {
@@ -465,11 +468,14 @@
         "questionType": "TEXT"
       },
       "id": "00000000-0000-4000-8000-000000000902",
-      "giver": "fres.instr@gmail.tmt",
-      "recipient": "fres.benny.c@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000801",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000501"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000801"
     },
     "qn2response1": {
       "answer": {
@@ -477,11 +483,14 @@
         "questionType": "TEXT"
       },
       "id": "00000000-0000-4000-8000-000000000903",
-      "giver": "fres.alice.b@gmail.tmt",
-      "recipient": "fres.benny.c@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000802",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000802"
     },
     "qn2response2": {
       "answer": {
@@ -489,11 +498,14 @@
         "questionType": "TEXT"
       },
       "id": "00000000-0000-4000-8000-000000000904",
-      "giver": "fres.alice.b@gmail.tmt",
-      "recipient": "unregistered@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000802",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000604"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000802"
     },
     "qn2responseA": {
       "answer": {
@@ -501,11 +513,14 @@
         "questionType": "TEXT"
       },
       "id": "00000000-0000-4000-8000-000000000905",
-      "giver": "unregistered@gmail.tmt",
-      "recipient": "fres.alice.b@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000802",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000604"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000802"
     },
     "qn2responseB": {
       "answer": {
@@ -513,11 +528,14 @@
         "questionType": "TEXT"
       },
       "id": "00000000-0000-4000-8000-000000000906",
-      "giver": "fres.benny.c@gmail.tmt",
-      "recipient": "fres.alice.b@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000802",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000802"
     },
     "qn2responseC": {
       "answer": {
@@ -525,11 +543,14 @@
         "questionType": "TEXT"
       },
       "id": "00000000-0000-4000-8000-000000000907",
-      "giver": "fres.benny.c@gmail.tmt",
-      "recipient": "fres.danny.e@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000802",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000605"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000802"
     },
     "qn2responseD": {
       "answer": {
@@ -537,11 +558,14 @@
         "questionType": "TEXT"
       },
       "id": "00000000-0000-4000-8000-000000000908",
-      "giver": "fres.danny.e@gmail.tmt",
-      "recipient": "fres.emily.f@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000802",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000605"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000606"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000802"
     },
     "qn3response1": {
       "answer": {
@@ -551,11 +575,14 @@
         "questionType": "MCQ"
       },
       "id": "00000000-0000-4000-8000-000000000909",
-      "giver": "fres.alice.b@gmail.tmt",
-      "recipient": "fres.benny.c@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000803",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000803"
     },
     "qn3response2": {
       "answer": {
@@ -565,11 +592,14 @@
         "questionType": "MCQ"
       },
       "id": "00000000-0000-4000-8000-000000000910",
-      "giver": "fres.alice.b@gmail.tmt",
-      "recipient": "fres.charlie.d@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000803",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000803"
     },
     "qn3responseA": {
       "answer": {
@@ -579,11 +609,14 @@
         "questionType": "MCQ"
       },
       "id": "00000000-0000-4000-8000-000000000911",
-      "giver": "fres.benny.c@gmail.tmt",
-      "recipient": "fres.alice.b@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000803",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000803"
     },
     "qn3responseB": {
       "answer": {
@@ -593,11 +626,14 @@
         "questionType": "MCQ"
       },
       "id": "00000000-0000-4000-8000-000000000912",
-      "giver": "fres.charlie.d@gmail.tmt",
-      "recipient": "fres.benny.c@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000803",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000803"
     },
     "qn4response1": {
       "answer": {
@@ -607,11 +643,13 @@
         "questionType": "MSQ"
       },
       "id": "00000000-0000-4000-8000-000000000913",
-      "giver": "fres.alice.b@gmail.tmt",
-      "recipient": "%GENERAL%",
-      "questionId": "00000000-0000-4000-8000-000000000804",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "NO_SPECIFIC_RECIPIENT"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000804"
     },
     "qn4responseA": {
       "answer": {
@@ -621,23 +659,28 @@
         "questionType": "MSQ"
       },
       "id": "00000000-0000-4000-8000-000000000914",
-      "giver": "fres.danny.e@gmail.tmt",
-      "recipient": "%GENERAL%",
-      "questionId": "00000000-0000-4000-8000-000000000804",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000605"
+      },
+      "recipient": {
+        "recipientType": "NO_SPECIFIC_RECIPIENT"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000804"
     },
     "qn5response1": {
       "answer": {
-        "answer": 3.0,
+        "answer": 3,
         "questionType": "NUMSCALE"
       },
       "id": "00000000-0000-4000-8000-000000000915",
-      "giver": "fres.alice.b@gmail.tmt",
-      "recipient": "fres.benny.c@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000805",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000805"
     },
     "qn5response2": {
       "answer": {
@@ -645,11 +688,14 @@
         "questionType": "NUMSCALE"
       },
       "id": "00000000-0000-4000-8000-000000000916",
-      "giver": "fres.alice.b@gmail.tmt",
-      "recipient": "fres.charlie.d@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000805",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000805"
     },
     "qn5response3": {
       "answer": {
@@ -657,59 +703,74 @@
         "questionType": "NUMSCALE"
       },
       "id": "00000000-0000-4000-8000-000000000917",
-      "giver": "fres.alice.b@gmail.tmt",
-      "recipient": "fres.alice.b@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000805",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000805"
     },
     "qn5responseA": {
       "answer": {
-        "answer": 4.0,
+        "answer": 4,
         "questionType": "NUMSCALE"
       },
       "id": "00000000-0000-4000-8000-000000000918",
-      "giver": "fres.benny.c@gmail.tmt",
-      "recipient": "fres.alice.b@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000805",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000805"
     },
     "qn5responseB": {
       "answer": {
-        "answer": 3.0,
+        "answer": 3,
         "questionType": "NUMSCALE"
       },
       "id": "00000000-0000-4000-8000-000000000919",
-      "giver": "fres.charlie.d@gmail.tmt",
-      "recipient": "fres.alice.b@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000805",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000805"
     },
     "qn5responseC": {
       "answer": {
-        "answer": -999.0,
+        "answer": -999,
         "questionType": "NUMSCALE"
       },
       "id": "00000000-0000-4000-8000-000000000920",
-      "giver": "fres.benny.e@gmail.tmt",
-      "recipient": "fres.charlie.d@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000805",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000805"
     },
     "qn5responseD": {
       "answer": {
-        "answer": -999.0,
+        "answer": -999,
         "questionType": "NUMSCALE"
       },
       "id": "00000000-0000-4000-8000-000000000921",
-      "giver": "fres.danny.e@gmail.tmt",
-      "recipient": "unregistered@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000805",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000605"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000604"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000805"
     },
     "qn6response1": {
       "answer": {
@@ -717,11 +778,14 @@
         "questionType": "CONSTSUM"
       },
       "id": "00000000-0000-4000-8000-000000000922",
-      "giver": "fres.alice.b@gmail.tmt",
-      "recipient": "fres.alice.b@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000806",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000806"
     },
     "qn6responseA": {
       "answer": {
@@ -729,11 +793,14 @@
         "questionType": "CONSTSUM"
       },
       "id": "00000000-0000-4000-8000-000000000923",
-      "giver": "fres.emily.f@gmail.tmt",
-      "recipient": "fres.emily.f@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000806",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000606"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000606"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000806"
     },
     "qn7response1": {
       "answer": {
@@ -741,11 +808,14 @@
         "questionType": "CONSTSUM"
       },
       "id": "00000000-0000-4000-8000-000000000924",
-      "giver": "fres.alice.b@gmail.tmt",
-      "recipient": "fres.benny.c@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000807",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000807"
     },
     "qn7response2": {
       "answer": {
@@ -753,11 +823,14 @@
         "questionType": "CONSTSUM"
       },
       "id": "00000000-0000-4000-8000-000000000925",
-      "giver": "fres.alice.b@gmail.tmt",
-      "recipient": "fres.charlie.d@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000807",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000807"
     },
     "qn7response3": {
       "answer": {
@@ -765,11 +838,14 @@
         "questionType": "CONSTSUM"
       },
       "id": "00000000-0000-4000-8000-000000000926",
-      "giver": "fres.alice.b@gmail.tmt",
-      "recipient": "fres.alice.b@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000807",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000807"
     },
     "qn7responseA": {
       "answer": {
@@ -777,11 +853,14 @@
         "questionType": "CONSTSUM"
       },
       "id": "00000000-0000-4000-8000-000000000927",
-      "giver": "fres.benny.c@gmail.tmt",
-      "recipient": "fres.charlie.d@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000807",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000807"
     },
     "qn7responseB": {
       "answer": {
@@ -789,11 +868,14 @@
         "questionType": "CONSTSUM"
       },
       "id": "00000000-0000-4000-8000-000000000928",
-      "giver": "fres.benny.c@gmail.tmt",
-      "recipient": "fres.alice.b@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000807",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000807"
     },
     "qn8response1": {
       "answer": {
@@ -801,11 +883,14 @@
         "questionType": "RANK_OPTIONS"
       },
       "id": "00000000-0000-4000-8000-000000000929",
-      "giver": "Team 1",
-      "recipient": "Team 2",
-      "questionId": "00000000-0000-4000-8000-000000000808",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverTeamId": "00000000-0000-4000-8000-000000000301"
+      },
+      "recipient": {
+        "recipientType": "TEAM",
+        "recipientTeamId": "00000000-0000-4000-8000-000000000302"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000808"
     },
     "qn8responseA": {
       "answer": {
@@ -813,11 +898,14 @@
         "questionType": "RANK_OPTIONS"
       },
       "id": "00000000-0000-4000-8000-000000000930",
-      "giver": "Team 2",
-      "recipient": "Team 1",
-      "questionId": "00000000-0000-4000-8000-000000000808",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverTeamId": "00000000-0000-4000-8000-000000000302"
+      },
+      "recipient": {
+        "recipientType": "TEAM",
+        "recipientTeamId": "00000000-0000-4000-8000-000000000301"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000808"
     },
     "qn8responseB": {
       "answer": {
@@ -825,11 +913,14 @@
         "questionType": "RANK_OPTIONS"
       },
       "id": "00000000-0000-4000-8000-000000000931",
-      "giver": "Team 2",
-      "recipient": "Team 3",
-      "questionId": "00000000-0000-4000-8000-000000000808",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverTeamId": "00000000-0000-4000-8000-000000000302"
+      },
+      "recipient": {
+        "recipientType": "TEAM",
+        "recipientTeamId": "00000000-0000-4000-8000-000000000303"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000808"
     },
     "qn9response1": {
       "answer": {
@@ -837,11 +928,14 @@
         "questionType": "RANK_RECIPIENTS"
       },
       "id": "00000000-0000-4000-8000-000000000932",
-      "giver": "fres.alice.b@gmail.tmt",
-      "recipient": "fres.instr2@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000809",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "INSTRUCTOR",
+        "recipientUserId": "00000000-0000-4000-8000-000000000502"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000809"
     },
     "qn9response2": {
       "answer": {
@@ -849,11 +943,14 @@
         "questionType": "RANK_RECIPIENTS"
       },
       "id": "00000000-0000-4000-8000-000000000933",
-      "giver": "fres.alice.b@gmail.tmt",
-      "recipient": "fres.instr@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000809",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "INSTRUCTOR",
+        "recipientUserId": "00000000-0000-4000-8000-000000000501"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000809"
     },
     "qn9responseA": {
       "answer": {
@@ -861,11 +958,14 @@
         "questionType": "RANK_RECIPIENTS"
       },
       "id": "00000000-0000-4000-8000-000000000934",
-      "giver": "fres.emily.f@gmail.tmt",
-      "recipient": "fres.instr2@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000809",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000606"
+      },
+      "recipient": {
+        "recipientType": "INSTRUCTOR",
+        "recipientUserId": "00000000-0000-4000-8000-000000000502"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000809"
     },
     "qn9responseB": {
       "answer": {
@@ -873,11 +973,14 @@
         "questionType": "RANK_RECIPIENTS"
       },
       "id": "00000000-0000-4000-8000-000000000935",
-      "giver": "fres.emily.f@gmail.tmt",
-      "recipient": "fres.instr@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000809",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000606"
+      },
+      "recipient": {
+        "recipientType": "INSTRUCTOR",
+        "recipientUserId": "00000000-0000-4000-8000-000000000501"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000809"
     },
     "qn10response1": {
       "answer": {
@@ -885,11 +988,14 @@
         "questionType": "RUBRIC"
       },
       "id": "00000000-0000-4000-8000-000000000936",
-      "giver": "fres.alice.b@gmail.tmt",
-      "recipient": "fres.alice.b@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000810",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000810"
     },
     "qn10response2": {
       "answer": {
@@ -897,11 +1003,14 @@
         "questionType": "RUBRIC"
       },
       "id": "00000000-0000-4000-8000-000000000937",
-      "giver": "fres.alice.b@gmail.tmt",
-      "recipient": "fres.benny.c@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000810",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000810"
     },
     "qn10response3": {
       "answer": {
@@ -909,11 +1018,14 @@
         "questionType": "RUBRIC"
       },
       "id": "00000000-0000-4000-8000-000000000938",
-      "giver": "fres.alice.b@gmail.tmt",
-      "recipient": "fres.charlie.d@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000810",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000810"
     },
     "qn10responseA": {
       "answer": {
@@ -921,11 +1033,14 @@
         "questionType": "RUBRIC"
       },
       "id": "00000000-0000-4000-8000-000000000939",
-      "giver": "fres.benny.c@gmail.tmt",
-      "recipient": "fres.alice.b@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000810",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000810"
     },
     "qn10responseB": {
       "answer": {
@@ -933,11 +1048,14 @@
         "questionType": "RUBRIC"
       },
       "id": "00000000-0000-4000-8000-000000000940",
-      "giver": "fres.charlie.d@gmail.tmt",
-      "recipient": "fres.alice.b@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000810",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000810"
     },
     "qn10responseC": {
       "answer": {
@@ -945,11 +1063,14 @@
         "questionType": "RUBRIC"
       },
       "id": "00000000-0000-4000-8000-000000000941",
-      "giver": "fres.charlie.d@gmail.tmt",
-      "recipient": "fres.benny.c@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000810",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000810"
     },
     "qn10responseD": {
       "answer": {
@@ -957,11 +1078,14 @@
         "questionType": "RUBRIC"
       },
       "id": "00000000-0000-4000-8000-000000000942",
-      "giver": "fres.benny.c@gmail.tmt",
-      "recipient": "fres.charlie.d@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000810",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000810"
     },
     "qn11response1": {
       "answer": {
@@ -969,11 +1093,14 @@
         "questionType": "CONTRIB"
       },
       "id": "00000000-0000-4000-8000-000000000943",
-      "giver": "fres.alice.b@gmail.tmt",
-      "recipient": "fres.alice.b@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000811",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000811"
     },
     "qn11response2": {
       "answer": {
@@ -981,11 +1108,14 @@
         "questionType": "CONTRIB"
       },
       "id": "00000000-0000-4000-8000-000000000944",
-      "giver": "fres.alice.b@gmail.tmt",
-      "recipient": "fres.benny.c@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000811",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000811"
     },
     "qn11response3": {
       "answer": {
@@ -993,11 +1123,14 @@
         "questionType": "CONTRIB"
       },
       "id": "00000000-0000-4000-8000-000000000945",
-      "giver": "fres.alice.b@gmail.tmt",
-      "recipient": "fres.charlie.d@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000811",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000811"
     },
     "qn11responseA": {
       "answer": {
@@ -1005,11 +1138,14 @@
         "questionType": "CONTRIB"
       },
       "id": "00000000-0000-4000-8000-000000000946",
-      "giver": "fres.benny.c@gmail.tmt",
-      "recipient": "fres.alice.b@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000811",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000811"
     },
     "qn11responseB": {
       "answer": {
@@ -1017,11 +1153,14 @@
         "questionType": "CONTRIB"
       },
       "id": "00000000-0000-4000-8000-000000000947",
-      "giver": "fres.benny.c@gmail.tmt",
-      "recipient": "fres.benny.c@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000811",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000811"
     },
     "qn11responseC": {
       "answer": {
@@ -1029,11 +1168,14 @@
         "questionType": "CONTRIB"
       },
       "id": "00000000-0000-4000-8000-000000000948",
-      "giver": "fres.benny.c@gmail.tmt",
-      "recipient": "fres.charlie.d@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000811",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000811"
     },
     "qn11responseD": {
       "answer": {
@@ -1041,11 +1183,14 @@
         "questionType": "CONTRIB"
       },
       "id": "00000000-0000-4000-8000-000000000949",
-      "giver": "fres.charlie.d@gmail.tmt",
-      "recipient": "fres.alice.b@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000811",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000811"
     },
     "qn11responseE": {
       "answer": {
@@ -1053,11 +1198,14 @@
         "questionType": "CONTRIB"
       },
       "id": "00000000-0000-4000-8000-000000000950",
-      "giver": "fres.charlie.d@gmail.tmt",
-      "recipient": "fres.benny.c@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000811",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000811"
     },
     "qn11responseF": {
       "answer": {
@@ -1065,11 +1213,14 @@
         "questionType": "CONTRIB"
       },
       "id": "00000000-0000-4000-8000-000000000951",
-      "giver": "fres.charlie.d@gmail.tmt",
-      "recipient": "fres.charlie.d@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000811",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000811"
     }
   },
   "feedbackResponseComments": {

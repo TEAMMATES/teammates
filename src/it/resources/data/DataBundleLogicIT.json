@@ -191,15 +191,18 @@
   "feedbackResponses": {
     "response1ForQ1S1C1": {
       "id": "00000000-0000-4000-8000-000000000901",
-      "giver": "student1@teammates.tmt",
-      "recipient": "student1@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Student 1 self feedback."
       },
-      "questionId": "00000000-0000-4000-8000-000000000801",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000801"
     }
   },
   "feedbackResponseComments": {
