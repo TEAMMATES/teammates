@@ -87,9 +87,7 @@ public final class FeedbackSessionsLogic {
      * Gets all feedback sessions of a course, except those that are soft-deleted.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {
-        return fsDb.getFeedbackSessionEntitiesForCourse(courseId).stream()
-                .filter(fs -> fs.getDeletedAt() == null)
-                .collect(Collectors.toList());
+        return fsDb.getFeedbackSessionsForCourses(List.of(courseId));
     }
 
     /**
@@ -103,9 +101,7 @@ public final class FeedbackSessionsLogic {
      * Gets all feedback sessions of a course started after time, except those that are soft-deleted.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourseStartingAfter(String courseId, Instant after) {
-        return fsDb.getFeedbackSessionEntitiesForCourseStartingAfter(courseId, after).stream()
-                .filter(session -> session.getDeletedAt() == null)
-                .collect(Collectors.toList());
+        return fsDb.getFeedbackSessionsForCourseStartingAfter(courseId, after);
     }
 
     /**
