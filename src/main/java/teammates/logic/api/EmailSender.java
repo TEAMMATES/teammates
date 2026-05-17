@@ -37,10 +37,6 @@ public class EmailSender {
         }
     }
 
-    /**
-     * FOR TESTING ONLY.
-     * Allows injecting a mocked service to bypass the Config-driven Singleton.
-     */
     EmailSender(EmailSenderService service) {
         this.service = service;
     }
