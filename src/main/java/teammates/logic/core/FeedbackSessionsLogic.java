@@ -87,7 +87,7 @@ public final class FeedbackSessionsLogic {
      * Gets all feedback sessions of a course, except those that are soft-deleted.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {
-        return fsDb.getFeedbackSessionsForCourses(List.of(courseId));
+        return fsDb.getFeedbackSessionsForCourse(courseId);
     }
 
     /**

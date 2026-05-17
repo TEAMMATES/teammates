@@ -157,6 +157,25 @@ public final class FeedbackSessionsDb {
     }
 
     /**
+     * Gets non-soft-deleted feedback sessions for a given {@code courseId}.
+     * Includes sessions from soft-deleted courses.
+     */
+    public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {
+        assert courseId != null;
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<FeedbackSession> cq = cb.createQuery(FeedbackSession.class);
+        Root<FeedbackSession> root = cq.from(FeedbackSession.class);
+        Join<FeedbackSession, Course> courseJoin = root.join("course");
+        cq.select(root).where(cb.and(
+                cb.equal(courseJoin.get("id"), courseId),
+                cb.isNull(root.get("deletedAt"))
+        ));
+
+        return HibernateUtil.createQuery(cq).getResultList();
+    }
+
+    /**
      * Gets feedback sessions for a given {@code courseId} that start after {@code after}.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourseStartingAfter(String courseId, Instant after) {
@@ -171,8 +190,7 @@ public final class FeedbackSessionsDb {
                 .where(cb.and(
                     cb.greaterThanOrEqualTo(root.get("startTime"), after),
                     cb.equal(courseJoin.get("id"), courseId),
-                    cb.isNull(root.get("deletedAt")),
-                    cb.isNull(courseJoin.get("deletedAt"))));
+                    cb.isNull(root.get("deletedAt"))));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }

@@ -103,7 +103,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         FeedbackSession session2 = getTypicalFeedbackSessionForCourse(course);
         List<FeedbackSession> sessions = List.of(session1, session2);
 
-        when(fsDb.getFeedbackSessionsForCourses(List.of(course.getId()))).thenReturn(sessions);
+        when(fsDb.getFeedbackSessionsForCourse(course.getId())).thenReturn(sessions);
 
         List<FeedbackSession> result = fsLogic.getFeedbackSessionsForCourse(course.getId());
 
@@ -117,7 +117,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
     public void testGetFeedbackSessionsForCourse_noSessions_returnsEmptyList() {
         String courseId = "non-existent-course";
 
-        when(fsDb.getFeedbackSessionsForCourses(List.of(courseId))).thenReturn(new ArrayList<>());
+        when(fsDb.getFeedbackSessionsForCourse(courseId)).thenReturn(new ArrayList<>());
 
         List<FeedbackSession> result = fsLogic.getFeedbackSessionsForCourse(courseId);
 
