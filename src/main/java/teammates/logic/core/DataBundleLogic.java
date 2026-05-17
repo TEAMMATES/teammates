@@ -23,6 +23,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -151,11 +152,30 @@ public final class DataBundleLogic {
             response.setId(UUID.randomUUID());
             responseMap.put(placeholderId, response);
             FeedbackQuestion fq = questionMap.get(response.getQuestionId());
-            Section giverSection = sectionsMap.get(response.getGiverSectionId());
-            Section recipientSection = response.getRecipientSectionId() != null
-                    ? sectionsMap.get(response.getRecipientSectionId()) : null;
-            response.setGiverSection(giverSection);
-            response.setRecipientSection(recipientSection);
+            ResponseGiver giver = response.getGiver();
+            if (giver != null) {
+                if (giver.getGiverTeamId() != null) {
+                    Team team = teamsMap.get(giver.getGiverTeamId());
+                    response.setGiver(new ResponseGiver(team));
+                } else if (giver.getGiverUserId() != null) {
+                    User user = usersMap.get(giver.getGiverUserId());
+                    response.setGiver(new ResponseGiver(user));
+                }
+            }
+
+            ResponseRecipient recipient = response.getRecipient();
+            if (recipient != null) {
+                if (recipient.isRecipientTeam()) {
+                    Team team = teamsMap.get(recipient.getRecipientTeamId());
+                    response.setRecipient(new ResponseRecipient(team));
+                } else if (recipient.isRecipientUser()) {
+                    User user = usersMap.get(recipient.getRecipientUserId());
+                    response.setRecipient(new ResponseRecipient(user));
+                } else if (recipient.isNoSpecificRecipient()) {
+                    response.setRecipient(new ResponseRecipient());
+                }
+            }
+
             fq.addFeedbackResponse(response);
         }
 

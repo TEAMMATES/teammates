@@ -1497,20 +1497,6 @@ public class Logic {
     }
 
     /**
-     * Gets all feedback responses from a giver for a question.
-     */
-    public List<FeedbackResponse> getFeedbackResponsesFromGiverForCourse(String courseId, String giverEmail) {
-        return feedbackResponsesLogic.getFeedbackResponsesFromGiverForCourse(courseId, giverEmail);
-    }
-
-    /**
-     * Gets all feedback responses for a recipient for a course.
-     */
-    public List<FeedbackResponse> getFeedbackResponsesForRecipientForCourse(String courseId, String recipientEmail) {
-        return feedbackResponsesLogic.getFeedbackResponsesForRecipientForCourse(courseId, recipientEmail);
-    }
-
-    /**
      * Updates a feedback question by {@code FeedbackQuestionUpdateRequest}.
      *
      * <p>

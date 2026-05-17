@@ -79,9 +79,11 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
             }
 
             FeedbackResponse response = comment.getFeedbackResponse();
-            gateKeeper.verifyAccessible(instructor, session, response.getGiverSection().getName(),
+            ResponseGiver giver = response.getGiver();
+            String sectionName = giver.getSectionName();
+            gateKeeper.verifyAccessible(instructor, session, sectionName,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-            gateKeeper.verifyAccessible(instructor, session, response.getRecipientSection().getName(),
+            gateKeeper.verifyAccessible(instructor, session, sectionName,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
             break;
         default:

@@ -36,8 +36,8 @@ public class FeedbackResponseData extends ApiOutput {
 
     public FeedbackResponseData(FeedbackResponse feedbackResponse) {
         this.feedbackResponseId = feedbackResponse.getId();
-        this.giverIdentifier = feedbackResponse.getGiver();
-        this.recipientIdentifier = feedbackResponse.getRecipient();
+        this.giverIdentifier = feedbackResponse.getGiver().getIdentifier();
+        this.recipientIdentifier = feedbackResponse.getRecipient().getIdentifier();
         this.responseDetails = feedbackResponse.getFeedbackResponseDetailsCopy();
     }
 

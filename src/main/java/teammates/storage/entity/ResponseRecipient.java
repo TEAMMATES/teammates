@@ -36,7 +36,7 @@ public class ResponseRecipient {
     @JoinColumn(name = "recipientTeamId")
     private Team recipientTeam;
 
-    protected ResponseRecipient() {
+    public ResponseRecipient() {
         setNoSpecificRecipient();
     }
 
@@ -93,6 +93,10 @@ public class ResponseRecipient {
         return recipientTeam;
     }
 
+    public ResponseRecipientType getRecipientType() {
+        return recipientType;
+    }
+
     /**
      * Sets the recipient team.
      */
@@ -104,6 +108,40 @@ public class ResponseRecipient {
             this.recipientUser = null;
             this.recipientUserId = null;
         }
+    }
+
+    /**
+     * Gets the team name of the recipient.
+     * If the recipient is an instructor, returns the instructor team name.
+     * If the recipient is NO_SPECIFIC_RECIPIENT, returns an empty string.
+     */
+    public String getTeamName() {
+        if (recipientType == ResponseRecipientType.TEAM) {
+            return recipientTeam.getName();
+        }
+        if (recipientUser instanceof Student student) {
+            return student.getTeamName();
+        }
+
+        if (recipientUser instanceof Instructor) {
+            return Const.USER_TEAM_FOR_INSTRUCTOR;
+        }
+
+        return "";
+    }
+
+    /**
+     * Gets the section name of the giver. If the giver is an instructor, returns the default section name.
+     */
+    public String getSectionName() {
+        if (recipientType == ResponseRecipientType.TEAM) {
+            return recipientTeam.getSection().getName();
+        }
+        if (recipientUser instanceof Student student) {
+            return student.getSectionName();
+        }
+        
+        return Const.DEFAULT_SECTION;
     }
 
     public boolean isNoSpecificRecipient() {
@@ -130,7 +168,7 @@ public class ResponseRecipient {
             return recipientUser == null ? "Unknown User" : recipientUser.getEmail();
         case NO_SPECIFIC_RECIPIENT:
         default:
-            return Const.USER_NOBODY_TEXT;
+            return Const.GENERAL_QUESTION;
         }
     }
 
@@ -146,6 +184,23 @@ public class ResponseRecipient {
         case NO_SPECIFIC_RECIPIENT:
         default:
             return Const.USER_NOBODY_TEXT;
+        }
+    }
+
+    /**
+     * Formats the recipient type as a singular noun.
+     */
+    public String toSingularFormString() {
+        switch (recipientType) {
+        case TEAM:
+            return "team";
+        case STUDENT:
+            return "student";
+        case INSTRUCTOR:
+            return "instructor";
+        case NO_SPECIFIC_RECIPIENT:
+        default:
+            return "no specific recipient";
         }
     }
 

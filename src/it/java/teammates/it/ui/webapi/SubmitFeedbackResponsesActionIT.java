@@ -288,8 +288,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     }
 
     private void validateDatabaseWithRecipientEmails(FeedbackSession session, FeedbackQuestion feedbackQuestion,
-            String giverEmail, List<String> recipientEmails) {
-
+            String giverEmail, List<String> recipientEmails) {        
         for (String recipientEmail : recipientEmails) {
             List<FeedbackResponse> feedbackResponses =
                     logic.getFeedbackResponsesFromGiverForCourse(session.getCourseId(), giverEmail)

@@ -20,6 +20,7 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
@@ -171,19 +172,19 @@ public final class FeedbackResponseCommentsLogic {
                 relatedQuestion.getRecipientType() == QuestionRecipientType.TEAMS
                 && checkIsResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                               ViewerType.RECEIVER)
-                && response.getRecipient().equals(student.getTeamName());
+                && response.getRecipient().getRecipientTeam().equals(student.getTeam());
 
         boolean isUserInResponseGiverTeamAndRelatedResponseCommentVisibleToGiversTeamMembers =
                 (relatedQuestion.getGiverType() == QuestionGiverType.TEAMS
                 || checkIsResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                               ViewerType.OWN_TEAM_MEMBERS))
-                && (studentsEmailInTeam.contains(response.getGiver())
-                        || student.getTeamName().equals(response.getGiver()));
+                && (studentsEmailInTeam.contains(response.getGiver().getIdentifier())
+                        || student.getTeam().equals(response.getGiver().getGiverTeam()));
 
         boolean isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipientsTeamMembers =
                 checkIsResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                            ViewerType.RECEIVER_TEAM_MEMBERS)
-                && studentsEmailInTeam.contains(response.getRecipient());
+                && studentsEmailInTeam.contains(response.getRecipient().getIdentifier());
 
         return isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipients
                 || isUserInResponseGiverTeamAndRelatedResponseCommentVisibleToGiversTeamMembers
@@ -200,12 +201,12 @@ public final class FeedbackResponseCommentsLogic {
                                                                ViewerType.INSTRUCTORS);
 
         boolean isUserResponseRecipientAndRelatedResponseCommentVisibleToRecipients =
-                SanitizationHelper.areEmailsEqual(response.getRecipient(), user.getEmail())
+                Objects.equals(response.getRecipient().getRecipientUser(), user)
                         && checkIsResponseCommentVisibleTo(relatedQuestion,
                         relatedComment, ViewerType.RECEIVER);
 
         boolean isUserResponseGiverAndRelatedResponseCommentVisibleToGivers =
-                SanitizationHelper.areEmailsEqual(response.getGiver(), user.getEmail()) && isVisibleToGiver;
+                Objects.equals(response.getGiver().getGiverUser(), user) && isVisibleToGiver;
 
         boolean isUserRelatedResponseCommentGiver = false;
         ResponseGiver commentGiver = relatedComment.getGiver();
@@ -240,22 +241,21 @@ public final class FeedbackResponseCommentsLogic {
     /**
      * Returns true if the comment's giver name is visible to certain user.
      */
-    public boolean checkIsNameVisibleToUser(FeedbackResponseComment comment, FeedbackResponse response,
-                                   String userEmail, CourseRoster roster) {
+    public boolean checkIsNameVisibleToUser(FeedbackResponseComment comment, FeedbackResponse response, User user) {
         if (comment.getIsVisibilityFollowingFeedbackQuestion()) {
             return true;
         }
 
         //comment giver can always see
         ResponseGiver commentGiver = comment.getGiver();
-        if (Objects.equals(userEmail, commentGiver.getIdentifier())) {
+        if (Objects.equals(user, commentGiver.getGiverUser())) {
             return true;
         }
 
         List<ViewerType> showNameTo = comment.getShowGiverNameTo();
         assert showNameTo != null : "showNameTo should not be null if isVisibilityFollowingFeedbackQuestion is false";
 
-        return checkIsFeedbackParticipantNameVisibleToUser(response, userEmail, roster, showNameTo);
+        return checkIsFeedbackGiverNameVisibleToUser(response, user, showNameTo);
     }
 
     private void validateFeedbackResponseComment(FeedbackResponseComment feedbackResponseComment)
@@ -265,49 +265,39 @@ public final class FeedbackResponseCommentsLogic {
         }
     }
 
-    private boolean checkIsFeedbackParticipantNameVisibleToUser(FeedbackResponse response,
-            String userEmail, CourseRoster roster, List<ViewerType> showNameTo) {
-        String responseGiverTeam = "giverTeam";
-        if (roster.getStudentForEmail(response.getGiver()) != null) {
-            responseGiverTeam = roster.getStudentForEmail(response.getGiver()).getTeamName();
-        }
-        String responseRecipientTeam = "recipientTeam";
-        if (roster.getStudentForEmail(response.getRecipient()) != null) {
-            responseRecipientTeam = roster.getStudentForEmail(response.getRecipient()).getTeamName();
-        }
-        String currentUserTeam = "currentUserTeam";
-        if (roster.getStudentForEmail(userEmail) != null) {
-            currentUserTeam = roster.getStudentForEmail(userEmail).getTeamName();
-        }
+    private boolean checkIsFeedbackGiverNameVisibleToUser(FeedbackResponse response,
+            User user, List<ViewerType> showNameTo) {
+        ResponseGiver responseGiver = response.getGiver();
+        ResponseRecipient responseRecipient = response.getRecipient();
         for (ViewerType type : showNameTo) {
             switch (type) {
             case INSTRUCTORS:
-                if (roster.getInstructorForEmail(userEmail) != null) {
+                if (user instanceof Instructor) {
                     return true;
                 }
                 break;
             case OWN_TEAM_MEMBERS:
-                if (responseGiverTeam.equals(currentUserTeam)) {
+                if (user instanceof Student student &&  student.getTeam().equals(responseGiver.getGiverTeam())) {
                     return true;
                 }
                 break;
             case RECEIVER:
-                if (SanitizationHelper.areEmailsEqual(userEmail, response.getRecipient())) {
+                if (user.equals(responseRecipient.getRecipientUser())) {
                     return true;
                 }
                 break;
             case RECEIVER_TEAM_MEMBERS:
-                if (responseRecipientTeam.equals(currentUserTeam)) {
+                if (user instanceof Student student &&  student.getTeam().equals(responseRecipient.getRecipientTeam())) {
                     return true;
                 }
                 break;
             case STUDENTS:
-                if (roster.getStudentForEmail(userEmail) != null) {
+                if (user instanceof Student) {
                     return true;
                 }
                 break;
             case GIVER:
-                if (SanitizationHelper.areEmailsEqual(userEmail, response.getGiver())) {
+                if (user.equals(responseGiver.getGiverUser())) {
                     return true;
                 }
                 break;

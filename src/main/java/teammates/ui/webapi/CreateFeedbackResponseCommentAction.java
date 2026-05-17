@@ -62,7 +62,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             verifyNotPreview();
 
             checkAccessControlForStudentFeedbackSubmission(student, session);
-            verifyResponseOwnershipForStudent(student, feedbackResponse, feedbackQuestion);
+            verifyResponseOwnershipForStudent(student, feedbackResponse);
             break;
         case INSTRUCTOR_SUBMISSION:
             Instructor instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
@@ -81,9 +81,11 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
         case INSTRUCTOR_RESULT:
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
             Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
-            gateKeeper.verifyAccessible(instructor, session, feedbackResponse.getGiverSection().getName(),
+            ResponseGiver giver = feedbackResponse.getGiver();
+            String sectionName = giver.getSectionName();
+            gateKeeper.verifyAccessible(instructor, session, sectionName,
                     Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
-            gateKeeper.verifyAccessible(instructor, session, feedbackResponse.getRecipientSection().getName(),
+            gateKeeper.verifyAccessible(instructor, session, sectionName,
                     Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
             if (!feedbackQuestion.getQuestionDetailsCopy().isInstructorCommentsOnResponsesAllowed()) {
                 throw new InvalidHttpParameterException("Invalid question type for instructor comment");

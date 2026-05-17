@@ -2,15 +2,12 @@ package teammates.ui.webapi;
 
 import java.time.Instant;
 
-import teammates.common.datatransfer.participanttypes.QuestionGiverType;
-import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -241,54 +238,6 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         if (StringHelper.isEmpty(moderatedPerson) && !(feedbackSession.isOpenedGivenExtendedDeadline(deadlineExtension)
                 || feedbackSession.isInGracePeriodGivenExtendedDeadline(deadlineExtension))) {
             throw new UnauthorizedAccessException("The feedback session is not available for submission", true);
-        }
-    }
-
-    /**
-     * Gets the section of a recipient.
-     */
-    @SuppressWarnings("PMD.ImplicitSwitchFallThrough") // false positive
-    Section getRecipientSection(
-            String courseId, QuestionGiverType giverType, QuestionRecipientType recipientType,
-            String recipientIdentifier) {
-
-        switch (recipientType) {
-        case SELF:
-            switch (giverType) {
-            case INSTRUCTORS:
-            case SELF:
-                return logic.getDefaultSectionOrCreate(courseId);
-            case TEAMS:
-            case TEAMS_IN_SAME_SECTION:
-                Section section = logic.getSectionByCourseIdAndTeam(courseId, recipientIdentifier);
-                return section == null ? logic.getDefaultSectionOrCreate(courseId) : section;
-            case STUDENTS:
-            case STUDENTS_IN_SAME_SECTION:
-                Student student = logic.getStudentForEmail(courseId, recipientIdentifier);
-                return student == null ? logic.getDefaultSectionOrCreate(courseId) : student.getSection();
-            default:
-                assert false : "Invalid giver type " + giverType + " for recipient type " + recipientType;
-                return null;
-            }
-        case INSTRUCTORS:
-        case NONE:
-            return logic.getDefaultSectionOrCreate(courseId);
-        case TEAMS:
-        case TEAMS_EXCLUDING_SELF:
-        case TEAMS_IN_SAME_SECTION:
-        case OWN_TEAM:
-            Section section = logic.getSectionByCourseIdAndTeam(courseId, recipientIdentifier);
-            return section == null ? logic.getDefaultSectionOrCreate(courseId) : section;
-        case STUDENTS:
-        case STUDENTS_EXCLUDING_SELF:
-        case STUDENTS_IN_SAME_SECTION:
-        case OWN_TEAM_MEMBERS:
-        case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-            Student student = logic.getStudentForEmail(courseId, recipientIdentifier);
-            return student == null ? logic.getDefaultSectionOrCreate(courseId) : student.getSection();
-        default:
-            assert false : "Unknown recipient type " + recipientType;
-            return null;
         }
     }
 }

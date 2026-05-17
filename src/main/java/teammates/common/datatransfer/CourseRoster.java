@@ -21,9 +21,8 @@ public class CourseRoster {
 
     private final Map<String, Student> emailToStudents = new HashMap<>();
     private final Map<String, Instructor> emailToInstructors = new HashMap<>();
+    private final Map<String, Team> teamNameToTeam = new HashMap<>();
     private final Map<String, List<Student>> teamToMembers;
-    private final Map<UUID, Student> idToStudents = new HashMap<>();
-    private final Map<UUID, Instructor> idToInstructors = new HashMap<>();
     private final Map<UUID, Team> teamIdToTeam = new HashMap<>();
 
     public CourseRoster(List<Student> students, List<Instructor> instructors) {
@@ -44,6 +43,14 @@ public class CourseRoster {
         return teamToMembers;
     }
 
+    public Map<String, Team> getTeamNameToTeam() {
+        return teamNameToTeam;
+    }
+
+    public Map<UUID, Team> getTeamIdToTeam() {
+        return teamIdToTeam;
+    }
+
     /**
      * Checks whether a student is in course.
      */
@@ -56,24 +63,6 @@ public class CourseRoster {
      */
     public boolean isTeamInCourse(String teamName) {
         return teamToMembers.containsKey(teamName);
-    }
-
-    /**
-     * Checks whether a student is in team.
-     */
-    public boolean isStudentInTeam(String studentEmail, String targetTeamName) {
-        Student student = emailToStudents.get(normalizeEmail(studentEmail));
-        return student != null && student.getTeamName().equals(targetTeamName);
-    }
-
-    /**
-     * Checks whether two students are in the same team.
-     */
-    public boolean isStudentsInSameTeam(String studentEmail1, String studentEmail2) {
-        Student student1 = emailToStudents.get(normalizeEmail(studentEmail1));
-        Student student2 = emailToStudents.get(normalizeEmail(studentEmail2));
-        return student1 != null && student2 != null
-                && student1.getTeam() != null && student1.getTeam().equals(student2.getTeam());
     }
 
     /**
@@ -97,8 +86,8 @@ public class CourseRoster {
 
         for (Student s : students) {
             emailToStudents.put(normalizeEmail(s.getEmail()), s);
-            idToStudents.put(s.getId(), s);
             teamIdToTeam.put(s.getTeamId(), s.getTeam());
+            teamNameToTeam.put(s.getTeamName(), s.getTeam());
         }
     }
 
@@ -109,7 +98,6 @@ public class CourseRoster {
 
         for (Instructor i : instructors) {
             emailToInstructors.put(normalizeEmail(i.getEmail()), i);
-            idToInstructors.put(i.getId(), i);
         }
     }
 
