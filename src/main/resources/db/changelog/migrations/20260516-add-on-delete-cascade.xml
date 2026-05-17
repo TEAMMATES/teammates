@@ -1,0 +1,298 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="samuelfangjw" id="20260516-add-on-delete-cascade-1">
+        <dropForeignKeyConstraint baseTableName="feedback_sessions"
+            constraintName="FKps2v457frlaaddf272oc18uxd"/>
+
+        <addForeignKeyConstraint baseColumnNames="course_id"
+            baseTableName="feedback_sessions"
+            constraintName="FKps2v457frlaaddf272oc18uxd"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="CASCADE"
+            referencedColumnNames="id"
+            referencedTableName="courses"
+            validate="true"/>
+
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="feedback_sessions"
+                constraintName="FKps2v457frlaaddf272oc18uxd"/>
+
+            <addForeignKeyConstraint baseColumnNames="course_id"
+                baseTableName="feedback_sessions"
+                constraintName="FKps2v457frlaaddf272oc18uxd"
+                deferrable="false"
+                initiallyDeferred="false"
+                referencedColumnNames="id"
+                referencedTableName="courses"
+                validate="true"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="samuelfangjw" id="20260516-add-on-delete-cascade-2">
+        <dropForeignKeyConstraint baseTableName="users"
+            constraintName="FK94cc4mtujq4nljbmtf8ijqf4r"/>
+
+        <addForeignKeyConstraint baseColumnNames="course_id"
+            baseTableName="users"
+            constraintName="FK94cc4mtujq4nljbmtf8ijqf4r"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="CASCADE"
+            referencedColumnNames="id"
+            referencedTableName="courses"
+            validate="true"/>
+
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="users"
+                constraintName="FK94cc4mtujq4nljbmtf8ijqf4r"/>
+
+            <addForeignKeyConstraint baseColumnNames="course_id"
+                baseTableName="users"
+                constraintName="FK94cc4mtujq4nljbmtf8ijqf4r"
+                deferrable="false"
+                initiallyDeferred="false"
+                referencedColumnNames="id"
+                referencedTableName="courses"
+                validate="true"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="samuelfangjw" id="20260516-add-on-delete-cascade-3">
+        <dropForeignKeyConstraint baseTableName="feedback_responses"
+            constraintName="FKnwkhxqbth7aawv49gyt7r39uy"/>
+
+        <addForeignKeyConstraint baseColumnNames="giver_section_id"
+            baseTableName="feedback_responses"
+            constraintName="FKnwkhxqbth7aawv49gyt7r39uy"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="CASCADE"
+            referencedColumnNames="id"
+            referencedTableName="sections"
+            validate="true"/>
+
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="feedback_responses"
+                constraintName="FKnwkhxqbth7aawv49gyt7r39uy"/>
+
+            <addForeignKeyConstraint baseColumnNames="giver_section_id"
+                baseTableName="feedback_responses"
+                constraintName="FKnwkhxqbth7aawv49gyt7r39uy"
+                deferrable="false"
+                initiallyDeferred="false"
+                referencedColumnNames="id"
+                referencedTableName="sections"
+                validate="true"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="samuelfangjw" id="20260516-add-on-delete-cascade-4">
+        <dropForeignKeyConstraint baseTableName="feedback_responses"
+            constraintName="FKk8en84qccfcpkjsj7o11ludkl"/>
+
+        <addForeignKeyConstraint baseColumnNames="recipient_section_id"
+            baseTableName="feedback_responses"
+            constraintName="FKk8en84qccfcpkjsj7o11ludkl"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="CASCADE"
+            referencedColumnNames="id"
+            referencedTableName="sections"
+            validate="true"/>
+
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="feedback_responses"
+                constraintName="FKk8en84qccfcpkjsj7o11ludkl"/>
+
+            <addForeignKeyConstraint baseColumnNames="recipient_section_id"
+                baseTableName="feedback_responses"
+                constraintName="FKk8en84qccfcpkjsj7o11ludkl"
+                deferrable="false"
+                initiallyDeferred="false"
+                referencedColumnNames="id"
+                referencedTableName="sections"
+                validate="true"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="samuelfangjw" id="20260516-add-on-delete-cascade-5">
+        <dropForeignKeyConstraint baseTableName="instructors"
+            constraintName="FK2v0plxm15s3gc28p34856j2t7"/>
+
+        <addForeignKeyConstraint baseColumnNames="id"
+            baseTableName="instructors"
+            constraintName="FK2v0plxm15s3gc28p34856j2t7"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="CASCADE"
+            referencedColumnNames="id"
+            referencedTableName="users"
+            validate="true"/>
+
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="instructors"
+                constraintName="FK2v0plxm15s3gc28p34856j2t7"/>
+
+            <addForeignKeyConstraint baseColumnNames="id"
+                baseTableName="instructors"
+                constraintName="FK2v0plxm15s3gc28p34856j2t7"
+                deferrable="false"
+                initiallyDeferred="false"
+                referencedColumnNames="id"
+                referencedTableName="users"
+                validate="true"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="samuelfangjw" id="20260516-add-on-delete-cascade-6">
+        <dropForeignKeyConstraint baseTableName="students"
+            constraintName="FK7xqmtv7r2eb5axni3jm0a80su"/>
+
+        <addForeignKeyConstraint baseColumnNames="id"
+            baseTableName="students"
+            constraintName="FK7xqmtv7r2eb5axni3jm0a80su"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="CASCADE"
+            referencedColumnNames="id"
+            referencedTableName="users"
+            validate="true"/>
+
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="students"
+                constraintName="FK7xqmtv7r2eb5axni3jm0a80su"/>
+
+            <addForeignKeyConstraint baseColumnNames="id"
+                baseTableName="students"
+                constraintName="FK7xqmtv7r2eb5axni3jm0a80su"
+                deferrable="false"
+                initiallyDeferred="false"
+                referencedColumnNames="id"
+                referencedTableName="users"
+                validate="true"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="samuelfangjw" id="20260516-add-on-delete-cascade-7">
+        <dropForeignKeyConstraint baseTableName="feedback_responses"
+            constraintName="FKsj5g8bgffopcarvqp3onlutvc"/>
+
+        <addForeignKeyConstraint baseColumnNames="question_id"
+            baseTableName="feedback_responses"
+            constraintName="FKsj5g8bgffopcarvqp3onlutvc"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="CASCADE"
+            referencedColumnNames="id"
+            referencedTableName="feedback_questions"
+            validate="true"/>
+
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="feedback_responses"
+                constraintName="FKsj5g8bgffopcarvqp3onlutvc"/>
+
+            <addForeignKeyConstraint baseColumnNames="question_id"
+                baseTableName="feedback_responses"
+                constraintName="FKsj5g8bgffopcarvqp3onlutvc"
+                deferrable="false"
+                initiallyDeferred="false"
+                referencedColumnNames="id"
+                referencedTableName="feedback_questions"
+                validate="true"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="samuelfangjw" id="20260516-add-on-delete-cascade-8">
+        <dropForeignKeyConstraint baseTableName="sections"
+            constraintName="FK7ty9cevpq04d90ohtso1q8312"/>
+
+        <addForeignKeyConstraint baseColumnNames="course_id"
+            baseTableName="sections"
+            constraintName="FK7ty9cevpq04d90ohtso1q8312"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="CASCADE"
+            referencedColumnNames="id"
+            referencedTableName="courses"
+            validate="true"/>
+
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="sections"
+                constraintName="FK7ty9cevpq04d90ohtso1q8312"/>
+
+            <addForeignKeyConstraint baseColumnNames="course_id"
+                baseTableName="sections"
+                constraintName="FK7ty9cevpq04d90ohtso1q8312"
+                deferrable="false"
+                initiallyDeferred="false"
+                referencedColumnNames="id"
+                referencedTableName="courses"
+                validate="true"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="samuelfangjw" id="20260516-add-on-delete-cascade-9">
+        <dropForeignKeyConstraint baseTableName="users"
+            constraintName="FKfm8rm8ks0kgj4fhlmmljkj17x"/>
+
+        <addForeignKeyConstraint baseColumnNames="account_id"
+            baseTableName="users"
+            constraintName="FKfm8rm8ks0kgj4fhlmmljkj17x"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="SET NULL"
+            referencedColumnNames="id"
+            referencedTableName="accounts"
+            validate="true"/>
+
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="users"
+                constraintName="FKfm8rm8ks0kgj4fhlmmljkj17x"/>
+
+            <addForeignKeyConstraint baseColumnNames="account_id"
+                baseTableName="users"
+                constraintName="FKfm8rm8ks0kgj4fhlmmljkj17x"
+                deferrable="false"
+                initiallyDeferred="false"
+                referencedColumnNames="id"
+                referencedTableName="accounts"
+                validate="true"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="samuelfangjw" id="20260516-add-on-delete-cascade-10">
+        <dropForeignKeyConstraint baseTableName="students"
+            constraintName="FKjgyxg2x86o4me9gr70elinthr"/>
+
+        <addForeignKeyConstraint baseColumnNames="team_id"
+            baseTableName="students"
+            constraintName="FKjgyxg2x86o4me9gr70elinthr"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="CASCADE"
+            referencedColumnNames="id"
+            referencedTableName="teams"
+            validate="true"/>
+
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="students"
+                constraintName="FKjgyxg2x86o4me9gr70elinthr"/>
+
+            <addForeignKeyConstraint baseColumnNames="team_id"
+                baseTableName="students"
+                constraintName="FKjgyxg2x86o4me9gr70elinthr"
+                deferrable="false"
+                initiallyDeferred="false"
+                referencedColumnNames="id"
+                referencedTableName="teams"
+                validate="true"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

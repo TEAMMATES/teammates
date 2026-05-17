@@ -877,12 +877,10 @@
   "feedbackResponseComments": {
     "comment1ToResponse1ForQ1": {
       "giver": {
-        "giverType": "INSTRUCTOR",
-        "giverId": "00000000-0000-4000-8000-000000000501"
+        "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "lastEditedBy": {
-        "giverType": "INSTRUCTOR",
-        "giverId": "00000000-0000-4000-8000-000000000501"
+        "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Instructor 1 comment to student 1 self feedback",
       "isVisibilityFollowingFeedbackQuestion": false,
@@ -893,12 +891,10 @@
     },
     "comment2ToResponse1ForQ1": {
       "giver": {
-        "giverType": "STUDENT",
-        "giverId": "00000000-0000-4000-8000-000000000601"
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
       },
       "lastEditedBy": {
-        "giverType": "STUDENT",
-        "giverId": "00000000-0000-4000-8000-000000000601"
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
       },
       "commentText": "Student 1 comment to student 1 self feedback",
       "isVisibilityFollowingFeedbackQuestion": true,
@@ -909,12 +905,10 @@
     },
     "comment2ToResponse2ForQ1": {
       "giver": {
-        "giverType": "INSTRUCTOR",
-        "giverId": "00000000-0000-4000-8000-000000000502"
+        "giverUserId": "00000000-0000-4000-8000-000000000502"
       },
       "lastEditedBy": {
-        "giverType": "INSTRUCTOR",
-        "giverId": "00000000-0000-4000-8000-000000000502"
+        "giverUserId": "00000000-0000-4000-8000-000000000502"
       },
       "commentText": "Instructor 2 comment to student 2 self feedback",
       "isVisibilityFollowingFeedbackQuestion": false,
@@ -925,12 +919,10 @@
     },
     "comment1ToResponse1ForQ2s": {
       "giver": {
-        "giverType": "INSTRUCTOR",
-        "giverId": "00000000-0000-4000-8000-000000000502"
+        "giverUserId": "00000000-0000-4000-8000-000000000502"
       },
       "lastEditedBy": {
-        "giverType": "INSTRUCTOR",
-        "giverId": "00000000-0000-4000-8000-000000000502"
+        "giverUserId": "00000000-0000-4000-8000-000000000502"
       },
       "commentText": "Instructor 2 comment to student 2 self feedback",
       "isVisibilityFollowingFeedbackQuestion": false,
@@ -941,12 +933,10 @@
     },
     "comment1ToResponse1ForQ3": {
       "giver": {
-        "giverType": "INSTRUCTOR",
-        "giverId": "00000000-0000-4000-8000-000000000501"
+        "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "lastEditedBy": {
-        "giverType": "INSTRUCTOR",
-        "giverId": "00000000-0000-4000-8000-000000000501"
+        "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Instructor 1 comment to student 1 self feedback",
       "isVisibilityFollowingFeedbackQuestion": false,

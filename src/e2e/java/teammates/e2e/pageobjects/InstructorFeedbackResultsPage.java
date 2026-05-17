@@ -17,7 +17,6 @@ import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackConstantSumResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
@@ -33,7 +32,6 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Student;
 import teammates.test.ThreadHelper;
 
@@ -502,7 +500,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
                 students);
         WebElement responseRow = getResponseRow(questionPanel, giverTeam, giverName, recipientTeam, recipientName);
 
-        verifyResponseRowComment(responseRow, comment, instructors, students);
+        verifyResponseRowComment(responseRow, comment);
     }
 
     public void verifyGqrViewComment(FeedbackQuestion question, FeedbackResponseComment comment,
@@ -520,7 +518,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
                 students);
         WebElement responseRow = getResponseRow(questionPanel, recipientTeam, recipientName);
 
-        verifyResponseRowComment(responseRow, comment, instructors, students);
+        verifyResponseRowComment(responseRow, comment);
     }
 
     public void verifyRqgViewComment(FeedbackQuestion question, FeedbackResponseComment comment,
@@ -538,7 +536,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         String giverNameAndEmail = getNameAndEmail(question.getGiverType(), response.getGiver(), instructors, students);
         WebElement responseRow = getResponseRow(questionPanel, giverTeam, giverNameAndEmail);
 
-        verifyResponseRowComment(responseRow, comment, instructors, students);
+        verifyResponseRowComment(responseRow, comment);
     }
 
     public void verifyGrqViewComment(FeedbackQuestion question, FeedbackResponseComment comment,
@@ -556,7 +554,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         String recipientName = getName(recipientType, response.getRecipient(), instructors, students);
 
         WebElement groupedResponses = getGroupedResponses(userPanel, recipientName, recipientTeam, true);
-        verifyGroupedResponseComment(groupedResponses, question.getQuestionNumber(), comment, instructors, students);
+        verifyGroupedResponseComment(groupedResponses, question.getQuestionNumber(), comment);
     }
 
     public void verifyRgqViewComment(FeedbackQuestion question, FeedbackResponseComment comment,
@@ -574,28 +572,24 @@ public class InstructorFeedbackResultsPage extends AppPage {
         String giverName = getName(giverType, response.getGiver(), instructors, students);
 
         WebElement groupedResponses = getGroupedResponses(userPanel, giverName, giverTeam, false);
-        verifyGroupedResponseComment(groupedResponses, question.getQuestionNumber(), comment, instructors, students);
+        verifyGroupedResponseComment(groupedResponses, question.getQuestionNumber(), comment);
     }
 
-    private void verifyResponseRowComment(WebElement responseRow, FeedbackResponseComment comment,
-                                          Collection<Instructor> instructors,
-                                          Collection<Student> students) {
+    private void verifyResponseRowComment(WebElement responseRow, FeedbackResponseComment comment) {
         click(responseRow.findElement(By.id("btn-add-comment")));
         WebElement commentModal = waitForElementPresence(By.className("modal-body"));
 
-        String editor = getCommentParticipantName(comment.getLastEditedBy(), instructors, students);
-        String commentGiver = getCommentParticipantName(comment.getGiver(), instructors, students);
+        String editor = comment.getLastEditedBy().getDisplayName();
+        String commentGiver = comment.getGiver().getDisplayName();
         verifyCommentDetails(commentModal, commentGiver, editor, comment.getCommentText(), true);
     }
 
     private void verifyGroupedResponseComment(WebElement groupedResponses, int qnNum,
-                                              FeedbackResponseComment comment,
-                                              Collection<Instructor> instructors,
-                                              Collection<Student> students) {
+                                              FeedbackResponseComment comment) {
         WebElement questionPanel = getQuestionPanel(groupedResponses, qnNum);
 
-        String editor = getCommentParticipantName(comment.getLastEditedBy(), instructors, students);
-        String commentGiver = getCommentParticipantName(comment.getGiver(), instructors, students);
+        String editor = comment.getLastEditedBy().getDisplayName();
+        String commentGiver = comment.getGiver().getDisplayName();
         verifyCommentDetails(questionPanel, commentGiver, editor, comment.getCommentText(), false);
     }
 
@@ -1335,32 +1329,5 @@ public class InstructorFeedbackResultsPage extends AppPage {
         }
 
         return name;
-    }
-
-    private String getCommentParticipantName(ResponseGiver participant,
-                                             Collection<Instructor> instructors,
-                                             Collection<Student> students) {
-        if (participant == null) {
-            return "";
-        }
-        if (participant.getGiverType() == ResponseGiverType.TEAM) {
-            return students.stream()
-                    .filter(student -> student.getTeamId().equals(participant.getGiverId()))
-                    .findFirst()
-                    .map(Student::getTeamName)
-                    .orElse("");
-        } else if (participant.getGiverType() == ResponseGiverType.INSTRUCTOR) {
-            return instructors.stream()
-                    .filter(instructor -> instructor.getId().equals(participant.getGiverId()))
-                    .findFirst()
-                    .map(Instructor::getName)
-                    .orElse("");
-        } else {
-            return students.stream()
-                    .filter(student -> student.getId().equals(participant.getGiverId()))
-                    .findFirst()
-                    .map(Student::getName)
-                    .orElse("");
-        }
     }
 }

@@ -6,7 +6,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.FeedbackResponse;
@@ -62,8 +61,7 @@ public class CreateFeedbackResponseCommentActionIT extends BaseActionIT<CreateFe
         FeedbackResponseComment comment =
                 logic.getFeedbackResponseCommentForResponseFromParticipant(fr.getId());
         assertEquals(comment.getCommentText(), "Student submission comment");
-        assertEquals(ResponseGiverType.STUDENT, comment.getGiver().getGiverType());
-        assertEquals(student.getId(), comment.getGiver().getGiverId());
+        assertEquals(student, comment.getGiver().getGiverUser());
         assertTrue(comment.getIsCommentFromFeedbackParticipant());
         assertTrue(comment.getIsVisibilityFollowingFeedbackQuestion());
     }

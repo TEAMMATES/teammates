@@ -205,12 +205,10 @@
   "feedbackResponseComments": {
     "comment1ToResponse1ForQ1": {
       "giver": {
-        "giverType": "INSTRUCTOR",
-        "giverId": "00000000-0000-4000-8000-000000000501"
+        "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "lastEditedBy": {
-        "giverType": "INSTRUCTOR",
-        "giverId": "00000000-0000-4000-8000-000000000501"
+        "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Instructor 1 comment to student 1 self feedback",
       "isVisibilityFollowingFeedbackQuestion": false,

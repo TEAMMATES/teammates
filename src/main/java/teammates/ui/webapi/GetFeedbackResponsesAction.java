@@ -102,9 +102,7 @@ public class GetFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             FeedbackResponseComment comment =
                     logic.getFeedbackResponseCommentForResponseFromParticipant(response.getId());
             if (comment != null) {
-                data.setGiverComment(new FeedbackResponseCommentData(comment,
-                        response.getGiver(),
-                        response.getGiver()));
+                data.setGiverComment(new FeedbackResponseCommentData(comment));
             }
             responsesData.add(data);
         });

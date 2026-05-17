@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -18,6 +17,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
@@ -42,19 +43,21 @@ public abstract class FeedbackResponse extends BaseEntity {
     private UUID id;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "questionId")
     private FeedbackQuestion feedbackQuestion;
 
     @Column(insertable = false, updatable = false)
     private UUID questionId;
 
-    @OneToMany(mappedBy = "feedbackResponse", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "feedbackResponse")
     private Set<FeedbackResponseComment> feedbackResponseComments = new HashSet<>();
 
     @Column(nullable = false)
     private String giver;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "giverSectionId")
     private Section giverSection;
 
@@ -65,6 +68,7 @@ public abstract class FeedbackResponse extends BaseEntity {
     private String recipient;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "recipientSectionId")
     private Section recipientSection;
 

@@ -140,10 +140,6 @@ public final class AccountsLogic {
             return;
         }
 
-        List<User> users = usersLogic.getAllUsersByGoogleId(googleId);
-        for (User user : users) {
-            user.setAccount(null);
-        }
         accountsDb.deleteAccount(account);
     }
 

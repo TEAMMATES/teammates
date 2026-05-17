@@ -66,14 +66,14 @@ public class DeleteFeedbackResponseCommentActionIT extends BaseActionIT<DeleteFe
         };
         Instructor instructorWhoGiveComment = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        assertEquals(instructorWhoGiveComment.getId(), frc.getGiver().getGiverId());
+        assertEquals(instructorWhoGiveComment, frc.getGiver().getGiverUser());
         loginAsInstructor(instructorWhoGiveComment.getGoogleId());
         verifyCanAccess(submissionParams);
 
         ______TS("Different instructor of same course cannot delete comment");
 
         Instructor differentInstructorInSameCourse = typicalBundle.instructors.get("instructor2OfCourse1");
-        assertNotEquals(differentInstructorInSameCourse.getId(), frc.getGiver().getGiverId());
+        assertNotEquals(differentInstructorInSameCourse, frc.getGiver().getGiverUser());
         loginAsInstructor(differentInstructorInSameCourse.getGoogleId());
         verifyCannotAccess(submissionParams);
     }

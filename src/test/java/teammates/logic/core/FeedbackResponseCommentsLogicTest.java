@@ -12,13 +12,13 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.entity.FeedbackResponseComment;
+import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
 import teammates.test.BaseTestCase;
 import teammates.ui.output.CommentVisibilityType;
@@ -121,7 +121,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
         FeedbackResponseCommentUpdateRequest updateRequest = new FeedbackResponseCommentUpdateRequest(
                 updatedCommentText, showCommentTo, showGiverNameTo);
         FeedbackResponseComment updatedComment = frcLogic.updateFeedbackResponseComment(TYPICAL_ID, updateRequest,
-                new ResponseGiver(ResponseGiverType.INSTRUCTOR, UUID.randomUUID()));
+                getRandomInstructorGiver());
 
         verify(frcDb, times(1)).getFeedbackResponseComment(TYPICAL_ID);
 
@@ -156,7 +156,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
 
         EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
                 () -> frcLogic.updateFeedbackResponseComment(nonExistentId, updateRequest,
-                        new ResponseGiver(ResponseGiverType.INSTRUCTOR, UUID.randomUUID())
+                        getRandomInstructorGiver()
                 ));
 
         assertEquals("Trying to update a feedback response comment that does not exist.", ex.getMessage());
@@ -166,5 +166,11 @@ public class FeedbackResponseCommentsLogicTest extends BaseTestCase {
         FeedbackResponseComment comment = getTypicalFeedbackResponseComment();
         comment.setId(id);
         return comment;
+    }
+
+    private ResponseGiver getRandomInstructorGiver() {
+        Instructor instructor = getTypicalInstructor();
+        instructor.setId(UUID.randomUUID());
+        return new ResponseGiver(instructor);
     }
 }

@@ -1,13 +1,13 @@
 package teammates.logic.core;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -209,12 +209,12 @@ public final class FeedbackResponseCommentsLogic {
 
         boolean isUserRelatedResponseCommentGiver = false;
         ResponseGiver commentGiver = relatedComment.getGiver();
-        if (commentGiver.getGiverType() == ResponseGiverType.TEAM && user instanceof Student student) {
-            isUserRelatedResponseCommentGiver = student.getTeamId().equals(commentGiver.getGiverId());
-        } else if (commentGiver.getGiverType() == ResponseGiverType.STUDENT && user instanceof Student student) {
-            isUserRelatedResponseCommentGiver = student.getId().equals(commentGiver.getGiverId());
-        } else if (user instanceof Instructor instructor && commentGiver.getGiverType() == ResponseGiverType.INSTRUCTOR) {
-            isUserRelatedResponseCommentGiver = instructor.getId().equals(commentGiver.getGiverId());
+        if (commentGiver.isGiverTeam() && user instanceof Student student) {
+            isUserRelatedResponseCommentGiver = student.getTeamId().equals(commentGiver.getGiverTeamId());
+        } else if (commentGiver.isGiverUser() && user instanceof Student student) {
+            isUserRelatedResponseCommentGiver = student.getId().equals(commentGiver.getGiverUserId());
+        } else if (commentGiver.isGiverUser() && user instanceof Instructor instructor) {
+            isUserRelatedResponseCommentGiver = instructor.getId().equals(commentGiver.getGiverUserId());
         }
 
         boolean isUserStudentAndRelatedResponseCommentVisibleToStudents =
@@ -248,14 +248,7 @@ public final class FeedbackResponseCommentsLogic {
 
         //comment giver can always see
         ResponseGiver commentGiver = comment.getGiver();
-        if (commentGiver != null && commentGiver.getGiverType() == ResponseGiverType.STUDENT
-                && roster.getStudentForEmail(userEmail) != null
-                && roster.getStudentForEmail(userEmail).getId().equals(commentGiver.getGiverId())) {
-            return true;
-        }
-        if (commentGiver != null && commentGiver.getGiverType() == ResponseGiverType.INSTRUCTOR
-                && roster.getInstructorForEmail(userEmail) != null
-                && roster.getInstructorForEmail(userEmail).getId().equals(commentGiver.getGiverId())) {
+        if (Objects.equals(userEmail, commentGiver.getIdentifier())) {
             return true;
         }
 

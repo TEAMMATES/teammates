@@ -71,8 +71,6 @@ public final class UsersLogic {
 
     private FeedbackResponsesLogic feedbackResponsesLogic;
 
-    private DeadlineExtensionsLogic deadlineExtensionsLogic;
-
     private UsersLogic() {
         // prevent initialization
     }
@@ -82,13 +80,11 @@ public final class UsersLogic {
     }
 
     void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic, CoursesLogic coursesLogic,
-                               FeedbackResponsesLogic feedbackResponsesLogic,
-                               DeadlineExtensionsLogic deadlineExtensionsLogic) {
+                               FeedbackResponsesLogic feedbackResponsesLogic) {
         this.usersDb = usersDb;
         this.accountsLogic = accountsLogic;
         this.coursesLogic = coursesLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
-        this.deadlineExtensionsLogic = deadlineExtensionsLogic;
     }
 
     /**
@@ -313,7 +309,6 @@ public final class UsersLogic {
         }
 
         feedbackResponsesLogic.deleteFeedbackResponsesForCourseCascade(courseId, email);
-        deadlineExtensionsLogic.deleteDeadlineExtensionsForUser(instructor);
         deleteUser(instructor);
     }
 
@@ -734,7 +729,6 @@ public final class UsersLogic {
                             student.getCourseId(), student.getTeamName());
         }
 
-        deadlineExtensionsLogic.deleteDeadlineExtensionsForUser(student);
         deleteUser(student);
         feedbackResponsesLogic.updateRankRecipientQuestionResponsesAfterDeletingStudent(courseId);
     }

@@ -92,9 +92,7 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
                 return new JsonResult("Comment not found", HttpStatus.SC_NO_CONTENT);
             }
 
-            String commentGiver = logic.resolveGiver(comment.getGiver());
-            String lastEditedBy = logic.resolveGiver(comment.getLastEditedBy());
-            return new JsonResult(new FeedbackResponseCommentData(comment, commentGiver, lastEditedBy));
+            return new JsonResult(new FeedbackResponseCommentData(comment));
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }

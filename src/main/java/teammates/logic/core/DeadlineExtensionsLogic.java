@@ -207,27 +207,6 @@ public final class DeadlineExtensionsLogic {
         return deadlineExtensionsDb.getDeadlineExtensionsPossiblyNeedingClosingSoonEmail();
     }
 
-    /**
-     * Deletes a user's deadline extensions.
-     */
-    public void deleteDeadlineExtensionsForUser(User user) {
-        String courseId = user.getCourseId();
-        List<FeedbackSession> feedbackSessions = feedbackSessionsLogic.getFeedbackSessionsForCourse(courseId);
-
-        feedbackSessions.forEach(feedbackSession -> {
-            Set<DeadlineExtension> deadlineExtensions = feedbackSession.getDeadlineExtensions();
-
-            deadlineExtensions = deadlineExtensions
-                    .stream()
-                    .filter(deadlineExtension -> deadlineExtension.getUser().equals(user))
-                    .collect(Collectors.toSet());
-
-            for (DeadlineExtension deadlineExtension : deadlineExtensions) {
-                deleteDeadlineExtension(deadlineExtension);
-            }
-        });
-    }
-
     private void validateDeadlineExtension(DeadlineExtension deadlineExtension) throws InvalidParametersException {
         if (!deadlineExtension.isValid()) {
             throw new InvalidParametersException(deadlineExtension.getInvalidityInfo());

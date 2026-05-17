@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -16,8 +15,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.NotificationStyle;
@@ -61,8 +58,7 @@ public class Notification extends BaseEntity {
     @UpdateTimestamp
     private Instant updatedAt;
 
-    @OneToMany(mappedBy = "notification", cascade = CascadeType.REMOVE)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(mappedBy = "notification")
     private Set<ReadNotification> readNotifications = new HashSet<>();
 
     /**

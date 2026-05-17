@@ -10,6 +10,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import teammates.common.datatransfer.UserType;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -29,6 +32,7 @@ public class Student extends User {
     private UUID teamId;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "teamId", nullable = false)
     private Team team;
 

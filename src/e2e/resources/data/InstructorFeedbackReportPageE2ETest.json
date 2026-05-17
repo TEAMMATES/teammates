@@ -469,12 +469,10 @@
     "qn2Comment1": {
       "id": "00000000-0000-4000-8000-000000000971",
       "giver": {
-        "giverType": "INSTRUCTOR",
-        "giverId": "00000000-0000-4000-8000-000000000501"
+        "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "lastEditedBy": {
-        "giverType": "INSTRUCTOR",
-        "giverId": "00000000-0000-4000-8000-000000000501"
+        "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Instructor first comment to Alice",
       "isVisibilityFollowingFeedbackQuestion": false,
@@ -486,12 +484,10 @@
     "qn2Comment2": {
       "id": "00000000-0000-4000-8000-000000000972",
       "giver": {
-        "giverType": "INSTRUCTOR",
-        "giverId": "00000000-0000-4000-8000-000000000501"
+        "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "lastEditedBy": {
-        "giverType": "INSTRUCTOR",
-        "giverId": "00000000-0000-4000-8000-000000000501"
+        "giverUserId": "00000000-0000-4000-8000-000000000501"
       },
       "commentText": "Instructor second comment to Alice",
       "isVisibilityFollowingFeedbackQuestion": false,
@@ -503,12 +499,10 @@
     "qn3Comment1": {
       "id": "00000000-0000-4000-8000-000000000973",
       "giver": {
-        "giverType": "STUDENT",
-        "giverId": "00000000-0000-4000-8000-000000000603"
+        "giverUserId": "00000000-0000-4000-8000-000000000603"
       },
       "lastEditedBy": {
-        "giverType": "STUDENT",
-        "giverId": "00000000-0000-4000-8000-000000000603"
+        "giverUserId": "00000000-0000-4000-8000-000000000603"
       },
       "commentText": "Charlie comment to alice",
       "isVisibilityFollowingFeedbackQuestion": true,

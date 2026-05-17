@@ -795,12 +795,6 @@ export enum QuestionRecipientType {
   NONE = "NONE",
 }
 
-export enum ResponseGiverType {
-  TEAM = "TEAM",
-  STUDENT = "STUDENT",
-  INSTRUCTOR = "INSTRUCTOR",
-}
-
 export enum ResponseVisibleSetting {
   CUSTOM = "CUSTOM",
   AT_VISIBLE = "AT_VISIBLE",

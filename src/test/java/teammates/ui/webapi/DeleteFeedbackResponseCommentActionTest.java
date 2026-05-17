@@ -16,7 +16,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
-import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
@@ -634,7 +633,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     }
 
     private FeedbackResponseComment getTypicalCommentFromStudent() {
-        ResponseGiver giver = new ResponseGiver(ResponseGiverType.STUDENT, typicalStudent.getId());
+        ResponseGiver giver = new ResponseGiver(typicalStudent);
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 giver,
                 "typical comment",
@@ -651,7 +650,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     }
 
     private FeedbackResponseComment getTypicalCommentFromInstructor() {
-        ResponseGiver giver = new ResponseGiver(ResponseGiverType.INSTRUCTOR, typicalInstructor.getId());
+        ResponseGiver giver = new ResponseGiver(typicalInstructor);
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 giver,
                 "typical comment",
@@ -668,7 +667,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     }
 
     private FeedbackResponseComment getTypicalCommentFromInstructorAsParticipant() {
-        ResponseGiver giver = new ResponseGiver(ResponseGiverType.INSTRUCTOR, typicalInstructor.getId());
+        ResponseGiver giver = new ResponseGiver(typicalInstructor);
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 giver,
                 "typical comment",
@@ -692,7 +691,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         typicalFeedbackResponse = FeedbackResponse.makeResponse("Section A", sectionA,
                 "Section B", sectionB, getTypicalFeedbackResponseDetails());
         typicalFeedbackQuestion.addFeedbackResponse(typicalFeedbackResponse);
-        ResponseGiver giver = new ResponseGiver(ResponseGiverType.TEAM, team.getId());
+        ResponseGiver giver = new ResponseGiver(team);
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 giver,
                 "typical comment",

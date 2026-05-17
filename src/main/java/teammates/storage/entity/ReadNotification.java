@@ -12,6 +12,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 /**
  * Represents an association class between Accounts and Notifications.
  * Keeps track of which Notifications have been read by an Account.
@@ -27,6 +30,7 @@ public class ReadNotification extends BaseEntity {
     private UUID id;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
@@ -34,6 +38,7 @@ public class ReadNotification extends BaseEntity {
     private UUID accountId;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "notification_id", nullable = false)
     private Notification notification;
 

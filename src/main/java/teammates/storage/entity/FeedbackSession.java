@@ -9,7 +9,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -42,6 +41,7 @@ public class FeedbackSession extends BaseEntity {
     private String courseId;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "courseId", nullable = false)
     private Course course;
 
@@ -91,12 +91,10 @@ public class FeedbackSession extends BaseEntity {
     @Column(nullable = false)
     private boolean isPublishedEmailSent;
 
-    @OneToMany(mappedBy = "feedbackSession", cascade = CascadeType.REMOVE)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(mappedBy = "feedbackSession")
     private Set<DeadlineExtension> deadlineExtensions = new HashSet<>();
 
-    @OneToMany(mappedBy = "feedbackSession", cascade = CascadeType.REMOVE)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(mappedBy = "feedbackSession")
     private Set<FeedbackQuestion> feedbackQuestions = new HashSet<>();
 
     @UpdateTimestamp

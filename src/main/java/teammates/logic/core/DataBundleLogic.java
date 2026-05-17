@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.JsonUtils;
@@ -233,34 +232,22 @@ public final class DataBundleLogic {
 
             ResponseGiver giver = responseComment.getGiver();
             if (giver != null) {
-                UUID placeholderId = giver.getGiverId();
-                if (giver.getGiverType() == ResponseGiverType.TEAM) {
-                    Team team = teamsMap.get(placeholderId);
-                    if (team != null) {
-                        responseComment.setGiver(new ResponseGiver(ResponseGiverType.TEAM, team.getId()));
-                    }
-                } else {
-                    User user = usersMap.get(placeholderId);
-                    if (user != null) {
-                        responseComment.setGiver(new ResponseGiver(giver.getGiverType(), user.getId()));
-                    }
+                if (giver.getGiverTeamId() != null) {
+                    Team team = teamsMap.get(giver.getGiverTeamId());
+                    responseComment.setGiver(new ResponseGiver(team));
+                } else if (giver.getGiverUserId() != null) {
+                    User user = usersMap.get(giver.getGiverUserId());
+                    responseComment.setGiver(new ResponseGiver(user));
                 }
             }
 
             ResponseGiver lastEditedBy = responseComment.getLastEditedBy();
-            if (lastEditedBy != null) {
-                UUID placeholderId = lastEditedBy.getGiverId();
-                if (lastEditedBy.getGiverType() == ResponseGiverType.TEAM) {
-                    Team team = teamsMap.get(placeholderId);
-                    if (team != null) {
-                        responseComment.setLastEditedBy(new ResponseGiver(ResponseGiverType.TEAM, team.getId()));
-                    }
-                } else {
-                    User user = usersMap.get(placeholderId);
-                    if (user != null) {
-                        responseComment.setLastEditedBy(new ResponseGiver(lastEditedBy.getGiverType(), user.getId()));
-                    }
-                }
+            if (lastEditedBy.getGiverTeamId() != null) {
+                Team team = teamsMap.get(lastEditedBy.getGiverTeamId());
+                responseComment.setLastEditedBy(new ResponseGiver(team));
+            } else if (lastEditedBy.getGiverUserId() != null) {
+                User user = usersMap.get(lastEditedBy.getGiverUserId());
+                responseComment.setLastEditedBy(new ResponseGiver(user));
             } else {
                 responseComment.setLastEditedBy(responseComment.getGiver());
             }
@@ -305,9 +292,9 @@ public final class DataBundleLogic {
         persistEntities(sessions);
         persistEntities(questions);
         persistEntities(responses);
-        persistEntities(responseComments);
         persistEntities(instructors);
         persistEntities(students);
+        persistEntities(responseComments);
         persistEntities(sessionLogs);
         persistEntities(deadlineExtensions);
         persistEntities(readNotifications);
@@ -324,7 +311,7 @@ public final class DataBundleLogic {
         }
 
         dataBundle.courses.values().forEach(course ->
-                coursesLogic.deleteCourseCascade(course.getId())
+                coursesLogic.deleteCourse(course.getId())
         );
         dataBundle.readNotifications.values().forEach(readNotification ->
                 notificationsLogic.deleteReadNotification(readNotification.getId())

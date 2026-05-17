@@ -37,6 +37,7 @@ public class DeadlineExtension extends BaseEntity {
     private User user;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "sessionId", nullable = false)
     private FeedbackSession feedbackSession;
 

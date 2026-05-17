@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -41,7 +40,7 @@ public class Course extends BaseEntity {
     @OneToMany(mappedBy = "course")
     private Set<FeedbackSession> feedbackSessions = new HashSet<>();
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "course")
     private Set<Section> sections = new HashSet<>();
 
     @UpdateTimestamp

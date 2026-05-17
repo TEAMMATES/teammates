@@ -133,7 +133,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         assertEquals(newInstructorName, response.getName());
 
         //remove the new instructor entity that was created
-        logic.deleteCourseCascade("icieat.courseId");
+        logic.deleteCourse("icieat.courseId");
 
         ______TS("Unsuccessful case: test null course id parameter");
 

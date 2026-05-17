@@ -17,7 +17,6 @@ import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
@@ -211,7 +210,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("verify feedback response comments deserialized correctly");
         FeedbackResponseComment actualComment1 = dataBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
-        ResponseGiver commentGiver = new ResponseGiver(ResponseGiverType.INSTRUCTOR, actualInstructor1.getId());
+        ResponseGiver commentGiver = new ResponseGiver(actualInstructor1);
         FeedbackResponseComment expectedComment1 = new FeedbackResponseComment(commentGiver,
                 "Instructor 1 comment to student 1 self feedback", false, false,
                 new ArrayList<>(), new ArrayList<>(), commentGiver);
@@ -285,6 +284,9 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         verifyPresentInDatabase(accountRequest);
 
         dataBundleLogic.removeDataBundle(dataBundle);
+
+        HibernateUtil.flushSession();
+        HibernateUtil.clearSession();
 
         ______TS("verify notification removed correctly");
 

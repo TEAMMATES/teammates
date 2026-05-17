@@ -21,7 +21,6 @@ import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
@@ -161,8 +160,7 @@ public class BaseTestCase {
         FeedbackSession typicalFeedbackSession = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         FeedbackQuestion typicalFeedbackQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
         FeedbackResponse typicalFeedbackResponse = getTypicalFeedbackResponseForQuestion(typicalFeedbackQuestion);
-        ResponseGiver commentGiver = new ResponseGiver(ResponseGiverType.STUDENT,
-                UUID.fromString("00000000-0000-4000-8000-000000000001"));
+        ResponseGiver commentGiver = new ResponseGiver(getTypicalStudent());
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(commentGiver,
                 "typical-comment", true, true, List.of(ViewerType.GIVER, ViewerType.INSTRUCTORS),
                 List.of(ViewerType.RECEIVER, ViewerType.INSTRUCTORS), commentGiver);

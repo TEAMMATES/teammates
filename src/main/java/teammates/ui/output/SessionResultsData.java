@@ -459,10 +459,10 @@ public class SessionResultsData extends ApiOutput {
                 String lastEditorEmail = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
                 String lastEditorName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
                 if (bundle.isCommentGiverVisible(comment)) {
-                    giverEmail = bundle.getRoster().getGiverForResponseGiver(comment.getGiver());
-                    giverName = bundle.getRoster().getInfoForResponseGiver(comment.getGiver()).getName();
-                    lastEditorEmail = bundle.getRoster().getGiverForResponseGiver(comment.getLastEditedBy());
-                    lastEditorName = bundle.getRoster().getInfoForResponseGiver(comment.getLastEditedBy()).getName();
+                    giverEmail = comment.getGiver().getIdentifier();
+                    giverName = comment.getGiver().getDisplayName();
+                    lastEditorEmail = comment.getLastEditedBy().getIdentifier();
+                    lastEditorName = comment.getLastEditedBy().getDisplayName();
                 }
                 outputs.add(CommentOutput.builder(comment)
                         .withCommentGiver(giverEmail)
@@ -751,7 +751,7 @@ public class SessionResultsData extends ApiOutput {
 
         private CommentOutput(FeedbackResponseComment frc) {
             // use builder instead
-            super(frc, null, null);
+            super(frc);
         }
 
         /**

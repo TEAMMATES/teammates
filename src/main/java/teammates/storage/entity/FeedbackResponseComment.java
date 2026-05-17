@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.persistence.AssociationOverride;
+import jakarta.persistence.AssociationOverrides;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
@@ -46,8 +48,20 @@ public class FeedbackResponseComment extends BaseEntity {
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "giverType", column = @Column(name = "lastEditedByType", nullable = false)),
-            @AttributeOverride(name = "giverId", column = @Column(name = "lastEditedById", nullable = false))
+            @AttributeOverride(
+                    name = "giverUserId",
+                    column = @Column(name = "lastEditedByUserId", insertable = false, updatable = false)),
+            @AttributeOverride(
+                    name = "giverTeamId",
+                    column = @Column(name = "lastEditedByTeamId", insertable = false, updatable = false))
+    })
+    @AssociationOverrides({
+            @AssociationOverride(
+                    name = "giverUser",
+                    joinColumns = @JoinColumn(name = "lastEditedByUserId")),
+            @AssociationOverride(
+                    name = "giverTeam",
+                    joinColumns = @JoinColumn(name = "lastEditedByTeamId"))
     })
     private ResponseGiver lastEditedBy;
 
@@ -171,7 +185,13 @@ public class FeedbackResponseComment extends BaseEntity {
         this.updatedAt = updatedAt;
     }
 
+    /**
+     * Gets the last editor of the response comment. If the last editor is not set, returns an empty ResponseGiver.
+     */
     public ResponseGiver getLastEditedBy() {
+        if (lastEditedBy == null) {
+            return new ResponseGiver();
+        }
         return lastEditedBy;
     }
 

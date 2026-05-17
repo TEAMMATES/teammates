@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -36,6 +35,7 @@ public class Section extends BaseEntity {
     private UUID id;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "courseId")
     private Course course;
 
@@ -45,8 +45,7 @@ public class Section extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "section", cascade = CascadeType.REMOVE)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(mappedBy = "section")
     private Set<Team> teams = new HashSet<>();
 
     @UpdateTimestamp

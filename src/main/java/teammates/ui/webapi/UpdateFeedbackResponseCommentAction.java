@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.UUID;
 
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
-import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
@@ -65,8 +64,8 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             checkAccessControlForStudentFeedbackSubmission(student, session);
             gateKeeper.verifyOwnership(feedbackResponseComment,
                     question.getGiverType() == QuestionGiverType.TEAMS
-                            ? new ResponseGiver(ResponseGiverType.TEAM, student.getTeamId())
-                            : new ResponseGiver(ResponseGiverType.STUDENT, student.getId()));
+                            ? new ResponseGiver(student.getTeam())
+                            : new ResponseGiver(student));
             break;
         case INSTRUCTOR_SUBMISSION:
             Instructor instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
@@ -80,8 +79,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             verifyNotPreview();
 
             checkAccessControlForInstructorFeedbackSubmission(instructorAsFeedbackParticipant, session);
-            gateKeeper.verifyOwnership(feedbackResponseComment,
-                    new ResponseGiver(ResponseGiverType.INSTRUCTOR, instructorAsFeedbackParticipant.getId()));
+            gateKeeper.verifyOwnership(feedbackResponseComment, new ResponseGiver(instructorAsFeedbackParticipant));
             break;
         case INSTRUCTOR_RESULT:
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
@@ -89,8 +87,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             if (instructor == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
             }
-            if (feedbackResponseComment.getGiver().equals(
-                    new ResponseGiver(ResponseGiverType.INSTRUCTOR, instructor.getId()))) {
+            if (feedbackResponseComment.getGiver().equals(new ResponseGiver(instructor))) {
                 return;
             }
             gateKeeper.verifyAccessible(instructor, session, response.getGiverSection().getName(),
@@ -126,16 +123,16 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             Student student = getStudentOfCourseFromRequest(courseId);
             FeedbackQuestion question = feedbackResponseComment.getFeedbackResponse().getFeedbackQuestion();
             updater = question.getGiverType() == QuestionGiverType.TEAMS
-                    ? new ResponseGiver(ResponseGiverType.TEAM, student.getTeamId())
-                    : new ResponseGiver(ResponseGiverType.STUDENT, student.getId());
+                    ? new ResponseGiver(student.getTeam())
+                    : new ResponseGiver(student);
             break;
         case INSTRUCTOR_SUBMISSION:
             Instructor instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
-            updater = new ResponseGiver(ResponseGiverType.INSTRUCTOR, instructorAsFeedbackParticipant.getId());
+            updater = new ResponseGiver(instructorAsFeedbackParticipant);
             break;
         case INSTRUCTOR_RESULT:
             Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
-            updater = new ResponseGiver(ResponseGiverType.INSTRUCTOR, instructor.getId());
+            updater = new ResponseGiver(instructor);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
@@ -152,10 +149,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
         try {
             FeedbackResponseComment updatedFeedbackResponseComment =
                     logic.updateFeedbackResponseComment(feedbackResponseCommentId, comment, updater);
-            String commentGiver = logic.resolveGiver(updatedFeedbackResponseComment.getGiver());
-            String lastEditedBy = logic.resolveGiver(updatedFeedbackResponseComment.getLastEditedBy());
-            return new JsonResult(new FeedbackResponseCommentData(
-                    updatedFeedbackResponseComment, commentGiver, lastEditedBy));
+            return new JsonResult(new FeedbackResponseCommentData(updatedFeedbackResponseComment));
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         }

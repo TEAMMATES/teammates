@@ -92,7 +92,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         }
         // Set comment for the first FeedbackResponseData
         feedbackResponseDataListNonNullComments.get(0)
-                .setGiverComment(new FeedbackResponseCommentData(stubFeedbackResponseComment, "test-giver", "test-giver"));
+                .setGiverComment(new FeedbackResponseCommentData(stubFeedbackResponseComment));
         stubFeedbackResponsesDataNonNullComments = new FeedbackResponsesData();
         stubFeedbackResponsesDataNonNullComments.setResponses(feedbackResponseDataListNonNullComments);
 

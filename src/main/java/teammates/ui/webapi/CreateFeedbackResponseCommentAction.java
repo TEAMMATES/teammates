@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.UUID;
 
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
-import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -120,7 +119,6 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
         ResponseGiver giverRg;
         boolean isFromParticipant;
         boolean isFollowingQuestionVisibility;
-        String giver;
 
         switch (intent) {
         case STUDENT_SUBMISSION:
@@ -130,11 +128,8 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
                 throw new EntityNotFoundException("Student does not exist.");
             }
             giverRg = feedbackQuestion.getGiverType() == QuestionGiverType.TEAMS
-                    ? new ResponseGiver(ResponseGiverType.TEAM, student.getTeamId())
-                    : new ResponseGiver(ResponseGiverType.STUDENT, student.getId());
-            giver = feedbackQuestion.getGiverType() == QuestionGiverType.TEAMS
-                    ? student.getTeamName()
-                    : student.getEmail();
+                    ? new ResponseGiver(student.getTeam())
+                    : new ResponseGiver(student);
             isFromParticipant = true;
             isFollowingQuestionVisibility = true;
             break;
@@ -144,17 +139,15 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             if (instructorAsFeedbackParticipant == null) {
                 throw new EntityNotFoundException("Instructor does not exist.");
             }
-            giverRg = new ResponseGiver(ResponseGiverType.INSTRUCTOR, instructorAsFeedbackParticipant.getId());
+            giverRg = new ResponseGiver(instructorAsFeedbackParticipant);
             isFromParticipant = true;
             isFollowingQuestionVisibility = true;
-            giver = instructorAsFeedbackParticipant.getEmail();
             break;
         case INSTRUCTOR_RESULT:
             Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
-            giverRg = new ResponseGiver(ResponseGiverType.INSTRUCTOR, instructor.getId());
+            giverRg = new ResponseGiver(instructor);
             isFromParticipant = false;
             isFollowingQuestionVisibility = false;
-            giver = instructor.getEmail();
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
@@ -167,7 +160,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
         try {
             FeedbackResponseComment createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
             HibernateUtil.flushSession();
-            return new JsonResult(new FeedbackResponseCommentData(createdComment, giver, giver));
+            return new JsonResult(new FeedbackResponseCommentData(createdComment));
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         } catch (EntityAlreadyExistsException e) {

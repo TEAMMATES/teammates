@@ -14,7 +14,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
-import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
@@ -75,7 +74,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         responseForQ1 = getTypicalFeedbackResponseForQuestion(qn1InSession1InCourse1);
         responseForQ2 = getTypicalFeedbackResponseForQuestion(qn2InSession1InCourse1);
 
-        ResponseGiver giverForQ1 = new ResponseGiver(ResponseGiverType.STUDENT, studentInCourse1.getId());
+        ResponseGiver giverForQ1 = new ResponseGiver(studentInCourse1);
         commentForQ1Response1 = new FeedbackResponseComment(giverForQ1,
                 "Student 1 comment", false, false,
                 new ArrayList<>(), new ArrayList<>(), giverForQ1);
@@ -84,7 +83,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         commentForQ1Response1.setCreatedAt(Instant.now());
         commentForQ1Response1.setUpdatedAt(Instant.now());
 
-        ResponseGiver giverForQ2 = new ResponseGiver(ResponseGiverType.INSTRUCTOR, instructorOfCourse1.getId());
+        ResponseGiver giverForQ2 = new ResponseGiver(instructorOfCourse1);
         commentForQ2Response1 = new FeedbackResponseComment(giverForQ2,
                 "Instructor 1 comment", false, false,
                 new ArrayList<>(), new ArrayList<>(), giverForQ2);

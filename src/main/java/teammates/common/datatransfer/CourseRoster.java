@@ -7,10 +7,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
-import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.util.Const;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 
@@ -165,56 +163,6 @@ public class CourseRoster {
         }
 
         return new ParticipantInfo(name, teamName, sectionName);
-    }
-
-    /**
-     * Gets info of a participant associated with a response giver.
-     */
-    public ParticipantInfo getInfoForResponseGiver(ResponseGiver giver) {
-        if (giver == null) {
-            return getInfoForIdentifier(null);
-        }
-
-        if (giver.getGiverType() == ResponseGiverType.TEAM) {
-            Team team = teamIdToTeam.get(giver.getGiverId());
-            if (team == null) {
-                return getInfoForIdentifier(null);
-            }
-            String teamName = team.getName();
-            String sectionName = team.getSection().getName();
-            return new ParticipantInfo(teamName, teamName, sectionName);
-        } else if (giver.getGiverType() == ResponseGiverType.STUDENT) {
-            Student student = idToStudents.get(giver.getGiverId());
-            if (student == null) {
-                return getInfoForIdentifier(null);
-            }
-            return new ParticipantInfo(student.getName(), student.getTeamName(), student.getSectionName());
-        } else {
-            Instructor instructor = idToInstructors.get(giver.getGiverId());
-            if (instructor == null) {
-                return getInfoForIdentifier(null);
-            }
-            return new ParticipantInfo(instructor.getName(), Const.USER_TEAM_FOR_INSTRUCTOR, Const.DEFAULT_SECTION);
-        }
-    }
-
-    /**
-     * Gets the email or team name of the participant associated with a response giver.
-     */
-    public String getGiverForResponseGiver(ResponseGiver giver) {
-        if (giver == null) {
-            return null;
-        }
-        if (giver.getGiverType() == ResponseGiverType.TEAM) {
-            Team team = teamIdToTeam.get(giver.getGiverId());
-            return team != null ? team.getName() : null;
-        } else if (giver.getGiverType() == ResponseGiverType.STUDENT) {
-            Student student = idToStudents.get(giver.getGiverId());
-            return student != null ? student.getEmail() : null;
-        } else {
-            Instructor instructor = idToInstructors.get(giver.getGiverId());
-            return instructor != null ? instructor.getEmail() : null;
-        }
     }
 
     /**

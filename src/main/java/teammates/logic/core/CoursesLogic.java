@@ -6,7 +6,6 @@ import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.InstructorPermissionRole;
@@ -18,7 +17,6 @@ import teammates.common.util.Const;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
-import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
@@ -36,8 +34,6 @@ public final class CoursesLogic {
 
     private CoursesDb coursesDb;
 
-    private FeedbackSessionsLogic fsLogic;
-
     private UsersLogic usersLogic;
 
     private AccountsLogic accountsLogic;
@@ -50,10 +46,8 @@ public final class CoursesLogic {
         return instance;
     }
 
-    void initLogicDependencies(CoursesDb coursesDb, FeedbackSessionsLogic fsLogic, UsersLogic usersLogic,
-                               AccountsLogic accountsLogic) {
+    void initLogicDependencies(CoursesDb coursesDb, UsersLogic usersLogic, AccountsLogic accountsLogic) {
         this.coursesDb = coursesDb;
-        this.fsLogic = fsLogic;
         this.usersLogic = usersLogic;
         this.accountsLogic = accountsLogic;
     }
@@ -170,26 +164,11 @@ public final class CoursesLogic {
      * Deletes a course and cascade its students, instructors, sessions, responses, deadline extensions and comments.
      * Fails silently if no such course.
      */
-    public void deleteCourseCascade(String courseId) {
+    public void deleteCourse(String courseId) {
         Course course = coursesDb.getCourse(courseId);
         if (course == null) {
             return;
         }
-
-        Set<FeedbackSession> feedbackSessions = course.getFeedbackSessions();
-        feedbackSessions.forEach(feedbackSession ->
-                fsLogic.deleteFeedbackSessionCascade(feedbackSession.getId())
-        );
-
-        List<Instructor> instructors = usersLogic.getInstructorsForCourse(courseId);
-        instructors.forEach(instructor ->
-                usersLogic.deleteInstructorCascade(courseId, instructor.getEmail())
-        );
-
-        List<Student> students = usersLogic.getStudentsForCourse(courseId);
-        students.forEach(student ->
-                usersLogic.deleteStudentCascade(courseId, student.getEmail())
-        );
 
         coursesDb.deleteCourse(course);
     }

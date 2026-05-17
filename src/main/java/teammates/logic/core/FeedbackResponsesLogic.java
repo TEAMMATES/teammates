@@ -17,7 +17,6 @@ import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
@@ -35,7 +34,6 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -115,27 +113,6 @@ public final class FeedbackResponsesLogic {
      */
     public boolean isResponseOfFeedbackQuestionVisibleToInstructor(FeedbackQuestion question) {
         return question.isResponseVisibleTo(ViewerType.INSTRUCTORS);
-    }
-
-    /**
-     * Resolves a {@link ResponseGiver} to an String.
-     *
-     * <p>For STUDENT and INSTRUCTOR types, returns the email of the giver; for TEAM type, returns team name.
-     * This is largely for legacy considerations and should not be used in new code if possible.
-     */
-    public String resolveGiver(ResponseGiver giver) {
-        if (giver == null) {
-            return null;
-        }
-
-        if (giver.getGiverType() == ResponseGiverType.TEAM) {
-            Team team = usersLogic.getTeam(giver.getGiverId());
-            return team != null ? team.getName() : null;
-        }
-
-        // Student or Instructor giver type
-        User user = usersLogic.getUser(giver.getGiverId());
-        return user != null ? user.getEmail() : null;
     }
 
     /**

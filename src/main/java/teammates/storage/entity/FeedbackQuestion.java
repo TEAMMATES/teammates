@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -21,6 +20,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
@@ -50,13 +51,14 @@ public abstract class FeedbackQuestion extends BaseEntity implements Comparable<
     private UUID id;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "sessionId")
     private FeedbackSession feedbackSession;
 
     @Column(insertable = false, updatable = false)
     private UUID sessionId;
 
-    @OneToMany(mappedBy = "feedbackQuestion", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "feedbackQuestion")
     private Set<FeedbackResponse> feedbackResponses = new HashSet<>();
 
     @Column(nullable = false)

@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.util.AppUrl;
@@ -438,32 +437,8 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         if (giver == null) {
             return "";
         }
-        if (giver.getGiverType() == ResponseGiverType.TEAM) {
-            return getIdentifier(currentStudent, currentStudent.getTeamId().equals(giver.getGiverId())
-                    ? currentStudent.getTeamName()
-                    : testData.students.values().stream()
-                            .filter(student -> student.getTeamId().equals(giver.getGiverId()))
-                            .findFirst()
-                            .map(Student::getTeamName)
-                            .orElse(""));
-        }
 
-        String userEmail = "";
-        if (giver.getGiverType() == ResponseGiverType.STUDENT) {
-            userEmail = testData.students.values().stream()
-                    .filter(student -> student.getId().equals(giver.getGiverId()))
-                    .map(Student::getEmail)
-                    .findFirst()
-                    .orElse("");
-        } else if (giver.getGiverType() == ResponseGiverType.INSTRUCTOR) {
-            userEmail = testData.instructors.values().stream()
-                    .filter(instructor -> instructor.getId().equals(giver.getGiverId()))
-                    .map(Instructor::getEmail)
-                    .findFirst()
-                    .orElse("");
-        }
-
-        return getIdentifier(currentStudent, userEmail);
+        return getIdentifier(currentStudent, giver.getIdentifier());
     }
 
     private String getIdentifier(Student currentStudent, String user) {

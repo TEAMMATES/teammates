@@ -24,7 +24,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
-import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Team;
 import teammates.test.BaseTestCase;
@@ -36,19 +35,14 @@ public class CoursesLogicTest extends BaseTestCase {
 
     private CoursesLogic coursesLogic = CoursesLogic.inst();
 
-    private UsersLogic usersLogic;
-
-    private FeedbackSessionsLogic fsLogic;
-
     private CoursesDb coursesDb;
 
     @BeforeMethod
     public void setUp() {
         coursesDb = mock(CoursesDb.class);
-        fsLogic = mock(FeedbackSessionsLogic.class);
-        usersLogic = mock(UsersLogic.class);
+        UsersLogic usersLogic = mock(UsersLogic.class);
         AccountsLogic accountsLogic = mock(AccountsLogic.class);
-        coursesLogic.initLogicDependencies(coursesDb, fsLogic, usersLogic, accountsLogic);
+        coursesLogic.initLogicDependencies(coursesDb, usersLogic, accountsLogic);
     }
 
     @Test
@@ -179,9 +173,8 @@ public class CoursesLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testDeleteCourseCascade_shouldDeleteCourse_success() {
+    public void testDeleteCourse_shouldDeleteCourse_success() {
         Course course = getTypicalCourse();
-        List<Instructor> instructors = new ArrayList<>();
 
         FeedbackSession fs = new FeedbackSession("test-fs", "test@email.com",
                 "test", Instant.now(), Instant.now(), Instant.now(), Instant.now(), Duration.ofSeconds(60),
@@ -193,17 +186,11 @@ public class CoursesLogicTest extends BaseTestCase {
                 false, false);
         softDeletedFs.setDeletedAt(Instant.now());
         course.addFeedbackSession(softDeletedFs);
-        instructors.add(getTypicalInstructor());
 
-        when(usersLogic.getInstructorsForCourse(course.getId())).thenReturn(instructors);
         when(coursesDb.getCourse(course.getId())).thenReturn(course);
 
-        coursesLogic.deleteCourseCascade(course.getId());
+        coursesLogic.deleteCourse(course.getId());
 
-        verify(usersLogic, times(1)).getInstructorsForCourse(course.getId());
-        verify(usersLogic, times(1)).deleteInstructorCascade(course.getId(), instructors.get(0).getEmail());
-        verify(fsLogic, times(1)).deleteFeedbackSessionCascade(fs.getId());
-        verify(fsLogic, times(1)).deleteFeedbackSessionCascade(softDeletedFs.getId());
         verify(coursesDb, times(1)).deleteCourse(course);
     }
 

@@ -1,0 +1,140 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="samuelfangjw" id="20260516-frc-response-giver-user-team-1">
+        <addColumn tableName="feedback_response_comments">
+            <column name="giver_user_id" type="UUID" />
+        </addColumn>
+        <addColumn tableName="feedback_response_comments">
+            <column name="giver_team_id" type="UUID" />
+        </addColumn>
+        <addColumn tableName="feedback_response_comments">
+            <column name="last_edited_by_user_id" type="UUID" />
+        </addColumn>
+        <addColumn tableName="feedback_response_comments">
+            <column name="last_edited_by_team_id" type="UUID" />
+        </addColumn>
+        <addForeignKeyConstraint constraintName="fk_frc_giver_user"
+            baseTableName="feedback_response_comments"
+            baseColumnNames="giver_user_id"
+            referencedTableName="users"
+            referencedColumnNames="id"
+            onDelete="CASCADE"/>
+        <addForeignKeyConstraint constraintName="fk_frc_giver_team"
+            baseTableName="feedback_response_comments"
+            baseColumnNames="giver_team_id"
+            referencedTableName="teams"
+            referencedColumnNames="id"
+            onDelete="CASCADE"/>
+        <addForeignKeyConstraint constraintName="fk_frc_last_edited_by_user"
+            baseTableName="feedback_response_comments"
+            baseColumnNames="last_edited_by_user_id"
+            referencedTableName="users"
+            referencedColumnNames="id"
+            onDelete="SET NULL"/>
+        <addForeignKeyConstraint constraintName="fk_frc_last_edited_by_team"
+            baseTableName="feedback_response_comments"
+            baseColumnNames="last_edited_by_team_id"
+            referencedTableName="teams"
+            referencedColumnNames="id"
+            onDelete="SET NULL"/>
+        <sql>
+            UPDATE feedback_response_comments
+            SET giver_user_id = giver_id
+            WHERE giver_type IN ('STUDENT', 'INSTRUCTOR');
+        </sql>
+        <sql>
+            UPDATE feedback_response_comments
+            SET giver_team_id = giver_id
+            WHERE giver_type = 'TEAM';
+        </sql>
+        <sql>
+            UPDATE feedback_response_comments
+            SET last_edited_by_user_id = last_edited_by_id
+            WHERE last_edited_by_type IN ('STUDENT', 'INSTRUCTOR');
+        </sql>
+        <sql>
+            UPDATE feedback_response_comments
+            SET last_edited_by_team_id = last_edited_by_id
+            WHERE last_edited_by_type = 'TEAM';
+        </sql>
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="feedback_response_comments" constraintName="fk_frc_giver_user" />
+            <dropForeignKeyConstraint baseTableName="feedback_response_comments" constraintName="fk_frc_giver_team" />
+            <dropForeignKeyConstraint baseTableName="feedback_response_comments" constraintName="fk_frc_last_edited_by_user" />
+            <dropForeignKeyConstraint baseTableName="feedback_response_comments" constraintName="fk_frc_last_edited_by_team" />
+            <dropColumn tableName="feedback_response_comments" columnName="giver_user_id" />
+            <dropColumn tableName="feedback_response_comments" columnName="giver_team_id" />
+            <dropColumn tableName="feedback_response_comments" columnName="last_edited_by_user_id" />
+            <dropColumn tableName="feedback_response_comments" columnName="last_edited_by_team_id" />
+        </rollback>
+    </changeSet>
+
+    <changeSet author="samuelfangjw" id="20260516-frc-response-giver-user-team-2">
+        <dropNotNullConstraint tableName="feedback_response_comments"
+                columnName="giver_type" columnDataType="VARCHAR(255)" />
+        <dropNotNullConstraint tableName="feedback_response_comments"
+                columnName="giver_id" columnDataType="UUID" />
+        <dropNotNullConstraint tableName="feedback_response_comments"
+                columnName="last_edited_by_type" columnDataType="VARCHAR(255)" />
+        <dropNotNullConstraint tableName="feedback_response_comments"
+                columnName="last_edited_by_id" columnDataType="UUID" />
+
+        <dropColumn tableName="feedback_response_comments" columnName="giver_type" />
+        <dropColumn tableName="feedback_response_comments" columnName="giver_id" />
+        <dropColumn tableName="feedback_response_comments" columnName="last_edited_by_type" />
+        <dropColumn tableName="feedback_response_comments" columnName="last_edited_by_id" />
+        <rollback>
+            <addColumn tableName="feedback_response_comments">
+                <column name="giver_type" type="VARCHAR(255)" />
+            </addColumn>
+            <addColumn tableName="feedback_response_comments">
+                <column name="giver_id" type="UUID" />
+            </addColumn>
+            <addColumn tableName="feedback_response_comments">
+                <column name="last_edited_by_type" type="VARCHAR(255)" />
+            </addColumn>
+            <addColumn tableName="feedback_response_comments">
+                <column name="last_edited_by_id" type="UUID" />
+            </addColumn>
+
+            <sql>
+                UPDATE feedback_response_comments frc
+                SET giver_type = CASE
+                                     WHEN frc.giver_team_id IS NOT NULL THEN 'TEAM'
+                                     WHEN EXISTS (SELECT 1 FROM students s WHERE s.id = frc.giver_user_id) THEN 'STUDENT'
+                                     ELSE 'INSTRUCTOR'
+                                 END,
+                    giver_id = COALESCE(frc.giver_team_id, frc.giver_user_id)
+                WHERE frc.giver_team_id IS NOT NULL OR frc.giver_user_id IS NOT NULL;
+            </sql>
+
+            <sql>
+                UPDATE feedback_response_comments frc
+                SET last_edited_by_type = CASE
+                                              WHEN frc.last_edited_by_team_id IS NOT NULL THEN 'TEAM'
+                                              WHEN EXISTS (SELECT 1
+                                                           FROM students s
+                                                           WHERE s.id = frc.last_edited_by_user_id) THEN 'STUDENT'
+                                              ELSE 'INSTRUCTOR'
+                                          END,
+                    last_edited_by_id = COALESCE(frc.last_edited_by_team_id, frc.last_edited_by_user_id)
+                WHERE frc.last_edited_by_team_id IS NOT NULL OR frc.last_edited_by_user_id IS NOT NULL;
+            </sql>
+
+            <addNotNullConstraint tableName="feedback_response_comments"
+                    columnName="giver_type" columnDataType="VARCHAR(255)" />
+            <addNotNullConstraint tableName="feedback_response_comments"
+                    columnName="giver_id" columnDataType="UUID" />
+            <addNotNullConstraint tableName="feedback_response_comments"
+                    columnName="last_edited_by_type" columnDataType="VARCHAR(255)" />
+            <addNotNullConstraint tableName="feedback_response_comments"
+                    columnName="last_edited_by_id" columnDataType="UUID" />
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

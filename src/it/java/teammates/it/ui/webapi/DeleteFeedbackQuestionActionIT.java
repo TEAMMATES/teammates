@@ -65,6 +65,7 @@ public class DeleteFeedbackQuestionActionIT extends BaseActionIT<DeleteFeedbackQ
 
         DeleteFeedbackQuestionAction a = getAction(params);
         getJsonResult(a);
+        HibernateUtil.flushSession();
 
         // question is deleted
         assertNull(logic.getFeedbackQuestion(typicalQuestion.getId()));

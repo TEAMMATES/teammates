@@ -20,7 +20,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
-import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackContributionResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -776,7 +775,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     }
 
     private FeedbackResponseComment getTypicalCommentForInstructorResult() {
-        ResponseGiver giver = new ResponseGiver(ResponseGiverType.INSTRUCTOR, typicalInstructor.getId());
+        ResponseGiver giver = new ResponseGiver(typicalInstructor);
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 giver,
                 typicalRequestBody.getCommentText(),
@@ -793,7 +792,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     }
 
     private FeedbackResponseComment getTypicalCommentForInstructorSubmission() {
-        ResponseGiver giver = new ResponseGiver(ResponseGiverType.INSTRUCTOR, typicalInstructor.getId());
+        ResponseGiver giver = new ResponseGiver(typicalInstructor);
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 giver,
                 typicalRequestBody.getCommentText(),
@@ -810,7 +809,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     }
 
     private FeedbackResponseComment getTypicalCommentForStudentSubmission() {
-        ResponseGiver giver = new ResponseGiver(ResponseGiverType.STUDENT, typicalStudent.getId());
+        ResponseGiver giver = new ResponseGiver(typicalStudent);
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(
                 giver,
                 typicalRequestBody.getCommentText(),

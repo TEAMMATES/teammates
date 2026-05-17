@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.UUID;
 
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
-import teammates.common.datatransfer.participanttypes.ResponseGiverType;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
@@ -54,8 +53,8 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
             verifySessionOpenExceptForModeration(session, student);
             gateKeeper.verifyOwnership(comment,
                     question.getGiverType() == QuestionGiverType.TEAMS
-                            ? new ResponseGiver(ResponseGiverType.TEAM, student.getTeamId())
-                            : new ResponseGiver(ResponseGiverType.STUDENT, student.getId()));
+                            ? new ResponseGiver(student.getTeam())
+                            : new ResponseGiver(student));
             break;
         case INSTRUCTOR_SUBMISSION:
             Instructor instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
@@ -67,7 +66,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
             checkAccessControlForInstructorFeedbackSubmission(instructorAsFeedbackParticipant, session);
             verifySessionOpenExceptForModeration(session, instructorAsFeedbackParticipant);
             gateKeeper.verifyOwnership(comment,
-                    new ResponseGiver(ResponseGiverType.INSTRUCTOR, instructorAsFeedbackParticipant.getId()));
+                    new ResponseGiver(instructorAsFeedbackParticipant));
             break;
         case INSTRUCTOR_RESULT:
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
@@ -75,7 +74,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
             if (instructor == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
             }
-            if (comment.getGiver().equals(new ResponseGiver(ResponseGiverType.INSTRUCTOR, instructor.getId()))) {
+            if (comment.getGiver().equals(new ResponseGiver(instructor))) {
                 return;
             }
 
