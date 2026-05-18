@@ -950,7 +950,7 @@ public final class FeedbackResponsesLogic {
                     isGiverInSection = giverStudent.getSection().getName().equals(sectionName);
                 } else {
                     // instructor
-                    isGiverInSection = sectionName.equals(Const.DEFAULT_SECTION);
+                    isGiverInSection = Objects.equals(sectionName, Const.DEFAULT_SECTION);
                 }
             }
 
@@ -962,7 +962,7 @@ public final class FeedbackResponsesLogic {
                     isRecipientInSection = recipientStudent.getSection().getName().equals(sectionName);
                 } else {
                     // instructor
-                    isRecipientInSection = sectionName.equals(Const.DEFAULT_SECTION);
+                    isRecipientInSection = Objects.equals(sectionName, Const.DEFAULT_SECTION);
                 }
             }
 
