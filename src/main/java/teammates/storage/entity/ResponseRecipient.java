@@ -113,7 +113,7 @@ public class ResponseRecipient {
     /**
      * Gets the team name of the recipient.
      * If the recipient is an instructor, returns the instructor team name.
-     * If the recipient is NO_SPECIFIC_RECIPIENT, returns an empty string.
+     * If the recipient is NO_SPECIFIC_RECIPIENT, returns a default text.
      */
     public String getTeamName() {
         if (recipientType == ResponseRecipientType.TEAM) {
@@ -127,7 +127,7 @@ public class ResponseRecipient {
             return Const.USER_TEAM_FOR_INSTRUCTOR;
         }
 
-        return "";
+        return Const.USER_NOBODY_TEXT;
     }
 
     /**
