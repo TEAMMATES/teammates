@@ -300,8 +300,8 @@ public class SessionResultsData extends ApiOutput {
             } else {
                 // team giver, relatedGiverEmail is any team member's email
                 String teamName = responseGiver.getTeamName();
-                relatedGiverEmail =
-                        bundle.getRoster().getTeamToMembers().get(teamName).iterator().next().getEmail();
+                relatedGiverEmail = bundle.getRoster().getTeamToMembers().getOrDefault(teamName, Collections.emptyList())
+                        .stream().findFirst().map(Student::getEmail).orElse(null);
                 giverEmail = null;
             }
         }

@@ -65,6 +65,10 @@ public final class FeedbackResponsesDb {
      */
     public List<FeedbackResponse> getFeedbackResponsesFromGiverForQuestion(
             UUID feedbackQuestionId, UUID giverUserId, UUID giverTeamId) {
+        if (giverUserId == null && giverTeamId == null) {
+            return List.of();
+        }
+
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackResponse> cq = cb.createQuery(FeedbackResponse.class);
         Root<FeedbackResponse> root = cq.from(FeedbackResponse.class);
@@ -132,6 +136,10 @@ public final class FeedbackResponsesDb {
      */
     public List<FeedbackResponse> getFeedbackResponsesForRecipientForQuestion(
             UUID questionId, UUID recipientUserId, UUID recipientTeamId) {
+        if (recipientUserId == null && recipientTeamId == null) {
+            return List.of();
+        }
+
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackResponse> cq = cb.createQuery(FeedbackResponse.class);
         Root<FeedbackResponse> root = cq.from(FeedbackResponse.class);
