@@ -49,6 +49,19 @@ public final class UsersDb {
     }
 
     /**
+     * Gets a user by {@code regKey}.
+     */
+    public User getUserByRegKey(String regKey) {
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaQuery<User> cr = cb.createQuery(User.class);
+        Root<User> userRoot = cr.from(User.class);
+
+        cr.select(userRoot).where(cb.equal(userRoot.get("regKey"), regKey));
+
+        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
+    }
+
+    /**
      * Gets users for the specified course.
      */
     public List<User> getUsersForCourse(String courseId) {
@@ -90,19 +103,6 @@ public final class UsersDb {
     }
 
     /**
-     * Gets an instructor by {@code regKey}.
-     */
-    public Instructor getInstructorByRegKey(String regKey) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Instructor> cr = cb.createQuery(Instructor.class);
-        Root<Instructor> instructorRoot = cr.from(Instructor.class);
-
-        cr.select(instructorRoot).where(cb.equal(instructorRoot.get("regKey"), regKey));
-
-        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
-    }
-
-    /**
      * Gets an instructor by {@code googleId}.
      */
     public Instructor getInstructorByGoogleId(String courseId, String googleId) {
@@ -140,19 +140,6 @@ public final class UsersDb {
         assert id != null;
 
         return HibernateUtil.get(Student.class, id);
-    }
-
-    /**
-     * Gets a student by {@code regKey}.
-     */
-    public Student getStudentByRegKey(String regKey) {
-        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
-        CriteriaQuery<Student> cr = cb.createQuery(Student.class);
-        Root<Student> studentRoot = cr.from(Student.class);
-
-        cr.select(studentRoot).where(cb.equal(studentRoot.get("regKey"), regKey));
-
-        return HibernateUtil.createQuery(cr).getResultStream().findFirst().orElse(null);
     }
 
     /**

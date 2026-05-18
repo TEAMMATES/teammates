@@ -820,6 +820,13 @@ public class Logic {
     }
 
     /**
+     * Gets a user by associated {@code regkey}.
+     */
+    public User getUserByRegistrationKey(String regKey) {
+        return usersLogic.getUserByRegistrationKey(regKey);
+    }
+
+    /**
      * Gets an instructor by associated {@code googleId}.
      */
     public Instructor getInstructorByGoogleId(String courseId, String googleId) {
