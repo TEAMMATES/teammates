@@ -131,7 +131,7 @@ public class ResponseRecipient {
     }
 
     /**
-     * Gets the section name of the giver. If the giver is an instructor, returns the default section name.
+     * Gets the section name of the recipient. If the recipient is an instructor, returns the default section name.
      */
     public String getSectionName() {
         if (recipientType == ResponseRecipientType.TEAM) {
