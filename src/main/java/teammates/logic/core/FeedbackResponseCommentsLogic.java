@@ -261,7 +261,9 @@ public final class FeedbackResponseCommentsLogic {
 
         //comment giver can always see
         ResponseGiver commentGiver = comment.getGiver();
-        if (Objects.equals(user, commentGiver.getGiverUser())) {
+        if (Objects.equals(user, commentGiver.getGiverUser()) || user instanceof Student student
+                && commentGiver.isGiverTeam()
+                && student.getTeam().equals(commentGiver.getGiverTeam())) {
             return true;
         }
 
