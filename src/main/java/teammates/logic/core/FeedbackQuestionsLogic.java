@@ -890,7 +890,11 @@ public final class FeedbackQuestionsLogic {
             FeedbackSession feedbackSession =
                     feedbackSessionsLogic.getFeedbackSession(fq.getFeedbackSessionName(), fq.getCourseId());
             Instructor instructorGiver = courseRoster.getInstructorForEmail(feedbackSession.getCreatorEmail());
-            possibleGivers = Collections.singletonList(new ResponseGiver(instructorGiver));
+            // If the instructorGiver is null, they have been deleted,
+            // so we return an empty list of givers instead of a giver with null user.
+            possibleGivers = instructorGiver != null
+                    ? Collections.singletonList(new ResponseGiver(instructorGiver))
+                    : Collections.emptyList();
             break;
         default:
             log.severe("Invalid giver type specified");
