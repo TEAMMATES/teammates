@@ -56,9 +56,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_SUBMISSION_PAGE)
-                .withCourseId(openSession.getCourseId())
-                .withFeedbackSessionId(openSession.getId().toString())
-                .withSessionName(openSession.getName());
+                .withFeedbackSessionId(openSession.getId().toString());
         FeedbackSubmitPage submitPage = loginToPage(url, FeedbackSubmitPage.class, instructor.getGoogleId());
 
         ______TS("verify loaded session data");
@@ -70,7 +68,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
         ______TS("questions with giver type students");
         logout();
-        submitPage = loginToPage(getStudentSubmitPageUrl(student, openSession), FeedbackSubmitPage.class,
+        submitPage = loginToPage(getStudentSubmitPageUrl(openSession), FeedbackSubmitPage.class,
                 student.getGoogleId());
 
         submitPage.verifyNumQuestions(4);
@@ -96,12 +94,12 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         submitPage.verifyWarningMessageForPartialResponse(unansweredQuestions);
 
         ______TS("cannot submit in closed session");
-        AppUrl closedSessionUrl = getStudentSubmitPageUrl(student, closedSession);
+        AppUrl closedSessionUrl = getStudentSubmitPageUrl(closedSession);
         submitPage = getNewPageInstance(closedSessionUrl, FeedbackSubmitPage.class);
         submitPage.verifyCannotSubmit();
 
         ______TS("can submit in grace period");
-        AppUrl gracePeriodSessionUrl = getStudentSubmitPageUrl(student, gracePeriodSession);
+        AppUrl gracePeriodSessionUrl = getStudentSubmitPageUrl(gracePeriodSession);
         submitPage = getNewPageInstance(gracePeriodSessionUrl, FeedbackSubmitPage.class);
         FeedbackQuestion question = testData.feedbackQuestions.get("qn1InGracePeriodSession");
         Team recipient = team2;
@@ -156,9 +154,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         ______TS("preview as instructor");
         logout();
         url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_SUBMISSION_PAGE)
-                .withCourseId(openSession.getCourseId())
                 .withFeedbackSessionId(openSession.getId().toString())
-                .withSessionName(openSession.getName())
                 .withParam("previewas", instructor.getEmail());
         submitPage = loginToPage(url, FeedbackSubmitPage.class, instructor.getGoogleId());
 
@@ -169,9 +165,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
         ______TS("preview as student");
         url = createFrontendUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
-                .withCourseId(openSession.getCourseId())
                 .withFeedbackSessionId(openSession.getId().toString())
-                .withSessionName(openSession.getName())
                 .withParam("previewas", student.getEmail());
         submitPage = getNewPageInstance(url, FeedbackSubmitPage.class);
 
@@ -185,9 +179,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
         ______TS("moderating instructor cannot see questions without instructor visibility");
         url = createFrontendUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
-                .withCourseId(gracePeriodSession.getCourseId())
                 .withFeedbackSessionId(gracePeriodSession.getId().toString())
-                .withSessionName(gracePeriodSession.getName())
                 .withParam("moderatedperson", student.getEmail())
                 .withParam("moderatedquestionId", question.getId().toString());
         submitPage = getNewPageInstance(url, FeedbackSubmitPage.class);
@@ -205,11 +197,9 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         verifyPresentInDatabase(response);
     }
 
-    private AppUrl getStudentSubmitPageUrl(Student student, FeedbackSession session) {
+    private AppUrl getStudentSubmitPageUrl(FeedbackSession session) {
         return createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
-                .withCourseId(student.getCourseId())
-                .withFeedbackSessionId(session.getId().toString())
-                .withSessionName(session.getName());
+                .withFeedbackSessionId(session.getId().toString());
     }
 
     private List<String> getOtherStudents(Student currentStudent) {

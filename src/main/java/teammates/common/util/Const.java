@@ -127,7 +127,6 @@ public final class Const {
         public static final String ACCOUNT_REQUEST_ID = "id";
         public static final String ACCOUNT_REQUEST_STATUS = "status";
 
-        public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
         public static final String FEEDBACK_SESSION_ENDTIME = "endtime";
         public static final String FEEDBACK_SESSION_MODERATED_PERSON = "moderatedperson";

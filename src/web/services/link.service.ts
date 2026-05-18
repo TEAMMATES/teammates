@@ -104,11 +104,7 @@ export class LinkService {
   /**
    * Generates submit url for a feedback session.
    */
-  generateSubmitUrl(
-    entity: Student | Instructor,
-    isInstructor: boolean,
-    feedbackSessionId: string,
-  ): string {
+  generateSubmitUrl(entity: Student | Instructor, isInstructor: boolean, feedbackSessionId: string): string {
     const frontendUrl: string = window.location.origin;
     const key: string = entity.key || '';
     const params: {
@@ -130,11 +126,7 @@ export class LinkService {
   /**
    * Generates a result url for a feedback session.
    */
-  generateResultUrl(
-    entity: Student | Instructor,
-    isInstructor: boolean,
-    feedbackSessionId: string,
-  ): string {
+  generateResultUrl(entity: Student | Instructor, isInstructor: boolean, feedbackSessionId: string): string {
     const frontendUrl: string = window.location.origin;
     const key: string = entity.key || '';
     const params: {

@@ -77,32 +77,22 @@ describe('Link Service', () => {
   });
 
   it('should generate the submit url', () => {
-    expect(
-      service.generateSubmitUrl(mockStudent, false, '00000000-0000-4000-8000-000000000001'),
-    ).toBe(
-      `${window.location.origin}/web/sessions/submission?key=keyheehee` +
-        '&fsid=00000000-0000-4000-8000-000000000001',
+    expect(service.generateSubmitUrl(mockStudent, false, '00000000-0000-4000-8000-000000000001')).toBe(
+      `${window.location.origin}/web/sessions/submission?key=keyheehee` + '&fsid=00000000-0000-4000-8000-000000000001',
     );
 
-    expect(
-      service.generateSubmitUrl(mockInstructor, true, '00000000-0000-4000-8000-000000000002'),
-    ).toBe(
+    expect(service.generateSubmitUrl(mockInstructor, true, '00000000-0000-4000-8000-000000000002')).toBe(
       `${window.location.origin}/web/sessions/submission?key=impicklerick` +
         '&fsid=00000000-0000-4000-8000-000000000002&entitytype=instructor',
     );
   });
 
   it('should generate the result url', () => {
-    expect(
-      service.generateResultUrl(mockStudent, false, '00000000-0000-4000-8000-000000000001'),
-    ).toBe(
-      `${window.location.origin}/web/sessions/result?key=keyheehee` +
-        '&fsid=00000000-0000-4000-8000-000000000001',
+    expect(service.generateResultUrl(mockStudent, false, '00000000-0000-4000-8000-000000000001')).toBe(
+      `${window.location.origin}/web/sessions/result?key=keyheehee` + '&fsid=00000000-0000-4000-8000-000000000001',
     );
 
-    expect(
-      service.generateResultUrl(mockInstructor, true, '00000000-0000-4000-8000-000000000002'),
-    ).toBe(
+    expect(service.generateResultUrl(mockInstructor, true, '00000000-0000-4000-8000-000000000002')).toBe(
       `${window.location.origin}/web/sessions/result?key=impicklerick` +
         '&fsid=00000000-0000-4000-8000-000000000002&entitytype=instructor',
     );
