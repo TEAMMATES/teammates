@@ -107,10 +107,10 @@ public class ResponseGiver {
         if (giverUser instanceof Student student) {
             return student.getTeamName();
         }
-        if (giverUser == null) {
-            return Const.UNKNOWN_TEAM;
+        if (giverUser instanceof Instructor) {
+            return Const.USER_TEAM_FOR_INSTRUCTOR;
         }
-        return Const.USER_TEAM_FOR_INSTRUCTOR;
+        return Const.UNKNOWN_TEAM;
     }
 
     /**
@@ -123,10 +123,10 @@ public class ResponseGiver {
         if (giverUser instanceof Student student) {
             return student.getSectionName();
         }
-        if (giverUser == null) {
-            return Const.UNKNOWN_SECTION;
+        if (giverUser instanceof Instructor) {
+            return Const.DEFAULT_SECTION;
         }
-        return Const.DEFAULT_SECTION;
+        return Const.UNKNOWN_SECTION;
     }
 
     /**
