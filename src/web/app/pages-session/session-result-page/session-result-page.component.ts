@@ -125,8 +125,6 @@ export class SessionResultPageComponent implements OnInit {
         switchMap(() => this.route.queryParams),
       )
       .subscribe((queryParams: any) => {
-        this.courseId = queryParams.courseid;
-        this.feedbackSessionName = queryParams.fsname;
         this.feedbackSessionId = queryParams.fsid;
         this.regKey = queryParams.key || '';
         this.previewAsPerson = queryParams.previewas ? queryParams.previewas : '';
@@ -299,6 +297,8 @@ export class SessionResultPageComponent implements OnInit {
           const TIME_FORMAT = 'ddd, DD MMM, YYYY, hh:mm A zz';
           this.session = feedbackSession;
           this.feedbackSessionId = feedbackSession.feedbackSessionId;
+          this.courseId = feedbackSession.courseId;
+          this.feedbackSessionName = feedbackSession.feedbackSessionName;
           this.formattedSessionOpeningTime = this.timezoneService.formatToString(
             this.session.submissionStartTimestamp,
             this.session.timeZone,

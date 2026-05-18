@@ -735,7 +735,7 @@ describe('InstructorSessionEditPageComponent', () => {
     expect(navSpy).toHaveBeenLastCalledWith(
       '/web/instructor/sessions/edit',
       'The feedback session has been copied. Please modify settings/questions as necessary.',
-      { courseid: 'testId2', fsid: 'fbd91470-8378-4b43-9f82-0b81fb2e9f1b', fsname: 'Test Session' },
+      { fsid: 'fbd91470-8378-4b43-9f82-0b81fb2e9f1b' },
     );
   });
 

@@ -2,7 +2,7 @@
 <tm-loading-retry
   [shouldShowRetry]="hasFeedbackSessionLoadingFailed || hasSectionsLoadingFailed || hasQuestionsLoadingFailed"
   [message]="'Failed to load feedback session'"
-  (retryEvent)="loadFeedbackSessionResults(courseId, feedbackSessionId)"
+  (retryEvent)="loadFeedbackSessionResults(feedbackSessionId)"
 >
   <div *tmIsLoading="isFeedbackSessionLoading">
     @if (session) {

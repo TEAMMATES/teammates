@@ -179,8 +179,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         switchMap(() => this.route.queryParams),
       )
       .subscribe((queryParams: any) => {
-        this.courseId = queryParams.courseid;
-        this.feedbackSessionName = queryParams.fsname;
         this.feedbackSessionId = queryParams.fsid;
         this.regKey = queryParams.key ? queryParams.key : '';
         this.moderatedPerson = queryParams.moderatedperson ? queryParams.moderatedperson : '';
@@ -409,6 +407,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       .subscribe({
         next: (feedbackSession: FeedbackSession) => {
           this.feedbackSessionId = feedbackSession.feedbackSessionId;
+          this.courseId = feedbackSession.courseId;
+          this.feedbackSessionName = feedbackSession.feedbackSessionName;
           this.feedbackSessionInstructions = feedbackSession.instructions;
           this.formattedSessionOpeningTime = this.timezoneService.formatToString(
             feedbackSession.submissionStartTimestamp,

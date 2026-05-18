@@ -96,8 +96,7 @@ describe('SessionResultPageComponent', () => {
   let logService: LogService;
 
   const testQueryParams: Record<string, string> = {
-    courseid: 'CS3281',
-    fsname: 'Peer Feedback',
+    fsid: 'test-session-id',
     key: 'reg-key',
     previewas: '',
   };
@@ -193,6 +192,7 @@ describe('SessionResultPageComponent', () => {
 
   it('should snap with an open feedback session with no questions', () => {
     component.session = {
+      feedbackSessionId: 'test-session-id',
       courseId: 'CS3281',
       timeZone: 'UTC',
       feedbackSessionName: 'Peer Review 1',
@@ -230,8 +230,7 @@ describe('SessionResultPageComponent', () => {
 
     component.ngOnInit();
 
-    expect(component.courseId).toEqual('CS3281');
-    expect(component.feedbackSessionName).toEqual('Peer Feedback');
+    expect(component.feedbackSessionId).toEqual('test-session-id');
     expect(component.regKey).toEqual('reg-key');
     expect(component.loggedInUser).toEqual('user-id');
   });
@@ -250,8 +249,7 @@ describe('SessionResultPageComponent', () => {
 
     expect(navSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenLastCalledWith('/web/student/sessions/result', {
-      courseid: 'CS3281',
-      fsname: 'Peer Feedback',
+      fsid: 'test-session-id',
     });
   });
 

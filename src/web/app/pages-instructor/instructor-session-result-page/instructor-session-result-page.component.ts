@@ -171,14 +171,12 @@ export class InstructorSessionResultPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.courseId = queryParams.courseid;
-      this.fsName = queryParams.fsname;
       this.feedbackSessionId = queryParams.fsid;
-      this.loadFeedbackSessionResults(this.courseId, this.feedbackSessionId);
+      this.loadFeedbackSessionResults(this.feedbackSessionId);
     });
   }
 
-  loadFeedbackSessionResults(courseId: string, feedbackSessionId: string): void {
+  loadFeedbackSessionResults(feedbackSessionId: string): void {
     this.hasQuestionsLoadingFailed = false;
     this.hasSectionsLoadingFailed = false;
     this.hasFeedbackSessionLoadingFailed = false;
@@ -192,6 +190,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
         next: (feedbackSession: FeedbackSession) => {
           this.session = feedbackSession;
           this.feedbackSessionId = feedbackSession.feedbackSessionId!;
+          this.courseId = feedbackSession.courseId;
+          this.fsName = feedbackSession.feedbackSessionName;
           this.formattedSessionOpeningTime = this.timezoneService.formatToString(
             this.session.submissionStartTimestamp,
             this.session.timeZone,
@@ -228,7 +228,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
           this.isFeedbackSessionLoading = false;
 
           // load section tabs
-          this.courseService.getCourseSectionNames(courseId).subscribe({
+          this.courseService.getCourseSectionNames(this.courseId).subscribe({
             next: (courseSectionNames: CourseSectionNames) => {
               this.sectionsModel['None'] = {
                 questions: [],
@@ -278,7 +278,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
           // load all students in course
           this.studentService
             .getStudentsFromCourse({
-              courseId,
+              courseId: this.courseId,
             })
             .subscribe({
               next: (allStudents: Students) => {
@@ -333,7 +333,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
           // load current instructor name
           this.instructorService
             .getInstructor({
-              courseId,
+              courseId: this.courseId,
               intent: Intent.FULL_DETAIL,
             })
             .subscribe((instructor: Instructor) => {
