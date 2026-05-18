@@ -645,14 +645,14 @@ public final class FeedbackQuestionsLogic {
         case STUDENTS, STUDENTS_EXCLUDING_SELF, STUDENTS_IN_SAME_SECTION:
             List<Student> studentList = courseRoster.getStudents();
 
-            Section giverSectionToExclude = null;
+            Section filterBySection = null;
             if (generateOptionsFor == QuestionRecipientType.STUDENTS_IN_SAME_SECTION) {
                 if (responseGiver.isGiverStudent()) {
                     Student studentGiver = (Student) responseGiver.getGiverUser();
-                    giverSectionToExclude = studentGiver.getSection();
+                    filterBySection = studentGiver.getSection();
                 } else if (responseGiver.isGiverTeam()) {
                     Team teamGiver = responseGiver.getGiverTeam();
-                    giverSectionToExclude = teamGiver.getSection();
+                    filterBySection = teamGiver.getSection();
                 }
                 // If the giver is an instructor, exclude based on permissions (handled in the loop below)
             }
@@ -665,7 +665,7 @@ public final class FeedbackQuestionsLogic {
             Set<ResponseRecipient> studentRecipients = new HashSet<>();
             for (Student student : studentList) {
                 boolean shouldExcludeStudent = student.equals(giverStudentToExclude)
-                        || giverSectionToExclude != null && !student.getSection().equals(giverSectionToExclude);
+                        || filterBySection != null && !student.getSection().equals(filterBySection);
                 boolean shouldExcludeStudentForInstructor = isInstructorGiver
                         && responseGiver.getGiverUser() instanceof Instructor instructor
                         && !instructor.isAllowedForPrivilege(
@@ -695,7 +695,6 @@ public final class FeedbackQuestionsLogic {
         case TEAMS, TEAMS_EXCLUDING_SELF, TEAMS_IN_SAME_SECTION:
             Collection<Team> teams = courseRoster.getTeamIdToTeam().values();
 
-            giverSectionToExclude = null;
             Team giverTeamToExclude = null;
             if (generateOptionsFor != QuestionRecipientType.TEAMS) {
                 // For TEAMS_EXCLUDING_SELF and TEAMS_IN_SAME_SECTION exclude the giver's team
@@ -708,13 +707,14 @@ public final class FeedbackQuestionsLogic {
                 // If the giver is an instructor, exclude based on permissions (handled in the loop below)
             }
 
+            filterBySection = null;
             if (generateOptionsFor == QuestionRecipientType.TEAMS_IN_SAME_SECTION) {
                 if (responseGiver.isGiverStudent()) {
                     Student studentGiver = (Student) responseGiver.getGiverUser();
-                    giverSectionToExclude = studentGiver.getSection();
+                    filterBySection = studentGiver.getSection();
                 } else if (responseGiver.isGiverTeam()) {
                     Team teamGiver = responseGiver.getGiverTeam();
-                    giverSectionToExclude = teamGiver.getSection();
+                    filterBySection = teamGiver.getSection();
                 }
                 // If the giver is an instructor, exclude based on permissions (handled in the loop below)
             }
@@ -722,7 +722,7 @@ public final class FeedbackQuestionsLogic {
             Set<ResponseRecipient> teamRecipients = new HashSet<>();
             for (Team team : teams) {
                 boolean shouldExcludeTeam = team.equals(giverTeamToExclude)
-                        || team.getSection().equals(giverSectionToExclude);
+                        || (filterBySection != null && !team.getSection().equals(filterBySection));
                 // instructor can only see teams in allowed sections for him/her
                 boolean shouldExcludeTeamForInstructor = isInstructorGiver
                         && responseGiver.getGiverUser() instanceof Instructor instructor
