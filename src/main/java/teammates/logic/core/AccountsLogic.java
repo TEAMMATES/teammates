@@ -2,12 +2,22 @@ package teammates.logic.core;
 
 import static teammates.common.util.Const.ERROR_CREATE_ENTITY_ALREADY_EXISTS;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
+import teammates.common.util.Templates;
+import teammates.common.util.TimeHelper;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
@@ -31,15 +41,18 @@ public final class AccountsLogic {
 
     private CoursesLogic coursesLogic;
 
+    private AccountRequestsLogic accountRequestsLogic;
+
     private AccountsLogic() {
         // prevent initialization
     }
 
     void initLogicDependencies(AccountsDb accountsDb,
-            UsersLogic usersLogic, CoursesLogic coursesLogic) {
+            UsersLogic usersLogic, CoursesLogic coursesLogic, AccountRequestsLogic accountRequestsLogic) {
         this.accountsDb = accountsDb;
         this.usersLogic = usersLogic;
         this.coursesLogic = coursesLogic;
+        this.accountRequestsLogic = accountRequestsLogic;
     }
 
     public static AccountsLogic inst() {
@@ -295,5 +308,139 @@ public final class AccountsLogic {
         if (!account.isValid()) {
             throw new InvalidParametersException(account.getInvalidityInfo());
         }
+    }
+
+    /**
+     * Creates a new instructor account, imports demo course data, and marks the account request as registered.
+     *
+     * @param googleId the Google ID of the instructor who is registering.
+     * @param accountRequestId the UUID of the account request being processed.
+     * @param timezone the timezone string to use when generating demo course sessions.
+     * @throws InvalidParametersException if the demo data import fails due to invalid parameters.
+     * @throws EntityDoesNotExistException if the account request or related entities do not exist.
+     * @throws EntityAlreadyExistsException if the instructor has already joined the course.
+     */
+    public void createAccountWithDemoCourse(String googleId, UUID accountRequestId, String timezone)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        teammates.storage.entity.AccountRequest accountRequest =
+                accountRequestsLogic.getAccountRequest(accountRequestId);
+        assert accountRequest != null;
+
+        String courseId = importDemoData(
+                accountRequest.getEmail(), accountRequest.getName(), accountRequest.getInstitute(), timezone);
+
+        List<Instructor> instructorList = usersLogic.getInstructorsForCourse(courseId);
+        assert !instructorList.isEmpty();
+
+        joinCourseForInstructor(instructorList.get(0).getRegKey(), googleId);
+        accountRequestsLogic.markAccountRequestAsRegistered(accountRequestId);
+    }
+
+    /**
+     * Imports demo course data for the new instructor.
+     *
+     * @return the ID of the created demo course
+     */
+    private String importDemoData(String instructorEmail, String instructorName, String instructorInstitute,
+            String timezone) throws InvalidParametersException {
+        String courseId = generateDemoCourseId(instructorEmail);
+        Instant now = Instant.now();
+
+        String dateString1 = getDateString(now.minus(7, ChronoUnit.DAYS));
+        String dateString2 = getDateString(now.minus(3, ChronoUnit.DAYS));
+        String dateString3 = getDateString(now.minus(2, ChronoUnit.DAYS));
+        String dateString4 = getDateString(now.plus(3, ChronoUnit.DAYS));
+        String dateString5 = getDateString(now);
+
+        String instructorEmailAsStudent = instructorEmail.replace("@", "+student@");
+        String dataBundleString = Templates.populateTemplate(Templates.INSTRUCTOR_SAMPLE_DATA,
+                "teammates.demo.instructor.student@demo.course", instructorEmailAsStudent,
+                "teammates.demo.instructor@demo.course", instructorEmail,
+                "Demo_Instructor", instructorName,
+                "demo.course", courseId,
+                "demo.institute", instructorInstitute,
+                "demo.timezone", timezone,
+                "demo.date1", dateString1,
+                "demo.date2", dateString2,
+                "demo.date3", dateString3,
+                "demo.date4", dateString4,
+                "demo.date5", dateString5);
+
+        if (!teammates.common.util.Const.DEFAULT_TIME_ZONE.equals(timezone)) {
+            dataBundleString = replaceAdjustedTimeAndTimezone(dataBundleString, timezone);
+        }
+
+        DataBundle dataBundle = DataBundleLogic.deserializeDataBundle(dataBundleString);
+        DataBundleLogic.inst().persistDataBundle(dataBundle);
+
+        return courseId;
+    }
+
+    private String generateDemoCourseId(String instructorEmail) {
+        String proposedCourseId = generateNextDemoCourseId(instructorEmail, FieldValidator.COURSE_ID_MAX_LENGTH);
+        while (coursesLogic.getCourse(proposedCourseId) != null) {
+            proposedCourseId = generateNextDemoCourseId(proposedCourseId, FieldValidator.COURSE_ID_MAX_LENGTH);
+        }
+        return proposedCourseId;
+    }
+
+    private String getDemoCourseIdRoot(String instructorEmail) {
+        String[] emailSplit = instructorEmail.split("@");
+
+        String username = emailSplit[0];
+        String host = emailSplit[1];
+
+        String head = StringHelper.replaceIllegalChars(username, FieldValidator.REGEX_COURSE_ID, '_');
+        String hostAbbreviation = host.substring(0, Math.min(host.length(), 3));
+
+        return head + "." + hostAbbreviation + "-demo";
+    }
+
+    /**
+     * Generates the next candidate demo course ID from an email or previously generated ID.
+     *
+     * @param instructorEmailOrProposedCourseId the instructor email or a course ID that already exists.
+     * @param maximumIdLength the maximum allowed course ID length.
+     * @return a new proposed course ID.
+     */
+    public String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength) {
+        boolean isFirstCourseId = instructorEmailOrProposedCourseId.contains("@");
+        if (isFirstCourseId) {
+            return StringHelper.truncateHead(getDemoCourseIdRoot(instructorEmailOrProposedCourseId), maximumIdLength);
+        }
+
+        boolean isFirstTimeDuplicate = instructorEmailOrProposedCourseId.endsWith("-demo");
+        if (isFirstTimeDuplicate) {
+            return StringHelper.truncateHead(instructorEmailOrProposedCourseId + "0", maximumIdLength);
+        }
+
+        int lastIndexOfDemo = instructorEmailOrProposedCourseId.lastIndexOf("-demo");
+        String root = instructorEmailOrProposedCourseId.substring(0, lastIndexOfDemo);
+        int previousDedupSuffix = Integer.parseInt(instructorEmailOrProposedCourseId.substring(lastIndexOfDemo + 5));
+
+        return StringHelper.truncateHead(root + "-demo" + (previousDedupSuffix + 1), maximumIdLength);
+    }
+
+    private String replaceAdjustedTimeAndTimezone(String template, String timezoneString) {
+        assert ZoneId.getAvailableZoneIds().contains(timezoneString);
+
+        String pattern = "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z";
+        ZoneId timezone = ZoneId.of(timezoneString);
+
+        return Pattern.compile(pattern).matcher(template).replaceAll(timestampMatch -> {
+            String timestamp = timestampMatch.group();
+            Instant instant = Instant.parse(timestamp);
+
+            if (TimeHelper.isSpecialTime(instant)) {
+                return timestamp;
+            }
+
+            return ZonedDateTime.ofInstant(instant, ZoneId.of(teammates.common.util.Const.DEFAULT_TIME_ZONE))
+                    .withZoneSameLocal(timezone).toInstant().toString();
+        });
+    }
+
+    private static String getDateString(Instant instant) {
+        return TimeHelper.formatInstant(instant, teammates.common.util.Const.DEFAULT_TIME_ZONE, "yyyy-MM-dd");
     }
 }

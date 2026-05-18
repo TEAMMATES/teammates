@@ -61,6 +61,9 @@ public final class CoursesLogic {
      *                                      database.
      */
     public Course createCourse(Course course) throws InvalidParametersException, EntityAlreadyExistsException {
+        if (course.getCreatedAt() == null) {
+            course.setCreatedAt(Instant.now());
+        }
         validateCourse(course);
 
         if (getCourse(course.getId()) != null) {

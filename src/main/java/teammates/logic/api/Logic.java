@@ -151,6 +151,40 @@ public class Logic {
     }
 
     /**
+     * Approves an account request.
+     *
+     * @throws EntityDoesNotExistException if the account request does not exist.
+     * @throws InvalidParametersException if approval is not permitted.
+     */
+    public AccountRequest approveAccountRequest(UUID id)
+            throws EntityDoesNotExistException, InvalidParametersException {
+        return accountRequestLogic.approveAccountRequest(id);
+    }
+
+    /**
+     * Rejects an account request.
+     *
+     * @throws EntityDoesNotExistException if the account request does not exist.
+     * @throws InvalidParametersException if the request is not in PENDING state.
+     */
+    public AccountRequest rejectAccountRequest(UUID id)
+            throws EntityDoesNotExistException, InvalidParametersException {
+        return accountRequestLogic.rejectAccountRequest(id);
+    }
+
+    /**
+     * Updates the editable details of an account request.
+     *
+     * @throws EntityDoesNotExistException if the account request does not exist.
+     * @throws InvalidParametersException if the updated data is invalid.
+     */
+    public AccountRequest updateAccountRequestDetails(UUID id, String name, String email,
+            String institute, String comments)
+            throws EntityDoesNotExistException, InvalidParametersException {
+        return accountRequestLogic.updateAccountRequestDetails(id, name, email, institute, comments);
+    }
+
+    /**
      * Deletes account request by id.
      *
      * <ul>
@@ -625,6 +659,39 @@ public class Logic {
     }
 
     /**
+     * Retrieves and validates the feedback session for sending published-results reminders.
+     *
+     * @throws EntityDoesNotExistException if the session does not exist.
+     * @throws InvalidParametersException if the session is not published.
+     */
+    public FeedbackSession getFeedbackSessionForResultsReminder(UUID feedbackSessionId)
+            throws EntityDoesNotExistException, InvalidParametersException {
+        return feedbackSessionsLogic.getFeedbackSessionForResultsReminder(feedbackSessionId);
+    }
+
+    /**
+     * Retrieves and validates the feedback session for sending submission reminders.
+     *
+     * @throws EntityDoesNotExistException if the session does not exist.
+     * @throws InvalidParametersException if the session is not open for submissions.
+     */
+    public FeedbackSession getFeedbackSessionForSubmissionReminder(UUID feedbackSessionId)
+            throws EntityDoesNotExistException, InvalidParametersException {
+        return feedbackSessionsLogic.getFeedbackSessionForSubmissionReminder(feedbackSessionId);
+    }
+
+    /**
+     * Returns validated users belonging to the specified course from a list of user IDs.
+     *
+     * @throws EntityDoesNotExistException if any user ID does not correspond to an existing user.
+     * @throws InvalidParametersException if any user does not belong to the specified course.
+     */
+    public List<User> getValidatedUsersForCourse(String courseId, UUID[] userIds)
+            throws EntityDoesNotExistException, InvalidParametersException {
+        return feedbackSessionsLogic.getValidatedUsersForCourse(courseId, userIds);
+    }
+
+    /**
      * Checks whether a student has attempted a feedback session.
      *
      * <p>
@@ -856,6 +923,23 @@ public class Logic {
     }
 
     /**
+     * Creates an {@link Instructor} entity from request parameters and adds it to the course.
+     */
+    public Instructor createInstructorFromRequest(Course course, String instructorName, String instructorEmail,
+            String instructorRole, boolean isDisplayedToStudents, String displayedName) {
+        return usersLogic.createInstructorFromRequest(
+                course, instructorName, instructorEmail, instructorRole, isDisplayedToStudents, displayedName);
+    }
+
+    /**
+     * Returns true if the course has an alternative instructor (other than the given email)
+     * who can modify instructors and who is visible to students.
+     */
+    public boolean hasAlternativeInstructor(String courseId, String instructorEmail) {
+        return usersLogic.hasAlternativeInstructor(courseId, instructorEmail);
+    }
+
+    /**
      * Make the instructor join the course, i.e. associate the Google ID to the
      * instructor.<br>
      * Creates an account for the instructor if no existing account is found.
@@ -869,6 +953,32 @@ public class Logic {
         assert regkey != null;
 
         return accountsLogic.joinCourseForInstructor(regkey, googleId);
+    }
+
+    /**
+     * Creates a new instructor account with demo courses from an approved account request.
+     *
+     * @param googleId the Google ID of the registering instructor.
+     * @param accountRequestId the UUID of the account request.
+     * @param timezone the timezone to use for demo session dates.
+     * @throws InvalidParametersException if demo data contains invalid parameters.
+     * @throws EntityDoesNotExistException if the account request does not exist.
+     * @throws EntityAlreadyExistsException if the instructor has already joined the course.
+     */
+    public void createAccountWithDemoCourse(String googleId, UUID accountRequestId, String timezone)
+            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+        accountsLogic.createAccountWithDemoCourse(googleId, accountRequestId, timezone);
+    }
+
+    /**
+     * Generates the next candidate demo course ID from an email or previously generated ID.
+     *
+     * @param instructorEmailOrProposedCourseId the instructor email or a course ID that already exists.
+     * @param maximumIdLength the maximum allowed course ID length.
+     * @return a new proposed course ID.
+     */
+    public String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength) {
+        return accountsLogic.generateNextDemoCourseId(instructorEmailOrProposedCourseId, maximumIdLength);
     }
 
     /**

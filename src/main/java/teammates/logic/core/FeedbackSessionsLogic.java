@@ -23,6 +23,7 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.User;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 
 /**
@@ -315,6 +316,69 @@ public final class FeedbackSessionsLogic {
         sessionToPublish.setPublishedEmailSent(false);
 
         return sessionToPublish;
+    }
+
+    /**
+     * Retrieves and validates the feedback session for a published-results reminder.
+     *
+     * @throws EntityDoesNotExistException if the session does not exist.
+     * @throws InvalidParametersException if the session is not published.
+     */
+    public FeedbackSession getFeedbackSessionForResultsReminder(UUID feedbackSessionId)
+            throws EntityDoesNotExistException, InvalidParametersException {
+        FeedbackSession feedbackSession = getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityDoesNotExistException(
+                    String.format("Feedback session with id %s not found.", feedbackSessionId));
+        }
+        if (!feedbackSession.isPublished()) {
+            throw new InvalidParametersException(
+                    "Published email could not be resent as the feedback session is not published.");
+        }
+        return feedbackSession;
+    }
+
+    /**
+     * Retrieves and validates the feedback session for a submission reminder.
+     *
+     * @throws EntityDoesNotExistException if the session does not exist.
+     * @throws InvalidParametersException if the session is not open for submissions.
+     */
+    public FeedbackSession getFeedbackSessionForSubmissionReminder(UUID feedbackSessionId)
+            throws EntityDoesNotExistException, InvalidParametersException {
+        FeedbackSession feedbackSession = getFeedbackSession(feedbackSessionId);
+        if (feedbackSession == null) {
+            throw new EntityDoesNotExistException(
+                    String.format("Feedback session with id %s not found.", feedbackSessionId));
+        }
+        if (!feedbackSession.isOpened()) {
+            throw new InvalidParametersException(
+                    "Reminder email could not be sent out as the feedback session is not open for submissions.");
+        }
+        return feedbackSession;
+    }
+
+    /**
+     * Returns validated users belonging to the specified course from a list of user IDs.
+     *
+     * @throws EntityDoesNotExistException if any user ID does not correspond to an existing user.
+     * @throws InvalidParametersException if any user does not belong to the specified course.
+     */
+    public List<User> getValidatedUsersForCourse(String courseId, UUID[] userIds)
+            throws EntityDoesNotExistException, InvalidParametersException {
+        List<User> result = new ArrayList<>();
+        for (UUID userId : userIds) {
+            User user = usersLogic.getUser(userId);
+            if (user == null) {
+                throw new EntityDoesNotExistException("User with id " + userId + " not found.");
+            }
+            if (!courseId.equals(user.getCourseId())) {
+                throw new InvalidParametersException(
+                        "User with id " + userId + " does not belong to course " + courseId + ".");
+            }
+            result.add(user);
+        }
+        return result;
     }
 
     /**

@@ -194,7 +194,59 @@ public final class UsersLogic {
             }
         }
 
+        updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructor);
+
         return instructor;
+    }
+
+    /**
+     * Returns true if there is at least one alternative registered instructor who can modify instructors
+     * and at least one alternative visible instructor in the course, excluding the given instructor.
+     *
+     * <p>This is used to determine whether an instructor can be safely deleted.
+     */
+    public boolean hasAlternativeInstructor(String courseId, String instructorToDeleteEmail) {
+        List<Instructor> instructors = getInstructorsForCourse(courseId);
+        boolean hasAlternativeModifyInstructor = false;
+        boolean hasAlternativeVisibleInstructor = false;
+
+        for (Instructor instr : instructors) {
+            hasAlternativeModifyInstructor = hasAlternativeModifyInstructor || instr.isRegistered()
+                    && !SanitizationHelper.areEmailsEqual(instr.getEmail(), instructorToDeleteEmail)
+                    && instr.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+
+            hasAlternativeVisibleInstructor = hasAlternativeVisibleInstructor
+                    || instr.isDisplayedToStudents()
+                    && !SanitizationHelper.areEmailsEqual(instr.getEmail(), instructorToDeleteEmail);
+
+            if (hasAlternativeModifyInstructor && hasAlternativeVisibleInstructor) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Creates an {@link Instructor} entity from the supplied request parameters.
+     *
+     * <p>Sanitizes all string inputs and resolves the instructor role and privileges.
+     */
+    public Instructor createInstructorFromRequest(Course course, String instructorName, String instructorEmail,
+            String instructorRole, boolean isDisplayedToStudents, String displayedName) {
+        String instrName = SanitizationHelper.sanitizeName(instructorName);
+        String instrEmail = SanitizationHelper.sanitizeEmail(instructorEmail);
+        String instrRole = SanitizationHelper.sanitizeName(instructorRole);
+
+        String instrDisplayedName = displayedName;
+        if (instrDisplayedName == null || instrDisplayedName.isEmpty()) {
+            instrDisplayedName = Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR;
+        }
+
+        InstructorPrivileges privileges = new InstructorPrivileges(instrRole);
+        InstructorPermissionRole role = InstructorPermissionRole.getEnum(instrRole);
+
+        return new Instructor(course, instrName, instrEmail, isDisplayedToStudents, instrDisplayedName, role,
+                privileges);
     }
 
     /**
