@@ -24,8 +24,7 @@ describe('NotificationBannerComponent', () => {
     style: NotificationStyle.SUCCESS,
     targetUser: NotificationTargetUser.GENERAL,
     title: 'valid title 1',
-    message: 'valid message 1',
-    shown: false,
+    message: 'valid message 1'
   };
 
   const testNotificationTwo: Notification = {
@@ -36,8 +35,7 @@ describe('NotificationBannerComponent', () => {
     style: NotificationStyle.DANGER,
     targetUser: NotificationTargetUser.GENERAL,
     title: 'valid title 2',
-    message: 'valid message 2',
-    shown: false,
+    message: 'valid message 2'
   };
 
   beforeEach(waitForAsync(() => {

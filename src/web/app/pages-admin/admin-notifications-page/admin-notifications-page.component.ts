@@ -52,8 +52,6 @@ export class AdminNotificationsPageComponent implements OnInit {
 
   notificationEditFormModel: NotificationEditFormModel = {
     notificationId: '',
-    shown: false,
-
     startTime: getDefaultTimeFormat(),
     startDate: getDefaultDateFormat(),
     endTime: getDefaultTimeFormat(),
@@ -91,8 +89,6 @@ export class AdminNotificationsPageComponent implements OnInit {
     const tomorrow: moment.Moment = moment().add(1, 'days');
     this.notificationEditFormModel = {
       notificationId: '',
-      shown: false,
-
       startTime: {
         minute: nearFuture.hour() === 0 ? 59 : 0, // for 00:00 midnight, we use 23:59
         hour: nearFuture.hour() === 0 ? 23 : nearFuture.hour(),
@@ -196,8 +192,6 @@ export class AdminNotificationsPageComponent implements OnInit {
     const endTime = moment(notification.endTimestamp);
     this.notificationEditFormModel = {
       notificationId: notification.notificationId,
-      shown: notification.shown,
-
       startTime: {
         minute: startTime.hour() === 0 ? 59 : 0, // for 00:00 midnight, we use 23:59
         hour: startTime.hour() === 0 ? 23 : startTime.hour(),

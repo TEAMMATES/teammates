@@ -226,9 +226,18 @@
       "giverType": "INSTRUCTORS",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["STUDENTS", "INSTRUCTORS"],
-      "showGiverNameTo": ["STUDENTS", "INSTRUCTORS"],
-      "showRecipientNameTo": ["STUDENTS", "INSTRUCTORS"],
+      "showResponsesTo": [
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn2InSession1": {
@@ -242,9 +251,19 @@
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["RECEIVER", "RECEIVER_TEAM_MEMBERS", "INSTRUCTORS"],
-      "showGiverNameTo": ["RECEIVER", "INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "INSTRUCTORS"],
+      "showResponsesTo": [
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn3InSession1": {
@@ -261,9 +280,18 @@
       "giverType": "STUDENTS",
       "recipientType": "INSTRUCTORS",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["RECEIVER", "INSTRUCTORS"],
-      "showGiverNameTo": ["RECEIVER", "INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "INSTRUCTORS"],
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn4InSession1": {
@@ -279,9 +307,15 @@
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"],
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn5InSession1": {
@@ -295,9 +329,17 @@
       "giverType": "STUDENTS",
       "recipientType": "STUDENTS",
       "numOfEntitiesToGiveFeedbackTo": 3,
-      "showResponsesTo": ["RECEIVER", "INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "INSTRUCTORS"],
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn6InSession1": {
@@ -306,16 +348,27 @@
       "questionDetails": {
         "questionType": "MSQ",
         "questionText": "Which programming languages do you know?",
-        "msqChoices": ["C", "C++", "Java", "Python"],
+        "msqChoices": [
+          "C",
+          "C++",
+          "Java",
+          "Python"
+        ],
         "otherEnabled": false
       },
       "description": "",
       "giverType": "STUDENTS",
       "recipientType": "NONE",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"],
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn7InSession1": {
@@ -324,16 +377,28 @@
       "questionDetails": {
         "questionType": "MCQ",
         "questionText": "Give feedback indicating which group they are in.",
-        "mcqChoices": ["Group 1", "Group 2"],
+        "mcqChoices": [
+          "Group 1",
+          "Group 2"
+        ],
         "otherEnabled": false
       },
       "description": "",
       "giverType": "INSTRUCTORS",
       "recipientType": "STUDENTS",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["RECEIVER", "INSTRUCTORS"],
-      "showGiverNameTo": ["RECEIVER", "INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "INSTRUCTORS"],
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn8InSession1": {
@@ -347,9 +412,17 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["RECEIVER", "INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "INSTRUCTORS"],
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn9InSession1": {
@@ -361,15 +434,27 @@
         "distributeToRecipients": false,
         "pointsPerOption": false,
         "points": 100,
-        "constSumOptions": ["Grades", "Fun"]
+        "constSumOptions": [
+          "Grades",
+          "Fun"
+        ]
       },
       "description": "",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numOfEntitiesToGiveFeedbackTo": 1,
-      "showResponsesTo": ["RECEIVER", "INSTRUCTORS"],
-      "showGiverNameTo": ["RECEIVER", "INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "INSTRUCTORS"],
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn10InSession1": {
@@ -387,9 +472,18 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["RECEIVER", "INSTRUCTORS"],
-      "showGiverNameTo": ["RECEIVER", "INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "INSTRUCTORS"],
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn11InSession1": {
@@ -403,9 +497,19 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "RECEIVER_TEAM_MEMBERS", "INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "INSTRUCTORS"],
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn12InSession1": {
@@ -414,20 +518,41 @@
       "questionDetails": {
         "questionType": "RUBRIC",
         "questionText": "Please choose the best choice for the following sub-questions.",
-        "rubricSubQuestions": ["This student has done a good job.", "This student has tried his/her best."],
-        "rubricChoices": ["Yes", "No"],
+        "rubricSubQuestions": [
+          "This student has done a good job.",
+          "This student has tried his/her best."
+        ],
+        "rubricChoices": [
+          "Yes",
+          "No"
+        ],
         "rubricDescriptions": [
-          ["", ""],
-          ["Most of the time", "Less than half the time"]
+          [
+            "",
+            ""
+          ],
+          [
+            "Most of the time",
+            "Less than half the time"
+          ]
         ]
       },
       "description": "",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS", "STUDENTS"],
-      "showGiverNameTo": ["INSTRUCTORS", "STUDENTS"],
-      "showRecipientNameTo": ["INSTRUCTORS", "STUDENTS"],
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "STUDENTS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn13InSession1": {
@@ -442,9 +567,18 @@
       "giverType": "STUDENTS",
       "recipientType": "TEAMS",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["RECEIVER", "INSTRUCTORS"],
-      "showGiverNameTo": ["RECEIVER", "INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "INSTRUCTORS"],
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn14InSession1": {
@@ -454,15 +588,29 @@
         "questionType": "RANK_OPTIONS",
         "questionText": "Rank the areas of improvement you think you should make progress in.",
         "areDuplicatesAllowed": true,
-        "options": ["Quality of work", "Quality of progress reports", "Time management", "Teamwork and communication"]
+        "options": [
+          "Quality of work",
+          "Quality of progress reports",
+          "Time management",
+          "Teamwork and communication"
+        ]
       },
       "description": "",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["RECEIVER", "INSTRUCTORS"],
-      "showGiverNameTo": ["RECEIVER", "INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "INSTRUCTORS"],
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000501"
     },
     "qn1InSession2": {
@@ -470,15 +618,25 @@
       "questionNumber": 1,
       "questionDetails": {
         "questionType": "CONTRIB",
-        "questionText": "How much work did each team member contribute to the presentation? (response will be shown anonymously to each team member)."
+        "questionText": "How much work did each team member contribute to the presentation? (response will be  anonymously to each team member)."
       },
       "description": "",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "RECEIVER_TEAM_MEMBERS", "INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "INSTRUCTORS"],
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000502"
     },
     "qn2InSession2": {
@@ -486,15 +644,30 @@
       "questionNumber": 2,
       "questionDetails": {
         "questionType": "TEXT",
-        "questionText": "What contributions did you make to the team? (response will be shown to each team member)."
+        "questionText": "What contributions did you make to the team? (response will be  to each team member)."
       },
       "description": "",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "RECEIVER_TEAM_MEMBERS", "INSTRUCTORS"],
-      "showGiverNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "RECEIVER_TEAM_MEMBERS", "INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "RECEIVER_TEAM_MEMBERS", "INSTRUCTORS"],
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000502"
     },
     "qn3InSession2": {
@@ -502,15 +675,21 @@
       "questionNumber": 3,
       "questionDetails": {
         "questionType": "TEXT",
-        "questionText": "What comments do you have regarding each of your team members? (response is confidential and will only be shown to the instructor)."
+        "questionText": "What comments do you have regarding each of your team members? (response is confidential and will only be  to the instructor)."
       },
       "description": "",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"],
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000502"
     },
     "qn4InSession2": {
@@ -524,9 +703,15 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"],
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000502"
     },
     "qn5InSession2": {
@@ -534,15 +719,23 @@
       "questionNumber": 5,
       "questionDetails": {
         "questionType": "TEXT",
-        "questionText": "What feedback do you have for each of your team members? (response will be shown anonymously to each team member)."
+        "questionText": "What feedback do you have for each of your team members? (response will be  anonymously to each team member)."
       },
       "description": "",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["RECEIVER", "INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "INSTRUCTORS"],
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000502"
     },
     "qn1InSession3": {
@@ -560,9 +753,17 @@
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["RECEIVER", "INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "INSTRUCTORS"],
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000503"
     },
     "qn2InSession3": {
@@ -570,15 +771,30 @@
       "questionNumber": 2,
       "questionDetails": {
         "questionType": "TEXT",
-        "questionText": "What contributions did you make to the team? (response will be shown to each team member)."
+        "questionText": "What contributions did you make to the team? (response will be  to each team member)."
       },
       "description": "",
       "giverType": "STUDENTS",
       "recipientType": "SELF",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "RECEIVER_TEAM_MEMBERS", "INSTRUCTORS"],
-      "showGiverNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "RECEIVER_TEAM_MEMBERS", "INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "OWN_TEAM_MEMBERS", "RECEIVER_TEAM_MEMBERS", "INSTRUCTORS"],
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000503"
     },
     "qn3InSession3": {
@@ -586,15 +802,21 @@
       "questionNumber": 3,
       "questionDetails": {
         "questionType": "TEXT",
-        "questionText": "What comments do you have regarding each of your team members? (response is confidential and will only be shown to the instructor)."
+        "questionText": "What comments do you have regarding each of your team members? (response is confidential and will only be  to the instructor)."
       },
       "description": "",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"],
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000503"
     },
     "qn4InSession3": {
@@ -602,15 +824,21 @@
       "questionNumber": 4,
       "questionDetails": {
         "questionType": "TEXT",
-        "questionText": "How are the team dynamics thus far? (response is confidential and will only be shown to the instructor)."
+        "questionText": "How are the team dynamics thus far? (response is confidential and will only be  to the instructor)."
       },
       "description": "",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["INSTRUCTORS"],
+      "showResponsesTo": [
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000503"
     },
     "qn5InSession3": {
@@ -618,15 +846,23 @@
       "questionNumber": 5,
       "questionDetails": {
         "questionType": "TEXT",
-        "questionText": "What feedback do you have for each of your team members? (response will be shown anonymously to each team member)."
+        "questionText": "What feedback do you have for each of your team members? (response will be  anonymously to each team member)."
       },
       "description": "",
       "giverType": "STUDENTS",
       "recipientType": "OWN_TEAM_MEMBERS",
       "numOfEntitiesToGiveFeedbackTo": -100,
-      "showResponsesTo": ["RECEIVER", "INSTRUCTORS"],
-      "showGiverNameTo": ["INSTRUCTORS"],
-      "showRecipientNameTo": ["RECEIVER", "INSTRUCTORS"],
+      "showResponsesTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
       "sessionId": "00000000-0000-4000-8000-000000000503"
     }
   },
@@ -1836,7 +2072,9 @@
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
       "answer": {
-        "answers": [80],
+        "answers": [
+          80
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -1848,7 +2086,9 @@
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
       "answer": {
-        "answers": [100],
+        "answers": [
+          100
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -1860,7 +2100,9 @@
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
       "answer": {
-        "answers": [100],
+        "answers": [
+          100
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -1872,7 +2114,9 @@
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "emma.f.tmms@gmail.tmt",
       "answer": {
-        "answers": [120],
+        "answers": [
+          120
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -1884,7 +2128,9 @@
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
       "answer": {
-        "answers": [80],
+        "answers": [
+          80
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -1896,7 +2142,9 @@
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
       "answer": {
-        "answers": [100],
+        "answers": [
+          100
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -1908,7 +2156,9 @@
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
       "answer": {
-        "answers": [100],
+        "answers": [
+          100
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -1920,7 +2170,9 @@
       "giver": "benny.c.tmms@gmail.tmt",
       "recipient": "emma.f.tmms@gmail.tmt",
       "answer": {
-        "answers": [120],
+        "answers": [
+          120
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -1932,7 +2184,9 @@
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
       "answer": {
-        "answers": [100],
+        "answers": [
+          100
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -1944,7 +2198,9 @@
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
-        "answers": [120],
+        "answers": [
+          120
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -1956,7 +2212,9 @@
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "francis.g.tmms@gmail.tmt",
       "answer": {
-        "answers": [80],
+        "answers": [
+          80
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -1968,7 +2226,9 @@
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "gene.h.tmms@gmail.tmt",
       "answer": {
-        "answers": [100],
+        "answers": [
+          100
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -1980,7 +2240,9 @@
       "giver": "danny.e.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
       "answer": {
-        "answers": [100],
+        "answers": [
+          100
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -1992,7 +2254,9 @@
       "giver": "danny.e.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
       "answer": {
-        "answers": [100],
+        "answers": [
+          100
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -2004,7 +2268,9 @@
       "giver": "danny.e.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
       "answer": {
-        "answers": [100],
+        "answers": [
+          100
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -2016,7 +2282,9 @@
       "giver": "danny.e.tmms@gmail.tmt",
       "recipient": "emma.f.tmms@gmail.tmt",
       "answer": {
-        "answers": [100],
+        "answers": [
+          100
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -2028,7 +2296,9 @@
       "giver": "emma.f.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
       "answer": {
-        "answers": [60],
+        "answers": [
+          60
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -2040,7 +2310,9 @@
       "giver": "emma.f.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
       "answer": {
-        "answers": [100],
+        "answers": [
+          100
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -2052,7 +2324,9 @@
       "giver": "emma.f.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
       "answer": {
-        "answers": [100],
+        "answers": [
+          100
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -2064,7 +2338,9 @@
       "giver": "emma.f.tmms@gmail.tmt",
       "recipient": "emma.f.tmms@gmail.tmt",
       "answer": {
-        "answers": [140],
+        "answers": [
+          140
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -2076,7 +2352,9 @@
       "giver": "francis.g.tmms@gmail.tmt",
       "recipient": "francis.g.tmms@gmail.tmt",
       "answer": {
-        "answers": [60],
+        "answers": [
+          60
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -2088,7 +2366,9 @@
       "giver": "francis.g.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
       "answer": {
-        "answers": [140],
+        "answers": [
+          140
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -2100,7 +2380,9 @@
       "giver": "francis.g.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
-        "answers": [100],
+        "answers": [
+          100
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -2112,7 +2394,9 @@
       "giver": "francis.g.tmms@gmail.tmt",
       "recipient": "gene.h.tmms@gmail.tmt",
       "answer": {
-        "answers": [100],
+        "answers": [
+          100
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -2124,7 +2408,9 @@
       "giver": "gene.h.tmms@gmail.tmt",
       "recipient": "gene.h.tmms@gmail.tmt",
       "answer": {
-        "answers": [100],
+        "answers": [
+          100
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -2136,7 +2422,9 @@
       "giver": "gene.h.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
       "answer": {
-        "answers": [100],
+        "answers": [
+          100
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -2148,7 +2436,9 @@
       "giver": "gene.h.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
-        "answers": [100],
+        "answers": [
+          100
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -2160,7 +2450,9 @@
       "giver": "gene.h.tmms@gmail.tmt",
       "recipient": "francis.g.tmms@gmail.tmt",
       "answer": {
-        "answers": [100],
+        "answers": [
+          100
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -2172,7 +2464,9 @@
       "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
-        "answers": [100],
+        "answers": [
+          100
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -2184,7 +2478,9 @@
       "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "charlie.d.tmms@gmail.tmt",
       "answer": {
-        "answers": [100],
+        "answers": [
+          100
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -2196,7 +2492,9 @@
       "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "francis.g.tmms@gmail.tmt",
       "answer": {
-        "answers": [100],
+        "answers": [
+          100
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -2208,7 +2506,9 @@
       "giver": "teammates.demo.instructor.student@demo.course",
       "recipient": "gene.h.tmms@gmail.tmt",
       "answer": {
-        "answers": [100],
+        "answers": [
+          100
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000620",
@@ -2988,7 +3288,10 @@
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
       "answer": {
-        "answer": [1, 0],
+        "answer": [
+          1,
+          0
+        ],
         "questionType": "RUBRIC"
       },
       "questionId": "00000000-0000-4000-8000-000000000612",
@@ -3000,7 +3303,10 @@
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
       "answer": {
-        "answer": [0, 1],
+        "answer": [
+          0,
+          1
+        ],
         "questionType": "RUBRIC"
       },
       "questionId": "00000000-0000-4000-8000-000000000612",
@@ -3036,7 +3342,12 @@
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
       "answer": {
-        "answers": [1, 3, 2, 4],
+        "answers": [
+          1,
+          3,
+          2,
+          4
+        ],
         "questionType": "RANK_OPTIONS"
       },
       "questionId": "00000000-0000-4000-8000-000000000614",
@@ -3085,7 +3396,10 @@
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "%GENERAL%",
       "answer": {
-        "answers": ["C", "Java"],
+        "answers": [
+          "C",
+          "Java"
+        ],
         "otherFieldContent": "",
         "questionType": "MSQ"
       },
@@ -3134,7 +3448,10 @@
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
       "answer": {
-        "answers": [20, 80],
+        "answers": [
+          20,
+          80
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000609",
@@ -3146,7 +3463,9 @@
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "alice.b.tmms@gmail.tmt",
       "answer": {
-        "answers": [100],
+        "answers": [
+          100
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000610",
@@ -3158,7 +3477,9 @@
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "benny.c.tmms@gmail.tmt",
       "answer": {
-        "answers": [120],
+        "answers": [
+          120
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000610",
@@ -3170,7 +3491,9 @@
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "danny.e.tmms@gmail.tmt",
       "answer": {
-        "answers": [90],
+        "answers": [
+          90
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000610",
@@ -3182,7 +3505,9 @@
       "giver": "alice.b.tmms@gmail.tmt",
       "recipient": "emma.f.tmms@gmail.tmt",
       "answer": {
-        "answers": [90],
+        "answers": [
+          90
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000610",
@@ -3242,7 +3567,10 @@
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
       "answer": {
-        "answer": [-1, 0],
+        "answer": [
+          -1,
+          0
+        ],
         "questionType": "RUBRIC"
       },
       "questionId": "00000000-0000-4000-8000-000000000612",
@@ -3254,7 +3582,10 @@
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "francis.g.tmms@gmail.tmt",
       "answer": {
-        "answer": [0, 0],
+        "answer": [
+          0,
+          0
+        ],
         "questionType": "RUBRIC"
       },
       "questionId": "00000000-0000-4000-8000-000000000612",
@@ -3290,7 +3621,12 @@
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
       "answer": {
-        "answers": [4, 1, 2, 3],
+        "answers": [
+          4,
+          1,
+          2,
+          3
+        ],
         "questionType": "RANK_OPTIONS"
       },
       "questionId": "00000000-0000-4000-8000-000000000614",
@@ -3363,7 +3699,9 @@
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "%GENERAL%",
       "answer": {
-        "answers": ["Python"],
+        "answers": [
+          "Python"
+        ],
         "otherFieldContent": "",
         "questionType": "MSQ"
       },
@@ -3412,7 +3750,10 @@
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
       "answer": {
-        "answers": [45, 55],
+        "answers": [
+          45,
+          55
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000609",
@@ -3424,7 +3765,9 @@
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "charlie.d.tmms@gmail.tmt",
       "answer": {
-        "answers": [110],
+        "answers": [
+          110
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000610",
@@ -3436,7 +3779,9 @@
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "francis.g.tmms@gmail.tmt",
       "answer": {
-        "answers": [90],
+        "answers": [
+          90
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000610",
@@ -3448,7 +3793,9 @@
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "gene.h.tmms@gmail.tmt",
       "answer": {
-        "answers": [50],
+        "answers": [
+          50
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000610",
@@ -3460,7 +3807,9 @@
       "giver": "charlie.d.tmms@gmail.tmt",
       "recipient": "teammates.demo.instructor.student@demo.course",
       "answer": {
-        "answers": [150],
+        "answers": [
+          150
+        ],
         "questionType": "CONSTSUM"
       },
       "questionId": "00000000-0000-4000-8000-000000000610",
@@ -3527,8 +3876,18 @@
       "commentText": "<p>Alice, good to know that you liked applying software engineering skills in the project. Don't forget to use the project to practice communication skills too.</p>",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
-      "showCommentTo": ["GIVER", "RECEIVER", "RECEIVER_TEAM_MEMBERS", "INSTRUCTORS"],
-      "showGiverNameTo": ["GIVER", "RECEIVER", "RECEIVER_TEAM_MEMBERS", "INSTRUCTORS"],
+      "showCommentTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
       "createdAt": "demo.date5T21:17:00Z",
       "updatedAt": "demo.date5T21:17:00Z",
       "responseId": "00000000-0000-4000-8000-000000000701"
@@ -3543,8 +3902,16 @@
       "commentText": "<p>Completely agree, the application does look pretty.</p>",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
-      "showCommentTo": ["GIVER", "RECEIVER", "INSTRUCTORS"],
-      "showGiverNameTo": ["GIVER", "RECEIVER", "INSTRUCTORS"],
+      "showCommentTo": [
+        "GIVER",
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "GIVER",
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
       "createdAt": "demo.date5T21:20:00Z",
       "updatedAt": "demo.date5T21:20:00Z",
       "responseId": "00000000-0000-4000-8000-000000000702"
@@ -3559,8 +3926,16 @@
       "commentText": "<p>Alice, He's one of the best designers in our institute and always amazes everyone with his work.</p>",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
-      "showCommentTo": ["GIVER", "RECEIVER", "INSTRUCTORS"],
-      "showGiverNameTo": ["GIVER", "RECEIVER", "INSTRUCTORS"],
+      "showCommentTo": [
+        "GIVER",
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "GIVER",
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
       "createdAt": "demo.date5T21:23:00Z",
       "updatedAt": "demo.date5T21:23:00Z",
       "responseId": "00000000-0000-4000-8000-000000000703"
@@ -3575,8 +3950,16 @@
       "commentText": "<p>Hoping you keep using them on future projects.</p>",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
-      "showCommentTo": ["GIVER", "RECEIVER", "INSTRUCTORS"],
-      "showGiverNameTo": ["GIVER", "RECEIVER", "INSTRUCTORS"],
+      "showCommentTo": [
+        "GIVER",
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "GIVER",
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
       "createdAt": "demo.date5T21:26:00Z",
       "updatedAt": "demo.date5T21:26:00Z",
       "responseId": "00000000-0000-4000-8000-000000000704"
@@ -3591,8 +3974,20 @@
       "commentText": "<p>Nice work Alice, Impressed by clean, portable and well-documented code.</p>",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
-      "showCommentTo": ["GIVER", "RECEIVER", "RECEIVER_TEAM_MEMBERS", "OWN_TEAM_MEMBERS", "INSTRUCTORS"],
-      "showGiverNameTo": ["GIVER", "RECEIVER", "RECEIVER_TEAM_MEMBERS", "OWN_TEAM_MEMBERS", "INSTRUCTORS"],
+      "showCommentTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
       "createdAt": "demo.date5T21:29:00Z",
       "updatedAt": "demo.date5T21:29:00Z",
       "responseId": "00000000-0000-4000-8000-000000000705"
@@ -3607,8 +4002,20 @@
       "commentText": "<p>Although there are some loopholes in UI, But overall looks good.</p>",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
-      "showCommentTo": ["GIVER", "RECEIVER", "RECEIVER_TEAM_MEMBERS", "OWN_TEAM_MEMBERS", "INSTRUCTORS"],
-      "showGiverNameTo": ["GIVER", "RECEIVER", "RECEIVER_TEAM_MEMBERS", "OWN_TEAM_MEMBERS", "INSTRUCTORS"],
+      "showCommentTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
       "createdAt": "demo.date5T21:33:00Z",
       "updatedAt": "demo.date5T21:33:00Z",
       "responseId": "00000000-0000-4000-8000-000000000706"
@@ -3623,8 +4030,20 @@
       "commentText": "<p>Well, Being your first team project always takes some time. I hope you had nice experience working with the team.</p>",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
-      "showCommentTo": ["GIVER", "RECEIVER", "RECEIVER_TEAM_MEMBERS", "OWN_TEAM_MEMBERS", "INSTRUCTORS"],
-      "showGiverNameTo": ["GIVER", "RECEIVER", "RECEIVER_TEAM_MEMBERS", "OWN_TEAM_MEMBERS", "INSTRUCTORS"],
+      "showCommentTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
       "createdAt": "demo.date5T21:36:00Z",
       "updatedAt": "demo.date5T21:36:00Z",
       "responseId": "00000000-0000-4000-8000-000000000707"
@@ -3639,8 +4058,20 @@
       "commentText": "<p>Design could have been more interactive.</p>",
       "isVisibilityFollowingFeedbackQuestion": false,
       "isCommentFromFeedbackParticipant": false,
-      "showCommentTo": ["GIVER", "RECEIVER", "RECEIVER_TEAM_MEMBERS", "OWN_TEAM_MEMBERS", "INSTRUCTORS"],
-      "showGiverNameTo": ["GIVER", "RECEIVER", "RECEIVER_TEAM_MEMBERS", "OWN_TEAM_MEMBERS", "INSTRUCTORS"],
+      "showCommentTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "GIVER",
+        "RECEIVER",
+        "RECEIVER_TEAM_MEMBERS",
+        "OWN_TEAM_MEMBERS",
+        "INSTRUCTORS"
+      ],
       "createdAt": "demo.date5T21:39:00Z",
       "updatedAt": "demo.date5T21:39:00Z",
       "responseId": "00000000-0000-4000-8000-000000000708"

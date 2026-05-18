@@ -27,8 +27,8 @@ describe('UserNotificationsListComponent', () => {
     style: NotificationStyle.SUCCESS,
     targetUser: NotificationTargetUser.GENERAL,
     title: 'valid title 1',
-    message: 'valid message 1',
-    shown: false,
+    message: 'valid message 1'
+
   };
 
   const testNotificationTwo: Notification = {
@@ -39,8 +39,7 @@ describe('UserNotificationsListComponent', () => {
     style: NotificationStyle.DANGER,
     targetUser: NotificationTargetUser.GENERAL,
     title: 'valid title 2',
-    message: 'valid message 2',
-    shown: false,
+    message: 'valid message 2'
   };
 
   const timezone = 'UTC';
@@ -146,13 +145,13 @@ describe('UserNotificationsListComponent', () => {
     component.sortNotificationsBy(SortBy.NOTIFICATION_START_TIME);
     expect(
       component.notificationTabs[0].notification.startTimestamp >=
-        component.notificationTabs[1].notification.startTimestamp,
+      component.notificationTabs[1].notification.startTimestamp,
     ).toBeTruthy();
 
     component.sortNotificationsBy(SortBy.NOTIFICATION_END_TIME);
     expect(
       component.notificationTabs[0].notification.endTimestamp <=
-        component.notificationTabs[1].notification.endTimestamp,
+      component.notificationTabs[1].notification.endTimestamp,
     ).toBeTruthy();
   });
 

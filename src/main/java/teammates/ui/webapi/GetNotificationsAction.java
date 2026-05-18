@@ -50,7 +50,8 @@ public class GetNotificationsAction extends Action {
         List<Notification> notifications;
 
         if (targetUserString == null && authContext.isAdmin()) {
-            // if request is from admin and targetUser is not specified, retrieve all notifications
+            // if request is from admin and targetUser is not specified, retrieve all
+            // notifications
             notifications = logic.getAllNotifications();
             return new JsonResult(new NotificationsData(notifications));
         }
@@ -87,13 +88,13 @@ public class GetNotificationsAction extends Action {
             return new JsonResult(new NotificationsData(notifications));
         }
 
-        // Update shown attribute once a non-admin user fetches unread notifications
-        for (Notification n : notifications) {
-            if (n.isShown()) {
-                continue;
-            }
-            n.setShown();
-        }
+        // // Update shown attribute once a non-admin user fetches unread notifications
+        // for (Notification n : notifications) {
+        // if (n.isShown()) {
+        // continue;
+        // }
+        // n.setShown();
+        // }
 
         return new JsonResult(new NotificationsData(notifications));
     }

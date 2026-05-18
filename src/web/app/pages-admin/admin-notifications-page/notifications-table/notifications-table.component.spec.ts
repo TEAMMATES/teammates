@@ -17,7 +17,7 @@ const notificationTableRowModel1: NotificationsTableRowModel = {
     targetUser: NotificationTargetUser.INSTRUCTOR,
     title: 'valid title 1',
     message: 'valid message 1',
-    shown: false,
+    // shown: false,
   },
 };
 
@@ -32,7 +32,7 @@ const notificationTableRowModel2: NotificationsTableRowModel = {
     targetUser: NotificationTargetUser.GENERAL,
     title: 'valid title 2',
     message: 'valid message 2',
-    shown: false,
+    // shown: false,
   },
 };
 

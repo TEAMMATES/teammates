@@ -3,6 +3,7 @@ package teammates.storage.api;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -35,7 +36,9 @@ public final class NotificationsDb {
     /**
      * Creates a notification.
      *
-     * <p>Preconditions:</p>
+     * <p>
+     * Preconditions:
+     * </p>
      * * Notification fields are valid.
      */
     public Notification createNotification(Notification notification) {
@@ -94,10 +97,12 @@ public final class NotificationsDb {
     }
 
     /**
-     * Gets active notifications by {@code targetUser} that have not been read by the account
+     * Gets active notifications by {@code targetUser} that have not been read by
+     * the account
      * with the given {@code accountId}.
      *
-     * @return a list of unread active notifications for the specified targetUser and account.
+     * @return a list of unread active notifications for the specified targetUser
+     *         and account.
      */
     public List<Notification> getUnreadActiveNotificationsByTargetUser(
             List<NotificationTargetUser> targetUsers, UUID accountId, Instant now) {

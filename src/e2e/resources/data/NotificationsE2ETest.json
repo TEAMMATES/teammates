@@ -83,8 +83,7 @@
       "style": "DANGER",
       "targetUser": "GENERAL",
       "title": "A deprecation note",
-      "message": "<p>Deprecation happens in three minutes</p>",
-      "shown": false
+      "message": "<p>Deprecation happens in three minutes</p>"
     },
     "notification2": {
       "id": "00000000-0000-4000-8000-000000001102",
@@ -95,8 +94,7 @@
       "style": "INFO",
       "targetUser": "STUDENT",
       "title": "New Update",
-      "message": "<p>Information on new update</p>",
-      "shown": false
+      "message": "<p>Information on new update</p>"
     },
     "notification3": {
       "id": "00000000-0000-4000-8000-000000001103",
@@ -105,8 +103,7 @@
       "style": "SUCCESS",
       "targetUser": "INSTRUCTOR",
       "title": "INotifs.notification3",
-      "message": "<p>This notification is shown to instructors only</p>",
-      "shown": true
+      "message": "<p>This notification is  to instructors only</p>"
     },
     "notification4": {
       "id": "00000000-0000-4000-8000-000000001104",
@@ -115,8 +112,7 @@
       "style": "WARNING",
       "targetUser": "GENERAL",
       "title": "INotifs.notification4",
-      "message": "<p>This notification has been read by the user</p>",
-      "shown": true
+      "message": "<p>This notification has been read by the user</p>"
     },
     "expiredNotification1": {
       "id": "00000000-0000-4000-8000-000000001105",
@@ -125,8 +121,7 @@
       "style": "DANGER",
       "targetUser": "GENERAL",
       "title": "INotifs.expiredNotification1",
-      "message": "<p>This notification has expired</p>",
-      "shown": false
+      "message": "<p>This notification has expired</p>"
     }
   },
   "deadlineExtensions": {},
