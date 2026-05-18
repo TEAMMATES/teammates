@@ -56,7 +56,7 @@ public class UpdateStudentAction extends Action {
             throw new EntityNotFoundException(STUDENT_NOT_FOUND_FOR_EDIT);
         }
 
-        Instructor instructor = logic.getInstructorByGoogleId(existingStudent.getCourseId(), authContext.id());
+        Instructor instructor = logic.getInstructorByGoogleId(existingStudent.getCourseId(), getCurrentUserGoogleId());
         gateKeeper.verifyAccessible(
                 instructor, logic.getCourse(existingStudent.getCourseId()), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }

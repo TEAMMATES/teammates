@@ -32,7 +32,7 @@ final class GateKeeper {
      * Verifies the user is logged in.
      */
     void verifyLoggedInUserPrivileges(AuthContext authContext) throws UnauthorizedAccessException {
-        if (authContext != null) {
+        if (authContext.account() != null) {
             return;
         }
 
@@ -40,7 +40,7 @@ final class GateKeeper {
     }
 
     void verifyAdminPrivileges(AuthContext authContext) throws UnauthorizedAccessException {
-        if (authContext != null && authContext.isAdmin()) {
+        if (authContext.isAdmin()) {
             return;
         }
 

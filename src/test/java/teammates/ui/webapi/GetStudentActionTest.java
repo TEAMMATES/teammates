@@ -65,6 +65,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
     @Test
     void testExecute_validParamsUnregisteredStudentNotLoggedIn_success() {
+        logoutUser();
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
                 Const.ParamsNames.REGKEY, stubStudent.getRegKey(),

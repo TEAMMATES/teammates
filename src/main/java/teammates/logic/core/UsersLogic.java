@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
 import java.util.UUID;
@@ -89,6 +90,14 @@ public final class UsersLogic {
      */
     public User getUser(UUID id) {
         return usersDb.getUser(id);
+    }
+
+    /**
+     * Get user by registration key.
+     */
+    public User getUserByRegistrationKey(String regKey) {
+        Objects.requireNonNull(regKey);
+        return usersDb.getUserByRegKey(regKey);
     }
 
     /**
@@ -224,9 +233,12 @@ public final class UsersLogic {
      * Gets an instructor by associated {@code regkey}.
      */
     public Instructor getInstructorByRegistrationKey(String regKey) {
-        assert regKey != null;
+        User user = getUserByRegistrationKey(regKey);
+        if (user instanceof Instructor instructor) {
+            return instructor;
+        }
 
-        return usersDb.getInstructorByRegKey(regKey);
+        return null;
     }
 
     /**
@@ -561,8 +573,12 @@ public final class UsersLogic {
      */
     public Student getStudentByRegistrationKey(String regKey) {
         assert regKey != null;
+        User user = getUserByRegistrationKey(regKey);
+        if (user instanceof Student student) {
+            return student;
+        }
 
-        return usersDb.getStudentByRegKey(regKey);
+        return null;
     }
 
     /**

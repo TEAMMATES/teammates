@@ -31,7 +31,7 @@ public class UpdateFeedbackQuestionAction extends Action {
             throw new EntityNotFoundException("Unknown question id");
         }
 
-        gateKeeper.verifyAccessible(logic.getInstructorByGoogleId(feedbackQuestion.getCourseId(), authContext.id()),
+        gateKeeper.verifyAccessible(logic.getInstructorByGoogleId(feedbackQuestion.getCourseId(), getCurrentUserGoogleId()),
                 getNonNullFeedbackSession(feedbackQuestion.getFeedbackSession().getName(), feedbackQuestion.getCourseId()),
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }

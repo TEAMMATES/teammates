@@ -26,7 +26,7 @@ public class UpdateCourseAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         Course course = logic.getCourse(courseId);
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
 
         gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }

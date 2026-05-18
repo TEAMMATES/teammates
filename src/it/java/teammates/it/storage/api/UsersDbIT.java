@@ -85,14 +85,6 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         actualInstructor = usersDb.getInstructorForEmail(instructor.getCourseId(), "does-not-exist@teammates.tmt");
         assertNull(actualInstructor);
 
-        ______TS("success: gets an instructor by regKey");
-        actualInstructor = usersDb.getInstructorByRegKey(instructor.getRegKey());
-        verifyEquals(instructor, actualInstructor);
-
-        ______TS("success: gets an instructor by regKey that does not exist");
-        actualInstructor = usersDb.getInstructorByRegKey("invalid-reg-key");
-        assertNull(actualInstructor);
-
         ______TS("success: gets an instructor by googleId");
         actualInstructor = usersDb.getInstructorByGoogleId(instructor.getCourseId(),
                 instructor.getAccount().getGoogleId());
@@ -120,14 +112,6 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: gets a student by courseId and email that does not exist");
         actualStudent = usersDb.getStudentForEmail(student.getCourseId(), "does-not-exist@teammates.tmt");
-        assertNull(actualStudent);
-
-        ______TS("success: gets a student by regKey");
-        actualStudent = usersDb.getStudentByRegKey(student.getRegKey());
-        verifyEquals(student, actualStudent);
-
-        ______TS("success: gets a student by regKey that does not exist");
-        actualStudent = usersDb.getStudentByRegKey("invalid-reg-key");
         assertNull(actualStudent);
 
         ______TS("success: gets a student by googleId");
