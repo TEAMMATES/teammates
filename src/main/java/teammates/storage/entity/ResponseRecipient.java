@@ -117,17 +117,19 @@ public class ResponseRecipient {
      */
     public String getTeamName() {
         if (recipientType == ResponseRecipientType.TEAM) {
-            return recipientTeam.getName();
+            return recipientTeam != null ? recipientTeam.getName() : Const.UNKNOWN_TEAM;
+        } else if (recipientType == ResponseRecipientType.NO_SPECIFIC_RECIPIENT) {
+            return Const.USER_NOBODY_TEXT;
         }
+
+        // recipient is a user
         if (recipientUser instanceof Student student) {
             return student.getTeamName();
-        }
-
-        if (recipientUser instanceof Instructor) {
+        } else if (recipientUser instanceof Instructor) {
             return Const.USER_TEAM_FOR_INSTRUCTOR;
+        } else {
+            return Const.UNKNOWN_TEAM;
         }
-
-        return Const.USER_NOBODY_TEXT;
     }
 
     /**
@@ -135,13 +137,14 @@ public class ResponseRecipient {
      */
     public String getSectionName() {
         if (recipientType == ResponseRecipientType.TEAM) {
-            return recipientTeam.getSection().getName();
-        }
-        if (recipientUser instanceof Student student) {
+            return recipientTeam != null ? recipientTeam.getSection().getName() : Const.UNKNOWN_SECTION;
+        } else if (recipientType == ResponseRecipientType.NO_SPECIFIC_RECIPIENT || recipientUser instanceof Instructor) {
+            return Const.DEFAULT_SECTION;
+        } else if (recipientUser instanceof Student student) {
             return student.getSectionName();
+        } else {
+            return Const.UNKNOWN_SECTION;
         }
-
-        return Const.DEFAULT_SECTION;
     }
 
     public boolean isNoSpecificRecipient() {

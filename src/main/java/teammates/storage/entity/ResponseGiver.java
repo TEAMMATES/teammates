@@ -102,10 +102,13 @@ public class ResponseGiver {
      */
     public String getTeamName() {
         if (isGiverTeam()) {
-            return giverTeam.getName();
+            return giverTeam != null ? giverTeam.getName() : Const.UNKNOWN_TEAM;
         }
         if (giverUser instanceof Student student) {
             return student.getTeamName();
+        }
+        if (giverUser == null) {
+            return Const.UNKNOWN_TEAM;
         }
         return Const.USER_TEAM_FOR_INSTRUCTOR;
     }
@@ -115,10 +118,13 @@ public class ResponseGiver {
      */
     public String getSectionName() {
         if (isGiverTeam()) {
-            return giverTeam.getSection().getName();
+            return giverTeam != null ? giverTeam.getSection().getName() : Const.UNKNOWN_SECTION;
         }
         if (giverUser instanceof Student student) {
             return student.getSectionName();
+        }
+        if (giverUser == null) {
+            return Const.UNKNOWN_SECTION;
         }
         return Const.DEFAULT_SECTION;
     }
@@ -133,7 +139,7 @@ public class ResponseGiver {
         if (giverUser != null) {
             return giverUser.getEmail();
         }
-        return "Deleted User";
+        return "Deleted User or Team";
     }
 
     /**
@@ -146,7 +152,7 @@ public class ResponseGiver {
         if (giverUser != null) {
             return giverUser.getName();
         }
-        return "Deleted User";
+        return "Deleted User or Team";
     }
 
     /**
