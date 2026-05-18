@@ -29,7 +29,7 @@ public class DeleteFeedbackQuestionAction extends Action {
             throw new EntityNotFoundException("Unknown question id");
         }
 
-        gateKeeper.verifyAccessible(logic.getInstructorByGoogleId(question.getCourseId(), authContext.id()),
+        gateKeeper.verifyAccessible(logic.getInstructorByGoogleId(question.getCourseId(), getCurrentUserGoogleId()),
                 getNonNullFeedbackSession(question.getFeedbackSession().getName(), question.getCourseId()),
                 Const.InstructorPermissions.CAN_MODIFY_SESSION);
 

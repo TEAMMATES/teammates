@@ -29,7 +29,7 @@ public class CreateCourseAction extends Action {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
-        List<Instructor> existingInstructors = logic.getInstructorsForGoogleId(authContext.id());
+        List<Instructor> existingInstructors = logic.getInstructorsForGoogleId(getCurrentUserGoogleId());
         boolean canCreateCourse = existingInstructors.stream()
                 .filter(Instructor::hasCoownerPrivileges)
                 .map(instructor -> logic.getCourse(instructor.getCourseId()))
@@ -60,7 +60,7 @@ public class CreateCourseAction extends Action {
         course.setCreatedAt(Instant.now());
 
         try {
-            Course createdCourse = logic.createCourseAndInstructor(authContext.id(), course);
+            Course createdCourse = logic.createCourseAndInstructor(getCurrentUserGoogleId(), course);
             return new JsonResult(new CourseData(createdCourse));
 
         } catch (EntityAlreadyExistsException e) {

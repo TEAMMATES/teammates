@@ -24,7 +24,7 @@ public class GetInstructorPrivilegeAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
 
         if (instructor == null) {
             throw new UnauthorizedAccessException("Not instructor of the course");
@@ -41,7 +41,7 @@ public class GetInstructorPrivilegeAction extends Action {
 
         if (instructorId == null) {
             if (instructorEmail == null) {
-                instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
+                instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
             } else {
                 instructor = logic.getInstructorForEmail(courseId, instructorEmail);
 

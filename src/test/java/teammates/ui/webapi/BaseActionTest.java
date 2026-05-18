@@ -1,6 +1,8 @@
 package teammates.ui.webapi;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -107,18 +109,25 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             action.setTaskQueuer(mockTaskQueuer);
             action.setEmailSender(mockEmailSender);
             action.setLogsProcessor(mockLogsProcessor);
+            stubUserForRegistrationKey();
+            mockUserProvision.setLogic(mockLogic);
+            mockUserProvision.setCreateMissingAccounts(true);
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
             action.setEmailGenerator(mockEmailGenerator);
             action.init(req);
-            if (mockUserProvision.isAutomatedServiceMode()) {
-                action.authType = AuthType.AUTOMATED_SERVICE;
-                action.authContext = null;
-            }
             return action;
         } catch (ActionMappingException e) {
             throw new RuntimeException(e);
+        } catch (UnauthorizedAccessException e) {
+            BaseActionTest.<RuntimeException>sneakyThrow(e);
+            return null;
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <E extends Throwable> void sneakyThrow(Throwable e) throws E {
+        throw (E) e;
     }
 
     /**
@@ -146,6 +155,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      * Logs in the user to the test environment as an admin.
      */
     protected void loginAsAdmin() {
+        mockUserProvision.setLogic(mockLogic);
+        mockUserProvision.setCreateMissingAccounts(true);
         mockUserProvision.loginAsAdmin(Config.APP_ADMINS.get(0));
     }
 
@@ -154,6 +165,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      * (without any right).
      */
     protected void loginAsUnregistered(String userId) {
+        mockUserProvision.setLogic(mockLogic);
+        mockUserProvision.setCreateMissingAccounts(true);
         mockUserProvision.loginUser(userId);
     }
 
@@ -162,6 +175,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      * (without admin rights or student rights).
      */
     protected void loginAsInstructor(String userId) {
+        mockUserProvision.setLogic(mockLogic);
+        mockUserProvision.setCreateMissingAccounts(true);
         mockUserProvision.loginUser(userId);
     }
 
@@ -170,6 +185,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      * (without admin rights or instructor rights).
      */
     protected void loginAsStudent(String userId) {
+        mockUserProvision.setLogic(mockLogic);
+        mockUserProvision.setCreateMissingAccounts(true);
         mockUserProvision.loginUser(userId);
     }
 
@@ -178,6 +195,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      * (without admin rights).
      */
     protected void loginAsStudentInstructor(String userId) {
+        mockUserProvision.setLogic(mockLogic);
+        mockUserProvision.setCreateMissingAccounts(true);
         mockUserProvision.loginUser(userId);
     }
 
@@ -185,7 +204,20 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      * Logs in the user to the test environment as a maintainer.
      */
     protected void loginAsMaintainer() {
+        mockUserProvision.setLogic(mockLogic);
+        mockUserProvision.setCreateMissingAccounts(true);
         mockUserProvision.loginAsMaintainer(Config.APP_MAINTAINERS.get(0));
+    }
+
+    private void stubUserForRegistrationKey() {
+        doAnswer(invocation -> {
+            String regKey = invocation.getArgument(0);
+            Student student = mockLogic.getStudentByRegistrationKey(regKey);
+            if (student != null) {
+                return student;
+            }
+            return mockLogic.getInstructorByRegistrationKey(regKey);
+        }).when(mockLogic).getUserByRegistrationKey(anyString());
     }
 
     /**
@@ -734,8 +766,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
     private void loginAsAdminAndMasqueradeAsInstructor(Instructor instructor, boolean canMasquerade, String... params) {
         loginAsAdmin();
-        mockUserProvision.setAdmin(false);
-        mockUserProvision.setMaintainer(false);
         when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
 
         if (canMasquerade) {

@@ -73,21 +73,22 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         if (!StringHelper.isEmpty(moderatedPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
             gateKeeper.verifyAccessible(
-                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), authContext.id()), feedbackSession,
+                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()), feedbackSession,
                     student.getSectionName(),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
             gateKeeper.verifyAccessible(
-                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), authContext.id()), feedbackSession,
+                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()), feedbackSession,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
             gateKeeper.verifyAccessible(student, feedbackSession);
             if (student.getAccount() != null) {
-                if (authContext == null) {
+                String googleId = getCurrentUserGoogleId();
+                if (googleId == null) {
                     // Student is associated with an account; even if registration key is passed, do not allow access
                     throw new UnauthorizedAccessException("Login is required to access this feedback session");
-                } else if (!authContext.id().equals(student.getAccount().getGoogleId())) {
+                } else if (!googleId.equals(student.getAccount().getGoogleId())) {
                     // Logged in student is not the same as the student registered for the given key, do not allow access
                     throw new UnauthorizedAccessException("You are not authorized to access this feedback session");
                 }
@@ -145,20 +146,21 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         if (!StringHelper.isEmpty(moderatedPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
             gateKeeper.verifyAccessible(
-                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), authContext.id()),
+                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()),
                     feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
             gateKeeper.verifyAccessible(
-                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), authContext.id()),
+                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()),
                     feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
             gateKeeper.verifySessionSubmissionPrivilegeForInstructor(feedbackSession, instructor);
             if (instructor.getAccount() != null) {
-                if (authContext == null) {
+                String googleId = getCurrentUserGoogleId();
+                if (googleId == null) {
                     // Instructor is associated to an account; even if registration key is passed, do not allow access
                     throw new UnauthorizedAccessException("Login is required to access this feedback session");
-                } else if (!authContext.id().equals(instructor.getAccount().getGoogleId())) {
+                } else if (!googleId.equals(instructor.getAccount().getGoogleId())) {
                     // Logged in instructor is not the same as the instructor registered for the given key,
                     // do not allow access
                     throw new UnauthorizedAccessException("You are not authorized to access this feedback session");
@@ -189,10 +191,11 @@ abstract class BasicFeedbackSubmissionAction extends Action {
 
     private void verifyMatchingGoogleId(String googleId) throws UnauthorizedAccessException {
         if (!StringHelper.isEmpty(googleId)) {
-            if (authContext == null) {
+            String currentGoogleId = getCurrentUserGoogleId();
+            if (currentGoogleId == null) {
                 // Student/Instructor is associated to a google ID; even if registration key is passed, do not allow access
                 throw new UnauthorizedAccessException("Login is required to access this feedback session");
-            } else if (!authContext.id().equals(googleId)) {
+            } else if (!currentGoogleId.equals(googleId)) {
                 // Logged in student/instructor is not the same as the student/instructor registered for the given key,
                 // do not allow access
                 throw new UnauthorizedAccessException("You are not authorized to access this feedback session");
@@ -206,11 +209,11 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         gateKeeper.verifyLoggedInUserPrivileges(authContext);
         if (isInstructor) {
             gateKeeper.verifyAccessible(
-                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), authContext.id()), feedbackSession,
+                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()), feedbackSession,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
             gateKeeper.verifyAccessible(
-                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), authContext.id()), feedbackSession,
+                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()), feedbackSession,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION);
         }
     }
