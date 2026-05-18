@@ -23,13 +23,6 @@ public class UserProvision {
 
     private static final UserProvision instance = new UserProvision();
 
-    private static final AuthContext ALL_ACCESS_AUTH_CONTEXT = new AuthContext(
-            AuthType.ALL_ACCESS,
-            null,
-            null,
-            true,
-            true);
-
     private static final AuthContext AUTOMATED_SERVICE_AUTH_CONTEXT = new AuthContext(
             AuthType.AUTOMATED_SERVICE,
             null,
@@ -64,7 +57,7 @@ public class UserProvision {
         Account account = getAccountFromRequest(req);
 
         if (isBackdoorRequest(req)) {
-            return ALL_ACCESS_AUTH_CONTEXT;
+            return handleBackdoorRequest(req);
         } else if (isTrustedAutomatedCronOrWorkerRequest(req)) {
             return AUTOMATED_SERVICE_AUTH_CONTEXT;
         } else if (isLoggedInUser(account)) {
@@ -157,6 +150,21 @@ public class UserProvision {
             return accountsLogic.getAccount(uic.getAccountId());
         }
         return null;
+    }
+
+    private AuthContext handleBackdoorRequest(HttpServletRequest req) {
+        Account account = null;
+        if (isMasqueradeRequest(req)) {
+            String userId = req.getParameter(Const.ParamsNames.USER_ID);
+            account = accountsLogic.getAccountForGoogleId(userId);
+        }
+
+        return new AuthContext(
+                AuthType.ALL_ACCESS,
+                account,
+                null,
+                true,
+                true);
     }
 
     /**

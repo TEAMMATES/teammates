@@ -130,7 +130,7 @@ public abstract class Action {
     }
 
     Account getCurrentAccount() {
-        return authContext == null ? null : authContext.account();
+        return authContext.account();
     }
 
     String getCurrentUserGoogleId() {
