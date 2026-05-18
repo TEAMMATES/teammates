@@ -195,8 +195,7 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
     }
 
     private String generateNextDemoCourseId(String instructorEmailOrProposedCourseId, int maximumIdLength) {
-        CreateAccountAction a = new CreateAccountAction();
-        return a.generateNextDemoCourseId(instructorEmailOrProposedCourseId, maximumIdLength);
+        return logic.generateNextDemoCourseId(instructorEmailOrProposedCourseId, maximumIdLength);
     }
 
 }
