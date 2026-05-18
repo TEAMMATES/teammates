@@ -13,6 +13,7 @@ import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
@@ -82,10 +83,12 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
             Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
             ResponseGiver giver = feedbackResponse.getGiver();
-            String sectionName = giver.getSectionName();
-            gateKeeper.verifyAccessible(instructor, session, sectionName,
+            String giverSectionName = giver.getSectionName();
+            ResponseRecipient recipient = feedbackResponse.getRecipient();
+            String recipientSectionName = recipient.getSectionName();
+            gateKeeper.verifyAccessible(instructor, session, giverSectionName,
                     Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
-            gateKeeper.verifyAccessible(instructor, session, sectionName,
+            gateKeeper.verifyAccessible(instructor, session, recipientSectionName,
                     Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
             if (!feedbackQuestion.getQuestionDetailsCopy().isInstructorCommentsOnResponsesAllowed()) {
                 throw new InvalidHttpParameterException("Invalid question type for instructor comment");
