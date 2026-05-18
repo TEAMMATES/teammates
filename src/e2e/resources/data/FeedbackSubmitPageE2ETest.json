@@ -367,15 +367,18 @@
   "feedbackResponses": {
     "response1": {
       "id": "00000000-0000-4000-8000-000000000701",
-      "giver": "fsubmit.benny.c@gmail.tmt",
-      "recipient": "fsubmit.alice.b@gmail.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000402"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000401"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Alice response."
       },
-      "questionId": "00000000-0000-4000-8000-000000000601",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000601"
     }
   },
   "feedbackResponseComments": {}

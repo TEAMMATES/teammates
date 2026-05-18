@@ -23,6 +23,8 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.test.ThreadHelper;
 import teammates.ui.output.FeedbackSessionData;
@@ -407,6 +409,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
         Set<String> responders = testData.feedbackResponses.values().stream()
                 .filter(r -> r.getFeedbackQuestion().getFeedbackSession().getCourseId().equals(courseId))
                 .map(FeedbackResponse::getGiver)
+                .map(ResponseGiver::getIdentifier)
                 .collect(Collectors.toSet());
 
         return testData.students.values().stream()
@@ -426,9 +429,9 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     private void sortResponses(List<FeedbackResponse> responses) {
         responses.sort((r1, r2) -> {
             if (r1.getGiver().equals(r2.getGiver())) {
-                return r1.getRecipient().compareTo(r2.getRecipient());
+                return r1.getRecipient().getIdentifier().compareTo(r2.getRecipient().getIdentifier());
             }
-            return r1.getGiver().compareTo(r2.getGiver());
+            return r1.getGiver().getIdentifier().compareTo(r2.getGiver().getIdentifier());
         });
     }
 
@@ -479,17 +482,34 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     }
 
     private List<FeedbackResponse> filterResponsesBySection(List<FeedbackResponse> responses, String sec) {
-        return responses.stream()
-                .filter(r -> r.getGiverSection() != null && sec.equals(r.getGiverSection().getName())
-                        || r.getRecipientSection() != null && sec.equals(r.getRecipientSection().getName()))
-                .collect(Collectors.toList());
+        List<FeedbackResponse> filtered = new ArrayList<>();
+        for (FeedbackResponse response : responses) {
+            ResponseGiver giver = response.getGiver();
+            ResponseRecipient recipient = response.getRecipient();
+
+            boolean giverUserInSection = giver.isGiverStudent()
+                    && giver.getGiverUser() instanceof Student student
+                    && sec.equals(student.getSectionName());
+            boolean giverTeamInSection = giver.isGiverTeam()
+                    && giver.getGiverTeam().getSection().getName().equals(sec);
+            boolean recipientUserInSection = recipient.isRecipientUser()
+                    && recipient.getRecipientUser() instanceof Student recipientStudent
+                    && sec.equals(recipientStudent.getSectionName());
+            boolean recipientTeamInSection = recipient.isRecipientTeam()
+                    && recipient.getRecipientTeam().getSection().getName().equals(sec);
+
+            if (giverUserInSection || giverTeamInSection || recipientUserInSection || recipientTeamInSection) {
+                filtered.add(response);
+            }
+        }
+        return filtered;
     }
 
     private FeedbackResponse getMissingResponse(Student giver, Student recipient) {
         // Represent a missing response by only tracking giver/recipient
         // The feedbackQuestion is not set so that isMissingResponse() returns true
         return FeedbackResponse.makeResponse(
-                giver.getEmail(), giver.getSection(), recipient.getEmail(), recipient.getSection(),
+                new ResponseGiver(giver), new ResponseRecipient(recipient),
                 new FeedbackTextResponseDetails("")
         );
     }
@@ -567,8 +587,8 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
             Map<String, List<FeedbackResponse>> recipientToResponse = new HashMap<>();
             Map<String, List<FeedbackResponse>> giverToResponse = new HashMap<>();
             for (FeedbackResponse response : responses) {
-                String recipient = response.getRecipient();
-                String giver = response.getGiver();
+                String recipient = response.getRecipient().getIdentifier();
+                String giver = response.getGiver().getIdentifier();
                 recipientToResponse.computeIfAbsent(recipient, k -> new ArrayList<>()).add(response);
                 giverToResponse.computeIfAbsent(giver, k -> new ArrayList<>()).add(response);
             }

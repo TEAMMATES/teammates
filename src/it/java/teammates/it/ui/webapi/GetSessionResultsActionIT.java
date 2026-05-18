@@ -16,7 +16,6 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.ui.output.SessionResultsData;
 import teammates.ui.request.Intent;
@@ -77,18 +76,18 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
 
         ______TS("Typical: Instructor accesses results of their course with breakdown");
 
-        Set<Section> sections = new HashSet<>();
+        Set<String> sections = new HashSet<>();
         typicalBundle.feedbackResponses.values().forEach(resp -> {
-            sections.add(resp.getGiverSection());
-            sections.add(resp.getRecipientSection());
+            sections.add(resp.getGiver().getSectionName());
+            sections.add(resp.getRecipient().getSectionName());
         });
 
         for (FeedbackResultFetchType fetchType : FeedbackResultFetchType.values()) {
-            for (Section section : sections) {
+            for (String section : sections) {
                 submissionParams = new String[] {
                         Const.ParamsNames.FEEDBACK_SESSION_ID, accessibleFeedbackSession.getId().toString(),
                         Const.ParamsNames.INTENT, Intent.FULL_DETAIL.name(),
-                        Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, section.getName(),
+                        Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, section,
                         Const.ParamsNames.FEEDBACK_RESULTS_SECTION_BY_GIVER_RECEIVER, fetchType.name(),
                 };
 
@@ -100,7 +99,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
                 expectedResults = SessionResultsData.init(
                         logic.getSessionResults(accessibleFeedbackSession,
                                 instructor.getEmail(),
-                                null, section.getName(), fetchType));
+                                null, section, fetchType));
 
                 assertTrue(isSessionResultsDataEqual(expectedResults, output));
             }

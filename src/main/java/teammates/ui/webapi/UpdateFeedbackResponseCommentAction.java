@@ -90,9 +90,9 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             if (feedbackResponseComment.getGiver().equals(new ResponseGiver(instructor))) {
                 return;
             }
-            gateKeeper.verifyAccessible(instructor, session, response.getGiverSection().getName(),
+            gateKeeper.verifyAccessible(instructor, session, response.getGiver().getSectionName(),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-            gateKeeper.verifyAccessible(instructor, session, response.getRecipientSection().getName(),
+            gateKeeper.verifyAccessible(instructor, session, response.getRecipient().getSectionName(),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
             break;
         default:

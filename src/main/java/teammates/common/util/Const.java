@@ -22,6 +22,9 @@ public final class Const {
 
     public static final int SECTION_SIZE_LIMIT = 100;
 
+    public static final String UNKNOWN_USER = "Unknown User";
+    public static final String UNKNOWN_TEAM = "Unknown Team";
+    public static final String UNKNOWN_SECTION = "Unknown Section";
     public static final String DEFAULT_SECTION = "None";
 
     public static final String UNKNOWN_INSTITUTION = "Unknown Institution";

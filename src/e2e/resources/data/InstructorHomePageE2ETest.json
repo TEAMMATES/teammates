@@ -320,11 +320,14 @@
         "questionType": "TEXT"
       },
       "id": "00000000-0000-4000-8000-000000000901",
-      "giver": "ihome.alice.b.tmms@gmail.tmt",
-      "recipient": "ihome.danny.e.tmms@gmail.tmt",
-      "questionId": "00000000-0000-4000-8000-000000000801",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000604"
+      },
+      "questionId": "00000000-0000-4000-8000-000000000801"
     }
   },
   "feedbackResponseComments": {},

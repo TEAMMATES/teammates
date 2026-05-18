@@ -289,20 +289,21 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     private void validateDatabaseWithRecipientEmails(FeedbackSession session, FeedbackQuestion feedbackQuestion,
             String giverEmail, List<String> recipientEmails) {
-
+        List<FeedbackResponse> responses = logic.getFeedbackQuestion(feedbackQuestion.getId())
+                .getFeedbackResponses().stream()
+                .toList();
         for (String recipientEmail : recipientEmails) {
-            List<FeedbackResponse> feedbackResponses =
-                    logic.getFeedbackResponsesFromGiverForCourse(session.getCourseId(), giverEmail)
-                            .stream()
-                            .filter(response -> response.getRecipient().equals(recipientEmail))
-                            .toList();
+            List<FeedbackResponse> feedbackResponses = responses.stream()
+                    .filter(response -> response.getGiver().getIdentifier().equals(giverEmail))
+                    .filter(response -> response.getRecipient().getIdentifier().equals(recipientEmail))
+                    .toList();
 
             for (FeedbackResponse feedbackResponse : feedbackResponses) {
                 FeedbackQuestion frFeedbackQuestion = feedbackResponse.getFeedbackQuestion();
 
                 assertEquals(frFeedbackQuestion, feedbackQuestion);
-                assertEquals(feedbackResponse.getGiver(), giverEmail);
-                assertEquals(feedbackResponse.getRecipient(), recipientEmail);
+                assertEquals(feedbackResponse.getGiver().getIdentifier(), giverEmail);
+                assertEquals(feedbackResponse.getRecipient().getIdentifier(), recipientEmail);
 
                 assertEquals(session.getName(), feedbackQuestion.getFeedbackSessionName());
                 assertEquals(session.getCourseId(), feedbackQuestion.getCourseId());
