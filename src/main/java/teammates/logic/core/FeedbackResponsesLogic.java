@@ -948,6 +948,9 @@ public final class FeedbackResponsesLogic {
                     isGiverInSection = giver.getGiverTeam().getSection().getName().equals(sectionName);
                 } else if (giver.getGiverUser() instanceof Student giverStudent) {
                     isGiverInSection = giverStudent.getSection().getName().equals(sectionName);
+                } else {
+                    // instructor
+                    isGiverInSection = sectionName.equals(Const.DEFAULT_SECTION);
                 }
             }
 
@@ -957,6 +960,9 @@ public final class FeedbackResponsesLogic {
                     isRecipientInSection = recipient.getRecipientTeam().getSection().getName().equals(sectionName);
                 } else if (recipient.getRecipientUser() instanceof Student recipientStudent) {
                     isRecipientInSection = recipientStudent.getSection().getName().equals(sectionName);
+                } else {
+                    // instructor
+                    isRecipientInSection = sectionName.equals(Const.DEFAULT_SECTION);
                 }
             }
 
