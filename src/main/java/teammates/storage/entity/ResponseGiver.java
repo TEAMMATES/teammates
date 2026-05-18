@@ -139,7 +139,7 @@ public class ResponseGiver {
         if (giverUser != null) {
             return giverUser.getEmail();
         }
-        return "Deleted User or Team";
+        return Const.UNKNOWN_USER;
     }
 
     /**
@@ -152,7 +152,7 @@ public class ResponseGiver {
         if (giverUser != null) {
             return giverUser.getName();
         }
-        return "Deleted User or Team";
+        return Const.UNKNOWN_USER;
     }
 
     /**

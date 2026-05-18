@@ -166,9 +166,9 @@ public class ResponseRecipient {
     public String getIdentifier() {
         switch (recipientType) {
         case TEAM:
-            return recipientTeam == null ? "Unknown Team" : recipientTeam.getName();
+            return recipientTeam == null ? Const.UNKNOWN_TEAM : recipientTeam.getName();
         case STUDENT, INSTRUCTOR:
-            return recipientUser == null ? "Unknown User" : recipientUser.getEmail();
+            return recipientUser == null ? Const.UNKNOWN_USER : recipientUser.getEmail();
         case NO_SPECIFIC_RECIPIENT:
         default:
             return Const.GENERAL_QUESTION;
@@ -181,9 +181,9 @@ public class ResponseRecipient {
     public String getDisplayName() {
         switch (recipientType) {
         case TEAM:
-            return recipientTeam == null ? "Unknown Team" : recipientTeam.getName();
+            return recipientTeam == null ? Const.UNKNOWN_TEAM : recipientTeam.getName();
         case STUDENT, INSTRUCTOR:
-            return recipientUser == null ? "Unknown User" : recipientUser.getName();
+            return recipientUser == null ? Const.UNKNOWN_USER : recipientUser.getName();
         case NO_SPECIFIC_RECIPIENT:
         default:
             return Const.USER_NOBODY_TEXT;
