@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -49,6 +50,10 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         typicalInstructor = getTypicalInstructor();
         typicalCourse = getTypicalCourse();
         inviterAccount = new Account(typicalInstructor.getGoogleId(), "Inviter Name", "inviter@teammates.tmt");
+
+        when(mockLogic.createInstructorFromRequest(
+                any(Course.class), any(), any(), any(), anyBoolean(), any()))
+                .thenReturn(typicalInstructor);
     }
 
     @Test

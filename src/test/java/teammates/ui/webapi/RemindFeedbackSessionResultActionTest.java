@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.mock;
@@ -15,6 +16,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.Account;
@@ -64,11 +67,15 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
     }
 
     @Test
-    protected void testExecute_feedbackSessionNotPublished_warningMessage() {
+    protected void testExecute_feedbackSessionNotPublished_warningMessage()
+            throws EntityDoesNotExistException, InvalidParametersException {
         FeedbackSession unpublishedFeedbackSession = generateUnpublishedSessionInCourse(course, instructor);
 
         when(mockLogic.getFeedbackSession(unpublishedFeedbackSession.getId()))
                 .thenReturn(unpublishedFeedbackSession);
+        when(mockLogic.getFeedbackSessionForResultsReminder(unpublishedFeedbackSession.getId()))
+                .thenThrow(new InvalidParametersException(
+                        "Published email could not be resent as the feedback session is not published."));
 
         String[] paramsFeedbackSessionNotPublished = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, unpublishedFeedbackSession.getId().toString(),
@@ -86,15 +93,18 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
     }
 
     @Test
-    protected void testExecute_feedbackSessionPublished_success() {
+    protected void testExecute_feedbackSessionPublished_success()
+            throws EntityDoesNotExistException, InvalidParametersException {
         FeedbackSession publishedFeedbackSession = generatePublishedSessionInCourse(course, instructor);
 
         EmailWrapper mockEmail = mock(EmailWrapper.class);
 
         when(mockLogic.getFeedbackSession(publishedFeedbackSession.getId()))
                 .thenReturn(publishedFeedbackSession);
-        when(mockLogic.getUser(student.getId())).thenReturn(student);
-        when(mockLogic.getUser(instructor.getId())).thenReturn(instructor);
+        when(mockLogic.getFeedbackSessionForResultsReminder(publishedFeedbackSession.getId()))
+                .thenReturn(publishedFeedbackSession);
+        when(mockLogic.getValidatedUsersForCourse(any(), any()))
+                .thenReturn(List.of(student, instructor));
         when(mockEmailGenerator.generateFeedbackSessionPublishedEmails(
                 isA(FeedbackSession.class), anyList(), anyList(), anyList()))
                 .thenReturn(List.of(mockEmail));

@@ -79,7 +79,7 @@ public final class AccountRequestsLogic {
             throws EntityDoesNotExistException, InvalidParametersException {
         AccountRequest accountRequest = getAccountRequest(id);
         if (accountRequest == null) {
-            throw new EntityDoesNotExistException("Account request with id = " + id + " not found.");
+            throw new EntityDoesNotExistException("Account request with id = " + id + " not found");
         }
         if (accountRequest.getStatus() == AccountRequestStatus.APPROVED
                 || accountRequest.getStatus() == AccountRequestStatus.REGISTERED) {
@@ -116,7 +116,7 @@ public final class AccountRequestsLogic {
             throws EntityDoesNotExistException, InvalidParametersException {
         AccountRequest accountRequest = getAccountRequest(id);
         if (accountRequest == null) {
-            throw new EntityDoesNotExistException("Account request with id = " + id + " not found.");
+            throw new EntityDoesNotExistException("Account request with id = " + id + " not found");
         }
         if (accountRequest.getStatus() != AccountRequestStatus.PENDING) {
             throw new InvalidParametersException(
@@ -137,7 +137,7 @@ public final class AccountRequestsLogic {
             throws EntityDoesNotExistException, InvalidParametersException {
         AccountRequest accountRequest = getAccountRequest(id);
         if (accountRequest == null) {
-            throw new EntityDoesNotExistException("Account request with id = " + id + " not found.");
+            throw new EntityDoesNotExistException("Account request with id = " + id + " not found");
         }
         accountRequest.setName(name);
         accountRequest.setEmail(email);
@@ -157,7 +157,7 @@ public final class AccountRequestsLogic {
             throws EntityDoesNotExistException, InvalidParametersException {
         AccountRequest accountRequest = getAccountRequest(id);
         if (accountRequest == null) {
-            throw new EntityDoesNotExistException("Account request with id = " + id + " not found.");
+            throw new EntityDoesNotExistException("Account request with id = " + id + " not found");
         }
         accountRequest.setStatus(AccountRequestStatus.REGISTERED);
         accountRequest.setRegisteredAt(Instant.now());

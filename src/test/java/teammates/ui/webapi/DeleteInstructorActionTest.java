@@ -75,6 +75,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         when(mockLogic.getInstructorForEmail(course.getId(), instructor2.getEmail())).thenReturn(instructor2);
         when(mockLogic.getInstructorsByCourse(course.getId())).thenReturn(List.of(instructor, instructor2));
         when(mockLogic.getStudentsForCourse(course.getId())).thenReturn(List.of(student));
+        when(mockLogic.hasAlternativeInstructor(course.getId(), instructor2.getEmail())).thenReturn(true);
     }
 
     @Test
@@ -166,6 +167,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
     @Test
     void testExecute_instructorDeleteOwnRoleByGoogleId_success() {
         loginAsInstructor(instructor.getGoogleId());
+        when(mockLogic.hasAlternativeInstructor(course.getId(), instructor.getEmail())).thenReturn(true);
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),

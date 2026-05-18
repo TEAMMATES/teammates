@@ -21,9 +21,6 @@ public class RejectAccountRequestAction extends AdminOnlyAction {
     public JsonResult execute() throws InvalidOperationException, InvalidHttpRequestBodyException {
         UUID accountRequestId = getUuidRequestParamValue(Const.ParamsNames.ACCOUNT_REQUEST_ID);
 
-        AccountRequestRejectionRequest rejectionRequest =
-                getAndValidateRequestBody(AccountRequestRejectionRequest.class);
-
         AccountRequest accountRequest;
         try {
             accountRequest = logic.rejectAccountRequest(accountRequestId);
@@ -32,6 +29,9 @@ public class RejectAccountRequestAction extends AdminOnlyAction {
         } catch (InvalidParametersException e) {
             throw new InvalidOperationException(e);
         }
+
+        AccountRequestRejectionRequest rejectionRequest =
+                getAndValidateRequestBody(AccountRequestRejectionRequest.class);
 
         if (rejectionRequest.checkHasReason()) {
             EmailWrapper email = emailGenerator.generateAccountRequestRejectionEmail(

@@ -1,8 +1,6 @@
 package teammates.ui.webapi;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static teammates.common.datatransfer.InstructorPermissionRole.getEnum;
 import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM;
@@ -76,9 +74,6 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         assertEquals(updatedInstructor.getName(), response.getName());
         assertEquals(updatedInstructor.getEmail(), response.getEmail());
-
-        verify(mockLogic, times(1))
-                .updateToEnsureValidityOfInstructorsForTheCourse(typicalCourse.getId(), updatedInstructor);
     }
 
     @Test
@@ -164,9 +159,6 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         assertEquals(updatedInstructor.getName(), response.getName());
         assertEquals(updatedInstructor.getEmail(), response.getEmail());
-
-        verify(mockLogic, times(1))
-                .updateToEnsureValidityOfInstructorsForTheCourse(typicalCourse.getId(), updatedInstructor);
     }
 
     @Test

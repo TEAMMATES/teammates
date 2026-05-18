@@ -1,6 +1,6 @@
 package teammates.ui.webapi;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -47,7 +47,6 @@ public class ResetAccountRequestActionTest extends BaseActionTest<ResetAccountRe
     void testExecute_registeredInstructor_success() throws EntityDoesNotExistException, InvalidParametersException {
         UUID id = accountRequest.getId();
 
-        when(mockLogic.getAccountRequest(id)).thenReturn(accountRequest);
         when(mockLogic.resetAccountRequest(id)).thenReturn(accountRequest);
 
         String[] params = {
@@ -64,10 +63,11 @@ public class ResetAccountRequestActionTest extends BaseActionTest<ResetAccountRe
     @Test
     void testExecute_unregisteredInstructor_throwsInvalidOperationException()
             throws EntityDoesNotExistException, InvalidParametersException {
-        accountRequest.setRegisteredAt(null);
         UUID id = accountRequest.getId();
 
-        when(mockLogic.getAccountRequest(id)).thenReturn(accountRequest);
+        when(mockLogic.resetAccountRequest(id))
+                .thenThrow(new InvalidParametersException(
+                        "Unable to reset account request as instructor is still unregistered."));
 
         String[] params = {
                 Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString(),
@@ -75,26 +75,27 @@ public class ResetAccountRequestActionTest extends BaseActionTest<ResetAccountRe
 
         InvalidOperationException ex = verifyInvalidOperation(params);
         assertEquals("Unable to reset account request as instructor is still unregistered.", ex.getMessage());
-        verify(mockLogic, never()).resetAccountRequest(id);
+        verify(mockLogic, times(1)).resetAccountRequest(id);
         verifyNoEmailsSent();
     }
 
     @Test
     void testExecute_nonExistingAccountRequest_throwsEntityNotFoundException()
             throws EntityDoesNotExistException, InvalidParametersException {
-        accountRequest = null;
         UUID id = UUID.fromString("11110000-0000-0000-0000-000000000000");
 
-        when(mockLogic.getAccountRequest(id)).thenReturn(accountRequest);
+        when(mockLogic.resetAccountRequest(id))
+                .thenThrow(new EntityDoesNotExistException(
+                        "Account request with id = 11110000-0000-0000-0000-000000000000 not found"));
 
         String[] params = {
                 Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString(),
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(params);
-        assertEquals("Account request with id: 11110000-0000-0000-0000-000000000000 does not exist.",
+        assertEquals("Account request with id = 11110000-0000-0000-0000-000000000000 not found",
                 enfe.getMessage());
-        verify(mockLogic, never()).resetAccountRequest(id);
+        verify(mockLogic, times(1)).resetAccountRequest(id);
         verifyNoEmailsSent();
     }
 
