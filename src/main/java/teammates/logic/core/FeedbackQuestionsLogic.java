@@ -665,8 +665,8 @@ public final class FeedbackQuestionsLogic {
             Set<ResponseRecipient> studentRecipients = new HashSet<>();
             for (Student student : studentList) {
                 boolean shouldExcludeStudent = student.equals(giverStudentToExclude)
-                        || (giverSectionToExclude != null && !student.getSection().equals(giverSectionToExclude));
-                boolean shouldExcludeStudentForInstructor = isInstructorGiver 
+                        || giverSectionToExclude != null && !student.getSection().equals(giverSectionToExclude);
+                boolean shouldExcludeStudentForInstructor = isInstructorGiver
                         && responseGiver.getGiverUser() instanceof Instructor instructor
                         && !instructor.isAllowedForPrivilege(
                         student.getSectionName(), question.getFeedbackSession().getName(),
@@ -724,7 +724,7 @@ public final class FeedbackQuestionsLogic {
                 boolean shouldExcludeTeam = team.equals(giverTeamToExclude)
                         || team.getSection().equals(giverSectionToExclude);
                 // instructor can only see teams in allowed sections for him/her
-                boolean shouldExcludeTeamForInstructor = isInstructorGiver 
+                boolean shouldExcludeTeamForInstructor = isInstructorGiver
                         && responseGiver.getGiverUser() instanceof Instructor instructor
                         && !instructor.isAllowedForPrivilege(
                         team.getSection().getName(), question.getFeedbackSession().getName(),
@@ -736,7 +736,7 @@ public final class FeedbackQuestionsLogic {
 
                 teamRecipients.add(new ResponseRecipient(team));
             }
-            
+
             return teamRecipients;
         case OWN_TEAM:
             if (responseGiver.getGiverUser() instanceof Student student) {
@@ -748,7 +748,7 @@ public final class FeedbackQuestionsLogic {
         case OWN_TEAM_MEMBERS:
             String teamName = responseGiver.getTeamName();
             List<Student> teamMembers = courseRoster.getTeamToMembers().getOrDefault(teamName, Collections.emptyList());
-            
+
             return teamMembers.stream()
                     .filter(student -> Objects.equals(student, responseGiver.getGiverUser()))
                     .map(ResponseRecipient::new)

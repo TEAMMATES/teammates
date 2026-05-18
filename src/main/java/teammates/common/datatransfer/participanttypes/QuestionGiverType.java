@@ -33,5 +33,5 @@ public enum QuestionGiverType {
     /**
      * Teams of the same section.
      */
-    TEAMS_IN_SAME_SECTION;
+    TEAMS_IN_SAME_SECTION
 }

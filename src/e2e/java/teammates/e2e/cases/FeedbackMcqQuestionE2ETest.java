@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqResponseDetails;
-import teammates.common.util.Const;
 import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
 import teammates.storage.entity.FeedbackQuestion;

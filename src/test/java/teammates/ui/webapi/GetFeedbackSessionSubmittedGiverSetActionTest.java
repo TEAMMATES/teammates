@@ -72,7 +72,7 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
         JsonResult result = getJsonResult(action);
         FeedbackSessionSubmittedGiverSet output = (FeedbackSessionSubmittedGiverSet) result.getOutput();
 
-                assertEquals(new HashSet<>(Arrays.asList(giverIdentifier)), output.getGiverIdentifiers());
+        assertEquals(new HashSet<>(Arrays.asList(giverIdentifier)), output.getGiverIdentifiers());
     }
 
     @Test

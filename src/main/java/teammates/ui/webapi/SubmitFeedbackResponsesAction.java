@@ -28,7 +28,6 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseRecipient;
-import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
@@ -114,7 +113,6 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         Optional<List<String>> dynamicallyGeneratedOptions;
 
         String giverIdentifier;
-        Section giverSection;
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case STUDENT_SUBMISSION:
@@ -122,7 +120,6 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             giverIdentifier =
                     feedbackQuestion.getGiverType() == QuestionGiverType.TEAMS
                             ? student.getTeamName() : student.getEmail();
-            giverSection = student.getSection();
             existingResponses = logic.getFeedbackResponsesFromStudentOrTeamForQuestion(feedbackQuestion, student);
             recipientsOfTheQuestion = logic.getRecipientsOfQuestion(feedbackQuestion, null, student);
             dynamicallyGeneratedOptions = logic.getDynamicallyGeneratedOptions(feedbackQuestion, student);
@@ -130,7 +127,6 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         case INSTRUCTOR_SUBMISSION:
             Instructor instructor = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
             giverIdentifier = instructor.getEmail();
-            giverSection = logic.getDefaultSectionOrCreate(courseId);
             existingResponses = logic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructor);
             recipientsOfTheQuestion = logic.getRecipientsOfQuestion(feedbackQuestion, instructor, null);
             dynamicallyGeneratedOptions = logic.getDynamicallyGeneratedOptions(feedbackQuestion, null);
@@ -258,7 +254,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             return new ResponseGiver(roster.getTeamNameToTeam().get(giverIdentifier));
         } else {
             throw new EntityNotFoundException("The giver " + giverIdentifier + " is not found in the roster");
-        }        
+        }
     }
 
     private ResponseRecipient getResponseRecipient(String recipientIdentifier, CourseRoster roster) {
@@ -268,7 +264,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             return new ResponseRecipient(roster.getInstructorForEmail(recipientIdentifier));
         } else if (roster.getTeamNameToTeam().get(recipientIdentifier) != null) {
             return new ResponseRecipient(roster.getTeamNameToTeam().get(recipientIdentifier));
-        } else if (recipientIdentifier.equals(Const.GENERAL_QUESTION)) {
+        } else if (Const.GENERAL_QUESTION.equals(recipientIdentifier)) {
             return new ResponseRecipient();
         } else {
             throw new EntityNotFoundException("The recipient " + recipientIdentifier + " is not found in the roster");

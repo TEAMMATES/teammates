@@ -288,14 +288,15 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     }
 
     private void validateDatabaseWithRecipientEmails(FeedbackSession session, FeedbackQuestion feedbackQuestion,
-            String giverEmail, List<String> recipientEmails) {        
-        List<FeedbackResponse> responses = logic.getFeedbackQuestion(feedbackQuestion.getId()).getFeedbackResponses().stream()
+            String giverEmail, List<String> recipientEmails) {
+        List<FeedbackResponse> responses = logic.getFeedbackQuestion(feedbackQuestion.getId())
+                .getFeedbackResponses().stream()
                 .toList();
         for (String recipientEmail : recipientEmails) {
             List<FeedbackResponse> feedbackResponses = responses.stream()
                     .filter(response -> response.getGiver().getIdentifier().equals(giverEmail))
                     .filter(response -> response.getRecipient().getIdentifier().equals(recipientEmail))
-                            .toList();
+                    .toList();
 
             for (FeedbackResponse feedbackResponse : feedbackResponses) {
                 FeedbackQuestion frFeedbackQuestion = feedbackResponse.getFeedbackQuestion();

@@ -5,7 +5,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
@@ -13,7 +12,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.SanitizationHelper;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
@@ -277,7 +275,7 @@ public final class FeedbackResponseCommentsLogic {
                 }
                 break;
             case OWN_TEAM_MEMBERS:
-                if (user instanceof Student student &&  student.getTeam().equals(responseGiver.getGiverTeam())) {
+                if (user instanceof Student student && student.getTeam().equals(responseGiver.getGiverTeam())) {
                     return true;
                 }
                 break;
@@ -287,7 +285,7 @@ public final class FeedbackResponseCommentsLogic {
                 }
                 break;
             case RECEIVER_TEAM_MEMBERS:
-                if (user instanceof Student student &&  student.getTeam().equals(responseRecipient.getRecipientTeam())) {
+                if (user instanceof Student student && student.getTeam().equals(responseRecipient.getRecipientTeam())) {
                     return true;
                 }
                 break;

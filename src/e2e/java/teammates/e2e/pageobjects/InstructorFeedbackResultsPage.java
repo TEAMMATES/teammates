@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -244,10 +243,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
         } else {
             for (FeedbackResponse response : responses) {
                 String[] expectedResponses = getExpectedGqrDetails(question, response, instructors, students);
-                String recipientTeam = getTeam(question.getRecipientType(), response.getRecipient().getIdentifier(), students);
+                String recipientTeam =
+                        getTeam(question.getRecipientType(), response.getRecipient().getIdentifier(), students);
                 String recipientNameAndEmail = getNameAndEmail(question.getRecipientType(),
-                    response.getRecipient().getIdentifier(),
-                        instructors, students);
+                        response.getRecipient().getIdentifier(), instructors, students);
                 verifyTableRowValues(getResponseRow(questionPanel, recipientTeam, recipientNameAndEmail),
                         expectedResponses);
             }
@@ -276,8 +275,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
                 String[] expectedResponses = getExpectedRqgDetails(question, response, instructors, students);
                 String giverTeam = getTeam(question.getGiverType(), response.getGiver().getIdentifier(), students);
                 String giverNameAndEmail = getNameAndEmail(question.getGiverType(),
-                    response.getGiver().getIdentifier(), instructors,
-                        students);
+                        response.getGiver().getIdentifier(), instructors, students);
                 verifyTableRowValues(getResponseRow(questionPanel, giverTeam, giverNameAndEmail), expectedResponses);
             }
         }
@@ -497,9 +495,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
         String giverTeam = getTeam(question.getGiverType(), response.getGiver().getIdentifier(), students);
         String giverName = getNameAndEmail(question.getGiverType(), response.getGiver().getIdentifier(),
-            instructors, students);
+                instructors, students);
         String recipientTeam = getTeam(question.getRecipientType(), response.getRecipient().getIdentifier(), students);
-        String recipientName = getNameAndEmail(question.getRecipientType(), response.getRecipient().getIdentifier(), instructors,
+        String recipientName = getNameAndEmail(question.getRecipientType(), response.getRecipient().getIdentifier(),
+                instructors,
                 students);
         WebElement responseRow = getResponseRow(questionPanel, giverTeam, giverName, recipientTeam, recipientName);
 
@@ -514,11 +513,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
         QuestionGiverType giverType = question.getGiverType();
         WebElement giverPanel = getUserPanel(giverType, response.getGiver().getIdentifier(), instructors, students,
-            isGroupedByTeam, true);
+                isGroupedByTeam, true);
 
         WebElement questionPanel = getQuestionPanel(giverPanel, question.getQuestionNumber());
         String recipientTeam = getTeam(question.getRecipientType(), response.getRecipient().getIdentifier(), students);
-        String recipientName = getNameAndEmail(question.getRecipientType(), response.getRecipient().getIdentifier(), instructors,
+        String recipientName = getNameAndEmail(question.getRecipientType(),
+                response.getRecipient().getIdentifier(), instructors,
                 students);
         WebElement responseRow = getResponseRow(questionPanel, recipientTeam, recipientName);
 
@@ -533,13 +533,13 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
         QuestionRecipientType recipientType = question.getRecipientType();
         WebElement recipientPanel = getUserPanel(recipientType, response.getRecipient().getIdentifier(), instructors,
-            students,
+                students,
                 isGroupedByTeam, false);
 
         WebElement questionPanel = getQuestionPanel(recipientPanel, question.getQuestionNumber());
         String giverTeam = getTeam(question.getGiverType(), response.getGiver().getIdentifier(), students);
         String giverNameAndEmail = getNameAndEmail(question.getGiverType(), response.getGiver().getIdentifier(),
-            instructors, students);
+                instructors, students);
         WebElement responseRow = getResponseRow(questionPanel, giverTeam, giverNameAndEmail);
 
         verifyResponseRowComment(responseRow, comment);
@@ -554,7 +554,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
         QuestionGiverType giverType = question.getGiverType();
         WebElement userPanel = getUserPanel(giverType, response.getGiver().getIdentifier(), instructors, students,
-            isGroupedByTeam, true);
+                isGroupedByTeam, true);
 
         QuestionRecipientType recipientType = question.getRecipientType();
         String recipientTeam = getTeam(recipientType, response.getRecipient().getIdentifier(), students);
@@ -677,8 +677,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
             expected[0] = NO_TEAM_LABEL;
             expected[1] = NO_USER_LABEL;
         } else {
-                expected[0] = getTeam(recipientType, response.getRecipient().getIdentifier(), students);
-                expected[1] = getNameAndEmail(recipientType, response.getRecipient().getIdentifier(), instructors,
+            expected[0] = getTeam(recipientType, response.getRecipient().getIdentifier(), students);
+            expected[1] = getNameAndEmail(recipientType, response.getRecipient().getIdentifier(), instructors,
                     students);
         }
         if (isMissingResponse(response)) {

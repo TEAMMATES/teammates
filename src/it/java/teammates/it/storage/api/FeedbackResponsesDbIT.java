@@ -53,7 +53,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         );
 
         List<FeedbackResponse> actualQuestions =
-            frDb.getFeedbackResponsesFromGiverForQuestion(fq.getId(), giver.getId(), null);
+                frDb.getFeedbackResponsesFromGiverForQuestion(fq.getId(), giver.getId(), null);
 
         assertEquals(expectedQuestions.size(), actualQuestions.size());
         assertTrue(expectedQuestions.containsAll(actualQuestions));
@@ -105,7 +105,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         Student recipient = testDataBundle.students.get("student1InCourse1");
         UUID nonexistentQuestionId = UUID.fromString("11110000-0000-0000-0000-000000000000");
         List<FeedbackResponse> results = frDb.getFeedbackResponsesForRecipientForQuestion(
-            nonexistentQuestionId, recipient.getId(), null);
+                nonexistentQuestionId, recipient.getId(), null);
         assertEquals(0, results.size());
 
         ______TS("No matching responses exist");
@@ -124,7 +124,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
                 testDataBundle.feedbackResponses.get("response2ForQ1")
         );
         List<FeedbackResponse> actual = frDb.getFeedbackResponsesForRecipientForQuestion(
-            question.getId(), recipient.getId(), null);
+                question.getId(), recipient.getId(), null);
         assertListResponsesEqual(expected, actual);
 
     }

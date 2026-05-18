@@ -184,7 +184,8 @@ public final class FeedbackResponsesLogic {
 
         List<FeedbackResponse> responses = new ArrayList<>();
         List<Student> studentsInTeam = courseRoster == null
-                ? usersLogic.getStudentsForTeam(team.getName(), courseId) : courseRoster.getTeamToMembers().get(team.getName());
+                ? usersLogic.getStudentsForTeam(team.getName(), courseId)
+                : courseRoster.getTeamToMembers().get(team.getName());
 
         for (Student student : studentsInTeam) {
             responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(
@@ -657,7 +658,8 @@ public final class FeedbackResponsesLogic {
             List<FeedbackResponse> existingResponses, CourseRoster courseRoster, @Nullable String sectionName) {
 
         // get all possible giver recipient pairs
-        Map<FeedbackQuestion, Map<ResponseGiver, Set<ResponseRecipient>>> questionCompleteGiverRecipientMap = new HashMap<>();
+        Map<FeedbackQuestion, Map<ResponseGiver, Set<ResponseRecipient>>> questionCompleteGiverRecipientMap =
+                new HashMap<>();
         for (FeedbackQuestion feedbackQuestion : relatedQuestions) {
             if (feedbackQuestion.getQuestionDetailsCopy().shouldGenerateMissingResponses(feedbackQuestion)) {
                 questionCompleteGiverRecipientMap.put(feedbackQuestion,
@@ -698,7 +700,7 @@ public final class FeedbackResponsesLogic {
                     // recipient
                     FeedbackMissingResponse missingResponse = new FeedbackMissingResponse(
                             correspondingQuestion,
-                            giver, 
+                            giver,
                             recipient);
 
                     boolean isVisibleResponse = isResponseVisibleForUser(
@@ -820,9 +822,9 @@ public final class FeedbackResponsesLogic {
             ResponseRecipient recipient,
             FeedbackQuestion relatedQuestion
     ) {
-        boolean isVisibleToRecipient = Objects.equals(user, recipient)
+        boolean isVisibleToRecipient = Objects.equals(user, recipient.getRecipientUser())
                 && relatedQuestion.isResponseVisibleTo(ViewerType.RECEIVER);
-        boolean isVisibleToGiver = Objects.equals(user, giver);
+        boolean isVisibleToGiver = Objects.equals(user, giver.getGiverUser());
 
         boolean isGiverSectionRestrictedForInstructor = false;
         boolean isRecipientSectionRestrictedForInstructor = false;
@@ -923,9 +925,13 @@ public final class FeedbackResponsesLogic {
         }
     }
 
-    private List<FeedbackResponse> filterResponsesBySection(List<FeedbackResponse> responses, String sectionName, FeedbackResultFetchType fetchType) {
-        boolean filterByGiver = fetchType == FeedbackResultFetchType.BOTH || fetchType == FeedbackResultFetchType.GIVER;
-        boolean filterByRecipient = fetchType == FeedbackResultFetchType.BOTH || fetchType == FeedbackResultFetchType.RECEIVER;
+    private List<FeedbackResponse> filterResponsesBySection(List<FeedbackResponse> responses,
+                                                            String sectionName,
+                                                            FeedbackResultFetchType fetchType) {
+        boolean filterByGiver = fetchType == FeedbackResultFetchType.BOTH
+                || fetchType == FeedbackResultFetchType.GIVER;
+        boolean filterByRecipient = fetchType == FeedbackResultFetchType.BOTH
+                || fetchType == FeedbackResultFetchType.RECEIVER;
 
         List<FeedbackResponse> filteredResponses = new ArrayList<>();
         for (FeedbackResponse response : responses) {
@@ -1014,7 +1020,7 @@ public final class FeedbackResponsesLogic {
         if (question.getRecipientType().isTeam()
                 && question.isResponseVisibleTo(ViewerType.RECEIVER)) {
             viewableResponses.addAll(
-                    getFeedbackResponsesForRecipientForQuestion(question.getId(),  null, student.getTeam().getId())
+                    getFeedbackResponsesForRecipientForQuestion(question.getId(), null, student.getTeam().getId())
             );
         }
 

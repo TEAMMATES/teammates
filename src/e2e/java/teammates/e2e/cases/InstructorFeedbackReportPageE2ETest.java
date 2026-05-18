@@ -497,7 +497,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
                     && sec.equals(recipientStudent.getSectionName());
             boolean recipientTeamInSection = recipient.isRecipientTeam()
                     && recipient.getRecipientTeam().getSection().getName().equals(sec);
-            
+
             if (giverUserInSection || giverTeamInSection || recipientUserInSection || recipientTeamInSection) {
                 filtered.add(response);
             }

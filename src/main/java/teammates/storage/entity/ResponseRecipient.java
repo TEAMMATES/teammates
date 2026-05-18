@@ -140,7 +140,7 @@ public class ResponseRecipient {
         if (recipientUser instanceof Student student) {
             return student.getSectionName();
         }
-        
+
         return Const.DEFAULT_SECTION;
     }
 

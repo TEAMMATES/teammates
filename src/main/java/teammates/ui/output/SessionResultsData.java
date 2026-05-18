@@ -157,6 +157,7 @@ public class SessionResultsData extends ApiOutput {
         ResponseRecipient recipient = response.getRecipient();
         boolean isUserRecipient = Objects.equals(user, recipient.getRecipientUser());
         boolean isUserTeamRecipient = false;
+        boolean isRecipientVisible = bundle.isResponseRecipientVisible(response.getId(), recipient.getRecipientType());
         if (user instanceof Student student) {
             isUserTeamRecipient = Objects.equals(student.getTeam(), recipient.getRecipientTeam());
         }
@@ -173,9 +174,8 @@ public class SessionResultsData extends ApiOutput {
             // we don't want student to figure out who is who by using the hash
             recipientName = removeAnonymousHash(
                 getRecipientNameOfResponse(response.getId(), recipient, bundle));
-            if (!recipientName.contains(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT)) {
-                // TODO: Handle case where recipient or student contains the name anonymous.
-                recipientTeam = bundle.getRoster().getInfoForIdentifier(recipient.getIdentifier()).getTeamName();
+            if (isRecipientVisible) {
+                recipientTeam = recipient.getTeamName();
             }
         }
 
@@ -318,7 +318,7 @@ public class SessionResultsData extends ApiOutput {
 
         if (bundle.isResponseRecipientVisible(response.id(), responseRecipient.getRecipientType())
                 && responseRecipient.isRecipientUser()) {
-                recipientEmail = responseRecipient.getIdentifier();
+            recipientEmail = responseRecipient.getIdentifier();
         }
 
         FeedbackTextResponseDetails responseDetails = new FeedbackTextResponseDetails(Const.MISSING_RESPONSE_TEXT);

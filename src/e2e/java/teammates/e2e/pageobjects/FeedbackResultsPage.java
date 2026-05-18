@@ -42,30 +42,6 @@ import teammates.storage.entity.FeedbackSession;
 public class FeedbackResultsPage extends AppPage {
     private static final String CURRENT_STUDENT_IDENTIFIER = "You";
 
-    public static class ExpectedFeedbackResponse {
-        private final FeedbackResponse response;
-        private final String giver;
-        private final String recipient;
-
-        public ExpectedFeedbackResponse(FeedbackResponse response, String giver, String recipient) {
-            this.response = response;
-            this.giver = giver;
-            this.recipient = recipient;
-        }
-
-        public FeedbackResponse getResponse() {
-            return response;
-        }
-
-        public String getGiver() {
-            return giver;
-        }
-
-        public String getRecipient() {
-            return recipient;
-        }
-    }
-
     @FindBy(id = "course-id")
     private WebElement courseId;
 
@@ -666,5 +642,32 @@ public class FeedbackResultsPage extends AppPage {
             }
         }
         throw new AssertionError("Recipient not found: " + recipient);
+    }
+
+    /**
+     * Expected response tuple used for result verification.
+     */
+    public static class ExpectedFeedbackResponse {
+        private final FeedbackResponse response;
+        private final String giver;
+        private final String recipient;
+
+        public ExpectedFeedbackResponse(FeedbackResponse response, String giver, String recipient) {
+            this.response = response;
+            this.giver = giver;
+            this.recipient = recipient;
+        }
+
+        public FeedbackResponse getResponse() {
+            return response;
+        }
+
+        public String getGiver() {
+            return giver;
+        }
+
+        public String getRecipient() {
+            return recipient;
+        }
     }
 }

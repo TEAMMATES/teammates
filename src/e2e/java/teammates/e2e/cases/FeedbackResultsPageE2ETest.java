@@ -314,10 +314,10 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         otherResponses.addAll(responsesByOthers);
         otherResponses.addAll(responsesToSelf);
 
-                return toExpectedResponses(currentStudent, otherResponses);
+        return toExpectedResponses(currentStudent, otherResponses);
     }
 
-        private List<FeedbackResultsPage.ExpectedFeedbackResponse> getOtherResponses(Instructor currentInstructor,
+    private List<FeedbackResultsPage.ExpectedFeedbackResponse> getOtherResponses(Instructor currentInstructor,
             FeedbackQuestion question) {
         Set<String> visibleResponseGivers = getRelevantUsersForInstructors(question.getShowResponsesTo());
         visibleResponseGivers.add(currentInstructor.getEmail());
@@ -349,7 +349,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         otherResponses.addAll(responsesByOthers);
         otherResponses.addAll(responsesToSelf);
 
-                return toExpectedResponses(currentInstructor, otherResponses);
+        return toExpectedResponses(currentInstructor, otherResponses);
     }
 
     private Set<String> getVisibleGivers(Student currentStudent, FeedbackQuestion question) {
@@ -446,13 +446,13 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         return getIdentifier(currentStudent, giver.getIdentifier());
     }
 
-        private String getIdentifier(Student currentStudent, ResponseRecipient recipient) {
-                if (recipient == null) {
-                        return "";
-                }
-
-                return getIdentifier(currentStudent, recipient.getIdentifier());
+    private String getIdentifier(Student currentStudent, ResponseRecipient recipient) {
+        if (recipient == null) {
+            return "";
         }
+
+        return getIdentifier(currentStudent, recipient.getIdentifier());
+    }
 
     private String getIdentifier(Student currentStudent, String user) {
         if (currentStudent.getEmail().equals(user)) {
@@ -493,7 +493,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
     private String getIdentifier(Instructor currentInstructor, ResponseGiver giver) {
         if (giver == null) {
-                return "";
+            return "";
         }
 
         return getIdentifier(currentInstructor, giver.getIdentifier());
@@ -501,7 +501,7 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
     private String getIdentifier(Instructor currentInstructor, ResponseRecipient recipient) {
         if (recipient == null) {
-                return "";
+            return "";
         }
 
         return getIdentifier(currentInstructor, recipient.getIdentifier());

@@ -198,7 +198,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
 
     @Test
     public void testGetAnonGiverName_typicalCase_shouldGenerateCorrectly() {
-                String anonName = SessionResultsBundle.getAnonGiverName(new ResponseGiver(getTypicalStudent()));
+        String anonName = SessionResultsBundle.getAnonGiverName(new ResponseGiver(getTypicalStudent()));
         assertTrue(anonName.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT));
 
         Student student1 = getTypicalStudent();
@@ -222,7 +222,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
 
     @Test
     public void testGetAnonRecipientName_typicalCase_shouldGenerateCorrectly() {
-                String anonName = SessionResultsBundle.getAnonRecipientName(new ResponseRecipient(getTypicalStudent()));
+        String anonName = SessionResultsBundle.getAnonRecipientName(new ResponseRecipient(getTypicalStudent()));
         assertTrue(anonName.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT));
 
         Student student1 = getTypicalStudent();

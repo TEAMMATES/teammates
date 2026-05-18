@@ -263,7 +263,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             List<FeedbackResponse> responses, SessionResultsBundle bundle) {
         Set<String> teamNames = new HashSet<>();
         for (FeedbackResponse response : responses) {
-            String teamNameOfResponseGiver = bundle.getRoster().getInfoForIdentifier(response.getGiver().getIdentifier()).getTeamName();
+            String teamNameOfResponseGiver = bundle.getRoster()
+                    .getInfoForIdentifier(response.getGiver().getIdentifier())
+                    .getTeamName();
             teamNames.add(teamNameOfResponseGiver);
         }
         return new ArrayList<>(teamNames);

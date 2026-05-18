@@ -76,10 +76,10 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
 
         ______TS("Typical: Instructor accesses results of their course with breakdown");
 
-                Set<String> sections = new HashSet<>();
+        Set<String> sections = new HashSet<>();
         typicalBundle.feedbackResponses.values().forEach(resp -> {
-                        sections.add(resp.getGiver().getSectionName());
-                        sections.add(resp.getRecipient().getSectionName());
+            sections.add(resp.getGiver().getSectionName());
+            sections.add(resp.getRecipient().getSectionName());
         });
 
         for (FeedbackResultFetchType fetchType : FeedbackResultFetchType.values()) {
@@ -87,7 +87,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
                 submissionParams = new String[] {
                         Const.ParamsNames.FEEDBACK_SESSION_ID, accessibleFeedbackSession.getId().toString(),
                         Const.ParamsNames.INTENT, Intent.FULL_DETAIL.name(),
-                                Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, section,
+                        Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION, section,
                         Const.ParamsNames.FEEDBACK_RESULTS_SECTION_BY_GIVER_RECEIVER, fetchType.name(),
                 };
 

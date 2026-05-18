@@ -70,15 +70,13 @@ public final class FeedbackResponsesDb {
         Root<FeedbackResponse> root = cq.from(FeedbackResponse.class);
         Join<FeedbackResponse, FeedbackQuestion> frJoin = root.join("feedbackQuestion");
         if (giverTeamId != null) {
-            cq.select(root)
-                .where(cb.and(
-                        cb.equal(frJoin.get("id"), feedbackQuestionId),
-                        cb.equal(root.get("giver").get("giverTeamId"), giverTeamId))); 
+            cq.select(root).where(cb.and(
+                    cb.equal(frJoin.get("id"), feedbackQuestionId),
+                    cb.equal(root.get("giver").get("giverTeamId"), giverTeamId)));
         } else {
-            cq.select(root)
-                .where(cb.and(
-                        cb.equal(frJoin.get("id"), feedbackQuestionId),
-                        cb.equal(root.get("giver").get("giverUserId"), giverUserId)));
+            cq.select(root).where(cb.and(
+                    cb.equal(frJoin.get("id"), feedbackQuestionId),
+                    cb.equal(root.get("giver").get("giverUserId"), giverUserId)));
         }
 
         return HibernateUtil.createQuery(cq).getResultList();
@@ -140,17 +138,15 @@ public final class FeedbackResponsesDb {
         Join<FeedbackResponse, FeedbackQuestion> fqJoin = root.join("feedbackQuestion");
 
         if (recipientTeamId != null) {
-            cq.select(root)
-                .where(cb.and(
+            cq.select(root).where(cb.and(
                     cb.equal(fqJoin.get("id"), questionId),
                     cb.equal(root.get("recipient").get("recipientTeamId"), recipientTeamId)
-                    ));
+            ));
         } else {
-             cq.select(root)
-                .where(cb.and(
+            cq.select(root).where(cb.and(
                     cb.equal(fqJoin.get("id"), questionId),
                     cb.equal(root.get("recipient").get("recipientUserId"), recipientUserId)
-                    ));
+            ));
         }
 
         return HibernateUtil.createQuery(cq).getResultList();
