@@ -734,7 +734,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                                     Collection<Student> students,
                                                     Collection<Instructor> instructors) {
         List<String> recipients = getRecipients(responses);
-        recipients.sort(Comparator.naturalOrder());
 
         String[][] expectedStatistics = new String[recipients.size()][2];
 
@@ -1118,7 +1117,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private List<String> getRecipients(List<FeedbackResponse> responses) {
-        return responses.stream().map(response -> response.getRecipient().getIdentifier()).toList();
+        return responses.stream().map(response -> response.getRecipient().getIdentifier()).sorted().toList();
     }
 
     private FeedbackResponse getResponseFromGiver(List<FeedbackResponse> responses, String giver) {
