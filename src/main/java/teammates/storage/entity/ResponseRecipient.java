@@ -18,18 +18,18 @@ import teammates.common.util.Const;
  */
 @Embeddable
 public class ResponseRecipient {
-    @Column(name = "recipientType")
+    @Column()
     @Enumerated(EnumType.STRING)
     private ResponseRecipientType recipientType;
 
-    @Column(name = "recipientUserId", insertable = false, updatable = false)
+    @Column(insertable = false, updatable = false)
     private UUID recipientUserId;
 
     @ManyToOne
     @JoinColumn(name = "recipientUserId")
     private User recipientUser;
 
-    @Column(name = "recipientTeamId", insertable = false, updatable = false)
+    @Column(insertable = false, updatable = false)
     private UUID recipientTeamId;
 
     @ManyToOne

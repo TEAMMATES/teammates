@@ -15,14 +15,14 @@ import teammates.common.util.Const;
  */
 @Embeddable
 public class ResponseGiver {
-    @Column(name = "giverUserId", insertable = false, updatable = false)
+    @Column(insertable = false, updatable = false)
     private UUID giverUserId;
 
     @ManyToOne
     @JoinColumn(name = "giverUserId")
     private User giverUser;
 
-    @Column(name = "giverTeamId", insertable = false, updatable = false)
+    @Column(insertable = false, updatable = false)
     private UUID giverTeamId;
 
     @ManyToOne

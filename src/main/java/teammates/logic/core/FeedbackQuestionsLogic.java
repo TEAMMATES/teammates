@@ -722,7 +722,7 @@ public final class FeedbackQuestionsLogic {
             Set<ResponseRecipient> teamRecipients = new HashSet<>();
             for (Team team : teams) {
                 boolean shouldExcludeTeam = team.equals(giverTeamToExclude)
-                        || (filterBySection != null && !team.getSection().equals(filterBySection));
+                        || filterBySection != null && !team.getSection().equals(filterBySection);
                 // instructor can only see teams in allowed sections for him/her
                 boolean shouldExcludeTeamForInstructor = isInstructorGiver
                         && responseGiver.getGiverUser() instanceof Instructor instructor
