@@ -3,8 +3,6 @@ package teammates.ui.webapi;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.InstructorPermissionRole;
-import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -51,7 +49,7 @@ public class CreateInstructorAction extends Action {
         try {
             Course course = logic.getCourse(courseId);
 
-            Instructor instructorToAdd = createInstructorWithBasicAttributes(course,
+            Instructor instructorToAdd = logic.createInstructorFromRequest(course,
                     SanitizationHelper.sanitizeName(instructorRequest.getName()),
                     SanitizationHelper.sanitizeEmail(instructorRequest.getEmail()), instructorRequest.getRoleName(),
                     instructorRequest.getIsDisplayedToStudent(),
@@ -77,40 +75,4 @@ public class CreateInstructorAction extends Action {
             throw new InvalidHttpRequestBodyException(e);
         }
     }
-
-    /**
-     * Creates a new instructor with basic information.
-     * This consists of everything apart from custom privileges.
-     *
-     * @param course                The course the instructor is being added to.
-     * @param instructorName        Name of the instructor.
-     * @param instructorEmail       Email of the instructor.
-     * @param instructorRole        Role of the instructor.
-     * @param isDisplayedToStudents Whether the instructor should be visible to
-     *                              students.
-     * @param displayedName         Name to be visible to students.
-     *                              Should not be {@code null} even if
-     *                              {@code isDisplayedToStudents} is false.
-     * @return An instructor with basic info, excluding custom privileges
-     */
-    private Instructor createInstructorWithBasicAttributes(Course course, String instructorName,
-            String instructorEmail, String instructorRole,
-            boolean isDisplayedToStudents, String displayedName) {
-
-        String instrName = SanitizationHelper.sanitizeName(instructorName);
-        String instrEmail = SanitizationHelper.sanitizeEmail(instructorEmail);
-        String instrRole = SanitizationHelper.sanitizeName(instructorRole);
-
-        String instrDisplayedName = displayedName;
-        if (displayedName == null || displayedName.isEmpty()) {
-            instrDisplayedName = Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR;
-        }
-
-        InstructorPrivileges privileges = new InstructorPrivileges(instrRole);
-        InstructorPermissionRole role = InstructorPermissionRole.getEnum(instrRole);
-
-        return new Instructor(course, instrName, instrEmail, isDisplayedToStudents, instrDisplayedName, role,
-                privileges);
-    }
-
 }

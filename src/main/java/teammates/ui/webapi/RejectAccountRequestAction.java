@@ -2,7 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
-import teammates.common.datatransfer.AccountRequestStatus;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
@@ -21,33 +21,22 @@ public class RejectAccountRequestAction extends AdminOnlyAction {
     public JsonResult execute() throws InvalidOperationException, InvalidHttpRequestBodyException {
         UUID accountRequestId = getUuidRequestParamValue(Const.ParamsNames.ACCOUNT_REQUEST_ID);
 
-        AccountRequest accountRequest = logic.getAccountRequest(accountRequestId);
-
-        if (accountRequest == null) {
-            String errorMessage = String.format("Account request with id = %s not found", accountRequestId.toString());
-            throw new EntityNotFoundException(errorMessage);
-        }
-
-        if (accountRequest.getStatus() != AccountRequestStatus.PENDING) {
-            throw new InvalidOperationException(
-                    "Account request with id " + accountRequestId + " is not in pending state and cannot be rejected.");
-        }
-
-        AccountRequestRejectionRequest accountRequestRejectionRequest =
+        AccountRequestRejectionRequest rejectionRequest =
                 getAndValidateRequestBody(AccountRequestRejectionRequest.class);
-        AccountRequestStatus initialStatus = accountRequest.getStatus();
 
+        AccountRequest accountRequest;
         try {
-            accountRequest.setStatus(AccountRequestStatus.REJECTED);
-            accountRequest = logic.updateAccountRequest(accountRequest);
-            if (accountRequestRejectionRequest.checkHasReason()
-                    && initialStatus != AccountRequestStatus.REJECTED) {
-                EmailWrapper email = emailGenerator.generateAccountRequestRejectionEmail(accountRequest,
-                        accountRequestRejectionRequest.getReasonTitle(), accountRequestRejectionRequest.getReasonBody());
-                emailSender.sendEmail(email);
-            }
+            accountRequest = logic.rejectAccountRequest(accountRequestId);
+        } catch (EntityDoesNotExistException e) {
+            throw new EntityNotFoundException(e);
         } catch (InvalidParametersException e) {
-            throw new InvalidHttpRequestBodyException(e);
+            throw new InvalidOperationException(e);
+        }
+
+        if (rejectionRequest.checkHasReason()) {
+            EmailWrapper email = emailGenerator.generateAccountRequestRejectionEmail(
+                    accountRequest, rejectionRequest.getReasonTitle(), rejectionRequest.getReasonBody());
+            emailSender.sendEmail(email);
         }
 
         return new JsonResult(new AccountRequestData(accountRequest));

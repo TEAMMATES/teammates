@@ -2,9 +2,10 @@ package teammates.ui.webapi;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.FeedbackSession;
@@ -47,20 +48,28 @@ public class RemindFeedbackSessionSubmissionAction extends Action {
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         UUID feedbackSessionId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
-        FeedbackSession feedbackSession = logic.getFeedbackSession(feedbackSessionId);
-        if (feedbackSession == null) {
-            throw new EntityNotFoundException("Feedback session not found");
-        }
-
-        if (!feedbackSession.isOpened()) {
-            throw new InvalidOperationException("Reminder email could not be sent out "
-                    + "as the feedback session is not open for submissions.");
+        FeedbackSession feedbackSession;
+        try {
+            feedbackSession = logic.getFeedbackSessionForSubmissionReminder(feedbackSessionId);
+        } catch (EntityDoesNotExistException e) {
+            throw new EntityNotFoundException(e);
+        } catch (InvalidParametersException e) {
+            throw new InvalidOperationException(e);
         }
 
         FeedbackSessionRespondentRemindRequest remindRequest =
                 getAndValidateRequestBody(FeedbackSessionRespondentRemindRequest.class);
         UUID[] usersToRemind = remindRequest.getUsersToRemind();
         boolean isSendingCopyToInstructor = remindRequest.getIsSendingCopyToInstructor();
+
+        List<User> users;
+        try {
+            users = logic.getValidatedUsersForCourse(feedbackSession.getCourseId(), usersToRemind);
+        } catch (EntityDoesNotExistException e) {
+            throw new EntityNotFoundException(e);
+        } catch (InvalidParametersException e) {
+            throw new InvalidOperationException(e);
+        }
 
         // Generate reminder emails for specified users
         List<Student> studentsToRemindList = new ArrayList<>();
@@ -69,17 +78,7 @@ public class RemindFeedbackSessionSubmissionAction extends Action {
                 ? logic.getInstructorByGoogleId(feedbackSession.getCourseId(), authContext.id())
                 : null;
 
-        for (UUID userId : usersToRemind) {
-            User user = logic.getUser(userId);
-            if (user == null) {
-                throw new EntityNotFoundException("User with ID " + userId + " not found");
-            }
-
-            if (!Objects.equals(user.getCourseId(), feedbackSession.getCourseId())) {
-                throw new InvalidOperationException("User with ID "
-                    + userId + " does not belong to the same course as the feedback session");
-            }
-
+        for (User user : users) {
             if (user instanceof Student student) {
                 studentsToRemindList.add(student);
             } else if (user instanceof Instructor instructor) {

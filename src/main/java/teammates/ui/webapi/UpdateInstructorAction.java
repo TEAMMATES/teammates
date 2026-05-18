@@ -47,8 +47,6 @@ public class UpdateInstructorAction extends Action {
             throw new EntityNotFoundException(ednee);
         }
 
-        logic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, updatedInstructor);
-
         InstructorData newInstructorData = new InstructorData(updatedInstructor);
         newInstructorData.setGoogleId(updatedInstructor.getGoogleId());
 

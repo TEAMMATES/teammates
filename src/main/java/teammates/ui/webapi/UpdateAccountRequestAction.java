@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.UUID;
 
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.storage.entity.AccountRequest;
@@ -19,25 +20,15 @@ public class UpdateAccountRequestAction extends AdminOnlyAction {
     public JsonResult execute() throws InvalidOperationException, InvalidHttpRequestBodyException {
         UUID accountRequestId = getUuidRequestParamValue(Const.ParamsNames.ACCOUNT_REQUEST_ID);
 
-        AccountRequest accountRequest = logic.getAccountRequest(accountRequestId);
+        AccountRequestUpdateRequest updateRequest = getAndValidateRequestBody(AccountRequestUpdateRequest.class);
 
-        if (accountRequest == null) {
-            String errorMessage = String.format("Account request with id = %s not found", accountRequestId.toString());
-            throw new EntityNotFoundException(errorMessage);
-        }
-
-        AccountRequestUpdateRequest accountRequestUpdateRequest =
-                getAndValidateRequestBody(AccountRequestUpdateRequest.class);
-
+        AccountRequest accountRequest;
         try {
-            accountRequest.setName(accountRequestUpdateRequest.getName());
-            accountRequest.setEmail(accountRequestUpdateRequest.getEmail());
-            accountRequest.setInstitute(accountRequestUpdateRequest.getInstitute());
-            // This action is for updating the account request details.
-            // Approval or rejection are handled in their respective actions, so status should not be updated here.
-            accountRequest.setStatus(accountRequest.getStatus());
-            accountRequest.setComments(accountRequestUpdateRequest.getComments());
-            accountRequest = logic.updateAccountRequest(accountRequest);
+            accountRequest = logic.updateAccountRequestDetails(accountRequestId,
+                    updateRequest.getName(), updateRequest.getEmail(),
+                    updateRequest.getInstitute(), updateRequest.getComments());
+        } catch (EntityDoesNotExistException e) {
+            throw new EntityNotFoundException(e);
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e);
         }
