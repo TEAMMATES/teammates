@@ -11,6 +11,7 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
+import teammates.storage.entity.Team;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}, {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}
@@ -95,7 +96,7 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
                 (FeedbackNumericalScaleQuestionDetails) question.getQuestionDetailsCopy());
 
         ______TS("submit response");
-        FeedbackResponse response = getResponse(question, receiver, 5.4);
+        FeedbackResponse response = getResponse(question, receiver.getTeam(), 5.4);
         feedbackSubmitPage.fillNumScaleResponse(1, receiver.getTeamName(), response);
         feedbackSubmitPage.clickSubmitQuestionButton(1);
 
@@ -106,7 +107,7 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
         feedbackSubmitPage.verifyNumScaleResponse(1, receiver.getTeamName(), response);
 
         ______TS("edit response");
-        response = getResponse(question, receiver, 10.0);
+        response = getResponse(question, receiver.getTeam(), 10.0);
         feedbackSubmitPage.fillNumScaleResponse(1, receiver.getTeamName(), response);
         feedbackSubmitPage.clickSubmitQuestionButton(1);
 
@@ -115,7 +116,7 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
         verifyPresentInDatabase(response);
     }
 
-    private FeedbackResponse getResponse(FeedbackQuestion feedbackQuestion, Student receiver, Double answer) {
+    private FeedbackResponse getResponse(FeedbackQuestion feedbackQuestion, Team receiver, Double answer) {
         FeedbackNumericalScaleResponseDetails details = new FeedbackNumericalScaleResponseDetails();
         details.setAnswer(answer);
         FeedbackResponse response = FeedbackResponse.makeResponse(
