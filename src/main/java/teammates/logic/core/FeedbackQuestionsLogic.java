@@ -665,7 +665,8 @@ public final class FeedbackQuestionsLogic {
             for (Student student : studentList) {
                 boolean shouldExcludeStudent = student.equals(giverStudentToExclude)
                         || filterBySection != null && !student.getSection().equals(filterBySection);
-                // Filter out students that instructors are not allowed to submit feedback for based on instructor permissions
+                // Filter out students that instructors are not allowed to submit feedback for
+                // based on instructor permissions
                 boolean shouldExcludeStudentForInstructor = isInstructorGiver
                         && responseGiver.getGiverUser() instanceof Instructor instructor
                         && !instructor.isAllowedForPrivilege(
@@ -721,7 +722,8 @@ public final class FeedbackQuestionsLogic {
             for (Team team : teams) {
                 boolean shouldExcludeTeam = team.equals(giverTeamToExclude)
                         || filterBySection != null && !team.getSection().equals(filterBySection);
-                // Filter out students that instructors are not allowed to submit feedback for based on instructor permissions
+                // Filter out students that instructors are not allowed to submit feedback for
+                // based on instructor permissions
                 boolean shouldExcludeTeamForInstructor = isInstructorGiver
                         && responseGiver.getGiverUser() instanceof Instructor instructor
                         && !instructor.isAllowedForPrivilege(
