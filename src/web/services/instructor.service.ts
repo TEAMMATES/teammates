@@ -34,7 +34,6 @@ export class InstructorService {
    */
   getInstructor(queryParams: {
     courseId: string;
-    feedbackSessionName?: string;
     intent: Intent;
     key?: string;
     moderatedPerson?: string;
@@ -44,9 +43,6 @@ export class InstructorService {
       courseid: queryParams.courseId,
       intent: queryParams.intent,
     };
-    if (queryParams.feedbackSessionName) {
-      paramMap['fsname'] = queryParams.feedbackSessionName;
-    }
     if (queryParams.key) {
       paramMap['key'] = queryParams.key;
     }

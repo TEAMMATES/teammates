@@ -766,8 +766,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
 
   navigateToIndividualSessionResultPage(): void {
     this.navigationService.navigateByURL('/web/instructor/sessions/result', {
-      courseid: this.courseId,
-      fsname: this.fsName,
       fsid: this.feedbackSessionId,
     });
   }

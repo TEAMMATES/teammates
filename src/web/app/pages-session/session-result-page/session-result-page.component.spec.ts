@@ -33,6 +33,7 @@ import { Intent } from '../../../types/api-request';
 
 describe('SessionResultPageComponent', () => {
   const testFeedbackSession: FeedbackSession = {
+    feedbackSessionId: 'test-session-id',
     feedbackSessionName: 'First Session',
     courseId: 'CS1231',
     timeZone: 'Asia/Singapore',

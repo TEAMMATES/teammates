@@ -165,8 +165,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
                   {
                     onClosed: () =>
                       this.navigationService.navigateByURLWithParamEncoding('/web/instructor/sessions/edit', {
-                        courseid: createdFeedbackSession.courseId,
-                        fsname: createdFeedbackSession.feedbackSessionName,
                         fsid: createdFeedbackSession.feedbackSessionId,
                       }),
                   },
@@ -176,8 +174,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
                   '/web/instructor/sessions/edit',
                   'The feedback session has been copied. Please modify settings/questions as necessary.',
                   {
-                    courseid: createdFeedbackSession.courseId,
-                    fsname: createdFeedbackSession.feedbackSessionName,
                     fsid: createdFeedbackSession.feedbackSessionId,
                   },
                 );
@@ -363,8 +359,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               complete: () => {
                 this.navigationService
                   .navigateByURLWithParamEncoding('/web/instructor/sessions/edit', {
-                    courseid: feedbackSession.courseId,
-                    fsname: feedbackSession.feedbackSessionName,
                     fsid: feedbackSession.feedbackSessionId,
                   })
                   .then(() => {

@@ -106,19 +106,15 @@ export class LinkService {
    */
   generateSubmitUrl(
     entity: Student | Instructor,
-    fsname: string,
     isInstructor: boolean,
     feedbackSessionId: string,
   ): string {
     const frontendUrl: string = window.location.origin;
-    const courseId: string = entity.courseId;
     const key: string = entity.key || '';
     const params: {
       [key: string]: string;
     } = {
       key,
-      fsname,
-      courseid: courseId,
       fsid: feedbackSessionId,
     };
 
@@ -136,19 +132,15 @@ export class LinkService {
    */
   generateResultUrl(
     entity: Student | Instructor,
-    fsname: string,
     isInstructor: boolean,
     feedbackSessionId: string,
   ): string {
     const frontendUrl: string = window.location.origin;
-    const courseId: string = entity.courseId;
     const key: string = entity.key || '';
     const params: {
       [key: string]: string;
     } = {
       key,
-      fsname,
-      courseid: courseId,
       fsid: feedbackSessionId,
     };
 

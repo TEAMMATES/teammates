@@ -156,8 +156,6 @@ export class SessionResultPageComponent implements OnInit {
                       // The logged in user matches the registration key; redirect to the logged in URL
 
                       this.navigationService.navigateByURLWithParamEncoding(`/web/${this.entityType}/sessions/result`, {
-                        courseid: this.courseId,
-                        fsname: this.feedbackSessionName,
                         fsid: this.feedbackSessionId,
                       });
                     } else {
@@ -263,7 +261,6 @@ export class SessionResultPageComponent implements OnInit {
         this.instructorService
           .getInstructor({
             courseId: this.courseId,
-            feedbackSessionName: this.feedbackSessionName,
             intent: this.intent,
             key: this.regKey,
             previewAs: this.previewAsPerson,
@@ -366,8 +363,6 @@ export class SessionResultPageComponent implements OnInit {
 
   navigateToSessionReportPage(): void {
     this.navigationService.navigateByURL('/web/instructor/sessions/report', {
-      courseid: this.courseId,
-      fsname: this.feedbackSessionName,
       fsid: this.feedbackSessionId,
     });
   }

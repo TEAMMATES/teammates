@@ -210,8 +210,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                       this.navigationService.navigateByURLWithParamEncoding(
                         `/web/${this.entityType}/sessions/submission`,
                         {
-                          courseid: this.courseId,
-                          fsname: this.feedbackSessionName,
                           fsid: this.feedbackSessionId,
                         },
                       );
@@ -363,7 +361,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         this.instructorService
           .getInstructor({
             courseId: this.courseId,
-            feedbackSessionName: this.feedbackSessionName,
             intent: this.intent,
             key: this.regKey,
             moderatedPerson: this.moderatedPerson,

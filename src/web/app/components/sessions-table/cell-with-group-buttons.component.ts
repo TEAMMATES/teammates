@@ -16,9 +16,7 @@ import { TeammatesRouterDirective } from '../teammates-router/teammates-router.d
 })
 export class GroupButtonsComponent {
   @Input() idx = 0;
-  @Input() fsName = '';
   @Input() fsId = '';
-  @Input() courseId = '';
   @Input() rowClicked = 0;
   @Input() isSendReminderLoading = false;
 

@@ -78,36 +78,32 @@ describe('Link Service', () => {
 
   it('should generate the submit url', () => {
     expect(
-      service.generateSubmitUrl(mockStudent, 'another happy landing', false, '00000000-0000-4000-8000-000000000001'),
+      service.generateSubmitUrl(mockStudent, false, '00000000-0000-4000-8000-000000000001'),
     ).toBe(
       `${window.location.origin}/web/sessions/submission?key=keyheehee` +
-        '&fsname=another%20happy%20landing&courseid=dog.gma-demo' +
         '&fsid=00000000-0000-4000-8000-000000000001',
     );
 
     expect(
-      service.generateSubmitUrl(mockInstructor, 'another happy landing', true, '00000000-0000-4000-8000-000000000002'),
+      service.generateSubmitUrl(mockInstructor, true, '00000000-0000-4000-8000-000000000002'),
     ).toBe(
       `${window.location.origin}/web/sessions/submission?key=impicklerick` +
-        '&fsname=another%20happy%20landing&courseid=dog.gma-demo' +
         '&fsid=00000000-0000-4000-8000-000000000002&entitytype=instructor',
     );
   });
 
   it('should generate the result url', () => {
     expect(
-      service.generateResultUrl(mockStudent, 'another happy landing', false, '00000000-0000-4000-8000-000000000001'),
+      service.generateResultUrl(mockStudent, false, '00000000-0000-4000-8000-000000000001'),
     ).toBe(
-      `${window.location.origin}/web/sessions/result?` +
-        'key=keyheehee&fsname=another%20happy%20landing&courseid=dog.gma-demo' +
+      `${window.location.origin}/web/sessions/result?key=keyheehee` +
         '&fsid=00000000-0000-4000-8000-000000000001',
     );
 
     expect(
-      service.generateResultUrl(mockInstructor, 'another happy landing', true, '00000000-0000-4000-8000-000000000002'),
+      service.generateResultUrl(mockInstructor, true, '00000000-0000-4000-8000-000000000002'),
     ).toBe(
-      `${window.location.origin}/web/sessions/result?` +
-        'key=impicklerick&fsname=another%20happy%20landing&courseid=dog.gma-demo' +
+      `${window.location.origin}/web/sessions/result?key=impicklerick` +
         '&fsid=00000000-0000-4000-8000-000000000002&entitytype=instructor',
     );
   });
