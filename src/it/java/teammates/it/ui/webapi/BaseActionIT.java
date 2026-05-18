@@ -385,8 +385,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         ______TS("admin can access");
 
         loginAsAdmin();
-        mockUserProvision.setAdmin(true);
-        mockUserProvision.setMaintainer(false);
 
         // not checking for non-masquerade mode because admin may not be an instructor
         verifyCanMasquerade(instructor.getAccount().getGoogleId(), submissionParams);
@@ -400,8 +398,6 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         HibernateUtil.flushSession();
         HibernateUtil.clearSession();
         loginAsAdmin();
-        mockUserProvision.setAdmin(true);
-        mockUserProvision.setMaintainer(false);
         // not checking for non-masquerade mode because admin may not be an instructor
         verifyCanMasquerade(instructor.getAccount().getGoogleId(), submissionParams);
     }

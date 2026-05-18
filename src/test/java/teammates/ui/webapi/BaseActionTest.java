@@ -766,8 +766,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
 
     private void loginAsAdminAndMasqueradeAsInstructor(Instructor instructor, boolean canMasquerade, String... params) {
         loginAsAdmin();
-        mockUserProvision.setAdmin(false);
-        mockUserProvision.setMaintainer(false);
         when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
 
         if (canMasquerade) {

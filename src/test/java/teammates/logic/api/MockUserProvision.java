@@ -121,14 +121,6 @@ public class MockUserProvision extends UserProvision {
         return createAccountAuthContext(AuthType.LOGGED_IN, loggedInGoogleId, isAdmin, isMaintainer);
     }
 
-    public void setAdmin(boolean isAdmin) {
-        this.isAdmin = isAdmin;
-    }
-
-    public void setMaintainer(boolean isMaintainer) {
-        this.isMaintainer = isMaintainer;
-    }
-
     private AuthContext createAccountAuthContext(
             AuthType authType, String googleId, boolean isAdmin, boolean isMaintainer) {
         Account account = createMissingAccounts
