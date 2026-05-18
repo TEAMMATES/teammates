@@ -750,7 +750,7 @@ public final class FeedbackQuestionsLogic {
             List<Student> teamMembers = courseRoster.getTeamToMembers().getOrDefault(teamName, Collections.emptyList());
 
             return teamMembers.stream()
-                    .filter(student -> Objects.equals(student, responseGiver.getGiverUser()))
+                    .filter(student -> !Objects.equals(student, responseGiver.getGiverUser()))
                     .map(ResponseRecipient::new)
                     .collect(Collectors.toSet());
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
