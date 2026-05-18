@@ -35,7 +35,7 @@ public class MarkNotificationAsReadAction extends Action {
                 getAndValidateRequestBody(MarkNotificationAsReadRequest.class);
         UUID notificationId = UUID.fromString(readNotificationCreateRequest.getNotificationId());
 
-        Account account = logic.getAccountForGoogleId(authContext.id());
+        Account account = logic.getAccountForGoogleId(getCurrentUserGoogleId());
         if (account == null) {
             // This should not happen as the user is authenticated
             return new JsonResult("Account not found", HttpStatus.SC_INTERNAL_SERVER_ERROR);

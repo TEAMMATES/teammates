@@ -114,13 +114,22 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
             action.setTaskQueuer(mockTaskQueuer);
             action.setEmailSender(mockEmailSender);
             action.setLogsProcessor(mockLogsProcessor);
+            mockUserProvision.setLogic(logic);
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
             action.init(req);
             return action;
         } catch (ActionMappingException e) {
             throw new RuntimeException(e);
+        } catch (UnauthorizedAccessException e) {
+            BaseActionIT.<RuntimeException>sneakyThrow(e);
+            return null;
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <E extends Throwable> void sneakyThrow(Throwable e) throws E {
+        throw (E) e;
     }
 
     /**
@@ -165,6 +174,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * Logs in the user to the test environment as an admin.
      */
     protected void loginAsAdmin() {
+        mockUserProvision.setLogic(logic);
+        ensureAccountExists(Config.APP_ADMINS.get(0));
         mockUserProvision.loginAsAdmin(Config.APP_ADMINS.get(0));
     }
 
@@ -173,6 +184,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * (without any right).
      */
     protected void loginAsUnregistered(String userId) {
+        mockUserProvision.setLogic(logic);
+        ensureAccountExists(userId);
         mockUserProvision.loginUser(userId);
     }
 
@@ -181,6 +194,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * (without admin rights or student rights).
      */
     protected void loginAsInstructor(String userId) {
+        mockUserProvision.setLogic(logic);
+        ensureAccountExists(userId);
         mockUserProvision.loginUser(userId);
     }
 
@@ -189,6 +204,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * (without admin rights or instructor rights).
      */
     protected void loginAsStudent(String userId) {
+        mockUserProvision.setLogic(logic);
+        ensureAccountExists(userId);
         mockUserProvision.loginUser(userId);
     }
 
@@ -197,6 +214,8 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * admin rights).
      */
     protected void loginAsStudentInstructor(String userId) {
+        mockUserProvision.setLogic(logic);
+        ensureAccountExists(userId);
         mockUserProvision.loginUser(userId);
     }
 
@@ -204,7 +223,20 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * Logs in the user to the test environment as a maintainer.
      */
     protected void loginAsMaintainer() {
+        mockUserProvision.setLogic(logic);
+        ensureAccountExists(Config.APP_MAINTAINERS.get(0));
         mockUserProvision.loginAsMaintainer(Config.APP_MAINTAINERS.get(0));
+    }
+
+    private void ensureAccountExists(String googleId) {
+        if (logic.getAccountForGoogleId(googleId) == null) {
+            String email = googleId.contains("@") ? googleId : googleId + "@example.com";
+            try {
+                logic.createAccount(new Account(googleId, "Test User", email));
+            } catch (InvalidParametersException | EntityAlreadyExistsException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     /**

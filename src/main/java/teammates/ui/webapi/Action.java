@@ -49,7 +49,6 @@ public abstract class Action {
 
     HttpServletRequest req;
     AuthContext authContext;
-    AuthType authType;
 
     // buffer to store the request body
     private String requestBody;
@@ -57,7 +56,7 @@ public abstract class Action {
     /**
      * Initializes the action object based on the HTTP request.
      */
-    public void init(HttpServletRequest req) throws UnauthorizedAccessException{
+    public void init(HttpServletRequest req) throws UnauthorizedAccessException {
         this.req = req;
         this.authContext = userProvision.getAuthContextFromRequest(req);
     }
@@ -117,7 +116,7 @@ public abstract class Action {
     public RequestLogUser getUserInfoForLogging() {
         RequestLogUser user = new RequestLogUser();
 
-        Account account = authContext.account();
+        Account account = getCurrentAccount();
         User regKeyUser = authContext.regKeyUser();
 
         if (account != null) {
@@ -128,6 +127,15 @@ public abstract class Action {
         }
 
         return user;
+    }
+
+    Account getCurrentAccount() {
+        return authContext == null ? null : authContext.account();
+    }
+
+    String getCurrentUserGoogleId() {
+        Account account = getCurrentAccount();
+        return account == null ? null : account.getGoogleId();
     }
 
     /**

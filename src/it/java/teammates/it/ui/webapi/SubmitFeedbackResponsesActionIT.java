@@ -588,7 +588,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
         verifyCanAccess(submissionParams);
-        verifyCanMasquerade(instructor.getGoogleId(), submissionParams);
+        verifyCannotMasquerade(instructor.getGoogleId(), submissionParams);
 
         ______TS("Failure with instructor: instructor has no modify session comment privileges");
         loginInstructor("instructor1OfCourse1");

@@ -81,7 +81,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             break;
         case INSTRUCTOR_RESULT:
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
-            Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
+            Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
             ResponseGiver giver = feedbackResponse.getGiver();
             String giverSectionName = giver.getSectionName();
             ResponseRecipient recipient = feedbackResponse.getRecipient();
@@ -149,7 +149,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             isFollowingQuestionVisibility = true;
             break;
         case INSTRUCTOR_RESULT:
-            Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
+            Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
             giverRg = new ResponseGiver(instructor);
             isFromParticipant = false;
             isFollowingQuestionVisibility = false;
