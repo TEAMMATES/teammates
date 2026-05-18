@@ -654,7 +654,6 @@ public final class FeedbackQuestionsLogic {
                     Team teamGiver = responseGiver.getGiverTeam();
                     filterBySection = teamGiver.getSection();
                 }
-                // If the giver is an instructor, exclude based on permissions (handled in the loop below)
             }
 
             Student giverStudentToExclude = null;
@@ -666,6 +665,7 @@ public final class FeedbackQuestionsLogic {
             for (Student student : studentList) {
                 boolean shouldExcludeStudent = student.equals(giverStudentToExclude)
                         || filterBySection != null && !student.getSection().equals(filterBySection);
+                // Filter out students that instructors are not allowed to submit feedback for based on instructor permissions
                 boolean shouldExcludeStudentForInstructor = isInstructorGiver
                         && responseGiver.getGiverUser() instanceof Instructor instructor
                         && !instructor.isAllowedForPrivilege(
@@ -704,7 +704,6 @@ public final class FeedbackQuestionsLogic {
                     Student studentGiver = (Student) responseGiver.getGiverUser();
                     giverTeamToExclude = studentGiver.getTeam();
                 }
-                // If the giver is an instructor, exclude based on permissions (handled in the loop below)
             }
 
             filterBySection = null;
@@ -716,14 +715,13 @@ public final class FeedbackQuestionsLogic {
                     Team teamGiver = responseGiver.getGiverTeam();
                     filterBySection = teamGiver.getSection();
                 }
-                // If the giver is an instructor, exclude based on permissions (handled in the loop below)
             }
 
             Set<ResponseRecipient> teamRecipients = new HashSet<>();
             for (Team team : teams) {
                 boolean shouldExcludeTeam = team.equals(giverTeamToExclude)
                         || filterBySection != null && !team.getSection().equals(filterBySection);
-                // instructor can only see teams in allowed sections for him/her
+                // Filter out students that instructors are not allowed to submit feedback for based on instructor permissions
                 boolean shouldExcludeTeamForInstructor = isInstructorGiver
                         && responseGiver.getGiverUser() instanceof Instructor instructor
                         && !instructor.isAllowedForPrivilege(

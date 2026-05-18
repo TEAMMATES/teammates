@@ -297,7 +297,11 @@ public final class FeedbackResponseCommentsLogic {
                 }
                 break;
             case RECEIVER:
-                if (user.equals(responseRecipient.getRecipientUser())) {
+                if (responseRecipient.isRecipientUser() && user.equals(responseRecipient.getRecipientUser())) {
+                    return true;
+                }
+                if (responseRecipient.isRecipientTeam() && user instanceof Student student
+                        && student.getTeam().equals(responseRecipient.getRecipientTeam())) {
                     return true;
                 }
                 break;
@@ -312,7 +316,11 @@ public final class FeedbackResponseCommentsLogic {
                 }
                 break;
             case GIVER:
-                if (user.equals(responseGiver.getGiverUser())) {
+                if (responseGiver.isGiverUser() && user.equals(responseGiver.getGiverUser())) {
+                    return true;
+                }
+                if (responseGiver.isGiverTeam() && user instanceof Student student
+                        && student.getTeam().equals(responseGiver.getGiverTeam())) {
                     return true;
                 }
                 break;
