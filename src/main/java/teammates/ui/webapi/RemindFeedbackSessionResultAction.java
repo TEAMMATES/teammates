@@ -61,7 +61,8 @@ public class RemindFeedbackSessionResultAction extends Action {
         // Generate reminder emails for specified users
         List<Student> studentsToRemindList = new ArrayList<>();
         List<Instructor> instructorsToRemindList = new ArrayList<>();
-        Instructor instructorToNotify = logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId());
+        Instructor instructorToNotify =
+                logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId());
 
         for (UUID userId : usersToRemind) {
             User user = logic.getUser(userId);

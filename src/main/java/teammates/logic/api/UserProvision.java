@@ -1,6 +1,7 @@
 package teammates.logic.api;
 
 import jakarta.servlet.http.HttpServletRequest;
+
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
@@ -94,36 +95,57 @@ public class UserProvision {
         return userInfo;
     }
 
+    /**
+     * Checks if the request is a backdoor request.
+     */
     protected boolean isBackdoorRequest(HttpServletRequest req) {
         return Config.BACKDOOR_KEY.equals(req.getHeader(Const.HeaderNames.BACKDOOR_KEY));
     }
 
+    /**
+     * Checks if the request is from a trusted automated cron or worker.
+     */
     protected boolean isTrustedAutomatedCronOrWorkerRequest(HttpServletRequest req) {
         return AutomatedRequestAuth.isTrustedCronOrWorkerRequest(req);
     }
 
+    /**
+     * Checks if the request is a masquerade request.
+     */
     protected boolean isMasqueradeRequest(HttpServletRequest req) {
         String userParam = req.getParameter(Const.ParamsNames.USER_ID);
         return userParam != null;
     }
 
+    /**
+     * Checks if the request contains a registration key.
+     */
     protected boolean isRegKeyRequest(HttpServletRequest req) {
         String regKey = req.getParameter(Const.ParamsNames.REGKEY);
         return regKey != null;
     }
 
+    /**
+     * Checks if the request is from an admin user.
+     */
     protected boolean isAdminUser(Account account) {
         return account != null
                 && account.getEmail() != null
                 && Config.getAppAdmins().contains(account.getEmail());
     }
 
+    /**
+     * Checks if the request is from a maintainer user.
+     */
     protected boolean isMaintainerUser(Account account) {
         return account != null
                 && account.getEmail() != null
                 && Config.getAppMaintainers().contains(account.getEmail());
     }
 
+    /**
+     * Checks if the request is from a logged in user.
+     */
     protected boolean isLoggedInUser(Account account) {
         return account != null;
     }
@@ -140,14 +162,13 @@ public class UserProvision {
     /**
      * Handles the case where the request is from a logged in user (including
      * masquerade).
-     * 
+     *
      * <p>
      * If the request is a masquerade request, returns an AuthContext with
      * MASQUERADE auth type and the account of the user being masqueraded as.
-     *
      * Otherwise, returns an AuthContext with LOGGED_IN auth type and the account of
      * the logged in user.
-     * 
+     *
      * @throws UnauthorizedAccessException if the request is an invalid attempt to
      *                                     masquerade
      */
@@ -181,7 +202,7 @@ public class UserProvision {
 
     /**
      * Handles the case where the request contains a registration key.
-     * 
+     *
      * <p>
      * If the registration key is valid, returns an AuthContext with the associated
      * user and REG_KEY auth type.

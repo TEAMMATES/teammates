@@ -1,13 +1,14 @@
 package teammates.common.datatransfer;
 
 import jakarta.annotation.Nullable;
+
 import teammates.storage.entity.Account;
 import teammates.storage.entity.User;
 import teammates.ui.webapi.AuthType;
 
 /**
  * Represents the authentication context of a user.
- * 
+ *
  * <p>
  * This class encapsulates all information needed to determine the
  * authentication status of a user.
