@@ -525,7 +525,7 @@ public final class FeedbackResponsesLogic {
             }
             // check visibility of comment
             boolean isVisibleResponseComment = frcLogic.checkIsResponseCommentVisibleForUser(
-                    user, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
+                    user, relatedResponse, relatedQuestion, frc);
             if (!isVisibleResponseComment) {
                 continue;
             }

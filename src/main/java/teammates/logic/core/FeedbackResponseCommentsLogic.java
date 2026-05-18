@@ -2,7 +2,6 @@ package teammates.logic.core;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
@@ -20,6 +19,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
+import teammates.storage.entity.Team;
 import teammates.storage.entity.User;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 
@@ -140,8 +140,7 @@ public final class FeedbackResponseCommentsLogic {
      * @return true/false
      */
     public boolean checkIsResponseCommentVisibleForUser(User user,
-            Set<String> studentsEmailInTeam, FeedbackResponse response,
-            FeedbackQuestion relatedQuestion, FeedbackResponseComment relatedComment) {
+            FeedbackResponse response, FeedbackQuestion relatedQuestion, FeedbackResponseComment relatedComment) {
 
         if (response == null || relatedQuestion == null) {
             return false;
@@ -155,34 +154,50 @@ public final class FeedbackResponseCommentsLogic {
 
         boolean isVisibleToUserTeam = false;
         if (user instanceof Student student) {
-            isVisibleToUserTeam = checkIsVisibleToUserTeam(student, studentsEmailInTeam, response,
+            isVisibleToUserTeam = checkIsVisibleToUserTeam(student, response,
                     relatedQuestion, relatedComment);
         }
 
         return isVisibleToUser || isVisibleToUserTeam;
     }
 
-    private boolean checkIsVisibleToUserTeam(Student student, Set<String> studentsEmailInTeam,
+    private boolean checkIsVisibleToUserTeam(Student student,
             FeedbackResponse response, FeedbackQuestion relatedQuestion,
             FeedbackResponseComment relatedComment) {
+        Team studentTeam = student.getTeam();
+
+        ResponseGiver responseGiver = response.getGiver();
+        Team giverTeam = null;
+        if (responseGiver.isGiverTeam()) {
+            giverTeam = responseGiver.getGiverTeam();
+        } else if (responseGiver.getGiverUser() instanceof Student studentGiver) {
+            giverTeam = studentGiver.getTeam();
+        }
+
+        ResponseRecipient responseRecipient = response.getRecipient();
+        Team recipientTeam = null;
+        if (responseRecipient.getRecipientTeam() != null) {
+            recipientTeam = responseRecipient.getRecipientTeam();
+        } else if (responseRecipient.getRecipientUser() instanceof Student studentRecipient) {
+            recipientTeam = studentRecipient.getTeam();
+        }
+
+        boolean isUserInGiverTeam = giverTeam != null && giverTeam.equals(studentTeam);
+        boolean isUserInRecipientTeam = recipientTeam != null && recipientTeam.equals(studentTeam);
 
         boolean isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipients =
                 relatedQuestion.getRecipientType() == QuestionRecipientType.TEAMS
-                && checkIsResponseCommentVisibleTo(relatedQuestion, relatedComment,
-                                              ViewerType.RECEIVER)
-                && response.getRecipient().getRecipientTeam().equals(student.getTeam());
+                && checkIsResponseCommentVisibleTo(relatedQuestion, relatedComment, ViewerType.RECEIVER)
+                && isUserInRecipientTeam;
 
         boolean isUserInResponseGiverTeamAndRelatedResponseCommentVisibleToGiversTeamMembers =
                 (relatedQuestion.getGiverType() == QuestionGiverType.TEAMS
-                || checkIsResponseCommentVisibleTo(relatedQuestion, relatedComment,
-                                              ViewerType.OWN_TEAM_MEMBERS))
-                && (studentsEmailInTeam.contains(response.getGiver().getIdentifier())
-                        || student.getTeam().equals(response.getGiver().getGiverTeam()));
+                || checkIsResponseCommentVisibleTo(relatedQuestion, relatedComment, ViewerType.OWN_TEAM_MEMBERS))
+                && isUserInGiverTeam;
 
         boolean isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipientsTeamMembers =
-                checkIsResponseCommentVisibleTo(relatedQuestion, relatedComment,
-                                           ViewerType.RECEIVER_TEAM_MEMBERS)
-                && studentsEmailInTeam.contains(response.getRecipient().getIdentifier());
+                checkIsResponseCommentVisibleTo(relatedQuestion, relatedComment, ViewerType.RECEIVER_TEAM_MEMBERS)
+                && isUserInRecipientTeam;
 
         return isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipients
                 || isUserInResponseGiverTeamAndRelatedResponseCommentVisibleToGiversTeamMembers
