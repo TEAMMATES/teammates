@@ -795,6 +795,13 @@ export enum QuestionRecipientType {
   NONE = "NONE",
 }
 
+export enum ResponseRecipientType {
+  STUDENT = "STUDENT",
+  INSTRUCTOR = "INSTRUCTOR",
+  TEAM = "TEAM",
+  NO_SPECIFIC_RECIPIENT = "NO_SPECIFIC_RECIPIENT",
+}
+
 export enum ResponseVisibleSetting {
   CUSTOM = "CUSTOM",
   AT_VISIBLE = "AT_VISIBLE",
