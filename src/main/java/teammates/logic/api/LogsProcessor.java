@@ -24,11 +24,9 @@ public class LogsProcessor {
     private final LogService service;
 
     LogsProcessor() {
-        if (!Config.isUsingRecaptchaVerification()) {
-            service = new LocalLoggingService();
-        } else {
-            service = new GoogleCloudLoggingService();
-        }
+        this.service = Config.isUsingRecaptchaVerification()
+                ? new GoogleCloudLoggingService()
+                : new LocalLoggingService();
     }
 
     public static LogsProcessor inst() {

@@ -157,6 +157,7 @@ public final class Config {
      * When {@code true}, outbound email to TEAMMATES test/demo domains is allowed; see {@link Const#TEST_EMAIL_DOMAIN}.
      */
     public static final boolean EMAIL_ALLOW_SENDING_TO_TEST_DOMAIN;
+    public static final boolean RECAPTCHA_VERIFICATION_ENABLED;
 
     /** Value of {@code app.taskqueue.service} (default {@code google-cloud-tasks} in production, {@code local} in dev). */
     public static final String TASKQUEUE_SERVICE;
@@ -170,8 +171,6 @@ public final class Config {
     private static final int ENCRYPTION_KEY_HEX_LENGTH = 64;
 
     private static final Logger log = Logger.getLogger();
-
-    public static final boolean RECAPTCHA_VERIFICATION_ENABLED;
 
     static {
         Properties properties = new Properties();
@@ -414,12 +413,11 @@ public final class Config {
                 && MAILJET_SECRETKEY != null && !MAILJET_SECRETKEY.isEmpty();
     }
 
-    public static boolean isUsingRecaptchaVerification(){
-        if(RECAPTCHA_VERIFICATION_ENABLED && CAPTCHA_SECRET_KEY != null && !CAPTCHA_SECRET_KEY.isEmpty()){
-            return true;
-        }else{
-            return false;
-        }
+    /**
+     * Returns whether reCAPTCHA verification should be used.
+    */
+    public static boolean isUsingRecaptchaVerification() {
+        return RECAPTCHA_VERIFICATION_ENABLED && CAPTCHA_SECRET_KEY != null && !CAPTCHA_SECRET_KEY.isEmpty();
     }
 
     /**
@@ -437,8 +435,6 @@ public final class Config {
                 && !StringHelper.isEmpty(SMTP_HOST) && !StringHelper.isEmpty(SMTP_PORT)
                 && isSecurityProtocolValid && isSmtpAuthValid && (!isAuthEnabled || isCredentialValid);
     }
-
-
 
     /**
      * Ensures {@link #CRON_AND_WORKER_SECRET} is configured for authenticating worker/cron HTTP requests.
