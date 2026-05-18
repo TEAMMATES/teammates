@@ -856,19 +856,17 @@ public class Logic {
     }
 
     /**
-     * Make the instructor join the course, i.e. associate the Google ID to the
-     * instructor.<br>
-     * Creates an account for the instructor if no existing account is found.
+     * Make the instructor join the course, i.e. associate the account to the instructor.
      * Preconditions: <br>
-     * * Parameters regkey and googleId are non-null.
+     * * Parameters regkey and accountId are non-null.
      */
-    public Instructor joinCourseForInstructor(String regkey, String googleId)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+    public Instructor joinCourseForInstructor(String regkey, UUID accountId)
+            throws EntityDoesNotExistException, EntityAlreadyExistsException {
 
-        assert googleId != null;
+        assert accountId != null;
         assert regkey != null;
 
-        return accountsLogic.joinCourseForInstructor(regkey, googleId);
+        return accountsLogic.joinCourseForInstructor(regkey, accountId);
     }
 
     /**
@@ -1082,21 +1080,19 @@ public class Logic {
     }
 
     /**
-     * Make the student join the course, i.e. associate the Google ID to the
-     * student.<br>
-     * Create an account for the student if no existing account is found.
+     * Make the student join the course, i.e. associate the account to the student.
      * Preconditions: <br>
      * * All parameters are non-null.
      *
      * @param key the registration key
      */
-    public Student joinCourseForStudent(String key, String googleId)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
+    public Student joinCourseForStudent(String key, UUID accountId)
+            throws EntityDoesNotExistException, EntityAlreadyExistsException {
 
-        assert googleId != null;
+        assert accountId != null;
         assert key != null;
 
-        return accountsLogic.joinCourseForStudent(key, googleId);
+        return accountsLogic.joinCourseForStudent(key, accountId);
 
     }
 

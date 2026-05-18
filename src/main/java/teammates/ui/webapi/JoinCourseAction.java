@@ -1,13 +1,9 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.Logger;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
@@ -19,8 +15,6 @@ import teammates.ui.exception.InvalidOperationException;
  * Action: joins a course for a student/instructor.
  */
 public class JoinCourseAction extends Action {
-
-    private static final Logger log = Logger.getLogger();
 
     @Override
     AuthType getMinAuthLevel() {
@@ -51,15 +45,11 @@ public class JoinCourseAction extends Action {
         Student student;
 
         try {
-            student = logic.joinCourseForStudent(regkey, authContext.id());
+            student = logic.joinCourseForStudent(regkey, authContext.accountId());
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException eaee) {
             throw new InvalidOperationException(eaee);
-        } catch (InvalidParametersException ipe) {
-            // There should not be any invalid parameter here
-            log.severe("Unexpected error", ipe);
-            return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
         sendJoinEmail(student.getCourseId(), student.getName(), student.getEmail(), false);
@@ -71,15 +61,11 @@ public class JoinCourseAction extends Action {
         Instructor instructor;
 
         try {
-            instructor = logic.joinCourseForInstructor(regkey, authContext.id());
+            instructor = logic.joinCourseForInstructor(regkey, authContext.accountId());
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException eaee) {
             throw new InvalidOperationException(eaee);
-        } catch (InvalidParametersException ipe) {
-            // There should not be any invalid parameter here
-            log.severe("Unexpected error", ipe);
-            return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
         sendJoinEmail(instructor.getCourseId(), instructor.getName(), instructor.getEmail(), true);

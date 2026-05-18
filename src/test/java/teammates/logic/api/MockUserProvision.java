@@ -95,4 +95,11 @@ public class MockUserProvision extends UserProvision {
     public void setMaintainer(boolean isMaintainer) {
         this.isMaintainer = isMaintainer;
     }
+
+    /**
+     * Returns the UUID used for all mock accounts in tests.
+     */
+    public UUID getMockAccountId() {
+        return MOCK_ACCOUNT_ID;
+    }
 }
