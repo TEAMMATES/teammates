@@ -68,7 +68,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
     void testExecute_validStudentRegKey_success() throws EntityAlreadyExistsException,
             EntityDoesNotExistException {
         loginAsUnregistered("unreg-student");
-        UUID mockAccountId = mockUserProvision.getMockAccountId();
+        Account mockAccount = mockUserProvision.getMockAccount();
 
         when(mockLogic.getStudentByRegistrationKey("registered-key-student")).thenReturn(stubStudent);
         when(mockLogic.joinCourseForStudent("registered-key-student", mockAccountId)).thenReturn(stubStudent);

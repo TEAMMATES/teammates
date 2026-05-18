@@ -1,18 +1,24 @@
 package teammates.common.datatransfer;
 
-import java.util.UUID;
+import jakarta.annotation.Nullable;
+import teammates.storage.entity.Account;
+import teammates.storage.entity.User;
+import teammates.ui.webapi.AuthType;
 
 /**
  * Represents the authentication context of a user.
  *
- * @param id           The user's Google ID.
- * @param accountId    The user's account ID.
+ * @param authType     The authentication type.
+ * @param account      The user's account. If masquerading, this is the account
+ *                     of the user being masqueraded as.
+ * @param regKeyUser   The user associated with the registration key.
  * @param isAdmin      Indicates whether the user has admin privilege.
  * @param isMaintainer Indicates whether the user has maintainer privilege.
  */
 public record AuthContext(
-        String id,
-        UUID accountId,
+        AuthType authType,
+        @Nullable Account account,
+        @Nullable User regKeyUser,
         boolean isAdmin,
         boolean isMaintainer) {
 }

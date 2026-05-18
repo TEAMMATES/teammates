@@ -166,9 +166,8 @@ public final class AccountsLogic {
     /**
      * Joins the user as a student.
      */
-    public Student joinCourseForStudent(String registrationKey, UUID accountId)
+    public Student joinCourseForStudent(String registrationKey, Account account)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
-        Account account = accountsDb.getAccount(accountId);
         if (account == null) {
             throw new EntityDoesNotExistException("Account not found for the user joining the course");
         }
@@ -185,9 +184,8 @@ public final class AccountsLogic {
     /**
      * Joins the user as an instructor.
      */
-    public Instructor joinCourseForInstructor(String key, UUID accountId)
+    public Instructor joinCourseForInstructor(String key, Account account)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
-        Account account = accountsDb.getAccount(accountId);
         if (account == null) {
             throw new EntityDoesNotExistException("Account not found for the user joining the course");
         }

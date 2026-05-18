@@ -326,7 +326,7 @@ public abstract class Action {
             if (authContext == null) {
                 return null;
             }
-            return logic.getInstructorByGoogleId(courseId, authContext.id());
+            return logic.getInstructorByGoogleId(courseId, authContext.account().getGoogleId());
         });
     }
 
@@ -335,7 +335,7 @@ public abstract class Action {
             if (authContext == null) {
                 return null;
             }
-            return logic.getStudentByGoogleId(courseId, authContext.id());
+            return logic.getStudentByGoogleId(courseId, authContext.account().getGoogleId());
         });
     }
 

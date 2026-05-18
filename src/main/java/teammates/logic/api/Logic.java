@@ -266,10 +266,10 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public List<Course> getCoursesForStudentAccount(String googleId) {
-        assert googleId != null;
+    public List<Course> getCoursesForStudentAccount(Account account) {
+        assert account != null;
 
-        return coursesLogic.getCoursesForStudentAccount(googleId);
+        return coursesLogic.getCoursesForStudentAccount(account);
     }
 
     /**
@@ -829,8 +829,8 @@ public class Logic {
     /**
      * Gets list of instructors by {@code googleId}.
      */
-    public List<Instructor> getInstructorsForGoogleId(String googleId) {
-        return usersLogic.getInstructorsForGoogleId(googleId);
+    public List<Instructor> getInstructorsForGoogleId(Account account) {
+        return usersLogic.getInstructorsForGoogleId(account.getGoogleId());
     }
 
     /**
@@ -858,15 +858,15 @@ public class Logic {
     /**
      * Make the instructor join the course, i.e. associate the account to the instructor.
      * Preconditions: <br>
-     * * Parameters regkey and accountId are non-null.
+     * * Parameters regkey and account are non-null.
      */
-    public Instructor joinCourseForInstructor(String regkey, UUID accountId)
+    public Instructor joinCourseForInstructor(String regkey, Account account)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
 
-        assert accountId != null;
+        assert account != null;
         assert regkey != null;
 
-        return accountsLogic.joinCourseForInstructor(regkey, accountId);
+        return accountsLogic.joinCourseForInstructor(regkey, account);
     }
 
     /**
@@ -1086,13 +1086,13 @@ public class Logic {
      *
      * @param key the registration key
      */
-    public Student joinCourseForStudent(String key, UUID accountId)
+    public Student joinCourseForStudent(String key, Account account)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
 
-        assert accountId != null;
+        assert account != null;
         assert key != null;
 
-        return accountsLogic.joinCourseForStudent(key, accountId);
+        return accountsLogic.joinCourseForStudent(key, account);
 
     }
 
