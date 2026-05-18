@@ -768,10 +768,15 @@ public final class FeedbackResponsesLogic {
                 }
                 break;
             case OWN_TEAM_MEMBERS, OWN_TEAM_MEMBERS_INCLUDING_SELF:
-                // Refers to Giver's Team Members
-                if (responseGiver.getGiverTeam() != null
-                        && user instanceof Student student
-                        && student.getTeam().equals(responseGiver.getGiverTeam())) {
+                Team userTeam = user instanceof Student student ? student.getTeam() : null;
+                Team receiverTeam = null;
+                if (responseGiver.isGiverTeam()) {
+                    receiverTeam = responseGiver.getGiverTeam();
+                } else if (responseGiver.getGiverUser() instanceof Student student) {
+                    receiverTeam = student.getTeam();
+                }
+
+                if (userTeam != null && userTeam.equals(receiverTeam)) {
                     return true;
                 }
                 break;
@@ -789,15 +794,15 @@ public final class FeedbackResponsesLogic {
                     break;
                 }
             case RECEIVER_TEAM_MEMBERS:
-                // Response to team
+                userTeam = user instanceof Student student ? student.getTeam() : null;
+                receiverTeam = null;
                 if (responseRecipient.isRecipientTeam()) {
-                    if (user instanceof Student student && student.getTeam().equals(responseRecipient.getRecipientTeam())) {
-                        // this is a team name
-                        return true;
-                    }
-                    break;
-                } else if (user instanceof Student student && student.equals(responseRecipient.getRecipientUser())) {
-                    // Response to individual
+                    receiverTeam = responseRecipient.getRecipientTeam();
+                } else if (responseRecipient.getRecipientUser() instanceof Student recipientStudent) {
+                    receiverTeam = recipientStudent.getTeam();
+                }
+
+                if (userTeam != null && userTeam.equals(receiverTeam)) {
                     return true;
                 }
                 break;
