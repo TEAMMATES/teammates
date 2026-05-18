@@ -681,8 +681,8 @@ public final class FeedbackQuestionsLogic {
             List<Instructor> instructorsInCourse = courseRoster.getInstructors();
             Set<ResponseRecipient> instructorRecipients = new HashSet<>();
             for (Instructor instr : instructorsInCourse) {
-                boolean isHiddenInstructor = responseGiver.getGiverUser() instanceof Student
-                        && !instr.isDisplayedToStudents();
+                boolean isStudentGiver = responseGiver.getGiverUser() instanceof Student || responseGiver.isGiverTeam();
+                boolean isHiddenInstructor = isStudentGiver && !instr.isDisplayedToStudents();
                 boolean isSelfEvaluation = Objects.equals(responseGiver.getGiverUser(), instr);
                 if (isHiddenInstructor || isSelfEvaluation) {
                     continue;
