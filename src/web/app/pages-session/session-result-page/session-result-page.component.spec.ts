@@ -226,7 +226,7 @@ describe('SessionResultPageComponent', () => {
   });
 
   it('should fetch auth info on init', () => {
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
 
     component.ngOnInit();
 
@@ -241,9 +241,9 @@ describe('SessionResultPageComponent', () => {
       isUsed: true,
       isValid: false,
     };
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
-    jest.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    const navSpy = jest.spyOn(navService, 'navigateByURLWithParamEncoding').mockImplementation();
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
+    vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
+    const navSpy = vi.spyOn(navService, 'navigateByURLWithParamEncoding').mockResolvedValue(true);
 
     component.ngOnInit();
 
@@ -259,9 +259,9 @@ describe('SessionResultPageComponent', () => {
       isUsed: false,
       isValid: false,
     };
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
-    jest.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    jest.spyOn(studentService, 'getStudent').mockReturnValue(
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
+    vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
+    vi.spyOn(studentService, 'getStudent').mockReturnValue(
       of({
         name: 'student-name',
         email: 'student@tmt.tmt',
@@ -273,8 +273,8 @@ describe('SessionResultPageComponent', () => {
         teamName: '',
       }),
     );
-    jest.spyOn(feedbackSessionService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    const logSpy = jest.spyOn(logService, 'createFeedbackSessionLog').mockReturnValue(of('log created'));
+    vi.spyOn(feedbackSessionService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    const logSpy = vi.spyOn(logService, 'createFeedbackSessionLog').mockReturnValue(of('log created'));
 
     component.ngOnInit();
 
@@ -289,9 +289,9 @@ describe('SessionResultPageComponent', () => {
       isUsed: false,
       isValid: true,
     };
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
-    jest.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    const navSpy = jest.spyOn(navService, 'navigateWithErrorMessage').mockImplementation();
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
+    vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
+    const navSpy = vi.spyOn(navService, 'navigateWithErrorMessage').mockResolvedValue();
 
     component.ngOnInit();
 
@@ -312,9 +312,9 @@ describe('SessionResultPageComponent', () => {
       isUsed: false,
       isValid: false,
     };
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
-    jest.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    const navSpy = jest.spyOn(navService, 'navigateWithErrorMessage').mockImplementation();
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
+    vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
+    const navSpy = vi.spyOn(navService, 'navigateWithErrorMessage').mockResolvedValue();
 
     component.ngOnInit();
 
@@ -323,12 +323,12 @@ describe('SessionResultPageComponent', () => {
   });
 
   it('should navigate away when error occurs', () => {
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(
       throwError(() => ({
         error: { message: 'This is error' },
       })),
     );
-    const navSpy = jest.spyOn(navService, 'navigateWithErrorMessage').mockImplementation();
+    const navSpy = vi.spyOn(navService, 'navigateWithErrorMessage').mockResolvedValue();
 
     fixture.detectChanges();
     component.ngOnInit();
@@ -340,7 +340,7 @@ describe('SessionResultPageComponent', () => {
   it('should navigate to join course when user click on join course link', () => {
     component.regKey = 'reg-key';
     component.loggedInUser = 'user';
-    const navSpy = jest.spyOn(navService, 'navigateByURL').mockImplementation();
+    const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
     fixture.detectChanges();
 
@@ -374,10 +374,10 @@ describe('SessionResultPageComponent', () => {
       hasCommentNotVisibleForPreview: false,
     };
 
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
-    jest.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    jest.spyOn(feedbackSessionService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    const getQuestionsSpy = jest
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
+    vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
+    vi.spyOn(feedbackSessionService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
+    const getQuestionsSpy = vi
       .spyOn(feedbackQuestionsService, 'getFeedbackQuestions')
       .mockReturnValue(of(testFeedbackQuestions));
 

@@ -334,7 +334,7 @@ describe('StudentListInfoTableComponent', () => {
       },
       false,
     );
-    const handleSelectionOfStudentRowSpy = jest.spyOn(component, 'handleSelectionOfStudentRow');
+    const handleSelectionOfStudentRowSpy = vi.spyOn(component, 'handleSelectionOfStudentRow');
     fixture.detectChanges();
 
     clickRowCheckBox(selectStudentRowByIndex(1));
@@ -362,7 +362,7 @@ describe('StudentListInfoTableComponent', () => {
       },
       false,
     );
-    const handleSelectionOfInstructorRowSpy = jest.spyOn(component, 'handleSelectionOfInstructorRow');
+    const handleSelectionOfInstructorRowSpy = vi.spyOn(component, 'handleSelectionOfInstructorRow');
     fixture.detectChanges();
 
     clickRowCheckBox(selectInstructorRowByIndex(1));
@@ -434,7 +434,7 @@ describe('StudentListInfoTableComponent', () => {
     testEventEmission(component.studentListInfoTableRowModelsChange, (newRows) => {
       emittedRows = newRows;
     });
-    const changeSelectionStatusForAllStudentsHandlerSpy = jest.spyOn(
+    const changeSelectionStatusForAllStudentsHandlerSpy = vi.spyOn(
       component,
       'changeSelectionStatusForAllStudentsHandler',
     );
@@ -467,7 +467,7 @@ describe('StudentListInfoTableComponent', () => {
         },
         false,
       );
-      const changeSelectionStatusForAllStudentsHandlerSpy = jest.spyOn(
+      const changeSelectionStatusForAllStudentsHandlerSpy = vi.spyOn(
         component,
         'changeSelectionStatusForAllStudentsHandler',
       );
@@ -496,7 +496,7 @@ describe('StudentListInfoTableComponent', () => {
     testEventEmission(component.instructorListInfoTableRowModelsChange, (newRows) => {
       emittedRows = newRows;
     });
-    const changeSelectionStatusForAllInstructorsHandlerSpy = jest.spyOn(
+    const changeSelectionStatusForAllInstructorsHandlerSpy = vi.spyOn(
       component,
       'changeSelectionStatusForAllInstructorsHandler',
     );
@@ -530,7 +530,7 @@ describe('StudentListInfoTableComponent', () => {
         },
         false,
       );
-      const changeSelectionStatusForAllInstructorsHandlerSpy = jest.spyOn(
+      const changeSelectionStatusForAllInstructorsHandlerSpy = vi.spyOn(
         component,
         'changeSelectionStatusForAllInstructorsHandler',
       );

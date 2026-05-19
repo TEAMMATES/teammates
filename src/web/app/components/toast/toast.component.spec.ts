@@ -38,7 +38,7 @@ describe('ToastComponent', () => {
 
   it('should remove toast', () => {
     component.toast = { message: 'Test message', autohide: false, classes: '' };
-    jest.spyOn(component.toastChange, 'emit');
+    vi.spyOn(component.toastChange, 'emit');
     component.removeToast();
     expect(component.toast).toBe(null);
     expect(component.toastChange.emit).toHaveBeenCalledWith(null);

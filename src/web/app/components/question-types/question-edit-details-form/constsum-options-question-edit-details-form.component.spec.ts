@@ -23,7 +23,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
       key: 'b',
     });
 
-    const eventSpy = jest.spyOn(event, 'preventDefault');
+    const eventSpy = vi.spyOn(event, 'preventDefault');
     component.onIntegerInput(event);
     expect(eventSpy).toHaveBeenCalled();
   });
@@ -33,7 +33,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
       key: '.',
     });
 
-    const eventSpy = jest.spyOn(event, 'preventDefault');
+    const eventSpy = vi.spyOn(event, 'preventDefault');
     component.onIntegerInput(event);
     expect(eventSpy).toHaveBeenCalled();
   });
@@ -43,7 +43,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
       key: '7',
     });
 
-    const eventSpy = jest.spyOn(event, 'preventDefault');
+    const eventSpy = vi.spyOn(event, 'preventDefault');
     component.onIntegerInput(event);
     expect(eventSpy).not.toHaveBeenCalled();
   });

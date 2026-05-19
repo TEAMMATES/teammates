@@ -39,7 +39,7 @@ describe('ErrorReportComponent', () => {
     expect(component.sendButtonEnabled).toBeTruthy();
     expect(component.errorReportSubmitted).toBeFalsy();
 
-    jest.spyOn(httpRequestService, 'post').mockReturnValue(of(''));
+    vi.spyOn(httpRequestService, 'post').mockReturnValue(of(''));
     fixture.nativeElement.querySelector('button').click();
     fixture.detectChanges();
 
@@ -52,7 +52,7 @@ describe('ErrorReportComponent', () => {
     expect(component.sendButtonEnabled).toBeTruthy();
     expect(component.errorReportSubmitted).toBeFalsy();
 
-    jest.spyOn(httpRequestService, 'post').mockReturnValue(
+    vi.spyOn(httpRequestService, 'post').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message',

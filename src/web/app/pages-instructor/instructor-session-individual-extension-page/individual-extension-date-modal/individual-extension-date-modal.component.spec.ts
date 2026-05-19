@@ -2,7 +2,6 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
-import SpyInstance = jest.SpyInstance;
 import { IndividualExtensionDateModalComponent, RadioOptions } from './individual-extension-date-modal.component';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { TimezoneService } from '../../../../services/timezone.service';
@@ -10,6 +9,7 @@ import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-r
 import { Hours, Milliseconds } from '../../../../types/datetime-const';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
 import { FormatDateDetailPipe } from '../../../components/teammates-common/format-date-detail.pipe';
+import { Mock } from 'vitest';
 
 describe('IndividualExtensionDateModalComponent', () => {
   const testTimeString = 'Sat, 5 Apr 2000 2:00 +08';
@@ -19,7 +19,7 @@ describe('IndividualExtensionDateModalComponent', () => {
   let fixture: ComponentFixture<IndividualExtensionDateModalComponent>;
   let simpleModalService: SimpleModalService;
   let timeZoneService: TimezoneService;
-  let formatSpy: SpyInstance;
+  let formatSpy: Mock;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -30,7 +30,7 @@ describe('IndividualExtensionDateModalComponent', () => {
     component = fixture.componentInstance;
     simpleModalService = TestBed.inject(SimpleModalService);
     timeZoneService = TestBed.inject(TimezoneService);
-    formatSpy = jest.spyOn(timeZoneService, 'formatToString').mockReturnValue(testTimeString);
+    formatSpy = vi.spyOn(timeZoneService, 'formatToString').mockReturnValue(testTimeString);
     component.numStudents = 10;
     component.numInstructors = 20;
     fixture.detectChanges();
@@ -159,9 +159,9 @@ describe('IndividualExtensionDateModalComponent', () => {
 
   it('should snap with the warning modal', () => {
     // Set mocked picked time to be lesser than current system time
-    jest.useFakeTimers().setSystemTime(new Date('2021-01-01').getTime());
-    jest.spyOn(component, 'getExtensionTimestamp').mockReturnValue(new Date('2020-10-10').valueOf());
-    const modalSpy = jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() =>
+    vi.useFakeTimers().setSystemTime(new Date('2021-01-01').getTime());
+    vi.spyOn(component, 'getExtensionTimestamp').mockReturnValue(new Date('2020-10-10').valueOf());
+    const modalSpy = vi.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() =>
       createMockNgbModalRef({
         header: 'mock header',
         content: 'mock content',

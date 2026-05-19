@@ -102,7 +102,7 @@ const instructor2ModelWithExtension: InstructorExtensionTableColumnModel = {
 };
 
 describe('DeadlineExtensionHelper', () => {
-  beforeEach(() => jest.useFakeTimers().setSystemTime(timeNow));
+  beforeEach(() => vi.useFakeTimers().setSystemTime(timeNow));
 
   it('should filter and set deadlines before given end time correctly', () => {
     expect(

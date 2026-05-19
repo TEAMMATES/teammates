@@ -9,8 +9,8 @@ export const mockTinyMceUuid: () => void = (): void => {
   const realMath: Math = Math;
 
   beforeAll(() => {
-    Date = jest.fn(() => mockDate) as any;
-    Math.random = jest.fn(() => 0);
+    Date = vi.fn(() => mockDate) as any;
+    Math.random = vi.fn(() => 0);
   });
 
   afterAll(() => {

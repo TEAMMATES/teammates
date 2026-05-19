@@ -166,19 +166,19 @@ describe('AdminInstructorSearchTableComponent', () => {
     component.instructors = [instructorResult];
     fixture.detectChanges();
 
-    jest.spyOn(ngbModal, 'open').mockImplementation(() => {
+    vi.spyOn(ngbModal, 'open').mockImplementation(() => {
       return createMockNgbModalRef({
         name: 'dummy',
         course: 'dummy',
       });
     });
 
-    jest.spyOn(accountService, 'resetInstructorAccount').mockReturnValue(
+    vi.spyOn(accountService, 'resetInstructorAccount').mockReturnValue(
       of({
         message: 'Success',
       }),
     );
-    const spyStatusMessageService = jest
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showSuccessToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual("The instructor's Google ID has been reset.");
@@ -212,14 +212,14 @@ describe('AdminInstructorSearchTableComponent', () => {
     component.instructors = [instructorResult];
     fixture.detectChanges();
 
-    jest.spyOn(ngbModal, 'open').mockImplementation(() => {
+    vi.spyOn(ngbModal, 'open').mockImplementation(() => {
       return createMockNgbModalRef({
         name: 'dummy',
         course: 'dummy',
       });
     });
 
-    jest.spyOn(accountService, 'resetInstructorAccount').mockReturnValue(
+    vi.spyOn(accountService, 'resetInstructorAccount').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message',
@@ -227,7 +227,7 @@ describe('AdminInstructorSearchTableComponent', () => {
       })),
     );
 
-    const spyStatusMessageService = jest
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message');
@@ -251,20 +251,20 @@ describe('AdminInstructorSearchTableComponent', () => {
       componentInstance: {},
       result: Promise.resolve({}),
       dismissed: {
-        subscribe: jest.fn(),
+        subscribe: vi.fn(),
       },
     };
 
-    jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
+    vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
-    jest.spyOn(instructorService, 'regenerateInstructorKey').mockReturnValue(
+    vi.spyOn(instructorService, 'regenerateInstructorKey').mockReturnValue(
       of({
         message: 'success',
         newRegistrationKey: 'newKey',
       }),
     );
 
-    const spyStatusMessageService = jest
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showSuccessToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('success');
@@ -290,13 +290,13 @@ describe('AdminInstructorSearchTableComponent', () => {
       componentInstance: {},
       result: Promise.resolve({}),
       dismissed: {
-        subscribe: jest.fn(),
+        subscribe: vi.fn(),
       },
     };
 
-    jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
+    vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
-    jest.spyOn(instructorService, 'regenerateInstructorKey').mockReturnValue(
+    vi.spyOn(instructorService, 'regenerateInstructorKey').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message.',
@@ -304,7 +304,7 @@ describe('AdminInstructorSearchTableComponent', () => {
       })),
     );
 
-    const spyStatusMessageService = jest
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');

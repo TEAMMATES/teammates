@@ -74,7 +74,7 @@ describe('SendRemindersToRespondentsModalComponent', () => {
       studentModelBuilder.isSelected(true).build(),
     ];
 
-    const changeSelectionStatusForAllStudentsHandlerSpy = jest.spyOn(
+    const changeSelectionStatusForAllStudentsHandlerSpy = vi.spyOn(
       component,
       'changeSelectionStatusForAllStudentsHandler',
     );
@@ -100,7 +100,7 @@ describe('SendRemindersToRespondentsModalComponent', () => {
         studentModelBuilder.isSelected(true).build(),
       ];
 
-      const changeSelectionStatusForAllStudentsHandlerSpy = jest.spyOn(
+      const changeSelectionStatusForAllStudentsHandlerSpy = vi.spyOn(
         component,
         'changeSelectionStatusForAllStudentsHandler',
       );
@@ -128,7 +128,7 @@ describe('SendRemindersToRespondentsModalComponent', () => {
         studentModelBuilder.isSelected(false).hasSubmittedSession(false).build(),
       ];
 
-      const changeSelectionStatusForAllYetSubmittedStudentsHandlerSpy = jest.spyOn(
+      const changeSelectionStatusForAllYetSubmittedStudentsHandlerSpy = vi.spyOn(
         component,
         'changeSelectionStatusForAllYetSubmittedStudentsHandler',
       );
@@ -154,7 +154,7 @@ describe('SendRemindersToRespondentsModalComponent', () => {
         instructorModelBuilder.isSelected(true).build(),
       ];
 
-      const changeSelectionStatusForAllInstructorsHandlerSpy = jest.spyOn(
+      const changeSelectionStatusForAllInstructorsHandlerSpy = vi.spyOn(
         component,
         'changeSelectionStatusForAllInstructorsHandler',
       );
@@ -181,7 +181,7 @@ describe('SendRemindersToRespondentsModalComponent', () => {
         instructorModelBuilder.isSelected(true).build(),
       ];
 
-      const changeSelectionStatusForAllInstructorsHandlerSpy = jest.spyOn(
+      const changeSelectionStatusForAllInstructorsHandlerSpy = vi.spyOn(
         component,
         'changeSelectionStatusForAllInstructorsHandler',
       );
@@ -209,7 +209,7 @@ describe('SendRemindersToRespondentsModalComponent', () => {
         instructorModelBuilder.isSelected(false).hasSubmittedSession(false).build(),
       ];
 
-      const changeSelectionStatusForAllYetSubmittedInstructorsHandlerSpy = jest.spyOn(
+      const changeSelectionStatusForAllYetSubmittedInstructorsHandlerSpy = vi.spyOn(
         component,
         'changeSelectionStatusForAllYetSubmittedInstructorsHandler',
       );
@@ -227,7 +227,7 @@ describe('SendRemindersToRespondentsModalComponent', () => {
   );
 
   it('changeSelectionStatusForSendingCopyToInstructorHandler: should toggle isSendingCopyToInstructorHandler', () => {
-    const changeSelectionStatusForSendingCopyToInstructorHandlerSpy = jest.spyOn(
+    const changeSelectionStatusForSendingCopyToInstructorHandlerSpy = vi.spyOn(
       component,
       'changeSelectionStatusForSendingCopyToInstructorHandler',
     );

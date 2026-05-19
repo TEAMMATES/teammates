@@ -23,13 +23,13 @@ const studentCsvListTester: (
   service: StudentService,
   spyCourseService: any,
   testFn: (str: string) => void,
-) => void = (courseId: string, service: StudentService, spyCourseService: any, testFn: (str: string) => void): void => {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const testData: any = require(`./test-data/${courseId}`);
+) => void = async (courseId: string, service: StudentService, spyCourseService: any, testFn: (str: string) => void): Promise<void> => {
+  const testDataModule = await import(`./test-data/${courseId}.json`);
+  const testData = testDataModule.default ?? testDataModule;
   const course: Course = testData.course;
   const students: Students = testData.students;
-  jest.spyOn(spyCourseService, 'getCourseAsInstructor').mockReturnValue(of(course));
-  jest.spyOn(service, 'getStudentsFromCourse').mockReturnValue(of(students));
+  vi.spyOn(spyCourseService, 'getCourseAsInstructor').mockReturnValue(of(course));
+  vi.spyOn(service, 'getStudentsFromCourse').mockReturnValue(of(students));
   service.loadStudentListAsCsv({ courseId }).subscribe((csvResult: string) => testFn(csvResult));
 };
 
@@ -55,7 +55,7 @@ describe('StudentService', () => {
     const paramMap: Record<string, string> = {
       studentid: '12345',
     };
-    jest.spyOn(spyHttpRequestService, 'put');
+    vi.spyOn(spyHttpRequestService, 'put');
 
     service.updateStudent(
       {
@@ -76,7 +76,7 @@ describe('StudentService', () => {
       courseid: 'CS3281',
       limit: '100',
     };
-    jest.spyOn(spyHttpRequestService, 'delete');
+    vi.spyOn(spyHttpRequestService, 'delete');
 
     service.batchDeleteStudentsFromCourse({
       courseId: paramMap['courseid'],
@@ -91,7 +91,7 @@ describe('StudentService', () => {
       courseid: 'CS3281',
       studentemail: 'johndoe@gmail.com',
     };
-    jest.spyOn(spyHttpRequestService, 'post');
+    vi.spyOn(spyHttpRequestService, 'post');
 
     service.regenerateStudentKey(paramMap['courseid'], paramMap['studentemail']);
 

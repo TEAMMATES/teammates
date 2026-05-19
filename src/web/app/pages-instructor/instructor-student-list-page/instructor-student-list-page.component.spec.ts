@@ -97,7 +97,7 @@ describe('InstructorStudentListPageComponent', () => {
   });
 
   it('should block instructors from viewing student details if they do not have the permission', () => {
-    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
+    vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
       throwError(() => ({
         status: HttpStatusCode.Forbidden,
         error: {

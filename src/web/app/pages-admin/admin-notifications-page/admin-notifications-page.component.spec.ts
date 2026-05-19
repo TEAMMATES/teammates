@@ -110,7 +110,7 @@ describe('AdminNotificationsPageComponent', () => {
   });
 
   it('should snap when notification edit form expanded for adding notification', () => {
-    jest.spyOn(notificationService, 'getNotifications').mockReturnValue(of());
+    vi.spyOn(notificationService, 'getNotifications').mockReturnValue(of());
     component.initNotificationEditFormModel();
     component.loadNotifications();
     fixture.detectChanges();
@@ -127,7 +127,7 @@ describe('AdminNotificationsPageComponent', () => {
   });
 
   it('should disable edit button when notification edit form expanded for existent notification', () => {
-    jest.spyOn(notificationService, 'getNotifications').mockReturnValue(
+    vi.spyOn(notificationService, 'getNotifications').mockReturnValue(
       of({
         notifications: [testNotificationOne],
       }),
@@ -143,7 +143,7 @@ describe('AdminNotificationsPageComponent', () => {
   });
 
   it('should load correct notification for a given API output', () => {
-    jest.spyOn(notificationService, 'getNotifications').mockReturnValue(
+    vi.spyOn(notificationService, 'getNotifications').mockReturnValue(
       of({
         notifications: [testNotificationOne],
       }),
@@ -169,8 +169,8 @@ describe('AdminNotificationsPageComponent', () => {
   });
 
   it('should add notification for all fields filled in', () => {
-    jest.spyOn(notificationService, 'createNotification').mockReturnValue(of(testNotificationOne));
-    const spy = jest.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
+    vi.spyOn(notificationService, 'createNotification').mockReturnValue(of(testNotificationOne));
+    const spy = vi.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
       expect(args).toEqual('Successfully created');
     });
 
@@ -197,14 +197,14 @@ describe('AdminNotificationsPageComponent', () => {
 
   it('should display error message when failed to create notification', () => {
     component.notificationEditFormModel = testNotificationEditModel;
-    jest.spyOn(notificationService, 'createNotification').mockReturnValue(
+    vi.spyOn(notificationService, 'createNotification').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message.',
         },
       })),
     );
-    const spy = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
+    const spy = vi.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
       expect(args).toEqual('This is the error message.');
     });
 
@@ -216,14 +216,14 @@ describe('AdminNotificationsPageComponent', () => {
 
   it('should display error message when notification failed to load', () => {
     component.hasNotificationLoadingFailed = false;
-    jest.spyOn(notificationService, 'getNotifications').mockReturnValue(
+    vi.spyOn(notificationService, 'getNotifications').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message.',
         },
       })),
     );
-    const spy = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
+    const spy = vi.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
       expect(args).toEqual('This is the error message.');
     });
 
@@ -235,10 +235,10 @@ describe('AdminNotificationsPageComponent', () => {
 
   it('should display warning when attempts to edit another notification when form is open', async () => {
     const promise: Promise<void> = Promise.resolve();
-    const modalSpy = jest
+    const modalSpy = vi
       .spyOn(simpleModalService, 'openConfirmationModal')
       .mockReturnValue(createMockNgbModalRef({}, promise));
-    jest.spyOn(notificationService, 'getNotifications').mockReturnValue(
+    vi.spyOn(notificationService, 'getNotifications').mockReturnValue(
       of({
         notifications: [testNotificationOne, testNotificationTwo],
       }),
@@ -276,12 +276,12 @@ describe('AdminNotificationsPageComponent', () => {
   it('should delete notfication', () => {
     component.notificationsTableRowModels = [notificationTableRowModel1];
     expect(component.notificationsTableRowModels.length).toEqual(1);
-    jest.spyOn(notificationService, 'deleteNotification').mockReturnValue(
+    vi.spyOn(notificationService, 'deleteNotification').mockReturnValue(
       of({
         message: 'Successfully deleted',
       }),
     );
-    const spy = jest.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
+    const spy = vi.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
       expect(args).toEqual('Successfully deleted');
     });
 

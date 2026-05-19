@@ -195,7 +195,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
   });
 
   it('should load all students of selected course has on select', () => {
-    const studentSpy = jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
+    const studentSpy = vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
       of({
         students: [testStudent],
       }),
@@ -209,7 +209,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
   });
 
   it('should load students from cache if present', () => {
-    const studentSpy = jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
+    const studentSpy = vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
       of({
         students: [testStudent],
       }),
@@ -224,10 +224,10 @@ describe('InstructorStudentActivityLogsComponent', () => {
   });
 
   it('should search for logs using feedback course timezone when search button is clicked', () => {
-    const logSpy = jest
+    const logSpy = vi
       .spyOn(logService, 'searchFeedbackSessionLog')
       .mockReturnValue(of({ feedbackSessionLogs: [testLogs1, testLogs2] }));
-    const timeSpy = jest.spyOn(timezoneService, 'resolveLocalDateTime');
+    const timeSpy = vi.spyOn(timezoneService, 'resolveLocalDateTime');
     const tzOffset: number = timezoneService.getTzOffsets()[testCourse1.timeZone];
 
     component.isLoading = false;
