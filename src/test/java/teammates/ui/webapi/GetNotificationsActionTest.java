@@ -193,7 +193,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
     }
 
     @Test
-    public void testExecute_withFalseIsFetchingAll_ReturnUnreadNotifications() {
+    public void testExecute_withFalseIsFetchingAll_returnUnreadNotifications() {
         loginAsInstructor(GOOGLE_ID);
 
         List<Notification> testUnreadNotifications = new ArrayList<>();
