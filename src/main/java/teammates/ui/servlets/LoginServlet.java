@@ -16,6 +16,7 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
+import teammates.logic.core.AccountsLogic;
 
 /**
  * Servlet that handles login.
@@ -23,6 +24,8 @@ import teammates.common.util.StringHelper;
 public class LoginServlet extends AuthServlet {
 
     private static final Logger log = Logger.getLogger();
+
+    private static AccountsLogic accountsLogic = AccountsLogic.inst();
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -39,10 +42,7 @@ public class LoginServlet extends AuthServlet {
             return;
         }
 
-        String cookie = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.AUTH_COOKIE_NAME);
-        UserInfoCookie uic = UserInfoCookie.fromCookie(cookie);
-        boolean isLoginNeeded = uic == null || !uic.isValid();
-        if (!isLoginNeeded) {
+        if (!isLoginNeeded(req)) {
             log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to next URL");
             resp.sendRedirect(nextUrl);
             return;
@@ -56,6 +56,16 @@ public class LoginServlet extends AuthServlet {
         log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to Google sign-in page");
 
         resp.sendRedirect(authorizationUrl.build());
+    }
+
+    private boolean isLoginNeeded(HttpServletRequest req) {
+        String cookie = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.AUTH_COOKIE_NAME);
+        UserInfoCookie uic = UserInfoCookie.fromCookie(cookie);
+        if (uic == null || !uic.isValid()) {
+            return true;
+        }
+        boolean isAccountValid = accountsLogic.getAccount(uic.getAccountId()) != null;
+        return !isAccountValid;
     }
 
 }

@@ -10,11 +10,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
-import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
-import teammates.common.util.HttpRequestHelper;
 
 /**
  * Servlet that handles dev server login.
@@ -32,14 +30,6 @@ public class DevServerLoginServlet extends AuthServlet {
         if (!Config.isDevServerLoginEnabled()) {
             resp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
             resp.setHeader("Location", Const.WebPageURIs.LOGIN + "?nextUrl=" + nextUrl.replace("&", "%26"));
-            return;
-        }
-
-        String cookie = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.AUTH_COOKIE_NAME);
-        UserInfoCookie uic = UserInfoCookie.fromCookie(cookie);
-        boolean isLoginNeeded = uic == null || !uic.isValid();
-        if (!isLoginNeeded) {
-            resp.sendRedirect(nextUrl);
             return;
         }
 

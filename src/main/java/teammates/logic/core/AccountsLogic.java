@@ -168,9 +168,7 @@ public final class AccountsLogic {
      */
     public Student joinCourseForStudent(String registrationKey, Account account)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
-        if (account == null) {
-            throw new EntityDoesNotExistException("Account not found for the user joining the course");
-        }
+        assert account != null;
 
         Student student = validateStudentJoinRequest(registrationKey, account.getGoogleId());
 
@@ -186,9 +184,7 @@ public final class AccountsLogic {
      */
     public Instructor joinCourseForInstructor(String key, Account account)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
-        if (account == null) {
-            throw new EntityDoesNotExistException("Account not found for the user joining the course");
-        }
+        assert account != null;
 
         Instructor instructor = validateInstructorJoinRequest(key, account.getGoogleId());
 
