@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbCollapse, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize, map } from 'rxjs/operators';
 import { CourseTabModel } from './copy-instructors-from-other-courses-modal/copy-instructors-from-other-courses-modal-model';

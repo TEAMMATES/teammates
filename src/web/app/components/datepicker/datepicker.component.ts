@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbCalendar, NgbDateStruct, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDateStruct, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap/datepicker';
 import { DateFormat } from '../../../types/datetime-const';
 
 /**

@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEnabled is false 1`] = `
 <tm-mcq-question-edit-details-form

@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback questions failed to load 1`] = `
 <tm-copy-instructors-from-other-courses-modal

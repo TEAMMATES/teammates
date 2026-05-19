@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { RejectWithReasonModalComponentResult } from './admin-reject-with-reason-modal-model';
 import { environment } from '../../../../environments/environment';
 import { AdminSearchResult, InstructorAccountSearchResult, SearchService } from '../../../../services/search.service';

@@ -1,4 +1,4 @@
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { InstructorSessionBasePageComponent } from './instructor-session-base-page.component';

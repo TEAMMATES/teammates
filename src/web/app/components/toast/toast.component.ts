@@ -1,6 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, TemplateRef } from '@angular/core';
-import { NgbToast } from '@ng-bootstrap/ng-bootstrap';
+import { NgbToast } from '@ng-bootstrap/ng-bootstrap/toast';
 import { Toast } from './toast';
 
 /**

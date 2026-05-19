@@ -1,5 +1,5 @@
 import { Injectable, TemplateRef, inject } from '@angular/core';
-import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { SimpleModalType } from '../app/components/simple-modal/simple-modal-type';
 import { SimpleModalComponent } from '../app/components/simple-modal/simple-modal.component';
 

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { CellWithActionsComponent } from './cell-with-actions.component';
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';

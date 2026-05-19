@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`SessionsTableComponent should snap like in home page with 2 sessions sorted by start date 1`] = `
 <tm-sessions-table

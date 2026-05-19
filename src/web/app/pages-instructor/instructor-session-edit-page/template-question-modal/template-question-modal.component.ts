@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbActiveModal, NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { FeedbackQuestionsService, TemplateQuestion } from '../../../../services/feedback-questions.service';
 import { FeedbackQuestion } from '../../../../types/api-output';
 import { QuestionEditFormModel } from '../../../components/question-edit-form/question-edit-form-model';

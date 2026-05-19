@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`QuestionTextWithInfoComponent should not show control link and question details for TEXT questions 1`] = `
 <tm-question-text-with-info

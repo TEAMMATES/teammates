@@ -2,7 +2,8 @@ import { KeyValuePipe } from '@angular/common';
 import { AfterViewInit, Component, OnInit, DOCUMENT, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal, NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { forkJoin, Observable, of } from 'rxjs';
@@ -821,8 +822,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     const savingRequests: Observable<any>[] = [];
 
     questionSubmissionForms.forEach((questionSubmissionFormModel: QuestionSubmissionFormModel) => {
-      let isQuestionFullyAnswered = true;
-
       const responses: FeedbackResponseRequest[] = [];
 
       questionSubmissionFormModel.recipientSubmissionForms.forEach(
@@ -846,7 +845,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         },
       );
 
-      isQuestionFullyAnswered = responses.length > 0;
+      const isQuestionFullyAnswered = responses.length > 0;
 
       if (!failToSaveQuestions[questionSubmissionFormModel.questionNumber]) {
         savingRequests.push(

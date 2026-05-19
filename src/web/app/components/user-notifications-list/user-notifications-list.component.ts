@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, Input, OnInit, inject } from '@angular/core';
-import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { NotificationService } from '../../../services/notification.service';

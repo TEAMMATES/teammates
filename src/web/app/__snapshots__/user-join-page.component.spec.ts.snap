@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`UserJoinPageComponent should snap if user is not logged in and has a valid url 1`] = `
 <tm-user-join-page

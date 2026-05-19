@@ -1,7 +1,7 @@
 import { ElementRef, EmbeddedViewRef, Injector, TemplateRef } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap/toast';
 import { ToastComponent } from './toast.component';
 
 class MockTemplateRef extends TemplateRef<any> {

@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`InstructorSessionsPageComponent should snap when courses are loading 1`] = `
 <tm-instructor-sessions-page

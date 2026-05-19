@@ -1,6 +1,6 @@
 import { NgClass, KeyValuePipe } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { FileSaveService } from '../../../../services/file-save.service';
 import { TimezoneService } from '../../../../services/timezone.service';
 import { FeedbackResponse } from '../../../../types/api-output';

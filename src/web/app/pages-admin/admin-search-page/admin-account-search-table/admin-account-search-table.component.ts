@@ -1,12 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
-import {
-  NgbModalRef,
-  NgbModal,
-  NgbTooltip,
-  NgbDropdown,
-  NgbDropdownToggle,
-  NgbDropdownMenu,
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap/dropdown';
+import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { AccountService } from '../../../../services/account.service';
 import { AccountRequestSearchResult } from '../../../../services/search.service';
 import { SimpleModalService } from '../../../../services/simple-modal.service';

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { ViewRolePrivilegesModalComponent } from './view-role-privileges-modal.component';
 
 describe('ViewRolePrivilegesModalComponent', () => {

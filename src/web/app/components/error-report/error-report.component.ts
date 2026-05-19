@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { environment } from '../../../environments/environment';
 import { ErrorReportService } from '../../../services/error-report.service';
 import { StatusMessageService } from '../../../services/status-message.service';
