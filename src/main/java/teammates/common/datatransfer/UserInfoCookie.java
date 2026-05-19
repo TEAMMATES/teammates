@@ -15,8 +15,6 @@ import tools.jackson.core.JacksonException;
  */
 public class UserInfoCookie {
 
-    private String userId;
-
     private UUID accountId;
 
     private long expiryTime;
@@ -25,10 +23,9 @@ public class UserInfoCookie {
         // for Jackson deserialization
     }
 
-    public UserInfoCookie(String userId, UUID accountId) {
+    public UserInfoCookie(UUID accountId) {
         assert accountId != null;
 
-        this.userId = userId;
         this.accountId = accountId;
         this.expiryTime = Instant.now().plus(Const.COOKIE_VALIDITY_PERIOD).toEpochMilli();
     }
@@ -46,14 +43,6 @@ public class UserInfoCookie {
         } catch (InvalidParametersException | JacksonException e) {
             return null;
         }
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public UUID getAccountId() {
@@ -80,9 +69,7 @@ public class UserInfoCookie {
      * Returns true if the object represents a valid user info and the object has not expired.
      */
     public boolean isValid() {
-        return userId != null
-                && !userId.trim().isEmpty()
-                && accountId != null
+        return accountId != null
                 && Instant.now().isBefore(Instant.ofEpochMilli(expiryTime));
     }
 
