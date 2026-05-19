@@ -215,8 +215,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                       );
                     } else {
                       // Valid, unused registration key; load information based on the key
-                      this.loadCourseInfo();
-                      this.loadPersonName();
                       this.loadFeedbackSession(false, auth);
                     }
                   } else if (resp.isValid) {
@@ -252,8 +250,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             } else if (this.loggedInUser) {
               // Load information based on logged in user
               // This will also cover moderation/preview cases
-              this.loadCourseInfo();
-              this.loadPersonName();
               this.loadFeedbackSession(false, auth);
             } else {
               this.navigationService.navigateWithErrorMessage(
@@ -419,6 +415,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           this.feedbackSessionTimezone = feedbackSession.timeZone;
 
           this.logStudentAccess();
+          this.loadCourseInfo();
+          this.loadPersonName();
 
           // don't show alert modal in moderation
           if (!this.moderatedPerson) {
