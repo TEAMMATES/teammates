@@ -9,6 +9,7 @@ import { MasqueradeModeService } from '../../../services/masquerade-mode.service
  */
 @Directive({ selector: 'a[tmRouterLink]' })
 export class TeammatesRouterDirective extends RouterLink {
+  // TODO: Do not extend RouterLink
   private queryParamsInternal: { [k: string]: any } = {};
 
   @Input()
@@ -20,6 +21,7 @@ export class TeammatesRouterDirective extends RouterLink {
   // @ts-expect-error query params is redefined in this class
   set queryParams(params: { [k: string]: any }) {
     this.queryParamsInternal = params;
+    super.queryParams = this.queryParams;
   }
 
   override get queryParams(): { [k: string]: any } {
