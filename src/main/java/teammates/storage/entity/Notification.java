@@ -52,9 +52,6 @@ public class Notification extends BaseEntity {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String message;
 
-    @Column(nullable = false)
-    private boolean shown;
-
     @UpdateTimestamp
     private Instant updatedAt;
 
@@ -150,18 +147,6 @@ public class Notification extends BaseEntity {
         this.message = SanitizationHelper.sanitizeForRichText(message);
     }
 
-    public boolean isShown() {
-        return shown;
-    }
-
-    /**
-     * Sets the notification as shown to the user.
-     * Only allowed to change value from false to true.
-     */
-    public void setShown() {
-        this.shown = true;
-    }
-
     public Instant getUpdatedAt() {
         return updatedAt;
     }
@@ -190,7 +175,7 @@ public class Notification extends BaseEntity {
     public String toString() {
         return "Notification [notificationId=" + id + ", startTime=" + startTime + ", endTime=" + endTime
                 + ", style=" + style + ", targetUser=" + targetUser + ", title=" + title + ", message=" + message
-                + ", shown=" + shown + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt
+                + ", createdAt=" + getCreatedAt() + ", updatedAt=" + updatedAt
                 + ", readNotifications=" + readNotifications + "]";
     }
 

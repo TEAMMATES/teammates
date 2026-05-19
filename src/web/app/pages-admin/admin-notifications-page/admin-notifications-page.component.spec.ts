@@ -17,8 +17,6 @@ import { SimpleModalType } from '../../components/simple-modal/simple-modal-type
 
 const testNotificationEditModel: NotificationEditFormModel = {
   notificationId: 'notification1',
-  shown: false,
-
   startTime: getDefaultTimeFormat(),
   startDate: getDefaultDateFormat(),
   endTime: getDefaultTimeFormat(),
@@ -43,7 +41,6 @@ const testNotificationOne: Notification = {
   targetUser: NotificationTargetUser.INSTRUCTOR,
   title: 'valid title 1',
   message: 'valid message 1',
-  shown: false,
 };
 
 const testNotificationTwo: Notification = {
@@ -55,7 +52,6 @@ const testNotificationTwo: Notification = {
   targetUser: NotificationTargetUser.GENERAL,
   title: 'valid title 2',
   message: 'valid message 2',
-  shown: false,
 };
 
 const notificationTableRowModel1: NotificationsTableRowModel = {
@@ -158,7 +154,6 @@ describe('AdminNotificationsPageComponent', () => {
     expect(component.notificationsTableRowModels[0].notification.notificationId).toEqual(
       testNotificationOne.notificationId,
     );
-    expect(component.notificationsTableRowModels[0].notification.shown).toBeFalsy();
     expect(component.notificationsTableRowModels[0].notification.targetUser).toEqual(testNotificationOne.targetUser);
     expect(component.notificationsTableRowModels[0].notification.style).toEqual(testNotificationOne.style);
     expect(component.notificationsTableRowModels[0].notification.title).toEqual(testNotificationOne.title);
@@ -185,7 +180,6 @@ describe('AdminNotificationsPageComponent', () => {
     expect(component.notificationsTableRowModels[0].notification.notificationId).toEqual(
       testNotificationOne.notificationId,
     );
-    expect(component.notificationsTableRowModels[0].notification.shown).toBeFalsy();
     expect(component.notificationsTableRowModels[0].notification.style).toEqual(testNotificationOne.style);
     expect(component.notificationsTableRowModels[0].notification.targetUser).toEqual(testNotificationOne.targetUser);
     expect(component.notificationsTableRowModels[0].notification.title).toEqual(testNotificationOne.title);

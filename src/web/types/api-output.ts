@@ -446,7 +446,6 @@ export interface Notification extends ApiOutput {
   targetUser: NotificationTargetUser;
   title: string;
   message: string;
-  shown: boolean;
 }
 
 export interface Notifications extends ApiOutput {

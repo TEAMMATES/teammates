@@ -161,11 +161,6 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         NotificationData expected = new NotificationData(testNotifications.get(0));
         NotificationData firstNotification = notificationOutput.get(0);
         verifyNotificationEquals(expected, firstNotification);
-
-        // notification's shown attribute should not be updated
-        List<Notification> notificationToCheck =
-                mockLogic.getActiveNotificationsByTargetUser(testNotification.getTargetUser());
-        notificationToCheck.forEach(n -> assertFalse(n.isShown()));
     }
 
     @Test
@@ -198,7 +193,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
     }
 
     @Test
-    public void testExecute_withFalseIsFetchingAll_shouldUpdateShownAndReturnUnreadNotifications() {
+    public void testExecute_withFalseIsFetchingAll_ReturnUnreadNotifications() {
         loginAsInstructor(GOOGLE_ID);
 
         List<Notification> testUnreadNotifications = new ArrayList<>();
@@ -225,9 +220,6 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         for (int i = 0; i < testUnreadNotifications.size(); i++) {
             verifyNotificationEquals(new NotificationData(testUnreadNotifications.get(i)), notifications.get(i));
         }
-
-        // should update notification shown attribute for non-admin users
-        testUnreadNotifications.forEach(n -> assertTrue(n.isShown()));
     }
 
     @Test

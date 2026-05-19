@@ -22,7 +22,6 @@ export enum NotificationEditFormMode {
 export interface NotificationEditFormModel {
   // EDIT mode specific
   notificationId: string;
-  shown: boolean;
 
   startTime: TimeFormat;
   startDate: DateFormat;

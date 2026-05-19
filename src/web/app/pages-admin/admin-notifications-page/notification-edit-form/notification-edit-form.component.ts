@@ -49,7 +49,6 @@ export class NotificationEditFormComponent {
   @Input()
   model: NotificationEditFormModel = {
     notificationId: '',
-    shown: false,
 
     startTime: getDefaultTimeFormat(),
     startDate: getDefaultDateFormat(),
@@ -122,5 +121,47 @@ export class NotificationEditFormComponent {
       .result.then(() => {
         this.cancelEditingNotificationEvent.emit();
       });
+  }
+  /**
+  * Check if notification is visible and been shown to users.
+  * A notification is shown if current time is after its start time.
+  */
+  isNotificationActive(): boolean {
+    const { startDate, startTime } = this.model;
+
+    if (!startDate || !startTime) {
+      return false;
+    }
+
+    try {
+      const year = startDate.year;
+      const month = startDate.month - 1;
+      const day = startDate.day;
+
+      let hours: number;
+      let minutes: number;
+
+      if (typeof startTime === 'string') {
+        const timeParts = (startTime as string).split(':');
+        hours = parseInt(timeParts[0], 10);
+        minutes = parseInt(timeParts[1], 10);
+      } else {
+        hours = (startTime as any).hour ?? (startTime as any).hours ?? 0;
+        minutes = (startTime as any).minute ?? (startTime as any).minutes ?? 0;
+      }
+
+      if (isNaN(hours) || isNaN(minutes) || isNaN(year) || isNaN(month) || isNaN(day)) {
+        console.warn('Invalid date/time values:', { year, month, day, hours, minutes });
+        return false;
+      }
+
+      const startTimestamp = new Date(year, month, day, hours, minutes, 0, 0).getTime();
+      const now = Date.now();
+
+      return now > startTimestamp;
+    } catch (error) {
+      console.error('Error calculating notification active state:', error);
+      return false;
+    }
   }
 }
