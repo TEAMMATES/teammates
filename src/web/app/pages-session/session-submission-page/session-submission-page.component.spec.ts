@@ -72,6 +72,8 @@ describe('SessionSubmissionPageComponent', () => {
     userId: '00000000-0000-4000-8000-000000000003',
     email: 'alice@tmms.com',
     courseId: 'course-id',
+    courseName: 'Test Course',
+    institute: 'Test Institute',
     name: 'Alice Betsy',
     teamName: 'Team 1',
     sectionName: 'Section 1',
@@ -80,6 +82,8 @@ describe('SessionSubmissionPageComponent', () => {
   const testInstructor: Instructor = {
     userId: '00000000-0000-4000-8000-000000000002',
     courseId: 'course-id',
+    courseName: 'Test Course',
+    institute: 'Test Institute',
     email: 'test@example.com',
     name: 'Instructor Ho',
     joinState: JoinState.JOINED,

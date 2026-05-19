@@ -167,6 +167,9 @@ describe('InstructorCourseEditPageComponent', () => {
     jest.spyOn(instructorService, 'updateInstructor').mockReturnValue(
       of({
         courseId: 'exampleId',
+        courseName: 'Test Course',
+        institute: 'Test Institute',
+        userId: 'test-user-id',
         email: 'instructor1@gmail.com',
         joinState: JoinState.JOINED,
         name: 'Example Instructor Changed',
@@ -228,6 +231,9 @@ describe('InstructorCourseEditPageComponent', () => {
       .mockImplementation((params: { courseId: string; requestBody: InstructorCreateRequest }) =>
         of({
           courseId: params.courseId,
+          courseName: 'example course',
+          institute: 'example institute',
+          userId: 'example-user-id',
           email: params.requestBody.email,
           joinState: JoinState.NOT_JOINED,
           name: params.requestBody.name,
@@ -354,6 +360,9 @@ describe('InstructorCourseEditPageComponent', () => {
       name: 'Instructor A',
       email: 'instructora@example.com',
       courseId: component.courseId,
+      courseName: 'Test Course',
+      institute: 'Test Institute',
+      userId: 'instructor-a',
       joinState: JoinState.JOINED,
     };
 

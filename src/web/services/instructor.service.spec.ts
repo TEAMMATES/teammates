@@ -27,6 +27,9 @@ const defaultInstructors: Instructors = {
     {
       googleId: '',
       courseId: 'CS3281',
+      courseName: 'Test Course',
+      institute: 'Test Institute',
+      userId: 'test-user-id',
       email: '',
       isDisplayedToStudents: true,
       displayedToStudentsAs: '',
@@ -37,6 +40,9 @@ const defaultInstructors: Instructors = {
     {
       googleId: '',
       courseId: 'CS3282',
+      courseName: 'Test Course',
+      institute: 'Test Institute',
+      userId: 'test-user-id',
       email: '',
       isDisplayedToStudents: true,
       displayedToStudentsAs: '',

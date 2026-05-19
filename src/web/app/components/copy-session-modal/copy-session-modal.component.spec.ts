@@ -41,6 +41,7 @@ describe('CopySessionModalComponent', () => {
   const feedbackSessionToCopy: FeedbackSession = {
     courseId: 'Test01',
     timeZone: 'Asia/Singapore',
+    feedbackSessionId: 'test-feedback-session-id-025',
     feedbackSessionName: 'Test session',
     instructions: 'Answer all',
     submissionStartTimestamp: 1555232400,

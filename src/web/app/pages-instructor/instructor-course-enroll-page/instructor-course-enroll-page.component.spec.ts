@@ -32,6 +32,9 @@ describe('InstructorCourseEnrollPageComponent', () => {
   it('should treat enroll result emails case-insensitively', () => {
     const existingStudent: Student = {
       courseId: 'course-id',
+      courseName: 'Test Course',
+      institute: 'Test Institute',
+      userId: 'test-user-id',
       email: 'test@gmail.com',
       name: 'Existing Student',
       sectionName: 'Section A',

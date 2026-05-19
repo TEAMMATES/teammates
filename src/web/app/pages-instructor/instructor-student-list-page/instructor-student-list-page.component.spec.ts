@@ -29,6 +29,9 @@ describe('InstructorStudentListPageComponent', () => {
         student: {
           email: 'student1@example.com',
           courseId: 'course1Id',
+          courseName: 'Test Course',
+          institute: 'Test Institute',
+          userId: 'student-1',
           name: 'Student 1',
           teamName: 'Team 1',
           sectionName: 'Section 1',
@@ -40,6 +43,9 @@ describe('InstructorStudentListPageComponent', () => {
         student: {
           email: 'student2@example.com',
           courseId: 'course1Id',
+          courseName: 'Test Course',
+          institute: 'Test Institute',
+          userId: 'student-2',
           name: 'Student 2',
           teamName: 'Team 1',
           sectionName: 'Section 1',
@@ -51,6 +57,9 @@ describe('InstructorStudentListPageComponent', () => {
         student: {
           email: 'student3@example.com',
           courseId: 'course1Id',
+          courseName: 'Test Course',
+          institute: 'Test Institute',
+          userId: 'student-3',
           name: 'Student 3',
           teamName: 'Team 4',
           sectionName: 'Section 5',

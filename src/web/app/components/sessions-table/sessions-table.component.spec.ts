@@ -244,20 +244,20 @@ describe('SessionsTableComponent', () => {
   it('should include optional fields in row data when provided', () => {
     component.columnsToShow = [SessionsTableColumn.COURSE_ID];
 
-    const customComponent = { component: {} as never };
+    const customComponent = { component: {} as never, componentData: () => ({}) };
     const result = component.createRowData({
       columnType: SessionsTableColumn.COURSE_ID,
       value: 'CS101',
       displayValue: 'Display CS101',
       customComponent,
-      style: { color: 'red' },
+      style: "{ color: 'red' }",
     });
 
     expect(result).toHaveLength(1);
     expect(result[0].value).toBe('CS101');
     expect(result[0].displayValue).toBe('Display CS101');
     expect(result[0].customComponent).toBe(customComponent);
-    expect(result[0].style).toEqual({ color: 'red' });
+    expect(result[0].style).toEqual("{ color: 'red' }");
   });
 
   it('should create response rate component data and emit on click', () => {
