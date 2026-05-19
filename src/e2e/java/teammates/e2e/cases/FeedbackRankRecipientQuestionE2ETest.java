@@ -67,6 +67,7 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
         questionDetails = (FeedbackRankRecipientsQuestionDetails) copiedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.copyQuestion(copiedQuestion.getCourseId(),
                 copiedQuestion.getQuestionDetailsCopy().getQuestionText());
+        feedbackEditPage.waitForPageToLoad();
         copiedQuestion.getFeedbackSession().setCourse(course);
         copiedQuestion.setFeedbackSession(feedbackSession);
         copiedQuestion.setQuestionNumber(3);

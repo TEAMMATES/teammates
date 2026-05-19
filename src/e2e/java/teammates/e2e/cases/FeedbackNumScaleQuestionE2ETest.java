@@ -61,6 +61,7 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
         questionDetails = (FeedbackNumericalScaleQuestionDetails) copiedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.copyQuestion(copiedQuestion.getCourseId(),
                 copiedQuestion.getQuestionDetailsCopy().getQuestionText());
+        feedbackEditPage.waitForPageToLoad();
         copiedQuestion.setQuestionNumber(3);
         copiedQuestion.setFeedbackSession(feedbackSession);
 

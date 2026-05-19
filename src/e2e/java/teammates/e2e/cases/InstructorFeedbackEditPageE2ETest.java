@@ -82,6 +82,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         questionToCopy.setFeedbackSession(feedbackSession);
         questionToCopy.setQuestionNumber(3);
         feedbackEditPage.copyQuestion(copiedCourse.getId(), questionToCopy.getQuestionDetailsCopy().getQuestionText());
+        feedbackEditPage.waitForPageToLoad();
 
         feedbackEditPage.verifyStatusMessage("The selected question(s) have been added to this feedback session.");
         feedbackEditPage.verifyNumQuestions(3);
