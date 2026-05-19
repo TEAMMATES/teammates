@@ -152,7 +152,7 @@ export class SessionResultCsvService {
         ? StringHelper.removeExtraSpace(response.recipientEmail)
         : '';
 
-      let responseAnswers: string[][] = [];
+      let responseAnswers: string[][];
       if (response.isMissingResponse) {
         responseAnswers = this.getMissingResponseAnswers(question.feedbackQuestion);
       } else {
@@ -161,9 +161,9 @@ export class SessionResultCsvService {
 
       // Pad responseAnswers so that responseAnswers and questionSpecificHeaders
       // are always the same length.
-      const responseAnswersPadding: string[] = Array(questionSpecificHeaders.length - responseAnswers[0].length).fill(
-        '',
-      );
+      const responseAnswersPadding: string[] = new Array(
+        questionSpecificHeaders.length - responseAnswers[0].length,
+      ).fill('');
       responseAnswers[0] = responseAnswers[0].concat(responseAnswersPadding);
 
       for (const responseAnswer of responseAnswers) {

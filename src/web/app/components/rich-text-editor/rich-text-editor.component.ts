@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EditorComponent, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
@@ -17,7 +17,7 @@ const RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH = 2000;
   imports: [DestroyableDirective, InViewportDirective, EditorComponent, NgClass, FormsModule],
   providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: `${TINYMCE_BASE_URL}/tinymce.min.js` }],
 })
-export class RichTextEditorComponent implements OnInit {
+export class RichTextEditorComponent implements OnInit, OnChanges {
   // const
   RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH: number = RICH_TEXT_EDITOR_MAX_CHARACTER_LENGTH;
 
@@ -45,6 +45,7 @@ export class RichTextEditorComponent implements OnInit {
   init: any = {};
 
   render = false;
+  private editorInstance: any;
 
   defaultToolbar: string =
     'styles | forecolor backcolor ' +
@@ -54,6 +55,12 @@ export class RichTextEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.init = this.getEditorSettings();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['richText'] || changes['isDisabled']) {
+      this.triggerAutoResize();
+    }
   }
 
   private getEditorSettings(): any {
@@ -96,6 +103,11 @@ export class RichTextEditorComponent implements OnInit {
 
       toolbar1: this.defaultToolbar,
       setup: (editor: any) => {
+        this.editorInstance = editor;
+        editor.on('init', () => {
+          this.triggerAutoResize();
+        });
+
         if (this.hasCharacterLimit) {
           editor.on('GetContent', () => {
             setTimeout(() => {
@@ -159,5 +171,15 @@ export class RichTextEditorComponent implements OnInit {
     if (event.visible) {
       this.render = true;
     }
+  }
+
+  private triggerAutoResize(): void {
+    if (!this.editorInstance) {
+      return;
+    }
+
+    setTimeout(() => {
+      this.editorInstance.execCommand('mceAutoResize');
+    }, 0);
   }
 }

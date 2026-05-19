@@ -1,4 +1,4 @@
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap/datepicker';
 import { DatePickerFormatter } from './datepicker-formatter';
 
 describe('DatepickerFormatter', () => {

@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbInputDatepicker, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
+import { NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap/datepicker';
+import { NgbTimepicker } from '@ng-bootstrap/ng-bootstrap/timepicker';
 import { DataPoint } from './data-point.model';
 import { StatsLineChartComponent } from './stats-line-chart/stats-line-chart.component';
 

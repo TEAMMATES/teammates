@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`ModifiedTimestampModalComponent should snap with coursesOfModifiedSession and modifiedSessions 1`] = `
 <tm-modified-timestamps-modal

@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`AdminAccountSearchTableComponent should display account requests with no reset or expand links button 1`] = `
 <tm-admin-account-search-table

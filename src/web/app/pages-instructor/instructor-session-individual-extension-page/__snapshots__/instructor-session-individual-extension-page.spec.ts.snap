@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`InstructorSessionIndividualExtensionPageComponent should select students that have not submitted yet if Select Not Submitted Student Button is checked 1`] = `
 <tm-instructor-session-individual-extension-page

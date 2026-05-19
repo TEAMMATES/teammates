@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { GroupButtonsComponent } from './cell-with-group-buttons.component';
 import { ResponseRateComponent } from './cell-with-response-rate.component';
 import { CellWithToolTipComponent } from './cell-with-tooltip.component';
@@ -268,7 +268,7 @@ export class SessionsTableComponent implements OnInit {
 
   private createCellWithGroupButtonsComponent(sessionTableRowModel: SessionsTableRowModel): SortableTableCellData {
     const { feedbackSession, instructorPrivilege } = sessionTableRowModel;
-    const { courseId, feedbackSessionId, feedbackSessionName, submissionStatus, publishStatus } = feedbackSession;
+    const { feedbackSessionId, submissionStatus, publishStatus } = feedbackSession;
 
     return {
       customComponent: {
@@ -276,8 +276,6 @@ export class SessionsTableComponent implements OnInit {
         componentData: (idx: number) => {
           return {
             idx,
-            courseId,
-            fsName: feedbackSessionName,
             fsId: feedbackSessionId,
             rowClicked: this.rowClicked,
             publishStatus,

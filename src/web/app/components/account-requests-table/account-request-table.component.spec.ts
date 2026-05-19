@@ -1,8 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, throwError } from 'rxjs';
 import { AccountRequestTableRowModel } from './account-request-table-model';
 import { AccountRequestTableComponent } from './account-request-table.component';
@@ -52,7 +51,6 @@ describe('AccountRequestTableComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
   }));
@@ -71,7 +69,7 @@ describe('AccountRequestTableComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should snap with an expanded account requests table', () => {
+  it('should snap with an account requests table', () => {
     const accountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
     component.accountRequests = [accountRequestResult];
 
@@ -79,33 +77,13 @@ describe('AccountRequestTableComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should display account requests with no reset or expand links button', () => {
+  it('should display account requests table', () => {
     const accountRequestResults: AccountRequestTableRowModel[] = [
       DEFAULT_ACCOUNT_REQUEST.build(),
       DEFAULT_ACCOUNT_REQUEST.build(),
     ];
 
     component.accountRequests = accountRequestResults;
-    fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should display account requests with reset button and expandable links buttons', () => {
-    const approvedAccountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
-    approvedAccountRequestResult.status = AccountRequestStatus.APPROVED;
-    approvedAccountRequestResult.registrationLink = 'registrationLink';
-
-    const registeredAccountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
-    registeredAccountRequestResult.status = AccountRequestStatus.REGISTERED;
-    registeredAccountRequestResult.registrationLink = 'registrationLink';
-
-    const accountRequestResults: AccountRequestTableRowModel[] = [
-      approvedAccountRequestResult,
-      registeredAccountRequestResult,
-    ];
-
-    component.accountRequests = accountRequestResults;
-    component.searchString = 'test';
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

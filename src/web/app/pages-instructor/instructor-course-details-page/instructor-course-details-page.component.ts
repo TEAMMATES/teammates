@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { generate } from 'rxjs';
 import { concatMap, finalize, takeWhile } from 'rxjs/operators';
 import { CourseService, CourseStatistics } from '../../../services/course.service';
