@@ -8,10 +8,10 @@ describe('PageComponent', () => {
   let component: PageComponent;
   let fixture: ComponentFixture<PageComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
-    });
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PageComponent);
     component = fixture.componentInstance;
