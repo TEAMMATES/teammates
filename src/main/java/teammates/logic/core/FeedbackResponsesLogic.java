@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -28,13 +29,13 @@ import teammates.common.util.HibernateUtil;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.api.FeedbackResponsesDb;
-import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Section;
+import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.storage.entity.User;
@@ -125,21 +126,17 @@ public final class FeedbackResponsesLogic {
             boolean hasResponse = question
                     .getFeedbackResponses()
                     .stream()
-                    .anyMatch(response -> response.getGiver().equals(giverIdentifier));
+                    .anyMatch(response -> {
+                        ResponseGiver responseGiver = response.getGiver();
+                        return responseGiver.getGiverUser() != null
+                                && responseGiver.getGiverUser().getEmail().equals(giverIdentifier);
+                    });
             if (hasResponse) {
                 return true;
             }
         }
 
         return false;
-    }
-
-    /**
-     * Checks whether a giver has responded a session.
-     */
-    public boolean hasGiverRespondedForSession(String giver, String feedbackSessionName, String courseId) {
-
-        return frDb.hasResponsesFromGiverInSession(giver, feedbackSessionName, courseId);
     }
 
     /**
@@ -166,7 +163,7 @@ public final class FeedbackResponsesLogic {
     public List<FeedbackResponse> getFeedbackResponsesFromInstructorForQuestion(
             FeedbackQuestion question, Instructor instructor) {
         return frDb.getFeedbackResponsesFromGiverForQuestion(
-                question.getId(), instructor.getEmail());
+                question.getId(), instructor.getId(), null);
     }
 
     /**
@@ -177,25 +174,26 @@ public final class FeedbackResponsesLogic {
             FeedbackQuestion question, Student student) {
         if (question.getGiverType() == QuestionGiverType.TEAMS) {
             return getFeedbackResponsesFromTeamForQuestion(
-                    question.getId(), question.getCourseId(), student.getTeamName(), null);
+                    question.getId(), question.getCourseId(), student.getTeam(), null);
         }
-        return frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), student.getEmail());
+        return frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), student.getId(), null);
     }
 
     private List<FeedbackResponse> getFeedbackResponsesFromTeamForQuestion(
-            UUID feedbackQuestionId, String courseId, String teamName, @Nullable CourseRoster courseRoster) {
+            UUID feedbackQuestionId, String courseId, Team team, @Nullable CourseRoster courseRoster) {
 
         List<FeedbackResponse> responses = new ArrayList<>();
         List<Student> studentsInTeam = courseRoster == null
-                ? usersLogic.getStudentsForTeam(teamName, courseId) : courseRoster.getTeamToMembers().get(teamName);
+                ? usersLogic.getStudentsForTeam(team.getName(), courseId)
+                : courseRoster.getTeamToMembers().get(team.getName());
 
         for (Student student : studentsInTeam) {
             responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(
-                    feedbackQuestionId, student.getEmail()));
+                    feedbackQuestionId, student.getId(), null));
         }
 
         responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(
-                feedbackQuestionId, teamName));
+                feedbackQuestionId, null, team.getId()));
         return responses;
     }
 
@@ -261,54 +259,11 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
-     * Deletes all feedback responses involved an entity, cascade its associated comments.
-     * Deletion will automatically be cascaded to each feedback response's comments,
-     * handled by Hibernate using the OnDelete annotation.
-     */
-    public void deleteFeedbackResponsesForCourseCascade(String courseId, String entityEmail) {
-        // delete responses from the entity
-        List<FeedbackResponse> responsesFromStudent =
-                getFeedbackResponsesFromGiverForCourse(courseId, entityEmail);
-        for (FeedbackResponse response : responsesFromStudent) {
-            deleteFeedbackResponsesAndCommentsCascade(response);
-        }
-
-        // delete responses to the entity
-        List<FeedbackResponse> responsesToStudent =
-                getFeedbackResponsesForRecipientForCourse(courseId, entityEmail);
-        for (FeedbackResponse response : responsesToStudent) {
-            deleteFeedbackResponsesAndCommentsCascade(response);
-        }
-    }
-
-    /**
-     * Gets all responses given by a user for a course.
-     */
-    public List<FeedbackResponse> getFeedbackResponsesFromGiverForCourse(
-            String courseId, String giver) {
-        assert courseId != null;
-        assert giver != null;
-
-        return frDb.getFeedbackResponsesFromGiverForCourse(courseId, giver);
-    }
-
-    /**
-     * Gets all responses received by a user for a course.
-     */
-    public List<FeedbackResponse> getFeedbackResponsesForRecipientForCourse(
-            String courseId, String recipient) {
-        assert courseId != null;
-        assert recipient != null;
-
-        return frDb.getFeedbackResponsesForRecipientForCourse(courseId, recipient);
-    }
-
-    /**
      * Gets all responses given by a user for a question.
      */
     public List<FeedbackResponse> getFeedbackResponsesFromGiverForQuestion(
-            UUID feedbackQuestionId, String giver) {
-        return frDb.getFeedbackResponsesFromGiverForQuestion(feedbackQuestionId, giver);
+            UUID feedbackQuestionId, UUID giverUserId) {
+        return frDb.getFeedbackResponsesFromGiverForQuestion(feedbackQuestionId, giverUserId, null);
     }
 
     /**
@@ -357,19 +312,20 @@ public final class FeedbackResponsesLogic {
             for (Instructor instructor : roster.getInstructors()) {
                 numberOfRecipients =
                         fqLogic.getRecipientsOfQuestion(question, instructor, null, roster).size();
-                responses = getFeedbackResponsesFromGiverForQuestion(question.getId(), instructor.getEmail());
+                responses = getFeedbackResponsesFromGiverForQuestion(question.getId(), instructor.getId());
             }
             break;
         case TEAMS:
         case TEAMS_IN_SAME_SECTION:
             Student firstMemberOfTeam;
-            String team;
+            String teamName;
             Map<String, List<Student>> teams = roster.getTeamToMembers();
             for (Map.Entry<String, List<Student>> entry : teams.entrySet()) {
-                team = entry.getKey();
+                teamName = entry.getKey();
                 firstMemberOfTeam = entry.getValue().get(0);
                 numberOfRecipients =
                         fqLogic.getRecipientsOfQuestion(question, null, firstMemberOfTeam, roster).size();
+                Team team = roster.getTeamNameToTeam().get(teamName);
                 responses =
                         getFeedbackResponsesFromTeamForQuestion(
                                 question.getId(), question.getCourseId(), team, roster);
@@ -379,7 +335,7 @@ public final class FeedbackResponsesLogic {
             for (Student student : roster.getStudents()) {
                 numberOfRecipients =
                         fqLogic.getRecipientsOfQuestion(question, null, student, roster).size();
-                responses = getFeedbackResponsesFromGiverForQuestion(question.getId(), student.getEmail());
+                responses = getFeedbackResponsesFromGiverForQuestion(question.getId(), student.getId());
             }
             break;
         }
@@ -457,94 +413,6 @@ public final class FeedbackResponsesLogic {
         }
     }
 
-    /**
-     * Updates responses for a student when his team changes.
-     *
-     * <p>
-     *     This is done by deleting responses that are no longer relevant to him in his new team.
-     * </p>
-     */
-    public void updateFeedbackResponsesForChangingTeam(Course course, String newEmail, Team oldTeam) {
-        List<FeedbackResponse> responsesFromUser =
-                getFeedbackResponsesFromGiverForCourse(course.getId(), newEmail);
-
-        for (FeedbackResponse response : responsesFromUser) {
-            FeedbackQuestion qn = response.getFeedbackQuestion();
-            if (qn != null && qn.getGiverType() == QuestionGiverType.TEAMS) {
-                deleteFeedbackResponsesForQuestionCascade(qn);
-            }
-        }
-
-        List<FeedbackResponse> responsesToUser =
-                getFeedbackResponsesForRecipientForCourse(course.getId(), newEmail);
-
-        for (FeedbackResponse response : responsesToUser) {
-            FeedbackQuestion qn = response.getFeedbackQuestion();
-            if (qn != null && qn.getGiverType() == QuestionGiverType.TEAMS) {
-                deleteFeedbackResponsesForQuestionCascade(qn);
-            }
-        }
-
-        boolean isOldTeamEmpty = usersLogic.getStudentsForTeam(oldTeam.getName(), course.getId()).isEmpty();
-
-        if (isOldTeamEmpty) {
-            deleteFeedbackResponsesForCourseCascade(course.getId(), oldTeam.getName());
-        }
-    }
-
-    /**
-     * Updates responses for a student when his section changes.
-     */
-    public void updateFeedbackResponsesForChangingSection(Course course, String newEmail, Section newSection)
-            throws InvalidParametersException {
-
-        List<FeedbackResponse> responsesFromUser =
-                getFeedbackResponsesFromGiverForCourse(course.getId(), newEmail);
-
-        for (FeedbackResponse response : responsesFromUser) {
-            response.setGiverSection(newSection);
-            if (!response.isValid()) {
-                throw new InvalidParametersException(response.getInvalidityInfo());
-            }
-        }
-
-        List<FeedbackResponse> responsesToUser =
-                getFeedbackResponsesForRecipientForCourse(course.getId(), newEmail);
-
-        for (FeedbackResponse response : responsesToUser) {
-            response.setRecipientSection(newSection);
-            if (!response.isValid()) {
-                throw new InvalidParametersException(response.getInvalidityInfo());
-            }
-        }
-    }
-
-    /**
-     * Updates a student's email in their given/received responses.
-     */
-    public void updateFeedbackResponsesForChangingEmail(String courseId, String oldEmail, String newEmail)
-            throws InvalidParametersException {
-        List<FeedbackResponse> responsesFromUser =
-                getFeedbackResponsesFromGiverForCourse(courseId, oldEmail);
-
-        for (FeedbackResponse response : responsesFromUser) {
-            response.setGiver(newEmail);
-            if (!response.isValid()) {
-                throw new InvalidParametersException(response.getInvalidityInfo());
-            }
-        }
-
-        List<FeedbackResponse> responsesToUser =
-                getFeedbackResponsesForRecipientForCourse(courseId, oldEmail);
-
-        for (FeedbackResponse response : responsesToUser) {
-            response.setRecipient(newEmail);
-            if (!response.isValid()) {
-                throw new InvalidParametersException(response.getInvalidityInfo());
-            }
-        }
-    }
-
     private List<FeedbackQuestion> getQuestionsForSession(
             FeedbackSession feedbackSession, @Nullable UUID questionId) {
         if (questionId == null) {
@@ -610,7 +478,6 @@ public final class FeedbackResponsesLogic {
             boolean isVisibleResponse = isResponseVisibleForUser(
                     user, studentsEmailInTeam,
                     response.getGiver(), response.getRecipient(),
-                    response.getGiverSectionName(), response.getRecipientSectionName(),
                     correspondingQuestion);
             if (!isVisibleResponse) {
                 continue;
@@ -630,10 +497,10 @@ public final class FeedbackResponsesLogic {
             // generate giver/recipient name visibility table
             responseGiverVisibilityTable.put(response.getId(),
                     isNameVisibleToUser(correspondingQuestion, response.getGiver(), response.getRecipient(),
-                        user.getEmail(), user instanceof Instructor, true, roster));
+                        user, true));
             responseRecipientVisibilityTable.put(response.getId(),
                     isNameVisibleToUser(correspondingQuestion, response.getGiver(), response.getRecipient(),
-                        user.getEmail(), user instanceof Instructor, false, roster));
+                        user, false));
         }
         RequestTracer.checkRemainingTime();
 
@@ -658,7 +525,7 @@ public final class FeedbackResponsesLogic {
             }
             // check visibility of comment
             boolean isVisibleResponseComment = frcLogic.checkIsResponseCommentVisibleForUser(
-                    user, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
+                    user, relatedResponse, relatedQuestion, frc);
             if (!isVisibleResponseComment) {
                 continue;
             }
@@ -673,7 +540,7 @@ public final class FeedbackResponsesLogic {
             relatedCommentsMap.computeIfAbsent(relatedResponse, key -> new ArrayList<>()).add(frc);
             // generate comment giver name visibility table
             commentVisibilityTable.put(frc.getId(),
-                    frcLogic.checkIsNameVisibleToUser(frc, relatedResponse, user.getEmail(), roster));
+                    frcLogic.checkIsNameVisibleToUser(frc, relatedResponse, user));
         }
         RequestTracer.checkRemainingTime();
 
@@ -791,7 +658,8 @@ public final class FeedbackResponsesLogic {
             List<FeedbackResponse> existingResponses, CourseRoster courseRoster, @Nullable String sectionName) {
 
         // get all possible giver recipient pairs
-        Map<FeedbackQuestion, Map<String, Set<String>>> questionCompleteGiverRecipientMap = new HashMap<>();
+        Map<FeedbackQuestion, Map<ResponseGiver, Set<ResponseRecipient>>> questionCompleteGiverRecipientMap =
+                new HashMap<>();
         for (FeedbackQuestion feedbackQuestion : relatedQuestions) {
             if (feedbackQuestion.getQuestionDetailsCopy().shouldGenerateMissingResponses(feedbackQuestion)) {
                 questionCompleteGiverRecipientMap.put(feedbackQuestion,
@@ -803,7 +671,7 @@ public final class FeedbackResponsesLogic {
 
         // remove the existing responses in those pairs
         for (FeedbackResponse existingResponse : existingResponses) {
-            Map<String, Set<String>> currGiverRecipientMap =
+            Map<ResponseGiver, Set<ResponseRecipient>> currGiverRecipientMap =
                     questionCompleteGiverRecipientMap.get(existingResponse.getFeedbackQuestion());
             if (!currGiverRecipientMap.containsKey(existingResponse.getGiver())) {
                 continue;
@@ -813,36 +681,31 @@ public final class FeedbackResponsesLogic {
 
         List<FeedbackMissingResponse> missingResponses = new ArrayList<>();
         // build dummy responses
-        for (Map.Entry<FeedbackQuestion, Map<String, Set<String>>> currGiverRecipientMapEntry
+        for (Map.Entry<FeedbackQuestion, Map<ResponseGiver, Set<ResponseRecipient>>> currGiverRecipientMapEntry
                 : questionCompleteGiverRecipientMap.entrySet()) {
             FeedbackQuestion correspondingQuestion = currGiverRecipientMapEntry.getKey();
 
-            for (Map.Entry<String, Set<String>> giverRecipientEntry
+            for (Map.Entry<ResponseGiver, Set<ResponseRecipient>> giverRecipientEntry
                     : currGiverRecipientMapEntry.getValue().entrySet()) {
                 // giver
-                String giverIdentifier = giverRecipientEntry.getKey();
-                CourseRoster.ParticipantInfo giverInfo = courseRoster.getInfoForIdentifier(giverIdentifier);
+                ResponseGiver giver = giverRecipientEntry.getKey();
 
-                for (String recipientIdentifier : giverRecipientEntry.getValue()) {
-                    // recipient
-                    CourseRoster.ParticipantInfo recipientInfo = courseRoster.getInfoForIdentifier(recipientIdentifier);
-
-                    // skip responses not in current section
+                for (ResponseRecipient recipient : giverRecipientEntry.getValue()) {
                     if (sectionName != null
-                            && !giverInfo.getSectionName().equals(sectionName)
-                            && !recipientInfo.getSectionName().equals(sectionName)) {
+                            && !sectionName.equals(giver.getSectionName())
+                            && !sectionName.equals(recipient.getSectionName())) {
                         continue;
                     }
 
+                    // recipient
                     FeedbackMissingResponse missingResponse = new FeedbackMissingResponse(
                             correspondingQuestion,
-                            giverIdentifier, giverInfo.getSectionName(),
-                            recipientIdentifier, recipientInfo.getSectionName());
+                            giver,
+                            recipient);
 
                     boolean isVisibleResponse = isResponseVisibleForUser(
                             instructor, Collections.emptySet(),
                             missingResponse.giver(), missingResponse.recipient(),
-                            missingResponse.giverSectionName(), missingResponse.recipientSectionName(),
                             correspondingQuestion);
                     if (!isVisibleResponse) {
                         continue;
@@ -851,10 +714,10 @@ public final class FeedbackResponsesLogic {
                     // generate giver/recipient name visibility table
                     responseGiverVisibilityTable.put(missingResponse.id(),
                             isNameVisibleToUser(correspondingQuestion, missingResponse.giver(), missingResponse.recipient(),
-                                    instructor.getEmail(), true, true, courseRoster));
+                                    instructor, true));
                     responseRecipientVisibilityTable.put(missingResponse.id(),
                             isNameVisibleToUser(correspondingQuestion, missingResponse.giver(), missingResponse.recipient(),
-                                    instructor.getEmail(), true, false, courseRoster));
+                                    instructor, false));
                     missingResponses.add(missingResponse);
                 }
             }
@@ -866,80 +729,85 @@ public final class FeedbackResponsesLogic {
     /**
      * Checks whether the giver name of a response is visible to an user.
      */
-    public boolean isNameVisibleToUser(
+    private boolean isNameVisibleToUser(
             FeedbackQuestion question,
-            String responseGiver, String responseRecipient,
-            String userEmail,
-            boolean isInstructor, boolean isGiverName, CourseRoster roster) {
+            ResponseGiver responseGiver, ResponseRecipient responseRecipient,
+            User user, boolean isGiverName) {
 
         if (question == null) {
             return false;
         }
 
         // Early return if user is giver
-        if (question.getGiverType() == QuestionGiverType.TEAMS) {
+        if (responseGiver.isGiverTeam()) {
             // if response is given by team, then anyone in the team can see the response
-            if (roster.isStudentInTeam(userEmail, responseGiver)) {
+            if (user instanceof Student student
+                    && student.getTeam().equals(responseGiver.getGiverTeam())) {
                 return true;
             }
         } else {
-            if (SanitizationHelper.areEmailsEqual(responseGiver, userEmail)) {
+            if (Objects.equals(responseGiver.getGiverUser(), user)) {
                 return true;
             }
         }
 
-        return isFeedbackParticipantNameVisibleToUser(question, responseGiver, responseRecipient,
-                userEmail, isInstructor, isGiverName, roster);
+        return isFeedbackParticipantNameVisibleToUser(question, responseGiver, responseRecipient, user, isGiverName);
     }
 
     private boolean isFeedbackParticipantNameVisibleToUser(
-            FeedbackQuestion question, String responseGiver, String responseRecipient,
-            String userEmail, boolean isInstructor, boolean isGiverName, CourseRoster roster) {
+            FeedbackQuestion question, ResponseGiver responseGiver, ResponseRecipient responseRecipient,
+            User user, boolean isGiverName) {
         List<ViewerType> showNameTo = isGiverName
                 ? question.getShowGiverNameTo()
                 : question.getShowRecipientNameTo();
         for (ViewerType type : showNameTo) {
             switch (type) {
             case INSTRUCTORS:
-                if (roster.getInstructorForEmail(userEmail) != null && isInstructor) {
+                if (user instanceof Instructor) {
                     return true;
                 }
                 break;
             case OWN_TEAM_MEMBERS, OWN_TEAM_MEMBERS_INCLUDING_SELF:
-                // Refers to Giver's Team Members
-                if (roster.isStudentsInSameTeam(responseGiver, userEmail)) {
+                Team userTeam = user instanceof Student student ? student.getTeam() : null;
+                Team receiverTeam = null;
+                if (responseGiver.isGiverTeam()) {
+                    receiverTeam = responseGiver.getGiverTeam();
+                } else if (responseGiver.getGiverUser() instanceof Student student) {
+                    receiverTeam = student.getTeam();
+                }
+
+                if (userTeam != null && userTeam.equals(receiverTeam)) {
                     return true;
                 }
                 break;
             case RECEIVER:
                 // Response to team
-                if (question.getRecipientType().isTeam()) {
-                    if (roster.isStudentInTeam(userEmail, responseRecipient)) {
-                        // this is a team name
+                if (responseRecipient.isRecipientTeam()) {
+                    if (user instanceof Student student && student.getTeam().equals(responseRecipient.getRecipientTeam())) {
                         return true;
                     }
                     break;
                     // Response to individual
-                } else if (SanitizationHelper.areEmailsEqual(responseRecipient, userEmail)) {
+                } else if (user.equals(responseRecipient.getRecipientUser())) {
                     return true;
                 } else {
                     break;
                 }
             case RECEIVER_TEAM_MEMBERS:
-                // Response to team; recipient = teamName
-                if (question.getRecipientType().isTeam()) {
-                    if (roster.isStudentInTeam(userEmail, responseRecipient)) {
-                        // this is a team name
-                        return true;
-                    }
-                    break;
-                } else if (roster.isStudentsInSameTeam(responseRecipient, userEmail)) {
-                    // Response to individual
+                userTeam = user instanceof Student student ? student.getTeam() : null;
+                receiverTeam = null;
+                if (responseRecipient.isRecipientTeam()) {
+                    receiverTeam = responseRecipient.getRecipientTeam();
+                } else if (responseRecipient.getRecipientUser() instanceof Student recipientStudent) {
+                    receiverTeam = recipientStudent.getTeam();
+                }
+
+                if (userTeam != null && userTeam.equals(receiverTeam)) {
                     return true;
                 }
                 break;
             case STUDENTS:
-                if (roster.isStudentInCourse(userEmail)) {
+                if (user instanceof Student) {
                     return true;
                 }
                 break;
@@ -955,22 +823,20 @@ public final class FeedbackResponsesLogic {
     private boolean isResponseVisibleForUser(
             User user,
             Set<String> studentsEmailInTeam,
-            String giver,
-            String recipient,
-            String giverSectionName,
-            String recipientSectionName,
+            ResponseGiver giver,
+            ResponseRecipient recipient,
             FeedbackQuestion relatedQuestion
     ) {
-        boolean isVisibleToRecipient = SanitizationHelper.areEmailsEqual(recipient, user.getEmail())
+        boolean isVisibleToRecipient = Objects.equals(user, recipient.getRecipientUser())
                 && relatedQuestion.isResponseVisibleTo(ViewerType.RECEIVER);
-        boolean isVisibleToGiver = SanitizationHelper.areEmailsEqual(giver, user.getEmail());
+        boolean isVisibleToGiver = Objects.equals(user, giver.getGiverUser());
 
         boolean isGiverSectionRestrictedForInstructor = false;
         boolean isRecipientSectionRestrictedForInstructor = false;
         boolean isVisibleToInstructor = false;
         if (user instanceof Instructor instructor) {
             isGiverSectionRestrictedForInstructor = !instructor.isAllowedForPrivilege(
-                        giverSectionName,
+                        Const.DEFAULT_SECTION,
                         relatedQuestion.getFeedbackSessionName(),
                         Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS
                 );
@@ -978,7 +844,7 @@ public final class FeedbackResponsesLogic {
             isRecipientSectionRestrictedForInstructor =
                     relatedQuestion.getRecipientType() != QuestionRecipientType.NONE
                     && !instructor.isAllowedForPrivilege(
-                            recipientSectionName,
+                            Const.DEFAULT_SECTION,
                             relatedQuestion.getFeedbackSessionName(),
                             Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS
                     );
@@ -1001,16 +867,16 @@ public final class FeedbackResponsesLogic {
                         || relatedQuestion.getRecipientType() == QuestionRecipientType.TEAMS_IN_SAME_SECTION
                         || relatedQuestion.getRecipientType() == QuestionRecipientType.TEAMS_EXCLUDING_SELF)
                     && relatedQuestion.isResponseVisibleTo(ViewerType.RECEIVER)
-                    && recipient.equals(student.getTeamName());
+                    && Objects.equals(recipient.getRecipientTeam(), student.getTeam());
             isVisibleToTeamGiver = studentsEmailInTeam != null
                     && relatedQuestion.getGiverType() == QuestionGiverType.TEAMS
-                    && giver.equals(student.getTeamName());
+                    && Objects.equals(giver.getGiverTeam(), student.getTeam());
             isVisibleToOwnTeamMembers = studentsEmailInTeam != null
                     && relatedQuestion.isResponseVisibleTo(ViewerType.OWN_TEAM_MEMBERS)
-                    && studentsEmailInTeam.contains(giver);
+                    && studentsEmailInTeam.contains(giver.getIdentifier());
             isVisibleToReceiverTeamMembers = studentsEmailInTeam != null
                     && relatedQuestion.isResponseVisibleTo(ViewerType.RECEIVER_TEAM_MEMBERS)
-                    && studentsEmailInTeam.contains(recipient);
+                    && studentsEmailInTeam.contains(recipient.getIdentifier());
         }
 
         return isVisibleToInstructor || isVisibleToRecipient || isVisibleToGiver
@@ -1038,10 +904,12 @@ public final class FeedbackResponsesLogic {
     public List<FeedbackResponse> getFeedbackResponsesForSessionInSection(
             FeedbackSession feedbackSession, String courseId, @Nullable String sectionName,
             @Nullable FeedbackResultFetchType fetchType) {
+        List<FeedbackResponse> responses = frDb.getFeedbackResponsesForSession(feedbackSession, courseId);
         if (sectionName == null) {
-            return getFeedbackResponsesForSession(feedbackSession, courseId);
+            return responses;
+        } else {
+            return filterResponsesBySection(responses, sectionName, fetchType);
         }
-        return frDb.getFeedbackResponsesForSessionInSection(feedbackSession, courseId, sectionName, fetchType);
     }
 
     /**
@@ -1049,14 +917,60 @@ public final class FeedbackResponsesLogic {
      *
      * @param feedbackQuestionId the question UUID
      * @param sectionName if null, will retrieve all responses for the question
+     * @param fetchType if not null, will retrieve responses by giver, receiver sections, or both
      * @return a list of responses
      */
     public List<FeedbackResponse> getFeedbackResponsesForQuestionInSection(
             UUID feedbackQuestionId, @Nullable String sectionName, FeedbackResultFetchType fetchType) {
+        List<FeedbackResponse> responses = frDb.getResponsesForQuestion(feedbackQuestionId);
         if (sectionName == null) {
-            return getFeedbackResponsesForQuestion(feedbackQuestionId);
+            return responses;
+        } else {
+            return filterResponsesBySection(responses, sectionName, fetchType);
         }
-        return frDb.getFeedbackResponsesForQuestionInSection(feedbackQuestionId, sectionName, fetchType);
+    }
+
+    private List<FeedbackResponse> filterResponsesBySection(List<FeedbackResponse> responses,
+                                                            String sectionName,
+                                                            FeedbackResultFetchType fetchType) {
+        boolean filterByGiver = fetchType == FeedbackResultFetchType.BOTH
+                || fetchType == FeedbackResultFetchType.GIVER;
+        boolean filterByRecipient = fetchType == FeedbackResultFetchType.BOTH
+                || fetchType == FeedbackResultFetchType.RECEIVER;
+
+        List<FeedbackResponse> filteredResponses = new ArrayList<>();
+        for (FeedbackResponse response : responses) {
+            ResponseGiver giver = response.getGiver();
+            ResponseRecipient recipient = response.getRecipient();
+            boolean isGiverInSection = false;
+            if (filterByGiver) {
+                if (giver.isGiverTeam()) {
+                    isGiverInSection = giver.getGiverTeam().getSection().getName().equals(sectionName);
+                } else if (giver.getGiverUser() instanceof Student giverStudent) {
+                    isGiverInSection = giverStudent.getSection().getName().equals(sectionName);
+                } else {
+                    // instructor
+                    isGiverInSection = Objects.equals(sectionName, Const.DEFAULT_SECTION);
+                }
+            }
+
+            boolean isRecipientInSection = false;
+            if (filterByRecipient) {
+                if (recipient.isRecipientTeam()) {
+                    isRecipientInSection = recipient.getRecipientTeam().getSection().getName().equals(sectionName);
+                } else if (recipient.getRecipientUser() instanceof Student recipientStudent) {
+                    isRecipientInSection = recipientStudent.getSection().getName().equals(sectionName);
+                } else {
+                    // instructor
+                    isRecipientInSection = Objects.equals(sectionName, Const.DEFAULT_SECTION);
+                }
+            }
+
+            if (isGiverInSection || isRecipientInSection) {
+                filteredResponses.add(response);
+            }
+        }
+        return filteredResponses;
     }
 
     /**
@@ -1069,7 +983,7 @@ public final class FeedbackResponsesLogic {
         // Add responses that the instructor submitted him/herself
         if (question.getGiverType() == QuestionGiverType.INSTRUCTORS) {
             viewableResponses.addAll(
-                    getFeedbackResponsesFromGiverForQuestion(question.getId(), instructor.getEmail())
+                    getFeedbackResponsesFromGiverForQuestion(question.getId(), instructor.getId())
             );
         }
 
@@ -1078,7 +992,7 @@ public final class FeedbackResponsesLogic {
                 && (question.isResponseVisibleTo(ViewerType.RECEIVER)
                 || question.isResponseVisibleTo(ViewerType.INSTRUCTORS))) {
             viewableResponses.addAll(
-                    getFeedbackResponsesForRecipientForQuestion(question.getId(), instructor.getEmail())
+                    getFeedbackResponsesForRecipientForQuestion(question.getId(), instructor.getId(), null)
             );
         }
 
@@ -1095,7 +1009,7 @@ public final class FeedbackResponsesLogic {
         // Add responses that the student submitted him/herself
         if (question.getGiverType() != QuestionGiverType.INSTRUCTORS) {
             viewableResponses.addAll(
-                    getFeedbackResponsesFromGiverForQuestion(question.getId(), student.getEmail())
+                    getFeedbackResponsesFromGiverForQuestion(question.getId(), student.getId())
             );
         }
 
@@ -1103,7 +1017,7 @@ public final class FeedbackResponsesLogic {
         if (question.getRecipientType() != QuestionRecipientType.INSTRUCTORS
                 && question.isResponseVisibleTo(ViewerType.RECEIVER)) {
             viewableResponses.addAll(
-                    getFeedbackResponsesForRecipientForQuestion(question.getId(), student.getEmail())
+                    getFeedbackResponsesForRecipientForQuestion(question.getId(), student.getId(), null)
             );
         }
 
@@ -1117,7 +1031,7 @@ public final class FeedbackResponsesLogic {
         if (question.getRecipientType().isTeam()
                 && question.isResponseVisibleTo(ViewerType.RECEIVER)) {
             viewableResponses.addAll(
-                    getFeedbackResponsesForRecipientForQuestion(question.getId(), student.getTeamName())
+                    getFeedbackResponsesForRecipientForQuestion(question.getId(), null, student.getTeam().getId())
             );
         }
 
@@ -1125,7 +1039,7 @@ public final class FeedbackResponsesLogic {
                 || question.isResponseVisibleTo(ViewerType.OWN_TEAM_MEMBERS)) {
             viewableResponses.addAll(
                     getFeedbackResponsesFromTeamForQuestion(
-                            question.getId(), question.getCourseId(), student.getTeamName(), courseRoster));
+                            question.getId(), question.getCourseId(), student.getTeam(), courseRoster));
         }
 
         if (question.isResponseVisibleTo(ViewerType.RECEIVER_TEAM_MEMBERS)) {
@@ -1134,7 +1048,7 @@ public final class FeedbackResponsesLogic {
                     continue;
                 }
                 List<FeedbackResponse> responses =
-                        getFeedbackResponsesForRecipientForQuestion(question.getId(), studentInTeam.getEmail());
+                        getFeedbackResponsesForRecipientForQuestion(question.getId(), studentInTeam.getId(), null);
                 viewableResponses.addAll(responses);
             }
         }
@@ -1146,8 +1060,8 @@ public final class FeedbackResponsesLogic {
      * Gets all responses received by a user for a question.
      */
     private List<FeedbackResponse> getFeedbackResponsesForRecipientForQuestion(
-            UUID feedbackQuestionId, String userEmail) {
-        return frDb.getFeedbackResponsesForRecipientForQuestion(feedbackQuestionId, userEmail);
+            UUID feedbackQuestionId, UUID recipientUserId, UUID recipientTeamId) {
+        return frDb.getFeedbackResponsesForRecipientForQuestion(feedbackQuestionId, recipientUserId, recipientTeamId);
     }
 
     private void validateFeedbackResponse(FeedbackResponse feedbackResponse) throws InvalidParametersException {

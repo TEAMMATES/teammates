@@ -10,7 +10,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select student
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
   feedbackSessionId="undefined"
-  feedbackSessionName="undefined"
+  feedbackSessionName={[Function String]}
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllInstructorsFailed="false"
@@ -61,7 +61,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select student
               class="col-md-3 text-md-start"
               id="course-id"
             >
-               exampleId 
+               testId1 
             </div>
           </div>
           <div
@@ -106,6 +106,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select student
               class="col-md-10 text-md-start"
               id="session-name"
             >
+               Test Session 
             </div>
           </div>
           <div
@@ -503,7 +504,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select those t
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
   feedbackSessionId="undefined"
-  feedbackSessionName="undefined"
+  feedbackSessionName={[Function String]}
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllInstructorsFailed="false"
@@ -554,7 +555,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select those t
               class="col-md-3 text-md-start"
               id="course-id"
             >
-               exampleId 
+               testId1 
             </div>
           </div>
           <div
@@ -599,6 +600,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should select those t
               class="col-md-10 text-md-start"
               id="session-name"
             >
+               Test Session 
             </div>
           </div>
           <div
@@ -1062,7 +1064,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
   feedbackSessionId="undefined"
-  feedbackSessionName="undefined"
+  feedbackSessionName={[Function String]}
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllInstructorsFailed="false"
@@ -1113,7 +1115,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               class="col-md-3 text-md-start"
               id="course-id"
             >
-               exampleId 
+               testId1 
             </div>
           </div>
           <div
@@ -1158,6 +1160,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               class="col-md-10 text-md-start"
               id="session-name"
             >
+               Test Session 
             </div>
           </div>
           <div
@@ -1621,7 +1624,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
   feedbackSessionId="undefined"
-  feedbackSessionName="undefined"
+  feedbackSessionName={[Function String]}
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllInstructorsFailed="false"
@@ -1672,7 +1675,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               class="col-md-3 text-md-start"
               id="course-id"
             >
-               exampleId 
+               testId1 
             </div>
           </div>
           <div
@@ -1717,6 +1720,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when clic
               class="col-md-10 text-md-start"
               id="session-name"
             >
+               Test Session 
             </div>
           </div>
           <div
@@ -2174,13 +2178,13 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when feed
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  courseId={[Function String]}
+  courseId=""
   courseName=""
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp="0"
   feedbackSessionId="undefined"
-  feedbackSessionName="undefined"
+  feedbackSessionName=""
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllInstructorsFailed="false"
@@ -2495,7 +2499,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
   feedbackSessionId="undefined"
-  feedbackSessionName="undefined"
+  feedbackSessionName={[Function String]}
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllInstructorsFailed="false"
@@ -2546,7 +2550,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
               class="col-md-3 text-md-start"
               id="course-id"
             >
-               exampleId 
+               testId1 
             </div>
           </div>
           <div
@@ -2591,6 +2595,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
               class="col-md-10 text-md-start"
               id="session-name"
             >
+               Test Session 
             </div>
           </div>
           <div
@@ -2990,7 +2995,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
   feedbackSessionId="undefined"
-  feedbackSessionName="undefined"
+  feedbackSessionName={[Function String]}
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllInstructorsFailed="false"
@@ -3041,7 +3046,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
               class="col-md-3 text-md-start"
               id="course-id"
             >
-               exampleId 
+               testId1 
             </div>
           </div>
           <div
@@ -3086,6 +3091,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap when ther
               class="col-md-10 text-md-start"
               id="session-name"
             >
+               Test Session 
             </div>
           </div>
           <div
@@ -3451,7 +3457,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
   feedbackSessionId="undefined"
-  feedbackSessionName="undefined"
+  feedbackSessionName={[Function String]}
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllInstructorsFailed="false"
@@ -3502,7 +3508,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
               class="col-md-3 text-md-start"
               id="course-id"
             >
-               exampleId 
+               testId1 
             </div>
           </div>
           <div
@@ -3547,6 +3553,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with deta
               class="col-md-10 text-md-start"
               id="session-name"
             >
+               Test Session 
             </div>
           </div>
           <div
@@ -4006,13 +4013,13 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  courseId={[Function String]}
+  courseId=""
   courseName=""
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp="0"
   feedbackSessionId="undefined"
-  feedbackSessionName="undefined"
+  feedbackSessionName=""
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllInstructorsFailed="false"
@@ -4063,7 +4070,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with inst
               class="col-md-3 text-md-start"
               id="course-id"
             >
-               exampleId 
             </div>
           </div>
           <div
@@ -4330,13 +4336,13 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  courseId={[Function String]}
+  courseId=""
   courseName=""
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp="0"
   feedbackSessionId="undefined"
-  feedbackSessionName="undefined"
+  feedbackSessionName=""
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllInstructorsFailed="false"
@@ -4387,7 +4393,6 @@ exports[`InstructorSessionIndividualExtensionPageComponent should snap with stud
               class="col-md-3 text-md-start"
               id="course-id"
             >
-               exampleId 
             </div>
           </div>
           <div
@@ -4643,9 +4648,9 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   courseName=""
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
-  feedbackSessionEndingTimestamp="0"
+  feedbackSessionEndingTimestamp={[Function Number]}
   feedbackSessionId="undefined"
-  feedbackSessionName="undefined"
+  feedbackSessionName={[Function String]}
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllInstructorsFailed="false"
@@ -4963,7 +4968,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
   feedbackSessionId="undefined"
-  feedbackSessionName="undefined"
+  feedbackSessionName={[Function String]}
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllInstructorsFailed={[Function Boolean]}
@@ -5014,7 +5019,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
               class="col-md-3 text-md-start"
               id="course-id"
             >
-               exampleId 
+               testId1 
             </div>
           </div>
           <div
@@ -5059,6 +5064,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
               class="col-md-10 text-md-start"
               id="session-name"
             >
+               Test Session 
             </div>
           </div>
           <div
@@ -5209,13 +5215,13 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
 <tm-instructor-session-individual-extension-page
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
-  courseId={[Function String]}
+  courseId=""
   courseName=""
   courseService={[Function CourseService]}
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp="0"
   feedbackSessionId="undefined"
-  feedbackSessionName="undefined"
+  feedbackSessionName=""
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllInstructorsFailed="false"
@@ -5533,7 +5539,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
   feedbackSessionId="undefined"
-  feedbackSessionName="undefined"
+  feedbackSessionName={[Function String]}
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllInstructorsFailed={[Function Boolean]}
@@ -5584,7 +5590,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
               class="col-md-3 text-md-start"
               id="course-id"
             >
-               exampleId 
+               testId1 
             </div>
           </div>
           <div
@@ -5629,6 +5635,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
               class="col-md-10 text-md-start"
               id="session-name"
             >
+               Test Session 
             </div>
           </div>
           <div
@@ -5964,7 +5971,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
   feedbackSessionId="undefined"
-  feedbackSessionName="undefined"
+  feedbackSessionName={[Function String]}
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllInstructorsFailed="false"
@@ -6015,7 +6022,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
               class="col-md-3 text-md-start"
               id="course-id"
             >
-               exampleId 
+               testId1 
             </div>
           </div>
           <div
@@ -6060,6 +6067,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should stop loading i
               class="col-md-10 text-md-start"
               id="session-name"
             >
+               Test Session 
             </div>
           </div>
           <div
@@ -6346,7 +6354,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect instr
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
   feedbackSessionId="undefined"
-  feedbackSessionName="undefined"
+  feedbackSessionName={[Function String]}
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllInstructorsFailed="false"
@@ -6397,7 +6405,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect instr
               class="col-md-3 text-md-start"
               id="course-id"
             >
-               exampleId 
+               testId1 
             </div>
           </div>
           <div
@@ -6442,6 +6450,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect instr
               class="col-md-10 text-md-start"
               id="session-name"
             >
+               Test Session 
             </div>
           </div>
           <div
@@ -6806,7 +6815,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect only 
   feedbackSessionDetails={[Function Object]}
   feedbackSessionEndingTimestamp={[Function Number]}
   feedbackSessionId="undefined"
-  feedbackSessionName="undefined"
+  feedbackSessionName={[Function String]}
   feedbackSessionTimeZone={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadedAllInstructorsFailed="false"
@@ -6857,7 +6866,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect only 
               class="col-md-3 text-md-start"
               id="course-id"
             >
-               exampleId 
+               testId1 
             </div>
           </div>
           <div
@@ -6902,6 +6911,7 @@ exports[`InstructorSessionIndividualExtensionPageComponent should unselect only 
               class="col-md-10 text-md-start"
               id="session-name"
             >
+               Test Session 
             </div>
           </div>
           <div

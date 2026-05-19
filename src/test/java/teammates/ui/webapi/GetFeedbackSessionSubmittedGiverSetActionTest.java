@@ -63,15 +63,16 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, typicalFeedbackSession.getId().toString(),
         };
+        String giverIdentifier = typicalFeedbackResponse.getGiver().getIdentifier();
 
         when(mockLogic.getGiverSetThatAnsweredFeedbackSession(typicalFeedbackSession.getId()))
-                .thenReturn(new HashSet<>(Arrays.asList(typicalFeedbackResponse.getGiver())));
+                .thenReturn(new HashSet<>(Arrays.asList(giverIdentifier)));
 
         GetFeedbackSessionSubmittedGiverSetAction action = getAction(params);
         JsonResult result = getJsonResult(action);
         FeedbackSessionSubmittedGiverSet output = (FeedbackSessionSubmittedGiverSet) result.getOutput();
 
-        assertEquals(new HashSet<>(Arrays.asList(typicalFeedbackResponse.getGiver())), output.getGiverIdentifiers());
+        assertEquals(new HashSet<>(Arrays.asList(giverIdentifier)), output.getGiverIdentifiers());
     }
 
     @Test

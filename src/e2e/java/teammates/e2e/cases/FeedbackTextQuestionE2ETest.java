@@ -9,6 +9,8 @@ import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}, {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}
@@ -105,7 +107,7 @@ public class FeedbackTextQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
     private FeedbackResponse getResponse(FeedbackQuestion feedbackQuestion, Instructor instructor, String answer) {
         FeedbackTextResponseDetails details = new FeedbackTextResponseDetails(answer);
         FeedbackResponse response = FeedbackResponse.makeResponse(
-                student.getEmail(), null, instructor.getEmail(), null, details);
+                new ResponseGiver(student), new ResponseRecipient(instructor), details);
         feedbackQuestion.addFeedbackResponse(response);
         return response;
     }

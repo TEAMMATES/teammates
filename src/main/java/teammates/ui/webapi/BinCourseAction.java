@@ -22,7 +22,7 @@ public class BinCourseAction extends Action {
         String idOfCourseToBin = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         Course course = logic.getCourse(idOfCourseToBin);
-        gateKeeper.verifyAccessible(logic.getInstructorByGoogleId(idOfCourseToBin, authContext.id()),
+        gateKeeper.verifyAccessible(logic.getInstructorByGoogleId(idOfCourseToBin, getCurrentUserGoogleId()),
                 course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 

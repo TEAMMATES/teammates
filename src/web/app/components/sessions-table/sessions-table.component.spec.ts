@@ -39,6 +39,7 @@ describe('SessionsTableComponent', () => {
   });
 
   const feedbackSession1: FeedbackSession = {
+    feedbackSessionId: 'first-session-id',
     courseId: 'GOT',
     timeZone: 'Asia/Singapore',
     feedbackSessionName: 'Season 8 Review',
@@ -56,6 +57,7 @@ describe('SessionsTableComponent', () => {
   };
 
   const feedbackSession2: FeedbackSession = {
+    feedbackSessionId: 'second-session-id',
     courseId: 'GOT',
     timeZone: 'Asia/Singapore',
     feedbackSessionName: 'Season 7 Review',

@@ -357,6 +357,8 @@ describe('InstructorSessionEditPageComponent', () => {
     jest
       .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
       .mockReturnValue(of(testDeadlineExtensions));
+    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of({ students: [] }));
+    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of({ instructors: [] }));
 
     component.loadFeedbackSession();
 
@@ -445,14 +447,14 @@ describe('InstructorSessionEditPageComponent', () => {
     };
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
 
-    component.getAllStudentsOfCourse();
+    component.getAllStudentsOfCourse().subscribe();
 
     expect(component.studentsOfCourse.length).toBe(2);
     expect(component.studentsOfCourse[0].name).toBe(testStudent1.name);
     expect(component.emailOfStudentToPreview).toBe(testStudent1.email);
   });
 
-  it('should display error message when failed to get student', () => {
+  it('should emit error when failed to get student', () => {
     jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
       throwError(() => ({
         error: {
@@ -460,13 +462,14 @@ describe('InstructorSessionEditPageComponent', () => {
         },
       })),
     );
-    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
-      expect(args).toEqual('This is the error message.');
+    let hasError = false;
+    component.getAllStudentsOfCourse().subscribe({
+      error: () => {
+        hasError = true;
+      },
     });
 
-    component.getAllStudentsOfCourse();
-
-    expect(spy).toHaveBeenCalled();
+    expect(hasError).toBeTruthy();
   });
 
   it('should get all instructors of the course', () => {
@@ -489,13 +492,13 @@ describe('InstructorSessionEditPageComponent', () => {
     };
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
 
-    component.getAllInstructors();
+    component.getAllInstructors().subscribe();
     expect(component.instructorsOfCourse.length).toBe(2);
     expect(component.instructorsOfCourse[0].name).toBe(testInstructor1.name);
     expect(component.emailOfInstructorToPreview).toBe(testInstructor1.email);
   });
 
-  it('should display error message when failed to get instructor', () => {
+  it('should emit error when failed to get instructor', () => {
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(
       throwError(() => ({
         error: {
@@ -503,13 +506,14 @@ describe('InstructorSessionEditPageComponent', () => {
         },
       })),
     );
-    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
-      expect(args).toEqual('This is the error message.');
+    let hasError = false;
+    component.getAllInstructors().subscribe({
+      error: () => {
+        hasError = true;
+      },
     });
 
-    component.getAllInstructors();
-
-    expect(spy).toHaveBeenCalled();
+    expect(hasError).toBeTruthy();
   });
 
   it('should collapse all questions', () => {
@@ -735,7 +739,7 @@ describe('InstructorSessionEditPageComponent', () => {
     expect(navSpy).toHaveBeenLastCalledWith(
       '/web/instructor/sessions/edit',
       'The feedback session has been copied. Please modify settings/questions as necessary.',
-      { courseid: 'testId2', fsid: 'fbd91470-8378-4b43-9f82-0b81fb2e9f1b', fsname: 'Test Session' },
+      { fsid: 'fbd91470-8378-4b43-9f82-0b81fb2e9f1b' },
     );
   });
 

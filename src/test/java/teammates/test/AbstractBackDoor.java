@@ -32,6 +32,8 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
+import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.ui.output.AccountData;
 import teammates.ui.output.AccountRequestData;
 import teammates.ui.output.CourseData;
@@ -412,12 +414,12 @@ public abstract class AbstractBackDoor {
     /**
      * Get feedback response data from database.
      */
-    public FeedbackResponseData getFeedbackResponseData(String feedbackQuestionId, String giver,
-                                                                String recipient) {
+    public FeedbackResponseData getFeedbackResponseData(String feedbackQuestionId, ResponseGiver giver,
+                                                                ResponseRecipient recipient) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.FEEDBACK_QUESTION_ID, feedbackQuestionId);
         params.put(Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString());
-        params.put(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, giver);
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, giver.getIdentifier());
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.RESPONSES, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
@@ -426,7 +428,8 @@ public abstract class AbstractBackDoor {
         FeedbackResponsesData responsesData = JsonUtils.fromJson(response.responseBody, FeedbackResponsesData.class);
         return responsesData.getResponses()
                 .stream()
-                .filter(r -> r.getGiverIdentifier().equals(giver) && r.getRecipientIdentifier().equals(recipient))
+            .filter(r -> r.getGiverIdentifier().equals(giver.getIdentifier())
+                && r.getRecipientIdentifier().equals(recipient.getIdentifier()))
                 .findFirst()
                 .orElse(null);
     }

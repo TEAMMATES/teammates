@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, inject, OnInit, TemplateRef, ViewChild } 
 import { ActivatedRoute } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable, of } from 'rxjs';
-import { concatMap, finalize } from 'rxjs/operators';
+import { concatMap, finalize, map, switchMap } from 'rxjs/operators';
 import { FeedbackSessionTabModel } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal-model';
 import { CopyQuestionsFromOtherSessionsModalComponent } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
@@ -170,15 +170,11 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.courseId = queryParams.courseid;
-      this.feedbackSessionName = queryParams.fsname;
       this.feedbackSessionId = queryParams.fsid;
       this.isEditingMode = queryParams.editingMode === 'true';
 
       this.loadFeedbackSession();
       this.loadFeedbackQuestions();
-      this.getAllStudentsOfCourse();
-      this.getAllInstructors();
     });
   }
 
@@ -188,41 +184,50 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   loadFeedbackSession(): void {
     this.hasLoadingFeedbackSessionFailed = false;
     this.isLoadingFeedbackSession = true;
-    // load the course of the feedback session first
-    this.courseService.getCourseAsInstructor(this.courseId).subscribe({
-      next: (course: Course) => {
-        this.courseName = course.courseName;
+    this.feedbackSessionsService
+      .getFeedbackSession({
+        feedbackSessionId: this.feedbackSessionId,
+        intent: Intent.FULL_DETAIL,
+      })
+      .pipe(
+        switchMap((feedbackSession: FeedbackSession) => {
+          this.courseId = feedbackSession.courseId;
+          this.feedbackSessionName = feedbackSession.feedbackSessionName;
 
-        forkJoin([
-          this.feedbackSessionsService.getFeedbackSession({
-            feedbackSessionId: this.feedbackSessionId,
-            intent: Intent.FULL_DETAIL,
-          }),
-          this.feedbackSessionsService.getFeedbackSessionDeadlineExtensions(this.feedbackSessionId),
-        ])
-          .pipe(
-            finalize(() => {
-              this.isLoadingFeedbackSession = false;
-            }),
-          )
-          .subscribe({
-            next: ([feedbackSession, deadlineExtensions]: [FeedbackSession, DeadlineExtensions]) => {
-              this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession, this.isEditingMode);
-              this.feedbackSessionModelBeforeEditing = this.getSessionEditFormModel(feedbackSession);
-              this.userDeadlines = deadlineExtensions.userDeadlines;
-            },
-            error: (resp: ErrorMessageOutput) => {
-              this.hasLoadingFeedbackSessionFailed = true;
-              this.statusMessageService.showErrorToast(resp.error.message);
-            },
-          });
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-        this.isLoadingFeedbackSession = false;
-        this.hasLoadingFeedbackSessionFailed = true;
-      },
-    });
+          return forkJoin([
+            this.courseService.getCourseAsInstructor(this.courseId),
+            this.feedbackSessionsService.getFeedbackSessionDeadlineExtensions(this.feedbackSessionId),
+            this.getAllStudentsOfCourse(),
+            this.getAllInstructors(),
+          ]).pipe(
+            map(([course, deadlineExtensions]: [Course, DeadlineExtensions, Student[], Instructor[]]) => ({
+              feedbackSession,
+              course,
+              deadlineExtensions,
+            })),
+          );
+        }),
+        finalize(() => {
+          this.isLoadingFeedbackSession = false;
+        }),
+      )
+      .subscribe({
+        next: (result: {
+          feedbackSession: FeedbackSession;
+          course: Course;
+          deadlineExtensions: DeadlineExtensions;
+        }) => {
+          const { feedbackSession, course, deadlineExtensions } = result;
+          this.courseName = course.courseName;
+          this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession, this.isEditingMode);
+          this.feedbackSessionModelBeforeEditing = this.getSessionEditFormModel(feedbackSession);
+          this.userDeadlines = deadlineExtensions.userDeadlines;
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.hasLoadingFeedbackSessionFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        },
+      });
   }
 
   /**
@@ -1183,9 +1188,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   /**
    * Gets all students of a course.
    */
-  getAllStudentsOfCourse(): void {
-    this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe({
-      next: (students: Students) => {
+  getAllStudentsOfCourse(): Observable<Student[]> {
+    return this.studentService.getStudentsFromCourse({ courseId: this.courseId }).pipe(
+      map((students: Students) => {
         this.studentsOfCourse = students.students;
 
         // sort the student list based on team name and student name
@@ -1201,24 +1206,23 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         if (this.studentsOfCourse.length >= 1) {
           this.emailOfStudentToPreview = this.studentsOfCourse[0].email;
         }
-      },
-      error: (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      },
-    });
+
+        return this.studentsOfCourse;
+      }),
+    );
   }
 
   /**
    * Gets all instructors of a course.
    */
-  getAllInstructors(): void {
-    this.instructorService
+  getAllInstructors(): Observable<Instructor[]> {
+    return this.instructorService
       .loadInstructors({
         courseId: this.courseId,
         intent: Intent.FULL_DETAIL,
       })
-      .subscribe({
-        next: (instructors: Instructors) => {
+      .pipe(
+        map((instructors: Instructors) => {
           this.instructorsOfCourse = instructors.instructors;
           // TODO use privilege API to filter instructors who has INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS
           // in the feedback session
@@ -1232,11 +1236,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           if (this.instructorsOfCourse.length >= 1) {
             this.emailOfInstructorToPreview = this.instructorsOfCourse[0].email;
           }
-        },
-        error: (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        },
-      });
+
+          return this.instructorsOfCourse;
+        }),
+      );
   }
 
   expandAll(): void {

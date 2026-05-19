@@ -1618,1255 +1618,1558 @@
   "feedbackResponses": {
     "response1ForQ1InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000901",
-      "giver": "mei.lin.chen@teammates.tmt",
-      "recipient": "mei.lin.chen@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "I have made solid progress with recursion and feel confident about basic tree traversals. Higher-order functions like map and filter are becoming second nature, though I still struggle with environment model diagrams for deeply nested closures."
       },
-      "questionId": "00000000-0000-4000-8000-000000000801",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000801"
     },
     "response2ForQ1InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000902",
-      "giver": "carlos.silva@teammates.tmt",
-      "recipient": "carlos.silva@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000602"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Understanding higher-order functions has been a major breakthrough. I can now compose functions fluently and debug recursive calls with more confidence. The environment model remains challenging but I am improving steadily with practice."
       },
-      "questionId": "00000000-0000-4000-8000-000000000801",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000801"
     },
     "response3ForQ1InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000903",
-      "giver": "fatima.alrashid@teammates.tmt",
-      "recipient": "fatima.alrashid@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000603"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "I feel comfortable with most functional programming concepts covered so far. My main weakness is converting recursive solutions to tail-recursive form and understanding continuation-passing style."
       },
-      "questionId": "00000000-0000-4000-8000-000000000801",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000801"
     },
     "response4ForQ1InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000979",
-      "giver": "kenji.yamamoto@teammates.tmt",
-      "recipient": "kenji.yamamoto@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000604"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000604"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "The conceptual foundations are solid, especially around list processing and structural recursion. I want to strengthen my understanding of streams and lazy evaluation before the final exam."
       },
-      "questionId": "00000000-0000-4000-8000-000000000801",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000801"
     },
     "response5ForQ1InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000980",
-      "giver": "olga.petrov@teammates.tmt",
-      "recipient": "olga.petrov@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000605"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000605"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Closures and lexical scoping have become intuitive for me. I still need more practice with the substitution model proofs, but my overall coding ability has grown significantly this semester."
       },
-      "questionId": "00000000-0000-4000-8000-000000000801",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000801"
     },
     "response6ForQ1InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000981",
-      "giver": "raj.patel@teammates.tmt",
-      "recipient": "raj.patel@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000606"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000606"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "My grasp of recursion is strong and I apply it well in lab assignments. Memoization techniques and dynamic programming concepts are where I need the most additional work."
       },
-      "questionId": "00000000-0000-4000-8000-000000000801",
-      "giverSectionId": "00000000-0000-4000-8000-000000000202",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
+      "questionId": "00000000-0000-4000-8000-000000000801"
     },
     "response7ForQ1InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000982",
-      "giver": "sofia.andersson@teammates.tmt",
-      "recipient": "sofia.andersson@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000607"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000607"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "I have improved significantly in writing modular, reusable code using higher-order functions. The continuation-passing style lab was challenging and I plan to revisit those exercises."
       },
-      "questionId": "00000000-0000-4000-8000-000000000801",
-      "giverSectionId": "00000000-0000-4000-8000-000000000202",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
+      "questionId": "00000000-0000-4000-8000-000000000801"
     },
     "response8ForQ1InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000983",
-      "giver": "david.okafor@teammates.tmt",
-      "recipient": "david.okafor@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000608"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000608"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Functional programming was entirely new to me at the start of the semester but I have adapted well. List processing feels natural and I appreciate the elegance of purely functional approaches."
       },
-      "questionId": "00000000-0000-4000-8000-000000000801",
-      "giverSectionId": "00000000-0000-4000-8000-000000000202",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
+      "questionId": "00000000-0000-4000-8000-000000000801"
     },
     "response1ForQ2InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000904",
-      "giver": "mei.lin.chen@teammates.tmt",
-      "recipient": "carlos.silva@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000602"
+      },
       "answer": {
         "answer": "Excellent",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
       },
-      "questionId": "00000000-0000-4000-8000-000000000802",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000802"
     },
     "response2ForQ2InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000905",
-      "giver": "carlos.silva@teammates.tmt",
-      "recipient": "fatima.alrashid@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000603"
+      },
       "answer": {
         "answer": "Good",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
       },
-      "questionId": "00000000-0000-4000-8000-000000000802",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000802"
     },
     "response3ForQ2InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000906",
-      "giver": "fatima.alrashid@teammates.tmt",
-      "recipient": "mei.lin.chen@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
       "answer": {
         "answer": "Good",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
       },
-      "questionId": "00000000-0000-4000-8000-000000000802",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000802"
     },
     "response4ForQ2InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000984",
-      "giver": "kenji.yamamoto@teammates.tmt",
-      "recipient": "olga.petrov@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000604"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000605"
+      },
       "answer": {
         "answer": "Satisfactory",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
       },
-      "questionId": "00000000-0000-4000-8000-000000000802",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000802"
     },
     "response5ForQ2InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000985",
-      "giver": "olga.petrov@teammates.tmt",
-      "recipient": "kenji.yamamoto@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000605"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000604"
+      },
       "answer": {
         "answer": "Excellent",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
       },
-      "questionId": "00000000-0000-4000-8000-000000000802",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000802"
     },
     "response6ForQ2InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000986",
-      "giver": "raj.patel@teammates.tmt",
-      "recipient": "sofia.andersson@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000606"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000607"
+      },
       "answer": {
         "answer": "Good",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
       },
-      "questionId": "00000000-0000-4000-8000-000000000802",
-      "giverSectionId": "00000000-0000-4000-8000-000000000202",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
+      "questionId": "00000000-0000-4000-8000-000000000802"
     },
     "response7ForQ2InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000987",
-      "giver": "sofia.andersson@teammates.tmt",
-      "recipient": "david.okafor@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000607"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000608"
+      },
       "answer": {
         "answer": "Excellent",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
       },
-      "questionId": "00000000-0000-4000-8000-000000000802",
-      "giverSectionId": "00000000-0000-4000-8000-000000000202",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
+      "questionId": "00000000-0000-4000-8000-000000000802"
     },
     "response8ForQ2InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000988",
-      "giver": "david.okafor@teammates.tmt",
-      "recipient": "raj.patel@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000608"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000606"
+      },
       "answer": {
         "answer": "Good",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
       },
-      "questionId": "00000000-0000-4000-8000-000000000802",
-      "giverSectionId": "00000000-0000-4000-8000-000000000202",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
+      "questionId": "00000000-0000-4000-8000-000000000802"
     },
     "response1ForQ3InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000907",
-      "giver": "mei.lin.chen@teammates.tmt",
-      "recipient": "mei.lin.chen@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
       "answer": {
         "answer": 4,
         "questionType": "NUMSCALE"
       },
-      "questionId": "00000000-0000-4000-8000-000000000803",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000803"
     },
     "response2ForQ3InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000908",
-      "giver": "carlos.silva@teammates.tmt",
-      "recipient": "carlos.silva@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000602"
+      },
       "answer": {
         "answer": 3,
         "questionType": "NUMSCALE"
       },
-      "questionId": "00000000-0000-4000-8000-000000000803",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000803"
     },
     "response3ForQ3InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000909",
-      "giver": "fatima.alrashid@teammates.tmt",
-      "recipient": "fatima.alrashid@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000603"
+      },
       "answer": {
         "answer": 4,
         "questionType": "NUMSCALE"
       },
-      "questionId": "00000000-0000-4000-8000-000000000803",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000803"
     },
     "response4ForQ3InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000989",
-      "giver": "kenji.yamamoto@teammates.tmt",
-      "recipient": "kenji.yamamoto@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000604"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000604"
+      },
       "answer": {
         "answer": 3,
         "questionType": "NUMSCALE"
       },
-      "questionId": "00000000-0000-4000-8000-000000000803",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000803"
     },
     "response5ForQ3InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000990",
-      "giver": "olga.petrov@teammates.tmt",
-      "recipient": "olga.petrov@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000605"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000605"
+      },
       "answer": {
         "answer": 5,
         "questionType": "NUMSCALE"
       },
-      "questionId": "00000000-0000-4000-8000-000000000803",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000803"
     },
     "response6ForQ3InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000991",
-      "giver": "raj.patel@teammates.tmt",
-      "recipient": "raj.patel@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000606"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000606"
+      },
       "answer": {
         "answer": 3,
         "questionType": "NUMSCALE"
       },
-      "questionId": "00000000-0000-4000-8000-000000000803",
-      "giverSectionId": "00000000-0000-4000-8000-000000000202",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
+      "questionId": "00000000-0000-4000-8000-000000000803"
     },
     "response7ForQ3InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000992",
-      "giver": "sofia.andersson@teammates.tmt",
-      "recipient": "sofia.andersson@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000607"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000607"
+      },
       "answer": {
         "answer": 4,
         "questionType": "NUMSCALE"
       },
-      "questionId": "00000000-0000-4000-8000-000000000803",
-      "giverSectionId": "00000000-0000-4000-8000-000000000202",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
+      "questionId": "00000000-0000-4000-8000-000000000803"
     },
     "response8ForQ3InSession1InCourse1": {
       "id": "00000000-0000-4000-8000-000000000993",
-      "giver": "david.okafor@teammates.tmt",
-      "recipient": "david.okafor@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000608"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000608"
+      },
       "answer": {
         "answer": 2,
         "questionType": "NUMSCALE"
       },
-      "questionId": "00000000-0000-4000-8000-000000000803",
-      "giverSectionId": "00000000-0000-4000-8000-000000000202",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000202"
+      "questionId": "00000000-0000-4000-8000-000000000803"
     },
     "response1ForQ1InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000910",
-      "giver": "mei.lin.chen@teammates.tmt",
-      "recipient": "mei.lin.chen@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
       "answer": {
         "answer": 100,
         "questionType": "CONTRIB"
       },
-      "questionId": "00000000-0000-4000-8000-000000000804",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000804"
     },
     "response2ForQ1InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000911",
-      "giver": "mei.lin.chen@teammates.tmt",
-      "recipient": "carlos.silva@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000602"
+      },
       "answer": {
         "answer": 110,
         "questionType": "CONTRIB"
       },
-      "questionId": "00000000-0000-4000-8000-000000000804",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000804"
     },
     "response3ForQ1InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000912",
-      "giver": "mei.lin.chen@teammates.tmt",
-      "recipient": "fatima.alrashid@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000603"
+      },
       "answer": {
         "answer": 90,
         "questionType": "CONTRIB"
       },
-      "questionId": "00000000-0000-4000-8000-000000000804",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000804"
     },
     "response4ForQ1InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000913",
-      "giver": "carlos.silva@teammates.tmt",
-      "recipient": "mei.lin.chen@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
       "answer": {
         "answer": 95,
         "questionType": "CONTRIB"
       },
-      "questionId": "00000000-0000-4000-8000-000000000804",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000804"
     },
     "response5ForQ1InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000914",
-      "giver": "carlos.silva@teammates.tmt",
-      "recipient": "carlos.silva@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000602"
+      },
       "answer": {
         "answer": 100,
         "questionType": "CONTRIB"
       },
-      "questionId": "00000000-0000-4000-8000-000000000804",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000804"
     },
     "response6ForQ1InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000915",
-      "giver": "carlos.silva@teammates.tmt",
-      "recipient": "fatima.alrashid@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000603"
+      },
       "answer": {
         "answer": 105,
         "questionType": "CONTRIB"
       },
-      "questionId": "00000000-0000-4000-8000-000000000804",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000804"
     },
     "response7ForQ1InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000916",
-      "giver": "fatima.alrashid@teammates.tmt",
-      "recipient": "mei.lin.chen@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
       "answer": {
         "answer": 100,
         "questionType": "CONTRIB"
       },
-      "questionId": "00000000-0000-4000-8000-000000000804",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000804"
     },
     "response8ForQ1InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000917",
-      "giver": "fatima.alrashid@teammates.tmt",
-      "recipient": "carlos.silva@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000602"
+      },
       "answer": {
         "answer": 95,
         "questionType": "CONTRIB"
       },
-      "questionId": "00000000-0000-4000-8000-000000000804",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000804"
     },
     "response9ForQ1InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000918",
-      "giver": "fatima.alrashid@teammates.tmt",
-      "recipient": "fatima.alrashid@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000603"
+      },
       "answer": {
         "answer": 105,
         "questionType": "CONTRIB"
       },
-      "questionId": "00000000-0000-4000-8000-000000000804",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000804"
     },
     "response1ForQ2InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000919",
-      "giver": "mei.lin.chen@teammates.tmt",
-      "recipient": "carlos.silva@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000602"
+      },
       "answer": {
         "answer": [0, 1, 0],
         "questionType": "RUBRIC"
       },
-      "questionId": "00000000-0000-4000-8000-000000000805",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000805"
     },
     "response2ForQ2InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000920",
-      "giver": "carlos.silva@teammates.tmt",
-      "recipient": "fatima.alrashid@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000603"
+      },
       "answer": {
         "answer": [1, 0, 1],
         "questionType": "RUBRIC"
       },
-      "questionId": "00000000-0000-4000-8000-000000000805",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000805"
     },
     "response3ForQ2InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000921",
-      "giver": "fatima.alrashid@teammates.tmt",
-      "recipient": "mei.lin.chen@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
       "answer": {
         "answer": [0, 0, 1],
         "questionType": "RUBRIC"
       },
-      "questionId": "00000000-0000-4000-8000-000000000805",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000805"
     },
     "response1ForQ3InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000922",
-      "giver": "mei.lin.chen@teammates.tmt",
-      "recipient": "mei.lin.chen@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
       "answer": {
         "answers": ["Problem Solving", "Code Review"],
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MSQ"
       },
-      "questionId": "00000000-0000-4000-8000-000000000806",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000806"
     },
     "response2ForQ3InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000923",
-      "giver": "carlos.silva@teammates.tmt",
-      "recipient": "carlos.silva@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000602"
+      },
       "answer": {
         "answers": ["Testing", "Documentation"],
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MSQ"
       },
-      "questionId": "00000000-0000-4000-8000-000000000806",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000806"
     },
     "response3ForQ3InSession2InCourse1": {
       "id": "00000000-0000-4000-8000-000000000924",
-      "giver": "fatima.alrashid@teammates.tmt",
-      "recipient": "fatima.alrashid@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000603"
+      },
       "answer": {
         "answers": ["Problem Solving", "Pair Programming"],
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MSQ"
       },
-      "questionId": "00000000-0000-4000-8000-000000000806",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000806"
     },
     "response1ForQ1InSession4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000925",
-      "giver": "mei.lin.chen@teammates.tmt",
-      "recipient": "alice@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "INSTRUCTOR",
+        "recipientUserId": "00000000-0000-4000-8000-000000000501"
+      },
       "answer": {
         "answer": "Outstanding",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
       },
-      "questionId": "00000000-0000-4000-8000-000000000810",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000810"
     },
     "response2ForQ1InSession4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000926",
-      "giver": "carlos.silva@teammates.tmt",
-      "recipient": "alice@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "INSTRUCTOR",
+        "recipientUserId": "00000000-0000-4000-8000-000000000501"
+      },
       "answer": {
         "answer": "Very Good",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
       },
-      "questionId": "00000000-0000-4000-8000-000000000810",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000810"
     },
     "response3ForQ1InSession4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000927",
-      "giver": "fatima.alrashid@teammates.tmt",
-      "recipient": "alice@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "recipient": {
+        "recipientType": "INSTRUCTOR",
+        "recipientUserId": "00000000-0000-4000-8000-000000000501"
+      },
       "answer": {
         "answer": "Outstanding",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
       },
-      "questionId": "00000000-0000-4000-8000-000000000810",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000810"
     },
     "response1ForQ2InSession4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000928",
-      "giver": "mei.lin.chen@teammates.tmt",
-      "recipient": "mei.lin.chen@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
       "answer": {
         "answers": [2, 1, 3, 4],
         "questionType": "RANK_OPTIONS"
       },
-      "questionId": "00000000-0000-4000-8000-000000000811",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000811"
     },
     "response2ForQ2InSession4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000929",
-      "giver": "carlos.silva@teammates.tmt",
-      "recipient": "carlos.silva@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000602"
+      },
       "answer": {
         "answers": [3, 2, 1, 4],
         "questionType": "RANK_OPTIONS"
       },
-      "questionId": "00000000-0000-4000-8000-000000000811",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000811"
     },
     "response3ForQ2InSession4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000930",
-      "giver": "fatima.alrashid@teammates.tmt",
-      "recipient": "fatima.alrashid@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000603"
+      },
       "answer": {
         "answers": [1, 3, 4, 2],
         "questionType": "RANK_OPTIONS"
       },
-      "questionId": "00000000-0000-4000-8000-000000000811",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000811"
     },
     "response1ForQ3InSession4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000931",
-      "giver": "mei.lin.chen@teammates.tmt",
-      "recipient": "mei.lin.chen@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "I would appreciate more interactive coding exercises during lectures. The current pace is good but additional worked examples for the harder topics like streams would be helpful."
       },
-      "questionId": "00000000-0000-4000-8000-000000000812",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000812"
     },
     "response2ForQ3InSession4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000932",
-      "giver": "carlos.silva@teammates.tmt",
-      "recipient": "carlos.silva@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000602"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "The lab sessions could benefit from clearer problem statements. Sometimes the expected output format is ambiguous. Otherwise the teaching quality has been excellent."
       },
-      "questionId": "00000000-0000-4000-8000-000000000812",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000812"
     },
     "response3ForQ3InSession4InCourse1": {
       "id": "00000000-0000-4000-8000-000000000933",
-      "giver": "fatima.alrashid@teammates.tmt",
-      "recipient": "fatima.alrashid@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000603"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "More practice problems for the environment model would help. Perhaps a weekly optional problem set focused specifically on tracing through closures and scope chains."
       },
-      "questionId": "00000000-0000-4000-8000-000000000812",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000812"
     },
     "response1ForQ1InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000934",
-      "giver": "liam.obrien@teammates.tmt",
-      "recipient": "liam.obrien@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000611"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000611"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "I took the lead on designing the class diagram and implementing the core Parser module. I also set up the CI/CD pipeline and reviewed three pull requests from teammates during Sprint 1."
       },
-      "questionId": "00000000-0000-4000-8000-000000000813",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000813"
     },
     "response2ForQ1InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000935",
-      "giver": "anya.ivanova@teammates.tmt",
-      "recipient": "anya.ivanova@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000612"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000612"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "My main contributions were implementing the Storage component and writing integration tests for the save and load functionality. I also helped debug a critical serialization issue that blocked the team for two days."
       },
-      "questionId": "00000000-0000-4000-8000-000000000813",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000813"
     },
     "response3ForQ1InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000936",
-      "giver": "tariq.hassan@teammates.tmt",
-      "recipient": "tariq.hassan@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000613"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000613"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "I focused on the UI layer, building the main window layout and command input handling. I also wrote the user guide section covering basic commands and helped resolve merge conflicts."
       },
-      "questionId": "00000000-0000-4000-8000-000000000813",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000813"
     },
     "response4ForQ1InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000994",
-      "giver": "sakura.ito@teammates.tmt",
-      "recipient": "sakura.ito@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000614"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000614"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "I worked primarily on the Model component, implementing the data structures for tasks and events. I also contributed to team discussions on design decisions and attended all standups."
       },
-      "questionId": "00000000-0000-4000-8000-000000000813",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000813"
     },
     "response5ForQ1InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000995",
-      "giver": "nadia.kowalski@teammates.tmt",
-      "recipient": "nadia.kowalski@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000615"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000615"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "I implemented the undo and redo feature and wrote comprehensive unit tests for the Logic component. I participated actively in code reviews and suggested improvements to our test coverage."
       },
-      "questionId": "00000000-0000-4000-8000-000000000813",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000813"
     },
     "response1ForQ2InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000937",
-      "giver": "liam.obrien@teammates.tmt",
-      "recipient": "liam.obrien@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000611"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000611"
+      },
       "answer": {
         "answer": 100,
         "questionType": "CONTRIB"
       },
-      "questionId": "00000000-0000-4000-8000-000000000814",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000814"
     },
     "response2ForQ2InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000938",
-      "giver": "liam.obrien@teammates.tmt",
-      "recipient": "anya.ivanova@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000611"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000612"
+      },
       "answer": {
         "answer": 95,
         "questionType": "CONTRIB"
       },
-      "questionId": "00000000-0000-4000-8000-000000000814",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000814"
     },
     "response3ForQ2InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000939",
-      "giver": "liam.obrien@teammates.tmt",
-      "recipient": "tariq.hassan@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000611"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000613"
+      },
       "answer": {
         "answer": 105,
         "questionType": "CONTRIB"
       },
-      "questionId": "00000000-0000-4000-8000-000000000814",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000814"
     },
     "response4ForQ2InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000940",
-      "giver": "anya.ivanova@teammates.tmt",
-      "recipient": "liam.obrien@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000612"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000611"
+      },
       "answer": {
         "answer": 110,
         "questionType": "CONTRIB"
       },
-      "questionId": "00000000-0000-4000-8000-000000000814",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000814"
     },
     "response5ForQ2InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000941",
-      "giver": "anya.ivanova@teammates.tmt",
-      "recipient": "anya.ivanova@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000612"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000612"
+      },
       "answer": {
         "answer": 100,
         "questionType": "CONTRIB"
       },
-      "questionId": "00000000-0000-4000-8000-000000000814",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000814"
     },
     "response6ForQ2InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000942",
-      "giver": "anya.ivanova@teammates.tmt",
-      "recipient": "tariq.hassan@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000612"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000613"
+      },
       "answer": {
         "answer": 90,
         "questionType": "CONTRIB"
       },
-      "questionId": "00000000-0000-4000-8000-000000000814",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000814"
     },
     "response7ForQ2InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000943",
-      "giver": "tariq.hassan@teammates.tmt",
-      "recipient": "liam.obrien@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000613"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000611"
+      },
       "answer": {
         "answer": 100,
         "questionType": "CONTRIB"
       },
-      "questionId": "00000000-0000-4000-8000-000000000814",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000814"
     },
     "response8ForQ2InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000944",
-      "giver": "tariq.hassan@teammates.tmt",
-      "recipient": "anya.ivanova@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000613"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000612"
+      },
       "answer": {
         "answer": 100,
         "questionType": "CONTRIB"
       },
-      "questionId": "00000000-0000-4000-8000-000000000814",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000814"
     },
     "response9ForQ2InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000945",
-      "giver": "tariq.hassan@teammates.tmt",
-      "recipient": "tariq.hassan@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000613"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000613"
+      },
       "answer": {
         "answer": 100,
         "questionType": "CONTRIB"
       },
-      "questionId": "00000000-0000-4000-8000-000000000814",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000814"
     },
     "response1ForQ3InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000946",
-      "giver": "liam.obrien@teammates.tmt",
-      "recipient": "liam.obrien@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000611"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000611"
+      },
       "answer": {
         "answer": 7,
         "questionType": "NUMSCALE"
       },
-      "questionId": "00000000-0000-4000-8000-000000000815",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000815"
     },
     "response2ForQ3InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000947",
-      "giver": "anya.ivanova@teammates.tmt",
-      "recipient": "anya.ivanova@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000612"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000612"
+      },
       "answer": {
         "answer": 8,
         "questionType": "NUMSCALE"
       },
-      "questionId": "00000000-0000-4000-8000-000000000815",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000815"
     },
     "response3ForQ3InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000948",
-      "giver": "tariq.hassan@teammates.tmt",
-      "recipient": "tariq.hassan@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000613"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000613"
+      },
       "answer": {
         "answer": 6,
         "questionType": "NUMSCALE"
       },
-      "questionId": "00000000-0000-4000-8000-000000000815",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000815"
     },
     "response4ForQ3InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000996",
-      "giver": "sakura.ito@teammates.tmt",
-      "recipient": "sakura.ito@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000614"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000614"
+      },
       "answer": {
         "answer": 9,
         "questionType": "NUMSCALE"
       },
-      "questionId": "00000000-0000-4000-8000-000000000815",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000815"
     },
     "response5ForQ3InSession1InCourse2": {
       "id": "00000000-0000-4000-8000-000000000997",
-      "giver": "nadia.kowalski@teammates.tmt",
-      "recipient": "nadia.kowalski@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000615"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000615"
+      },
       "answer": {
         "answer": 7,
         "questionType": "NUMSCALE"
       },
-      "questionId": "00000000-0000-4000-8000-000000000815",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000815"
     },
     "response1ForQ1InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000949",
-      "giver": "liam.obrien@teammates.tmt",
-      "recipient": "anya.ivanova@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000611"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000612"
+      },
       "answer": {
         "answer": [0, 1, 1],
         "questionType": "RUBRIC"
       },
-      "questionId": "00000000-0000-4000-8000-000000000816",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000816"
     },
     "response2ForQ1InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000950",
-      "giver": "anya.ivanova@teammates.tmt",
-      "recipient": "tariq.hassan@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000612"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000613"
+      },
       "answer": {
         "answer": [1, 2, 0],
         "questionType": "RUBRIC"
       },
-      "questionId": "00000000-0000-4000-8000-000000000816",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000816"
     },
     "response3ForQ1InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000951",
-      "giver": "tariq.hassan@teammates.tmt",
-      "recipient": "liam.obrien@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000613"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000611"
+      },
       "answer": {
         "answer": [0, 0, 0],
         "questionType": "RUBRIC"
       },
-      "questionId": "00000000-0000-4000-8000-000000000816",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000816"
     },
     "response1ForQ2InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000952",
-      "giver": "liam.obrien@teammates.tmt",
-      "recipient": "liam.obrien@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000611"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000611"
+      },
       "answer": {
         "answers": ["Daily Standups", "Code Reviews", "CI/CD Pipeline"],
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MSQ"
       },
-      "questionId": "00000000-0000-4000-8000-000000000817",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000817"
     },
     "response2ForQ2InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000953",
-      "giver": "anya.ivanova@teammates.tmt",
-      "recipient": "anya.ivanova@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000612"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000612"
+      },
       "answer": {
         "answers": ["Code Reviews", "Sprint Planning"],
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MSQ"
       },
-      "questionId": "00000000-0000-4000-8000-000000000817",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000817"
     },
     "response3ForQ2InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000954",
-      "giver": "tariq.hassan@teammates.tmt",
-      "recipient": "tariq.hassan@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000613"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000613"
+      },
       "answer": {
         "answers": ["Daily Standups", "Retrospectives", "Sprint Planning"],
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MSQ"
       },
-      "questionId": "00000000-0000-4000-8000-000000000817",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000817"
     },
     "response1ForQ3InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000955",
-      "giver": "liam.obrien@teammates.tmt",
-      "recipient": "anya.ivanova@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000611"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000612"
+      },
       "answer": {
         "answers": [55],
         "questionType": "CONSTSUM"
       },
-      "questionId": "00000000-0000-4000-8000-000000000818",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000818"
     },
     "response2ForQ3InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000956",
-      "giver": "liam.obrien@teammates.tmt",
-      "recipient": "tariq.hassan@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000611"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000613"
+      },
       "answer": {
         "answers": [45],
         "questionType": "CONSTSUM"
       },
-      "questionId": "00000000-0000-4000-8000-000000000818",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000818"
     },
     "response3ForQ3InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000957",
-      "giver": "anya.ivanova@teammates.tmt",
-      "recipient": "liam.obrien@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000612"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000611"
+      },
       "answer": {
         "answers": [60],
         "questionType": "CONSTSUM"
       },
-      "questionId": "00000000-0000-4000-8000-000000000818",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000818"
     },
     "response4ForQ3InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000958",
-      "giver": "anya.ivanova@teammates.tmt",
-      "recipient": "tariq.hassan@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000612"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000613"
+      },
       "answer": {
         "answers": [40],
         "questionType": "CONSTSUM"
       },
-      "questionId": "00000000-0000-4000-8000-000000000818",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000818"
     },
     "response5ForQ3InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000959",
-      "giver": "tariq.hassan@teammates.tmt",
-      "recipient": "liam.obrien@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000613"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000611"
+      },
       "answer": {
         "answers": [50],
         "questionType": "CONSTSUM"
       },
-      "questionId": "00000000-0000-4000-8000-000000000818",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000818"
     },
     "response6ForQ3InSession2InCourse2": {
       "id": "00000000-0000-4000-8000-000000000960",
-      "giver": "tariq.hassan@teammates.tmt",
-      "recipient": "anya.ivanova@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000613"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000612"
+      },
       "answer": {
         "answers": [50],
         "questionType": "CONSTSUM"
       },
-      "questionId": "00000000-0000-4000-8000-000000000818",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000818"
     },
     "response1ForQ1InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000961",
-      "giver": "amara.diallo@teammates.tmt",
-      "recipient": "viktor.novak@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000621"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000622"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Viktor approaches problems methodically, always starting with a clear analysis before coding. He is patient when explaining his reasoning and open to alternative solutions. One area for improvement would be to consider edge cases earlier in the design phase."
       },
-      "questionId": "00000000-0000-4000-8000-000000000822",
-      "giverSectionId": "00000000-0000-4000-8000-000000000205",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
+      "questionId": "00000000-0000-4000-8000-000000000822"
     },
     "response2ForQ1InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000962",
-      "giver": "viktor.novak@teammates.tmt",
-      "recipient": "zara.osman@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000622"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000623"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Zara has an excellent intuition for choosing the right data structure. She quickly identifies patterns in problems and proposes efficient solutions. I would suggest she document her thought process more thoroughly for complex algorithms."
       },
-      "questionId": "00000000-0000-4000-8000-000000000822",
-      "giverSectionId": "00000000-0000-4000-8000-000000000205",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
+      "questionId": "00000000-0000-4000-8000-000000000822"
     },
     "response3ForQ1InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000963",
-      "giver": "zara.osman@teammates.tmt",
-      "recipient": "amara.diallo@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000623"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000621"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Amara is a strong collaborator who actively communicates during pair programming sessions. She catches bugs quickly and has a good eye for optimizing time complexity. She could benefit from exploring more space-efficient approaches."
       },
-      "questionId": "00000000-0000-4000-8000-000000000822",
-      "giverSectionId": "00000000-0000-4000-8000-000000000205",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
+      "questionId": "00000000-0000-4000-8000-000000000822"
     },
     "response4ForQ1InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000998",
-      "giver": "tomas.herrera@teammates.tmt",
-      "recipient": "ingrid.mueller@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000624"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000625"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Ingrid is thorough in her approach and always verifies correctness with multiple test cases. She explains graph traversal concepts very clearly and is always willing to help."
       },
-      "questionId": "00000000-0000-4000-8000-000000000822",
-      "giverSectionId": "00000000-0000-4000-8000-000000000205",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
+      "questionId": "00000000-0000-4000-8000-000000000822"
     },
     "response5ForQ1InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000999",
-      "giver": "ingrid.mueller@teammates.tmt",
-      "recipient": "tomas.herrera@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000625"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000624"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Tomas brings creative solutions to difficult problems. His implementation of the priority queue was particularly elegant. He could improve by adding more inline comments to his code."
       },
-      "questionId": "00000000-0000-4000-8000-000000000822",
-      "giverSectionId": "00000000-0000-4000-8000-000000000205",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
+      "questionId": "00000000-0000-4000-8000-000000000822"
     },
     "response1ForQ2InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000964",
-      "giver": "amara.diallo@teammates.tmt",
-      "recipient": "viktor.novak@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000621"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000622"
+      },
       "answer": {
         "answer": 4,
         "questionType": "NUMSCALE"
       },
-      "questionId": "00000000-0000-4000-8000-000000000823",
-      "giverSectionId": "00000000-0000-4000-8000-000000000205",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
+      "questionId": "00000000-0000-4000-8000-000000000823"
     },
     "response2ForQ2InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000965",
-      "giver": "viktor.novak@teammates.tmt",
-      "recipient": "zara.osman@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000622"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000623"
+      },
       "answer": {
         "answer": 5,
         "questionType": "NUMSCALE"
       },
-      "questionId": "00000000-0000-4000-8000-000000000823",
-      "giverSectionId": "00000000-0000-4000-8000-000000000205",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
+      "questionId": "00000000-0000-4000-8000-000000000823"
     },
     "response3ForQ2InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000966",
-      "giver": "zara.osman@teammates.tmt",
-      "recipient": "amara.diallo@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000623"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000621"
+      },
       "answer": {
         "answer": 3,
         "questionType": "NUMSCALE"
       },
-      "questionId": "00000000-0000-4000-8000-000000000823",
-      "giverSectionId": "00000000-0000-4000-8000-000000000205",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
+      "questionId": "00000000-0000-4000-8000-000000000823"
     },
     "response4ForQ2InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000001000",
-      "giver": "tomas.herrera@teammates.tmt",
-      "recipient": "ingrid.mueller@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000624"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000625"
+      },
       "answer": {
         "answer": 4,
         "questionType": "NUMSCALE"
       },
-      "questionId": "00000000-0000-4000-8000-000000000823",
-      "giverSectionId": "00000000-0000-4000-8000-000000000205",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
+      "questionId": "00000000-0000-4000-8000-000000000823"
     },
     "response5ForQ2InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000001001",
-      "giver": "ingrid.mueller@teammates.tmt",
-      "recipient": "tomas.herrera@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000625"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000624"
+      },
       "answer": {
         "answer": 5,
         "questionType": "NUMSCALE"
       },
-      "questionId": "00000000-0000-4000-8000-000000000823",
-      "giverSectionId": "00000000-0000-4000-8000-000000000205",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
+      "questionId": "00000000-0000-4000-8000-000000000823"
     },
     "response1ForQ3InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000967",
-      "giver": "amara.diallo@teammates.tmt",
-      "recipient": "amara.diallo@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000621"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000621"
+      },
       "answer": {
         "answer": "Definitely",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
       },
-      "questionId": "00000000-0000-4000-8000-000000000824",
-      "giverSectionId": "00000000-0000-4000-8000-000000000205",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
+      "questionId": "00000000-0000-4000-8000-000000000824"
     },
     "response2ForQ3InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000968",
-      "giver": "viktor.novak@teammates.tmt",
-      "recipient": "viktor.novak@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000622"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000622"
+      },
       "answer": {
         "answer": "Probably",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
       },
-      "questionId": "00000000-0000-4000-8000-000000000824",
-      "giverSectionId": "00000000-0000-4000-8000-000000000205",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
+      "questionId": "00000000-0000-4000-8000-000000000824"
     },
     "response3ForQ3InSession1InCourse3": {
       "id": "00000000-0000-4000-8000-000000000969",
-      "giver": "zara.osman@teammates.tmt",
-      "recipient": "zara.osman@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000623"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000623"
+      },
       "answer": {
         "answer": "Definitely",
         "isOther": false,
         "otherFieldContent": "",
         "questionType": "MCQ"
       },
-      "questionId": "00000000-0000-4000-8000-000000000824",
-      "giverSectionId": "00000000-0000-4000-8000-000000000205",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
+      "questionId": "00000000-0000-4000-8000-000000000824"
     },
     "response1ForQ1InSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000970",
-      "giver": "amara.diallo@teammates.tmt",
-      "recipient": "viktor.novak@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000621"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000622"
+      },
       "answer": {
         "answer": [1, 0, 2],
         "questionType": "RUBRIC"
       },
-      "questionId": "00000000-0000-4000-8000-000000000825",
-      "giverSectionId": "00000000-0000-4000-8000-000000000205",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
+      "questionId": "00000000-0000-4000-8000-000000000825"
     },
     "response2ForQ1InSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000971",
-      "giver": "viktor.novak@teammates.tmt",
-      "recipient": "zara.osman@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000622"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000623"
+      },
       "answer": {
         "answer": [0, 1, 1],
         "questionType": "RUBRIC"
       },
-      "questionId": "00000000-0000-4000-8000-000000000825",
-      "giverSectionId": "00000000-0000-4000-8000-000000000205",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
+      "questionId": "00000000-0000-4000-8000-000000000825"
     },
     "response3ForQ1InSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000972",
-      "giver": "zara.osman@teammates.tmt",
-      "recipient": "amara.diallo@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000623"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000621"
+      },
       "answer": {
         "answer": [0, 0, 0],
         "questionType": "RUBRIC"
       },
-      "questionId": "00000000-0000-4000-8000-000000000825",
-      "giverSectionId": "00000000-0000-4000-8000-000000000205",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
+      "questionId": "00000000-0000-4000-8000-000000000825"
     },
     "response1ForQ2InSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000973",
-      "giver": "amara.diallo@teammates.tmt",
-      "recipient": "amara.diallo@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000621"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000621"
+      },
       "answer": {
         "answers": [2, 1, 3, 4, 5],
         "questionType": "RANK_OPTIONS"
       },
-      "questionId": "00000000-0000-4000-8000-000000000826",
-      "giverSectionId": "00000000-0000-4000-8000-000000000205",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
+      "questionId": "00000000-0000-4000-8000-000000000826"
     },
     "response2ForQ2InSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000974",
-      "giver": "viktor.novak@teammates.tmt",
-      "recipient": "viktor.novak@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000622"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000622"
+      },
       "answer": {
         "answers": [3, 1, 2, 5, 4],
         "questionType": "RANK_OPTIONS"
       },
-      "questionId": "00000000-0000-4000-8000-000000000826",
-      "giverSectionId": "00000000-0000-4000-8000-000000000205",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
+      "questionId": "00000000-0000-4000-8000-000000000826"
     },
     "response3ForQ2InSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000975",
-      "giver": "zara.osman@teammates.tmt",
-      "recipient": "zara.osman@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000623"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000623"
+      },
       "answer": {
         "answers": [1, 2, 4, 3, 5],
         "questionType": "RANK_OPTIONS"
       },
-      "questionId": "00000000-0000-4000-8000-000000000826",
-      "giverSectionId": "00000000-0000-4000-8000-000000000205",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
+      "questionId": "00000000-0000-4000-8000-000000000826"
     },
     "response1ForQ3InSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000976",
-      "giver": "amara.diallo@teammates.tmt",
-      "recipient": "amara.diallo@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000621"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000621"
+      },
       "answer": {
         "answers": [30, 25, 20, 25],
         "questionType": "CONSTSUM"
       },
-      "questionId": "00000000-0000-4000-8000-000000000827",
-      "giverSectionId": "00000000-0000-4000-8000-000000000205",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
+      "questionId": "00000000-0000-4000-8000-000000000827"
     },
     "response2ForQ3InSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000977",
-      "giver": "viktor.novak@teammates.tmt",
-      "recipient": "viktor.novak@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000622"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000622"
+      },
       "answer": {
         "answers": [20, 30, 30, 20],
         "questionType": "CONSTSUM"
       },
-      "questionId": "00000000-0000-4000-8000-000000000827",
-      "giverSectionId": "00000000-0000-4000-8000-000000000205",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
+      "questionId": "00000000-0000-4000-8000-000000000827"
     },
     "response3ForQ3InSession2InCourse3": {
       "id": "00000000-0000-4000-8000-000000000978",
-      "giver": "zara.osman@teammates.tmt",
-      "recipient": "zara.osman@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000623"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000623"
+      },
       "answer": {
         "answers": [25, 25, 25, 25],
         "questionType": "CONSTSUM"
       },
-      "questionId": "00000000-0000-4000-8000-000000000827",
-      "giverSectionId": "00000000-0000-4000-8000-000000000205",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000205"
+      "questionId": "00000000-0000-4000-8000-000000000827"
     }
   },
   "feedbackResponseComments": {

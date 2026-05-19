@@ -26,10 +26,6 @@ public class AppUrl extends Url {
         return withParam(Const.ParamsNames.COURSE_ID, courseId);
     }
 
-    public AppUrl withSessionName(String feedbackSessionName) {
-        return withParam(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
-    }
-
     public AppUrl withFeedbackSessionId(String feedbackSessionId) {
         return withParam(Const.ParamsNames.FEEDBACK_SESSION_ID, feedbackSessionId);
     }

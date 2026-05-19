@@ -8,7 +8,8 @@ import jakarta.persistence.Entity;
 import teammates.common.datatransfer.questions.FeedbackMsqResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.Section;
+import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 
 /**
  * Represents a feedback msq response.
@@ -25,10 +26,10 @@ public class FeedbackMsqResponse extends FeedbackResponse {
     }
 
     public FeedbackMsqResponse(
-            String giver, Section giverSection, String recipient, Section recipientSection,
+            ResponseGiver giver, ResponseRecipient recipient,
             FeedbackResponseDetails responseDetails
     ) {
-        super(giver, giverSection, recipient, recipientSection);
+        super(giver, recipient);
         this.setAnswer((FeedbackMsqResponseDetails) responseDetails);
     }
 

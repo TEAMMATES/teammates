@@ -8,6 +8,10 @@ import teammates.ui.webapi.AuthType;
 /**
  * Represents the authentication context of a user.
  *
+ * <p>
+ * This class encapsulates all information needed to determine the
+ * authentication status of a user.
+ *
  * @param authType     The authentication type.
  * @param account      The user's account. If masquerading, this is the account
  *                     of the user being masqueraded as.

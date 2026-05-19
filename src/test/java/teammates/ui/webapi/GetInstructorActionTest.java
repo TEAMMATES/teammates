@@ -88,6 +88,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
 
     @Test
     void testExecute_instructorSubmissionUnregistered_success() {
+        logoutUser();
         Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
         when(mockLogic.getInstructorByRegistrationKey(instructor.getRegKey())).thenReturn(instructor);
         String[] params = {
@@ -117,6 +118,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
 
     @Test
     void testExecute_instructorResultUnregistered_success() {
+        logoutUser();
         Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
         when(mockLogic.getInstructorByRegistrationKey(instructor.getRegKey())).thenReturn(instructor);
         String[] params = {
@@ -164,6 +166,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
 
     @Test
     void testExecute_fullDetailUnregistered_success() {
+        logoutUser();
         Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null, null);
         when(mockLogic.getInstructorByRegistrationKey(instructor.getRegKey())).thenReturn(instructor);
         String[] params = {

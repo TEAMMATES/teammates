@@ -11,7 +11,10 @@ import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
+import teammates.storage.entity.Team;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}, {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}
@@ -95,8 +98,8 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
                 (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
 
         ______TS("submit response");
-        FeedbackResponse response = getResponse(question, receiver, 49);
-        FeedbackResponse response2 = getResponse(question, receiver2, 51);
+        FeedbackResponse response = getResponse(question, receiver.getTeam(), 49);
+        FeedbackResponse response2 = getResponse(question, receiver2.getTeam(), 51);
         List<FeedbackResponse> responses = Arrays.asList(response, response2);
         feedbackSubmitPage.fillConstSumRecipientResponse(1, responses);
         feedbackSubmitPage.clickSubmitQuestionButton(1);
@@ -109,8 +112,8 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
         feedbackSubmitPage.verifyConstSumRecipientResponse(1, responses);
 
         ______TS("edit response");
-        response = getResponse(question, receiver, 21);
-        response2 = getResponse(question, receiver2, 79);
+        response = getResponse(question, receiver.getTeam(), 21);
+        response2 = getResponse(question, receiver2.getTeam(), 79);
         responses = Arrays.asList(response, response2);
         feedbackSubmitPage.fillConstSumRecipientResponse(1, responses);
         feedbackSubmitPage.clickSubmitQuestionButton(1);
@@ -121,11 +124,12 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
         verifyPresentInDatabase(response2);
     }
 
-    private FeedbackResponse getResponse(FeedbackQuestion question, Student receiver, Integer answer) {
+    private FeedbackResponse getResponse(FeedbackQuestion question, Team receiver, Integer answer) {
         FeedbackConstantSumResponseDetails details = new FeedbackConstantSumResponseDetails();
         details.setAnswers(Arrays.asList(answer));
-        FeedbackResponse response = FeedbackResponse.makeResponse(student.getEmail(), student.getSection(),
-                receiver.getTeamName(), receiver.getSection(), details);
+        ResponseGiver giver = new ResponseGiver(student);
+        ResponseRecipient recipient = new ResponseRecipient(receiver);
+        FeedbackResponse response = FeedbackResponse.makeResponse(giver, recipient, details);
         question.addFeedbackResponse(response);
         return response;
     }

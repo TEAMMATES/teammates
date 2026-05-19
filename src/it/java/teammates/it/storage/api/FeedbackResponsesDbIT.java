@@ -9,7 +9,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.storage.api.FeedbackResponsesDb;
@@ -17,7 +16,7 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
-import teammates.storage.entity.Section;
+import teammates.storage.entity.Student;
 
 /**
  * SUT: {@link FeedbackResponsesDb}.
@@ -46,6 +45,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
     public void testGetFeedbackResponsesFromGiverForQuestion() {
         ______TS("success: typical case");
         FeedbackQuestion fq = testDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        Student giver = testDataBundle.students.get("student1InCourse1");
 
         List<FeedbackResponse> expectedQuestions = List.of(
                 testDataBundle.feedbackResponses.get("response1ForQ1"),
@@ -53,7 +53,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         );
 
         List<FeedbackResponse> actualQuestions =
-                frDb.getFeedbackResponsesFromGiverForQuestion(fq.getId(), "student1@teammates.tmt");
+                frDb.getFeedbackResponsesFromGiverForQuestion(fq.getId(), giver.getId(), null);
 
         assertEquals(expectedQuestions.size(), actualQuestions.size());
         assertTrue(expectedQuestions.containsAll(actualQuestions));
@@ -67,24 +67,6 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         frDb.deleteFeedbackResponse(fr1);
 
         assertNull(frDb.getFeedbackResponse(fr1.getId()));
-    }
-
-    @Test
-    public void testHasResponsesFromGiverInSession() {
-        ______TS("success: typical case");
-        Course course = testDataBundle.courses.get("course1");
-        FeedbackSession fs = testDataBundle.feedbackSessions.get("session1InCourse1");
-
-        boolean actualHasReponses1 =
-                frDb.hasResponsesFromGiverInSession("student1@teammates.tmt", fs.getName(), course.getId());
-
-        assertTrue(actualHasReponses1);
-
-        ______TS("student with no responses");
-        boolean actualHasReponses2 =
-                frDb.hasResponsesFromGiverInSession("studentnorespones@teammates.tmt", fs.getName(), course.getId());
-
-        assertFalse(actualHasReponses2);
     }
 
     @Test
@@ -120,14 +102,15 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
     @Test
     public void testGetFeedbackResponsesForRecipientForQuestion_matchNotFound_shouldReturnEmptyList() {
         ______TS("Question not found");
-        String recipient = "student1@teammates.tmt";
+        Student recipient = testDataBundle.students.get("student1InCourse1");
         UUID nonexistentQuestionId = UUID.fromString("11110000-0000-0000-0000-000000000000");
-        List<FeedbackResponse> results = frDb.getFeedbackResponsesForRecipientForQuestion(nonexistentQuestionId, recipient);
+        List<FeedbackResponse> results = frDb.getFeedbackResponsesForRecipientForQuestion(
+                nonexistentQuestionId, recipient.getId(), null);
         assertEquals(0, results.size());
 
         ______TS("No matching responses exist");
         FeedbackQuestion questionWithNoResponses = testDataBundle.feedbackQuestions.get("qn4InSession1InCourse1");
-        results = frDb.getFeedbackResponsesForRecipientForQuestion(questionWithNoResponses.getId(), recipient);
+        results = frDb.getFeedbackResponsesForRecipientForQuestion(questionWithNoResponses.getId(), recipient.getId(), null);
         assertEquals(0, results.size());
 
     }
@@ -135,147 +118,15 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
     @Test
     public void testGetFeedbackResponsesForRecipientForQuestion_matchFound_success() {
         ______TS("Matching responses exist");
-        String recipient = "student2@teammates.tmt";
+        Student recipient = testDataBundle.students.get("student2InCourse1");
         FeedbackQuestion question = testDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         List<FeedbackResponse> expected = List.of(
                 testDataBundle.feedbackResponses.get("response2ForQ1")
         );
-        List<FeedbackResponse> actual = frDb.getFeedbackResponsesForRecipientForQuestion(question.getId(), recipient);
+        List<FeedbackResponse> actual = frDb.getFeedbackResponsesForRecipientForQuestion(
+                question.getId(), recipient.getId(), null);
         assertListResponsesEqual(expected, actual);
 
-    }
-
-    @Test
-    public void testGetFeedbackResponsesForSessionInSection_matchNotFound_shouldReturnEmptyList() {
-        String section3 = testDataBundle.sections.get("section3InCourse1").getName();
-        FeedbackSession session = testDataBundle.feedbackSessions.get("session1InCourse1");
-        String courseId = session.getCourseId();
-
-        ______TS("No matching responses exist for giver section");
-        FeedbackResultFetchType fetchType = FeedbackResultFetchType.GIVER;
-        List<FeedbackResponse> results = frDb.getFeedbackResponsesForSessionInSection(
-                session, courseId, section3, fetchType);
-        assertEquals(0, results.size());
-
-        ______TS("No matching responses exist for recipient section");
-        fetchType = FeedbackResultFetchType.RECEIVER;
-        results = frDb.getFeedbackResponsesForSessionInSection(session, courseId, section3, fetchType);
-        assertEquals(0, results.size());
-
-        ______TS("No matching responses exist for both giver and recipient section");
-        fetchType = FeedbackResultFetchType.BOTH;
-        results = frDb.getFeedbackResponsesForSessionInSection(session, courseId, section3, fetchType);
-        assertEquals(0, results.size());
-    }
-
-    @Test
-    public void testGetFeedbackResponsesForSessionInSection_matchFound_success() {
-        Course course = testDataBundle.courses.get("course1");
-        FeedbackSession session1 = testDataBundle.feedbackSessions.get("session1InCourse1");
-        Section section1 = testDataBundle.sections.get("section1InCourse1");
-        Section section2 = testDataBundle.sections.get("section2InCourse1");
-
-        ______TS("Match giver section 1 in session 1");
-        FeedbackResultFetchType fetchType = FeedbackResultFetchType.GIVER;
-        List<FeedbackResponse> expected = List.of(
-                testDataBundle.feedbackResponses.get("response1ForQ1"),
-                testDataBundle.feedbackResponses.get("response2ForQ1"),
-                testDataBundle.feedbackResponses.get("response1ForQ2"),
-                testDataBundle.feedbackResponses.get("response2ForQ2"),
-                testDataBundle.feedbackResponses.get("response1ForQ3"),
-                testDataBundle.feedbackResponses.get("response3ForQ1"),
-                testDataBundle.feedbackResponses.get("response3ForQ2")
-        );
-        List<FeedbackResponse> actual = frDb.getFeedbackResponsesForSessionInSection(
-                session1, course.getId(), section1.getName(), fetchType);
-        assertListResponsesEqual(expected, actual);
-
-        ______TS("Match recipient section 2 in session 1");
-        fetchType = FeedbackResultFetchType.RECEIVER;
-        expected = List.of(
-                testDataBundle.feedbackResponses.get("response3ForQ1"),
-                testDataBundle.feedbackResponses.get("response3ForQ2"),
-                testDataBundle.feedbackResponses.get("response4ForQ1")
-        );
-        actual = frDb.getFeedbackResponsesForSessionInSection(session1, course.getId(),
-                section2.getName(), fetchType);
-        assertListResponsesEqual(expected, actual);
-
-        ______TS("Match both giver and recipient section 2 in session 1");
-        fetchType = FeedbackResultFetchType.BOTH;
-        expected = List.of(
-                testDataBundle.feedbackResponses.get("response4ForQ1"),
-                testDataBundle.feedbackResponses.get("response3ForQ1"),
-                testDataBundle.feedbackResponses.get("response3ForQ2")
-        );
-        actual = frDb.getFeedbackResponsesForSessionInSection(session1, course.getId(),
-                section2.getName(), fetchType);
-        assertListResponsesEqual(expected, actual);
-    }
-
-    @Test
-    public void testGetFeedbackResponsesForQuestionInSection_matchNotFound_shouldReturnEmptyList() {
-        String section1 = testDataBundle.sections.get("section1InCourse1").getName();
-        String section3 = testDataBundle.sections.get("section3InCourse1").getName();
-
-        ______TS("Question not found");
-        UUID nonexistentQuestionId = UUID.fromString("11110000-0000-0000-0000-000000000000");
-        FeedbackResultFetchType fetchType = FeedbackResultFetchType.BOTH;
-        List<FeedbackResponse> results = frDb.getFeedbackResponsesForQuestionInSection(nonexistentQuestionId,
-                section1, fetchType);
-        assertEquals(0, results.size());
-
-        ______TS("No matching responses exist for giver section");
-        UUID questionId = testDataBundle.feedbackQuestions.get("qn1InSession1InCourse1").getId();
-        fetchType = FeedbackResultFetchType.GIVER;
-        results = frDb.getFeedbackResponsesForQuestionInSection(questionId, section3, fetchType);
-        assertEquals(0, results.size());
-
-        ______TS("No matching responses exist for recipient section");
-        fetchType = FeedbackResultFetchType.RECEIVER;
-        results = frDb.getFeedbackResponsesForQuestionInSection(questionId, section3, fetchType);
-        assertEquals(0, results.size());
-
-        ______TS("No matching responses exist for both giver and recipient section");
-        fetchType = FeedbackResultFetchType.BOTH;
-        results = frDb.getFeedbackResponsesForQuestionInSection(questionId, section3, fetchType);
-        assertEquals(0, results.size());
-    }
-
-    @Test
-    public void testGetFeedbackResponsesForQuestionInSection_matchFound_success() {
-        Section section1 = testDataBundle.sections.get("section1InCourse1");
-        Section section2 = testDataBundle.sections.get("section2InCourse1");
-        FeedbackQuestion question1 = testDataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
-
-        ______TS("Match giver section 1 for Q1");
-        FeedbackResultFetchType fetchType = FeedbackResultFetchType.GIVER;
-        List<FeedbackResponse> expected = List.of(
-                testDataBundle.feedbackResponses.get("response1ForQ1"),
-                testDataBundle.feedbackResponses.get("response2ForQ1"),
-                testDataBundle.feedbackResponses.get("response3ForQ1")
-        );
-        List<FeedbackResponse> actual = frDb.getFeedbackResponsesForQuestionInSection(question1.getId(),
-                section1.getName(), fetchType);
-        assertListResponsesEqual(expected, actual);
-
-        ______TS("Match recipient section 2 for Q1");
-        fetchType = FeedbackResultFetchType.RECEIVER;
-        expected = List.of(
-                testDataBundle.feedbackResponses.get("response3ForQ1"),
-                testDataBundle.feedbackResponses.get("response4ForQ1")
-        );
-        actual = frDb.getFeedbackResponsesForQuestionInSection(question1.getId(), section2.getName(), fetchType);
-        assertListResponsesEqual(expected, actual);
-
-        ______TS("Match both giver and recipient section 2 for Q1");
-        fetchType = FeedbackResultFetchType.BOTH;
-        expected = List.of(
-                testDataBundle.feedbackResponses.get("response4ForQ1"),
-                testDataBundle.feedbackResponses.get("response3ForQ1")
-        );
-        actual = frDb.getFeedbackResponsesForQuestionInSection(question1.getId(), section2.getName(), fetchType);
-        assertListResponsesEqual(expected, actual);
     }
 
     @Test

@@ -30,6 +30,8 @@ import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
+import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.UsageStatistics;
 import teammates.test.BaseTestCase;
@@ -250,8 +252,10 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
                     expectedFeedbackResponse.getFeedbackResponseDetailsCopy();
             FeedbackResponseData actualResponse = (FeedbackResponseData) actual;
             FeedbackResponseDetails actualResponseDetails = actualResponse.getResponseDetails();
-            assertEquals(expectedFeedbackResponse.getGiver(), actualResponse.getGiverIdentifier());
-            assertEquals(expectedFeedbackResponse.getRecipient(), actualResponse.getRecipientIdentifier());
+            assertEquals(expectedFeedbackResponse.getGiver().getIdentifier(),
+                    actualResponse.getGiverIdentifier());
+            assertEquals(expectedFeedbackResponse.getRecipient().getIdentifier(),
+                    actualResponse.getRecipientIdentifier());
             assertEquals(expectedResponseDetails.getAnswerString(),
                     actualResponse.getResponseDetails().getAnswerString());
             assertEquals(expectedResponseDetails.getQuestionType(),
@@ -446,7 +450,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     /**
      * Gets the feedback response data for the given question ID, giver, and recipient.
      */
-    protected FeedbackResponseData getFeedbackResponse(String questionId, String giver, String recipient) {
+    protected FeedbackResponseData getFeedbackResponse(String questionId, ResponseGiver giver, ResponseRecipient recipient) {
         return BACKDOOR.getFeedbackResponseData(questionId, giver, recipient);
     }
 

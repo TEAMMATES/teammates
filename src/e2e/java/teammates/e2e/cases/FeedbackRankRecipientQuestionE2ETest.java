@@ -14,6 +14,8 @@ import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}, {@link Const.WebPageURIs#SESSION_SUBMISSION_PAGE}
@@ -126,8 +128,8 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
     private FeedbackResponse getResponse(FeedbackQuestion question, Instructor receiver, int answer) {
         FeedbackRankRecipientsResponseDetails details = new FeedbackRankRecipientsResponseDetails();
         details.setAnswer(answer);
-        FeedbackResponse response = FeedbackResponse.makeResponse(student.getEmail(),
-                student.getSection(), receiver.getEmail(), null, details);
+        FeedbackResponse response = FeedbackResponse.makeResponse(new ResponseGiver(student),
+                new ResponseRecipient(receiver), details);
         question.addFeedbackResponse(response);
         return response;
     }

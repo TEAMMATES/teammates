@@ -22,6 +22,9 @@ public final class Const {
 
     public static final int SECTION_SIZE_LIMIT = 100;
 
+    public static final String UNKNOWN_USER = "Unknown User";
+    public static final String UNKNOWN_TEAM = "Unknown Team";
+    public static final String UNKNOWN_SECTION = "Unknown Section";
     public static final String DEFAULT_SECTION = "None";
 
     public static final String UNKNOWN_INSTITUTION = "Unknown Institution";
@@ -124,7 +127,6 @@ public final class Const {
         public static final String ACCOUNT_REQUEST_ID = "id";
         public static final String ACCOUNT_REQUEST_STATUS = "status";
 
-        public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
         public static final String FEEDBACK_SESSION_ENDTIME = "endtime";
         public static final String FEEDBACK_SESSION_MODERATED_PERSON = "moderatedperson";

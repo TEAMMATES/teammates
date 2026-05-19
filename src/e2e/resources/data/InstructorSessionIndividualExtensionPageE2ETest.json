@@ -224,15 +224,18 @@
   "feedbackResponses": {
     "response1": {
       "id": "00000000-0000-4000-8000-000000000901",
-      "giver": "danny.tmms@gmail.tmt",
-      "recipient": "danny.tmms@gmail.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000604"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000604"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Danny self feedback."
       },
-      "questionId": "00000000-0000-4000-8000-000000000801",
-      "giverSectionId": "00000000-0000-4000-8000-000000000101",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000101"
+      "questionId": "00000000-0000-4000-8000-000000000801"
     }
   }
 }

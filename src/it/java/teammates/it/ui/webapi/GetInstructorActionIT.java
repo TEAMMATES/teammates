@@ -114,7 +114,8 @@ public class GetInstructorActionIT extends BaseActionIT<GetInstructorAction> {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
 
-        verifyAccessibleForUnregisteredUsers(submissionParams);
+        logoutUser();
+        verifyCanAccess(submissionParams);
 
         ______TS("need login for FULL_DETAILS intent");
         submissionParams = new String[] {
