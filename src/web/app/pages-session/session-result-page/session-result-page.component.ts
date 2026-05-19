@@ -160,8 +160,6 @@ export class SessionResultPageComponent implements OnInit {
                       });
                     } else {
                       // Valid, unused registration key; load information based on the key
-                      this.loadCourseInfo();
-                      this.loadPersonName();
                       this.loadFeedbackSession();
                     }
                   } else if (resp.isValid) {
@@ -198,8 +196,6 @@ export class SessionResultPageComponent implements OnInit {
             } else if (this.loggedInUser) {
               // Load information based on logged in user
               // This will also cover preview cases
-              this.loadCourseInfo();
-              this.loadPersonName();
               this.loadFeedbackSession();
             } else {
               this.navigationService.navigateWithErrorMessage(
@@ -308,6 +304,8 @@ export class SessionResultPageComponent implements OnInit {
           );
 
           this.logStudentView();
+          this.loadCourseInfo();
+          this.loadPersonName();
 
           this.feedbackQuestionsService
             .getFeedbackQuestions({
