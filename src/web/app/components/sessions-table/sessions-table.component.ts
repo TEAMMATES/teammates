@@ -268,7 +268,7 @@ export class SessionsTableComponent implements OnInit {
 
   private createCellWithGroupButtonsComponent(sessionTableRowModel: SessionsTableRowModel): SortableTableCellData {
     const { feedbackSession, instructorPrivilege } = sessionTableRowModel;
-    const { courseId, feedbackSessionId, feedbackSessionName, submissionStatus, publishStatus } = feedbackSession;
+    const { feedbackSessionId, submissionStatus, publishStatus } = feedbackSession;
 
     return {
       customComponent: {
@@ -276,8 +276,6 @@ export class SessionsTableComponent implements OnInit {
         componentData: (idx: number) => {
           return {
             idx,
-            courseId,
-            fsName: feedbackSessionName,
             fsId: feedbackSessionId,
             rowClicked: this.rowClicked,
             publishStatus,
