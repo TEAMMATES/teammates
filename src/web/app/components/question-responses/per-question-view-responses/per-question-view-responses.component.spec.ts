@@ -10,7 +10,6 @@ import {
   QuestionRecipientType,
   ResponseOutput,
 } from '../../../../types/api-output';
-import SpyInstance = jest.SpyInstance;
 import { PerQuestionViewResponsesComponent } from './per-question-view-responses.component';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import testEventEmission from '../../../../test-helpers/test-event-emitter';
@@ -119,7 +118,7 @@ describe('PerQuestionViewResponsesComponent', () => {
     component.question = feedbackQuestion;
     component.instructorCommentTableModel = instructorCommentTableModel;
     component.responses = [responseOutput];
-    const feedbackResponseSpy: SpyInstance = jest
+    const feedbackResponseSpy = jest
       .spyOn(feedbackResponsesService, 'isFeedbackResponsesDisplayedOnSection')
       .mockReturnValue(true);
 

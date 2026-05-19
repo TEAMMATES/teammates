@@ -3,7 +3,6 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
-import SpyInstance = jest.SpyInstance;
 import { FeedbackQuestionModel } from './feedback-question.model';
 import { SessionResultPageComponent } from './session-result-page.component';
 import { environment } from '../../../environments/environment';
@@ -244,7 +243,7 @@ describe('SessionResultPageComponent', () => {
     };
     jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
     jest.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    const navSpy: SpyInstance = jest.spyOn(navService, 'navigateByURLWithParamEncoding').mockImplementation();
+    const navSpy = jest.spyOn(navService, 'navigateByURLWithParamEncoding').mockImplementation();
 
     component.ngOnInit();
 
@@ -275,7 +274,7 @@ describe('SessionResultPageComponent', () => {
       }),
     );
     jest.spyOn(feedbackSessionService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    const logSpy: SpyInstance = jest.spyOn(logService, 'createFeedbackSessionLog').mockReturnValue(of('log created'));
+    const logSpy = jest.spyOn(logService, 'createFeedbackSessionLog').mockReturnValue(of('log created'));
 
     component.ngOnInit();
 
@@ -292,7 +291,7 @@ describe('SessionResultPageComponent', () => {
     };
     jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
     jest.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    const navSpy: SpyInstance = jest.spyOn(navService, 'navigateWithErrorMessage').mockImplementation();
+    const navSpy = jest.spyOn(navService, 'navigateWithErrorMessage').mockImplementation();
 
     component.ngOnInit();
 
@@ -315,7 +314,7 @@ describe('SessionResultPageComponent', () => {
     };
     jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
     jest.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    const navSpy: SpyInstance = jest.spyOn(navService, 'navigateWithErrorMessage').mockImplementation();
+    const navSpy = jest.spyOn(navService, 'navigateWithErrorMessage').mockImplementation();
 
     component.ngOnInit();
 
@@ -329,7 +328,7 @@ describe('SessionResultPageComponent', () => {
         error: { message: 'This is error' },
       })),
     );
-    const navSpy: SpyInstance = jest.spyOn(navService, 'navigateWithErrorMessage').mockImplementation();
+    const navSpy = jest.spyOn(navService, 'navigateWithErrorMessage').mockImplementation();
 
     fixture.detectChanges();
     component.ngOnInit();
@@ -341,7 +340,7 @@ describe('SessionResultPageComponent', () => {
   it('should navigate to join course when user click on join course link', () => {
     component.regKey = 'reg-key';
     component.loggedInUser = 'user';
-    const navSpy: SpyInstance = jest.spyOn(navService, 'navigateByURL').mockImplementation();
+    const navSpy = jest.spyOn(navService, 'navigateByURL').mockImplementation();
 
     fixture.detectChanges();
 
@@ -378,7 +377,7 @@ describe('SessionResultPageComponent', () => {
     jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
     jest.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
     jest.spyOn(feedbackSessionService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    const getQuestionsSpy: SpyInstance = jest
+    const getQuestionsSpy = jest
       .spyOn(feedbackQuestionsService, 'getFeedbackQuestions')
       .mockReturnValue(of(testFeedbackQuestions));
 

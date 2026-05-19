@@ -3,7 +3,6 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import SpyInstance = jest.SpyInstance;
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -278,7 +277,7 @@ describe('InstructorCoursesPageComponent', () => {
   });
 
   it('should load all courses by the instructor', () => {
-    const courseSpy: SpyInstance = jest
+    const courseSpy = jest
       .spyOn(courseService, 'getAllCoursesAsInstructor')
       .mockImplementation((courseStatus: string): Observable<Courses> => {
         if (courseStatus === 'active') {
@@ -313,7 +312,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should get the course statistics', () => {
     component.activeCourses = [courseModelCS1231];
-    const studentSpy: SpyInstance = jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+    const studentSpy = jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     component.getCourseStats(0);
 
     expect(studentSpy).toHaveBeenCalledTimes(1);
@@ -329,7 +328,7 @@ describe('InstructorCoursesPageComponent', () => {
     component.softDeletedCourses = [courseModelCS1231];
     expect(component.softDeletedCourses.length).toEqual(1);
 
-    const courseSpy: SpyInstance = jest.spyOn(courseService, 'restoreCourse').mockReturnValue(of(courseModelCS1231));
+    const courseSpy = jest.spyOn(courseService, 'restoreCourse').mockReturnValue(of(courseModelCS1231));
     jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef());
 
     component.onRestore('CS1231');
@@ -342,7 +341,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should soft delete a course', async () => {
     component.activeCourses = [courseModelCS1231];
-    const courseSpy: SpyInstance = jest.spyOn(courseService, 'binCourse').mockReturnValue(of(courseCS1231));
+    const courseSpy = jest.spyOn(courseService, 'binCourse').mockReturnValue(of(courseCS1231));
     jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef());
 
     await component.onDelete('CS1231').then(() => {
@@ -356,9 +355,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should permanently delete a course', async () => {
     component.softDeletedCourses = [courseModelCS1231];
-    const courseSpy: SpyInstance = jest
-      .spyOn(courseService, 'deleteCourse')
-      .mockReturnValue(of({ message: 'Message' }));
+    const courseSpy = jest.spyOn(courseService, 'deleteCourse').mockReturnValue(of({ message: 'Message' }));
     jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef());
 
     await component.onDeletePermanently('CS1231').then(() => {

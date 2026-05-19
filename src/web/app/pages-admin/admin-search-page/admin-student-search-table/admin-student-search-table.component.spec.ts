@@ -3,7 +3,6 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, throwError } from 'rxjs';
-import SpyInstance = jest.SpyInstance;
 import { AdminStudentSearchTableComponent } from './admin-student-search-table.component';
 import { AccountService } from '../../../../services/account.service';
 import { EmailGenerationService } from '../../../../services/email-generation.service';
@@ -161,7 +160,7 @@ describe('AdminStudentSearchTableComponent', () => {
       }),
     );
 
-    const spyStatusMessageService: SpyInstance = jest
+    const spyStatusMessageService = jest
       .spyOn(statusMessageService, 'showSuccessToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual("The student's Google ID has been reset.");
@@ -214,7 +213,7 @@ describe('AdminStudentSearchTableComponent', () => {
       })),
     );
 
-    const spyStatusMessageService: SpyInstance = jest
+    const spyStatusMessageService = jest
       .spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');
@@ -279,7 +278,7 @@ describe('AdminStudentSearchTableComponent', () => {
       }),
     );
 
-    const spyStatusMessageService: SpyInstance = jest
+    const spyStatusMessageService = jest
       .spyOn(statusMessageService, 'showSuccessToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('success');
@@ -353,7 +352,7 @@ describe('AdminStudentSearchTableComponent', () => {
       })),
     );
 
-    const spyStatusMessageService: SpyInstance = jest
+    const spyStatusMessageService = jest
       .spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');
@@ -381,7 +380,7 @@ describe('AdminStudentSearchTableComponent', () => {
       })),
     );
 
-    const spyStatusMessageService: SpyInstance = jest
+    const spyStatusMessageService = jest
       .spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');
@@ -409,7 +408,7 @@ describe('AdminStudentSearchTableComponent', () => {
       })),
     );
 
-    const spyStatusMessageService: SpyInstance = jest
+    const spyStatusMessageService = jest
       .spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');

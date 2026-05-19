@@ -3,7 +3,6 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
-import SpyInstance = jest.SpyInstance;
 import { AdminSearchPageComponent } from './admin-search-page.component';
 import {
   FeedbackSessionsGroup,
@@ -64,7 +63,7 @@ describe('AdminSearchPageComponent', () => {
       })),
     );
 
-    const spyStatusMessageService: SpyInstance = jest
+    const spyStatusMessageService = jest
       .spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message');
@@ -85,7 +84,7 @@ describe('AdminSearchPageComponent', () => {
       }),
     );
 
-    const spyStatusMessageService: SpyInstance = jest
+    const spyStatusMessageService = jest
       .spyOn(statusMessageService, 'showWarningToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('No results found.');

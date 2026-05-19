@@ -4,7 +4,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, provideRouter } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, throwError } from 'rxjs';
-import SpyInstance = jest.SpyInstance;
 import { SimpleModalType } from './components/simple-modal/simple-modal-type';
 import { UserJoinPageComponent } from './user-join-page.component';
 import { AccountService } from '../services/account.service';
@@ -154,8 +153,8 @@ describe('UserJoinPageComponent', () => {
     component.entityType = params[1];
     component.validUrl = true;
 
-    const courseSpy: SpyInstance = jest.spyOn(courseService, 'joinCourse').mockReturnValue(of({}));
-    const navSpy: SpyInstance = jest.spyOn(navService, 'navigateByURL').mockImplementation();
+    const courseSpy = jest.spyOn(courseService, 'joinCourse').mockReturnValue(of({}));
+    const navSpy = jest.spyOn(navService, 'navigateByURL').mockImplementation();
 
     fixture.detectChanges();
 
@@ -188,7 +187,7 @@ describe('UserJoinPageComponent', () => {
         hasJoined: true,
       }),
     );
-    const navSpy: SpyInstance = jest.spyOn(navService, 'navigateByURL').mockImplementation();
+    const navSpy = jest.spyOn(navService, 'navigateByURL').mockImplementation();
 
     component.ngOnInit();
 
@@ -290,12 +289,12 @@ describe('UserJoinPageComponent creating account', () => {
     component.entityType = 'instructor';
     component.validUrl = true;
 
-    const accountSpy: SpyInstance = jest.spyOn(accountService, 'createAccount').mockReturnValue(
+    const accountSpy = jest.spyOn(accountService, 'createAccount').mockReturnValue(
       of({
         message: 'test message',
       }),
     );
-    const navSpy: SpyInstance = jest.spyOn(navService, 'navigateByURL').mockImplementation();
+    const navSpy = jest.spyOn(navService, 'navigateByURL').mockImplementation();
     jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('UTC');
 
     fixture.detectChanges();
@@ -329,7 +328,7 @@ describe('UserJoinPageComponent creating account', () => {
         hasJoined: true,
       }),
     );
-    const navSpy: SpyInstance = jest.spyOn(navService, 'navigateByURL').mockImplementation();
+    const navSpy = jest.spyOn(navService, 'navigateByURL').mockImplementation();
 
     component.ngOnInit();
 

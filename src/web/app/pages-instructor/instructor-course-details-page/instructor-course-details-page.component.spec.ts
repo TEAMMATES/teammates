@@ -3,7 +3,6 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
-import SpyInstance = jest.SpyInstance;
 import { InstructorCourseDetailsPageComponent } from './instructor-course-details-page.component';
 import { CourseStatistics } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -175,7 +174,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
 
     const promise: Promise<void> = Promise.resolve();
 
-    const spySimpleModalService: SpyInstance = jest
+    const spySimpleModalService = jest
       .spyOn(simpleModalService, 'openConfirmationModal')
       .mockReturnValue(createMockNgbModalRef({}, promise));
 
@@ -199,7 +198,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
     component.courseDetails = courseDetails;
     fixture.detectChanges();
 
-    const spyStudentService: SpyInstance = jest
+    const spyStudentService = jest
       .spyOn(studentService, 'batchDeleteStudentsFromCourse')
       .mockReturnValue(of({ message: 'Successful' }));
 
@@ -237,7 +236,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
       })),
     );
 
-    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
+    const spy = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
       expect(args).toEqual('This is the error message.');
     });
 

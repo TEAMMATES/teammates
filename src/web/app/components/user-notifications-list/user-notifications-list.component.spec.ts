@@ -4,7 +4,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import moment from 'moment-timezone';
 import { of } from 'rxjs';
-import SpyInstance = jest.SpyInstance;
 import { NotificationTab, UserNotificationsListComponent } from './user-notifications-list.component';
 import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -101,7 +100,7 @@ describe('UserNotificationsListComponent', () => {
   });
 
   it('should mark notification as read when button is clicked', () => {
-    const apiSpy: SpyInstance = jest
+    const apiSpy = jest
       .spyOn(notificationService, 'markNotificationAsRead')
       .mockImplementation((request: MarkNotificationAsReadRequest) => {
         expect(request.notificationId).toEqual(testNotificationOne.notificationId);
@@ -109,11 +108,9 @@ describe('UserNotificationsListComponent', () => {
           readNotifications: [request.notificationId],
         });
       });
-    const messageSpy: SpyInstance = jest
-      .spyOn(statusMessageService, 'showSuccessToast')
-      .mockImplementation((args: string) => {
-        expect(args).toEqual('Notification marked as read.');
-      });
+    const messageSpy = jest.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
+      expect(args).toEqual('Notification marked as read.');
+    });
 
     component.notificationTabs = getNotificationTabs([testNotificationOne]);
     fixture.detectChanges();

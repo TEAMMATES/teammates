@@ -3,7 +3,6 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { of } from 'rxjs';
-import SpyInstance = jest.SpyInstance;
 import { InstructorStudentActivityLogsComponent } from './instructor-student-activity-logs.component';
 import { LogService } from '../../../services/log.service';
 import { StudentService } from '../../../services/student.service';
@@ -196,7 +195,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
   });
 
   it('should load all students of selected course has on select', () => {
-    const studentSpy: SpyInstance = jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
+    const studentSpy = jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
       of({
         students: [testStudent],
       }),
@@ -210,7 +209,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
   });
 
   it('should load students from cache if present', () => {
-    const studentSpy: SpyInstance = jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
+    const studentSpy = jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
       of({
         students: [testStudent],
       }),
@@ -225,10 +224,10 @@ describe('InstructorStudentActivityLogsComponent', () => {
   });
 
   it('should search for logs using feedback course timezone when search button is clicked', () => {
-    const logSpy: SpyInstance = jest
+    const logSpy = jest
       .spyOn(logService, 'searchFeedbackSessionLog')
       .mockReturnValue(of({ feedbackSessionLogs: [testLogs1, testLogs2] }));
-    const timeSpy: SpyInstance = jest.spyOn(timezoneService, 'resolveLocalDateTime');
+    const timeSpy = jest.spyOn(timezoneService, 'resolveLocalDateTime');
     const tzOffset: number = timezoneService.getTzOffsets()[testCourse1.timeZone];
 
     component.isLoading = false;
