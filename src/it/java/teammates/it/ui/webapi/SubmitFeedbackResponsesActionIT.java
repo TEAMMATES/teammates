@@ -108,16 +108,12 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         Instant startTime = TimeHelper.getInstantDaysOffsetFromNow(days);
 
         session.setStartTime(startTime);
-
-        HibernateUtil.flushSession();
     }
 
     private void setEndTime(FeedbackSession session, int days) {
         Instant endTime = TimeHelper.getInstantDaysOffsetFromNow(days);
 
         session.setEndTime(endTime);
-
-        HibernateUtil.flushSession();
     }
 
     private void setUserDeadlineExtension(FeedbackSession session, User user, int days)
@@ -293,20 +289,21 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
     private void validateDatabaseWithRecipientEmails(FeedbackSession session, FeedbackQuestion feedbackQuestion,
             String giverEmail, List<String> recipientEmails) {
-
+        List<FeedbackResponse> responses = logic.getFeedbackQuestion(feedbackQuestion.getId())
+                .getFeedbackResponses().stream()
+                .toList();
         for (String recipientEmail : recipientEmails) {
-            List<FeedbackResponse> feedbackResponses =
-                    logic.getFeedbackResponsesFromGiverForCourse(session.getCourseId(), giverEmail)
-                            .stream()
-                            .filter(response -> response.getRecipient().equals(recipientEmail))
-                            .toList();
+            List<FeedbackResponse> feedbackResponses = responses.stream()
+                    .filter(response -> response.getGiver().getIdentifier().equals(giverEmail))
+                    .filter(response -> response.getRecipient().getIdentifier().equals(recipientEmail))
+                    .toList();
 
             for (FeedbackResponse feedbackResponse : feedbackResponses) {
                 FeedbackQuestion frFeedbackQuestion = feedbackResponse.getFeedbackQuestion();
 
                 assertEquals(frFeedbackQuestion, feedbackQuestion);
-                assertEquals(feedbackResponse.getGiver(), giverEmail);
-                assertEquals(feedbackResponse.getRecipient(), recipientEmail);
+                assertEquals(feedbackResponse.getGiver().getIdentifier(), giverEmail);
+                assertEquals(feedbackResponse.getRecipient().getIdentifier(), recipientEmail);
 
                 assertEquals(session.getName(), feedbackQuestion.getFeedbackSessionName());
                 assertEquals(session.getCourseId(), feedbackQuestion.getCourseId());
@@ -394,7 +391,6 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
 
         questionNumber = 2;
         submissionParams = buildSubmissionParams(session, questionNumber, Intent.STUDENT_SUBMISSION);
-
         verifyCannotAccess(submissionParams);
 
         ______TS("Typical success with students: redundant deadline extension");
@@ -592,7 +588,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
         submissionParams = buildSubmissionParams(session, questionNumber, Intent.INSTRUCTOR_SUBMISSION);
 
         verifyCanAccess(submissionParams);
-        verifyCanMasquerade(instructor.getGoogleId(), submissionParams);
+        verifyCannotMasquerade(instructor.getGoogleId(), submissionParams);
 
         ______TS("Failure with instructor: instructor has no modify session comment privileges");
         loginInstructor("instructor1OfCourse1");

@@ -64,21 +64,6 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
                 Const.ParamsNames.ENTITY_TYPE, "dummy",
         };
         verifyHttpParameterFailure(invalidEntityParams);
-
-        String[] adminParams = new String[] {
-                Const.ParamsNames.SEARCH_KEY, "dummy",
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
-        };
-        String[] instructorParams = new String[] {
-                Const.ParamsNames.SEARCH_KEY, "dummy",
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
-        };
-
-        loginAsAdmin();
-        verifyHttpParameterFailure(instructorParams);
-
-        loginAsInstructor(instructor1OfCourse1.getGoogleId());
-        verifyHttpParameterFailure(adminParams);
     }
 
     @Test
@@ -187,8 +172,8 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
     @Override
     @Test
     protected void testAccessControl() throws InvalidParametersException, EntityAlreadyExistsException {
-        verifyAccessibleForAdmin();
+        verifyAccessibleForAdmin(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN);
         Course course = typicalBundle.courses.get("course1");
-        verifyOnlyInstructorsCanAccess(course);
+        verifyOnlyInstructorsCanAccess(course, Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR);
     }
 }

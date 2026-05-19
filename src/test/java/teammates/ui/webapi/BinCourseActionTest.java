@@ -109,6 +109,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
                 Const.ParamsNames.COURSE_ID, "course-id",
         };
 
+        when(mockLogic.getInstructorByGoogleId("course-id", googleId)).thenReturn(null);
         loginAsStudent(googleId);
         verifyCannotAccess(params);
 

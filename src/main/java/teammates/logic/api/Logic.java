@@ -820,6 +820,13 @@ public class Logic {
     }
 
     /**
+     * Gets a user by associated {@code regkey}.
+     */
+    public User getUserByRegistrationKey(String regKey) {
+        return usersLogic.getUserByRegistrationKey(regKey);
+    }
+
+    /**
      * Gets an instructor by associated {@code googleId}.
      */
     public Instructor getInstructorByGoogleId(String courseId, String googleId) {
@@ -1494,20 +1501,6 @@ public class Logic {
      */
     public void deleteFeedbackResponseComment(UUID frcId) {
         feedbackResponseCommentsLogic.deleteFeedbackResponseComment(frcId);
-    }
-
-    /**
-     * Gets all feedback responses from a giver for a question.
-     */
-    public List<FeedbackResponse> getFeedbackResponsesFromGiverForCourse(String courseId, String giverEmail) {
-        return feedbackResponsesLogic.getFeedbackResponsesFromGiverForCourse(courseId, giverEmail);
-    }
-
-    /**
-     * Gets all feedback responses for a recipient for a course.
-     */
-    public List<FeedbackResponse> getFeedbackResponsesForRecipientForCourse(String courseId, String recipientEmail) {
-        return feedbackResponsesLogic.getFeedbackResponsesForRecipientForCourse(courseId, recipientEmail);
     }
 
     /**

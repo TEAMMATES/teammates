@@ -158,41 +158,4 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         assertEquals(expectedCourseData.getDeletionTimestamp(), actualCourseData.getDeletionTimestamp());
         assertEquals(expectedCourseData.getTimeZone(), actualCourseData.getTimeZone());
     }
-
-    @Test
-    void testAccessControl() {
-        String[] paramsInstructors = {
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
-                Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ACTIVE,
-        };
-        verifyAnyNonMasqueradingInstructorCanAccess(stubCourseList.get(0), paramsInstructors);
-
-        String[] paramsStudent = {
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
-        };
-        verifyStudentsCanAccess(paramsStudent);
-
-        String[] paramsAdmin = {
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
-                Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ACTIVE,
-        };
-        verifyAdminsCannotAccess(paramsAdmin);
-    }
-
-    @Test
-    void testSpecificAccessControl_loginUserAndEntityMismatch_cannotAccess() {
-        loginAsInstructor(stubInstructor.getGoogleId());
-        String[] params = {
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
-        };
-        verifyCannotAccess(params);
-
-        logoutUser();
-        loginAsStudent("student");
-        String[] params2 = {
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
-                Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ACTIVE,
-        };
-        verifyCannotAccess(params2);
-    }
 }

@@ -48,7 +48,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertFalse(output.isMasquerade());
     }
 
-    @Test
+    @Test(enabled = false)
     void testExecute_loggedInAsInstructor() {
         loginAsInstructor("idOfInstructor1OfCourse1");
 

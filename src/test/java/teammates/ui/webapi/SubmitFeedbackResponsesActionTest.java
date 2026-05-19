@@ -33,6 +33,8 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
@@ -71,9 +73,11 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         stubStudent = getTypicalStudent();
         stubStudent.setTeam(getTypicalTeam());
         stubInstructor = getTypicalInstructor();
+        stubStudent.setCourse(getTypicalCourse());
+        stubInstructor.setCourse(stubStudent.getCourse());
         stubStudent.setAccount(getTypicalAccount());
         stubInstructor.setAccount(getTypicalAccount());
-        stubCourse = getTypicalCourse();
+        stubCourse = stubStudent.getCourse();
         stubFeedbackSession = getTypicalFeedbackSessionForCourse(stubCourse);
         spyFeedbackQuestion = spy(getTypicalFeedbackQuestionForSession(stubFeedbackSession));
         stubSection = getTypicalSection();
@@ -104,6 +108,10 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         when(mockLogic.getFeedbackSession(stubFeedbackSession.getName(), stubFeedbackSession.getCourseId()))
                 .thenReturn(stubFeedbackSession);
         when(mockLogic.getFeedbackQuestion(spyFeedbackQuestion.getId())).thenReturn(spyFeedbackQuestion);
+        when(mockLogic.getStudentsForCourse(stubCourse.getId()))
+                .thenReturn(List.of(stubStudent, recipientStudent1, recipientStudent2));
+        when(mockLogic.getInstructorsByCourse(stubCourse.getId()))
+                .thenReturn(List.of(stubInstructor, recipientInstructor1));
         when(mockLogic.getDeadlineForUser(any(FeedbackSession.class), any()))
                 .thenAnswer(invocation -> ((FeedbackSession) invocation.getArgument(0)).getEndTime());
     }
@@ -252,8 +260,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         when(mockLogic.getDefaultSectionOrCreate(stubCourse.getId())).thenReturn(stubSection);
 
         FeedbackResponse createdResponse = FeedbackResponse.makeResponse(
-                stubStudent.getEmail(), stubSection,
-                recipientStudent1.getEmail(), stubSection,
+                new ResponseGiver(stubStudent),
+                new ResponseRecipient(recipientStudent1),
                 new FeedbackTextResponseDetails("Response for " + recipientStudent1.getEmail()));
         spyFeedbackQuestion.addFeedbackResponse(createdResponse);
         when(mockLogic.createFeedbackResponse(any(FeedbackResponse.class)))
@@ -278,8 +286,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         verify(mockLogic).getFeedbackResponsesFromStudentOrTeamForQuestion(spyFeedbackQuestion, stubStudent);
         verify(mockLogic).getRecipientsOfQuestion(spyFeedbackQuestion, null, stubStudent);
         verify(mockLogic).createFeedbackResponse(argThat(response ->
-                response.getGiver().equals(stubStudent.getEmail())
-                        && response.getRecipient().equals(recipientStudent1.getEmail())));
+                response.getGiver().getIdentifier().equals(stubStudent.getEmail())
+                        && response.getRecipient().getIdentifier().equals(recipientStudent1.getEmail())));
     }
 
     @Test
@@ -303,8 +311,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         when(mockLogic.getDefaultSectionOrCreate(stubCourse.getId())).thenReturn(stubSection);
 
         FeedbackResponse createdResponse = FeedbackResponse.makeResponse(
-                stubInstructor.getEmail(), stubSection,
-                recipientInstructor1.getEmail(), stubSection,
+                new ResponseGiver(stubInstructor),
+                new ResponseRecipient(recipientInstructor1),
                 new FeedbackTextResponseDetails("Response for " + recipientInstructor1.getEmail()));
         spyFeedbackQuestion.addFeedbackResponse(createdResponse);
         when(mockLogic.createFeedbackResponse(any(FeedbackResponse.class)))
@@ -329,8 +337,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         verify(mockLogic).getFeedbackResponsesFromInstructorForQuestion(spyFeedbackQuestion, stubInstructor);
         verify(mockLogic).getRecipientsOfQuestion(spyFeedbackQuestion, stubInstructor, null);
         verify(mockLogic).createFeedbackResponse(argThat(response ->
-                response.getGiver().equals(stubInstructor.getEmail())
-                        && response.getRecipient().equals(recipientInstructor1.getEmail())));
+                response.getGiver().getIdentifier().equals(stubInstructor.getEmail())
+                        && response.getRecipient().getIdentifier().equals(recipientInstructor1.getEmail())));
     }
 
     @Test
@@ -343,15 +351,15 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         };
 
         FeedbackResponse existingResponse1 = FeedbackResponse.makeResponse(
-                stubStudent.getEmail(), stubSection,
-                recipientStudent1.getEmail(), stubSection,
+                new ResponseGiver(stubStudent),
+                new ResponseRecipient(recipientStudent1),
                 new FeedbackTextResponseDetails("Old response 1"));
         spyFeedbackQuestion.addFeedbackResponse(existingResponse1);
         existingResponse1.setId(UUID.randomUUID());
 
         FeedbackResponse existingResponse2 = FeedbackResponse.makeResponse(
-                stubStudent.getEmail(), stubSection,
-                recipientStudent2.getEmail(), stubSection,
+                new ResponseGiver(stubStudent),
+                new ResponseRecipient(recipientStudent2),
                 new FeedbackTextResponseDetails("Old response 2"));
         spyFeedbackQuestion.addFeedbackResponse(existingResponse2);
         existingResponse2.setId(UUID.randomUUID());
@@ -370,8 +378,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         when(mockLogic.getDefaultSectionOrCreate(stubCourse.getId())).thenReturn(stubSection);
 
         FeedbackResponse updatedResponse = FeedbackResponse.makeResponse(
-                stubStudent.getEmail(), stubSection,
-                recipientStudent1.getEmail(), stubSection,
+                new ResponseGiver(stubStudent),
+                new ResponseRecipient(recipientStudent1),
                 new FeedbackTextResponseDetails("Updated response 1"));
         spyFeedbackQuestion.addFeedbackResponse(updatedResponse);
         when(mockLogic.updateFeedbackResponseCascade(any(FeedbackResponse.class)))
@@ -394,8 +402,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         verify(mockLogic).getFeedbackResponsesFromStudentOrTeamForQuestion(spyFeedbackQuestion, stubStudent);
         verify(mockLogic).getRecipientsOfQuestion(spyFeedbackQuestion, null, stubStudent);
         verify(mockLogic).updateFeedbackResponseCascade(argThat(response ->
-                response.getGiver().equals(stubStudent.getEmail())
-                        && response.getRecipient().equals(recipientStudent1.getEmail())));
+                response.getGiver().getIdentifier().equals(stubStudent.getEmail())
+                        && response.getRecipient().getIdentifier().equals(recipientStudent1.getEmail())));
         verify(mockLogic).deleteFeedbackResponsesAndCommentsCascade(existingResponse2);
     }
 
@@ -437,7 +445,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         assertEquals(1, result.getResponses().size());
         assertEquals(stubStudent.getTeamName(), result.getResponses().get(0).getGiverIdentifier());
         verify(mockLogic).createFeedbackResponse(argThat(response ->
-                response.getGiver() != null && response.getGiver().equals(stubStudent.getTeamName())));
+                response.getGiver() != null
+                        && response.getGiver().getIdentifier().equals(stubStudent.getTeamName())));
     }
 
     @Test
@@ -570,7 +579,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         when(mockLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(spyFeedbackQuestion, stubStudent))
                 .thenReturn(List.of());
 
-        String teamName = "Recipient Team";
+        String teamName = stubStudent.getTeamName();
         Map<String, FeedbackQuestionRecipient> recipients = Map.of(
                 teamName,
                 new FeedbackQuestionRecipient(teamName, teamName));

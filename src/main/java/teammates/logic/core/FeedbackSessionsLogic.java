@@ -23,6 +23,7 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseGiver;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 
 /**
@@ -87,9 +88,7 @@ public final class FeedbackSessionsLogic {
      * Gets all feedback sessions of a course, except those that are soft-deleted.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {
-        return fsDb.getFeedbackSessionEntitiesForCourse(courseId).stream()
-                .filter(fs -> fs.getDeletedAt() == null)
-                .collect(Collectors.toList());
+        return fsDb.getFeedbackSessionsForCourse(courseId);
     }
 
     /**
@@ -103,9 +102,7 @@ public final class FeedbackSessionsLogic {
      * Gets all feedback sessions of a course started after time, except those that are soft-deleted.
      */
     public List<FeedbackSession> getFeedbackSessionsForCourseStartingAfter(String courseId, Instant after) {
-        return fsDb.getFeedbackSessionEntitiesForCourseStartingAfter(courseId, after).stream()
-                .filter(session -> session.getDeletedAt() == null)
-                .collect(Collectors.toList());
+        return fsDb.getFeedbackSessionsForCourseStartingAfter(courseId, after);
     }
 
     /**
@@ -172,6 +169,7 @@ public final class FeedbackSessionsLogic {
         return feedbackSession.getFeedbackQuestions().stream()
                 .flatMap(question -> question.getFeedbackResponses().stream())
                 .map(FeedbackResponse::getGiver)
+                .map(ResponseGiver::getIdentifier)
                 .collect(Collectors.toUnmodifiableSet());
     }
 

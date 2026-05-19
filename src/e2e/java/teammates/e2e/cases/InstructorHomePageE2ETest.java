@@ -20,6 +20,7 @@ import teammates.e2e.util.EntityCopyUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.Student;
 import teammates.test.ThreadHelper;
 import teammates.ui.output.FeedbackSessionData;
@@ -220,7 +221,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
                 .filter(s -> s.getCourseId().equals(session.getCourseId()))
                 .count();
 
-        Set<String> uniqueGivers = new HashSet<>();
+        Set<ResponseGiver> uniqueGivers = new HashSet<>();
         testData.feedbackResponses.values()
                 .stream()
                 .filter(r -> r.getFeedbackQuestion().getFeedbackSessionName().equals(sessionName))

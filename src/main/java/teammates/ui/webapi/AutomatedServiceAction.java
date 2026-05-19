@@ -26,8 +26,8 @@ abstract class AutomatedServiceAction extends Action {
     }
 
     boolean canAccessAsAdminOrAutomatedService() {
-        return authType == AuthType.AUTOMATED_SERVICE
-                || authContext != null && authContext.isAdmin();
+        return authContext.authType() == AuthType.AUTOMATED_SERVICE
+                || authContext.isAdmin();
     }
 
 }

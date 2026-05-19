@@ -32,10 +32,6 @@ public class GetFeedbackSessionLogsAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (!authContext.isInstructor()) {
-            throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
-        }
-
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         Course course = logic.getCourse(courseId);
         if (course == null) {
@@ -51,7 +47,7 @@ public class GetFeedbackSessionLogsAction extends Action {
             }
         }
 
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
         gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
         gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_SESSION);
         gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);

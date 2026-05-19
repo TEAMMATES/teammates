@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { finalize, map, switchMap } from 'rxjs/operators';
 import { InstructorExtensionTableColumnModel, StudentExtensionTableColumnModel } from './extension-table-column-model';
 import { IndividualExtensionDateModalComponent } from './individual-extension-date-modal/individual-extension-date-modal.component';
 import { CourseService } from '../../../services/course.service';
@@ -113,8 +113,6 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.courseId = queryParams.courseid;
-      this.feedbackSessionName = queryParams.fsname;
       this.feedbackSessionId = queryParams.fsid;
       this.isAllYetToSubmitInstructorsSelected = queryParams.preselectnonsubmitters === 'true';
       this.isAllYetToSubmitStudentsSelected = queryParams.preselectnonsubmitters === 'true';
@@ -133,15 +131,22 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
     this.hasLoadingFeedbackSessionFailed = false;
     this.isLoadingAllInstructors = true;
     this.hasLoadedAllInstructorsFailed = false;
-    forkJoin([
-      this.courseService.getCourseAsInstructor(this.courseId),
-      this.feedbackSessionsService.getFeedbackSession({
+    this.feedbackSessionsService
+      .getFeedbackSession({
         feedbackSessionId: this.feedbackSessionId,
         intent: Intent.FULL_DETAIL,
-      }),
-      this.feedbackSessionsService.getFeedbackSessionDeadlineExtensions(this.feedbackSessionId),
-    ])
+      })
       .pipe(
+        switchMap((feedbackSession: FeedbackSession) => {
+          this.feedbackSessionName = feedbackSession.feedbackSessionName;
+          this.courseId = feedbackSession.courseId;
+          this.setFeedbackSessionDetails(feedbackSession);
+
+          return forkJoin([
+            this.courseService.getCourseAsInstructor(this.courseId),
+            this.feedbackSessionsService.getFeedbackSessionDeadlineExtensions(this.feedbackSessionId),
+          ]);
+        }),
         finalize(() => {
           this.isLoadingFeedbackSession = false;
           this.isLoadingAllStudents = false;
@@ -149,9 +154,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
         }),
       )
       .subscribe({
-        next: ([course, feedbackSession, deadlineExtensions]: [Course, FeedbackSession, DeadlineExtensions]) => {
+        next: ([course, deadlineExtensions]: [Course, DeadlineExtensions]) => {
           this.courseName = course.courseName;
-          this.setFeedbackSessionDetails(feedbackSession);
           this.userDeadlines = deadlineExtensions.userDeadlines;
           this.getAllStudentsOfCourse(); // Both students and instructors need feedback ending time.
           this.getAllInstructorsOfCourse();

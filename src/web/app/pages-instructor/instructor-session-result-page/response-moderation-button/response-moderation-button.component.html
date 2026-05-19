@@ -1,8 +1,6 @@
 <a
   [tmRouterLink]="isGiverInstructor ? '/web/instructor/sessions/submission' : '/web/sessions/submission'"
   [queryParams]="{
-    courseid: session.courseId,
-    fsname: session.feedbackSessionName,
     fsid: session.feedbackSessionId,
     moderatedperson: relatedGiverEmail,
     moderatedquestionId: moderatedQuestionId,

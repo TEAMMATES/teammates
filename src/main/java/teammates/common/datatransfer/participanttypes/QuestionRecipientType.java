@@ -73,24 +73,4 @@ public enum QuestionRecipientType {
         return this == TEAMS || this == TEAMS_EXCLUDING_SELF || this == OWN_TEAM || this == TEAMS_IN_SAME_SECTION;
     }
 
-    /**
-     * Formats the participant type as a singular noun.
-     *
-     * @return A user-friendly {@code String} representing this participant in
-     *         singular form.
-     */
-    public String toSingularFormString() {
-        switch (this) {
-        case INSTRUCTORS:
-            return "instructor";
-        case STUDENTS, STUDENTS_IN_SAME_SECTION, STUDENTS_EXCLUDING_SELF, OWN_TEAM_MEMBERS,
-                OWN_TEAM_MEMBERS_INCLUDING_SELF:
-            return "student";
-        case TEAMS, TEAMS_EXCLUDING_SELF, TEAMS_IN_SAME_SECTION, OWN_TEAM:
-            return "team";
-        default:
-            return super.toString();
-        }
-    }
-
 }

@@ -132,6 +132,8 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
         };
+
+        when(mockLogic.getInstructorByGoogleId(course.getId(), "random-id")).thenReturn(null);
         loginAsStudent("random-id");
         verifyCannotAccess(params);
 

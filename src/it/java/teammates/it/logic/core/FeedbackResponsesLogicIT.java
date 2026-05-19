@@ -11,7 +11,9 @@ import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.Section;
+import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
+import teammates.storage.entity.Student;
 
 /**
  * SUT: {@link FeedbackResponsesLogic}.
@@ -54,23 +56,19 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithDatabaseAccess {
         FeedbackResponse fr = typicalDataBundle.feedbackResponses.get("response1ForQ1");
         fr = frLogic.getFeedbackResponse(fr.getId());
 
-        Section newGiverSection = typicalDataBundle.sections.get("section1InCourse2");
-        Section newRecipientSection = typicalDataBundle.sections.get("section2InCourse1");
-        String newGiver = "new test giver";
+        Student newGiver = typicalDataBundle.students.get("student2InCourse1");
+        Student newRecipient = typicalDataBundle.students.get("student4InCourse1");
 
-        assertNotEquals(fr.getGiver(), newGiver);
-        assertNotEquals(fr.getGiverSection(), newGiverSection);
-        assertNotEquals(fr.getRecipientSection(), newRecipientSection);
+        assertNotEquals(fr.getGiver().getIdentifier(), newGiver.getEmail());
+        assertNotEquals(fr.getRecipient().getIdentifier(), newRecipient.getEmail());
 
-        fr.setGiver(newGiver);
-        fr.setGiverSection(newGiverSection);
-        fr.setRecipientSection(newRecipientSection);
+        fr.setGiver(new ResponseGiver(newGiver));
+        fr.setRecipient(new ResponseRecipient(newRecipient));
 
         fr = frLogic.updateFeedbackResponse(fr);
 
         fr = frLogic.getFeedbackResponse(fr.getId());
-        assertEquals(fr.getGiver(), newGiver);
-        assertEquals(fr.getGiverSection(), newGiverSection);
-        assertEquals(fr.getRecipientSection(), newRecipientSection);
+        assertEquals(fr.getGiver().getIdentifier(), newGiver.getEmail());
+        assertEquals(fr.getRecipient().getIdentifier(), newRecipient.getEmail());
     }
 }

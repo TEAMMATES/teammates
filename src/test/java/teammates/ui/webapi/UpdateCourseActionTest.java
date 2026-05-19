@@ -147,6 +147,8 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "course-id",
         };
+
+        when(mockLogic.getInstructorByGoogleId("course-id", googleId)).thenReturn(null);
         loginAsStudent(googleId);
         verifyCannotAccess(params);
 

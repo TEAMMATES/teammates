@@ -104,6 +104,7 @@ public class RestoreCourseActionTest extends BaseActionTest<RestoreCourseAction>
                 Const.ParamsNames.COURSE_ID, "course-id",
         };
 
+        when(mockLogic.getInstructorByGoogleId("course-id", googleId)).thenReturn(null);
         loginAsStudent(googleId);
         verifyCannotAccess(params);
 

@@ -70,7 +70,7 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
             break;
         case INSTRUCTOR_RESULT:
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
-            Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
+            Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
             if (instructor == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
             }
@@ -79,9 +79,12 @@ public class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionA
             }
 
             FeedbackResponse response = comment.getFeedbackResponse();
-            gateKeeper.verifyAccessible(instructor, session, response.getGiverSection().getName(),
+            ResponseGiver giver = response.getGiver();
+            String giverSectionName = giver.getSectionName();
+            String recipientSectionName = response.getRecipient().getSectionName();
+            gateKeeper.verifyAccessible(instructor, session, giverSectionName,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-            gateKeeper.verifyAccessible(instructor, session, response.getRecipientSection().getName(),
+            gateKeeper.verifyAccessible(instructor, session, recipientSectionName,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
             break;
         default:

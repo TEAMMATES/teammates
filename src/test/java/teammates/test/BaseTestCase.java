@@ -40,6 +40,7 @@ import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -198,9 +199,10 @@ public class BaseTestCase {
     }
 
     protected FeedbackResponse getTypicalFeedbackResponseForQuestion(FeedbackQuestion question) {
+        Student receiver = getTypicalStudent();
+        Student giver = getTypicalStudent();
         FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
-                "test-giver", getTypicalSection(), "test-recipient",
-                getTypicalSection(), getTypicalFeedbackResponseDetails());
+                new ResponseGiver(giver), new ResponseRecipient(receiver), getTypicalFeedbackResponseDetails());
         question.addFeedbackResponse(feedbackResponse);
         return feedbackResponse;
     }

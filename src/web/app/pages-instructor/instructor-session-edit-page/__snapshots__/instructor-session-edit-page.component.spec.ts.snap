@@ -7,7 +7,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   changeDetectorRef={[Function ViewRef]}
-  courseId="undefined"
+  courseId=""
   courseName=""
   courseService={[Function CourseService]}
   coursesOfModifiedSession={[Function Array]}
@@ -20,7 +20,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
   feedbackSessionId="undefined"
   feedbackSessionModelBeforeEditing={[Function Object]}
-  feedbackSessionName="undefined"
+  feedbackSessionName=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed={[Function Boolean]}
   hasLoadingFeedbackSessionFailed="false"
@@ -104,7 +104,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   changeDetectorRef={[Function ViewRef]}
-  courseId="undefined"
+  courseId=""
   courseName=""
   courseService={[Function CourseService]}
   coursesOfModifiedSession={[Function Array]}
@@ -117,7 +117,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
   feedbackSessionId="undefined"
   feedbackSessionModelBeforeEditing={[Function Object]}
-  feedbackSessionName="undefined"
+  feedbackSessionName=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
@@ -201,7 +201,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   changeDetectorRef={[Function ViewRef]}
-  courseId="undefined"
+  courseId=""
   courseName=""
   courseService={[Function CourseService]}
   coursesOfModifiedSession={[Function Array]}
@@ -214,7 +214,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
   feedbackSessionId="undefined"
   feedbackSessionModelBeforeEditing={[Function Object]}
-  feedbackSessionName="undefined"
+  feedbackSessionName=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed={[Function Boolean]}
@@ -301,7 +301,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   changeDetectorRef={[Function ViewRef]}
-  courseId="undefined"
+  courseId=""
   courseName=""
   courseService={[Function CourseService]}
   coursesOfModifiedSession={[Function Array]}
@@ -314,7 +314,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
   feedbackSessionId="undefined"
   feedbackSessionModelBeforeEditing={[Function Object]}
-  feedbackSessionName="undefined"
+  feedbackSessionName=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
@@ -398,7 +398,7 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   changeDetectorRef={[Function ViewRef]}
-  courseId="undefined"
+  courseId=""
   courseName=""
   courseService={[Function CourseService]}
   coursesOfModifiedSession={[Function Array]}
@@ -411,7 +411,7 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
   feedbackSessionId="undefined"
   feedbackSessionModelBeforeEditing={[Function Object]}
-  feedbackSessionName="undefined"
+  feedbackSessionName=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
@@ -1230,7 +1230,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   >
                     <a
                       class="ps-3 pt-2"
-                      href="/web/instructor/sessions/individual-extension?courseid=testId&fsname=test%20session&fsid=ee47e471-fbd8-478e-a350-51152802215b&preselectnonsubmitters=false"
+                      href="/web/instructor/sessions/individual-extension?fsid=ee47e471-fbd8-478e-a350-51152802215b&preselectnonsubmitters=false"
                       tmrouterlink="/web/instructor/sessions/individual-extension"
                     >
                        Individual Deadline Extensions 
@@ -3761,7 +3761,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   changeDetectorRef={[Function ViewRef]}
-  courseId="undefined"
+  courseId=""
   courseName=""
   courseService={[Function CourseService]}
   coursesOfModifiedSession={[Function Array]}
@@ -3774,7 +3774,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
   feedbackSessionId="undefined"
   feedbackSessionModelBeforeEditing={[Function Object]}
-  feedbackSessionName="undefined"
+  feedbackSessionName=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
@@ -4493,7 +4493,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   >
                     <a
                       class="ps-3 pt-2"
-                      href="/web/instructor/sessions/individual-extension?courseid=&fsname=&fsid=&preselectnonsubmitters=false"
+                      href="/web/instructor/sessions/individual-extension?fsid=&preselectnonsubmitters=false"
                       tmrouterlink="/web/instructor/sessions/individual-extension"
                     >
                        Individual Deadline Extensions 

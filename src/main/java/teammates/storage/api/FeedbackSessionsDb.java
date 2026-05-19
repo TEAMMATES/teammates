@@ -157,17 +157,20 @@ public final class FeedbackSessionsDb {
     }
 
     /**
-     * Gets feedback sessions for a given {@code courseId}.
+     * Gets non-soft-deleted feedback sessions for a given {@code courseId}.
+     * Includes sessions from soft-deleted courses.
      */
-    public List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {
+    public List<FeedbackSession> getFeedbackSessionsForCourse(String courseId) {
         assert courseId != null;
 
         CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
         CriteriaQuery<FeedbackSession> cq = cb.createQuery(FeedbackSession.class);
         Root<FeedbackSession> root = cq.from(FeedbackSession.class);
         Join<FeedbackSession, Course> courseJoin = root.join("course");
-
-        cq.select(root).where(cb.equal(courseJoin.get("id"), courseId));
+        cq.select(root).where(cb.and(
+                cb.equal(courseJoin.get("id"), courseId),
+                cb.isNull(root.get("deletedAt"))
+        ));
 
         return HibernateUtil.createQuery(cq).getResultList();
     }
@@ -175,7 +178,7 @@ public final class FeedbackSessionsDb {
     /**
      * Gets feedback sessions for a given {@code courseId} that start after {@code after}.
      */
-    public List<FeedbackSession> getFeedbackSessionEntitiesForCourseStartingAfter(String courseId, Instant after) {
+    public List<FeedbackSession> getFeedbackSessionsForCourseStartingAfter(String courseId, Instant after) {
         assert courseId != null;
         assert after != null;
 
@@ -186,7 +189,8 @@ public final class FeedbackSessionsDb {
         cr.select(root)
                 .where(cb.and(
                     cb.greaterThanOrEqualTo(root.get("startTime"), after),
-                    cb.equal(courseJoin.get("id"), courseId)));
+                    cb.equal(courseJoin.get("id"), courseId),
+                    cb.isNull(root.get("deletedAt"))));
 
         return HibernateUtil.createQuery(cr).getResultList();
     }

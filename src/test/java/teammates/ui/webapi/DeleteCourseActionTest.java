@@ -125,6 +125,8 @@ public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "course-id",
         };
+
+        when(mockLogic.getInstructorByGoogleId("course-id", googleId)).thenReturn(null);
         loginAsStudent(googleId);
         verifyCannotAccess(params);
 

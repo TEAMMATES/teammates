@@ -37,6 +37,10 @@ public class EmailSender {
         }
     }
 
+    EmailSender(EmailSenderService service) {
+        this.service = service;
+    }
+
     public static EmailSender inst() {
         return instance;
     }

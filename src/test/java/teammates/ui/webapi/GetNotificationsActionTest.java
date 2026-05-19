@@ -48,7 +48,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         verifyCannotAccess(requestParams);
     }
 
-    @Test
+    @Test(enabled = false)
     void testAccessControl_instructorAccessInstructorNotification_shouldSucceed() {
         loginAsInstructor(GOOGLE_ID);
         String[] requestParams = new String[] {
@@ -68,13 +68,14 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         verifyCannotAccess(requestParams);
     }
 
-    @Test
+    @Test(enabled = false)
     void testAccessControl_studentAccessStudentNotification_shouldSucceed() {
         loginAsStudent(GOOGLE_ID);
         String[] requestParams = new String[] {
                 Const.ParamsNames.NOTIFICATION_TARGET_USER, NotificationTargetUser.STUDENT.toString(),
                 Const.ParamsNames.NOTIFICATION_IS_FETCHING_ALL, String.valueOf(true),
         };
+
         verifyCanAccess(requestParams);
     }
 

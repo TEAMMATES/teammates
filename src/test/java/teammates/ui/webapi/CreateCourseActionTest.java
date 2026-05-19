@@ -125,6 +125,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, "institute",
         };
+
         loginAsStudent(googleId);
         verifyCannotAccess(params);
 
