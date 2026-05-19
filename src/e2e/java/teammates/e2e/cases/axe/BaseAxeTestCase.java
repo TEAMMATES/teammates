@@ -1,5 +1,7 @@
 package teammates.e2e.cases.axe;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,7 +44,7 @@ abstract class BaseAxeTestCase extends BaseE2ETestCase {
      * Use this in tests so failure messages clearly list violations.
      */
     void assertViolationFree(Results results) {
-        assertTrue("Accessibility violations: " + formatViolations(results), results.violationFree());
+        assertTrue(results.violationFree(), "Accessibility violations: " + formatViolations(results));
     }
 
     /**

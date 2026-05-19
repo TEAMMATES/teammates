@@ -88,7 +88,7 @@ dependencies {
     testImplementation("org.seleniumhq.selenium:selenium-java:4.43.0")
     testImplementation("com.deque.html.axe-core:selenium:4.11.2")
     testImplementation(testng)
-    testImplementation("org.testcontainers:postgresql:1.21.4")
+    testImplementation("org.testcontainers:testcontainers-postgresql:2.0.5")
     testImplementation("org.liquibase:liquibase-core:4.27.0")
     testImplementation("org.mockito:mockito-core:5.21.0")
     // For supporting authorization code flow locally

@@ -1,5 +1,10 @@
 package teammates.logic.core;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -54,8 +59,8 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         UUID studentId = UUID.randomUUID();
         student.setId(studentId);
         Instant extendedDeadline = sessionEndTime.plusSeconds(86400);
-        assertTrue("Extended deadline should be after session end time",
-                extendedDeadline.isAfter(sessionEndTime));
+        assertTrue(extendedDeadline.isAfter(sessionEndTime),
+                "Extended deadline should be after session end time");
 
         DeadlineExtension de = new DeadlineExtension(student, extendedDeadline);
         session.addDeadlineExtension(de);

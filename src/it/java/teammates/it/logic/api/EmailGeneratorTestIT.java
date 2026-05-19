@@ -1,5 +1,8 @@
 package teammates.it.logic.api;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

@@ -1,8 +1,12 @@
 package teammates.it.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.util.UUID;
 
-import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.postgresql.PostgreSQLContainer;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
@@ -39,7 +43,7 @@ import liquibase.command.CommandScope;
  */
 public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
 
-    private static final PostgreSQLContainer<?> PGSQL = new PostgreSQLContainer<>("postgres:15.1-alpine");
+    private static final PostgreSQLContainer PGSQL = new PostgreSQLContainer("postgres:15.1-alpine");
 
     private final Logic logic = Logic.inst();
 

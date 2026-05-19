@@ -1,5 +1,9 @@
 package teammates.it.storage.api;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import java.util.List;
 import java.util.UUID;
 

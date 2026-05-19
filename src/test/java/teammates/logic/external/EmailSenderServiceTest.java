@@ -1,5 +1,7 @@
 package teammates.logic.external;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.testng.annotations.Test;
