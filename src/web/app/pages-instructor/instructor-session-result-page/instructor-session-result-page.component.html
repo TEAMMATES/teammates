@@ -2,7 +2,7 @@
 <tm-loading-retry
   [shouldShowRetry]="hasFeedbackSessionLoadingFailed || hasSectionsLoadingFailed || hasQuestionsLoadingFailed"
   [message]="'Failed to load feedback session'"
-  (retryEvent)="loadFeedbackSessionResults(courseId, feedbackSessionId)"
+  (retryEvent)="loadFeedbackSessionResults(feedbackSessionId)"
 >
   <div *tmIsLoading="isFeedbackSessionLoading">
     @if (session) {
@@ -23,8 +23,6 @@
                   <a
                     tmRouterLink="/web/instructor/sessions/edit"
                     [queryParams]="{
-                      courseid: session.courseId,
-                      fsname: session.feedbackSessionName,
                       fsid: session.feedbackSessionId,
                       editingMode: true,
                     }"

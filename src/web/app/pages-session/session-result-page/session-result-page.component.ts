@@ -125,8 +125,6 @@ export class SessionResultPageComponent implements OnInit {
         switchMap(() => this.route.queryParams),
       )
       .subscribe((queryParams: any) => {
-        this.courseId = queryParams.courseid;
-        this.feedbackSessionName = queryParams.fsname;
         this.feedbackSessionId = queryParams.fsid;
         this.regKey = queryParams.key || '';
         this.previewAsPerson = queryParams.previewas ? queryParams.previewas : '';
@@ -158,14 +156,10 @@ export class SessionResultPageComponent implements OnInit {
                       // The logged in user matches the registration key; redirect to the logged in URL
 
                       this.navigationService.navigateByURLWithParamEncoding(`/web/${this.entityType}/sessions/result`, {
-                        courseid: this.courseId,
-                        fsname: this.feedbackSessionName,
                         fsid: this.feedbackSessionId,
                       });
                     } else {
                       // Valid, unused registration key; load information based on the key
-                      this.loadCourseInfo();
-                      this.loadPersonName();
                       this.loadFeedbackSession();
                     }
                   } else if (resp.isValid) {
@@ -202,8 +196,6 @@ export class SessionResultPageComponent implements OnInit {
             } else if (this.loggedInUser) {
               // Load information based on logged in user
               // This will also cover preview cases
-              this.loadCourseInfo();
-              this.loadPersonName();
               this.loadFeedbackSession();
             } else {
               this.navigationService.navigateWithErrorMessage(
@@ -265,7 +257,6 @@ export class SessionResultPageComponent implements OnInit {
         this.instructorService
           .getInstructor({
             courseId: this.courseId,
-            feedbackSessionName: this.feedbackSessionName,
             intent: this.intent,
             key: this.regKey,
             previewAs: this.previewAsPerson,
@@ -299,6 +290,8 @@ export class SessionResultPageComponent implements OnInit {
           const TIME_FORMAT = 'ddd, DD MMM, YYYY, hh:mm A zz';
           this.session = feedbackSession;
           this.feedbackSessionId = feedbackSession.feedbackSessionId;
+          this.courseId = feedbackSession.courseId;
+          this.feedbackSessionName = feedbackSession.feedbackSessionName;
           this.formattedSessionOpeningTime = this.timezoneService.formatToString(
             this.session.submissionStartTimestamp,
             this.session.timeZone,
@@ -311,6 +304,8 @@ export class SessionResultPageComponent implements OnInit {
           );
 
           this.logStudentView();
+          this.loadCourseInfo();
+          this.loadPersonName();
 
           this.feedbackQuestionsService
             .getFeedbackQuestions({
@@ -366,8 +361,6 @@ export class SessionResultPageComponent implements OnInit {
 
   navigateToSessionReportPage(): void {
     this.navigationService.navigateByURL('/web/instructor/sessions/report', {
-      courseid: this.courseId,
-      fsname: this.feedbackSessionName,
       fsid: this.feedbackSessionId,
     });
   }

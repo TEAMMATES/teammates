@@ -62,6 +62,7 @@ const testCourse3: Course = {
 };
 
 const testFeedbackSession1: FeedbackSession = {
+  feedbackSessionId: 'first-session-id',
   feedbackSessionName: 'First Session',
   courseId: 'CS1231',
   timeZone: 'Asia/Singapore',
@@ -79,6 +80,7 @@ const testFeedbackSession1: FeedbackSession = {
 };
 
 const testFeedbackSession2: FeedbackSession = {
+  feedbackSessionId: 'second-session-id',
   feedbackSessionName: 'Second Session',
   courseId: 'CS1231',
   timeZone: 'Asia/Singapore',
