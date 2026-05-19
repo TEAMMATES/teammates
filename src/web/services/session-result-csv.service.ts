@@ -152,8 +152,7 @@ export class SessionResultCsvService {
         ? StringHelper.removeExtraSpace(response.recipientEmail)
         : '';
 
-      // eslint-disable-next-line no-useless-assignment -- false positive
-      let responseAnswers: string[][] = [];
+      let responseAnswers: string[][];
       if (response.isMissingResponse) {
         responseAnswers = this.getMissingResponseAnswers(question.feedbackQuestion);
       } else {

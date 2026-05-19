@@ -822,9 +822,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     const savingRequests: Observable<any>[] = [];
 
     questionSubmissionForms.forEach((questionSubmissionFormModel: QuestionSubmissionFormModel) => {
-      // eslint-disable-next-line no-useless-assignment -- false positive
-      let isQuestionFullyAnswered = true;
-
       const responses: FeedbackResponseRequest[] = [];
 
       questionSubmissionFormModel.recipientSubmissionForms.forEach(
@@ -848,7 +845,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         },
       );
 
-      isQuestionFullyAnswered = responses.length > 0;
+      const isQuestionFullyAnswered = responses.length > 0;
 
       if (!failToSaveQuestions[questionSubmissionFormModel.questionNumber]) {
         savingRequests.push(

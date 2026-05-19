@@ -403,8 +403,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   }
 
   updateIsValidByQuestionConstraint(): void {
-    // eslint-disable-next-line no-useless-assignment -- false positive
-    let isValid = false;
+    let isValid: boolean;
     const questionType: string = this.model.questionType;
     if (questionType === FeedbackQuestionType.CONTRIB) {
       isValid = this.contributionQuestionConstraint.isValid;

@@ -27,8 +27,7 @@ export class VisibilityEntityNamePipe implements PipeTransform {
   ): string {
     switch (visibilityType) {
       case FeedbackVisibilityType.RECIPIENT: {
-        // eslint-disable-next-line no-useless-assignment -- false positive
-        let recipientEntityName = '';
+        let recipientEntityName: string;
         switch (questionRecipientType) {
           case QuestionRecipientType.INSTRUCTORS:
             recipientEntityName = 'instructor';
