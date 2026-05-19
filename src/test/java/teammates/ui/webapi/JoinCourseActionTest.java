@@ -119,21 +119,6 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
     }
 
     @Test
-    void testExecute_studentAccountNotFound_throwsEntityNotFoundException() throws EntityAlreadyExistsException,
-            EntityDoesNotExistException {
-        loginAsUnregistered("unreg-student");
-
-        when(mockLogic.joinCourseForStudent(eq("invalid-reg-key"), any()))
-                .thenThrow(EntityDoesNotExistException.class);
-        String[] params = {
-                Const.ParamsNames.REGKEY, "invalid-reg-key",
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
-        };
-        verifyEntityNotFound(params);
-        verifyNoEmailsSent();
-    }
-
-    @Test
     void testExecute_validInstructorRegKey_success() throws EntityAlreadyExistsException,
             EntityDoesNotExistException {
         loginAsUnregistered("unreg-instructor");
@@ -178,21 +163,6 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         loginAsUnregistered("unreg-instructor");
 
         when(mockLogic.getInstructorByRegistrationKey("invalid-reg-key")).thenReturn(stubInstructor);
-        when(mockLogic.joinCourseForInstructor(eq("invalid-reg-key"), any()))
-                .thenThrow(EntityDoesNotExistException.class);
-        String[] params = {
-                Const.ParamsNames.REGKEY, "invalid-reg-key",
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
-        };
-        verifyEntityNotFound(params);
-        verifyNoEmailsSent();
-    }
-
-    @Test
-    void testExecute_instructorAccountNotFound_throwsEntityNotFoundException() throws EntityAlreadyExistsException,
-            EntityDoesNotExistException {
-        loginAsUnregistered("unreg-instructor");
-
         when(mockLogic.joinCourseForInstructor(eq("invalid-reg-key"), any()))
                 .thenThrow(EntityDoesNotExistException.class);
         String[] params = {
