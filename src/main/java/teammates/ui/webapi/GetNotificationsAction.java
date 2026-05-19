@@ -38,11 +38,11 @@ public class GetNotificationsAction extends Action {
         }
         NotificationTargetUser targetUser = NotificationTargetUser.valueOf(targetUserString);
         if (targetUser == NotificationTargetUser.STUDENT) {
-            gateKeeper.verifyStudentInAnyCourse(logic.getAccountForGoogleId(authContext.id()));
+            gateKeeper.verifyStudentInAnyCourse(logic.getAccountForGoogleId(getCurrentUserGoogleId()));
         }
 
         if (targetUser == NotificationTargetUser.INSTRUCTOR) {
-            gateKeeper.verifyInstructorInAnyCourse(logic.getAccountForGoogleId(authContext.id()));
+            gateKeeper.verifyInstructorInAnyCourse(logic.getAccountForGoogleId(getCurrentUserGoogleId()));
         }
     }
 
@@ -77,7 +77,7 @@ public class GetNotificationsAction extends Action {
             return new JsonResult(new NotificationsData(notifications));
         }
 
-        Account account = logic.getAccountForGoogleId(authContext.id());
+        Account account = logic.getAccountForGoogleId(getCurrentUserGoogleId());
         if (account == null) {
             // This should not happen as the user is authenticated
             return new JsonResult("Account not found", HttpStatus.SC_INTERNAL_SERVER_ERROR);

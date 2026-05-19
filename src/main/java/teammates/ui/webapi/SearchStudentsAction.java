@@ -27,7 +27,7 @@ public class SearchStudentsAction extends Action {
         String entity = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
         if (Const.EntityType.INSTRUCTOR.equals(entity)) {
-            gateKeeper.verifyInstructorInAnyCourse(logic.getAccountForGoogleId(authContext.id()));
+            gateKeeper.verifyInstructorInAnyCourse(logic.getAccountForGoogleId(getCurrentUserGoogleId()));
         }
 
         if (Const.EntityType.ADMIN.equals(entity)) {
@@ -43,7 +43,7 @@ public class SearchStudentsAction extends Action {
         List<Student> students;
 
         if (Const.EntityType.INSTRUCTOR.equals(entity)) {
-            List<Instructor> instructors = logic.getInstructorsForGoogleId(authContext.id());
+            List<Instructor> instructors = logic.getInstructorsForGoogleId(getCurrentUserGoogleId());
             students = logic.searchStudents(searchKey, instructors);
         } else if (Const.EntityType.ADMIN.equals(entity)) {
             students = logic.searchStudentsInWholeSystem(searchKey);

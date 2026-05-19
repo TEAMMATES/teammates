@@ -32,7 +32,7 @@ public class SendJoinReminderEmailAction extends Action {
 
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
 
         boolean isSendingToStudent = studentEmail != null;
         boolean isSendingToInstructor = instructorEmail != null;
@@ -80,7 +80,7 @@ public class SendJoinReminderEmailAction extends Action {
                 throw new EntityNotFoundException(
                         "Instructor with email " + instructorEmail + " does not exist in course " + courseId + "!");
             }
-            Account inviter = logic.getAccountForGoogleId(authContext.id());
+            Account inviter = logic.getAccountForGoogleId(getCurrentUserGoogleId());
             if (inviter == null) {
                 throw new EntityNotFoundException("Inviter account does not exist.");
             }

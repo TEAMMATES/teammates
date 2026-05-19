@@ -2,15 +2,12 @@ package teammates.ui.webapi;
 
 import java.time.Instant;
 
-import teammates.common.datatransfer.participanttypes.QuestionGiverType;
-import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
 import teammates.ui.exception.UnauthorizedAccessException;
@@ -76,21 +73,22 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         if (!StringHelper.isEmpty(moderatedPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
             gateKeeper.verifyAccessible(
-                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), authContext.id()), feedbackSession,
+                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()), feedbackSession,
                     student.getSectionName(),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
             gateKeeper.verifyAccessible(
-                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), authContext.id()), feedbackSession,
+                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()), feedbackSession,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
             gateKeeper.verifyAccessible(student, feedbackSession);
             if (student.getAccount() != null) {
-                if (authContext == null) {
+                String googleId = getCurrentUserGoogleId();
+                if (googleId == null) {
                     // Student is associated with an account; even if registration key is passed, do not allow access
                     throw new UnauthorizedAccessException("Login is required to access this feedback session");
-                } else if (!authContext.id().equals(student.getAccount().getGoogleId())) {
+                } else if (!googleId.equals(student.getAccount().getGoogleId())) {
                     // Logged in student is not the same as the student registered for the given key, do not allow access
                     throw new UnauthorizedAccessException("You are not authorized to access this feedback session");
                 }
@@ -148,20 +146,21 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         if (!StringHelper.isEmpty(moderatedPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
             gateKeeper.verifyAccessible(
-                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), authContext.id()),
+                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()),
                     feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
             gateKeeper.verifyAccessible(
-                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), authContext.id()),
+                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()),
                     feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
             gateKeeper.verifySessionSubmissionPrivilegeForInstructor(feedbackSession, instructor);
             if (instructor.getAccount() != null) {
-                if (authContext == null) {
+                String googleId = getCurrentUserGoogleId();
+                if (googleId == null) {
                     // Instructor is associated to an account; even if registration key is passed, do not allow access
                     throw new UnauthorizedAccessException("Login is required to access this feedback session");
-                } else if (!authContext.id().equals(instructor.getAccount().getGoogleId())) {
+                } else if (!googleId.equals(instructor.getAccount().getGoogleId())) {
                     // Logged in instructor is not the same as the instructor registered for the given key,
                     // do not allow access
                     throw new UnauthorizedAccessException("You are not authorized to access this feedback session");
@@ -192,10 +191,11 @@ abstract class BasicFeedbackSubmissionAction extends Action {
 
     private void verifyMatchingGoogleId(String googleId) throws UnauthorizedAccessException {
         if (!StringHelper.isEmpty(googleId)) {
-            if (authContext == null) {
+            String currentGoogleId = getCurrentUserGoogleId();
+            if (currentGoogleId == null) {
                 // Student/Instructor is associated to a google ID; even if registration key is passed, do not allow access
                 throw new UnauthorizedAccessException("Login is required to access this feedback session");
-            } else if (!authContext.id().equals(googleId)) {
+            } else if (!currentGoogleId.equals(googleId)) {
                 // Logged in student/instructor is not the same as the student/instructor registered for the given key,
                 // do not allow access
                 throw new UnauthorizedAccessException("You are not authorized to access this feedback session");
@@ -209,11 +209,11 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         gateKeeper.verifyLoggedInUserPrivileges(authContext);
         if (isInstructor) {
             gateKeeper.verifyAccessible(
-                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), authContext.id()), feedbackSession,
+                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()), feedbackSession,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
             gateKeeper.verifyAccessible(
-                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), authContext.id()), feedbackSession,
+                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()), feedbackSession,
                     Const.InstructorPermissions.CAN_MODIFY_SESSION);
         }
     }
@@ -241,54 +241,6 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         if (StringHelper.isEmpty(moderatedPerson) && !(feedbackSession.isOpenedGivenExtendedDeadline(deadlineExtension)
                 || feedbackSession.isInGracePeriodGivenExtendedDeadline(deadlineExtension))) {
             throw new UnauthorizedAccessException("The feedback session is not available for submission", true);
-        }
-    }
-
-    /**
-     * Gets the section of a recipient.
-     */
-    @SuppressWarnings("PMD.ImplicitSwitchFallThrough") // false positive
-    Section getRecipientSection(
-            String courseId, QuestionGiverType giverType, QuestionRecipientType recipientType,
-            String recipientIdentifier) {
-
-        switch (recipientType) {
-        case SELF:
-            switch (giverType) {
-            case INSTRUCTORS:
-            case SELF:
-                return logic.getDefaultSectionOrCreate(courseId);
-            case TEAMS:
-            case TEAMS_IN_SAME_SECTION:
-                Section section = logic.getSectionByCourseIdAndTeam(courseId, recipientIdentifier);
-                return section == null ? logic.getDefaultSectionOrCreate(courseId) : section;
-            case STUDENTS:
-            case STUDENTS_IN_SAME_SECTION:
-                Student student = logic.getStudentForEmail(courseId, recipientIdentifier);
-                return student == null ? logic.getDefaultSectionOrCreate(courseId) : student.getSection();
-            default:
-                assert false : "Invalid giver type " + giverType + " for recipient type " + recipientType;
-                return null;
-            }
-        case INSTRUCTORS:
-        case NONE:
-            return logic.getDefaultSectionOrCreate(courseId);
-        case TEAMS:
-        case TEAMS_EXCLUDING_SELF:
-        case TEAMS_IN_SAME_SECTION:
-        case OWN_TEAM:
-            Section section = logic.getSectionByCourseIdAndTeam(courseId, recipientIdentifier);
-            return section == null ? logic.getDefaultSectionOrCreate(courseId) : section;
-        case STUDENTS:
-        case STUDENTS_EXCLUDING_SELF:
-        case STUDENTS_IN_SAME_SECTION:
-        case OWN_TEAM_MEMBERS:
-        case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-            Student student = logic.getStudentForEmail(courseId, recipientIdentifier);
-            return student == null ? logic.getDefaultSectionOrCreate(courseId) : student.getSection();
-        default:
-            assert false : "Unknown recipient type " + recipientType;
-            return null;
         }
     }
 }

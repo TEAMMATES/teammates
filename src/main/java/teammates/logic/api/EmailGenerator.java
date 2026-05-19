@@ -152,8 +152,6 @@ public final class EmailGenerator {
         String status;
         if (emailType == EmailType.FEEDBACK_OPENING_SOON) {
             String editUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
-                    .withCourseId(course.getId())
-                    .withSessionName(session.getName())
                     .withFeedbackSessionId(session.getId().toString())
                     .toAbsoluteString();
             // If instructor has not joined the course, populate additional notes with information to join course.
@@ -166,8 +164,6 @@ public final class EmailGenerator {
             status = FEEDBACK_STATUS_SESSION_OPENING_SOON;
         } else {
             String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
-                    .withCourseId(course.getId())
-                    .withSessionName(session.getName())
                     .withFeedbackSessionId(session.getId().toString())
                     .toAbsoluteString();
             additionalNotes = fillUpViewResponsesDetailsFragment(reportUrl);
@@ -300,8 +296,6 @@ public final class EmailGenerator {
 
             if (fs.isOpened() || fs.isClosed()) {
                 String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
-                        .withCourseId(course.getId())
-                        .withSessionName(fs.getName())
                         .withFeedbackSessionId(fs.getId().toString())
                         .withRegistrationKey(userKey)
                         .withEntityType(isInstructor ? Const.EntityType.INSTRUCTOR : "")
@@ -311,8 +305,6 @@ public final class EmailGenerator {
 
             if (fs.isPublished()) {
                 String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
-                        .withCourseId(course.getId())
-                        .withSessionName(fs.getName())
                         .withFeedbackSessionId(fs.getId().toString())
                         .withRegistrationKey(userKey)
                         .withEntityType(isInstructor ? Const.EntityType.INSTRUCTOR : "")
@@ -456,8 +448,6 @@ public final class EmailGenerator {
 
                 if (session.isOpened() || session.isClosed()) {
                     var submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
-                            .withCourseId(course.getId())
-                            .withSessionName(session.getName())
                             .withFeedbackSessionId(session.getId().toString())
                             .withRegistrationKey(student.getRegKey())
                             .toAbsoluteString();
@@ -466,8 +456,6 @@ public final class EmailGenerator {
 
                 if (session.isPublished()) {
                     var reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
-                            .withCourseId(course.getId())
-                            .withSessionName(session.getName())
                             .withFeedbackSessionId(session.getId().toString())
                             .withRegistrationKey(student.getRegKey())
                             .toAbsoluteString();
@@ -716,15 +704,11 @@ public final class EmailGenerator {
             Course course, FeedbackSession session, Student student, String template,
             EmailType type, String feedbackAction, String additionalContactInformation) {
         String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
-                .withCourseId(course.getId())
-                .withSessionName(session.getName())
                 .withFeedbackSessionId(session.getId().toString())
                 .withRegistrationKey(student.getRegKey())
                 .toAbsoluteString();
 
         String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
-                .withCourseId(course.getId())
-                .withSessionName(session.getName())
                 .withFeedbackSessionId(session.getId().toString())
                 .withRegistrationKey(student.getRegKey())
                 .toAbsoluteString();
@@ -759,16 +743,12 @@ public final class EmailGenerator {
             Course course, FeedbackSession session, Instructor instructor,
             String template, EmailType type, String feedbackAction, String additionalContactInformation) {
         String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
-                .withCourseId(course.getId())
-                .withSessionName(session.getName())
                 .withFeedbackSessionId(session.getId().toString())
                 .withRegistrationKey(instructor.getRegKey())
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
 
         String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
-                .withCourseId(course.getId())
-                .withSessionName(session.getName())
                 .withFeedbackSessionId(session.getId().toString())
                 .withRegistrationKey(instructor.getRegKey())
                 .withEntityType(Const.EntityType.INSTRUCTOR)

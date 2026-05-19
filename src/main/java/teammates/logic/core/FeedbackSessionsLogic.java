@@ -23,6 +23,7 @@ import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseGiver;
 import teammates.storage.entity.User;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
 
@@ -169,6 +170,7 @@ public final class FeedbackSessionsLogic {
         return feedbackSession.getFeedbackQuestions().stream()
                 .flatMap(question -> question.getFeedbackResponses().stream())
                 .map(FeedbackResponse::getGiver)
+                .map(ResponseGiver::getIdentifier)
                 .collect(Collectors.toUnmodifiableSet());
     }
 

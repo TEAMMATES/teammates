@@ -280,7 +280,6 @@ export class SearchService {
           name: feedbackSession.feedbackSessionName,
           feedbackSessionUrl: this.linkService.generateSubmitUrl(
             entity,
-            feedbackSession.feedbackSessionName,
             isInstructor,
             feedbackSession.feedbackSessionId,
           ),
@@ -291,7 +290,6 @@ export class SearchService {
           name: feedbackSession.feedbackSessionName,
           feedbackSessionUrl: this.linkService.generateSubmitUrl(
             entity,
-            feedbackSession.feedbackSessionName,
             isInstructor,
             feedbackSession.feedbackSessionId,
           ),
@@ -302,7 +300,6 @@ export class SearchService {
           name: feedbackSession.feedbackSessionName,
           feedbackSessionUrl: this.linkService.generateSubmitUrl(
             entity,
-            feedbackSession.feedbackSessionName,
             isInstructor,
             feedbackSession.feedbackSessionId,
           ),
@@ -315,7 +312,6 @@ export class SearchService {
           name: feedbackSession.feedbackSessionName,
           feedbackSessionUrl: this.linkService.generateResultUrl(
             entity,
-            feedbackSession.feedbackSessionName,
             isInstructor,
             feedbackSession.feedbackSessionId,
           ),

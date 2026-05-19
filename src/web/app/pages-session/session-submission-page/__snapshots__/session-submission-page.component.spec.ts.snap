@@ -10,7 +10,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   backendUrl={[Function String]}
   castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
-  courseId={[Function String]}
+  courseId=""
   courseInstitute=""
   courseName=""
   courseService={[Function CourseService]}
@@ -21,7 +21,7 @@ exports[`SessionSubmissionPageComponent should snap when feedback session questi
   feedbackResponsesService={[Function FeedbackResponsesService]}
   feedbackSessionId={[Function String]}
   feedbackSessionInstructions=""
-  feedbackSessionName={[Function String]}
+  feedbackSessionName=""
   feedbackSessionSubmissionStatus={[Function String]}
   feedbackSessionTimezone=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -171,7 +171,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   backendUrl={[Function String]}
   castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
-  courseId={[Function String]}
+  courseId=""
   courseInstitute=""
   courseName=""
   courseService={[Function CourseService]}
@@ -182,7 +182,7 @@ exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = 
   feedbackResponsesService={[Function FeedbackResponsesService]}
   feedbackSessionId={[Function String]}
   feedbackSessionInstructions=""
-  feedbackSessionName={[Function String]}
+  feedbackSessionName=""
   feedbackSessionSubmissionStatus={[Function String]}
   feedbackSessionTimezone=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -329,7 +329,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   backendUrl={[Function String]}
   castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
-  courseId={[Function String]}
+  courseId=""
   courseInstitute=""
   courseName=""
   courseService={[Function CourseService]}
@@ -340,7 +340,7 @@ exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
   feedbackResponsesService={[Function FeedbackResponsesService]}
   feedbackSessionId={[Function String]}
   feedbackSessionInstructions=""
-  feedbackSessionName={[Function String]}
+  feedbackSessionName=""
   feedbackSessionSubmissionStatus={[Function String]}
   feedbackSessionTimezone=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -778,7 +778,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   backendUrl={[Function String]}
   castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
-  courseId={[Function String]}
+  courseId=""
   courseInstitute=""
   courseName=""
   courseService={[Function CourseService]}
@@ -789,7 +789,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   feedbackResponsesService={[Function FeedbackResponsesService]}
   feedbackSessionId={[Function String]}
   feedbackSessionInstructions=""
-  feedbackSessionName={[Function String]}
+  feedbackSessionName=""
   feedbackSessionSubmissionStatus={[Function String]}
   feedbackSessionTimezone=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -910,7 +910,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             class="col-md-10 text-md-start"
             id="course-id"
           >
-            CS3281
           </div>
         </div>
         <div
@@ -925,7 +924,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             class="col-md-10 text-md-start"
             id="fs-name"
           >
-            Feedback Session Name
           </div>
         </div>
         <div
@@ -3816,7 +3814,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   backendUrl={[Function String]}
   castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
-  courseId={[Function String]}
+  courseId=""
   courseInstitute=""
   courseName=""
   courseService={[Function CourseService]}
@@ -3827,7 +3825,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
   feedbackResponsesService={[Function FeedbackResponsesService]}
   feedbackSessionId={[Function String]}
   feedbackSessionInstructions=""
-  feedbackSessionName={[Function String]}
+  feedbackSessionName=""
   feedbackSessionSubmissionStatus={[Function String]}
   feedbackSessionTimezone=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -3948,7 +3946,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             class="col-md-10 text-md-start"
             id="course-id"
           >
-            CS3281
           </div>
         </div>
         <div
@@ -3963,7 +3960,6 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             class="col-md-10 text-md-start"
             id="fs-name"
           >
-            Feedback Session Name
           </div>
         </div>
         <div
@@ -6890,7 +6886,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   backendUrl={[Function String]}
   castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
-  courseId={[Function String]}
+  courseId=""
   courseInstitute=""
   courseName=""
   courseService={[Function CourseService]}
@@ -6901,7 +6897,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is logged in 
   feedbackResponsesService={[Function FeedbackResponsesService]}
   feedbackSessionId={[Function String]}
   feedbackSessionInstructions=""
-  feedbackSessionName={[Function String]}
+  feedbackSessionName=""
   feedbackSessionSubmissionStatus={[Function String]}
   feedbackSessionTimezone=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
@@ -7049,7 +7045,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   backendUrl={[Function String]}
   castAsSelectElement={[Function Function]}
   commentService={[Function FeedbackResponseCommentService]}
-  courseId={[Function String]}
+  courseId=""
   courseInstitute=""
   courseName=""
   courseService={[Function CourseService]}
@@ -7060,7 +7056,7 @@ exports[`SessionSubmissionPageComponent should snap with user that is not logged
   feedbackResponsesService={[Function FeedbackResponsesService]}
   feedbackSessionId={[Function String]}
   feedbackSessionInstructions=""
-  feedbackSessionName={[Function String]}
+  feedbackSessionName=""
   feedbackSessionSubmissionStatus={[Function String]}
   feedbackSessionTimezone=""
   feedbackSessionsService={[Function FeedbackSessionsService]}

@@ -827,112 +827,139 @@
   "feedbackResponses": {
     "response1ForQ1": {
       "id": "00000000-0000-4000-8000-000000000901",
-      "giver": "student1@teammates.tmt",
-      "recipient": "student1@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Student 1 self feedback. This is a very long feedback response intended to test the database capacity. It should exceed the 255 character limit commonly associated with VARCHAR columns. By including a large amount of text, we can verify if the system correctly handles extended feedback without truncation or errors. This is particularly important for text-based questions where users might provide detailed qualitative data. Let's make sure it's well over 255 characters to be absolutely certain."
       },
-      "questionId": "00000000-0000-4000-8000-000000000801",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000801"
     },
     "response2ForQ1": {
       "id": "00000000-0000-4000-8000-000000000902",
-      "giver": "student2@teammates.tmt",
-      "recipient": "student2@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000602"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Student 2 self feedback."
       },
-      "questionId": "00000000-0000-4000-8000-000000000801",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000801"
     },
     "response1ForQ2": {
       "id": "00000000-0000-4000-8000-000000000903",
-      "giver": "student2@teammates.tmt",
-      "recipient": "student1@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000602"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Student 2's rating of Student 1's project."
       },
-      "questionId": "00000000-0000-4000-8000-000000000802",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000802"
     },
     "response2ForQ2": {
       "id": "00000000-0000-4000-8000-000000000904",
-      "giver": "student3@teammates.tmt",
-      "recipient": "student2@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000603"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000602"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Student 3's rating of Student 2's project."
       },
-      "questionId": "00000000-0000-4000-8000-000000000802",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000802"
     },
     "response1ForQ3": {
       "id": "00000000-0000-4000-8000-000000000905",
-      "giver": "student1@teammates.tmt",
-      "recipient": "student1@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "The class is great."
       },
-      "questionId": "00000000-0000-4000-8000-000000000803",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8000-000000000803"
     },
     "response1ForQ1InSession2": {
       "id": "00000000-0000-4000-8001-000000000901",
-      "giver": "student1@teammates.tmt",
-      "recipient": "student1@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000601"
+      },
       "answer": {
         "answer": "Great",
         "otherFieldContent": "",
         "questionType": "MCQ"
       },
-      "questionId": "00000000-0000-4000-8001-000000000800",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000201"
+      "questionId": "00000000-0000-4000-8001-000000000800"
     },
     "response3ForQ1": {
       "id": "00000000-0000-4000-8000-000000000906",
-      "giver": "student1@teammates.tmt",
-      "recipient": "student4@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000611"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Student 1 feedback for student 4."
       },
-      "questionId": "00000000-0000-4000-8000-000000000801",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000801"
     },
     "response3ForQ2": {
       "id": "00000000-0000-4000-8000-000000000907",
-      "giver": "student1@teammates.tmt",
-      "recipient": "student4@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000601"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000611"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Student 1's rating of Student 4's project."
       },
-      "questionId": "00000000-0000-4000-8000-000000000802",
-      "giverSectionId": "00000000-0000-4000-8000-000000000201",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000802"
     },
     "response4ForQ1": {
       "id": "00000000-0000-4000-8000-000000000908",
-      "giver": "student4@teammates.tmt",
-      "recipient": "student4@teammates.tmt",
+      "giver": {
+        "giverUserId": "00000000-0000-4000-8000-000000000611"
+      },
+      "recipient": {
+        "recipientType": "STUDENT",
+        "recipientUserId": "00000000-0000-4000-8000-000000000611"
+      },
       "answer": {
         "questionType": "TEXT",
         "answer": "Student 4 self feedback."
       },
-      "questionId": "00000000-0000-4000-8000-000000000801",
-      "giverSectionId": "00000000-0000-4000-8000-000000000203",
-      "recipientSectionId": "00000000-0000-4000-8000-000000000203"
+      "questionId": "00000000-0000-4000-8000-000000000801"
     }
   },
   "feedbackResponseComments": {

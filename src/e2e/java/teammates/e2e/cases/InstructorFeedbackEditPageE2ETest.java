@@ -44,9 +44,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
     @Override
     protected void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
-                .withCourseId(course.getId())
-                .withFeedbackSessionId(feedbackSession.getId().toString())
-                .withSessionName(feedbackSession.getName());
+                .withFeedbackSessionId(feedbackSession.getId().toString());
         InstructorFeedbackEditPage feedbackEditPage =
                 loginToPage(url, InstructorFeedbackEditPage.class, instructor.getGoogleId());
 

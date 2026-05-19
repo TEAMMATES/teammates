@@ -11,7 +11,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
-import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -95,21 +94,6 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         assertEquals(1, data.getStudentsData().getStudents().size());
         studentsInCourse = logic.getStudentsForCourse(courseId);
         assertEquals(6, studentsInCourse.size());
-
-        // Verify that changes have cascaded to feedback responses
-        List<FeedbackResponse> responsesFromUser =
-                logic.getFeedbackResponsesFromGiverForCourse(courseId, giverEmail);
-
-        for (FeedbackResponse response : responsesFromUser) {
-            assertEquals(logic.getSection(courseId, "Section 3"), response.getGiverSection());
-        }
-
-        List<FeedbackResponse> responsesToUser =
-                logic.getFeedbackResponsesForRecipientForCourse(courseId, giverEmail);
-
-        for (FeedbackResponse response : responsesToUser) {
-            assertEquals(logic.getSection(courseId, "Section 3"), response.getRecipientSection());
-        }
 
         ______TS("Fail to enroll due to duplicate team name across sections");
 

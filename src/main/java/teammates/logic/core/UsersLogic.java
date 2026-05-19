@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.StringJoiner;
 import java.util.UUID;
@@ -19,8 +20,6 @@ import java.util.stream.Collectors;
 import teammates.common.datatransfer.EnrollResults;
 import teammates.common.datatransfer.InstructorPermissionRole;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.participanttypes.QuestionGiverType;
-import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -28,13 +27,12 @@ import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.StudentUpdateException;
 import teammates.common.util.Const;
+import teammates.common.util.HibernateUtil;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.api.UsersDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
-import teammates.storage.entity.FeedbackQuestion;
-import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
@@ -95,6 +93,14 @@ public final class UsersLogic {
     }
 
     /**
+     * Get user by registration key.
+     */
+    public User getUserByRegistrationKey(String regKey) {
+        Objects.requireNonNull(regKey);
+        return usersDb.getUserByRegKey(regKey);
+    }
+
+    /**
      * Gets users for the specified course.
      */
     public List<User> getUsersForCourse(String courseId) {
@@ -124,7 +130,7 @@ public final class UsersLogic {
     }
 
     /**
-     * Updates an instructor and cascades to responses and comments if needed.
+     * Updates an instructor.
      *
      * @return updated instructor
      * @throws InvalidParametersException if the instructor update request is invalid
@@ -148,9 +154,6 @@ public final class UsersLogic {
         verifyAtLeastOneInstructorIsDisplayed(
                 courseId, instructor.isDisplayedToStudents(), instructorRequest.getIsDisplayedToStudent());
 
-        String originalEmail = instructor.getEmail();
-        boolean needsCascade = false;
-
         String newDisplayName = instructorRequest.getDisplayName();
         if (newDisplayName == null || newDisplayName.isEmpty()) {
             newDisplayName = Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR;
@@ -163,36 +166,7 @@ public final class UsersLogic {
         instructor.setDisplayName(SanitizationHelper.sanitizeName(newDisplayName));
         instructor.setDisplayedToStudents(instructorRequest.getIsDisplayedToStudent());
 
-        String newEmail = instructor.getEmail();
-
-        if (!originalEmail.equals(newEmail)) {
-            needsCascade = true;
-        }
-
         validateUser(instructor);
-
-        if (needsCascade) {
-            // cascade responses
-            List<FeedbackResponse> responsesFromUser =
-                    feedbackResponsesLogic.getFeedbackResponsesFromGiverForCourse(courseId, originalEmail);
-            for (FeedbackResponse responseFromUser : responsesFromUser) {
-                FeedbackQuestion question = responseFromUser.getFeedbackQuestion();
-                if (question.getGiverType() == QuestionGiverType.INSTRUCTORS
-                        || question.getGiverType() == QuestionGiverType.SELF) {
-                    responseFromUser.setGiver(newEmail);
-                }
-            }
-            List<FeedbackResponse> responsesToUser =
-                    feedbackResponsesLogic.getFeedbackResponsesForRecipientForCourse(courseId, originalEmail);
-            for (FeedbackResponse responseToUser : responsesToUser) {
-                FeedbackQuestion question = responseToUser.getFeedbackQuestion();
-                if (question.getRecipientType() == QuestionRecipientType.INSTRUCTORS
-                        || question.getGiverType() == QuestionGiverType.INSTRUCTORS
-                        && question.getRecipientType() == QuestionRecipientType.SELF) {
-                    responseToUser.setRecipient(newEmail);
-                }
-            }
-        }
 
         updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructor);
 
@@ -311,9 +285,12 @@ public final class UsersLogic {
      * Gets an instructor by associated {@code regkey}.
      */
     public Instructor getInstructorByRegistrationKey(String regKey) {
-        assert regKey != null;
+        User user = getUserByRegistrationKey(regKey);
+        if (user instanceof Instructor instructor) {
+            return instructor;
+        }
 
-        return usersDb.getInstructorByRegKey(regKey);
+        return null;
     }
 
     /**
@@ -360,7 +337,6 @@ public final class UsersLogic {
             return;
         }
 
-        feedbackResponsesLogic.deleteFeedbackResponsesForCourseCascade(courseId, email);
         deleteUser(instructor);
     }
 
@@ -649,8 +625,12 @@ public final class UsersLogic {
      */
     public Student getStudentByRegistrationKey(String regKey) {
         assert regKey != null;
+        User user = getUserByRegistrationKey(regKey);
+        if (user instanceof Student student) {
+            return student;
+        }
 
-        return usersDb.getStudentByRegKey(regKey);
+        return null;
     }
 
     /**
@@ -771,17 +751,8 @@ public final class UsersLogic {
             return;
         }
 
-        feedbackResponsesLogic
-                .deleteFeedbackResponsesForCourseCascade(courseId, studentEmail);
-
-        if (usersDb.getStudentCountForTeam(student.getTeamName(), student.getCourseId()) == 1) {
-            // the student is the only student in the team, delete responses related to the team
-            feedbackResponsesLogic
-                    .deleteFeedbackResponsesForCourseCascade(
-                            student.getCourseId(), student.getTeamName());
-        }
-
         deleteUser(student);
+        HibernateUtil.flushSession();
         feedbackResponsesLogic.updateRankRecipientQuestionResponsesAfterDeletingStudent(courseId);
     }
 
@@ -801,35 +772,20 @@ public final class UsersLogic {
         return newEmail != null && !originalEmail.equals(newEmail);
     }
 
-    private boolean isSectionChanged(Section originalSection, Section newSection) {
-        return newSection != null && originalSection != null
-                && !originalSection.equals(newSection);
-    }
-
     /**
      * Updates a student by attributes to update. If an attribute is null, it will not be updated.
      */
     public Student updateStudentCascade(Student student, String newEmail, String newName, Team newTeam, String newComments)
             throws InvalidParametersException {
-        String courseId = student.getCourseId();
-
         if (newName != null) {
             student.setName(newName);
         }
 
         if (newEmail != null && !student.getEmail().equals(newEmail)) {
-            feedbackResponsesLogic
-                    .updateFeedbackResponsesForChangingEmail(courseId, student.getEmail(), newEmail);
             student.setEmail(newEmail);
         }
 
         if (newTeam != null && !student.getTeam().equals(newTeam)) {
-            feedbackResponsesLogic
-                    .updateFeedbackResponsesForChangingTeam(student.getCourse(), student.getEmail(), student.getTeam());
-            if (isSectionChanged(student.getSection(), newTeam.getSection())) {
-                feedbackResponsesLogic.updateFeedbackResponsesForChangingSection(
-                        student.getCourse(), student.getEmail(), newTeam.getSection());
-            }
             student.setTeam(newTeam);
         }
 

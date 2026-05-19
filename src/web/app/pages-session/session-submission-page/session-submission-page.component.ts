@@ -179,8 +179,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         switchMap(() => this.route.queryParams),
       )
       .subscribe((queryParams: any) => {
-        this.courseId = queryParams.courseid;
-        this.feedbackSessionName = queryParams.fsname;
         this.feedbackSessionId = queryParams.fsid;
         this.regKey = queryParams.key ? queryParams.key : '';
         this.moderatedPerson = queryParams.moderatedperson ? queryParams.moderatedperson : '';
@@ -212,15 +210,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                       this.navigationService.navigateByURLWithParamEncoding(
                         `/web/${this.entityType}/sessions/submission`,
                         {
-                          courseid: this.courseId,
-                          fsname: this.feedbackSessionName,
                           fsid: this.feedbackSessionId,
                         },
                       );
                     } else {
                       // Valid, unused registration key; load information based on the key
-                      this.loadCourseInfo();
-                      this.loadPersonName();
                       this.loadFeedbackSession(false, auth);
                     }
                   } else if (resp.isValid) {
@@ -256,8 +250,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             } else if (this.loggedInUser) {
               // Load information based on logged in user
               // This will also cover moderation/preview cases
-              this.loadCourseInfo();
-              this.loadPersonName();
               this.loadFeedbackSession(false, auth);
             } else {
               this.navigationService.navigateWithErrorMessage(
@@ -365,7 +357,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         this.instructorService
           .getInstructor({
             courseId: this.courseId,
-            feedbackSessionName: this.feedbackSessionName,
             intent: this.intent,
             key: this.regKey,
             moderatedPerson: this.moderatedPerson,
@@ -409,6 +400,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       .subscribe({
         next: (feedbackSession: FeedbackSession) => {
           this.feedbackSessionId = feedbackSession.feedbackSessionId;
+          this.courseId = feedbackSession.courseId;
+          this.feedbackSessionName = feedbackSession.feedbackSessionName;
           this.feedbackSessionInstructions = feedbackSession.instructions;
           this.formattedSessionOpeningTime = this.timezoneService.formatToString(
             feedbackSession.submissionStartTimestamp,
@@ -422,6 +415,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           this.feedbackSessionTimezone = feedbackSession.timeZone;
 
           this.logStudentAccess();
+          this.loadCourseInfo();
+          this.loadPersonName();
 
           // don't show alert modal in moderation
           if (!this.moderatedPerson) {

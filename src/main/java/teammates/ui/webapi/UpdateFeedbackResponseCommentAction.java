@@ -83,16 +83,16 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             break;
         case INSTRUCTOR_RESULT:
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
-            Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
+            Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
             if (instructor == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
             }
             if (feedbackResponseComment.getGiver().equals(new ResponseGiver(instructor))) {
                 return;
             }
-            gateKeeper.verifyAccessible(instructor, session, response.getGiverSection().getName(),
+            gateKeeper.verifyAccessible(instructor, session, response.getGiver().getSectionName(),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-            gateKeeper.verifyAccessible(instructor, session, response.getRecipientSection().getName(),
+            gateKeeper.verifyAccessible(instructor, session, response.getRecipient().getSectionName(),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
             break;
         default:
@@ -131,7 +131,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             updater = new ResponseGiver(instructorAsFeedbackParticipant);
             break;
         case INSTRUCTOR_RESULT:
-            Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
+            Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
             updater = new ResponseGiver(instructor);
             break;
         default:

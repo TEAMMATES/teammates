@@ -51,7 +51,7 @@ public class CreateAccountAction extends Action {
         }
 
         try {
-            logic.createAccountWithDemoCourse(authContext.id(), accountRequest.getId(), timezone);
+            logic.createAccountWithDemoCourse(authContext.account().getGoogleId(), accountRequest.getId(), timezone);
         } catch (InvalidParametersException | EntityDoesNotExistException | EntityAlreadyExistsException e) {
             log.severe("Unexpected error creating account with demo course", e);
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);

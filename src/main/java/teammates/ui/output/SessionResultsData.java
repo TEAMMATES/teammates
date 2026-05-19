@@ -6,27 +6,24 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
 import java.util.UUID;
 
 import jakarta.annotation.Nullable;
 
-import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackMissingResponse;
 import teammates.common.datatransfer.SessionResultsBundle;
-import teammates.common.datatransfer.participanttypes.QuestionGiverType;
-import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.Const;
-import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
-import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Section;
+import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
 
@@ -87,20 +84,15 @@ public class SessionResultsData extends ApiOutput {
             QuestionOutput qnOutput = new QuestionOutput(question,
                     questionDetails.getQuestionResultStatisticsJson(question, user.getEmail(), bundle),
                     false, hasCommentNotVisibleForPreview);
-            Map<String, List<ResponseOutput>> otherResponsesMap = new HashMap<>();
+            Map<ResponseRecipient, List<ResponseOutput>> otherResponsesMap = new HashMap<>();
 
             qnOutput.getFeedbackQuestion().hideInformationForStudent();
 
             if (questionDetails.isIndividualResponsesShownToStudents()) {
                 for (FeedbackResponse response : responses) {
-                    boolean isUserInstructor = user instanceof Instructor;
+                    boolean isUserGiver = Objects.equals(user, response.getGiver().getGiverUser());
+                    boolean isUserRecipient = Objects.equals(user, response.getRecipient().getRecipientUser());
 
-                    boolean isUserGiver = SanitizationHelper.areEmailsEqual(user.getEmail(), response.getGiver())
-                            && (isUserInstructor && question.getGiverType() == QuestionGiverType.INSTRUCTORS
-                            || !isUserInstructor && question.getGiverType() != QuestionGiverType.INSTRUCTORS);
-                    boolean isUserRecipient = SanitizationHelper.areEmailsEqual(user.getEmail(), response.getRecipient())
-                            && (isUserInstructor && question.getRecipientType() == QuestionRecipientType.INSTRUCTORS
-                            || !isUserInstructor && question.getRecipientType() != QuestionRecipientType.INSTRUCTORS);
                     ResponseOutput responseOutput = buildSingleResponseForUser(response, bundle, user);
 
                     if (isUserRecipient) {
@@ -138,63 +130,52 @@ public class SessionResultsData extends ApiOutput {
 
     private static ResponseOutput buildSingleResponseForUser(
             FeedbackResponse response, SessionResultsBundle bundle, User user) {
-        FeedbackQuestion question = response.getFeedbackQuestion();
-        boolean isUserInstructor = user instanceof Instructor;
+        Objects.requireNonNull(user);
 
         // process giver
-        boolean isUserGiver = SanitizationHelper.areEmailsEqual(user.getEmail(), response.getGiver())
-                && (isUserInstructor && question.getGiverType() == QuestionGiverType.INSTRUCTORS
-                || !isUserInstructor && question.getGiverType() != QuestionGiverType.INSTRUCTORS);
+        ResponseGiver giver = response.getGiver();
+        boolean isUserGiver = Objects.equals(user, giver.getGiverUser());
         boolean isUserTeamGiver = false;
         if (user instanceof Student student) {
-            isUserTeamGiver = question.getGiverType() == QuestionGiverType.TEAMS
-                    && student.getTeamName().equals(response.getGiver());
+            isUserTeamGiver = Objects.equals(student.getTeam(), giver.getGiverTeam());
         }
 
         String giverName;
         String giverTeam = "";
         if (isUserTeamGiver) {
-            giverName = String.format("Your Team (%s)", response.getGiver());
-            giverTeam = response.getGiver();
+            giverName = String.format("Your Team (%s)", giver.getTeamName());
+            giverTeam = giver.getTeamName();
         } else if (isUserGiver) {
             giverName = "You";
-            giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
-            if (user instanceof Student student) {
-                giverTeam = student.getTeamName();
-            }
+            giverTeam = giver.getTeamName();
         } else {
             // we don't want student to figure out who is who by using the hash
-            giverName = removeAnonymousHash(getGiverNameOfResponse(response.getId(), response.getGiver(), question, bundle));
+            giverName = removeAnonymousHash(getGiverNameOfResponse(response.getId(), giver, bundle));
         }
 
         // process recipient
-        boolean isUserRecipient = SanitizationHelper.areEmailsEqual(user.getEmail(), response.getRecipient())
-                && (isUserInstructor && question.getRecipientType() == QuestionRecipientType.INSTRUCTORS
-                || !isUserInstructor && question.getRecipientType() != QuestionRecipientType.INSTRUCTORS);
+        ResponseRecipient recipient = response.getRecipient();
+        boolean isUserRecipient = Objects.equals(user, recipient.getRecipientUser());
         boolean isUserTeamRecipient = false;
+        boolean isRecipientVisible = bundle.isResponseRecipientVisible(response.getId(), recipient.getRecipientType());
         if (user instanceof Student student) {
-            isUserTeamRecipient = (question.getRecipientType() == QuestionRecipientType.TEAMS
-                    || question.getRecipientType() == QuestionRecipientType.TEAMS_IN_SAME_SECTION)
-                    && student.getTeamName().equals(response.getRecipient());
+            isUserTeamRecipient = Objects.equals(student.getTeam(), recipient.getRecipientTeam());
         }
 
         String recipientName;
         String recipientTeam = "";
         if (isUserRecipient) {
             recipientName = "You";
-            recipientTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
-            if (user instanceof Student student) {
-                recipientTeam = student.getTeamName();
-            }
+            recipientTeam = recipient.getTeamName();
         } else if (isUserTeamRecipient) {
-            recipientName = String.format("Your Team (%s)", response.getRecipient());
-            recipientTeam = response.getRecipient();
+            recipientName = String.format("Your Team (%s)", recipient.getDisplayName());
+            recipientTeam = recipient.getTeamName();
         } else {
             // we don't want student to figure out who is who by using the hash
             recipientName = removeAnonymousHash(
-                getRecipientNameOfResponse(response.getId(), response.getRecipient(), question, bundle));
-            if (!recipientName.contains(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT)) {
-                recipientTeam = bundle.getRoster().getInfoForIdentifier(response.getRecipient()).getTeamName();
+                getRecipientNameOfResponse(response.getId(), recipient, bundle));
+            if (isRecipientVisible) {
+                recipientTeam = recipient.getTeamName();
             }
         }
 
@@ -209,11 +190,11 @@ public class SessionResultsData extends ApiOutput {
                 .withGiverTeam(giverTeam)
                 .withGiverEmail(null)
                 .withRelatedGiverEmail(null)
-                .withGiverSection(response.getGiverSection())
+                .withGiverSectionName(giver.getSectionName())
                 .withRecipient(recipientName)
                 .withRecipientTeam(recipientTeam)
                 .withRecipientEmail(null)
-                .withRecipientSection(response.getRecipientSection())
+                .withRecipientSectionName(recipient.getSectionName())
                 .withResponseDetails(response.getFeedbackResponseDetailsCopy())
                 .withParticipantComment(comments.poll())
                 .withInstructorComments(new ArrayList<>(comments))
@@ -238,51 +219,37 @@ public class SessionResultsData extends ApiOutput {
 
     private static ResponseOutput buildSingleResponse(
             FeedbackResponse response, SessionResultsBundle bundle) {
-        FeedbackQuestion question = response.getFeedbackQuestion();
         // process giver
+        ResponseGiver responseGiver = response.getGiver();
         String giverEmail = null;
         String relatedGiverEmail = null;
         if (bundle.isResponseGiverVisible(response.getId())) {
-            giverEmail = response.getGiver();
-            relatedGiverEmail = response.getGiver();
-
-            if (bundle.getRoster().isTeamInCourse(giverEmail)) {
-                // remove recipient email as it is a team name
-                relatedGiverEmail =
-                        bundle.getRoster().getTeamToMembers().get(giverEmail).iterator().next().getEmail();
+            if (responseGiver.isGiverUser()) {
+                giverEmail = responseGiver.getGiverUser().getEmail();
+                relatedGiverEmail = responseGiver.getIdentifier();
+            } else {
+                // team giver, relatedGiverEmail is any team member's email
+                String teamName = responseGiver.getTeamName();
+                List<Student> teamMembers =
+                        bundle.getRoster().getTeamToMembers().getOrDefault(teamName, Collections.emptyList());
+                relatedGiverEmail = teamMembers.isEmpty() ? null : teamMembers.iterator().next().getEmail();
                 giverEmail = null;
             }
         }
-        String giverName = getGiverNameOfResponse(response.getId(), response.getGiver(), question, bundle);
-        String giverTeam = bundle.getRoster().getInfoForIdentifier(response.getGiver()).getTeamName();
-        String giverSectionName = response.getGiverSectionName();
-        if (question.getGiverType() == QuestionGiverType.INSTRUCTORS) {
-            Instructor instructor = bundle.getRoster().getInstructorForEmail(response.getGiver());
-            giverName = instructor.getName();
-            giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
-            giverSectionName = Const.DEFAULT_SECTION;
-        }
+        String giverName = getGiverNameOfResponse(response.getId(), responseGiver, bundle);
+        String giverTeam = responseGiver.getTeamName();
+        String giverSectionName = responseGiver.getSectionName();
 
         // process recipient
+        ResponseRecipient responseRecipient = response.getRecipient();
         String recipientEmail = null;
-        String recipientName = getRecipientNameOfResponse(response.getId(), response.getRecipient(), question, bundle);
-        String recipientTeam =
-                bundle.getRoster().getInfoForIdentifier(response.getRecipient()).getTeamName();
-        String recipientSectionName = response.getRecipientSectionName();
-        if (question.getRecipientType() == QuestionRecipientType.INSTRUCTORS) {
-            Instructor instructor = bundle.getRoster().getInstructorForEmail(response.getRecipient());
-            recipientName = instructor.getName();
-            recipientTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
-            recipientSectionName = Const.DEFAULT_SECTION;
-        }
-        if (bundle.isResponseRecipientVisible(response.getId(), question.getRecipientType())) {
-            recipientEmail = response.getRecipient();
+        String recipientName = getRecipientNameOfResponse(response.getId(), responseRecipient, bundle);
+        String recipientTeam = responseRecipient.getTeamName();
+        String recipientSectionName = responseRecipient.getSectionName();
 
-            boolean shouldRemoveRecipientEmail = bundle.getRoster().isTeamInCourse(recipientEmail)
-                    || Const.GENERAL_QUESTION.equals(recipientEmail);
-            if (shouldRemoveRecipientEmail) {
-                recipientEmail = null;
-            }
+        if (bundle.isResponseRecipientVisible(response.getId(), responseRecipient.getRecipientType())
+                && responseRecipient.isRecipientUser()) {
+            recipientEmail = responseRecipient.getIdentifier();
         }
 
         // process comments
@@ -322,50 +289,36 @@ public class SessionResultsData extends ApiOutput {
     private static ResponseOutput buildSingleMissingResponse(
             FeedbackMissingResponse response, SessionResultsBundle bundle) {
         // process giver
+        ResponseGiver responseGiver = response.giver();
         String giverEmail = null;
         String relatedGiverEmail = null;
-        FeedbackQuestion question = response.feedbackQuestion();
-        if (bundle.isResponseGiverVisible(response.id())) {
-            giverEmail = response.giver();
-            relatedGiverEmail = response.giver();
 
-            if (bundle.getRoster().isTeamInCourse(giverEmail)) {
-                // remove recipient email as it is a team name
-                relatedGiverEmail =
-                        bundle.getRoster().getTeamToMembers().get(giverEmail).iterator().next().getEmail();
+        if (bundle.isResponseGiverVisible(response.id())) {
+            if (responseGiver.isGiverUser()) {
+                giverEmail = responseGiver.getGiverUser().getEmail();
+                relatedGiverEmail = responseGiver.getIdentifier();
+            } else {
+                // team giver, relatedGiverEmail is any team member's email
+                String teamName = responseGiver.getTeamName();
+                relatedGiverEmail = bundle.getRoster().getTeamToMembers().getOrDefault(teamName, Collections.emptyList())
+                        .stream().findFirst().map(Student::getEmail).orElse(null);
                 giverEmail = null;
             }
         }
-        String giverName = getGiverNameOfResponse(response.id(), response.giver(), question, bundle);
-        String giverTeam = bundle.getRoster().getInfoForIdentifier(response.giver()).getTeamName();
-        String giverSectionName = response.giverSectionName();
-        if (question.getGiverType() == QuestionGiverType.INSTRUCTORS) {
-            Instructor instructor = bundle.getRoster().getInstructorForEmail(response.giver());
-            giverName = instructor.getName();
-            giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
-            giverSectionName = Const.DEFAULT_SECTION;
-        }
+        String giverName = getGiverNameOfResponse(response.id(), responseGiver, bundle);
+        String giverTeam = responseGiver.getTeamName();
+        String giverSectionName = responseGiver.getSectionName();
 
         // process recipient
+        ResponseRecipient responseRecipient = response.recipient();
         String recipientEmail = null;
-        String recipientName = getRecipientNameOfResponse(response.id(), response.recipient(), question, bundle);
-        String recipientTeam =
-                bundle.getRoster().getInfoForIdentifier(response.recipient()).getTeamName();
-        String recipientSectionName = response.recipientSectionName();
-        if (question.getRecipientType() == QuestionRecipientType.INSTRUCTORS) {
-            Instructor instructor = bundle.getRoster().getInstructorForEmail(response.recipient());
-            recipientName = instructor.getName();
-            recipientTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
-            recipientSectionName = Const.DEFAULT_SECTION;
-        }
-        if (bundle.isResponseRecipientVisible(response.id(), question.getRecipientType())) {
-            recipientEmail = response.recipient();
+        String recipientName = getRecipientNameOfResponse(response.id(), responseRecipient, bundle);
+        String recipientTeam = responseRecipient.getTeamName();
+        String recipientSectionName = responseRecipient.getSectionName();
 
-            boolean shouldRemoveRecipientEmail = bundle.getRoster().isTeamInCourse(recipientEmail)
-                    || Const.GENERAL_QUESTION.equals(recipientEmail);
-            if (shouldRemoveRecipientEmail) {
-                recipientEmail = null;
-            }
+        if (bundle.isResponseRecipientVisible(response.id(), responseRecipient.getRecipientType())
+                && responseRecipient.isRecipientUser()) {
+            recipientEmail = responseRecipient.getIdentifier();
         }
 
         FeedbackTextResponseDetails responseDetails = new FeedbackTextResponseDetails(Const.MISSING_RESPONSE_TEXT);
@@ -392,18 +345,13 @@ public class SessionResultsData extends ApiOutput {
      *
      * <p>Anonymized the name if necessary.
      */
-    private static String getGiverNameOfResponse(UUID responseId, String responseGiver,
-            FeedbackQuestion question, SessionResultsBundle bundle) {
-        QuestionGiverType giverType = question.getGiverType();
-
-        CourseRoster.ParticipantInfo userInfo = bundle.getRoster().getInfoForIdentifier(responseGiver);
-        String name = userInfo.getName();
-
-        if (!bundle.isResponseGiverVisible(responseId)) {
-            name = SessionResultsBundle.getAnonGiverName(giverType, name);
+    private static String getGiverNameOfResponse(UUID responseId,
+            ResponseGiver responseGiver, SessionResultsBundle bundle) {
+        if (bundle.isResponseGiverVisible(responseId)) {
+            return responseGiver.getDisplayName();
+        } else {
+            return SessionResultsBundle.getAnonGiverName(responseGiver);
         }
-
-        return name;
     }
 
     /**
@@ -411,32 +359,13 @@ public class SessionResultsData extends ApiOutput {
      *
      * <p>Anonymized the name if necessary.
      */
-    private static String getRecipientNameOfResponse(UUID responseId, String responseRecipient,
-            FeedbackQuestion question, SessionResultsBundle bundle) {
-        QuestionRecipientType recipientType = question.getRecipientType();
-        if (recipientType == QuestionRecipientType.SELF) {
-            // recipient type for self-feedback is the same as the giver type
-            recipientType = switch (question.getGiverType()) {
-            case TEAMS -> QuestionRecipientType.TEAMS;
-            case TEAMS_IN_SAME_SECTION -> QuestionRecipientType.TEAMS_IN_SAME_SECTION;
-            case INSTRUCTORS -> QuestionRecipientType.INSTRUCTORS;
-            case SELF -> QuestionRecipientType.SELF;
-            case STUDENTS -> QuestionRecipientType.STUDENTS;
-            case STUDENTS_IN_SAME_SECTION -> QuestionRecipientType.STUDENTS_IN_SAME_SECTION;
-            };
+    private static String getRecipientNameOfResponse(UUID responseId,
+            ResponseRecipient responseRecipient, SessionResultsBundle bundle) {
+        if (bundle.isResponseRecipientVisible(responseId, responseRecipient.getRecipientType())) {
+            return responseRecipient.getDisplayName();
+        } else {
+            return SessionResultsBundle.getAnonRecipientName(responseRecipient);
         }
-
-        CourseRoster.ParticipantInfo userInfo = bundle.getRoster().getInfoForIdentifier(responseRecipient);
-        String name = userInfo.getName();
-        if (Const.GENERAL_QUESTION.equals(responseRecipient)) {
-            // for general question
-            name = Const.USER_NOBODY_TEXT;
-        }
-        if (!bundle.isResponseRecipientVisible(responseId, recipientType)) {
-            name = SessionResultsBundle.getAnonRecipientName(recipientType, name);
-        }
-
-        return name;
     }
 
     private static Queue<CommentOutput> buildComments(List<FeedbackResponseComment> feedbackResponseComments,
@@ -688,11 +617,6 @@ public class SessionResultsData extends ApiOutput {
                 return this;
             }
 
-            Builder withGiverSection(Section giverSection) {
-                responseOutput.giverSection = giverSection.getName();
-                return this;
-            }
-
             Builder withRecipient(String recipientName) {
                 responseOutput.recipient = recipientName;
                 return this;
@@ -710,11 +634,6 @@ public class SessionResultsData extends ApiOutput {
 
             Builder withRecipientSectionName(String recipientSection) {
                 responseOutput.recipientSection = recipientSection;
-                return this;
-            }
-
-            Builder withRecipientSection(Section recipientSection) {
-                responseOutput.recipientSection = recipientSection.getName();
                 return this;
             }
 

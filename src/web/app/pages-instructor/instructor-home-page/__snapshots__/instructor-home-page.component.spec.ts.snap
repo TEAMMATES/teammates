@@ -761,7 +761,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                 class="d-flex gap-1"
                               >
                                 <a
-                                  href="/web/instructor/sessions/edit?courseid=CS1231&fsname=First%20Session&editingMode=true"
+                                  href="/web/instructor/sessions/edit?fsid=first-session-id&editingMode=true"
                                   tmrouterlink="/web/instructor/sessions/edit"
                                 >
                                   <button
@@ -785,7 +785,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                    Copy 
                                 </button>
                                 <a
-                                  href="/web/instructor/sessions/submission?courseid=CS1231&fsname=First%20Session&editingMode=true"
+                                  href="/web/instructor/sessions/submission?fsid=first-session-id&editingMode=true"
                                   tmrouterlink="/web/instructor/sessions/submission"
                                 >
                                   <button
@@ -814,14 +814,14 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                   >
                                     <a
                                       class="btn dropdown-item clickable disabled"
-                                      href="/web/instructor/sessions/result?courseid=CS1231&fsname=First%20Session"
+                                      href="/web/instructor/sessions/result?fsid=first-session-id"
                                       tmrouterlink="/web/instructor/sessions/result"
                                     >
                                       View Results (from/to me)
                                     </a>
                                     <a
                                       class="btn dropdown-item clickable disabled"
-                                      href="/web/instructor/sessions/report?courseid=CS1231&fsname=First%20Session"
+                                      href="/web/instructor/sessions/report?fsid=first-session-id"
                                       tmrouterlink="/web/instructor/sessions/report"
                                     >
                                       View Results (course-wide)
@@ -1381,14 +1381,14 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                   >
                                     <a
                                       class="btn dropdown-item clickable disabled"
-                                      href="/web/instructor/sessions/result?courseid=CS1231&fsname=Second%20Session"
+                                      href="/web/instructor/sessions/result?fsid=second-session-id"
                                       tmrouterlink="/web/instructor/sessions/result"
                                     >
                                       View Results (from/to me)
                                     </a>
                                     <a
                                       class="btn dropdown-item clickable disabled"
-                                      href="/web/instructor/sessions/report?courseid=CS1231&fsname=Second%20Session"
+                                      href="/web/instructor/sessions/report?fsid=second-session-id"
                                       tmrouterlink="/web/instructor/sessions/report"
                                     >
                                       View Results (course-wide)
@@ -1566,14 +1566,14 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                   >
                                     <a
                                       class="btn dropdown-item clickable disabled"
-                                      href="/web/instructor/sessions/result?courseid=CS1231&fsname=First%20Session"
+                                      href="/web/instructor/sessions/result?fsid=first-session-id"
                                       tmrouterlink="/web/instructor/sessions/result"
                                     >
                                       View Results (from/to me)
                                     </a>
                                     <a
                                       class="btn dropdown-item clickable disabled"
-                                      href="/web/instructor/sessions/report?courseid=CS1231&fsname=First%20Session"
+                                      href="/web/instructor/sessions/report?fsid=first-session-id"
                                       tmrouterlink="/web/instructor/sessions/report"
                                     >
                                       View Results (course-wide)

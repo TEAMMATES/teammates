@@ -8,19 +8,21 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+import teammates.common.util.Const;
+
 /**
  * Embeddable value object that identifies a giver (or editor) of a feedback response or comment.
  */
 @Embeddable
 public class ResponseGiver {
-    @Column(name = "giverUserId", insertable = false, updatable = false)
+    @Column(insertable = false, updatable = false)
     private UUID giverUserId;
 
     @ManyToOne
     @JoinColumn(name = "giverUserId")
     private User giverUser;
 
-    @Column(name = "giverTeamId", insertable = false, updatable = false)
+    @Column(insertable = false, updatable = false)
     private UUID giverTeamId;
 
     @ManyToOne
@@ -83,8 +85,48 @@ public class ResponseGiver {
         return getGiverUserId() != null;
     }
 
+    public boolean isGiverInstructor() {
+        return getGiverUser() instanceof Instructor;
+    }
+
+    public boolean isGiverStudent() {
+        return getGiverUser() instanceof Student;
+    }
+
     public boolean isGiverTeam() {
         return getGiverTeamId() != null;
+    }
+
+    /**
+     * Gets the team name of the giver. If the giver is an instructor, returns the instructor team name.
+     */
+    public String getTeamName() {
+        if (isGiverTeam()) {
+            return giverTeam != null ? giverTeam.getName() : Const.UNKNOWN_TEAM;
+        }
+        if (giverUser instanceof Student student) {
+            return student.getTeamName();
+        }
+        if (giverUser instanceof Instructor) {
+            return Const.USER_TEAM_FOR_INSTRUCTOR;
+        }
+        return Const.UNKNOWN_TEAM;
+    }
+
+    /**
+     * Gets the section name of the giver. If the giver is an instructor, returns the default section name.
+     */
+    public String getSectionName() {
+        if (isGiverTeam()) {
+            return giverTeam != null ? giverTeam.getSection().getName() : Const.UNKNOWN_SECTION;
+        }
+        if (giverUser instanceof Student student) {
+            return student.getSectionName();
+        }
+        if (giverUser instanceof Instructor) {
+            return Const.DEFAULT_SECTION;
+        }
+        return Const.UNKNOWN_SECTION;
     }
 
     /**
@@ -97,7 +139,7 @@ public class ResponseGiver {
         if (giverUser != null) {
             return giverUser.getEmail();
         }
-        return "Deleted User";
+        return Const.UNKNOWN_USER;
     }
 
     /**
@@ -110,7 +152,20 @@ public class ResponseGiver {
         if (giverUser != null) {
             return giverUser.getName();
         }
-        return "Deleted User";
+        return Const.UNKNOWN_USER;
+    }
+
+    /**
+     * Formats the giver type as a singular noun.
+     */
+    public String toSingularFormString() {
+        if (isGiverTeam()) {
+            return "team";
+        }
+        if (giverUser instanceof Student) {
+            return "student";
+        }
+        return "instructor";
     }
 
     @Override

@@ -27,6 +27,8 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
@@ -75,11 +77,11 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         // First stub FeedbackResponsesData
         FeedbackResponse feedbackResponse1 = getTypicalFeedbackResponseForQuestion(stubFeedbackQuestion);
         FeedbackResponse feedbackResponse2 = getTypicalFeedbackResponseForQuestion(stubFeedbackQuestion);
-        feedbackResponse2.setGiver("giver-2");
-        feedbackResponse2.setRecipient("recipient-2");
+        feedbackResponse2.setGiver(new ResponseGiver(stubInstructor));
+        feedbackResponse2.setRecipient(new ResponseRecipient(stubInstructor));
         FeedbackResponse feedbackResponse3 = getTypicalFeedbackResponseForQuestion(stubFeedbackQuestion);
-        feedbackResponse3.setGiver("giver-3");
-        feedbackResponse3.setRecipient("recipient-3");
+        feedbackResponse3.setGiver(new ResponseGiver(stubStudent));
+        feedbackResponse3.setRecipient(new ResponseRecipient(stubInstructor));
 
         stubFeedbackResponsesNonNullComments = new ArrayList<>();
         stubFeedbackResponsesNonNullComments.add(feedbackResponse1);
@@ -99,11 +101,11 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         // Second stub FeedbackResponsesData
         FeedbackResponse feedbackResponse4 = getTypicalFeedbackResponseForQuestion(stubFeedbackQuestion);
         FeedbackResponse feedbackResponse5 = getTypicalFeedbackResponseForQuestion(stubFeedbackQuestion);
-        feedbackResponse4.setGiver("giver-4");
-        feedbackResponse4.setRecipient("recipient-4");
+        feedbackResponse4.setGiver(new ResponseGiver(stubInstructor));
+        feedbackResponse4.setRecipient(new ResponseRecipient(stubStudent));
         FeedbackResponse feedbackResponse6 = getTypicalFeedbackResponseForQuestion(stubFeedbackQuestion);
-        feedbackResponse5.setGiver("giver-5");
-        feedbackResponse5.setRecipient("recipient-5");
+        feedbackResponse5.setGiver(new ResponseGiver(stubStudent));
+        feedbackResponse5.setRecipient(new ResponseRecipient(stubStudent));
 
         stubFeedbackResponsesNullComments = new ArrayList<>();
         stubFeedbackResponsesNullComments.add(feedbackResponse4);

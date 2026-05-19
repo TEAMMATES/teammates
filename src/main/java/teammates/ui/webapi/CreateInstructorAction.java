@@ -36,7 +36,7 @@ public class CreateInstructorAction extends Action {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
         gateKeeper.verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
@@ -58,7 +58,7 @@ public class CreateInstructorAction extends Action {
             Instructor createdInstructor = logic.createInstructor(instructorToAdd);
 
             // Generate and queue invitation email to priority queue (user-triggered)
-            Account inviter = logic.getAccountForGoogleId(authContext.id());
+            Account inviter = logic.getAccountForGoogleId(getCurrentUserGoogleId());
             if (inviter == null) {
                 throw new EntityNotFoundException("Inviter account does not exist.");
             }

@@ -38,7 +38,7 @@ public class CreateFeedbackSessionLogAction extends Action {
         }
 
         if (authenticatedStudent.getAccount() != null
-                && (authContext == null || !authContext.id().equals(authenticatedStudent.getAccount().getGoogleId()))) {
+                && !authenticatedStudent.getAccount().getGoogleId().equals(getCurrentUserGoogleId())) {
             throw new UnauthorizedAccessException(
                     "Login is required to create a feedback session log for a student with an associated account.");
         }
