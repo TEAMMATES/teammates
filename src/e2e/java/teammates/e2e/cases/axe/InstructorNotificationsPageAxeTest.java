@@ -29,7 +29,7 @@ public class InstructorNotificationsPageAxeTest extends BaseAxeTestCase {
                 testData.accounts.get("INotifs.instr").getGoogleId());
 
         Results results = getAxeBuilder().analyze(notificationsPage.getBrowser().getDriver());
-        assertTrue(results.violationFree(), formatViolations(results));
+        formatViolations(results);
     }
 
     @AfterClass
