@@ -27,7 +27,7 @@
             "polyfills": ["zone.js", "@angular/localize/init"],
             "tsConfig": "tsconfig.app.json",
             "allowedCommonJsDependencies": ["moment-timezone"],
-            "assets": ["src/web/assets/", "src/web/manifest.webmanifest", "src/web/robots.txt"],
+            "assets": ["src/web/assets/", "src/web/robots.txt", "src/web/ngsw-worker.js"],
             "styles": ["src/web/styles.scss"],
             "browser": "src/web/main.ts"
           },
@@ -49,7 +49,6 @@
               },
               "outputHashing": "all",
               "subresourceIntegrity": true,
-              "serviceWorker": "ngsw-config.json",
               "budgets": [
                 {
                   "type": "initial",
