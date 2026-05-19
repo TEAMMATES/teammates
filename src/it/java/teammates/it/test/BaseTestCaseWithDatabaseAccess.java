@@ -1,6 +1,9 @@
 package teammates.it.test;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.util.UUID;
 
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -107,78 +110,78 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
             Course expectedCourse = (Course) expected;
             Course actualCourse = (Course) actual;
             equalizeIrrelevantData(expectedCourse, actualCourse);
-            Assertions.assertEquals(JsonUtils.toJson(expectedCourse), JsonUtils.toJson(actualCourse));
+            assertEquals(JsonUtils.toJson(expectedCourse), JsonUtils.toJson(actualCourse));
         } else if (expected instanceof DeadlineExtension) {
             DeadlineExtension expectedDeadlineExtension = (DeadlineExtension) expected;
             DeadlineExtension actualDeadlineExtension = (DeadlineExtension) actual;
             equalizeIrrelevantData(expectedDeadlineExtension, actualDeadlineExtension);
-            Assertions.assertEquals(JsonUtils.toJson(expectedDeadlineExtension), JsonUtils.toJson(actualDeadlineExtension));
+            assertEquals(JsonUtils.toJson(expectedDeadlineExtension), JsonUtils.toJson(actualDeadlineExtension));
         } else if (expected instanceof FeedbackSession) {
             FeedbackSession expectedSession = (FeedbackSession) expected;
             FeedbackSession actualSession = (FeedbackSession) actual;
             equalizeIrrelevantData(expectedSession, actualSession);
-            Assertions.assertEquals(JsonUtils.toJson(expectedSession), JsonUtils.toJson(actualSession));
+            assertEquals(JsonUtils.toJson(expectedSession), JsonUtils.toJson(actualSession));
         } else if (expected instanceof FeedbackQuestion) {
             FeedbackQuestion expectedQuestion = (FeedbackQuestion) expected;
             FeedbackQuestion actualQuestion = (FeedbackQuestion) actual;
             equalizeIrrelevantData(expectedQuestion, actualQuestion);
-            Assertions.assertEquals(JsonUtils.toJson(expectedQuestion), JsonUtils.toJson(actualQuestion));
+            assertEquals(JsonUtils.toJson(expectedQuestion), JsonUtils.toJson(actualQuestion));
         } else if (expected instanceof FeedbackResponse) {
             FeedbackResponse expectedResponse = (FeedbackResponse) expected;
             FeedbackResponse actualResponse = (FeedbackResponse) actual;
             equalizeIrrelevantData(expectedResponse, actualResponse);
-            Assertions.assertEquals(JsonUtils.toJson(expectedResponse), JsonUtils.toJson(actualResponse));
+            assertEquals(JsonUtils.toJson(expectedResponse), JsonUtils.toJson(actualResponse));
         } else if (expected instanceof FeedbackResponseComment) {
             FeedbackResponseComment expectedComment = (FeedbackResponseComment) expected;
             FeedbackResponseComment actualComment = (FeedbackResponseComment) actual;
             equalizeIrrelevantData(expectedComment, actualComment);
-            Assertions.assertEquals(JsonUtils.toJson(expectedComment), JsonUtils.toJson(actualComment));
+            assertEquals(JsonUtils.toJson(expectedComment), JsonUtils.toJson(actualComment));
         } else if (expected instanceof Notification) {
             Notification expectedNotification = (Notification) expected;
             Notification actualNotification = (Notification) actual;
             equalizeIrrelevantData(expectedNotification, actualNotification);
-            Assertions.assertEquals(JsonUtils.toJson(expectedNotification), JsonUtils.toJson(actualNotification));
+            assertEquals(JsonUtils.toJson(expectedNotification), JsonUtils.toJson(actualNotification));
         } else if (expected instanceof Account) {
             Account expectedAccount = (Account) expected;
             Account actualAccount = (Account) actual;
             equalizeIrrelevantData(expectedAccount, actualAccount);
-            Assertions.assertEquals(JsonUtils.toJson(expectedAccount), JsonUtils.toJson(actualAccount));
+            assertEquals(JsonUtils.toJson(expectedAccount), JsonUtils.toJson(actualAccount));
         } else if (expected instanceof AccountRequest) {
             AccountRequest expectedAccountRequest = (AccountRequest) expected;
             AccountRequest actualAccountRequest = (AccountRequest) actual;
             equalizeIrrelevantData(expectedAccountRequest, actualAccountRequest);
-            Assertions.assertEquals(JsonUtils.toJson(expectedAccountRequest), JsonUtils.toJson(actualAccountRequest));
+            assertEquals(JsonUtils.toJson(expectedAccountRequest), JsonUtils.toJson(actualAccountRequest));
         } else if (expected instanceof UsageStatistics) {
             UsageStatistics expectedUsageStatistics = (UsageStatistics) expected;
             UsageStatistics actualUsageStatistics = (UsageStatistics) actual;
             equalizeIrrelevantData(expectedUsageStatistics, actualUsageStatistics);
-            Assertions.assertEquals(JsonUtils.toJson(expectedUsageStatistics), JsonUtils.toJson(actualUsageStatistics));
+            assertEquals(JsonUtils.toJson(expectedUsageStatistics), JsonUtils.toJson(actualUsageStatistics));
         } else if (expected instanceof Instructor) {
             Instructor expectedInstructor = (Instructor) expected;
             Instructor actualInstructor = (Instructor) actual;
             equalizeIrrelevantData(expectedInstructor, actualInstructor);
-            Assertions.assertEquals(JsonUtils.toJson(expectedInstructor), JsonUtils.toJson(actualInstructor));
+            assertEquals(JsonUtils.toJson(expectedInstructor), JsonUtils.toJson(actualInstructor));
         } else if (expected instanceof Student) {
             Student expectedStudent = (Student) expected;
             Student actualStudent = (Student) actual;
             equalizeIrrelevantData(expectedStudent, actualStudent);
-            Assertions.assertEquals(JsonUtils.toJson(expectedStudent), JsonUtils.toJson(actualStudent));
+            assertEquals(JsonUtils.toJson(expectedStudent), JsonUtils.toJson(actualStudent));
         } else if (expected instanceof Section) {
             Section expectedSection = (Section) expected;
             Section actualSection = (Section) actual;
             equalizeIrrelevantData(expectedSection, actualSection);
-            Assertions.assertEquals(JsonUtils.toJson(expectedSection), JsonUtils.toJson(actualSection));
+            assertEquals(JsonUtils.toJson(expectedSection), JsonUtils.toJson(actualSection));
         } else if (expected instanceof Team) {
             Team expectedTeam = (Team) expected;
             Team actualTeam = (Team) actual;
             equalizeIrrelevantData(expectedTeam, actualTeam);
-            Assertions.assertEquals(JsonUtils.toJson(expectedTeam), JsonUtils.toJson(actualTeam));
+            assertEquals(JsonUtils.toJson(expectedTeam), JsonUtils.toJson(actualTeam));
         } else if (expected instanceof ReadNotification) {
             ReadNotification expectedReadNotification = (ReadNotification) expected;
             ReadNotification actualReadNotification = (ReadNotification) actual;
             equalizeIrrelevantData(expectedReadNotification, actualReadNotification);
         } else {
-            Assertions.fail("Unknown entity");
+            fail("Unknown entity");
         }
     }
 
@@ -186,7 +189,7 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
      * Verifies that the given entity is present in the database.
      */
     protected void verifyPresentInDatabase(BaseEntity expected) {
-        Assertions.assertNotNull(expected);
+        assertNotNull(expected);
         BaseEntity actual = getEntity(expected);
         verifyEquals(expected, actual);
     }

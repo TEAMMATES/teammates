@@ -1,6 +1,8 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -56,7 +58,7 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
         DeleteStudentAction deleteStudentAction = getAction(params);
         getJsonResult(deleteStudentAction);
 
-        Assertions.assertNull(logic.getStudentForEmail(courseId, student1InCourse1.getEmail()));
+        assertNull(logic.getStudentForEmail(courseId, student1InCourse1.getEmail()));
 
         ______TS("Typical Success Case delete a student by id");
         params = new String[] {
@@ -67,7 +69,7 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
         deleteStudentAction = getAction(params);
         getJsonResult(deleteStudentAction);
 
-        Assertions.assertNull(logic.getStudentByGoogleId(courseId, student2InCourse1.getGoogleId()));
+        assertNull(logic.getStudentByGoogleId(courseId, student2InCourse1.getGoogleId()));
 
         ______TS("Course does not exist, fails silently");
         params = new String[] {
@@ -78,7 +80,7 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
         deleteStudentAction = getAction(params);
         getJsonResult(deleteStudentAction);
 
-        Assertions.assertNotNull(logic.getStudentByGoogleId(student3InCourse1.getCourseId(), student3InCourse1.getGoogleId()));
+        assertNotNull(logic.getStudentByGoogleId(student3InCourse1.getCourseId(), student3InCourse1.getGoogleId()));
 
         ______TS("Student does not exist, fails silently");
         params = new String[] {

@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -67,7 +68,7 @@ public class SendJoinReminderEmailActionTest
         SendJoinReminderEmailAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        Assertions.assertEquals(
+        assertEquals(
                 "An email has been sent to " + student.getEmail(),
                 actionOutput.getMessage());
 
@@ -92,7 +93,7 @@ public class SendJoinReminderEmailActionTest
         SendJoinReminderEmailAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        Assertions.assertEquals(
+        assertEquals(
                 "An email has been sent to " + instructor.getEmail(),
                 actionOutput.getMessage());
 
@@ -116,7 +117,7 @@ public class SendJoinReminderEmailActionTest
         SendJoinReminderEmailAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        Assertions.assertEquals(
+        assertEquals(
                 "Emails have been sent to unregistered students.",
                 actionOutput.getMessage());
 

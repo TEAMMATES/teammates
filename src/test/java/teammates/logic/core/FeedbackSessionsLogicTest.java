@@ -1,6 +1,12 @@
 package teammates.logic.core;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -65,8 +71,8 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         FeedbackSession result = fsLogic.getFeedbackSession(sessionId);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(session, result);
+        assertNotNull(result);
+        assertEquals(session, result);
         verify(fsDb, times(1)).getFeedbackSession(sessionId);
     }
 
@@ -78,7 +84,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         FeedbackSession result = fsLogic.getFeedbackSession(nonExistentId);
 
-        Assertions.assertNull(result);
+        assertNull(result);
         verify(fsDb, times(1)).getFeedbackSession(nonExistentId);
     }
 
@@ -93,8 +99,8 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         FeedbackSession result = fsLogic.getFeedbackSession(sessionName, courseId);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(session, result);
+        assertNotNull(result);
+        assertEquals(session, result);
         verify(fsDb, times(1)).getFeedbackSession(sessionName, courseId);
     }
 
@@ -109,10 +115,10 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         List<FeedbackSession> result = fsLogic.getFeedbackSessionsForCourse(course.getId());
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(2, result.size());
-        Assertions.assertTrue(result.contains(session1));
-        Assertions.assertTrue(result.contains(session2));
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertTrue(result.contains(session1));
+        assertTrue(result.contains(session2));
     }
 
     @Test
@@ -123,7 +129,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         List<FeedbackSession> result = fsLogic.getFeedbackSessionsForCourse(courseId);
 
-        Assertions.assertTrue(result.isEmpty());
+        assertTrue(result.isEmpty());
     }
 
     @Test
@@ -136,9 +142,9 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         FeedbackSession result = fsLogic.getFeedbackSessionFromRecycleBin(session.getName(), course.getId());
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(session, result);
-        Assertions.assertNotNull(result.getDeletedAt());
+        assertNotNull(result);
+        assertEquals(session, result);
+        assertNotNull(result.getDeletedAt());
     }
 
     @Test
@@ -147,7 +153,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         FeedbackSession result = fsLogic.getFeedbackSessionFromRecycleBin("session", "course");
 
-        Assertions.assertNull(result);
+        assertNull(result);
     }
 
     @Test
@@ -162,9 +168,9 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         List<FeedbackSession> result = fsLogic.getOngoingSessions(rangeStart, rangeEnd);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(1, result.size());
-        Assertions.assertEquals(session, result.get(0));
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals(session, result.get(0));
     }
 
     @Test
@@ -179,11 +185,11 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         FeedbackSession result = fsLogic.publishFeedbackSession(session.getId());
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(session, result);
-        Assertions.assertTrue(result.isPublished());
-        Assertions.assertFalse(result.isPublishedEmailSent());
-        Assertions.assertNotNull(result.getResultsVisibleFromTime());
+        assertNotNull(result);
+        assertEquals(session, result);
+        assertTrue(result.isPublished());
+        assertFalse(result.isPublishedEmailSent());
+        assertNotNull(result.getResultsVisibleFromTime());
     }
 
     @Test
@@ -194,9 +200,9 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
 
-        InvalidFeedbackSessionStateException ex = Assertions.assertThrows(InvalidFeedbackSessionStateException.class,
+        InvalidFeedbackSessionStateException ex = assertThrows(InvalidFeedbackSessionStateException.class,
                 () -> fsLogic.publishFeedbackSession(session.getId()));
-        Assertions.assertEquals("Feedback Session is already published.", ex.getMessage());
+        assertEquals("Feedback Session is already published.", ex.getMessage());
     }
 
     @Test
@@ -204,9 +210,9 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         UUID nonExistentId = UUID.fromString("2da92144-63f3-4da5-9148-dbcbdef6dc2c");
         when(fsDb.getFeedbackSession(nonExistentId)).thenReturn(null);
 
-        EntityDoesNotExistException ex = Assertions.assertThrows(EntityDoesNotExistException.class,
+        EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
                 () -> fsLogic.publishFeedbackSession(nonExistentId));
-        Assertions.assertEquals(String.format("Feedback session with id %s not found.", nonExistentId), ex.getMessage());
+        assertEquals(String.format("Feedback session with id %s not found.", nonExistentId), ex.getMessage());
     }
 
     @Test
@@ -221,11 +227,11 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         FeedbackSession result = fsLogic.unpublishFeedbackSession(session.getId());
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(session, result);
-        Assertions.assertFalse(result.isPublished());
-        Assertions.assertFalse(result.isPublishedEmailSent());
-        Assertions.assertEquals(Const.TIME_REPRESENTS_LATER, result.getResultsVisibleFromTime());
+        assertNotNull(result);
+        assertEquals(session, result);
+        assertFalse(result.isPublished());
+        assertFalse(result.isPublishedEmailSent());
+        assertEquals(Const.TIME_REPRESENTS_LATER, result.getResultsVisibleFromTime());
     }
 
     @Test
@@ -236,9 +242,9 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
 
-        InvalidFeedbackSessionStateException ex = Assertions.assertThrows(InvalidFeedbackSessionStateException.class,
+        InvalidFeedbackSessionStateException ex = assertThrows(InvalidFeedbackSessionStateException.class,
                 () -> fsLogic.unpublishFeedbackSession(session.getId()));
-        Assertions.assertEquals("Feedback Session is already unpublished.", ex.getMessage());
+        assertEquals("Feedback Session is already unpublished.", ex.getMessage());
     }
 
     @Test
@@ -246,9 +252,9 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         UUID nonExistentId = UUID.fromString("2da92144-63f3-4da5-9148-dbcbdef6dc2c");
         when(fsDb.getFeedbackSession(nonExistentId)).thenReturn(null);
 
-        EntityDoesNotExistException ex = Assertions.assertThrows(EntityDoesNotExistException.class,
+        EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
                 () -> fsLogic.unpublishFeedbackSession(nonExistentId));
-        Assertions.assertEquals(String.format("Feedback session with id %s not found.", nonExistentId), ex.getMessage());
+        assertEquals(String.format("Feedback session with id %s not found.", nonExistentId), ex.getMessage());
     }
 
     @Test
@@ -260,7 +266,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         fsLogic.restoreFeedbackSessionFromRecycleBin(session.getId());
 
-        Assertions.assertNull(session.getDeletedAt());
+        assertNull(session.getDeletedAt());
     }
 
     @Test
@@ -288,7 +294,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         boolean result = fsLogic.isFeedbackSessionAttemptedByStudent(session, student.getEmail(), student.getTeamName());
 
-        Assertions.assertTrue(result);
+        assertTrue(result);
     }
 
     @Test
@@ -303,7 +309,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         boolean result = fsLogic.isFeedbackSessionViewableToUserType(session, false);
 
-        Assertions.assertTrue(result);
+        assertTrue(result);
     }
 
     @Test
@@ -314,7 +320,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         boolean result = fsLogic.isFeedbackSessionForUserTypeToAnswer(session, false);
 
-        Assertions.assertFalse(result);
+        assertFalse(result);
     }
 
     @Test
@@ -335,7 +341,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         int result = fsLogic.getExpectedTotalSubmission(session);
 
-        Assertions.assertEquals(2, result);
+        assertEquals(2, result);
         verify(fqLogic, times(1)).hasFeedbackQuestionsForStudents(questions);
         verify(usersLogic, times(1)).getStudentsForCourse(courseId);
         verify(fqLogic, times(1)).hasFeedbackQuestionsForInstructors(questions, true);
@@ -362,7 +368,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         int result = fsLogic.getExpectedTotalSubmission(session);
 
-        Assertions.assertEquals(3, result); // 1 student + 2 instructors
+        assertEquals(3, result); // 1 student + 2 instructors
         verify(usersLogic, times(1)).getInstructorsForCourse(courseId);
     }
 
@@ -393,7 +399,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         int result = fsLogic.getActualTotalSubmission(session);
 
         // Should return unique givers: student1@email.com and student2@email.com = 2
-        Assertions.assertEquals(2, result);
+        assertEquals(2, result);
     }
 
     @Test
@@ -406,7 +412,7 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         int result = fsLogic.getActualTotalSubmission(session);
 
-        Assertions.assertEquals(0, result);
+        assertEquals(0, result);
     }
 
     @Test
@@ -421,10 +427,10 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         List<FeedbackSession> result = fsLogic.getFeedbackSessionsForInstructors(instructors);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(1, result.size());
-        Assertions.assertEquals(session, result.get(0));
-        Assertions.assertEquals(course.getId(), result.get(0).getCourseId());
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals(session, result.get(0));
+        assertEquals(course.getId(), result.get(0).getCourseId());
     }
 
     @Test
@@ -440,10 +446,10 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         List<FeedbackSession> result = fsLogic.getSoftDeletedFeedbackSessionsForInstructors(instructors);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(1, result.size());
-        Assertions.assertEquals(session, result.get(0));
-        Assertions.assertNotNull(result.get(0).getDeletedAt());
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals(session, result.get(0));
+        assertNotNull(result.get(0).getDeletedAt());
     }
 
     @Test
@@ -456,14 +462,14 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         session = fsLogic.updateFeedbackSession(session.getId(), updateRequest);
 
-        Assertions.assertEquals(updateRequest.getInstructions(), session.getInstructions());
-        Assertions.assertEquals(updateRequest.getGracePeriod(), session.getGracePeriod());
-        Assertions.assertEquals(updateRequest.getSessionVisibleFromTime(), session.getSessionVisibleFromTime());
-        Assertions.assertEquals(updateRequest.getResultsVisibleFromTime(), session.getResultsVisibleFromTime());
-        Assertions.assertEquals(updateRequest.getSubmissionStartTime(), session.getStartTime());
-        Assertions.assertEquals(updateRequest.getSubmissionEndTime(), session.getEndTime());
-        Assertions.assertEquals(updateRequest.isClosingSoonEmailEnabled(), session.isClosingSoonEmailEnabled());
-        Assertions.assertEquals(updateRequest.isPublishedEmailEnabled(), session.isPublishedEmailEnabled());
+        assertEquals(updateRequest.getInstructions(), session.getInstructions());
+        assertEquals(updateRequest.getGracePeriod(), session.getGracePeriod());
+        assertEquals(updateRequest.getSessionVisibleFromTime(), session.getSessionVisibleFromTime());
+        assertEquals(updateRequest.getResultsVisibleFromTime(), session.getResultsVisibleFromTime());
+        assertEquals(updateRequest.getSubmissionStartTime(), session.getStartTime());
+        assertEquals(updateRequest.getSubmissionEndTime(), session.getEndTime());
+        assertEquals(updateRequest.isClosingSoonEmailEnabled(), session.isClosingSoonEmailEnabled());
+        assertEquals(updateRequest.isPublishedEmailEnabled(), session.isPublishedEmailEnabled());
     }
 
     @Test
@@ -473,9 +479,9 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
 
         when(fsDb.getFeedbackSession(nonExistentId)).thenReturn(null);
 
-        EntityDoesNotExistException ex = Assertions.assertThrows(EntityDoesNotExistException.class,
+        EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
                 () -> fsLogic.updateFeedbackSession(nonExistentId, updateRequest));
-        Assertions.assertEquals(String.format("Feedback session with id %s not found.", nonExistentId), ex.getMessage());
+        assertEquals(String.format("Feedback session with id %s not found.", nonExistentId), ex.getMessage());
     }
 
     @Test
@@ -490,9 +496,9 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         updateRequest.setSubmissionStartTimestamp(newStartTime.toEpochMilli());
         when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
 
-        InvalidParametersException ex = Assertions.assertThrows(InvalidParametersException.class,
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
                 () -> fsLogic.updateFeedbackSession(session.getId(), updateRequest));
-        Assertions.assertEquals("Invalid submission opening time: "
+        assertEquals("Invalid submission opening time: "
                 + "The start time for this feedback session cannot "
                 + "be earlier than 2 hours before now.", ex.getMessage());
     }
@@ -509,9 +515,9 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         updateRequest.setSubmissionEndTimestamp(newEndTime.toEpochMilli());
         when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
 
-        InvalidParametersException ex = Assertions.assertThrows(InvalidParametersException.class,
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
                 () -> fsLogic.updateFeedbackSession(session.getId(), updateRequest));
-        Assertions.assertEquals("Invalid submission closing time: "
+        assertEquals("Invalid submission closing time: "
                 + "The end time for this feedback session cannot "
                 + "be earlier than 1 hour before now.", ex.getMessage());
     }
@@ -528,9 +534,9 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         updateRequest.setCustomSessionVisibleTimestamp(newSessionVisibleTime.toEpochMilli());
         when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
 
-        InvalidParametersException ex = Assertions.assertThrows(InvalidParametersException.class,
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
                 () -> fsLogic.updateFeedbackSession(session.getId(), updateRequest));
-        Assertions.assertEquals("Invalid session visible time: "
+        assertEquals("Invalid session visible time: "
                 + "The time when the session will be visible for this feedback session "
                 + "cannot be earlier than 30 days before start time.", ex.getMessage());
     }
@@ -551,9 +557,9 @@ public class FeedbackSessionsLogicTest extends BaseTestCase {
         updateRequest.setSubmissionStartTimestamp(newStartTime.toEpochMilli());
         when(fsDb.getFeedbackSession(session.getId())).thenReturn(session);
 
-        InvalidParametersException ex = Assertions.assertThrows(InvalidParametersException.class,
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
                 () -> fsLogic.updateFeedbackSession(session.getId(), updateRequest));
-        Assertions.assertEquals("Invalid submission closing time: "
+        assertEquals("Invalid submission closing time: "
                 + "The end time for this feedback session "
                 + "cannot be earlier than 1 hour before now.", ex.getMessage());
     }

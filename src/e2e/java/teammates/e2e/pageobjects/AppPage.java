@@ -1,10 +1,10 @@
 package teammates.e2e.pageobjects;
 
-import org.junit.jupiter.api.Assertions;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -199,9 +199,9 @@ public abstract class AppPage {
 
     public void verifyUnclickable(WebElement element) {
         if ("a".equals(element.getTagName())) {
-            Assertions.assertTrue(element.getAttribute("class").contains("disabled"));
+            assertTrue(element.getAttribute("class").contains("disabled"));
         } else {
-            Assertions.assertNotNull(element.getAttribute("disabled"));
+            assertNotNull(element.getAttribute("disabled"));
         }
     }
 
@@ -468,7 +468,7 @@ public abstract class AppPage {
         List<WebElement> rows = table.findElement(By.tagName("tbody"))
                 .findElements(By.tagName("tr"));
 
-        Assertions.assertTrue(expectedTableBodyValues.length <= rows.size());
+        assertTrue(expectedTableBodyValues.length <= rows.size());
         for (int rowIndex = 0; rowIndex < expectedTableBodyValues.length; rowIndex++) {
             // re-fetch to avoid stale references
             rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
@@ -482,7 +482,7 @@ public abstract class AppPage {
      */
     protected void verifyTableRowHeaderValues(WebElement table, String[][] expectedTableRowHeaderValues) {
         List<WebElement> rows = table.findElement(By.tagName("thead")).findElements(By.tagName("tr"));
-        Assertions.assertTrue(expectedTableRowHeaderValues.length <= rows.size());
+        assertTrue(expectedTableRowHeaderValues.length <= rows.size());
         for (int rowIndex = 0; rowIndex < expectedTableRowHeaderValues.length; rowIndex++) {
             verifyTableHeaderValues(rows.get(rowIndex), expectedTableRowHeaderValues[rowIndex]);
         }
@@ -494,7 +494,7 @@ public abstract class AppPage {
      */
     protected void verifyTableColumnHeaderValues(WebElement table, String[][] expectedTablColumnHeaderValues) {
         List<WebElement> rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
-        Assertions.assertTrue(expectedTablColumnHeaderValues.length <= rows.size());
+        assertTrue(expectedTablColumnHeaderValues.length <= rows.size());
         for (int rowIndex = 0; rowIndex < expectedTablColumnHeaderValues.length; rowIndex++) {
             verifyTableHeaderValues(rows.get(rowIndex), expectedTablColumnHeaderValues[rowIndex]);
         }
@@ -506,11 +506,11 @@ public abstract class AppPage {
      */
     protected void verifyTableRowValues(WebElement row, String[] expectedRowValues) {
         List<WebElement> cells = row.findElements(By.tagName("td"));
-        Assertions.assertTrue(expectedRowValues.length <= cells.size());
+        assertTrue(expectedRowValues.length <= cells.size());
         waitForElementVisibility(cells.get(0));
 
         for (int cellIndex = 0; cellIndex < expectedRowValues.length; cellIndex++) {
-            Assertions.assertEquals(expectedRowValues[cellIndex], cells.get(cellIndex).getText());
+            assertEquals(expectedRowValues[cellIndex], cells.get(cellIndex).getText());
         }
     }
 
@@ -520,9 +520,9 @@ public abstract class AppPage {
      */
     protected void verifyTableHeaderValues(WebElement row, String[] expectedRowHeaderValues) {
         List<WebElement> cells = row.findElements(By.tagName("th"));
-        Assertions.assertTrue(expectedRowHeaderValues.length <= cells.size());
+        assertTrue(expectedRowHeaderValues.length <= cells.size());
         for (int cellIndex = 0; cellIndex < expectedRowHeaderValues.length; cellIndex++) {
-            Assertions.assertEquals(expectedRowHeaderValues[cellIndex], cells.get(cellIndex).getText());
+            assertEquals(expectedRowHeaderValues[cellIndex], cells.get(cellIndex).getText());
         }
     }
 
@@ -708,12 +708,12 @@ public abstract class AppPage {
         waitFor(ExpectedConditions.textToBePresentInElementLocated(By.className("toast-body"), expectedMessage));
         WebElement statusMessage = browser.driver.findElement(By.className("toast-body"));
 
-        Assertions.assertEquals(expectedMessage, statusMessage.getText());
+        assertEquals(expectedMessage, statusMessage.getText());
 
         if (expectedLinks.length > 0) {
             List<WebElement> actualLinks = statusMessage.findElements(By.tagName("a"));
             for (int i = 0; i < expectedLinks.length; i++) {
-                Assertions.assertTrue(actualLinks.get(i).getAttribute("href").contains(expectedLinks[i]));
+                assertTrue(actualLinks.get(i).getAttribute("href").contains(expectedLinks[i]));
             }
         }
     }

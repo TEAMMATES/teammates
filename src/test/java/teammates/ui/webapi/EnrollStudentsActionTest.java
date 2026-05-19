@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -74,8 +75,8 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         JsonResult result = getJsonResult(action);
 
         List<StudentData> enrolledStudents = ((EnrollStudentsData) result.getOutput()).getStudentsData().getStudents();
-        Assertions.assertEquals(1, enrolledStudents.size());
-        Assertions.assertEquals(enrolledStudents.get(0).getEmail(), dummyStudent.getEmail());
+        assertEquals(1, enrolledStudents.size());
+        assertEquals(enrolledStudents.get(0).getEmail(), dummyStudent.getEmail());
     }
 
     @Test

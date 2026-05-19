@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
@@ -55,7 +56,7 @@ public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedb
         DeleteFeedbackQuestionAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        Assertions.assertEquals("Feedback question deleted!", actionOutput.getMessage());
+        assertEquals("Feedback question deleted!", actionOutput.getMessage());
     }
 
     @Test
@@ -70,7 +71,7 @@ public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedb
         DeleteFeedbackQuestionAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        Assertions.assertEquals("Feedback question deleted!", actionOutput.getMessage());
+        assertEquals("Feedback question deleted!", actionOutput.getMessage());
     }
 
     @Test

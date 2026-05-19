@@ -1,6 +1,8 @@
 package teammates.e2e.cases;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -166,7 +168,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 + "You can restore it from the Recycle Bin manually.");
         coursesPage.verifyNumActiveCourses(5);
         coursesPage.verifyDeletedCoursesDetails(deletedCoursesWithNewCourse);
-        Assertions.assertTrue(BACKDOOR.isCourseInRecycleBin(newCourse.getId()));
+        assertTrue(BACKDOOR.isCourseInRecycleBin(newCourse.getId()));
 
         ______TS("restore active course");
         newCourse.setDeletedAt(null);
@@ -179,7 +181,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyNumDeletedCourses(1);
         // No need to call sortByCreationDate() here because it is the default sort in DESC order
         coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourseSortedByCreationDate);
-        Assertions.assertFalse(BACKDOOR.isCourseInRecycleBin(newCourse.getId()));
+        assertFalse(BACKDOOR.isCourseInRecycleBin(newCourse.getId()));
 
         ______TS("permanently delete course");
         coursesPage.moveCourseToRecycleBin(newCourse.getId());
@@ -200,7 +202,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.sortByCourseId();
         coursesPage.verifyActiveCoursesDetails(activeCoursesWithRestored);
         coursesPage.verifyNumDeletedCourses(0);
-        Assertions.assertFalse(BACKDOOR.isCourseInRecycleBin(courses[3].getId()));
+        assertFalse(BACKDOOR.isCourseInRecycleBin(courses[3].getId()));
 
         ______TS("permanently delete all");
         coursesPage.moveCourseToRecycleBin(courses[1].getId());

@@ -1,6 +1,8 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
@@ -121,7 +123,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         GetSessionResultsAction action = getAction(params);
         JsonResult actionOutput = getJsonResult(action);
         SessionResultsData output = (SessionResultsData) actionOutput.getOutput();
-        Assertions.assertTrue(isSessionResultsDataEqual(expectedResults, output));
+        assertTrue(isSessionResultsDataEqual(expectedResults, output));
     }
 
     @Test
@@ -135,7 +137,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         GetSessionResultsAction action = getAction(params);
         JsonResult actionOutput = getJsonResult(action);
         SessionResultsData output = (SessionResultsData) actionOutput.getOutput();
-        Assertions.assertTrue(isSessionResultsDataEqual(expectedResults, output));
+        assertTrue(isSessionResultsDataEqual(expectedResults, output));
     }
 
     @Test
@@ -151,7 +153,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         GetSessionResultsAction action = getAction(params);
         JsonResult actionOutput = getJsonResult(action);
         SessionResultsData output = (SessionResultsData) actionOutput.getOutput();
-        Assertions.assertTrue(isSessionResultsDataEqual(expectedResults, output));
+        assertTrue(isSessionResultsDataEqual(expectedResults, output));
     }
 
     @Test
@@ -208,7 +210,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         GetSessionResultsAction action = getAction(params);
         JsonResult actionOutput = getJsonResult(action);
         SessionResultsData output = (SessionResultsData) actionOutput.getOutput();
-        Assertions.assertTrue(isSessionResultsDataEqual(expectedResults, output));
+        assertTrue(isSessionResultsDataEqual(expectedResults, output));
     }
 
     @Test
@@ -233,7 +235,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         GetSessionResultsAction action = getAction(params);
         JsonResult actionOutput = getJsonResult(action);
         SessionResultsData output = (SessionResultsData) actionOutput.getOutput();
-        Assertions.assertTrue(isSessionResultsDataEqual(expectedResults, output));
+        assertTrue(isSessionResultsDataEqual(expectedResults, output));
     }
 
     @Test
@@ -258,7 +260,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         GetSessionResultsAction action = getAction(params);
         JsonResult actionOutput = getJsonResult(action);
         SessionResultsData output = (SessionResultsData) actionOutput.getOutput();
-        Assertions.assertTrue(isSessionResultsDataEqual(expectedResults, output));
+        assertTrue(isSessionResultsDataEqual(expectedResults, output));
     }
 
     private boolean isSessionResultsDataEqual(SessionResultsData expected, SessionResultsData actual) {
@@ -328,7 +330,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         Instructor instructor = getTypicalInstructor();
 
         session.setResultsVisibleFromTime(Instant.MAX);
-        Assertions.assertFalse(session.isPublished());
+        assertFalse(session.isPublished());
 
         String[] params = buildParamsWithPreview(INSTRUCTOR_RESULT, instructor.getEmail());
 
@@ -342,7 +344,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     @Test
     void testGetSessionResult_instructorResultIntentUnpublishedSessionNoPreviewAs_cannotAccess() {
         session.setResultsVisibleFromTime(Instant.MAX);
-        Assertions.assertFalse(session.isPublished());
+        assertFalse(session.isPublished());
 
         when(mockLogic.getFeedbackSession(session.getId())).thenReturn(session);
 
@@ -351,7 +353,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
     @Test
     void testGetSessionResult_instructorResultIntentPublishedSessionNoPreviewAs_canAccess() {
-        Assertions.assertTrue(session.isPublished());
+        assertTrue(session.isPublished());
 
         when(mockLogic.getFeedbackSession(session.getId())).thenReturn(session);
 
@@ -362,7 +364,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     void testGetSessionResult_instructorResultIntentPublishedSessionWithPreviewAs_canAccess() {
         loginAsInstructor(googleId);
         Instructor instructor = getTypicalInstructor();
-        Assertions.assertTrue(session.isPublished());
+        assertTrue(session.isPublished());
 
         String[] params = buildParamsWithPreview(INSTRUCTOR_RESULT, instructor.getEmail());
 
@@ -384,7 +386,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     @Test
     void testGetSessionResult_studentResultIntentHisPublishedSession_canAccess() {
         session.setSessionVisibleFromTime(Instant.now());
-        Assertions.assertTrue(session.isPublished());
+        assertTrue(session.isPublished());
 
         when(mockLogic.getFeedbackSession(session.getId()))
                 .thenReturn(session);
@@ -400,7 +402,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     @Test
     void testGetSessionResult_studentResultIntentNotHisPublishedSession_cannotAccess() {
         session.setSessionVisibleFromTime(Instant.now());
-        Assertions.assertTrue(session.isPublished());
+        assertTrue(session.isPublished());
 
         when(mockLogic.getFeedbackSession(session.getId()))
                 .thenReturn(session);
@@ -424,7 +426,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     @Test
     void testGetSessionResult_studentResultIntentUnpublishedSessionNoPreviewAs_cannotAccess() {
         session.setResultsVisibleFromTime(Instant.MAX);
-        Assertions.assertFalse(session.isPublished());
+        assertFalse(session.isPublished());
 
         when(mockLogic.getFeedbackSession(session.getId()))
                 .thenReturn(session);
@@ -436,7 +438,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
     void testGetSessionResult_studentResultIntentUnpublishedSessionWithPreviewAs_cannotAccess() {
         Student student = getTypicalStudent();
         session.setResultsVisibleFromTime(Instant.MAX);
-        Assertions.assertFalse(session.isPublished());
+        assertFalse(session.isPublished());
 
         when(mockLogic.getFeedbackSession(session.getId()))
                 .thenReturn(session);

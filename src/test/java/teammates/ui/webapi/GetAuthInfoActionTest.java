@@ -1,6 +1,10 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static teammates.ui.webapi.GetAuthInfoAction.createLoginUrl;
 
 import java.util.ArrayList;
@@ -44,9 +48,9 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         JsonResult r = getJsonResult(a);
 
         AuthInfo output = (AuthInfo) r.getOutput();
-        Assertions.assertEquals(createLoginUrl("", nextUrl), output.getLoginUrl());
-        Assertions.assertNull(output.getUser());
-        Assertions.assertFalse(output.isMasquerade());
+        assertEquals(createLoginUrl("", nextUrl), output.getLoginUrl());
+        assertNull(output.getUser());
+        assertFalse(output.isMasquerade());
     }
 
     @Test(enabled = false)
@@ -57,13 +61,13 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         JsonResult r = getJsonResult(a);
 
         AuthInfo output = (AuthInfo) r.getOutput();
-        Assertions.assertFalse(output.isMasquerade());
+        assertFalse(output.isMasquerade());
 
         UserInfo user = output.getUser();
-        Assertions.assertFalse(user.isAdmin);
-        Assertions.assertTrue(user.isInstructor);
-        Assertions.assertFalse(user.isStudent);
-        Assertions.assertEquals("idOfInstructor1OfCourse1", user.id);
+        assertFalse(user.isAdmin);
+        assertTrue(user.isInstructor);
+        assertFalse(user.isStudent);
+        assertEquals("idOfInstructor1OfCourse1", user.id);
     }
 
     @Test
@@ -74,13 +78,13 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         JsonResult r = getJsonResult(a);
 
         AuthInfo output = (AuthInfo) r.getOutput();
-        Assertions.assertFalse(output.isMasquerade());
+        assertFalse(output.isMasquerade());
 
         UserInfo user = output.getUser();
-        Assertions.assertFalse(user.isAdmin);
-        Assertions.assertFalse(user.isInstructor);
-        Assertions.assertFalse(user.isStudent);
-        Assertions.assertEquals("unregisteredId", user.id);
+        assertFalse(user.isAdmin);
+        assertFalse(user.isInstructor);
+        assertFalse(user.isStudent);
+        assertEquals("unregisteredId", user.id);
     }
 
     @Test
@@ -95,7 +99,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         GetAuthInfoAction a = getAction(emptyParams);
         JsonResult r = getJsonResult(a);
 
-        Assertions.assertEquals("1234", StringHelper.decrypt(r.getCookies().get(0).getValue()));
+        assertEquals("1234", StringHelper.decrypt(r.getCookies().get(0).getValue()));
 
         ______TS("User logged in with fake csrf token");
 
@@ -104,7 +108,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         a = getActionWithCookie(new ArrayList<>(Arrays.asList(cookieToAdd)), emptyParams);
         r = getJsonResult(a);
 
-        Assertions.assertEquals("1234", StringHelper.decrypt(r.getCookies().get(0).getValue()));
+        assertEquals("1234", StringHelper.decrypt(r.getCookies().get(0).getValue()));
 
         ______TS("User logged in with non existing csrf token");
 
@@ -113,7 +117,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         a = getAction(emptyParams);
         r = getJsonResult(a);
 
-        Assertions.assertEquals("1234", StringHelper.decrypt(r.getCookies().get(0).getValue()));
+        assertEquals("1234", StringHelper.decrypt(r.getCookies().get(0).getValue()));
 
         ______TS("User logged in with matched CSRF token cookies");
 
@@ -125,7 +129,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         a = getActionWithCookie(new ArrayList<>(Arrays.asList(cookieToAdd)), emptyParams);
         r = getJsonResult(a);
 
-        Assertions.assertEquals(0, r.getCookies().size());
+        assertEquals(0, r.getCookies().size());
     }
 
     @Test

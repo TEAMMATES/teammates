@@ -1,6 +1,10 @@
 package teammates.it.storage.api;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -56,8 +60,8 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         List<FeedbackResponse> actualQuestions =
                 frDb.getFeedbackResponsesFromGiverForQuestion(fq.getId(), giver.getId(), null);
 
-        Assertions.assertEquals(expectedQuestions.size(), actualQuestions.size());
-        Assertions.assertTrue(expectedQuestions.containsAll(actualQuestions));
+        assertEquals(expectedQuestions.size(), actualQuestions.size());
+        assertTrue(expectedQuestions.containsAll(actualQuestions));
     }
 
     @Test
@@ -67,7 +71,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
 
         frDb.deleteFeedbackResponse(fr1);
 
-        Assertions.assertNull(frDb.getFeedbackResponse(fr1.getId()));
+        assertNull(frDb.getFeedbackResponse(fr1.getId()));
     }
 
     @Test
@@ -78,7 +82,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         boolean actualResponse1 =
                 frDb.areThereResponsesForQuestion(fq1.getId());
 
-        Assertions.assertTrue(actualResponse1);
+        assertTrue(actualResponse1);
 
         ______TS("feedback question with no responses");
         FeedbackQuestion fq2 = testDataBundle.feedbackQuestions.get("qn6InSession1InCourse1NoResponses");
@@ -86,7 +90,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         boolean actualResponse2 =
                 frDb.areThereResponsesForQuestion(fq2.getId());
 
-        Assertions.assertFalse(actualResponse2);
+        assertFalse(actualResponse2);
     }
 
     @Test
@@ -97,7 +101,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         boolean actual =
                 frDb.hasResponsesForCourse(course.getId());
 
-        Assertions.assertTrue(actual);
+        assertTrue(actual);
     }
 
     @Test
@@ -107,12 +111,12 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         UUID nonexistentQuestionId = UUID.fromString("11110000-0000-0000-0000-000000000000");
         List<FeedbackResponse> results = frDb.getFeedbackResponsesForRecipientForQuestion(
                 nonexistentQuestionId, recipient.getId(), null);
-        Assertions.assertEquals(0, results.size());
+        assertEquals(0, results.size());
 
         ______TS("No matching responses exist");
         FeedbackQuestion questionWithNoResponses = testDataBundle.feedbackQuestions.get("qn4InSession1InCourse1");
         results = frDb.getFeedbackResponsesForRecipientForQuestion(questionWithNoResponses.getId(), recipient.getId(), null);
-        Assertions.assertEquals(0, results.size());
+        assertEquals(0, results.size());
 
     }
 
@@ -152,12 +156,12 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         FeedbackSession sessionWithoutResponses = testDataBundle.feedbackSessions.get(
                 "unpublishedSession1InTypicalCourse");
         actual = frDb.getFeedbackResponsesForSession(sessionWithoutResponses, sessionWithResponses.getCourseId());
-        Assertions.assertEquals(0, actual.size());
+        assertEquals(0, actual.size());
     }
 
     private void assertListResponsesEqual(List<FeedbackResponse> expected, List<FeedbackResponse> actual) {
-        Assertions.assertEquals(expected.size(), actual.size(), "List size not equal.");
-        Assertions.assertTrue(new HashSet<>(expected).equals(new HashSet<>(actual)),
+        assertEquals(expected.size(), actual.size(), "List size not equal.");
+        assertTrue(new HashSet<>(expected).equals(new HashSet<>(actual)),
                 String.format("List contents are not equal.%nExpected: %s,%nActual: %s",
                         expected.toString(), actual.toString()));
     }

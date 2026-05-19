@@ -1,6 +1,8 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import static org.mockito.Mockito.when;
 
 import org.testng.annotations.BeforeMethod;
@@ -57,9 +59,9 @@ public class MarkNotificationAsReadActionTest extends BaseActionTest<MarkNotific
         JsonResult actionOutput = getJsonResult(action);
 
         ReadNotificationData response = (ReadNotificationData) actionOutput.getOutput();
-        Assertions.assertEquals(testNotification.getId(), response.getNotificationId());
-        Assertions.assertEquals(account.getId(), response.getAccountId());
-        Assertions.assertEquals(readNotification.getId(), response.getReadNotificationId());
+        assertEquals(testNotification.getId(), response.getNotificationId());
+        assertEquals(account.getId(), response.getAccountId());
+        assertEquals(readNotification.getId(), response.getReadNotificationId());
     }
 
     @Test
@@ -69,6 +71,6 @@ public class MarkNotificationAsReadActionTest extends BaseActionTest<MarkNotific
 
         MarkNotificationAsReadAction action = getAction(reqBody);
 
-        Assertions.assertThrows(IllegalArgumentException.class, action::execute);
+        assertThrows(IllegalArgumentException.class, action::execute);
     }
 }

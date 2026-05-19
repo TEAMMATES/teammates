@@ -1,6 +1,5 @@
 package teammates.e2e.pageobjects;
 
-import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.openqa.selenium.By;
@@ -25,7 +24,7 @@ public class CourseJoinConfirmationPage extends AppPage {
     }
 
     public void verifyJoiningUser(String googleId) {
-        Assertions.assertEquals(browser.driver.findElement(By.id("user-id")).getText(), googleId);
+        assertEquals(browser.driver.findElement(By.id("user-id")).getText(), googleId);
     }
 
     public <T extends AppPage> T confirmJoinCourse(Class<T> typeOfPage) {
@@ -35,6 +34,6 @@ public class CourseJoinConfirmationPage extends AppPage {
     }
 
     public void verifyDisplayedMessage(String message) {
-        Assertions.assertEquals(browser.driver.findElement(By.className("card-body")).getText(), message);
+        assertEquals(browser.driver.findElement(By.className("card-body")).getText(), message);
     }
 }

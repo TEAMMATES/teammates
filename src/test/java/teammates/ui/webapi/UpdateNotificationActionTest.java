@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
@@ -125,40 +126,40 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
         Notification updatedNotification = mockLogic.getNotification(res.getNotificationId());
 
         // Verify that correctly updated in the DB
-        Assertions.assertEquals(notificationRequest.getStartTimestamp(), updatedNotification.getStartTime().toEpochMilli());
-        Assertions.assertEquals(notificationRequest.getEndTimestamp(), updatedNotification.getEndTime().toEpochMilli());
-        Assertions.assertEquals(style, updatedNotification.getStyle());
-        Assertions.assertEquals(targetUser, updatedNotification.getTargetUser());
-        Assertions.assertEquals(title, updatedNotification.getTitle());
-        Assertions.assertEquals(message, updatedNotification.getMessage());
+        assertEquals(notificationRequest.getStartTimestamp(), updatedNotification.getStartTime().toEpochMilli());
+        assertEquals(notificationRequest.getEndTimestamp(), updatedNotification.getEndTime().toEpochMilli());
+        assertEquals(style, updatedNotification.getStyle());
+        assertEquals(targetUser, updatedNotification.getTargetUser());
+        assertEquals(title, updatedNotification.getTitle());
+        assertEquals(message, updatedNotification.getMessage());
     }
 
     @Test
     protected void testExecute_nullStyle_shouldFail() {
         notificationRequest.setStyle(null);
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(notificationRequest, requestParams);
-        Assertions.assertEquals("Notification style cannot be null", ex.getMessage());
+        assertEquals("Notification style cannot be null", ex.getMessage());
     }
 
     @Test
     protected void testExecute_nullTargetUser_shouldFail() {
         notificationRequest.setTargetUser(null);
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(notificationRequest, requestParams);
-        Assertions.assertEquals("Notification target user cannot be null", ex.getMessage());
+        assertEquals("Notification target user cannot be null", ex.getMessage());
     }
 
     @Test
     protected void testExecute_nullTitle_shouldFail() {
         notificationRequest.setTitle(null);
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(notificationRequest, requestParams);
-        Assertions.assertEquals("Notification title cannot be null", ex.getMessage());
+        assertEquals("Notification title cannot be null", ex.getMessage());
     }
 
     @Test
     protected void testExecute_nullMessage_shouldFail() {
         notificationRequest.setMessage(null);
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(notificationRequest, requestParams);
-        Assertions.assertEquals("Notification message cannot be null", ex.getMessage());
+        assertEquals("Notification message cannot be null", ex.getMessage());
     }
 
     @Test
@@ -168,7 +169,7 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
                 Const.ParamsNames.NOTIFICATION_ID, invalidNotificationId,
         };
         InvalidHttpParameterException ex = verifyHttpParameterFailure(notificationRequest, requestParams);
-        Assertions.assertEquals("Expected UUID value for notificationid parameter, but found: ["
+        assertEquals("Expected UUID value for notificationid parameter, but found: ["
                 + invalidNotificationId
                 + "]", ex.getMessage());
     }
@@ -177,14 +178,14 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
     protected void testExecute_timestampStartLessThanZero_shouldFail() {
         notificationRequest.setStartTimestamp(-1);
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(notificationRequest, requestParams);
-        Assertions.assertEquals("Start timestamp should be greater than zero", ex.getMessage());
+        assertEquals("Start timestamp should be greater than zero", ex.getMessage());
     }
 
     @Test
     protected void testExecute_timestampEndLessThanZero_shouldFail() {
         notificationRequest.setEndTimestamp(-1);
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(notificationRequest, requestParams);
-        Assertions.assertEquals("End timestamp should be greater than zero", ex.getMessage());
+        assertEquals("End timestamp should be greater than zero", ex.getMessage());
     }
 
     @Test
@@ -214,7 +215,7 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
                 + "cannot be earlier than the time when the notification will be visible."));
 
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(notificationRequest, requestParams);
-        Assertions.assertEquals("The time when the notification will expire for this notification "
+        assertEquals("The time when the notification will expire for this notification "
                 + "cannot be earlier than the time when the notification will be visible.",
                 ex.getMessage());
     }

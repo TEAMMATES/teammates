@@ -1,6 +1,9 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashSet;
@@ -108,8 +111,8 @@ public class FeedbackSessionOpenedRemindersActionIT extends BaseActionIT<Feedbac
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
-        Assertions.assertEquals("Successful", response1.getMessage());
-        Assertions.assertTrue(session.isOpenedEmailSent());
+        assertEquals("Successful", response1.getMessage());
+        assertTrue(session.isOpenedEmailSent());
 
         // # of email to send =
         //    # emails sent to instructorsToNotify (ie co-owner), 1 +
@@ -125,7 +128,7 @@ public class FeedbackSessionOpenedRemindersActionIT extends BaseActionIT<Feedbac
             String expectedSubject = (email.getIsCopy() ? EmailWrapper.EMAIL_COPY_SUBJECT_PREFIX : "")
                     + String.format(EmailType.FEEDBACK_OPENED.getSubject(),
                     session.getCourse().getName(), session.getName());
-            Assertions.assertEquals(expectedSubject, email.getSubject());
+            assertEquals(expectedSubject, email.getSubject());
         }
     }
 
@@ -144,8 +147,8 @@ public class FeedbackSessionOpenedRemindersActionIT extends BaseActionIT<Feedbac
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
-        Assertions.assertEquals("Successful", response1.getMessage());
-        Assertions.assertTrue(session.isOpenedEmailSent());
+        assertEquals("Successful", response1.getMessage());
+        assertTrue(session.isOpenedEmailSent());
 
         verifyNoTasksAdded();
     }
@@ -165,8 +168,8 @@ public class FeedbackSessionOpenedRemindersActionIT extends BaseActionIT<Feedbac
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
-        Assertions.assertEquals("Successful", response1.getMessage());
-        Assertions.assertFalse(session.isOpenedEmailSent());
+        assertEquals("Successful", response1.getMessage());
+        assertFalse(session.isOpenedEmailSent());
 
         verifyNoTasksAdded();
     }
@@ -187,8 +190,8 @@ public class FeedbackSessionOpenedRemindersActionIT extends BaseActionIT<Feedbac
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
-        Assertions.assertEquals("Successful", response1.getMessage());
-        Assertions.assertFalse(session.isOpenedEmailSent());
+        assertEquals("Successful", response1.getMessage());
+        assertFalse(session.isOpenedEmailSent());
 
         verifyNoTasksAdded();
     }

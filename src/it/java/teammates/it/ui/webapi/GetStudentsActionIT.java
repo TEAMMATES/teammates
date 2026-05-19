@@ -1,6 +1,8 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import java.util.List;
 
 import org.testng.annotations.BeforeMethod;
@@ -60,14 +62,14 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
         StudentsData response = (StudentsData) jsonResult.getOutput();
         List<StudentData> students = response.getStudents();
 
-        Assertions.assertEquals(5, students.size());
+        assertEquals(5, students.size());
 
         StudentData firstStudentInStudents = students.get(0);
 
-        Assertions.assertNull(firstStudentInStudents.getGoogleId());
-        Assertions.assertNull(firstStudentInStudents.getKey());
-        Assertions.assertEquals(student.getName(), firstStudentInStudents.getName());
-        Assertions.assertEquals(student.getCourseId(), firstStudentInStudents.getCourseId());
+        assertNull(firstStudentInStudents.getGoogleId());
+        assertNull(firstStudentInStudents.getKey());
+        assertEquals(student.getName(), firstStudentInStudents.getName());
+        assertEquals(student.getCourseId(), firstStudentInStudents.getCourseId());
 
         logoutUser();
         loginAsStudent(student.getGoogleId());
@@ -85,14 +87,14 @@ public class GetStudentsActionIT extends BaseActionIT<GetStudentsAction> {
 
         Student expectedOtherTeamMember = typicalBundle.students.get("student2InCourse1");
 
-        Assertions.assertEquals(4, students.size());
+        assertEquals(4, students.size());
 
         StudentData actualOtherTeamMember = students.get(1);
 
-        Assertions.assertNull(actualOtherTeamMember.getGoogleId());
-        Assertions.assertNull(actualOtherTeamMember.getKey());
-        Assertions.assertEquals(expectedOtherTeamMember.getName(), actualOtherTeamMember.getName());
-        Assertions.assertEquals(expectedOtherTeamMember.getCourseId(), actualOtherTeamMember.getCourseId());
+        assertNull(actualOtherTeamMember.getGoogleId());
+        assertNull(actualOtherTeamMember.getKey());
+        assertEquals(expectedOtherTeamMember.getName(), actualOtherTeamMember.getName());
+        assertEquals(expectedOtherTeamMember.getCourseId(), actualOtherTeamMember.getCourseId());
     }
 
     @Test

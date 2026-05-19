@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -73,12 +74,12 @@ public class GenerateEmailActionTest
         GenerateEmailAction action = getAction(params);
         EmailData actionOutput = (EmailData) getJsonResult(action).getOutput();
 
-        Assertions.assertEquals(String.format(
+        assertEquals(String.format(
                 EmailType.STUDENT_COURSE_JOIN.getSubject(),
                 course.getName(),
                 course.getId()),
                 actionOutput.getSubject());
-        Assertions.assertEquals(student.getEmail(), actionOutput.getRecipient());
+        assertEquals(student.getEmail(), actionOutput.getRecipient());
     }
 
     @Test
@@ -107,12 +108,12 @@ public class GenerateEmailActionTest
         GenerateEmailAction action = getAction(params);
         EmailData actionOutput = (EmailData) getJsonResult(action).getOutput();
 
-        Assertions.assertEquals(String.format(
+        assertEquals(String.format(
                 EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),
                 course.getName(),
                 session.getName()),
                 actionOutput.getSubject());
-        Assertions.assertEquals(student.getEmail(), actionOutput.getRecipient());
+        assertEquals(student.getEmail(), actionOutput.getRecipient());
     }
 
     @Test

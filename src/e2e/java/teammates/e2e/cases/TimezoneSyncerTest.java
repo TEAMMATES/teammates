@@ -1,6 +1,8 @@
 package teammates.e2e.cases;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -39,7 +41,7 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
         ______TS("ensure the front-end and the back-end have the same timezone database version");
         String javaOffsets = timezonePage.getJavaTimezoneOffsets();
         String momentOffsets = timezonePage.getMomentTimezoneOffsets();
-        Assertions.assertEquals(
+        assertEquals(
                 "The timezone database versions are not in sync. For information on updating the timezone databases, "
                 + "see the maintainer guide in the TEAMMATES ops repository.",
                 timezonePage.getJavaTimezoneVersion(),
@@ -47,7 +49,7 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
         );
         if (!javaOffsets.equals(momentOffsets)) {
             // Show diff when running test in Gradle
-            Assertions.assertEquals("<expected>" + System.lineSeparator() + javaOffsets + "</expected>",
+            assertEquals("<expected>" + System.lineSeparator() + javaOffsets + "</expected>",
                     "<actual>" + System.lineSeparator() + momentOffsets + "</actual>");
         }
 
@@ -62,12 +64,12 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
             String releaseDateString = ianaPage.getReleaseDate();
             Pattern datePattern = Pattern.compile("\\(Released (.+)\\)");
             Matcher matcher = datePattern.matcher(releaseDateString);
-            Assertions.assertTrue(matcher.find());
+            assertTrue(matcher.find());
 
             LocalDate releaseDate = LocalDate.parse(matcher.group(1), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             LocalDate nowDate = Instant.now().atZone(ZoneId.of(Const.DEFAULT_TIME_ZONE)).toLocalDate();
 
-            Assertions.assertTrue(
+            assertTrue(
                     releaseDate.plusDays(DAYS_TO_UPDATE_TZ).isAfter(nowDate),
                     "The timezone database version is not up-to-date for more than " + DAYS_TO_UPDATE_TZ + " days,"
                             + " please update them according to the maintenance guide.");

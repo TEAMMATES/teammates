@@ -1,6 +1,7 @@
 package teammates.test;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import org.testng.annotations.Test;
 
 /**
@@ -10,7 +11,7 @@ public class TestPropertiesTest extends BaseTestCase {
 
     @Test
     public void testUpdateSnapshotFlag() {
-        Assertions.assertFalse(TestProperties.IS_SNAPSHOT_UPDATE);
+        assertFalse(TestProperties.IS_SNAPSHOT_UPDATE);
     }
 
 }

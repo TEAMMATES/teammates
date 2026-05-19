@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -90,7 +91,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         JsonResult r = getJsonResult(action);
         MessageOutput output = (MessageOutput) r.getOutput();
 
-        Assertions.assertEquals("Successfully deleted feedback response comment.", output.getMessage());
+        assertEquals("Successfully deleted feedback response comment.", output.getMessage());
         verify(mockLogic).deleteFeedbackResponseComment(typicalFeedbackResponseComment.getId());
     }
 
@@ -111,7 +112,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         JsonResult r = getJsonResult(action);
         MessageOutput output = (MessageOutput) r.getOutput();
 
-        Assertions.assertEquals("Successfully deleted feedback response comment.", output.getMessage());
+        assertEquals("Successfully deleted feedback response comment.", output.getMessage());
         verify(mockLogic, never()).deleteFeedbackResponseComment(null);
     }
 

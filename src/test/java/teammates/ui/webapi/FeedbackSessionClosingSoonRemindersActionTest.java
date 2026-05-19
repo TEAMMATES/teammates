@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
@@ -104,7 +105,7 @@ public class FeedbackSessionClosingSoonRemindersActionTest
             verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 2);
             verifyNoMoreInteractions(mockEmailGenerator, session1, session2,
                     deadlineExtension1, deadlineExtension2, deadlineExtension3);
-            Assertions.assertEquals("Successful", actionOutput.getMessage());
+            assertEquals("Successful", actionOutput.getMessage());
         }
     }
 
@@ -130,7 +131,7 @@ public class FeedbackSessionClosingSoonRemindersActionTest
             verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
             verifyNoMoreInteractions(mockEmailGenerator, session1, session2,
                     deadlineExtension1, deadlineExtension2, deadlineExtension3);
-            Assertions.assertEquals("Successful", actionOutput.getMessage());
+            assertEquals("Successful", actionOutput.getMessage());
         }
     }
 
@@ -150,7 +151,7 @@ public class FeedbackSessionClosingSoonRemindersActionTest
             verifyNoTasksAdded();
             verifyNoMoreInteractions(mockEmailGenerator, session1, session2,
                     deadlineExtension1, deadlineExtension2, deadlineExtension3);
-            Assertions.assertEquals("Successful", actionOutput.getMessage());
+            assertEquals("Successful", actionOutput.getMessage());
         }
     }
 
@@ -181,7 +182,7 @@ public class FeedbackSessionClosingSoonRemindersActionTest
             verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
             verifyNoMoreInteractions(mockEmailGenerator, session1, session2,
                     deadlineExtension1, deadlineExtension2, deadlineExtension3);
-            Assertions.assertEquals("Successful", actionOutput.getMessage());
+            assertEquals("Successful", actionOutput.getMessage());
         }
     }
 
@@ -210,7 +211,7 @@ public class FeedbackSessionClosingSoonRemindersActionTest
             verifyNoTasksAdded();
             verifyNoMoreInteractions(mockEmailGenerator, session1, session2,
                     deadlineExtension1, deadlineExtension2, deadlineExtension3);
-            Assertions.assertEquals("Successful", actionOutput.getMessage());
+            assertEquals("Successful", actionOutput.getMessage());
         }
     }
 
@@ -249,7 +250,7 @@ public class FeedbackSessionClosingSoonRemindersActionTest
             verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
             verifyNoMoreInteractions(mockEmailGenerator, session1, session2,
                     deadlineExtension1, deadlineExtension2, deadlineExtension3);
-            Assertions.assertEquals("Successful", actionOutput.getMessage());
+            assertEquals("Successful", actionOutput.getMessage());
         }
     }
 
@@ -286,7 +287,7 @@ public class FeedbackSessionClosingSoonRemindersActionTest
             verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 3);
             verifyNoMoreInteractions(mockEmailGenerator, session1, session2,
                     deadlineExtension1, deadlineExtension2, deadlineExtension3);
-            Assertions.assertEquals("Successful", actionOutput.getMessage());
+            assertEquals("Successful", actionOutput.getMessage());
         }
     }
 
@@ -329,7 +330,7 @@ public class FeedbackSessionClosingSoonRemindersActionTest
             verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 2);
             verifyNoMoreInteractions(mockEmailGenerator, session1, session2,
                     deadlineExtension1, deadlineExtension2, deadlineExtension3);
-            Assertions.assertEquals("Successful", actionOutput.getMessage());
+            assertEquals("Successful", actionOutput.getMessage());
         }
     }
 

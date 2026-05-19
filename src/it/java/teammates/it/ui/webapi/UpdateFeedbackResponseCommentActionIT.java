@@ -1,6 +1,7 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Arrays;
 
 import org.testng.annotations.BeforeMethod;
@@ -61,7 +62,7 @@ public class UpdateFeedbackResponseCommentActionIT extends BaseActionIT<UpdateFe
         getJsonResult(action);
 
         FeedbackResponseComment actualFrc = logic.getFeedbackResponseComment(frc.getId());
-        Assertions.assertEquals(newCommentText, actualFrc.getCommentText());
+        assertEquals(newCommentText, actualFrc.getCommentText());
     }
 
     @Test

@@ -1,6 +1,12 @@
 package teammates.common.util;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,46 +22,46 @@ public class StringHelperTest extends BaseTestCase {
 
     @Test
     public void testIsEmpty() {
-        Assertions.assertTrue(StringHelper.isEmpty(null));
-        Assertions.assertTrue(StringHelper.isEmpty(""));
-        Assertions.assertFalse(StringHelper.isEmpty("test"));
-        Assertions.assertFalse(StringHelper.isEmpty("     "));
+        assertTrue(StringHelper.isEmpty(null));
+        assertTrue(StringHelper.isEmpty(""));
+        assertFalse(StringHelper.isEmpty("test"));
+        assertFalse(StringHelper.isEmpty("     "));
     }
 
     @Test
     public void testGenerateStringOfLength() {
 
-        Assertions.assertEquals("sssss", StringHelper.generateStringOfLength(5, 's'));
-        Assertions.assertEquals("", StringHelper.generateStringOfLength(0, 's'));
+        assertEquals("sssss", StringHelper.generateStringOfLength(5, 's'));
+        assertEquals("", StringHelper.generateStringOfLength(0, 's'));
     }
 
     @Test
     public void testIsMatching() {
-        Assertions.assertTrue(StringHelper.isMatching("\u00E0", "à"));
-        Assertions.assertTrue(StringHelper.isMatching("\u0061\u0300", "à"));
-        Assertions.assertFalse(StringHelper.isMatching("Héllo", "Hello"));
+        assertTrue(StringHelper.isMatching("\u00E0", "à"));
+        assertTrue(StringHelper.isMatching("\u0061\u0300", "à"));
+        assertFalse(StringHelper.isMatching("Héllo", "Hello"));
     }
 
     @Test
     public void testToString() {
         List<String> strings = new ArrayList<>();
-        Assertions.assertEquals("", StringHelper.toString(strings, ""));
-        Assertions.assertEquals("", StringHelper.toString(strings, "<br>"));
+        assertEquals("", StringHelper.toString(strings, ""));
+        assertEquals("", StringHelper.toString(strings, "<br>"));
 
         strings.add("aaa");
-        Assertions.assertEquals("aaa", StringHelper.toString(strings, ""));
-        Assertions.assertEquals("aaa", StringHelper.toString(strings, "\n"));
-        Assertions.assertEquals("aaa", StringHelper.toString(strings, "<br>"));
+        assertEquals("aaa", StringHelper.toString(strings, ""));
+        assertEquals("aaa", StringHelper.toString(strings, "\n"));
+        assertEquals("aaa", StringHelper.toString(strings, "<br>"));
 
         strings.add("bbb");
-        Assertions.assertEquals("aaabbb", StringHelper.toString(strings, ""));
-        Assertions.assertEquals("aaa\nbbb", StringHelper.toString(strings, "\n"));
-        Assertions.assertEquals("aaa<br>bbb", StringHelper.toString(strings, "<br>"));
+        assertEquals("aaabbb", StringHelper.toString(strings, ""));
+        assertEquals("aaa\nbbb", StringHelper.toString(strings, "\n"));
+        assertEquals("aaa<br>bbb", StringHelper.toString(strings, "<br>"));
 
         List<Integer> ints = new ArrayList<>();
         ints.add(1);
         ints.add(44);
-        Assertions.assertEquals("1\n44", StringHelper.toString(ints, "\n"));
+        assertEquals("1\n44", StringHelper.toString(ints, "\n"));
     }
 
     @Test
@@ -64,7 +70,7 @@ public class StringHelperTest extends BaseTestCase {
         String decrptedMsg;
 
         decrptedMsg = StringHelper.decrypt(StringHelper.encrypt(msg));
-        Assertions.assertEquals(msg, decrptedMsg);
+        assertEquals(msg, decrptedMsg);
     }
 
     @Test
@@ -73,9 +79,9 @@ public class StringHelperTest extends BaseTestCase {
         String ciphertext1 = StringHelper.encrypt(plaintext);
         String ciphertext2 = StringHelper.encrypt(plaintext);
 
-        Assertions.assertNotEquals(ciphertext1, ciphertext2);
-        Assertions.assertEquals(plaintext, StringHelper.decrypt(ciphertext1));
-        Assertions.assertEquals(plaintext, StringHelper.decrypt(ciphertext2));
+        assertNotEquals(ciphertext1, ciphertext2);
+        assertEquals(plaintext, StringHelper.decrypt(ciphertext1));
+        assertEquals(plaintext, StringHelper.decrypt(ciphertext2));
     }
 
     @Test
@@ -85,8 +91,8 @@ public class StringHelperTest extends BaseTestCase {
         String hmac2 = StringHelper.generateSha256Hmac(data);
         String hmac3 = StringHelper.generateSha256Hmac("another-data");
 
-        Assertions.assertEquals(hmac1, hmac2);
-        Assertions.assertNotEquals(hmac1, hmac3);
+        assertEquals(hmac1, hmac2);
+        assertNotEquals(hmac1, hmac3);
     }
 
     @Test
@@ -103,46 +109,46 @@ public class StringHelperTest extends BaseTestCase {
 
         String[] invalidCiphertexts = {invalidHexString, tooShortCiphertext, tamperedCiphertext};
         for (String invalidCiphertext : invalidCiphertexts) {
-            Assertions.assertThrows(InvalidParametersException.class, () -> StringHelper.decrypt(invalidCiphertext));
+            assertThrows(InvalidParametersException.class, () -> StringHelper.decrypt(invalidCiphertext));
         }
     }
 
     @Test
     public void testRemoveExtraSpace() {
 
-        Assertions.assertNull(StringHelper.removeExtraSpace((String) null));
+        assertNull(StringHelper.removeExtraSpace((String) null));
 
         String str = "";
-        Assertions.assertEquals("", StringHelper.removeExtraSpace(str));
+        assertEquals("", StringHelper.removeExtraSpace(str));
 
         str = "a    a";
-        Assertions.assertEquals("a a", StringHelper.removeExtraSpace(str));
+        assertEquals("a a", StringHelper.removeExtraSpace(str));
 
         str = " \u00A0 a    a   ";
-        Assertions.assertEquals("a a", StringHelper.removeExtraSpace(str));
+        assertEquals("a a", StringHelper.removeExtraSpace(str));
 
         str = "    ";
-        Assertions.assertEquals("", StringHelper.removeExtraSpace(str));
+        assertEquals("", StringHelper.removeExtraSpace(str));
 
         str = " a      b       c       d      ";
-        Assertions.assertEquals("a b c d", StringHelper.removeExtraSpace(str));
+        assertEquals("a b c d", StringHelper.removeExtraSpace(str));
     }
 
     @Test
     public void testReplaceIllegalChars() {
         String regex = "[a-zA-Z0-9_.$-]+";
 
-        Assertions.assertNull(StringHelper.replaceIllegalChars(null, regex, '_'));
+        assertNull(StringHelper.replaceIllegalChars(null, regex, '_'));
 
         String str = "";
-        Assertions.assertEquals("", StringHelper.replaceIllegalChars(str, regex, '_'));
+        assertEquals("", StringHelper.replaceIllegalChars(str, regex, '_'));
 
         str = "abc";
-        Assertions.assertEquals("abc", StringHelper.replaceIllegalChars(str, regex, '_'));
+        assertEquals("abc", StringHelper.replaceIllegalChars(str, regex, '_'));
 
         str = "illegal!?Chars+1";
-        Assertions.assertEquals("illegal__Chars_1", StringHelper.replaceIllegalChars(str, regex, '_'));
-        Assertions.assertEquals("illegal..Chars.1", StringHelper.replaceIllegalChars(str, regex, '.'));
+        assertEquals("illegal__Chars_1", StringHelper.replaceIllegalChars(str, regex, '_'));
+        assertEquals("illegal..Chars.1", StringHelper.replaceIllegalChars(str, regex, '.'));
     }
 
     @Test
@@ -150,18 +156,18 @@ public class StringHelperTest extends BaseTestCase {
         String empty = "";
         String whitespace = " ";
         String nonEmpty = "non-empty";
-        Assertions.assertEquals("", StringHelper.convertToEmptyStringIfNull(null));
-        Assertions.assertEquals("non-empty", StringHelper.convertToEmptyStringIfNull(nonEmpty));
-        Assertions.assertEquals("", StringHelper.convertToEmptyStringIfNull(empty));
-        Assertions.assertEquals(" ", StringHelper.convertToEmptyStringIfNull(whitespace));
+        assertEquals("", StringHelper.convertToEmptyStringIfNull(null));
+        assertEquals("non-empty", StringHelper.convertToEmptyStringIfNull(nonEmpty));
+        assertEquals("", StringHelper.convertToEmptyStringIfNull(empty));
+        assertEquals(" ", StringHelper.convertToEmptyStringIfNull(whitespace));
     }
 
     @Test
     public void testTruncateHead() {
-        Assertions.assertEquals("1234567890", StringHelper.truncateHead("xxxx1234567890", 10));
-        Assertions.assertEquals("1234567890", StringHelper.truncateHead("1234567890", 10));
-        Assertions.assertEquals("123456789", StringHelper.truncateHead("123456789", 10));
-        Assertions.assertEquals("567890", StringHelper.truncateHead("1234567890", 6));
+        assertEquals("1234567890", StringHelper.truncateHead("xxxx1234567890", 10));
+        assertEquals("1234567890", StringHelper.truncateHead("1234567890", 10));
+        assertEquals("123456789", StringHelper.truncateHead("123456789", 10));
+        assertEquals("567890", StringHelper.truncateHead("1234567890", 6));
     }
 
 }

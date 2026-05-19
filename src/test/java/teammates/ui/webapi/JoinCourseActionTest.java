@@ -1,6 +1,8 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
@@ -81,7 +83,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         JoinCourseAction action = getAction(params);
         JsonResult jsonResult = getJsonResult(action);
         MessageOutput messageOutput = (MessageOutput) jsonResult.getOutput();
-        Assertions.assertEquals("Student successfully joined course", messageOutput.getMessage());
+        assertEquals("Student successfully joined course", messageOutput.getMessage());
         verifyNumberOfEmailsSent(1);
     }
 
@@ -98,7 +100,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
         JoinCourseAction action = getAction(params);
-        Assertions.assertThrows(InvalidOperationException.class, action::execute);
+        assertThrows(InvalidOperationException.class, action::execute);
         verifyNoEmailsSent();
     }
 
@@ -131,7 +133,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         };
         JoinCourseAction action = getAction(params);
         JsonResult jsonResult = getJsonResult(action, 500);
-        Assertions.assertEquals(500, jsonResult.getStatusCode());
+        assertEquals(500, jsonResult.getStatusCode());
         verifyNoEmailsSent();
     }
 
@@ -153,7 +155,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         JoinCourseAction action = getAction(params);
         JsonResult jsonResult = getJsonResult(action);
         MessageOutput messageOutput = (MessageOutput) jsonResult.getOutput();
-        Assertions.assertEquals("Instructor successfully joined course", messageOutput.getMessage());
+        assertEquals("Instructor successfully joined course", messageOutput.getMessage());
         verifyNumberOfEmailsSent(1);
     }
 
@@ -170,7 +172,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
         JoinCourseAction action = getAction(params);
-        Assertions.assertThrows(InvalidOperationException.class, action::execute);
+        assertThrows(InvalidOperationException.class, action::execute);
         verifyNoEmailsSent();
     }
 
@@ -203,7 +205,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         };
         JoinCourseAction action = getAction(params);
         JsonResult jsonResult = getJsonResult(action, 500);
-        Assertions.assertEquals(500, jsonResult.getStatusCode());
+        assertEquals(500, jsonResult.getStatusCode());
         verifyNoEmailsSent();
     }
 

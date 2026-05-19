@@ -1,6 +1,9 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
@@ -262,40 +265,40 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     }
 
     private void verifyStudentData(StudentData expectedStudentData, StudentData actualStudentData, Type reqEntity) {
-        Assertions.assertEquals(expectedStudentData.getEmail(), actualStudentData.getEmail());
-        Assertions.assertEquals(expectedStudentData.getCourseId(), actualStudentData.getCourseId());
-        Assertions.assertEquals(expectedStudentData.getName(), actualStudentData.getName());
-        Assertions.assertEquals(expectedStudentData.getTeamName(), actualStudentData.getTeamName());
-        Assertions.assertEquals(expectedStudentData.getSectionName(), actualStudentData.getSectionName());
+        assertEquals(expectedStudentData.getEmail(), actualStudentData.getEmail());
+        assertEquals(expectedStudentData.getCourseId(), actualStudentData.getCourseId());
+        assertEquals(expectedStudentData.getName(), actualStudentData.getName());
+        assertEquals(expectedStudentData.getTeamName(), actualStudentData.getTeamName());
+        assertEquals(expectedStudentData.getSectionName(), actualStudentData.getSectionName());
 
         switch (reqEntity) {
         case STUDENT:
-            Assertions.assertNull(actualStudentData.getGoogleId());
-            Assertions.assertNull(actualStudentData.getKey());
-            Assertions.assertNull(actualStudentData.getComments());
-            Assertions.assertNull(actualStudentData.getJoinState());
-            Assertions.assertNotNull(actualStudentData.getInstitute());
-            Assertions.assertEquals(expectedStudentData.getInstitute(), actualStudentData.getInstitute());
+            assertNull(actualStudentData.getGoogleId());
+            assertNull(actualStudentData.getKey());
+            assertNull(actualStudentData.getComments());
+            assertNull(actualStudentData.getJoinState());
+            assertNotNull(actualStudentData.getInstitute());
+            assertEquals(expectedStudentData.getInstitute(), actualStudentData.getInstitute());
             break;
         case INSTRUCTOR:
-            Assertions.assertNull(actualStudentData.getGoogleId());
-            Assertions.assertNull(actualStudentData.getKey());
+            assertNull(actualStudentData.getGoogleId());
+            assertNull(actualStudentData.getKey());
 
-            Assertions.assertNotNull(actualStudentData.getComments());
-            Assertions.assertNotNull(actualStudentData.getJoinState());
-            Assertions.assertEquals(expectedStudentData.getComments(), actualStudentData.getComments());
-            Assertions.assertEquals(expectedStudentData.getJoinState(), actualStudentData.getJoinState());
+            assertNotNull(actualStudentData.getComments());
+            assertNotNull(actualStudentData.getJoinState());
+            assertEquals(expectedStudentData.getComments(), actualStudentData.getComments());
+            assertEquals(expectedStudentData.getJoinState(), actualStudentData.getJoinState());
             break;
         case ADMIN:
-            Assertions.assertNotNull(actualStudentData.getGoogleId());
-            Assertions.assertNotNull(actualStudentData.getKey());
-            Assertions.assertNotNull(actualStudentData.getComments());
-            Assertions.assertNotNull(actualStudentData.getJoinState());
+            assertNotNull(actualStudentData.getGoogleId());
+            assertNotNull(actualStudentData.getKey());
+            assertNotNull(actualStudentData.getComments());
+            assertNotNull(actualStudentData.getJoinState());
 
-            Assertions.assertEquals(expectedStudentData.getKey(), actualStudentData.getKey());
-            Assertions.assertEquals(expectedStudentData.getGoogleId(), actualStudentData.getGoogleId());
-            Assertions.assertEquals(expectedStudentData.getComments(), actualStudentData.getComments());
-            Assertions.assertEquals(expectedStudentData.getJoinState(), actualStudentData.getJoinState());
+            assertEquals(expectedStudentData.getKey(), actualStudentData.getKey());
+            assertEquals(expectedStudentData.getGoogleId(), actualStudentData.getGoogleId());
+            assertEquals(expectedStudentData.getComments(), actualStudentData.getComments());
+            assertEquals(expectedStudentData.getJoinState(), actualStudentData.getJoinState());
             break;
         }
     }

@@ -1,6 +1,7 @@
 package teammates.logic.external;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.testng.annotations.Test;
@@ -44,16 +45,16 @@ public class EmailSenderServiceTest extends BaseTestCase {
         EmailWrapper wrapper = getTypicalEmailWrapper();
         Mail email = new SendgridService().parseToEmail(wrapper);
 
-        Assertions.assertEquals(wrapper.getSenderEmail(), email.getFrom().getEmail());
-        Assertions.assertEquals(wrapper.getSenderName(), email.getFrom().getName());
-        Assertions.assertEquals(wrapper.getRecipient(), email.personalization.get(0).getTos().get(0).getEmail());
-        Assertions.assertEquals(wrapper.getBcc(), email.personalization.get(0).getBccs().get(0).getEmail());
-        Assertions.assertEquals(wrapper.getReplyTo(), email.getReplyto().getEmail());
-        Assertions.assertEquals(wrapper.getSubject(), email.getSubject());
-        Assertions.assertEquals("text/plain", email.getContent().get(0).getType());
-        Assertions.assertEquals(HtmlHelper.htmlToPlainText(wrapper.getContent()), email.getContent().get(0).getValue());
-        Assertions.assertEquals("text/html", email.getContent().get(1).getType());
-        Assertions.assertEquals(wrapper.getContent(), email.getContent().get(1).getValue());
+        assertEquals(wrapper.getSenderEmail(), email.getFrom().getEmail());
+        assertEquals(wrapper.getSenderName(), email.getFrom().getName());
+        assertEquals(wrapper.getRecipient(), email.personalization.get(0).getTos().get(0).getEmail());
+        assertEquals(wrapper.getBcc(), email.personalization.get(0).getBccs().get(0).getEmail());
+        assertEquals(wrapper.getReplyTo(), email.getReplyto().getEmail());
+        assertEquals(wrapper.getSubject(), email.getSubject());
+        assertEquals("text/plain", email.getContent().get(0).getType());
+        assertEquals(HtmlHelper.htmlToPlainText(wrapper.getContent()), email.getContent().get(0).getValue());
+        assertEquals("text/html", email.getContent().get(1).getType());
+        assertEquals(wrapper.getContent(), email.getContent().get(1).getValue());
     }
 
     @Test
@@ -62,17 +63,17 @@ public class EmailSenderServiceTest extends BaseTestCase {
         MailjetRequest request = new MailjetService().parseToEmail(wrapper);
         JSONObject email = new JSONObject(request.getBody());
 
-        Assertions.assertEquals(wrapper.getSenderEmail(), email.get(Email.FROMEMAIL));
-        Assertions.assertEquals(wrapper.getSenderName(), email.get(Email.FROMNAME));
-        Assertions.assertEquals(wrapper.getRecipient(),
+        assertEquals(wrapper.getSenderEmail(), email.get(Email.FROMEMAIL));
+        assertEquals(wrapper.getSenderName(), email.get(Email.FROMNAME));
+        assertEquals(wrapper.getRecipient(),
                      ((JSONArray) email.get(Email.RECIPIENTS)).getJSONObject(0).get("Email"));
-        Assertions.assertEquals(wrapper.getBcc(),
+        assertEquals(wrapper.getBcc(),
                      ((JSONArray) email.get(Email.RECIPIENTS)).getJSONObject(1).get("Email"));
-        Assertions.assertEquals(wrapper.getReplyTo(),
+        assertEquals(wrapper.getReplyTo(),
                      ((JSONObject) email.get(Email.HEADERS)).getString("Reply-To"));
-        Assertions.assertEquals(wrapper.getSubject(), email.get(Email.SUBJECT));
-        Assertions.assertEquals(wrapper.getContent(), email.get(Email.HTMLPART));
-        Assertions.assertEquals(HtmlHelper.htmlToPlainText(wrapper.getContent()), email.get(Email.TEXTPART));
+        assertEquals(wrapper.getSubject(), email.get(Email.SUBJECT));
+        assertEquals(wrapper.getContent(), email.get(Email.HTMLPART));
+        assertEquals(HtmlHelper.htmlToPlainText(wrapper.getContent()), email.get(Email.TEXTPART));
     }
 
 }

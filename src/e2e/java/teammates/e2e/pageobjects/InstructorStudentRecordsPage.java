@@ -1,6 +1,5 @@
 package teammates.e2e.pageobjects;
 
-import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.openqa.selenium.WebElement;
@@ -27,7 +26,7 @@ public class InstructorStudentRecordsPage extends AppPage {
 
     public void verifyIsCorrectPage(String courseId, String studentName) {
         String expected = String.format("%s's Records - %s", studentName, courseId);
-        Assertions.assertEquals(expected, headerText.getText());
+        assertEquals(expected, headerText.getText());
     }
 
     public void verifyStudentDetails(Student student) {

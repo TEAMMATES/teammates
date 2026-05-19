@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
@@ -215,27 +216,27 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
 
     private void verifyFeedbackSessionData(FeedbackSessionData output, FeedbackSession session,
             FeedbackSessionPublishStatus originalPublishStatus) {
-        Assertions.assertEquals(output.getFeedbackSessionId(), session.getId());
-        Assertions.assertEquals(output.getCourseId(), session.getCourseId());
-        Assertions.assertEquals(output.getTimeZone(), session.getCourse().getTimeZone());
-        Assertions.assertEquals(output.getFeedbackSessionName(), session.getName());
-        Assertions.assertEquals(output.getInstructions(), session.getInstructions());
-        Assertions.assertEquals(output.getSubmissionStartTimestamp(), session.getStartTime().toEpochMilli());
-        Assertions.assertEquals(output.getSubmissionEndTimestamp(), session.getEndTime().toEpochMilli());
-        Assertions.assertEquals(output.getSubmissionEndWithExtensionTimestamp(), session.getEndTime().toEpochMilli());
-        Assertions.assertEquals((long) output.getGracePeriod(), session.getGracePeriod().toMinutes());
-        Assertions.assertEquals((long) output.getSessionVisibleFromTimestamp(), session.getSessionVisibleFromTime().toEpochMilli());
-        Assertions.assertEquals(output.getSessionVisibleSetting(), SessionVisibleSetting.CUSTOM);
-        Assertions.assertEquals(output.getCustomSessionVisibleTimestamp(), output.getSessionVisibleFromTimestamp());
-        Assertions.assertEquals((long) output.getResultVisibleFromTimestamp(), session.getResultsVisibleFromTime().toEpochMilli());
-        Assertions.assertEquals(output.getResponseVisibleSetting(), ResponseVisibleSetting.CUSTOM);
-        Assertions.assertEquals(output.getCustomResponseVisibleTimestamp(), output.getResultVisibleFromTimestamp());
-        Assertions.assertEquals(output.getSubmissionStatus(), FeedbackSessionSubmissionStatus.NOT_VISIBLE);
-        Assertions.assertEquals(output.getPublishStatus(), originalPublishStatus);
-        Assertions.assertEquals(output.getIsClosingSoonEmailEnabled(), session.isClosingSoonEmailEnabled());
-        Assertions.assertEquals(output.getIsPublishedEmailEnabled(), session.isPublishedEmailEnabled());
-        Assertions.assertEquals(output.getCreatedAtTimestamp(), session.getCreatedAt().toEpochMilli());
-        Assertions.assertEquals(output.getDeletedAtTimestamp(), session.getDeletedAt() == null
+        assertEquals(output.getFeedbackSessionId(), session.getId());
+        assertEquals(output.getCourseId(), session.getCourseId());
+        assertEquals(output.getTimeZone(), session.getCourse().getTimeZone());
+        assertEquals(output.getFeedbackSessionName(), session.getName());
+        assertEquals(output.getInstructions(), session.getInstructions());
+        assertEquals(output.getSubmissionStartTimestamp(), session.getStartTime().toEpochMilli());
+        assertEquals(output.getSubmissionEndTimestamp(), session.getEndTime().toEpochMilli());
+        assertEquals(output.getSubmissionEndWithExtensionTimestamp(), session.getEndTime().toEpochMilli());
+        assertEquals((long) output.getGracePeriod(), session.getGracePeriod().toMinutes());
+        assertEquals((long) output.getSessionVisibleFromTimestamp(), session.getSessionVisibleFromTime().toEpochMilli());
+        assertEquals(output.getSessionVisibleSetting(), SessionVisibleSetting.CUSTOM);
+        assertEquals(output.getCustomSessionVisibleTimestamp(), output.getSessionVisibleFromTimestamp());
+        assertEquals((long) output.getResultVisibleFromTimestamp(), session.getResultsVisibleFromTime().toEpochMilli());
+        assertEquals(output.getResponseVisibleSetting(), ResponseVisibleSetting.CUSTOM);
+        assertEquals(output.getCustomResponseVisibleTimestamp(), output.getResultVisibleFromTimestamp());
+        assertEquals(output.getSubmissionStatus(), FeedbackSessionSubmissionStatus.NOT_VISIBLE);
+        assertEquals(output.getPublishStatus(), originalPublishStatus);
+        assertEquals(output.getIsClosingSoonEmailEnabled(), session.isClosingSoonEmailEnabled());
+        assertEquals(output.getIsPublishedEmailEnabled(), session.isPublishedEmailEnabled());
+        assertEquals(output.getCreatedAtTimestamp(), session.getCreatedAt().toEpochMilli());
+        assertEquals(output.getDeletedAtTimestamp(), session.getDeletedAt() == null
                 ? null
                 : session.getDeletedAt().toEpochMilli());
     }

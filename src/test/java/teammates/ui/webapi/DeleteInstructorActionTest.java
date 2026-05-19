@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -91,7 +92,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructor2.getGoogleId());
         verify(mockLogic, times(1)).deleteInstructorCascade(course.getId(), instructor2.getEmail());
         verify(mockLogic, times(1)).deleteInstructorCascade(any(), any());
-        Assertions.assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
+        assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
     }
 
     @Test
@@ -107,7 +108,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         verify(mockLogic, times(1)).getInstructorForEmail(course.getId(), instructor2.getEmail());
         verify(mockLogic, times(1)).deleteInstructorCascade(course.getId(), instructor2.getEmail());
         verify(mockLogic, times(1)).deleteInstructorCascade(any(), any());
-        Assertions.assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
+        assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
     }
 
     @Test
@@ -120,10 +121,10 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
                 Const.ParamsNames.INSTRUCTOR_ID, instructor.getGoogleId(),
         };
 
-        Assertions.assertEquals(mockLogic.getInstructorsByCourse(course.getId()).size(), 1);
+        assertEquals(mockLogic.getInstructorsByCourse(course.getId()).size(), 1);
 
         InvalidOperationException ioe = verifyInvalidOperation(params);
-        Assertions.assertEquals("The instructor you are trying to delete is the last instructor in the course. "
+        assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
         verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructor.getGoogleId());
@@ -140,7 +141,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         };
 
         InvalidOperationException ioe = verifyInvalidOperation(params);
-        Assertions.assertEquals("The instructor you are trying to delete is the last instructor in the course. "
+        assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
         verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructor.getGoogleId());
@@ -157,7 +158,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         };
 
         InvalidOperationException ioe = verifyInvalidOperation(params);
-        Assertions.assertEquals("The instructor you are trying to delete is the last instructor in the course. "
+        assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
         verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructor.getGoogleId());
@@ -179,7 +180,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructor.getGoogleId());
         verify(mockLogic, times(1)).deleteInstructorCascade(course.getId(), instructor.getEmail());
         verify(mockLogic, times(1)).deleteInstructorCascade(any(), any());
-        Assertions.assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
+        assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
     }
 
     @Test
@@ -196,7 +197,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
         verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), "fake-googleId");
         verify(mockLogic, never()).deleteInstructorCascade(any(), any());
-        Assertions.assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
+        assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
     }
 
     @Test
@@ -214,7 +215,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
         verify(mockLogic, times(1)).getInstructorForEmail(course.getId(), fakeInstructorEmail);
         verify(mockLogic, never()).deleteInstructorCascade(any(), any());
-        Assertions.assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
+        assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
     }
 
     @Test
@@ -232,7 +233,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
         verify(mockLogic, times(1)).getInstructorByGoogleId(nonExistentCourseId, instructor.getGoogleId());
         verify(mockLogic, never()).deleteInstructorCascade(any(), any());
-        Assertions.assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
+        assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
     }
 
     @Test

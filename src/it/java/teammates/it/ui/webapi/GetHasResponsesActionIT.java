@@ -1,6 +1,7 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -58,7 +59,7 @@ public class GetHasResponsesActionIT extends BaseActionIT<GetHasResponsesAction>
         JsonResult jsonResult = getJsonResult(getHasResponsesAction);
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        Assertions.assertTrue(hasResponsesData.getHasResponses());
+        assertTrue(hasResponsesData.getHasResponses());
     }
 
     @Test

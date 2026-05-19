@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -38,7 +39,7 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
         };
         GetAccountAction a = getAction(params);
         AccountData output = (AccountData) getJsonResult(a).getOutput();
-        Assertions.assertEquals(output.getGoogleId(), googleId);
+        assertEquals(output.getGoogleId(), googleId);
     }
 
     @Test
@@ -49,7 +50,7 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
                 Const.ParamsNames.INSTRUCTOR_ID, googleId,
         };
         EntityNotFoundException e = verifyEntityNotFound(params);
-        Assertions.assertEquals("Account does not exist.", e.getMessage());
+        assertEquals("Account does not exist.", e.getMessage());
         verify(mockLogic, times(1)).getAccountForGoogleId(googleId);
     }
 

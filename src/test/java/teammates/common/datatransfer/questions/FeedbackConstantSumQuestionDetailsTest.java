@@ -1,6 +1,9 @@
 package teammates.common.datatransfer.questions;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -28,11 +31,11 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackConstantSumResponseDetails constantSumResponseDetails = new FeedbackConstantSumResponseDetails();
 
         constantSumResponseDetails.setAnswers(Arrays.asList(0));
-        Assertions.assertFalse(constantSumQuestionDetails
+        assertFalse(constantSumQuestionDetails
                 .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumResponseDetails.setAnswers(Arrays.asList(100));
-        Assertions.assertTrue(constantSumQuestionDetails
+        assertTrue(constantSumQuestionDetails
                 .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
     }
 
@@ -49,15 +52,15 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackConstantSumResponseDetails constantSumResponseDetails = new FeedbackConstantSumResponseDetails();
 
         constantSumResponseDetails.setAnswers(Arrays.asList());
-        Assertions.assertFalse(constantSumQuestionDetails
+        assertFalse(constantSumQuestionDetails
                 .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumResponseDetails.setAnswers(Arrays.asList(-1));
-        Assertions.assertFalse(constantSumQuestionDetails
+        assertFalse(constantSumQuestionDetails
                 .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumResponseDetails.setAnswers(Arrays.asList(100, 101));
-        Assertions.assertFalse(constantSumQuestionDetails
+        assertFalse(constantSumQuestionDetails
                 .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
     }
 
@@ -74,18 +77,18 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackConstantSumResponseDetails constantSumResponseDetails = new FeedbackConstantSumResponseDetails();
 
         constantSumResponseDetails.setAnswers(Arrays.asList(1, 99, 0));
-        Assertions.assertTrue(constantSumQuestionDetails
+        assertTrue(constantSumQuestionDetails
                 .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumResponseDetails.setAnswers(Arrays.asList(0, 100, 0));
-        Assertions.assertTrue(constantSumQuestionDetails
+        assertTrue(constantSumQuestionDetails
                 .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumQuestionDetails.setPointsPerOption(true);
         constantSumQuestionDetails.setPoints(100);
 
         constantSumResponseDetails.setAnswers(Arrays.asList(100, 100, 100));
-        Assertions.assertTrue(constantSumQuestionDetails
+        assertTrue(constantSumQuestionDetails
                 .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumQuestionDetails.setForceUnevenDistribution(true);
@@ -93,7 +96,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
                 FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption());
 
         constantSumResponseDetails.setAnswers(Arrays.asList(99, 101, 100));
-        Assertions.assertTrue(constantSumQuestionDetails
+        assertTrue(constantSumQuestionDetails
                 .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumQuestionDetails.setForceUnevenDistribution(true);
@@ -101,7 +104,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
                 FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption());
 
         constantSumResponseDetails.setAnswers(Arrays.asList(40, 50, 210));
-        Assertions.assertTrue(constantSumQuestionDetails
+        assertTrue(constantSumQuestionDetails
                 .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
     }
 
@@ -119,19 +122,19 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackConstantSumResponseDetails constantSumResponseDetails = new FeedbackConstantSumResponseDetails();
 
         constantSumResponseDetails.setAnswers(new ArrayList<>());
-        Assertions.assertFalse(constantSumQuestionDetails
+        assertFalse(constantSumQuestionDetails
                 .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumResponseDetails.setAnswers(Arrays.asList(1));
-        Assertions.assertFalse(constantSumQuestionDetails
+        assertFalse(constantSumQuestionDetails
                 .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumResponseDetails.setAnswers(Arrays.asList(1, -1, 99));
-        Assertions.assertFalse(constantSumQuestionDetails
+        assertFalse(constantSumQuestionDetails
                 .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumResponseDetails.setAnswers(Arrays.asList(1, 1, 99));
-        Assertions.assertFalse(constantSumQuestionDetails
+        assertFalse(constantSumQuestionDetails
                 .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumQuestionDetails.setForceUnevenDistribution(true);
@@ -139,7 +142,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
                 FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption());
 
         constantSumResponseDetails.setAnswers(Arrays.asList(33, 33, 33));
-        Assertions.assertFalse(constantSumQuestionDetails
+        assertFalse(constantSumQuestionDetails
                 .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
 
         constantSumQuestionDetails.setForceUnevenDistribution(true);
@@ -149,7 +152,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         constantSumQuestionDetails.setPoints(100);
 
         constantSumResponseDetails.setAnswers(Arrays.asList(33, 34, 33));
-        Assertions.assertFalse(constantSumQuestionDetails
+        assertFalse(constantSumQuestionDetails
                 .validateResponsesDetails(Collections.singletonList(constantSumResponseDetails), 0).isEmpty());
     }
 
@@ -161,8 +164,8 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackConstantSumQuestionDetails newFeedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
         newFeedbackQuestionDetails.setConstSumOptions(Arrays.asList("a", "b", "c"));
 
-        Assertions.assertTrue(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
-        Assertions.assertTrue(newFeedbackQuestionDetails.shouldChangesRequireResponseDeletion(feedbackQuestionDetails));
+        assertTrue(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
+        assertTrue(newFeedbackQuestionDetails.shouldChangesRequireResponseDeletion(feedbackQuestionDetails));
     }
 
     @Test
@@ -173,7 +176,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackConstantSumQuestionDetails newFeedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
         newFeedbackQuestionDetails.setConstSumOptions(Arrays.asList("a", "b", "c"));
 
-        Assertions.assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
+        assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
     }
 
     @Test
@@ -184,7 +187,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackConstantSumQuestionDetails newFeedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
         newFeedbackQuestionDetails.setDistributeToRecipients(false);
 
-        Assertions.assertTrue(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
+        assertTrue(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
     }
 
     @Test
@@ -195,7 +198,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackConstantSumQuestionDetails newFeedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
         newFeedbackQuestionDetails.setDistributeToRecipients(true);
 
-        Assertions.assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
+        assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
     }
 
     @Test
@@ -206,7 +209,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackConstantSumQuestionDetails newFeedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
         newFeedbackQuestionDetails.setPoints(50);
 
-        Assertions.assertTrue(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
+        assertTrue(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
     }
 
     @Test
@@ -217,7 +220,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackConstantSumQuestionDetails newFeedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
         newFeedbackQuestionDetails.setPoints(100);
 
-        Assertions.assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
+        assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
     }
 
     @Test
@@ -228,7 +231,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackConstantSumQuestionDetails newFeedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
         newFeedbackQuestionDetails.setPointsPerOption(false);
 
-        Assertions.assertTrue(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
+        assertTrue(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
     }
 
     @Test
@@ -239,7 +242,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackConstantSumQuestionDetails newFeedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
         newFeedbackQuestionDetails.setPointsPerOption(true);
 
-        Assertions.assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
+        assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
     }
 
     @Test
@@ -250,7 +253,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackConstantSumQuestionDetails newFeedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
         newFeedbackQuestionDetails.setForceUnevenDistribution(false);
 
-        Assertions.assertTrue(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
+        assertTrue(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
     }
 
     @Test
@@ -261,7 +264,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackConstantSumQuestionDetails newFeedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
         newFeedbackQuestionDetails.setForceUnevenDistribution(true);
 
-        Assertions.assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
+        assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
     }
 
     @Test
@@ -272,7 +275,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackConstantSumQuestionDetails newFeedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
         newFeedbackQuestionDetails.setMaxPoint(60);
 
-        Assertions.assertTrue(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
+        assertTrue(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
     }
 
     @Test
@@ -283,7 +286,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackConstantSumQuestionDetails newFeedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
         newFeedbackQuestionDetails.setMaxPoint(50);
 
-        Assertions.assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
+        assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
     }
 
     @Test
@@ -294,7 +297,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackConstantSumQuestionDetails newFeedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
         newFeedbackQuestionDetails.setMinPoint(20);
 
-        Assertions.assertTrue(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
+        assertTrue(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
     }
 
     @Test
@@ -305,7 +308,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackConstantSumQuestionDetails newFeedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
         newFeedbackQuestionDetails.setMinPoint(10);
 
-        Assertions.assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
+        assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
     }
 
     @Test
@@ -318,7 +321,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         newFeedbackQuestionDetails.setDistributePointsFor(
                 FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY.getDisplayedOption());
 
-        Assertions.assertTrue(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
+        assertTrue(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
     }
 
     @Test
@@ -331,7 +334,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         newFeedbackQuestionDetails.setDistributePointsFor(
                 FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption());
 
-        Assertions.assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
+        assertFalse(feedbackQuestionDetails.shouldChangesRequireResponseDeletion(newFeedbackQuestionDetails));
     }
 
     @Test
@@ -345,13 +348,13 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
 
         List<String> errors = feedbackQuestionDetails.validateQuestionDetails();
 
-        Assertions.assertEquals(5, errors.size());
-        Assertions.assertTrue(errors.contains(FeedbackConstantSumQuestionDetails.CONST_SUM_ERROR_MIN_GREATER_THAN_MAX));
-        Assertions.assertTrue(errors.contains(FeedbackConstantSumQuestionDetails.CONST_SUM_ERROR_MIN_POINT_ABOVE_UPPER_BOUND + "50"));
-        Assertions.assertTrue(errors.contains(FeedbackConstantSumQuestionDetails.CONST_SUM_ERROR_MAX_POINT_BELOW_LOWER_BOUND + "50"));
-        Assertions.assertTrue(errors.contains(String.format(FeedbackConstantSumQuestionDetails.CONST_SUM_TEMPLATE_NEGATIVE,
+        assertEquals(5, errors.size());
+        assertTrue(errors.contains(FeedbackConstantSumQuestionDetails.CONST_SUM_ERROR_MIN_GREATER_THAN_MAX));
+        assertTrue(errors.contains(FeedbackConstantSumQuestionDetails.CONST_SUM_ERROR_MIN_POINT_ABOVE_UPPER_BOUND + "50"));
+        assertTrue(errors.contains(FeedbackConstantSumQuestionDetails.CONST_SUM_ERROR_MAX_POINT_BELOW_LOWER_BOUND + "50"));
+        assertTrue(errors.contains(String.format(FeedbackConstantSumQuestionDetails.CONST_SUM_TEMPLATE_NEGATIVE,
                 FeedbackConstantSumQuestionDetails.MAX_POINT_STRING)));
-        Assertions.assertTrue(errors.contains(String.format(FeedbackConstantSumQuestionDetails.CONST_SUM_TEMPLATE_EXCEEDS_POINTS,
+        assertTrue(errors.contains(String.format(FeedbackConstantSumQuestionDetails.CONST_SUM_TEMPLATE_EXCEEDS_POINTS,
                 FeedbackConstantSumQuestionDetails.MIN_POINT_STRING, 100)));
     }
 
@@ -361,7 +364,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
 
         feedbackQuestionDetails.setConstSumOptions(new ArrayList<>(Arrays.asList("foo", "No", "foo")));
 
-        Assertions.assertTrue(feedbackQuestionDetails.validateQuestionDetails()
+        assertTrue(feedbackQuestionDetails.validateQuestionDetails()
                 .contains(FeedbackConstantSumQuestionDetails.CONST_SUM_ERROR_DUPLICATE_OPTIONS));
     }
 
@@ -371,7 +374,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
 
         feedbackQuestionDetails.setConstSumOptions(new ArrayList<>(Arrays.asList("foo")));
 
-        Assertions.assertTrue(feedbackQuestionDetails.validateQuestionDetails()
+        assertTrue(feedbackQuestionDetails.validateQuestionDetails()
                 .contains(FeedbackConstantSumQuestionDetails.CONST_SUM_ERROR_NOT_ENOUGH_OPTIONS
                         + FeedbackConstantSumQuestionDetails.CONST_SUM_MIN_NUM_OF_OPTIONS + "."));
     }
@@ -381,7 +384,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         FeedbackConstantSumQuestionDetails feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
         feedbackQuestionDetails.setPoints(0);
 
-        Assertions.assertTrue(feedbackQuestionDetails.validateQuestionDetails()
+        assertTrue(feedbackQuestionDetails.validateQuestionDetails()
                 .contains(FeedbackConstantSumQuestionDetails.CONST_SUM_ERROR_NOT_ENOUGH_POINTS
                         + FeedbackConstantSumQuestionDetails.CONST_SUM_MIN_NUM_OF_POINTS + "."));
     }
@@ -395,7 +398,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         feedbackQuestionDetails.setMaxPoint(-1);
         feedbackQuestionDetails.setDistributeToRecipients(true);
 
-        Assertions.assertEquals(0, feedbackQuestionDetails.validateQuestionDetails().size());
+        assertEquals(0, feedbackQuestionDetails.validateQuestionDetails().size());
     }
 
     @Test
@@ -404,7 +407,7 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
 
         feedbackQuestionDetails.setConstSumOptions(new ArrayList<>(Arrays.asList("foo", "test")));
 
-        Assertions.assertEquals(0, feedbackQuestionDetails.validateQuestionDetails().size());
+        assertEquals(0, feedbackQuestionDetails.validateQuestionDetails().size());
     }
 
     @Test
@@ -416,6 +419,6 @@ public class FeedbackConstantSumQuestionDetailsTest extends BaseTestCase {
         feedbackQuestionDetails.setMaxPoint(100);
         feedbackQuestionDetails.setPointsPerOption(true);
 
-        Assertions.assertEquals(0, feedbackQuestionDetails.validateQuestionDetails().size());
+        assertEquals(0, feedbackQuestionDetails.validateQuestionDetails().size());
     }
 }

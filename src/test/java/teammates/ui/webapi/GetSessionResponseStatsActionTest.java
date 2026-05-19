@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
@@ -71,8 +72,8 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
 
         GetSessionResponseStatsAction action = getAction(params);
         FeedbackSessionStatsData output = (FeedbackSessionStatsData) getJsonResult(action).getOutput();
-        Assertions.assertEquals(stubFeedbackSessionStatsData.getSubmittedTotal(), output.getSubmittedTotal());
-        Assertions.assertEquals(stubFeedbackSessionStatsData.getExpectedTotal(), output.getExpectedTotal());
+        assertEquals(stubFeedbackSessionStatsData.getSubmittedTotal(), output.getSubmittedTotal());
+        assertEquals(stubFeedbackSessionStatsData.getExpectedTotal(), output.getExpectedTotal());
     }
 
     @Test

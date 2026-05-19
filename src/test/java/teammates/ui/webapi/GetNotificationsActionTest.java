@@ -1,6 +1,10 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -127,7 +131,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         List<NotificationData> notifications = output.getNotifications();
 
         // should fetch correct number of notifications
-        Assertions.assertEquals(expectedNumberOfNotifications, notifications.size());
+        assertEquals(expectedNumberOfNotifications, notifications.size());
     }
 
     @Test
@@ -157,8 +161,8 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         NotificationsData output = (NotificationsData) jsonResult.getOutput();
         List<NotificationData> notificationOutput = output.getNotifications();
 
-        Assertions.assertEquals(expectedNumberOfNotifications, mockLogic.getAllNotifications().size());
-        Assertions.assertEquals(expectedNumberOfNotifications, notificationOutput.size());
+        assertEquals(expectedNumberOfNotifications, mockLogic.getAllNotifications().size());
+        assertEquals(expectedNumberOfNotifications, notificationOutput.size());
 
         NotificationData expected = new NotificationData(testNotifications.get(0));
         NotificationData firstNotification = notificationOutput.get(0);
@@ -167,7 +171,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         // notification's shown attribute should not be updated
         List<Notification> notificationToCheck =
                 mockLogic.getActiveNotificationsByTargetUser(testNotification.getTargetUser());
-        notificationToCheck.forEach(n -> Assertions.assertFalse(n.isShown()));
+        notificationToCheck.forEach(n -> assertFalse(n.isShown()));
     }
 
     @Test
@@ -179,7 +183,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         };
 
         GetNotificationsAction action = getAction(requestParams);
-        Assertions.assertThrows(AssertionError.class, action::execute);
+        assertThrows(AssertionError.class, action::execute);
     }
 
     @Test
@@ -223,13 +227,13 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         NotificationsData output = (NotificationsData) jsonResult.getOutput();
         List<NotificationData> notifications = output.getNotifications();
 
-        Assertions.assertEquals(testUnreadNotifications.size(), notifications.size());
+        assertEquals(testUnreadNotifications.size(), notifications.size());
         for (int i = 0; i < testUnreadNotifications.size(); i++) {
             verifyNotificationEquals(new NotificationData(testUnreadNotifications.get(i)), notifications.get(i));
         }
 
         // should update notification shown attribute for non-admin users
-        testUnreadNotifications.forEach(n -> Assertions.assertTrue(n.isShown()));
+        testUnreadNotifications.forEach(n -> assertTrue(n.isShown()));
     }
 
     @Test
@@ -255,7 +259,7 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
         NotificationsData output = (NotificationsData) jsonResult.getOutput();
         List<NotificationData> notifications = output.getNotifications();
 
-        Assertions.assertEquals(testUnreadNotifications.size(), notifications.size());
+        assertEquals(testUnreadNotifications.size(), notifications.size());
         for (int i = 0; i < testUnreadNotifications.size(); i++) {
             verifyNotificationEquals(new NotificationData(testUnreadNotifications.get(i)), notifications.get(i));
         }
@@ -274,12 +278,12 @@ public class GetNotificationsActionTest extends BaseActionTest<GetNotificationsA
     }
 
     private void verifyNotificationEquals(NotificationData expected, NotificationData actual) {
-        Assertions.assertEquals(expected.getNotificationId(), actual.getNotificationId());
-        Assertions.assertEquals(expected.getStyle(), actual.getStyle());
-        Assertions.assertEquals(expected.getTargetUser(), actual.getTargetUser());
-        Assertions.assertEquals(expected.getTitle(), actual.getTitle());
-        Assertions.assertEquals(expected.getMessage(), actual.getMessage());
-        Assertions.assertEquals(expected.getStartTimestamp(), actual.getStartTimestamp());
-        Assertions.assertEquals(expected.getEndTimestamp(), actual.getEndTimestamp());
+        assertEquals(expected.getNotificationId(), actual.getNotificationId());
+        assertEquals(expected.getStyle(), actual.getStyle());
+        assertEquals(expected.getTargetUser(), actual.getTargetUser());
+        assertEquals(expected.getTitle(), actual.getTitle());
+        assertEquals(expected.getMessage(), actual.getMessage());
+        assertEquals(expected.getStartTimestamp(), actual.getStartTimestamp());
+        assertEquals(expected.getEndTimestamp(), actual.getEndTimestamp());
     }
 }

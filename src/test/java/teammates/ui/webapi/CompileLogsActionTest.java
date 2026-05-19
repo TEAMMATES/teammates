@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -98,8 +99,8 @@ public class CompileLogsActionTest extends BaseActionTest<CompileLogsAction> {
         verifyNumberOfEmailsSent(1);
 
         EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
-        Assertions.assertEquals(String.format(EmailType.SEVERE_LOGS_COMPILATION.getSubject(), Config.APP_VERSION),
+        assertEquals(String.format(EmailType.SEVERE_LOGS_COMPILATION.getSubject(), Config.APP_VERSION),
                 emailSent.getSubject());
-        Assertions.assertEquals(Config.SUPPORT_EMAIL, emailSent.getRecipient());
+        assertEquals(Config.SUPPORT_EMAIL, emailSent.getRecipient());
     }
 }

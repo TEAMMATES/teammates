@@ -1,6 +1,8 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -84,19 +86,19 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         JsonResult actionOutput = getJsonResult(updateAction);
 
         MessageOutput msgOutput = (MessageOutput) actionOutput.getOutput();
-        Assertions.assertEquals("Student has been updated and email sent", msgOutput.getMessage());
+        assertEquals("Student has been updated and email sent", msgOutput.getMessage());
         verifyNumberOfEmailsSent(1);
 
         Student updatedStudent = logic.getStudent(student1.getId());
-        Assertions.assertEquals(updatedStudent.getEmail(), newStudentEmail);
-        Assertions.assertEquals(updatedStudent.getTeamName(), newStudentTeam);
-        Assertions.assertEquals(updatedStudent.getComments(), newStudentComments);
+        assertEquals(updatedStudent.getEmail(), newStudentEmail);
+        assertEquals(updatedStudent.getTeamName(), newStudentTeam);
+        assertEquals(updatedStudent.getComments(), newStudentComments);
 
         EmailWrapper email = getEmailsSent().get(0);
         String courseName = logic.getCourse(student1.getCourseId()).getName();
-        Assertions.assertEquals(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), courseName,
+        assertEquals(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), courseName,
                 student1.getCourseId()), email.getSubject());
-        Assertions.assertEquals(newStudentEmail, email.getRecipient());
+        assertEquals(newStudentEmail, email.getRecipient());
 
         resetStudent(student1.getId(), originalEmail, originalTeam, originalComments);
     }
@@ -123,7 +125,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         JsonResult outputToBeTrimmed = getJsonResult(actionToBeTrimmed);
 
         MessageOutput msgTrimmedOutput = (MessageOutput) outputToBeTrimmed.getOutput();
-        Assertions.assertEquals("Student has been updated and email sent", msgTrimmedOutput.getMessage());
+        assertEquals("Student has been updated and email sent", msgTrimmedOutput.getMessage());
 
         resetStudent(student1.getId(), originalEmail, originalTeam, originalComments);
     }
@@ -134,7 +136,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
 
         String invalidStudentEmail = StringHelperExtension.generateStringOfLength(255 - "@gmail.tmt".length())
                 + "@gmail.tmt";
-        Assertions.assertEquals(FieldValidator.EMAIL_MAX_LENGTH + 1, invalidStudentEmail.length());
+        assertEquals(FieldValidator.EMAIL_MAX_LENGTH + 1, invalidStudentEmail.length());
 
         StudentUpdateRequest updateRequest = new StudentUpdateRequest(student1.getName(), invalidStudentEmail,
                 student1.getTeamName(), student1.getSectionName(), student1.getComments(), false);
@@ -145,7 +147,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
 
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(updateRequest, submissionParams);
 
-        Assertions.assertEquals(getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail,
+        assertEquals(getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail,
                 FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                 FieldValidator.EMAIL_MAX_LENGTH),
                 ihrbe.getMessage());
@@ -168,7 +170,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         };
 
         InvalidOperationException ioe = verifyInvalidOperation(updateRequest, submissionParams);
-        Assertions.assertEquals("Trying to update to an email that is already in use", ioe.getMessage());
+        assertEquals("Trying to update to an email that is already in use", ioe.getMessage());
 
         verifyNoTasksAdded();
     }
@@ -185,7 +187,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(updateRequest, submissionParams);
-        Assertions.assertEquals("The student you tried to edit does not exist.",
+        assertEquals("The student you tried to edit does not exist.",
                 enfe.getMessage());
 
         verifyNoTasksAdded();
@@ -196,7 +198,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         Student student1 = typicalBundle.students.get("student1InCourse1");
         Student student4 = typicalBundle.students.get("student4InCourse1");
 
-        Assertions.assertNotEquals(student1.getSection(), student4.getSection());
+        assertNotEquals(student1.getSection(), student4.getSection());
 
         StudentUpdateRequest updateRequest = new StudentUpdateRequest(student1.getName(), student1.getEmail(),
                 student4.getTeamName(), student1.getSectionName(), student1.getComments(), true);
@@ -208,7 +210,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         InvalidOperationException ioe = verifyInvalidOperation(updateRequest, submissionParams);
         String expectedErrorMessage = "Team \"Team 4\" is detected in Sections \"Section 1\", \"Section 3\"."
                 + " Please use different team names in different sections.";
-        Assertions.assertEquals(expectedErrorMessage, ioe.getMessage());
+        assertEquals(expectedErrorMessage, ioe.getMessage());
 
         verifyNoTasksAdded();
     }
@@ -229,9 +231,9 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
 
         List<Student> studentList = logic.getStudentsForCourse(courseId);
 
-        Assertions.assertEquals(Const.SECTION_SIZE_LIMIT,
+        assertEquals(Const.SECTION_SIZE_LIMIT,
                 studentList.stream().filter(student -> student.getSectionName().equals(sectionInMaxCapacity)).count());
-        Assertions.assertEquals(courseId, studentToJoinMaxSection.getCourseId());
+        assertEquals(courseId, studentToJoinMaxSection.getCourseId());
 
         StudentUpdateRequest updateRequest =
                 new StudentUpdateRequest(studentToJoinMaxSection.getName(), studentToJoinMaxSection.getEmail(),
@@ -246,7 +248,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         String expectedErrorMessage = String.format("You are trying enroll more than %d students in section \"%s\". "
                 + "To avoid performance problems, please do not enroll more than %d students in a single section.",
                 Const.SECTION_SIZE_LIMIT, sectionInMaxCapacity, Const.SECTION_SIZE_LIMIT);
-        Assertions.assertEquals(expectedErrorMessage, ioe.getMessage());
+        assertEquals(expectedErrorMessage, ioe.getMessage());
 
         verifyNoTasksAdded();
     }
@@ -268,17 +270,17 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         JsonResult emptySectionActionOutput = getJsonResult(updateEmptySectionAction);
 
         MessageOutput emptySectionMsgOutput = (MessageOutput) emptySectionActionOutput.getOutput();
-        Assertions.assertEquals("Student has been updated and email sent", emptySectionMsgOutput.getMessage());
+        assertEquals("Student has been updated and email sent", emptySectionMsgOutput.getMessage());
 
         // verify student in database
         Student actualStudent =
                 logic.getStudentForEmail(student4.getCourseId(), student4.getEmail());
-        Assertions.assertEquals(student4.getCourse(), actualStudent.getCourse());
-        Assertions.assertEquals(student4.getName(), actualStudent.getName());
-        Assertions.assertEquals(student4.getEmail(), actualStudent.getEmail());
-        Assertions.assertEquals(student4.getTeam(), actualStudent.getTeam());
-        Assertions.assertEquals(Const.DEFAULT_SECTION, actualStudent.getSectionName());
-        Assertions.assertEquals(student4.getComments(), actualStudent.getComments());
+        assertEquals(student4.getCourse(), actualStudent.getCourse());
+        assertEquals(student4.getName(), actualStudent.getName());
+        assertEquals(student4.getEmail(), actualStudent.getEmail());
+        assertEquals(student4.getTeam(), actualStudent.getTeam());
+        assertEquals(Const.DEFAULT_SECTION, actualStudent.getSectionName());
+        assertEquals(student4.getComments(), actualStudent.getComments());
 
         resetStudent(student4.getId(), student4.getEmail(), originalTeam, student4.getComments());
     }

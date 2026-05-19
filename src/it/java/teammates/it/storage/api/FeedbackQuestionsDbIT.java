@@ -1,6 +1,11 @@
 package teammates.it.storage.api;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -40,14 +45,14 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
 
         FeedbackQuestion actualFq = fqDb.getFeedbackQuestion(expectedFq.getId());
 
-        Assertions.assertEquals(expectedFq, actualFq);
+        assertEquals(expectedFq, actualFq);
 
         ______TS("failure: does not exist, returns null");
         actualFq = fqDb.getFeedbackQuestion(UUID.randomUUID());
-        Assertions.assertNull(actualFq);
+        assertNull(actualFq);
 
         ______TS("failure: null parameter, assertion error");
-        Assertions.assertThrows(AssertionError.class, () -> fqDb.getFeedbackQuestion(null));
+        assertThrows(AssertionError.class, () -> fqDb.getFeedbackQuestion(null));
     }
 
     @Test
@@ -60,7 +65,7 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
         verifyPresentInDatabase(expectedFq);
 
         ______TS("failure: null parameter, assertion error");
-        Assertions.assertThrows(AssertionError.class, () -> fqDb.createFeedbackQuestion(null));
+        assertThrows(AssertionError.class, () -> fqDb.createFeedbackQuestion(null));
     }
 
     @Test
@@ -81,12 +86,12 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
 
         List<FeedbackQuestion> actualQuestions = fqDb.getFeedbackQuestionsForSession(fs.getId());
 
-        Assertions.assertEquals(expectedQuestions.size(), actualQuestions.size());
-        Assertions.assertTrue(expectedQuestions.containsAll(actualQuestions));
+        assertEquals(expectedQuestions.size(), actualQuestions.size());
+        assertTrue(expectedQuestions.containsAll(actualQuestions));
 
         ______TS("failure: session does not exist, returns no questions");
         actualQuestions = fqDb.getFeedbackQuestionsForSession(UUID.randomUUID());
-        Assertions.assertEquals(0, actualQuestions.size());
+        assertEquals(0, actualQuestions.size());
     }
 
     @Test
@@ -101,13 +106,13 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
 
         List<FeedbackQuestion> actualQuestions = fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.STUDENTS);
 
-        Assertions.assertEquals(expectedQuestions.size(), actualQuestions.size());
-        Assertions.assertTrue(expectedQuestions.containsAll(actualQuestions));
+        assertEquals(expectedQuestions.size(), actualQuestions.size());
+        assertTrue(expectedQuestions.containsAll(actualQuestions));
 
         ______TS("failure: session does not exist, returns no questions");
         fs = getTypicalFeedbackSessionForCourse(getTypicalCourse());
         actualQuestions = fqDb.getFeedbackQuestionsForGiverType(fs, QuestionGiverType.STUDENTS);
-        Assertions.assertEquals(0, actualQuestions.size());
+        assertEquals(0, actualQuestions.size());
     }
 
     @Test
@@ -117,7 +122,7 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
         verifyPresentInDatabase(fq);
 
         fqDb.deleteFeedbackQuestion(fq);
-        Assertions.assertNull(fqDb.getFeedbackQuestion(fq.getId()));
+        assertNull(fqDb.getFeedbackQuestion(fq.getId()));
     }
 
     @Test
@@ -129,10 +134,10 @@ public class FeedbackQuestionsDbIT extends BaseTestCaseWithDatabaseAccess {
         boolean actual = fqDb.hasFeedbackQuestionsForGiverType(
                 fs.getName(), course.getId(), QuestionGiverType.STUDENTS);
 
-        Assertions.assertTrue(actual);
+        assertTrue(actual);
 
         ______TS("failure: session/course does not exist, returns false");
         actual = fqDb.hasFeedbackQuestionsForGiverType("session-name", "course-id", QuestionGiverType.STUDENTS);
-        Assertions.assertFalse(actual);
+        assertFalse(actual);
     }
 }

@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -65,21 +66,21 @@ public class SearchAccountRequestsActionTest extends BaseActionTest<SearchAccoun
         verify(mockLogic).searchAccountRequestsInWholeSystem(searchKey);
         verifyNoMoreInteractions(mockLogic);
 
-        Assertions.assertEquals(accountRequests.size(), output.getAccountRequests().size());
+        assertEquals(accountRequests.size(), output.getAccountRequests().size());
 
         for (int i = 0; i < accountRequests.size(); i++) {
             AccountRequest accountRequest = accountRequests.get(i);
             AccountRequestData accountRequestData = output.getAccountRequests().get(i);
 
-            Assertions.assertEquals(accountRequest.getId(), accountRequestData.getId());
-            Assertions.assertEquals(accountRequest.getEmail(), accountRequestData.getEmail());
-            Assertions.assertEquals(accountRequest.getName(), accountRequestData.getName());
-            Assertions.assertEquals(accountRequest.getInstitute(), accountRequestData.getInstitute());
-            Assertions.assertEquals(accountRequest.getRegistrationKey(), accountRequestData.getRegistrationKey());
-            Assertions.assertEquals(accountRequest.getStatus(), accountRequestData.getStatus());
-            Assertions.assertEquals(accountRequest.getComments(), accountRequestData.getComments());
-            Assertions.assertEquals(accountRequest.getCreatedAt().toEpochMilli(), accountRequestData.getCreatedAt());
-            Assertions.assertEquals(
+            assertEquals(accountRequest.getId(), accountRequestData.getId());
+            assertEquals(accountRequest.getEmail(), accountRequestData.getEmail());
+            assertEquals(accountRequest.getName(), accountRequestData.getName());
+            assertEquals(accountRequest.getInstitute(), accountRequestData.getInstitute());
+            assertEquals(accountRequest.getRegistrationKey(), accountRequestData.getRegistrationKey());
+            assertEquals(accountRequest.getStatus(), accountRequestData.getStatus());
+            assertEquals(accountRequest.getComments(), accountRequestData.getComments());
+            assertEquals(accountRequest.getCreatedAt().toEpochMilli(), accountRequestData.getCreatedAt());
+            assertEquals(
                     accountRequest.getRegisteredAt() == null ? null : accountRequest.getRegisteredAt().toEpochMilli(),
                     accountRequestData.getRegisteredAt());
         }
@@ -99,7 +100,7 @@ public class SearchAccountRequestsActionTest extends BaseActionTest<SearchAccoun
         verify(mockLogic).searchAccountRequestsInWholeSystem(searchKey);
         verifyNoMoreInteractions(mockLogic);
 
-        Assertions.assertEquals(0, output.getAccountRequests().size());
+        assertEquals(0, output.getAccountRequests().size());
     }
 
     @Test

@@ -1,6 +1,5 @@
 package teammates.e2e.pageobjects;
 
-import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Duration;
@@ -114,7 +113,7 @@ public class InstructorSessionIndividualExtensionPage extends AppPage {
                                         Map<String, Student> students) {
         List<WebElement> studentRows = studentListTable.findElements(By.cssSelector("tbody tr"));
 
-        Assertions.assertEquals(students.size(), studentRows.size());
+        assertEquals(students.size(), studentRows.size());
 
         for (var row : studentRows) {
             List<WebElement> cols = row.findElements(By.cssSelector("td"));
@@ -128,14 +127,14 @@ public class InstructorSessionIndividualExtensionPage extends AppPage {
             Student expectedStudent = students.get(email);
 
             if (expectedStudent.getSectionName() == null || expectedStudent.getSectionName().isEmpty()) {
-                Assertions.assertEquals("None", section);
+                assertEquals("None", section);
             } else {
-                Assertions.assertEquals(expectedStudent.getSectionName(), section);
+                assertEquals(expectedStudent.getSectionName(), section);
             }
-            Assertions.assertEquals(expectedStudent.getTeamName(), team);
-            Assertions.assertEquals(expectedStudent.getName(), name);
-            Assertions.assertEquals(expectedStudent.getEmail(), email);
-            Assertions.assertEquals(expectedDeadline, deadline);
+            assertEquals(expectedStudent.getTeamName(), team);
+            assertEquals(expectedStudent.getName(), name);
+            assertEquals(expectedStudent.getEmail(), email);
+            assertEquals(expectedDeadline, deadline);
         }
     }
 
@@ -143,7 +142,7 @@ public class InstructorSessionIndividualExtensionPage extends AppPage {
                                            Map<String, Instructor> instructors) {
         List<WebElement> instructorRows = instructorListTable.findElements(By.cssSelector("tbody tr"));
 
-        Assertions.assertEquals(instructors.size(), instructorRows.size());
+        assertEquals(instructors.size(), instructorRows.size());
 
         for (var row : instructorRows) {
             List<WebElement> cols = row.findElements(By.cssSelector("td"));
@@ -155,10 +154,10 @@ public class InstructorSessionIndividualExtensionPage extends AppPage {
             String expectedDeadline = instructorDeadlines.get(email);
             Instructor expectedInstructor = instructors.get(email);
 
-            Assertions.assertEquals(expectedInstructor.getName(), name);
-            Assertions.assertEquals(expectedInstructor.getEmail(), email);
-            Assertions.assertEquals(expectedInstructor.getRole().getRoleName(), role);
-            Assertions.assertEquals(expectedDeadline, deadline);
+            assertEquals(expectedInstructor.getName(), name);
+            assertEquals(expectedInstructor.getEmail(), email);
+            assertEquals(expectedInstructor.getRole().getRoleName(), role);
+            assertEquals(expectedDeadline, deadline);
         }
     }
 

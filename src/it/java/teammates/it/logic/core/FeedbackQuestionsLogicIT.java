@@ -1,6 +1,8 @@
 package teammates.it.logic.core;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,8 +80,8 @@ public class FeedbackQuestionsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForSession(fs);
 
-        Assertions.assertEquals(expectedQuestions.size(), actualQuestions.size());
-        Assertions.assertTrue(expectedQuestions.containsAll(actualQuestions));
+        assertEquals(expectedQuestions.size(), actualQuestions.size());
+        assertTrue(expectedQuestions.containsAll(actualQuestions));
     }
 
     @Test

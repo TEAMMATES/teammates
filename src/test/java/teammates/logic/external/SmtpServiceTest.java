@@ -1,7 +1,8 @@
 package teammates.logic.external;
 
-import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
@@ -44,16 +45,16 @@ public class SmtpServiceTest extends BaseTestCase {
     public void testSendEmail_noErrors_returnsOk() throws EmailSendingException {
         SmtpServiceStub service = new SmtpServiceStub(null);
         EmailSendingStatus status = service.sendEmail(getTypicalEmailWrapper());
-        Assertions.assertEquals(HttpStatus.SC_OK, status.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, status.getStatusCode());
     }
 
     @Test
     public void testSendEmail_smtpError5xx_throwsBadRequest() {
         for (int code : new int[] { 500, 550, 554 }) {
             SmtpServiceStub service = new SmtpServiceStub(buildSmtpException(code));
-            EmailSendingException e = Assertions.assertThrows(EmailSendingException.class,
+            EmailSendingException e = assertThrows(EmailSendingException.class,
                     () -> service.sendEmail(getTypicalEmailWrapper()));
-            Assertions.assertEquals(HttpStatus.SC_BAD_REQUEST, e.getStatusCode());
+            assertEquals(HttpStatus.SC_BAD_REQUEST, e.getStatusCode());
         }
     }
 
@@ -61,18 +62,18 @@ public class SmtpServiceTest extends BaseTestCase {
     public void testSendEmail_smtpError4xx_throwsBadGateway() {
         for (int code : new int[] { 421, 450, 451, 452 }) {
             SmtpServiceStub service = new SmtpServiceStub(buildSmtpException(code));
-            EmailSendingException e = Assertions.assertThrows(EmailSendingException.class,
+            EmailSendingException e = assertThrows(EmailSendingException.class,
                     () -> service.sendEmail(getTypicalEmailWrapper()));
-            Assertions.assertEquals(HttpStatus.SC_BAD_GATEWAY, e.getStatusCode());
+            assertEquals(HttpStatus.SC_BAD_GATEWAY, e.getStatusCode());
         }
     }
 
     @Test
     public void testSendEmail_messagingException_throwsInternalServerError() {
         SmtpServiceStub service = new SmtpServiceStub(new MessagingException("Connection refused"));
-        EmailSendingException e = Assertions.assertThrows(EmailSendingException.class,
+        EmailSendingException e = assertThrows(EmailSendingException.class,
                 () -> service.sendEmail(getTypicalEmailWrapper()));
-        Assertions.assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getStatusCode());
+        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getStatusCode());
     }
 
     @Test
@@ -89,15 +90,15 @@ public class SmtpServiceTest extends BaseTestCase {
 
     @Test
     public void testConstructor_invalidSecurityProtocol_throwsIllegalArgument() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             new SmtpService("smtp.example.invalid", "587", null, "true",
                     "username", "password");
         });
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             new SmtpService("smtp.example.invalid", "587", "", "true",
                     "username", "password");
         });
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             new SmtpService("smtp.example.invalid", "587", "invalid_protocol", "true",
                     "username", "password");
         });
@@ -105,15 +106,15 @@ public class SmtpServiceTest extends BaseTestCase {
 
     @Test
     public void testSmtpService_invalidAuthEnabled_throwsIllegalArgument() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             new SmtpService("smtp.example.invalid", "587", null, "",
                     "username", "password");
         });
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             new SmtpService("smtp.example.invalid", "587", "ssl", null,
                     "username", "password");
         });
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             new SmtpService("smtp.example.invalid", "587", "starttls", "invalid_value",
                     "username", "password");
         });
@@ -121,15 +122,15 @@ public class SmtpServiceTest extends BaseTestCase {
 
     @Test
     public void testSmtpService_authEnabledWithMissingCredentials_throwsIllegalArgument() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             new SmtpService("smtp.example.invalid", "587", null, "true",
                     "username", "");
         });
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             new SmtpService("smtp.example.invalid", "587", "ssl", "true",
                     null, "password");
         });
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalArgumentException.class, () -> {
             new SmtpService("smtp.example.invalid", "587", "starttls", "true",
                     "", "");
         });
@@ -144,20 +145,20 @@ public class SmtpServiceTest extends BaseTestCase {
 
         // Verify sender, recipient, reply-to and subject
         InternetAddress fromAddress = (InternetAddress) email.getFrom()[0];
-        Assertions.assertEquals(wrapper.getSenderEmail(), fromAddress.getAddress());
-        Assertions.assertEquals(wrapper.getSenderName(), fromAddress.getPersonal());
-        Assertions.assertEquals(wrapper.getRecipient(), email.getRecipients(MimeMessage.RecipientType.TO)[0].toString());
-        Assertions.assertEquals(wrapper.getBcc(), email.getRecipients(MimeMessage.RecipientType.BCC)[0].toString());
-        Assertions.assertEquals(wrapper.getReplyTo(), email.getReplyTo()[0].toString());
-        Assertions.assertEquals(wrapper.getSubject(), email.getSubject());
+        assertEquals(wrapper.getSenderEmail(), fromAddress.getAddress());
+        assertEquals(wrapper.getSenderName(), fromAddress.getPersonal());
+        assertEquals(wrapper.getRecipient(), email.getRecipients(MimeMessage.RecipientType.TO)[0].toString());
+        assertEquals(wrapper.getBcc(), email.getRecipients(MimeMessage.RecipientType.BCC)[0].toString());
+        assertEquals(wrapper.getReplyTo(), email.getReplyTo()[0].toString());
+        assertEquals(wrapper.getSubject(), email.getSubject());
 
         // Verify HTML and text part of email content
         MimeMultipart multipart = (MimeMultipart) email.getContent();
-        Assertions.assertEquals(2, multipart.getCount());
+        assertEquals(2, multipart.getCount());
         MimeBodyPart textPart = (MimeBodyPart) multipart.getBodyPart(0);
-        Assertions.assertEquals(HtmlHelper.htmlToPlainText(wrapper.getContent()), textPart.getContent().toString());
+        assertEquals(HtmlHelper.htmlToPlainText(wrapper.getContent()), textPart.getContent().toString());
         MimeBodyPart htmlPart = (MimeBodyPart) multipart.getBodyPart(1);
-        Assertions.assertEquals(wrapper.getContent(), htmlPart.getContent().toString());
+        assertEquals(wrapper.getContent(), htmlPart.getContent().toString());
     }
 
     /**

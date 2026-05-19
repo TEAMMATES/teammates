@@ -1,6 +1,8 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -50,7 +52,7 @@ public class DeleteFeedbackQuestionActionIT extends BaseActionIT<DeleteFeedbackQ
         FeedbackResponseComment frc1 = typicalBundle.feedbackResponseComments.get("comment1ToResponse1ForQ1");
         FeedbackQuestion typicalQuestion =
                 logic.getFeedbackQuestion(fq1.getId());
-        Assertions.assertEquals(FeedbackQuestionType.TEXT, typicalQuestion.getQuestionType());
+        assertEquals(FeedbackQuestionType.TEXT, typicalQuestion.getQuestionType());
 
         loginAsInstructor(instructor1ofCourse1.getGoogleId());
 
@@ -69,12 +71,12 @@ public class DeleteFeedbackQuestionActionIT extends BaseActionIT<DeleteFeedbackQ
         HibernateUtil.flushSession();
 
         // question is deleted
-        Assertions.assertNull(logic.getFeedbackQuestion(typicalQuestion.getId()));
+        assertNull(logic.getFeedbackQuestion(typicalQuestion.getId()));
         // responses to this question are deleted
-        Assertions.assertNull(logic.getFeedbackResponse(fr1.getId()));
-        Assertions.assertNull(logic.getFeedbackResponse(fr2.getId()));
+        assertNull(logic.getFeedbackResponse(fr1.getId()));
+        assertNull(logic.getFeedbackResponse(fr2.getId()));
         // feedback response comments to the responses are deleted
-        Assertions.assertNull(logic.getFeedbackResponseComment(frc1.getId()));
+        assertNull(logic.getFeedbackResponseComment(frc1.getId()));
     }
 
     @Override

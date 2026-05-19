@@ -1,6 +1,5 @@
 package teammates.e2e.pageobjects;
 
-import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -71,19 +70,19 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     public void verifyFeedbackSessionDetails(FeedbackSession feedbackSession, Course course) {
-        Assertions.assertEquals(getCourseId(), feedbackSession.getCourseId());
-        Assertions.assertEquals(getCourseName(), course.getName());
-        Assertions.assertEquals(getCourseInstitute(), course.getInstitute());
-        Assertions.assertEquals(getFeedbackSessionName(), feedbackSession.getName());
+        assertEquals(getCourseId(), feedbackSession.getCourseId());
+        assertEquals(getCourseName(), course.getName());
+        assertEquals(getCourseInstitute(), course.getInstitute());
+        assertEquals(getFeedbackSessionName(), feedbackSession.getName());
         // TODO check if this is valid ie, course.getTimeZone()
         assertDateEquals(getOpeningTime(), feedbackSession.getStartTime(), course.getTimeZone());
         assertDateEquals(getClosingTime(), feedbackSession.getEndTime(), course.getTimeZone());
     }
 
     public void verifyQuestionDetails(int questionNum, FeedbackQuestion question) {
-        Assertions.assertEquals(question.getQuestionDetailsCopy().getQuestionText(), getQuestionText(questionNum));
+        assertEquals(question.getQuestionDetailsCopy().getQuestionText(), getQuestionText(questionNum));
         if (question.getQuestionType() != FeedbackQuestionType.TEXT) {
-            Assertions.assertEquals(getAdditionalInfoString(question), getAdditionalInfo(questionNum));
+            assertEquals(getAdditionalInfoString(question), getAdditionalInfo(questionNum));
         }
     }
 
@@ -101,7 +100,7 @@ public class FeedbackResultsPage extends AppPage {
     public void verifyQuestionNotPresent(int questionNum) {
         try {
             getQuestionResponsesSection(questionNum);
-            Assertions.fail("Question " + questionNum + " should not be present.");
+            fail("Question " + questionNum + " should not be present.");
         } catch (NoSuchElementException e) {
             // success
         }
@@ -133,21 +132,21 @@ public class FeedbackResultsPage extends AppPage {
 
     public void verifyContributionStatistics(int questionNum, String[] expectedStats) {
         WebElement questionSection = getQuestionResponsesSection(questionNum);
-        Assertions.assertEquals(questionSection.findElement(By.id("own-view-me")).getText(), expectedStats[0]);
-        Assertions.assertEquals(questionSection.findElement(By.id("own-view-others")).getText().trim(), expectedStats[1]);
-        Assertions.assertEquals(questionSection.findElement(By.id("team-view-me")).getText(), expectedStats[2]);
-        Assertions.assertEquals(questionSection.findElement(By.id("team-view-others")).getText().trim(), expectedStats[3]);
+        assertEquals(questionSection.findElement(By.id("own-view-me")).getText(), expectedStats[0]);
+        assertEquals(questionSection.findElement(By.id("own-view-others")).getText().trim(), expectedStats[1]);
+        assertEquals(questionSection.findElement(By.id("team-view-me")).getText(), expectedStats[2]);
+        assertEquals(questionSection.findElement(By.id("team-view-others")).getText().trim(), expectedStats[3]);
     }
 
     public void verifyCommentDetails(int questionNum, String commentGiver, String commentEditor, String commentString) {
         WebElement commentField = getCommentField(questionNum, commentString);
         if (commentGiver.isEmpty()) {
-            Assertions.assertTrue(isCommentByResponseGiver(commentField));
+            assertTrue(isCommentByResponseGiver(commentField));
         } else {
-            Assertions.assertEquals(commentGiver, getCommentGiver(commentField));
+            assertEquals(commentGiver, getCommentGiver(commentField));
         }
         if (!commentEditor.isEmpty()) {
-            Assertions.assertEquals(commentEditor, getCommentEditor(commentField));
+            assertEquals(commentEditor, getCommentEditor(commentField));
         }
     }
 
@@ -155,7 +154,7 @@ public class FeedbackResultsPage extends AppPage {
         WebElement questionResponsesSection = getQuestionResponsesSection(questionNum);
         try {
             questionResponsesSection.findElement(By.className("all-responses"));
-            Assertions.fail("Question " + questionNum + " should not display any actual responses when previewing results.");
+            fail("Question " + questionNum + " should not display any actual responses when previewing results.");
         } catch (NoSuchElementException e) {
             // success
         }
@@ -166,7 +165,7 @@ public class FeedbackResultsPage extends AppPage {
         for (String commentString : commentsNotVisible) {
             for (WebElement comment : commentsOfQuestion) {
                 if (comment.findElement(By.className("comment-text")).getText().equals(commentString)) {
-                    Assertions.fail("Comment \"" + commentString + "\" should not be present in question " + questionNum);
+                    fail("Comment \"" + commentString + "\" should not be present in question " + questionNum);
                 }
             }
         }
@@ -177,7 +176,7 @@ public class FeedbackResultsPage extends AppPage {
         try {
             questionResponsesSection.findElement(By.className("non-visible-response-alert"));
         } catch (NoSuchElementException e) {
-            Assertions.fail("Question " + questionNum
+            fail("Question " + questionNum
                     + " should display an alert message for hidden responses when previewing results.");
         }
     }
@@ -187,7 +186,7 @@ public class FeedbackResultsPage extends AppPage {
         try {
             questionResponsesSection.findElement(By.className("non-visible-comment-alert"));
         } catch (NoSuchElementException e) {
-            Assertions.fail("Question " + questionNum
+            fail("Question " + questionNum
                     + " should display an alert message for hidden comments when previewing results.");
         }
     }
@@ -201,7 +200,7 @@ public class FeedbackResultsPage extends AppPage {
         for (ExpectedFeedbackResponse expectedResponse : givenResponses) {
             WebElement responseField =
                     getGivenResponseField(question.getQuestionNumber(), expectedResponse.getRecipient());
-            Assertions.assertTrue(isResponseEqual(question, responseField, expectedResponse.getResponse()));
+            assertTrue(isResponseEqual(question, responseField, expectedResponse.getResponse()));
         }
     }
 
@@ -245,9 +244,9 @@ public class FeedbackResultsPage extends AppPage {
                 List<WebElement> responsesFields = getAllResponseFields(responseView);
                 if (isGiverVisible || isGiverVisibleToInstructor) {
                     int giverIndex = getGiverIndex(responseView, expectedResponse.getGiver());
-                    Assertions.assertTrue(isResponseEqual(question, responsesFields.get(giverIndex), expectedResponse.getResponse()));
+                    assertTrue(isResponseEqual(question, responsesFields.get(giverIndex), expectedResponse.getResponse()));
                 } else {
-                    Assertions.assertTrue(isAnyAnonymousResponseEqual(question, responseView, expectedResponse.getResponse()));
+                    assertTrue(isAnyAnonymousResponseEqual(question, responseView, expectedResponse.getResponse()));
                 }
             } else {
                 verifyAnonymousResponseView(question, otherResponses, isGiverVisible);
@@ -262,7 +261,7 @@ public class FeedbackResultsPage extends AppPage {
                 .filter(v -> isAnonymous(v.findElement(By.className("response-recipient")).getText()))
                 .toList();
         if (anonymousViews.isEmpty()) {
-            Assertions.fail("No anonymous views found");
+            fail("No anonymous views found");
         }
 
         boolean hasCorrectResponses = true;
@@ -285,7 +284,7 @@ public class FeedbackResultsPage extends AppPage {
                 break;
             }
         }
-        Assertions.assertTrue(hasCorrectResponses);
+        assertTrue(hasCorrectResponses);
     }
 
     private boolean isResponseEqual(FeedbackQuestion question, WebElement responseField,
@@ -357,7 +356,7 @@ public class FeedbackResultsPage extends AppPage {
         String dateStrWithAbbr = getDateStringWithAbbr(instant, timeZone);
         String dateStrWithOffset = getDateStringWithOffset(instant, timeZone);
 
-        Assertions.assertTrue(actual.equals(dateStrWithAbbr) || actual.equals(dateStrWithOffset));
+        assertTrue(actual.equals(dateStrWithAbbr) || actual.equals(dateStrWithOffset));
     }
 
     private String getDateStringWithAbbr(Instant instant, String timeZone) {

@@ -1,6 +1,8 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -61,9 +63,9 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         JsonResult actionOutput = getJsonResult(getRegkeyValidityAction);
 
         RegkeyValidityData output = (RegkeyValidityData) actionOutput.getOutput();
-        Assertions.assertTrue(output.isValid());
-        Assertions.assertTrue(output.isUsed());
-        Assertions.assertFalse(output.isAllowedAccess());
+        assertTrue(output.isValid());
+        assertTrue(output.isUsed());
+        assertFalse(output.isAllowedAccess());
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, instructor1Key,
@@ -74,9 +76,9 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         actionOutput = getJsonResult(getRegkeyValidityAction);
 
         output = (RegkeyValidityData) actionOutput.getOutput();
-        Assertions.assertTrue(output.isValid());
-        Assertions.assertTrue(output.isUsed());
-        Assertions.assertFalse(output.isAllowedAccess());
+        assertTrue(output.isValid());
+        assertTrue(output.isUsed());
+        assertFalse(output.isAllowedAccess());
 
         ______TS("Normal case: Wrong logged in user for a used regkey; should be valid/used/disallowed");
 
@@ -91,9 +93,9 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         actionOutput = getJsonResult(getRegkeyValidityAction);
 
         output = (RegkeyValidityData) actionOutput.getOutput();
-        Assertions.assertTrue(output.isValid());
-        Assertions.assertTrue(output.isUsed());
-        Assertions.assertFalse(output.isAllowedAccess());
+        assertTrue(output.isValid());
+        assertTrue(output.isUsed());
+        assertFalse(output.isAllowedAccess());
 
         ______TS("Normal case: Correct logged in user for a used regkey; should be valid/used/allowed");
 
@@ -108,9 +110,9 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         actionOutput = getJsonResult(getRegkeyValidityAction);
 
         output = (RegkeyValidityData) actionOutput.getOutput();
-        Assertions.assertTrue(output.isValid());
-        Assertions.assertTrue(output.isUsed());
-        Assertions.assertTrue(output.isAllowedAccess());
+        assertTrue(output.isValid());
+        assertTrue(output.isUsed());
+        assertTrue(output.isAllowedAccess());
 
         loginAsInstructor(instructor1.getGoogleId());
 
@@ -123,9 +125,9 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         actionOutput = getJsonResult(getRegkeyValidityAction);
 
         output = (RegkeyValidityData) actionOutput.getOutput();
-        Assertions.assertTrue(output.isValid());
-        Assertions.assertTrue(output.isUsed());
-        Assertions.assertTrue(output.isAllowedAccess());
+        assertTrue(output.isValid());
+        assertTrue(output.isUsed());
+        assertTrue(output.isAllowedAccess());
 
         ______TS("Normal case: No logged in user for an unused regkey; should be valid/unused/allowed");
 
@@ -147,9 +149,9 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         actionOutput = getJsonResult(getRegkeyValidityAction);
 
         output = (RegkeyValidityData) actionOutput.getOutput();
-        Assertions.assertTrue(output.isValid());
-        Assertions.assertFalse(output.isUsed());
-        Assertions.assertTrue(output.isAllowedAccess());
+        assertTrue(output.isValid());
+        assertFalse(output.isUsed());
+        assertTrue(output.isAllowedAccess());
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, instructor1Key,
@@ -160,9 +162,9 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         actionOutput = getJsonResult(getRegkeyValidityAction);
 
         output = (RegkeyValidityData) actionOutput.getOutput();
-        Assertions.assertTrue(output.isValid());
-        Assertions.assertFalse(output.isUsed());
-        Assertions.assertTrue(output.isAllowedAccess());
+        assertTrue(output.isValid());
+        assertFalse(output.isUsed());
+        assertTrue(output.isAllowedAccess());
 
         ______TS("Normal case: Any logged in user for an unused regkey; should be valid/unused/allowed");
 
@@ -177,9 +179,9 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         actionOutput = getJsonResult(getRegkeyValidityAction);
 
         output = (RegkeyValidityData) actionOutput.getOutput();
-        Assertions.assertTrue(output.isValid());
-        Assertions.assertFalse(output.isUsed());
-        Assertions.assertTrue(output.isAllowedAccess());
+        assertTrue(output.isValid());
+        assertFalse(output.isUsed());
+        assertTrue(output.isAllowedAccess());
 
         ______TS("Normal case: Invalid regkey; should be invalid/unused/disallowed");
 
@@ -192,9 +194,9 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         actionOutput = getJsonResult(getRegkeyValidityAction);
 
         output = (RegkeyValidityData) actionOutput.getOutput();
-        Assertions.assertFalse(output.isValid());
-        Assertions.assertFalse(output.isUsed());
-        Assertions.assertFalse(output.isAllowedAccess());
+        assertFalse(output.isValid());
+        assertFalse(output.isUsed());
+        assertFalse(output.isAllowedAccess());
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, StringHelper.encrypt("invalid-key"),
@@ -205,9 +207,9 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         actionOutput = getJsonResult(getRegkeyValidityAction);
 
         output = (RegkeyValidityData) actionOutput.getOutput();
-        Assertions.assertFalse(output.isValid());
-        Assertions.assertFalse(output.isUsed());
-        Assertions.assertFalse(output.isAllowedAccess());
+        assertFalse(output.isValid());
+        assertFalse(output.isUsed());
+        assertFalse(output.isAllowedAccess());
 
         ______TS("Normal case: Invalid intent; should be invalid/unused/disallowed");
 
@@ -222,9 +224,9 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         actionOutput = getJsonResult(getRegkeyValidityAction);
 
         output = (RegkeyValidityData) actionOutput.getOutput();
-        Assertions.assertFalse(output.isValid());
-        Assertions.assertFalse(output.isUsed());
-        Assertions.assertFalse(output.isAllowedAccess());
+        assertFalse(output.isValid());
+        assertFalse(output.isUsed());
+        assertFalse(output.isAllowedAccess());
 
         ______TS("Failure Case: No intent parameter");
 

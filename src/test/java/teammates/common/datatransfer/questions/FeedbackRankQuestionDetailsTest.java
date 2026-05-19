@@ -1,6 +1,9 @@
 package teammates.common.datatransfer.questions;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -15,9 +18,9 @@ public class FeedbackRankQuestionDetailsTest extends BaseTestCase {
         int testValue = 100;
         FeedbackRankQuestionDetails feedbackRankQuestionDetails = new FeedbackRankOptionsQuestionDetails();
 
-        Assertions.assertEquals(feedbackRankQuestionDetails.minOptionsToBeRanked, Const.POINTS_NO_VALUE);
+        assertEquals(feedbackRankQuestionDetails.minOptionsToBeRanked, Const.POINTS_NO_VALUE);
         feedbackRankQuestionDetails.setMinOptionsToBeRanked(testValue);
-        Assertions.assertEquals(feedbackRankQuestionDetails.minOptionsToBeRanked, testValue);
+        assertEquals(feedbackRankQuestionDetails.minOptionsToBeRanked, testValue);
     }
 
     @Test
@@ -25,24 +28,24 @@ public class FeedbackRankQuestionDetailsTest extends BaseTestCase {
         int testValue = 100;
         FeedbackRankQuestionDetails feedbackRankQuestionDetails = new FeedbackRankOptionsQuestionDetails();
 
-        Assertions.assertEquals(feedbackRankQuestionDetails.maxOptionsToBeRanked, Const.POINTS_NO_VALUE);
+        assertEquals(feedbackRankQuestionDetails.maxOptionsToBeRanked, Const.POINTS_NO_VALUE);
         feedbackRankQuestionDetails.setMaxOptionsToBeRanked(testValue);
-        Assertions.assertEquals(feedbackRankQuestionDetails.maxOptionsToBeRanked, testValue);
+        assertEquals(feedbackRankQuestionDetails.maxOptionsToBeRanked, testValue);
     }
 
     @Test
     public void testValidateSetDuplicatesAllowed_validValues_shouldReturnTrue() {
         FeedbackRankQuestionDetails feedbackRankQuestionDetails = new FeedbackRankOptionsQuestionDetails();
 
-        Assertions.assertFalse(feedbackRankQuestionDetails.areDuplicatesAllowed);
+        assertFalse(feedbackRankQuestionDetails.areDuplicatesAllowed);
         feedbackRankQuestionDetails.setAreDuplicatesAllowed(true);
-        Assertions.assertTrue(feedbackRankQuestionDetails.areDuplicatesAllowed);
+        assertTrue(feedbackRankQuestionDetails.areDuplicatesAllowed);
     }
 
     @Test
     public void testValidateDefaultValue_sameValues_shouldReturnTrue() {
         FeedbackRankQuestionDetails feedbackRankQuestionDetails = new FeedbackRankOptionsQuestionDetails();
-        Assertions.assertEquals(feedbackRankQuestionDetails.getMaxOptionsToBeRanked(), Const.POINTS_NO_VALUE);
-        Assertions.assertEquals(feedbackRankQuestionDetails.getMinOptionsToBeRanked(), Const.POINTS_NO_VALUE);
+        assertEquals(feedbackRankQuestionDetails.getMaxOptionsToBeRanked(), Const.POINTS_NO_VALUE);
+        assertEquals(feedbackRankQuestionDetails.getMinOptionsToBeRanked(), Const.POINTS_NO_VALUE);
     }
 }

@@ -1,6 +1,7 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -60,7 +61,7 @@ public class GetFeedbackSessionSubmittedGiverSetActionIT extends BaseActionIT<Ge
         JsonResult result = getJsonResult(pageAction);
 
         FeedbackSessionSubmittedGiverSet output = (FeedbackSessionSubmittedGiverSet) result.getOutput();
-        Assertions.assertEquals(Sets.newHashSet("student1@teammates.tmt", "student2@teammates.tmt",
+        assertEquals(Sets.newHashSet("student1@teammates.tmt", "student2@teammates.tmt",
                 "student3@teammates.tmt"), output.getGiverIdentifiers());
     }
 

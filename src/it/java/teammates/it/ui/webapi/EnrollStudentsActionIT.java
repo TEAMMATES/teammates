@@ -1,6 +1,7 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -68,7 +69,7 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         };
 
         List<Student> students = new ArrayList<>(logic.getStudentsForCourse(courseId));
-        Assertions.assertEquals(5, students.size());
+        assertEquals(5, students.size());
 
         ______TS("Typical Success Case For Enrolling a Student");
 
@@ -76,9 +77,9 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         EnrollStudentsAction enrollStudentsAction = getAction(request, params);
         JsonResult res = getJsonResult(enrollStudentsAction);
         EnrollStudentsData data = (EnrollStudentsData) res.getOutput();
-        Assertions.assertEquals(1, data.getStudentsData().getStudents().size());
+        assertEquals(1, data.getStudentsData().getStudents().size());
         List<Student> studentsInCourse = logic.getStudentsForCourse(courseId);
-        Assertions.assertEquals(6, studentsInCourse.size());
+        assertEquals(6, studentsInCourse.size());
 
         ______TS("Typical Success Case For Changing Details of a Student");
 
@@ -92,9 +93,9 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
         enrollStudentsAction = getAction(request, params);
         res = getJsonResult(enrollStudentsAction);
         data = (EnrollStudentsData) res.getOutput();
-        Assertions.assertEquals(1, data.getStudentsData().getStudents().size());
+        assertEquals(1, data.getStudentsData().getStudents().size());
         studentsInCourse = logic.getStudentsForCourse(courseId);
-        Assertions.assertEquals(6, studentsInCourse.size());
+        assertEquals(6, studentsInCourse.size());
 
         ______TS("Fail to enroll due to duplicate team name across sections");
 
@@ -108,7 +109,7 @@ public class EnrollStudentsActionIT extends BaseActionIT<EnrollStudentsAction> {
                 "Section 6", "Test Comment");
         StudentsEnrollRequest req = prepareRequest(Arrays.asList(enrollRequest1, enrollRequest2));
         InvalidOperationException exception = verifyInvalidOperation(req, params);
-        Assertions.assertEquals(expectedMessage, exception.getMessage());
+        assertEquals(expectedMessage, exception.getMessage());
     }
 
     @Test

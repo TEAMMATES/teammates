@@ -1,6 +1,9 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.testng.annotations.Test;
@@ -22,7 +25,7 @@ public class ActionFactoryTest extends BaseTestCase {
                 HttpGet.METHOD_NAME, Const.ResourceURIs.AUTH);
         existingActionServletRequest.addHeader(Const.HeaderNames.BACKDOOR_KEY, Config.BACKDOOR_KEY);
         Action existingAction = ActionFactory.getAction(existingActionServletRequest, HttpGet.METHOD_NAME);
-        Assertions.assertTrue(existingAction instanceof GetAuthInfoAction);
+        assertTrue(existingAction instanceof GetAuthInfoAction);
     }
 
     @Test
@@ -30,9 +33,9 @@ public class ActionFactoryTest extends BaseTestCase {
         MockHttpServletRequest nonExistentActionServletRequest = new MockHttpServletRequest(
                 HttpGet.METHOD_NAME, "/blahblahblah");
         nonExistentActionServletRequest.addHeader(Const.HeaderNames.BACKDOOR_KEY, Config.BACKDOOR_KEY);
-        ActionMappingException nonExistentActionException = Assertions.assertThrows(ActionMappingException.class,
+        ActionMappingException nonExistentActionException = assertThrows(ActionMappingException.class,
                 () -> ActionFactory.getAction(nonExistentActionServletRequest, HttpGet.METHOD_NAME));
-        Assertions.assertEquals("Resource with URI /blahblahblah is not found.", nonExistentActionException.getMessage());
+        assertEquals("Resource with URI /blahblahblah is not found.", nonExistentActionException.getMessage());
     }
 
     @Test
@@ -40,9 +43,9 @@ public class ActionFactoryTest extends BaseTestCase {
         MockHttpServletRequest nonExistentMethodOnActionServletRequest = new MockHttpServletRequest(
                 HttpGet.METHOD_NAME, Const.ResourceURIs.AUTH);
         nonExistentMethodOnActionServletRequest.addHeader(Const.HeaderNames.BACKDOOR_KEY, Config.BACKDOOR_KEY);
-        ActionMappingException nonExistentMethodOnActionException = Assertions.assertThrows(ActionMappingException.class,
+        ActionMappingException nonExistentMethodOnActionException = assertThrows(ActionMappingException.class,
                 () -> ActionFactory.getAction(nonExistentMethodOnActionServletRequest, HttpPost.METHOD_NAME));
-        Assertions.assertTrue(("Method [" + HttpPost.METHOD_NAME + "] is not allowed for URI " + Const.ResourceURIs.AUTH + ".")
+        assertTrue(("Method [" + HttpPost.METHOD_NAME + "] is not allowed for URI " + Const.ResourceURIs.AUTH + ".")
                 .equals(nonExistentMethodOnActionException.getMessage()));
     }
 }

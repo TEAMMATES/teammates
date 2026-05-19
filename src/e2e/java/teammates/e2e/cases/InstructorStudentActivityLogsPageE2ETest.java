@@ -1,6 +1,8 @@
 package teammates.e2e.cases;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
@@ -59,10 +61,10 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
                 ZoneId.systemDefault().getId());
         studentActivityLogsPage.setLogsToDateTime(Instant.now(), ZoneId.systemDefault().getId());
 
-        Assertions.assertEquals(currentLogsFromDate, studentActivityLogsPage.getLogsFromDate());
-        Assertions.assertEquals(currentLogsToDate, studentActivityLogsPage.getLogsToDate());
-        Assertions.assertEquals(currentLogsFromTime, "23:59H");
-        Assertions.assertEquals(currentLogsToTime, "23:59H");
+        assertEquals(currentLogsFromDate, studentActivityLogsPage.getLogsFromDate());
+        assertEquals(currentLogsToDate, studentActivityLogsPage.getLogsToDate());
+        assertEquals(currentLogsFromTime, "23:59H");
+        assertEquals(currentLogsToTime, "23:59H");
 
         ______TS("verify logs output");
         logout();
@@ -90,6 +92,6 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
         studentActivityLogsPage.waitForPageToLoad();
         studentActivityLogsPage.startSearching();
 
-        Assertions.assertTrue(studentActivityLogsPage.isLogPresentForSession(feedbackQuestion.getFeedbackSessionName()));
+        assertTrue(studentActivityLogsPage.isLogPresentForSession(feedbackQuestion.getFeedbackSessionName()));
     }
 }

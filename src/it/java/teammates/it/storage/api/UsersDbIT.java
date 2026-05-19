@@ -1,6 +1,9 @@
 package teammates.it.storage.api;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -76,7 +79,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("success: gets an instructor that does not exist");
         UUID nonExistentId = generateDifferentUuid(actualInstructor.getId());
         actualInstructor = usersDb.getInstructor(nonExistentId);
-        Assertions.assertNull(actualInstructor);
+        assertNull(actualInstructor);
 
         ______TS("success: gets an instructor by courseId and email");
         actualInstructor = usersDb.getInstructorForEmail(instructor.getCourseId(), instructor.getEmail());
@@ -84,7 +87,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: gets an instructor by courseId and email that does not exist");
         actualInstructor = usersDb.getInstructorForEmail(instructor.getCourseId(), "does-not-exist@teammates.tmt");
-        Assertions.assertNull(actualInstructor);
+        assertNull(actualInstructor);
 
         ______TS("success: gets an instructor by googleId");
         actualInstructor = usersDb.getInstructorByGoogleId(instructor.getCourseId(),
@@ -93,7 +96,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: gets an instructor by googleId that does not exist");
         actualInstructor = usersDb.getInstructorByGoogleId(instructor.getCourseId(), "invalid-google id");
-        Assertions.assertNull(actualInstructor);
+        assertNull(actualInstructor);
     }
 
     @Test
@@ -105,7 +108,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("success: gets a student that does not exist");
         UUID nonExistentId = generateDifferentUuid(actualStudent.getId());
         actualStudent = usersDb.getStudent(nonExistentId);
-        Assertions.assertNull(actualStudent);
+        assertNull(actualStudent);
 
         ______TS("success: gets a student by courseId and email");
         actualStudent = usersDb.getStudentForEmail(student.getCourseId(), student.getEmail());
@@ -113,7 +116,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: gets a student by courseId and email that does not exist");
         actualStudent = usersDb.getStudentForEmail(student.getCourseId(), "does-not-exist@teammates.tmt");
-        Assertions.assertNull(actualStudent);
+        assertNull(actualStudent);
 
         ______TS("success: gets a student by googleId");
         actualStudent = usersDb.getStudentByGoogleId(student.getCourseId(), student.getAccount().getGoogleId());
@@ -121,7 +124,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("success: gets a student by googleId that does not exist");
         actualStudent = usersDb.getStudentByGoogleId(student.getCourseId(), "invalid-google id");
-        Assertions.assertNull(actualStudent);
+        assertNull(actualStudent);
     }
 
     @Test
@@ -160,21 +163,21 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         secondStudent.setAccount(userSharedAccount);
 
         List<User> users = usersDb.getAllUsersByGoogleId(userSharedAccount.getGoogleId());
-        Assertions.assertEquals(4, users.size());
-        Assertions.assertTrue(List.of(firstInstructor, secondInstructor, firstStudent, secondStudent).containsAll(users));
+        assertEquals(4, users.size());
+        assertTrue(List.of(firstInstructor, secondInstructor, firstStudent, secondStudent).containsAll(users));
 
         List<Instructor> instructors = usersDb.getAllInstructorsByGoogleId(userSharedAccount.getGoogleId());
-        Assertions.assertEquals(2, instructors.size());
-        Assertions.assertTrue(List.of(firstInstructor, secondInstructor).containsAll(instructors));
+        assertEquals(2, instructors.size());
+        assertTrue(List.of(firstInstructor, secondInstructor).containsAll(instructors));
 
         List<Student> students = usersDb.getAllStudentsByGoogleId(userSharedAccount.getGoogleId());
-        Assertions.assertEquals(2, students.size());
-        Assertions.assertTrue(List.of(firstStudent, secondStudent).containsAll(students));
+        assertEquals(2, students.size());
+        assertTrue(List.of(firstStudent, secondStudent).containsAll(students));
 
         ______TS("success: gets all instructors and students by googleId that does not exist");
         List<User> emptyUsers = usersDb.getAllUsersByGoogleId("non-exist-id");
 
-        Assertions.assertEquals(0, emptyUsers.size());
+        assertEquals(0, emptyUsers.size());
     }
 
     @Test
@@ -213,8 +216,8 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
 
         List<Student> actualStudents = usersDb.getStudentsForSection(firstSection.getName(), course.getId());
 
-        Assertions.assertEquals(expectedStudents.size(), actualStudents.size());
-        Assertions.assertTrue(expectedStudents.containsAll(actualStudents));
+        assertEquals(expectedStudents.size(), actualStudents.size());
+        assertTrue(expectedStudents.containsAll(actualStudents));
     }
 
     @Test
@@ -253,8 +256,8 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
 
         List<Student> actualStudents = usersDb.getStudentsForTeam(firstTeam.getName(), course.getId());
 
-        Assertions.assertEquals(expectedStudents.size(), actualStudents.size());
-        Assertions.assertTrue(expectedStudents.containsAll(actualStudents));
+        assertEquals(expectedStudents.size(), actualStudents.size());
+        assertTrue(expectedStudents.containsAll(actualStudents));
     }
 
     @Test
@@ -282,7 +285,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
 
         List<Student> actualStudents = usersDb.getStudentsByGoogleId(student.getGoogleId());
 
-        Assertions.assertEquals(expectedStudents.size(), actualStudents.size());
-        Assertions.assertTrue(expectedStudents.containsAll(actualStudents));
+        assertEquals(expectedStudents.size(), actualStudents.size());
+        assertTrue(expectedStudents.containsAll(actualStudents));
     }
 }

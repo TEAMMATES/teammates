@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -51,7 +52,7 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
         DeleteAccountRequestAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        Assertions.assertEquals("Account request successfully deleted.", actionOutput.getMessage());
+        assertEquals("Account request successfully deleted.", actionOutput.getMessage());
         verify(mockLogic, times(1)).deleteAccountRequest(id);
     }
 
@@ -67,7 +68,7 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
         };
 
         InvalidOperationException ex = verifyInvalidOperation(params);
-        Assertions.assertEquals("Account request of a registered instructor cannot be deleted.", ex.getMessage());
+        assertEquals("Account request of a registered instructor cannot be deleted.", ex.getMessage());
     }
 
     @Test
@@ -84,7 +85,7 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
         DeleteAccountRequestAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        Assertions.assertEquals("Account request successfully deleted.", actionOutput.getMessage());
+        assertEquals("Account request successfully deleted.", actionOutput.getMessage());
     }
 
     @Test

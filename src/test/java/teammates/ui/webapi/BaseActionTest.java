@@ -1,6 +1,9 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doAnswer;
@@ -255,7 +258,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      */
     protected void verifyCannotAccess(String... params) {
         Action c = getAction(params);
-        Assertions.assertThrows(UnauthorizedAccessException.class, c::checkAccessControl);
+        assertThrows(UnauthorizedAccessException.class, c::checkAccessControl);
     }
 
     /**
@@ -273,7 +276,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      * {@code userId}.
      */
     protected void verifyCannotMasquerade(String userId, String... params) {
-        Assertions.assertThrows(UnauthorizedAccessException.class,
+        assertThrows(UnauthorizedAccessException.class,
                 () -> getAction(addUserIdToParams(userId, params)).checkAccessControl());
     }
 
@@ -297,7 +300,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     protected JsonResult getJsonResult(Action a, int statusCode) {
         try {
             ActionResult r = a.execute();
-            Assertions.assertEquals(statusCode, r.getStatusCode());
+            assertEquals(statusCode, r.getStatusCode());
             return (JsonResult) r;
         } catch (InvalidOperationException | InvalidHttpRequestBodyException e) {
             throw new RuntimeException(e);
@@ -312,7 +315,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      */
     protected InvalidHttpParameterException verifyHttpParameterFailure(String... params) {
         Action c = getAction(params);
-        return Assertions.assertThrows(InvalidHttpParameterException.class, c::execute);
+        return assertThrows(InvalidHttpParameterException.class, c::execute);
     }
 
     /**
@@ -321,7 +324,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      */
     protected InvalidHttpParameterException verifyHttpParameterFailure(BasicRequest requestBody, String... params) {
         Action c = getAction(requestBody, params);
-        return Assertions.assertThrows(InvalidHttpParameterException.class, c::execute);
+        return assertThrows(InvalidHttpParameterException.class, c::execute);
     }
 
     /**
@@ -331,7 +334,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      */
     protected InvalidHttpParameterException verifyHttpParameterFailureAcl(String... params) {
         Action c = getAction(params);
-        return Assertions.assertThrows(InvalidHttpParameterException.class, c::checkAccessControl);
+        return assertThrows(InvalidHttpParameterException.class, c::checkAccessControl);
     }
 
     /**
@@ -340,7 +343,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      */
     protected InvalidHttpRequestBodyException verifyHttpRequestBodyFailure(BasicRequest requestBody, String... params) {
         Action c = getAction(requestBody, params);
-        return Assertions.assertThrows(InvalidHttpRequestBodyException.class, c::execute);
+        return assertThrows(InvalidHttpRequestBodyException.class, c::execute);
     }
 
     /**
@@ -349,7 +352,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      */
     protected EntityNotFoundException verifyEntityNotFound(String... params) {
         Action c = getAction(params);
-        return Assertions.assertThrows(EntityNotFoundException.class, c::execute);
+        return assertThrows(EntityNotFoundException.class, c::execute);
     }
 
     /**
@@ -358,7 +361,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      */
     protected EntityNotFoundException verifyEntityNotFound(BasicRequest requestBody, String... params) {
         Action c = getAction(requestBody, params);
-        return Assertions.assertThrows(EntityNotFoundException.class, c::execute);
+        return assertThrows(EntityNotFoundException.class, c::execute);
     }
 
     /**
@@ -367,7 +370,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      */
     protected EntityNotFoundException verifyEntityNotFoundAcl(String... params) {
         Action c = getAction(params);
-        return Assertions.assertThrows(EntityNotFoundException.class, c::checkAccessControl);
+        return assertThrows(EntityNotFoundException.class, c::checkAccessControl);
     }
 
     /**
@@ -376,7 +379,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      */
     protected InvalidOperationException verifyInvalidOperation(String... params) {
         Action c = getAction(params);
-        return Assertions.assertThrows(InvalidOperationException.class, c::execute);
+        return assertThrows(InvalidOperationException.class, c::execute);
     }
 
     /**
@@ -385,7 +388,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      */
     protected InvalidOperationException verifyInvalidOperation(BasicRequest requestBody, String... params) {
         Action c = getAction(requestBody, params);
-        return Assertions.assertThrows(InvalidOperationException.class, c::execute);
+        return assertThrows(InvalidOperationException.class, c::execute);
     }
 
     /**
@@ -394,7 +397,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      */
     protected void verifyNoTasksAdded() {
         Map<String, Integer> tasksAdded = mockTaskQueuer.getNumberOfTasksAdded();
-        Assertions.assertEquals(0, tasksAdded.keySet().size());
+        assertEquals(0, tasksAdded.keySet().size());
     }
 
     /**
@@ -403,14 +406,14 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      */
     protected void verifySpecifiedTasksAdded(String taskName, int taskCount) {
         Map<String, Integer> tasksAdded = mockTaskQueuer.getNumberOfTasksAdded();
-        Assertions.assertEquals(taskCount, tasksAdded.get(taskName).intValue());
+        assertEquals(taskCount, tasksAdded.get(taskName).intValue());
     }
 
     /**
      * Verifies that the executed action does not result in any email being sent.
      */
     protected void verifyNoEmailsSent() {
-        Assertions.assertTrue(getEmailsSent().isEmpty());
+        assertTrue(getEmailsSent().isEmpty());
     }
 
     /**
@@ -425,7 +428,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      * being sent.
      */
     protected void verifyNumberOfEmailsSent(int emailCount) {
-        Assertions.assertEquals(emailCount, mockEmailSender.getEmailsSent().size());
+        assertEquals(emailCount, mockEmailSender.getEmailsSent().size());
     }
 
     /* Access control methods */

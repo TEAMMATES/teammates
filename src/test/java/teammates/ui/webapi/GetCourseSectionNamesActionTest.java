@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -55,7 +56,7 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
         GetCourseSectionNamesAction action = getAction(params);
         CourseSectionNamesData actionOutput = (CourseSectionNamesData) getJsonResult(action).getOutput();
 
-        Assertions.assertEquals(JsonUtils.toJson(new CourseSectionNamesData(sectionNames)), JsonUtils.toJson(actionOutput));
+        assertEquals(JsonUtils.toJson(new CourseSectionNamesData(sectionNames)), JsonUtils.toJson(actionOutput));
     }
 
     @Test

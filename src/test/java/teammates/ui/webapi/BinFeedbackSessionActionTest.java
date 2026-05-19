@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -65,9 +66,9 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
         JsonResult r = getJsonResult(a);
         FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
-        Assertions.assertEquals(typicalFeedbackSession.getName(), response.getFeedbackSessionName());
-        Assertions.assertEquals(typicalFeedbackSession.getCourseId(), response.getCourseId());
-        Assertions.assertEquals(typicalFeedbackSession.getId(), response.getFeedbackSessionId());
+        assertEquals(typicalFeedbackSession.getName(), response.getFeedbackSessionName());
+        assertEquals(typicalFeedbackSession.getCourseId(), response.getCourseId());
+        assertEquals(typicalFeedbackSession.getId(), response.getFeedbackSessionId());
 
         verify(mockLogic, times(1))
                 .moveFeedbackSessionToRecycleBin(typicalFeedbackSession.getId());

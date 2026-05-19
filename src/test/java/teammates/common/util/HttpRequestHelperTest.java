@@ -1,6 +1,8 @@
 package teammates.common.util;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import org.testng.annotations.Test;
 
 import teammates.test.BaseTestCase;
@@ -14,52 +16,52 @@ public class HttpRequestHelperTest extends BaseTestCase {
 
     @Test
     public void testParseBearerTokenFromAuthorizationHeader() {
-        Assertions.assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader(null));
-        Assertions.assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Basic " + TOKEN));
-        Assertions.assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer"));
-        Assertions.assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer "));
-        Assertions.assertEquals(TOKEN, HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer " + TOKEN));
-        Assertions.assertEquals(TOKEN, HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("bearer " + TOKEN));
-        Assertions.assertEquals(TOKEN, HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("BEARER " + TOKEN));
-        Assertions.assertEquals(TOKEN, HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer   " + TOKEN + "   "));
+        assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader(null));
+        assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Basic " + TOKEN));
+        assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer"));
+        assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer "));
+        assertEquals(TOKEN, HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer " + TOKEN));
+        assertEquals(TOKEN, HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("bearer " + TOKEN));
+        assertEquals(TOKEN, HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("BEARER " + TOKEN));
+        assertEquals(TOKEN, HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer   " + TOKEN + "   "));
     }
 
     @Test
     public void testParseBearerTokenFromAuthorizationHeader_rejectsEmptyAndTooShort() {
-        Assertions.assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader(""));
-        Assertions.assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bear"));
+        assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader(""));
+        assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bear"));
     }
 
     @Test
     public void testParseBearerTokenFromAuthorizationHeader_rejectsWrongScheme() {
-        Assertions.assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Digest"));
-        Assertions.assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearerish " + TOKEN));
+        assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Digest"));
+        assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearerish " + TOKEN));
     }
 
     @Test
     public void testParseBearerTokenFromAuthorizationHeader_rejectsMissingSeparatorAfterScheme() {
-        Assertions.assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer" + TOKEN));
-        Assertions.assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer." + TOKEN));
+        assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer" + TOKEN));
+        assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer." + TOKEN));
     }
 
     @Test
     public void testParseBearerTokenFromAuthorizationHeader_rejectsTabAfterScheme() {
-        Assertions.assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer\t" + TOKEN));
-        Assertions.assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("bearer\t" + TOKEN));
-        Assertions.assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer \t" + TOKEN));
+        assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer\t" + TOKEN));
+        assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("bearer\t" + TOKEN));
+        assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer \t" + TOKEN));
     }
 
     @Test
     public void testParseBearerTokenFromAuthorizationHeader_rejectsWhitespaceOnlyAfterScheme() {
-        Assertions.assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer "));
-        Assertions.assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer  "));
-        Assertions.assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer \t "));
+        assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer "));
+        assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer  "));
+        assertNull(HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer \t "));
     }
 
     @Test
     public void testParseBearerTokenFromAuthorizationHeader_acceptsB64tokenStyleCredential() {
         String b64style = "mF_9.B5f-4.1JqZ~token";
-        Assertions.assertEquals(b64style, HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer " + b64style));
+        assertEquals(b64style, HttpRequestHelper.parseBearerTokenFromAuthorizationHeader("Bearer " + b64style));
     }
 
 }

@@ -1,6 +1,10 @@
 package teammates.common.datatransfer;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -52,16 +56,16 @@ public class SessionResultsBundleTest extends BaseTestCase {
         ______TS("Test question having responses");
         FeedbackQuestion fq = responseBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         List<FeedbackResponse> allResponses = bundle.getQuestionResponseMap().get(fq);
-        Assertions.assertEquals(2, allResponses.size());
+        assertEquals(2, allResponses.size());
         List<String> allResponsesString = new ArrayList<>();
         allResponsesString.add(allResponses.get(0).toString());
         allResponsesString.add(allResponses.get(1).toString());
-        Assertions.assertEquals(allExpectedResponses, allResponsesString);
+        assertEquals(allExpectedResponses, allResponsesString);
 
         ______TS("Test question having no responses");
         fq = responseBundle.feedbackQuestions.get("qn4InSession1InCourse1");
         allResponses = bundle.getQuestionResponseMap().get(fq);
-        Assertions.assertEquals(0, allResponses.size());
+        assertEquals(0, allResponses.size());
     }
 
     @Test
@@ -90,14 +94,14 @@ public class SessionResultsBundleTest extends BaseTestCase {
         ______TS("Test question having missing responses");
         FeedbackQuestion fq = responseBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         List<FeedbackMissingResponse> missingResponses = bundle.getQuestionMissingResponseMap().get(fq);
-        Assertions.assertEquals(2, missingResponses.size());
-        Assertions.assertEquals(expectedMissingResponses.get(0), missingResponses.get(0));
-        Assertions.assertEquals(expectedMissingResponses.get(1), missingResponses.get(1));
+        assertEquals(2, missingResponses.size());
+        assertEquals(expectedMissingResponses.get(0), missingResponses.get(0));
+        assertEquals(expectedMissingResponses.get(1), missingResponses.get(1));
 
         ______TS("Test question having no missing responses");
         fq = responseBundle.feedbackQuestions.get("qn4InSession1InCourse1");
         missingResponses = bundle.getQuestionMissingResponseMap().get(fq);
-        Assertions.assertEquals(0, missingResponses.size());
+        assertEquals(0, missingResponses.size());
     }
 
     @Test
@@ -150,14 +154,14 @@ public class SessionResultsBundleTest extends BaseTestCase {
 
         for (Map.Entry<UUID, Boolean> visibilityEntry : responseGiverVisibilityTable.entrySet()) {
             UUID responseId = visibilityEntry.getKey();
-            Assertions.assertEquals(visibilityEntry.getValue(),
+            assertEquals(visibilityEntry.getValue(),
                     bundle.isResponseGiverVisible(responseId));
         }
 
         for (Map.Entry<UUID, Boolean> visibilityEntry : responseRecipientVisibilityTable.entrySet()) {
             UUID responseId = visibilityEntry.getKey();
             ResponseRecipientType recipientType = responses.get(responseId).getRecipient().getRecipientType();
-            Assertions.assertEquals(visibilityEntry.getValue(),
+            assertEquals(visibilityEntry.getValue(),
                     bundle.isResponseRecipientVisible(responseId, recipientType));
         }
     }
@@ -193,14 +197,14 @@ public class SessionResultsBundleTest extends BaseTestCase {
         comment1.setId(commentId1);
         comment2.setId(commentId2);
 
-        Assertions.assertTrue(bundle.isCommentGiverVisible(comment1));
-        Assertions.assertFalse(bundle.isCommentGiverVisible(comment2));
+        assertTrue(bundle.isCommentGiverVisible(comment1));
+        assertFalse(bundle.isCommentGiverVisible(comment2));
     }
 
     @Test
     public void testGetAnonGiverName_typicalCase_shouldGenerateCorrectly() {
         String anonName = SessionResultsBundle.getAnonGiverName(new ResponseGiver(getTypicalStudent()));
-        Assertions.assertTrue(anonName.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT));
+        assertTrue(anonName.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT));
 
         Student student1 = getTypicalStudent();
         student1.setName("Test Student");
@@ -216,15 +220,15 @@ public class SessionResultsBundleTest extends BaseTestCase {
         String anonName2 = SessionResultsBundle.getAnonGiverName(new ResponseGiver(student2));
         String anotherAnonName = SessionResultsBundle.getAnonGiverName(new ResponseGiver(anotherStudent));
 
-        Assertions.assertTrue(anonName1.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT));
-        Assertions.assertEquals(anonName1, anonName2);
-        Assertions.assertNotEquals(anonName1, anotherAnonName);
+        assertTrue(anonName1.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT));
+        assertEquals(anonName1, anonName2);
+        assertNotEquals(anonName1, anotherAnonName);
     }
 
     @Test
     public void testGetAnonRecipientName_typicalCase_shouldGenerateCorrectly() {
         String anonName = SessionResultsBundle.getAnonRecipientName(new ResponseRecipient(getTypicalStudent()));
-        Assertions.assertTrue(anonName.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT));
+        assertTrue(anonName.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT));
 
         Student student1 = getTypicalStudent();
         student1.setName("Test Recipient");
@@ -240,9 +244,9 @@ public class SessionResultsBundleTest extends BaseTestCase {
         String anonName2 = SessionResultsBundle.getAnonRecipientName(new ResponseRecipient(student2));
         String anotherAnonName = SessionResultsBundle.getAnonRecipientName(new ResponseRecipient(anotherStudent));
 
-        Assertions.assertTrue(anonName1.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT));
-        Assertions.assertEquals(anonName1, anonName2);
-        Assertions.assertNotEquals(anonName1, anotherAnonName);
+        assertTrue(anonName1.startsWith(Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT));
+        assertEquals(anonName1, anonName2);
+        assertNotEquals(anonName1, anotherAnonName);
     }
 
     private FeedbackMissingResponse createFeedbackMissingResponse(FeedbackResponse response) {

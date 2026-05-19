@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
@@ -161,7 +162,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         };
         GetCourseAction getCourseAction = getAction(params);
         CourseData actionOutput = (CourseData) getJsonResult(getCourseAction).getOutput();
-        Assertions.assertEquals(JsonUtils.toJson(new CourseData(course)), JsonUtils.toJson(actionOutput));
+        assertEquals(JsonUtils.toJson(new CourseData(course)), JsonUtils.toJson(actionOutput));
     }
 
     @Test
@@ -183,6 +184,6 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         expectedCourse.setCreatedAt(Instant.parse("2023-01-01T00:00:00Z"));
         expectedCourse.setDeletedAt(Instant.ofEpochMilli(0));
 
-        Assertions.assertEquals(JsonUtils.toJson(new CourseData(expectedCourse)), JsonUtils.toJson(actionOutput));
+        assertEquals(JsonUtils.toJson(new CourseData(expectedCourse)), JsonUtils.toJson(actionOutput));
     }
 }

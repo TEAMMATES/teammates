@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
@@ -196,24 +197,24 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         List<FeedbackSessionLogData> fsLogs = fslData.getFeedbackSessionLogs();
 
         // Course has 2 feedback sessions
-        Assertions.assertEquals(fsLogs.size(), 2);
+        assertEquals(fsLogs.size(), 2);
 
         List<FeedbackSessionLogEntryData> fsLogEntries1 = fsLogs.get(0).getFeedbackSessionLogEntries();
         List<FeedbackSessionLogEntryData> fsLogEntries2 = fsLogs.get(1).getFeedbackSessionLogEntries();
 
-        Assertions.assertEquals(fsLogEntries1.size(), 3);
-        Assertions.assertEquals(fsLogEntries1.get(0).getStudentData().getEmail(), student1.getEmail());
-        Assertions.assertEquals(fsLogEntries1.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
-        Assertions.assertEquals(fsLogEntries1.get(1).getStudentData().getEmail(), student2.getEmail());
-        Assertions.assertEquals(fsLogEntries1.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
-        Assertions.assertEquals(fsLogEntries1.get(2).getStudentData().getEmail(), student2.getEmail());
-        Assertions.assertEquals(fsLogEntries1.get(2).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
+        assertEquals(fsLogEntries1.size(), 3);
+        assertEquals(fsLogEntries1.get(0).getStudentData().getEmail(), student1.getEmail());
+        assertEquals(fsLogEntries1.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
+        assertEquals(fsLogEntries1.get(1).getStudentData().getEmail(), student2.getEmail());
+        assertEquals(fsLogEntries1.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
+        assertEquals(fsLogEntries1.get(2).getStudentData().getEmail(), student2.getEmail());
+        assertEquals(fsLogEntries1.get(2).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
 
-        Assertions.assertEquals(fsLogEntries2.size(), 2);
-        Assertions.assertEquals(fsLogEntries2.get(0).getStudentData().getEmail(), student1.getEmail());
-        Assertions.assertEquals(fsLogEntries2.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
-        Assertions.assertEquals(fsLogEntries2.get(1).getStudentData().getEmail(), student1.getEmail());
-        Assertions.assertEquals(fsLogEntries2.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
+        assertEquals(fsLogEntries2.size(), 2);
+        assertEquals(fsLogEntries2.get(0).getStudentData().getEmail(), student1.getEmail());
+        assertEquals(fsLogEntries2.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
+        assertEquals(fsLogEntries2.get(1).getStudentData().getEmail(), student1.getEmail());
+        assertEquals(fsLogEntries2.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
 
         ______TS("Success case: should accept optional student id");
         String[] paramsSuccessful2 = {
@@ -229,20 +230,20 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         fslData = (FeedbackSessionLogsData) actionOutput.getOutput();
         fsLogs = fslData.getFeedbackSessionLogs();
 
-        Assertions.assertEquals(fsLogs.size(), 2);
+        assertEquals(fsLogs.size(), 2);
 
         fsLogEntries1 = fsLogs.get(0).getFeedbackSessionLogEntries();
         fsLogEntries2 = fsLogs.get(1).getFeedbackSessionLogEntries();
 
-        Assertions.assertEquals(fsLogEntries1.size(), 1);
-        Assertions.assertEquals(fsLogEntries1.get(0).getStudentData().getEmail(), student1.getEmail());
-        Assertions.assertEquals(fsLogEntries1.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
+        assertEquals(fsLogEntries1.size(), 1);
+        assertEquals(fsLogEntries1.get(0).getStudentData().getEmail(), student1.getEmail());
+        assertEquals(fsLogEntries1.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
 
-        Assertions.assertEquals(fsLogEntries2.size(), 2);
-        Assertions.assertEquals(fsLogEntries2.get(0).getStudentData().getEmail(), student1.getEmail());
-        Assertions.assertEquals(fsLogEntries2.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
-        Assertions.assertEquals(fsLogEntries2.get(1).getStudentData().getEmail(), student1.getEmail());
-        Assertions.assertEquals(fsLogEntries2.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
+        assertEquals(fsLogEntries2.size(), 2);
+        assertEquals(fsLogEntries2.get(0).getStudentData().getEmail(), student1.getEmail());
+        assertEquals(fsLogEntries2.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
+        assertEquals(fsLogEntries2.get(1).getStudentData().getEmail(), student1.getEmail());
+        assertEquals(fsLogEntries2.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
 
         ______TS("Success case: should accept optional feedback session");
         String[] paramsSuccessful3 = {
@@ -258,18 +259,18 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         fslData = (FeedbackSessionLogsData) actionOutput.getOutput();
         fsLogs = fslData.getFeedbackSessionLogs();
 
-        Assertions.assertEquals(fsLogs.size(), 2);
-        Assertions.assertEquals(fsLogs.get(1).getFeedbackSessionLogEntries().size(), 0);
+        assertEquals(fsLogs.size(), 2);
+        assertEquals(fsLogs.get(1).getFeedbackSessionLogEntries().size(), 0);
 
         fsLogEntries1 = fsLogs.get(0).getFeedbackSessionLogEntries();
 
-        Assertions.assertEquals(fsLogEntries1.size(), 3);
-        Assertions.assertEquals(fsLogEntries1.get(0).getStudentData().getEmail(), student1.getEmail());
-        Assertions.assertEquals(fsLogEntries1.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
-        Assertions.assertEquals(fsLogEntries1.get(1).getStudentData().getEmail(), student2.getEmail());
-        Assertions.assertEquals(fsLogEntries1.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
-        Assertions.assertEquals(fsLogEntries1.get(2).getStudentData().getEmail(), student2.getEmail());
-        Assertions.assertEquals(fsLogEntries1.get(2).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
+        assertEquals(fsLogEntries1.size(), 3);
+        assertEquals(fsLogEntries1.get(0).getStudentData().getEmail(), student1.getEmail());
+        assertEquals(fsLogEntries1.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
+        assertEquals(fsLogEntries1.get(1).getStudentData().getEmail(), student2.getEmail());
+        assertEquals(fsLogEntries1.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
+        assertEquals(fsLogEntries1.get(2).getStudentData().getEmail(), student2.getEmail());
+        assertEquals(fsLogEntries1.get(2).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
 
         ______TS("Success case: should accept all optional params");
         String[] paramsSuccessful4 = {
@@ -286,14 +287,14 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         fslData = (FeedbackSessionLogsData) actionOutput.getOutput();
         fsLogs = fslData.getFeedbackSessionLogs();
 
-        Assertions.assertEquals(fsLogs.size(), 2);
-        Assertions.assertEquals(fsLogs.get(1).getFeedbackSessionLogEntries().size(), 0);
+        assertEquals(fsLogs.size(), 2);
+        assertEquals(fsLogs.get(1).getFeedbackSessionLogEntries().size(), 0);
 
         fsLogEntries1 = fsLogs.get(0).getFeedbackSessionLogEntries();
 
-        Assertions.assertEquals(fsLogEntries1.size(), 1);
-        Assertions.assertEquals(fsLogEntries1.get(0).getStudentData().getEmail(), student1.getEmail());
-        Assertions.assertEquals(fsLogEntries1.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
+        assertEquals(fsLogEntries1.size(), 1);
+        assertEquals(fsLogEntries1.get(0).getStudentData().getEmail(), student1.getEmail());
+        assertEquals(fsLogEntries1.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
     }
 
     @Test

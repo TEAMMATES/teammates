@@ -1,6 +1,9 @@
 package teammates.e2e.cases;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -102,31 +105,31 @@ public class NotificationsE2ETest extends BaseE2ETestCase {
                 studentAccount.getGoogleId());
 
         ______TS("verify active notification with correct information is shown");
-        Assertions.assertTrue(homePage.isBannerVisible(true));
+        assertTrue(homePage.isBannerVisible(true));
 
         ______TS("close notification");
         // After user closes a notification banner, it should not appear till user refreshes page
         homePage.clickCloseNotificationBannerButton();
-        Assertions.assertFalse(homePage.isBannerVisible(false));
+        assertFalse(homePage.isBannerVisible(false));
         homePage.reloadPage();
-        Assertions.assertTrue(homePage.isBannerVisible(true));
+        assertTrue(homePage.isBannerVisible(true));
 
         ______TS("mark first notification as read - next unread notification should appear immediately");
         String firstNotificationId = homePage.getNotificationId();
         homePage.clickMarkAsReadButton();
 
         homePage.verifyStatusMessage("Notification marked as read.");
-        Assertions.assertTrue(homePage.isBannerVisible(true));
+        assertTrue(homePage.isBannerVisible(true));
         String secondNotificationId = homePage.getNotificationId();
-        Assertions.assertNotEquals(firstNotificationId, secondNotificationId);
+        assertNotEquals(firstNotificationId, secondNotificationId);
 
         ______TS("mark second notification as read - banner should disappear");
         homePage.clickMarkAsReadButton();
 
         homePage.verifyStatusMessage("Notification marked as read.");
         String nextNotificationId = homePage.getNotificationId();
-        Assertions.assertNotEquals(firstNotificationId, nextNotificationId);
-        Assertions.assertNotEquals(secondNotificationId, nextNotificationId);
+        assertNotEquals(firstNotificationId, nextNotificationId);
+        assertNotEquals(secondNotificationId, nextNotificationId);
 
         ______TS("verify that the notifications marked as read are reflected in the notifications page");
         AppUrl studentNotificationsPageUrl = createFrontendUrl(Const.WebPageURIs.STUDENT_NOTIFICATIONS_PAGE);

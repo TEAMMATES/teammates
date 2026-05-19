@@ -1,6 +1,8 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.List;
@@ -66,7 +68,7 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
 
         String[] nullParams = new String[] { Const.ParamsNames.REGKEY, null, };
         InvalidHttpParameterException ex = verifyHttpParameterFailure(nullParams);
-        Assertions.assertEquals("The [key] HTTP parameter is null.", ex.getMessage());
+        assertEquals("The [key] HTTP parameter is null.", ex.getMessage());
 
         verifyNoTasksAdded();
 
@@ -84,10 +86,10 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
         String courseId = generateNextDemoCourseId(email, FieldValidator.COURSE_ID_MAX_LENGTH);
 
         Course course = logic.getCourse(courseId);
-        Assertions.assertNotNull(course);
-        Assertions.assertEquals("Sample Course 101", course.getName());
-        Assertions.assertEquals(institute, course.getInstitute());
-        Assertions.assertEquals(timezone, course.getTimeZone());
+        assertNotNull(course);
+        assertEquals("Sample Course 101", course.getName());
+        assertEquals(institute, course.getInstitute());
+        assertEquals(timezone, course.getTimeZone());
 
         ZoneId zoneId = ZoneId.of(timezone);
         List<FeedbackSession> feedbackSessionsList = logic.getFeedbackSessionsForCourse(courseId);
@@ -95,13 +97,13 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
             LocalTime actualStartTime = LocalTime.ofInstant(feedbackSession.getStartTime(), zoneId);
             LocalTime actualEndTime = LocalTime.ofInstant(feedbackSession.getEndTime(), zoneId);
 
-            Assertions.assertEquals(LocalTime.MIDNIGHT, actualStartTime);
-            Assertions.assertEquals(LocalTime.MIDNIGHT, actualEndTime);
+            assertEquals(LocalTime.MIDNIGHT, actualStartTime);
+            assertEquals(LocalTime.MIDNIGHT, actualEndTime);
         }
 
         Instructor instructor = logic.getInstructorForEmail(courseId, email);
-        Assertions.assertEquals(email, instructor.getEmail());
-        Assertions.assertEquals(name, instructor.getName());
+        assertEquals(email, instructor.getEmail());
+        assertEquals(name, instructor.getName());
 
         ______TS("Normal case with invalid timezone, timezone should default to UTC");
 
@@ -125,7 +127,7 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
 
         courseId = generateNextDemoCourseId(email, FieldValidator.COURSE_ID_MAX_LENGTH);
         course = logic.getCourse(courseId);
-        Assertions.assertEquals(Const.DEFAULT_TIME_ZONE, course.getTimeZone());
+        assertEquals(Const.DEFAULT_TIME_ZONE, course.getTimeZone());
 
         feedbackSessionsList = logic.getFeedbackSessionsForCourse(courseId);
         zoneId = ZoneId.of(Const.DEFAULT_TIME_ZONE);
@@ -133,8 +135,8 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
             LocalTime actualStartTime = LocalTime.ofInstant(feedbackSession.getStartTime(), zoneId);
             LocalTime actualEndTime = LocalTime.ofInstant(feedbackSession.getEndTime(), zoneId);
 
-            Assertions.assertEquals(LocalTime.MIDNIGHT, actualStartTime);
-            Assertions.assertEquals(LocalTime.MIDNIGHT, actualEndTime);
+            assertEquals(LocalTime.MIDNIGHT, actualStartTime);
+            assertEquals(LocalTime.MIDNIGHT, actualEndTime);
         }
 
         ______TS("Error: registration key already used");
@@ -172,25 +174,25 @@ public class CreateAccountActionIT extends BaseActionIT<CreateAccountAction> {
                 StringHelperExtension.generateStringOfLength(maximumIdLength - normalIdSuffixLength);
         String strOneCharLongerThanMaximum =
                 StringHelperExtension.generateStringOfLength(maximumIdLength - normalIdSuffixLength + 1);
-        Assertions.assertEquals(strShortWithWordDemo + normalIdSuffix,
+        assertEquals(strShortWithWordDemo + normalIdSuffix,
                 generateNextDemoCourseId(strShortWithWordDemo + atEmail, maximumIdLength));
-        Assertions.assertEquals(strShortWithWordDemo + normalIdSuffix + "0",
+        assertEquals(strShortWithWordDemo + normalIdSuffix + "0",
                 generateNextDemoCourseId(strShortWithWordDemo + normalIdSuffix, maximumIdLength));
-        Assertions.assertEquals(strShortWithWordDemo + normalIdSuffix + "1",
+        assertEquals(strShortWithWordDemo + normalIdSuffix + "1",
                 generateNextDemoCourseId(strShortWithWordDemo + normalIdSuffix + "0", maximumIdLength));
-        Assertions.assertEquals(strWayShorterThanMaximum + normalIdSuffix,
+        assertEquals(strWayShorterThanMaximum + normalIdSuffix,
                 generateNextDemoCourseId(strWayShorterThanMaximum + atEmail, maximumIdLength));
-        Assertions.assertEquals(strOneCharShorterThanMaximum + normalIdSuffix,
+        assertEquals(strOneCharShorterThanMaximum + normalIdSuffix,
                 generateNextDemoCourseId(strOneCharShorterThanMaximum + atEmail, maximumIdLength));
-        Assertions.assertEquals(strOneCharLongerThanMaximum.substring(1) + normalIdSuffix,
+        assertEquals(strOneCharLongerThanMaximum.substring(1) + normalIdSuffix,
                 generateNextDemoCourseId(strOneCharLongerThanMaximum + atEmail, maximumIdLength));
-        Assertions.assertEquals(strWayShorterThanMaximum + normalIdSuffix + "0",
+        assertEquals(strWayShorterThanMaximum + normalIdSuffix + "0",
                 generateNextDemoCourseId(strWayShorterThanMaximum + normalIdSuffix, maximumIdLength));
-        Assertions.assertEquals(strWayShorterThanMaximum + normalIdSuffix + "1",
+        assertEquals(strWayShorterThanMaximum + normalIdSuffix + "1",
                 generateNextDemoCourseId(strWayShorterThanMaximum + normalIdSuffix + "0", maximumIdLength));
-        Assertions.assertEquals(strWayShorterThanMaximum + normalIdSuffix + "10",
+        assertEquals(strWayShorterThanMaximum + normalIdSuffix + "10",
                 generateNextDemoCourseId(strWayShorterThanMaximum + normalIdSuffix + "9", maximumIdLength));
-        Assertions.assertEquals(strOneCharShorterThanMaximum.substring(2) + normalIdSuffix + "10",
+        assertEquals(strOneCharShorterThanMaximum.substring(2) + normalIdSuffix + "10",
                 generateNextDemoCourseId(strOneCharShorterThanMaximum.substring(1) + normalIdSuffix + "9",
                         maximumIdLength));
     }

@@ -1,6 +1,10 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
@@ -53,8 +57,8 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         };
 
         GetCourseJoinStatusAction action = getAction(params);
-        EntityNotFoundException enfe = Assertions.assertThrows(EntityNotFoundException.class, action::execute);
-        Assertions.assertEquals("No student with given registration key: key", enfe.getMessage());
+        EntityNotFoundException enfe = assertThrows(EntityNotFoundException.class, action::execute);
+        assertEquals("No student with given registration key: key", enfe.getMessage());
     }
 
     @Test
@@ -72,7 +76,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         GetCourseJoinStatusAction action = getAction(params);
         JsonResult result = getJsonResult(action);
         JoinStatus output = (JoinStatus) result.getOutput();
-        Assertions.assertTrue(output.getHasJoined());
+        assertTrue(output.getHasJoined());
     }
 
     @Test
@@ -87,7 +91,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         GetCourseJoinStatusAction action = getAction(params);
         JsonResult result = getJsonResult(action);
         JoinStatus output = (JoinStatus) result.getOutput();
-        Assertions.assertFalse(output.getHasJoined());
+        assertFalse(output.getHasJoined());
     }
 
     @Test
@@ -100,8 +104,8 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         };
 
         GetCourseJoinStatusAction action = getAction(params);
-        EntityNotFoundException enfe = Assertions.assertThrows(EntityNotFoundException.class, action::execute);
-        Assertions.assertEquals("No instructor with given registration key: key", enfe.getMessage());
+        EntityNotFoundException enfe = assertThrows(EntityNotFoundException.class, action::execute);
+        assertEquals("No instructor with given registration key: key", enfe.getMessage());
     }
 
     @Test
@@ -119,7 +123,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         GetCourseJoinStatusAction action = getAction(params);
         JsonResult result = getJsonResult(action);
         JoinStatus output = (JoinStatus) result.getOutput();
-        Assertions.assertTrue(output.getHasJoined());
+        assertTrue(output.getHasJoined());
     }
 
     @Test
@@ -134,7 +138,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         GetCourseJoinStatusAction action = getAction(params);
         JsonResult result = getJsonResult(action);
         JoinStatus output = (JoinStatus) result.getOutput();
-        Assertions.assertFalse(output.getHasJoined());
+        assertFalse(output.getHasJoined());
     }
 
     @Test
@@ -148,8 +152,8 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         };
 
         GetCourseJoinStatusAction action = getAction(params);
-        EntityNotFoundException enfe = Assertions.assertThrows(EntityNotFoundException.class, action::execute);
-        Assertions.assertEquals("No account request with given registration key: key", enfe.getMessage());
+        EntityNotFoundException enfe = assertThrows(EntityNotFoundException.class, action::execute);
+        assertEquals("No account request with given registration key: key", enfe.getMessage());
     }
 
     @Test
@@ -165,7 +169,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         GetCourseJoinStatusAction action = getAction(params);
         JsonResult result = getJsonResult(action);
         JoinStatus output = (JoinStatus) result.getOutput();
-        Assertions.assertFalse(output.getHasJoined());
+        assertFalse(output.getHasJoined());
     }
 
     @Test
@@ -182,7 +186,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         GetCourseJoinStatusAction action = getAction(params);
         JsonResult result = getJsonResult(action);
         JoinStatus output = (JoinStatus) result.getOutput();
-        Assertions.assertTrue(output.getHasJoined());
+        assertTrue(output.getHasJoined());
     }
 
     @Test

@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
@@ -62,7 +63,7 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
         JsonResult result = getJsonResult(action);
         FeedbackSessionData output = (FeedbackSessionData) result.getOutput();
 
-        Assertions.assertEquals(stubFeedbackSession.getId(), output.getFeedbackSessionId());
+        assertEquals(stubFeedbackSession.getId(), output.getFeedbackSessionId());
     }
 
     @Test

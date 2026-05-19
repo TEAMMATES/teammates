@@ -1,6 +1,7 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -73,7 +74,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
                         instructor.getEmail(),
                         null, null, FeedbackResultFetchType.BOTH));
 
-        Assertions.assertTrue(isSessionResultsDataEqual(expectedResults, output));
+        assertTrue(isSessionResultsDataEqual(expectedResults, output));
 
         ______TS("Typical: Instructor accesses results of their course with breakdown");
 
@@ -102,7 +103,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
                                 instructor.getEmail(),
                                 null, section, fetchType));
 
-                Assertions.assertTrue(isSessionResultsDataEqual(expectedResults, output));
+                assertTrue(isSessionResultsDataEqual(expectedResults, output));
             }
         }
 
@@ -125,7 +126,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
                         student, null, true),
                 student);
 
-        Assertions.assertTrue(isSessionResultsDataEqual(expectedResults, output));
+        assertTrue(isSessionResultsDataEqual(expectedResults, output));
 
         ______TS("Typical: Student accesses results of their course");
 
@@ -145,7 +146,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
                         student, null, false),
                 student);
 
-        Assertions.assertTrue(isSessionResultsDataEqual(expectedResults, output));
+        assertTrue(isSessionResultsDataEqual(expectedResults, output));
 
         ______TS("Typical: Student accesses results of their course by questionId");
 
@@ -168,7 +169,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
                         student, question.getId(), false),
                 student);
 
-        Assertions.assertTrue(isSessionResultsDataEqual(expectedResults, output));
+        assertTrue(isSessionResultsDataEqual(expectedResults, output));
     }
 
     @Override

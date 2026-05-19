@@ -1,6 +1,7 @@
 package teammates.e2e.cases;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
@@ -60,7 +61,7 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
         accountsPage.clickDeleteAccount();
         accountsPage.verifyStatusMessage("Account \"" + googleId + "\" is successfully deleted.");
 
-        Assertions.assertNull(getAccount(googleId));
+        assertNull(getAccount(googleId));
 
         // student entities should be deleted
         verifyAbsentInDatabase(student2);

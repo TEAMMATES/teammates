@@ -1,6 +1,5 @@
 package teammates.e2e.pageobjects;
 
-import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -103,27 +102,27 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public void verifyCourseDetails(Course course) {
-        Assertions.assertEquals(course.getId(), getCourseId());
-        Assertions.assertEquals(course.getName(), getCourseName());
-        Assertions.assertEquals(course.getInstitute(), getCourseInstitute());
-        Assertions.assertEquals(course.getTimeZone(), getTimeZone());
+        assertEquals(course.getId(), getCourseId());
+        assertEquals(course.getName(), getCourseName());
+        assertEquals(course.getInstitute(), getCourseInstitute());
+        assertEquals(course.getTimeZone(), getTimeZone());
     }
 
     public void verifyInstructorDetails(Instructor instructor) {
         waitForElementPresence(By.tagName("tm-instructor-edit-panel"));
         int instrNum = getIntrNum(instructor.getEmail());
         if (instructor.getGoogleId() != null) {
-            Assertions.assertEquals(instructor.getGoogleId(), getInstructorGoogleId(instrNum));
+            assertEquals(instructor.getGoogleId(), getInstructorGoogleId(instrNum));
         }
-        Assertions.assertEquals(instructor.getName(), getInstructorName(instrNum));
-        Assertions.assertEquals(instructor.getEmail(), getInstructorEmail(instrNum));
-        Assertions.assertEquals(instructor.isDisplayedToStudents(), getInstructorDisplayedToStudents(instrNum));
+        assertEquals(instructor.getName(), getInstructorName(instrNum));
+        assertEquals(instructor.getEmail(), getInstructorEmail(instrNum));
+        assertEquals(instructor.isDisplayedToStudents(), getInstructorDisplayedToStudents(instrNum));
         if (instructor.isDisplayedToStudents()) {
-            Assertions.assertEquals(instructor.getDisplayName(), getInstructorDisplayName(instrNum));
+            assertEquals(instructor.getDisplayName(), getInstructorDisplayName(instrNum));
         } else {
-            Assertions.assertEquals("(This instructor will NOT be displayed to students)", getInstructorDisplayName(instrNum));
+            assertEquals("(This instructor will NOT be displayed to students)", getInstructorDisplayName(instrNum));
         }
-        Assertions.assertEquals(instructor.getRole().getRoleName(), getInstructorRole(instrNum));
+        assertEquals(instructor.getRole().getRoleName(), getInstructorRole(instrNum));
         if (Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM.equals(instructor.getRole().getRoleName())
                 && getEditInstructorButton(instrNum).isEnabled()) {
             verifyCustomPrivileges(instrNum, instructor.getPrivileges());
@@ -151,9 +150,9 @@ public class InstructorCourseEditPage extends AppPage {
                 continue;
             }
             if (privilege.getValue()) {
-                Assertions.assertTrue(checkboxes.get(getCourseLevelPrivilegeIndex(privilege.getKey())).isSelected());
+                assertTrue(checkboxes.get(getCourseLevelPrivilegeIndex(privilege.getKey())).isSelected());
             } else {
-                Assertions.assertFalse(checkboxes.get(getCourseLevelPrivilegeIndex(privilege.getKey())).isSelected());
+                assertFalse(checkboxes.get(getCourseLevelPrivilegeIndex(privilege.getKey())).isSelected());
             }
         }
     }
@@ -166,10 +165,10 @@ public class InstructorCourseEditPage extends AppPage {
                     continue;
                 }
                 if (privilege.getValue()) {
-                    Assertions.assertTrue(getSectionLevelCheckBox(instrNum, panelNum,
+                    assertTrue(getSectionLevelCheckBox(instrNum, panelNum,
                             getSectionLevelPrivilegeIndex(privilege.getKey())).isSelected());
                 } else {
-                    Assertions.assertFalse(getSectionLevelCheckBox(instrNum, panelNum,
+                    assertFalse(getSectionLevelCheckBox(instrNum, panelNum,
                             getSectionLevelPrivilegeIndex(privilege.getKey())).isSelected());
                 }
             }
@@ -187,10 +186,10 @@ public class InstructorCourseEditPage extends AppPage {
                         continue;
                     }
                     if (privilege.getValue()) {
-                        Assertions.assertTrue(getSessionLevelCheckbox(instrNum, panelNum, sessionIndex,
+                        assertTrue(getSessionLevelCheckbox(instrNum, panelNum, sessionIndex,
                                 getSessionLevelPrivilegeIndex(privilege.getKey())).isSelected());
                     } else {
-                        Assertions.assertFalse(getSessionLevelCheckbox(instrNum, panelNum, sessionIndex,
+                        assertFalse(getSessionLevelCheckbox(instrNum, panelNum, sessionIndex,
                                 getSessionLevelPrivilegeIndex(privilege.getKey())).isSelected());
                     }
                 }
@@ -199,14 +198,14 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public void verifyCourseNotEditable() {
-        Assertions.assertFalse(editCourseButton.isEnabled());
-        Assertions.assertFalse(deleteCourseButton.isEnabled());
+        assertFalse(editCourseButton.isEnabled());
+        assertFalse(deleteCourseButton.isEnabled());
     }
 
     public void verifyInstructorsNotEditable() {
         for (int i = 1; i <= getNumInstructors(); i++) {
-            Assertions.assertFalse(getEditInstructorButton(i).isEnabled());
-            Assertions.assertFalse(getDeleteInstructorButton(i).isEnabled());
+            assertFalse(getEditInstructorButton(i).isEnabled());
+            assertFalse(getDeleteInstructorButton(i).isEnabled());
         }
     }
 
@@ -222,7 +221,7 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public void verifyNumInstructorsEquals(int expectedNum) {
-        Assertions.assertEquals(getNumInstructors(), expectedNum);
+        assertEquals(getNumInstructors(), expectedNum);
     }
 
     public void editCourse(Course newCourse) {

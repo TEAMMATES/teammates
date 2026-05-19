@@ -1,6 +1,7 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashSet;
@@ -107,7 +108,7 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
         JsonResult actionOutput = getJsonResult(action);
         MessageOutput response = (MessageOutput) actionOutput.getOutput();
 
-        Assertions.assertEquals("Successful", response.getMessage());
+        assertEquals("Successful", response.getMessage());
 
         // 1 co-owner, 5 students and 3 instructors,
         verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 9);
@@ -125,7 +126,7 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
         JsonResult actionOutput = getJsonResult(action);
         MessageOutput response = (MessageOutput) actionOutput.getOutput();
 
-        Assertions.assertEquals("Successful", response.getMessage());
+        assertEquals("Successful", response.getMessage());
 
         verifyNoTasksAdded();
     }
@@ -144,7 +145,7 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
         JsonResult actionOutput = getJsonResult(action);
         MessageOutput response = (MessageOutput) actionOutput.getOutput();
 
-        Assertions.assertEquals("Successful", response.getMessage());
+        assertEquals("Successful", response.getMessage());
 
         verifyNoTasksAdded();
     }
@@ -159,7 +160,7 @@ public class FeedbackSessionPublishedRemindersActionIT extends BaseActionIT<Feed
         JsonResult actionOutput = getJsonResult(action);
         MessageOutput response = (MessageOutput) actionOutput.getOutput();
 
-        Assertions.assertEquals("Successful", response.getMessage());
+        assertEquals("Successful", response.getMessage());
 
         verifyNoTasksAdded();
     }

@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.when;
 
@@ -62,12 +63,12 @@ public class CalculateUsageStatisticsActionTest extends BaseActionTest<Calculate
 
         // Only check that there is a stats object created.
         // Everything else is not predictable.
-        Assertions.assertEquals(1, statsObjects.size());
+        assertEquals(1, statsObjects.size());
 
         UsageStatistics statsObject = statsObjects.get(0);
-        Assertions.assertEquals(collectionTimePeriod, statsObject.getTimePeriod());
+        assertEquals(collectionTimePeriod, statsObject.getTimePeriod());
 
-        Assertions.assertEquals(startTime, statsObject.getStartTime());
+        assertEquals(startTime, statsObject.getStartTime());
 
     }
 }

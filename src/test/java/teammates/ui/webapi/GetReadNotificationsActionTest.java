@@ -1,6 +1,8 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -54,9 +56,9 @@ public class GetReadNotificationsActionTest extends BaseActionTest<GetReadNotifi
 
         List<UUID> readNotificationsData = output.getReadNotifications();
 
-        Assertions.assertEquals(READ_NOTIFICATION_COUNT, readNotificationsData.size());
+        assertEquals(READ_NOTIFICATION_COUNT, readNotificationsData.size());
         readNotificationsData.forEach(notificationId ->
-                Assertions.assertTrue(testReadNotifications.stream()
+                assertTrue(testReadNotifications.stream()
                         .anyMatch(readNotification -> readNotification.getNotification().getId().equals(notificationId))));
     }
 }

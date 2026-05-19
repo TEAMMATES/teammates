@@ -1,6 +1,9 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -71,15 +74,15 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         InstructorData response = (InstructorData) actionOutput.getOutput();
 
         Instructor editedInstructor = logic.getInstructorByGoogleId(courseId, instructorId);
-        Assertions.assertEquals(newInstructorName, editedInstructor.getName());
-        Assertions.assertEquals(newInstructorName, response.getName());
-        Assertions.assertEquals(newInstructorEmail, editedInstructor.getEmail());
-        Assertions.assertEquals(newInstructorEmail, response.getEmail());
-        Assertions.assertFalse(editedInstructor.isDisplayedToStudents());
-        Assertions.assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
-        Assertions.assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
-        Assertions.assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION));
-        Assertions.assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
+        assertEquals(newInstructorName, editedInstructor.getName());
+        assertEquals(newInstructorName, response.getName());
+        assertEquals(newInstructorEmail, editedInstructor.getEmail());
+        assertEquals(newInstructorEmail, response.getEmail());
+        assertFalse(editedInstructor.isDisplayedToStudents());
+        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION));
+        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
 
         ______TS("Failure case: edit failed due to invalid parameters");
 
@@ -90,7 +93,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
 
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(reqBody, submissionParams);
         String expectedErrorMessage = FieldValidator.getInvalidityInfoForEmail(invalidEmail);
-        Assertions.assertEquals(expectedErrorMessage, ihrbe.getMessage());
+        assertEquals(expectedErrorMessage, ihrbe.getMessage());
 
         verifyNoTasksAdded();
 
@@ -107,7 +110,7 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         InvalidOperationException ioe = verifyInvalidOperation(reqBody,
                 Const.ParamsNames.COURSE_ID, instructorToEdit.getCourseId());
 
-        Assertions.assertEquals("At least one instructor must be displayed to students", ioe.getMessage());
+        assertEquals("At least one instructor must be displayed to students", ioe.getMessage());
 
         verifyNoTasksAdded();
 
@@ -128,10 +131,10 @@ public class UpdateInstructorActionIT extends BaseActionIT<UpdateInstructorActio
         response = (InstructorData) actionOutput.getOutput();
 
         editedInstructor = logic.getInstructorByGoogleId(courseId, instructorId);
-        Assertions.assertEquals(newInstructorEmail, editedInstructor.getEmail());
-        Assertions.assertEquals(newInstructorEmail, response.getEmail());
-        Assertions.assertEquals(newInstructorName, editedInstructor.getName());
-        Assertions.assertEquals(newInstructorName, response.getName());
+        assertEquals(newInstructorEmail, editedInstructor.getEmail());
+        assertEquals(newInstructorEmail, response.getEmail());
+        assertEquals(newInstructorName, editedInstructor.getName());
+        assertEquals(newInstructorName, response.getName());
 
         //remove the new instructor entity that was created
         logic.deleteCourse("icieat.courseId");

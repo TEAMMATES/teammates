@@ -1,6 +1,7 @@
 package teammates.it.storage.api;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashSet;
@@ -94,6 +95,6 @@ public class FeedbackSessionsDbIT extends BaseTestCaseWithDatabaseAccess {
                 fsDb.getOngoingSessions(instantNow.minus(Duration.ofDays(1L)), instantNow.plus(Duration.ofDays(1L)));
         Set<FeedbackSession> actualUniqueOngoingSessions = new HashSet<>();
         actualUniqueOngoingSessions.addAll(actualOngoingSessions);
-        Assertions.assertEquals(expectedUniqueOngoingSessions, actualUniqueOngoingSessions);
+        assertEquals(expectedUniqueOngoingSessions, actualUniqueOngoingSessions);
     }
 }

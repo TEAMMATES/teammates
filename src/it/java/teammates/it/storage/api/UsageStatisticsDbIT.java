@@ -1,6 +1,8 @@
 package teammates.it.storage.api;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -25,7 +27,7 @@ public class UsageStatisticsDbIT extends BaseTestCaseWithDatabaseAccess {
         List<UsageStatistics> actualUsageStatistics = usageStatisticsDb.getUsageStatisticsForTimeRange(
                 startTime, startTime.plus(1, ChronoUnit.DAYS));
 
-        Assertions.assertEquals(actualUsageStatistics.size(), 0);
+        assertEquals(actualUsageStatistics.size(), 0);
 
         ______TS("returns correct number of usageStatistics in time range");
         Instant startTimeOne = Instant.parse("2012-01-01T00:00:00Z");
@@ -41,11 +43,11 @@ public class UsageStatisticsDbIT extends BaseTestCaseWithDatabaseAccess {
 
         List<UsageStatistics> actulUsageStatisticsOne = usageStatisticsDb.getUsageStatisticsForTimeRange(
                 startTimeOne, startTimeOne.plus(1, ChronoUnit.DAYS));
-        Assertions.assertEquals(actulUsageStatisticsOne.size(), 1);
+        assertEquals(actulUsageStatisticsOne.size(), 1);
 
         List<UsageStatistics> actulUsageStatisticsTwo = usageStatisticsDb.getUsageStatisticsForTimeRange(
                 startTimeOne, startTimeOne.plus(2, ChronoUnit.DAYS));
-        Assertions.assertEquals(actulUsageStatisticsTwo.size(), 2);
+        assertEquals(actulUsageStatisticsTwo.size(), 2);
     }
 
     @Test
@@ -60,7 +62,7 @@ public class UsageStatisticsDbIT extends BaseTestCaseWithDatabaseAccess {
         List<UsageStatistics> actualUsageStatistics = usageStatisticsDb.getUsageStatisticsForTimeRange(
                 startTime, startTime.plus(1, ChronoUnit.SECONDS));
 
-        Assertions.assertNotEquals(actualUsageStatistics.size(), 0);
+        assertNotEquals(actualUsageStatistics.size(), 0);
         verifyEquals(newUsageStatistics, actualUsageStatistics.get(0));
     }
 }

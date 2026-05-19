@@ -1,6 +1,7 @@
 package teammates.it.logic.core;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.time.Instant;
 
 import org.testng.annotations.BeforeMethod;
@@ -38,7 +39,7 @@ public class DeadlineExtensionsLogicIT extends BaseTestCaseWithDatabaseAccess {
         assert student != null;
         Instant extendedDeadlineForStudent = deadlineExtensionsLogic.getDeadlineForUser(feedbackSession, student);
 
-        Assertions.assertEquals(Instant.parse("2028-04-30T23:00:00Z"), extendedDeadlineForStudent);
+        assertEquals(Instant.parse("2028-04-30T23:00:00Z"), extendedDeadlineForStudent);
     }
 
     @Test
@@ -47,6 +48,6 @@ public class DeadlineExtensionsLogicIT extends BaseTestCaseWithDatabaseAccess {
         Student student = typicalDataBundle.students.get("student2InCourse1");
         Instant extendedDeadlineForStudent = deadlineExtensionsLogic.getDeadlineForUser(feedbackSession, student);
 
-        Assertions.assertEquals(feedbackSession.getEndTime(), extendedDeadlineForStudent);
+        assertEquals(feedbackSession.getEndTime(), extendedDeadlineForStudent);
     }
 }

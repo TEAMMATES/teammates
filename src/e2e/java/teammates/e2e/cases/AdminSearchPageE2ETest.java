@@ -1,6 +1,7 @@
 package teammates.e2e.cases;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import java.time.Instant;
 
 import org.testng.annotations.AfterClass;
@@ -110,7 +111,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
         searchPage.clickResetAccountRequestButton(accountRequest);
-        Assertions.assertNull(BACKDOOR.getAccountRequest(accountRequest.getId()).getRegisteredAt());
+        assertNull(BACKDOOR.getAccountRequest(accountRequest.getId()).getRegisteredAt());
 
         ______TS("Typical case: Delete account request successful");
         accountRequest = testData.accountRequests.get("unregisteredInstructor1");
@@ -119,7 +120,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         searchPage.inputSearchContent(searchContent);
         searchPage.clickSearchButton();
         searchPage.clickDeleteAccountRequestButton(accountRequest);
-        Assertions.assertNull(BACKDOOR.getAccountRequest(accountRequest.getId()));
+        assertNull(BACKDOOR.getAccountRequest(accountRequest.getId()));
 
         ______TS("Typical case: Edit account request successful");
         accountRequest = testData.accountRequests.get("unregisteredInstructor2");

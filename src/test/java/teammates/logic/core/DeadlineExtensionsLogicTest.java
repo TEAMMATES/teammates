@@ -1,6 +1,11 @@
 package teammates.logic.core;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -55,7 +60,7 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         UUID studentId = UUID.randomUUID();
         student.setId(studentId);
         Instant extendedDeadline = sessionEndTime.plusSeconds(86400);
-        Assertions.assertTrue(extendedDeadline.isAfter(sessionEndTime),
+        assertTrue(extendedDeadline.isAfter(sessionEndTime),
                 "Extended deadline should be after session end time");
 
         DeadlineExtension de = new DeadlineExtension(student, extendedDeadline);
@@ -65,9 +70,9 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
 
         Instant result = deLogic.getDeadlineForUser(session, student);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(extendedDeadline, result);
-        Assertions.assertTrue(result.isAfter(sessionEndTime));
+        assertNotNull(result);
+        assertEquals(extendedDeadline, result);
+        assertTrue(result.isAfter(sessionEndTime));
         verify(deDb, times(1)).getDeadlineExtension(studentId, sessionId);
     }
 
@@ -86,8 +91,8 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
 
         Instant result = deLogic.getDeadlineForUser(session, student);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(sessionEndTime, result);
+        assertNotNull(result);
+        assertEquals(sessionEndTime, result);
         verify(deDb, times(1)).getDeadlineExtension(studentId, sessionId);
     }
 
@@ -110,8 +115,8 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
 
         Instant result = deLogic.getDeadlineForUser(session, student);
 
-        Assertions.assertEquals(extendedDeadline, result);
-        Assertions.assertTrue(result.isBefore(session.getEndTime()));
+        assertEquals(extendedDeadline, result);
+        assertTrue(result.isBefore(session.getEndTime()));
     }
 
     @Test
@@ -132,10 +137,10 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
 
         DeadlineExtension result = deLogic.getDeadlineExtensionEntityForUser(session, student);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(de, result);
-        Assertions.assertEquals(extendedDeadline, result.getEndTime());
-        Assertions.assertTrue(result.getUser() instanceof Student);
+        assertNotNull(result);
+        assertEquals(de, result);
+        assertEquals(extendedDeadline, result.getEndTime());
+        assertTrue(result.getUser() instanceof Student);
         verify(deDb, times(1)).getDeadlineExtension(studentId, sessionId);
     }
 
@@ -151,7 +156,7 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
 
         DeadlineExtension result = deLogic.getDeadlineExtensionEntityForUser(session, student);
 
-        Assertions.assertNull(result);
+        assertNull(result);
     }
 
     @Test
@@ -169,16 +174,16 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
 
         DeadlineExtension result = deLogic.createDeadlineExtension(de);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(de, result);
-        Assertions.assertEquals(extendedDeadline, result.getEndTime());
-        Assertions.assertTrue(result.getUser() instanceof Student);
+        assertNotNull(result);
+        assertEquals(de, result);
+        assertEquals(extendedDeadline, result.getEndTime());
+        assertTrue(result.getUser() instanceof Student);
         verify(deDb, times(1)).createDeadlineExtension(de);
     }
 
     @Test
     public void testCreateDeadlineExtension_nullExtension_throwsException() {
-        Assertions.assertThrows(AssertionError.class, () -> deLogic.createDeadlineExtension(null));
+        assertThrows(AssertionError.class, () -> deLogic.createDeadlineExtension(null));
         verify(deDb, never()).createDeadlineExtension(any());
     }
 
@@ -214,9 +219,9 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
 
         DeadlineExtension result = deLogic.updateDeadlineExtension(de);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(de, result);
-        Assertions.assertEquals(updatedDeadline, result.getEndTime());
+        assertNotNull(result);
+        assertEquals(de, result);
+        assertEquals(updatedDeadline, result.getEndTime());
     }
 
     @Test
@@ -239,10 +244,10 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
 
         List<DeadlineExtension> result = deLogic.getDeadlineExtensionsPossiblyNeedingClosingSoonEmail();
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(2, result.size());
-        Assertions.assertEquals(de1, result.get(0));
-        Assertions.assertEquals(de2, result.get(1));
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertEquals(de1, result.get(0));
+        assertEquals(de2, result.get(1));
         verify(deDb, times(1)).getDeadlineExtensionsPossiblyNeedingClosingSoonEmail();
     }
 
@@ -252,7 +257,7 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
 
         List<DeadlineExtension> result = deLogic.getDeadlineExtensionsPossiblyNeedingClosingSoonEmail();
 
-        Assertions.assertTrue(result.isEmpty());
+        assertTrue(result.isEmpty());
     }
 
     @Test
@@ -270,10 +275,10 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
 
         DeadlineExtension result = deLogic.createDeadlineExtension(de);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(de, result);
-        Assertions.assertTrue(result.getUser() instanceof Instructor);
-        Assertions.assertEquals(extendedDeadline, result.getEndTime());
+        assertNotNull(result);
+        assertEquals(de, result);
+        assertTrue(result.getUser() instanceof Instructor);
+        assertEquals(extendedDeadline, result.getEndTime());
         verify(deDb, times(1)).createDeadlineExtension(de);
     }
 
@@ -304,10 +309,10 @@ public class DeadlineExtensionsLogicTest extends BaseTestCase {
         Instant result1 = deLogic.getDeadlineForUser(session, student1);
         Instant result2 = deLogic.getDeadlineForUser(session, student2);
 
-        Assertions.assertNotNull(result1);
-        Assertions.assertNotNull(result2);
-        Assertions.assertEquals(extendedDeadline1, result1);
-        Assertions.assertEquals(extendedDeadline2, result2);
-        Assertions.assertTrue(result2.isAfter(result1));
+        assertNotNull(result1);
+        assertNotNull(result2);
+        assertEquals(extendedDeadline1, result1);
+        assertEquals(extendedDeadline2, result2);
+        assertTrue(result2.isAfter(result1));
     }
 }

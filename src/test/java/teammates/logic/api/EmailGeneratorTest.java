@@ -1,6 +1,8 @@
 package teammates.logic.api;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import java.io.IOException;
 
 import org.testng.annotations.Test;
@@ -90,12 +92,12 @@ public class EmailGeneratorTest extends BaseTestCase {
 
     private void verifyEmail(EmailWrapper email, String expectedRecipientEmailAddress, EmailType expectedEmailType,
             String expectedSubject, String expectedEmailContentFilePathname) throws IOException {
-        Assertions.assertEquals(expectedRecipientEmailAddress, email.getRecipient());
-        Assertions.assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
-        Assertions.assertEquals(Config.EMAIL_SENDERNAME, email.getSenderName());
-        Assertions.assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
-        Assertions.assertEquals(expectedEmailType, email.getType());
-        Assertions.assertEquals(expectedSubject, email.getSubject());
+        assertEquals(expectedRecipientEmailAddress, email.getRecipient());
+        assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
+        assertEquals(Config.EMAIL_SENDERNAME, email.getSenderName());
+        assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
+        assertEquals(expectedEmailType, email.getType());
+        assertEquals(expectedSubject, email.getSubject());
         String emailContent = email.getContent();
         EmailChecker.verifyEmailContent(emailContent, expectedEmailContentFilePathname);
         verifyEmailContentHasNoPlaceholders(emailContent);
@@ -103,19 +105,19 @@ public class EmailGeneratorTest extends BaseTestCase {
 
     private void verifyEmail(EmailWrapper email, String expectedRecipientEmailAddress, EmailType expectedEmailType,
             String expectedSubject, String expectedBcc, String expectedEmailContentFilePathname) throws IOException {
-        Assertions.assertEquals(expectedRecipientEmailAddress, email.getRecipient());
-        Assertions.assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
-        Assertions.assertEquals(Config.EMAIL_SENDERNAME, email.getSenderName());
-        Assertions.assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
-        Assertions.assertEquals(expectedEmailType, email.getType());
-        Assertions.assertEquals(expectedSubject, email.getSubject());
-        Assertions.assertEquals(expectedBcc, email.getBcc());
+        assertEquals(expectedRecipientEmailAddress, email.getRecipient());
+        assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
+        assertEquals(Config.EMAIL_SENDERNAME, email.getSenderName());
+        assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
+        assertEquals(expectedEmailType, email.getType());
+        assertEquals(expectedSubject, email.getSubject());
+        assertEquals(expectedBcc, email.getBcc());
         String emailContent = email.getContent();
         EmailChecker.verifyEmailContent(emailContent, expectedEmailContentFilePathname);
         verifyEmailContentHasNoPlaceholders(emailContent);
     }
 
     private void verifyEmailContentHasNoPlaceholders(String emailContent) {
-        Assertions.assertFalse(emailContent.contains("${"));
+        assertFalse(emailContent.contains("${"));
     }
 }

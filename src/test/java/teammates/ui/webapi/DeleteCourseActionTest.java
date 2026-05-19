@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.when;
 
 import org.testng.annotations.Test;
@@ -42,7 +43,7 @@ public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
         DeleteCourseAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        Assertions.assertEquals("OK", actionOutput.getMessage());
+        assertEquals("OK", actionOutput.getMessage());
     }
 
     @Test
@@ -58,7 +59,7 @@ public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
         DeleteCourseAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        Assertions.assertEquals("OK", actionOutput.getMessage());
+        assertEquals("OK", actionOutput.getMessage());
     }
 
     @Test
@@ -71,7 +72,7 @@ public class DeleteCourseActionTest extends BaseActionTest<DeleteCourseAction> {
         DeleteCourseAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        Assertions.assertEquals("OK", actionOutput.getMessage());
+        assertEquals("OK", actionOutput.getMessage());
     }
 
     @Test

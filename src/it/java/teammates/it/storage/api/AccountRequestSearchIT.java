@@ -1,6 +1,7 @@
 package teammates.it.storage.api;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -121,7 +122,7 @@ public class AccountRequestSearchIT extends BaseTestCaseWithDatabaseAccess {
      * Verifies that search results match expected output.
      */
     private static void verifySearchResults(List<AccountRequest> actual, AccountRequest... expected) {
-        Assertions.assertEquals(expected.length, actual.size());
+        assertEquals(expected.length, actual.size());
         AssertHelper.assertSameContentIgnoreOrder(Arrays.asList(expected), actual);
     }
 }

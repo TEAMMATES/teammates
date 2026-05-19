@@ -1,6 +1,8 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,19 +55,19 @@ public class JsonResultTest extends BaseTestCase {
     public void testConstructor_sendNullMessage_shouldGetNullAndFailResponse() {
         JsonResult result = new JsonResult((String) null);
         MessageOutput output = (MessageOutput) result.getOutput();
-        Assertions.assertEquals(null, output.getMessage());
+        assertEquals(null, output.getMessage());
 
         result = new JsonResult((MessageOutput) null);
         output = (MessageOutput) result.getOutput();
-        Assertions.assertEquals(null, output);
+        assertEquals(null, output);
 
         JsonResult nullTestJsonResult = new JsonResult((MessageOutput) null, (List<Cookie>) null);
         output = (MessageOutput) nullTestJsonResult.getOutput();
-        Assertions.assertEquals(null, output);
-        Assertions.assertEquals(null, nullTestJsonResult.getCookies());
+        assertEquals(null, output);
+        assertEquals(null, nullTestJsonResult.getCookies());
 
         MockHttpServletResponse resp = new MockHttpServletResponse();
-        Assertions.assertThrows(NullPointerException.class, () -> nullTestJsonResult.send(resp));
+        assertThrows(NullPointerException.class, () -> nullTestJsonResult.send(resp));
     }
 
     private void verifyJsonResult(
@@ -74,11 +76,11 @@ public class JsonResultTest extends BaseTestCase {
             int expectedMessageCookieSize,
             int expectedResponseCookieSize) throws Exception {
         MessageOutput output = (MessageOutput) result.getOutput();
-        Assertions.assertEquals(expectedMessage, output.getMessage());
-        Assertions.assertEquals(expectedMessageCookieSize, result.getCookies().size());
+        assertEquals(expectedMessage, output.getMessage());
+        assertEquals(expectedMessageCookieSize, result.getCookies().size());
 
         MockHttpServletResponse resp = new MockHttpServletResponse();
         result.send(resp);
-        Assertions.assertEquals(expectedResponseCookieSize, resp.getCookies().size());
+        assertEquals(expectedResponseCookieSize, resp.getCookies().size());
     }
 }

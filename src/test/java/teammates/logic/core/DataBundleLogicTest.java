@@ -1,6 +1,10 @@
 package teammates.logic.core;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
@@ -61,9 +65,9 @@ public class DataBundleLogicTest extends BaseTestCase {
 
     @Test
     public void testPersistDataBundle_nullBundle_throwsException() {
-        InvalidParametersException ex = Assertions.assertThrows(InvalidParametersException.class,
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
                 () -> dataBundleLogic.persistDataBundle(null));
-        Assertions.assertEquals("Null data bundle", ex.getMessage());
+        assertEquals("Null data bundle", ex.getMessage());
     }
 
     @Test
@@ -73,11 +77,11 @@ public class DataBundleLogicTest extends BaseTestCase {
 
         DataBundle result = dataBundleLogic.persistDataBundle(emptyBundle);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(emptyBundle, result);
-        Assertions.assertTrue(result.accounts.isEmpty());
-        Assertions.assertTrue(result.courses.isEmpty());
-        Assertions.assertTrue(result.notifications.isEmpty());
+        assertNotNull(result);
+        assertEquals(emptyBundle, result);
+        assertTrue(result.accounts.isEmpty());
+        assertTrue(result.courses.isEmpty());
+        assertTrue(result.notifications.isEmpty());
     }
 
     @Test
@@ -89,11 +93,11 @@ public class DataBundleLogicTest extends BaseTestCase {
 
         DataBundle result = dataBundleLogic.persistDataBundle(dataBundle);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(dataBundle, result);
-        Assertions.assertEquals(1, result.courses.size());
-        Assertions.assertTrue(result.courses.containsKey("course1"));
-        Assertions.assertEquals(course, result.courses.get("course1"));
+        assertNotNull(result);
+        assertEquals(dataBundle, result);
+        assertEquals(1, result.courses.size());
+        assertTrue(result.courses.containsKey("course1"));
+        assertEquals(course, result.courses.get("course1"));
 
         mockHibernateUtil.verify(() -> HibernateUtil.persist(course), times(1));
     }
@@ -107,10 +111,10 @@ public class DataBundleLogicTest extends BaseTestCase {
 
         DataBundle result = dataBundleLogic.persistDataBundle(dataBundle);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(dataBundle, result);
-        Assertions.assertEquals(1, result.accounts.size());
-        Assertions.assertEquals(account, result.accounts.get("account1"));
+        assertNotNull(result);
+        assertEquals(dataBundle, result);
+        assertEquals(1, result.accounts.size());
+        assertEquals(account, result.accounts.get("account1"));
 
         mockHibernateUtil.verify(() -> HibernateUtil.persist(account), times(1));
     }
@@ -124,11 +128,11 @@ public class DataBundleLogicTest extends BaseTestCase {
 
         DataBundle result = dataBundleLogic.persistDataBundle(dataBundle);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(dataBundle, result);
-        Assertions.assertEquals(1, result.notifications.size());
-        Assertions.assertTrue(result.notifications.containsKey("notification1"));
-        Assertions.assertEquals(notification, result.notifications.get("notification1"));
+        assertNotNull(result);
+        assertEquals(dataBundle, result);
+        assertEquals(1, result.notifications.size());
+        assertTrue(result.notifications.containsKey("notification1"));
+        assertEquals(notification, result.notifications.get("notification1"));
 
         mockHibernateUtil.verify(() -> HibernateUtil.persist(notification), times(1));
     }
@@ -142,10 +146,10 @@ public class DataBundleLogicTest extends BaseTestCase {
 
         DataBundle result = dataBundleLogic.persistDataBundle(dataBundle);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(dataBundle, result);
-        Assertions.assertEquals(1, result.accountRequests.size());
-        Assertions.assertEquals(accountRequest, result.accountRequests.get("accountRequest1"));
+        assertNotNull(result);
+        assertEquals(dataBundle, result);
+        assertEquals(1, result.accountRequests.size());
+        assertEquals(accountRequest, result.accountRequests.get("accountRequest1"));
 
         mockHibernateUtil.verify(() -> HibernateUtil.persist(accountRequest), times(1));
     }
@@ -167,20 +171,20 @@ public class DataBundleLogicTest extends BaseTestCase {
 
         DataBundle result = dataBundleLogic.persistDataBundle(dataBundle);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(dataBundle, result);
-        Assertions.assertEquals(1, result.courses.size());
-        Assertions.assertEquals(1, result.accounts.size());
-        Assertions.assertEquals(1, result.notifications.size());
-        Assertions.assertEquals(1, result.accountRequests.size());
-        Assertions.assertTrue(result.courses.containsKey("course1"));
-        Assertions.assertTrue(result.accounts.containsKey("account1"));
-        Assertions.assertTrue(result.notifications.containsKey("notification1"));
-        Assertions.assertTrue(result.accountRequests.containsKey("accountRequest1"));
-        Assertions.assertEquals(course, result.courses.get("course1"));
-        Assertions.assertEquals(account, result.accounts.get("account1"));
-        Assertions.assertEquals(notification, result.notifications.get("notification1"));
-        Assertions.assertEquals(accountRequest, result.accountRequests.get("accountRequest1"));
+        assertNotNull(result);
+        assertEquals(dataBundle, result);
+        assertEquals(1, result.courses.size());
+        assertEquals(1, result.accounts.size());
+        assertEquals(1, result.notifications.size());
+        assertEquals(1, result.accountRequests.size());
+        assertTrue(result.courses.containsKey("course1"));
+        assertTrue(result.accounts.containsKey("account1"));
+        assertTrue(result.notifications.containsKey("notification1"));
+        assertTrue(result.accountRequests.containsKey("accountRequest1"));
+        assertEquals(course, result.courses.get("course1"));
+        assertEquals(account, result.accounts.get("account1"));
+        assertEquals(notification, result.notifications.get("notification1"));
+        assertEquals(accountRequest, result.accountRequests.get("accountRequest1"));
 
         mockHibernateUtil.verify(() -> HibernateUtil.persist(course), times(1));
         mockHibernateUtil.verify(() -> HibernateUtil.persist(account), times(1));
@@ -204,17 +208,17 @@ public class DataBundleLogicTest extends BaseTestCase {
 
         DataBundle result = dataBundleLogic.persistDataBundle(dataBundle);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(dataBundle, result);
-        Assertions.assertEquals(1, result.courses.size());
-        Assertions.assertEquals(1, result.sections.size());
-        Assertions.assertEquals(1, result.teams.size());
-        Assertions.assertTrue(result.courses.containsKey("course1"));
-        Assertions.assertTrue(result.sections.containsKey("section1"));
-        Assertions.assertTrue(result.teams.containsKey("team1"));
-        Assertions.assertEquals(course, result.courses.get("course1"));
-        Assertions.assertEquals(section, result.sections.get("section1"));
-        Assertions.assertEquals(team, result.teams.get("team1"));
+        assertNotNull(result);
+        assertEquals(dataBundle, result);
+        assertEquals(1, result.courses.size());
+        assertEquals(1, result.sections.size());
+        assertEquals(1, result.teams.size());
+        assertTrue(result.courses.containsKey("course1"));
+        assertTrue(result.sections.containsKey("section1"));
+        assertTrue(result.teams.containsKey("team1"));
+        assertEquals(course, result.courses.get("course1"));
+        assertEquals(section, result.sections.get("section1"));
+        assertEquals(team, result.teams.get("team1"));
 
         mockHibernateUtil.verify(() -> HibernateUtil.persist(course), times(1));
         mockHibernateUtil.verify(() -> HibernateUtil.persist(section), times(1));
@@ -245,14 +249,14 @@ public class DataBundleLogicTest extends BaseTestCase {
 
         DataBundle result = dataBundleLogic.persistDataBundle(dataBundle);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(dataBundle, result);
-        Assertions.assertEquals(1, result.students.size());
-        Assertions.assertEquals(1, result.instructors.size());
-        Assertions.assertTrue(result.students.containsKey("student1"));
-        Assertions.assertTrue(result.instructors.containsKey("instructor1"));
-        Assertions.assertEquals(student, result.students.get("student1"));
-        Assertions.assertEquals(instructor, result.instructors.get("instructor1"));
+        assertNotNull(result);
+        assertEquals(dataBundle, result);
+        assertEquals(1, result.students.size());
+        assertEquals(1, result.instructors.size());
+        assertTrue(result.students.containsKey("student1"));
+        assertTrue(result.instructors.containsKey("instructor1"));
+        assertEquals(student, result.students.get("student1"));
+        assertEquals(instructor, result.instructors.get("instructor1"));
 
         mockHibernateUtil.verify(() -> HibernateUtil.persist(student), times(1));
         mockHibernateUtil.verify(() -> HibernateUtil.persist(instructor), times(1));
@@ -270,10 +274,10 @@ public class DataBundleLogicTest extends BaseTestCase {
 
         DataBundle result = dataBundleLogic.persistDataBundle(dataBundle);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(dataBundle, result);
-        Assertions.assertEquals(1, result.feedbackSessions.size());
-        Assertions.assertEquals(session, result.feedbackSessions.get("session1"));
+        assertNotNull(result);
+        assertEquals(dataBundle, result);
+        assertEquals(1, result.feedbackSessions.size());
+        assertEquals(session, result.feedbackSessions.get("session1"));
 
         mockHibernateUtil.verify(() -> HibernateUtil.persist(session), times(1));
     }
@@ -294,26 +298,26 @@ public class DataBundleLogicTest extends BaseTestCase {
 
         DataBundle result = dataBundleLogic.persistDataBundle(dataBundle);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertEquals(dataBundle, result);
-        Assertions.assertEquals(1, result.accounts.size());
-        Assertions.assertEquals(1, result.notifications.size());
-        Assertions.assertEquals(1, result.readNotifications.size());
-        Assertions.assertTrue(result.accounts.containsKey("account1"));
-        Assertions.assertTrue(result.notifications.containsKey("notification1"));
-        Assertions.assertTrue(result.readNotifications.containsKey("readNotification1"));
-        Assertions.assertEquals(account, result.accounts.get("account1"));
-        Assertions.assertEquals(notification, result.notifications.get("notification1"));
-        Assertions.assertEquals(readNotification, result.readNotifications.get("readNotification1"));
+        assertNotNull(result);
+        assertEquals(dataBundle, result);
+        assertEquals(1, result.accounts.size());
+        assertEquals(1, result.notifications.size());
+        assertEquals(1, result.readNotifications.size());
+        assertTrue(result.accounts.containsKey("account1"));
+        assertTrue(result.notifications.containsKey("notification1"));
+        assertTrue(result.readNotifications.containsKey("readNotification1"));
+        assertEquals(account, result.accounts.get("account1"));
+        assertEquals(notification, result.notifications.get("notification1"));
+        assertEquals(readNotification, result.readNotifications.get("readNotification1"));
 
         mockHibernateUtil.verify(() -> HibernateUtil.persist(readNotification), times(1));
     }
 
     @Test
     public void testRemoveDataBundle_nullBundle_throwsException() {
-        InvalidParametersException ex = Assertions.assertThrows(InvalidParametersException.class,
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
                 () -> dataBundleLogic.removeDataBundle(null));
-        Assertions.assertEquals("Data bundle is null", ex.getMessage());
+        assertEquals("Data bundle is null", ex.getMessage());
     }
 
     @Test
@@ -413,22 +417,22 @@ public class DataBundleLogicTest extends BaseTestCase {
 
         DataBundle result = DataBundleLogic.deserializeDataBundle(jsonString);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertTrue(result.accounts.isEmpty());
-        Assertions.assertTrue(result.accountRequests.isEmpty());
-        Assertions.assertTrue(result.courses.isEmpty());
-        Assertions.assertTrue(result.sections.isEmpty());
-        Assertions.assertTrue(result.teams.isEmpty());
-        Assertions.assertTrue(result.instructors.isEmpty());
-        Assertions.assertTrue(result.students.isEmpty());
-        Assertions.assertTrue(result.feedbackSessions.isEmpty());
-        Assertions.assertTrue(result.feedbackSessionLogs.isEmpty());
-        Assertions.assertTrue(result.feedbackQuestions.isEmpty());
-        Assertions.assertTrue(result.feedbackResponses.isEmpty());
-        Assertions.assertTrue(result.feedbackResponseComments.isEmpty());
-        Assertions.assertTrue(result.deadlineExtensions.isEmpty());
-        Assertions.assertTrue(result.notifications.isEmpty());
-        Assertions.assertTrue(result.readNotifications.isEmpty());
+        assertNotNull(result);
+        assertTrue(result.accounts.isEmpty());
+        assertTrue(result.accountRequests.isEmpty());
+        assertTrue(result.courses.isEmpty());
+        assertTrue(result.sections.isEmpty());
+        assertTrue(result.teams.isEmpty());
+        assertTrue(result.instructors.isEmpty());
+        assertTrue(result.students.isEmpty());
+        assertTrue(result.feedbackSessions.isEmpty());
+        assertTrue(result.feedbackSessionLogs.isEmpty());
+        assertTrue(result.feedbackQuestions.isEmpty());
+        assertTrue(result.feedbackResponses.isEmpty());
+        assertTrue(result.feedbackResponseComments.isEmpty());
+        assertTrue(result.deadlineExtensions.isEmpty());
+        assertTrue(result.notifications.isEmpty());
+        assertTrue(result.readNotifications.isEmpty());
     }
 
     @Test
@@ -455,13 +459,13 @@ public class DataBundleLogicTest extends BaseTestCase {
 
         DataBundle result = DataBundleLogic.deserializeDataBundle(jsonString);
 
-        Assertions.assertNotNull(result);
-        Assertions.assertNotNull(result.courses);
-        Assertions.assertEquals(1, result.courses.size());
-        Assertions.assertTrue(result.courses.containsKey("course1"));
+        assertNotNull(result);
+        assertNotNull(result.courses);
+        assertEquals(1, result.courses.size());
+        assertTrue(result.courses.containsKey("course1"));
         Course course = result.courses.get("course1");
-        Assertions.assertNotNull(course);
-        Assertions.assertEquals("test-course-id", course.getId());
-        Assertions.assertEquals("Test Course", course.getName());
+        assertNotNull(course);
+        assertEquals("test-course-id", course.getId());
+        assertEquals("Test Course", course.getName());
     }
 }

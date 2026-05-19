@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
@@ -80,7 +81,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         JsonResult r = getJsonResult(a);
         FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
-        Assertions.assertEquals(feedbackSession.getId(), response.getFeedbackSessionId());
+        assertEquals(feedbackSession.getId(), response.getFeedbackSessionId());
         verify(mockLogic, times(1)).updateFeedbackSession(eq(feedbackSession.getId()), any());
     }
 

@@ -1,6 +1,10 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -74,15 +78,15 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
 
         Instructor createdInstructor = logic.getInstructorForEmail(course1.getId(), instructorCreateRequest.getEmail());
 
-        Assertions.assertEquals(createdInstructor.getName(), instructorCreateRequest.getName());
-        Assertions.assertEquals(createdInstructor.getEmail(), instructorCreateRequest.getEmail());
-        Assertions.assertEquals(createdInstructor.getName(), instructorData.getName());
-        Assertions.assertEquals(createdInstructor.getEmail(), instructorData.getEmail());
-        Assertions.assertFalse(createdInstructor.isDisplayedToStudents());
-        Assertions.assertTrue(createdInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
-        Assertions.assertTrue(createdInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
-        Assertions.assertTrue(createdInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION));
-        Assertions.assertTrue(createdInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
+        assertEquals(createdInstructor.getName(), instructorCreateRequest.getName());
+        assertEquals(createdInstructor.getEmail(), instructorCreateRequest.getEmail());
+        assertEquals(createdInstructor.getName(), instructorData.getName());
+        assertEquals(createdInstructor.getEmail(), instructorData.getEmail());
+        assertFalse(createdInstructor.isDisplayedToStudents());
+        assertTrue(createdInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertTrue(createdInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+        assertTrue(createdInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION));
+        assertTrue(createdInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
     }
 
     @Test
@@ -101,7 +105,7 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
                 "instructor3ofCourse1", false);
 
         CreateInstructorAction action = getAction(instructorCreateRequest, params);
-        Assertions.assertThrows(InvalidOperationException.class, action::execute);
+        assertThrows(InvalidOperationException.class, action::execute);
     }
 
     @Override

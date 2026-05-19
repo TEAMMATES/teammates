@@ -1,6 +1,8 @@
 package teammates.it.logic.api;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -117,19 +119,19 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithDatabaseAccess {
     private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)
             throws Exception {
         // check recipient
-        Assertions.assertEquals(recipient, email.getRecipient());
+        assertEquals(recipient, email.getRecipient());
 
         // check subject
-        Assertions.assertEquals(subject, email.getSubject());
+        assertEquals(subject, email.getSubject());
 
         // check sender name
-        Assertions.assertEquals(Config.EMAIL_SENDERNAME, email.getSenderName());
+        assertEquals(Config.EMAIL_SENDERNAME, email.getSenderName());
 
         // check sender email
-        Assertions.assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
+        assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
 
         // check reply to address
-        Assertions.assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
+        assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
 
         String emailContent = email.getContent();
 
@@ -137,6 +139,6 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithDatabaseAccess {
         EmailChecker.verifyEmailContent(emailContent, emailContentFilePath);
 
         // check email body for no left placeholders
-        Assertions.assertFalse(emailContent.contains("${"));
+        assertFalse(emailContent.contains("${"));
     }
 }

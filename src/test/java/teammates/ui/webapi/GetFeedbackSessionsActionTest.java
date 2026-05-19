@@ -1,6 +1,8 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import static org.mockito.Mockito.when;
 
 import java.time.Duration;
@@ -73,7 +75,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         JsonResult r = getJsonResult(a);
         FeedbackSessionsData response = (FeedbackSessionsData) r.getOutput();
 
-        Assertions.assertEquals(2, response.getFeedbackSessions().size());
+        assertEquals(2, response.getFeedbackSessions().size());
         assertAllStudentSessionsMatch(response, sessionsInCourse1);
 
         logoutUser();
@@ -100,9 +102,9 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         JsonResult r = getJsonResult(a);
         FeedbackSessionsData response = (FeedbackSessionsData) r.getOutput();
 
-        Assertions.assertEquals(1, response.getFeedbackSessions().size());
+        assertEquals(1, response.getFeedbackSessions().size());
         FeedbackSessionData sessionData = response.getFeedbackSessions().get(0);
-        Assertions.assertEquals(FeedbackSessionSubmissionStatus.OPEN, sessionData.getSubmissionStatus());
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, sessionData.getSubmissionStatus());
 
         logoutUser();
     }
@@ -133,9 +135,9 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         JsonResult r = getJsonResult(a);
         FeedbackSessionsData response = (FeedbackSessionsData) r.getOutput();
 
-        Assertions.assertEquals(1, response.getFeedbackSessions().size());
+        assertEquals(1, response.getFeedbackSessions().size());
         FeedbackSessionData sessionData = response.getFeedbackSessions().get(0);
-        Assertions.assertEquals(FeedbackSessionSubmissionStatus.OPEN, sessionData.getSubmissionStatus());
+        assertEquals(FeedbackSessionSubmissionStatus.OPEN, sessionData.getSubmissionStatus());
 
         logoutUser();
     }
@@ -164,9 +166,9 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         JsonResult r = getJsonResult(a);
         FeedbackSessionsData response = (FeedbackSessionsData) r.getOutput();
 
-        Assertions.assertEquals(1, response.getFeedbackSessions().size());
+        assertEquals(1, response.getFeedbackSessions().size());
         FeedbackSessionData sessionData = response.getFeedbackSessions().get(0);
-        Assertions.assertEquals(FeedbackSessionSubmissionStatus.CLOSED, sessionData.getSubmissionStatus());
+        assertEquals(FeedbackSessionSubmissionStatus.CLOSED, sessionData.getSubmissionStatus());
 
         logoutUser();
     }
@@ -190,9 +192,9 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         JsonResult r = getJsonResult(a);
         FeedbackSessionsData response = (FeedbackSessionsData) r.getOutput();
 
-        Assertions.assertEquals(1, response.getFeedbackSessions().size());
+        assertEquals(1, response.getFeedbackSessions().size());
         FeedbackSessionData sessionData = response.getFeedbackSessions().get(0);
-        Assertions.assertEquals(FeedbackSessionSubmissionStatus.CLOSED, sessionData.getSubmissionStatus());
+        assertEquals(FeedbackSessionSubmissionStatus.CLOSED, sessionData.getSubmissionStatus());
 
         logoutUser();
     }
@@ -200,14 +202,14 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     private void assertAllStudentSessionsMatch(
             FeedbackSessionsData sessionsData, List<FeedbackSession> expectedSessions) {
 
-        Assertions.assertEquals(sessionsData.getFeedbackSessions().size(), expectedSessions.size());
+        assertEquals(sessionsData.getFeedbackSessions().size(), expectedSessions.size());
         for (FeedbackSessionData sessionData : sessionsData.getFeedbackSessions()) {
             List<FeedbackSession> matchedSessions =
                     expectedSessions.stream().filter(session -> session.getName().equals(
                             sessionData.getFeedbackSessionName())
                             && session.getCourseId().equals(sessionData.getCourseId())).collect(Collectors.toList());
 
-            Assertions.assertEquals(1, matchedSessions.size());
+            assertEquals(1, matchedSessions.size());
             FeedbackSession matchedSession = matchedSessions.get(0);
             assertPartialInformationMatch(sessionData, matchedSession);
             assertInformationHiddenForStudent(sessionData);
@@ -216,52 +218,52 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
 
     private void assertPartialInformationMatch(FeedbackSessionData data, FeedbackSession expectedSession) {
         String timeZone = expectedSession.getCourse().getTimeZone();
-        Assertions.assertEquals(expectedSession.getCourseId(), data.getCourseId());
-        Assertions.assertEquals(timeZone, data.getTimeZone());
-        Assertions.assertEquals(expectedSession.getName(), data.getFeedbackSessionName());
-        Assertions.assertEquals(expectedSession.getInstructions(), data.getInstructions());
-        Assertions.assertEquals(expectedSession.getStartTime().toEpochMilli(),
+        assertEquals(expectedSession.getCourseId(), data.getCourseId());
+        assertEquals(timeZone, data.getTimeZone());
+        assertEquals(expectedSession.getName(), data.getFeedbackSessionName());
+        assertEquals(expectedSession.getInstructions(), data.getInstructions());
+        assertEquals(expectedSession.getStartTime().toEpochMilli(),
                 data.getSubmissionStartTimestamp());
-        Assertions.assertEquals(expectedSession.getEndTime().toEpochMilli(),
+        assertEquals(expectedSession.getEndTime().toEpochMilli(),
                 data.getSubmissionEndTimestamp());
 
         if (!expectedSession.isVisible()) {
-            Assertions.assertEquals(FeedbackSessionSubmissionStatus.NOT_VISIBLE, data.getSubmissionStatus());
+            assertEquals(FeedbackSessionSubmissionStatus.NOT_VISIBLE, data.getSubmissionStatus());
         } else if (expectedSession.isOpened()) {
-            Assertions.assertEquals(FeedbackSessionSubmissionStatus.OPEN, data.getSubmissionStatus());
+            assertEquals(FeedbackSessionSubmissionStatus.OPEN, data.getSubmissionStatus());
         } else if (expectedSession.isClosed()) {
-            Assertions.assertEquals(FeedbackSessionSubmissionStatus.CLOSED, data.getSubmissionStatus());
+            assertEquals(FeedbackSessionSubmissionStatus.CLOSED, data.getSubmissionStatus());
         } else if (expectedSession.isInGracePeriod()) {
-            Assertions.assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, data.getSubmissionStatus());
+            assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, data.getSubmissionStatus());
         } else if (expectedSession.isVisible() && !expectedSession.isOpened()) {
-            Assertions.assertEquals(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN, data.getSubmissionStatus());
+            assertEquals(FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN, data.getSubmissionStatus());
         }
 
         if (expectedSession.getDeletedAt() == null) {
-            Assertions.assertNull(data.getDeletedAtTimestamp());
+            assertNull(data.getDeletedAtTimestamp());
         } else {
-            Assertions.assertEquals(expectedSession.getDeletedAt().toEpochMilli(), data.getDeletedAtTimestamp().longValue());
+            assertEquals(expectedSession.getDeletedAt().toEpochMilli(), data.getDeletedAtTimestamp().longValue());
         }
 
         assertInformationHidden(data);
     }
 
     private void assertInformationHiddenForStudent(FeedbackSessionData data) {
-        Assertions.assertNull(data.getGracePeriod());
-        Assertions.assertNull(data.getSessionVisibleSetting());
-        Assertions.assertNull(data.getCustomSessionVisibleTimestamp());
-        Assertions.assertNull(data.getResponseVisibleSetting());
-        Assertions.assertNull(data.getCustomResponseVisibleTimestamp());
-        Assertions.assertNull(data.getIsClosingSoonEmailEnabled());
-        Assertions.assertNull(data.getIsPublishedEmailEnabled());
-        Assertions.assertEquals(data.getCreatedAtTimestamp(), 0);
+        assertNull(data.getGracePeriod());
+        assertNull(data.getSessionVisibleSetting());
+        assertNull(data.getCustomSessionVisibleTimestamp());
+        assertNull(data.getResponseVisibleSetting());
+        assertNull(data.getCustomResponseVisibleTimestamp());
+        assertNull(data.getIsClosingSoonEmailEnabled());
+        assertNull(data.getIsPublishedEmailEnabled());
+        assertEquals(data.getCreatedAtTimestamp(), 0);
     }
 
     private void assertInformationHidden(FeedbackSessionData data) {
-        Assertions.assertNull(data.getGracePeriod());
-        Assertions.assertNull(data.getIsClosingSoonEmailEnabled());
-        Assertions.assertNull(data.getIsPublishedEmailEnabled());
-        Assertions.assertEquals(data.getCreatedAtTimestamp(), 0);
+        assertNull(data.getGracePeriod());
+        assertNull(data.getIsClosingSoonEmailEnabled());
+        assertNull(data.getIsPublishedEmailEnabled());
+        assertEquals(data.getCreatedAtTimestamp(), 0);
     }
 
     private Course generateCourse1() {

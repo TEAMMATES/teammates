@@ -1,6 +1,7 @@
 package teammates.e2e.util;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.testng.annotations.Test;
 
 import teammates.test.BaseTestCase;
@@ -12,8 +13,8 @@ public class TestPropertiesTest extends BaseTestCase {
 
     @Test
     public void testContent() {
-        Assertions.assertNotNull(TestProperties.TEAMMATES_FRONTEND_URL);
-        Assertions.assertNotNull(TestProperties.TEAMMATES_BACKEND_URL);
+        assertNotNull(TestProperties.TEAMMATES_FRONTEND_URL);
+        assertNotNull(TestProperties.TEAMMATES_BACKEND_URL);
     }
 
 }

@@ -1,6 +1,7 @@
 package teammates.e2e.cases;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.time.Duration;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -155,7 +156,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         feedbackEditPage.deleteSession();
         feedbackEditPage.verifyStatusMessage("The feedback session has been deleted. "
                 + "You can restore it from the deleted sessions table below.");
-        Assertions.assertNotNull(getSoftDeletedSession(copiedSessionName,
+        assertNotNull(getSoftDeletedSession(copiedSessionName,
                 instructor.getGoogleId()));
 
     }

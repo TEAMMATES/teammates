@@ -1,6 +1,7 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
@@ -63,13 +64,13 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         ApproveAccountRequestAction action = getAction(params);
         JsonResult result = action.execute();
 
-        Assertions.assertEquals(200, result.getStatusCode());
+        assertEquals(200, result.getStatusCode());
         AccountRequestData data = (AccountRequestData) result.getOutput();
-        Assertions.assertEquals(accountRequest.getName(), data.getName());
-        Assertions.assertEquals(accountRequest.getEmail(), data.getEmail());
-        Assertions.assertEquals(accountRequest.getInstitute(), data.getInstitute());
-        Assertions.assertEquals(AccountRequestStatus.APPROVED, data.getStatus());
-        Assertions.assertEquals(accountRequest.getComments(), data.getComments());
+        assertEquals(accountRequest.getName(), data.getName());
+        assertEquals(accountRequest.getEmail(), data.getEmail());
+        assertEquals(accountRequest.getInstitute(), data.getInstitute());
+        assertEquals(AccountRequestStatus.APPROVED, data.getStatus());
+        assertEquals(accountRequest.getComments(), data.getComments());
         verifyNumberOfEmailsSent(1);
     }
 
@@ -82,9 +83,9 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         ApproveAccountRequestAction action = getAction(params);
         JsonResult result = action.execute();
 
-        Assertions.assertEquals(200, result.getStatusCode());
+        assertEquals(200, result.getStatusCode());
         AccountRequestData data = (AccountRequestData) result.getOutput();
-        Assertions.assertEquals(AccountRequestStatus.APPROVED, data.getStatus());
+        assertEquals(AccountRequestStatus.APPROVED, data.getStatus());
         verifyNumberOfEmailsSent(1);
     }
 
@@ -101,9 +102,9 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         ApproveAccountRequestAction action = getAction(params);
         JsonResult result = action.execute();
 
-        Assertions.assertEquals(200, result.getStatusCode());
+        assertEquals(200, result.getStatusCode());
         AccountRequestData data = (AccountRequestData) result.getOutput();
-        Assertions.assertEquals(AccountRequestStatus.APPROVED, data.getStatus());
+        assertEquals(AccountRequestStatus.APPROVED, data.getStatus());
         verifyNumberOfEmailsSent(1);
     }
 
@@ -119,9 +120,9 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         ApproveAccountRequestAction action = getAction(params);
         JsonResult result = action.execute();
 
-        Assertions.assertEquals(200, result.getStatusCode());
+        assertEquals(200, result.getStatusCode());
         AccountRequestData data = (AccountRequestData) result.getOutput();
-        Assertions.assertEquals(AccountRequestStatus.APPROVED, data.getStatus());
+        assertEquals(AccountRequestStatus.APPROVED, data.getStatus());
         verifyNumberOfEmailsSent(1);
     }
 
@@ -135,7 +136,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         InvalidOperationException ipe = verifyInvalidOperation(params);
-        Assertions.assertEquals(String.format("An account request with email %s and institute %s has already been approved. "
+        assertEquals(String.format("An account request with email %s and institute %s has already been approved. "
                 + "Please reject or delete the account request instead.",
                 accountRequest.getEmail(), accountRequest.getInstitute()), ipe.getMessage());
         verifyNoEmailsSent();
@@ -159,7 +160,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         InvalidOperationException ipe = verifyInvalidOperation(params);
-        Assertions.assertEquals(String.format("An instructor with email %s and institute %s already exists. "
+        assertEquals(String.format("An instructor with email %s and institute %s already exists. "
                 + "Please reject or delete the account request instead.",
                 accountRequest.getEmail(), accountRequest.getInstitute()), ipe.getMessage());
         verifyNoEmailsSent();
@@ -169,7 +170,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     void testExecute_invalidUuid_throwsInvalidHttpParameterException() {
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, "invalid"};
         InvalidHttpParameterException ihpe = verifyHttpParameterFailure(params);
-        Assertions.assertEquals("Expected UUID value for id parameter, but found: [invalid]", ihpe.getMessage());
+        assertEquals("Expected UUID value for id parameter, but found: [invalid]", ihpe.getMessage());
         verifyNoEmailsSent();
     }
 
@@ -178,7 +179,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         String uuid = UUID.randomUUID().toString();
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, uuid};
         EntityNotFoundException enfe = verifyEntityNotFound(params);
-        Assertions.assertEquals(String.format("Account request with id = %s not found", uuid), enfe.getMessage());
+        assertEquals(String.format("Account request with id = %s not found", uuid), enfe.getMessage());
         verifyNoEmailsSent();
     }
 
@@ -189,7 +190,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, accountRequest.getId().toString()};
 
         InvalidOperationException ipe = verifyInvalidOperation(params);
-        Assertions.assertEquals("Account request with id " + accountRequest.getId()
+        assertEquals("Account request with id " + accountRequest.getId()
                 + " is already approved or registered.", ipe.getMessage());
         verifyNoEmailsSent();
     }

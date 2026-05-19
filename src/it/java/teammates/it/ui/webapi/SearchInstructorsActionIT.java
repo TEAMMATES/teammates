@@ -1,6 +1,8 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -60,7 +62,7 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();
-        Assertions.assertTrue(response.getInstructors().stream()
+        assertTrue(response.getInstructors().stream()
                 .filter(i -> i.getName().equals(instructor.getName()))
                 .findAny()
                 .isPresent());
@@ -73,7 +75,7 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();
-        Assertions.assertTrue(response.getInstructors().stream()
+        assertTrue(response.getInstructors().stream()
                 .filter(i -> i.getName().equals(instructor.getName()))
                 .findAny()
                 .isPresent());
@@ -86,12 +88,12 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();
-        Assertions.assertTrue(response.getInstructors().stream()
+        assertTrue(response.getInstructors().stream()
                 .filter(i -> i.getName().equals(instructor.getName()))
                 .findAny()
                 .isPresent());
-        Assertions.assertTrue(response.getInstructors().get(0).getKey() != null);
-        Assertions.assertTrue(response.getInstructors().get(0).getInstitute() != null);
+        assertTrue(response.getInstructors().get(0).getKey() != null);
+        assertTrue(response.getInstructors().get(0).getInstitute() != null);
     }
 
     @Test
@@ -101,12 +103,12 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();
-        Assertions.assertTrue(response.getInstructors().stream()
+        assertTrue(response.getInstructors().stream()
                 .filter(i -> i.getName().equals(instructor.getName()))
                 .findAny()
                 .isPresent());
-        Assertions.assertTrue(response.getInstructors().get(0).getKey() != null);
-        Assertions.assertTrue(response.getInstructors().get(0).getInstitute() != null);
+        assertTrue(response.getInstructors().get(0).getKey() != null);
+        assertTrue(response.getInstructors().get(0).getInstitute() != null);
     }
 
     @Test
@@ -116,12 +118,12 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();
-        Assertions.assertTrue(response.getInstructors().stream()
+        assertTrue(response.getInstructors().stream()
                 .filter(i -> i.getName().equals(instructor.getName()))
                 .findAny()
                 .isPresent());
-        Assertions.assertTrue(response.getInstructors().get(0).getKey() != null);
-        Assertions.assertTrue(response.getInstructors().get(0).getInstitute() != null);
+        assertTrue(response.getInstructors().get(0).getKey() != null);
+        assertTrue(response.getInstructors().get(0).getInstitute() != null);
     }
 
     @Test
@@ -131,7 +133,7 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();
-        Assertions.assertEquals(0, response.getInstructors().size());
+        assertEquals(0, response.getInstructors().size());
     }
 
     @Test
@@ -144,7 +146,7 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
         JsonResult result = getJsonResult(a);
         InstructorsData output = (InstructorsData) result.getOutput();
 
-        Assertions.assertTrue(output.getInstructors().stream()
+        assertTrue(output.getInstructors().stream()
                 .anyMatch(i -> i.getName().equals(instructor.getName())));
     }
 

@@ -1,6 +1,7 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -53,7 +54,7 @@ public class SessionLinksRecoveryActionTestIT extends BaseActionIT<SessionLinksR
         };
 
         InvalidHttpParameterException ihpe = verifyHttpParameterFailure(invalidEmailParam);
-        Assertions.assertEquals("Invalid email address: invalid-email-address", ihpe.getMessage());
+        assertEquals("Invalid email address: invalid-email-address", ihpe.getMessage());
 
         ______TS("Typical case: non-existent email address");
 
@@ -66,13 +67,13 @@ public class SessionLinksRecoveryActionTestIT extends BaseActionIT<SessionLinksR
 
         SessionLinksRecoveryResponseData output = (SessionLinksRecoveryResponseData) result.getOutput();
 
-        Assertions.assertEquals("The recovery links for your feedback sessions have been sent to "
+        assertEquals("The recovery links for your feedback sessions have been sent to "
                 + "the specified email address: non-existent@abc.com", output.getMessage());
         verifyNumberOfEmailsSent(1);
 
         EmailWrapper emailSent = getEmailsSent().get(0);
-        Assertions.assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
-        Assertions.assertEquals("non-existent@abc.com", emailSent.getRecipient());
+        assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
+        assertEquals("non-existent@abc.com", emailSent.getRecipient());
 
         ______TS("Typical case: successfully sent recovery link email: No feedback sessions found");
         Student student1InCourse2 = typicalBundle.students.get("student1InCourse2");
@@ -86,14 +87,14 @@ public class SessionLinksRecoveryActionTestIT extends BaseActionIT<SessionLinksR
 
         output = (SessionLinksRecoveryResponseData) result.getOutput();
 
-        Assertions.assertEquals("The recovery links for your feedback sessions have been sent to the "
+        assertEquals("The recovery links for your feedback sessions have been sent to the "
                         + "specified email address: " + student1InCourse2.getEmail(),
                 output.getMessage());
         verifyNumberOfEmailsSent(1);
 
         emailSent = getEmailsSent().get(0);
-        Assertions.assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
-        Assertions.assertEquals(student1InCourse2.getEmail(), emailSent.getRecipient());
+        assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
+        assertEquals(student1InCourse2.getEmail(), emailSent.getRecipient());
 
         ______TS("Typical case test 1: successfully sent recovery link email: opened session and unpublished feedback, "
                 + "closed session and unpublished feedback.");
@@ -108,14 +109,14 @@ public class SessionLinksRecoveryActionTestIT extends BaseActionIT<SessionLinksR
 
         output = (SessionLinksRecoveryResponseData) result.getOutput();
 
-        Assertions.assertEquals("The recovery links for your feedback sessions have been "
+        assertEquals("The recovery links for your feedback sessions have been "
                         + "sent to the specified email address: " + student1InCourse3.getEmail(),
                 output.getMessage());
         verifyNumberOfEmailsSent(1);
 
         emailSent = getEmailsSent().get(0);
-        Assertions.assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
-        Assertions.assertEquals(student1InCourse3.getEmail(), emailSent.getRecipient());
+        assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
+        assertEquals(student1InCourse3.getEmail(), emailSent.getRecipient());
 
         ______TS("Typical case test 2: successfully sent recovery link email: opened and published, "
                 + "closed and published.");
@@ -130,14 +131,14 @@ public class SessionLinksRecoveryActionTestIT extends BaseActionIT<SessionLinksR
 
         output = (SessionLinksRecoveryResponseData) result.getOutput();
 
-        Assertions.assertEquals("The recovery links for your feedback sessions have been sent "
+        assertEquals("The recovery links for your feedback sessions have been sent "
                         + "to the specified email address: " + student1InCourse1.getEmail(),
                 output.getMessage());
         verifyNumberOfEmailsSent(1);
 
         emailSent = getEmailsSent().get(0);
-        Assertions.assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
-        Assertions.assertEquals(student1InCourse1.getEmail(), emailSent.getRecipient());
+        assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
+        assertEquals(student1InCourse1.getEmail(), emailSent.getRecipient());
     }
 
     @Override

@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
@@ -57,7 +58,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         createRequest.setInstructorName(null);
 
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(createRequest);
-        Assertions.assertEquals("name cannot be null", ex.getMessage());
+        assertEquals("name cannot be null", ex.getMessage());
         verifyNoTasksAdded();
         verifyNoEmailsSent();
     }
@@ -67,7 +68,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         createRequest.setInstructorEmail(null);
 
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(createRequest);
-        Assertions.assertEquals("email cannot be null", ex.getMessage());
+        assertEquals("email cannot be null", ex.getMessage());
         verifyNoTasksAdded();
         verifyNoEmailsSent();
     }
@@ -77,7 +78,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         createRequest.setInstructorInstitution(null);
 
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(createRequest);
-        Assertions.assertEquals("institute cannot be null", ex.getMessage());
+        assertEquals("institute cannot be null", ex.getMessage());
         verifyNoTasksAdded();
         verifyNoEmailsSent();
     }
@@ -108,7 +109,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         when(mockRecaptchaVerifier.isVerificationSuccessful(createRequest.getCaptchaResponse())).thenReturn(false);
 
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(createRequest);
-        Assertions.assertEquals("Something went wrong with the reCAPTCHA verification. Please try again.", ex.getMessage());
+        assertEquals("Something went wrong with the reCAPTCHA verification. Please try again.", ex.getMessage());
         verify(mockRecaptchaVerifier).isVerificationSuccessful(createRequest.getCaptchaResponse());
         verifyNoTasksAdded();
         verifyNoEmailsSent();
@@ -140,7 +141,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         createRequest.setInstructorName("James%20Bond99");
 
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(createRequest);
-        Assertions.assertEquals("\"James%20Bond99\" is not acceptable to TEAMMATES as a/an person name because "
+        assertEquals("\"James%20Bond99\" is not acceptable to TEAMMATES as a/an person name because "
                 + "it contains invalid characters. A/An person name must start with an "
                 + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).",
                 ex.getMessage());
@@ -160,12 +161,12 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
     }
 
     private void verifyAccountRequestCreated(AccountRequestData output, AccountRequest accountRequest) {
-        Assertions.assertEquals(output.getId(), accountRequest.getId());
-        Assertions.assertEquals(output.getEmail(), accountRequest.getEmail());
-        Assertions.assertEquals(output.getName(), accountRequest.getName());
-        Assertions.assertEquals(output.getInstitute(), accountRequest.getInstitute());
-        Assertions.assertEquals(output.getRegistrationKey(), accountRequest.getRegistrationKey());
-        Assertions.assertEquals(output.getStatus(), accountRequest.getStatus());
-        Assertions.assertEquals(output.getComments(), accountRequest.getComments());
+        assertEquals(output.getId(), accountRequest.getId());
+        assertEquals(output.getEmail(), accountRequest.getEmail());
+        assertEquals(output.getName(), accountRequest.getName());
+        assertEquals(output.getInstitute(), accountRequest.getInstitute());
+        assertEquals(output.getRegistrationKey(), accountRequest.getRegistrationKey());
+        assertEquals(output.getStatus(), accountRequest.getStatus());
+        assertEquals(output.getComments(), accountRequest.getComments());
     }
 }

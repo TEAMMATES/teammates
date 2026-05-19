@@ -1,6 +1,9 @@
 package teammates.common.datatransfer.questions;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -19,11 +22,11 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
     public void testConstructor_defaultConstructor_fieldsShouldHaveCorrectDefaultValues() {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
 
-        Assertions.assertEquals(FeedbackQuestionType.MCQ, mcqDetails.getQuestionType());
-        Assertions.assertFalse(mcqDetails.isHasAssignedWeights());
-        Assertions.assertTrue(mcqDetails.getMcqWeights().isEmpty());
-        Assertions.assertEquals(0.0, mcqDetails.getMcqOtherWeight());
-        Assertions.assertEquals(QuestionRecipientType.NONE, mcqDetails.getGenerateOptionsFor());
+        assertEquals(FeedbackQuestionType.MCQ, mcqDetails.getQuestionType());
+        assertFalse(mcqDetails.isHasAssignedWeights());
+        assertTrue(mcqDetails.getMcqWeights().isEmpty());
+        assertEquals(0.0, mcqDetails.getMcqOtherWeight());
+        assertEquals(QuestionRecipientType.NONE, mcqDetails.getGenerateOptionsFor());
     }
 
     @Test
@@ -31,7 +34,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
         mcqDetails.setGenerateOptionsFor(QuestionRecipientType.STUDENTS);
 
-        Assertions.assertEquals(QuestionRecipientType.STUDENTS, mcqDetails.getGenerateOptionsFor());
+        assertEquals(QuestionRecipientType.STUDENTS, mcqDetails.getGenerateOptionsFor());
     }
 
     @Test
@@ -40,8 +43,8 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         mcqDetails.setMcqChoices(Collections.singletonList("Choice 2"));
 
         List<String> errors = mcqDetails.validateQuestionDetails();
-        Assertions.assertEquals(1, errors.size());
-        Assertions.assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_NOT_ENOUGH_CHOICES
+        assertEquals(1, errors.size());
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_NOT_ENOUGH_CHOICES
                 + FeedbackMcqQuestionDetails.MCQ_MIN_NUM_OF_CHOICES + ".", errors.get(0));
     }
 
@@ -53,8 +56,8 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         mcqDetails.setHasAssignedWeights(true);
 
         List<String> errors = mcqDetails.validateQuestionDetails();
-        Assertions.assertEquals(1, errors.size());
-        Assertions.assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
+        assertEquals(1, errors.size());
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
     }
 
     @Test
@@ -65,7 +68,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         mcqDetails.setMcqWeights(Arrays.asList(1.22, 1.55));
 
         List<String> errors = mcqDetails.validateQuestionDetails();
-        Assertions.assertEquals(0, errors.size());
+        assertEquals(0, errors.size());
     }
 
     @Test
@@ -75,8 +78,8 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         mcqDetails.setMcqWeights(Arrays.asList(1.22, -1.55));
 
         List<String> errors = mcqDetails.validateQuestionDetails();
-        Assertions.assertEquals(1, errors.size());
-        Assertions.assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
+        assertEquals(1, errors.size());
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
     }
 
     @Test
@@ -88,8 +91,8 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         mcqDetails.setMcqOtherWeight(-2);
 
         List<String> errors = mcqDetails.validateQuestionDetails();
-        Assertions.assertEquals(1, errors.size());
-        Assertions.assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
+        assertEquals(1, errors.size());
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
     }
 
     @Test
@@ -99,14 +102,14 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         mcqDetails.setMcqChoices(Arrays.asList("choice 1", "choice 1"));
 
         List<String> errors = mcqDetails.validateQuestionDetails();
-        Assertions.assertEquals(1, errors.size());
-        Assertions.assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_DUPLICATE_MCQ_OPTION, errors.get(0));
+        assertEquals(1, errors.size());
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_DUPLICATE_MCQ_OPTION, errors.get(0));
 
         // duplicate cases that has trailing and leading spaces
         mcqDetails.setMcqChoices(Arrays.asList("choice 1", " choice 1 "));
         errors = mcqDetails.validateQuestionDetails();
-        Assertions.assertEquals(1, errors.size());
-        Assertions.assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_DUPLICATE_MCQ_OPTION, errors.get(0));
+        assertEquals(1, errors.size());
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_DUPLICATE_MCQ_OPTION, errors.get(0));
     }
 
     @Test
@@ -116,8 +119,8 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
         List<String> errors = mcqDetails.validateQuestionDetails();
 
-        Assertions.assertEquals(1, errors.size());
-        Assertions.assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_EMPTY_MCQ_OPTION, errors.get(0));
+        assertEquals(1, errors.size());
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_EMPTY_MCQ_OPTION, errors.get(0));
     }
 
     @Test
@@ -131,14 +134,14 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
         List<String> errors = mcqDetails.validateQuestionDetails();
 
-        Assertions.assertEquals(1, errors.size());
-        Assertions.assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
+        assertEquals(1, errors.size());
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
     }
 
     @Test
     public void testIsInstructorCommentsOnResponsesAllowed_shouldReturnTrue() {
         FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackMcqQuestionDetails();
-        Assertions.assertTrue(feedbackQuestionDetails.isInstructorCommentsOnResponsesAllowed());
+        assertTrue(feedbackQuestionDetails.isInstructorCommentsOnResponsesAllowed());
     }
 
     @Test
@@ -149,7 +152,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         FeedbackMcqQuestionDetails newMcqDetails = new FeedbackMcqQuestionDetails();
         newMcqDetails.setMcqChoices(List.of("choice1", "choice3"));
 
-        Assertions.assertTrue(mcqDetails.shouldChangesRequireResponseDeletion(newMcqDetails));
+        assertTrue(mcqDetails.shouldChangesRequireResponseDeletion(newMcqDetails));
     }
 
     @Test
@@ -160,7 +163,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         FeedbackMcqQuestionDetails newMcqDetails = new FeedbackMcqQuestionDetails();
         newMcqDetails.setGenerateOptionsFor(QuestionRecipientType.INSTRUCTORS);
 
-        Assertions.assertTrue(mcqDetails.shouldChangesRequireResponseDeletion(newMcqDetails));
+        assertTrue(mcqDetails.shouldChangesRequireResponseDeletion(newMcqDetails));
     }
 
     @Test
@@ -171,7 +174,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         FeedbackMcqQuestionDetails newMcqDetails = new FeedbackMcqQuestionDetails();
         newMcqDetails.setOtherEnabled(false);
 
-        Assertions.assertTrue(mcqDetails.shouldChangesRequireResponseDeletion(newMcqDetails));
+        assertTrue(mcqDetails.shouldChangesRequireResponseDeletion(newMcqDetails));
     }
 
     @Test
@@ -186,7 +189,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         newMcqDetails.setGenerateOptionsFor(QuestionRecipientType.STUDENTS);
         newMcqDetails.setOtherEnabled(false);
 
-        Assertions.assertFalse(mcqDetails.shouldChangesRequireResponseDeletion(newMcqDetails));
+        assertFalse(mcqDetails.shouldChangesRequireResponseDeletion(newMcqDetails));
     }
 
     @Test
@@ -201,8 +204,8 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
         List<String> errors = mcqDetails.validateResponsesDetails(responses, 1);
 
-        Assertions.assertEquals(1, errors.size());
-        Assertions.assertEquals(response.getAnswerString() + " " + FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_OPTION,
+        assertEquals(1, errors.size());
+        assertEquals(response.getAnswerString() + " " + FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_OPTION,
                 errors.get(0));
     }
 
@@ -218,8 +221,8 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
         List<String> errors = mcqDetails.validateResponsesDetails(responses, 1);
 
-        Assertions.assertEquals(1, errors.size());
-        Assertions.assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_OTHER_CONTENT_NOT_PROVIDED, errors.get(0));
+        assertEquals(1, errors.size());
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_OTHER_CONTENT_NOT_PROVIDED, errors.get(0));
     }
 
     @Test
@@ -234,21 +237,21 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
 
         List<String> errors = mcqDetails.validateResponsesDetails(responses, 1);
 
-        Assertions.assertEquals(0, errors.size());
+        assertEquals(0, errors.size());
     }
 
     @Test
     public void testIsQuestionDropdownEnabled_shouldReturnTrue() {
         FeedbackMcqQuestionDetails feedbackQuestionDetails = new FeedbackMcqQuestionDetails();
         feedbackQuestionDetails.setQuestionDropdownEnabled(true);
-        Assertions.assertTrue(feedbackQuestionDetails.isQuestionDropdownEnabled());
+        assertTrue(feedbackQuestionDetails.isQuestionDropdownEnabled());
     }
 
     @Test
     public void testSetQuestionDropdownEnabled_shouldReturnFalse() {
         FeedbackMcqQuestionDetails feedbackQuestionDetails = new FeedbackMcqQuestionDetails();
         feedbackQuestionDetails.setQuestionDropdownEnabled(false);
-        Assertions.assertFalse(feedbackQuestionDetails.isQuestionDropdownEnabled());
+        assertFalse(feedbackQuestionDetails.isQuestionDropdownEnabled());
     }
 
     @Test
@@ -258,8 +261,8 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         mcqDetails.setMcqChoices(Arrays.asList("choice 1", "choice 2"));
         mcqDetails.setHasAssignedWeights(false);
         List<String> errors = mcqDetails.validateQuestionDetails();
-        Assertions.assertEquals(1, errors.size());
-        Assertions.assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
+        assertEquals(1, errors.size());
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
     }
 
     @Test
@@ -269,11 +272,11 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         mcqDetails.setHasAssignedWeights(false);
 
         List<String> errors = mcqDetails.validateQuestionDetails();
-        Assertions.assertEquals(QuestionRecipientType.NONE, mcqDetails.getGenerateOptionsFor());
-        Assertions.assertEquals(2, errors.size());
-        Assertions.assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_NOT_ENOUGH_CHOICES
+        assertEquals(QuestionRecipientType.NONE, mcqDetails.getGenerateOptionsFor());
+        assertEquals(2, errors.size());
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_NOT_ENOUGH_CHOICES
                 + FeedbackMcqQuestionDetails.MCQ_MIN_NUM_OF_CHOICES + ".", errors.get(0));
-        Assertions.assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(1));
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(1));
     }
 
     @Test
@@ -285,8 +288,8 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         mcqDetails.setMcqChoices(Arrays.asList("choice 1", "choice 2"));
 
         List<String> errors = mcqDetails.validateQuestionDetails();
-        Assertions.assertEquals(1, errors.size());
-        Assertions.assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
+        assertEquals(1, errors.size());
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(0));
     }
 
     @Test
@@ -297,10 +300,10 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         mcqDetails.setMcqOtherWeight(-1.5);
 
         List<String> errors = mcqDetails.validateQuestionDetails();
-        Assertions.assertEquals(2, errors.size());
-        Assertions.assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_NOT_ENOUGH_CHOICES
+        assertEquals(2, errors.size());
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_NOT_ENOUGH_CHOICES
                 + FeedbackMcqQuestionDetails.MCQ_MIN_NUM_OF_CHOICES + ".", errors.get(0));
-        Assertions.assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(1));
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(1));
     }
 
     @Test
@@ -310,10 +313,10 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         mcqDetails.setMcqWeights(Arrays.asList(1.5));
 
         List<String> errors = mcqDetails.validateQuestionDetails();
-        Assertions.assertEquals(2, errors.size());
-        Assertions.assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_NOT_ENOUGH_CHOICES
+        assertEquals(2, errors.size());
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_NOT_ENOUGH_CHOICES
                 + FeedbackMcqQuestionDetails.MCQ_MIN_NUM_OF_CHOICES + ".", errors.get(0));
-        Assertions.assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(1));
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_INVALID_WEIGHT, errors.get(1));
     }
 
     @Test
@@ -322,8 +325,8 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         mcqDetails.setGenerateOptionsFor(QuestionRecipientType.NONE);
 
         List<String> errors = mcqDetails.validateQuestionDetails();
-        Assertions.assertEquals(1, errors.size());
-        Assertions.assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_NOT_ENOUGH_CHOICES
+        assertEquals(1, errors.size());
+        assertEquals(FeedbackMcqQuestionDetails.MCQ_ERROR_NOT_ENOUGH_CHOICES
                 + FeedbackMcqQuestionDetails.MCQ_MIN_NUM_OF_CHOICES + ".", errors.get(0));
     }
 }

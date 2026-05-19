@@ -1,6 +1,7 @@
 package teammates.e2e.util;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -171,7 +172,7 @@ public class TestDataValidityTest extends BaseTestCase {
                                 + entry.getValue().stream().collect(Collectors.joining(System.lineSeparator()));
                     })
                     .collect(Collectors.joining(System.lineSeparator()));
-            Assertions.fail("Invalid test data exists." + System.lineSeparator() + errorItems);
+            fail("Invalid test data exists." + System.lineSeparator() + errorItems);
         }
     }
 

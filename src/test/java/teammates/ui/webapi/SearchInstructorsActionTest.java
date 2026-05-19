@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -67,25 +68,25 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
         verify(mockLogic, times(1)).searchInstructorsInWholeSystem(searchKey);
         verifyNoMoreInteractions(mockLogic);
 
-        Assertions.assertEquals(instructors.size(), instructorsData.getInstructors().size());
+        assertEquals(instructors.size(), instructorsData.getInstructors().size());
 
         for (int i = 0; i < instructors.size(); i++) {
             Instructor instructor = instructors.get(i);
             InstructorData instructorData = instructorsData.getInstructors().get(i);
 
-            Assertions.assertEquals(instructor.getGoogleId(), instructorData.getGoogleId());
-            Assertions.assertEquals(instructor.getCourseId(), instructorData.getCourseId());
-            Assertions.assertEquals(instructor.getEmail(), instructorData.getEmail());
-            Assertions.assertEquals(instructor.isDisplayedToStudents(), instructorData.getIsDisplayedToStudents());
-            Assertions.assertEquals(instructor.getDisplayName(), instructorData.getDisplayedToStudentsAs());
-            Assertions.assertEquals(instructor.getName(), instructorData.getName());
-            Assertions.assertEquals(instructor.getRole(), instructorData.getRole());
-            Assertions.assertEquals(
+            assertEquals(instructor.getGoogleId(), instructorData.getGoogleId());
+            assertEquals(instructor.getCourseId(), instructorData.getCourseId());
+            assertEquals(instructor.getEmail(), instructorData.getEmail());
+            assertEquals(instructor.isDisplayedToStudents(), instructorData.getIsDisplayedToStudents());
+            assertEquals(instructor.getDisplayName(), instructorData.getDisplayedToStudentsAs());
+            assertEquals(instructor.getName(), instructorData.getName());
+            assertEquals(instructor.getRole(), instructorData.getRole());
+            assertEquals(
                     instructor.getAccount() == null ? JoinState.NOT_JOINED : JoinState.JOINED,
                     instructorData.getJoinState()
             );
-            Assertions.assertEquals(instructor.getRegKey(), instructorData.getKey());
-            Assertions.assertEquals(instructor.getCourse().getInstitute(), instructorData.getInstitute());
+            assertEquals(instructor.getRegKey(), instructorData.getKey());
+            assertEquals(instructor.getCourse().getInstitute(), instructorData.getInstitute());
         }
     }
 
@@ -103,7 +104,7 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
         verify(mockLogic, times(1)).searchInstructorsInWholeSystem(searchKey);
         verifyNoMoreInteractions(mockLogic);
 
-        Assertions.assertEquals(0, instructorsData.getInstructors().size());
+        assertEquals(0, instructorsData.getInstructors().size());
     }
 
     @Test

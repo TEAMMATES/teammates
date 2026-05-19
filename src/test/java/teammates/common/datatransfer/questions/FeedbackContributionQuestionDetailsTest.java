@@ -1,6 +1,9 @@
 package teammates.common.datatransfer.questions;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static teammates.test.AssertHelper.assertJsonEquals;
 
 import java.util.ArrayList;
@@ -35,7 +38,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testIsIndividualResponsesShownToStudents_shouldReturnFalse() {
         FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackContributionQuestionDetails();
-        Assertions.assertFalse(feedbackQuestionDetails.isIndividualResponsesShownToStudents());
+        assertFalse(feedbackQuestionDetails.isIndividualResponsesShownToStudents());
     }
 
     @Test
@@ -45,7 +48,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         feedbackContributionQuestionDetails.setZeroSum(true);
         FeedbackContributionQuestionDetails newDetails = new FeedbackContributionQuestionDetails();
         newDetails.setZeroSum(true);
-        Assertions.assertFalse(feedbackContributionQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
+        assertFalse(feedbackContributionQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
     }
 
     @Test
@@ -55,7 +58,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         feedbackContributionQuestionDetails.setZeroSum(true);
         FeedbackContributionQuestionDetails newDetails = new FeedbackContributionQuestionDetails();
         newDetails.setZeroSum(false);
-        Assertions.assertTrue(feedbackContributionQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
+        assertTrue(feedbackContributionQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
     }
 
     @Test
@@ -65,7 +68,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         feedbackContributionQuestionDetails.setNotSureAllowed(false);
         FeedbackContributionQuestionDetails newDetails = new FeedbackContributionQuestionDetails();
         newDetails.setNotSureAllowed(false);
-        Assertions.assertFalse(feedbackContributionQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
+        assertFalse(feedbackContributionQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
     }
 
     @Test
@@ -75,7 +78,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         feedbackContributionQuestionDetails.setNotSureAllowed(false);
         FeedbackContributionQuestionDetails newDetails = new FeedbackContributionQuestionDetails();
         newDetails.setNotSureAllowed(true);
-        Assertions.assertTrue(feedbackContributionQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
+        assertTrue(feedbackContributionQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
     }
 
     @Test
@@ -85,23 +88,23 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         ______TS("failure: isZeroSum true and isNotSureAllowed true");
         feedbackContributionQuestionDetails.setZeroSum(true);
         feedbackContributionQuestionDetails.setNotSureAllowed(true);
-        Assertions.assertEquals(List.of(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_OPTION),
+        assertEquals(List.of(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_OPTION),
                 feedbackContributionQuestionDetails.validateQuestionDetails());
 
         ______TS("success: isZeroSum true and isNotSureAllowed false");
         feedbackContributionQuestionDetails.setZeroSum(true);
         feedbackContributionQuestionDetails.setNotSureAllowed(false);
-        Assertions.assertTrue(feedbackContributionQuestionDetails.validateQuestionDetails().isEmpty());
+        assertTrue(feedbackContributionQuestionDetails.validateQuestionDetails().isEmpty());
 
         ______TS("success: isZeroSum false and isNotSureAllowed true");
         feedbackContributionQuestionDetails.setZeroSum(false);
         feedbackContributionQuestionDetails.setNotSureAllowed(true);
-        Assertions.assertTrue(feedbackContributionQuestionDetails.validateQuestionDetails().isEmpty());
+        assertTrue(feedbackContributionQuestionDetails.validateQuestionDetails().isEmpty());
 
         ______TS("success: isZeroSum false and isNotSureAllowed false");
         feedbackContributionQuestionDetails.setZeroSum(false);
         feedbackContributionQuestionDetails.setNotSureAllowed(false);
-        Assertions.assertTrue(feedbackContributionQuestionDetails.validateQuestionDetails().isEmpty());
+        assertTrue(feedbackContributionQuestionDetails.validateQuestionDetails().isEmpty());
     }
 
     @Test
@@ -116,7 +119,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
             details.setAnswer(answer);
             responses.add(details);
         }
-        Assertions.assertTrue(feedbackContributionQuestionDetails.validateResponsesDetails(responses,
+        assertTrue(feedbackContributionQuestionDetails.validateResponsesDetails(responses,
                 VALID_ZERO_SUM_CONTRIBUTION_RESPONSE_ANSWERS.size()).isEmpty());
 
         ______TS("success: all answers of all responses are POINTS_NOT_SURE and notSure is allowed");
@@ -128,7 +131,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
             details.setAnswer(Const.POINTS_NOT_SURE);
             responses.add(details);
         }
-        Assertions.assertTrue(feedbackContributionQuestionDetails.validateResponsesDetails(responses, 10).isEmpty());
+        assertTrue(feedbackContributionQuestionDetails.validateResponsesDetails(responses, 10).isEmpty());
 
         ______TS("success: all answers of all responses are POINTS_NOT_SUBMITTED and zeroSum is false");
         responses.clear();
@@ -137,7 +140,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
             FeedbackContributionResponseDetails details = new FeedbackContributionResponseDetails();
             responses.add(details);
         }
-        Assertions.assertTrue(feedbackContributionQuestionDetails.validateResponsesDetails(responses, 10).isEmpty());
+        assertTrue(feedbackContributionQuestionDetails.validateResponsesDetails(responses, 10).isEmpty());
 
         ______TS("success: mix of answers of all responses that are 1) in range and is multiple of 5 "
                 + "2) POINTS_NOT_SURE and notSure is allowed 3) POINTS_NOT_SUBMITTED");
@@ -154,7 +157,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
             FeedbackContributionResponseDetails details3 = new FeedbackContributionResponseDetails();
             responses.add(details3);
         }
-        Assertions.assertTrue(feedbackContributionQuestionDetails.validateResponsesDetails(responses,
+        assertTrue(feedbackContributionQuestionDetails.validateResponsesDetails(responses,
                 VALID_NON_ZERO_SUM_CONTRIBUTION_RESPONSE_ANSWERS.size()).isEmpty());
 
         ______TS("success: all answers of all responses are POINTS_NOT_SUBMITTED regardless value of zeroSum");
@@ -165,7 +168,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
             FeedbackContributionResponseDetails details = new FeedbackContributionResponseDetails();
             responses.add(details);
         }
-        Assertions.assertEquals(expectedResponsesValidationResults,
+        assertEquals(expectedResponsesValidationResults,
                 feedbackContributionQuestionDetails.validateResponsesDetails(responses, 10));
 
         responses.clear();
@@ -174,7 +177,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
             FeedbackContributionResponseDetails details = new FeedbackContributionResponseDetails();
             responses.add(details);
         }
-        Assertions.assertEquals(expectedResponsesValidationResults,
+        assertEquals(expectedResponsesValidationResults,
                 feedbackContributionQuestionDetails.validateResponsesDetails(responses, 10));
 
         ______TS("failure: all answers of all responses are either not in range or are not multiple of 5");
@@ -186,7 +189,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
             responses.add(details);
             expectedResponsesValidationResults.add(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_OPTION);
         }
-        Assertions.assertEquals(expectedResponsesValidationResults,
+        assertEquals(expectedResponsesValidationResults,
                 feedbackContributionQuestionDetails.validateResponsesDetails(responses,
                         INVALID_CONTRIBUTION_RESPONSE_ANSWERS.size()));
 
@@ -199,7 +202,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
             details.setAnswer(Const.POINTS_NOT_SURE);
             responses.add(details);
         }
-        Assertions.assertEquals(expectedResponsesValidationResults,
+        assertEquals(expectedResponsesValidationResults,
                 feedbackContributionQuestionDetails.validateResponsesDetails(responses, 10));
 
         ______TS("failure: some answers of all responses are POINTS_NOT_SUBMITTED and zeroSum is true");
@@ -219,7 +222,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         }
         // actualTotal not zero-sum
         expectedResponsesValidationResults.add(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_OPTION);
-        Assertions.assertEquals(expectedResponsesValidationResults,
+        assertEquals(expectedResponsesValidationResults,
                 feedbackContributionQuestionDetails.validateResponsesDetails(responses, 10));
 
         ______TS("failure: mix of answers of all responses that are 1) either not in range or not multiple of"
@@ -238,7 +241,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         }
         responses.forEach(s ->
                 expectedResponsesValidationResults.add(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_OPTION));
-        Assertions.assertEquals(expectedResponsesValidationResults,
+        assertEquals(expectedResponsesValidationResults,
                 feedbackContributionQuestionDetails.validateResponsesDetails(responses, 10));
 
         ______TS("failure: mix of valid and invalid responses");
@@ -264,7 +267,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
             responses.add(details);
             expectedResponsesValidationResults.add(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_OPTION);
         }
-        Assertions.assertEquals(expectedResponsesValidationResults,
+        assertEquals(expectedResponsesValidationResults,
                 feedbackContributionQuestionDetails.validateResponsesDetails(responses,
                         VALID_ZERO_SUM_CONTRIBUTION_RESPONSE_ANSWERS.size()
                                 + VALID_NON_ZERO_SUM_CONTRIBUTION_RESPONSE_ANSWERS.size()
@@ -289,36 +292,36 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
                 new FeedbackContributionQuestionDetails());
 
         ______TS("success: valid giver recipient visibility");
-        Assertions.assertEquals("", details.validateGiverRecipientVisibility(feedbackQuestion));
+        assertEquals("", details.validateGiverRecipientVisibility(feedbackQuestion));
 
         ______TS("failure: giver type is not STUDENT");
         feedbackQuestion.setGiverType(QuestionGiverType.SELF);
-        Assertions.assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_FEEDBACK_PATH,
+        assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_FEEDBACK_PATH,
                 details.validateGiverRecipientVisibility(feedbackQuestion));
-        Assertions.assertEquals(QuestionGiverType.STUDENTS, feedbackQuestion.getGiverType());
+        assertEquals(QuestionGiverType.STUDENTS, feedbackQuestion.getGiverType());
 
         ______TS("failure: recipient type can only be OWN_TEAM_MEMBERS_INCLUDING_SELF");
         feedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
         feedbackQuestion.setRecipientType(QuestionRecipientType.SELF);
-        Assertions.assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_FEEDBACK_PATH,
+        assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_FEEDBACK_PATH,
                 details.validateGiverRecipientVisibility(feedbackQuestion));
-        Assertions.assertEquals(QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestion.getRecipientType());
+        assertEquals(QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestion.getRecipientType());
 
         ______TS("failure: giver type is not STUDENT and recipient type is not OWN_TEAM_MEMBERS_INCLUDING_SELF");
         feedbackQuestion.setGiverType(QuestionGiverType.SELF);
         feedbackQuestion.setRecipientType(QuestionRecipientType.SELF);
-        Assertions.assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_FEEDBACK_PATH,
+        assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_FEEDBACK_PATH,
                 details.validateGiverRecipientVisibility(feedbackQuestion));
-        Assertions.assertEquals(QuestionGiverType.STUDENTS, feedbackQuestion.getGiverType());
-        Assertions.assertEquals(QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestion.getRecipientType());
+        assertEquals(QuestionGiverType.STUDENTS, feedbackQuestion.getGiverType());
+        assertEquals(QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestion.getRecipientType());
 
         ______TS("failure: invalid restrictions on visibility options");
         feedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
         feedbackQuestion.setRecipientType(QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
         feedbackQuestion.setShowResponsesTo(Arrays.asList(ViewerType.RECEIVER));
-        Assertions.assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
+        assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
                 details.validateGiverRecipientVisibility(feedbackQuestion));
-        Assertions.assertEquals(Arrays.asList(ViewerType.RECEIVER, ViewerType.RECEIVER_TEAM_MEMBERS,
+        assertEquals(Arrays.asList(ViewerType.RECEIVER, ViewerType.RECEIVER_TEAM_MEMBERS,
                 ViewerType.OWN_TEAM_MEMBERS, ViewerType.INSTRUCTORS),
                 feedbackQuestion.getShowResponsesTo());
 
@@ -326,10 +329,10 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         feedbackQuestion.setGiverType(QuestionGiverType.SELF);
         feedbackQuestion.setRecipientType(QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
         feedbackQuestion.setShowResponsesTo(Arrays.asList(ViewerType.RECEIVER));
-        Assertions.assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
+        assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
                 details.validateGiverRecipientVisibility(feedbackQuestion));
-        Assertions.assertEquals(QuestionGiverType.STUDENTS, feedbackQuestion.getGiverType());
-        Assertions.assertEquals(Arrays.asList(ViewerType.RECEIVER, ViewerType.RECEIVER_TEAM_MEMBERS,
+        assertEquals(QuestionGiverType.STUDENTS, feedbackQuestion.getGiverType());
+        assertEquals(Arrays.asList(ViewerType.RECEIVER, ViewerType.RECEIVER_TEAM_MEMBERS,
                 ViewerType.OWN_TEAM_MEMBERS, ViewerType.INSTRUCTORS),
                 feedbackQuestion.getShowResponsesTo());
 
@@ -338,10 +341,10 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         feedbackQuestion.setGiverType(QuestionGiverType.STUDENTS);
         feedbackQuestion.setRecipientType(QuestionRecipientType.SELF);
         feedbackQuestion.setShowResponsesTo(Arrays.asList(ViewerType.RECEIVER));
-        Assertions.assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
+        assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
                 details.validateGiverRecipientVisibility(feedbackQuestion));
-        Assertions.assertEquals(QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestion.getRecipientType());
-        Assertions.assertEquals(Arrays.asList(ViewerType.RECEIVER, ViewerType.RECEIVER_TEAM_MEMBERS,
+        assertEquals(QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestion.getRecipientType());
+        assertEquals(Arrays.asList(ViewerType.RECEIVER, ViewerType.RECEIVER_TEAM_MEMBERS,
                 ViewerType.OWN_TEAM_MEMBERS, ViewerType.INSTRUCTORS),
                 feedbackQuestion.getShowResponsesTo());
 
@@ -350,11 +353,11 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         feedbackQuestion.setGiverType(QuestionGiverType.SELF);
         feedbackQuestion.setRecipientType(QuestionRecipientType.SELF);
         feedbackQuestion.setShowResponsesTo(Arrays.asList(ViewerType.RECEIVER));
-        Assertions.assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
+        assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
                 details.validateGiverRecipientVisibility(feedbackQuestion));
-        Assertions.assertEquals(QuestionGiverType.STUDENTS, feedbackQuestion.getGiverType());
-        Assertions.assertEquals(QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestion.getRecipientType());
-        Assertions.assertEquals(Arrays.asList(ViewerType.RECEIVER, ViewerType.RECEIVER_TEAM_MEMBERS,
+        assertEquals(QuestionGiverType.STUDENTS, feedbackQuestion.getGiverType());
+        assertEquals(QuestionRecipientType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestion.getRecipientType());
+        assertEquals(Arrays.asList(ViewerType.RECEIVER, ViewerType.RECEIVER_TEAM_MEMBERS,
                 ViewerType.OWN_TEAM_MEMBERS, ViewerType.INSTRUCTORS),
                 feedbackQuestion.getShowResponsesTo());
 

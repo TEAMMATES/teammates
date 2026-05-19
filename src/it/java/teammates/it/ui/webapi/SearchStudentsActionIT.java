@@ -1,6 +1,7 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -81,7 +82,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         long expectedMatches = typicalBundle.students.values().stream()
                 .filter(student -> student.getName().equals(student1InCourse1.getName()))
                 .count();
-        Assertions.assertEquals((int) expectedMatches, response.getStudents().size());
+        assertEquals((int) expectedMatches, response.getStudents().size());
     }
 
     @Test
@@ -98,7 +99,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         int expectedMatches = (int) typicalBundle.students.values().stream()
                 .filter(student -> student.getCourseId().equals(student1InCourse1.getCourseId()))
                 .count();
-        Assertions.assertEquals(expectedMatches, response.getStudents().size());
+        assertEquals(expectedMatches, response.getStudents().size());
     }
 
     @Test
@@ -113,7 +114,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         JsonResult result = getJsonResult(a);
         StudentsData response = (StudentsData) result.getOutput();
 
-        Assertions.assertEquals(4, response.getStudents().size());
+        assertEquals(4, response.getStudents().size());
     }
 
     @Test
@@ -127,7 +128,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         JsonResult result = getJsonResult(a);
         StudentsData response = (StudentsData) result.getOutput();
 
-        Assertions.assertEquals(0, response.getStudents().size());
+        assertEquals(0, response.getStudents().size());
     }
 
     @Test
@@ -141,7 +142,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         SearchStudentsAction a = getAction(googleIdParams);
         JsonResult result = getJsonResult(a);
         StudentsData response = (StudentsData) result.getOutput();
-        Assertions.assertEquals(3, response.getStudents().size());
+        assertEquals(3, response.getStudents().size());
     }
 
     @Test
@@ -155,7 +156,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         JsonResult result = getJsonResult(a);
         StudentsData output = (StudentsData) result.getOutput();
 
-        Assertions.assertEquals(3, output.getStudents().size());
+        assertEquals(3, output.getStudents().size());
 
         loginAsAdmin();
         params = new String[] {
@@ -167,7 +168,7 @@ public class SearchStudentsActionIT extends BaseActionIT<SearchStudentsAction> {
         result = getJsonResult(a);
         output = (StudentsData) result.getOutput();
 
-        Assertions.assertEquals(4, output.getStudents().size());
+        assertEquals(4, output.getStudents().size());
     }
 
     @Override

@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
@@ -57,7 +58,7 @@ public class DeleteNotificationActionTest extends BaseActionTest<DeleteNotificat
         DeleteNotificationAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        Assertions.assertEquals("Notification has been deleted.", actionOutput.getMessage());
+        assertEquals("Notification has been deleted.", actionOutput.getMessage());
         reset(mockLogic);
     }
 
@@ -73,7 +74,7 @@ public class DeleteNotificationActionTest extends BaseActionTest<DeleteNotificat
         DeleteNotificationAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        Assertions.assertEquals("Notification has been deleted.", actionOutput.getMessage());
+        assertEquals("Notification has been deleted.", actionOutput.getMessage());
         reset(mockLogic);
     }
 

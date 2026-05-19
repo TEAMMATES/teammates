@@ -1,6 +1,7 @@
 package teammates.common.datatransfer.questions;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.testng.annotations.Test;
 
 import teammates.test.BaseTestCase;
@@ -16,7 +17,7 @@ public class FeedbackResponseDetailsTest extends BaseTestCase {
         FeedbackResponseDetails frdDeep = frd.getDeepCopy();
         frd.setAnswer("updated");
 
-        Assertions.assertEquals("updated", frd.getAnswerString());
-        Assertions.assertEquals("original", frdDeep.getAnswerString());
+        assertEquals("updated", frd.getAnswerString());
+        assertEquals("original", frdDeep.getAnswerString());
     }
 }

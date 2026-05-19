@@ -1,6 +1,8 @@
 package teammates.it.storage.api;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -116,7 +118,7 @@ public class InstructorSearchIT extends BaseTestCaseWithDatabaseAccess {
 
         List<Instructor> expectedUnderscoreMatches = usersDb
                 .searchInstructorsInWholeSystem("instructor_permission_role_");
-        Assertions.assertFalse(results.isEmpty());
+        assertFalse(results.isEmpty());
         AssertHelper.assertSameContentIgnoreOrder(expectedUnderscoreMatches, results);
 
         results = usersDb.searchInstructorsInWholeSystem("%");
@@ -130,7 +132,7 @@ public class InstructorSearchIT extends BaseTestCaseWithDatabaseAccess {
      * @param expected the expected results for the search query.
      */
     private static void verifySearchResults(List<Instructor> actual, Instructor... expected) {
-        Assertions.assertEquals(expected.length, actual.size());
+        assertEquals(expected.length, actual.size());
         AssertHelper.assertSameContentIgnoreOrder(Arrays.asList(expected), actual);
     }
 }

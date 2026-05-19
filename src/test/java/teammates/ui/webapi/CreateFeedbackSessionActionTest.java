@@ -1,6 +1,10 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
@@ -92,46 +96,46 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
             Mockito.verify(mockLogic, times(1)).createFeedbackSession(isA(FeedbackSession.class));
             mockedHibernate.verify(HibernateUtil::flushSession, times(1));
 
-            Assertions.assertEquals(createdFeedbackSession.getCourseId(), response.getCourseId());
-            Assertions.assertEquals(createdFeedbackSession.getCourse().getTimeZone(), response.getTimeZone());
-            Assertions.assertEquals(createdFeedbackSession.getName(), response.getFeedbackSessionName());
+            assertEquals(createdFeedbackSession.getCourseId(), response.getCourseId());
+            assertEquals(createdFeedbackSession.getCourse().getTimeZone(), response.getTimeZone());
+            assertEquals(createdFeedbackSession.getName(), response.getFeedbackSessionName());
 
-            Assertions.assertEquals(createdFeedbackSession.getInstructions(), response.getInstructions());
+            assertEquals(createdFeedbackSession.getInstructions(), response.getInstructions());
 
-            Assertions.assertEquals(createdFeedbackSession.getStartTime().toEpochMilli(), response.getSubmissionStartTimestamp());
-            Assertions.assertEquals(createdFeedbackSession.getEndTime().toEpochMilli(), response.getSubmissionEndTimestamp());
-            Assertions.assertEquals(createdFeedbackSession.getGracePeriod().toMinutes(), response.getGracePeriod().longValue());
+            assertEquals(createdFeedbackSession.getStartTime().toEpochMilli(), response.getSubmissionStartTimestamp());
+            assertEquals(createdFeedbackSession.getEndTime().toEpochMilli(), response.getSubmissionEndTimestamp());
+            assertEquals(createdFeedbackSession.getGracePeriod().toMinutes(), response.getGracePeriod().longValue());
 
-            Assertions.assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
-            Assertions.assertEquals(createdFeedbackSession.getSessionVisibleFromTime().toEpochMilli(),
+            assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
+            assertEquals(createdFeedbackSession.getSessionVisibleFromTime().toEpochMilli(),
                     response.getCustomSessionVisibleTimestamp().longValue());
-            Assertions.assertEquals(ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
-            Assertions.assertEquals(createdFeedbackSession.getResultsVisibleFromTime().toEpochMilli(),
+            assertEquals(ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
+            assertEquals(createdFeedbackSession.getResultsVisibleFromTime().toEpochMilli(),
                     response.getCustomResponseVisibleTimestamp().longValue());
 
-            Assertions.assertEquals(createdFeedbackSession.isClosingSoonEmailEnabled(), response.getIsClosingSoonEmailEnabled());
-            Assertions.assertEquals(createdFeedbackSession.isPublishedEmailEnabled(), response.getIsPublishedEmailEnabled());
+            assertEquals(createdFeedbackSession.isClosingSoonEmailEnabled(), response.getIsClosingSoonEmailEnabled());
+            assertEquals(createdFeedbackSession.isPublishedEmailEnabled(), response.getIsPublishedEmailEnabled());
 
-            Assertions.assertEquals(createdFeedbackSession.getCreatedAt().toEpochMilli(), response.getCreatedAtTimestamp());
-            Assertions.assertNull(createdFeedbackSession.getDeletedAt());
+            assertEquals(createdFeedbackSession.getCreatedAt().toEpochMilli(), response.getCreatedAtTimestamp());
+            assertNull(createdFeedbackSession.getDeletedAt());
 
-            Assertions.assertEquals(createdFeedbackSession.getName(), response.getFeedbackSessionName());
-            Assertions.assertEquals(createdFeedbackSession.getInstructions(), response.getInstructions());
-            Assertions.assertEquals(nearestHour.toEpochMilli(), response.getSubmissionStartTimestamp());
-            Assertions.assertEquals(endHour.toEpochMilli(), response.getSubmissionEndTimestamp());
-            Assertions.assertEquals(createdFeedbackSession.getGracePeriod().toMinutes(), response.getGracePeriod().longValue());
+            assertEquals(createdFeedbackSession.getName(), response.getFeedbackSessionName());
+            assertEquals(createdFeedbackSession.getInstructions(), response.getInstructions());
+            assertEquals(nearestHour.toEpochMilli(), response.getSubmissionStartTimestamp());
+            assertEquals(endHour.toEpochMilli(), response.getSubmissionEndTimestamp());
+            assertEquals(createdFeedbackSession.getGracePeriod().toMinutes(), response.getGracePeriod().longValue());
 
-            Assertions.assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
-            Assertions.assertEquals(nearestHour.toEpochMilli(), response.getCustomSessionVisibleTimestamp().longValue());
+            assertEquals(SessionVisibleSetting.CUSTOM, response.getSessionVisibleSetting());
+            assertEquals(nearestHour.toEpochMilli(), response.getCustomSessionVisibleTimestamp().longValue());
 
-            Assertions.assertEquals(ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
-            Assertions.assertEquals(responseVisibleHour.toEpochMilli(), response.getCustomResponseVisibleTimestamp().longValue());
+            assertEquals(ResponseVisibleSetting.CUSTOM, response.getResponseVisibleSetting());
+            assertEquals(responseVisibleHour.toEpochMilli(), response.getCustomResponseVisibleTimestamp().longValue());
 
-            Assertions.assertFalse(response.getIsClosingSoonEmailEnabled());
-            Assertions.assertFalse(response.getIsPublishedEmailEnabled());
+            assertFalse(response.getIsClosingSoonEmailEnabled());
+            assertFalse(response.getIsPublishedEmailEnabled());
 
-            Assertions.assertNotNull(response.getCreatedAtTimestamp());
-            Assertions.assertNull(response.getDeletedAtTimestamp());
+            assertNotNull(response.getCreatedAtTimestamp());
+            assertNull(response.getDeletedAtTimestamp());
         }
     }
 

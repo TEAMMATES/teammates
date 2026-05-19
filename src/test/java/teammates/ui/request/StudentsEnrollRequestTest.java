@@ -1,6 +1,8 @@
 package teammates.ui.request;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -25,13 +27,13 @@ public class StudentsEnrollRequestTest extends BaseTestCase {
                 new StudentEnrollRequest("typical name", null, "typical team",
                         "typical section", "typical comment");
         StudentsEnrollRequest enrollRequest = new StudentsEnrollRequest(Arrays.asList(request));
-        Assertions.assertThrows(InvalidHttpRequestBodyException.class, enrollRequest::validate);
+        assertThrows(InvalidHttpRequestBodyException.class, enrollRequest::validate);
     }
 
     @Test
     public void testValidate_withEmptyEnrollList_shouldFail() {
         StudentsEnrollRequest request = new StudentsEnrollRequest(new ArrayList<>());
-        Assertions.assertThrows(InvalidHttpRequestBodyException.class, request::validate);
+        assertThrows(InvalidHttpRequestBodyException.class, request::validate);
     }
 
     @Test
@@ -41,8 +43,8 @@ public class StudentsEnrollRequestTest extends BaseTestCase {
         String duplicatedEmail = requestOne.getEmail();
         StudentsEnrollRequest enrollRequest = new StudentsEnrollRequest(Arrays.asList(requestOne, requestTwo));
         InvalidHttpRequestBodyException actualException =
-                Assertions.assertThrows(InvalidHttpRequestBodyException.class, enrollRequest::validate);
-        Assertions.assertEquals(actualException.getMessage(),
+                assertThrows(InvalidHttpRequestBodyException.class, enrollRequest::validate);
+        assertEquals(actualException.getMessage(),
                 "Error, duplicated email addresses detected in the input: " + duplicatedEmail);
     }
 
@@ -55,9 +57,9 @@ public class StudentsEnrollRequestTest extends BaseTestCase {
         StudentsEnrollRequest enrollRequest = new StudentsEnrollRequest(Arrays.asList(requestOne, requestTwo));
 
         InvalidHttpRequestBodyException actualException =
-                Assertions.assertThrows(InvalidHttpRequestBodyException.class, enrollRequest::validate);
+                assertThrows(InvalidHttpRequestBodyException.class, enrollRequest::validate);
 
-        Assertions.assertEquals(actualException.getMessage(),
+        assertEquals(actualException.getMessage(),
                 "Error, duplicated email addresses detected in the input: typical0@email.com");
     }
 

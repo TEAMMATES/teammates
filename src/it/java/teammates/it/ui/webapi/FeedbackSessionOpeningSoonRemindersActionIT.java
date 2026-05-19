@@ -1,6 +1,9 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
@@ -84,8 +87,8 @@ public class FeedbackSessionOpeningSoonRemindersActionIT extends BaseActionIT<Fe
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
-        Assertions.assertEquals("Successful", response1.getMessage());
-        Assertions.assertTrue(session.isOpeningSoonEmailSent());
+        assertEquals("Successful", response1.getMessage());
+        assertTrue(session.isOpeningSoonEmailSent());
 
         // Notify only co-owner (1 instructor only for session1InCourse1)
         verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
@@ -97,7 +100,7 @@ public class FeedbackSessionOpeningSoonRemindersActionIT extends BaseActionIT<Fe
         for (TaskWrapper task : tasksAdded) {
             SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();
             EmailWrapper email = requestBody.getEmail();
-            Assertions.assertEquals(
+            assertEquals(
                     String.format(emailSubjectFormat, courseName, sessionName),
                     email.getSubject());
 
@@ -121,8 +124,8 @@ public class FeedbackSessionOpeningSoonRemindersActionIT extends BaseActionIT<Fe
         JsonResult actionOutput = getJsonResult(action);
         MessageOutput response = (MessageOutput) actionOutput.getOutput();
 
-        Assertions.assertEquals("Successful", response.getMessage());
-        Assertions.assertTrue(session.isOpeningSoonEmailSent());
+        assertEquals("Successful", response.getMessage());
+        assertTrue(session.isOpeningSoonEmailSent());
 
         verifyNoTasksAdded();
     }
@@ -144,8 +147,8 @@ public class FeedbackSessionOpeningSoonRemindersActionIT extends BaseActionIT<Fe
         JsonResult actionOutput = getJsonResult(action);
         MessageOutput response = (MessageOutput) actionOutput.getOutput();
 
-        Assertions.assertEquals("Successful", response.getMessage());
-        Assertions.assertFalse(session.isOpeningSoonEmailSent());
+        assertEquals("Successful", response.getMessage());
+        assertFalse(session.isOpeningSoonEmailSent());
 
         verifyNoTasksAdded();
     }

@@ -1,6 +1,9 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
@@ -56,7 +59,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                 Const.ParamsNames.STUDENT_EMAIL, "invalid-email-address",
         };
         InvalidHttpParameterException ihpe = verifyHttpParameterFailure(params3);
-        Assertions.assertEquals("Invalid email address: invalid-email-address", ihpe.getMessage());
+        assertEquals("Invalid email address: invalid-email-address", ihpe.getMessage());
     }
 
     @Test
@@ -77,12 +80,12 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         JsonResult result = getJsonResult(action);
 
         SessionLinksRecoveryResponseData output = (SessionLinksRecoveryResponseData) result.getOutput();
-        Assertions.assertEquals("The recovery links for your feedback sessions have been sent to the "
+        assertEquals("The recovery links for your feedback sessions have been sent to the "
                 + "specified email address: non-existent@email.com", output.getMessage());
         verifyNumberOfEmailsSent(1);
         EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
-        Assertions.assertEquals("TEAMMATES: Recovery Email", emailSent.getSubject());
-        Assertions.assertEquals("non-existent@email.com", emailSent.getRecipient());
+        assertEquals("TEAMMATES: Recovery Email", emailSent.getSubject());
+        assertEquals("non-existent@email.com", emailSent.getRecipient());
     }
 
     @Test
@@ -101,14 +104,14 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         JsonResult result = getJsonResult(action);
 
         SessionLinksRecoveryResponseData output = (SessionLinksRecoveryResponseData) result.getOutput();
-        Assertions.assertTrue(output.isEmailSent());
-        Assertions.assertEquals("The recovery links for your feedback sessions have been sent to the "
+        assertTrue(output.isEmailSent());
+        assertEquals("The recovery links for your feedback sessions have been sent to the "
                 + "specified email address: " + stubStudent.getEmail(), output.getMessage());
 
         verifyNumberOfEmailsSent(1);
         EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
-        Assertions.assertEquals("TEAMMATES: Recovery Email", emailSent.getSubject());
-        Assertions.assertEquals(stubStudent.getEmail(), emailSent.getRecipient());
+        assertEquals("TEAMMATES: Recovery Email", emailSent.getSubject());
+        assertEquals(stubStudent.getEmail(), emailSent.getRecipient());
     }
 
     @Test
@@ -124,8 +127,8 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         JsonResult result = getJsonResult(action);
 
         SessionLinksRecoveryResponseData output = (SessionLinksRecoveryResponseData) result.getOutput();
-        Assertions.assertFalse(output.isEmailSent());
-        Assertions.assertEquals("Something went wrong with the reCAPTCHA verification. Please try again.",
+        assertFalse(output.isEmailSent());
+        assertEquals("Something went wrong with the reCAPTCHA verification. Please try again.",
                 output.getMessage());
 
         verifyNoEmailsSent();
@@ -147,8 +150,8 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         JsonResult result = getJsonResult(action);
 
         SessionLinksRecoveryResponseData output = (SessionLinksRecoveryResponseData) result.getOutput();
-        Assertions.assertFalse(output.isEmailSent());
-        Assertions.assertEquals("An error occurred. The email could not be sent.", output.getMessage());
+        assertFalse(output.isEmailSent());
+        assertEquals("An error occurred. The email could not be sent.", output.getMessage());
     }
 
     @Test

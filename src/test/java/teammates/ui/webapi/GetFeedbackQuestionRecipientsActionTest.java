@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.reset;
@@ -91,8 +92,8 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         JsonResult result = action.execute();
         FeedbackQuestionRecipientsData data = (FeedbackQuestionRecipientsData) result.getOutput();
 
-        Assertions.assertEquals(typicalRecipients.get("recipient1").getName(), data.getRecipients().get(0).getName());
-        Assertions.assertEquals(typicalRecipients.get("recipient2").getName(), data.getRecipients().get(1).getName());
+        assertEquals(typicalRecipients.get("recipient1").getName(), data.getRecipients().get(0).getName());
+        assertEquals(typicalRecipients.get("recipient2").getName(), data.getRecipients().get(1).getName());
     }
 
     @Test
@@ -118,9 +119,9 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         JsonResult result = action.execute();
         FeedbackQuestionRecipientsData data = (FeedbackQuestionRecipientsData) result.getOutput();
 
-        Assertions.assertEquals(typicalRecipients.size(), data.getRecipients().size());
-        Assertions.assertEquals(typicalRecipients.get("recipient1").getName(), data.getRecipients().get(0).getName());
-        Assertions.assertEquals(typicalRecipients.get("recipient2").getName(), data.getRecipients().get(1).getName());
+        assertEquals(typicalRecipients.size(), data.getRecipients().size());
+        assertEquals(typicalRecipients.get("recipient1").getName(), data.getRecipients().get(0).getName());
+        assertEquals(typicalRecipients.get("recipient2").getName(), data.getRecipients().get(1).getName());
     }
 
     @Test
@@ -190,8 +191,8 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         JsonResult result = action.execute();
         FeedbackQuestionRecipientsData data = (FeedbackQuestionRecipientsData) result.getOutput();
 
-        Assertions.assertEquals(1, data.getRecipients().size());
-        Assertions.assertEquals(typicalStudent.getEmail(), data.getRecipients().get(0).getIdentifier());
+        assertEquals(1, data.getRecipients().size());
+        assertEquals(typicalStudent.getEmail(), data.getRecipients().get(0).getIdentifier());
 
         // Test TEAMS recipient type
         FeedbackQuestion teamQuestion = getTypicalFeedbackQuestionForSession(typicalFeedbackSession);
@@ -211,8 +212,8 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         result = action.execute();
         data = (FeedbackQuestionRecipientsData) result.getOutput();
 
-        Assertions.assertEquals(1, data.getRecipients().size());
-        Assertions.assertEquals("team1", data.getRecipients().get(0).getIdentifier());
+        assertEquals(1, data.getRecipients().size());
+        assertEquals("team1", data.getRecipients().get(0).getIdentifier());
     }
 
     @Test

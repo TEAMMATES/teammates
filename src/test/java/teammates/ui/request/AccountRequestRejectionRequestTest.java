@@ -1,6 +1,7 @@
 package teammates.ui.request;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.testng.annotations.Test;
 
 import teammates.test.BaseTestCase;
@@ -41,12 +42,12 @@ public class AccountRequestRejectionRequestTest extends BaseTestCase {
     @Test
     public void testValidate_withNonNullBodyAndNullTitle_shouldFail() {
         AccountRequestRejectionRequest request = new AccountRequestRejectionRequest(null, TYPICAL_BODY);
-        Assertions.assertThrows(InvalidHttpRequestBodyException.class, request::validate);
+        assertThrows(InvalidHttpRequestBodyException.class, request::validate);
     }
 
     @Test
     public void testValidate_withNullBodyAndNonNullTitle_shouldFail() {
         AccountRequestRejectionRequest request = new AccountRequestRejectionRequest(TYPICAL_TITLE, null);
-        Assertions.assertThrows(InvalidHttpRequestBodyException.class, request::validate);
+        assertThrows(InvalidHttpRequestBodyException.class, request::validate);
     }
 }

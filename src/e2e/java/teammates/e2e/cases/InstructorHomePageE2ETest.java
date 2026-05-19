@@ -1,6 +1,9 @@
 package teammates.e2e.cases;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -87,7 +90,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         homePage.verifyCourseTabDetails(courseIndex, course, courseSessions);
 
         ______TS("notification banner is visible");
-        Assertions.assertTrue(homePage.isBannerVisible(true));
+        assertTrue(homePage.isBannerVisible(true));
 
         ______TS("verify response rate");
         for (int i = 0; i < courseSessions.length; i++) {
@@ -194,7 +197,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         otherCourseIndex = 1;
         FeedbackSession[] otherCourseSessionsWithCopyTwo = { copiedSession, otherCourseSession };
         homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessionsWithCopyTwo);
-        Assertions.assertNotNull(getSoftDeletedSession(copiedSession2.getName(),
+        assertNotNull(getSoftDeletedSession(copiedSession2.getName(),
                 instructor.getGoogleId()));
 
         ______TS("delete course");
@@ -204,7 +207,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         homePage.verifyStatusMessage("The course " + otherCourse.getId() + " has been deleted. "
                 + "You can restore it from the Recycle Bin manually.");
         homePage.verifyNumCourses(1);
-        Assertions.assertTrue(BACKDOOR.isCourseInRecycleBin(otherCourse.getId()));
+        assertTrue(BACKDOOR.isCourseInRecycleBin(otherCourse.getId()));
     }
 
     private String getExpectedResponseRate(FeedbackSession session) {
@@ -240,6 +243,6 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
             ThreadHelper.waitFor(1000);
             actual = getFeedbackSession(feedbackSession);
         }
-        Assertions.assertEquals(isFeedbackSessionPublished(actual.getPublishStatus()), state);
+        assertEquals(isFeedbackSessionPublished(actual.getPublishStatus()), state);
     }
 }

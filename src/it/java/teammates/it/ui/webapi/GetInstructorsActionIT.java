@@ -1,6 +1,9 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import java.util.List;
 
 import org.testng.annotations.BeforeMethod;
@@ -60,7 +63,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         InstructorsData output = (InstructorsData) jsonResult.getOutput();
         List<InstructorData> instructors = output.getInstructors();
 
-        Assertions.assertEquals(3, instructors.size());
+        assertEquals(3, instructors.size());
 
         ______TS("Typical Success Case with no intent");
         params = new String[] {
@@ -74,13 +77,13 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         output = (InstructorsData) jsonResult.getOutput();
         instructors = output.getInstructors();
 
-        Assertions.assertEquals(3, instructors.size());
+        assertEquals(3, instructors.size());
 
         for (InstructorData instructorData : instructors) {
-            Assertions.assertNull(instructorData.getGoogleId());
-            Assertions.assertNull(instructorData.getJoinState());
-            Assertions.assertNull(instructorData.getIsDisplayedToStudents());
-            Assertions.assertNull(instructorData.getRole());
+            assertNull(instructorData.getGoogleId());
+            assertNull(instructorData.getJoinState());
+            assertNull(instructorData.getIsDisplayedToStudents());
+            assertNull(instructorData.getRole());
         }
 
         ______TS("Unknown intent");
@@ -192,7 +195,7 @@ public class GetInstructorsActionIT extends BaseActionIT<GetInstructorsAction> {
         Student student = typicalBundle.students.get("student1InCourse1");
         Student otherStudent = typicalBundle.students.get("student1InCourse2");
 
-        Assertions.assertNotEquals(otherStudent.getCourse(), student.getCourse());
+        assertNotEquals(otherStudent.getCourse(), student.getCourse());
 
         loginAsStudent(student.getGoogleId());
 

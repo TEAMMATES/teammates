@@ -1,6 +1,9 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -132,7 +135,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(invalidInstructorParams);
-        Assertions.assertEquals("Instructor does not exist.", enfe.getMessage());
+        assertEquals("Instructor does not exist.", enfe.getMessage());
     }
 
     @Test
@@ -202,41 +205,41 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
     private void assertEqualToTestInstructorPrivileges(InstructorPrivileges privileges) {
         InstructorPermissionSet courseLevelPrivilege = privileges.getCourseLevelPrivileges();
 
-        Assertions.assertTrue(courseLevelPrivilege.isCanModifyCourse());
-        Assertions.assertTrue(courseLevelPrivilege.isCanModifyStudent());
-        Assertions.assertFalse(courseLevelPrivilege.isCanModifyInstructor());
-        Assertions.assertFalse(courseLevelPrivilege.isCanModifySession());
-        Assertions.assertFalse(courseLevelPrivilege.isCanViewStudentInSections());
-        Assertions.assertFalse(courseLevelPrivilege.isCanModifySessionCommentsInSections());
-        Assertions.assertFalse(courseLevelPrivilege.isCanViewSessionInSections());
-        Assertions.assertFalse(courseLevelPrivilege.isCanSubmitSessionInSections());
+        assertTrue(courseLevelPrivilege.isCanModifyCourse());
+        assertTrue(courseLevelPrivilege.isCanModifyStudent());
+        assertFalse(courseLevelPrivilege.isCanModifyInstructor());
+        assertFalse(courseLevelPrivilege.isCanModifySession());
+        assertFalse(courseLevelPrivilege.isCanViewStudentInSections());
+        assertFalse(courseLevelPrivilege.isCanModifySessionCommentsInSections());
+        assertFalse(courseLevelPrivilege.isCanViewSessionInSections());
+        assertFalse(courseLevelPrivilege.isCanSubmitSessionInSections());
 
-        Assertions.assertEquals(1, privileges.getSectionLevelPrivileges().size());
+        assertEquals(1, privileges.getSectionLevelPrivileges().size());
         InstructorPermissionSet sectionLevelPrivilege = privileges.getSectionLevelPrivileges().get(studentSectionName);
 
-        Assertions.assertFalse(sectionLevelPrivilege.isCanModifyCourse());
-        Assertions.assertFalse(sectionLevelPrivilege.isCanModifyStudent());
-        Assertions.assertFalse(sectionLevelPrivilege.isCanModifyInstructor());
-        Assertions.assertFalse(sectionLevelPrivilege.isCanModifySession());
+        assertFalse(sectionLevelPrivilege.isCanModifyCourse());
+        assertFalse(sectionLevelPrivilege.isCanModifyStudent());
+        assertFalse(sectionLevelPrivilege.isCanModifyInstructor());
+        assertFalse(sectionLevelPrivilege.isCanModifySession());
 
-        Assertions.assertTrue(sectionLevelPrivilege.isCanViewStudentInSections());
-        Assertions.assertTrue(sectionLevelPrivilege.isCanModifySessionCommentsInSections());
-        Assertions.assertFalse(sectionLevelPrivilege.isCanViewSessionInSections());
-        Assertions.assertFalse(sectionLevelPrivilege.isCanSubmitSessionInSections());
+        assertTrue(sectionLevelPrivilege.isCanViewStudentInSections());
+        assertTrue(sectionLevelPrivilege.isCanModifySessionCommentsInSections());
+        assertFalse(sectionLevelPrivilege.isCanViewSessionInSections());
+        assertFalse(sectionLevelPrivilege.isCanSubmitSessionInSections());
 
-        Assertions.assertEquals(1, privileges.getSessionLevelPrivileges().size());
-        Assertions.assertEquals(1, privileges.getSessionLevelPrivileges().get(studentSectionName).size());
+        assertEquals(1, privileges.getSessionLevelPrivileges().size());
+        assertEquals(1, privileges.getSessionLevelPrivileges().get(studentSectionName).size());
         InstructorPermissionSet sessionLevelPrivilege =
                 privileges.getSessionLevelPrivileges().get(studentSectionName).get(feedbackSessionName);
 
-        Assertions.assertFalse(sessionLevelPrivilege.isCanModifyCourse());
-        Assertions.assertFalse(sessionLevelPrivilege.isCanModifyStudent());
-        Assertions.assertFalse(sessionLevelPrivilege.isCanModifyInstructor());
-        Assertions.assertFalse(sessionLevelPrivilege.isCanModifySession());
-        Assertions.assertFalse(sessionLevelPrivilege.isCanViewStudentInSections());
+        assertFalse(sessionLevelPrivilege.isCanModifyCourse());
+        assertFalse(sessionLevelPrivilege.isCanModifyStudent());
+        assertFalse(sessionLevelPrivilege.isCanModifyInstructor());
+        assertFalse(sessionLevelPrivilege.isCanModifySession());
+        assertFalse(sessionLevelPrivilege.isCanViewStudentInSections());
 
-        Assertions.assertTrue(sessionLevelPrivilege.isCanModifySessionCommentsInSections());
-        Assertions.assertTrue(sessionLevelPrivilege.isCanViewSessionInSections());
-        Assertions.assertTrue(sessionLevelPrivilege.isCanSubmitSessionInSections());
+        assertTrue(sessionLevelPrivilege.isCanModifySessionCommentsInSections());
+        assertTrue(sessionLevelPrivilege.isCanViewSessionInSections());
+        assertTrue(sessionLevelPrivilege.isCanSubmitSessionInSections());
     }
 }

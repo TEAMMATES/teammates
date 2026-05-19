@@ -1,6 +1,7 @@
 package teammates.e2e.cases;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -393,7 +394,7 @@ public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
             ThreadHelper.waitFor(1000);
             actual = getFeedbackSession(feedbackSession);
         }
-        Assertions.assertEquals(isFeedbackSessionPublished(actual.getPublishStatus()), state);
+        assertEquals(isFeedbackSessionPublished(actual.getPublishStatus()), state);
     }
 
     private List<FeedbackQuestion> getQuestionsByCourse(String courseId) {

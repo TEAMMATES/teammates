@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
@@ -58,7 +59,7 @@ public class RestoreCourseActionTest extends BaseActionTest<RestoreCourseAction>
         RestoreCourseAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        Assertions.assertEquals("The course " + course.getId() + " has been restored.", actionOutput.getMessage());
+        assertEquals("The course " + course.getId() + " has been restored.", actionOutput.getMessage());
     }
 
     @Test

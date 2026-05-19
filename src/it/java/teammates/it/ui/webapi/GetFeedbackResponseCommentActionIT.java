@@ -1,6 +1,7 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -55,7 +56,7 @@ public class GetFeedbackResponseCommentActionIT extends BaseActionIT<GetFeedback
 
         FeedbackResponseCommentData output = (FeedbackResponseCommentData) result.getOutput();
 
-        Assertions.assertEquals(expectedComment.getId(), output.getFeedbackResponseCommentId());
+        assertEquals(expectedComment.getId(), output.getFeedbackResponseCommentId());
     }
 
     @Test

@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.when;
 
 import java.time.Duration;
@@ -208,11 +209,11 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         JsonResult r = getJsonResult(getOngoingSessionsAction);
         OngoingSessionsData response = (OngoingSessionsData) r.getOutput();
 
-        Assertions.assertEquals(3, response.getTotalOngoingSessions());
-        Assertions.assertEquals(1, response.getTotalOpenSessions());
-        Assertions.assertEquals(1, response.getTotalClosedSessions());
-        Assertions.assertEquals(1, response.getTotalAwaitingSessions());
-        Assertions.assertEquals(3L, response.getTotalInstitutes());
+        assertEquals(3, response.getTotalOngoingSessions());
+        assertEquals(1, response.getTotalOpenSessions());
+        assertEquals(1, response.getTotalClosedSessions());
+        assertEquals(1, response.getTotalAwaitingSessions());
+        assertEquals(3L, response.getTotalInstitutes());
         Map<String, List<OngoingSession>> expectedSessions = new HashMap<>();
         OngoingSession expectedOngoingC1Fs2 = new OngoingSession(c1Fs2, instructor2.getGoogleId());
         expectedSessions.put("NUS", Collections.singletonList(expectedOngoingC1Fs2));
@@ -277,11 +278,11 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         JsonResult r = getJsonResult(getOngoingSessionsAction);
         OngoingSessionsData response = (OngoingSessionsData) r.getOutput();
 
-        Assertions.assertEquals(2, response.getTotalOngoingSessions());
-        Assertions.assertEquals(1, response.getTotalOpenSessions());
-        Assertions.assertEquals(0, response.getTotalClosedSessions());
-        Assertions.assertEquals(1, response.getTotalAwaitingSessions());
-        Assertions.assertEquals(2L, response.getTotalInstitutes());
+        assertEquals(2, response.getTotalOngoingSessions());
+        assertEquals(1, response.getTotalOpenSessions());
+        assertEquals(0, response.getTotalClosedSessions());
+        assertEquals(1, response.getTotalAwaitingSessions());
+        assertEquals(2L, response.getTotalInstitutes());
         Map<String, List<OngoingSession>> expectedSessions = new HashMap<>();
         OngoingSession expectedOngoingC1Fs2 = new OngoingSession(c1Fs2, instructor2.getGoogleId());
         expectedSessions.put("NUS", Collections.singletonList(expectedOngoingC1Fs2));
@@ -293,7 +294,7 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
 
     private void assertEqualSessions(
             Map<String, List<OngoingSession>> expectedSessions, Map<String, List<OngoingSession>> actualSessions) {
-        Assertions.assertEquals(expectedSessions.keySet(), actualSessions.keySet());
+        assertEquals(expectedSessions.keySet(), actualSessions.keySet());
         for (Map.Entry<String, List<OngoingSession>> expectedInstituteSessionList : expectedSessions.entrySet()) {
             String institute = expectedInstituteSessionList.getKey();
             List<OngoingSession> expectedInstituteSessions = expectedInstituteSessionList.getValue();
@@ -305,7 +306,7 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
     private void assertEqualInstituteSessions(
             List<OngoingSession> expectedInstituteSessions, List<OngoingSession> actualInstituteSessions) {
         int expectedSize = expectedInstituteSessions.size();
-        Assertions.assertEquals(expectedSize, actualInstituteSessions.size());
+        assertEquals(expectedSize, actualInstituteSessions.size());
         for (int i = 0; i < expectedSize; i++) {
             OngoingSession expectedOngoingSession = expectedInstituteSessions.get(i);
             OngoingSession actualOngoingSession = actualInstituteSessions.get(i);
@@ -315,13 +316,13 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
 
     private void assertEqualOngoingSessions(OngoingSession expectedOngoingSession,
             OngoingSession actualOngoingSession) {
-        Assertions.assertEquals(expectedOngoingSession.getSessionStatus(), actualOngoingSession.getSessionStatus());
-        Assertions.assertEquals(expectedOngoingSession.getInstructorHomePageLink(),
+        assertEquals(expectedOngoingSession.getSessionStatus(), actualOngoingSession.getSessionStatus());
+        assertEquals(expectedOngoingSession.getInstructorHomePageLink(),
                 actualOngoingSession.getInstructorHomePageLink());
-        Assertions.assertEquals(expectedOngoingSession.getStartTime(), actualOngoingSession.getStartTime());
-        Assertions.assertEquals(expectedOngoingSession.getEndTime(), actualOngoingSession.getEndTime());
-        Assertions.assertEquals(expectedOngoingSession.getCreatorEmail(), actualOngoingSession.getCreatorEmail());
-        Assertions.assertEquals(expectedOngoingSession.getCourseId(), actualOngoingSession.getCourseId());
-        Assertions.assertEquals(expectedOngoingSession.getFeedbackSessionName(), actualOngoingSession.getFeedbackSessionName());
+        assertEquals(expectedOngoingSession.getStartTime(), actualOngoingSession.getStartTime());
+        assertEquals(expectedOngoingSession.getEndTime(), actualOngoingSession.getEndTime());
+        assertEquals(expectedOngoingSession.getCreatorEmail(), actualOngoingSession.getCreatorEmail());
+        assertEquals(expectedOngoingSession.getCourseId(), actualOngoingSession.getCourseId());
+        assertEquals(expectedOngoingSession.getFeedbackSessionName(), actualOngoingSession.getFeedbackSessionName());
     }
 }

@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -60,7 +61,7 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
         };
         DeleteFeedbackSessionAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
-        Assertions.assertEquals("The feedback session is deleted.", actionOutput.getMessage());
+        assertEquals("The feedback session is deleted.", actionOutput.getMessage());
         verify(mockLogic, times(1))
                 .deleteFeedbackSessionCascade(sessionId);
     }
@@ -73,7 +74,7 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
 
         DeleteFeedbackSessionAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
-        Assertions.assertEquals("The feedback session is deleted.", actionOutput.getMessage());
+        assertEquals("The feedback session is deleted.", actionOutput.getMessage());
         verify(mockLogic, times(1))
                 .deleteFeedbackSessionCascade(session.getId());
     }

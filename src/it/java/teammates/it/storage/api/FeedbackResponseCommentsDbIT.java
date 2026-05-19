@@ -1,6 +1,8 @@
 package teammates.it.storage.api;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -47,7 +49,7 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithDatabaseAccess
         FeedbackResponseComment expectedComment = testDataBundle.feedbackResponseComments.get("comment2ToResponse1ForQ1");
         FeedbackResponseComment actualComment = frcDb.getFeedbackResponseCommentForResponseFromParticipant(fr.getId());
 
-        Assertions.assertEquals(expectedComment, actualComment);
+        assertEquals(expectedComment, actualComment);
     }
 
     @Test
@@ -74,11 +76,11 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithDatabaseAccess
         ______TS("No matching response IDs");
         List<FeedbackResponseComment> results = frcDb.getFeedbackResponseCommentsForResponses(
                 List.of(nonexistentResponseId));
-        Assertions.assertEquals(0, results.size());
+        assertEquals(0, results.size());
 
         ______TS("Empty list of response IDs");
         results = frcDb.getFeedbackResponseCommentsForResponses(List.of());
-        Assertions.assertEquals(0, results.size());
+        assertEquals(0, results.size());
 
         ______TS("Mixed response IDs returns matching comments only");
         List<FeedbackResponseComment> expected = List.of(
@@ -91,10 +93,10 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithDatabaseAccess
     }
 
     private void assertListCommentsEqual(List<FeedbackResponseComment> expected, List<FeedbackResponseComment> actual) {
-        Assertions.assertTrue(new HashSet<>(expected).equals(new HashSet<>(actual)),
+        assertTrue(new HashSet<>(expected).equals(new HashSet<>(actual)),
                 String.format("List contents are not equal.%nExpected: %s,%nActual: %s",
                         expected.toString(), actual.toString()));
-        Assertions.assertEquals(expected.size(), actual.size(), "List size not equal.");
+        assertEquals(expected.size(), actual.size(), "List size not equal.");
     }
 
 }

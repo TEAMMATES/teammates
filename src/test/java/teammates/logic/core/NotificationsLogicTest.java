@@ -1,6 +1,9 @@
 package teammates.logic.core;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
@@ -59,7 +62,7 @@ public class NotificationsLogicTest extends BaseTestCase {
                 Instant.parse("2011-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>");
 
-        Assertions.assertThrows(InvalidParametersException.class, () -> notificationsLogic.createNotification(invalidNotification));
+        assertThrows(InvalidParametersException.class, () -> notificationsLogic.createNotification(invalidNotification));
         verify(notificationsDb, never()).createNotification(invalidNotification);
     }
 
@@ -69,7 +72,7 @@ public class NotificationsLogicTest extends BaseTestCase {
                 Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "", "<p>Deprecation happens in three minutes</p>");
 
-        Assertions.assertThrows(InvalidParametersException.class, () -> notificationsLogic.createNotification(invalidNotification));
+        assertThrows(InvalidParametersException.class, () -> notificationsLogic.createNotification(invalidNotification));
         verify(notificationsDb, never()).createNotification(invalidNotification);
     }
 
@@ -79,7 +82,7 @@ public class NotificationsLogicTest extends BaseTestCase {
                 Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "A deprecation note", "");
 
-        Assertions.assertThrows(InvalidParametersException.class, () -> notificationsLogic.createNotification(invalidNotification));
+        assertThrows(InvalidParametersException.class, () -> notificationsLogic.createNotification(invalidNotification));
         verify(notificationsDb, never()).createNotification(invalidNotification);
     }
 
@@ -103,13 +106,13 @@ public class NotificationsLogicTest extends BaseTestCase {
 
         verify(notificationsDb, times(1)).getNotification(notificationId);
 
-        Assertions.assertEquals(notificationId, updatedNotification.getId());
-        Assertions.assertEquals(newStartTime, updatedNotification.getStartTime());
-        Assertions.assertEquals(newEndTime, updatedNotification.getEndTime());
-        Assertions.assertEquals(newStyle, updatedNotification.getStyle());
-        Assertions.assertEquals(newTargetUser, updatedNotification.getTargetUser());
-        Assertions.assertEquals(newTitle, updatedNotification.getTitle());
-        Assertions.assertEquals(newMessage, updatedNotification.getMessage());
+        assertEquals(notificationId, updatedNotification.getId());
+        assertEquals(newStartTime, updatedNotification.getStartTime());
+        assertEquals(newEndTime, updatedNotification.getEndTime());
+        assertEquals(newStyle, updatedNotification.getStyle());
+        assertEquals(newTargetUser, updatedNotification.getTargetUser());
+        assertEquals(newTitle, updatedNotification.getTitle());
+        assertEquals(newMessage, updatedNotification.getMessage());
     }
 
     @Test
@@ -119,12 +122,12 @@ public class NotificationsLogicTest extends BaseTestCase {
 
         when(notificationsDb.getNotification(notificationId)).thenReturn(notification);
 
-        InvalidParametersException ex = Assertions.assertThrows(InvalidParametersException.class,
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
                 () -> notificationsLogic.updateNotification(notificationId, Instant.parse("2011-01-01T00:00:01Z"),
                 Instant.parse("2011-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "A deprecation note", "<p>Deprecation happens in three minutes</p>"));
 
-        Assertions.assertEquals("The time when the notification will expire for this notification cannot be earlier than "
+        assertEquals("The time when the notification will expire for this notification cannot be earlier than "
                 + "the time when the notification will be visible.", ex.getMessage());
     }
 
@@ -135,12 +138,12 @@ public class NotificationsLogicTest extends BaseTestCase {
 
         when(notificationsDb.getNotification(notificationId)).thenReturn(notification);
 
-        InvalidParametersException ex = Assertions.assertThrows(InvalidParametersException.class,
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
                 () -> notificationsLogic.updateNotification(notificationId, Instant.parse("2011-01-01T00:00:00Z"),
                 Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "", "<p>Deprecation happens in three minutes</p>"));
 
-        Assertions.assertEquals("The field 'notification title' is empty.", ex.getMessage());
+        assertEquals("The field 'notification title' is empty.", ex.getMessage());
     }
 
     @Test
@@ -150,12 +153,12 @@ public class NotificationsLogicTest extends BaseTestCase {
 
         when(notificationsDb.getNotification(notificationId)).thenReturn(notification);
 
-        InvalidParametersException ex = Assertions.assertThrows(InvalidParametersException.class,
+        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
                 () -> notificationsLogic.updateNotification(notificationId, Instant.parse("2011-01-01T00:00:00Z"),
                 Instant.parse("2099-01-01T00:00:00Z"), NotificationStyle.DANGER, NotificationTargetUser.GENERAL,
                 "An updated deprecation note", ""));
 
-        Assertions.assertEquals("The field 'notification message' is empty.", ex.getMessage());
+        assertEquals("The field 'notification message' is empty.", ex.getMessage());
     }
 
     @Test
@@ -167,13 +170,13 @@ public class NotificationsLogicTest extends BaseTestCase {
 
         UUID nonExistentId = UUID.fromString("00000000-0000-1000-0000-000000000000");
 
-        EntityDoesNotExistException ex = Assertions.assertThrows(EntityDoesNotExistException.class,
+        EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
                 () -> notificationsLogic.updateNotification(nonExistentId, Instant.parse("2012-01-01T00:00:00Z"),
                         Instant.parse("2098-01-01T00:00:00Z"), NotificationStyle.DARK,
                         NotificationTargetUser.INSTRUCTOR, "An updated deprecation note",
                         "<p>Deprecation happens in three seconds</p>"));
 
-        Assertions.assertEquals("Trying to update non-existent Entity: " + Notification.class, ex.getMessage());
+        assertEquals("Trying to update non-existent Entity: " + Notification.class, ex.getMessage());
     }
 
     @Test
@@ -197,11 +200,11 @@ public class NotificationsLogicTest extends BaseTestCase {
         List<ReadNotification> readNotifications = notificationsLogic.getReadNotificationsByAccountId(account.getId());
         verify(notificationsDb, times(1)).getReadNotificationsByAccountId(account.getId());
 
-        Assertions.assertEquals(2, readNotifications.size());
-        Assertions.assertSame(account, readNotifications.get(0).getAccount());
-        Assertions.assertSame(notification1, readNotifications.get(0).getNotification());
-        Assertions.assertSame(account, readNotifications.get(1).getAccount());
-        Assertions.assertSame(notification2, readNotifications.get(1).getNotification());
+        assertEquals(2, readNotifications.size());
+        assertSame(account, readNotifications.get(0).getAccount());
+        assertSame(notification1, readNotifications.get(0).getNotification());
+        assertSame(account, readNotifications.get(1).getAccount());
+        assertSame(notification2, readNotifications.get(1).getNotification());
     }
 
     @Test
@@ -215,7 +218,7 @@ public class NotificationsLogicTest extends BaseTestCase {
 
         ReadNotification result = notificationsLogic.createReadNotification(account.getId(), notification.getId());
         verify(notificationsDb, times(1)).createReadNotification(any());
-        Assertions.assertEquals(account.getId(), result.getAccount().getId());
-        Assertions.assertEquals(notification.getId(), result.getNotification().getId());
+        assertEquals(account.getId(), result.getAccount().getId());
+        assertEquals(notification.getId(), result.getNotification().getId());
     }
 }

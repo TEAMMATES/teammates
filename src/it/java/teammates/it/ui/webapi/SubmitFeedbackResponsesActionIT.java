@@ -1,6 +1,7 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -223,7 +224,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     private void validateOutputForStudentRecipientsByEmail(List<FeedbackResponseData> responses, String giverEmail,
                                                            List<Student> recipients) {
         int responsesSize = responses.size();
-        Assertions.assertEquals(recipients.size(), responsesSize);
+        assertEquals(recipients.size(), responsesSize);
 
         List<String> recipientEmails = extractStudentEmails(recipients);
 
@@ -233,7 +234,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     private void validateOutputForStudentRecipientsByTeam(List<FeedbackResponseData> responses, String giverTeam,
                                                           List<Student> recipients) {
         int responsesSize = responses.size();
-        Assertions.assertEquals(recipients.size(), responsesSize);
+        assertEquals(recipients.size(), responsesSize);
 
         List<String> recipientTeams = extractStudentTeams(recipients);
 
@@ -243,7 +244,7 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
     private void validateOutputForInstructorRecipients(List<FeedbackResponseData> responses, String giverEmail,
                                                        List<Instructor> recipients) {
         int responsesSize = responses.size();
-        Assertions.assertEquals(recipients.size(), responsesSize);
+        assertEquals(recipients.size(), responsesSize);
 
         List<String> recipientEmails = extractInstructorEmails(recipients);
 
@@ -255,11 +256,11 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
             FeedbackResponseData response = responses.get(i);
             String recipientValue = recipientValues.get(i);
 
-            Assertions.assertEquals(giverValue, response.getGiverIdentifier());
-            Assertions.assertEquals(recipientValue, response.getRecipientIdentifier());
+            assertEquals(giverValue, response.getGiverIdentifier());
+            assertEquals(recipientValue, response.getRecipientIdentifier());
 
             FeedbackResponseDetails responseDetails = response.getResponseDetails();
-            Assertions.assertEquals(StringEscapeUtils.unescapeHtml(
+            assertEquals(StringEscapeUtils.unescapeHtml(
                             SanitizationHelper.sanitizeForRichText("Response for " + recipientValue)),
                     StringEscapeUtils.unescapeHtml(responseDetails.getAnswerString()));
         }
@@ -302,15 +303,15 @@ public class SubmitFeedbackResponsesActionIT extends BaseActionIT<SubmitFeedback
             for (FeedbackResponse feedbackResponse : feedbackResponses) {
                 FeedbackQuestion frFeedbackQuestion = feedbackResponse.getFeedbackQuestion();
 
-                Assertions.assertEquals(frFeedbackQuestion, feedbackQuestion);
-                Assertions.assertEquals(feedbackResponse.getGiver().getIdentifier(), giverEmail);
-                Assertions.assertEquals(feedbackResponse.getRecipient().getIdentifier(), recipientEmail);
+                assertEquals(frFeedbackQuestion, feedbackQuestion);
+                assertEquals(feedbackResponse.getGiver().getIdentifier(), giverEmail);
+                assertEquals(feedbackResponse.getRecipient().getIdentifier(), recipientEmail);
 
-                Assertions.assertEquals(session.getName(), feedbackQuestion.getFeedbackSessionName());
-                Assertions.assertEquals(session.getCourseId(), feedbackQuestion.getCourseId());
+                assertEquals(session.getName(), feedbackQuestion.getFeedbackSessionName());
+                assertEquals(session.getCourseId(), feedbackQuestion.getCourseId());
 
                 FeedbackResponseDetails responseDetails = feedbackResponse.getFeedbackResponseDetailsCopy();
-                Assertions.assertEquals(
+                assertEquals(
                         StringEscapeUtils.unescapeHtml(
                                 SanitizationHelper.sanitizeForRichText("Response for " + recipientEmail)),
                         StringEscapeUtils.unescapeHtml(responseDetails.getAnswerString()));

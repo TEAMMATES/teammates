@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -88,8 +89,8 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         verifySpecifiedTasksAdded(Const.TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, 1);
 
-        Assertions.assertEquals(newInstructor.getName(), response.getName());
-        Assertions.assertEquals(newInstructor.getEmail(), response.getEmail());
+        assertEquals(newInstructor.getName(), response.getName());
+        assertEquals(newInstructor.getEmail(), response.getEmail());
     }
 
     @Test
@@ -112,7 +113,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         loginAsInstructor(typicalInstructor.getGoogleId());
 
         InvalidOperationException ioe = verifyInvalidOperation(requestBody, params);
-        Assertions.assertEquals("An instructor with the same email address already exists in the course.",
+        assertEquals("An instructor with the same email address already exists in the course.",
                 ioe.getMessage());
 
         verifyNoTasksAdded();
@@ -185,8 +186,8 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         verifySpecifiedTasksAdded(Const.TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, 1);
 
-        Assertions.assertEquals(newInstructor.getName(), response.getName());
-        Assertions.assertEquals(newInstructor.getEmail(), response.getEmail());
+        assertEquals(newInstructor.getName(), response.getName());
+        assertEquals(newInstructor.getEmail(), response.getEmail());
     }
 
     @Test

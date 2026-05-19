@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
@@ -72,7 +73,7 @@ public class FeedbackSessionPublishedRemindersActionTest extends BaseActionTest<
             verify(mockLogic, times(1)).adjustFeedbackSessionEmailStatusAfterUpdate(session2);
             verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 2);
             verifyNoMoreInteractions(mockLogic, mockEmailGenerator, session, session2);
-            Assertions.assertEquals("Successful", actionOutput.getMessage());
+            assertEquals("Successful", actionOutput.getMessage());
         }
     }
 
@@ -91,7 +92,7 @@ public class FeedbackSessionPublishedRemindersActionTest extends BaseActionTest<
             verify(mockLogic, times(1)).adjustFeedbackSessionEmailStatusAfterUpdate(session);
             verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
             verifyNoMoreInteractions(mockLogic, mockEmailGenerator, session, session2);
-            Assertions.assertEquals("Successful", actionOutput.getMessage());
+            assertEquals("Successful", actionOutput.getMessage());
         }
     }
 
@@ -107,7 +108,7 @@ public class FeedbackSessionPublishedRemindersActionTest extends BaseActionTest<
             mockRequestTracer.verify(RequestTracer::checkRemainingTime, never());
             verifyNoTasksAdded();
             verifyNoMoreInteractions(mockLogic, mockEmailGenerator, session, session2);
-            Assertions.assertEquals("Successful", actionOutput.getMessage());
+            assertEquals("Successful", actionOutput.getMessage());
         }
     }
 

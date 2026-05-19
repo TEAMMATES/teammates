@@ -1,6 +1,7 @@
 package teammates.it.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -66,7 +67,7 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
 
         verifyNumberOfEmailsSent(1);
         EmailWrapper email = mockEmailSender.getEmailsSent().get(0);
-        Assertions.assertEquals(
+        assertEquals(
                 String.format(EmailType.USER_COURSE_REGISTER.getSubject(), "Typical Course 4", "course-4"),
                 email.getSubject());
 
@@ -78,7 +79,7 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
         };
 
         InvalidOperationException ioe = verifyInvalidOperation(submissionParams);
-        Assertions.assertEquals("Student has already joined course", ioe.getMessage());
+        assertEquals("Student has already joined course", ioe.getMessage());
 
         verifyNoEmailsSent();
 
@@ -96,7 +97,7 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
 
         verifyNumberOfEmailsSent(1);
         email = mockEmailSender.getEmailsSent().get(0);
-        Assertions.assertEquals(
+        assertEquals(
                 String.format(EmailType.USER_COURSE_REGISTER.getSubject(), "Typical Course 4", "course-4"),
                 email.getSubject());
 
@@ -108,7 +109,7 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
         };
 
         ioe = verifyInvalidOperation(submissionParams);
-        Assertions.assertEquals("Instructor has already joined course", ioe.getMessage());
+        assertEquals("Instructor has already joined course", ioe.getMessage());
 
         verifyNoEmailsSent();
 

@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.ArgumentMatchers.isNull;
@@ -80,7 +81,7 @@ public class RemindFeedbackSessionSubmissionActionTest
         remindRequest.setUsersToRemind(usersToRemind);
 
         InvalidOperationException ioe = verifyInvalidOperation(remindRequest, paramsFeedbackSessionNotOpen);
-        Assertions.assertEquals("Reminder email could not be sent out "
+        assertEquals("Reminder email could not be sent out "
                 + "as the feedback session is not open for submissions.", ioe.getMessage());
 
         verifyNoTasksAdded();
