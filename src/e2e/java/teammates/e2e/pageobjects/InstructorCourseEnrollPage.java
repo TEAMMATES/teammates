@@ -1,5 +1,6 @@
 package teammates.e2e.pageobjects;
 
+import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
@@ -53,7 +54,7 @@ public class InstructorCourseEnrollPage extends AppPage {
     }
 
     public void verifyIsCorrectPage(String courseId) {
-        assertEquals("Enroll Students for " + courseId, enrollHeader.getText());
+        Assertions.assertEquals("Enroll Students for " + courseId, enrollHeader.getText());
     }
 
     public void clickToggleExistingStudentsHeader() {
@@ -87,7 +88,7 @@ public class InstructorCourseEnrollPage extends AppPage {
         String lastIndexCellText = indexCells.get(indexCells.size() - 1).getAttribute("innerHTML");
 
         int expectedNumRows = addedNumRows + SPREADSHEET_NUM_STARTING_ROWS;
-        assertEquals(lastIndexCellText, Integer.toString(expectedNumRows));
+        Assertions.assertEquals(lastIndexCellText, Integer.toString(expectedNumRows));
 
         // reset spreadsheet to original position
         actions.sendKeys(Keys.PAGE_DOWN).perform();

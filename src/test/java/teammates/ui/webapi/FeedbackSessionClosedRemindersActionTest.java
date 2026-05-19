@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.never;
@@ -69,7 +70,7 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseActionTest<Fee
 
             verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 2);
             verifyNoMoreInteractions(mockLogic, mockEmailGenerator, session, session2);
-            assertEquals("Successful", actionOutput.getMessage());
+            Assertions.assertEquals("Successful", actionOutput.getMessage());
         }
     }
 
@@ -88,7 +89,7 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseActionTest<Fee
 
             verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);
             verifyNoMoreInteractions(mockLogic, mockEmailGenerator, session, session2);
-            assertEquals("Successful", actionOutput.getMessage());
+            Assertions.assertEquals("Successful", actionOutput.getMessage());
         }
     }
 
@@ -105,7 +106,7 @@ public class FeedbackSessionClosedRemindersActionTest extends BaseActionTest<Fee
 
             verifyNoTasksAdded();
             verifyNoMoreInteractions(mockLogic, mockEmailGenerator, session, session2);
-            assertEquals("Successful", actionOutput.getMessage());
+            Assertions.assertEquals("Successful", actionOutput.getMessage());
         }
     }
 

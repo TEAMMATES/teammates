@@ -1,5 +1,6 @@
 package teammates.it.storage.api;
 
+import org.junit.jupiter.api.Assertions;
 import java.time.Instant;
 import java.util.Iterator;
 import java.util.List;
@@ -47,7 +48,7 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("success: get a notification that does not exist");
         UUID nonExistentId = generateDifferentUuid(notificationId);
         Notification nonExistentNotification = notificationsDb.getNotification(nonExistentId);
-        assertNull(nonExistentNotification);
+        Assertions.assertNull(nonExistentNotification);
     }
 
     @Test
@@ -57,17 +58,17 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
 
         notificationsDb.createNotification(notification);
         UUID notificationId = notification.getId();
-        assertNotNull(notificationsDb.getNotification(notificationId));
+        Assertions.assertNotNull(notificationsDb.getNotification(notificationId));
 
         notificationsDb.deleteNotification(notification);
-        assertNull(notificationsDb.getNotification(notificationId));
+        Assertions.assertNull(notificationsDb.getNotification(notificationId));
     }
 
     @Test
     public void testGetAllNotifications() throws EntityAlreadyExistsException {
         ______TS("success: no notification present in the database");
         List<Notification> allNotifications = notificationsDb.getAllNotifications();
-        assertEquals(0, allNotifications.size());
+        Assertions.assertEquals(0, allNotifications.size());
 
         ______TS("success: multiple notifications present in the database");
         Notification n1 = generateTypicalNotification();
@@ -78,7 +79,7 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
 
         allNotifications = notificationsDb.getAllNotifications();
 
-        assertEquals(2, allNotifications.size());
+        Assertions.assertEquals(2, allNotifications.size());
         verifyEquals(n1, allNotifications.get(0));
         verifyEquals(n2, allNotifications.get(1));
     }
@@ -137,7 +138,7 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
         List<Notification> actualNotifications =
                 notificationsDb.getActiveNotificationsByTargetUser(NotificationTargetUser.GENERAL);
         List<Notification> expectedNotifications = List.of(n4, n1);
-        assertEquals(expectedNotifications.size(), actualNotifications.size());
+        Assertions.assertEquals(expectedNotifications.size(), actualNotifications.size());
         Iterator<Notification> it1 = expectedNotifications.iterator();
         actualNotifications.forEach(actual -> {
             verifyEquals(it1.next(), actual);
@@ -146,7 +147,7 @@ public class NotificationDbIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("success: get active notification with target user INSTRUCTOR");
         actualNotifications = notificationsDb.getActiveNotificationsByTargetUser(NotificationTargetUser.INSTRUCTOR);
         expectedNotifications = List.of(n4, n2, n1);
-        assertEquals(expectedNotifications.size(), actualNotifications.size());
+        Assertions.assertEquals(expectedNotifications.size(), actualNotifications.size());
         Iterator<Notification> it2 = expectedNotifications.iterator();
         actualNotifications.forEach(actual -> {
             verifyEquals(it2.next(), actual);

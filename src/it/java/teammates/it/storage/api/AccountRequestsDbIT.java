@@ -1,5 +1,6 @@
 package teammates.it.storage.api;
 
+import org.junit.jupiter.api.Assertions;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,7 +42,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithDatabaseAccess {
 
         List<AccountRequest> actualAccReqCreatedAt =
                 accountRequestDb.getAccountRequests(accountRequest.getCreatedAt(), accountRequest.getCreatedAt());
-        assertEquals(1, actualAccReqCreatedAt.size());
+        Assertions.assertEquals(1, actualAccReqCreatedAt.size());
         verifyEquals(accountRequest, actualAccReqCreatedAt.get(0));
 
         ______TS("Read account request not found using the outside start and end timing");
@@ -50,13 +51,13 @@ public class AccountRequestsDbIT extends BaseTestCaseWithDatabaseAccess {
                 accountRequestDb.getAccountRequests(
                         accountRequest.getCreatedAt().minusMillis(3000),
                         accountRequest.getCreatedAt().minusMillis(2000));
-        assertEquals(0, actualAccReqCreatedAtOutside.size());
+        Assertions.assertEquals(0, actualAccReqCreatedAtOutside.size());
 
         ______TS("Create account request, same email address and institute already exist, creates successfully");
 
         AccountRequest identicalAccountRequest =
                 new AccountRequest("test@gmail.com", "name", "institute", AccountRequestStatus.PENDING, "comments");
-        assertNotSame(accountRequest, identicalAccountRequest);
+        Assertions.assertNotSame(accountRequest, identicalAccountRequest);
 
         accountRequestDb.createAccountRequest(identicalAccountRequest);
         AccountRequest actualIdenticalAccountRequest =
@@ -69,14 +70,14 @@ public class AccountRequestsDbIT extends BaseTestCaseWithDatabaseAccess {
 
         AccountRequest actualAccountRequest =
                 accountRequestDb.getAccountRequestByRegistrationKey(accountRequest.getRegistrationKey());
-        assertNull(actualAccountRequest);
+        Assertions.assertNull(actualAccountRequest);
     }
 
     @Test
     public void testGetAccountRequest_nonExistentAccountRequest_returnsNull() {
         UUID id = UUID.randomUUID();
         AccountRequest actualAccountRequest = accountRequestDb.getAccountRequest(id);
-        assertNull(actualAccountRequest);
+        Assertions.assertNull(actualAccountRequest);
     }
 
     @Test
@@ -86,7 +87,7 @@ public class AccountRequestsDbIT extends BaseTestCaseWithDatabaseAccess {
         UUID id = expectedAccountRequest.getId();
         accountRequestDb.createAccountRequest(expectedAccountRequest);
         AccountRequest actualAccountRequest = accountRequestDb.getAccountRequest(id);
-        assertEquals(expectedAccountRequest, actualAccountRequest);
+        Assertions.assertEquals(expectedAccountRequest, actualAccountRequest);
     }
 
 }

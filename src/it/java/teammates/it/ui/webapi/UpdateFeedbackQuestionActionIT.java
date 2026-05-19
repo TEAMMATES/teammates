@@ -1,5 +1,6 @@
 package teammates.it.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import java.util.ArrayList;
 
 import org.testng.annotations.BeforeMethod;
@@ -52,7 +53,7 @@ public class UpdateFeedbackQuestionActionIT extends BaseActionIT<UpdateFeedbackQ
         Instructor instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackQuestion fq1 = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         FeedbackQuestion typicalQuestion = logic.getFeedbackQuestion(fq1.getId());
-        assertEquals(FeedbackQuestionType.TEXT, typicalQuestion.getQuestionType());
+        Assertions.assertEquals(FeedbackQuestionType.TEXT, typicalQuestion.getQuestionType());
 
         loginAsInstructor(instructor1ofCourse1.getGoogleId());
 
@@ -73,41 +74,41 @@ public class UpdateFeedbackQuestionActionIT extends BaseActionIT<UpdateFeedbackQ
         FeedbackQuestionData response = (FeedbackQuestionData) r.getOutput();
 
         typicalQuestion = logic.getFeedbackQuestion(typicalQuestion.getId());
-        assertEquals(typicalQuestion.getQuestionNumber().intValue(), response.getQuestionNumber());
-        assertEquals(2, typicalQuestion.getQuestionNumber().intValue());
+        Assertions.assertEquals(typicalQuestion.getQuestionNumber().intValue(), response.getQuestionNumber());
+        Assertions.assertEquals(2, typicalQuestion.getQuestionNumber().intValue());
 
-        assertEquals(typicalQuestion.getQuestionDetailsCopy().getQuestionText(), response.getQuestionBrief());
-        assertEquals("this is the brief", typicalQuestion.getQuestionDetailsCopy().getQuestionText());
+        Assertions.assertEquals(typicalQuestion.getQuestionDetailsCopy().getQuestionText(), response.getQuestionBrief());
+        Assertions.assertEquals("this is the brief", typicalQuestion.getQuestionDetailsCopy().getQuestionText());
 
-        assertEquals(typicalQuestion.getDescription(), response.getQuestionDescription());
-        assertEquals("this is the description", typicalQuestion.getDescription());
+        Assertions.assertEquals(typicalQuestion.getDescription(), response.getQuestionDescription());
+        Assertions.assertEquals("this is the description", typicalQuestion.getDescription());
 
-        assertEquals(typicalQuestion.getQuestionType(), response.getQuestionType());
-        assertEquals(FeedbackQuestionType.TEXT, typicalQuestion.getQuestionType());
+        Assertions.assertEquals(typicalQuestion.getQuestionType(), response.getQuestionType());
+        Assertions.assertEquals(FeedbackQuestionType.TEXT, typicalQuestion.getQuestionType());
 
-        assertEquals(JsonUtils.toJson(typicalQuestion.getQuestionDetailsCopy()),
+        Assertions.assertEquals(JsonUtils.toJson(typicalQuestion.getQuestionDetailsCopy()),
                 JsonUtils.toJson(response.getQuestionDetails()));
-        assertEquals(800, ((FeedbackTextQuestionDetails)
+        Assertions.assertEquals(800, ((FeedbackTextQuestionDetails)
                 typicalQuestion.getQuestionDetailsCopy()).getRecommendedLength().intValue());
 
-        assertEquals(typicalQuestion.getGiverType(), typicalQuestion.getGiverType());
-        assertEquals(QuestionGiverType.STUDENTS, typicalQuestion.getGiverType());
+        Assertions.assertEquals(typicalQuestion.getGiverType(), typicalQuestion.getGiverType());
+        Assertions.assertEquals(QuestionGiverType.STUDENTS, typicalQuestion.getGiverType());
 
-        assertEquals(typicalQuestion.getRecipientType(), typicalQuestion.getRecipientType());
-        assertEquals(QuestionRecipientType.INSTRUCTORS, typicalQuestion.getRecipientType());
+        Assertions.assertEquals(typicalQuestion.getRecipientType(), typicalQuestion.getRecipientType());
+        Assertions.assertEquals(QuestionRecipientType.INSTRUCTORS, typicalQuestion.getRecipientType());
 
-        assertEquals(NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+        Assertions.assertEquals(NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
                 response.getNumberOfEntitiesToGiveFeedbackToSetting());
-        assertEquals(Const.MAX_POSSIBLE_RECIPIENTS, typicalQuestion.getNumOfEntitiesToGiveFeedbackTo().intValue());
+        Assertions.assertEquals(Const.MAX_POSSIBLE_RECIPIENTS, typicalQuestion.getNumOfEntitiesToGiveFeedbackTo().intValue());
 
-        assertNull(response.getCustomNumberOfEntitiesToGiveFeedbackTo());
+        Assertions.assertNull(response.getCustomNumberOfEntitiesToGiveFeedbackTo());
 
-        assertTrue(response.getShowResponsesTo().isEmpty());
-        assertTrue(typicalQuestion.getShowResponsesTo().isEmpty());
-        assertTrue(response.getShowGiverNameTo().isEmpty());
-        assertTrue(typicalQuestion.getShowGiverNameTo().isEmpty());
-        assertTrue(response.getShowRecipientNameTo().isEmpty());
-        assertTrue(typicalQuestion.getShowRecipientNameTo().isEmpty());
+        Assertions.assertTrue(response.getShowResponsesTo().isEmpty());
+        Assertions.assertTrue(typicalQuestion.getShowResponsesTo().isEmpty());
+        Assertions.assertTrue(response.getShowGiverNameTo().isEmpty());
+        Assertions.assertTrue(typicalQuestion.getShowGiverNameTo().isEmpty());
+        Assertions.assertTrue(response.getShowRecipientNameTo().isEmpty());
+        Assertions.assertTrue(typicalQuestion.getShowRecipientNameTo().isEmpty());
     }
 
     @Override

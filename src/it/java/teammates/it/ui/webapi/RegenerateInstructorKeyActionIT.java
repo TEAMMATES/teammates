@@ -1,5 +1,6 @@
 package teammates.it.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -58,16 +59,16 @@ public class RegenerateInstructorKeyActionIT extends BaseActionIT<RegenerateInst
 
         RegenerateKeyData response = (RegenerateKeyData) actionOutput.getOutput();
 
-        assertEquals(RegenerateInstructorKeyAction.SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT, response.getMessage());
-        assertNotEquals(oldRegKey, response.getNewRegistrationKey());
+        Assertions.assertEquals(RegenerateInstructorKeyAction.SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT, response.getMessage());
+        Assertions.assertNotEquals(oldRegKey, response.getNewRegistrationKey());
 
         verifyNumberOfEmailsSent(1);
         EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
-        assertEquals(String.format(EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED.getSubject(),
+        Assertions.assertEquals(String.format(EmailType.INSTRUCTOR_COURSE_LINKS_REGENERATED.getSubject(),
                                    course.getName(),
                                    instructor.getCourseId()),
                      emailSent.getSubject());
-        assertEquals(instructor.getEmail(), emailSent.getRecipient());
+        Assertions.assertEquals(instructor.getEmail(), emailSent.getRecipient());
 
         ______TS("No parameters");
         verifyHttpParameterFailure();

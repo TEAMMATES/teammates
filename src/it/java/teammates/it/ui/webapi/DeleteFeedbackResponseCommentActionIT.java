@@ -1,5 +1,6 @@
 package teammates.it.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -51,8 +52,8 @@ public class DeleteFeedbackResponseCommentActionIT extends BaseActionIT<DeleteFe
         JsonResult result = getJsonResult(action);
         MessageOutput output = (MessageOutput) result.getOutput();
 
-        assertNull(logic.getFeedbackResponseComment(frc.getId()));
-        assertEquals("Successfully deleted feedback response comment.", output.getMessage());
+        Assertions.assertNull(logic.getFeedbackResponseComment(frc.getId()));
+        Assertions.assertEquals("Successfully deleted feedback response comment.", output.getMessage());
     }
 
     @Test
@@ -66,14 +67,14 @@ public class DeleteFeedbackResponseCommentActionIT extends BaseActionIT<DeleteFe
         };
         Instructor instructorWhoGiveComment = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        assertEquals(instructorWhoGiveComment, frc.getGiver().getGiverUser());
+        Assertions.assertEquals(instructorWhoGiveComment, frc.getGiver().getGiverUser());
         loginAsInstructor(instructorWhoGiveComment.getGoogleId());
         verifyCanAccess(submissionParams);
 
         ______TS("Different instructor of same course cannot delete comment");
 
         Instructor differentInstructorInSameCourse = typicalBundle.instructors.get("instructor2OfCourse1");
-        assertNotEquals(differentInstructorInSameCourse, frc.getGiver().getGiverUser());
+        Assertions.assertNotEquals(differentInstructorInSameCourse, frc.getGiver().getGiverUser());
         loginAsInstructor(differentInstructorInSameCourse.getGoogleId());
         verifyCannotAccess(submissionParams);
     }

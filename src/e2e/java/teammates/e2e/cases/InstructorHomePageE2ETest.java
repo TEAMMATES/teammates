@@ -1,5 +1,6 @@
 package teammates.e2e.cases;
 
+import org.junit.jupiter.api.Assertions;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -86,7 +87,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         homePage.verifyCourseTabDetails(courseIndex, course, courseSessions);
 
         ______TS("notification banner is visible");
-        assertTrue(homePage.isBannerVisible(true));
+        Assertions.assertTrue(homePage.isBannerVisible(true));
 
         ______TS("verify response rate");
         for (int i = 0; i < courseSessions.length; i++) {
@@ -193,7 +194,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         otherCourseIndex = 1;
         FeedbackSession[] otherCourseSessionsWithCopyTwo = { copiedSession, otherCourseSession };
         homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessionsWithCopyTwo);
-        assertNotNull(getSoftDeletedSession(copiedSession2.getName(),
+        Assertions.assertNotNull(getSoftDeletedSession(copiedSession2.getName(),
                 instructor.getGoogleId()));
 
         ______TS("delete course");
@@ -203,7 +204,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         homePage.verifyStatusMessage("The course " + otherCourse.getId() + " has been deleted. "
                 + "You can restore it from the Recycle Bin manually.");
         homePage.verifyNumCourses(1);
-        assertTrue(BACKDOOR.isCourseInRecycleBin(otherCourse.getId()));
+        Assertions.assertTrue(BACKDOOR.isCourseInRecycleBin(otherCourse.getId()));
     }
 
     private String getExpectedResponseRate(FeedbackSession session) {
@@ -239,6 +240,6 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
             ThreadHelper.waitFor(1000);
             actual = getFeedbackSession(feedbackSession);
         }
-        assertEquals(isFeedbackSessionPublished(actual.getPublishStatus()), state);
+        Assertions.assertEquals(isFeedbackSessionPublished(actual.getPublishStatus()), state);
     }
 }

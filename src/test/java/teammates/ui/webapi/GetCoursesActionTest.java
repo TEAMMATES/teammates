@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.when;
 
@@ -132,7 +133,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
 
     private void verifySameCoursesData(CoursesData expectedCourses, CoursesData actualCourses, boolean isStudent) {
         if (expectedCourses.getCourses().size() != actualCourses.getCourses().size()) {
-            fail("Course list size does not match");
+            Assertions.fail("Course list size does not match");
         }
         for (int i = 0; i < expectedCourses.getCourses().size(); i++) {
             if (isStudent) {
@@ -144,18 +145,18 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
     }
 
     private void verifySameCourseDataStudent(CourseData expectedCourseData, CourseData actualCourseData) {
-        assertEquals(expectedCourseData.getCourseId(), actualCourseData.getCourseId());
-        assertEquals(expectedCourseData.getCourseName(), actualCourseData.getCourseName());
-        assertEquals(expectedCourseData.getCreationTimestamp(), actualCourseData.getCreationTimestamp());
-        assertEquals(0, actualCourseData.getDeletionTimestamp());
-        assertEquals(expectedCourseData.getTimeZone(), actualCourseData.getTimeZone());
+        Assertions.assertEquals(expectedCourseData.getCourseId(), actualCourseData.getCourseId());
+        Assertions.assertEquals(expectedCourseData.getCourseName(), actualCourseData.getCourseName());
+        Assertions.assertEquals(expectedCourseData.getCreationTimestamp(), actualCourseData.getCreationTimestamp());
+        Assertions.assertEquals(0, actualCourseData.getDeletionTimestamp());
+        Assertions.assertEquals(expectedCourseData.getTimeZone(), actualCourseData.getTimeZone());
     }
 
     private void verifySameCourseData(CourseData expectedCourseData, CourseData actualCourseData) {
-        assertEquals(expectedCourseData.getCourseId(), actualCourseData.getCourseId());
-        assertEquals(expectedCourseData.getCourseName(), actualCourseData.getCourseName());
-        assertEquals(expectedCourseData.getCreationTimestamp(), actualCourseData.getCreationTimestamp());
-        assertEquals(expectedCourseData.getDeletionTimestamp(), actualCourseData.getDeletionTimestamp());
-        assertEquals(expectedCourseData.getTimeZone(), actualCourseData.getTimeZone());
+        Assertions.assertEquals(expectedCourseData.getCourseId(), actualCourseData.getCourseId());
+        Assertions.assertEquals(expectedCourseData.getCourseName(), actualCourseData.getCourseName());
+        Assertions.assertEquals(expectedCourseData.getCreationTimestamp(), actualCourseData.getCreationTimestamp());
+        Assertions.assertEquals(expectedCourseData.getDeletionTimestamp(), actualCourseData.getDeletionTimestamp());
+        Assertions.assertEquals(expectedCourseData.getTimeZone(), actualCourseData.getTimeZone());
     }
 }

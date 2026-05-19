@@ -1,5 +1,6 @@
 package teammates.e2e.pageobjects;
 
+import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -85,22 +86,22 @@ public class InstructorCoursesPage extends AppPage {
     public void verifyNotModifiable(String courseId) {
         // verify enroll button is disabled
         int courseRowNumber = getRowNumberOfCourse(courseId);
-        assertTrue(isElementPresent(By.id("btn-enroll-disabled-" + courseRowNumber)));
-        assertFalse(isElementPresent(By.id("btn-enroll-" + courseRowNumber)));
+        Assertions.assertTrue(isElementPresent(By.id("btn-enroll-disabled-" + courseRowNumber)));
+        Assertions.assertFalse(isElementPresent(By.id("btn-enroll-" + courseRowNumber)));
 
         // verify delete button is disabled
         click(getOtherActionsButton(courseId));
-        assertTrue(isElementPresent(By.id("btn-soft-delete-disabled-" + courseRowNumber)));
-        assertFalse(isElementPresent(By.id("btn-soft-delete-" + courseRowNumber)));
+        Assertions.assertTrue(isElementPresent(By.id("btn-soft-delete-disabled-" + courseRowNumber)));
+        Assertions.assertFalse(isElementPresent(By.id("btn-soft-delete-" + courseRowNumber)));
         click(getOtherActionsButton(courseId));
     }
 
     public void verifyNumActiveCourses(int expectedNum) {
-        assertEquals(expectedNum, getCourseCount());
+        Assertions.assertEquals(expectedNum, getCourseCount());
     }
 
     public void verifyNumDeletedCourses(int expectedNum) {
-        assertEquals(expectedNum, getDeletedCourseCount());
+        Assertions.assertEquals(expectedNum, getDeletedCourseCount());
     }
 
     public void addCourse(Course newCourse) {

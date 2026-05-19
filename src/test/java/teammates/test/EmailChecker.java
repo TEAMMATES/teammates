@@ -1,5 +1,6 @@
 package teammates.test;
 
+import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
@@ -31,7 +32,7 @@ public final class EmailChecker {
             String expected = FileHelper.readFile(filePath);
             expected = injectTestProperties(expected);
             if (!expected.equals(actual)) {
-                assertEquals("<expected>" + System.lineSeparator() + expected + "</expected>",
+                Assertions.assertEquals("<expected>" + System.lineSeparator() + expected + "</expected>",
                         "<actual>" + System.lineSeparator() + actual + "</actual>");
             }
         } catch (IOException | AssertionError e) {

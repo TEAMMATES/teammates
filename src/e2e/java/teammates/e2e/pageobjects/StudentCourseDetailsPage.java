@@ -1,5 +1,6 @@
 package teammates.e2e.pageobjects;
 
+import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
@@ -54,25 +55,25 @@ public class StudentCourseDetailsPage extends AppPage {
     }
 
     public void verifyCourseDetails(Course courseDetails) {
-        assertEquals(courseDetails.getName(), courseNameField.getText());
-        assertEquals(courseDetails.getId(), courseIdField.getText());
-        assertEquals(courseDetails.getInstitute(), courseInstituteField.getText());
+        Assertions.assertEquals(courseDetails.getName(), courseNameField.getText());
+        Assertions.assertEquals(courseDetails.getId(), courseIdField.getText());
+        Assertions.assertEquals(courseDetails.getInstitute(), courseInstituteField.getText());
     }
 
     public void verifyInstructorsDetails(Instructor[] instructorDetails) {
         String[] actualInstructors = instructorsList.getText().split(TestProperties.LINE_SEPARATOR);
         for (int i = 0; i < instructorDetails.length; i++) {
             Instructor expected = instructorDetails[i];
-            assertEquals(expected.getDisplayName() + ": " + expected.getName() + " (" + expected.getEmail() + ")",
+            Assertions.assertEquals(expected.getDisplayName() + ": " + expected.getName() + " (" + expected.getEmail() + ")",
                     actualInstructors[i]);
         }
     }
 
     public void verifyStudentDetails(Student studentDetails) {
-        assertEquals(studentDetails.getName(), studentNameField.getText());
-        assertEquals(studentDetails.getSectionName(), studentSectionField.getText());
-        assertEquals(studentDetails.getTeamName(), studentTeamField.getText());
-        assertEquals(studentDetails.getEmail(), studentEmailField.getText());
+        Assertions.assertEquals(studentDetails.getName(), studentNameField.getText());
+        Assertions.assertEquals(studentDetails.getSectionName(), studentSectionField.getText());
+        Assertions.assertEquals(studentDetails.getTeamName(), studentTeamField.getText());
+        Assertions.assertEquals(studentDetails.getEmail(), studentEmailField.getText());
     }
 
     public void verifyTeammatesDetails(Student[] teammates) {
@@ -84,7 +85,7 @@ public class StudentCourseDetailsPage extends AppPage {
             profileItems.add("Email: " + teammates[i].getEmail());
 
             WebElement actualProfile = browser.driver.findElement(By.id("teammates-details-" + i));
-            assertEquals(profileItems.stream().collect(Collectors.joining(TestProperties.LINE_SEPARATOR)),
+            Assertions.assertEquals(profileItems.stream().collect(Collectors.joining(TestProperties.LINE_SEPARATOR)),
                     actualProfile.getText());
         }
     }

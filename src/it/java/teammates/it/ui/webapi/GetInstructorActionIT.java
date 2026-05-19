@@ -1,5 +1,6 @@
 package teammates.it.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -56,9 +57,9 @@ public class GetInstructorActionIT extends BaseActionIT<GetInstructorAction> {
         JsonResult actionOutput = getJsonResult(getInstructorAction);
 
         InstructorData response = (InstructorData) actionOutput.getOutput();
-        assertEquals(instructor.getName(), response.getName());
-        assertNull(response.getGoogleId());
-        assertNull(response.getKey());
+        Assertions.assertEquals(instructor.getName(), response.getName());
+        Assertions.assertNull(response.getGoogleId());
+        Assertions.assertNull(response.getKey());
 
         ______TS("Typical Success Case with FULL_DETAIL");
         params = new String[] {
@@ -69,7 +70,7 @@ public class GetInstructorActionIT extends BaseActionIT<GetInstructorAction> {
         getInstructorAction = getAction(params);
         actionOutput = getJsonResult(getInstructorAction);
         response = (InstructorData) actionOutput.getOutput();
-        assertEquals(instructor.getName(), response.getName());
+        Assertions.assertEquals(instructor.getName(), response.getName());
 
         ______TS("Course ID given but Course is non existent (INSTRUCTOR_SUBMISSION)");
 
@@ -79,7 +80,7 @@ public class GetInstructorActionIT extends BaseActionIT<GetInstructorAction> {
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(invalidCourseParams);
-        assertEquals("Instructor could not be found for this course", enfe.getMessage());
+        Assertions.assertEquals("Instructor could not be found for this course", enfe.getMessage());
 
         ______TS("Instructor not found case with FULL_DETAIL");
         invalidCourseParams = new String[] {
@@ -88,7 +89,7 @@ public class GetInstructorActionIT extends BaseActionIT<GetInstructorAction> {
         };
 
         enfe = verifyEntityNotFound(invalidCourseParams);
-        assertEquals("Instructor could not be found for this course", enfe.getMessage());
+        Assertions.assertEquals("Instructor could not be found for this course", enfe.getMessage());
     }
 
     @Test

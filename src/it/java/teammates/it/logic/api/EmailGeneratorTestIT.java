@@ -1,5 +1,6 @@
 package teammates.it.logic.api;
 
+import org.junit.jupiter.api.Assertions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -116,19 +117,19 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithDatabaseAccess {
     private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)
             throws Exception {
         // check recipient
-        assertEquals(recipient, email.getRecipient());
+        Assertions.assertEquals(recipient, email.getRecipient());
 
         // check subject
-        assertEquals(subject, email.getSubject());
+        Assertions.assertEquals(subject, email.getSubject());
 
         // check sender name
-        assertEquals(Config.EMAIL_SENDERNAME, email.getSenderName());
+        Assertions.assertEquals(Config.EMAIL_SENDERNAME, email.getSenderName());
 
         // check sender email
-        assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
+        Assertions.assertEquals(Config.EMAIL_SENDEREMAIL, email.getSenderEmail());
 
         // check reply to address
-        assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
+        Assertions.assertEquals(Config.EMAIL_REPLYTO, email.getReplyTo());
 
         String emailContent = email.getContent();
 
@@ -136,6 +137,6 @@ public class EmailGeneratorTestIT extends BaseTestCaseWithDatabaseAccess {
         EmailChecker.verifyEmailContent(emailContent, emailContentFilePath);
 
         // check email body for no left placeholders
-        assertFalse(emailContent.contains("${"));
+        Assertions.assertFalse(emailContent.contains("${"));
     }
 }

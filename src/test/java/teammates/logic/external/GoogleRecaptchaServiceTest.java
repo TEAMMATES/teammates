@@ -1,5 +1,6 @@
 package teammates.logic.external;
 
+import org.junit.jupiter.api.Assertions;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
@@ -21,32 +22,32 @@ public class GoogleRecaptchaServiceTest extends BaseTestCase {
     @Test
     public void testIsVerificationSuccessful() {
         ______TS("null or empty CAPTCHA response");
-        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful(null));
-        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful(""));
+        Assertions.assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful(null));
+        Assertions.assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful(""));
 
         ______TS("empty CAPTCHA secret key");
-        assertFalse(new GoogleRecaptchaServiceStub(null).isVerificationSuccessful("empty secret key"));
-        assertFalse(new GoogleRecaptchaServiceStub("").isVerificationSuccessful("empty secret key"));
+        Assertions.assertFalse(new GoogleRecaptchaServiceStub(null).isVerificationSuccessful("empty secret key"));
+        Assertions.assertFalse(new GoogleRecaptchaServiceStub("").isVerificationSuccessful("empty secret key"));
 
         ______TS("Successful verification");
         // Use RecaptchaVerifierStub to mimic success response
-        assertTrue(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("success"));
+        Assertions.assertTrue(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("success"));
 
         ______TS("reCAPTCHA error codes that can occur during the API request execution");
         // Use RecaptchaVerifierStub to mimic error codes
-        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("missing recaptcha params"));
-        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("invalid recaptcha secret key"));
-        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("invalid recaptcha response"));
-        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("invalid recaptcha request"));
+        Assertions.assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("missing recaptcha params"));
+        Assertions.assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("invalid recaptcha secret key"));
+        Assertions.assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("invalid recaptcha response"));
+        Assertions.assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("invalid recaptcha request"));
 
         ______TS("Exceptions that can occur during the API request execution");
         // Use RecaptchaVerifierStub to mimic runtime exceptions
-        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("null response"));
-        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("invalid uri"));
-        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("http protocol error"));
-        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("i/o exception"));
-        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("timeout exception"));
-        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("non 2xx http response"));
+        Assertions.assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("null response"));
+        Assertions.assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("invalid uri"));
+        Assertions.assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("http protocol error"));
+        Assertions.assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("i/o exception"));
+        Assertions.assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("timeout exception"));
+        Assertions.assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("non 2xx http response"));
     }
 
     /**

@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
@@ -262,7 +263,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     @Test
     void testExecute_typicalCasePublishedSession_success() throws Exception {
         typicalFeedbackSession.setResultsVisibleFromTime(Instant.now());
-        assertTrue(typicalFeedbackSession.isPublished());
+        Assertions.assertTrue(typicalFeedbackSession.isPublished());
 
         FeedbackResponseComment typicalComment = getTypicalCommentFromInstructor();
         FeedbackResponseComment updatedComment = getUpdatedCommentFromInstructor();
@@ -836,9 +837,9 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
     }
 
     private void checkJsonResponse(FeedbackResponseComment updatedComment, FeedbackResponseCommentData response) {
-        assertEquals(updatedComment.getCommentText(), response.getCommentText());
-        assertEquals(updatedComment.getShowCommentTo().toString(), response.getShowCommentTo().toString());
-        assertEquals(updatedComment.getShowGiverNameTo().toString(), response.getShowGiverNameTo().toString());
+        Assertions.assertEquals(updatedComment.getCommentText(), response.getCommentText());
+        Assertions.assertEquals(updatedComment.getShowCommentTo().toString(), response.getShowCommentTo().toString());
+        Assertions.assertEquals(updatedComment.getShowGiverNameTo().toString(), response.getShowGiverNameTo().toString());
     }
 
 }

@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -78,7 +79,7 @@ public class UsersLogicTest extends BaseTestCase {
 
         usersLogic.resetInstructorGoogleId(email, courseId, googleId);
 
-        assertEquals(null, instructor.getAccount());
+        Assertions.assertEquals(null, instructor.getAccount());
         verify(accountsLogic, times(1)).deleteAccount(googleId);
     }
 
@@ -90,10 +91,10 @@ public class UsersLogicTest extends BaseTestCase {
 
         when(usersLogic.getInstructorForEmail(courseId, email)).thenReturn(null);
 
-        EntityDoesNotExistException exception = assertThrows(EntityDoesNotExistException.class,
+        EntityDoesNotExistException exception = Assertions.assertThrows(EntityDoesNotExistException.class,
                 () -> usersLogic.resetInstructorGoogleId(email, courseId, googleId));
 
-        assertEquals(ERROR_UPDATE_NON_EXISTENT
+        Assertions.assertEquals(ERROR_UPDATE_NON_EXISTENT
                 + "Instructor [courseId=" + courseId + ", email=" + email + "]", exception.getMessage());
     }
 
@@ -110,7 +111,7 @@ public class UsersLogicTest extends BaseTestCase {
 
         usersLogic.resetStudentGoogleId(email, courseId, googleId);
 
-        assertNull(student.getAccount());
+        Assertions.assertNull(student.getAccount());
         verify(accountsLogic, times(1)).deleteAccount(googleId);
     }
 
@@ -122,10 +123,10 @@ public class UsersLogicTest extends BaseTestCase {
 
         when(usersLogic.getStudentForEmail(courseId, email)).thenReturn(null);
 
-        EntityDoesNotExistException exception = assertThrows(EntityDoesNotExistException.class,
+        EntityDoesNotExistException exception = Assertions.assertThrows(EntityDoesNotExistException.class,
                 () -> usersLogic.resetStudentGoogleId(email, courseId, googleId));
 
-        assertEquals(ERROR_UPDATE_NON_EXISTENT
+        Assertions.assertEquals(ERROR_UPDATE_NON_EXISTENT
                 + "Student [courseId=" + courseId + ", email=" + email + "]", exception.getMessage());
     }
 
@@ -147,8 +148,8 @@ public class UsersLogicTest extends BaseTestCase {
 
         List<Student> unregisteredStudents = usersLogic.getUnregisteredStudentsForCourse(course.getId());
 
-        assertEquals(1, unregisteredStudents.size());
-        assertTrue(unregisteredStudents.get(0).equals(unregisteredStudentNullAccount));
+        Assertions.assertEquals(1, unregisteredStudents.size());
+        Assertions.assertTrue(unregisteredStudents.get(0).equals(unregisteredStudentNullAccount));
     }
 
     @Test
@@ -158,7 +159,7 @@ public class UsersLogicTest extends BaseTestCase {
         instructor.setPrivileges(privileges);
         usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(course.getId(), instructor);
 
-        assertFalse(instructor.getPrivileges().isAllowedForPrivilege(
+        Assertions.assertFalse(instructor.getPrivileges().isAllowedForPrivilege(
                 Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
     }
 

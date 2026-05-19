@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -58,10 +59,10 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
 
         FeedbackResponse result = frLogic.getFeedbackResponse(responseId);
 
-        assertNotNull(result);
-        assertEquals(response, result);
-        assertEquals(response.getGiver(), result.getGiver());
-        assertEquals(response.getRecipient(), result.getRecipient());
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(response, result);
+        Assertions.assertEquals(response.getGiver(), result.getGiver());
+        Assertions.assertEquals(response.getRecipient(), result.getRecipient());
         verify(frDb, times(1)).getFeedbackResponse(responseId);
     }
 
@@ -73,7 +74,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
 
         FeedbackResponse result = frLogic.getFeedbackResponse(nonExistentId);
 
-        assertNull(result);
+        Assertions.assertNull(result);
     }
 
     @Test
@@ -93,10 +94,10 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
 
         List<FeedbackResponse> result = frLogic.getFeedbackResponsesForQuestion(questionId);
 
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        assertEquals(response1, result.get(0));
-        assertEquals(response2, result.get(1));
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(2, result.size());
+        Assertions.assertEquals(response1, result.get(0));
+        Assertions.assertEquals(response2, result.get(1));
         verify(frDb, times(1)).getResponsesForQuestion(questionId);
     }
 
@@ -108,7 +109,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
 
         List<FeedbackResponse> result = frLogic.getFeedbackResponsesForQuestion(questionId);
 
-        assertTrue(result.isEmpty());
+        Assertions.assertTrue(result.isEmpty());
     }
 
     @Test
@@ -119,7 +120,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
 
         boolean result = frLogic.areThereResponsesForQuestion(questionId);
 
-        assertTrue(result);
+        Assertions.assertTrue(result);
     }
 
     @Test
@@ -130,7 +131,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
 
         boolean result = frLogic.areThereResponsesForQuestion(questionId);
 
-        assertFalse(result);
+        Assertions.assertFalse(result);
     }
 
     @Test
@@ -141,7 +142,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
 
         boolean result = frLogic.hasResponsesForCourse(courseId);
 
-        assertTrue(result);
+        Assertions.assertTrue(result);
     }
 
     @Test
@@ -152,7 +153,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
 
         boolean result = frLogic.hasResponsesForCourse(courseId);
 
-        assertFalse(result);
+        Assertions.assertFalse(result);
     }
 
     @Test
@@ -170,9 +171,9 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
 
         List<FeedbackResponse> result = frLogic.getFeedbackResponsesFromGiverForQuestion(questionId, giverUserId);
 
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals(response, result.get(0));
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(1, result.size());
+        Assertions.assertEquals(response, result.get(0));
     }
 
     @Test
@@ -184,8 +185,8 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
 
         boolean result = frLogic.isResponseOfFeedbackQuestionVisibleToStudent(question);
 
-        assertTrue(result);
-        assertTrue(question.isResponseVisibleTo(ViewerType.STUDENTS));
+        Assertions.assertTrue(result);
+        Assertions.assertTrue(question.isResponseVisibleTo(ViewerType.STUDENTS));
     }
 
     @Test
@@ -199,8 +200,8 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
 
         boolean result = frLogic.isResponseOfFeedbackQuestionVisibleToStudent(question);
 
-        assertFalse(result);
-        assertFalse(question.isResponseVisibleTo(ViewerType.STUDENTS));
+        Assertions.assertFalse(result);
+        Assertions.assertFalse(question.isResponseVisibleTo(ViewerType.STUDENTS));
     }
 
     @Test
@@ -212,7 +213,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
 
         boolean result = frLogic.isResponseOfFeedbackQuestionVisibleToInstructor(question);
 
-        assertTrue(result);
+        Assertions.assertTrue(result);
     }
 
     @Test
@@ -224,7 +225,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
 
         boolean result = frLogic.isResponseOfFeedbackQuestionVisibleToInstructor(question);
 
-        assertFalse(result);
+        Assertions.assertFalse(result);
     }
 
     @Test
@@ -253,9 +254,9 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
 
         List<FeedbackResponse> result = frLogic.getFeedbackResponsesFromInstructorForQuestion(question, instructor);
 
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals(response, result.get(0));
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(1, result.size());
+        Assertions.assertEquals(response, result.get(0));
     }
 
     @Test
@@ -275,9 +276,9 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
 
         List<FeedbackResponse> result = frLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(question, student);
 
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        assertEquals(response, result.get(0));
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(1, result.size());
+        Assertions.assertEquals(response, result.get(0));
         verify(frDb, times(1)).getFeedbackResponsesFromGiverForQuestion(questionId, student.getId(), null);
     }
 
@@ -295,7 +296,7 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
 
         boolean result = frLogic.hasGiverRespondedForSession("student@email.com", questions);
 
-        assertTrue(result);
+        Assertions.assertTrue(result);
     }
 
     @Test
@@ -308,6 +309,6 @@ public class FeedbackResponsesLogicTest extends BaseTestCase {
 
         boolean result = frLogic.hasGiverRespondedForSession("student@email.com", questions);
 
-        assertFalse(result);
+        Assertions.assertFalse(result);
     }
 }

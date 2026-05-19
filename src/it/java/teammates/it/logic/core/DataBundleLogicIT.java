@@ -1,5 +1,6 @@
 package teammates.it.logic.core;
 
+import org.junit.jupiter.api.Assertions;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -79,16 +80,16 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         Account expectedInstructorAccount = new Account("idOfInstructor1", "Instructor 1", "instr1@teammates.tmt");
         expectedInstructorAccount.setId(actualInstructorAccount.getId());
         verifyEquals(expectedInstructorAccount, actualInstructorAccount);
-        assertTrue(actualInstructorAccount.getReadNotifications().size() == 1);
-        assertTrue(List.of(dataBundle.readNotifications.get("notification1Instructor1"))
+        Assertions.assertTrue(actualInstructorAccount.getReadNotifications().size() == 1);
+        Assertions.assertTrue(List.of(dataBundle.readNotifications.get("notification1Instructor1"))
                 .containsAll(actualInstructorAccount.getReadNotifications()));
 
         Account actualStudentAccount = dataBundle.accounts.get("student1");
         Account expectedStudentAccount = new Account("idOfStudent1", "Student 1", "student1@teammates.tmt");
         expectedStudentAccount.setId(actualStudentAccount.getId());
         verifyEquals(expectedStudentAccount, actualStudentAccount);
-        assertTrue(actualStudentAccount.getReadNotifications().size() == 1);
-        assertTrue(List.of(dataBundle.readNotifications.get("notification1Student1"))
+        Assertions.assertTrue(actualStudentAccount.getReadNotifications().size() == 1);
+        Assertions.assertTrue(List.of(dataBundle.readNotifications.get("notification1Student1"))
                 .containsAll(actualStudentAccount.getReadNotifications()));
 
         ______TS("verify notifications deserialized correctly");
@@ -291,15 +292,15 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("verify notification removed correctly");
 
-        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(notification1));
+        Assertions.assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(notification1));
 
         ______TS("verify course removed correctly");
 
-        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(typicalCourse));
+        Assertions.assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(typicalCourse));
 
         ______TS("verify feedback session removed correctly");
 
-        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(session1InTypicalCourse));
+        Assertions.assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(session1InTypicalCourse));
 
         ______TS("verify feedback questions, responses, response comments and deadline extensions "
                 + "related to session1InTypicalCourse are removed correctly");
@@ -310,31 +311,31 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         List<FeedbackResponseComment> frcs = new ArrayList<>();
 
         for (DeadlineExtension de : des) {
-            assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(de));
+            Assertions.assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(de));
         }
 
         for (FeedbackQuestion fq : fqs) {
             frs.addAll(fq.getFeedbackResponses());
-            assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(fq));
+            Assertions.assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(fq));
         }
 
         for (FeedbackResponse fr : frs) {
             frcs.addAll(fr.getFeedbackResponseComments());
-            assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(fr));
+            Assertions.assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(fr));
         }
 
         for (FeedbackResponseComment frc : frcs) {
-            assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(frc));
+            Assertions.assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(frc));
         }
 
         ______TS("verify accounts removed correctly");
 
-        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(instructor1Account));
-        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(student1Account));
+        Assertions.assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(instructor1Account));
+        Assertions.assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(student1Account));
 
         ______TS("verify account request removed correctly");
 
-        assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(accountRequest));
+        Assertions.assertThrows(NullPointerException.class, () -> verifyPresentInDatabase(accountRequest));
     }
 
 }

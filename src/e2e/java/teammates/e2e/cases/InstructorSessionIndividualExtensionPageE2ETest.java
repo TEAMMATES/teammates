@@ -1,5 +1,6 @@
 package teammates.e2e.cases;
 
+import org.junit.jupiter.api.Assertions;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Collection;
@@ -104,7 +105,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
                 getDeadlineExtensions(feedbackSession.getId());
         updatedDeadlines = updatedExtensionsData.getUserDeadlines();
 
-        assertTrue(updatedDeadlines.isEmpty());
+        Assertions.assertTrue(updatedDeadlines.isEmpty());
 
         ______TS("verify extend all deadlines, notifyUsers disabled");
 
@@ -118,7 +119,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
         updatedDeadlines = updatedExtensionsData.getUserDeadlines();
 
         // 5 students and 2 instructors
-        assertEquals(7, updatedDeadlines.size());
+        Assertions.assertEquals(7, updatedDeadlines.size());
         verifyDeadlineExtensionsUpdated(updatedDeadlines, expectedDeadline);
 
         ______TS("verify delete all deadlines, notifyUsers disabled");
@@ -132,20 +133,20 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
                 getDeadlineExtensions(feedbackSession.getId());
         updatedDeadlines = updatedExtensionsData.getUserDeadlines();
 
-        assertTrue(updatedDeadlines.isEmpty());
+        Assertions.assertTrue(updatedDeadlines.isEmpty());
     }
 
     private void verifyUpdatedDeadlinesMap(Map<UUID, Long> updatedDeadlines, String... emails) {
-        assertEquals(emails.length, updatedDeadlines.size());
+        Assertions.assertEquals(emails.length, updatedDeadlines.size());
         for (String email : emails) {
             User user = users.get(email);
-            assertTrue(updatedDeadlines.containsKey(user.getId()));
+            Assertions.assertTrue(updatedDeadlines.containsKey(user.getId()));
         }
     }
 
     private void verifyDeadlineExtensionsUpdated(Map<UUID, Long> updatedDeadlines, Instant extendedDeadline) {
         for (Map.Entry<UUID, Long> entry : updatedDeadlines.entrySet()) {
-            assertEquals(extendedDeadline, Instant.ofEpochMilli(entry.getValue()));
+            Assertions.assertEquals(extendedDeadline, Instant.ofEpochMilli(entry.getValue()));
         }
     }
 

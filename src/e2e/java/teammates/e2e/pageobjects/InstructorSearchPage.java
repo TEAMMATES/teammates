@@ -1,5 +1,6 @@
 package teammates.e2e.pageobjects;
 
+import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -65,8 +66,8 @@ public class InstructorSearchPage extends AppPage {
 
     public void verifyStudentDetails(Map<String, Course> courses, Map<String, Student[]> students) {
         List<WebElement> studentCoursesResult = getStudentCoursesResult();
-        assertEquals(students.size(), courses.size());
-        assertEquals(students.size(), studentCoursesResult.size());
+        Assertions.assertEquals(students.size(), courses.size());
+        Assertions.assertEquals(students.size(), studentCoursesResult.size());
 
         students.forEach((courseId, studentsForCourse) -> verifyStudentDetails(courses.get(courseId), studentsForCourse));
     }
@@ -74,7 +75,7 @@ public class InstructorSearchPage extends AppPage {
     public void verifyStudentDetails(Course course, Student[] students) {
         WebElement targetCourse = getStudentTableForHeader(course);
         if (targetCourse == null) {
-            fail("Course with ID " + course.getId() + " is not found");
+            Assertions.fail("Course with ID " + course.getId() + " is not found");
             return;
         }
 
@@ -117,7 +118,7 @@ public class InstructorSearchPage extends AppPage {
     private WebElement getStudentRow(Course course, String studentEmail) {
         WebElement targetCourse = getStudentTableForHeader(course);
         if (targetCourse == null) {
-            fail("Course with ID " + course.getId() + " is not found");
+            Assertions.fail("Course with ID " + course.getId() + " is not found");
             return null;
         }
 

@@ -1,5 +1,6 @@
 package teammates.common.datatransfer.questions;
 
+import org.junit.jupiter.api.Assertions;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,9 +19,9 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
     public void testConstructor_defaultConstructor_fieldsShouldHaveCorrectDefaultValues() {
         FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
 
-        assertEquals(FeedbackQuestionType.RUBRIC, rubricDetails.getQuestionType());
-        assertFalse(rubricDetails.isHasAssignedWeights());
-        assertTrue(rubricDetails.getRubricWeights().isEmpty());
+        Assertions.assertEquals(FeedbackQuestionType.RUBRIC, rubricDetails.getQuestionType());
+        Assertions.assertFalse(rubricDetails.isHasAssignedWeights());
+        Assertions.assertTrue(rubricDetails.getRubricWeights().isEmpty());
     }
 
     @Test
@@ -29,7 +30,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         rubricDetails.setRubricChoices(Arrays.asList("test-1", "test-2"));
         FeedbackRubricQuestionDetails newRubricDetails = new FeedbackRubricQuestionDetails();
 
-        assertTrue(rubricDetails.shouldChangesRequireResponseDeletion(newRubricDetails));
+        Assertions.assertTrue(rubricDetails.shouldChangesRequireResponseDeletion(newRubricDetails));
     }
 
     @Test
@@ -42,12 +43,12 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         newRubricDetails.setRubricChoices(Arrays.asList("test-1", "test-2"));
         newRubricDetails.setRubricSubQuestions(Arrays.asList("Q1", "Q2", "Q3", "Q4"));
 
-        assertEquals(rubricDetails.getRubricChoices(), newRubricDetails.getRubricChoices());
-        assertEquals(rubricDetails.getRubricSubQuestions().size(), newRubricDetails.getRubricSubQuestions().size());
-        assertTrue(rubricDetails.getRubricSubQuestions().containsAll(newRubricDetails.getRubricSubQuestions()));
-        assertTrue(newRubricDetails.getRubricSubQuestions().containsAll(rubricDetails.getRubricSubQuestions()));
+        Assertions.assertEquals(rubricDetails.getRubricChoices(), newRubricDetails.getRubricChoices());
+        Assertions.assertEquals(rubricDetails.getRubricSubQuestions().size(), newRubricDetails.getRubricSubQuestions().size());
+        Assertions.assertTrue(rubricDetails.getRubricSubQuestions().containsAll(newRubricDetails.getRubricSubQuestions()));
+        Assertions.assertTrue(newRubricDetails.getRubricSubQuestions().containsAll(rubricDetails.getRubricSubQuestions()));
 
-        assertFalse(rubricDetails.shouldChangesRequireResponseDeletion(newRubricDetails));
+        Assertions.assertFalse(rubricDetails.shouldChangesRequireResponseDeletion(newRubricDetails));
     }
 
     @Test
@@ -60,10 +61,10 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         newRubricDetails.setRubricChoices(Arrays.asList("test-1", "test-2"));
         newRubricDetails.setRubricSubQuestions(Arrays.asList("Q1", "Q2", "Q3", "Q4"));
 
-        assertEquals(rubricDetails.getRubricChoices(), newRubricDetails.getRubricChoices());
-        assertNotEquals(rubricDetails.getRubricSubQuestions().size(), newRubricDetails.getRubricSubQuestions().size());
+        Assertions.assertEquals(rubricDetails.getRubricChoices(), newRubricDetails.getRubricChoices());
+        Assertions.assertNotEquals(rubricDetails.getRubricSubQuestions().size(), newRubricDetails.getRubricSubQuestions().size());
 
-        assertTrue(rubricDetails.shouldChangesRequireResponseDeletion(newRubricDetails));
+        Assertions.assertTrue(rubricDetails.shouldChangesRequireResponseDeletion(newRubricDetails));
     }
 
     @Test
@@ -76,10 +77,10 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         newRubricDetails.setRubricChoices(Arrays.asList("test-1", "test-2"));
         newRubricDetails.setRubricSubQuestions(Arrays.asList("Q1", "Q2", "Q3", "Q4", "Q5"));
 
-        assertEquals(rubricDetails.getRubricChoices(), newRubricDetails.getRubricChoices());
-        assertNotEquals(rubricDetails.getRubricSubQuestions().size(), newRubricDetails.getRubricSubQuestions().size());
+        Assertions.assertEquals(rubricDetails.getRubricChoices(), newRubricDetails.getRubricChoices());
+        Assertions.assertNotEquals(rubricDetails.getRubricSubQuestions().size(), newRubricDetails.getRubricSubQuestions().size());
 
-        assertTrue(rubricDetails.shouldChangesRequireResponseDeletion(newRubricDetails));
+        Assertions.assertTrue(rubricDetails.shouldChangesRequireResponseDeletion(newRubricDetails));
     }
 
     @Test
@@ -92,12 +93,12 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         newRubricDetails.setRubricChoices(Arrays.asList("test-1", "test-2"));
         newRubricDetails.setRubricSubQuestions(Arrays.asList("Q1", "Q2", "Q3", "Q4"));
 
-        assertEquals(rubricDetails.getRubricChoices(), newRubricDetails.getRubricChoices());
-        assertEquals(rubricDetails.getRubricSubQuestions().size(), newRubricDetails.getRubricSubQuestions().size());
-        assertFalse(rubricDetails.getRubricSubQuestions().containsAll(newRubricDetails.getRubricSubQuestions()));
-        assertFalse(newRubricDetails.getRubricSubQuestions().containsAll(rubricDetails.getRubricSubQuestions()));
+        Assertions.assertEquals(rubricDetails.getRubricChoices(), newRubricDetails.getRubricChoices());
+        Assertions.assertEquals(rubricDetails.getRubricSubQuestions().size(), newRubricDetails.getRubricSubQuestions().size());
+        Assertions.assertFalse(rubricDetails.getRubricSubQuestions().containsAll(newRubricDetails.getRubricSubQuestions()));
+        Assertions.assertFalse(newRubricDetails.getRubricSubQuestions().containsAll(rubricDetails.getRubricSubQuestions()));
 
-        assertTrue(rubricDetails.shouldChangesRequireResponseDeletion(newRubricDetails));
+        Assertions.assertTrue(rubricDetails.shouldChangesRequireResponseDeletion(newRubricDetails));
     }
 
     @Test
@@ -110,12 +111,12 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         newRubricDetails.setRubricChoices(Arrays.asList("test-1", "test-2"));
         newRubricDetails.setRubricSubQuestions(Arrays.asList("Q1", "Q2", "Q3", "Q4"));
 
-        assertEquals(rubricDetails.getRubricChoices(), newRubricDetails.getRubricChoices());
-        assertNotEquals(rubricDetails.getRubricSubQuestions().size(), newRubricDetails.getRubricSubQuestions().size());
-        assertFalse(rubricDetails.getRubricSubQuestions().containsAll(newRubricDetails.getRubricSubQuestions()));
-        assertFalse(newRubricDetails.getRubricSubQuestions().containsAll(rubricDetails.getRubricSubQuestions()));
+        Assertions.assertEquals(rubricDetails.getRubricChoices(), newRubricDetails.getRubricChoices());
+        Assertions.assertNotEquals(rubricDetails.getRubricSubQuestions().size(), newRubricDetails.getRubricSubQuestions().size());
+        Assertions.assertFalse(rubricDetails.getRubricSubQuestions().containsAll(newRubricDetails.getRubricSubQuestions()));
+        Assertions.assertFalse(newRubricDetails.getRubricSubQuestions().containsAll(rubricDetails.getRubricSubQuestions()));
 
-        assertTrue(rubricDetails.shouldChangesRequireResponseDeletion(newRubricDetails));
+        Assertions.assertTrue(rubricDetails.shouldChangesRequireResponseDeletion(newRubricDetails));
     }
 
     @Test
@@ -128,8 +129,8 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         rubricDetails.setRubricWeightsForEachCell(Arrays.asList(Arrays.asList(1.5, 2.5), Collections.singletonList(1.0)));
 
         List<String> errors = rubricDetails.validateQuestionDetails();
-        assertEquals(1, errors.size());
-        assertEquals(FeedbackRubricQuestionDetails.RUBRIC_ERROR_INVALID_WEIGHT, errors.get(0));
+        Assertions.assertEquals(1, errors.size());
+        Assertions.assertEquals(FeedbackRubricQuestionDetails.RUBRIC_ERROR_INVALID_WEIGHT, errors.get(0));
     }
 
     @Test
@@ -142,7 +143,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         rubricDetails.setRubricWeightsForEachCell(Arrays.asList(Arrays.asList(1.5, 2.5), Arrays.asList(1.0, 2.0)));
 
         List<String> errors = rubricDetails.validateQuestionDetails();
-        assertEquals(0, errors.size());
+        Assertions.assertEquals(0, errors.size());
     }
 
     @Test
@@ -155,7 +156,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         rubricDetails.setRubricWeightsForEachCell(Arrays.asList(Arrays.asList(3.0, 3.0)));
 
         List<String> errors = rubricDetails.validateQuestionDetails();
-        assertEquals(FeedbackRubricQuestionDetails.RUBRIC_ERROR_DESC_INVALID_SIZE, errors.get(0));
+        Assertions.assertEquals(FeedbackRubricQuestionDetails.RUBRIC_ERROR_DESC_INVALID_SIZE, errors.get(0));
     }
 
     @Test
@@ -168,7 +169,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         rubricDetails.setRubricWeightsForEachCell(Arrays.asList(Arrays.asList(0.5, 0.5)));
 
         List<String> errors = rubricDetails.validateQuestionDetails();
-        assertEquals(FeedbackRubricQuestionDetails.RUBRIC_ERROR_NOT_ENOUGH_CHOICES
+        Assertions.assertEquals(FeedbackRubricQuestionDetails.RUBRIC_ERROR_NOT_ENOUGH_CHOICES
                 + FeedbackRubricQuestionDetails.RUBRIC_MIN_NUM_OF_CHOICES,
                 errors.get(0));
     }
@@ -182,7 +183,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         rubricDetails.setRubricChoices(Arrays.asList("Choice-1", "Choice-2"));
         rubricDetails.setRubricWeightsForEachCell(Arrays.asList(Arrays.asList(0.5, 0.5)));
         List<String> errors = rubricDetails.validateQuestionDetails();
-        assertEquals(FeedbackRubricQuestionDetails.RUBRIC_ERROR_NOT_ENOUGH_SUB_QUESTIONS
+        Assertions.assertEquals(FeedbackRubricQuestionDetails.RUBRIC_ERROR_NOT_ENOUGH_SUB_QUESTIONS
                 + FeedbackRubricQuestionDetails.RUBRIC_MIN_NUM_OF_SUB_QUESTIONS,
                 errors.get(1));
     }
@@ -196,7 +197,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         rubricDetails.setRubricChoices(Arrays.asList("Choice-1", "Choice-2"));
         rubricDetails.setRubricWeightsForEachCell(Arrays.asList(Arrays.asList(0.5, 0.5)));
         List<String> errors = rubricDetails.validateQuestionDetails();
-        assertEquals(FeedbackRubricQuestionDetails.RUBRIC_ERROR_EMPTY_SUB_QUESTION, errors.get(0));
+        Assertions.assertEquals(FeedbackRubricQuestionDetails.RUBRIC_ERROR_EMPTY_SUB_QUESTION, errors.get(0));
     }
 
     @Test
@@ -211,13 +212,13 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         FeedbackRubricResponseDetails responseDetails = new FeedbackRubricResponseDetails();
 
         responseDetails.setAnswer(Arrays.asList(1, FeedbackRubricQuestionDetails.RUBRIC_ANSWER_NOT_CHOSEN));
-        assertTrue(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
+        Assertions.assertTrue(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
 
         responseDetails.setAnswer(Arrays.asList(FeedbackRubricQuestionDetails.RUBRIC_ANSWER_NOT_CHOSEN, 0));
-        assertTrue(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
+        Assertions.assertTrue(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
 
         responseDetails.setAnswer(Arrays.asList(0, 0));
-        assertTrue(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
+        Assertions.assertTrue(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
     }
 
     @Test
@@ -232,25 +233,25 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         FeedbackRubricResponseDetails responseDetails = new FeedbackRubricResponseDetails();
 
         responseDetails.setAnswer(Arrays.asList());
-        assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
+        Assertions.assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
 
         responseDetails.setAnswer(Arrays.asList(0));
-        assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
+        Assertions.assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
 
         responseDetails.setAnswer(Arrays.asList(FeedbackRubricQuestionDetails.RUBRIC_ANSWER_NOT_CHOSEN,
                 FeedbackRubricQuestionDetails.RUBRIC_ANSWER_NOT_CHOSEN));
-        assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
+        Assertions.assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
 
         responseDetails.setAnswer(Arrays.asList(0, -2));
-        assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
+        Assertions.assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
 
         responseDetails.setAnswer(Arrays.asList(2, 1));
-        assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
+        Assertions.assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
 
         responseDetails.setAnswer(Arrays.asList(0, 1, 0));
-        assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
+        Assertions.assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
 
         responseDetails.setAnswer(Arrays.asList(0, null, 0));
-        assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
+        Assertions.assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
     }
 }

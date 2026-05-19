@@ -1,5 +1,6 @@
 package teammates.e2e.pageobjects;
 
+import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Instant;
@@ -134,12 +135,12 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     }
 
     public void verifyNumSoftDeleted(int expected) {
-        assertEquals(expected, getNumSoftDeletedFeedbackSessions());
+        Assertions.assertEquals(expected, getNumSoftDeletedFeedbackSessions());
     }
 
     public void verifyResponseRate(FeedbackSession session, String expectedResponseRate) {
         int rowId = getFeedbackSessionRowId(session.getCourseId(), session.getName());
-        assertEquals(expectedResponseRate, getResponseRate(rowId));
+        Assertions.assertEquals(expectedResponseRate, getResponseRate(rowId));
     }
 
     public void addFeedbackSession(FeedbackSession newSession, boolean isUsingTemplate) {
@@ -492,8 +493,8 @@ public class InstructorFeedbackSessionsPage extends AppPage {
 
     private int getSoftDeletedFeedbackSessionRowId(String courseId, String sessionName) {
         int i = 0;
-        assertEquals(courseId, getSoftDeletedFeedbackSessionCourseId(i));
-        assertEquals(sessionName, getSoftDeletedFeedbackSessionName(i));
+        Assertions.assertEquals(courseId, getSoftDeletedFeedbackSessionCourseId(i));
+        Assertions.assertEquals(sessionName, getSoftDeletedFeedbackSessionName(i));
 
         while (i < getNumSoftDeletedFeedbackSessions()) {
             if (getSoftDeletedFeedbackSessionCourseId(i).equals(courseId)

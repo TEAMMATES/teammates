@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
@@ -96,9 +97,9 @@ public class GetDeadlineExtensionsActionTest
         DeadlineExtensionsData response =
                 (DeadlineExtensionsData) result.getOutput();
 
-        assertEquals(2, response.getUserDeadlines().size());
-        assertEquals(extensionEndTime, Instant.ofEpochMilli(response.getUserDeadlines().get(typicalStudent.getId())));
-        assertEquals(extensionEndTime, Instant.ofEpochMilli(response.getUserDeadlines().get(typicalInstructor.getId())));
+        Assertions.assertEquals(2, response.getUserDeadlines().size());
+        Assertions.assertEquals(extensionEndTime, Instant.ofEpochMilli(response.getUserDeadlines().get(typicalStudent.getId())));
+        Assertions.assertEquals(extensionEndTime, Instant.ofEpochMilli(response.getUserDeadlines().get(typicalInstructor.getId())));
     }
 
     private String[] getTypicalParams() {

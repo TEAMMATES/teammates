@@ -1,5 +1,6 @@
 package teammates.it.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -76,15 +77,15 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         };
         JsonResult response = getJsonResult(getAction(paramsSuccessfulAccess));
         MessageOutput output = (MessageOutput) response.getOutput();
-        assertEquals("Successful", output.getMessage());
+        Assertions.assertEquals("Successful", output.getMessage());
 
         List<FeedbackSessionLog> persistedAccessLogs = logic.getOrderedFeedbackSessionLogs(courseId1,
                 student1.getId(),
                 fs1.getId(), Instant.now().minusSeconds(60), Instant.now().plusSeconds(60));
-        assertEquals(1, persistedAccessLogs.size());
-        assertEquals(fs1.getId(), persistedAccessLogs.get(0).getFeedbackSession().getId());
-        assertEquals(student1.getId(), persistedAccessLogs.get(0).getStudent().getId());
-        assertEquals(FeedbackSessionLogType.ACCESS, persistedAccessLogs.get(0).getFeedbackSessionLogType());
+        Assertions.assertEquals(1, persistedAccessLogs.size());
+        Assertions.assertEquals(fs1.getId(), persistedAccessLogs.get(0).getFeedbackSession().getId());
+        Assertions.assertEquals(student1.getId(), persistedAccessLogs.get(0).getStudent().getId());
+        Assertions.assertEquals(FeedbackSessionLogType.ACCESS, persistedAccessLogs.get(0).getFeedbackSessionLogType());
 
         ______TS("Success case: typical submission");
         loginAsStudent(student2.getAccount().getGoogleId());
@@ -95,15 +96,15 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
         };
         response = getJsonResult(getAction(paramsSuccessfulSubmission));
         output = (MessageOutput) response.getOutput();
-        assertEquals("Successful", output.getMessage());
+        Assertions.assertEquals("Successful", output.getMessage());
 
         List<FeedbackSessionLog> persistedSubmissionLogs = logic.getOrderedFeedbackSessionLogs(courseId1,
                 student2.getId(), fs2.getId(), Instant.now().minusSeconds(60),
                 Instant.now().plusSeconds(60));
-        assertEquals(1, persistedSubmissionLogs.size());
-        assertEquals(fs2.getId(), persistedSubmissionLogs.get(0).getFeedbackSession().getId());
-        assertEquals(student2.getId(), persistedSubmissionLogs.get(0).getStudent().getId());
-        assertEquals(FeedbackSessionLogType.SUBMISSION,
+        Assertions.assertEquals(1, persistedSubmissionLogs.size());
+        Assertions.assertEquals(fs2.getId(), persistedSubmissionLogs.get(0).getFeedbackSession().getId());
+        Assertions.assertEquals(student2.getId(), persistedSubmissionLogs.get(0).getStudent().getId());
+        Assertions.assertEquals(FeedbackSessionLogType.SUBMISSION,
                 persistedSubmissionLogs.get(0).getFeedbackSessionLogType());
 
         ______TS("Failure case: should fail for missing feedback session");
@@ -112,7 +113,7 @@ public class CreateFeedbackSessionLogActionIT extends BaseActionIT<CreateFeedbac
                 Const.ParamsNames.FEEDBACK_SESSION_ID, UUID.randomUUID().toString(),
         };
         verifyHttpParameterFailure(paramsNonExistentFsName);
-        assertEquals(2, logic
+        Assertions.assertEquals(2, logic
                 .getOrderedFeedbackSessionLogs(courseId1, null, null, Instant.now().minusSeconds(60),
                         Instant.now().plusSeconds(60))
                 .size());

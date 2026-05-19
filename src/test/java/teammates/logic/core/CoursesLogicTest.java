@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
@@ -56,7 +57,7 @@ public class CoursesLogicTest extends BaseTestCase {
         Course binnedCourse = coursesLogic.moveCourseToRecycleBin(courseId);
 
         verify(coursesDb, times(1)).getCourse(courseId);
-        assertNotNull(binnedCourse);
+        Assertions.assertNotNull(binnedCourse);
     }
 
     @Test
@@ -65,10 +66,10 @@ public class CoursesLogicTest extends BaseTestCase {
 
         when(coursesDb.getCourse(courseId)).thenReturn(null);
 
-        EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
+        EntityDoesNotExistException ex = Assertions.assertThrows(EntityDoesNotExistException.class,
                 () -> coursesLogic.moveCourseToRecycleBin(courseId));
 
-        assertEquals("Trying to move a non-existent course to recycling bin.", ex.getMessage());
+        Assertions.assertEquals("Trying to move a non-existent course to recycling bin.", ex.getMessage());
     }
 
     @Test
@@ -83,7 +84,7 @@ public class CoursesLogicTest extends BaseTestCase {
         coursesLogic.restoreCourseFromRecycleBin(courseId);
 
         verify(coursesDb, times(1)).getCourse(courseId);
-        assertNull(course.getDeletedAt());
+        Assertions.assertNull(course.getDeletedAt());
     }
 
     @Test
@@ -92,10 +93,10 @@ public class CoursesLogicTest extends BaseTestCase {
 
         when(coursesDb.getCourse(courseId)).thenReturn(null);
 
-        EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
+        EntityDoesNotExistException ex = Assertions.assertThrows(EntityDoesNotExistException.class,
                 () -> coursesLogic.restoreCourseFromRecycleBin(courseId));
 
-        assertEquals("Trying to restore a non-existent course from recycling bin.", ex.getMessage());
+        Assertions.assertEquals("Trying to restore a non-existent course from recycling bin.", ex.getMessage());
     }
 
     @Test
@@ -118,7 +119,7 @@ public class CoursesLogicTest extends BaseTestCase {
 
         List<String> expectedSectionNames = List.of("test-sectionName1", "test-sectionName2");
 
-        assertEquals(expectedSectionNames, sectionNames);
+        Assertions.assertEquals(expectedSectionNames, sectionNames);
     }
 
     @Test
@@ -127,10 +128,10 @@ public class CoursesLogicTest extends BaseTestCase {
 
         when(coursesDb.getCourse(courseId)).thenReturn(null);
 
-        EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
+        EntityDoesNotExistException ex = Assertions.assertThrows(EntityDoesNotExistException.class,
                 () -> coursesLogic.getSectionNamesForCourse(courseId));
 
-        assertEquals("Trying to get section names for a non-existent course.", ex.getMessage());
+        Assertions.assertEquals("Trying to get section names for a non-existent course.", ex.getMessage());
     }
 
     @Test
@@ -143,7 +144,7 @@ public class CoursesLogicTest extends BaseTestCase {
         Course createdCourse = coursesLogic.createCourse(course);
 
         verify(coursesDb, times(1)).createCourse(course);
-        assertNotNull(createdCourse);
+        Assertions.assertNotNull(createdCourse);
     }
 
     @Test
@@ -152,10 +153,10 @@ public class CoursesLogicTest extends BaseTestCase {
 
         when(coursesDb.getCourse(course.getId())).thenReturn(course);
 
-        EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
+        EntityAlreadyExistsException ex = Assertions.assertThrows(EntityAlreadyExistsException.class,
                 () -> coursesLogic.createCourse(course));
 
-        assertEquals(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, course.toString()), ex.getMessage());
+        Assertions.assertEquals(String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, course.toString()), ex.getMessage());
         verify(coursesDb, never()).createCourse(course);
     }
 
@@ -169,7 +170,7 @@ public class CoursesLogicTest extends BaseTestCase {
         Course returnedCourse = coursesLogic.getCourse(courseId);
 
         verify(coursesDb, times(1)).getCourse(courseId);
-        assertNotNull(returnedCourse);
+        Assertions.assertNotNull(returnedCourse);
     }
 
     @Test
@@ -205,9 +206,9 @@ public class CoursesLogicTest extends BaseTestCase {
         Course updatedCourse = coursesLogic.updateCourse(courseId, "Test Course 1", "Asia/India");
 
         verify(coursesDb, times(1)).getCourse(courseId);
-        assertNotNull(updatedCourse);
-        assertEquals("Test Course 1", updatedCourse.getName());
-        assertEquals("Asia/India", updatedCourse.getTimeZone());
+        Assertions.assertNotNull(updatedCourse);
+        Assertions.assertEquals("Test Course 1", updatedCourse.getName());
+        Assertions.assertEquals("Asia/India", updatedCourse.getTimeZone());
     }
 
     @Test
@@ -217,10 +218,10 @@ public class CoursesLogicTest extends BaseTestCase {
 
         when(coursesDb.getCourse(courseId)).thenReturn(null);
 
-        EntityDoesNotExistException ex = assertThrows(EntityDoesNotExistException.class,
+        EntityDoesNotExistException ex = Assertions.assertThrows(EntityDoesNotExistException.class,
                 () -> coursesLogic.updateCourse(courseId, course.getName(), "Asia/Singapore"));
 
-        assertEquals(ERROR_UPDATE_NON_EXISTENT + Course.class, ex.getMessage());
+        Assertions.assertEquals(ERROR_UPDATE_NON_EXISTENT + Course.class, ex.getMessage());
     }
 
     @Test
@@ -230,14 +231,14 @@ public class CoursesLogicTest extends BaseTestCase {
 
         when(coursesDb.getCourse(courseId)).thenReturn(course);
 
-        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+        InvalidParametersException ex = Assertions.assertThrows(InvalidParametersException.class,
                 () -> coursesLogic.updateCourse(courseId, "", "Asia/Singapore"));
 
         String expectedMessage = "The field 'course name' is empty."
                 + " The value of a/an course name should be no longer than 80 characters."
                 + " It should not be empty.";
 
-        assertEquals(expectedMessage, ex.getMessage());
+        Assertions.assertEquals(expectedMessage, ex.getMessage());
     }
 
     @Test
@@ -253,8 +254,8 @@ public class CoursesLogicTest extends BaseTestCase {
         Section createdSection = coursesLogic.createSection(course, "section-name");
 
         verify(coursesDb, times(1)).createSection(any(Section.class));
-        assertNotNull(createdSection);
-        assertEquals("section-name", createdSection.getName());
+        Assertions.assertNotNull(createdSection);
+        Assertions.assertEquals("section-name", createdSection.getName());
     }
 
     @Test
@@ -263,10 +264,10 @@ public class CoursesLogicTest extends BaseTestCase {
 
         when(coursesDb.getSectionByName(course.getId(), "section-name")).thenReturn(getTypicalSection());
 
-        EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
+        EntityAlreadyExistsException ex = Assertions.assertThrows(EntityAlreadyExistsException.class,
                 () -> coursesLogic.createSection(course, "section-name"));
 
-        assertEquals(String.format("Section with name %s already exists in course %s",
+        Assertions.assertEquals(String.format("Section with name %s already exists in course %s",
                 "section-name", course.getId()), ex.getMessage());
     }
 
@@ -276,10 +277,10 @@ public class CoursesLogicTest extends BaseTestCase {
 
         when(coursesDb.getSectionByName(course.getId(), "")).thenReturn(null);
 
-        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+        InvalidParametersException ex = Assertions.assertThrows(InvalidParametersException.class,
                 () -> coursesLogic.createSection(course, null));
 
-        assertEquals("The provided section name is not acceptable to TEAMMATES as it cannot be empty.", ex.getMessage());
+        Assertions.assertEquals("The provided section name is not acceptable to TEAMMATES as it cannot be empty.", ex.getMessage());
     }
 
     @Test
@@ -293,7 +294,7 @@ public class CoursesLogicTest extends BaseTestCase {
         Section returnedSection = coursesLogic.getSectionByCourseIdAndTeam(courseId, teamName);
 
         verify(coursesDb, times(1)).getSectionByCourseIdAndTeam(courseId, teamName);
-        assertNotNull(returnedSection);
+        Assertions.assertNotNull(returnedSection);
     }
 
     @Test
@@ -306,7 +307,7 @@ public class CoursesLogicTest extends BaseTestCase {
         Section returnedSection = coursesLogic.getSectionByCourseIdAndTeam(courseId, teamName);
 
         verify(coursesDb, times(1)).getSectionByCourseIdAndTeam(courseId, teamName);
-        assertNull(returnedSection);
+        Assertions.assertNull(returnedSection);
     }
 
     @Test
@@ -322,8 +323,8 @@ public class CoursesLogicTest extends BaseTestCase {
         Team createdTeam = coursesLogic.createTeam(section, "team-name");
 
         verify(coursesDb, times(1)).createTeam(any(Team.class));
-        assertNotNull(createdTeam);
-        assertEquals("team-name", createdTeam.getName());
+        Assertions.assertNotNull(createdTeam);
+        Assertions.assertEquals("team-name", createdTeam.getName());
     }
 
     @Test
@@ -332,10 +333,10 @@ public class CoursesLogicTest extends BaseTestCase {
 
         when(coursesDb.getTeamByName(section.getId(), "team-name")).thenReturn(getTypicalTeam());
 
-        EntityAlreadyExistsException ex = assertThrows(EntityAlreadyExistsException.class,
+        EntityAlreadyExistsException ex = Assertions.assertThrows(EntityAlreadyExistsException.class,
                 () -> coursesLogic.createTeam(section, "team-name"));
 
-        assertEquals("Team with name team-name already exists in section test-section", ex.getMessage());
+        Assertions.assertEquals("Team with name team-name already exists in section test-section", ex.getMessage());
     }
 
     @Test
@@ -344,10 +345,10 @@ public class CoursesLogicTest extends BaseTestCase {
 
         when(coursesDb.getTeamByName(section.getId(), "team-name")).thenReturn(null);
 
-        InvalidParametersException ex = assertThrows(InvalidParametersException.class,
+        InvalidParametersException ex = Assertions.assertThrows(InvalidParametersException.class,
                 () -> coursesLogic.createTeam(section, null));
 
-        assertEquals("The provided team name is not acceptable to TEAMMATES as it cannot be empty.", ex.getMessage());
+        Assertions.assertEquals("The provided team name is not acceptable to TEAMMATES as it cannot be empty.", ex.getMessage());
     }
 
     @Test
@@ -372,6 +373,6 @@ public class CoursesLogicTest extends BaseTestCase {
 
         List<Team> expectedTeams = List.of(t1, t2);
 
-        assertEquals(expectedTeams, returnedTeams);
+        Assertions.assertEquals(expectedTeams, returnedTeams);
     }
 }

@@ -1,5 +1,6 @@
 package teammates.e2e.pageobjects;
 
+import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Instant;
@@ -33,7 +34,7 @@ public class AdminSessionsPage extends AppPage {
     }
 
     public void verifySessionRows(String[][] sessionsCells, boolean[] expectedSessionShownStatus) {
-        assertEquals(sessionsCells.length, expectedSessionShownStatus.length);
+        Assertions.assertEquals(sessionsCells.length, expectedSessionShownStatus.length);
 
         boolean[] actualSessionShownStatus = new boolean[expectedSessionShownStatus.length];
 
@@ -51,7 +52,7 @@ public class AdminSessionsPage extends AppPage {
         }
 
         for (int i = 0; i < expectedSessionShownStatus.length; i++) {
-            assertEquals(expectedSessionShownStatus[i], actualSessionShownStatus[i]);
+            Assertions.assertEquals(expectedSessionShownStatus[i], actualSessionShownStatus[i]);
         }
     }
 

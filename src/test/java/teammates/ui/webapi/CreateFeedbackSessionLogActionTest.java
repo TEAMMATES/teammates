@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.reset;
@@ -130,7 +131,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         JsonResult response = getJsonResult(action);
         MessageOutput output = (MessageOutput) response.getOutput();
 
-        assertEquals("Successful", output.getMessage());
+        Assertions.assertEquals("Successful", output.getMessage());
         verify(mockLogic).createFeedbackSessionLog(eq(fsaCourse1), eq(student1InCourse1),
                 eq(FeedbackSessionLogType.ACCESS), any());
     }
@@ -145,7 +146,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
 
         JsonResult response = getJsonResult(getAction(paramsSuccessfulSubmission));
         MessageOutput output = (MessageOutput) response.getOutput();
-        assertEquals("Successful", output.getMessage());
+        Assertions.assertEquals("Successful", output.getMessage());
         verify(mockLogic).createFeedbackSessionLog(eq(fsaCourse1), eq(student1InCourse1),
                 eq(FeedbackSessionLogType.SUBMISSION), any());
     }
@@ -157,7 +158,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.name(),
         };
 
-        assertThrows(InvalidHttpParameterException.class,
+        Assertions.assertThrows(InvalidHttpParameterException.class,
                 () -> getAction(paramsMissingFeedbackSession).execute());
     }
 

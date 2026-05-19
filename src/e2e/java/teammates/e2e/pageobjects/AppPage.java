@@ -1,5 +1,6 @@
 package teammates.e2e.pageobjects;
 
+import org.junit.jupiter.api.Assertions;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -198,9 +199,9 @@ public abstract class AppPage {
 
     public void verifyUnclickable(WebElement element) {
         if ("a".equals(element.getTagName())) {
-            assertTrue(element.getAttribute("class").contains("disabled"));
+            Assertions.assertTrue(element.getAttribute("class").contains("disabled"));
         } else {
-            assertNotNull(element.getAttribute("disabled"));
+            Assertions.assertNotNull(element.getAttribute("disabled"));
         }
     }
 
@@ -467,7 +468,7 @@ public abstract class AppPage {
         List<WebElement> rows = table.findElement(By.tagName("tbody"))
                 .findElements(By.tagName("tr"));
 
-        assertTrue(expectedTableBodyValues.length <= rows.size());
+        Assertions.assertTrue(expectedTableBodyValues.length <= rows.size());
         for (int rowIndex = 0; rowIndex < expectedTableBodyValues.length; rowIndex++) {
             // re-fetch to avoid stale references
             rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
@@ -481,7 +482,7 @@ public abstract class AppPage {
      */
     protected void verifyTableRowHeaderValues(WebElement table, String[][] expectedTableRowHeaderValues) {
         List<WebElement> rows = table.findElement(By.tagName("thead")).findElements(By.tagName("tr"));
-        assertTrue(expectedTableRowHeaderValues.length <= rows.size());
+        Assertions.assertTrue(expectedTableRowHeaderValues.length <= rows.size());
         for (int rowIndex = 0; rowIndex < expectedTableRowHeaderValues.length; rowIndex++) {
             verifyTableHeaderValues(rows.get(rowIndex), expectedTableRowHeaderValues[rowIndex]);
         }
@@ -493,7 +494,7 @@ public abstract class AppPage {
      */
     protected void verifyTableColumnHeaderValues(WebElement table, String[][] expectedTablColumnHeaderValues) {
         List<WebElement> rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
-        assertTrue(expectedTablColumnHeaderValues.length <= rows.size());
+        Assertions.assertTrue(expectedTablColumnHeaderValues.length <= rows.size());
         for (int rowIndex = 0; rowIndex < expectedTablColumnHeaderValues.length; rowIndex++) {
             verifyTableHeaderValues(rows.get(rowIndex), expectedTablColumnHeaderValues[rowIndex]);
         }
@@ -505,11 +506,11 @@ public abstract class AppPage {
      */
     protected void verifyTableRowValues(WebElement row, String[] expectedRowValues) {
         List<WebElement> cells = row.findElements(By.tagName("td"));
-        assertTrue(expectedRowValues.length <= cells.size());
+        Assertions.assertTrue(expectedRowValues.length <= cells.size());
         waitForElementVisibility(cells.get(0));
 
         for (int cellIndex = 0; cellIndex < expectedRowValues.length; cellIndex++) {
-            assertEquals(expectedRowValues[cellIndex], cells.get(cellIndex).getText());
+            Assertions.assertEquals(expectedRowValues[cellIndex], cells.get(cellIndex).getText());
         }
     }
 
@@ -519,9 +520,9 @@ public abstract class AppPage {
      */
     protected void verifyTableHeaderValues(WebElement row, String[] expectedRowHeaderValues) {
         List<WebElement> cells = row.findElements(By.tagName("th"));
-        assertTrue(expectedRowHeaderValues.length <= cells.size());
+        Assertions.assertTrue(expectedRowHeaderValues.length <= cells.size());
         for (int cellIndex = 0; cellIndex < expectedRowHeaderValues.length; cellIndex++) {
-            assertEquals(expectedRowHeaderValues[cellIndex], cells.get(cellIndex).getText());
+            Assertions.assertEquals(expectedRowHeaderValues[cellIndex], cells.get(cellIndex).getText());
         }
     }
 
@@ -707,12 +708,12 @@ public abstract class AppPage {
         waitFor(ExpectedConditions.textToBePresentInElementLocated(By.className("toast-body"), expectedMessage));
         WebElement statusMessage = browser.driver.findElement(By.className("toast-body"));
 
-        assertEquals(expectedMessage, statusMessage.getText());
+        Assertions.assertEquals(expectedMessage, statusMessage.getText());
 
         if (expectedLinks.length > 0) {
             List<WebElement> actualLinks = statusMessage.findElements(By.tagName("a"));
             for (int i = 0; i < expectedLinks.length; i++) {
-                assertTrue(actualLinks.get(i).getAttribute("href").contains(expectedLinks[i]));
+                Assertions.assertTrue(actualLinks.get(i).getAttribute("href").contains(expectedLinks[i]));
             }
         }
     }

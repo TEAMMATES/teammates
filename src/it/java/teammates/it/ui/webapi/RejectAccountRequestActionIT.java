@@ -1,5 +1,6 @@
 package teammates.it.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
@@ -86,22 +87,22 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         RejectAccountRequestAction action = getAction(requestBody, params);
         JsonResult result = action.execute();
 
-        assertEquals(200, result.getStatusCode());
+        Assertions.assertEquals(200, result.getStatusCode());
 
         AccountRequestData data = (AccountRequestData) result.getOutput();
-        assertEquals(accountRequest.getName(), data.getName());
-        assertEquals(accountRequest.getEmail(), data.getEmail());
-        assertEquals(accountRequest.getInstitute(), data.getInstitute());
-        assertEquals(AccountRequestStatus.REJECTED, data.getStatus());
-        assertEquals(accountRequest.getComments(), data.getComments());
+        Assertions.assertEquals(accountRequest.getName(), data.getName());
+        Assertions.assertEquals(accountRequest.getEmail(), data.getEmail());
+        Assertions.assertEquals(accountRequest.getInstitute(), data.getInstitute());
+        Assertions.assertEquals(AccountRequestStatus.REJECTED, data.getStatus());
+        Assertions.assertEquals(accountRequest.getComments(), data.getComments());
 
         verifyNumberOfEmailsSent(1);
         EmailWrapper sentEmail = mockEmailSender.getEmailsSent().get(0);
-        assertEquals(EmailType.ACCOUNT_REQUEST_REJECTION, sentEmail.getType());
-        assertEquals(Config.SUPPORT_EMAIL, sentEmail.getBcc());
-        assertEquals(accountRequest.getEmail(), sentEmail.getRecipient());
-        assertEquals(SanitizationHelper.sanitizeForRichText(TYPICAL_BODY), sentEmail.getContent());
-        assertEquals("TEAMMATES: " + TYPICAL_TITLE, sentEmail.getSubject());
+        Assertions.assertEquals(EmailType.ACCOUNT_REQUEST_REJECTION, sentEmail.getType());
+        Assertions.assertEquals(Config.SUPPORT_EMAIL, sentEmail.getBcc());
+        Assertions.assertEquals(accountRequest.getEmail(), sentEmail.getRecipient());
+        Assertions.assertEquals(SanitizationHelper.sanitizeForRichText(TYPICAL_BODY), sentEmail.getContent());
+        Assertions.assertEquals("TEAMMATES: " + TYPICAL_TITLE, sentEmail.getSubject());
     }
 
     @Test
@@ -119,14 +120,14 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         RejectAccountRequestAction action = getAction(requestBody, params);
         JsonResult result = action.execute();
 
-        assertEquals(200, result.getStatusCode());
+        Assertions.assertEquals(200, result.getStatusCode());
 
         AccountRequestData data = (AccountRequestData) result.getOutput();
-        assertEquals(accountRequest.getName(), data.getName());
-        assertEquals(accountRequest.getEmail(), data.getEmail());
-        assertEquals(accountRequest.getInstitute(), data.getInstitute());
-        assertEquals(AccountRequestStatus.REJECTED, data.getStatus());
-        assertEquals(accountRequest.getComments(), data.getComments());
+        Assertions.assertEquals(accountRequest.getName(), data.getName());
+        Assertions.assertEquals(accountRequest.getEmail(), data.getEmail());
+        Assertions.assertEquals(accountRequest.getInstitute(), data.getInstitute());
+        Assertions.assertEquals(AccountRequestStatus.REJECTED, data.getStatus());
+        Assertions.assertEquals(accountRequest.getComments(), data.getComments());
 
         verifyNoEmailsSent();
     }
@@ -144,7 +145,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
 
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
 
-        assertEquals("Both reason body and title need to be null to reject silently", ihrbe.getMessage());
+        Assertions.assertEquals("Both reason body and title need to be null to reject silently", ihrbe.getMessage());
         verifyNoEmailsSent();
     }
 
@@ -161,7 +162,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
 
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
 
-        assertEquals("Both reason body and title need to be null to reject silently", ihrbe.getMessage());
+        Assertions.assertEquals("Both reason body and title need to be null to reject silently", ihrbe.getMessage());
         verifyNoEmailsSent();
     }
 
@@ -175,7 +176,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, id.toString()};
 
         InvalidOperationException ioe = verifyInvalidOperation(params);
-        assertEquals("Account request with id " + id + " is not in pending state and cannot be rejected.", ioe.getMessage());
+        Assertions.assertEquals("Account request with id " + id + " is not in pending state and cannot be rejected.", ioe.getMessage());
 
         verifyNoEmailsSent();
     }
@@ -186,7 +187,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, "invalid"};
 
         InvalidHttpParameterException ihpe = verifyHttpParameterFailure(requestBody, params);
-        assertEquals("Expected UUID value for id parameter, but found: [invalid]", ihpe.getMessage());
+        Assertions.assertEquals("Expected UUID value for id parameter, but found: [invalid]", ihpe.getMessage());
         verifyNoEmailsSent();
     }
 
@@ -197,7 +198,7 @@ public class RejectAccountRequestActionIT extends BaseActionIT<RejectAccountRequ
         String[] params = new String[] {Const.ParamsNames.ACCOUNT_REQUEST_ID, uuid};
 
         EntityNotFoundException enfe = verifyEntityNotFound(requestBody, params);
-        assertEquals(String.format("Account request with id = %s not found", uuid), enfe.getMessage());
+        Assertions.assertEquals(String.format("Account request with id = %s not found", uuid), enfe.getMessage());
         verifyNoEmailsSent();
     }
 

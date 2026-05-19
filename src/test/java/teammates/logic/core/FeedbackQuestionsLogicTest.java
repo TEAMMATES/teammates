@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -62,8 +63,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForSession(fs);
 
-        assertEquals(questions.size(), actualQuestions.size());
-        assertTrue(questions.containsAll(actualQuestions));
+        Assertions.assertEquals(questions.size(), actualQuestions.size());
+        Assertions.assertTrue(questions.containsAll(actualQuestions));
     }
 
     @Test
@@ -88,8 +89,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForSession(fs);
 
-        assertEquals(questions.size(), actualQuestions.size());
-        assertTrue(questions.containsAll(actualQuestions));
+        Assertions.assertEquals(questions.size(), actualQuestions.size());
+        Assertions.assertTrue(questions.containsAll(actualQuestions));
     }
 
     @Test
@@ -107,7 +108,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         when(fqDb.createFeedbackQuestion(newQuestion)).thenReturn(newQuestion);
 
         FeedbackQuestion createdQuestion = fqLogic.createFeedbackQuestion(newQuestion);
-        assertEquals(newQuestion, createdQuestion);
+        Assertions.assertEquals(newQuestion, createdQuestion);
     }
 
     @Test
@@ -132,7 +133,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         FeedbackQuestion createdQuestion = fqLogic.createFeedbackQuestion(fq5);
 
-        assertEquals(fq5, createdQuestion);
+        Assertions.assertEquals(fq5, createdQuestion);
     }
 
     @Test(enabled = false)
@@ -158,10 +159,10 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         fqLogic.createFeedbackQuestion(fq5);
 
-        assertEquals(1, fq1.getQuestionNumber().intValue());
-        assertEquals(2, fq2.getQuestionNumber().intValue());
-        assertEquals(3, fq3.getQuestionNumber().intValue());
-        assertEquals(4, fq4.getQuestionNumber().intValue());
+        Assertions.assertEquals(1, fq1.getQuestionNumber().intValue());
+        Assertions.assertEquals(2, fq2.getQuestionNumber().intValue());
+        Assertions.assertEquals(3, fq3.getQuestionNumber().intValue());
+        Assertions.assertEquals(4, fq4.getQuestionNumber().intValue());
     }
 
     @Test(enabled = false)
@@ -186,10 +187,10 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         fqLogic.createFeedbackQuestion(fq5);
 
-        assertEquals(1, fq1.getQuestionNumber().intValue());
-        assertEquals(2, fq2.getQuestionNumber().intValue());
-        assertEquals(3, fq3.getQuestionNumber().intValue());
-        assertEquals(4, fq4.getQuestionNumber().intValue());
+        Assertions.assertEquals(1, fq1.getQuestionNumber().intValue());
+        Assertions.assertEquals(2, fq2.getQuestionNumber().intValue());
+        Assertions.assertEquals(3, fq3.getQuestionNumber().intValue());
+        Assertions.assertEquals(4, fq4.getQuestionNumber().intValue());
     }
 
     @Test
@@ -211,8 +212,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForStudents(fs);
 
-        assertEquals(expectedQuestions.size(), actualQuestions.size());
-        assertTrue(actualQuestions.containsAll(expectedQuestions));
+        Assertions.assertEquals(expectedQuestions.size(), actualQuestions.size());
+        Assertions.assertTrue(actualQuestions.containsAll(expectedQuestions));
     }
 
     @Test
@@ -235,8 +236,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2, fq3, fq4);
         List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(fs, "instr1@teammates.tmt");
 
-        assertEquals(expectedQuestions.size(), actualQuestions.size());
-        assertTrue(actualQuestions.containsAll(actualQuestions));
+        Assertions.assertEquals(expectedQuestions.size(), actualQuestions.size());
+        Assertions.assertTrue(actualQuestions.containsAll(actualQuestions));
     }
 
     @Test
@@ -259,8 +260,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         List<FeedbackQuestion> expectedQuestions = List.of(fq1, fq2);
         List<FeedbackQuestion> actualQuestions = fqLogic.getFeedbackQuestionsForInstructors(fs, "instr2@teammates.tmt");
 
-        assertEquals(expectedQuestions.size(), actualQuestions.size());
-        assertTrue(actualQuestions.containsAll(actualQuestions));
+        Assertions.assertEquals(expectedQuestions.size(), actualQuestions.size());
+        Assertions.assertTrue(actualQuestions.containsAll(actualQuestions));
     }
 
     @Test(enabled = false)
@@ -278,8 +279,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
         when(usersLogic.getStudentsForCourse("course-1")).thenReturn(studentsInCourse);
 
         ______TS("response to students except self");
-        assertEquals(fqLogic.getRecipientsOfQuestion(fq, null, s2, null).size(), studentsInCourse.size() - 1);
-        assertEquals(fqLogic.getRecipientsOfQuestion(fq, null, s2, courseRoster).size(), studentsInCourse.size() - 1);
+        Assertions.assertEquals(fqLogic.getRecipientsOfQuestion(fq, null, s2, null).size(), studentsInCourse.size() - 1);
+        Assertions.assertEquals(fqLogic.getRecipientsOfQuestion(fq, null, s2, courseRoster).size(), studentsInCourse.size() - 1);
 
     }
 
@@ -309,8 +310,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, student1);
 
-        assertTrue(actualOptions.isPresent());
-        assertEquals(List.of("Alice (Team 1)", "Charlie (Team 2)"), actualOptions.get());
+        Assertions.assertTrue(actualOptions.isPresent());
+        Assertions.assertEquals(List.of("Alice (Team 1)", "Charlie (Team 2)"), actualOptions.get());
     }
 
     @Test
@@ -329,8 +330,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, currentStudent);
 
-        assertTrue(actualOptions.isPresent());
-        assertEquals(List.of("Bob (Team 2)"), actualOptions.get());
+        Assertions.assertTrue(actualOptions.isPresent());
+        Assertions.assertEquals(List.of("Bob (Team 2)"), actualOptions.get());
     }
 
     @Test
@@ -351,8 +352,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, currentStudent);
 
-        assertTrue(actualOptions.isPresent());
-        assertEquals(List.of("Alice (Team 1)", "Charlie (Team 2)"), actualOptions.get());
+        Assertions.assertTrue(actualOptions.isPresent());
+        Assertions.assertEquals(List.of("Alice (Team 1)", "Charlie (Team 2)"), actualOptions.get());
     }
 
     @Test
@@ -372,8 +373,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, currentStudent);
 
-        assertTrue(actualOptions.isPresent());
-        assertEquals(List.of("Alice", "Bob"), actualOptions.get());
+        Assertions.assertTrue(actualOptions.isPresent());
+        Assertions.assertEquals(List.of("Alice", "Bob"), actualOptions.get());
     }
 
     @Test
@@ -395,8 +396,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, currentStudent);
 
-        assertTrue(actualOptions.isPresent());
-        assertEquals(List.of("Bob"), actualOptions.get());
+        Assertions.assertTrue(actualOptions.isPresent());
+        Assertions.assertEquals(List.of("Bob"), actualOptions.get());
     }
 
     @Test
@@ -415,8 +416,8 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, null);
 
-        assertTrue(actualOptions.isPresent());
-        assertEquals(List.of("Alice", "Charlie"), actualOptions.get());
+        Assertions.assertTrue(actualOptions.isPresent());
+        Assertions.assertEquals(List.of("Alice", "Charlie"), actualOptions.get());
     }
 
     @Test
@@ -428,7 +429,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, null);
 
-        assertTrue(actualOptions.isEmpty());
+        Assertions.assertTrue(actualOptions.isEmpty());
     }
 
     @Test
@@ -442,7 +443,7 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         Optional<List<String>> actualOptions = fqLogic.getDynamicallyGeneratedOptions(question, null);
 
-        assertTrue(actualOptions.isEmpty());
+        Assertions.assertTrue(actualOptions.isEmpty());
     }
 
     private FeedbackQuestion getMockFeedbackQuestionWithDetails(FeedbackQuestionDetails questionDetails, String courseId) {

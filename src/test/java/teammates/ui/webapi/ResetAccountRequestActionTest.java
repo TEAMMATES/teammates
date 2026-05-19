@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -56,7 +57,7 @@ public class ResetAccountRequestActionTest extends BaseActionTest<ResetAccountRe
 
         ResetAccountRequestAction action = getAction(params);
         JoinLinkData output = (JoinLinkData) getJsonResult(action).getOutput();
-        assertEquals(accountRequest.getRegistrationUrl(), output.getJoinLink());
+        Assertions.assertEquals(accountRequest.getRegistrationUrl(), output.getJoinLink());
         verify(mockLogic, times(1)).resetAccountRequest(id);
         verifyNumberOfEmailsSent(1);
     }
@@ -74,7 +75,7 @@ public class ResetAccountRequestActionTest extends BaseActionTest<ResetAccountRe
         };
 
         InvalidOperationException ex = verifyInvalidOperation(params);
-        assertEquals("Unable to reset account request as instructor is still unregistered.", ex.getMessage());
+        Assertions.assertEquals("Unable to reset account request as instructor is still unregistered.", ex.getMessage());
         verify(mockLogic, never()).resetAccountRequest(id);
         verifyNoEmailsSent();
     }
@@ -92,7 +93,7 @@ public class ResetAccountRequestActionTest extends BaseActionTest<ResetAccountRe
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(params);
-        assertEquals("Account request with id: 11110000-0000-0000-0000-000000000000 does not exist.",
+        Assertions.assertEquals("Account request with id: 11110000-0000-0000-0000-000000000000 does not exist.",
                 enfe.getMessage());
         verify(mockLogic, never()).resetAccountRequest(id);
         verifyNoEmailsSent();

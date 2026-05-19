@@ -1,5 +1,6 @@
 package teammates.e2e.cases;
 
+import org.junit.jupiter.api.Assertions;
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
@@ -60,9 +61,9 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
         StudentData s3 = new StudentData(student3);
 
         // verify students in database
-        assertEquals(getStudent(student1).getEmail(), s1.getEmail());
-        assertEquals(getStudent(student2).getEmail(), s2.getEmail());
-        assertEquals(getStudent(student3).getEmail(), s3.getEmail());
+        Assertions.assertEquals(getStudent(student1).getEmail(), s1.getEmail());
+        Assertions.assertEquals(getStudent(student2).getEmail(), s2.getEmail());
+        Assertions.assertEquals(getStudent(student3).getEmail(), s3.getEmail());
 
         ______TS("Enroll and modify students in existing course");
         // modify team details of existing student
@@ -92,11 +93,11 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
         StudentData s4 = new StudentData(student4);
 
         // verify students in database
-        assertEquals(getStudent(student1).getEmail(), s1.getEmail());
-        assertEquals(getStudent(student2).getEmail(), s2.getEmail());
-        assertEquals(getStudent(student3).getEmail(), s3.getEmail());
-        assertEquals(getStudent(student4).getEmail(), s4.getEmail());
-        assertNull(getStudent(student5));
+        Assertions.assertEquals(getStudent(student1).getEmail(), s1.getEmail());
+        Assertions.assertEquals(getStudent(student2).getEmail(), s2.getEmail());
+        Assertions.assertEquals(getStudent(student3).getEmail(), s3.getEmail());
+        Assertions.assertEquals(getStudent(student4).getEmail(), s4.getEmail());
+        Assertions.assertNull(getStudent(student5));
 
         // refresh page to confirm enrollment
         enrollPage = getNewPageInstance(url, InstructorCourseEnrollPage.class);

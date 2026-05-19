@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -64,31 +65,31 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
     }
 
     private void verifyStudentsData(List<Student> expectedStudents, StudentsData actualStudentsData, boolean isAdmin) {
-        assertEquals(expectedStudents.size(), actualStudentsData.getStudents().size());
+        Assertions.assertEquals(expectedStudents.size(), actualStudentsData.getStudents().size());
 
         for (int i = 0; i < expectedStudents.size(); i++) {
             Student student = expectedStudents.get(i);
             StudentData studentData = actualStudentsData.getStudents().get(i);
 
-            assertEquals(student.getId(), studentData.getUserId());
-            assertEquals(student.getEmail(), studentData.getEmail());
-            assertEquals(student.getCourseId(), studentData.getCourseId());
-            assertEquals(student.getName(), studentData.getName());
-            assertEquals(student.getComments(), studentData.getComments());
-            assertEquals(
+            Assertions.assertEquals(student.getId(), studentData.getUserId());
+            Assertions.assertEquals(student.getEmail(), studentData.getEmail());
+            Assertions.assertEquals(student.getCourseId(), studentData.getCourseId());
+            Assertions.assertEquals(student.getName(), studentData.getName());
+            Assertions.assertEquals(student.getComments(), studentData.getComments());
+            Assertions.assertEquals(
                     student.getAccount() == null ? JoinState.NOT_JOINED : JoinState.JOINED,
                     studentData.getJoinState()
             );
-            assertEquals(student.getTeamName(), studentData.getTeamName());
-            assertEquals(student.getSectionName(), studentData.getSectionName());
-            assertEquals(student.getCourse().getInstitute(), studentData.getInstitute());
+            Assertions.assertEquals(student.getTeamName(), studentData.getTeamName());
+            Assertions.assertEquals(student.getSectionName(), studentData.getSectionName());
+            Assertions.assertEquals(student.getCourse().getInstitute(), studentData.getInstitute());
 
             if (isAdmin) {
-                assertEquals(student.getGoogleId(), studentData.getGoogleId());
-                assertEquals(student.getRegKey(), studentData.getKey());
+                Assertions.assertEquals(student.getGoogleId(), studentData.getGoogleId());
+                Assertions.assertEquals(student.getRegKey(), studentData.getKey());
             } else {
-                assertNull(studentData.getGoogleId());
-                assertNull(studentData.getKey());
+                Assertions.assertNull(studentData.getGoogleId());
+                Assertions.assertNull(studentData.getKey());
             }
         }
     }
@@ -138,7 +139,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         verify(mockLogic, never()).searchStudentsInWholeSystem(any());
         verifyNoMoreInteractions(mockLogic);
 
-        assertEquals(0, studentsData.getStudents().size());
+        Assertions.assertEquals(0, studentsData.getStudents().size());
     }
 
     @Test
@@ -182,7 +183,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         verify(mockLogic, times(1)).searchStudentsInWholeSystem(searchKey);
         verifyNoMoreInteractions(mockLogic);
 
-        assertEquals(0, studentsData.getStudents().size());
+        Assertions.assertEquals(0, studentsData.getStudents().size());
     }
 
     @Test

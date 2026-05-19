@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.Mockito.when;
 
 import java.util.UUID;
@@ -61,7 +62,7 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(params);
-        assertEquals("Account request with id: 11110000-0000-0000-0000-000000000000 does not exist.",
+        Assertions.assertEquals("Account request with id: 11110000-0000-0000-0000-000000000000 does not exist.",
                 enfe.getMessage());
     }
 
@@ -91,12 +92,12 @@ public class GetAccountRequestActionTest extends BaseActionTest<GetAccountReques
     }
 
     private void verifyAccountRequest(AccountRequestData output, AccountRequest accountRequest) {
-        assertEquals(output.getId(), accountRequest.getId());
-        assertEquals(output.getEmail(), accountRequest.getEmail());
-        assertEquals(output.getName(), accountRequest.getName());
-        assertEquals(output.getInstitute(), accountRequest.getInstitute());
-        assertEquals(output.getRegistrationKey(), accountRequest.getRegistrationKey());
-        assertEquals(output.getStatus(), accountRequest.getStatus());
-        assertEquals(output.getComments(), accountRequest.getComments());
+        Assertions.assertEquals(output.getId(), accountRequest.getId());
+        Assertions.assertEquals(output.getEmail(), accountRequest.getEmail());
+        Assertions.assertEquals(output.getName(), accountRequest.getName());
+        Assertions.assertEquals(output.getInstitute(), accountRequest.getInstitute());
+        Assertions.assertEquals(output.getRegistrationKey(), accountRequest.getRegistrationKey());
+        Assertions.assertEquals(output.getStatus(), accountRequest.getStatus());
+        Assertions.assertEquals(output.getComments(), accountRequest.getComments());
     }
 }

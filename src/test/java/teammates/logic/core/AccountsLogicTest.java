@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -79,7 +80,7 @@ public class AccountsLogicTest extends BaseTestCase {
 
         Account result = accountsLogic.createOrGetAccountForEmail(email);
 
-        assertEquals(result, account);
+        Assertions.assertEquals(result, account);
     }
 
     @Test
@@ -92,13 +93,13 @@ public class AccountsLogicTest extends BaseTestCase {
         Account result = accountsLogic.createOrGetAccountForEmail(email);
 
         verify(accountsDb, times(1)).createAccount(result);
-        assertNotNull(result);
-        assertEquals(result.getEmail(), email);
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(result.getEmail(), email);
     }
 
     @Test
     public void testCreateOrGetAccountForEmail_nullEmail_throwsException() {
-        assertThrows(AssertionError.class,
+        Assertions.assertThrows(AssertionError.class,
                 () -> accountsLogic.createOrGetAccountForEmail(null));
     }
 }

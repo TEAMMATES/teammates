@@ -1,5 +1,6 @@
 package teammates.it.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -57,17 +58,17 @@ public class GetInstructorPrivilegeActionIT extends BaseActionIT<GetInstructorPr
         InstructorPrivileges privileges = response.getPrivileges();
         InstructorPermissionSet courseLevelPrivilege = privileges.getCourseLevelPrivileges();
 
-        assertTrue(courseLevelPrivilege.isCanModifyCourse());
-        assertTrue(courseLevelPrivilege.isCanModifyInstructor());
-        assertTrue(courseLevelPrivilege.isCanModifySession());
-        assertTrue(courseLevelPrivilege.isCanModifyStudent());
-        assertTrue(courseLevelPrivilege.isCanViewStudentInSections());
-        assertTrue(courseLevelPrivilege.isCanViewSessionInSections());
-        assertTrue(courseLevelPrivilege.isCanSubmitSessionInSections());
-        assertTrue(courseLevelPrivilege.isCanModifySessionCommentsInSections());
+        Assertions.assertTrue(courseLevelPrivilege.isCanModifyCourse());
+        Assertions.assertTrue(courseLevelPrivilege.isCanModifyInstructor());
+        Assertions.assertTrue(courseLevelPrivilege.isCanModifySession());
+        Assertions.assertTrue(courseLevelPrivilege.isCanModifyStudent());
+        Assertions.assertTrue(courseLevelPrivilege.isCanViewStudentInSections());
+        Assertions.assertTrue(courseLevelPrivilege.isCanViewSessionInSections());
+        Assertions.assertTrue(courseLevelPrivilege.isCanSubmitSessionInSections());
+        Assertions.assertTrue(courseLevelPrivilege.isCanModifySessionCommentsInSections());
 
-        assertTrue(privileges.getSectionLevelPrivileges().isEmpty());
-        assertTrue(privileges.getSessionLevelPrivileges().isEmpty());
+        Assertions.assertTrue(privileges.getSectionLevelPrivileges().isEmpty());
+        Assertions.assertTrue(privileges.getSessionLevelPrivileges().isEmpty());
 
         ______TS("Typical Success Case fetching privilege of another instructor by email");
         params = new String[] {
@@ -80,17 +81,17 @@ public class GetInstructorPrivilegeActionIT extends BaseActionIT<GetInstructorPr
         privileges = response.getPrivileges();
         courseLevelPrivilege = privileges.getCourseLevelPrivileges();
 
-        assertFalse(courseLevelPrivilege.isCanModifyCourse());
-        assertFalse(courseLevelPrivilege.isCanModifyInstructor());
-        assertFalse(courseLevelPrivilege.isCanModifySession());
-        assertFalse(courseLevelPrivilege.isCanModifyStudent());
-        assertTrue(courseLevelPrivilege.isCanViewStudentInSections());
-        assertTrue(courseLevelPrivilege.isCanViewSessionInSections());
-        assertTrue(courseLevelPrivilege.isCanSubmitSessionInSections());
-        assertFalse(courseLevelPrivilege.isCanModifySessionCommentsInSections());
+        Assertions.assertFalse(courseLevelPrivilege.isCanModifyCourse());
+        Assertions.assertFalse(courseLevelPrivilege.isCanModifyInstructor());
+        Assertions.assertFalse(courseLevelPrivilege.isCanModifySession());
+        Assertions.assertFalse(courseLevelPrivilege.isCanModifyStudent());
+        Assertions.assertTrue(courseLevelPrivilege.isCanViewStudentInSections());
+        Assertions.assertTrue(courseLevelPrivilege.isCanViewSessionInSections());
+        Assertions.assertTrue(courseLevelPrivilege.isCanSubmitSessionInSections());
+        Assertions.assertFalse(courseLevelPrivilege.isCanModifySessionCommentsInSections());
 
-        assertTrue(privileges.getSectionLevelPrivileges().isEmpty());
-        assertTrue(privileges.getSessionLevelPrivileges().isEmpty());
+        Assertions.assertTrue(privileges.getSectionLevelPrivileges().isEmpty());
+        Assertions.assertTrue(privileges.getSessionLevelPrivileges().isEmpty());
 
         ______TS("Typical Success Case fetching privilege of another instructor by id");
         params = new String[] {
@@ -103,17 +104,17 @@ public class GetInstructorPrivilegeActionIT extends BaseActionIT<GetInstructorPr
         privileges = response.getPrivileges();
         courseLevelPrivilege = privileges.getCourseLevelPrivileges();
 
-        assertFalse(courseLevelPrivilege.isCanModifyCourse());
-        assertFalse(courseLevelPrivilege.isCanModifyInstructor());
-        assertFalse(courseLevelPrivilege.isCanModifySession());
-        assertFalse(courseLevelPrivilege.isCanModifyStudent());
-        assertTrue(courseLevelPrivilege.isCanViewStudentInSections());
-        assertTrue(courseLevelPrivilege.isCanViewSessionInSections());
-        assertTrue(courseLevelPrivilege.isCanSubmitSessionInSections());
-        assertFalse(courseLevelPrivilege.isCanModifySessionCommentsInSections());
+        Assertions.assertFalse(courseLevelPrivilege.isCanModifyCourse());
+        Assertions.assertFalse(courseLevelPrivilege.isCanModifyInstructor());
+        Assertions.assertFalse(courseLevelPrivilege.isCanModifySession());
+        Assertions.assertFalse(courseLevelPrivilege.isCanModifyStudent());
+        Assertions.assertTrue(courseLevelPrivilege.isCanViewStudentInSections());
+        Assertions.assertTrue(courseLevelPrivilege.isCanViewSessionInSections());
+        Assertions.assertTrue(courseLevelPrivilege.isCanSubmitSessionInSections());
+        Assertions.assertFalse(courseLevelPrivilege.isCanModifySessionCommentsInSections());
 
-        assertTrue(privileges.getSectionLevelPrivileges().isEmpty());
-        assertTrue(privileges.getSessionLevelPrivileges().isEmpty());
+        Assertions.assertTrue(privileges.getSectionLevelPrivileges().isEmpty());
+        Assertions.assertTrue(privileges.getSessionLevelPrivileges().isEmpty());
 
         ______TS("Fetch privilege of non-existent instructor, should fail");
         params = new String[] {
@@ -122,7 +123,7 @@ public class GetInstructorPrivilegeActionIT extends BaseActionIT<GetInstructorPr
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(params);
-        assertEquals("Instructor does not exist.", enfe.getMessage());
+        Assertions.assertEquals("Instructor does not exist.", enfe.getMessage());
 
         ______TS("Insufficient number of parameters, should fail");
         verifyHttpParameterFailure();

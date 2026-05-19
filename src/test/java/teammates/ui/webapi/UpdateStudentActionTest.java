@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -102,7 +103,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 EmailType.STUDENT_EMAIL_CHANGED
         );
         verifyNumberOfEmailsSent(1);
-        assertEquals(SUCCESSFUL_UPDATE_WITH_EMAIL, actionOutput.getMessage());
+        Assertions.assertEquals(SUCCESSFUL_UPDATE_WITH_EMAIL, actionOutput.getMessage());
     }
 
     @Test
@@ -140,7 +141,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         );
 
         verifyNoEmailsSent();
-        assertEquals(SUCCESSFUL_UPDATE_BUT_EMAIL_FAILED, actionOutput.getMessage());
+        Assertions.assertEquals(SUCCESSFUL_UPDATE_BUT_EMAIL_FAILED, actionOutput.getMessage());
     }
 
     @Test
@@ -153,7 +154,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(studentUpdateRequest, params);
-        assertEquals(UpdateStudentAction.STUDENT_NOT_FOUND_FOR_EDIT, enfe.getMessage());
+        Assertions.assertEquals(UpdateStudentAction.STUDENT_NOT_FOUND_FOR_EDIT, enfe.getMessage());
 
         verify(mockLogic, times(1)).getStudent(any());
         verifyNoTasksAdded();

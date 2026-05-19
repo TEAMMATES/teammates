@@ -1,5 +1,6 @@
 package teammates.it.logic.core;
 
+import org.junit.jupiter.api.Assertions;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class FeedbackSessionLogsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         FeedbackSessionLog log = fslLogic.createFeedbackSessionLog(fs, student, FeedbackSessionLogType.ACCESS, timestamp);
 
-        assertNotNull(fslLogic.getFeedbackSessionLog(log.getId()));
+        Assertions.assertNotNull(fslLogic.getFeedbackSessionLog(log.getId()));
     }
 
     @Test
@@ -72,7 +73,7 @@ public class FeedbackSessionLogsLogicIT extends BaseTestCaseWithDatabaseAccess {
         List<FeedbackSessionLog> actualLogs = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), null, null,
                 startTime, endTime);
 
-        assertEquals(expectedLogs, actualLogs);
+        Assertions.assertEquals(expectedLogs, actualLogs);
 
         ______TS("Return logs belonging to a student in a course in time range");
         expectedLogs = List.of(
@@ -83,7 +84,7 @@ public class FeedbackSessionLogsLogicIT extends BaseTestCaseWithDatabaseAccess {
         actualLogs = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), student1.getId(), null, startTime,
                 endTime);
 
-        assertEquals(expectedLogs, actualLogs);
+        Assertions.assertEquals(expectedLogs, actualLogs);
 
         ______TS("Return logs belonging to a feedback session in time range");
         expectedLogs = List.of(
@@ -93,7 +94,7 @@ public class FeedbackSessionLogsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         actualLogs = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), null, fs1.getId(), startTime, endTime);
 
-        assertEquals(expectedLogs, actualLogs);
+        Assertions.assertEquals(expectedLogs, actualLogs);
 
         ______TS("Return logs belonging to a student in a feedback session in time range");
         expectedLogs = List.of(student1Session1Log1);
@@ -102,7 +103,7 @@ public class FeedbackSessionLogsLogicIT extends BaseTestCaseWithDatabaseAccess {
                 startTime,
                 endTime);
 
-        assertEquals(expectedLogs, actualLogs);
+        Assertions.assertEquals(expectedLogs, actualLogs);
 
         ______TS("No logs in time range, return empty list");
         expectedLogs = new ArrayList<>();
@@ -110,7 +111,7 @@ public class FeedbackSessionLogsLogicIT extends BaseTestCaseWithDatabaseAccess {
         actualLogs = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), null, null, endTime.plusSeconds(3600),
                 endTime.plusSeconds(7200));
 
-        assertEquals(expectedLogs, actualLogs);
+        Assertions.assertEquals(expectedLogs, actualLogs);
     }
 
     @Test
@@ -125,9 +126,9 @@ public class FeedbackSessionLogsLogicIT extends BaseTestCaseWithDatabaseAccess {
         List<FeedbackSessionLog> remainingLogs = fslLogic.getOrderedFeedbackSessionLogs(course.getId(), null, null,
                 Instant.parse("2012-01-01T00:00:00Z"), Instant.parse("2012-01-02T00:00:00Z"));
 
-        assertEquals(deletedCount, 7);
-        assertEquals(remainingLogs.size(), 0);
-        assertTrue(remainingLogs.stream().allMatch(log -> !log.getTimestamp().isBefore(cutoffTime)));
+        Assertions.assertEquals(deletedCount, 7);
+        Assertions.assertEquals(remainingLogs.size(), 0);
+        Assertions.assertTrue(remainingLogs.stream().allMatch(log -> !log.getTimestamp().isBefore(cutoffTime)));
     }
 
 }

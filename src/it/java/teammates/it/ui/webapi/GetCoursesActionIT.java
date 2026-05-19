@@ -1,5 +1,6 @@
 package teammates.it.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -89,7 +90,7 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
         loginAsInstructor(instructor.getGoogleId());
 
         CoursesData courses = getValidCourses(params);
-        assertEquals(3, courses.getCourses().size());
+        Assertions.assertEquals(3, courses.getCourses().size());
         Course expectedCourse1 = typicalBundle.courses.get("typicalCourse1");
         Course expectedCourse2 = typicalBundle.courses.get("typicalCourse2");
         Course expectedCourse3 = typicalBundle.courses.get("typicalCourse4");
@@ -109,7 +110,7 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
         loginAsInstructor(instructor.getGoogleId());
 
         CoursesData courses = getValidCourses(params);
-        assertEquals(2, courses.getCourses().size());
+        Assertions.assertEquals(2, courses.getCourses().size());
         Course expectedCourse1 = typicalBundle.courses.get("typicalCourse3");
         Course expectedCourse2 = typicalBundle.courses.get("typicalCourse5");
         verifySameCourseData(courses.getCourses().get(0), expectedCourse1);
@@ -124,7 +125,7 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
 
         CoursesData courses = getValidCourses(params);
         courses.getCourses().sort((c1, c2) -> c1.getCourseId().compareTo(c2.getCourseId()));
-        assertEquals(2, courses.getCourses().size());
+        Assertions.assertEquals(2, courses.getCourses().size());
         Course expectedCourse1 = typicalBundle.courses.get("typicalCourse1");
         Course expectedCourse2 = typicalBundle.courses.get("typicalCourse2");
 
@@ -133,23 +134,23 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
     }
 
     private void verifySameCourseData(CourseData actualCourse, Course expectedCourse) {
-        assertEquals(actualCourse.getCourseId(), expectedCourse.getId());
-        assertEquals(actualCourse.getCourseName(), expectedCourse.getName());
-        assertEquals(actualCourse.getCreationTimestamp(), expectedCourse.getCreatedAt().toEpochMilli());
+        Assertions.assertEquals(actualCourse.getCourseId(), expectedCourse.getId());
+        Assertions.assertEquals(actualCourse.getCourseName(), expectedCourse.getName());
+        Assertions.assertEquals(actualCourse.getCreationTimestamp(), expectedCourse.getCreatedAt().toEpochMilli());
         if (expectedCourse.getDeletedAt() != null) {
-            assertEquals(actualCourse.getDeletionTimestamp(), expectedCourse.getDeletedAt().toEpochMilli());
+            Assertions.assertEquals(actualCourse.getDeletionTimestamp(), expectedCourse.getDeletedAt().toEpochMilli());
         }
-        assertEquals(actualCourse.getTimeZone(), expectedCourse.getTimeZone());
+        Assertions.assertEquals(actualCourse.getTimeZone(), expectedCourse.getTimeZone());
     }
 
     private void verifySameCourseDataStudent(CourseData actualCourse, Course expectedCourse) {
-        assertEquals(actualCourse.getCourseId(), expectedCourse.getId());
-        assertEquals(actualCourse.getCourseName(), expectedCourse.getName());
-        assertEquals(actualCourse.getCreationTimestamp(), expectedCourse.getCreatedAt().toEpochMilli());
+        Assertions.assertEquals(actualCourse.getCourseId(), expectedCourse.getId());
+        Assertions.assertEquals(actualCourse.getCourseName(), expectedCourse.getName());
+        Assertions.assertEquals(actualCourse.getCreationTimestamp(), expectedCourse.getCreatedAt().toEpochMilli());
         if (expectedCourse.getDeletedAt() != null) {
-            assertEquals(actualCourse.getDeletionTimestamp(), expectedCourse.getDeletedAt().toEpochMilli());
+            Assertions.assertEquals(actualCourse.getDeletionTimestamp(), expectedCourse.getDeletedAt().toEpochMilli());
         }
-        assertEquals(actualCourse.getTimeZone(), expectedCourse.getTimeZone());
+        Assertions.assertEquals(actualCourse.getTimeZone(), expectedCourse.getTimeZone());
     }
 
     private CoursesData getValidCourses(String... params) {

@@ -1,5 +1,6 @@
 package teammates.it.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
@@ -56,8 +57,8 @@ public class GetSessionResponseStatsActionIT extends BaseActionIT<GetSessionResp
         JsonResult r = getJsonResult(a);
 
         FeedbackSessionStatsData output = (FeedbackSessionStatsData) r.getOutput();
-        assertEquals(8, output.getExpectedTotal());
-        assertEquals(3, output.getSubmittedTotal());
+        Assertions.assertEquals(8, output.getExpectedTotal());
+        Assertions.assertEquals(3, output.getSubmittedTotal());
 
         ______TS("fail: instructor accesses stats of non-existent feedback session");
 

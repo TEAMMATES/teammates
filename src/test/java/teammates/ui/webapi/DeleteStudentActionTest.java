@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -67,7 +68,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
         verify(mockLogic, never()).getStudentByGoogleId(any(), any());
         verify(mockLogic, times(1)).deleteStudentCascade(course.getId(), student.getEmail());
-        assertEquals("Student is successfully deleted.", actionOutput.getMessage());
+        Assertions.assertEquals("Student is successfully deleted.", actionOutput.getMessage());
     }
 
     @Test
@@ -82,7 +83,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
         verify(mockLogic, times(1)).getStudentByGoogleId(course.getId(), studentId);
         verify(mockLogic, times(1)).deleteStudentCascade(course.getId(), student.getEmail());
-        assertEquals("Student is successfully deleted.", actionOutput.getMessage());
+        Assertions.assertEquals("Student is successfully deleted.", actionOutput.getMessage());
     }
 
     @Test
@@ -99,7 +100,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
         verify(mockLogic, times(1)).getStudentByGoogleId("RANDOM_COURSE", studentId);
         verify(mockLogic, never()).deleteStudentCascade(any(), any());
-        assertEquals("Student is successfully deleted.", actionOutput.getMessage());
+        Assertions.assertEquals("Student is successfully deleted.", actionOutput.getMessage());
     }
 
     @Test
@@ -116,7 +117,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
         verify(mockLogic, times(1)).getStudentByGoogleId(course.getId(), "RANDOM_STUDENT");
         verify(mockLogic, never()).deleteStudentCascade(any(), any());
-        assertEquals("Student is successfully deleted.", actionOutput.getMessage());
+        Assertions.assertEquals("Student is successfully deleted.", actionOutput.getMessage());
     }
 
     @Test
@@ -135,7 +136,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         verify(mockLogic, times(1)).deleteStudentCascade(course.getId(), "RANDOM_EMAIL");
         verify(mockLogic, times(1)).deleteStudentCascade(any(), any());
         verify(mockLogic, never()).deleteStudentCascade(course.getId(), student.getEmail());
-        assertEquals("Student is successfully deleted.", actionOutput.getMessage());
+        Assertions.assertEquals("Student is successfully deleted.", actionOutput.getMessage());
     }
 
     @Test

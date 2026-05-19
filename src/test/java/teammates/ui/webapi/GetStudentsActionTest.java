@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
@@ -233,7 +234,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         JsonResult jsonResult = getJsonResult(action);
         StudentsData actualStudentsData = (StudentsData) jsonResult.getOutput();
 
-        assertEquals(0, actualStudentsData.getStudents().size());
+        Assertions.assertEquals(0, actualStudentsData.getStudents().size());
         verify(mockLogic, never()).getStudentsByTeamName(null, stubCourse.getId());
         verify(mockLogic, times(1)).getStudentsForCourse(stubCourse.getId());
     }
@@ -259,21 +260,21 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     }
 
     private void verifyStudentsData(List<Student> expectedStudents, StudentsData actualStudentsData, Type type) {
-        assertEquals(expectedStudents.size(), actualStudentsData.getStudents().size());
+        Assertions.assertEquals(expectedStudents.size(), actualStudentsData.getStudents().size());
 
         for (int i = 0; i < expectedStudents.size(); i++) {
-            assertEquals(expectedStudents.get(i).getCourseId(), actualStudentsData.getStudents().get(i).getCourseId());
-            assertEquals(expectedStudents.get(i).getTeamName(), actualStudentsData.getStudents().get(i).getTeamName());
-            assertEquals(expectedStudents.get(i).getSectionName(), actualStudentsData.getStudents().get(i).getSectionName());
-            assertEquals(expectedStudents.get(i).getEmail(), actualStudentsData.getStudents().get(i).getEmail());
-            assertEquals(expectedStudents.get(i).getName(), actualStudentsData.getStudents().get(i).getName());
-            assertEquals(expectedStudents.get(i).getGoogleId(), actualStudentsData.getStudents().get(i).getGoogleId());
-            assertNull(actualStudentsData.getStudents().get(i).getKey());
+            Assertions.assertEquals(expectedStudents.get(i).getCourseId(), actualStudentsData.getStudents().get(i).getCourseId());
+            Assertions.assertEquals(expectedStudents.get(i).getTeamName(), actualStudentsData.getStudents().get(i).getTeamName());
+            Assertions.assertEquals(expectedStudents.get(i).getSectionName(), actualStudentsData.getStudents().get(i).getSectionName());
+            Assertions.assertEquals(expectedStudents.get(i).getEmail(), actualStudentsData.getStudents().get(i).getEmail());
+            Assertions.assertEquals(expectedStudents.get(i).getName(), actualStudentsData.getStudents().get(i).getName());
+            Assertions.assertEquals(expectedStudents.get(i).getGoogleId(), actualStudentsData.getStudents().get(i).getGoogleId());
+            Assertions.assertNull(actualStudentsData.getStudents().get(i).getKey());
             if (type == Type.INSTRUCTOR) {
-                assertEquals(expectedStudents.get(i).getComments(), actualStudentsData.getStudents().get(i).getComments());
+                Assertions.assertEquals(expectedStudents.get(i).getComments(), actualStudentsData.getStudents().get(i).getComments());
             } else {
-                assertNull(actualStudentsData.getStudents().get(i).getJoinState());
-                assertNull(actualStudentsData.getStudents().get(i).getComments());
+                Assertions.assertNull(actualStudentsData.getStudents().get(i).getJoinState());
+                Assertions.assertNull(actualStudentsData.getStudents().get(i).getComments());
             }
         }
     }

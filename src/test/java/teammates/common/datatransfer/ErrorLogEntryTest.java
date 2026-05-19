@@ -1,5 +1,6 @@
 package teammates.common.datatransfer;
 
+import org.junit.jupiter.api.Assertions;
 import static teammates.test.AssertHelper.assertJsonEquals;
 
 import java.time.Instant;
@@ -26,9 +27,9 @@ public class ErrorLogEntryTest extends BaseTestCase {
         logEntry.setMessage("Test message");
 
         ErrorLogEntry errorLogEntry = ErrorLogEntry.fromLogEntry(logEntry);
-        assertEquals("Test message", errorLogEntry.getMessage());
-        assertEquals("ERROR", errorLogEntry.getSeverity());
-        assertEquals("traceid", errorLogEntry.getTraceId());
+        Assertions.assertEquals("Test message", errorLogEntry.getMessage());
+        Assertions.assertEquals("ERROR", errorLogEntry.getSeverity());
+        Assertions.assertEquals("traceid", errorLogEntry.getTraceId());
     }
 
     @Test
@@ -47,8 +48,8 @@ public class ErrorLogEntryTest extends BaseTestCase {
                   "instanceId": "instanceid123",
                   "instanceEvent": "STARTUP"
                 }""", errorLogEntry.getMessage());
-        assertEquals("ERROR", errorLogEntry.getSeverity());
-        assertEquals("traceid", errorLogEntry.getTraceId());
+        Assertions.assertEquals("ERROR", errorLogEntry.getSeverity());
+        Assertions.assertEquals("traceid", errorLogEntry.getTraceId());
     }
 
     @Test
@@ -92,9 +93,9 @@ public class ErrorLogEntryTest extends BaseTestCase {
         ));
 
         ErrorLogEntry errorLogEntry = ErrorLogEntry.fromLogEntry(logEntry);
-        assertEquals(expectedMessage, errorLogEntry.getMessage());
-        assertEquals("ERROR", errorLogEntry.getSeverity());
-        assertEquals("traceid", errorLogEntry.getTraceId());
+        Assertions.assertEquals(expectedMessage, errorLogEntry.getMessage());
+        Assertions.assertEquals("ERROR", errorLogEntry.getSeverity());
+        Assertions.assertEquals("traceid", errorLogEntry.getTraceId());
     }
 
     private GeneralLogEntry createTypicalLogEntry() {

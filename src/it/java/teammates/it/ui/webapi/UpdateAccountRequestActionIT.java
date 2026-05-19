@@ -1,5 +1,6 @@
 package teammates.it.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
@@ -66,14 +67,14 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         UpdateAccountRequestAction action = getAction(requestBody, params);
         JsonResult result = action.execute();
 
-        assertEquals(result.getStatusCode(), 200);
+        Assertions.assertEquals(result.getStatusCode(), 200);
         AccountRequestData data = (AccountRequestData) result.getOutput();
 
-        assertEquals(name, data.getName());
-        assertEquals(email, data.getEmail());
-        assertEquals(institute, data.getInstitute());
-        assertEquals(status, data.getStatus());
-        assertEquals(comments, data.getComments());
+        Assertions.assertEquals(name, data.getName());
+        Assertions.assertEquals(email, data.getEmail());
+        Assertions.assertEquals(institute, data.getInstitute());
+        Assertions.assertEquals(status, data.getStatus());
+        Assertions.assertEquals(comments, data.getComments());
         verifyNoEmailsSent();
 
         ______TS("non-existent but valid uuid");
@@ -84,7 +85,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
         EntityNotFoundException enfe = verifyEntityNotFound(requestBody, params);
 
-        assertEquals(String.format("Account request with id = %s not found", validUuid), enfe.getMessage());
+        Assertions.assertEquals(String.format("Account request with id = %s not found", validUuid), enfe.getMessage());
 
         ______TS("invalid uuid");
         requestBody = new AccountRequestUpdateRequest("name", "email",
@@ -93,7 +94,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
         InvalidHttpParameterException ihpe = verifyHttpParameterFailure(requestBody, params);
 
-        assertEquals("Expected UUID value for id parameter, but found: [invalid]", ihpe.getMessage());
+        Assertions.assertEquals("Expected UUID value for id parameter, but found: [invalid]", ihpe.getMessage());
 
         ______TS("invalid email");
         accountRequest = logic.createAccountRequest("name", "email@email.com",
@@ -107,7 +108,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
 
-        assertEquals(getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, email,
+        Assertions.assertEquals(getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, email,
                 FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT, FieldValidator.EMAIL_MAX_LENGTH),
                 ihrbe.getMessage());
 
@@ -120,7 +121,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
         ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
 
-        assertEquals(getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, name,
+        Assertions.assertEquals(getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, name,
                 FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR),
                 ihrbe.getMessage());
 
@@ -132,7 +133,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
         ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
 
-        assertEquals(getPopulatedErrorMessage(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, name,
+        Assertions.assertEquals(getPopulatedErrorMessage(FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, name,
                 FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                 FieldValidator.PERSON_NAME_MAX_LENGTH), ihrbe.getMessage());
 
@@ -144,7 +145,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
         ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
 
-        assertEquals("email cannot be null", ihrbe.getMessage());
+        Assertions.assertEquals("email cannot be null", ihrbe.getMessage());
 
         ______TS("null name value");
         requestBody = new AccountRequestUpdateRequest(null, email, institute, status, comments);
@@ -152,7 +153,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
         ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
 
-        assertEquals("name cannot be null", ihrbe.getMessage());
+        Assertions.assertEquals("name cannot be null", ihrbe.getMessage());
 
         ______TS("null status value");
         requestBody = new AccountRequestUpdateRequest(name, email, institute, null, comments);
@@ -160,7 +161,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
         ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
 
-        assertEquals("status cannot be null", ihrbe.getMessage());
+        Assertions.assertEquals("status cannot be null", ihrbe.getMessage());
 
         ______TS("null institute value");
         requestBody = new AccountRequestUpdateRequest(name, email, null, status, comments);
@@ -168,7 +169,7 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
 
         ihrbe = verifyHttpRequestBodyFailure(requestBody, params);
 
-        assertEquals("institute cannot be null", ihrbe.getMessage());
+        Assertions.assertEquals("institute cannot be null", ihrbe.getMessage());
 
         ______TS("allow null comments in request");
         requestBody = new AccountRequestUpdateRequest(name, email, institute, status, null);
@@ -178,10 +179,10 @@ public class UpdateAccountRequestActionIT extends BaseActionIT<UpdateAccountRequ
         result = getJsonResult(action, 200);
         data = (AccountRequestData) result.getOutput();
 
-        assertEquals(name, data.getName());
-        assertEquals(email, data.getEmail());
-        assertEquals(institute, data.getInstitute());
-        assertEquals(null, data.getComments());
+        Assertions.assertEquals(name, data.getName());
+        Assertions.assertEquals(email, data.getEmail());
+        Assertions.assertEquals(institute, data.getInstitute());
+        Assertions.assertEquals(null, data.getComments());
     }
 
     @Override

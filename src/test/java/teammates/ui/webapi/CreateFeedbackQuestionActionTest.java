@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -65,35 +66,35 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
 
         FeedbackQuestionData response = (FeedbackQuestionData) r.getOutput();
 
-        assertEquals(response.getQuestionNumber(), createdQuestion.getQuestionNumber().intValue());
-        assertEquals(response.getQuestionNumber(), 2);
+        Assertions.assertEquals(response.getQuestionNumber(), createdQuestion.getQuestionNumber().intValue());
+        Assertions.assertEquals(response.getQuestionNumber(), 2);
 
-        assertEquals(response.getQuestionDescription(), "this is the description");
-        assertEquals(response.getQuestionDescription(), createdQuestion.getDescription());
+        Assertions.assertEquals(response.getQuestionDescription(), "this is the description");
+        Assertions.assertEquals(response.getQuestionDescription(), createdQuestion.getDescription());
 
-        assertEquals(response.getQuestionBrief(), "this is the brief");
-        assertEquals(response.getQuestionBrief(), createdQuestion.getQuestionDetailsCopy().getQuestionText());
+        Assertions.assertEquals(response.getQuestionBrief(), "this is the brief");
+        Assertions.assertEquals(response.getQuestionBrief(), createdQuestion.getQuestionDetailsCopy().getQuestionText());
 
-        assertEquals(response.getQuestionType(), FeedbackQuestionType.TEXT);
-        assertEquals(response.getQuestionType(), createdQuestion.getQuestionType());
+        Assertions.assertEquals(response.getQuestionType(), FeedbackQuestionType.TEXT);
+        Assertions.assertEquals(response.getQuestionType(), createdQuestion.getQuestionType());
 
-        assertEquals(response.getGiverType(), QuestionGiverType.STUDENTS);
-        assertEquals(response.getGiverType(), createdQuestion.getGiverType());
+        Assertions.assertEquals(response.getGiverType(), QuestionGiverType.STUDENTS);
+        Assertions.assertEquals(response.getGiverType(), createdQuestion.getGiverType());
 
-        assertEquals(response.getRecipientType(), QuestionRecipientType.INSTRUCTORS);
-        assertEquals(response.getRecipientType(), createdQuestion.getRecipientType());
+        Assertions.assertEquals(response.getRecipientType(), QuestionRecipientType.INSTRUCTORS);
+        Assertions.assertEquals(response.getRecipientType(), createdQuestion.getRecipientType());
 
-        assertEquals(response.getNumberOfEntitiesToGiveFeedbackToSetting(),
+        Assertions.assertEquals(response.getNumberOfEntitiesToGiveFeedbackToSetting(),
                 NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED);
 
-        assertTrue(response.getShowResponsesTo().isEmpty());
-        assertTrue(createdQuestion.getShowResponsesTo().isEmpty());
+        Assertions.assertTrue(response.getShowResponsesTo().isEmpty());
+        Assertions.assertTrue(createdQuestion.getShowResponsesTo().isEmpty());
 
-        assertTrue(response.getShowGiverNameTo().isEmpty());
-        assertTrue(createdQuestion.getShowGiverNameTo().isEmpty());
+        Assertions.assertTrue(response.getShowGiverNameTo().isEmpty());
+        Assertions.assertTrue(createdQuestion.getShowGiverNameTo().isEmpty());
 
-        assertTrue(response.getShowRecipientNameTo().isEmpty());
-        assertTrue(createdQuestion.getShowRecipientNameTo().isEmpty());
+        Assertions.assertTrue(response.getShowRecipientNameTo().isEmpty());
+        Assertions.assertTrue(createdQuestion.getShowRecipientNameTo().isEmpty());
     }
 
     @Test

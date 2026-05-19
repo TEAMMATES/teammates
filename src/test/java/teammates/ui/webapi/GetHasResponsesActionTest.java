@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -75,7 +76,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(params);
-        assertEquals("No course with id: non-existent course", enfe.getMessage());
+        Assertions.assertEquals("No course with id: non-existent course", enfe.getMessage());
     }
 
     @Test
@@ -88,7 +89,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(params);
-        assertEquals("No feedback question with id: 00000000-0000-0000-0000-000000000000", enfe.getMessage());
+        Assertions.assertEquals("No feedback question with id: 00000000-0000-0000-0000-000000000000", enfe.getMessage());
     }
 
     @Test
@@ -109,7 +110,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         JsonResult jsonResult = getJsonResult(getHasResponsesAction);
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertTrue(hasResponsesData.getHasResponses());
+        Assertions.assertTrue(hasResponsesData.getHasResponses());
 
         verify(mockLogic, times(1)).getCourse(typicalInstructor.getCourseId());
         verify(mockLogic, times(1)).hasResponsesForCourse(typicalInstructor.getCourseId());
@@ -133,7 +134,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         JsonResult jsonResult = getJsonResult(getHasResponsesAction);
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertTrue(hasResponsesData.getHasResponses());
+        Assertions.assertTrue(hasResponsesData.getHasResponses());
 
         verify(mockLogic, times(1)).getFeedbackQuestion(typicalFeedbackQuestion.getId());
         verify(mockLogic, times(1))
@@ -161,7 +162,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         JsonResult jsonResult = getJsonResult(getHasResponsesAction);
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertFalse(hasResponsesData.getHasResponses());
+        Assertions.assertFalse(hasResponsesData.getHasResponses());
 
         verify(mockLogic, times(1)).getFeedbackQuestion(typicalFeedbackQuestion.getId());
         verify(mockLogic, times(1))
@@ -205,7 +206,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         expectedResponseStats.put("Second feedback session", true);
         expectedResponseStats.put("Third feedback session", true);
 
-        assertEquals(expectedResponseStats, responseStats);
+        Assertions.assertEquals(expectedResponseStats, responseStats);
 
         verify(mockLogic, times(1)).getFeedbackSessionsForCourse(typicalCourse.getId());
         verify(mockLogic, times(1))

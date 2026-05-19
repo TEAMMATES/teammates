@@ -1,5 +1,6 @@
 package teammates.it.storage.api;
 
+import org.junit.jupiter.api.Assertions;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -24,7 +25,7 @@ public class AccountsDbIT extends BaseTestCaseWithDatabaseAccess {
 
         List<Account> accounts = accountsDb.getAccountsByEmail("email@teammates.com");
 
-        assertEquals(0, accounts.size());
+        Assertions.assertEquals(0, accounts.size());
 
         ______TS("Get accounts by email, multiple exists, succeeds");
 
@@ -44,8 +45,8 @@ public class AccountsDbIT extends BaseTestCaseWithDatabaseAccess {
 
         accounts = accountsDb.getAccountsByEmail(email);
 
-        assertEquals(3, accounts.size());
-        assertTrue(List.of(firstAccount, secondAccount, thirdAccount).containsAll(accounts));
+        Assertions.assertEquals(3, accounts.size());
+        Assertions.assertTrue(List.of(firstAccount, secondAccount, thirdAccount).containsAll(accounts));
     }
 
     @Test
@@ -72,6 +73,6 @@ public class AccountsDbIT extends BaseTestCaseWithDatabaseAccess {
         accountsDb.deleteAccount(account);
 
         Account actual = accountsDb.getAccount(account.getId());
-        assertNull(actual);
+        Assertions.assertNull(actual);
     }
 }

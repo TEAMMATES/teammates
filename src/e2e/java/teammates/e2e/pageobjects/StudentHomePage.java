@@ -1,5 +1,6 @@
 package teammates.e2e.pageobjects;
 
+import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -33,12 +34,12 @@ public class StudentHomePage extends AppPage {
                 coursePanelIndex = i;
             }
         }
-        assertTrue(coursePanelIndex >= 0);
+        Assertions.assertTrue(coursePanelIndex >= 0);
         return coursePanelIndex;
     }
 
     public void verifyVisibleFeedbackSessionToStudents(String feedbackSessionName, int index) {
-        assertTrue(getStudentHomeCoursePanels().get(index)
+        Assertions.assertTrue(getStudentHomeCoursePanels().get(index)
                 .findElement(By.cssSelector("div.table-responsive table.table tbody")).getText()
                 .contains(feedbackSessionName));
     }

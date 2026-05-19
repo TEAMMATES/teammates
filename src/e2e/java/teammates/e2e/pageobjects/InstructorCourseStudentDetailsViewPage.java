@@ -1,5 +1,6 @@
 package teammates.e2e.pageobjects;
 
+import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.openqa.selenium.WebElement;
@@ -57,9 +58,9 @@ public class InstructorCourseStudentDetailsViewPage extends AppPage {
 
     private void verifyDetail(String expected, WebElement detailField) {
         if (expected.isEmpty()) {
-            assertEquals(NOT_SPECIFIED_LABEL, detailField.getText());
+            Assertions.assertEquals(NOT_SPECIFIED_LABEL, detailField.getText());
         } else {
-            assertEquals(expected, detailField.getText());
+            Assertions.assertEquals(expected, detailField.getText());
         }
     }
 

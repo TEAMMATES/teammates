@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
@@ -215,8 +216,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
         when(mockLogic.getFeedbackQuestion(stubFeedbackQuestion.getId())).thenReturn(stubFeedbackQuestion);
         GetFeedbackResponsesAction action = getAction(params);
-        InvalidHttpParameterException ihte = assertThrows(InvalidHttpParameterException.class, action::execute);
-        assertEquals("Unknown intent " + Intent.FULL_DETAIL, ihte.getMessage());
+        InvalidHttpParameterException ihte = Assertions.assertThrows(InvalidHttpParameterException.class, action::execute);
+        Assertions.assertEquals("Unknown intent " + Intent.FULL_DETAIL, ihte.getMessage());
     }
 
     @Test
@@ -300,7 +301,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                         && instructor.getCourse().equals(stubInstructor.getCourse())))).thenReturn(List.of());
         GetFeedbackResponsesAction action = getAction(params);
         FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
-        assertEquals(0, result.getResponses().size());
+        Assertions.assertEquals(0, result.getResponses().size());
     }
 
     @Test
@@ -320,7 +321,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                         && student.getCourse().equals(stubStudent.getCourse())))).thenReturn(List.of());
         GetFeedbackResponsesAction action = getAction(params);
         FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
-        assertEquals(0, result.getResponses().size());
+        Assertions.assertEquals(0, result.getResponses().size());
     }
 
     @Test
@@ -359,8 +360,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         };
 
         GetFeedbackResponsesAction action = getAction(params1);
-        InvalidHttpParameterException ihpe = assertThrows(InvalidHttpParameterException.class, action::execute);
-        assertEquals("Expected UUID value for questionid parameter, but found: [random-invalid-id]", ihpe.getMessage());
+        InvalidHttpParameterException ihpe = Assertions.assertThrows(InvalidHttpParameterException.class, action::execute);
+        Assertions.assertEquals("Expected UUID value for questionid parameter, but found: [random-invalid-id]", ihpe.getMessage());
 
         logoutUser();
         loginAsInstructor(stubInstructor.getGoogleId());
@@ -370,12 +371,12 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
         GetFeedbackResponsesAction action2 = getAction(params2);
-        InvalidHttpParameterException ihpe2 = assertThrows(InvalidHttpParameterException.class, action2::execute);
-        assertEquals("Expected UUID value for questionid parameter, but found: [random-invalid-id]", ihpe2.getMessage());
+        InvalidHttpParameterException ihpe2 = Assertions.assertThrows(InvalidHttpParameterException.class, action2::execute);
+        Assertions.assertEquals("Expected UUID value for questionid parameter, but found: [random-invalid-id]", ihpe2.getMessage());
     }
 
     private void verifyFeedbackResponsesEquals(FeedbackResponsesData expected, FeedbackResponsesData actual) {
-        assertEquals(expected.getResponses().size(), actual.getResponses().size());
+        Assertions.assertEquals(expected.getResponses().size(), actual.getResponses().size());
         List<FeedbackResponseData> feedbackResponsesList = expected.getResponses();
         List<FeedbackResponseData> actualFeedbackResponsesList = actual.getResponses();
         for (int i = 0; i < feedbackResponsesList.size(); i++) {
@@ -396,14 +397,14 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
             }
             FeedbackResponseData expectedFeedbackResponse = feedbackResponsesList.get(i);
             FeedbackResponseData actualFeedbackResponse = actualFeedbackResponsesList.get(i);
-            assertEquals(expectedFeedbackResponse.getFeedbackResponseId(), actualFeedbackResponse.getFeedbackResponseId());
-            assertEquals(expectedFeedbackResponse.getGiverIdentifier(), actualFeedbackResponse.getGiverIdentifier());
-            assertEquals(expectedFeedbackResponse.getRecipientIdentifier(), actualFeedbackResponse.getRecipientIdentifier());
-            assertEquals(expectedFeedbackResponse.getResponseDetails().getAnswerString(),
+            Assertions.assertEquals(expectedFeedbackResponse.getFeedbackResponseId(), actualFeedbackResponse.getFeedbackResponseId());
+            Assertions.assertEquals(expectedFeedbackResponse.getGiverIdentifier(), actualFeedbackResponse.getGiverIdentifier());
+            Assertions.assertEquals(expectedFeedbackResponse.getRecipientIdentifier(), actualFeedbackResponse.getRecipientIdentifier());
+            Assertions.assertEquals(expectedFeedbackResponse.getResponseDetails().getAnswerString(),
                     actualFeedbackResponse.getResponseDetails().getAnswerString());
-            assertEquals(expectedFeedbackResponse.getResponseDetails().getQuestionType(),
+            Assertions.assertEquals(expectedFeedbackResponse.getResponseDetails().getQuestionType(),
                     actualFeedbackResponse.getResponseDetails().getQuestionType());
-            assertEquals(JsonUtils.toJson(expectedFeedbackResponse.getResponseDetails()),
+            Assertions.assertEquals(JsonUtils.toJson(expectedFeedbackResponse.getResponseDetails()),
                     JsonUtils.toJson(actualFeedbackResponse.getResponseDetails()));
         }
     }
@@ -413,9 +414,9 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
         FeedbackResponseCommentData actualComment = actual.getGiverComment();
         assert expectedComment != null;
         assert actualComment != null;
-        assertEquals(expectedComment.getCommentGiver(), actualComment.getCommentGiver());
-        assertEquals(expectedComment.getCommentText(), actualComment.getCommentText());
-        assertEquals(expectedComment.getLastEditorEmail(), actualComment.getLastEditorEmail());
+        Assertions.assertEquals(expectedComment.getCommentGiver(), actualComment.getCommentGiver());
+        Assertions.assertEquals(expectedComment.getCommentText(), actualComment.getCommentText());
+        Assertions.assertEquals(expectedComment.getLastEditorEmail(), actualComment.getLastEditorEmail());
     }
 
     @Test
@@ -438,9 +439,9 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
             }
             stubFeedbackQuestion.setGiverType(type);
             GetFeedbackResponsesAction action = getAction(params);
-            UnauthorizedAccessException uae = assertThrows(UnauthorizedAccessException.class,
+            UnauthorizedAccessException uae = Assertions.assertThrows(UnauthorizedAccessException.class,
                     action::checkAccessControl);
-            assertEquals("Feedback question is not answerable for students", uae.getMessage());
+            Assertions.assertEquals("Feedback question is not answerable for students", uae.getMessage());
         }
         verify(mockLogic, times(QuestionGiverType.values().length - 2))
                 .getFeedbackQuestion(stubFeedbackQuestion.getId());
@@ -473,9 +474,9 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
             }
             stubFeedbackQuestion.setGiverType(type);
             GetFeedbackResponsesAction action = getAction(params);
-            UnauthorizedAccessException uae = assertThrows(UnauthorizedAccessException.class,
+            UnauthorizedAccessException uae = Assertions.assertThrows(UnauthorizedAccessException.class,
                     action::checkAccessControl);
-            assertEquals("Feedback question is not answerable for instructors", uae.getMessage());
+            Assertions.assertEquals("Feedback question is not answerable for instructors", uae.getMessage());
         }
         verify(mockLogic, times(QuestionGiverType.values().length - 2))
                 .getFeedbackQuestion(stubFeedbackQuestion.getId());
@@ -500,27 +501,27 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
         GetFeedbackResponsesAction action1 = getAction(unauthorizedIntentFullDetail);
-        InvalidHttpParameterException e1 = assertThrows(InvalidHttpParameterException.class,
+        InvalidHttpParameterException e1 = Assertions.assertThrows(InvalidHttpParameterException.class,
                 action1::checkAccessControl);
-        assertEquals("Unknown intent " + Intent.FULL_DETAIL, e1.getMessage());
+        Assertions.assertEquals("Unknown intent " + Intent.FULL_DETAIL, e1.getMessage());
 
         String[] unauthorizedIntentInstructorResult = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, stubFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
         };
         GetFeedbackResponsesAction action2 = getAction(unauthorizedIntentInstructorResult);
-        InvalidHttpParameterException e2 = assertThrows(InvalidHttpParameterException.class,
+        InvalidHttpParameterException e2 = Assertions.assertThrows(InvalidHttpParameterException.class,
                 action2::checkAccessControl);
-        assertEquals("Unknown intent " + Intent.INSTRUCTOR_RESULT, e2.getMessage());
+        Assertions.assertEquals("Unknown intent " + Intent.INSTRUCTOR_RESULT, e2.getMessage());
 
         String[] unauthorizedIntentStudentResult = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, stubFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
         };
         GetFeedbackResponsesAction action3 = getAction(unauthorizedIntentStudentResult);
-        InvalidHttpParameterException e3 = assertThrows(InvalidHttpParameterException.class,
+        InvalidHttpParameterException e3 = Assertions.assertThrows(InvalidHttpParameterException.class,
                 action3::checkAccessControl);
-        assertEquals("Unknown intent " + Intent.STUDENT_RESULT, e3.getMessage());
+        Assertions.assertEquals("Unknown intent " + Intent.STUDENT_RESULT, e3.getMessage());
     }
 
     @Test
@@ -539,8 +540,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
         GetFeedbackResponsesAction action = getAction(params);
-        UnauthorizedAccessException uae = assertThrows(UnauthorizedAccessException.class, action::checkAccessControl);
-        assertEquals("Trying to access system using a non-existent student entity", uae.getMessage());
+        UnauthorizedAccessException uae = Assertions.assertThrows(UnauthorizedAccessException.class, action::checkAccessControl);
+        Assertions.assertEquals("Trying to access system using a non-existent student entity", uae.getMessage());
     }
 
     @Test
@@ -556,8 +557,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
         GetFeedbackResponsesAction action = getAction(params);
-        UnauthorizedAccessException uae = assertThrows(UnauthorizedAccessException.class, action::checkAccessControl);
-        assertEquals("Trying to access system using a non-existent instructor entity", uae.getMessage());
+        UnauthorizedAccessException uae = Assertions.assertThrows(UnauthorizedAccessException.class, action::checkAccessControl);
+        Assertions.assertEquals("Trying to access system using a non-existent instructor entity", uae.getMessage());
     }
 
     @Test
@@ -569,8 +570,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
         GetFeedbackResponsesAction action = getAction(params);
-        EntityNotFoundException e = assertThrows(EntityNotFoundException.class, action::checkAccessControl);
-        assertEquals("Feedback Question not found", e.getMessage());
+        EntityNotFoundException e = Assertions.assertThrows(EntityNotFoundException.class, action::checkAccessControl);
+        Assertions.assertEquals("Feedback Question not found", e.getMessage());
     }
 
     @Test
@@ -613,8 +614,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
         GetFeedbackResponsesAction action = getAction(params1);
-        UnauthorizedAccessException uae = assertThrows(UnauthorizedAccessException.class, action::checkAccessControl);
-        assertEquals("You don't have submission privilege", uae.getMessage());
+        UnauthorizedAccessException uae = Assertions.assertThrows(UnauthorizedAccessException.class, action::checkAccessControl);
+        Assertions.assertEquals("You don't have submission privilege", uae.getMessage());
 
         questionAnswerableToInstructor.setShowGiverNameTo(List.of(ViewerType.INSTRUCTORS));
         questionAnswerableToInstructor.setShowRecipientNameTo(List.of(ViewerType.INSTRUCTORS));
@@ -628,8 +629,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, stubInstructorWithoutPrivileges.getEmail(),
         };
         GetFeedbackResponsesAction action2 = getAction(params2);
-        UnauthorizedAccessException uae2 = assertThrows(UnauthorizedAccessException.class, action2::checkAccessControl);
-        assertEquals("Feedback session [test-feedbacksession] is not accessible to instructor "
+        UnauthorizedAccessException uae2 = Assertions.assertThrows(UnauthorizedAccessException.class, action2::checkAccessControl);
+        Assertions.assertEquals("Feedback session [test-feedbacksession] is not accessible to instructor "
                 + "[valid1@teammates.tmt] for privilege [canmodifysessioncommentinsection]", uae2.getMessage());
     }
 
@@ -666,8 +667,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.PREVIEWAS, stubInstructor.getEmail(),
         };
         GetFeedbackResponsesAction action = getAction(params1);
-        UnauthorizedAccessException uae = assertThrows(UnauthorizedAccessException.class, action::checkAccessControl);
-        assertEquals("You are not allowed to see responses when previewing", uae.getMessage());
+        UnauthorizedAccessException uae = Assertions.assertThrows(UnauthorizedAccessException.class, action::checkAccessControl);
+        Assertions.assertEquals("You are not allowed to see responses when previewing", uae.getMessage());
 
         FeedbackQuestion questionThatCanBeModerated = getTypicalFeedbackQuestionForSession(stubFeedbackSession);
         questionThatCanBeModerated.setShowGiverNameTo(List.of(ViewerType.INSTRUCTORS));
@@ -682,8 +683,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, stubInstructor.getEmail(),
         };
         GetFeedbackResponsesAction action2 = getAction(params2);
-        UnauthorizedAccessException uae2 = assertThrows(UnauthorizedAccessException.class, action2::checkAccessControl);
-        assertEquals("You are not allowed to see responses when previewing", uae2.getMessage());
+        UnauthorizedAccessException uae2 = Assertions.assertThrows(UnauthorizedAccessException.class, action2::checkAccessControl);
+        Assertions.assertEquals("You are not allowed to see responses when previewing", uae2.getMessage());
 
     }
 
@@ -729,8 +730,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, stubStudent.getEmail(),
         };
         GetFeedbackResponsesAction action1 = getAction(params1);
-        UnauthorizedAccessException uae1 = assertThrows(UnauthorizedAccessException.class, action1::checkAccessControl);
-        assertEquals("Trying to access system using a non-existent instructor entity", uae1.getMessage());
+        UnauthorizedAccessException uae1 = Assertions.assertThrows(UnauthorizedAccessException.class, action1::checkAccessControl);
+        Assertions.assertEquals("Trying to access system using a non-existent instructor entity", uae1.getMessage());
 
         FeedbackQuestion questionThatCannotBeModerated = getTypicalFeedbackQuestionForSession(stubFeedbackSession);
         stubFeedbackSession.setSessionVisibleFromTime(Instant.now());
@@ -743,8 +744,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, stubStudent.getEmail(),
         };
         GetFeedbackResponsesAction action2 = getAction(params2);
-        UnauthorizedAccessException uae2 = assertThrows(UnauthorizedAccessException.class, action2::checkAccessControl);
-        assertEquals("The question is not applicable for moderation", uae2.getMessage());
+        UnauthorizedAccessException uae2 = Assertions.assertThrows(UnauthorizedAccessException.class, action2::checkAccessControl);
+        Assertions.assertEquals("The question is not applicable for moderation", uae2.getMessage());
     }
 
     @Test
@@ -762,8 +763,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, stubInstructor.getEmail(),
         };
         GetFeedbackResponsesAction action = getAction(params);
-        UnauthorizedAccessException uae = assertThrows(UnauthorizedAccessException.class, action::checkAccessControl);
-        assertEquals("The question is not applicable for moderation", uae.getMessage());
+        UnauthorizedAccessException uae = Assertions.assertThrows(UnauthorizedAccessException.class, action::checkAccessControl);
+        Assertions.assertEquals("The question is not applicable for moderation", uae.getMessage());
     }
 
     @Test
@@ -787,8 +788,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
         GetFeedbackResponsesAction action = getAction(params);
-        UnauthorizedAccessException uae = assertThrows(UnauthorizedAccessException.class, action::checkAccessControl);
-        assertEquals("Trying to access system using a non-existent student entity", uae.getMessage());
+        UnauthorizedAccessException uae = Assertions.assertThrows(UnauthorizedAccessException.class, action::checkAccessControl);
+        Assertions.assertEquals("Trying to access system using a non-existent student entity", uae.getMessage());
     }
 
     @Test
@@ -800,8 +801,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
         GetFeedbackResponsesAction action = getAction(params);
-        InvalidHttpParameterException e = assertThrows(InvalidHttpParameterException.class, action::checkAccessControl);
-        assertEquals("Expected UUID value for questionid parameter, but found: [random-invalid-id]", e.getMessage());
+        InvalidHttpParameterException e = Assertions.assertThrows(InvalidHttpParameterException.class, action::checkAccessControl);
+        Assertions.assertEquals("Expected UUID value for questionid parameter, but found: [random-invalid-id]", e.getMessage());
     }
 
     @Test
@@ -817,8 +818,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
         GetFeedbackResponsesAction action1 = getAction(params1);
-        UnauthorizedAccessException uae1 = assertThrows(UnauthorizedAccessException.class, action1::checkAccessControl);
-        assertEquals("Trying to access system using a non-existent instructor entity", uae1.getMessage());
+        UnauthorizedAccessException uae1 = Assertions.assertThrows(UnauthorizedAccessException.class, action1::checkAccessControl);
+        Assertions.assertEquals("Trying to access system using a non-existent instructor entity", uae1.getMessage());
 
         logoutUser();
         loginAsStudent(stubStudent.getGoogleId());
@@ -833,8 +834,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
         GetFeedbackResponsesAction action2 = getAction(params2);
-        UnauthorizedAccessException uae2 = assertThrows(UnauthorizedAccessException.class, action2::checkAccessControl);
-        assertEquals("Trying to access system using a non-existent student entity", uae2.getMessage());
+        UnauthorizedAccessException uae2 = Assertions.assertThrows(UnauthorizedAccessException.class, action2::checkAccessControl);
+        Assertions.assertEquals("Trying to access system using a non-existent student entity", uae2.getMessage());
     }
 
     @Test
@@ -856,8 +857,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, stubInstructor.getEmail(),
         };
         GetFeedbackResponsesAction action1 = getAction(params1);
-        UnauthorizedAccessException uae1 = assertThrows(UnauthorizedAccessException.class, action1::checkAccessControl);
-        assertEquals("Not authorized to access this resource.", uae1.getMessage());
+        UnauthorizedAccessException uae1 = Assertions.assertThrows(UnauthorizedAccessException.class, action1::checkAccessControl);
+        Assertions.assertEquals("Not authorized to access this resource.", uae1.getMessage());
 
         when(mockLogic.getInstructorByGoogleId(stubCourse.getId(), null)).thenReturn(null);
         String[] params2 = {
@@ -865,8 +866,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
         GetFeedbackResponsesAction action2 = getAction(params2);
-        UnauthorizedAccessException uae2 = assertThrows(UnauthorizedAccessException.class, action2::checkAccessControl);
-        assertEquals("Not authorized to access this resource.", uae2.getMessage());
+        UnauthorizedAccessException uae2 = Assertions.assertThrows(UnauthorizedAccessException.class, action2::checkAccessControl);
+        Assertions.assertEquals("Not authorized to access this resource.", uae2.getMessage());
         verify(mockLogic, never()).getInstructorByGoogleId(stubCourse.getId(), null);
 
         // Student
@@ -881,8 +882,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
         GetFeedbackResponsesAction action3 = getAction(params3);
-        UnauthorizedAccessException uae3 = assertThrows(UnauthorizedAccessException.class, action3::checkAccessControl);
-        assertEquals("Not authorized to access this resource.", uae3.getMessage());
+        UnauthorizedAccessException uae3 = Assertions.assertThrows(UnauthorizedAccessException.class, action3::checkAccessControl);
+        Assertions.assertEquals("Not authorized to access this resource.", uae3.getMessage());
 
         questionAnswerableToStudent.setShowResponsesTo(List.of(ViewerType.INSTRUCTORS));
         questionAnswerableToStudent.setShowRecipientNameTo(List.of(ViewerType.INSTRUCTORS));
@@ -895,8 +896,8 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, stubStudent.getEmail(),
         };
         GetFeedbackResponsesAction action4 = getAction(params4);
-        UnauthorizedAccessException uae4 = assertThrows(UnauthorizedAccessException.class, action4::checkAccessControl);
-        assertEquals("Not authorized to access this resource.", uae4.getMessage());
+        UnauthorizedAccessException uae4 = Assertions.assertThrows(UnauthorizedAccessException.class, action4::checkAccessControl);
+        Assertions.assertEquals("Not authorized to access this resource.", uae4.getMessage());
     }
 
     @Test

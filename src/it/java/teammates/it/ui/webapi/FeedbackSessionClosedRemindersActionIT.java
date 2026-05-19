@@ -1,5 +1,6 @@
 package teammates.it.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import java.time.Duration;
 import java.time.Instant;
 
@@ -61,8 +62,8 @@ public class FeedbackSessionClosedRemindersActionIT extends BaseActionIT<Feedbac
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
-        assertEquals("Successful", response1.getMessage());
-        assertTrue(session.isClosedEmailSent());
+        Assertions.assertEquals("Successful", response1.getMessage());
+        Assertions.assertTrue(session.isClosedEmailSent());
 
         verifySpecifiedTasksAdded("send-email-queue", 1);
 
@@ -75,7 +76,7 @@ public class FeedbackSessionClosedRemindersActionIT extends BaseActionIT<Feedbac
         JsonResult actionOutput2 = getJsonResult(action2);
         MessageOutput response2 = (MessageOutput) actionOutput2.getOutput();
 
-        assertEquals("Successful", response2.getMessage());
+        Assertions.assertEquals("Successful", response2.getMessage());
         verifyNoTasksAdded();
 
         ______TS("Success Case: no sessions to consider (`session` closed more than 1 hour ago)");
@@ -87,7 +88,7 @@ public class FeedbackSessionClosedRemindersActionIT extends BaseActionIT<Feedbac
         JsonResult actionOutput3 = getJsonResult(action3);
         MessageOutput response3 = (MessageOutput) actionOutput3.getOutput();
 
-        assertEquals("Successful", response3.getMessage());
+        Assertions.assertEquals("Successful", response3.getMessage());
         verifyNoTasksAdded();
     }
 

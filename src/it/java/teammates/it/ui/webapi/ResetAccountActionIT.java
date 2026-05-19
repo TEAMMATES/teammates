@@ -1,5 +1,6 @@
 package teammates.it.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -56,10 +57,10 @@ public class ResetAccountActionIT extends BaseActionIT<ResetAccountAction> {
         JsonResult actionOutput = getJsonResult(resetAccountAction);
         MessageOutput response = (MessageOutput) actionOutput.getOutput();
 
-        assertEquals(response.getMessage(), "Account is successfully reset.");
-        assertNotNull(student);
-        assertNull(student.getAccount());
-        assertNull(student.getGoogleId());
+        Assertions.assertEquals(response.getMessage(), "Account is successfully reset.");
+        Assertions.assertNotNull(student);
+        Assertions.assertNull(student.getAccount());
+        Assertions.assertNull(student.getGoogleId());
 
         ______TS("Student Email param given but Student is non existent");
         String invalidEmail = "does-not-exist-email@teammates.tmt";
@@ -69,7 +70,7 @@ public class ResetAccountActionIT extends BaseActionIT<ResetAccountAction> {
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(invalidParams);
-        assertEquals("Student does not exist.", enfe.getMessage());
+        Assertions.assertEquals("Student does not exist.", enfe.getMessage());
 
         ______TS("Typical Success Case with Instructor Email param given and Instructor exists");
         params = new String[] {
@@ -81,10 +82,10 @@ public class ResetAccountActionIT extends BaseActionIT<ResetAccountAction> {
         actionOutput = getJsonResult(resetAccountAction);
         response = (MessageOutput) actionOutput.getOutput();
 
-        assertEquals(response.getMessage(), "Account is successfully reset.");
-        assertNotNull(instructor);
-        assertNull(instructor.getAccount());
-        assertNull(instructor.getGoogleId());
+        Assertions.assertEquals(response.getMessage(), "Account is successfully reset.");
+        Assertions.assertNotNull(instructor);
+        Assertions.assertNull(instructor.getAccount());
+        Assertions.assertNull(instructor.getGoogleId());
 
         ______TS("Instructor Email param given but Instructor is non existent");
         invalidParams = new String[] {
@@ -93,7 +94,7 @@ public class ResetAccountActionIT extends BaseActionIT<ResetAccountAction> {
         };
 
         enfe = verifyEntityNotFound(invalidParams);
-        assertEquals("Instructor does not exist.", enfe.getMessage());
+        Assertions.assertEquals("Instructor does not exist.", enfe.getMessage());
     }
 
     @Test

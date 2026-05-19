@@ -1,5 +1,6 @@
 package teammates.it.storage.api;
 
+import org.junit.jupiter.api.Assertions;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -55,8 +56,8 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         List<FeedbackResponse> actualQuestions =
                 frDb.getFeedbackResponsesFromGiverForQuestion(fq.getId(), giver.getId(), null);
 
-        assertEquals(expectedQuestions.size(), actualQuestions.size());
-        assertTrue(expectedQuestions.containsAll(actualQuestions));
+        Assertions.assertEquals(expectedQuestions.size(), actualQuestions.size());
+        Assertions.assertTrue(expectedQuestions.containsAll(actualQuestions));
     }
 
     @Test
@@ -66,7 +67,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
 
         frDb.deleteFeedbackResponse(fr1);
 
-        assertNull(frDb.getFeedbackResponse(fr1.getId()));
+        Assertions.assertNull(frDb.getFeedbackResponse(fr1.getId()));
     }
 
     @Test
@@ -77,7 +78,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         boolean actualResponse1 =
                 frDb.areThereResponsesForQuestion(fq1.getId());
 
-        assertTrue(actualResponse1);
+        Assertions.assertTrue(actualResponse1);
 
         ______TS("feedback question with no responses");
         FeedbackQuestion fq2 = testDataBundle.feedbackQuestions.get("qn6InSession1InCourse1NoResponses");
@@ -85,7 +86,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         boolean actualResponse2 =
                 frDb.areThereResponsesForQuestion(fq2.getId());
 
-        assertFalse(actualResponse2);
+        Assertions.assertFalse(actualResponse2);
     }
 
     @Test
@@ -96,7 +97,7 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         boolean actual =
                 frDb.hasResponsesForCourse(course.getId());
 
-        assertTrue(actual);
+        Assertions.assertTrue(actual);
     }
 
     @Test
@@ -106,12 +107,12 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         UUID nonexistentQuestionId = UUID.fromString("11110000-0000-0000-0000-000000000000");
         List<FeedbackResponse> results = frDb.getFeedbackResponsesForRecipientForQuestion(
                 nonexistentQuestionId, recipient.getId(), null);
-        assertEquals(0, results.size());
+        Assertions.assertEquals(0, results.size());
 
         ______TS("No matching responses exist");
         FeedbackQuestion questionWithNoResponses = testDataBundle.feedbackQuestions.get("qn4InSession1InCourse1");
         results = frDb.getFeedbackResponsesForRecipientForQuestion(questionWithNoResponses.getId(), recipient.getId(), null);
-        assertEquals(0, results.size());
+        Assertions.assertEquals(0, results.size());
 
     }
 
@@ -151,12 +152,12 @@ public class FeedbackResponsesDbIT extends BaseTestCaseWithDatabaseAccess {
         FeedbackSession sessionWithoutResponses = testDataBundle.feedbackSessions.get(
                 "unpublishedSession1InTypicalCourse");
         actual = frDb.getFeedbackResponsesForSession(sessionWithoutResponses, sessionWithResponses.getCourseId());
-        assertEquals(0, actual.size());
+        Assertions.assertEquals(0, actual.size());
     }
 
     private void assertListResponsesEqual(List<FeedbackResponse> expected, List<FeedbackResponse> actual) {
-        assertEquals(expected.size(), actual.size(), "List size not equal.");
-        assertTrue(new HashSet<>(expected).equals(new HashSet<>(actual)),
+        Assertions.assertEquals(expected.size(), actual.size(), "List size not equal.");
+        Assertions.assertTrue(new HashSet<>(expected).equals(new HashSet<>(actual)),
                 String.format("List contents are not equal.%nExpected: %s,%nActual: %s",
                         expected.toString(), actual.toString()));
     }

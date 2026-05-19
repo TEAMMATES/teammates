@@ -1,5 +1,6 @@
 package teammates.e2e.pageobjects;
 
+import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -40,7 +41,7 @@ public class UserNotificationsPage extends AppPage {
         List<String> shownNotificationIds = notificationTabs.findElements(By.className("card"))
                 .stream().map(e -> e.getAttribute("id")).collect(Collectors.toList());
         for (Notification notification : notifications) {
-            assertFalse(shownNotificationIds.contains(notification.getId().toString()));
+            Assertions.assertFalse(shownNotificationIds.contains(notification.getId().toString()));
         }
     }
 
@@ -58,36 +59,36 @@ public class UserNotificationsPage extends AppPage {
 
         // Check text and style of notification header
         WebElement cardHeader = notificationTab.findElement(By.className("card-header"));
-        assertEquals(getHeaderText(notification), cardHeader.getText());
-        assertTrue(cardHeader.getAttribute("class").contains(getHeaderClass(notification.getStyle())));
+        Assertions.assertEquals(getHeaderText(notification), cardHeader.getText());
+        Assertions.assertTrue(cardHeader.getAttribute("class").contains(getHeaderClass(notification.getStyle())));
 
         // Checks if tab is open if notification is unread, and closed if notification is read
         String chevronClass = notificationTab.findElement(By.tagName("i")).getAttribute("class");
         if (isRead) {
-            assertTrue(chevronClass.contains("fa-chevron-down"));
+            Assertions.assertTrue(chevronClass.contains("fa-chevron-down"));
             // Open tab if notification is unread
             click(cardHeader);
             waitForPageToLoad();
         } else {
-            assertTrue(chevronClass.contains("fa-chevron-up"));
+            Assertions.assertTrue(chevronClass.contains("fa-chevron-up"));
         }
 
         // Check notification message
         WebElement notifMessage = notificationTab.findElement(By.className("notification-message"));
-        assertEquals(notification.getMessage(), notifMessage.getAttribute("innerHTML"));
+        Assertions.assertEquals(notification.getMessage(), notifMessage.getAttribute("innerHTML"));
 
         List<WebElement> markAsReadBtnList = notificationTab.findElements(By.className("btn-mark-as-read"));
 
         if (isRead) {
             // Check that mark as read button cannot be found if notification is read
-            assertEquals(0, markAsReadBtnList.size());
+            Assertions.assertEquals(0, markAsReadBtnList.size());
 
             // Close tab if notification is read
             click(cardHeader);
             waitForPageToLoad();
         } else {
             // Check style of mark as read button if notification is unread
-            assertTrue(markAsReadBtnList.get(0).getAttribute("class").contains(getButtonClass(notification.getStyle())));
+            Assertions.assertTrue(markAsReadBtnList.get(0).getAttribute("class").contains(getButtonClass(notification.getStyle())));
         }
     }
 

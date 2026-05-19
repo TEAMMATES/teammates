@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static teammates.common.util.Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER;
@@ -76,36 +77,36 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         JsonResult r = getJsonResult(a);
         FeedbackQuestionData response = (FeedbackQuestionData) r.getOutput();
 
-        assertEquals(updatedQuestion.getQuestionNumber().intValue(), response.getQuestionNumber());
-        assertEquals(2, updatedQuestion.getQuestionNumber().intValue());
+        Assertions.assertEquals(updatedQuestion.getQuestionNumber().intValue(), response.getQuestionNumber());
+        Assertions.assertEquals(2, updatedQuestion.getQuestionNumber().intValue());
 
-        assertEquals(updatedQuestion.getQuestionDetailsCopy().getQuestionText(), response.getQuestionBrief());
-        assertEquals("this is the brief", updatedQuestion.getQuestionDetailsCopy().getQuestionText());
+        Assertions.assertEquals(updatedQuestion.getQuestionDetailsCopy().getQuestionText(), response.getQuestionBrief());
+        Assertions.assertEquals("this is the brief", updatedQuestion.getQuestionDetailsCopy().getQuestionText());
 
-        assertEquals(updatedQuestion.getQuestionType(), response.getQuestionType());
-        assertEquals(FeedbackQuestionType.TEXT, updatedQuestion.getQuestionType());
+        Assertions.assertEquals(updatedQuestion.getQuestionType(), response.getQuestionType());
+        Assertions.assertEquals(FeedbackQuestionType.TEXT, updatedQuestion.getQuestionType());
 
-        assertEquals(JsonUtils.toJson(updatedQuestion.getQuestionDetailsCopy()),
+        Assertions.assertEquals(JsonUtils.toJson(updatedQuestion.getQuestionDetailsCopy()),
                 JsonUtils.toJson(response.getQuestionDetails()));
-        assertEquals(800, ((FeedbackTextQuestionDetails)
+        Assertions.assertEquals(800, ((FeedbackTextQuestionDetails)
                 updatedQuestion.getQuestionDetailsCopy()).getRecommendedLength().intValue());
 
-        assertEquals(updatedQuestion.getGiverType(), response.getGiverType());
-        assertEquals(QuestionGiverType.STUDENTS, updatedQuestion.getGiverType());
+        Assertions.assertEquals(updatedQuestion.getGiverType(), response.getGiverType());
+        Assertions.assertEquals(QuestionGiverType.STUDENTS, updatedQuestion.getGiverType());
 
-        assertEquals(updatedQuestion.getRecipientType(), response.getRecipientType());
-        assertEquals(QuestionRecipientType.INSTRUCTORS, updatedQuestion.getRecipientType());
+        Assertions.assertEquals(updatedQuestion.getRecipientType(), response.getRecipientType());
+        Assertions.assertEquals(QuestionRecipientType.INSTRUCTORS, updatedQuestion.getRecipientType());
 
-        assertEquals(NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM,
+        Assertions.assertEquals(NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM,
                 response.getNumberOfEntitiesToGiveFeedbackToSetting());
-        assertEquals(2, updatedQuestion.getNumOfEntitiesToGiveFeedbackTo().intValue());
+        Assertions.assertEquals(2, updatedQuestion.getNumOfEntitiesToGiveFeedbackTo().intValue());
 
-        assertTrue(response.getShowResponsesTo().isEmpty());
-        assertTrue(updatedQuestion.getShowResponsesTo().isEmpty());
-        assertTrue(response.getShowGiverNameTo().isEmpty());
-        assertTrue(updatedQuestion.getShowGiverNameTo().isEmpty());
-        assertTrue(response.getShowRecipientNameTo().isEmpty());
-        assertTrue(updatedQuestion.getShowRecipientNameTo().isEmpty());
+        Assertions.assertTrue(response.getShowResponsesTo().isEmpty());
+        Assertions.assertTrue(updatedQuestion.getShowResponsesTo().isEmpty());
+        Assertions.assertTrue(response.getShowGiverNameTo().isEmpty());
+        Assertions.assertTrue(updatedQuestion.getShowGiverNameTo().isEmpty());
+        Assertions.assertTrue(response.getShowRecipientNameTo().isEmpty());
+        Assertions.assertTrue(updatedQuestion.getShowRecipientNameTo().isEmpty());
     }
 
     @Test
@@ -137,20 +138,20 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         JsonResult r = getJsonResult(a);
         FeedbackQuestionData response = (FeedbackQuestionData) r.getOutput();
 
-        assertEquals(updatedQuestion.getGiverType(), response.getGiverType());
-        assertEquals(QuestionGiverType.INSTRUCTORS, updatedQuestion.getGiverType());
+        Assertions.assertEquals(updatedQuestion.getGiverType(), response.getGiverType());
+        Assertions.assertEquals(QuestionGiverType.INSTRUCTORS, updatedQuestion.getGiverType());
 
-        assertEquals(updatedQuestion.getRecipientType(), response.getRecipientType());
-        assertEquals(QuestionRecipientType.TEAMS, updatedQuestion.getRecipientType());
+        Assertions.assertEquals(updatedQuestion.getRecipientType(), response.getRecipientType());
+        Assertions.assertEquals(QuestionRecipientType.TEAMS, updatedQuestion.getRecipientType());
 
-        assertEquals(Arrays.asList(FeedbackVisibilityType.RECIPIENT), response.getShowResponsesTo());
-        assertEquals(Arrays.asList(ViewerType.RECEIVER), updatedQuestion.getShowResponsesTo());
+        Assertions.assertEquals(Arrays.asList(FeedbackVisibilityType.RECIPIENT), response.getShowResponsesTo());
+        Assertions.assertEquals(Arrays.asList(ViewerType.RECEIVER), updatedQuestion.getShowResponsesTo());
 
-        assertEquals(Arrays.asList(FeedbackVisibilityType.RECIPIENT), response.getShowGiverNameTo());
-        assertEquals(Arrays.asList(ViewerType.RECEIVER), updatedQuestion.getShowGiverNameTo());
+        Assertions.assertEquals(Arrays.asList(FeedbackVisibilityType.RECIPIENT), response.getShowGiverNameTo());
+        Assertions.assertEquals(Arrays.asList(ViewerType.RECEIVER), updatedQuestion.getShowGiverNameTo());
 
-        assertEquals(Arrays.asList(FeedbackVisibilityType.RECIPIENT), response.getShowRecipientNameTo());
-        assertEquals(Arrays.asList(ViewerType.RECEIVER), updatedQuestion.getShowRecipientNameTo());
+        Assertions.assertEquals(Arrays.asList(FeedbackVisibilityType.RECIPIENT), response.getShowRecipientNameTo());
+        Assertions.assertEquals(Arrays.asList(ViewerType.RECEIVER), updatedQuestion.getShowRecipientNameTo());
     }
 
     @Test

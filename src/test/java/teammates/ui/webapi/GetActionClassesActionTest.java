@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -139,7 +140,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
         List<String> actualActionClasses = data.getActionClasses();
         Collections.sort(actualActionClasses);
 
-        assertEquals(expectedActionClassesNames, actualActionClasses);
+        Assertions.assertEquals(expectedActionClassesNames, actualActionClasses);
     }
 
     @Test

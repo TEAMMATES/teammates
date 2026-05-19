@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -43,9 +44,9 @@ public class SendErrorReportActionTest extends BaseActionTest<SendErrorReportAct
                 + "SUBJECT: " + SUBJECT + System.lineSeparator()
                 + "CONTENT: " + CONTENT;
 
-        assertEquals(expectedLogMessage,
+        Assertions.assertEquals(expectedLogMessage,
                 action.getUserErrorReportLogMessage(report));
-        assertEquals("Error report successfully sent", output.getMessage());
+        Assertions.assertEquals("Error report successfully sent", output.getMessage());
     }
 
     @Test
@@ -64,36 +65,36 @@ public class SendErrorReportActionTest extends BaseActionTest<SendErrorReportAct
                 + "SUBJECT: " + SUBJECT + System.lineSeparator()
                 + "CONTENT: " + CONTENT;
 
-        assertEquals(expectedLogMessage,
+        Assertions.assertEquals(expectedLogMessage,
                 action.getUserErrorReportLogMessage(report));
-        assertEquals("Error report successfully sent", output.getMessage());
+        Assertions.assertEquals("Error report successfully sent", output.getMessage());
     }
 
     @Test
     void testExecute_nullRequestBody_throwsInvalidHttpRequestBodyException() {
         InvalidHttpRequestBodyException e = verifyHttpRequestBodyFailure(null, PARAMS);
-        assertEquals("The request body is null", e.getMessage());
+        Assertions.assertEquals("The request body is null", e.getMessage());
     }
 
     @Test
     void testExecute_nullRequestId_throwsInvalidHttpRequestBodyException() {
         ErrorReportRequest reportWithNullRequestId = new ErrorReportRequest(null, SUBJECT, CONTENT);
         InvalidHttpRequestBodyException e = verifyHttpRequestBodyFailure(reportWithNullRequestId, PARAMS);
-        assertEquals("requestId cannot be null", e.getMessage());
+        Assertions.assertEquals("requestId cannot be null", e.getMessage());
     }
 
     @Test
     void testExecute_nullSubject_throwsInvalidHttpRequestBodyException() {
         ErrorReportRequest reportWithNullSubject = new ErrorReportRequest(REQUEST_ID, null, CONTENT);
         InvalidHttpRequestBodyException e = verifyHttpRequestBodyFailure(reportWithNullSubject, PARAMS);
-        assertEquals("subject cannot be null", e.getMessage());
+        Assertions.assertEquals("subject cannot be null", e.getMessage());
     }
 
     @Test
     void testExecute_nullContent_throwsInvalidHttpRequestBodyException() {
         ErrorReportRequest reportWithNullContent = new ErrorReportRequest(REQUEST_ID, SUBJECT, null);
         InvalidHttpRequestBodyException e = verifyHttpRequestBodyFailure(reportWithNullContent, PARAMS);
-        assertEquals("content cannot be null", e.getMessage());
+        Assertions.assertEquals("content cannot be null", e.getMessage());
     }
 
     @Test

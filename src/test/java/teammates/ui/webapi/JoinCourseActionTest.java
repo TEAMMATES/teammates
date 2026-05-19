@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
@@ -80,7 +81,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         JoinCourseAction action = getAction(params);
         JsonResult jsonResult = getJsonResult(action);
         MessageOutput messageOutput = (MessageOutput) jsonResult.getOutput();
-        assertEquals("Student successfully joined course", messageOutput.getMessage());
+        Assertions.assertEquals("Student successfully joined course", messageOutput.getMessage());
         verifyNumberOfEmailsSent(1);
     }
 
@@ -97,7 +98,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
         JoinCourseAction action = getAction(params);
-        assertThrows(InvalidOperationException.class, action::execute);
+        Assertions.assertThrows(InvalidOperationException.class, action::execute);
         verifyNoEmailsSent();
     }
 
@@ -130,7 +131,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         };
         JoinCourseAction action = getAction(params);
         JsonResult jsonResult = getJsonResult(action, 500);
-        assertEquals(500, jsonResult.getStatusCode());
+        Assertions.assertEquals(500, jsonResult.getStatusCode());
         verifyNoEmailsSent();
     }
 
@@ -152,7 +153,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         JoinCourseAction action = getAction(params);
         JsonResult jsonResult = getJsonResult(action);
         MessageOutput messageOutput = (MessageOutput) jsonResult.getOutput();
-        assertEquals("Instructor successfully joined course", messageOutput.getMessage());
+        Assertions.assertEquals("Instructor successfully joined course", messageOutput.getMessage());
         verifyNumberOfEmailsSent(1);
     }
 
@@ -169,7 +170,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
         JoinCourseAction action = getAction(params);
-        assertThrows(InvalidOperationException.class, action::execute);
+        Assertions.assertThrows(InvalidOperationException.class, action::execute);
         verifyNoEmailsSent();
     }
 
@@ -202,7 +203,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         };
         JoinCourseAction action = getAction(params);
         JsonResult jsonResult = getJsonResult(action, 500);
-        assertEquals(500, jsonResult.getStatusCode());
+        Assertions.assertEquals(500, jsonResult.getStatusCode());
         verifyNoEmailsSent();
     }
 

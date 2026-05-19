@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -72,7 +73,7 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
         JsonResult result = getJsonResult(action);
         FeedbackSessionSubmittedGiverSet output = (FeedbackSessionSubmittedGiverSet) result.getOutput();
 
-        assertEquals(new HashSet<>(Arrays.asList(giverIdentifier)), output.getGiverIdentifiers());
+        Assertions.assertEquals(new HashSet<>(Arrays.asList(giverIdentifier)), output.getGiverIdentifiers());
     }
 
     @Test

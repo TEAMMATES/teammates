@@ -1,5 +1,6 @@
 package teammates.e2e.pageobjects;
 
+import org.junit.jupiter.api.Assertions;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -53,11 +54,11 @@ public class InstructorStudentListPage extends AppPage {
 
     public void verifyAllCoursesHaveTabs(Collection<Course> courses) {
         List<WebElement> courseTabs = getCoursesTabs();
-        assertEquals(courses.size(), courseTabs.size());
+        Assertions.assertEquals(courses.size(), courseTabs.size());
     }
 
     public void verifyStudentDetails(Map<String, Course> courses, Map<String, Student[]> students) {
-        assertEquals(students.size(), courses.size());
+        Assertions.assertEquals(students.size(), courses.size());
 
         students.forEach((courseId, studentsForCourse) -> verifyStudentDetails(courses.get(courseId), studentsForCourse));
     }
@@ -65,7 +66,7 @@ public class InstructorStudentListPage extends AppPage {
     public void verifyStudentDetails(Course course, Student[] students) {
         WebElement targetCourse = getCourseTab(course);
         if (targetCourse == null) {
-            fail("Course with ID " + course.getId() + " is not found");
+            Assertions.fail("Course with ID " + course.getId() + " is not found");
         }
 
         if (students.length == 0) {
@@ -73,7 +74,7 @@ public class InstructorStudentListPage extends AppPage {
             // Need to account for the text from the enroll students button as well
             String expectedText = "There are no students in this course."
                     + TestProperties.LINE_SEPARATOR + "Enroll Students";
-            assertEquals(expectedText, noStudentText);
+            Assertions.assertEquals(expectedText, noStudentText);
         } else {
             WebElement studentList = targetCourse.findElement(By.tagName("table"));
             verifyTableBodyValues(studentList, getExpectedStudentValues(students));
@@ -84,11 +85,11 @@ public class InstructorStudentListPage extends AppPage {
     public void verifyStudentDetailsNotViewable(Course course) {
         WebElement targetCourse = getCourseTab(course);
         if (targetCourse == null) {
-            fail("Course with ID " + course.getId() + " is not found");
+            Assertions.fail("Course with ID " + course.getId() + " is not found");
         }
         String noViewStudentsPermissionText = targetCourse.findElement(By.className("card-body")).getText();
         String expectedText = "You do not have permission to view the details of the students in this course.";
-        assertEquals(expectedText, noViewStudentsPermissionText);
+        Assertions.assertEquals(expectedText, noViewStudentsPermissionText);
     }
 
     private WebElement getCourseTab(Course course) {
@@ -116,9 +117,9 @@ public class InstructorStudentListPage extends AppPage {
                 .distinct()
                 .count() + " teams";
 
-        assertEquals(expectedNStudents, nStudents);
-        assertEquals(expectedNSections, nSections);
-        assertEquals(expectedNTeams, nTeams);
+        Assertions.assertEquals(expectedNStudents, nStudents);
+        Assertions.assertEquals(expectedNSections, nSections);
+        Assertions.assertEquals(expectedNTeams, nTeams);
     }
 
     private String[][] getExpectedStudentValues(Student[] students) {
@@ -146,7 +147,7 @@ public class InstructorStudentListPage extends AppPage {
     private WebElement getStudentRow(Course course, String studentEmail) {
         WebElement targetCourse = getCourseTab(course);
         if (targetCourse == null) {
-            fail("Course with ID " + course.getId() + " is not found");
+            Assertions.fail("Course with ID " + course.getId() + " is not found");
         }
         waitFor(driver -> !targetCourse.findElements(By.cssSelector("tbody tr")).isEmpty()
                 && !targetCourse.findElement(By.cssSelector("tbody tr td")).getText().isEmpty());

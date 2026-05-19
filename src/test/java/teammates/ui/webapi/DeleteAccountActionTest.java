@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -53,7 +54,7 @@ public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction>
         };
         DeleteAccountAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
-        assertEquals("Account is successfully deleted.", actionOutput.getMessage());
+        Assertions.assertEquals("Account is successfully deleted.", actionOutput.getMessage());
         verify(mockLogic, times(1)).deleteAccountCascade(googleId);
     }
 }

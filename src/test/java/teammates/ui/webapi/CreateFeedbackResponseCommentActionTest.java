@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
@@ -162,7 +163,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
     @Test
     void testExecute_unpublishedSessionForInstructorResult_success() throws Exception {
-        assertFalse(typicalFeedbackSession.isPublished());
+        Assertions.assertFalse(typicalFeedbackSession.isPublished());
 
         String[] params = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(), Const.ParamsNames.FEEDBACK_RESPONSE_ID,
@@ -188,13 +189,13 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals("Comment to first response", commentData.getCommentText());
-        assertEquals(typicalInstructor.getEmail(), commentData.getCommentGiver());
+        Assertions.assertEquals("Comment to first response", commentData.getCommentText());
+        Assertions.assertEquals(typicalInstructor.getEmail(), commentData.getCommentGiver());
     }
 
     @Test
     void testExecute_unpublishedSessionEmptyGiverPermission_success() throws Exception {
-        assertFalse(typicalFeedbackSession.isPublished());
+        Assertions.assertFalse(typicalFeedbackSession.isPublished());
 
         String[] params = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(), Const.ParamsNames.FEEDBACK_RESPONSE_ID,
@@ -220,12 +221,12 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals("Empty giver permissions", commentData.getCommentText());
+        Assertions.assertEquals("Empty giver permissions", commentData.getCommentText());
     }
 
     @Test
     void testExecute_unpublishedSessionCommentShownToGiver_success() throws Exception {
-        assertFalse(typicalFeedbackSession.isPublished());
+        Assertions.assertFalse(typicalFeedbackSession.isPublished());
 
         String[] params = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(), Const.ParamsNames.FEEDBACK_RESPONSE_ID,
@@ -251,12 +252,12 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals("Comment shown to giver", commentData.getCommentText());
+        Assertions.assertEquals("Comment shown to giver", commentData.getCommentText());
     }
 
     @Test
     void testExecute_unpublishedSessionCommentShownToRecipient_success() throws Exception {
-        assertFalse(typicalFeedbackSession.isPublished());
+        Assertions.assertFalse(typicalFeedbackSession.isPublished());
 
         String[] params = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(), Const.ParamsNames.FEEDBACK_RESPONSE_ID,
@@ -282,12 +283,12 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals("Comment shown to recipient", commentData.getCommentText());
+        Assertions.assertEquals("Comment shown to recipient", commentData.getCommentText());
     }
 
     @Test
     void testExecute_unpublishedSessionCommentShownToGiverTeam_success() throws Exception {
-        assertFalse(typicalFeedbackSession.isPublished());
+        Assertions.assertFalse(typicalFeedbackSession.isPublished());
 
         String[] params = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(), Const.ParamsNames.FEEDBACK_RESPONSE_ID,
@@ -313,12 +314,12 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals("Comment shown to giver team", commentData.getCommentText());
+        Assertions.assertEquals("Comment shown to giver team", commentData.getCommentText());
     }
 
     @Test
     void testExecute_unpublishedSessionCommentShownToRecipientTeam_success() throws Exception {
-        assertFalse(typicalFeedbackSession.isPublished());
+        Assertions.assertFalse(typicalFeedbackSession.isPublished());
 
         String[] params = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(), Const.ParamsNames.FEEDBACK_RESPONSE_ID,
@@ -344,12 +345,12 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals("Comment shown to recipient team", commentData.getCommentText());
+        Assertions.assertEquals("Comment shown to recipient team", commentData.getCommentText());
     }
 
     @Test
     void testExecute_unpublishedSessionCommentShownToStudents_success() throws Exception {
-        assertFalse(typicalFeedbackSession.isPublished());
+        Assertions.assertFalse(typicalFeedbackSession.isPublished());
 
         String[] params = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(), Const.ParamsNames.FEEDBACK_RESPONSE_ID,
@@ -375,13 +376,13 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals("Comment shown to students", commentData.getCommentText());
+        Assertions.assertEquals("Comment shown to students", commentData.getCommentText());
     }
 
     @Test
     void testExecute_publishedSessionForInstructorResult_success() throws Exception {
         typicalFeedbackSession.setResultsVisibleFromTime(Instant.now());
-        assertTrue(typicalFeedbackSession.isPublished());
+        Assertions.assertTrue(typicalFeedbackSession.isPublished());
 
         String[] params = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(), Const.ParamsNames.FEEDBACK_RESPONSE_ID,
@@ -407,8 +408,8 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals("Comment to first response, published session", commentData.getCommentText());
-        assertEquals(typicalInstructor.getEmail(), commentData.getCommentGiver());
+        Assertions.assertEquals("Comment to first response, published session", commentData.getCommentText());
+        Assertions.assertEquals(typicalInstructor.getEmail(), commentData.getCommentGiver());
     }
 
     @Test
@@ -438,8 +439,8 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals("Instructor submission comment", commentData.getCommentText());
-        assertEquals(typicalInstructor.getEmail(), commentData.getCommentGiver());
+        Assertions.assertEquals("Instructor submission comment", commentData.getCommentText());
+        Assertions.assertEquals(typicalInstructor.getEmail(), commentData.getCommentGiver());
     }
 
     @Test
@@ -468,8 +469,8 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         JsonResult r = getJsonResult(action);
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
 
-        assertEquals("Student submission comment", commentData.getCommentText());
-        assertEquals(typicalStudent.getEmail(), commentData.getCommentGiver());
+        Assertions.assertEquals("Student submission comment", commentData.getCommentText());
+        Assertions.assertEquals(typicalStudent.getEmail(), commentData.getCommentGiver());
     }
 
     @Test

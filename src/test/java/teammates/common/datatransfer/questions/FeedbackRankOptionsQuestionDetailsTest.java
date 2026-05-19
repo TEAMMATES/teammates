@@ -1,5 +1,6 @@
 package teammates.common.datatransfer.questions;
 
+import org.junit.jupiter.api.Assertions;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,16 +19,16 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
     public void testConstructor_defaultConstructor_fieldsShouldHaveCorrectDefaultValues() {
         FeedbackRankOptionsQuestionDetails rankDetails = new FeedbackRankOptionsQuestionDetails();
 
-        assertEquals(FeedbackQuestionType.RANK_OPTIONS, rankDetails.getQuestionType());
-        assertEquals(rankDetails.getMinOptionsToBeRanked(), Const.POINTS_NO_VALUE);
-        assertEquals(rankDetails.getMaxOptionsToBeRanked(), Const.POINTS_NO_VALUE);
-        assertFalse(rankDetails.isAreDuplicatesAllowed());
+        Assertions.assertEquals(FeedbackQuestionType.RANK_OPTIONS, rankDetails.getQuestionType());
+        Assertions.assertEquals(rankDetails.getMinOptionsToBeRanked(), Const.POINTS_NO_VALUE);
+        Assertions.assertEquals(rankDetails.getMaxOptionsToBeRanked(), Const.POINTS_NO_VALUE);
+        Assertions.assertFalse(rankDetails.isAreDuplicatesAllowed());
     }
 
     @Test
     public void testIsInstructorCommentsOnResponsesAllowed_shouldReturnTrue() {
         FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackRankOptionsQuestionDetails();
-        assertTrue(feedbackQuestionDetails.isInstructorCommentsOnResponsesAllowed());
+        Assertions.assertTrue(feedbackQuestionDetails.isInstructorCommentsOnResponsesAllowed());
     }
 
     @Test
@@ -37,7 +38,7 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
 
         feedbackQuestionDetails.setOptions(Arrays.asList("", "  "));
         errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_EMPTY_OPTIONS_ENTERED);
-        assertEquals(errorResponse, feedbackQuestionDetails.validateQuestionDetails());
+        Assertions.assertEquals(errorResponse, feedbackQuestionDetails.validateQuestionDetails());
     }
 
     @Test
@@ -49,7 +50,7 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
         errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_INVALID_MAX_OPTIONS_ENABLED);
         errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_NOT_ENOUGH_OPTIONS
                 + FeedbackRankOptionsQuestionDetails.MIN_NUM_OF_OPTIONS + ".");
-        assertEquals(errorResponse, feedbackQuestionDetails.validateQuestionDetails());
+        Assertions.assertEquals(errorResponse, feedbackQuestionDetails.validateQuestionDetails());
         errorResponse.clear();
 
         feedbackQuestionDetails = new FeedbackRankOptionsQuestionDetails();
@@ -57,21 +58,21 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
         errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_INVALID_MIN_OPTIONS_ENABLED);
         errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_NOT_ENOUGH_OPTIONS
                 + FeedbackRankOptionsQuestionDetails.MIN_NUM_OF_OPTIONS + ".");
-        assertEquals(errorResponse, feedbackQuestionDetails.validateQuestionDetails());
+        Assertions.assertEquals(errorResponse, feedbackQuestionDetails.validateQuestionDetails());
         errorResponse.clear();
 
         feedbackQuestionDetails.setMinOptionsToBeRanked(1);
         errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_MIN_OPTIONS_ENABLED_MORE_THAN_CHOICES);
         errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_NOT_ENOUGH_OPTIONS
                 + FeedbackRankOptionsQuestionDetails.MIN_NUM_OF_OPTIONS + ".");
-        assertEquals(errorResponse, feedbackQuestionDetails.validateQuestionDetails());
+        Assertions.assertEquals(errorResponse, feedbackQuestionDetails.validateQuestionDetails());
         errorResponse.clear();
 
         feedbackQuestionDetails = new FeedbackRankOptionsQuestionDetails();
         feedbackQuestionDetails.setMaxOptionsToBeRanked(4);
         errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_MAX_OPTIONS_ENABLED_MORE_THAN_CHOICES);
         feedbackQuestionDetails.setOptions(Arrays.asList("1", "2", "3"));
-        assertEquals(errorResponse, feedbackQuestionDetails.validateQuestionDetails());
+        Assertions.assertEquals(errorResponse, feedbackQuestionDetails.validateQuestionDetails());
         errorResponse.clear();
 
         feedbackQuestionDetails = new FeedbackRankOptionsQuestionDetails();
@@ -79,7 +80,7 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
         feedbackQuestionDetails.setMaxOptionsToBeRanked(3);
         feedbackQuestionDetails.setOptions(Arrays.asList("1", "2", "3", "4", "5"));
         errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_INVALID_MIN_OPTIONS_ENABLED);
-        assertEquals(errorResponse, feedbackQuestionDetails.validateQuestionDetails());
+        Assertions.assertEquals(errorResponse, feedbackQuestionDetails.validateQuestionDetails());
         errorResponse.clear();
 
         feedbackQuestionDetails = new FeedbackRankOptionsQuestionDetails();
@@ -89,7 +90,7 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
         errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_INVALID_MIN_OPTIONS_ENABLED);
         errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_NOT_ENOUGH_OPTIONS
                 + FeedbackRankOptionsQuestionDetails.MIN_NUM_OF_OPTIONS + ".");
-        assertEquals(errorResponse, feedbackQuestionDetails.validateQuestionDetails());
+        Assertions.assertEquals(errorResponse, feedbackQuestionDetails.validateQuestionDetails());
     }
 
     @Test
@@ -99,9 +100,9 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
 
         errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_NOT_ENOUGH_OPTIONS
                 + FeedbackRankOptionsQuestionDetails.MIN_NUM_OF_OPTIONS + ".");
-        assertEquals(errorResponse, feedbackQuestionDetails.validateQuestionDetails());
+        Assertions.assertEquals(errorResponse, feedbackQuestionDetails.validateQuestionDetails());
         feedbackQuestionDetails.setOptions(Arrays.asList("1"));
-        assertEquals(errorResponse, feedbackQuestionDetails.validateQuestionDetails());
+        Assertions.assertEquals(errorResponse, feedbackQuestionDetails.validateQuestionDetails());
         errorResponse.clear();
     }
 
@@ -110,7 +111,7 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
         FeedbackRankOptionsQuestionDetails feedbackQuestionDetails = new FeedbackRankOptionsQuestionDetails();
 
         feedbackQuestionDetails.setOptions(Arrays.asList("1", "2"));
-        assertTrue(feedbackQuestionDetails.validateQuestionDetails().isEmpty());
+        Assertions.assertTrue(feedbackQuestionDetails.validateQuestionDetails().isEmpty());
     }
 
     @Test
@@ -122,7 +123,7 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
         FeedbackRankOptionsResponseDetails feedbackResponseDetails = new FeedbackRankOptionsResponseDetails();
         feedbackResponseDetails.setAnswers(Arrays.asList(1, 1));
         errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_DUPLICATE_RANK_RESPONSE);
-        assertEquals(errorResponse,
+        Assertions.assertEquals(errorResponse,
                 feedbackQuestionDetails.validateResponsesDetails(Arrays.asList(feedbackResponseDetails), 1));
     }
 
@@ -137,13 +138,13 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
         FeedbackRankOptionsResponseDetails feedbackResponseDetails = new FeedbackRankOptionsResponseDetails();
         feedbackResponseDetails.setAnswers(Arrays.asList(1, 2));
         errorResponse.add("You must rank at least " + feedbackQuestionDetails.minOptionsToBeRanked + " options.");
-        assertEquals(errorResponse,
+        Assertions.assertEquals(errorResponse,
                 feedbackQuestionDetails.validateResponsesDetails(Arrays.asList(feedbackResponseDetails), 1));
         errorResponse.clear();
 
         feedbackResponseDetails.setAnswers(Arrays.asList(1, 2, 3, 4, 5, 6));
         errorResponse.add("You can rank at most " + feedbackQuestionDetails.maxOptionsToBeRanked + " options.");
-        assertEquals(errorResponse,
+        Assertions.assertEquals(errorResponse,
                 feedbackQuestionDetails.validateResponsesDetails(Arrays.asList(feedbackResponseDetails), 1));
     }
 
@@ -156,11 +157,11 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
         FeedbackRankOptionsResponseDetails feedbackResponseDetails = new FeedbackRankOptionsResponseDetails();
         feedbackResponseDetails.setAnswers(Arrays.asList(0));
         errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_INVALID_RANK_RESPONSE);
-        assertEquals(errorResponse,
+        Assertions.assertEquals(errorResponse,
                 feedbackQuestionDetails.validateResponsesDetails(Arrays.asList(feedbackResponseDetails), 1));
 
         feedbackResponseDetails.setAnswers(Arrays.asList(5));
-        assertEquals(errorResponse,
+        Assertions.assertEquals(errorResponse,
                 feedbackQuestionDetails.validateResponsesDetails(Arrays.asList(feedbackResponseDetails), 1));
     }
 
@@ -173,7 +174,7 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
         feedbackResponseDetails1.setAnswers(Arrays.asList(2, 3));
         FeedbackRankOptionsResponseDetails feedbackResponseDetails2 = new FeedbackRankOptionsResponseDetails();
         feedbackResponseDetails2.setAnswers(Arrays.asList(3, 5));
-        assertTrue(feedbackQuestionDetails.validateResponsesDetails(
+        Assertions.assertTrue(feedbackQuestionDetails.validateResponsesDetails(
                 Arrays.asList(
                         feedbackResponseDetails1,
                         feedbackResponseDetails2),
@@ -192,7 +193,7 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
         FeedbackRankOptionsResponseDetails feedbackResponseDetails2 = new FeedbackRankOptionsResponseDetails();
         feedbackResponseDetails2.setAnswers(Arrays.asList(2, 3));
         errorResponse.add(FeedbackRankOptionsQuestionDetails.ERROR_DUPLICATE_RANK_RESPONSE);
-        assertEquals(errorResponse,
+        Assertions.assertEquals(errorResponse,
                 feedbackQuestionDetails.validateResponsesDetails(
                 Arrays.asList(
                         feedbackResponseDetails1,
@@ -211,7 +212,7 @@ public class FeedbackRankOptionsQuestionDetailsTest extends BaseTestCase {
         feedbackResponseDetails1.setAnswers(Arrays.asList(2, 2));
         FeedbackRankOptionsResponseDetails feedbackResponseDetails2 = new FeedbackRankOptionsResponseDetails();
         feedbackResponseDetails2.setAnswers(Arrays.asList(2, 3));
-        assertTrue(feedbackQuestionDetails.validateResponsesDetails(
+        Assertions.assertTrue(feedbackQuestionDetails.validateResponsesDetails(
                 Arrays.asList(
                         feedbackResponseDetails1,
                         feedbackResponseDetails2),

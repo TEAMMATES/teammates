@@ -1,5 +1,6 @@
 package teammates.common.datatransfer.questions;
 
+import org.junit.jupiter.api.Assertions;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -23,14 +24,14 @@ public class FeedbackRankRecipientsQuestionDetailsTest extends BaseTestCase {
         FeedbackRankRecipientsQuestionDetails feedbackRankRecipientsQuestionDetails =
                 new FeedbackRankRecipientsQuestionDetails();
         FeedbackQuestionDetails newDetails = new FeedbackRankRecipientsQuestionDetails();
-        assertFalse(feedbackRankRecipientsQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
+        Assertions.assertFalse(feedbackRankRecipientsQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
     }
 
     @Test
     public void testValidateQuestionDetails_shouldReturnEmptyList() {
         FeedbackRankRecipientsQuestionDetails feedbackRankRecipientsQuestionDetails =
                 new FeedbackRankRecipientsQuestionDetails();
-        assertTrue(feedbackRankRecipientsQuestionDetails.validateQuestionDetails().isEmpty());
+        Assertions.assertTrue(feedbackRankRecipientsQuestionDetails.validateQuestionDetails().isEmpty());
     }
 
     @Test
@@ -52,7 +53,7 @@ public class FeedbackRankRecipientsQuestionDetailsTest extends BaseTestCase {
         List<String> actualErrors = feedbackRankRecipientsQuestionDetails.validateResponsesDetails(
                 Arrays.asList(response1, response2), 2);
         List<String> expectedErrors = Arrays.asList(String.format(duplicateErrorStr, response1.getAnswer()));
-        assertEquals(expectedErrors, actualErrors);
+        Assertions.assertEquals(expectedErrors, actualErrors);
 
         ______TS("Failure: Invalid ranks");
         response1.setAnswer(3);
@@ -61,7 +62,7 @@ public class FeedbackRankRecipientsQuestionDetailsTest extends BaseTestCase {
                 Arrays.asList(response1, response2), 2);
         expectedErrors = Arrays.asList(String.format(invalidErrorStr, response1.getAnswer()),
                 String.format(invalidErrorStr, response2.getAnswer()));
-        assertEquals(expectedErrors, actualErrors);
+        Assertions.assertEquals(expectedErrors, actualErrors);
 
         ______TS("Failure: Violate max and min options ranked");
         feedbackRankRecipientsQuestionDetails.setMinOptionsToBeRanked(2);
@@ -71,14 +72,14 @@ public class FeedbackRankRecipientsQuestionDetailsTest extends BaseTestCase {
                 Arrays.asList(response1), 3);
         expectedErrors = Arrays.asList(
                 String.format(minOptionErrorStr, feedbackRankRecipientsQuestionDetails.minOptionsToBeRanked));
-        assertEquals(expectedErrors, actualErrors);
+        Assertions.assertEquals(expectedErrors, actualErrors);
 
         feedbackRankRecipientsQuestionDetails.setMaxOptionsToBeRanked(1);
         actualErrors = feedbackRankRecipientsQuestionDetails.validateResponsesDetails(
                 Arrays.asList(response1, response2), 3);
         expectedErrors = Arrays.asList(
                 String.format(maxOptionErrorStr, feedbackRankRecipientsQuestionDetails.maxOptionsToBeRanked));
-        assertEquals(expectedErrors, actualErrors);
+        Assertions.assertEquals(expectedErrors, actualErrors);
 
         ______TS("Failure: Mix of duplicate rank, invalid rank and violation of max and min options ranked");
         feedbackRankRecipientsQuestionDetails.setMaxOptionsToBeRanked(4);
@@ -94,7 +95,7 @@ public class FeedbackRankRecipientsQuestionDetailsTest extends BaseTestCase {
                 String.format(invalidErrorStr, response3.getAnswer()),
                 String.format(duplicateErrorStr, response4.getAnswer())
         );
-        assertEquals(expectedErrors, actualErrors);
+        Assertions.assertEquals(expectedErrors, actualErrors);
 
         feedbackRankRecipientsQuestionDetails.setMaxOptionsToBeRanked(3);
         feedbackRankRecipientsQuestionDetails.setMinOptionsToBeRanked(1);
@@ -108,7 +109,7 @@ public class FeedbackRankRecipientsQuestionDetailsTest extends BaseTestCase {
                 String.format(duplicateErrorStr, response2.getAnswer()),
                 String.format(maxOptionErrorStr, feedbackRankRecipientsQuestionDetails.getMaxOptionsToBeRanked())
         );
-        assertEquals(expectedErrors, actualErrors);
+        Assertions.assertEquals(expectedErrors, actualErrors);
 
         feedbackRankRecipientsQuestionDetails.setMaxOptionsToBeRanked(3);
         feedbackRankRecipientsQuestionDetails.setMinOptionsToBeRanked(1);
@@ -125,7 +126,7 @@ public class FeedbackRankRecipientsQuestionDetailsTest extends BaseTestCase {
                 String.format(invalidErrorStr, response4.getAnswer()),
                 String.format(maxOptionErrorStr, feedbackRankRecipientsQuestionDetails.getMaxOptionsToBeRanked())
         );
-        assertEquals(expectedErrors, actualErrors);
+        Assertions.assertEquals(expectedErrors, actualErrors);
 
         feedbackRankRecipientsQuestionDetails.setMaxOptionsToBeRanked(3);
         feedbackRankRecipientsQuestionDetails.setMinOptionsToBeRanked(1);
@@ -141,7 +142,7 @@ public class FeedbackRankRecipientsQuestionDetailsTest extends BaseTestCase {
                 String.format(invalidErrorStr, response3.getAnswer()),
                 String.format(maxOptionErrorStr, feedbackRankRecipientsQuestionDetails.getMaxOptionsToBeRanked())
         );
-        assertEquals(expectedErrors, actualErrors);
+        Assertions.assertEquals(expectedErrors, actualErrors);
 
         feedbackRankRecipientsQuestionDetails.setMaxOptionsToBeRanked(5);
         feedbackRankRecipientsQuestionDetails.setMinOptionsToBeRanked(5);
@@ -157,7 +158,7 @@ public class FeedbackRankRecipientsQuestionDetailsTest extends BaseTestCase {
                 String.format(duplicateErrorStr, response3.getAnswer()),
                 String.format(minOptionErrorStr, feedbackRankRecipientsQuestionDetails.getMinOptionsToBeRanked())
         );
-        assertEquals(expectedErrors, actualErrors);
+        Assertions.assertEquals(expectedErrors, actualErrors);
 
         ______TS("Success: valid responses");
         feedbackRankRecipientsQuestionDetails.setMinOptionsToBeRanked(2);
@@ -167,13 +168,13 @@ public class FeedbackRankRecipientsQuestionDetailsTest extends BaseTestCase {
         actualErrors = feedbackRankRecipientsQuestionDetails.validateResponsesDetails(
                 Arrays.asList(response1, response2), 2);
         expectedErrors = Collections.emptyList();
-        assertEquals(expectedErrors, actualErrors);
+        Assertions.assertEquals(expectedErrors, actualErrors);
     }
 
     @Test
     public void testIsInstructorCommentsOnResponsesAllowed_shouldReturnTrue() {
         FeedbackQuestionDetails feedbackQuestionDetails = new FeedbackRankRecipientsQuestionDetails();
-        assertTrue(feedbackQuestionDetails.isInstructorCommentsOnResponsesAllowed());
+        Assertions.assertTrue(feedbackQuestionDetails.isInstructorCommentsOnResponsesAllowed());
     }
 
     @Test
@@ -185,6 +186,6 @@ public class FeedbackRankRecipientsQuestionDetailsTest extends BaseTestCase {
                 QuestionGiverType.STUDENTS, QuestionRecipientType.OWN_TEAM_MEMBERS,
                 1, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
                 new FeedbackRankRecipientsQuestionDetails());
-        assertEquals("", feedbackRankRecipientsQuestionDetails.validateGiverRecipientVisibility(feedbackQuestion));
+        Assertions.assertEquals("", feedbackRankRecipientsQuestionDetails.validateGiverRecipientVisibility(feedbackQuestion));
     }
 }

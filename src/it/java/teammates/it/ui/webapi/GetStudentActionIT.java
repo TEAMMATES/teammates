@@ -1,5 +1,6 @@
 package teammates.it.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -57,7 +58,7 @@ public class GetStudentActionIT extends BaseActionIT<GetStudentAction> {
         JsonResult actionOutput = getJsonResult(getStudentAction);
         StudentData response = (StudentData) actionOutput.getOutput();
 
-        assertEquals(student.getName(), response.getName());
+        Assertions.assertEquals(student.getName(), response.getName());
 
         logoutUser();
         loginAsStudent(student.getGoogleId());
@@ -72,7 +73,7 @@ public class GetStudentActionIT extends BaseActionIT<GetStudentAction> {
         actionOutput = getJsonResult(getStudentAction);
         response = (StudentData) actionOutput.getOutput();
 
-        assertEquals(student.getName(), response.getName());
+        Assertions.assertEquals(student.getName(), response.getName());
 
         ______TS("Typical Success Case with Unregistered Student");
         params = new String[] {
@@ -84,10 +85,10 @@ public class GetStudentActionIT extends BaseActionIT<GetStudentAction> {
         actionOutput = getJsonResult(getStudentAction);
         response = (StudentData) actionOutput.getOutput();
 
-        assertEquals(student.getName(), response.getName());
-        assertNull(response.getComments());
-        assertNull(response.getJoinState());
-        assertEquals(student.getCourse().getInstitute(), response.getInstitute());
+        Assertions.assertEquals(student.getName(), response.getName());
+        Assertions.assertNull(response.getComments());
+        Assertions.assertNull(response.getJoinState());
+        Assertions.assertEquals(student.getCourse().getInstitute(), response.getInstitute());
 
         ______TS("Student is non existent");
         params = new String[] {
@@ -97,7 +98,7 @@ public class GetStudentActionIT extends BaseActionIT<GetStudentAction> {
 
         EntityNotFoundException enfe = verifyEntityNotFound(params);
 
-        assertEquals("No student found", enfe.getMessage());
+        Assertions.assertEquals("No student found", enfe.getMessage());
 
         logoutUser();
 
@@ -113,9 +114,9 @@ public class GetStudentActionIT extends BaseActionIT<GetStudentAction> {
         actionOutput = getJsonResult(getStudentAction);
         response = (StudentData) actionOutput.getOutput();
 
-        assertEquals(student.getName(), response.getName());
-        assertEquals(student.getRegKey(), response.getKey());
-        assertEquals(student.getGoogleId(), response.getGoogleId());
+        Assertions.assertEquals(student.getName(), response.getName());
+        Assertions.assertEquals(student.getRegKey(), response.getKey());
+        Assertions.assertEquals(student.getGoogleId(), response.getGoogleId());
     }
 
     @Test

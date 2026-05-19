@@ -1,5 +1,6 @@
 package teammates.ui.servlets;
 
+import org.junit.jupiter.api.Assertions;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.testng.annotations.Test;
@@ -23,7 +24,7 @@ public class WebPageServletTest extends BaseTestCase {
         MockHttpServletResponse mockResponse = new MockHttpServletResponse();
         servlet.doGet(mockRequest, mockResponse);
 
-        assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
+        Assertions.assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
 
     }
 

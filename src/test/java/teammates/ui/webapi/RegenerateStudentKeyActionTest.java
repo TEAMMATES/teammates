@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -78,8 +79,8 @@ public class RegenerateStudentKeyActionTest extends BaseActionTest<RegenerateStu
         );
         verifyNumberOfEmailsSent(1);
         verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
-        assertEquals(SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT, actionOutput.getMessage());
-        assertNotNull(actionOutput.getNewRegistrationKey());
+        Assertions.assertEquals(SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT, actionOutput.getMessage());
+        Assertions.assertNotNull(actionOutput.getNewRegistrationKey());
     }
 
     @Test
@@ -105,8 +106,8 @@ public class RegenerateStudentKeyActionTest extends BaseActionTest<RegenerateStu
         );
         verifyNoEmailsSent();
         verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
-        assertEquals(SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED, actionOutput.getMessage());
-        assertNotNull(actionOutput.getNewRegistrationKey());
+        Assertions.assertEquals(SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED, actionOutput.getMessage());
+        Assertions.assertNotNull(actionOutput.getNewRegistrationKey());
     }
 
     @Test
@@ -170,7 +171,7 @@ public class RegenerateStudentKeyActionTest extends BaseActionTest<RegenerateStu
         verify(mockEmailGenerator, never()).generateFeedbackSessionSummaryOfCourse(any(), any(), any());
         verifyNoEmailsSent();
         verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
-        assertEquals(UNSUCCESSFUL_REGENERATION, actionOutput.getMessage());
+        Assertions.assertEquals(UNSUCCESSFUL_REGENERATION, actionOutput.getMessage());
     }
 
     @Test

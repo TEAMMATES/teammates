@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
@@ -62,7 +63,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         BinCourseAction action = getAction(params);
         CourseData actionOutput = (CourseData) getJsonResult(action).getOutput();
 
-        assertEquals(JsonUtils.toJson(new CourseData(course)), JsonUtils.toJson(actionOutput));
+        Assertions.assertEquals(JsonUtils.toJson(new CourseData(course)), JsonUtils.toJson(actionOutput));
     }
 
     @Test

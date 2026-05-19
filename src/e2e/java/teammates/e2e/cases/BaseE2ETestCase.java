@@ -1,5 +1,6 @@
 package teammates.e2e.cases;
 
+import org.junit.jupiter.api.Assertions;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -94,7 +95,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
         } catch (HttpRequestFailedException e) {
             throw new RuntimeException(e);
         }
-        assertNotNull(dataBundle);
+        Assertions.assertNotNull(dataBundle);
         return dataBundle;
     }
 
@@ -202,12 +203,12 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
             ThreadHelper.waitFor(1000);
             actual = Files.exists(Paths.get(filePath));
         }
-        assertTrue(actual);
+        Assertions.assertTrue(actual);
 
         try {
             String actualContent = FileHelper.readFile(filePath);
             for (String content : expectedContent) {
-                assertTrue(actualContent.contains(content));
+                Assertions.assertTrue(actualContent.contains(content));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -231,120 +232,120 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
             FeedbackQuestionDetails expectedQuestionDetails = expectedQuestion.getQuestionDetailsCopy();
             FeedbackQuestionData actualQuestion = (FeedbackQuestionData) actual;
             FeedbackQuestionDetails actualQuestionDetails = actualQuestion.getQuestionDetails();
-            assertEquals(expectedQuestion.getQuestionNumber(), (Integer) actualQuestion.getQuestionNumber());
-            assertEquals(expectedQuestion.getDescription(), actualQuestion.getQuestionDescription());
-            assertEquals(expectedQuestion.getGiverType(), actualQuestion.getGiverType());
-            assertEquals(expectedQuestion.getRecipientType(), actualQuestion.getRecipientType());
+            Assertions.assertEquals(expectedQuestion.getQuestionNumber(), (Integer) actualQuestion.getQuestionNumber());
+            Assertions.assertEquals(expectedQuestion.getDescription(), actualQuestion.getQuestionDescription());
+            Assertions.assertEquals(expectedQuestion.getGiverType(), actualQuestion.getGiverType());
+            Assertions.assertEquals(expectedQuestion.getRecipientType(), actualQuestion.getRecipientType());
             if (expectedQuestion.getNumOfEntitiesToGiveFeedbackTo() == Const.MAX_POSSIBLE_RECIPIENTS) {
-                assertEquals(actualQuestion.getNumberOfEntitiesToGiveFeedbackToSetting(),
+                Assertions.assertEquals(actualQuestion.getNumberOfEntitiesToGiveFeedbackToSetting(),
                         NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED);
-                assertNull(actualQuestion.getCustomNumberOfEntitiesToGiveFeedbackTo());
+                Assertions.assertNull(actualQuestion.getCustomNumberOfEntitiesToGiveFeedbackTo());
             } else {
-                assertEquals(actualQuestion.getNumberOfEntitiesToGiveFeedbackToSetting(),
+                Assertions.assertEquals(actualQuestion.getNumberOfEntitiesToGiveFeedbackToSetting(),
                         NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM);
-                assertEquals(expectedQuestion.getNumOfEntitiesToGiveFeedbackTo(),
+                Assertions.assertEquals(expectedQuestion.getNumOfEntitiesToGiveFeedbackTo(),
                         actualQuestion.getCustomNumberOfEntitiesToGiveFeedbackTo());
             }
-            assertEquals(expectedQuestionDetails.getJsonString(), actualQuestionDetails.getJsonString());
+            Assertions.assertEquals(expectedQuestionDetails.getJsonString(), actualQuestionDetails.getJsonString());
         } else if (expected instanceof FeedbackResponse) {
             FeedbackResponse expectedFeedbackResponse = (FeedbackResponse) expected;
             FeedbackResponseDetails expectedResponseDetails =
                     expectedFeedbackResponse.getFeedbackResponseDetailsCopy();
             FeedbackResponseData actualResponse = (FeedbackResponseData) actual;
             FeedbackResponseDetails actualResponseDetails = actualResponse.getResponseDetails();
-            assertEquals(expectedFeedbackResponse.getGiver().getIdentifier(),
+            Assertions.assertEquals(expectedFeedbackResponse.getGiver().getIdentifier(),
                     actualResponse.getGiverIdentifier());
-            assertEquals(expectedFeedbackResponse.getRecipient().getIdentifier(),
+            Assertions.assertEquals(expectedFeedbackResponse.getRecipient().getIdentifier(),
                     actualResponse.getRecipientIdentifier());
-            assertEquals(expectedResponseDetails.getAnswerString(),
+            Assertions.assertEquals(expectedResponseDetails.getAnswerString(),
                     actualResponse.getResponseDetails().getAnswerString());
-            assertEquals(expectedResponseDetails.getQuestionType(),
+            Assertions.assertEquals(expectedResponseDetails.getQuestionType(),
                     actualResponse.getResponseDetails().getQuestionType());
-            assertEquals(expectedResponseDetails.getJsonString(), actualResponseDetails.getJsonString());
+            Assertions.assertEquals(expectedResponseDetails.getJsonString(), actualResponseDetails.getJsonString());
         } else if (expected instanceof Account) {
             Account expectedAccount = (Account) expected;
             AccountData actualAccount = (AccountData) actual;
-            assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
-            assertEquals(expectedAccount.getName(), actualAccount.getName());
-            assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
+            Assertions.assertEquals(expectedAccount.getGoogleId(), actualAccount.getGoogleId());
+            Assertions.assertEquals(expectedAccount.getName(), actualAccount.getName());
+            Assertions.assertEquals(expectedAccount.getEmail(), actualAccount.getEmail());
         } else if (expected instanceof Course) {
             Course expectedCourse = (Course) expected;
             CourseData actualCourse = (CourseData) actual;
-            assertEquals(expectedCourse.getName(), actualCourse.getCourseName());
-            assertEquals(expectedCourse.getTimeZone(), actualCourse.getTimeZone());
-            assertEquals(expectedCourse.getInstitute(), actualCourse.getInstitute());
+            Assertions.assertEquals(expectedCourse.getName(), actualCourse.getCourseName());
+            Assertions.assertEquals(expectedCourse.getTimeZone(), actualCourse.getTimeZone());
+            Assertions.assertEquals(expectedCourse.getInstitute(), actualCourse.getInstitute());
         } else if (expected instanceof FeedbackResponseComment) {
             FeedbackResponseComment expectedFeedbackResponseComment = (FeedbackResponseComment) expected;
             FeedbackResponseCommentData actualComment = (FeedbackResponseCommentData) actual;
-            assertEquals(expectedFeedbackResponseComment.getCommentText(), actualComment.getCommentText());
-            assertEquals(expectedFeedbackResponseComment.getIsVisibilityFollowingFeedbackQuestion(),
+            Assertions.assertEquals(expectedFeedbackResponseComment.getCommentText(), actualComment.getCommentText());
+            Assertions.assertEquals(expectedFeedbackResponseComment.getIsVisibilityFollowingFeedbackQuestion(),
                     actualComment.isVisibilityFollowingFeedbackQuestion());
         } else if (expected instanceof FeedbackSession) {
             FeedbackSession expectedFeedbackSession = (FeedbackSession) expected;
             FeedbackSessionData actualFeedbackSession = (FeedbackSessionData) actual;
-            assertEquals(expectedFeedbackSession.getName(), actualFeedbackSession.getFeedbackSessionName());
-            assertEquals(expectedFeedbackSession.getInstructions(), actualFeedbackSession.getInstructions());
-            assertEquals(expectedFeedbackSession.getStartTime().toEpochMilli(),
+            Assertions.assertEquals(expectedFeedbackSession.getName(), actualFeedbackSession.getFeedbackSessionName());
+            Assertions.assertEquals(expectedFeedbackSession.getInstructions(), actualFeedbackSession.getInstructions());
+            Assertions.assertEquals(expectedFeedbackSession.getStartTime().toEpochMilli(),
                     actualFeedbackSession.getSubmissionStartTimestamp());
-            assertEquals(expectedFeedbackSession.getEndTime().toEpochMilli(),
+            Assertions.assertEquals(expectedFeedbackSession.getEndTime().toEpochMilli(),
                     actualFeedbackSession.getSubmissionEndTimestamp());
-            assertEquals(expectedFeedbackSession.getSessionVisibleFromTime().toEpochMilli(),
+            Assertions.assertEquals(expectedFeedbackSession.getSessionVisibleFromTime().toEpochMilli(),
                     actualFeedbackSession.getSessionVisibleFromTimestamp().longValue());
-            assertEquals(expectedFeedbackSession.getResultsVisibleFromTime().toEpochMilli(),
+            Assertions.assertEquals(expectedFeedbackSession.getResultsVisibleFromTime().toEpochMilli(),
                     actualFeedbackSession.getResultVisibleFromTimestamp().longValue());
-            assertEquals(expectedFeedbackSession.getGracePeriod().toMinutes(),
+            Assertions.assertEquals(expectedFeedbackSession.getGracePeriod().toMinutes(),
                     actualFeedbackSession.getGracePeriod().longValue());
-            assertEquals(expectedFeedbackSession.isClosingSoonEmailEnabled(),
+            Assertions.assertEquals(expectedFeedbackSession.isClosingSoonEmailEnabled(),
                     actualFeedbackSession.getIsClosingSoonEmailEnabled());
-            assertEquals(expectedFeedbackSession.isPublishedEmailEnabled(),
+            Assertions.assertEquals(expectedFeedbackSession.isPublishedEmailEnabled(),
                     actualFeedbackSession.getIsPublishedEmailEnabled());
         } else if (expected instanceof Instructor) {
             Instructor expectedInstructor = (Instructor) expected;
             InstructorData actualInstructor = (InstructorData) actual;
-            assertEquals(expectedInstructor.getCourseId(), actualInstructor.getCourseId());
-            assertEquals(expectedInstructor.getName(), actualInstructor.getName());
-            assertEquals(expectedInstructor.getEmail(), actualInstructor.getEmail());
+            Assertions.assertEquals(expectedInstructor.getCourseId(), actualInstructor.getCourseId());
+            Assertions.assertEquals(expectedInstructor.getName(), actualInstructor.getName());
+            Assertions.assertEquals(expectedInstructor.getEmail(), actualInstructor.getEmail());
             // Cannot compare keys as actualInstructor's key is only generated before storing into the database.
-            assertNotNull(actualInstructor.getKey());
-            assertEquals(expectedInstructor.isDisplayedToStudents(), actualInstructor.getIsDisplayedToStudents());
-            assertEquals(expectedInstructor.getDisplayName(), actualInstructor.getDisplayedToStudentsAs());
-            assertEquals(expectedInstructor.getRole(), actualInstructor.getRole());
+            Assertions.assertNotNull(actualInstructor.getKey());
+            Assertions.assertEquals(expectedInstructor.isDisplayedToStudents(), actualInstructor.getIsDisplayedToStudents());
+            Assertions.assertEquals(expectedInstructor.getDisplayName(), actualInstructor.getDisplayedToStudentsAs());
+            Assertions.assertEquals(expectedInstructor.getRole(), actualInstructor.getRole());
         } else if (expected instanceof Notification) {
             Notification expectedNotification = (Notification) expected;
             NotificationData actualNotification = (NotificationData) actual;
-            assertEquals(expectedNotification.getStartTime().toEpochMilli(), actualNotification.getStartTimestamp());
-            assertEquals(expectedNotification.getEndTime().toEpochMilli(), actualNotification.getEndTimestamp());
-            assertEquals(expectedNotification.getStyle(), actualNotification.getStyle());
-            assertEquals(expectedNotification.getTargetUser(), actualNotification.getTargetUser());
-            assertEquals(expectedNotification.getTitle(), actualNotification.getTitle());
-            assertEquals(expectedNotification.getMessage(), actualNotification.getMessage());
-            assertEquals(expectedNotification.isShown(), actualNotification.isShown());
+            Assertions.assertEquals(expectedNotification.getStartTime().toEpochMilli(), actualNotification.getStartTimestamp());
+            Assertions.assertEquals(expectedNotification.getEndTime().toEpochMilli(), actualNotification.getEndTimestamp());
+            Assertions.assertEquals(expectedNotification.getStyle(), actualNotification.getStyle());
+            Assertions.assertEquals(expectedNotification.getTargetUser(), actualNotification.getTargetUser());
+            Assertions.assertEquals(expectedNotification.getTitle(), actualNotification.getTitle());
+            Assertions.assertEquals(expectedNotification.getMessage(), actualNotification.getMessage());
+            Assertions.assertEquals(expectedNotification.isShown(), actualNotification.isShown());
         } else if (expected instanceof Student) {
             Student expectedStudent = (Student) expected;
             StudentData actualStudent = (StudentData) actual;
-            assertEquals(expectedStudent.getCourseId(), actualStudent.getCourseId());
-            assertEquals(expectedStudent.getName(), actualStudent.getName());
-            assertEquals(expectedStudent.getEmail(), actualStudent.getEmail());
-            assertEquals(expectedStudent.getRegKey(), actualStudent.getKey());
-            assertEquals(expectedStudent.getComments(), actualStudent.getComments());
+            Assertions.assertEquals(expectedStudent.getCourseId(), actualStudent.getCourseId());
+            Assertions.assertEquals(expectedStudent.getName(), actualStudent.getName());
+            Assertions.assertEquals(expectedStudent.getEmail(), actualStudent.getEmail());
+            Assertions.assertEquals(expectedStudent.getRegKey(), actualStudent.getKey());
+            Assertions.assertEquals(expectedStudent.getComments(), actualStudent.getComments());
             // TODO: A student might not have a team or section.
-            // assertEquals(expectedStudent.getTeamName(), actualStudent.getTeamName());
-            // assertEquals(expectedStudent.getSectionName(), actualStudent.getSectionName());
+            // Assertions.assertEquals(expectedStudent.getTeamName(), actualStudent.getTeamName());
+            // Assertions.assertEquals(expectedStudent.getSectionName(), actualStudent.getSectionName());
         } else if (expected instanceof UsageStatistics) {
             UsageStatistics expectedUsageStatistics = (UsageStatistics) expected;
             UsageStatisticsData actualUsageStatistics = (UsageStatisticsData) actual;
-            assertEquals(expectedUsageStatistics.getStartTime().toEpochMilli(), actualUsageStatistics.getStartTime());
-            assertEquals(expectedUsageStatistics.getTimePeriod(), actualUsageStatistics.getTimePeriod());
-            assertEquals(expectedUsageStatistics.getNumResponses(), actualUsageStatistics.getNumResponses());
-            assertEquals(expectedUsageStatistics.getNumCourses(), actualUsageStatistics.getNumCourses());
-            assertEquals(expectedUsageStatistics.getNumStudents(), actualUsageStatistics.getNumStudents());
-            assertEquals(expectedUsageStatistics.getNumInstructors(), actualUsageStatistics.getNumInstructors());
-            assertEquals(expectedUsageStatistics.getNumAccountRequests(),
+            Assertions.assertEquals(expectedUsageStatistics.getStartTime().toEpochMilli(), actualUsageStatistics.getStartTime());
+            Assertions.assertEquals(expectedUsageStatistics.getTimePeriod(), actualUsageStatistics.getTimePeriod());
+            Assertions.assertEquals(expectedUsageStatistics.getNumResponses(), actualUsageStatistics.getNumResponses());
+            Assertions.assertEquals(expectedUsageStatistics.getNumCourses(), actualUsageStatistics.getNumCourses());
+            Assertions.assertEquals(expectedUsageStatistics.getNumStudents(), actualUsageStatistics.getNumStudents());
+            Assertions.assertEquals(expectedUsageStatistics.getNumInstructors(), actualUsageStatistics.getNumInstructors());
+            Assertions.assertEquals(expectedUsageStatistics.getNumAccountRequests(),
                     actualUsageStatistics.getNumAccountRequests());
-            assertEquals(expectedUsageStatistics.getNumEmails(), actualUsageStatistics.getNumEmails());
-            assertEquals(expectedUsageStatistics.getNumSubmissions(), actualUsageStatistics.getNumSubmissions());
+            Assertions.assertEquals(expectedUsageStatistics.getNumEmails(), actualUsageStatistics.getNumEmails());
+            Assertions.assertEquals(expectedUsageStatistics.getNumSubmissions(), actualUsageStatistics.getNumSubmissions());
         } else {
-            fail("Unknown entity");
+            Assertions.fail("Unknown entity");
         }
     }
 
@@ -352,9 +353,9 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
      * Verifies that the given entity is present in the database.
      */
     protected void verifyPresentInDatabase(BaseEntity expected) {
-        assertNotNull(expected);
+        Assertions.assertNotNull(expected);
         ApiOutput actual = getEntity(expected);
-        assertNotNull(actual);
+        Assertions.assertNotNull(actual);
         verifyEquals(expected, actual);
     }
 
@@ -362,9 +363,9 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
      * Verifies that the given entity is absent in the database.
      */
     protected void verifyAbsentInDatabase(BaseEntity expected) {
-        assertNotNull(expected);
+        Assertions.assertNotNull(expected);
         ApiOutput actual = getEntity(expected);
-        assertNull(actual);
+        Assertions.assertNull(actual);
     }
 
     private ApiOutput getEntity(BaseEntity entity) {

@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.mock;
@@ -41,7 +42,7 @@ public class AccountRequestsLogicTest extends BaseTestCase {
         when(accountRequestsDb.createAccountRequest(accountRequest)).thenReturn(accountRequest);
         AccountRequest createdAccountRequest = accountRequestsLogic.createAccountRequest(accountRequest);
 
-        assertEquals(accountRequest, createdAccountRequest);
+        Assertions.assertEquals(accountRequest, createdAccountRequest);
         verify(accountRequestsDb, times(1)).createAccountRequest(accountRequest);
     }
 
@@ -65,7 +66,7 @@ public class AccountRequestsLogicTest extends BaseTestCase {
         AccountRequest invalidEmailAccountRequest = getTypicalAccountRequest();
         invalidEmailAccountRequest.setEmail("invalid email");
 
-        assertThrows(InvalidParametersException.class, () -> {
+        Assertions.assertThrows(InvalidParametersException.class, () -> {
             accountRequestsLogic.createAccountRequest(invalidEmailAccountRequest);
         });
         verify(accountRequestsDb, never()).createAccountRequest(invalidEmailAccountRequest);
@@ -77,7 +78,7 @@ public class AccountRequestsLogicTest extends BaseTestCase {
         AccountRequest ar = getTypicalAccountRequest();
         AccountRequest updatedAr = accountRequestsLogic.updateAccountRequest(ar);
 
-        assertEquals(ar, updatedAr);
+        Assertions.assertEquals(ar, updatedAr);
     }
 
     @Test
@@ -85,7 +86,7 @@ public class AccountRequestsLogicTest extends BaseTestCase {
             throws InvalidParametersException {
         AccountRequest arNotFound = getTypicalAccountRequest();
         AccountRequest updated = accountRequestsLogic.updateAccountRequest(arNotFound);
-        assertEquals(updated, arNotFound);
+        Assertions.assertEquals(updated, arNotFound);
     }
 
     @Test
@@ -114,7 +115,7 @@ public class AccountRequestsLogicTest extends BaseTestCase {
         AccountRequest actualAr =
                 accountRequestsLogic.getAccountRequestByRegistrationKey(ar.getRegistrationKey());
 
-        assertEquals(ar, actualAr);
+        Assertions.assertEquals(ar, actualAr);
         verify(accountRequestsDb, times(1)).getAccountRequestByRegistrationKey(regkey);
     }
 
@@ -123,7 +124,7 @@ public class AccountRequestsLogicTest extends BaseTestCase {
         String nonexistentRegkey = "not_exist";
         when(accountRequestsDb.getAccountRequestByRegistrationKey(nonexistentRegkey)).thenReturn(null);
 
-        assertNull(accountRequestsLogic.getAccountRequestByRegistrationKey(nonexistentRegkey));
+        Assertions.assertNull(accountRequestsLogic.getAccountRequestByRegistrationKey(nonexistentRegkey));
         verify(accountRequestsDb, times(1)).getAccountRequestByRegistrationKey(nonexistentRegkey);
     }
 
@@ -136,7 +137,7 @@ public class AccountRequestsLogicTest extends BaseTestCase {
                 .thenReturn(accountRequest);
         accountRequest = accountRequestsLogic.resetAccountRequest(accountRequest.getId());
 
-        assertNull(accountRequest.getRegisteredAt());
+        Assertions.assertNull(accountRequest.getRegisteredAt());
         verify(accountRequestsDb, times(1)).getAccountRequest(accountRequest.getId());
     }
 
@@ -146,7 +147,7 @@ public class AccountRequestsLogicTest extends BaseTestCase {
         accountRequest.setRegisteredAt(Const.TIME_REPRESENTS_NOW);
         when(accountRequestsDb.getAccountRequest(accountRequest.getId()))
                 .thenReturn(null);
-        assertThrows(EntityDoesNotExistException.class,
+        Assertions.assertThrows(EntityDoesNotExistException.class,
                 () -> accountRequestsLogic.resetAccountRequest(accountRequest.getId()));
     }
 
@@ -156,7 +157,7 @@ public class AccountRequestsLogicTest extends BaseTestCase {
         when(accountRequestsDb.getAccountRequest(id)).thenReturn(null);
         AccountRequest actualAccountRequest = accountRequestsLogic.getAccountRequest(id);
         verify(accountRequestsDb).getAccountRequest(id);
-        assertNull(actualAccountRequest);
+        Assertions.assertNull(actualAccountRequest);
     }
 
     @Test
@@ -167,6 +168,6 @@ public class AccountRequestsLogicTest extends BaseTestCase {
         when(accountRequestsDb.getAccountRequest(id)).thenReturn(expectedAccountRequest);
         AccountRequest actualAccountRequest = accountRequestsLogic.getAccountRequest(id);
         verify(accountRequestsDb).getAccountRequest(id);
-        assertEquals(expectedAccountRequest, actualAccountRequest);
+        Assertions.assertEquals(expectedAccountRequest, actualAccountRequest);
     }
 }

@@ -1,5 +1,6 @@
 package teammates.it.logic.core;
 
+import org.junit.jupiter.api.Assertions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -65,15 +66,15 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
         String googleId = instructor.getGoogleId();
 
         ______TS("success: reset instructor that does not exist");
-        assertThrows(EntityDoesNotExistException.class,
+        Assertions.assertThrows(EntityDoesNotExistException.class,
                 () -> usersLogic.resetInstructorGoogleId(email, courseId, googleId));
 
         ______TS("success: reset instructor that exists");
         usersLogic.createInstructor(instructor);
         usersLogic.resetInstructorGoogleId(email, courseId, googleId);
 
-        assertNull(instructor.getAccount());
-        assertEquals(0, accountsLogic.getAccountsForEmail(email).size());
+        Assertions.assertNull(instructor.getAccount());
+        Assertions.assertEquals(0, accountsLogic.getAccountsForEmail(email).size());
 
         ______TS("found at least one other user with same googleId, should not delete account");
         Account anotherAccount = getTypicalAccount();
@@ -88,8 +89,8 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         usersLogic.resetInstructorGoogleId(email, courseId, googleId);
 
-        assertNull(instructor.getAccount());
-        assertEquals(anotherAccount, accountsLogic.getAccountForGoogleId(googleId));
+        Assertions.assertNull(instructor.getAccount());
+        Assertions.assertEquals(anotherAccount, accountsLogic.getAccountForGoogleId(googleId));
     }
 
     @Test
@@ -100,7 +101,7 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
         String googleId = account.getGoogleId();
 
         ______TS("success: reset student that does not exist");
-        assertThrows(EntityDoesNotExistException.class,
+        Assertions.assertThrows(EntityDoesNotExistException.class,
                 () -> usersLogic.resetStudentGoogleId(email, courseId, googleId));
 
         ______TS("success: reset student that exists");
@@ -109,8 +110,8 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         usersLogic.resetStudentGoogleId(email, courseId, googleId);
 
-        assertNull(student.getAccount());
-        assertEquals(0, accountsLogic.getAccountsForEmail(email).size());
+        Assertions.assertNull(student.getAccount());
+        Assertions.assertEquals(0, accountsLogic.getAccountsForEmail(email).size());
 
         ______TS("found at least one other user with same googleId, should not delete account");
         Account anotherAccount = getTypicalAccount();
@@ -126,8 +127,8 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
         usersLogic.createInstructor(anotherUser);
         usersLogic.resetStudentGoogleId(email, courseId, googleId);
 
-        assertNull(student.getAccount());
-        assertEquals(anotherAccount, accountsLogic.getAccountForGoogleId(googleId));
+        Assertions.assertNull(student.getAccount());
+        Assertions.assertEquals(anotherAccount, accountsLogic.getAccountForGoogleId(googleId));
     }
 
     @Test
@@ -142,7 +143,7 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
         instructor.setPrivileges(privileges);
         usersLogic.updateToEnsureValidityOfInstructorsForTheCourse(course.getId(), instructor);
 
-        assertFalse(instructor.getPrivileges().isAllowedForPrivilege(
+        Assertions.assertFalse(instructor.getPrivileges().isAllowedForPrivilege(
                 Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
     }
 }

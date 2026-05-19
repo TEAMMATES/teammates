@@ -1,5 +1,6 @@
 package teammates.e2e.cases;
 
+import org.junit.jupiter.api.Assertions;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -214,7 +215,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.sortBySessionsName();
         feedbackSessionsPage.verifySessionsTable(sessionsForSoftDelete);
         feedbackSessionsPage.verifySoftDeletedSessionsTable(softDeletedSessions);
-        assertNotNull(getSoftDeletedSession(closedSession.getName(),
+        Assertions.assertNotNull(getSoftDeletedSession(closedSession.getName(),
                 instructor.getGoogleId()));
 
         ______TS("restore session");
@@ -225,7 +226,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.sortBySessionsName();
         feedbackSessionsPage.verifySessionsTable(sessionsForRestore);
         feedbackSessionsPage.verifyNumSoftDeleted(0);
-        assertNull(getSoftDeletedSession(closedSession.getName(),
+        Assertions.assertNull(getSoftDeletedSession(closedSession.getName(),
                 instructor.getGoogleId()));
 
         ______TS("permanently delete session");
@@ -253,9 +254,9 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.sortBySessionsName();
         feedbackSessionsPage.verifySessionsTable(sessionsForRestoreAll);
         feedbackSessionsPage.verifyNumSoftDeleted(0);
-        assertNull(getSoftDeletedSession(copiedSession.getName(),
+        Assertions.assertNull(getSoftDeletedSession(copiedSession.getName(),
                 instructor.getGoogleId()));
-        assertNull(getSoftDeletedSession(copiedSession2.getName(),
+        Assertions.assertNull(getSoftDeletedSession(copiedSession2.getName(),
                 instructor.getGoogleId()));
 
         ______TS("delete all session");
@@ -305,6 +306,6 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
             ThreadHelper.waitFor(1000);
             actual = getFeedbackSession(feedbackSession);
         }
-        assertEquals(actual.getPublishStatus(), publishStatus);
+        Assertions.assertEquals(actual.getPublishStatus(), publishStatus);
     }
 }

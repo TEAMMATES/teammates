@@ -1,5 +1,6 @@
 package teammates.it.logic.core;
 
+import org.junit.jupiter.api.Assertions;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -24,7 +25,7 @@ public class AccountRequestsLogicIT extends BaseTestCaseWithDatabaseAccess {
     public void testGetAccountRequest_nonExistentAccountRequest_returnsNull() {
         UUID id = UUID.randomUUID();
         AccountRequest actualAccountRequest = accountRequestsLogic.getAccountRequest(id);
-        assertNull(actualAccountRequest);
+        Assertions.assertNull(actualAccountRequest);
     }
 
     @Test
@@ -34,7 +35,7 @@ public class AccountRequestsLogicIT extends BaseTestCaseWithDatabaseAccess {
         UUID id = expectedAccountRequest.getId();
         accountRequestsLogic.createAccountRequest(expectedAccountRequest);
         AccountRequest actualAccountRequest = accountRequestsLogic.getAccountRequest(id);
-        assertEquals(expectedAccountRequest, actualAccountRequest);
+        Assertions.assertEquals(expectedAccountRequest, actualAccountRequest);
     }
 
     @Test
@@ -55,24 +56,24 @@ public class AccountRequestsLogicIT extends BaseTestCaseWithDatabaseAccess {
         UUID id = toReset.getId();
         toReset = accountRequestsDb.getAccountRequest(id);
 
-        assertNotNull(toReset);
-        assertNotNull(toReset.getRegisteredAt());
+        Assertions.assertNotNull(toReset);
+        Assertions.assertNotNull(toReset.getRegisteredAt());
 
         ______TS("success: reset account request that already exists");
 
         AccountRequest resetted = accountRequestsLogic.resetAccountRequest(id);
 
-        assertNull(resetted.getRegisteredAt());
+        Assertions.assertNull(resetted.getRegisteredAt());
 
         ______TS("success: test delete account request");
 
         accountRequestsLogic.deleteAccountRequest(toReset.getId());
 
-        assertNull(accountRequestsLogic.getAccountRequest(toReset.getId()));
+        Assertions.assertNull(accountRequestsLogic.getAccountRequest(toReset.getId()));
 
         ______TS("failure: reset account request that does not exist");
 
-        assertThrows(EntityDoesNotExistException.class,
+        Assertions.assertThrows(EntityDoesNotExistException.class,
                 () -> accountRequestsLogic.resetAccountRequest(id));
     }
 }

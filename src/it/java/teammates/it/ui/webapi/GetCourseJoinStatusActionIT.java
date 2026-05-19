@@ -1,5 +1,6 @@
 package teammates.it.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -64,7 +65,7 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
         JsonResult result = getJsonResult(getCourseJoinStatusAction);
 
         JoinStatus output = (JoinStatus) result.getOutput();
-        assertTrue(output.getHasJoined());
+        Assertions.assertTrue(output.getHasJoined());
 
         ______TS("Normal case: student is not registered");
         String unregisteredStudentKey =
@@ -79,7 +80,7 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
         result = getJsonResult(getCourseJoinStatusAction);
 
         output = (JoinStatus) result.getOutput();
-        assertFalse(output.getHasJoined());
+        Assertions.assertFalse(output.getHasJoined());
 
         ______TS("Failure case: regkey is not valid for student");
 
@@ -104,7 +105,7 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
         result = getJsonResult(getCourseJoinStatusAction);
 
         output = (JoinStatus) result.getOutput();
-        assertTrue(output.getHasJoined());
+        Assertions.assertTrue(output.getHasJoined());
 
         ______TS("Normal case: instructor is not registered");
 
@@ -120,7 +121,7 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
         result = getJsonResult(getCourseJoinStatusAction);
 
         output = (JoinStatus) result.getOutput();
-        assertFalse(output.getHasJoined());
+        Assertions.assertFalse(output.getHasJoined());
 
         ______TS("Failure case: regkey is not valid for instructor");
 
@@ -146,7 +147,7 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
         result = getJsonResult(getCourseJoinStatusAction);
 
         output = (JoinStatus) result.getOutput();
-        assertFalse(output.getHasJoined());
+        Assertions.assertFalse(output.getHasJoined());
 
         ______TS("Normal case: account request already used, instructor has joined course");
 
@@ -163,7 +164,7 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
         result = getJsonResult(getCourseJoinStatusAction);
 
         output = (JoinStatus) result.getOutput();
-        assertTrue(output.getHasJoined());
+        Assertions.assertTrue(output.getHasJoined());
 
         ______TS("Failure case: account request regkey is not valid");
 

@@ -1,5 +1,6 @@
 package teammates.it.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashSet;
@@ -101,9 +102,9 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
-        assertEquals("Successful", response1.getMessage());
-        assertTrue(session.isClosingSoonEmailSent());
-        assertTrue(session.getDeadlineExtensions().stream().allMatch(de -> !de.isClosingSoonEmailSent()));
+        Assertions.assertEquals("Successful", response1.getMessage());
+        Assertions.assertTrue(session.isClosingSoonEmailSent());
+        Assertions.assertTrue(session.getDeadlineExtensions().stream().allMatch(de -> !de.isClosingSoonEmailSent()));
 
         // 7 email tasks queued:
         // 1 co-owner, 5 students and 3 instructors,
@@ -132,9 +133,9 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
-        assertEquals("Successful", response1.getMessage());
-        assertTrue(session.isClosingSoonEmailSent());
-        assertTrue(de.isClosingSoonEmailSent());
+        Assertions.assertEquals("Successful", response1.getMessage());
+        Assertions.assertTrue(session.isClosingSoonEmailSent());
+        Assertions.assertTrue(de.isClosingSoonEmailSent());
 
         // 8 email tasks queued:
         // - 7 emails: 1 co-owner, 5 students and 3 instructors,
@@ -167,9 +168,9 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
-        assertEquals("Successful", response1.getMessage());
-        assertTrue(session.isClosingSoonEmailSent());
-        assertTrue(de.isClosingSoonEmailSent());
+        Assertions.assertEquals("Successful", response1.getMessage());
+        Assertions.assertTrue(session.isClosingSoonEmailSent());
+        Assertions.assertTrue(de.isClosingSoonEmailSent());
 
         // 1 email tasks queued:
         // - 0 emails: session already sent closing-soon emails
@@ -200,9 +201,9 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
-        assertEquals("Successful", response1.getMessage());
-        assertTrue(session.isClosingSoonEmailSent());
-        assertTrue(de.isClosingSoonEmailSent());
+        Assertions.assertEquals("Successful", response1.getMessage());
+        Assertions.assertTrue(session.isClosingSoonEmailSent());
+        Assertions.assertTrue(de.isClosingSoonEmailSent());
 
         verifyNoTasksAdded();
     }
@@ -230,9 +231,9 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
-        assertEquals("Successful", response1.getMessage());
-        assertTrue(!session.isClosingSoonEmailSent());
-        assertTrue(!de.isClosingSoonEmailSent());
+        Assertions.assertEquals("Successful", response1.getMessage());
+        Assertions.assertTrue(!session.isClosingSoonEmailSent());
+        Assertions.assertTrue(!de.isClosingSoonEmailSent());
 
         verifyNoTasksAdded();
     }
@@ -266,11 +267,11 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         JsonResult actionOutput1 = getJsonResult(action1);
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
-        assertEquals("Successful", response1.getMessage());
+        Assertions.assertEquals("Successful", response1.getMessage());
         // Should still be false as no closing-soon email should be sent for already closed sessions
-        assertFalse(session.isClosingSoonEmailSent());
+        Assertions.assertFalse(session.isClosingSoonEmailSent());
         // Closing-soon email for deadline extension should still be sent
-        assertTrue(de.isClosingSoonEmailSent());
+        Assertions.assertTrue(de.isClosingSoonEmailSent());
 
         // Only 1 email task should be added for the deadline extension
         verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 1);

@@ -1,5 +1,6 @@
 package teammates.it.logic.core;
 
+import org.junit.jupiter.api.Assertions;
 import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
@@ -39,15 +40,15 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithDatabaseAccess {
         FeedbackResponse fr1 = typicalDataBundle.feedbackResponses.get("response1ForQ1");
         fr1 = frLogic.getFeedbackResponse(fr1.getId());
         UUID frcId = fr1.getFeedbackResponseComments().iterator().next().getId();
-        assertNotNull(fr1);
-        assertFalse(fr1.getFeedbackResponseComments().isEmpty());
+        Assertions.assertNotNull(fr1);
+        Assertions.assertFalse(fr1.getFeedbackResponseComments().isEmpty());
 
         frLogic.deleteFeedbackResponsesAndCommentsCascade(fr1);
         HibernateUtil.flushSession();
         HibernateUtil.clearSession();
 
-        assertNull(frLogic.getFeedbackResponse(fr1.getId()));
-        assertNull(frcLogic.getFeedbackResponseComment(frcId));
+        Assertions.assertNull(frLogic.getFeedbackResponse(fr1.getId()));
+        Assertions.assertNull(frcLogic.getFeedbackResponseComment(frcId));
     }
 
     @Test
@@ -59,8 +60,8 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithDatabaseAccess {
         Student newGiver = typicalDataBundle.students.get("student2InCourse1");
         Student newRecipient = typicalDataBundle.students.get("student4InCourse1");
 
-        assertNotEquals(fr.getGiver().getIdentifier(), newGiver.getEmail());
-        assertNotEquals(fr.getRecipient().getIdentifier(), newRecipient.getEmail());
+        Assertions.assertNotEquals(fr.getGiver().getIdentifier(), newGiver.getEmail());
+        Assertions.assertNotEquals(fr.getRecipient().getIdentifier(), newRecipient.getEmail());
 
         fr.setGiver(new ResponseGiver(newGiver));
         fr.setRecipient(new ResponseRecipient(newRecipient));
@@ -68,7 +69,7 @@ public class FeedbackResponsesLogicIT extends BaseTestCaseWithDatabaseAccess {
         fr = frLogic.updateFeedbackResponse(fr);
 
         fr = frLogic.getFeedbackResponse(fr.getId());
-        assertEquals(fr.getGiver().getIdentifier(), newGiver.getEmail());
-        assertEquals(fr.getRecipient().getIdentifier(), newRecipient.getEmail());
+        Assertions.assertEquals(fr.getGiver().getIdentifier(), newGiver.getEmail());
+        Assertions.assertEquals(fr.getRecipient().getIdentifier(), newRecipient.getEmail());
     }
 }

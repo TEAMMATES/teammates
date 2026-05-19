@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
@@ -57,27 +58,27 @@ public class GetNotificationActionTest extends BaseActionTest<GetNotificationAct
     @Test
     protected void testExecute_nonExistentNotification_shouldThrowError() {
         GetNotificationAction action = getAction(Const.ParamsNames.NOTIFICATION_ID, UUID.randomUUID().toString());
-        EntityNotFoundException enfe = assertThrows(EntityNotFoundException.class, action::execute);
+        EntityNotFoundException enfe = Assertions.assertThrows(EntityNotFoundException.class, action::execute);
 
-        assertEquals("Notification does not exist.", enfe.getMessage());
+        Assertions.assertEquals("Notification does not exist.", enfe.getMessage());
     }
 
     @Test
     protected void testExecute_notificationIdIsNull_shouldThrowError() {
         String[] submissionParams = new String[] { Const.ParamsNames.NOTIFICATION_ID, null };
         GetNotificationAction action = getAction(submissionParams);
-        InvalidHttpParameterException ihpe = assertThrows(InvalidHttpParameterException.class, action::execute);
+        InvalidHttpParameterException ihpe = Assertions.assertThrows(InvalidHttpParameterException.class, action::execute);
 
-        assertEquals("The [notificationid] HTTP parameter is null.", ihpe.getMessage());
+        Assertions.assertEquals("The [notificationid] HTTP parameter is null.", ihpe.getMessage());
     }
 
     private void verifyNotificationEquals(NotificationData expected, NotificationData actual) {
-        assertEquals(expected.getNotificationId(), actual.getNotificationId());
-        assertEquals(expected.getStyle(), actual.getStyle());
-        assertEquals(expected.getTargetUser(), actual.getTargetUser());
-        assertEquals(expected.getTitle(), actual.getTitle());
-        assertEquals(expected.getMessage(), actual.getMessage());
-        assertEquals(expected.getStartTimestamp(), actual.getStartTimestamp());
-        assertEquals(expected.getEndTimestamp(), actual.getEndTimestamp());
+        Assertions.assertEquals(expected.getNotificationId(), actual.getNotificationId());
+        Assertions.assertEquals(expected.getStyle(), actual.getStyle());
+        Assertions.assertEquals(expected.getTargetUser(), actual.getTargetUser());
+        Assertions.assertEquals(expected.getTitle(), actual.getTitle());
+        Assertions.assertEquals(expected.getMessage(), actual.getMessage());
+        Assertions.assertEquals(expected.getStartTimestamp(), actual.getStartTimestamp());
+        Assertions.assertEquals(expected.getEndTimestamp(), actual.getEndTimestamp());
     }
 }

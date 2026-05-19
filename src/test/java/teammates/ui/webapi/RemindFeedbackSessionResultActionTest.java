@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.mock;
@@ -79,7 +80,7 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
         remindRequest.setUsersToRemind(usersToRemind);
 
         InvalidOperationException ioe = verifyInvalidOperation(remindRequest, paramsFeedbackSessionNotPublished);
-        assertEquals("Published email could not be resent "
+        Assertions.assertEquals("Published email could not be resent "
                 + "as the feedback session is not published.", ioe.getMessage());
 
         verifyNoTasksAdded();

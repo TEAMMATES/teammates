@@ -1,5 +1,6 @@
 package teammates.test;
 
+import org.junit.jupiter.api.Assertions;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +19,7 @@ public class TestNgXmlTest extends BaseTestCase {
         // <class name, package name>
         Map<String, String> testFiles = getTestFiles(testNgXml, "./src/test/java/teammates");
 
-        testFiles.forEach((key, value) -> assertTrue(isTestFileIncluded(testNgXml, value, key)));
+        testFiles.forEach((key, value) -> Assertions.assertTrue(isTestFileIncluded(testNgXml, value, key)));
     }
 
     /**

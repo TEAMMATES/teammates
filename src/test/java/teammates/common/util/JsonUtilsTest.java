@@ -1,5 +1,6 @@
 package teammates.common.util;
 
+import org.junit.jupiter.api.Assertions;
 import static teammates.test.AssertHelper.assertJsonEquals;
 
 import org.testng.annotations.Test;
@@ -29,7 +30,7 @@ public class JsonUtilsTest extends BaseTestCase {
         expectedQuestionDetailsJson = "{\"questionType\":\"TEXT\",\"questionText\":\"Question text.\","
                 + "\"shouldAllowRichText\":true}";
 
-        assertEquals(expectedQuestionDetailsJson, JsonUtils.toCompactJson(qd));
+        Assertions.assertEquals(expectedQuestionDetailsJson, JsonUtils.toCompactJson(qd));
     }
 
     @Test
@@ -45,6 +46,6 @@ public class JsonUtilsTest extends BaseTestCase {
 
         expectedFeedbackResponseDetailsJson = "{\"questionType\":\"TEXT\",\"answer\":\"My answer\"}";
 
-        assertEquals(expectedFeedbackResponseDetailsJson, JsonUtils.toCompactJson(frd));
+        Assertions.assertEquals(expectedFeedbackResponseDetailsJson, JsonUtils.toCompactJson(frd));
     }
 }

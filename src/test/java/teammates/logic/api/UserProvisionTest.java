@@ -1,5 +1,6 @@
 package teammates.logic.api;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
@@ -82,10 +83,10 @@ public class UserProvisionTest extends BaseTestCase {
     public void getAuthContextFromRequest_noCookie_returnsPublicContext() throws Exception {
         AuthContext authContext = userProvision.getAuthContextFromRequest(createRequest());
 
-        assertEquals(AuthType.PUBLIC, authContext.authType());
-        assertNull(authContext.account());
-        assertFalse(authContext.isAdmin());
-        assertFalse(authContext.isMaintainer());
+        Assertions.assertEquals(AuthType.PUBLIC, authContext.authType());
+        Assertions.assertNull(authContext.account());
+        Assertions.assertFalse(authContext.isAdmin());
+        Assertions.assertFalse(authContext.isMaintainer());
     }
 
     @Test
@@ -96,9 +97,9 @@ public class UserProvisionTest extends BaseTestCase {
 
         AuthContext authContext = userProvision.getAuthContextFromRequest(req);
 
-        assertEquals(AuthType.LOGGED_IN, authContext.authType());
-        assertEquals(account, authContext.account());
-        assertEquals("user-id", authContext.account().getGoogleId());
+        Assertions.assertEquals(AuthType.LOGGED_IN, authContext.authType());
+        Assertions.assertEquals(account, authContext.account());
+        Assertions.assertEquals("user-id", authContext.account().getGoogleId());
         assertHasNoRoles(authContext);
     }
 
@@ -111,9 +112,9 @@ public class UserProvisionTest extends BaseTestCase {
 
         AuthContext authContext = userProvision.getAuthContextFromRequest(req);
 
-        assertEquals(AuthType.LOGGED_IN, authContext.authType());
-        assertEquals(account, authContext.account());
-        assertNull(authContext.regKeyUser());
+        Assertions.assertEquals(AuthType.LOGGED_IN, authContext.authType());
+        Assertions.assertEquals(account, authContext.account());
+        Assertions.assertNull(authContext.regKeyUser());
     }
 
     @Test
@@ -125,8 +126,8 @@ public class UserProvisionTest extends BaseTestCase {
 
         AuthContext authContext = userProvision.getAuthContextFromRequest(req);
 
-        assertEquals(AuthType.LOGGED_IN, authContext.authType());
-        assertEquals(account, authContext.account());
+        Assertions.assertEquals(AuthType.LOGGED_IN, authContext.authType());
+        Assertions.assertEquals(account, authContext.account());
         assertHasRoles(authContext, Role.ADMIN);
     }
 
@@ -139,8 +140,8 @@ public class UserProvisionTest extends BaseTestCase {
 
         AuthContext authContext = userProvision.getAuthContextFromRequest(req);
 
-        assertEquals(AuthType.LOGGED_IN, authContext.authType());
-        assertEquals(account, authContext.account());
+        Assertions.assertEquals(AuthType.LOGGED_IN, authContext.authType());
+        Assertions.assertEquals(account, authContext.account());
         assertHasRoles(authContext, Role.MAINTAINER);
     }
 
@@ -151,10 +152,10 @@ public class UserProvisionTest extends BaseTestCase {
         req.addParam(Const.ParamsNames.USER_ID, "target-id");
         when(mockAccountsLogic.getAccount(account.getId())).thenReturn(account);
 
-        UnauthorizedAccessException ex = assertThrows(
+        UnauthorizedAccessException ex = Assertions.assertThrows(
                 UnauthorizedAccessException.class, () -> userProvision.getAuthContextFromRequest(req));
 
-        assertEquals("Masquerade failed: user user@example.com does not have admin privilege", ex.getMessage());
+        Assertions.assertEquals("Masquerade failed: user user@example.com does not have admin privilege", ex.getMessage());
     }
 
     @Test
@@ -169,15 +170,15 @@ public class UserProvisionTest extends BaseTestCase {
 
         AuthContext authContext = userProvision.getAuthContextFromRequest(req);
 
-        assertEquals(AuthType.MASQUERADE, authContext.authType());
-        assertEquals(targetAccount, authContext.account());
+        Assertions.assertEquals(AuthType.MASQUERADE, authContext.authType());
+        Assertions.assertEquals(targetAccount, authContext.account());
         assertHasNoRoles(authContext);
     }
 
     @Test
     public void getUserInfo_nullOrPublicContext_returnsNull() {
-        assertNull(userProvision.getUserInfo(null));
-        assertNull(userProvision.getUserInfo(new AuthContext(AuthType.PUBLIC, null, null, false, false)));
+        Assertions.assertNull(userProvision.getUserInfo(null));
+        Assertions.assertNull(userProvision.getUserInfo(new AuthContext(AuthType.PUBLIC, null, null, false, false)));
         verifyNoInteractions(mockUsersLogic);
     }
 
@@ -190,12 +191,12 @@ public class UserProvisionTest extends BaseTestCase {
 
         UserInfo userInfo = userProvision.getUserInfo(authContext);
 
-        assertEquals(account.getGoogleId(), userInfo.id);
-        assertEquals(account.getId(), userInfo.accountId);
-        assertTrue(userInfo.isAdmin);
-        assertTrue(userInfo.isMaintainer);
-        assertTrue(userInfo.isInstructor);
-        assertTrue(userInfo.isStudent);
+        Assertions.assertEquals(account.getGoogleId(), userInfo.id);
+        Assertions.assertEquals(account.getId(), userInfo.accountId);
+        Assertions.assertTrue(userInfo.isAdmin);
+        Assertions.assertTrue(userInfo.isMaintainer);
+        Assertions.assertTrue(userInfo.isInstructor);
+        Assertions.assertTrue(userInfo.isStudent);
     }
 
     private static MockHttpServletRequest createRequest() {
@@ -222,8 +223,8 @@ public class UserProvisionTest extends BaseTestCase {
 
     private static void assertHasRoles(AuthContext authContext, Role... expectedRoles) {
         List<Role> expected = List.of(expectedRoles);
-        assertEquals(expected.contains(Role.ADMIN), authContext.isAdmin());
-        assertEquals(expected.contains(Role.MAINTAINER), authContext.isMaintainer());
+        Assertions.assertEquals(expected.contains(Role.ADMIN), authContext.isAdmin());
+        Assertions.assertEquals(expected.contains(Role.MAINTAINER), authContext.isMaintainer());
     }
 
     private enum Role {

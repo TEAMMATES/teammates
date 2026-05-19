@@ -1,5 +1,6 @@
 package teammates.e2e.pageobjects;
 
+import org.junit.jupiter.api.Assertions;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -68,7 +69,7 @@ public class AdminHomePage extends AppPage {
     }
 
     public void verifyMultipleInstructorDetails(String expectedInstructorDetails) {
-        assertEquals(expectedInstructorDetails, detailsSingleLineTextBox.getAttribute("value"));
+        Assertions.assertEquals(expectedInstructorDetails, detailsSingleLineTextBox.getAttribute("value"));
     }
 
     public void clickMoreInfoButtonForRegisteredInstructor(int i) {
@@ -110,6 +111,6 @@ public class AdminHomePage extends AppPage {
 
     public void verifyInstructorInAccountRequestTable(String name, String email, String institute) {
         WebElement row = getAccountRequestRow(name, email, institute);
-        assertNotNull(row);
+        Assertions.assertNotNull(row);
     }
 }

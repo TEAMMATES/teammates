@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.Mockito.when;
 
 import org.testng.annotations.BeforeMethod;
@@ -83,7 +84,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
 
         GetInstructorAction getInstructorAction = getAction(params);
         InstructorData actionOutput = (InstructorData) getJsonResult(getInstructorAction).getOutput();
-        assertEquals(JsonUtils.toJson(new InstructorData(instructor)), JsonUtils.toJson(actionOutput));
+        Assertions.assertEquals(JsonUtils.toJson(new InstructorData(instructor)), JsonUtils.toJson(actionOutput));
     }
 
     @Test
@@ -99,7 +100,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
 
         GetInstructorAction getInstructorAction = getAction(params);
         InstructorData actionOutput = (InstructorData) getJsonResult(getInstructorAction).getOutput();
-        assertEquals(JsonUtils.toJson(new InstructorData(instructor)), JsonUtils.toJson(actionOutput));
+        Assertions.assertEquals(JsonUtils.toJson(new InstructorData(instructor)), JsonUtils.toJson(actionOutput));
     }
 
     @Test
@@ -113,7 +114,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
 
         GetInstructorAction getInstructorAction = getAction(params);
         InstructorData actionOutput = (InstructorData) getJsonResult(getInstructorAction).getOutput();
-        assertEquals(JsonUtils.toJson(new InstructorData(instructor)), JsonUtils.toJson(actionOutput));
+        Assertions.assertEquals(JsonUtils.toJson(new InstructorData(instructor)), JsonUtils.toJson(actionOutput));
     }
 
     @Test
@@ -129,7 +130,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
 
         GetInstructorAction getInstructorAction = getAction(params);
         InstructorData actionOutput = (InstructorData) getJsonResult(getInstructorAction).getOutput();
-        assertEquals(JsonUtils.toJson(new InstructorData(instructor)), JsonUtils.toJson(actionOutput));
+        Assertions.assertEquals(JsonUtils.toJson(new InstructorData(instructor)), JsonUtils.toJson(actionOutput));
     }
 
     @Test
@@ -143,7 +144,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
 
         GetInstructorAction getInstructorAction = getAction(params);
         InstructorData actionOutput = (InstructorData) getJsonResult(getInstructorAction).getOutput();
-        assertEquals(JsonUtils.toJson(new InstructorData(instructor)), JsonUtils.toJson(actionOutput));
+        Assertions.assertEquals(JsonUtils.toJson(new InstructorData(instructor)), JsonUtils.toJson(actionOutput));
     }
 
     @Test
@@ -161,7 +162,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
         InstructorData actionOutput = (InstructorData) getJsonResult(getInstructorAction).getOutput();
         InstructorData expected = new InstructorData(instructor);
         expected.setGoogleId("google-id");
-        assertEquals(JsonUtils.toJson(expected), JsonUtils.toJson(actionOutput));
+        Assertions.assertEquals(JsonUtils.toJson(expected), JsonUtils.toJson(actionOutput));
     }
 
     @Test

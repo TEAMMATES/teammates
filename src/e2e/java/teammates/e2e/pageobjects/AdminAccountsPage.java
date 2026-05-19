@@ -1,5 +1,6 @@
 package teammates.e2e.pageobjects;
 
+import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -44,9 +45,9 @@ public class AdminAccountsPage extends AppPage {
     }
 
     public void verifyAccountDetails(AccountData account) {
-        assertEquals(account.getGoogleId(), accountId.getText());
-        assertEquals(account.getName(), accountName.getText());
-        assertEquals(account.getEmail(), accountEmail.getText());
+        Assertions.assertEquals(account.getGoogleId(), accountId.getText());
+        Assertions.assertEquals(account.getName(), accountName.getText());
+        Assertions.assertEquals(account.getEmail(), accountEmail.getText());
     }
 
     public void clickRemoveInstructorFromCourse(String courseId) {
@@ -62,7 +63,7 @@ public class AdminAccountsPage extends AppPage {
         }
 
         if (deleteButton == null) {
-            fail("Instructor to be deleted is not found");
+            Assertions.fail("Instructor to be deleted is not found");
         }
         click(deleteButton);
         waitForPageToLoad(true);
@@ -81,7 +82,7 @@ public class AdminAccountsPage extends AppPage {
         }
 
         if (deleteButton == null) {
-            fail("Student to be deleted is not found");
+            Assertions.fail("Student to be deleted is not found");
         }
         click(deleteButton);
         waitForPageToLoad(true);

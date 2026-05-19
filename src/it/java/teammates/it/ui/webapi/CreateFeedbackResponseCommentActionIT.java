@@ -1,5 +1,6 @@
 package teammates.it.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import java.util.Arrays;
 
 import org.testng.annotations.BeforeMethod;
@@ -60,10 +61,10 @@ public class CreateFeedbackResponseCommentActionIT extends BaseActionIT<CreateFe
 
         FeedbackResponseComment comment =
                 logic.getFeedbackResponseCommentForResponseFromParticipant(fr.getId());
-        assertEquals(comment.getCommentText(), "Student submission comment");
-        assertEquals(student, comment.getGiver().getGiverUser());
-        assertTrue(comment.getIsCommentFromFeedbackParticipant());
-        assertTrue(comment.getIsVisibilityFollowingFeedbackQuestion());
+        Assertions.assertEquals(comment.getCommentText(), "Student submission comment");
+        Assertions.assertEquals(student, comment.getGiver().getGiverUser());
+        Assertions.assertTrue(comment.getIsCommentFromFeedbackParticipant());
+        Assertions.assertTrue(comment.getIsVisibilityFollowingFeedbackQuestion());
     }
 
     @Test

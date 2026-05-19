@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.Mockito.when;
 
 import java.time.Duration;
@@ -75,35 +76,35 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         JsonResult r = getJsonResult(a);
         FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
-        assertEquals(feedbackSessionId, response.getFeedbackSessionId().toString());
-        assertEquals(feedbackSession1.getName(), response.getFeedbackSessionName());
-        assertEquals(timeZone, response.getTimeZone());
-        assertEquals(feedbackSession1.getInstructions(), response.getInstructions());
+        Assertions.assertEquals(feedbackSessionId, response.getFeedbackSessionId().toString());
+        Assertions.assertEquals(feedbackSession1.getName(), response.getFeedbackSessionName());
+        Assertions.assertEquals(timeZone, response.getTimeZone());
+        Assertions.assertEquals(feedbackSession1.getInstructions(), response.getInstructions());
 
-        assertEquals(feedbackSession1.getStartTime().toEpochMilli(),
+        Assertions.assertEquals(feedbackSession1.getStartTime().toEpochMilli(),
                 response.getSubmissionStartTimestamp());
-        assertEquals(newEndTime.toEpochMilli(),
+        Assertions.assertEquals(newEndTime.toEpochMilli(),
                 response.getSubmissionEndTimestamp());
-        assertEquals(newEndTime.toEpochMilli(),
+        Assertions.assertEquals(newEndTime.toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
-        assertNull(response.getGracePeriod());
+        Assertions.assertNull(response.getGracePeriod());
 
-        assertNull(response.getSessionVisibleSetting());
-        assertNull(response.getSessionVisibleFromTimestamp());
-        assertNull(response.getCustomSessionVisibleTimestamp());
+        Assertions.assertNull(response.getSessionVisibleSetting());
+        Assertions.assertNull(response.getSessionVisibleFromTimestamp());
+        Assertions.assertNull(response.getCustomSessionVisibleTimestamp());
 
-        assertNull(response.getResponseVisibleSetting());
-        assertNull(response.getResultVisibleFromTimestamp());
-        assertNull(response.getCustomResponseVisibleTimestamp());
+        Assertions.assertNull(response.getResponseVisibleSetting());
+        Assertions.assertNull(response.getResultVisibleFromTimestamp());
+        Assertions.assertNull(response.getCustomResponseVisibleTimestamp());
 
-        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
-        assertEquals(FeedbackSessionPublishStatus.NOT_PUBLISHED, response.getPublishStatus());
+        Assertions.assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+        Assertions.assertEquals(FeedbackSessionPublishStatus.NOT_PUBLISHED, response.getPublishStatus());
 
-        assertNull(response.getIsClosingSoonEmailEnabled());
-        assertNull(response.getIsPublishedEmailEnabled());
+        Assertions.assertNull(response.getIsClosingSoonEmailEnabled());
+        Assertions.assertNull(response.getIsPublishedEmailEnabled());
 
-        assertEquals(0, response.getCreatedAtTimestamp());
-        assertNull(response.getDeletedAtTimestamp());
+        Assertions.assertEquals(0, response.getCreatedAtTimestamp());
+        Assertions.assertNull(response.getDeletedAtTimestamp());
 
         logoutUser();
     }
@@ -136,9 +137,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         JsonResult r = getJsonResult(a);
         FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
-        assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
+        Assertions.assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
 
-        assertEquals(newEndTime.toEpochMilli(),
+        Assertions.assertEquals(newEndTime.toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
 
         logoutUser();
@@ -172,9 +173,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         JsonResult r = getJsonResult(a);
         FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
-        assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
+        Assertions.assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
 
-        assertEquals(newEndTime.toEpochMilli(),
+        Assertions.assertEquals(newEndTime.toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
 
         logoutUser();
@@ -209,9 +210,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         JsonResult r = getJsonResult(a);
         FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
-        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+        Assertions.assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
 
-        assertEquals(extendedEndTime.toEpochMilli(),
+        Assertions.assertEquals(extendedEndTime.toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
 
         logoutUser();
@@ -246,9 +247,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         JsonResult r = getJsonResult(a);
         FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
-        assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
+        Assertions.assertEquals(FeedbackSessionSubmissionStatus.OPEN, response.getSubmissionStatus());
 
-        assertEquals(extendedEndTime.toEpochMilli(),
+        Assertions.assertEquals(extendedEndTime.toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
 
         logoutUser();
@@ -283,9 +284,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         JsonResult r = getJsonResult(a);
         FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
-        assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
+        Assertions.assertEquals(FeedbackSessionSubmissionStatus.GRACE_PERIOD, response.getSubmissionStatus());
 
-        assertEquals(extendedEndTime.toEpochMilli(),
+        Assertions.assertEquals(extendedEndTime.toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
 
         logoutUser();
@@ -320,9 +321,9 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         JsonResult r = getJsonResult(a);
         FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
-        assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
+        Assertions.assertEquals(FeedbackSessionSubmissionStatus.CLOSED, response.getSubmissionStatus());
 
-        assertEquals(extendedEndTime.toEpochMilli(),
+        Assertions.assertEquals(extendedEndTime.toEpochMilli(),
                 response.getSubmissionEndWithExtensionTimestamp());
 
         logoutUser();

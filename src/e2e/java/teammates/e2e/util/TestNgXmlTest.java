@@ -1,5 +1,6 @@
 package teammates.e2e.util;
 
+import org.junit.jupiter.api.Assertions;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -26,9 +27,9 @@ public class TestNgXmlTest extends BaseTestCase {
 
         testFiles.forEach((key, value) -> {
             if (Objects.equals(value, "teammates.e2e.cases.axe")) {
-                assertTrue(isTestFileIncluded(testNgXmlAxe, value, key));
+                Assertions.assertTrue(isTestFileIncluded(testNgXmlAxe, value, key));
             } else {
-                assertTrue(isTestFileIncluded(testNgXmlE2E, value, key));
+                Assertions.assertTrue(isTestFileIncluded(testNgXmlE2E, value, key));
             }
         });
     }

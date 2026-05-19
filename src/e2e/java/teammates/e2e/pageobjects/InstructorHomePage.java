@@ -1,5 +1,6 @@
 package teammates.e2e.pageobjects;
 
+import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Instant;
@@ -29,7 +30,7 @@ public class InstructorHomePage extends AppPage {
 
     public void verifyCourseTabDetails(int courseTabIndex, Course course, FeedbackSession[] sessions) {
         String expectedDetails = "[" + course.getId() + "]: " + course.getName();
-        assertEquals(expectedDetails, getCourseDetails(courseTabIndex));
+        Assertions.assertEquals(expectedDetails, getCourseDetails(courseTabIndex));
 
         String[][] expectedValues = new String[sessions.length][5];
         for (int i = 0; i < sessions.length; i++) {
@@ -45,11 +46,11 @@ public class InstructorHomePage extends AppPage {
     }
 
     public void verifyNumCourses(int expectedNum) {
-        assertEquals(getNumCourses(), expectedNum);
+        Assertions.assertEquals(getNumCourses(), expectedNum);
     }
 
     public void verifyResponseRate(int courseTabIndex, int sessionIndex, String expectedResponseRate) {
-        assertEquals(expectedResponseRate, getResponseRate(courseTabIndex, sessionIndex));
+        Assertions.assertEquals(expectedResponseRate, getResponseRate(courseTabIndex, sessionIndex));
     }
 
     public void copySession(int courseTabIndex, int sessionIndex, Course copyToCourse, String newSessionName) {

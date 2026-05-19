@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -132,7 +133,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         stubInstructors.forEach(stubInstructor -> { stubInstructor.setDisplayedToStudents(false); });
         GetInstructorsAction action = getAction(params);
         InstructorsData actualInstructorsData = (InstructorsData) getJsonResult(action).getOutput();
-        assertEquals(0, actualInstructorsData.getInstructors().size());
+        Assertions.assertEquals(0, actualInstructorsData.getInstructors().size());
         verify(mockLogic, times(1)).getInstructorsByCourse(stubCourse.getId());
     }
 
@@ -211,44 +212,44 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
                                        boolean isNullIntent, boolean isAdmin, boolean isGoogleIdSetForFullDetail) {
         List<InstructorData> expectedInstructors = expectedInstructorsData.getInstructors();
         List<InstructorData> actualInstructors = actualInstructorsData.getInstructors();
-        assertEquals(expectedInstructors.size(), actualInstructors.size());
+        Assertions.assertEquals(expectedInstructors.size(), actualInstructors.size());
         for (int i = 0; i < expectedInstructors.size(); i++) {
             if (isNullIntent) {
-                assertNull(actualInstructors.get(i).getGoogleId());
-                assertNull(actualInstructors.get(i).getJoinState());
-                assertNull(actualInstructors.get(i).getIsDisplayedToStudents());
-                assertNull(actualInstructors.get(i).getRole());
-                assertNull(actualInstructors.get(i).getKey());
-                assertEquals(expectedInstructors.get(i).getName(), actualInstructors.get(i).getName());
-                assertEquals(expectedInstructors.get(i).getEmail(), actualInstructors.get(i).getEmail());
-                assertEquals(expectedInstructors.get(i).getCourseId(), actualInstructors.get(i).getCourseId());
-                assertEquals(expectedInstructors.get(i).getInstitute(), actualInstructors.get(i).getInstitute());
+                Assertions.assertNull(actualInstructors.get(i).getGoogleId());
+                Assertions.assertNull(actualInstructors.get(i).getJoinState());
+                Assertions.assertNull(actualInstructors.get(i).getIsDisplayedToStudents());
+                Assertions.assertNull(actualInstructors.get(i).getRole());
+                Assertions.assertNull(actualInstructors.get(i).getKey());
+                Assertions.assertEquals(expectedInstructors.get(i).getName(), actualInstructors.get(i).getName());
+                Assertions.assertEquals(expectedInstructors.get(i).getEmail(), actualInstructors.get(i).getEmail());
+                Assertions.assertEquals(expectedInstructors.get(i).getCourseId(), actualInstructors.get(i).getCourseId());
+                Assertions.assertEquals(expectedInstructors.get(i).getInstitute(), actualInstructors.get(i).getInstitute());
             } else {
-                assertNotNull(actualInstructors.get(i).getJoinState());
-                assertNotNull(actualInstructors.get(i).getIsDisplayedToStudents());
-                assertNotNull(actualInstructors.get(i).getRole());
+                Assertions.assertNotNull(actualInstructors.get(i).getJoinState());
+                Assertions.assertNotNull(actualInstructors.get(i).getIsDisplayedToStudents());
+                Assertions.assertNotNull(actualInstructors.get(i).getRole());
 
                 if (isAdmin) {
-                    assertNotNull(actualInstructors.get(i).getKey());
-                    assertEquals(expectedInstructors.get(i).getKey(), actualInstructors.get(i).getKey());
+                    Assertions.assertNotNull(actualInstructors.get(i).getKey());
+                    Assertions.assertEquals(expectedInstructors.get(i).getKey(), actualInstructors.get(i).getKey());
                 } else {
-                    assertNull(actualInstructors.get(i).getKey());
+                    Assertions.assertNull(actualInstructors.get(i).getKey());
                 }
 
                 if (isGoogleIdSetForFullDetail) {
-                    assertNotNull(actualInstructors.get(i).getGoogleId());
-                    assertEquals(expectedInstructors.get(i).getGoogleId(), actualInstructors.get(i).getGoogleId());
+                    Assertions.assertNotNull(actualInstructors.get(i).getGoogleId());
+                    Assertions.assertEquals(expectedInstructors.get(i).getGoogleId(), actualInstructors.get(i).getGoogleId());
                 } else {
-                    assertNull(actualInstructors.get(i).getGoogleId());
+                    Assertions.assertNull(actualInstructors.get(i).getGoogleId());
                 }
-                assertEquals(expectedInstructors.get(i).getName(), actualInstructors.get(i).getName());
-                assertEquals(expectedInstructors.get(i).getEmail(), actualInstructors.get(i).getEmail());
-                assertEquals(expectedInstructors.get(i).getCourseId(), actualInstructors.get(i).getCourseId());
-                assertEquals(expectedInstructors.get(i).getDisplayedToStudentsAs(),
+                Assertions.assertEquals(expectedInstructors.get(i).getName(), actualInstructors.get(i).getName());
+                Assertions.assertEquals(expectedInstructors.get(i).getEmail(), actualInstructors.get(i).getEmail());
+                Assertions.assertEquals(expectedInstructors.get(i).getCourseId(), actualInstructors.get(i).getCourseId());
+                Assertions.assertEquals(expectedInstructors.get(i).getDisplayedToStudentsAs(),
                         actualInstructors.get(i).getDisplayedToStudentsAs());
-                assertEquals(expectedInstructors.get(i).getRole(), actualInstructors.get(i).getRole());
-                assertEquals(expectedInstructors.get(i).getJoinState(), actualInstructors.get(i).getJoinState());
-                assertEquals(expectedInstructors.get(i).getInstitute(), actualInstructors.get(i).getInstitute());
+                Assertions.assertEquals(expectedInstructors.get(i).getRole(), actualInstructors.get(i).getRole());
+                Assertions.assertEquals(expectedInstructors.get(i).getJoinState(), actualInstructors.get(i).getJoinState());
+                Assertions.assertEquals(expectedInstructors.get(i).getInstitute(), actualInstructors.get(i).getInstitute());
             }
         }
     }

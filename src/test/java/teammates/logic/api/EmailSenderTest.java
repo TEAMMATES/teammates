@@ -1,5 +1,6 @@
 package teammates.logic.api;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.Mockito.mockStatic;
 
 import org.apache.http.HttpStatus;
@@ -36,8 +37,8 @@ public class EmailSenderTest extends BaseTestCase {
             EmptyEmailService emptyEmailService = new EmptyEmailService();
             EmailSender emailSender = new EmailSender(emptyEmailService);
             EmailSendingStatus status = emailSender.sendEmail(getEmailToTestDomain());
-            assertEquals(HttpStatus.SC_OK, status.getStatusCode());
-            assertEquals("Not sending email to test account", status.getMessage());
+            Assertions.assertEquals(HttpStatus.SC_OK, status.getStatusCode());
+            Assertions.assertEquals("Not sending email to test account", status.getMessage());
         }
     }
 
@@ -49,8 +50,8 @@ public class EmailSenderTest extends BaseTestCase {
             EmptyEmailService emptyEmailService = new EmptyEmailService();
             EmailSender emailSender = new EmailSender(emptyEmailService);
             EmailSendingStatus status = emailSender.sendEmail(getEmailToTestDomain());
-            assertTrue(status.isSuccess());
-            assertNotEquals("Not sending email to test account", status.getMessage());
+            Assertions.assertTrue(status.isSuccess());
+            Assertions.assertNotEquals("Not sending email to test account", status.getMessage());
         }
     }
 }

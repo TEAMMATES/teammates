@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -135,7 +136,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         when(mockLogic.getFeedbackResponseCommentForResponseFromParticipant(any())).thenReturn(expectedComment);
 
         FeedbackResponseCommentData actualComment = getFeedbackResponseComments(submissionParams);
-        assertEquals(actualComment.getCommentText(), expectedComment.getCommentText());
+        Assertions.assertEquals(actualComment.getCommentText(), expectedComment.getCommentText());
     }
 
     @Test
@@ -152,7 +153,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         when(mockLogic.getFeedbackResponseCommentForResponseFromParticipant(any())).thenReturn(expectedComment);
 
         FeedbackResponseCommentData actualComment = getFeedbackResponseComments(submissionParams);
-        assertEquals(actualComment.getCommentText(), expectedComment.getCommentText());
+        Assertions.assertEquals(actualComment.getCommentText(), expectedComment.getCommentText());
     }
 
     @Test
@@ -169,7 +170,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
         GetFeedbackResponseCommentAction action = getAction(submissionParams);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action, HttpStatus.SC_NO_CONTENT).getOutput();
-        assertEquals("Comment not found", actionOutput.getMessage());
+        Assertions.assertEquals("Comment not found", actionOutput.getMessage());
     }
 
     @Test
@@ -185,7 +186,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         when(mockLogic.getFeedbackResponseCommentForResponseFromParticipant(any())).thenReturn(null);
 
         EntityNotFoundException enfe = verifyEntityNotFound(submissionParams);
-        assertEquals("The feedback response does not exist.", enfe.getMessage());
+        Assertions.assertEquals("The feedback response does not exist.", enfe.getMessage());
     }
 
     @Test

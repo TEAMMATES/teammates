@@ -1,5 +1,6 @@
 package teammates.e2e.pageobjects;
 
+import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -105,7 +106,7 @@ public class AdminSearchPage extends AppPage {
                 + " and the email has been sent.");
 
         String regeneratedJoinLink = getStudentJoinLink(student);
-        assertNotEquals(regeneratedJoinLink, originalJoinLink);
+        Assertions.assertNotEquals(regeneratedJoinLink, originalJoinLink);
     }
 
     public void regenerateInstructorKey(Instructor instructor) {
@@ -439,7 +440,7 @@ public class AdminSearchPage extends AppPage {
         waitForElementVisibility(By.className("modal-btn-ok"));
         WebElement modal = browser.driver.findElement(By.className("modal-body"));
         String actualComments = modal.findElement(By.tagName("div")).getText();
-        assertEquals("Comment: " + comments, actualComments);
+        Assertions.assertEquals("Comment: " + comments, actualComments);
         waitForConfirmationModalAndClickOk();
     }
 
@@ -501,13 +502,13 @@ public class AdminSearchPage extends AppPage {
         String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute());
         String expectedComment = StringHelper.convertToEmptyStringIfNull(student.getComments());
 
-        assertEquals(expectedDetails, actualDetails);
-        assertEquals(expectedName, actualName);
-        assertEquals(expectedGoogleId, actualGoogleId);
-        assertEquals(expectedInstitute, actualInstitute);
-        assertEquals(expectedComment, actualComment);
-        assertEquals(expectedManageAccountLink, actualManageAccountLink);
-        assertEquals(expectedHomePageLink, actualHomepageLink);
+        Assertions.assertEquals(expectedDetails, actualDetails);
+        Assertions.assertEquals(expectedName, actualName);
+        Assertions.assertEquals(expectedGoogleId, actualGoogleId);
+        Assertions.assertEquals(expectedInstitute, actualInstitute);
+        Assertions.assertEquals(expectedComment, actualComment);
+        Assertions.assertEquals(expectedManageAccountLink, actualManageAccountLink);
+        Assertions.assertEquals(expectedHomePageLink, actualHomepageLink);
     }
 
     public void verifyStudentRowContentAfterReset(Student student, Course course) {
@@ -520,9 +521,9 @@ public class AdminSearchPage extends AppPage {
         String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute());
         String expectedComment = StringHelper.convertToEmptyStringIfNull(student.getComments());
 
-        assertEquals(expectedName, actualName);
-        assertEquals(expectedInstitute, actualInstitute);
-        assertEquals(expectedComment, actualComment);
+        Assertions.assertEquals(expectedName, actualName);
+        Assertions.assertEquals(expectedInstitute, actualInstitute);
+        Assertions.assertEquals(expectedComment, actualComment);
     }
 
     public void verifyStudentExpandedLinks(Student student, int expectedNumExpandedRows) {
@@ -534,9 +535,9 @@ public class AdminSearchPage extends AppPage {
 
         String expectedEmail = student.getEmail();
 
-        assertEquals(expectedEmail, actualEmail);
-        assertNotEquals("", actualJoinLink);
-        assertEquals(expectedNumExpandedRows, actualNumExpandedRows);
+        Assertions.assertEquals(expectedEmail, actualEmail);
+        Assertions.assertNotEquals("", actualJoinLink);
+        Assertions.assertEquals(expectedNumExpandedRows, actualNumExpandedRows);
     }
 
     public void verifyInstructorRowContent(Instructor instructor, Course course,
@@ -554,12 +555,12 @@ public class AdminSearchPage extends AppPage {
         String expectedGoogleId = StringHelper.convertToEmptyStringIfNull(instructor.getGoogleId());
         String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute());
 
-        assertEquals(expectedCourseId, actualCourseId);
-        assertEquals(expectedName, actualName);
-        assertEquals(expectedGoogleId, actualGoogleId);
-        assertEquals(expectedHomePageLink, actualHomePageLink);
-        assertEquals(expectedInstitute, actualInstitute);
-        assertEquals(expectedManageAccountLink, actualManageAccountLink);
+        Assertions.assertEquals(expectedCourseId, actualCourseId);
+        Assertions.assertEquals(expectedName, actualName);
+        Assertions.assertEquals(expectedGoogleId, actualGoogleId);
+        Assertions.assertEquals(expectedHomePageLink, actualHomePageLink);
+        Assertions.assertEquals(expectedInstitute, actualInstitute);
+        Assertions.assertEquals(expectedManageAccountLink, actualManageAccountLink);
     }
 
     public void verifyInstructorRowContentAfterReset(Instructor instructor, Course course) {
@@ -572,9 +573,9 @@ public class AdminSearchPage extends AppPage {
         String expectedName = instructor.getName();
         String expectedInstitute = StringHelper.convertToEmptyStringIfNull(course.getInstitute());
 
-        assertEquals(expectedCourseId, actualCourseId);
-        assertEquals(expectedName, actualName);
-        assertEquals(expectedInstitute, actualInstitute);
+        Assertions.assertEquals(expectedCourseId, actualCourseId);
+        Assertions.assertEquals(expectedName, actualName);
+        Assertions.assertEquals(expectedInstitute, actualInstitute);
     }
 
     public void verifyInstructorExpandedLinks(Instructor instructor) {
@@ -585,8 +586,8 @@ public class AdminSearchPage extends AppPage {
 
         String expectedEmail = instructor.getEmail();
 
-        assertEquals(expectedEmail, actualEmail);
-        assertNotEquals("", actualJoinLink);
+        Assertions.assertEquals(expectedEmail, actualEmail);
+        Assertions.assertNotEquals("", actualJoinLink);
     }
 
     public void verifyAccountRequestRowContent(AccountRequest accountRequest) {
@@ -597,14 +598,14 @@ public class AdminSearchPage extends AppPage {
         String actualCreatedAt = getAccountRequestCreatedAt(accountRequestRow);
         String actualRegisteredAt = getAccountRequestRegisteredAt(accountRequestRow);
 
-        assertEquals(accountRequest.getName(), actualName);
-        assertEquals(accountRequest.getEmail(), actualEmail);
-        assertEquals(accountRequest.getInstitute(), actualInstitute);
-        assertFalse(actualCreatedAt.isBlank());
+        Assertions.assertEquals(accountRequest.getName(), actualName);
+        Assertions.assertEquals(accountRequest.getEmail(), actualEmail);
+        Assertions.assertEquals(accountRequest.getInstitute(), actualInstitute);
+        Assertions.assertFalse(actualCreatedAt.isBlank());
         if (accountRequest.getRegisteredAt() == null) {
-            assertEquals("Not Registered Yet", actualRegisteredAt);
+            Assertions.assertEquals("Not Registered Yet", actualRegisteredAt);
         } else {
-            assertFalse(actualRegisteredAt.isBlank());
+            Assertions.assertFalse(actualRegisteredAt.isBlank());
         }
     }
 
@@ -613,7 +614,7 @@ public class AdminSearchPage extends AppPage {
         WebElement accountRequestRow = getAccountRequestRow(accountRequest);
         String actualRegistrationLink = getAccountRequestRegistrationLink(accountRequestRow);
 
-        assertFalse(actualRegistrationLink.isBlank());
+        Assertions.assertFalse(actualRegistrationLink.isBlank());
     }
 
     public void verifyLinkExpansionButtons(Student student,
@@ -628,17 +629,17 @@ public class AdminSearchPage extends AppPage {
         int numExpandedStudentRows = getNumExpandedRows(studentRow);
         int numExpandedInstructorRows = getNumExpandedRows(instructorRow);
         int numExpandedAccountRequestRows = getNumExpandedRows(accountRequestRow);
-        assertNotEquals(numExpandedStudentRows, 0);
-        assertNotEquals(numExpandedInstructorRows, 0);
-        assertNotEquals(numExpandedAccountRequestRows, 0);
+        Assertions.assertNotEquals(numExpandedStudentRows, 0);
+        Assertions.assertNotEquals(numExpandedInstructorRows, 0);
+        Assertions.assertNotEquals(numExpandedAccountRequestRows, 0);
 
         clickCollapseInstructorLinks();
         numExpandedStudentRows = getNumExpandedRows(studentRow);
         numExpandedInstructorRows = getNumExpandedRows(instructorRow);
         numExpandedAccountRequestRows = getNumExpandedRows(accountRequestRow);
-        assertNotEquals(numExpandedStudentRows, 0);
-        assertEquals(numExpandedInstructorRows, 0);
-        assertNotEquals(numExpandedAccountRequestRows, 0);
+        Assertions.assertNotEquals(numExpandedStudentRows, 0);
+        Assertions.assertEquals(numExpandedInstructorRows, 0);
+        Assertions.assertNotEquals(numExpandedAccountRequestRows, 0);
 
         clickExpandInstructorLinks();
         clickCollapseStudentLinks();
@@ -648,9 +649,9 @@ public class AdminSearchPage extends AppPage {
         numExpandedStudentRows = getNumExpandedRows(studentRow);
         numExpandedInstructorRows = getNumExpandedRows(instructorRow);
         numExpandedAccountRequestRows = getNumExpandedRows(accountRequestRow);
-        assertEquals(numExpandedStudentRows, 0);
-        assertNotEquals(numExpandedInstructorRows, 0);
-        assertEquals(numExpandedAccountRequestRows, 0);
+        Assertions.assertEquals(numExpandedStudentRows, 0);
+        Assertions.assertNotEquals(numExpandedInstructorRows, 0);
+        Assertions.assertEquals(numExpandedAccountRequestRows, 0);
     }
 
     public void verifyRegenerateInstructorKey(Instructor instructor, String originalJoinLink) {
@@ -658,6 +659,6 @@ public class AdminSearchPage extends AppPage {
                 + " and the email has been sent.");
 
         String regeneratedJoinLink = getInstructorJoinLink(instructor);
-        assertNotEquals(regeneratedJoinLink, originalJoinLink);
+        Assertions.assertNotEquals(regeneratedJoinLink, originalJoinLink);
     }
 }

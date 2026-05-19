@@ -1,5 +1,6 @@
 package teammates.ui.servlets;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
@@ -62,7 +63,7 @@ public class WebApiServletTest extends BaseTestCase {
             MockHttpServletResponse resp = new MockHttpServletResponse();
 
             SERVLET.doGet(req, resp);
-            assertEquals(HttpStatus.SC_OK, resp.getStatus());
+            Assertions.assertEquals(HttpStatus.SC_OK, resp.getStatus());
         }
     }
 
@@ -76,7 +77,7 @@ public class WebApiServletTest extends BaseTestCase {
             MockHttpServletResponse resp = new MockHttpServletResponse();
 
             SERVLET.doGet(req, resp);
-            assertEquals(HttpStatus.SC_NOT_FOUND, resp.getStatus());
+            Assertions.assertEquals(HttpStatus.SC_NOT_FOUND, resp.getStatus());
         }
     }
 
@@ -90,7 +91,7 @@ public class WebApiServletTest extends BaseTestCase {
             MockHttpServletResponse resp = new MockHttpServletResponse();
 
             SERVLET.doGet(req, resp);
-            assertEquals(HttpStatus.SC_METHOD_NOT_ALLOWED, resp.getStatus());
+            Assertions.assertEquals(HttpStatus.SC_METHOD_NOT_ALLOWED, resp.getStatus());
         }
     }
 

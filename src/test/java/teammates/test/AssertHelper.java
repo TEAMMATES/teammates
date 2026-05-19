@@ -1,5 +1,6 @@
 package teammates.test;
 
+import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -31,7 +32,7 @@ public final class AssertHelper {
     }
 
     private static void assertInstantWithinRange(Instant instant, Instant start, Instant end) {
-        assertFalse(instant.isBefore(start) || instant.isAfter(end));
+        Assertions.assertFalse(instant.isBefore(start) || instant.isAfter(end));
     }
 
     /**
@@ -41,7 +42,7 @@ public final class AssertHelper {
     public static void assertContains(String substringExpected,
             String superstringActual) {
         if (!superstringActual.contains(substringExpected)) {
-            assertEquals(substringExpected, superstringActual);
+            Assertions.assertEquals(substringExpected, superstringActual);
         }
     }
 
@@ -59,7 +60,7 @@ public final class AssertHelper {
         expectedStringTypeList.sort(null);
         actualStringTypeList.sort(null);
 
-        assertEquals(expectedStringTypeList, actualStringTypeList);
+        Assertions.assertEquals(expectedStringTypeList, actualStringTypeList);
 
     }
 
@@ -67,6 +68,6 @@ public final class AssertHelper {
      * Asserts that the given json strings have the same parsed value.
      */
     public static void assertJsonEquals(String expected, String actual) {
-        assertEquals(JsonUtils.parse(expected), JsonUtils.parse(actual));
+        Assertions.assertEquals(JsonUtils.parse(expected), JsonUtils.parse(actual));
     }
 }

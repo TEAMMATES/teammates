@@ -1,5 +1,6 @@
 package teammates.it.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import java.util.ArrayList;
 
 import org.testng.annotations.BeforeMethod;
@@ -87,11 +88,11 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
 
         FeedbackQuestionData questionResponse = (FeedbackQuestionData) r.getOutput();
 
-        assertEquals("this is the description", questionResponse.getQuestionDescription());
-        assertNotNull(questionResponse.getFeedbackQuestionId());
+        Assertions.assertEquals("this is the description", questionResponse.getQuestionDescription());
+        Assertions.assertNotNull(questionResponse.getFeedbackQuestionId());
         FeedbackQuestion question = logic.getFeedbackQuestion(questionResponse.getFeedbackQuestionId());
         // verify question is created
-        assertEquals("this is the description", question.getDescription());
+        Assertions.assertEquals("this is the description", question.getDescription());
 
         ______TS("Custom number of entity to give feedback to");
 
@@ -105,11 +106,11 @@ public class CreateFeedbackQuestionActionIT extends BaseActionIT<CreateFeedbackQ
 
         questionResponse = (FeedbackQuestionData) r.getOutput();
 
-        assertEquals(100, questionResponse.getCustomNumberOfEntitiesToGiveFeedbackTo().intValue());
-        assertNotNull(questionResponse.getFeedbackQuestionId());
+        Assertions.assertEquals(100, questionResponse.getCustomNumberOfEntitiesToGiveFeedbackTo().intValue());
+        Assertions.assertNotNull(questionResponse.getFeedbackQuestionId());
         question = logic.getFeedbackQuestion(questionResponse.getFeedbackQuestionId());
         // verify question is created
-        assertEquals(100, question.getNumOfEntitiesToGiveFeedbackTo().intValue());
+        Assertions.assertEquals(100, question.getNumOfEntitiesToGiveFeedbackTo().intValue());
     }
 
     @Test

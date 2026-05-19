@@ -1,5 +1,6 @@
 package teammates.e2e.pageobjects;
 
+import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -96,10 +97,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     public void verifySessionDetails(FeedbackSession feedbackSession) {
-        assertEquals(feedbackSession.getCourseId(), courseId.getText());
-        assertEquals(feedbackSession.getName(), sessionName.getText());
-        assertEquals(getSessionDurationString(feedbackSession), sessionDuration.getText());
-        assertEquals(getDateString(feedbackSession.getResultsVisibleFromTime(), feedbackSession.getCourse().getTimeZone()),
+        Assertions.assertEquals(feedbackSession.getCourseId(), courseId.getText());
+        Assertions.assertEquals(feedbackSession.getName(), sessionName.getText());
+        Assertions.assertEquals(getSessionDurationString(feedbackSession), sessionDuration.getText());
+        Assertions.assertEquals(getDateString(feedbackSession.getResultsVisibleFromTime(), feedbackSession.getCourse().getTimeZone()),
                 resultVisibleDate.getText());
     }
 
@@ -282,7 +283,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private void verifyQuestionText(WebElement questionPanel, FeedbackQuestion question) {
-        assertEquals(question.getQuestionDetailsCopy().getQuestionText(), getQuestionText(questionPanel));
+        Assertions.assertEquals(question.getQuestionDetailsCopy().getQuestionText(), getQuestionText(questionPanel));
     }
 
     private void verifyGroupedResponses(FeedbackQuestion question, WebElement userPanel, String userName,
@@ -293,14 +294,14 @@ public class InstructorFeedbackResultsPage extends AppPage {
         } catch (NoSuchElementException e) {
             // No response message shown instead of grouped responses
             // if all responses in panel are missing responses
-            assertTrue(isMissingResponse(response));
+            Assertions.assertTrue(isMissingResponse(response));
             verifyNoResponsesMessage(userPanel, false, isGrq);
             return;
         }
 
         if (groupedResponses == null) {
             // Empty grouped response if this user only has missing responses
-            assertTrue(isMissingResponse(response));
+            Assertions.assertTrue(isMissingResponse(response));
             return;
         }
 
@@ -309,9 +310,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
         WebElement singleResponse = questionPanel.findElement(By.id("response"));
         if (isMissingResponse(response)) {
             // Missing response will only be shown if this user has some real responses
-            assertEquals(NO_RESPONSE_LABEL, singleResponse.getText());
+            Assertions.assertEquals(NO_RESPONSE_LABEL, singleResponse.getText());
         } else {
-            assertEquals(getAnswerString(question, response.getFeedbackResponseDetailsCopy()), singleResponse.getText());
+            Assertions.assertEquals(getAnswerString(question, response.getFeedbackResponseDetailsCopy()), singleResponse.getText());
         }
     }
 
@@ -484,7 +485,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private void verifyStatsHidden(WebElement panelWithStats) {
-        assertTrue(panelWithStats.findElements(By.tagName("tm-single-statistics")).isEmpty());
+        Assertions.assertTrue(panelWithStats.findElements(By.tagName("tm-single-statistics")).isEmpty());
     }
 
     public void verifyQnViewComment(FeedbackQuestion question, FeedbackResponseComment comment,
@@ -603,9 +604,9 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void verifyCommentDetails(WebElement commentSection, String commentGiver, String commentEditor,
                                      String commentString, boolean isClosable) {
         WebElement commentField = getCommentField(commentSection, commentString);
-        assertEquals(commentGiver, getCommentGiver(commentField));
+        Assertions.assertEquals(commentGiver, getCommentGiver(commentField));
         if (!commentEditor.isEmpty()) {
-            assertEquals(commentEditor, getCommentEditor(commentField));
+            Assertions.assertEquals(commentEditor, getCommentEditor(commentField));
         }
         if (isClosable) {
             click(waitForElementPresence(By.id("btn-close-comments")));
@@ -616,10 +617,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
     private void verifyNoResponsesMessage(WebElement panel, boolean isQuestion, boolean isGiver) {
         WebElement noResponsesMessage = panel.findElement(By.id("no-responses"));
         if (isQuestion) {
-            assertEquals("There are no responses for this question or you may not have the permission to"
+            Assertions.assertEquals("There are no responses for this question or you may not have the permission to"
                     + " see the response.", noResponsesMessage.getText());
         } else {
-            assertEquals("There are no responses " + (isGiver ? "given" : "received")
+            Assertions.assertEquals("There are no responses " + (isGiver ? "given" : "received")
                     + " by this user or you may not have the permission to see the responses.",
                     noResponsesMessage.getText());
         }

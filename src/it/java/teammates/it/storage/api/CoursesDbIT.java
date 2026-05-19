@@ -1,5 +1,6 @@
 package teammates.it.storage.api;
 
+import org.junit.jupiter.api.Assertions;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -21,10 +22,10 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
     public void testGetCourse() {
         ______TS("failure: get course that does not exist");
         Course actual = coursesDb.getCourse("non-existent-course-id");
-        assertNull(actual);
+        Assertions.assertNull(actual);
 
         ______TS("failure: null assertion exception thrown");
-        assertThrows(AssertionError.class, () -> coursesDb.getCourse(null));
+        Assertions.assertThrows(AssertionError.class, () -> coursesDb.getCourse(null));
 
         ______TS("success: get course that already exists");
         Course expected = getTypicalCourse();
@@ -43,7 +44,7 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         verifyEquals(course, actualCourse);
 
         ______TS("failure: null course assertion exception thrown");
-        assertThrows(AssertionError.class, () -> coursesDb.createCourse(null));
+        Assertions.assertThrows(AssertionError.class, () -> coursesDb.createCourse(null));
     }
 
     @Test
@@ -53,7 +54,7 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
 
         coursesDb.deleteCourse(course);
         Course actualCourse = coursesDb.getCourse(course.getId());
-        assertNull(actualCourse);
+        Assertions.assertNull(actualCourse);
     }
 
     @Test
@@ -68,7 +69,7 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         verifyEquals(section, actualSection);
 
         ______TS("failure: null section assertion exception thrown");
-        assertThrows(AssertionError.class, () -> coursesDb.createSection(null));
+        Assertions.assertThrows(AssertionError.class, () -> coursesDb.createSection(null));
     }
 
     @Test
@@ -79,10 +80,10 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         coursesDb.createSection(section);
 
         ______TS("failure: null courseId assertion exception thrown");
-        assertThrows(AssertionError.class, () -> coursesDb.getSectionByName(null, section.getName()));
+        Assertions.assertThrows(AssertionError.class, () -> coursesDb.getSectionByName(null, section.getName()));
 
         ______TS("failure: null sectionName assertion exception thrown");
-        assertThrows(AssertionError.class, () -> coursesDb.getSectionByName(course.getId(), null));
+        Assertions.assertThrows(AssertionError.class, () -> coursesDb.getSectionByName(course.getId(), null));
 
         ______TS("success: get section that already exists");
         Section actualSection = coursesDb.getSectionByName(course.getId(), section.getName());
@@ -90,7 +91,7 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
 
         ______TS("failure: get section that does not exist");
         Section nonExistentSection = coursesDb.getSectionByName(course.getId(), "non-existent-section-name");
-        assertNull(nonExistentSection);
+        Assertions.assertNull(nonExistentSection);
     }
 
     @Test
@@ -105,10 +106,10 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         section.addTeam(team);
 
         ______TS("failure: null courseId assertion exception thrown");
-        assertThrows(AssertionError.class, () -> coursesDb.getSectionByCourseIdAndTeam(null, team.getName()));
+        Assertions.assertThrows(AssertionError.class, () -> coursesDb.getSectionByCourseIdAndTeam(null, team.getName()));
 
         ______TS("failure: null teamName assertion exception thrown");
-        assertThrows(AssertionError.class, () -> coursesDb.getSectionByCourseIdAndTeam(course.getId(), null));
+        Assertions.assertThrows(AssertionError.class, () -> coursesDb.getSectionByCourseIdAndTeam(course.getId(), null));
 
         ______TS("success: typical case");
         Section actualSection = coursesDb.getSectionByCourseIdAndTeam(course.getId(), team.getName());
@@ -143,12 +144,12 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         List<Team> expectedTeams = List.of(team1, team2, team3, team4);
 
         ______TS("failure: null courseId assertion exception thrown");
-        assertThrows(AssertionError.class, () -> coursesDb.getTeamsForCourse(null));
+        Assertions.assertThrows(AssertionError.class, () -> coursesDb.getTeamsForCourse(null));
 
         ______TS("success: typical case");
         List<Team> actualTeams = coursesDb.getTeamsForCourse(course.getId());
-        assertEquals(expectedTeams.size(), actualTeams.size());
-        assertTrue(expectedTeams.containsAll(actualTeams));
+        Assertions.assertEquals(expectedTeams.size(), actualTeams.size());
+        Assertions.assertTrue(expectedTeams.containsAll(actualTeams));
     }
 
     @Test
@@ -160,10 +161,10 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         coursesDb.createCourse(course);
         coursesDb.createSection(section);
 
-        assertNotNull(coursesDb.getSectionByName(course.getId(), section.getName()));
+        Assertions.assertNotNull(coursesDb.getSectionByName(course.getId(), section.getName()));
 
         ______TS("failure: null team assertion exception thrown");
-        assertThrows(AssertionError.class, () -> coursesDb.createTeam(null));
+        Assertions.assertThrows(AssertionError.class, () -> coursesDb.createTeam(null));
 
         ______TS("success: create team that does not exist");
         coursesDb.createTeam(team);
@@ -186,13 +187,13 @@ public class CoursesDbIT extends BaseTestCaseWithDatabaseAccess {
         verifyEquals(team, actualTeam);
 
         ______TS("failure: null sectionId assertion exception thrown");
-        assertThrows(AssertionError.class, () -> coursesDb.getTeamByName(null, team.getName()));
+        Assertions.assertThrows(AssertionError.class, () -> coursesDb.getTeamByName(null, team.getName()));
 
         ______TS("failure: null teamName assertion exception thrown");
-        assertThrows(AssertionError.class, () -> coursesDb.getTeamByName(section.getId(), null));
+        Assertions.assertThrows(AssertionError.class, () -> coursesDb.getTeamByName(section.getId(), null));
 
         ______TS("success: null return");
         Team nonExistentTeam = coursesDb.getTeamByName(section.getId(), "non-existent-team-name");
-        assertNull(nonExistentTeam);
+        Assertions.assertNull(nonExistentTeam);
     }
 }

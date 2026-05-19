@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.Mockito.when;
 
 import org.testng.annotations.BeforeMethod;
@@ -82,9 +83,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult = action.execute();
         RegkeyValidityData data = (RegkeyValidityData) jsonResult.getOutput();
 
-        assertTrue(data.isValid());
-        assertTrue(data.isUsed());
-        assertFalse(data.isAllowedAccess());
+        Assertions.assertTrue(data.isValid());
+        Assertions.assertTrue(data.isUsed());
+        Assertions.assertFalse(data.isAllowedAccess());
 
         String[] params2 = {
                 Const.ParamsNames.REGKEY, stubRegkey,
@@ -94,9 +95,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult2 = action2.execute();
         RegkeyValidityData data2 = (RegkeyValidityData) jsonResult2.getOutput();
 
-        assertTrue(data2.isValid());
-        assertTrue(data2.isUsed());
-        assertFalse(data2.isAllowedAccess());
+        Assertions.assertTrue(data2.isValid());
+        Assertions.assertTrue(data2.isUsed());
+        Assertions.assertFalse(data2.isAllowedAccess());
     }
 
     @Test
@@ -111,9 +112,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult = action.execute();
         RegkeyValidityData data = (RegkeyValidityData) jsonResult.getOutput();
 
-        assertTrue(data.isValid());
-        assertTrue(data.isUsed());
-        assertFalse(data.isAllowedAccess());
+        Assertions.assertTrue(data.isValid());
+        Assertions.assertTrue(data.isUsed());
+        Assertions.assertFalse(data.isAllowedAccess());
 
         String[] params2 = {
                 Const.ParamsNames.REGKEY, stubRegkey,
@@ -123,9 +124,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult2 = action2.execute();
         RegkeyValidityData data2 = (RegkeyValidityData) jsonResult2.getOutput();
 
-        assertTrue(data2.isValid());
-        assertTrue(data2.isUsed());
-        assertFalse(data2.isAllowedAccess());
+        Assertions.assertTrue(data2.isValid());
+        Assertions.assertTrue(data2.isUsed());
+        Assertions.assertFalse(data2.isAllowedAccess());
     }
 
     @Test
@@ -142,9 +143,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult = action.execute();
         RegkeyValidityData data = (RegkeyValidityData) jsonResult.getOutput();
 
-        assertTrue(data.isValid());
-        assertTrue(data.isUsed());
-        assertTrue(data.isAllowedAccess());
+        Assertions.assertTrue(data.isValid());
+        Assertions.assertTrue(data.isUsed());
+        Assertions.assertTrue(data.isAllowedAccess());
 
         String[] params2 = {
                 Const.ParamsNames.REGKEY, stubRegkey,
@@ -155,9 +156,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult2 = action2.execute();
         RegkeyValidityData data2 = (RegkeyValidityData) jsonResult2.getOutput();
 
-        assertTrue(data2.isValid());
-        assertTrue(data2.isUsed());
-        assertTrue(data2.isAllowedAccess());
+        Assertions.assertTrue(data2.isValid());
+        Assertions.assertTrue(data2.isUsed());
+        Assertions.assertTrue(data2.isAllowedAccess());
     }
 
     @Test
@@ -174,9 +175,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult = action.execute();
         RegkeyValidityData data = (RegkeyValidityData) jsonResult.getOutput();
 
-        assertTrue(data.isValid());
-        assertTrue(data.isUsed());
-        assertTrue(data.isAllowedAccess());
+        Assertions.assertTrue(data.isValid());
+        Assertions.assertTrue(data.isUsed());
+        Assertions.assertTrue(data.isAllowedAccess());
 
         String[] params2 = {
                 Const.ParamsNames.REGKEY, stubRegkey,
@@ -187,9 +188,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult2 = action2.execute();
         RegkeyValidityData data2 = (RegkeyValidityData) jsonResult2.getOutput();
 
-        assertTrue(data2.isValid());
-        assertTrue(data2.isUsed());
-        assertTrue(data2.isAllowedAccess());
+        Assertions.assertTrue(data2.isValid());
+        Assertions.assertTrue(data2.isUsed());
+        Assertions.assertTrue(data2.isAllowedAccess());
     }
 
     @Test
@@ -206,9 +207,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult = action.execute();
         RegkeyValidityData data = (RegkeyValidityData) jsonResult.getOutput();
 
-        assertTrue(data.isValid());
-        assertTrue(data.isUsed());
-        assertFalse(data.isAllowedAccess());
+        Assertions.assertTrue(data.isValid());
+        Assertions.assertTrue(data.isUsed());
+        Assertions.assertFalse(data.isAllowedAccess());
 
         String[] params2 = {
                 Const.ParamsNames.REGKEY, stubRegkey,
@@ -219,9 +220,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult2 = action2.execute();
         RegkeyValidityData data2 = (RegkeyValidityData) jsonResult2.getOutput();
 
-        assertTrue(data2.isValid());
-        assertTrue(data2.isUsed());
-        assertFalse(data2.isAllowedAccess());
+        Assertions.assertTrue(data2.isValid());
+        Assertions.assertTrue(data2.isUsed());
+        Assertions.assertFalse(data2.isAllowedAccess());
     }
 
     @Test
@@ -238,9 +239,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult = action.execute();
         RegkeyValidityData data = (RegkeyValidityData) jsonResult.getOutput();
 
-        assertTrue(data.isValid());
-        assertTrue(data.isUsed());
-        assertFalse(data.isAllowedAccess());
+        Assertions.assertTrue(data.isValid());
+        Assertions.assertTrue(data.isUsed());
+        Assertions.assertFalse(data.isAllowedAccess());
 
         String[] params2 = {
                 Const.ParamsNames.REGKEY, stubRegkey,
@@ -251,9 +252,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult2 = action2.execute();
         RegkeyValidityData data2 = (RegkeyValidityData) jsonResult2.getOutput();
 
-        assertTrue(data2.isValid());
-        assertTrue(data2.isUsed());
-        assertFalse(data2.isAllowedAccess());
+        Assertions.assertTrue(data2.isValid());
+        Assertions.assertTrue(data2.isUsed());
+        Assertions.assertFalse(data2.isAllowedAccess());
     }
 
     @Test
@@ -268,9 +269,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult = action.execute();
         RegkeyValidityData data = (RegkeyValidityData) jsonResult.getOutput();
 
-        assertTrue(data.isValid());
-        assertFalse(data.isUsed());
-        assertTrue(data.isAllowedAccess());
+        Assertions.assertTrue(data.isValid());
+        Assertions.assertFalse(data.isUsed());
+        Assertions.assertTrue(data.isAllowedAccess());
 
         String[] params2 = {
                 Const.ParamsNames.REGKEY, stubRegkey,
@@ -281,9 +282,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult2 = action2.execute();
         RegkeyValidityData data2 = (RegkeyValidityData) jsonResult2.getOutput();
 
-        assertTrue(data2.isValid());
-        assertFalse(data2.isUsed());
-        assertTrue(data2.isAllowedAccess());
+        Assertions.assertTrue(data2.isValid());
+        Assertions.assertFalse(data2.isUsed());
+        Assertions.assertTrue(data2.isAllowedAccess());
     }
 
     @Test
@@ -298,9 +299,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult = action.execute();
         RegkeyValidityData data = (RegkeyValidityData) jsonResult.getOutput();
 
-        assertTrue(data.isValid());
-        assertFalse(data.isUsed());
-        assertTrue(data.isAllowedAccess());
+        Assertions.assertTrue(data.isValid());
+        Assertions.assertFalse(data.isUsed());
+        Assertions.assertTrue(data.isAllowedAccess());
 
         String[] params2 = {
                 Const.ParamsNames.REGKEY, stubRegkey,
@@ -311,9 +312,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult2 = action2.execute();
         RegkeyValidityData data2 = (RegkeyValidityData) jsonResult2.getOutput();
 
-        assertTrue(data2.isValid());
-        assertFalse(data2.isUsed());
-        assertTrue(data2.isAllowedAccess());
+        Assertions.assertTrue(data2.isValid());
+        Assertions.assertFalse(data2.isUsed());
+        Assertions.assertTrue(data2.isAllowedAccess());
     }
 
     @Test
@@ -330,9 +331,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult = action.execute();
         RegkeyValidityData data = (RegkeyValidityData) jsonResult.getOutput();
 
-        assertTrue(data.isValid());
-        assertFalse(data.isUsed());
-        assertTrue(data.isAllowedAccess());
+        Assertions.assertTrue(data.isValid());
+        Assertions.assertFalse(data.isUsed());
+        Assertions.assertTrue(data.isAllowedAccess());
 
         String[] params2 = {
                 Const.ParamsNames.REGKEY, stubRegkey,
@@ -343,9 +344,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult2 = action2.execute();
         RegkeyValidityData data2 = (RegkeyValidityData) jsonResult2.getOutput();
 
-        assertTrue(data2.isValid());
-        assertFalse(data2.isUsed());
-        assertTrue(data2.isAllowedAccess());
+        Assertions.assertTrue(data2.isValid());
+        Assertions.assertFalse(data2.isUsed());
+        Assertions.assertTrue(data2.isAllowedAccess());
     }
 
     @Test
@@ -362,9 +363,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult = action.execute();
         RegkeyValidityData data = (RegkeyValidityData) jsonResult.getOutput();
 
-        assertTrue(data.isValid());
-        assertFalse(data.isUsed());
-        assertTrue(data.isAllowedAccess());
+        Assertions.assertTrue(data.isValid());
+        Assertions.assertFalse(data.isUsed());
+        Assertions.assertTrue(data.isAllowedAccess());
 
         String[] params2 = {
                 Const.ParamsNames.REGKEY, stubRegkey,
@@ -375,9 +376,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult2 = action2.execute();
         RegkeyValidityData data2 = (RegkeyValidityData) jsonResult2.getOutput();
 
-        assertTrue(data2.isValid());
-        assertFalse(data2.isUsed());
-        assertTrue(data2.isAllowedAccess());
+        Assertions.assertTrue(data2.isValid());
+        Assertions.assertFalse(data2.isUsed());
+        Assertions.assertTrue(data2.isAllowedAccess());
     }
 
     @Test
@@ -392,9 +393,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult = action.execute();
         RegkeyValidityData data = (RegkeyValidityData) jsonResult.getOutput();
 
-        assertFalse(data.isValid());
-        assertFalse(data.isUsed());
-        assertFalse(data.isAllowedAccess());
+        Assertions.assertFalse(data.isValid());
+        Assertions.assertFalse(data.isUsed());
+        Assertions.assertFalse(data.isAllowedAccess());
 
         String[] params2 = {
                 Const.ParamsNames.REGKEY, "invalid-regkey",
@@ -405,9 +406,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult2 = action2.execute();
         RegkeyValidityData data2 = (RegkeyValidityData) jsonResult2.getOutput();
 
-        assertFalse(data2.isValid());
-        assertFalse(data2.isUsed());
-        assertFalse(data2.isAllowedAccess());
+        Assertions.assertFalse(data2.isValid());
+        Assertions.assertFalse(data2.isUsed());
+        Assertions.assertFalse(data2.isAllowedAccess());
 
         String[] params3 = {
                 Const.ParamsNames.REGKEY, "invalid-regkey",
@@ -419,9 +420,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult3 = action3.execute();
         RegkeyValidityData data3 = (RegkeyValidityData) jsonResult3.getOutput();
 
-        assertFalse(data3.isValid());
-        assertFalse(data3.isUsed());
-        assertFalse(data3.isAllowedAccess());
+        Assertions.assertFalse(data3.isValid());
+        Assertions.assertFalse(data3.isUsed());
+        Assertions.assertFalse(data3.isAllowedAccess());
 
         String[] params4 = {
                 Const.ParamsNames.REGKEY, "invalid-regkey",
@@ -432,9 +433,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult4 = action4.execute();
         RegkeyValidityData data4 = (RegkeyValidityData) jsonResult4.getOutput();
 
-        assertFalse(data4.isValid());
-        assertFalse(data4.isUsed());
-        assertFalse(data4.isAllowedAccess());
+        Assertions.assertFalse(data4.isValid());
+        Assertions.assertFalse(data4.isUsed());
+        Assertions.assertFalse(data4.isAllowedAccess());
     }
 
     @Test
@@ -448,9 +449,9 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         JsonResult jsonResult = action.execute();
         RegkeyValidityData data = (RegkeyValidityData) jsonResult.getOutput();
 
-        assertFalse(data.isValid());
-        assertFalse(data.isUsed());
-        assertFalse(data.isAllowedAccess());
+        Assertions.assertFalse(data.isValid());
+        Assertions.assertFalse(data.isUsed());
+        Assertions.assertFalse(data.isAllowedAccess());
     }
 
     @Test

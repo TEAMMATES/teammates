@@ -1,5 +1,6 @@
 package teammates.e2e.cases;
 
+import org.junit.jupiter.api.Assertions;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -153,6 +154,6 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         editPage.deleteCourse();
         editPage.verifyStatusMessage("The course " + course.getId() + " has been deleted. "
                 + "You can restore it from the Recycle Bin manually.");
-        assertTrue(BACKDOOR.isCourseInRecycleBin(course.getId()));
+        Assertions.assertTrue(BACKDOOR.isCourseInRecycleBin(course.getId()));
     }
 }

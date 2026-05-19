@@ -1,5 +1,6 @@
 package teammates.it.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -57,41 +58,41 @@ public class SearchAccountRequestsActionIT extends BaseActionIT<SearchAccountReq
         SearchAccountRequestsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action, 200);
         AccountRequestsData response = (AccountRequestsData) result.getOutput();
-        assertTrue(response.getAccountRequests().stream()
+        Assertions.assertTrue(response.getAccountRequests().stream()
                 .filter(i -> i.getName().equals(accountRequest.getName()))
                 .findAny()
                 .isPresent());
-        assertTrue(response.getAccountRequests().get(0).getRegistrationKey() != null);
+        Assertions.assertTrue(response.getAccountRequests().get(0).getRegistrationKey() != null);
 
         ______TS("Search via Institute");
         submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, accountRequest.getInstitute() };
         action = getAction(submissionParams);
         result = getJsonResult(action, 200);
         response = (AccountRequestsData) result.getOutput();
-        assertTrue(response.getAccountRequests().stream()
+        Assertions.assertTrue(response.getAccountRequests().stream()
                 .filter(i -> i.getName().equals(accountRequest.getName()))
                 .findAny()
                 .isPresent());
-        assertTrue(response.getAccountRequests().get(0).getRegistrationKey() != null);
+        Assertions.assertTrue(response.getAccountRequests().get(0).getRegistrationKey() != null);
 
         ______TS("Search via Name");
         submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, accountRequest.getName() };
         action = getAction(submissionParams);
         result = getJsonResult(action, 200);
         response = (AccountRequestsData) result.getOutput();
-        assertTrue(response.getAccountRequests().stream()
+        Assertions.assertTrue(response.getAccountRequests().stream()
                 .filter(i -> i.getName().equals(accountRequest.getName()))
                 .findAny()
                 .isPresent());
-        assertTrue(response.getAccountRequests().get(0).getRegistrationKey() != null);
+        Assertions.assertTrue(response.getAccountRequests().get(0).getRegistrationKey() != null);
 
         ______TS("Search Duplicate Name");
         submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, "Instructor" };
         action = getAction(submissionParams);
         result = getJsonResult(action, 200);
         response = (AccountRequestsData) result.getOutput();
-        assertTrue(response.getAccountRequests().get(0).getRegistrationKey() != null);
-        assertEquals(11, response.getAccountRequests().size());
+        Assertions.assertTrue(response.getAccountRequests().get(0).getRegistrationKey() != null);
+        Assertions.assertEquals(11, response.getAccountRequests().size());
 
         ______TS("Search result with 0 matches");
 
@@ -99,6 +100,6 @@ public class SearchAccountRequestsActionIT extends BaseActionIT<SearchAccountReq
         action = getAction(submissionParams);
         result = getJsonResult(action, 200);
         response = (AccountRequestsData) result.getOutput();
-        assertEquals(0, response.getAccountRequests().size());
+        Assertions.assertEquals(0, response.getAccountRequests().size());
     }
 }

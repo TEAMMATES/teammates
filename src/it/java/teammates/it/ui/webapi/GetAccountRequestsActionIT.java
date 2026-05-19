@@ -1,5 +1,6 @@
 package teammates.it.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import java.util.List;
 
 import org.testng.annotations.BeforeMethod;
@@ -59,7 +60,7 @@ public class GetAccountRequestsActionIT extends BaseActionIT<GetAccountRequestsA
         AccountRequestsData data = (AccountRequestsData) result.getOutput();
         List<AccountRequestData> arData = data.getAccountRequests();
 
-        assertEquals(0, arData.size());
+        Assertions.assertEquals(0, arData.size());
 
         ______TS("1 pending account request, case insensitive match for status request param");
 
@@ -72,7 +73,7 @@ public class GetAccountRequestsActionIT extends BaseActionIT<GetAccountRequestsA
         data = (AccountRequestsData) result.getOutput();
         arData = data.getAccountRequests();
 
-        assertEquals(1, arData.size());
+        Assertions.assertEquals(1, arData.size());
 
         ______TS("Get 2 pending account requests, ignore 1 approved account request");
         AccountRequest approvedAccountRequest1 = typicalBundle.accountRequests.get("instructor2");
@@ -88,19 +89,19 @@ public class GetAccountRequestsActionIT extends BaseActionIT<GetAccountRequestsA
         data = (AccountRequestsData) result.getOutput();
         arData = data.getAccountRequests();
 
-        assertEquals(2, arData.size());
+        Assertions.assertEquals(2, arData.size());
 
         // account request 1 (with the most recent created_at)
-        assertEquals(arData.get(1).getEmail(), accountRequest1.getEmail());
-        assertEquals(arData.get(1).getInstitute(), accountRequest1.getInstitute());
-        assertEquals(arData.get(1).getName(), accountRequest1.getName());
-        assertEquals(arData.get(1).getRegistrationKey(), accountRequest1.getRegistrationKey());
+        Assertions.assertEquals(arData.get(1).getEmail(), accountRequest1.getEmail());
+        Assertions.assertEquals(arData.get(1).getInstitute(), accountRequest1.getInstitute());
+        Assertions.assertEquals(arData.get(1).getName(), accountRequest1.getName());
+        Assertions.assertEquals(arData.get(1).getRegistrationKey(), accountRequest1.getRegistrationKey());
 
         // account request 2
-        assertEquals(arData.get(0).getEmail(), accountRequest2.getEmail());
-        assertEquals(arData.get(0).getInstitute(), accountRequest2.getInstitute());
-        assertEquals(arData.get(0).getName(), accountRequest2.getName());
-        assertEquals(arData.get(0).getRegistrationKey(), accountRequest2.getRegistrationKey());
+        Assertions.assertEquals(arData.get(0).getEmail(), accountRequest2.getEmail());
+        Assertions.assertEquals(arData.get(0).getInstitute(), accountRequest2.getInstitute());
+        Assertions.assertEquals(arData.get(0).getName(), accountRequest2.getName());
+        Assertions.assertEquals(arData.get(0).getRegistrationKey(), accountRequest2.getRegistrationKey());
     }
 
     @Override

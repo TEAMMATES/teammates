@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.when;
@@ -60,20 +61,20 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
         Notification createdNotification = mockLogic.getNotification(res.getNotificationId());
 
         // check that notification returned has same properties as notification created
-        assertEquals(createdNotification.getStartTime().toEpochMilli(), res.getStartTimestamp());
-        assertEquals(createdNotification.getEndTime().toEpochMilli(), res.getEndTimestamp());
-        assertEquals(createdNotification.getStyle(), res.getStyle());
-        assertEquals(createdNotification.getTargetUser(), res.getTargetUser());
-        assertEquals(createdNotification.getTitle(), res.getTitle());
-        assertEquals(createdNotification.getMessage(), res.getMessage());
+        Assertions.assertEquals(createdNotification.getStartTime().toEpochMilli(), res.getStartTimestamp());
+        Assertions.assertEquals(createdNotification.getEndTime().toEpochMilli(), res.getEndTimestamp());
+        Assertions.assertEquals(createdNotification.getStyle(), res.getStyle());
+        Assertions.assertEquals(createdNotification.getTargetUser(), res.getTargetUser());
+        Assertions.assertEquals(createdNotification.getTitle(), res.getTitle());
+        Assertions.assertEquals(createdNotification.getMessage(), res.getMessage());
 
         // check DB correctly processed request
-        assertEquals(startTime, createdNotification.getStartTime().toEpochMilli());
-        assertEquals(endTime, createdNotification.getEndTime().toEpochMilli());
-        assertEquals(style, createdNotification.getStyle());
-        assertEquals(targetUser, createdNotification.getTargetUser());
-        assertEquals(title, createdNotification.getTitle());
-        assertEquals(message, createdNotification.getMessage());
+        Assertions.assertEquals(startTime, createdNotification.getStartTime().toEpochMilli());
+        Assertions.assertEquals(endTime, createdNotification.getEndTime().toEpochMilli());
+        Assertions.assertEquals(style, createdNotification.getStyle());
+        Assertions.assertEquals(targetUser, createdNotification.getTargetUser());
+        Assertions.assertEquals(title, createdNotification.getTitle());
+        Assertions.assertEquals(message, createdNotification.getMessage());
     }
 
     @Test
@@ -95,7 +96,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
 
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(testReq);
 
-        assertEquals("Notification style cannot be null", ex.getMessage());
+        Assertions.assertEquals("Notification style cannot be null", ex.getMessage());
     }
 
     @Test
@@ -105,7 +106,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
 
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(testReq);
 
-        assertEquals("Notification target user cannot be null", ex.getMessage());
+        Assertions.assertEquals("Notification target user cannot be null", ex.getMessage());
     }
 
     @Test
@@ -115,7 +116,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
 
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(testReq);
 
-        assertEquals("Notification title cannot be null", ex.getMessage());
+        Assertions.assertEquals("Notification title cannot be null", ex.getMessage());
     }
 
     @Test
@@ -125,7 +126,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
 
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(testReq);
 
-        assertEquals("Notification message cannot be null", ex.getMessage());
+        Assertions.assertEquals("Notification message cannot be null", ex.getMessage());
     }
 
     @Test
@@ -135,7 +136,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
 
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(testReq);
 
-        assertEquals("Start timestamp should be greater than zero", ex.getMessage());
+        Assertions.assertEquals("Start timestamp should be greater than zero", ex.getMessage());
     }
 
     @Test
@@ -145,7 +146,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
 
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(testReq);
 
-        assertEquals("End timestamp should be greater than zero", ex.getMessage());
+        Assertions.assertEquals("End timestamp should be greater than zero", ex.getMessage());
     }
 
     @Test
@@ -156,7 +157,7 @@ public class CreateNotificationActionTest extends BaseActionTest<CreateNotificat
         when(mockLogic.createNotification(any())).thenThrow(new InvalidParametersException("Invalid title"));
         InvalidHttpRequestBodyException ex = verifyHttpRequestBodyFailure(testReq);
 
-        assertEquals("Notification title cannot be empty", ex.getMessage());
+        Assertions.assertEquals("Notification title cannot be empty", ex.getMessage());
     }
 
     private NotificationCreateRequest getTypicalCreateRequest() {

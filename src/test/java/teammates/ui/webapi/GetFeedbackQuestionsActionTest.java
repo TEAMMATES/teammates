@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.Mockito.when;
 
 import java.time.Duration;
@@ -74,9 +75,9 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         GetFeedbackQuestionsAction getFeedbackQuestionsAction = getAction(params);
         FeedbackQuestionsData actionOutput = (FeedbackQuestionsData) getJsonResult(getFeedbackQuestionsAction).getOutput();
 
-        assertEquals(feedbackQuestions.size(), actionOutput.getQuestions().size());
+        Assertions.assertEquals(feedbackQuestions.size(), actionOutput.getQuestions().size());
         for (int i = 0; i < feedbackQuestions.size(); i++) {
-            assertEquals(JsonUtils.toJson(new FeedbackQuestionData(feedbackQuestions.get(i))),
+            Assertions.assertEquals(JsonUtils.toJson(new FeedbackQuestionData(feedbackQuestions.get(i))),
                     JsonUtils.toJson(actionOutput.getQuestions().get(i)));
         }
     }

@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -74,8 +75,8 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         InstructorData response = (InstructorData) r.getOutput();
 
-        assertEquals(updatedInstructor.getName(), response.getName());
-        assertEquals(updatedInstructor.getEmail(), response.getEmail());
+        Assertions.assertEquals(updatedInstructor.getName(), response.getName());
+        Assertions.assertEquals(updatedInstructor.getEmail(), response.getEmail());
 
         verify(mockLogic, times(1))
                 .updateToEnsureValidityOfInstructorsForTheCourse(typicalCourse.getId(), updatedInstructor);
@@ -162,8 +163,8 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         InstructorData response = (InstructorData) r.getOutput();
 
-        assertEquals(updatedInstructor.getName(), response.getName());
-        assertEquals(updatedInstructor.getEmail(), response.getEmail());
+        Assertions.assertEquals(updatedInstructor.getName(), response.getName());
+        Assertions.assertEquals(updatedInstructor.getEmail(), response.getEmail());
 
         verify(mockLogic, times(1))
                 .updateToEnsureValidityOfInstructorsForTheCourse(typicalCourse.getId(), updatedInstructor);

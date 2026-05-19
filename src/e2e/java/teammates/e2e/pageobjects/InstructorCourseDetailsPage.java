@@ -1,5 +1,6 @@
 package teammates.e2e.pageobjects;
 
+import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
@@ -52,13 +53,13 @@ public class InstructorCourseDetailsPage extends AppPage {
 
     public void verifyCourseDetails(Course course, List<Instructor> instructors,
                                     int numSections, int numTeams, int numStudents) {
-        assertEquals(course.getId(), courseIdField.getText());
-        assertEquals(course.getName(), courseNameField.getText());
-        assertEquals(course.getInstitute(), courseInstituteField.getText());
-        assertEquals(Integer.toString(numSections), numSectionsField.getText());
-        assertEquals(Integer.toString(numTeams), numTeamsField.getText());
-        assertEquals(Integer.toString(numStudents), numStudentsField.getText());
-        assertEquals(getExpectedInstructorsString(instructors), instructorsField.getText());
+        Assertions.assertEquals(course.getId(), courseIdField.getText());
+        Assertions.assertEquals(course.getName(), courseNameField.getText());
+        Assertions.assertEquals(course.getInstitute(), courseInstituteField.getText());
+        Assertions.assertEquals(Integer.toString(numSections), numSectionsField.getText());
+        Assertions.assertEquals(Integer.toString(numTeams), numTeamsField.getText());
+        Assertions.assertEquals(Integer.toString(numStudents), numStudentsField.getText());
+        Assertions.assertEquals(getExpectedInstructorsString(instructors), instructorsField.getText());
     }
 
     public void verifyStudentDetails(List<Student> students) {
@@ -66,7 +67,7 @@ public class InstructorCourseDetailsPage extends AppPage {
     }
 
     public void verifyNumStudents(int expected) {
-        assertEquals(expected, getNumStudents());
+        Assertions.assertEquals(expected, getNumStudents());
     }
 
     public void sendInvite(String studentEmailAddress) {

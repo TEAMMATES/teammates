@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
@@ -278,10 +279,10 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
         FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
 
-        assertEquals(1, result.getResponses().size());
+        Assertions.assertEquals(1, result.getResponses().size());
         FeedbackResponseData responseData = result.getResponses().get(0);
-        assertEquals(stubStudent.getEmail(), responseData.getGiverIdentifier());
-        assertEquals(recipientStudent1.getEmail(), responseData.getRecipientIdentifier());
+        Assertions.assertEquals(stubStudent.getEmail(), responseData.getGiverIdentifier());
+        Assertions.assertEquals(recipientStudent1.getEmail(), responseData.getRecipientIdentifier());
 
         verify(mockLogic).getFeedbackResponsesFromStudentOrTeamForQuestion(spyFeedbackQuestion, stubStudent);
         verify(mockLogic).getRecipientsOfQuestion(spyFeedbackQuestion, null, stubStudent);
@@ -329,10 +330,10 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
         FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
 
-        assertEquals(1, result.getResponses().size());
+        Assertions.assertEquals(1, result.getResponses().size());
         FeedbackResponseData responseData = result.getResponses().get(0);
-        assertEquals(stubInstructor.getEmail(), responseData.getGiverIdentifier());
-        assertEquals(recipientInstructor1.getEmail(), responseData.getRecipientIdentifier());
+        Assertions.assertEquals(stubInstructor.getEmail(), responseData.getGiverIdentifier());
+        Assertions.assertEquals(recipientInstructor1.getEmail(), responseData.getRecipientIdentifier());
 
         verify(mockLogic).getFeedbackResponsesFromInstructorForQuestion(spyFeedbackQuestion, stubInstructor);
         verify(mockLogic).getRecipientsOfQuestion(spyFeedbackQuestion, stubInstructor, null);
@@ -396,7 +397,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
         FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
 
-        assertEquals(1, result.getResponses().size());
+        Assertions.assertEquals(1, result.getResponses().size());
         verify(mockLogic).updateFeedbackResponseCascade(any(FeedbackResponse.class));
         verify(mockLogic).deleteFeedbackResponsesAndCommentsCascade(existingResponse2);
         verify(mockLogic).getFeedbackResponsesFromStudentOrTeamForQuestion(spyFeedbackQuestion, stubStudent);
@@ -442,8 +443,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
         FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
 
-        assertEquals(1, result.getResponses().size());
-        assertEquals(stubStudent.getTeamName(), result.getResponses().get(0).getGiverIdentifier());
+        Assertions.assertEquals(1, result.getResponses().size());
+        Assertions.assertEquals(stubStudent.getTeamName(), result.getResponses().get(0).getGiverIdentifier());
         verify(mockLogic).createFeedbackResponse(argThat(response ->
                 response.getGiver() != null
                         && response.getGiver().getIdentifier().equals(stubStudent.getTeamName())));
@@ -521,7 +522,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
         FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
 
-        assertEquals(2, result.getResponses().size());
+        Assertions.assertEquals(2, result.getResponses().size());
     }
 
     @Test
@@ -563,7 +564,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
         FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
 
-        assertEquals(2, result.getResponses().size());
+        Assertions.assertEquals(2, result.getResponses().size());
     }
 
     @Test
@@ -602,8 +603,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
         FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
 
-        assertEquals(1, result.getResponses().size());
-        assertEquals(teamName, result.getResponses().get(0).getRecipientIdentifier());
+        Assertions.assertEquals(1, result.getResponses().size());
+        Assertions.assertEquals(teamName, result.getResponses().get(0).getRecipientIdentifier());
     }
 
     @Test
@@ -624,8 +625,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         requestBody.setResponses(responses);
 
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
-        InvalidHttpParameterException ihpe = assertThrows(InvalidHttpParameterException.class, action::execute);
-        assertEquals("Expected UUID value for questionid parameter, but found: [invalid-uuid]", ihpe.getMessage());
+        InvalidHttpParameterException ihpe = Assertions.assertThrows(InvalidHttpParameterException.class, action::execute);
+        Assertions.assertEquals("Expected UUID value for questionid parameter, but found: [invalid-uuid]", ihpe.getMessage());
     }
 
     @Test
@@ -667,7 +668,7 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         SubmitFeedbackResponsesAction action = getAction(requestBody, params);
         FeedbackResponsesData result = (FeedbackResponsesData) getJsonResult(action).getOutput();
 
-        assertEquals(2, result.getResponses().size());
+        Assertions.assertEquals(2, result.getResponses().size());
     }
 
     @Test
@@ -682,8 +683,8 @@ public class SubmitFeedbackResponsesActionTest extends BaseActionTest<SubmitFeed
         };
 
         SubmitFeedbackResponsesAction action = getAction(params);
-        EntityNotFoundException enfe = assertThrows(EntityNotFoundException.class, action::checkAccessControl);
-        assertEquals("The feedback question does not exist.", enfe.getMessage());
+        EntityNotFoundException enfe = Assertions.assertThrows(EntityNotFoundException.class, action::checkAccessControl);
+        Assertions.assertEquals("The feedback question does not exist.", enfe.getMessage());
     }
 
     @Test

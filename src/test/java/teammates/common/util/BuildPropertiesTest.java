@@ -1,5 +1,6 @@
 package teammates.common.util;
 
+import org.junit.jupiter.api.Assertions;
 import org.testng.annotations.Test;
 
 import teammates.test.BaseTestCase;
@@ -12,8 +13,8 @@ public class BuildPropertiesTest extends BaseTestCase {
     @Test
     public void checkPresence() {
         String frontEndUrl = Config.getDefaultFrontEndUrl();
-        assertNotNull(frontEndUrl);
-        assertFalse(frontEndUrl.isBlank());
+        Assertions.assertNotNull(frontEndUrl);
+        Assertions.assertFalse(frontEndUrl.isBlank());
     }
 
 }

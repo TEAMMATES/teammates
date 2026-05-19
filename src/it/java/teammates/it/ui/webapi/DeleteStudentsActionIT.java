@@ -1,5 +1,6 @@
 package teammates.it.ui.webapi;
 
+import org.junit.jupiter.api.Assertions;
 import java.util.List;
 
 import org.testng.annotations.BeforeMethod;
@@ -50,7 +51,7 @@ public class DeleteStudentsActionIT extends BaseActionIT<DeleteStudentsAction> {
 
         List<Student> studentsToDelete = logic.getStudentsForCourse(courseId);
 
-        assertEquals(5, studentsToDelete.size());
+        Assertions.assertEquals(5, studentsToDelete.size());
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
@@ -61,7 +62,7 @@ public class DeleteStudentsActionIT extends BaseActionIT<DeleteStudentsAction> {
         getJsonResult(deleteStudentsAction);
 
         for (Student student : studentsToDelete) {
-            assertNull(logic.getStudentByRegistrationKey(student.getRegKey()));
+            Assertions.assertNull(logic.getStudentByRegistrationKey(student.getRegKey()));
         }
 
         ______TS("Random course given, fails silently");

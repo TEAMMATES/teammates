@@ -1,5 +1,6 @@
 package teammates.e2e.cases;
 
+import org.junit.jupiter.api.Assertions;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -40,13 +41,13 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
         notificationsPage.verifyNotificationsTableRow(notifications[0]);
         notificationsPage.verifyNotificationsTableRow(notifications[1]);
         NotificationData notif = getNotification(notifications[0].getId().toString());
-        assertEquals(notif.getNotificationId(), notifications[0].getId());
-        assertEquals(notif.getMessage(), notifications[0].getMessage());
-        assertEquals(notif.getTitle(), notifications[0].getTitle());
+        Assertions.assertEquals(notif.getNotificationId(), notifications[0].getId());
+        Assertions.assertEquals(notif.getMessage(), notifications[0].getMessage());
+        Assertions.assertEquals(notif.getTitle(), notifications[0].getTitle());
         notif = getNotification(notifications[1].getId().toString());
-        assertEquals(notif.getNotificationId(), notifications[1].getId());
-        assertEquals(notif.getMessage(), notifications[1].getMessage());
-        assertEquals(notif.getTitle(), notifications[1].getTitle());
+        Assertions.assertEquals(notif.getNotificationId(), notifications[1].getId());
+        Assertions.assertEquals(notif.getMessage(), notifications[1].getMessage());
+        Assertions.assertEquals(notif.getTitle(), notifications[1].getTitle());
 
         ______TS("add new notification");
         int currentYear = LocalDate.now().getYear();
@@ -70,9 +71,9 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
         // Checks that notification is in the database first
         // so that newNotification is updated with the created time before checking table row
         notif = getNotification(newestNotificationId);
-        assertEquals(notif.getNotificationId().toString(), newestNotificationId);
-        assertEquals(notif.getMessage(), newNotification.getMessage());
-        assertEquals(notif.getTitle(), newNotification.getTitle());
+        Assertions.assertEquals(notif.getNotificationId().toString(), newestNotificationId);
+        Assertions.assertEquals(notif.getMessage(), newNotification.getMessage());
+        Assertions.assertEquals(notif.getTitle(), newNotification.getTitle());
         notificationsPage.verifyNotificationsTableRow(newNotification);
 
         ______TS("edit notification");
@@ -95,7 +96,7 @@ public class AdminNotificationsPageE2ETest extends BaseE2ETestCase {
         notificationsPage.deleteNotification(newNotification);
         notificationsPage.verifyStatusMessage("Notification has been deleted.");
         notif = getNotification(newestNotificationId);
-        assertNull(notif);
+        Assertions.assertNull(notif);
     }
 
     @AfterClass

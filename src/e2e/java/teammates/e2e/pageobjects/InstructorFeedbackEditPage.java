@@ -1,5 +1,6 @@
 package teammates.e2e.pageobjects;
 
+import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -158,16 +159,16 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void verifySessionDetails(Course course, FeedbackSession feedbackSession) {
         waitForElementPresence(By.id("instructions"));
-        assertEquals(getCourseId(), course.getId());
-        assertEquals(getCourseName(), course.getName());
-        assertEquals("UTC", getTimeZone());
-        assertEquals(getFeedbackSessionName(), feedbackSession.getName());
-        assertEquals(getInstructions(), feedbackSession.getInstructions());
-        assertEquals(getStartDate(), getDateString(feedbackSession.getStartTime(), "UTC"));
-        assertEquals(getStartTime(), getTimeString(feedbackSession.getStartTime(), "UTC"));
-        assertEquals(getEndDate(), getDateString(feedbackSession.getEndTime(), "UTC"));
-        assertEquals(getEndTime(), getTimeString(feedbackSession.getEndTime(), "UTC"));
-        assertEquals(getGracePeriod(), feedbackSession.getGracePeriod().toMinutes() + " min");
+        Assertions.assertEquals(getCourseId(), course.getId());
+        Assertions.assertEquals(getCourseName(), course.getName());
+        Assertions.assertEquals("UTC", getTimeZone());
+        Assertions.assertEquals(getFeedbackSessionName(), feedbackSession.getName());
+        Assertions.assertEquals(getInstructions(), feedbackSession.getInstructions());
+        Assertions.assertEquals(getStartDate(), getDateString(feedbackSession.getStartTime(), "UTC"));
+        Assertions.assertEquals(getStartTime(), getTimeString(feedbackSession.getStartTime(), "UTC"));
+        Assertions.assertEquals(getEndDate(), getDateString(feedbackSession.getEndTime(), "UTC"));
+        Assertions.assertEquals(getEndTime(), getTimeString(feedbackSession.getEndTime(), "UTC"));
+        Assertions.assertEquals(getGracePeriod(), feedbackSession.getGracePeriod().toMinutes() + " min");
         verifySubmissionStatus(feedbackSession);
         verifyPublishedStatus(feedbackSession);
         verifyVisibilitySettings(feedbackSession);
@@ -178,20 +179,20 @@ public class InstructorFeedbackEditPage extends AppPage {
     private void verifySubmissionStatus(FeedbackSession feedbackSession) {
         String submissionStatus = getSubmissionStatus();
         if (feedbackSession.isClosed()) {
-            assertEquals(submissionStatus, "Closed");
+            Assertions.assertEquals(submissionStatus, "Closed");
         } else if (feedbackSession.isVisible() && (feedbackSession.isOpened() || feedbackSession.isInGracePeriod())) {
-            assertEquals(submissionStatus, "Open");
+            Assertions.assertEquals(submissionStatus, "Open");
         } else {
-            assertEquals(submissionStatus, "Awaiting");
+            Assertions.assertEquals(submissionStatus, "Awaiting");
         }
     }
 
     private void verifyPublishedStatus(FeedbackSession feedbackSession) {
         String publishedStatus = getPublishedStatus();
         if (feedbackSession.isPublished()) {
-            assertEquals(publishedStatus, "Published");
+            Assertions.assertEquals(publishedStatus, "Published");
         } else {
-            assertEquals(publishedStatus, "Not Published");
+            Assertions.assertEquals(publishedStatus, "Not Published");
         }
     }
 
@@ -202,7 +203,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         // Default settings, assert setting section not expanded
         if (sessionVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)
                 && responseVisibleTime.equals(Const.TIME_REPRESENTS_LATER)) {
-            assertTrue(isElementPresent("btn-change-visibility"));
+            Assertions.assertTrue(isElementPresent("btn-change-visibility"));
             return;
         }
         verifySessionVisibilitySettings(sessionVisibleTime, feedbackSession);
@@ -212,12 +213,12 @@ public class InstructorFeedbackEditPage extends AppPage {
     private void verifySessionVisibilitySettings(Instant sessionVisibleTime,
                                                  FeedbackSession feedbackSession) {
         if (sessionVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
-            assertTrue(openSessionVisibleTimeButton.isSelected());
+            Assertions.assertTrue(openSessionVisibleTimeButton.isSelected());
         } else {
-            assertTrue(customSessionVisibleTimeButton.isSelected());
-            assertEquals(getSessionVisibilityDate(), getDateString(feedbackSession.getSessionVisibleFromTime(),
+            Assertions.assertTrue(customSessionVisibleTimeButton.isSelected());
+            Assertions.assertEquals(getSessionVisibilityDate(), getDateString(feedbackSession.getSessionVisibleFromTime(),
                     "UTC"));
-            assertEquals(getSessionVisibilityTime(), getTimeString(feedbackSession.getSessionVisibleFromTime(),
+            Assertions.assertEquals(getSessionVisibilityTime(), getTimeString(feedbackSession.getSessionVisibleFromTime(),
                     "UTC"));
         }
     }
@@ -225,14 +226,14 @@ public class InstructorFeedbackEditPage extends AppPage {
     private void verifyResponseVisibilitySettings(Instant responseVisibleTime,
                                                   FeedbackSession feedbackSession) {
         if (responseVisibleTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
-            assertTrue(immediateResponseVisibleTimeButton.isSelected());
+            Assertions.assertTrue(immediateResponseVisibleTimeButton.isSelected());
         } else if (responseVisibleTime.equals(Const.TIME_REPRESENTS_LATER)) {
-            assertTrue(manualResponseVisibleTimeButton.isSelected());
+            Assertions.assertTrue(manualResponseVisibleTimeButton.isSelected());
         } else {
-            assertTrue(customSessionVisibleTimeButton.isSelected());
-            assertEquals(getResponseVisibilityDate(), getDateString(feedbackSession.getResultsVisibleFromTime(),
+            Assertions.assertTrue(customSessionVisibleTimeButton.isSelected());
+            Assertions.assertEquals(getResponseVisibilityDate(), getDateString(feedbackSession.getResultsVisibleFromTime(),
                     "UTC"));
-            assertEquals(getResponseVisibilityTime(), getTimeString(feedbackSession.getResultsVisibleFromTime(),
+            Assertions.assertEquals(getResponseVisibilityTime(), getTimeString(feedbackSession.getResultsVisibleFromTime(),
                     "UTC"));
         }
     }
@@ -243,14 +244,14 @@ public class InstructorFeedbackEditPage extends AppPage {
 
         // Default settings, assert setting section not expanded
         if (isClosingSoonEmailEnabled && isPublishedEmailEnabled) {
-            assertTrue(isElementPresent("btn-change-email"));
+            Assertions.assertTrue(isElementPresent("btn-change-email"));
             return;
         }
         if (isClosingSoonEmailEnabled) {
-            assertTrue(closingSoonSessionEmailCheckbox.isSelected());
+            Assertions.assertTrue(closingSoonSessionEmailCheckbox.isSelected());
         }
         if (isPublishedEmailEnabled) {
-            assertTrue(publishedSessionEmailCheckbox.isSelected());
+            Assertions.assertTrue(publishedSessionEmailCheckbox.isSelected());
         }
     }
 
@@ -311,23 +312,23 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void verifyNumQuestions(int expected) {
-        assertEquals(getNumQuestions(), expected);
+        Assertions.assertEquals(getNumQuestions(), expected);
     }
 
     public void verifyQuestionDetails(int questionNum, FeedbackQuestion feedbackQuestion) {
         scrollElementToCenter(getQuestionForm(questionNum));
-        assertEquals(feedbackQuestion.getQuestionType(), getQuestionType(questionNum));
-        assertEquals(feedbackQuestion.getQuestionNumber(), getQuestionNumber(questionNum));
-        assertEquals(feedbackQuestion.getQuestionDetailsCopy().getQuestionText(), getQuestionBrief(questionNum));
-        assertEquals(getQuestionDescription(questionNum), feedbackQuestion.getDescription());
+        Assertions.assertEquals(feedbackQuestion.getQuestionType(), getQuestionType(questionNum));
+        Assertions.assertEquals(feedbackQuestion.getQuestionNumber(), getQuestionNumber(questionNum));
+        Assertions.assertEquals(feedbackQuestion.getQuestionDetailsCopy().getQuestionText(), getQuestionBrief(questionNum));
+        Assertions.assertEquals(getQuestionDescription(questionNum), feedbackQuestion.getDescription());
         verifyFeedbackPathSettings(questionNum, feedbackQuestion);
         verifyQuestionVisibilitySettings(questionNum, feedbackQuestion);
     }
 
     private void verifyFeedbackPathSettings(int questionNum, FeedbackQuestion feedbackQuestion) {
-        assertEquals(getDisplayGiverName(feedbackQuestion.getGiverType()), getFeedbackGiver(questionNum));
+        Assertions.assertEquals(getDisplayGiverName(feedbackQuestion.getGiverType()), getFeedbackGiver(questionNum));
         String feedbackReceiver = getFeedbackReceiver(questionNum);
-        assertEquals(getDisplayRecipientName(feedbackQuestion.getRecipientType()), feedbackReceiver);
+        Assertions.assertEquals(getDisplayRecipientName(feedbackQuestion.getRecipientType()), feedbackReceiver);
 
         if (feedbackReceiver.equals(getDisplayRecipientName(QuestionRecipientType.INSTRUCTORS))
                 || feedbackReceiver.equals(getDisplayRecipientName(QuestionRecipientType.STUDENTS_EXCLUDING_SELF))
@@ -340,10 +341,10 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement questionForm = getQuestionForm(questionNum);
         WebElement feedbackPathPanel = questionForm.findElement(By.tagName("tm-feedback-path-panel"));
         if (numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS) {
-            assertTrue(feedbackPathPanel.findElement(By.id("unlimited-recipients")).isSelected());
+            Assertions.assertTrue(feedbackPathPanel.findElement(By.id("unlimited-recipients")).isSelected());
         } else {
-            assertTrue(feedbackPathPanel.findElement(By.id("custom-recipients")).isSelected());
-            assertEquals(feedbackPathPanel.findElement(By.id("custom-recipients-number")).getAttribute("value"),
+            Assertions.assertTrue(feedbackPathPanel.findElement(By.id("custom-recipients")).isSelected());
+            Assertions.assertEquals(feedbackPathPanel.findElement(By.id("custom-recipients-number")).getAttribute("value"),
                     Integer.toString(numberOfEntitiesToGiveFeedbackTo));
         }
     }
@@ -358,82 +359,82 @@ public class InstructorFeedbackEditPage extends AppPage {
 
         switch (visibility) {
         case "Shown anonymously to recipient and giver's team members, visible to instructors":
-            assertTrue(showResponsesTo.contains(ViewerType.INSTRUCTORS));
-            assertTrue(showResponsesTo.contains(ViewerType.RECEIVER));
-            assertTrue(showResponsesTo.contains(ViewerType.OWN_TEAM_MEMBERS));
-            assertEquals(showResponsesTo.size(), 3);
+            Assertions.assertTrue(showResponsesTo.contains(ViewerType.INSTRUCTORS));
+            Assertions.assertTrue(showResponsesTo.contains(ViewerType.RECEIVER));
+            Assertions.assertTrue(showResponsesTo.contains(ViewerType.OWN_TEAM_MEMBERS));
+            Assertions.assertEquals(showResponsesTo.size(), 3);
 
-            assertTrue(showGiverNameTo.contains(ViewerType.INSTRUCTORS));
-            assertEquals(showGiverNameTo.size(), 1);
+            Assertions.assertTrue(showGiverNameTo.contains(ViewerType.INSTRUCTORS));
+            Assertions.assertEquals(showGiverNameTo.size(), 1);
 
-            assertTrue(showRecipientNameTo.contains(ViewerType.INSTRUCTORS));
-            assertTrue(showRecipientNameTo.contains(ViewerType.RECEIVER));
-            assertEquals(showRecipientNameTo.size(), 2);
+            Assertions.assertTrue(showRecipientNameTo.contains(ViewerType.INSTRUCTORS));
+            Assertions.assertTrue(showRecipientNameTo.contains(ViewerType.RECEIVER));
+            Assertions.assertEquals(showRecipientNameTo.size(), 2);
             break;
 
         case "Visible to instructors only":
-            assertTrue(showResponsesTo.contains(ViewerType.INSTRUCTORS));
-            assertEquals(showResponsesTo.size(), 1);
+            Assertions.assertTrue(showResponsesTo.contains(ViewerType.INSTRUCTORS));
+            Assertions.assertEquals(showResponsesTo.size(), 1);
 
-            assertTrue(showGiverNameTo.contains(ViewerType.INSTRUCTORS));
-            assertEquals(showGiverNameTo.size(), 1);
+            Assertions.assertTrue(showGiverNameTo.contains(ViewerType.INSTRUCTORS));
+            Assertions.assertEquals(showGiverNameTo.size(), 1);
 
-            assertTrue(showRecipientNameTo.contains(ViewerType.INSTRUCTORS));
-            assertEquals(showRecipientNameTo.size(), 1);
+            Assertions.assertTrue(showRecipientNameTo.contains(ViewerType.INSTRUCTORS));
+            Assertions.assertEquals(showRecipientNameTo.size(), 1);
             break;
 
         case "Shown anonymously to recipient and instructors":
-            assertTrue(showResponsesTo.contains(ViewerType.INSTRUCTORS));
-            assertTrue(showResponsesTo.contains(ViewerType.RECEIVER));
-            assertEquals(showResponsesTo.size(), 2);
+            Assertions.assertTrue(showResponsesTo.contains(ViewerType.INSTRUCTORS));
+            Assertions.assertTrue(showResponsesTo.contains(ViewerType.RECEIVER));
+            Assertions.assertEquals(showResponsesTo.size(), 2);
 
-            assertEquals(showGiverNameTo.size(), 0);
+            Assertions.assertEquals(showGiverNameTo.size(), 0);
 
-            assertTrue(showRecipientNameTo.contains(ViewerType.INSTRUCTORS));
-            assertTrue(showRecipientNameTo.contains(ViewerType.RECEIVER));
-            assertEquals(showRecipientNameTo.size(), 2);
+            Assertions.assertTrue(showRecipientNameTo.contains(ViewerType.INSTRUCTORS));
+            Assertions.assertTrue(showRecipientNameTo.contains(ViewerType.RECEIVER));
+            Assertions.assertEquals(showRecipientNameTo.size(), 2);
             break;
 
         case "Shown anonymously to recipient, visible to instructors":
-            assertTrue(showResponsesTo.contains(ViewerType.INSTRUCTORS));
-            assertTrue(showResponsesTo.contains(ViewerType.RECEIVER));
-            assertEquals(showResponsesTo.size(), 2);
+            Assertions.assertTrue(showResponsesTo.contains(ViewerType.INSTRUCTORS));
+            Assertions.assertTrue(showResponsesTo.contains(ViewerType.RECEIVER));
+            Assertions.assertEquals(showResponsesTo.size(), 2);
 
-            assertTrue(showGiverNameTo.contains(ViewerType.INSTRUCTORS));
-            assertEquals(showGiverNameTo.size(), 1);
+            Assertions.assertTrue(showGiverNameTo.contains(ViewerType.INSTRUCTORS));
+            Assertions.assertEquals(showGiverNameTo.size(), 1);
 
-            assertTrue(showRecipientNameTo.contains(ViewerType.INSTRUCTORS));
-            assertTrue(showRecipientNameTo.contains(ViewerType.RECEIVER));
-            assertEquals(showRecipientNameTo.size(), 2);
+            Assertions.assertTrue(showRecipientNameTo.contains(ViewerType.INSTRUCTORS));
+            Assertions.assertTrue(showRecipientNameTo.contains(ViewerType.RECEIVER));
+            Assertions.assertEquals(showRecipientNameTo.size(), 2);
             break;
 
         case "Shown anonymously to recipient and giver/recipient's team members, visible to instructors":
-            assertTrue(showResponsesTo.contains(ViewerType.INSTRUCTORS));
-            assertTrue(showResponsesTo.contains(ViewerType.RECEIVER));
-            assertTrue(showResponsesTo.contains(ViewerType.OWN_TEAM_MEMBERS));
-            assertTrue(showResponsesTo.contains(ViewerType.RECEIVER_TEAM_MEMBERS));
-            assertEquals(showResponsesTo.size(), 4);
+            Assertions.assertTrue(showResponsesTo.contains(ViewerType.INSTRUCTORS));
+            Assertions.assertTrue(showResponsesTo.contains(ViewerType.RECEIVER));
+            Assertions.assertTrue(showResponsesTo.contains(ViewerType.OWN_TEAM_MEMBERS));
+            Assertions.assertTrue(showResponsesTo.contains(ViewerType.RECEIVER_TEAM_MEMBERS));
+            Assertions.assertEquals(showResponsesTo.size(), 4);
 
-            assertTrue(showGiverNameTo.contains(ViewerType.INSTRUCTORS));
-            assertEquals(showGiverNameTo.size(), 1);
+            Assertions.assertTrue(showGiverNameTo.contains(ViewerType.INSTRUCTORS));
+            Assertions.assertEquals(showGiverNameTo.size(), 1);
 
-            assertTrue(showRecipientNameTo.contains(ViewerType.INSTRUCTORS));
-            assertTrue(showRecipientNameTo.contains(ViewerType.RECEIVER));
-            assertEquals(showRecipientNameTo.size(), 2);
+            Assertions.assertTrue(showRecipientNameTo.contains(ViewerType.INSTRUCTORS));
+            Assertions.assertTrue(showRecipientNameTo.contains(ViewerType.RECEIVER));
+            Assertions.assertEquals(showRecipientNameTo.size(), 2);
             break;
 
         case "Visible to recipient and instructors":
-            assertTrue(showResponsesTo.contains(ViewerType.INSTRUCTORS));
-            assertTrue(showResponsesTo.contains(ViewerType.RECEIVER));
-            assertEquals(showResponsesTo.size(), 2);
+            Assertions.assertTrue(showResponsesTo.contains(ViewerType.INSTRUCTORS));
+            Assertions.assertTrue(showResponsesTo.contains(ViewerType.RECEIVER));
+            Assertions.assertEquals(showResponsesTo.size(), 2);
 
-            assertTrue(showGiverNameTo.contains(ViewerType.INSTRUCTORS));
-            assertTrue(showGiverNameTo.contains(ViewerType.RECEIVER));
-            assertEquals(showGiverNameTo.size(), 2);
+            Assertions.assertTrue(showGiverNameTo.contains(ViewerType.INSTRUCTORS));
+            Assertions.assertTrue(showGiverNameTo.contains(ViewerType.RECEIVER));
+            Assertions.assertEquals(showGiverNameTo.size(), 2);
 
-            assertTrue(showRecipientNameTo.contains(ViewerType.INSTRUCTORS));
-            assertTrue(showRecipientNameTo.contains(ViewerType.RECEIVER));
-            assertEquals(showRecipientNameTo.size(), 2);
+            Assertions.assertTrue(showRecipientNameTo.contains(ViewerType.INSTRUCTORS));
+            Assertions.assertTrue(showRecipientNameTo.contains(ViewerType.RECEIVER));
+            Assertions.assertEquals(showRecipientNameTo.size(), 2);
             break;
 
         default:
@@ -446,7 +447,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         WebElement questionForm = getQuestionForm(questionNum);
         WebElement visibilityPanel = questionForm.findElement(By.tagName("tm-visibility-panel"));
         String visibility = visibilityPanel.findElement(By.cssSelector("#btn-question-visibility span")).getText();
-        assertEquals(visibility, CUSTOM_VISIBILITY_OPTION);
+        Assertions.assertEquals(visibility, CUSTOM_VISIBILITY_OPTION);
 
         QuestionGiverType giver = feedbackQuestion.getGiverType();
         QuestionRecipientType receiver = feedbackQuestion.getRecipientType();
@@ -478,7 +479,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         List<WebElement> rows = table.findElements(By.tagName("tr"));
         int index = colNum - 1;
         for (ViewerType participant : participants) {
-            assertTrue(rows.get(possibleTypes.indexOf(participant)).findElements(By.tagName("input")).get(index)
+            Assertions.assertTrue(rows.get(possibleTypes.indexOf(participant)).findElements(By.tagName("input")).get(index)
                     .isSelected());
         }
     }
@@ -544,7 +545,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void verifyTextQuestionDetails(int questionNum, FeedbackTextQuestionDetails questionDetails) {
         String recommendLength = getRecommendedTextLengthField(questionNum).getAttribute("value");
-        assertEquals(recommendLength, questionDetails.getRecommendedLength().toString());
+        Assertions.assertEquals(recommendLength, questionDetails.getRecommendedLength().toString());
     }
 
     public void addTextQuestion(FeedbackQuestion feedbackQuestion) {
@@ -616,11 +617,11 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void verifyNumScaleQuestionDetails(int questionNum, FeedbackNumericalScaleQuestionDetails questionDetails) {
-        assertEquals(getMinNumscaleInput(questionNum).getAttribute("value"),
+        Assertions.assertEquals(getMinNumscaleInput(questionNum).getAttribute("value"),
                 Integer.toString(questionDetails.getMinScale()));
-        assertEquals(getNumScaleIncrementInput(questionNum).getAttribute("value"),
+        Assertions.assertEquals(getNumScaleIncrementInput(questionNum).getAttribute("value"),
                 getDoubleString(questionDetails.getStep()));
-        assertEquals(getMaxNumscaleInput(questionNum).getAttribute("value"),
+        Assertions.assertEquals(getMaxNumscaleInput(questionNum).getAttribute("value"),
                 Integer.toString(questionDetails.getMaxScale()));
     }
 
@@ -646,24 +647,24 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
 
         if (questionDetails.isPointsPerOption()) {
-            assertTrue(getConstSumPerOptionPointsRadioBtn(questionNum).isSelected());
-            assertEquals(getConstSumPerOptionPointsInput(questionNum).getAttribute("value"),
+            Assertions.assertTrue(getConstSumPerOptionPointsRadioBtn(questionNum).isSelected());
+            Assertions.assertEquals(getConstSumPerOptionPointsInput(questionNum).getAttribute("value"),
                     Integer.toString(questionDetails.getPoints()));
-            assertFalse(getConstSumTotalPointsRadioBtn(questionNum).isSelected());
+            Assertions.assertFalse(getConstSumTotalPointsRadioBtn(questionNum).isSelected());
         } else {
-            assertTrue(getConstSumTotalPointsRadioBtn(questionNum).isSelected());
-            assertEquals(getConstSumTotalPointsInput(questionNum).getAttribute("value"),
+            Assertions.assertTrue(getConstSumTotalPointsRadioBtn(questionNum).isSelected());
+            Assertions.assertEquals(getConstSumTotalPointsInput(questionNum).getAttribute("value"),
                     Integer.toString(questionDetails.getPoints()));
-            assertFalse(getConstSumPerOptionPointsRadioBtn(questionNum).isSelected());
+            Assertions.assertFalse(getConstSumPerOptionPointsRadioBtn(questionNum).isSelected());
         }
 
         if (questionDetails.isForceUnevenDistribution()) {
             String distributeFor = questionDetails.getDistributePointsFor();
-            assertTrue(getConstSumUnevenDistributionCheckbox(questionNum).isSelected());
-            assertEquals(getSelectedDropdownOptionText(getConstSumUnevenDistributionDropdown(questionNum)).trim(),
+            Assertions.assertTrue(getConstSumUnevenDistributionCheckbox(questionNum).isSelected());
+            Assertions.assertEquals(getSelectedDropdownOptionText(getConstSumUnevenDistributionDropdown(questionNum)).trim(),
                     "All options".equals(distributeFor) ? "Every option" : distributeFor);
         } else {
-            assertFalse(getConstSumUnevenDistributionCheckbox(questionNum).isSelected());
+            Assertions.assertFalse(getConstSumUnevenDistributionCheckbox(questionNum).isSelected());
         }
     }
 
@@ -693,10 +694,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void verifyContributionQuestionDetails(int questionNum, FeedbackContributionQuestionDetails questionDetails) {
-        assertEquals(questionDetails.isZeroSum(), getZeroSumCheckbox(questionNum).isSelected());
-        assertEquals(questionDetails.isNotSureAllowed(), getAllowNotSureContributionCheckbox(questionNum).isSelected());
+        Assertions.assertEquals(questionDetails.isZeroSum(), getZeroSumCheckbox(questionNum).isSelected());
+        Assertions.assertEquals(questionDetails.isNotSureAllowed(), getAllowNotSureContributionCheckbox(questionNum).isSelected());
         if (questionDetails.isZeroSum()) {
-            assertFalse(questionDetails.isNotSureAllowed());
+            Assertions.assertFalse(questionDetails.isNotSureAllowed());
         }
     }
 
@@ -720,7 +721,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         int numChoices = questionDetails.getNumOfRubricChoices();
         List<String> choices = questionDetails.getRubricChoices();
         for (int i = 0; i < numChoices; i++) {
-            assertEquals(choices.get(i), getRubricChoiceInputs(questionNum).get(i).getAttribute("value"));
+            Assertions.assertEquals(choices.get(i), getRubricChoiceInputs(questionNum).get(i).getAttribute("value"));
         }
 
         int numSubQn = questionDetails.getNumOfRubricSubQuestions();
@@ -728,24 +729,24 @@ public class InstructorFeedbackEditPage extends AppPage {
         List<List<String>> descriptions = questionDetails.getRubricDescriptions();
         for (int i = 0; i < numSubQn; i++) {
             List<WebElement> textAreas = getRubricTextareas(questionNum, i + 2);
-            assertEquals(subQuestions.get(i), textAreas.get(0).getAttribute("value"));
+            Assertions.assertEquals(subQuestions.get(i), textAreas.get(0).getAttribute("value"));
             for (int j = 0; j < numChoices; j++) {
-                assertEquals(descriptions.get(i).get(j), textAreas.get(j + 1).getAttribute("value"));
+                Assertions.assertEquals(descriptions.get(i).get(j), textAreas.get(j + 1).getAttribute("value"));
             }
         }
 
         if (questionDetails.isHasAssignedWeights()) {
-            assertTrue(getWeightCheckbox(questionNum).isSelected());
+            Assertions.assertTrue(getWeightCheckbox(questionNum).isSelected());
             List<List<Double>> weights = questionDetails.getRubricWeights();
             for (int i = 0; i < numSubQn; i++) {
                 List<WebElement> rubricWeights = getRubricWeights(questionNum, i + 2);
                 for (int j = 0; j < numChoices; j++) {
-                    assertEquals(getDoubleString(weights.get(i).get(j)),
+                    Assertions.assertEquals(getDoubleString(weights.get(i).get(j)),
                             rubricWeights.get(j).getAttribute("value"));
                 }
             }
         } else {
-            assertFalse(getWeightCheckbox(questionNum).isSelected());
+            Assertions.assertFalse(getWeightCheckbox(questionNum).isSelected());
         }
     }
 
@@ -770,7 +771,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             FeedbackRankOptionsQuestionDetails optionDetails = (FeedbackRankOptionsQuestionDetails) questionDetails;
             verifyOptions(questionNum, optionDetails.getOptions());
         }
-        assertEquals(getAllowDuplicateRankCheckbox(questionNum).isSelected(), questionDetails.isAreDuplicatesAllowed());
+        Assertions.assertEquals(getAllowDuplicateRankCheckbox(questionNum).isSelected(), questionDetails.isAreDuplicatesAllowed());
         verifyMaxOptions(questionNum, questionDetails.getMaxOptionsToBeRanked());
         verifyMinOptions(questionNum, questionDetails.getMinOptionsToBeRanked());
     }
@@ -1250,43 +1251,43 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private boolean verifyGeneratedOptions(int questionNum, QuestionRecipientType participantType) {
         if (participantType != QuestionRecipientType.NONE) {
-            assertTrue(getGenerateOptionsCheckbox(questionNum).isSelected());
-            assertEquals(getSelectedDropdownOptionText(getGenerateOptionsDropdown(questionNum)),
+            Assertions.assertTrue(getGenerateOptionsCheckbox(questionNum).isSelected());
+            Assertions.assertEquals(getSelectedDropdownOptionText(getGenerateOptionsDropdown(questionNum)),
                     getGeneratedOptionString(participantType));
             return true;
         }
-        assertFalse(getGenerateOptionsCheckbox(questionNum).isSelected());
+        Assertions.assertFalse(getGenerateOptionsCheckbox(questionNum).isSelected());
         return false;
     }
 
     private void verifyOptions(int questionNum, List<String> options) {
         List<WebElement> inputs = getOptionInputs(questionNum);
         for (int i = 0; i < options.size(); i++) {
-            assertEquals(options.get(i), inputs.get(i).getAttribute("value"));
+            Assertions.assertEquals(options.get(i), inputs.get(i).getAttribute("value"));
         }
     }
 
     private void verifyOptionWeights(int questionNum, boolean hasWeights, List<Double> weights) {
         if (hasWeights) {
-            assertTrue(getWeightCheckbox(questionNum).isSelected());
+            Assertions.assertTrue(getWeightCheckbox(questionNum).isSelected());
             List<WebElement> weightInputs = getOptionWeightInputs(questionNum);
             for (int i = 0; i < weights.size(); i++) {
-                assertEquals(getDoubleString(weights.get(i)), weightInputs.get(i).getAttribute("value"));
+                Assertions.assertEquals(getDoubleString(weights.get(i)), weightInputs.get(i).getAttribute("value"));
             }
         } else {
-            assertFalse(getWeightCheckbox(questionNum).isSelected());
+            Assertions.assertFalse(getWeightCheckbox(questionNum).isSelected());
         }
     }
 
     private void verifyOtherOption(int questionNum, boolean hasOther, Double weight) {
         if (hasOther) {
-            assertTrue(getOtherOptionCheckbox(questionNum).isSelected());
+            Assertions.assertTrue(getOtherOptionCheckbox(questionNum).isSelected());
             if (weight > 0) {
                 String otherWeight = getOtherWeightInput(questionNum).getAttribute("value");
-                assertEquals(getDoubleString(weight), otherWeight);
+                Assertions.assertEquals(getDoubleString(weight), otherWeight);
             }
         } else {
-            assertFalse(getOtherOptionCheckbox(questionNum).isSelected());
+            Assertions.assertFalse(getOtherOptionCheckbox(questionNum).isSelected());
         }
     }
 
@@ -1383,20 +1384,20 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     private void verifyMaxOptions(int questionNum, int maxOptions) {
         if (maxOptions == Const.POINTS_NO_VALUE) {
-            assertFalse(getMaxOptionsCheckbox(questionNum).isSelected());
+            Assertions.assertFalse(getMaxOptionsCheckbox(questionNum).isSelected());
         } else {
-            assertTrue(getMaxOptionsCheckbox(questionNum).isSelected());
-            assertEquals(getMaxOptionsInput(questionNum).getAttribute("value"),
+            Assertions.assertTrue(getMaxOptionsCheckbox(questionNum).isSelected());
+            Assertions.assertEquals(getMaxOptionsInput(questionNum).getAttribute("value"),
                     Integer.toString(maxOptions));
         }
     }
 
     private void verifyMinOptions(int questionNum, int minOptions) {
         if (minOptions == Const.POINTS_NO_VALUE) {
-            assertFalse(getMinOptionsCheckbox(questionNum).isSelected());
+            Assertions.assertFalse(getMinOptionsCheckbox(questionNum).isSelected());
         } else {
-            assertTrue(getMinOptionsCheckbox(questionNum).isSelected());
-            assertEquals(getMinOptionsInput(questionNum).getAttribute("value"),
+            Assertions.assertTrue(getMinOptionsCheckbox(questionNum).isSelected());
+            Assertions.assertEquals(getMinOptionsInput(questionNum).getAttribute("value"),
                     Integer.toString(minOptions));
         }
     }

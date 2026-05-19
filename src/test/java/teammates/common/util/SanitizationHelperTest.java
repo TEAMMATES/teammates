@@ -1,5 +1,6 @@
 package teammates.common.util;
 
+import org.junit.jupiter.api.Assertions;
 import org.testng.annotations.Test;
 
 import teammates.test.BaseTestCase;
@@ -11,8 +12,8 @@ public class SanitizationHelperTest extends BaseTestCase {
 
     @Test
     public void testSanitizeGoogleId() {
-        assertEquals("big-small.20_12 @Gmail.COM", SanitizationHelper.sanitizeGoogleId(" big-small.20_12 @Gmail.COM \t\n"));
-        assertEquals("user@hotmail.com", SanitizationHelper.sanitizeGoogleId(" user@hotmail.com \t\n"));
+        Assertions.assertEquals("big-small.20_12 @Gmail.COM", SanitizationHelper.sanitizeGoogleId(" big-small.20_12 @Gmail.COM \t\n"));
+        Assertions.assertEquals("user@hotmail.com", SanitizationHelper.sanitizeGoogleId(" user@hotmail.com \t\n"));
     }
 
     @Test
@@ -21,18 +22,18 @@ public class SanitizationHelperTest extends BaseTestCase {
         String emailWithMixedCase = "\tNormal@Email.COM \t\n";
         String normalEmail = "normal@email.com";
 
-        assertNull(SanitizationHelper.sanitizeEmail(null));
-        assertEquals(normalEmail, SanitizationHelper.sanitizeEmail(normalEmail));
-        assertEquals(normalEmail, SanitizationHelper.sanitizeEmail(emailWithWhiteSpaces));
-        assertEquals(normalEmail, SanitizationHelper.sanitizeEmail(emailWithMixedCase));
+        Assertions.assertNull(SanitizationHelper.sanitizeEmail(null));
+        Assertions.assertEquals(normalEmail, SanitizationHelper.sanitizeEmail(normalEmail));
+        Assertions.assertEquals(normalEmail, SanitizationHelper.sanitizeEmail(emailWithWhiteSpaces));
+        Assertions.assertEquals(normalEmail, SanitizationHelper.sanitizeEmail(emailWithMixedCase));
     }
 
     @Test
     public void testAreEmailsEqual() {
-        assertTrue(SanitizationHelper.areEmailsEqual(" Test@Email.COM ", "test@email.com"));
-        assertTrue(SanitizationHelper.areEmailsEqual(null, null));
-        assertFalse(SanitizationHelper.areEmailsEqual("test1@email.com", "test2@email.com"));
-        assertFalse(SanitizationHelper.areEmailsEqual("test@email.com", null));
+        Assertions.assertTrue(SanitizationHelper.areEmailsEqual(" Test@Email.COM ", "test@email.com"));
+        Assertions.assertTrue(SanitizationHelper.areEmailsEqual(null, null));
+        Assertions.assertFalse(SanitizationHelper.areEmailsEqual("test1@email.com", "test2@email.com"));
+        Assertions.assertFalse(SanitizationHelper.areEmailsEqual("test@email.com", null));
     }
 
     @Test
@@ -41,9 +42,9 @@ public class SanitizationHelperTest extends BaseTestCase {
         String nameWithWhiteSpaces = "\t alice   bob \t\n";
         String normalName = "alice bob";
 
-        assertNull(SanitizationHelper.sanitizeName(null));
-        assertEquals(normalName, SanitizationHelper.sanitizeName(normalName));
-        assertEquals(normalName, SanitizationHelper.sanitizeName(nameWithWhiteSpaces));
+        Assertions.assertNull(SanitizationHelper.sanitizeName(null));
+        Assertions.assertEquals(normalName, SanitizationHelper.sanitizeName(normalName));
+        Assertions.assertEquals(normalName, SanitizationHelper.sanitizeName(nameWithWhiteSpaces));
     }
 
     @Test
@@ -64,7 +65,7 @@ public class SanitizationHelperTest extends BaseTestCase {
     }
 
     private void sanitizeHtml_receivesNull_returnsNull() {
-        assertNull(SanitizationHelper.sanitizeForHtml((String) null));
+        Assertions.assertNull(SanitizationHelper.sanitizeForHtml((String) null));
     }
 
     private void sanitizeHtml_receivesCodeInjection_returnsSanitized() {
@@ -73,21 +74,21 @@ public class SanitizationHelperTest extends BaseTestCase {
         String expected = "&lt; &gt; &quot; &#x2f; &#39; &amp;"
                           + "&lt;script&gt;alert(&#39;injected&#39;);&lt;&#x2f;script&gt;";
         String sanitized = SanitizationHelper.sanitizeForHtml(unsanitized);
-        assertEquals(expected, sanitized);
+        Assertions.assertEquals(expected, sanitized);
     }
 
     private void sanitizeHtml_receivesSanitized_returnsUnchanged() {
         String sanitized = "&lt; &gt; &quot; &#x2f; &#39; &amp;"
                            + "&lt;script&gt;alert(&#39;injected&#39;);&lt;&#x2f;script&gt;";
-        assertEquals(sanitized, SanitizationHelper.sanitizeForHtml(sanitized));
+        Assertions.assertEquals(sanitized, SanitizationHelper.sanitizeForHtml(sanitized));
     }
 
     @Test
     public void testSanitizeForRichText() {
-        assertNull(SanitizationHelper.sanitizeForRichText((String) null));
-        assertEquals("", SanitizationHelper.sanitizeForRichText(""));
-        assertEquals("<p>wihtout changes</p>", SanitizationHelper.sanitizeForRichText("<p>wihtout changes</p>"));
-        assertEquals("<p>spaces test</p>", SanitizationHelper.sanitizeForRichText("<p >spaces test</p >"));
+        Assertions.assertNull(SanitizationHelper.sanitizeForRichText((String) null));
+        Assertions.assertEquals("", SanitizationHelper.sanitizeForRichText(""));
+        Assertions.assertEquals("<p>wihtout changes</p>", SanitizationHelper.sanitizeForRichText("<p>wihtout changes</p>"));
+        Assertions.assertEquals("<p>spaces test</p>", SanitizationHelper.sanitizeForRichText("<p >spaces test</p >"));
         String actualRichText = "<body onload=\"alert('onload');\">"
                                 + "<a href=\"https://teammatesv4.appspot.com\" onclick=\"alert('fail');\"></a>"
                                 + "<script>alert('fail');</script>"
@@ -107,7 +108,7 @@ public class SanitizationHelperTest extends BaseTestCase {
                                   + "<div></div>"
                                   + "<span style=\"color:#339966\">Content</span>";
         String sanitized = SanitizationHelper.sanitizeForRichText(actualRichText);
-        assertEquals(expectedRichText, sanitized);
+        Assertions.assertEquals(expectedRichText, sanitized);
 
         actualRichText = "<table cellspacing = \"5\" onmouseover=\"alert('onmouseover');\">"
                 + "<thead><tr><td>No.</td><td colspan = \"2\">People</td></tr></thead>"
@@ -130,7 +131,7 @@ public class SanitizationHelperTest extends BaseTestCase {
                 + "f(x) &#61; x<sup>2</sup>"
                 + "<code>System.out.println(&#34;Hello World&#34;);</code>";
         sanitized = SanitizationHelper.sanitizeForRichText(actualRichText);
-        assertEquals(expectedRichText, sanitized);
+        Assertions.assertEquals(expectedRichText, sanitized);
     }
 
 }

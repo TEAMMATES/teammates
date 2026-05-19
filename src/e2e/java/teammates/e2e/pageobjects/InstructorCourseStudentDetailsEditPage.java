@@ -1,5 +1,6 @@
 package teammates.e2e.pageobjects;
 
+import org.junit.jupiter.api.Assertions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.openqa.selenium.By;
@@ -44,22 +45,22 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
     }
 
     public void verifyIsCorrectPage(String expectedCourseId, String expectedStudentEmail) {
-        assertEquals(expectedCourseId, courseId.getText());
-        assertEquals(expectedStudentEmail, studentEmailTextbox.getAttribute("value"));
+        Assertions.assertEquals(expectedCourseId, courseId.getText());
+        Assertions.assertEquals(expectedStudentEmail, studentEmailTextbox.getAttribute("value"));
     }
 
     public void verifyStudentDetails(Student student) {
-        assertEquals(student.getCourseId(), courseId.getText());
-        assertEquals(student.getName(), studentNameTextbox.getAttribute("value"));
+        Assertions.assertEquals(student.getCourseId(), courseId.getText());
+        Assertions.assertEquals(student.getName(), studentNameTextbox.getAttribute("value"));
         if (student.getSection() == null) {
-            assertEquals("None", sectionNameTextbox.getAttribute("value"));
+            Assertions.assertEquals("None", sectionNameTextbox.getAttribute("value"));
         } else {
-            assertEquals(student.getSectionName(), sectionNameTextbox.getAttribute("value"));
+            Assertions.assertEquals(student.getSectionName(), sectionNameTextbox.getAttribute("value"));
         }
-        assertEquals(student.getTeamName(), teamNameTextbox.getAttribute("value"));
-        assertEquals(student.getEmail(), studentEmailTextbox.getAttribute("value"));
+        Assertions.assertEquals(student.getTeamName(), teamNameTextbox.getAttribute("value"));
+        Assertions.assertEquals(student.getEmail(), studentEmailTextbox.getAttribute("value"));
         if (student.getComments() != null) {
-            assertEquals(student.getComments(), commentsTextbox.getAttribute("value"));
+            Assertions.assertEquals(student.getComments(), commentsTextbox.getAttribute("value"));
         }
     }
 
