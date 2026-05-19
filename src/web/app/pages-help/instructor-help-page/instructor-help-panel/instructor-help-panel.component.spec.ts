@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { InstructorHelpPanelComponent } from './instructor-help-panel.component';
 
@@ -6,11 +6,11 @@ describe('InstructorHelpPanelComponent', () => {
   let component: InstructorHelpPanelComponent;
   let fixture: ComponentFixture<InstructorHelpPanelComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [provideRouter([])],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(InstructorHelpPanelComponent);

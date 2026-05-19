@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SessionLinksRecoveryPageComponent } from './session-links-recovery-page.component';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -35,8 +35,8 @@ describe('SessionLinksRecoveryPageComponent', () => {
   let component: SessionLinksRecoveryPageComponent;
   let fixture: ComponentFixture<SessionLinksRecoveryPageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [SessionLinksRecoveryPageComponent],
       providers: [
         { provide: StatusMessageService, useValue: mockStatusMessageService },
@@ -49,7 +49,7 @@ describe('SessionLinksRecoveryPageComponent', () => {
         },
       })
       .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     jest.clearAllMocks();

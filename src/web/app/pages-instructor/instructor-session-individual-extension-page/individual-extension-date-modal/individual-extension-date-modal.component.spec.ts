@@ -1,6 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import SpyInstance = jest.SpyInstance;
 import { IndividualExtensionDateModalComponent, RadioOptions } from './individual-extension-date-modal.component';
@@ -21,11 +21,11 @@ describe('IndividualExtensionDateModalComponent', () => {
   let timeZoneService: TimezoneService;
   let formatSpy: SpyInstance;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [NgbActiveModal, FormatDateDetailPipe, provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(IndividualExtensionDateModalComponent);
