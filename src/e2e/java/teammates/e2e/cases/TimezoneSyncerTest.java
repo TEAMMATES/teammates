@@ -42,10 +42,10 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
         String javaOffsets = timezonePage.getJavaTimezoneOffsets();
         String momentOffsets = timezonePage.getMomentTimezoneOffsets();
         assertEquals(
-                "The timezone database versions are not in sync. For information on updating the timezone databases, "
-                + "see the maintainer guide in the TEAMMATES ops repository.",
                 timezonePage.getJavaTimezoneVersion(),
-                timezonePage.getMomentTimezoneVersion()
+                timezonePage.getMomentTimezoneVersion(),
+                "The timezone database versions are not in sync. For information on updating the timezone databases, "
+                + "see the maintainer guide in the TEAMMATES ops repository."
         );
         if (!javaOffsets.equals(momentOffsets)) {
             // Show diff when running test in Gradle
