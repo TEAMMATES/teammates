@@ -4,7 +4,7 @@
     "start": "ng serve",
     "build": "ng build --configuration production",
     "build:stats": "ng build --configuration production --stats-json",
-    "test": "ng test --watch",
+    "test": "ng test",
     "coverage": "rimraf coverage && ng test --coverage",
     "format": "prettier . --write --log-level warn",
     "format:check": "prettier . --check",

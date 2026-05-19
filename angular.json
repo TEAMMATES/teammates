@@ -90,10 +90,9 @@
           }
         },
         "test": {
-          "builder": "@angular-builders/jest:run",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "cache": false,
-            "zoneless": false
+            "tsConfig": "tsconfig.spec.json"
           }
         },
         "lint": {
