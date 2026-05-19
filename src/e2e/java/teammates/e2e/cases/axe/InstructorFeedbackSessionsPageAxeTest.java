@@ -28,7 +28,7 @@ public class InstructorFeedbackSessionsPageAxeTest extends BaseAxeTestCase {
                 testData.instructors.get("IFSessionPage.instr1").getGoogleId());
 
         Results results = getAxeBuilder().analyze(feedbackSessionsPage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertTrue(results.violationFree(), formatViolations(results));
     }
 
 }

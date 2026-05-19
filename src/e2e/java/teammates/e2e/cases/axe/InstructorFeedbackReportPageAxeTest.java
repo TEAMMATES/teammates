@@ -28,7 +28,7 @@ public class InstructorFeedbackReportPageAxeTest extends BaseAxeTestCase {
                 testData.instructors.get("IFRep.instr.CS2104").getGoogleId());
 
         Results results = getAxeBuilder().analyze(resultsPage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertTrue(results.violationFree(), formatViolations(results));
     }
 
 }

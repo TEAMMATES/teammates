@@ -34,6 +34,6 @@ public class InstructorFeedbackEditPageAxeTest extends BaseAxeTestCase {
         // nested-interactive is caused by focusable elements in card headers
         Results results = getAxeBuilder("aria-prohibited-attr", "landmark-unique", "label", "nested-interactive")
                 .analyze(feedbackEditPage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertTrue(results.violationFree(), formatViolations(results));
     }
 }

@@ -67,9 +67,9 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
             LocalDate nowDate = Instant.now().atZone(ZoneId.of(Const.DEFAULT_TIME_ZONE)).toLocalDate();
 
             assertTrue(
+                    releaseDate.plusDays(DAYS_TO_UPDATE_TZ).isAfter(nowDate),
                     "The timezone database version is not up-to-date for more than " + DAYS_TO_UPDATE_TZ + " days,"
-                            + " please update them according to the maintenance guide.",
-                    releaseDate.plusDays(DAYS_TO_UPDATE_TZ).isAfter(nowDate));
+                            + " please update them according to the maintenance guide.");
 
         }
     }

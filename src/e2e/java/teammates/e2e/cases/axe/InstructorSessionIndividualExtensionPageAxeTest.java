@@ -30,7 +30,7 @@ public class InstructorSessionIndividualExtensionPageAxeTest extends BaseAxeTest
                 testData.instructors.get("ISesIe.instructor1").getGoogleId());
 
         Results results = getAxeBuilder().analyze(individualExtensionPage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertTrue(results.violationFree(), formatViolations(results));
     }
 
 }

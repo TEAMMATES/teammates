@@ -30,7 +30,7 @@ public class InstructorCourseStudentDetailsPageAxeTest extends BaseAxeTestCase {
                 testData.instructors.get("ICSDet.instr").getGoogleId());
 
         Results results = getAxeBuilder().analyze(viewPage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertTrue(results.violationFree(), formatViolations(results));
     }
 
 }

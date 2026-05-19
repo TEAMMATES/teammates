@@ -26,7 +26,7 @@ public class UserNotificationsPageAxeTest extends BaseAxeTestCase {
         AdminNotificationsPage notificationsPage = loginAdminToPage(url, AdminNotificationsPage.class);
 
         Results results = getAxeBuilder().analyze(notificationsPage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertTrue(results.violationFree(), formatViolations(results));
     }
 
 }

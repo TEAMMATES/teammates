@@ -42,7 +42,7 @@ abstract class BaseAxeTestCase extends BaseE2ETestCase {
      * Use this in tests so failure messages clearly list violations.
      */
     void assertViolationFree(Results results) {
-        assertTrue("Accessibility violations: " + formatViolations(results), results.violationFree());
+        assertTrue(results.violationFree(), "Accessibility violations: " + formatViolations(results));
     }
 
     /**

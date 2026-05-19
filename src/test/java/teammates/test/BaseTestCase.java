@@ -286,7 +286,7 @@ public class BaseTestCase {
         Assertions.assertTrue(condition);
     }
 
-    protected static void assertTrue(String message, boolean condition) {
+    protected static void assertTrue(boolean condition, String message) {
         Assertions.assertTrue(condition, message);
     }
 
@@ -294,7 +294,7 @@ public class BaseTestCase {
         Assertions.assertFalse(condition);
     }
 
-    protected static void assertFalse(String message, boolean condition) {
+    protected static void assertFalse(boolean condition, String message) {
         Assertions.assertFalse(condition, message);
     }
 
@@ -302,7 +302,7 @@ public class BaseTestCase {
         Assertions.assertEquals(expected, actual);
     }
 
-    protected static void assertEquals(String message, int expected, int actual) {
+    protected static void assertEquals(int expected, int actual, String message) {
         Assertions.assertEquals(expected, actual, message);
     }
 
@@ -318,7 +318,7 @@ public class BaseTestCase {
         Assertions.assertEquals(expected, actual);
     }
 
-    protected static void assertEquals(String message, Object expected, Object actual) {
+    protected static void assertEquals(Object expected, Object actual, String message) {
         Assertions.assertEquals(expected, actual, message);
     }
 
@@ -342,7 +342,7 @@ public class BaseTestCase {
         Assertions.assertNull(object);
     }
 
-    protected static void assertNull(String message, Object object) {
+    protected static void assertNull(Object object, String message) {
         Assertions.assertNull(object, message);
     }
 
@@ -350,7 +350,7 @@ public class BaseTestCase {
         Assertions.assertNotNull(object);
     }
 
-    protected static void assertNotNull(String message, Object object) {
+    protected static void assertNotNull(Object object, String message) {
         Assertions.assertNotNull(object, message);
     }
 

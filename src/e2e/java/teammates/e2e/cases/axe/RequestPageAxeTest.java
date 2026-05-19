@@ -25,7 +25,7 @@ public class RequestPageAxeTest extends BaseAxeTestCase {
         RequestPage requestPage = getNewPageInstance(url, RequestPage.class);
 
         Results results = getAxeBuilder().analyze(requestPage.getBrowser().getDriver());
-        assertTrue(formatViolations(results), results.violationFree());
+        assertTrue(results.violationFree(), formatViolations(results));
     }
 
 }

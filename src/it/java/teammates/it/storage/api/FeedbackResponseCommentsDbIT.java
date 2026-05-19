@@ -90,11 +90,10 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithDatabaseAccess
     }
 
     private void assertListCommentsEqual(List<FeedbackResponseComment> expected, List<FeedbackResponseComment> actual) {
-        assertTrue(
+        assertTrue(new HashSet<>(expected).equals(new HashSet<>(actual)),
                 String.format("List contents are not equal.%nExpected: %s,%nActual: %s",
-                        expected.toString(), actual.toString()),
-                new HashSet<>(expected).equals(new HashSet<>(actual)));
-        assertEquals("List size not equal.", expected.size(), actual.size());
+                        expected.toString(), actual.toString()));
+        assertEquals(expected.size(), actual.size(), "List size not equal.");
     }
 
 }
