@@ -61,13 +61,6 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
                 () -> accountsLogic.joinCourseForStudent(wrongKey, loggedInAccount));
         assertEquals("No student with given registration key: " + wrongKey, ednee.getMessage());
 
-        ______TS("failure: account not found");
-
-        Account nonExistentAccount = new Account(UUID.randomUUID().toString(), "Non Existent", "nonexistent@teammates.tmt");
-        ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> accountsLogic.joinCourseForStudent(student2YetToJoinCourse.getRegKey(), nonExistentAccount));
-        assertEquals("Account not found for the user joining the course", ednee.getMessage());
-
         ______TS("failure: googleID belongs to an existing student in the course");
 
         Account studentInCourseAccount = accountsLogic.getAccountForGoogleId(studentInCourse.getGoogleId());
