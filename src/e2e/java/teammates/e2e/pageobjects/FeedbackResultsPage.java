@@ -87,8 +87,8 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     public void verifyResponseDetails(FeedbackQuestion question,
-            List<FeedbackResponse> givenResponses,
-            List<FeedbackResponse> otherResponses,
+            List<ExpectedFeedbackResponse> givenResponses,
+            List<ExpectedFeedbackResponse> otherResponses,
             Set<String> visibleGivers, Set<String> visibleRecipients) {
         if (!hasDisplayedResponses(question)) {
             return;
@@ -196,44 +196,46 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private void verifyGivenResponses(FeedbackQuestion question,
-            List<FeedbackResponse> givenResponses) {
-        for (FeedbackResponse response : givenResponses) {
-            WebElement responseField = getGivenResponseField(question.getQuestionNumber(), response.getRecipient());
-            assertTrue(isResponseEqual(question, responseField, response));
+            List<ExpectedFeedbackResponse> givenResponses) {
+        for (ExpectedFeedbackResponse expectedResponse : givenResponses) {
+            WebElement responseField =
+                    getGivenResponseField(question.getQuestionNumber(), expectedResponse.getRecipient());
+            assertTrue(isResponseEqual(question, responseField, expectedResponse.getResponse()));
         }
     }
 
     private void verifyOtherResponses(FeedbackQuestion question,
-            List<FeedbackResponse> otherResponses,
+            List<ExpectedFeedbackResponse> otherResponses,
             Set<String> visibleGivers, Set<String> visibleRecipients) {
         Set<String> recipients = getRecipientsSql(otherResponses);
         for (String recipient : recipients) {
-            List<FeedbackResponse> expectedResponses = otherResponses.stream()
+            List<ExpectedFeedbackResponse> expectedResponses = otherResponses.stream()
                     .filter(r -> r.getRecipient().equals(recipient)
                             && (question.isResponseVisibleTo(ViewerType.RECEIVER)
                                     || question.isResponseVisibleTo(ViewerType.STUDENTS)
                                     || question.isResponseVisibleTo(ViewerType.OWN_TEAM_MEMBERS)
                                     || question.isResponseVisibleTo(ViewerType.RECEIVER_TEAM_MEMBERS)))
-                    .collect(Collectors.toList());
+                    .toList();
 
             verifyResponseForRecipient(question, recipient, expectedResponses, visibleGivers, visibleRecipients);
         }
     }
 
-    private Set<String> getRecipientsSql(List<FeedbackResponse> responses) {
-        return responses.stream().map(FeedbackResponse::getRecipient).collect(Collectors.toSet());
+    private Set<String> getRecipientsSql(List<ExpectedFeedbackResponse> responses) {
+        return responses.stream().map(ExpectedFeedbackResponse::getRecipient).collect(Collectors.toSet());
     }
 
     private void verifyResponseForRecipient(FeedbackQuestion question, String recipient,
-            List<FeedbackResponse> otherResponses,
+            List<ExpectedFeedbackResponse> otherResponses,
             Set<String> visibleGivers, Set<String> visibleRecipients) {
         List<WebElement> responseViews = getAllResponseViews(question.getQuestionNumber());
-        for (FeedbackResponse response : otherResponses) {
-            boolean isRecipientVisible = visibleRecipients.contains(response.getGiver())
+        for (ExpectedFeedbackResponse expectedResponse : otherResponses) {
+            boolean isRecipientVisible = visibleRecipients.contains(expectedResponse.getGiver())
                     || CURRENT_STUDENT_IDENTIFIER.equals(recipient);
-            boolean isGiverVisible = visibleGivers.contains(response.getGiver())
-                    || visibleGivers.contains("RECEIVER") && CURRENT_STUDENT_IDENTIFIER.equals(response.getRecipient())
-                    || CURRENT_STUDENT_IDENTIFIER.equals(response.getGiver());
+            boolean isGiverVisible = visibleGivers.contains(expectedResponse.getGiver())
+                    || visibleGivers.contains("RECEIVER")
+                    && CURRENT_STUDENT_IDENTIFIER.equals(expectedResponse.getRecipient())
+                    || CURRENT_STUDENT_IDENTIFIER.equals(expectedResponse.getGiver());
             boolean isGiverVisibleToInstructor = question.getRecipientType() == QuestionRecipientType.INSTRUCTORS
                     && visibleGivers.contains("INSTRUCTORS");
             if (isRecipientVisible) {
@@ -241,10 +243,10 @@ public class FeedbackResultsPage extends AppPage {
                 WebElement responseView = responseViews.get(recipientIndex);
                 List<WebElement> responsesFields = getAllResponseFields(responseView);
                 if (isGiverVisible || isGiverVisibleToInstructor) {
-                    int giverIndex = getGiverIndex(responseView, response.getGiver());
-                    assertTrue(isResponseEqual(question, responsesFields.get(giverIndex), response));
+                    int giverIndex = getGiverIndex(responseView, expectedResponse.getGiver());
+                    assertTrue(isResponseEqual(question, responsesFields.get(giverIndex), expectedResponse.getResponse()));
                 } else {
-                    assertTrue(isAnyAnonymousResponseEqual(question, responseView, response));
+                    assertTrue(isAnyAnonymousResponseEqual(question, responseView, expectedResponse.getResponse()));
                 }
             } else {
                 verifyAnonymousResponseView(question, otherResponses, isGiverVisible);
@@ -253,11 +255,11 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private void verifyAnonymousResponseView(FeedbackQuestion question,
-            List<FeedbackResponse> expectedResponses,
+            List<ExpectedFeedbackResponse> expectedResponses,
             boolean isGiverVisible) {
         List<WebElement> anonymousViews = getAllResponseViews(question.getQuestionNumber()).stream()
                 .filter(v -> isAnonymous(v.findElement(By.className("response-recipient")).getText()))
-                .collect(Collectors.toList());
+                .toList();
         if (anonymousViews.isEmpty()) {
             fail("No anonymous views found");
         }
@@ -266,14 +268,14 @@ public class FeedbackResultsPage extends AppPage {
         for (WebElement responseView : anonymousViews) {
             hasCorrectResponses = true;
             List<WebElement> responseFields = getAllResponseFields(responseView);
-            for (FeedbackResponse response : expectedResponses) {
+            for (ExpectedFeedbackResponse expectedResponse : expectedResponses) {
                 if (isGiverVisible) {
-                    int giverIndex = getGiverIndex(responseView, response.getGiver());
-                    if (!isResponseEqual(question, responseFields.get(giverIndex), response)) {
+                    int giverIndex = getGiverIndex(responseView, expectedResponse.getGiver());
+                    if (!isResponseEqual(question, responseFields.get(giverIndex), expectedResponse.getResponse())) {
                         hasCorrectResponses = false;
                         break;
                     }
-                } else if (!isAnyAnonymousResponseEqual(question, responseView, response)) {
+                } else if (!isAnyAnonymousResponseEqual(question, responseView, expectedResponse.getResponse())) {
                     hasCorrectResponses = false;
                     break;
                 }
@@ -640,5 +642,32 @@ public class FeedbackResultsPage extends AppPage {
             }
         }
         throw new AssertionError("Recipient not found: " + recipient);
+    }
+
+    /**
+     * Expected response tuple used for result verification.
+     */
+    public static class ExpectedFeedbackResponse {
+        private final FeedbackResponse response;
+        private final String giver;
+        private final String recipient;
+
+        public ExpectedFeedbackResponse(FeedbackResponse response, String giver, String recipient) {
+            this.response = response;
+            this.giver = giver;
+            this.recipient = recipient;
+        }
+
+        public FeedbackResponse getResponse() {
+            return response;
+        }
+
+        public String getGiver() {
+            return giver;
+        }
+
+        public String getRecipient() {
+            return recipient;
+        }
     }
 }

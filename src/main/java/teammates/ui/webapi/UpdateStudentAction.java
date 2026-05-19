@@ -50,16 +50,13 @@ public class UpdateStudentAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (!authContext.isInstructor()) {
-            throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
-        }
         UUID studentId = getUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
         Student existingStudent = logic.getStudent(studentId);
         if (existingStudent == null) {
             throw new EntityNotFoundException(STUDENT_NOT_FOUND_FOR_EDIT);
         }
 
-        Instructor instructor = logic.getInstructorByGoogleId(existingStudent.getCourseId(), authContext.id());
+        Instructor instructor = logic.getInstructorByGoogleId(existingStudent.getCourseId(), getCurrentUserGoogleId());
         gateKeeper.verifyAccessible(
                 instructor, logic.getCourse(existingStudent.getCourseId()), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }

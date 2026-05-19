@@ -1,0 +1,181 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="samuelfangjw" id="20260518-fr-response-giver-recipient-user-team-1">
+        <addColumn tableName="feedback_responses">
+            <column name="giver_user_id" type="UUID" />
+        </addColumn>
+        <addColumn tableName="feedback_responses">
+            <column name="giver_team_id" type="UUID" />
+        </addColumn>
+        <addColumn tableName="feedback_responses">
+            <column name="recipient_type" type="VARCHAR(255)" />
+        </addColumn>
+        <addColumn tableName="feedback_responses">
+            <column name="recipient_user_id" type="UUID" />
+        </addColumn>
+        <addColumn tableName="feedback_responses">
+            <column name="recipient_team_id" type="UUID" />
+        </addColumn>
+
+        <addForeignKeyConstraint constraintName="fk_fr_giver_user"
+            baseTableName="feedback_responses"
+            baseColumnNames="giver_user_id"
+            referencedTableName="users"
+            referencedColumnNames="id"
+            onDelete="CASCADE"/>
+        <addForeignKeyConstraint constraintName="fk_fr_giver_team"
+            baseTableName="feedback_responses"
+            baseColumnNames="giver_team_id"
+            referencedTableName="teams"
+            referencedColumnNames="id"
+            onDelete="CASCADE"/>
+        <addForeignKeyConstraint constraintName="fk_fr_recipient_user"
+            baseTableName="feedback_responses"
+            baseColumnNames="recipient_user_id"
+            referencedTableName="users"
+            referencedColumnNames="id"
+            onDelete="CASCADE"/>
+        <addForeignKeyConstraint constraintName="fk_fr_recipient_team"
+            baseTableName="feedback_responses"
+            baseColumnNames="recipient_team_id"
+            referencedTableName="teams"
+            referencedColumnNames="id"
+            onDelete="CASCADE"/>
+
+        <sql>
+            UPDATE feedback_responses fr
+            SET giver_user_id = u.id
+            FROM users u
+            JOIN students s ON s.id = u.id
+            WHERE EXISTS (
+                    SELECT 1
+                    FROM feedback_questions fq
+                    JOIN feedback_sessions fs ON fs.id = fq.session_id
+                    WHERE fq.id = fr.question_id
+                    AND fs.course_id = u.course_id
+                )
+              AND lower(u.email) = lower(fr.giver)
+              AND fr.giver_user_id IS NULL
+              AND fr.giver_team_id IS NULL;
+        </sql>
+        <sql>
+            UPDATE feedback_responses fr
+            SET giver_user_id = u.id
+            FROM users u
+            JOIN instructors i ON i.id = u.id
+            WHERE EXISTS (
+                    SELECT 1
+                    FROM feedback_questions fq
+                    JOIN feedback_sessions fs ON fs.id = fq.session_id
+                    WHERE fq.id = fr.question_id
+                    AND fs.course_id = u.course_id
+                )
+              AND lower(u.email) = lower(fr.giver)
+              AND fr.giver_user_id IS NULL
+              AND fr.giver_team_id IS NULL;
+        </sql>
+        <sql>
+            UPDATE feedback_responses fr
+            SET giver_team_id = t.id
+            FROM teams t
+            JOIN sections sec ON sec.id = t.section_id
+            WHERE EXISTS (
+                    SELECT 1
+                    FROM feedback_questions fq
+                    JOIN feedback_sessions fs ON fs.id = fq.session_id
+                    WHERE fq.id = fr.question_id
+                    AND fs.course_id = sec.course_id
+                )
+              AND t.name = fr.giver
+              AND fr.giver_user_id IS NULL
+              AND fr.giver_team_id IS NULL;
+        </sql>
+
+        <sql>
+            UPDATE feedback_responses
+            SET recipient_type = 'NO_SPECIFIC_RECIPIENT'
+            WHERE recipient = '%GENERAL%'
+              AND recipient_type IS NULL;
+        </sql>
+        <sql>
+            UPDATE feedback_responses fr
+            SET recipient_type = 'STUDENT',
+                recipient_user_id = u.id
+            FROM users u
+            JOIN students s ON s.id = u.id
+                        WHERE EXISTS (
+                                            SELECT 1
+                                            FROM feedback_questions fq
+                                            JOIN feedback_sessions fs ON fs.id = fq.session_id
+                                            WHERE fq.id = fr.question_id
+                                                AND fs.course_id = u.course_id
+                                    )
+              AND lower(u.email) = lower(fr.recipient)
+              AND fr.recipient_type IS NULL
+              AND fr.recipient_user_id IS NULL
+              AND fr.recipient_team_id IS NULL;
+        </sql>
+        <sql>
+            UPDATE feedback_responses fr
+            SET recipient_type = 'INSTRUCTOR',
+                recipient_user_id = u.id
+            FROM users u
+            JOIN instructors i ON i.id = u.id
+                        WHERE EXISTS (
+                                            SELECT 1
+                                            FROM feedback_questions fq
+                                            JOIN feedback_sessions fs ON fs.id = fq.session_id
+                                            WHERE fq.id = fr.question_id
+                                                AND fs.course_id = u.course_id
+                                    )
+              AND lower(u.email) = lower(fr.recipient)
+              AND fr.recipient_type IS NULL
+              AND fr.recipient_user_id IS NULL
+              AND fr.recipient_team_id IS NULL;
+        </sql>
+        <sql>
+            UPDATE feedback_responses fr
+            SET recipient_type = 'TEAM',
+                recipient_team_id = t.id
+            FROM teams t
+            JOIN sections sec ON sec.id = t.section_id
+                        WHERE EXISTS (
+                                            SELECT 1
+                                            FROM feedback_questions fq
+                                            JOIN feedback_sessions fs ON fs.id = fq.session_id
+                                            WHERE fq.id = fr.question_id
+                                                AND fs.course_id = sec.course_id
+                                    )
+              AND t.name = fr.recipient
+              AND fr.recipient_type IS NULL
+              AND fr.recipient_user_id IS NULL
+              AND fr.recipient_team_id IS NULL;
+        </sql>
+        <sql>
+            UPDATE feedback_responses
+            SET recipient_type = 'NO_SPECIFIC_RECIPIENT'
+            WHERE recipient_type IS NULL;
+        </sql>
+
+        <addNotNullConstraint tableName="feedback_responses"
+            columnName="recipient_type" columnDataType="VARCHAR(255)" />
+
+        <dropForeignKeyConstraint baseTableName="feedback_responses"
+            constraintName="FKnwkhxqbth7aawv49gyt7r39uy" />
+        <dropForeignKeyConstraint baseTableName="feedback_responses"
+            constraintName="FKk8en84qccfcpkjsj7o11ludkl" />
+
+        <dropColumn tableName="feedback_responses" columnName="giver" />
+        <dropColumn tableName="feedback_responses" columnName="giver_section_id" />
+        <dropColumn tableName="feedback_responses" columnName="recipient" />
+        <dropColumn tableName="feedback_responses" columnName="recipient_section_id" />
+
+        <rollback/>
+    </changeSet>
+
+</databaseChangeLog>

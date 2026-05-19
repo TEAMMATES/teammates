@@ -1,11 +1,13 @@
 package teammates.logic.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -31,6 +33,9 @@ import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
+import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.storage.entity.User;
@@ -617,6 +622,152 @@ public final class FeedbackQuestionsLogic {
     }
 
     /**
+     * Gets the possible recipients of a feedback question.
+     *
+     * @param question the feedback question
+     * @param responseGiver the entity giving the response
+     * @param courseRoster the course roster
+     * @return a Set of {@code ResponseRecipient}.
+     */
+    public Set<ResponseRecipient> getRecipientsOfQuestion(
+            FeedbackQuestion question, ResponseGiver responseGiver, CourseRoster courseRoster) {
+        QuestionRecipientType recipientType = question.getRecipientType();
+        QuestionRecipientType generateOptionsFor = recipientType;
+        boolean isInstructorGiver = responseGiver.getGiverUser() instanceof Instructor;
+
+        switch (recipientType) {
+        case SELF:
+            if (responseGiver.isGiverTeam()) {
+                return Set.of(new ResponseRecipient(responseGiver.getGiverTeam()));
+            } else {
+                return Set.of(new ResponseRecipient(responseGiver.getGiverUser()));
+            }
+        case STUDENTS, STUDENTS_EXCLUDING_SELF, STUDENTS_IN_SAME_SECTION:
+            List<Student> studentList = courseRoster.getStudents();
+
+            Section filterBySection = null;
+            if (generateOptionsFor == QuestionRecipientType.STUDENTS_IN_SAME_SECTION) {
+                if (responseGiver.isGiverStudent()) {
+                    Student studentGiver = (Student) responseGiver.getGiverUser();
+                    filterBySection = studentGiver.getSection();
+                } else if (responseGiver.isGiverTeam()) {
+                    Team teamGiver = responseGiver.getGiverTeam();
+                    filterBySection = teamGiver.getSection();
+                }
+            }
+
+            Student giverStudentToExclude = null;
+            if (generateOptionsFor != QuestionRecipientType.STUDENTS && responseGiver.isGiverStudent()) {
+                giverStudentToExclude = (Student) responseGiver.getGiverUser();
+            }
+
+            Set<ResponseRecipient> studentRecipients = new HashSet<>();
+            for (Student student : studentList) {
+                boolean shouldExcludeStudent = student.equals(giverStudentToExclude)
+                        || filterBySection != null && !student.getSection().equals(filterBySection);
+                // Filter out students that instructors are not allowed to submit feedback for
+                // based on instructor permissions
+                boolean shouldExcludeStudentForInstructor = isInstructorGiver
+                        && responseGiver.getGiverUser() instanceof Instructor instructor
+                        && !instructor.isAllowedForPrivilege(
+                        student.getSectionName(), question.getFeedbackSession().getName(),
+                        Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
+                if (shouldExcludeStudentForInstructor || shouldExcludeStudent) {
+                    continue;
+                }
+                studentRecipients.add(new ResponseRecipient(student));
+            }
+            return studentRecipients;
+        case INSTRUCTORS:
+            List<Instructor> instructorsInCourse = courseRoster.getInstructors();
+            Set<ResponseRecipient> instructorRecipients = new HashSet<>();
+            for (Instructor instr : instructorsInCourse) {
+                boolean isStudentGiver = responseGiver.getGiverUser() instanceof Student || responseGiver.isGiverTeam();
+                boolean isHiddenInstructor = isStudentGiver && !instr.isDisplayedToStudents();
+                boolean isSelfEvaluation = Objects.equals(responseGiver.getGiverUser(), instr);
+                if (isHiddenInstructor || isSelfEvaluation) {
+                    continue;
+                }
+
+                instructorRecipients.add(new ResponseRecipient(instr));
+            }
+
+            return instructorRecipients;
+        case TEAMS, TEAMS_EXCLUDING_SELF, TEAMS_IN_SAME_SECTION:
+            Collection<Team> teams = courseRoster.getTeamIdToTeam().values();
+
+            Team giverTeamToExclude = null;
+            if (generateOptionsFor != QuestionRecipientType.TEAMS) {
+                // For TEAMS_EXCLUDING_SELF and TEAMS_IN_SAME_SECTION exclude the giver's team
+                if (responseGiver.isGiverTeam()) {
+                    giverTeamToExclude = responseGiver.getGiverTeam();
+                } else if (responseGiver.isGiverStudent()) {
+                    Student studentGiver = (Student) responseGiver.getGiverUser();
+                    giverTeamToExclude = studentGiver.getTeam();
+                }
+            }
+
+            filterBySection = null;
+            if (generateOptionsFor == QuestionRecipientType.TEAMS_IN_SAME_SECTION) {
+                if (responseGiver.isGiverStudent()) {
+                    Student studentGiver = (Student) responseGiver.getGiverUser();
+                    filterBySection = studentGiver.getSection();
+                } else if (responseGiver.isGiverTeam()) {
+                    Team teamGiver = responseGiver.getGiverTeam();
+                    filterBySection = teamGiver.getSection();
+                }
+            }
+
+            Set<ResponseRecipient> teamRecipients = new HashSet<>();
+            for (Team team : teams) {
+                boolean shouldExcludeTeam = team.equals(giverTeamToExclude)
+                        || filterBySection != null && !team.getSection().equals(filterBySection);
+                // Filter out students that instructors are not allowed to submit feedback for
+                // based on instructor permissions
+                boolean shouldExcludeTeamForInstructor = isInstructorGiver
+                        && responseGiver.getGiverUser() instanceof Instructor instructor
+                        && !instructor.isAllowedForPrivilege(
+                        team.getSection().getName(), question.getFeedbackSession().getName(),
+                        Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
+
+                if (shouldExcludeTeamForInstructor || shouldExcludeTeam) {
+                    continue;
+                }
+
+                teamRecipients.add(new ResponseRecipient(team));
+            }
+
+            return teamRecipients;
+        case OWN_TEAM:
+            if (responseGiver.getGiverUser() instanceof Student student) {
+                return Set.of(new ResponseRecipient(student.getTeam()));
+            }
+
+            // TODO: check why instructors are allowed to have OWN_TEAM as recipient type, and whether this case can happen
+            return Set.of();
+        case OWN_TEAM_MEMBERS:
+            String teamName = responseGiver.getTeamName();
+            List<Student> teamMembers = courseRoster.getTeamToMembers().getOrDefault(teamName, Collections.emptyList());
+
+            return teamMembers.stream()
+                    .filter(student -> !Objects.equals(student, responseGiver.getGiverUser()))
+                    .map(ResponseRecipient::new)
+                    .collect(Collectors.toSet());
+        case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+            teamName = responseGiver.getTeamName();
+            teamMembers = courseRoster.getTeamToMembers().getOrDefault(teamName, Collections.emptyList());
+
+            return teamMembers.stream()
+                    .map(ResponseRecipient::new)
+                    .collect(Collectors.toSet());
+        case NONE:
+            return Set.of(new ResponseRecipient());
+        default:
+            return Set.of();
+        }
+    }
+
+    /**
      * Returns true if a session has question in a specific giverType.
      */
     public boolean sessionHasQuestionsForGiverType(
@@ -690,91 +841,60 @@ public final class FeedbackQuestionsLogic {
      * @param courseRoster the roster in the course
      * @return a map from giver to recipient for the question.
      */
-    public Map<String, Set<String>> buildCompleteGiverRecipientMap(
+    public Map<ResponseGiver, Set<ResponseRecipient>> buildCompleteGiverRecipientMap(
             FeedbackQuestion relatedQuestion, CourseRoster courseRoster) {
-        Map<String, Set<String>> completeGiverRecipientMap = new HashMap<>();
+        Map<ResponseGiver, Set<ResponseRecipient>> completeGiverRecipientMap = new HashMap<>();
 
-        List<String> possibleGiverEmails = getPossibleGivers(relatedQuestion, courseRoster);
-        for (String possibleGiverEmail : possibleGiverEmails) {
-            switch (relatedQuestion.getGiverType()) {
-            case STUDENTS:
-                Student studentGiver = courseRoster.getStudentForEmail(possibleGiverEmail);
-                completeGiverRecipientMap
-                        .computeIfAbsent(possibleGiverEmail, key -> new HashSet<>())
-                        .addAll(getRecipientsOfQuestion(
-                                relatedQuestion, null, studentGiver, courseRoster).keySet());
-                break;
-            case TEAMS:
-                Student oneTeamMember =
-                        courseRoster.getTeamToMembers().get(possibleGiverEmail).iterator().next();
-                completeGiverRecipientMap
-                        .computeIfAbsent(possibleGiverEmail, key -> new HashSet<>())
-                        .addAll(getRecipientsOfQuestion(
-                                relatedQuestion, null, oneTeamMember, courseRoster).keySet());
-                break;
-            case INSTRUCTORS:
-            case SELF:
-                Instructor instructorGiver = courseRoster.getInstructorForEmail(possibleGiverEmail);
-
-                // only happens when a session creator quits their course
-                if (instructorGiver == null) {
-                    instructorGiver = new Instructor(
-                            relatedQuestion.getCourse(),
-                            USER_NAME_FOR_SELF,
-                            possibleGiverEmail,
-                            false,
-                            USER_NAME_FOR_SELF,
-                            null,
-                            null
-                            );
-                }
-
-                completeGiverRecipientMap
-                        .computeIfAbsent(possibleGiverEmail, key -> new HashSet<>())
-                        .addAll(getRecipientsOfQuestion(
-                                relatedQuestion, instructorGiver, null, courseRoster).keySet());
-                break;
-            default:
-                log.severe("Invalid giver type specified");
-                break;
-            }
+        List<ResponseGiver> possibleGivers = getPossibleGivers(relatedQuestion, courseRoster);
+        for (ResponseGiver possibleGiver : possibleGivers) {
+            completeGiverRecipientMap
+                        .computeIfAbsent(possibleGiver, key -> new HashSet<>())
+                        .addAll(getRecipientsOfQuestion(relatedQuestion, possibleGiver, courseRoster));
         }
 
         return completeGiverRecipientMap;
     }
 
     /**
-     * Gets possible giver identifiers for a feedback question.
+     * Gets possible givers for a feedback question.
      *
      * @param fq the feedback question
      * @param courseRoster roster of all students and instructors
-     * @return a list of giver identifier
+     * @return a list of givers
      */
-    private List<String> getPossibleGivers(
+    private List<ResponseGiver> getPossibleGivers(
             FeedbackQuestion fq, CourseRoster courseRoster) {
         QuestionGiverType giverType = fq.getGiverType();
-        List<String> possibleGivers = new ArrayList<>();
+        List<ResponseGiver> possibleGivers = new ArrayList<>();
 
         switch (giverType) {
         case STUDENTS:
             possibleGivers = courseRoster.getStudents()
                     .stream()
-                    .map(Student::getEmail)
-                    .collect(Collectors.toList());
+                    .map(ResponseGiver::new)
+                    .toList();
             break;
         case INSTRUCTORS:
             possibleGivers = courseRoster.getInstructors()
                     .stream()
-                    .map(Instructor::getEmail)
-                    .collect(Collectors.toList());
+                    .map(ResponseGiver::new)
+                    .toList();
             break;
         case TEAMS:
-            possibleGivers = new ArrayList<>(courseRoster.getTeamToMembers().keySet());
+            possibleGivers = courseRoster.getTeamIdToTeam().values()
+                    .stream()
+                    .map(ResponseGiver::new)
+                    .toList();
             break;
         case SELF:
             FeedbackSession feedbackSession =
                     feedbackSessionsLogic.getFeedbackSession(fq.getFeedbackSessionName(), fq.getCourseId());
-            possibleGivers = Collections.singletonList(feedbackSession.getCreatorEmail());
+            Instructor instructorGiver = courseRoster.getInstructorForEmail(feedbackSession.getCreatorEmail());
+            // If the instructorGiver is null, they have been deleted,
+            // so we return an empty list of givers instead of a giver with null user.
+            possibleGivers = instructorGiver != null
+                    ? Collections.singletonList(new ResponseGiver(instructorGiver))
+                    : Collections.emptyList();
             break;
         default:
             log.severe("Invalid giver type specified");

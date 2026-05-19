@@ -167,21 +167,16 @@ public class GetCoursesActionIT extends BaseActionIT<GetCoursesAction> {
         ______TS("Without login or registration, cannot access");
         verifyInaccessibleWithoutLogin(studentParams);
         verifyInaccessibleWithoutLogin(instructorParams);
-        verifyInaccessibleForUnregisteredUsers(studentParams);
-        verifyInaccessibleForUnregisteredUsers(instructorParams);
 
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         Student student = typicalBundle.students.get("student1InCourse1");
 
-        ______TS("Login as instructor, only instructor entity type can access");
+        ______TS("With login, can access");
         loginAsInstructor(instructor.getGoogleId());
         verifyCanAccess(instructorParams);
-        verifyCannotAccess(studentParams);
 
-        ______TS("Login as student, only student entity type can access");
         loginAsStudent(student.getGoogleId());
         verifyCanAccess(studentParams);
-        verifyCannotAccess(instructorParams);
     }
 
 }

@@ -8,7 +8,8 @@ import jakarta.persistence.Entity;
 import teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.entity.Section;
+import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 
 /**
  * Represents a feedback rank options response.
@@ -25,10 +26,10 @@ public class FeedbackRankOptionsResponse extends FeedbackResponse {
     }
 
     public FeedbackRankOptionsResponse(
-            String giver, Section giverSection, String recipient, Section recipientSection,
+            ResponseGiver giver, ResponseRecipient recipient,
             FeedbackResponseDetails responseDetails
     ) {
-        super(giver, giverSection, recipient, recipientSection);
+        super(giver, recipient);
         this.setAnswer((FeedbackRankOptionsResponseDetails) responseDetails);
     }
 

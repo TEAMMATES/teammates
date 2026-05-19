@@ -11,11 +11,12 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorStudentActivityLogsPage;
-import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 
 /**
@@ -23,7 +24,6 @@ import teammates.storage.entity.Student;
  */
 public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
     private Instructor instructor;
-    private Course course;
     private FeedbackSession feedbackSession;
     private FeedbackQuestion feedbackQuestion;
     private Student student;
@@ -34,7 +34,6 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
                 loadDataBundle("/InstructorStudentActivityLogsPageE2ETest.json"));
 
         instructor = testData.instructors.get("instructor");
-        course = testData.courses.get("course");
         student = testData.students.get("alice.tmms@ISActLogs.CS2104");
         feedbackQuestion = testData.feedbackQuestions.get("qn1");
         feedbackSession = testData.feedbackSessions.get("openSession");
@@ -67,9 +66,7 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
         ______TS("verify logs output");
         logout();
         AppUrl studentSubmissionPageUrl = createFrontendUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
-                .withCourseId(course.getId())
-                .withFeedbackSessionId(feedbackSession.getId().toString())
-                .withSessionName(feedbackSession.getName());
+                .withFeedbackSessionId(feedbackSession.getId().toString());
         FeedbackSubmitPage studentSubmissionPage = loginToPage(studentSubmissionPageUrl,
                 FeedbackSubmitPage.class, student.getGoogleId());
 
@@ -77,8 +74,8 @@ public class InstructorStudentActivityLogsPageE2ETest extends BaseE2ETestCase {
 
         FeedbackTextResponseDetails details = new FeedbackTextResponseDetails("Response");
         FeedbackResponse response = FeedbackResponse.makeResponse(
-                student.getEmail(), student.getSection(),
-                receiver.getEmail(), receiver.getSection(), details);
+                new ResponseGiver(student),
+                new ResponseRecipient(receiver), details);
         feedbackQuestion.addFeedbackResponse(response);
 
         studentSubmissionPage.fillTextResponse(1, receiver.getName(), response);

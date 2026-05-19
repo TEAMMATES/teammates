@@ -37,7 +37,7 @@ public class CreateFeedbackSessionAction extends Action {
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
         Course course = logic.getCourse(courseId);
 
         gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_SESSION);
@@ -54,7 +54,7 @@ public class CreateFeedbackSessionAction extends Action {
         if (course == null) {
             throw new InvalidHttpParameterException("Failed to find course with the given course id.");
         }
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
+        Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
         if (instructor == null) {
             throw new InvalidHttpParameterException("Failed to find instructor with the given courseId and googleId.");
         }

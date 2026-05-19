@@ -7,7 +7,9 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
-import java.util.Set;
+import java.util.UUID;
+
+import jakarta.servlet.http.Cookie;
 
 import org.mockito.MockedStatic;
 import org.testng.annotations.AfterMethod;
@@ -16,12 +18,19 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AuthContext;
+import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
+import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
+import teammates.common.util.StringHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.UsersLogic;
 import teammates.storage.entity.Account;
 import teammates.test.BaseTestCase;
+import teammates.test.MockHttpServletRequest;
+import teammates.ui.exception.UnauthorizedAccessException;
+import teammates.ui.webapi.AuthType;
 
 /**
  * SUT: {@link UserProvision}.
@@ -30,17 +39,14 @@ public class UserProvisionTest extends BaseTestCase {
 
     private UserProvision userProvision;
     private UsersLogic mockUsersLogic;
+    private AccountsLogic mockAccountsLogic;
     private MockedStatic<Config> mockConfigStatic;
     private MockedStatic<UsersLogic> mockUsersLogicStatic;
     private MockedStatic<AccountsLogic> mockAccountsLogicStatic;
 
     @BeforeClass
     public void setUpClass() {
-        // We need to ensure the UserProvision class' static initialiser has run before setUpMethod() (below) runs.
-        // This guarantees the singleton holds a reference to a real UsersLogic instance.
-        // Otherwise, the singleton may initialize during setUpMethod() while UsersLogic is mocked, capturing
-        // the mock instead. Since the mock is only active for the duration of each test, any other test class
-        // that calls UserProvision.inst() directly would receive a singleton with a stale, uncontrolled mock.
+        // Ensure the singleton is initialized before static collaborators are mocked in individual tests.
         UserProvision.inst();
     }
 
@@ -50,17 +56,15 @@ public class UserProvisionTest extends BaseTestCase {
         mockUsersLogicStatic = mockStatic(UsersLogic.class);
         mockUsersLogicStatic.when(UsersLogic::inst).thenReturn(mockUsersLogic);
 
-        AccountsLogic mockAccountsLogic = mock(AccountsLogic.class);
+        mockAccountsLogic = mock(AccountsLogic.class);
         mockAccountsLogicStatic = mockStatic(AccountsLogic.class);
         mockAccountsLogicStatic.when(AccountsLogic::inst).thenReturn(mockAccountsLogic);
 
         userProvision = new UserProvision();
 
-        // Default mock to return false for all IDs, individual tests will override as needed
         when(mockUsersLogic.isInstructorInAnyCourse(anyString())).thenReturn(false);
         when(mockUsersLogic.isStudentInAnyCourse(anyString())).thenReturn(false);
-        // Default mock: no account found for any googleId
-        when(mockAccountsLogic.getAccountForGoogleId(anyString())).thenReturn((Account) null);
+        when(mockAccountsLogic.getAccountForGoogleId(anyString())).thenReturn(null);
 
         mockConfigStatic = mockStatic(Config.class);
         mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of());
@@ -75,241 +79,141 @@ public class UserProvisionTest extends BaseTestCase {
     }
 
     @Test
-    public void testGetCurrentUser_nullUic_returnsNull() {
-        assertNull(userProvision.getCurrentUserContext(null));
+    public void getAuthContextFromRequest_noCookie_returnsPublicContext() throws Exception {
+        AuthContext authContext = userProvision.getAuthContextFromRequest(createRequest());
+
+        assertEquals(AuthType.PUBLIC, authContext.authType());
+        assertNull(authContext.account());
+        assertFalse(authContext.isAdmin());
+        assertFalse(authContext.isMaintainer());
     }
 
     @Test
-    public void testGetCurrentUser_invalidCookie_returnsNull() {
-        assertNull(userProvision.getCurrentUserContext(createMockInvalidCookie()));
+    public void getAuthContextFromRequest_validCookie_returnsLoggedInAccountContext() throws Exception {
+        Account account = createAccount("user-id", "user@example.com");
+        MockHttpServletRequest req = createRequestWithAuthCookie(account);
+        when(mockAccountsLogic.getAccount(account.getId())).thenReturn(account);
+
+        AuthContext authContext = userProvision.getAuthContextFromRequest(req);
+
+        assertEquals(AuthType.LOGGED_IN, authContext.authType());
+        assertEquals(account, authContext.account());
+        assertEquals("user-id", authContext.account().getGoogleId());
+        assertHasNoRoles(authContext);
     }
 
     @Test
-    public void testGetCurrentUser_instructor_returnsUserInfoWithInstructorRole() {
-        String userId = "instructor-user-id";
-        when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(true);
+    public void getAuthContextFromRequest_loggedInRequestWithRegKey_returnsLoggedInAccountContext() throws Exception {
+        Account account = createAccount("user-id", "user@example.com");
+        MockHttpServletRequest req = createRequestWithAuthCookie(account);
+        req.addParam(Const.ParamsNames.REGKEY, "registration-key");
+        when(mockAccountsLogic.getAccount(account.getId())).thenReturn(account);
 
-        AuthContext authContext = userProvision.getCurrentUserContext(createMockValidCookie(userId));
+        AuthContext authContext = userProvision.getAuthContextFromRequest(req);
 
-        assertEquals(userId, authContext.id());
-        assertHasRoles(authContext, Role.INSTRUCTOR);
+        assertEquals(AuthType.LOGGED_IN, authContext.authType());
+        assertEquals(account, authContext.account());
+        assertNull(authContext.regKeyUser());
     }
 
     @Test
-    public void testGetCurrentUser_student_returnsUserInfoWithStudentRole() {
-        String userId = "student-user-id";
-        when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(true);
+    public void getAuthContextFromRequest_adminCookie_returnsAdminContext() throws Exception {
+        Account account = createAccount("admin-id", "admin@example.com");
+        MockHttpServletRequest req = createRequestWithAuthCookie(account);
+        when(mockAccountsLogic.getAccount(account.getId())).thenReturn(account);
+        mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of(account.getEmail()));
 
-        AuthContext authContext = userProvision.getCurrentUserContext(createMockValidCookie(userId));
+        AuthContext authContext = userProvision.getAuthContextFromRequest(req);
 
-        assertEquals(userId, authContext.id());
-        assertHasRoles(authContext, Role.STUDENT);
-    }
-
-    @Test
-    public void testGetCurrentUser_admin_returnsUserInfoWithAdminRole() {
-        String adminUserId = "admin-user-id";
-        mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of(adminUserId));
-
-        AuthContext authContext = userProvision.getCurrentUserContext(createMockValidCookie(adminUserId));
-
-        assertEquals(adminUserId, authContext.id());
+        assertEquals(AuthType.LOGGED_IN, authContext.authType());
+        assertEquals(account, authContext.account());
         assertHasRoles(authContext, Role.ADMIN);
     }
 
     @Test
-    public void testGetCurrentUser_maintainer_returnsUserInfoWithMaintainerRole() {
-        String maintainerUserId = "maintainer-user-id";
-        mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(maintainerUserId));
+    public void getAuthContextFromRequest_maintainerCookie_returnsMaintainerContext() throws Exception {
+        Account account = createAccount("maintainer-id", "maintainer@example.com");
+        MockHttpServletRequest req = createRequestWithAuthCookie(account);
+        when(mockAccountsLogic.getAccount(account.getId())).thenReturn(account);
+        mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(account.getEmail()));
 
-        AuthContext authContext = userProvision.getCurrentUserContext(createMockValidCookie(maintainerUserId));
+        AuthContext authContext = userProvision.getAuthContextFromRequest(req);
 
-        assertEquals(maintainerUserId, authContext.id());
+        assertEquals(AuthType.LOGGED_IN, authContext.authType());
+        assertEquals(account, authContext.account());
         assertHasRoles(authContext, Role.MAINTAINER);
     }
 
     @Test
-    public void testGetCurrentUser_unregistered_returnsUserInfoWithNoRoles() {
-        String userId = "unregistered-user-id";
+    public void getAuthContextFromRequest_nonAdminMasquerade_throwsUnauthorizedAccessException() {
+        Account account = createAccount("user-id", "user@example.com");
+        MockHttpServletRequest req = createRequestWithAuthCookie(account);
+        req.addParam(Const.ParamsNames.USER_ID, "target-id");
+        when(mockAccountsLogic.getAccount(account.getId())).thenReturn(account);
 
-        AuthContext authContext = userProvision.getCurrentUserContext(createMockValidCookie(userId));
+        UnauthorizedAccessException ex = assertThrows(
+                UnauthorizedAccessException.class, () -> userProvision.getAuthContextFromRequest(req));
 
-        assertEquals(userId, authContext.id());
+        assertEquals("Masquerade failed: user user@example.com does not have admin privilege", ex.getMessage());
+    }
+
+    @Test
+    public void getAuthContextFromRequest_adminMasquerade_returnsTargetAccountContext() throws Exception {
+        Account adminAccount = createAccount("admin-id", "admin@example.com");
+        Account targetAccount = createAccount("target-id", "target@example.com");
+        MockHttpServletRequest req = createRequestWithAuthCookie(adminAccount);
+        req.addParam(Const.ParamsNames.USER_ID, targetAccount.getGoogleId());
+        when(mockAccountsLogic.getAccount(adminAccount.getId())).thenReturn(adminAccount);
+        when(mockAccountsLogic.getAccountForGoogleId(targetAccount.getGoogleId())).thenReturn(targetAccount);
+        mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of(adminAccount.getEmail()));
+
+        AuthContext authContext = userProvision.getAuthContextFromRequest(req);
+
+        assertEquals(AuthType.MASQUERADE, authContext.authType());
+        assertEquals(targetAccount, authContext.account());
         assertHasNoRoles(authContext);
     }
 
     @Test
-    public void testGetCurrentUser_instructorAndStudent_returnsBothRolesTrue() {
-        String userId = "instructor-student-user-id";
-        when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(true);
-        when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(true);
-
-        AuthContext authContext = userProvision.getCurrentUserContext(createMockValidCookie(userId));
-
-        assertEquals(userId, authContext.id());
-        assertHasRoles(authContext, Role.INSTRUCTOR, Role.STUDENT);
-    }
-
-    @Test
-    public void testGetCurrentUser_adminAndMaintainer_returnsBothRolesTrue() {
-        String userId = "admin-maintainer-user-id";
-        mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of(userId));
-        mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(userId));
-
-        AuthContext authContext = userProvision.getCurrentUserContext(createMockValidCookie(userId));
-
-        assertEquals(userId, authContext.id());
-        assertHasRoles(authContext, Role.ADMIN, Role.MAINTAINER);
-    }
-
-    @Test
-    public void testGetCurrentUser_instructorStudentAndMaintainer_returnsThreeRolesTrue() {
-        String userId = "instructor-student-maintainer-user-id";
-        when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(true);
-        when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(true);
-        mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(userId));
-
-        AuthContext authContext = userProvision.getCurrentUserContext(createMockValidCookie(userId));
-
-        assertEquals(userId, authContext.id());
-        assertHasRoles(authContext, Role.INSTRUCTOR, Role.STUDENT, Role.MAINTAINER);
-    }
-
-    @Test
-    public void testGetCurrentUser_allRoles_returnsAllRolesTrue() {
-        String userId = "all-roles-user-id";
-        when(mockUsersLogic.isInstructorInAnyCourse(userId)).thenReturn(true);
-        when(mockUsersLogic.isStudentInAnyCourse(userId)).thenReturn(true);
-        mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of(userId));
-        mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(userId));
-
-        AuthContext authContext = userProvision.getCurrentUserContext(createMockValidCookie(userId));
-
-        assertEquals(userId, authContext.id());
-        assertHasRoles(authContext, Role.ADMIN, Role.INSTRUCTOR, Role.STUDENT, Role.MAINTAINER);
-    }
-
-    @Test
-    public void testGetCurrentLoggedInUser_nullUic_returnsNull() {
-        assertNull(userProvision.getCurrentLoggedInUserContext(null));
-    }
-
-    @Test
-    public void testGetCurrentLoggedInUser_invalidCookie_returnsNull() {
-        assertNull(userProvision.getCurrentLoggedInUserContext(createMockInvalidCookie()));
-    }
-
-    @Test
-    public void testGetCurrentLoggedInUser_validCookie_returnsUserInfoWithCorrectIdAndNoRoles() {
-        String userId = "valid-user-id";
-
-        AuthContext authContext = userProvision.getCurrentLoggedInUserContext(createMockValidCookie(userId));
-
-        assertEquals(userId, authContext.id());
-        assertHasNoRoles(authContext);
-    }
-
-    @Test
-    public void testGetMasqueradeUser_instructor_returnsUserInfoWithInstructorRole() {
-        String googleId = "typical-instructor";
-        when(mockUsersLogic.isInstructorInAnyCourse(googleId)).thenReturn(true);
-
-        AuthContext authContext = userProvision.getMasqueradeUserContext(googleId);
-
-        assertEquals(googleId, authContext.id());
-        assertHasRoles(authContext, Role.INSTRUCTOR);
-    }
-
-    @Test
-    public void testGetMasqueradeUser_student_returnsUserInfoWithStudentRole() {
-        String googleId = "student-user-id";
-        when(mockUsersLogic.isStudentInAnyCourse(googleId)).thenReturn(true);
-
-        AuthContext authContext = userProvision.getMasqueradeUserContext(googleId);
-
-        assertEquals(googleId, authContext.id());
-        assertHasRoles(authContext, Role.STUDENT);
-    }
-
-    @Test
-    public void testGetMasqueradeUser_maintainer_returnsUserInfoWithMaintainerRole() {
-        String maintainerGoogleId = "maintainer-user-id";
-        mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(maintainerGoogleId));
-
-        AuthContext authContext = userProvision.getMasqueradeUserContext(maintainerGoogleId);
-
-        assertEquals(maintainerGoogleId, authContext.id());
-        assertHasRoles(authContext, Role.MAINTAINER);
-    }
-
-    @Test
-    public void testGetMasqueradeUser_admin_returnsUserInfoWithNoRoles() {
-        String adminGoogleId = "admin-user-id";
-        mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of(adminGoogleId));
-
-        AuthContext authContext = userProvision.getMasqueradeUserContext(adminGoogleId);
-
-        assertEquals(adminGoogleId, authContext.id());
-        assertHasNoRoles(authContext);
-    }
-
-    @Test
-    public void testGetMasqueradeUser_unregistered_returnsUserInfoWithNoRoles() {
-        String googleId = "unregistered-user-id";
-
-        AuthContext authContext = userProvision.getMasqueradeUserContext(googleId);
-
-        assertEquals(googleId, authContext.id());
-        assertHasNoRoles(authContext);
-    }
-
-    @Test
-    public void testGetMasqueradeUser_instructorAndStudent_returnsBothRolesTrue() {
-        String googleId = "instructor-student-user-id";
-        when(mockUsersLogic.isInstructorInAnyCourse(googleId)).thenReturn(true);
-        when(mockUsersLogic.isStudentInAnyCourse(googleId)).thenReturn(true);
-
-        AuthContext authContext = userProvision.getMasqueradeUserContext(googleId);
-
-        assertEquals(googleId, authContext.id());
-        assertHasRoles(authContext, Role.INSTRUCTOR, Role.STUDENT);
-    }
-
-    @Test
-    public void testGetMasqueradeUser_instructorStudentAndMaintainer_returnsThreeRolesTrue() {
-        String googleId = "instructor-student-maintainer-user-id";
-        when(mockUsersLogic.isInstructorInAnyCourse(googleId)).thenReturn(true);
-        when(mockUsersLogic.isStudentInAnyCourse(googleId)).thenReturn(true);
-        mockConfigStatic.when(Config::getAppMaintainers).thenReturn(List.of(googleId));
-
-        AuthContext authContext = userProvision.getMasqueradeUserContext(googleId);
-
-        assertEquals(googleId, authContext.id());
-        assertHasRoles(authContext, Role.INSTRUCTOR, Role.STUDENT, Role.MAINTAINER);
-    }
-
-    @Test
-    public void testGetAdminOnlyUser_returnsAuthContextWithAllRolesTrue() {
-        String userId = "admin-user-id";
-
-        AuthContext authContext = userProvision.getAdminOnlyUserContext(userId);
-
-        assertEquals(userId, authContext.id());
-        assertHasRoles(authContext, Role.ADMIN, Role.MAINTAINER, Role.INSTRUCTOR, Role.STUDENT);
+    public void getUserInfo_nullOrPublicContext_returnsNull() {
+        assertNull(userProvision.getUserInfo(null));
+        assertNull(userProvision.getUserInfo(new AuthContext(AuthType.PUBLIC, null, null, false, false)));
         verifyNoInteractions(mockUsersLogic);
     }
 
-    private static UserInfoCookie createMockValidCookie(String userId) {
-        UserInfoCookie cookie = mock(UserInfoCookie.class);
-        when(cookie.isValid()).thenReturn(true);
-        when(cookie.getUserId()).thenReturn(userId);
-        return cookie;
+    @Test
+    public void getUserInfo_loggedInContext_returnsRolesForAccountGoogleId() {
+        Account account = createAccount("user-id", "user@example.com");
+        when(mockUsersLogic.isInstructorInAnyCourse(account.getGoogleId())).thenReturn(true);
+        when(mockUsersLogic.isStudentInAnyCourse(account.getGoogleId())).thenReturn(true);
+        AuthContext authContext = new AuthContext(AuthType.LOGGED_IN, account, null, true, true);
+
+        UserInfo userInfo = userProvision.getUserInfo(authContext);
+
+        assertEquals(account.getGoogleId(), userInfo.id);
+        assertEquals(account.getId(), userInfo.accountId);
+        assertTrue(userInfo.isAdmin);
+        assertTrue(userInfo.isMaintainer);
+        assertTrue(userInfo.isInstructor);
+        assertTrue(userInfo.isStudent);
     }
 
-    private static UserInfoCookie createMockInvalidCookie() {
-        UserInfoCookie cookie = mock(UserInfoCookie.class);
-        when(cookie.isValid()).thenReturn(false);
-        return cookie;
+    private static MockHttpServletRequest createRequest() {
+        return new MockHttpServletRequest("GET", "/test");
+    }
+
+    private static MockHttpServletRequest createRequestWithAuthCookie(Account account) {
+        MockHttpServletRequest req = createRequest();
+        UserInfoCookie userInfoCookie = new UserInfoCookie(account.getGoogleId(), account.getId());
+        String cookieValue = StringHelper.encrypt(JsonUtils.toCompactJson(userInfoCookie));
+        req.addCookie(new Cookie(Const.SecurityConfig.AUTH_COOKIE_NAME, cookieValue));
+        return req;
+    }
+
+    private static Account createAccount(String googleId, String email) {
+        Account account = new Account(googleId, "Test User", email);
+        account.setId(UUID.randomUUID());
+        return account;
     }
 
     private static void assertHasNoRoles(AuthContext authContext) {
@@ -317,15 +221,13 @@ public class UserProvisionTest extends BaseTestCase {
     }
 
     private static void assertHasRoles(AuthContext authContext, Role... expectedRoles) {
-        Set<Role> expected = Set.of(expectedRoles);
+        List<Role> expected = List.of(expectedRoles);
         assertEquals(expected.contains(Role.ADMIN), authContext.isAdmin());
-        assertEquals(expected.contains(Role.INSTRUCTOR), authContext.isInstructor());
-        assertEquals(expected.contains(Role.STUDENT), authContext.isStudent());
         assertEquals(expected.contains(Role.MAINTAINER), authContext.isMaintainer());
     }
 
     private enum Role {
-        ADMIN, INSTRUCTOR, STUDENT, MAINTAINER
+        ADMIN, MAINTAINER
     }
 
 }

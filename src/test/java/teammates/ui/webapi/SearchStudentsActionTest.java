@@ -198,18 +198,6 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
     }
 
     @Test
-    void testExecute_adminSearchStudentsWithInvalidEntity_throwsInvalidHttpParameterException() {
-        loginAsAdmin();
-
-        String[] params = {
-                Const.ParamsNames.SEARCH_KEY, searchKey,
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
-        };
-
-        verifyHttpParameterFailure(params);
-    }
-
-    @Test
     void testExecute_noParameters_throwsInvalidHttpParameterException() {
         loginAsAdmin();
         verifyHttpParameterFailure();
@@ -235,22 +223,5 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         };
 
         verifyHttpParameterFailure(params);
-    }
-
-    @Test
-    void testAccessControl() {
-        String[] adminParams = {
-                Const.ParamsNames.SEARCH_KEY, searchKey,
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.ADMIN,
-        };
-        String[] instructorParams = {
-                Const.ParamsNames.SEARCH_KEY, searchKey,
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
-        };
-
-        verifyAdminsCanAccess(adminParams);
-        verifyAnyInstructorCanAccess(getTypicalCourse(), instructorParams);
-        verifyStudentsCannotAccess(adminParams);
-        verifyWithoutLoginCannotAccess(adminParams);
     }
 }

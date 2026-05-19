@@ -24,8 +24,14 @@ public class SearchStudentsAction extends Action {
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
         // Only instructors and admins can search for student
-        if (!authContext.isInstructor() && !authContext.isAdmin()) {
-            throw new UnauthorizedAccessException("Instructor or Admin privilege is required to access this resource.");
+        String entity = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
+
+        if (Const.EntityType.INSTRUCTOR.equals(entity)) {
+            gateKeeper.verifyInstructorInAnyCourse(logic.getAccountForGoogleId(getCurrentUserGoogleId()));
+        }
+
+        if (Const.EntityType.ADMIN.equals(entity)) {
+            gateKeeper.verifyAdminPrivileges(authContext);
         }
     }
 
@@ -36,10 +42,10 @@ public class SearchStudentsAction extends Action {
 
         List<Student> students;
 
-        if (authContext.isInstructor() && Const.EntityType.INSTRUCTOR.equals(entity)) {
-            List<Instructor> instructors = logic.getInstructorsForGoogleId(authContext.id());
+        if (Const.EntityType.INSTRUCTOR.equals(entity)) {
+            List<Instructor> instructors = logic.getInstructorsForGoogleId(getCurrentUserGoogleId());
             students = logic.searchStudents(searchKey, instructors);
-        } else if (authContext.isAdmin() && Const.EntityType.ADMIN.equals(entity)) {
+        } else if (Const.EntityType.ADMIN.equals(entity)) {
             students = logic.searchStudentsInWholeSystem(searchKey);
         } else {
             throw new InvalidHttpParameterException("Invalid entity type for search");

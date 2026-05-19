@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.InstructorSessionIndividualExtensionPage;
-import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
@@ -24,7 +23,6 @@ import teammates.ui.output.DeadlineExtensionsData;
  */
 public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETestCase {
     private Instructor instructor;
-    private Course course;
     private FeedbackSession feedbackSession;
     private Map<String, User> users;
     private Collection<Student> students;
@@ -36,7 +34,6 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
                 loadDataBundle("/InstructorSessionIndividualExtensionPageE2ETest.json"));
 
         instructor = testData.instructors.get("ISesIe.instructor1");
-        course = testData.courses.get("course");
         feedbackSession = testData.feedbackSessions.get("firstSession");
         students = testData.students.values();
         instructors = testData.instructors.values();
@@ -154,9 +151,7 @@ public class InstructorSessionIndividualExtensionPageE2ETest extends BaseE2ETest
 
     private InstructorSessionIndividualExtensionPage loginToInstructorSessionIndividualExtensionPage() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_INDIVIDUAL_EXTENSION_PAGE)
-                .withCourseId(course.getId())
-                .withFeedbackSessionId(feedbackSession.getId().toString())
-                .withSessionName(feedbackSession.getName());
+                .withFeedbackSessionId(feedbackSession.getId().toString());
 
         return loginToPage(url, InstructorSessionIndividualExtensionPage.class, instructor.getGoogleId());
     }

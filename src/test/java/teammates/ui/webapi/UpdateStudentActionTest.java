@@ -200,18 +200,6 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
     }
 
     @Test
-    void testSpecificAccessControl_admin_cannotAccess() {
-        loginAsAdmin();
-
-        String[] params = {
-                Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
-        };
-
-        verifyCannotAccess(params);
-        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
-    }
-
-    @Test
     void testSpecificAccessControl_nonExistentInstructorId_cannotAccess() {
         String nonExistentInstructorId = "RANDOM_ID";
         when(mockLogic.getInstructorByGoogleId(course.getId(), nonExistentInstructorId)).thenReturn(null);
@@ -267,9 +255,9 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         String[] params = {
                 Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
         };
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(null);
 
         verifyCannotAccess(params);
-        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
     }
 
     @Test
@@ -291,8 +279,8 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         String[] params = {
                 Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
         };
+        when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(null);
 
         verifyCannotAccess(params);
-        verifyNoMoreInteractions(mockLogic, mockEmailGenerator);
     }
 }

@@ -25,6 +25,7 @@ import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -688,8 +689,12 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         typicalCourse.addSection(sectionA);
         Section sectionB = new Section("Section B");
         typicalCourse.addSection(sectionB);
-        typicalFeedbackResponse = FeedbackResponse.makeResponse("Section A", sectionA,
-                "Section B", sectionB, getTypicalFeedbackResponseDetails());
+        Team giverTeam = new Team("Section A");
+        giverTeam.setSection(sectionA);
+        Team recipientTeam = new Team("Section B");
+        recipientTeam.setSection(sectionB);
+        typicalFeedbackResponse = FeedbackResponse.makeResponse(
+                new ResponseGiver(giverTeam), new ResponseRecipient(recipientTeam), getTypicalFeedbackResponseDetails());
         typicalFeedbackQuestion.addFeedbackResponse(typicalFeedbackResponse);
         ResponseGiver giver = new ResponseGiver(team);
         FeedbackResponseComment feedbackResponseComment = new FeedbackResponseComment(

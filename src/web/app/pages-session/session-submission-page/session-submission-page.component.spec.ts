@@ -596,19 +596,18 @@ describe('SessionSubmissionPageComponent', () => {
 
   const testInfo: AuthInfo = {
     masquerade: false,
+    loginUrl: 'http://localhost:8080/auth',
     user: {
       id: 'user-id',
+      accountId: 'account-id',
       isAdmin: false,
       isInstructor: false,
       isStudent: true,
       isMaintainer: false,
-      isAutomatedService: false,
     },
   };
 
   const testQueryParams: any = {
-    courseid: 'CS3281',
-    fsname: 'Feedback Session Name',
     fsid: '00000000-0000-4000-8000-000000000001',
     key: 'reg-key',
   };
@@ -782,8 +781,7 @@ describe('SessionSubmissionPageComponent', () => {
     jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
     component.ngOnInit();
     expect(component.intent).toEqual(Intent.STUDENT_SUBMISSION);
-    expect(component.courseId).toEqual(testQueryParams.courseid);
-    expect(component.feedbackSessionName).toEqual(testQueryParams.fsname);
+    expect(component.feedbackSessionId).toEqual(testQueryParams.fsid);
     expect(component.regKey).toEqual(testQueryParams.key);
     expect(component.loggedInUser).toEqual(testInfo.user?.id);
   });
@@ -802,8 +800,6 @@ describe('SessionSubmissionPageComponent', () => {
 
     expect(navSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenLastCalledWith('/web/student/sessions/submission', {
-      courseid: 'CS3281',
-      fsname: 'Feedback Session Name',
       fsid: '00000000-0000-4000-8000-000000000001',
     });
   });

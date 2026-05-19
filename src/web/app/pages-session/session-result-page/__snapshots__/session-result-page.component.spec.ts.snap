@@ -5,14 +5,14 @@ exports[`SessionResultPageComponent should snap when previewing results 1`] = `
   Intent={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
-  courseId={[Function String]}
+  courseId=""
   courseInstitute=""
   courseName=""
   courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionId="undefined"
-  feedbackSessionName={[Function String]}
+  feedbackSessionId={[Function String]}
+  feedbackSessionName=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
@@ -81,7 +81,6 @@ exports[`SessionResultPageComponent should snap when previewing results 1`] = `
           class="col-md-7 text-md-start"
           id="course-id"
         >
-          CS3281
         </div>
       </div>
       <div
@@ -96,7 +95,6 @@ exports[`SessionResultPageComponent should snap when previewing results 1`] = `
           class="col-md-7 text-md-start"
           id="session-name"
         >
-          Peer Feedback
         </div>
       </div>
       <div
@@ -156,14 +154,14 @@ exports[`SessionResultPageComponent should snap when session results failed to l
   Intent={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
-  courseId={[Function String]}
+  courseId=""
   courseInstitute=""
   courseName=""
   courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionId="undefined"
-  feedbackSessionName={[Function String]}
+  feedbackSessionId={[Function String]}
+  feedbackSessionName=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
@@ -233,7 +231,6 @@ exports[`SessionResultPageComponent should snap when session results failed to l
           class="col-md-7 text-md-start"
           id="course-id"
         >
-          CS3281
         </div>
       </div>
       <div
@@ -248,7 +245,6 @@ exports[`SessionResultPageComponent should snap when session results failed to l
           class="col-md-7 text-md-start"
           id="session-name"
         >
-          Peer Feedback
         </div>
       </div>
       <div
@@ -311,14 +307,14 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
   Intent={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
-  courseId={[Function String]}
+  courseId=""
   courseInstitute=""
   courseName=""
   courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionId="undefined"
-  feedbackSessionName={[Function String]}
+  feedbackSessionId={[Function String]}
+  feedbackSessionName=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
@@ -388,7 +384,6 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
           class="col-md-7 text-md-start"
           id="course-id"
         >
-          CS3281
         </div>
       </div>
       <div
@@ -403,7 +398,6 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
           class="col-md-7 text-md-start"
           id="session-name"
         >
-          Peer Feedback
         </div>
       </div>
       <div
@@ -463,14 +457,14 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
   Intent={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
-  courseId={[Function String]}
+  courseId=""
   courseInstitute=""
   courseName=""
   courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionId="undefined"
-  feedbackSessionName={[Function String]}
+  feedbackSessionId={[Function String]}
+  feedbackSessionName=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
@@ -540,7 +534,6 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
           class="col-md-7 text-md-start"
           id="course-id"
         >
-          CS3281
         </div>
       </div>
       <div
@@ -555,7 +548,6 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
           class="col-md-7 text-md-start"
           id="session-name"
         >
-          Peer Feedback
         </div>
       </div>
       <div
@@ -615,14 +607,14 @@ exports[`SessionResultPageComponent should snap with session details and results
   Intent={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
-  courseId={[Function String]}
+  courseId=""
   courseInstitute=""
   courseName=""
   courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionId="undefined"
-  feedbackSessionName={[Function String]}
+  feedbackSessionId={[Function String]}
+  feedbackSessionName=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
@@ -697,14 +689,14 @@ exports[`SessionResultPageComponent should snap with session details loaded and 
   Intent={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
-  courseId={[Function String]}
+  courseId=""
   courseInstitute=""
   courseName=""
   courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionId="undefined"
-  feedbackSessionName={[Function String]}
+  feedbackSessionId={[Function String]}
+  feedbackSessionName=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
@@ -774,7 +766,6 @@ exports[`SessionResultPageComponent should snap with session details loaded and 
           class="col-md-7 text-md-start"
           id="course-id"
         >
-          CS3281
         </div>
       </div>
       <div
@@ -789,7 +780,6 @@ exports[`SessionResultPageComponent should snap with session details loaded and 
           class="col-md-7 text-md-start"
           id="session-name"
         >
-          Peer Feedback
         </div>
       </div>
       <div
@@ -849,14 +839,14 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
   Intent={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
-  courseId={[Function String]}
+  courseId=""
   courseInstitute=""
   courseName=""
   courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionId="undefined"
-  feedbackSessionName={[Function String]}
+  feedbackSessionId={[Function String]}
+  feedbackSessionName=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
@@ -927,7 +917,6 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
           class="col-md-7 text-md-start"
           id="course-id"
         >
-          CS3281
         </div>
       </div>
       <div
@@ -942,7 +931,6 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
           class="col-md-7 text-md-start"
           id="session-name"
         >
-          Peer Feedback
         </div>
       </div>
       <div
@@ -1002,14 +990,14 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
   Intent={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
-  courseId={[Function String]}
+  courseId=""
   courseInstitute=""
   courseName=""
   courseService={[Function CourseService]}
   entityType={[Function String]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionId="undefined"
-  feedbackSessionName={[Function String]}
+  feedbackSessionId={[Function String]}
+  feedbackSessionName=""
   feedbackSessionsService={[Function FeedbackSessionsService]}
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
@@ -1079,7 +1067,6 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
           class="col-md-7 text-md-start"
           id="course-id"
         >
-          CS3281
         </div>
       </div>
       <div
@@ -1094,7 +1081,6 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
           class="col-md-7 text-md-start"
           id="session-name"
         >
-          Peer Feedback
         </div>
       </div>
       <div

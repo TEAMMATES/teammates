@@ -8,13 +8,14 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 
-import teammates.common.datatransfer.participanttypes.QuestionGiverType;
-import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
+import teammates.common.datatransfer.participanttypes.ResponseRecipientType;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
+import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 
 /**
  * Represents detailed results for a feedback session.
@@ -84,8 +85,8 @@ public class SessionResultsBundle {
      * Returns true if the recipient of a response is visible to the current user.
      * Returns false otherwise.
      */
-    public boolean isResponseRecipientVisible(UUID responseId, QuestionRecipientType recipientParticipantType) {
-        return recipientParticipantType == QuestionRecipientType.NONE
+    public boolean isResponseRecipientVisible(UUID responseId, ResponseRecipientType recipientParticipantType) {
+        return recipientParticipantType == ResponseRecipientType.NO_SPECIFIC_RECIPIENT
                 || responseRecipientVisibilityTable.getOrDefault(responseId, false);
     }
 
@@ -102,9 +103,10 @@ public class SessionResultsBundle {
      *
      * <p>The anonymous name will be deterministic based on {@code name}.
      */
-    public static String getAnonGiverName(QuestionGiverType type, String name) {
+    public static String getAnonGiverName(ResponseGiver responseGiver) {
+        String name = responseGiver.getDisplayName();
+        String participantType = responseGiver.toSingularFormString();
         String hashedSignedName = getHashOfName(StringHelper.generateSha256Hmac("anon-name:" + name));
-        String participantType = type.toSingularFormString();
         return String.format(
             "%s %s %s", Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT, participantType, hashedSignedName);
     }
@@ -114,9 +116,10 @@ public class SessionResultsBundle {
      *
      * <p>The anonymous name will be deterministic based on {@code name}.
      */
-    public static String getAnonRecipientName(QuestionRecipientType type, String name) {
+    public static String getAnonRecipientName(ResponseRecipient responseRecipient) {
+        String name = responseRecipient.getDisplayName();
+        String participantType = responseRecipient.toSingularFormString();
         String hashedSignedName = getHashOfName(StringHelper.generateSha256Hmac("anon-name:" + name));
-        String participantType = type.toSingularFormString();
         return String.format(
             "%s %s %s", Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT, participantType, hashedSignedName);
     }

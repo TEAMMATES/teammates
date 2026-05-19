@@ -23,9 +23,7 @@ public class InstructorFeedbackEditPageAxeTest extends BaseAxeTestCase {
     @Override
     public void testAll() {
         AppUrl url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
-                .withCourseId(testData.courses.get("InstFEP.CS2104").getId())
-                .withFeedbackSessionId(testData.feedbackSessions.get("openSession").getId().toString())
-                .withSessionName(testData.feedbackSessions.get("openSession").getName());
+                .withFeedbackSessionId(testData.feedbackSessions.get("openSession").getId().toString());
 
         InstructorFeedbackEditPage feedbackEditPage = loginToPage(url, InstructorFeedbackEditPage.class,
                 testData.instructors.get("InstFEP.instr").getGoogleId());

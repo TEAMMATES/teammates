@@ -20,7 +20,6 @@ import teammates.ui.output.NotificationsData;
 public class GetNotificationsAction extends Action {
 
     private static final String INVALID_TARGET_USER = "Target user can only be STUDENT or INSTRUCTOR.";
-    private static final String UNAUTHORIZED_ACCESS = "You are not allowed to view this resource!";
 
     @Override
     AuthType getMinAuthLevel() {
@@ -38,9 +37,12 @@ public class GetNotificationsAction extends Action {
             throw new InvalidHttpParameterException(targetUserErrorMessage);
         }
         NotificationTargetUser targetUser = NotificationTargetUser.valueOf(targetUserString);
-        if (targetUser == NotificationTargetUser.INSTRUCTOR && !authContext.isInstructor()
-                || targetUser == NotificationTargetUser.STUDENT && !authContext.isStudent()) {
-            throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
+        if (targetUser == NotificationTargetUser.STUDENT) {
+            gateKeeper.verifyStudentInAnyCourse(logic.getAccountForGoogleId(getCurrentUserGoogleId()));
+        }
+
+        if (targetUser == NotificationTargetUser.INSTRUCTOR) {
+            gateKeeper.verifyInstructorInAnyCourse(logic.getAccountForGoogleId(getCurrentUserGoogleId()));
         }
     }
 
@@ -76,7 +78,7 @@ public class GetNotificationsAction extends Action {
             return new JsonResult(new NotificationsData(notifications));
         }
 
-        Account account = logic.getAccountForGoogleId(authContext.id());
+        Account account = logic.getAccountForGoogleId(getCurrentUserGoogleId());
         if (account == null) {
             // This should not happen as the user is authenticated
             return new JsonResult("Account not found", HttpStatus.SC_INTERNAL_SERVER_ERROR);

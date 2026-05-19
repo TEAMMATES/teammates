@@ -43,24 +43,14 @@ public class GetFeedbackSessionsAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         if (Const.EntityType.STUDENT.equals(entityType)) {
-            if (!authContext.isStudent()) {
-                throw new UnauthorizedAccessException("User " + authContext.id()
-                        + " does not have student privileges");
-            }
-
             if (courseId != null) {
                 Course course = logic.getCourse(courseId);
-                gateKeeper.verifyAccessible(logic.getStudentByGoogleId(courseId, authContext.id()), course);
+                gateKeeper.verifyAccessible(logic.getStudentByGoogleId(courseId, getCurrentUserGoogleId()), course);
             }
         } else {
-            if (!authContext.isInstructor()) {
-                throw new UnauthorizedAccessException("User " + authContext.id()
-                        + " does not have instructor privileges");
-            }
-
             if (courseId != null) {
                 Course course = logic.getCourse(courseId);
-                gateKeeper.verifyAccessible(logic.getInstructorByGoogleId(courseId, authContext.id()), course);
+                gateKeeper.verifyAccessible(logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId()), course);
             }
         }
     }
@@ -76,7 +66,7 @@ public class GetFeedbackSessionsAction extends Action {
 
         if (courseId == null) {
             if (Const.EntityType.STUDENT.equals(entityType)) {
-                List<Student> students = logic.getStudentsByGoogleId(authContext.id());
+                List<Student> students = logic.getStudentsByGoogleId(getCurrentUserGoogleId());
                 for (Student student : students) {
                     String studentCourseId = student.getCourseId();
                     List<FeedbackSession> sessions = logic.getFeedbackSessionsForCourse(studentCourseId);
@@ -87,7 +77,7 @@ public class GetFeedbackSessionsAction extends Action {
             } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
                 boolean isInRecycleBin = getBooleanRequestParamValue(Const.ParamsNames.IS_IN_RECYCLE_BIN);
 
-                instructors = logic.getInstructorsForGoogleId(authContext.id());
+                instructors = logic.getInstructorsForGoogleId(getCurrentUserGoogleId());
 
                 if (isInRecycleBin) {
                     feedbackSessions = logic.getSoftDeletedFeedbackSessionsForInstructors(instructors);
@@ -98,14 +88,14 @@ public class GetFeedbackSessionsAction extends Action {
         } else {
             feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
             if (Const.EntityType.STUDENT.equals(entityType) && !feedbackSessions.isEmpty()) {
-                Student student = logic.getStudentByGoogleId(courseId, authContext.id());
+                Student student = logic.getStudentByGoogleId(courseId, getCurrentUserGoogleId());
                 assert student != null;
                 for (FeedbackSession session : feedbackSessions) {
                     sessionToDeadline.put(session, logic.getDeadlineForUser(session, student));
                 }
             } else if (Const.EntityType.INSTRUCTOR.equals(entityType)) {
                 instructors = Collections.singletonList(
-                        logic.getInstructorByGoogleId(courseId, authContext.id()));
+                        logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId()));
             }
         }
 

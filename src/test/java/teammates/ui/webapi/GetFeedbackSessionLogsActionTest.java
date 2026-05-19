@@ -337,6 +337,8 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
         };
+
+        when(mockLogic.getInstructorByGoogleId(course.getId(), googleId)).thenReturn(null);
         loginAsStudent(googleId);
         verifyCannotAccess(params);
 

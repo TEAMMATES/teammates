@@ -18,13 +18,10 @@ public class RestoreCourseAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (!authContext.isInstructor()) {
-            throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
-        }
         String idOfCourseToRestore = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         Course course = logic.getCourse(idOfCourseToRestore);
 
-        gateKeeper.verifyAccessible(logic.getInstructorByGoogleId(idOfCourseToRestore, authContext.id()),
+        gateKeeper.verifyAccessible(logic.getInstructorByGoogleId(idOfCourseToRestore, getCurrentUserGoogleId()),
                 course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
     }
 

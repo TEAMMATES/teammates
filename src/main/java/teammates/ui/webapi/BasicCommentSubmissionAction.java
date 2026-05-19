@@ -1,10 +1,8 @@
 package teammates.ui.webapi;
 
+import java.util.Objects;
 import java.util.UUID;
 
-import teammates.common.datatransfer.participanttypes.QuestionGiverType;
-import teammates.common.util.SanitizationHelper;
-import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.entity.Instructor;
@@ -34,18 +32,16 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
     /**
      * Verify response ownership for student.
      */
-    void verifyResponseOwnershipForStudent(Student student, FeedbackResponse response,
-            FeedbackQuestion question)
+    void verifyResponseOwnershipForStudent(Student student, FeedbackResponse response)
             throws UnauthorizedAccessException {
-        if (question.getGiverType() == QuestionGiverType.TEAMS
-                && !response.getGiver().equals(student.getTeamName())) {
-            throw new UnauthorizedAccessException("Response [" + response.getId() + "] is not accessible to "
-                    + student.getTeam());
-        } else if (question.getGiverType() == QuestionGiverType.STUDENTS
-                && !SanitizationHelper.areEmailsEqual(response.getGiver(), student.getEmail())) {
-            throw new UnauthorizedAccessException("Response [" + response.getId() + "] is not accessible to "
-                    + student.getName());
+        Objects.requireNonNull(student);
+        if (Objects.equals(response.getGiver().getGiverUser(), student)
+                || Objects.equals(response.getGiver().getGiverTeam(), student.getTeam())) {
+            return;
         }
+
+        throw new UnauthorizedAccessException("Response [" + response.getId() + "] is not accessible to "
+                + student.getName());
     }
 
     /**
@@ -53,9 +49,12 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
      */
     void verifyResponseOwnerShipForInstructor(Instructor instructor, FeedbackResponse response)
             throws UnauthorizedAccessException {
-        if (!SanitizationHelper.areEmailsEqual(response.getGiver(), instructor.getEmail())) {
-            throw new UnauthorizedAccessException("Response [" + response.getId() + "] is not accessible to "
-                    + instructor.getName());
+        Objects.requireNonNull(instructor);
+        if (Objects.equals(response.getGiver().getGiverUser(), instructor)) {
+            return;
         }
+
+        throw new UnauthorizedAccessException("Response [" + response.getId() + "] is not accessible to "
+                + instructor.getName());
     }
 }

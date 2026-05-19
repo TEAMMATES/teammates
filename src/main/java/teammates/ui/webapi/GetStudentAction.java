@@ -40,11 +40,7 @@ public class GetStudentAction extends Action {
         if (studentEmail != null) {
             student = logic.getStudentForEmail(courseId, studentEmail);
 
-            if (student == null || authContext == null || !authContext.isInstructor()) {
-                throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
-            }
-
-            Instructor instructor = logic.getInstructorByGoogleId(courseId, authContext.id());
+            Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
 
             gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId),
                     student.getTeamName(),
@@ -52,11 +48,7 @@ public class GetStudentAction extends Action {
         } else if (regKey != null) {
             getUnregisteredStudent().orElseThrow(() -> new UnauthorizedAccessException(UNAUTHORIZED_ACCESS));
         } else {
-            if (authContext == null || !authContext.isStudent()) {
-                throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
-            }
-
-            student = logic.getStudentByGoogleId(courseId, authContext.id());
+            student = logic.getStudentByGoogleId(courseId, getCurrentUserGoogleId());
             gateKeeper.verifyAccessible(student, course);
         }
     }
@@ -80,7 +72,7 @@ public class GetStudentAction extends Action {
         }
 
         StudentData studentData = new StudentData(student);
-        if (authContext != null && authContext.isAdmin()) {
+        if (authContext.isAdmin()) {
             studentData.setKey(student.getRegKey());
             studentData.setGoogleId(
                     Optional.ofNullable(student.getAccount())

@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.util.Const;
+import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackResponseComment;
@@ -31,14 +32,42 @@ final class GateKeeper {
      * Verifies the user is logged in.
      */
     void verifyLoggedInUserPrivileges(AuthContext authContext) throws UnauthorizedAccessException {
-        if (authContext != null) {
+        if (authContext.account() != null) {
             return;
         }
 
         throw new UnauthorizedAccessException("User is not logged in");
     }
 
-    // These methods ensures that the nominal user specified has access to a given entity
+    void verifyAdminPrivileges(AuthContext authContext) throws UnauthorizedAccessException {
+        if (authContext.isAdmin()) {
+            return;
+        }
+
+        throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
+    }
+
+    /**
+     * Verifies that the specified account has student privileges in any course.
+     */
+    void verifyStudentInAnyCourse(Account account) throws UnauthorizedAccessException {
+        if (account != null && account.getStudents() != null && !account.getStudents().isEmpty()) {
+            return;
+        }
+
+        throw new UnauthorizedAccessException("Student privilege is required to access this resource.");
+    }
+
+    /**
+     * Verifies that the specified account has instructor privileges in any course.
+     */
+    void verifyInstructorInAnyCourse(Account account) throws UnauthorizedAccessException {
+        if (account != null && account.getInstructors() != null && !account.getInstructors().isEmpty()) {
+            return;
+        }
+
+        throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
+    }
 
     /**
      * Verifies that the specified student can access the specified course.
