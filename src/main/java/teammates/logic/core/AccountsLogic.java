@@ -219,22 +219,15 @@ public final class AccountsLogic {
         }
 
         if (instructorForKey.isRegistered()) {
-            if (instructorForKey.getGoogleId().equals(googleId)) {
-                Account existingAccount = accountsDb.getAccountByGoogleId(googleId);
-                if (existingAccount != null) {
-                    throw new EntityAlreadyExistsException("Instructor has already joined course");
-                }
-            } else {
-                throw new EntityAlreadyExistsException("Instructor has already joined course");
-            }
-        } else {
-            // Check if this Google ID has already joined this course
-            Instructor existingInstructor =
-                    usersLogic.getInstructorByGoogleId(instructorForKey.getCourseId(), googleId);
+            throw new EntityAlreadyExistsException("Instructor has already joined course");
+        }
 
-            if (existingInstructor != null) {
-                throw new EntityAlreadyExistsException("Instructor has already joined course");
-            }
+        // Check if this Google ID has already joined this course
+        Instructor existingInstructor =
+                usersLogic.getInstructorByGoogleId(instructorForKey.getCourseId(), googleId);
+
+        if (existingInstructor != null) {
+            throw new EntityAlreadyExistsException("Instructor has already joined course");
         }
 
         return instructorForKey;
