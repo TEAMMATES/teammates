@@ -1,5 +1,8 @@
 package teammates.it.storage.api;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -90,11 +93,10 @@ public class FeedbackResponseCommentsDbIT extends BaseTestCaseWithDatabaseAccess
     }
 
     private void assertListCommentsEqual(List<FeedbackResponseComment> expected, List<FeedbackResponseComment> actual) {
-        assertTrue(
+        assertTrue(new HashSet<>(expected).equals(new HashSet<>(actual)),
                 String.format("List contents are not equal.%nExpected: %s,%nActual: %s",
-                        expected.toString(), actual.toString()),
-                new HashSet<>(expected).equals(new HashSet<>(actual)));
-        assertEquals("List size not equal.", expected.size(), actual.size());
+                        expected.toString(), actual.toString()));
+        assertEquals(expected.size(), actual.size(), "List size not equal.");
     }
 
 }

@@ -1,5 +1,8 @@
 package teammates.common.util;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.testng.annotations.Test;
 
 import teammates.test.BaseTestCase;

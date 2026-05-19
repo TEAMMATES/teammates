@@ -1,5 +1,7 @@
 package teammates.it.logic.core;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.time.Instant;
 
 import org.testng.annotations.BeforeMethod;

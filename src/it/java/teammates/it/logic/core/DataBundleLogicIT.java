@@ -1,5 +1,9 @@
 package teammates.it.logic.core;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -79,7 +83,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         Account expectedInstructorAccount = new Account("idOfInstructor1", "Instructor 1", "instr1@teammates.tmt");
         expectedInstructorAccount.setId(actualInstructorAccount.getId());
         verifyEquals(expectedInstructorAccount, actualInstructorAccount);
-        assertTrue(actualInstructorAccount.getReadNotifications().size() == 1);
+        assertEquals(1, actualInstructorAccount.getReadNotifications().size());
         assertTrue(List.of(dataBundle.readNotifications.get("notification1Instructor1"))
                 .containsAll(actualInstructorAccount.getReadNotifications()));
 
@@ -87,7 +91,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
         Account expectedStudentAccount = new Account("idOfStudent1", "Student 1", "student1@teammates.tmt");
         expectedStudentAccount.setId(actualStudentAccount.getId());
         verifyEquals(expectedStudentAccount, actualStudentAccount);
-        assertTrue(actualStudentAccount.getReadNotifications().size() == 1);
+        assertEquals(1, actualStudentAccount.getReadNotifications().size());
         assertTrue(List.of(dataBundle.readNotifications.get("notification1Student1"))
                 .containsAll(actualStudentAccount.getReadNotifications()));
 

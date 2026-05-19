@@ -1,5 +1,9 @@
 package teammates.it.ui.webapi;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashSet;
@@ -231,8 +235,8 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
         assertEquals("Successful", response1.getMessage());
-        assertTrue(!session.isClosingSoonEmailSent());
-        assertTrue(!de.isClosingSoonEmailSent());
+        assertFalse(session.isClosingSoonEmailSent());
+        assertFalse(de.isClosingSoonEmailSent());
 
         verifyNoTasksAdded();
     }

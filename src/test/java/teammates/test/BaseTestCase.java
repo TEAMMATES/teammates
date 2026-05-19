@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.function.Executable;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
@@ -275,91 +273,6 @@ public class BaseTestCase {
         return (String) invokeMethod(FieldValidator.class, "getPopulatedEmptyStringErrorMessage",
                 new Class<?>[] { String.class, String.class, int.class },
                 null, new Object[] { messageTemplate, fieldName, maxLength });
-    }
-
-    /*
-     * Here are some of the most common assertion methods provided by JUnit.
-     * They are copied here to prevent repetitive importing in test classes.
-     */
-
-    protected static void assertTrue(boolean condition) {
-        Assertions.assertTrue(condition);
-    }
-
-    protected static void assertTrue(String message, boolean condition) {
-        Assertions.assertTrue(condition, message);
-    }
-
-    protected static void assertFalse(boolean condition) {
-        Assertions.assertFalse(condition);
-    }
-
-    protected static void assertFalse(String message, boolean condition) {
-        Assertions.assertFalse(condition, message);
-    }
-
-    protected static void assertEquals(int expected, int actual) {
-        Assertions.assertEquals(expected, actual);
-    }
-
-    protected static void assertEquals(String message, int expected, int actual) {
-        Assertions.assertEquals(expected, actual, message);
-    }
-
-    protected static void assertEquals(long expected, long actual) {
-        Assertions.assertEquals(expected, actual);
-    }
-
-    protected static void assertEquals(double expected, double actual, double delta) {
-        Assertions.assertEquals(expected, actual, delta);
-    }
-
-    protected static void assertEquals(Object expected, Object actual) {
-        Assertions.assertEquals(expected, actual);
-    }
-
-    protected static void assertEquals(String message, Object expected, Object actual) {
-        Assertions.assertEquals(expected, actual, message);
-    }
-
-    protected static void assertArrayEquals(byte[] expected, byte[] actual) {
-        Assertions.assertArrayEquals(expected, actual);
-    }
-
-    protected static void assertNotEquals(Object first, Object second) {
-        Assertions.assertNotEquals(first, second);
-    }
-
-    protected static void assertSame(Object expected, Object actual) {
-        Assertions.assertSame(expected, actual);
-    }
-
-    protected static void assertNotSame(Object unexpected, Object actual) {
-        Assertions.assertNotSame(unexpected, actual);
-    }
-
-    protected static void assertNull(Object object) {
-        Assertions.assertNull(object);
-    }
-
-    protected static void assertNull(String message, Object object) {
-        Assertions.assertNull(object, message);
-    }
-
-    protected static void assertNotNull(Object object) {
-        Assertions.assertNotNull(object);
-    }
-
-    protected static void assertNotNull(String message, Object object) {
-        Assertions.assertNotNull(object, message);
-    }
-
-    protected static void fail(String message) {
-        Assertions.fail(message);
-    }
-
-    protected static <T extends Throwable> T assertThrows(Class<T> expectedType, Executable executable) {
-        return Assertions.assertThrows(expectedType, executable);
     }
 
 }

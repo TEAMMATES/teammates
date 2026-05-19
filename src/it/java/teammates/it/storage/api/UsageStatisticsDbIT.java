@@ -1,5 +1,8 @@
 package teammates.it.storage.api;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;

@@ -1,5 +1,6 @@
 package teammates.common.util;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static teammates.test.AssertHelper.assertJsonEquals;
 
 import org.testng.annotations.Test;
