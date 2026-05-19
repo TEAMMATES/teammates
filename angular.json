@@ -92,7 +92,8 @@
         "test": {
           "builder": "@angular-builders/jest:run",
           "options": {
-            "cache": false
+            "cache": false,
+            "zoneless": false
           }
         },
         "lint": {
