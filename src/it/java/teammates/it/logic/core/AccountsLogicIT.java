@@ -1,7 +1,5 @@
 package teammates.it.logic.core;
 
-import java.util.UUID;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
