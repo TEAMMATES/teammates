@@ -301,7 +301,7 @@ describe('InstructorSessionsPageComponent', () => {
     component.recycleBinFeedbackSessionRowModels = [recycleBinFeedbackSessionRowModel1];
     const sessionSpy: SpyInstance = jest
       .spyOn(sessionService, 'deleteFeedbackSession')
-      .mockReturnValue(of(testFeedbackSession3));
+      .mockReturnValue(of({ message: 'deleted' }));
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     component.permanentDeleteSession(recycleBinFeedbackSessionRowModel1);
@@ -334,11 +334,11 @@ describe('InstructorSessionsPageComponent', () => {
     ];
     const sessionSpy: SpyInstance = jest
       .spyOn(sessionService, 'deleteFeedbackSession')
-      .mockImplementation((_courseId: string, feedbackSessionName: string) => {
-        if (feedbackSessionName === testFeedbackSession3.feedbackSessionName) {
-          return of(testFeedbackSession3);
+      .mockImplementation((feedbackSessionId: string) => {
+        if (feedbackSessionId === testFeedbackSession3.feedbackSessionId) {
+          return of({ message: 'deleted' });
         }
-        return of(testFeedbackSession4);
+        return of({ message: 'deleted' });
       });
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 

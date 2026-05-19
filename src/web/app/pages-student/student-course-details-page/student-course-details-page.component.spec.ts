@@ -8,6 +8,9 @@ import { SortBy } from '../../../types/sort-properties';
 
 const student: Student = {
   courseId: '1.1.c-demo2',
+  courseName: 'Test Course',
+  institute: 'Test Institute',
+  userId: 'test-user-id',
   email: '1@1.com',
   name: '1',
   comments: '',
@@ -20,6 +23,9 @@ const instructorDetails: Instructor[] = [
   {
     googleId: '',
     courseId: '1.1.c-demo2',
+    courseName: 'Test Course',
+    institute: 'Test Institute',
+    userId: 'instructor-1',
     displayedToStudentsAs: 'Instructor',
     isDisplayedToStudents: true,
     email: '1@1.com',
@@ -71,6 +77,9 @@ describe('StudentCourseDetailsPageComponent', () => {
     const teammateProfiles: Student[] = [
       {
         courseId: '1.1.c-demo2',
+        courseName: 'Test Course',
+        institute: 'Test Institute',
+        userId: 'test-user-id',
         email: 'iam2@hello.com',
         name: '2',
         sectionName: 'Tutorial Group 2',
@@ -105,6 +114,9 @@ describe('StudentCourseDetailsPageComponent', () => {
     const teammateProfiles: Student[] = [
       {
         courseId: '1.1.c-demo2',
+        courseName: 'Test Course',
+        institute: 'Test Institute',
+        userId: 'test-user-id',
         email: 'iam2@hello.com',
         name: 'billy',
         sectionName: 'Tutorial Group 2',
@@ -112,6 +124,9 @@ describe('StudentCourseDetailsPageComponent', () => {
       },
       {
         courseId: '1.1.c-demo2',
+        courseName: 'Test Course',
+        institute: 'Test Institute',
+        userId: 'test-user-id',
         email: 'iam3@hello.com',
         name: 'amy',
         sectionName: 'Tutorial Group 2',
@@ -119,6 +134,9 @@ describe('StudentCourseDetailsPageComponent', () => {
       },
       {
         courseId: '1.1.c-demo2',
+        courseName: 'Test Course',
+        institute: 'Test Institute',
+        userId: 'test-user-id',
         email: 'iam4@hello.com',
         name: 'dawson',
         sectionName: 'Tutorial Group 2',
@@ -145,6 +163,9 @@ describe('StudentCourseDetailsPageComponent', () => {
     const teammateProfiles: Student[] = [
       {
         courseId: '1.1.c-demo2',
+        courseName: 'Test Course',
+        institute: 'Test Institute',
+        userId: 'test-user-id',
         email: 'cam2@hello.com',
         name: 'billy',
         sectionName: 'Tutorial Group 2',
@@ -152,6 +173,9 @@ describe('StudentCourseDetailsPageComponent', () => {
       },
       {
         courseId: '1.1.c-demo2',
+        courseName: 'Test Course',
+        institute: 'Test Institute',
+        userId: 'test-user-id',
         email: 'bam3@hello.com',
         name: 'amy',
         sectionName: 'Tutorial Group 2',
@@ -159,6 +183,9 @@ describe('StudentCourseDetailsPageComponent', () => {
       },
       {
         courseId: '1.1.c-demo2',
+        courseName: 'Test Course',
+        institute: 'Test Institute',
+        userId: 'test-user-id',
         email: 'aam4@hello.com',
         name: 'dawson',
         sectionName: 'Tutorial Group 2',

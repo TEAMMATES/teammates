@@ -28,6 +28,7 @@ const studentCourseA: any = {
   feedbackSessions: [
     {
       session: {
+        feedbackSessionId: 'test-feedback-session-id-001',
         feedbackSessionName: 'First Session',
         courseId: 'CS1231',
         timeZone: 'Asia/Singapore',
@@ -50,6 +51,7 @@ const studentCourseA: any = {
     },
     {
       session: {
+        feedbackSessionId: 'test-feedback-session-id-002',
         feedbackSessionName: 'Second Session',
         courseId: 'CS1231',
         timeZone: 'Asia/Singapore',
@@ -88,6 +90,7 @@ const studentCourseB: any = {
   feedbackSessions: [
     {
       session: {
+        feedbackSessionId: 'test-feedback-session-id-003',
         feedbackSessionName: 'Third Session',
         courseId: 'LSM1306',
         timeZone: 'Asia/Singapore',
@@ -110,6 +113,7 @@ const studentCourseB: any = {
     },
     {
       session: {
+        feedbackSessionId: 'test-feedback-session-id-004',
         feedbackSessionName: 'Fourth Session',
         courseId: 'LSM1306',
         timeZone: 'Asia/Singapore',
@@ -148,6 +152,7 @@ const studentCourseC: any = {
   feedbackSessions: [
     {
       session: {
+        feedbackSessionId: 'test-feedback-session-id-005',
         feedbackSessionName: 'Fifth Session',
         courseId: 'MA1521',
         timeZone: 'Asia/Singapore',
@@ -170,6 +175,7 @@ const studentCourseC: any = {
     },
     {
       session: {
+        feedbackSessionId: 'test-feedback-session-id-006',
         feedbackSessionName: 'Sixth Session',
         courseId: 'MA1521',
         timeZone: 'Asia/Singapore',
@@ -213,6 +219,7 @@ const studentCourses: Courses = {
 const studentFeedbackSessions: FeedbackSessions = {
   feedbackSessions: [
     {
+      feedbackSessionId: 'test-feedback-session-id-007',
       feedbackSessionName: 'Latest update Session',
       courseId: 'CS1231',
       timeZone: 'Asia/Singapore',
@@ -229,6 +236,7 @@ const studentFeedbackSessions: FeedbackSessions = {
       createdAtTimestamp: 0,
     },
     {
+      feedbackSessionId: 'test-feedback-session-id-008',
       feedbackSessionName: 'Orientation Session',
       courseId: 'CS1231',
       timeZone: 'Asia/Singapore',
@@ -245,6 +253,7 @@ const studentFeedbackSessions: FeedbackSessions = {
       createdAtTimestamp: 0,
     },
     {
+      feedbackSessionId: 'test-feedback-session-id-009',
       feedbackSessionName: 'Welcome Tea Session',
       courseId: 'CS1231',
       timeZone: 'Asia/Singapore',
@@ -291,6 +300,7 @@ describe('StudentHomePageComponent', () => {
     const studentFeedbackSessions1: FeedbackSessions = {
       feedbackSessions: [
         {
+          feedbackSessionId: 'test-feedback-session-id-010',
           feedbackSessionName: 'First Session',
           courseId: 'CS1231',
           timeZone: 'Asia/Singapore',
@@ -307,6 +317,7 @@ describe('StudentHomePageComponent', () => {
           createdAtTimestamp: 0,
         },
         {
+          feedbackSessionId: 'test-feedback-session-id-011',
           feedbackSessionName: 'Second Session',
           courseId: 'CS1231',
           timeZone: 'Asia/Singapore',
@@ -347,6 +358,7 @@ describe('StudentHomePageComponent', () => {
     const studentFeedbackSessions1: FeedbackSessions = {
       feedbackSessions: [
         {
+          feedbackSessionId: 'test-feedback-session-id-012',
           feedbackSessionName: 'First Session',
           courseId: 'CS1231',
           timeZone: 'Asia/Singapore',
@@ -363,6 +375,7 @@ describe('StudentHomePageComponent', () => {
           createdAtTimestamp: 0,
         },
         {
+          feedbackSessionId: 'test-feedback-session-id-013',
           feedbackSessionName: 'Second Session',
           courseId: 'CS1231',
           timeZone: 'Asia/Singapore',
@@ -453,6 +466,7 @@ describe('StudentHomePageComponent', () => {
       feedbackSessions: [
         {
           session: {
+            feedbackSessionId: 'test-feedback-session-id-014',
             feedbackSessionName: 'First Session',
             courseId: 'CS1231',
             timeZone: 'Asia/Singapore',
@@ -501,6 +515,7 @@ describe('StudentHomePageComponent', () => {
       feedbackSessions: [
         {
           session: {
+            feedbackSessionId: 'test-feedback-session-id-015',
             feedbackSessionName: 'First Session',
             courseId: 'CS1231',
             timeZone: 'Asia/Singapore',
@@ -549,6 +564,7 @@ describe('StudentHomePageComponent', () => {
       feedbackSessions: [
         {
           session: {
+            feedbackSessionId: 'test-feedback-session-id-016',
             feedbackSessionName: 'First Session',
             courseId: 'CS1231',
             timeZone: 'Asia/Singapore',
@@ -596,6 +612,7 @@ describe('StudentHomePageComponent', () => {
       feedbackSessions: [
         {
           session: {
+            feedbackSessionId: 'test-feedback-session-id-017',
             feedbackSessionName: 'First Session',
             courseId: 'CS1231',
             timeZone: 'Asia/Singapore',
@@ -643,6 +660,7 @@ describe('StudentHomePageComponent', () => {
       feedbackSessions: [
         {
           session: {
+            feedbackSessionId: 'test-feedback-session-id-018',
             feedbackSessionName: 'First Session',
             courseId: 'CS1231',
             timeZone: 'Asia/Singapore',
@@ -723,7 +741,7 @@ describe('StudentHomePageComponent', () => {
       feedbackSessions: [
         {
           session: {
-            feedbackSessionId: '00000000-0000-4000-8000-000000000001',
+            feedbackSessionId: 'fs-id-1',
             feedbackSessionName: 'First Session',
             courseId: 'CS1231',
             timeZone: 'Asia/Singapore',
@@ -746,7 +764,7 @@ describe('StudentHomePageComponent', () => {
         },
         {
           session: {
-            feedbackSessionId: '00000000-0000-4000-8000-000000000002',
+            feedbackSessionId: 'fs-id-2',
             feedbackSessionName: 'Second Session',
             courseId: 'CS1231',
             timeZone: 'Asia/Singapore',
@@ -780,8 +798,8 @@ describe('StudentHomePageComponent', () => {
 
     const href1: any = fixture.debugElement.nativeElement.querySelector('#view-responses-btn-0').getAttribute('href');
     const href2: any = fixture.debugElement.nativeElement.querySelector('#view-responses-btn-1').getAttribute('href');
-    expect(href1).toEqual('/web/student/sessions/result?fsid=00000000-0000-4000-8000-000000000001');
-    expect(href2).toEqual('/web/student/sessions/result?fsid=00000000-0000-4000-8000-000000000002');
+    expect(href1).toEqual('/web/student/sessions/result?fsid=fs-id-1');
+    expect(href2).toEqual('/web/student/sessions/result?fsid=fs-id-2');
   });
 
   // start/edit/view submission button share the same router link and query params
@@ -798,7 +816,7 @@ describe('StudentHomePageComponent', () => {
       feedbackSessions: [
         {
           session: {
-            feedbackSessionId: '00000000-0000-4000-8000-000000000001',
+            feedbackSessionId: 'fs-id-1',
             feedbackSessionName: 'First Session',
             courseId: 'CS1231',
             timeZone: 'Asia/Singapore',
@@ -821,7 +839,7 @@ describe('StudentHomePageComponent', () => {
         },
         {
           session: {
-            feedbackSessionId: '00000000-0000-4000-8000-000000000002',
+            feedbackSessionId: 'fs-id-2',
             feedbackSessionName: 'Second Session',
             courseId: 'CS1231',
             timeZone: 'Asia/Singapore',
@@ -855,8 +873,8 @@ describe('StudentHomePageComponent', () => {
 
     const href1: any = fixture.debugElement.nativeElement.querySelector('#view-submit-btn-0').getAttribute('href');
     const href2: any = fixture.debugElement.nativeElement.querySelector('#view-submit-btn-1').getAttribute('href');
-    expect(href1).toEqual('/web/student/sessions/submission?fsid=00000000-0000-4000-8000-000000000001');
-    expect(href2).toEqual('/web/student/sessions/submission?fsid=00000000-0000-4000-8000-000000000002');
+    expect(href1).toEqual('/web/student/sessions/submission?fsid=fs-id-1');
+    expect(href2).toEqual('/web/student/sessions/submission?fsid=fs-id-2');
   });
 
   it('should sort courses by their IDs', () => {
@@ -954,6 +972,7 @@ describe('StudentHomePageComponent', () => {
       feedbackSessions: [
         {
           session: {
+            feedbackSessionId: 'test-feedback-session-id-019',
             feedbackSessionName: 'First Session',
             courseId: 'CS2103',
             timeZone: 'Asia/Singapore',
@@ -976,6 +995,7 @@ describe('StudentHomePageComponent', () => {
         },
         {
           session: {
+            feedbackSessionId: 'test-feedback-session-id-020',
             feedbackSessionName: 'Second Session',
             courseId: 'CS2103',
             timeZone: 'Asia/Singapore',

@@ -33,6 +33,9 @@ describe('InstructorCourseStudentDetailsPageComponent', () => {
     component.student = {
       email: 'studentEmail@email.com',
       courseId: 'CS3281',
+      courseName: 'Test Course',
+      institute: 'Test Institute',
+      userId: 'student-details-1',
       name: 'firstName',
       comments: 'This is a comment',
       teamName: 'myTeam',

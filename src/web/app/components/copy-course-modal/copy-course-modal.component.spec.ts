@@ -110,6 +110,7 @@ describe('CopyCourseModalComponent', () => {
     const testFeedbackSession: FeedbackSession = {
       courseId: 'testId',
       timeZone: 'Asia/Singapore',
+      feedbackSessionId: 'test-feedback-session-id',
       feedbackSessionName: 'Test Session',
       instructions: 'Instructions',
       submissionStartTimestamp: 1000000000000,
@@ -228,6 +229,7 @@ describe('CopyCourseModalComponent', () => {
     const testFeedbackSession1: FeedbackSession = {
       courseId: 'testId',
       timeZone: 'Asia/Singapore',
+      feedbackSessionId: 'test-feedback-session-id-1',
       feedbackSessionName: 'Test Session 1',
       instructions: 'Instructions',
       submissionStartTimestamp: 1000000000000,
@@ -244,6 +246,7 @@ describe('CopyCourseModalComponent', () => {
     const testFeedbackSession2: FeedbackSession = {
       courseId: 'testId',
       timeZone: 'Asia/Singapore',
+      feedbackSessionId: 'test-feedback-session-id-2',
       feedbackSessionName: 'Test Session 2',
       instructions: 'Instructions',
       submissionStartTimestamp: 1000000000000,
@@ -286,6 +289,7 @@ describe('CopyCourseModalComponent', () => {
     const testFeedbackSession: FeedbackSession = {
       courseId: 'testId2',
       timeZone: 'Asia/Singapore',
+      feedbackSessionId: 'test-feedback-session-id-22',
       feedbackSessionName: 'Test Session 2',
       instructions: 'Instructions',
       submissionStartTimestamp: 1000000000000,

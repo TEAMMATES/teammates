@@ -173,12 +173,14 @@ describe('UserJoinPageComponent', () => {
   it('should redirect user to home page if user is logged in and join URL has been used', () => {
     jest.spyOn(authService, 'getAuthUser').mockReturnValue(
       of({
+        loginUrl: '/login',
         user: {
           id: 'user',
           isAdmin: false,
           isInstructor: false,
           isStudent: false,
           isMaintainer: false,
+          accountId: 'account-id',
         },
         masquerade: false,
       }),
@@ -201,12 +203,14 @@ describe('UserJoinPageComponent', () => {
   it('should stop loading and show error message if 404 is returned', () => {
     jest.spyOn(authService, 'getAuthUser').mockReturnValue(
       of({
+        loginUrl: '/login',
         user: {
           id: 'user',
           isAdmin: false,
           isInstructor: false,
           isStudent: false,
           isMaintainer: false,
+          accountId: '',
         },
         masquerade: false,
       }),
@@ -226,6 +230,7 @@ describe('UserJoinPageComponent', () => {
   it('should stop loading and redirect if user is not logged in', () => {
     jest.spyOn(authService, 'getAuthUser').mockReturnValue(
       of({
+        loginUrl: '/login',
         masquerade: false,
       }),
     );
@@ -311,12 +316,14 @@ describe('UserJoinPageComponent creating account', () => {
   it('should redirect user to home page if user is logged in and URL has been used', () => {
     jest.spyOn(authService, 'getAuthUser').mockReturnValue(
       of({
+        loginUrl: '/login',
         user: {
           id: 'user',
           isAdmin: false,
           isInstructor: false,
           isStudent: false,
           isMaintainer: false,
+          accountId: '',
         },
         masquerade: false,
       }),
@@ -339,12 +346,14 @@ describe('UserJoinPageComponent creating account', () => {
   it('should stop loading and show error message if 404 is returned when creating new account', () => {
     jest.spyOn(authService, 'getAuthUser').mockReturnValue(
       of({
+        loginUrl: '/login',
         user: {
           id: 'user',
           isAdmin: false,
           isInstructor: false,
           isStudent: false,
           isMaintainer: false,
+          accountId: '',
         },
         masquerade: false,
       }),

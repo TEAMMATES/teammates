@@ -15,9 +15,9 @@ import { StudentListRowModel } from '../../components/student-list/student-list.
 
 const course: Course = {
   courseId: 'CS101',
+  institute: 'Test Institute',
   courseName: 'Introduction to CS',
   timeZone: '',
-  institute: 'Test Institute',
   creationTimestamp: 0,
   deletionTimestamp: 0,
 };
@@ -29,10 +29,16 @@ const testStudent: Student = {
   teamName: 'Team 1',
   sectionName: 'Tutorial Group 1',
   courseId: 'CS101',
+  courseName: 'Test Course',
+  institute: 'Test Institute',
+  userId: 'student-jamie',
 };
 
 const testInstructor: Instructor = {
   courseId: course.courseId,
+  courseName: 'Test Course',
+  institute: 'Test Institute',
+  userId: 'instructor-hock',
   joinState: JoinState.JOINED,
   googleId: 'Hock',
   name: 'Hock',
@@ -80,6 +86,9 @@ describe('InstructorCourseDetailsPageComponent', () => {
     };
     const coOwner: Instructor = {
       courseId: course.courseId,
+      courseName: 'Test Course',
+      institute: 'Test Institute',
+      userId: 'instructor-hodor',
       joinState: JoinState.JOINED,
       googleId: 'Hodor',
       name: 'Hodor',
@@ -109,6 +118,9 @@ describe('InstructorCourseDetailsPageComponent', () => {
     };
     const coOwner: Instructor = {
       courseId: course.courseId,
+      courseName: 'Test Course',
+      institute: 'Test Institute',
+      userId: 'instructor-bran',
       joinState: JoinState.JOINED,
       googleId: 'Bran',
       name: 'Bran',

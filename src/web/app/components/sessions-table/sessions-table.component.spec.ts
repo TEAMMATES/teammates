@@ -244,7 +244,7 @@ describe('SessionsTableComponent', () => {
   it('should include optional fields in row data when provided', () => {
     component.columnsToShow = [SessionsTableColumn.COURSE_ID];
 
-    const customComponent = { component: {} as never };
+    const customComponent = { component: {} as never, componentData: () => ({}) };
     const result = component.createRowData({
       columnType: SessionsTableColumn.COURSE_ID,
       value: 'CS101',

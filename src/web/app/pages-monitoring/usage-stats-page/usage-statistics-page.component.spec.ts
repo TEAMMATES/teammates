@@ -12,6 +12,7 @@ const generateData = (startTime: number, iterations: number): UsageStatistics[] 
   let time = startTime;
   for (let i = 1; i <= iterations; i += 1) {
     stats.push({
+      usageStatisticsId: `usage-stat-${i}`,
       startTime: time,
       timePeriod: 60,
       numResponses: i,
@@ -66,6 +67,7 @@ describe('UsageStatisticsPageComponent', () => {
 
     const statsObjects: UsageStatistics[] = [
       {
+        usageStatisticsId: 'usage-stat-100',
         startTime: new Date('2022-03-27T23:00:00Z').getTime(),
         timePeriod: 60,
         numResponses: 100,
@@ -77,6 +79,7 @@ describe('UsageStatisticsPageComponent', () => {
         numSubmissions: 99,
       },
       {
+        usageStatisticsId: 'usage-stat-101',
         startTime: new Date('2022-03-28T00:00:00Z').getTime(),
         timePeriod: 60,
         numResponses: 400,

@@ -51,6 +51,7 @@ describe('SessionResultPageComponent', () => {
   };
 
   const testInfo: AuthInfo = {
+    loginUrl: '/login',
     masquerade: false,
     user: {
       id: 'user-id',
@@ -58,6 +59,7 @@ describe('SessionResultPageComponent', () => {
       isInstructor: true,
       isStudent: false,
       isMaintainer: false,
+      accountId: 'account-id',
     },
   };
 
@@ -267,6 +269,9 @@ describe('SessionResultPageComponent', () => {
         name: 'student-name',
         email: 'student@tmt.tmt',
         courseId: '',
+        courseName: '',
+        institute: '',
+        userId: 'student-name-id',
         sectionName: '',
         teamName: '',
       }),
