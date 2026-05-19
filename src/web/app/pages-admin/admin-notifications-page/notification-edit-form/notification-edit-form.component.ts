@@ -123,9 +123,9 @@ export class NotificationEditFormComponent {
       });
   }
   /**
-  * Check if notification is visible and been shown to users.
-  * A notification is shown if current time is after its start time.
-  */
+   * Check if notification is visible and been shown to users.
+   * A notification is shown if current time is after its start time.
+   */
   isNotificationActive(): boolean {
     const { startDate, startTime } = this.model;
 
@@ -135,8 +135,7 @@ export class NotificationEditFormComponent {
 
     try {
       const year = startDate.year;
-      // Default date from getDefaultDateFormat() is { year: 0, month: 0, day: 0 }.
-      // new Date(0, -1, 0) evaluates to the year 1899, which makes it seem active.
+
       if (year === 0) {
         return false;
       }

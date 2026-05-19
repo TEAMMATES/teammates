@@ -144,13 +144,13 @@ describe('UserNotificationsListComponent', () => {
     component.sortNotificationsBy(SortBy.NOTIFICATION_START_TIME);
     expect(
       component.notificationTabs[0].notification.startTimestamp >=
-      component.notificationTabs[1].notification.startTimestamp,
+        component.notificationTabs[1].notification.startTimestamp,
     ).toBeTruthy();
 
     component.sortNotificationsBy(SortBy.NOTIFICATION_END_TIME);
     expect(
       component.notificationTabs[0].notification.endTimestamp <=
-      component.notificationTabs[1].notification.endTimestamp,
+        component.notificationTabs[1].notification.endTimestamp,
     ).toBeTruthy();
   });
 
