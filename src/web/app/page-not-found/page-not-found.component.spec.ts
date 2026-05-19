@@ -10,9 +10,7 @@ describe('PageNotFoundComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideRouter([])],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(PageNotFoundComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

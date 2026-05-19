@@ -18,9 +18,7 @@ describe('QuestionEditFormComponent', () => {
       imports: [BrowserAnimationsModule],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(QuestionEditFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

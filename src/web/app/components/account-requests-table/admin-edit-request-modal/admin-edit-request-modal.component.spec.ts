@@ -12,9 +12,7 @@ describe('RejectWithReasonModal', () => {
     await TestBed.configureTestingModule({
       providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(EditRequestModalComponent);
     fixture.detectChanges();
     component = fixture.componentInstance;

@@ -211,9 +211,7 @@ describe('QuestionResponsePanelComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(QuestionResponsePanelComponent);
     feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
     statusMessageService = TestBed.inject(StatusMessageService);

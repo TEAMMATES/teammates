@@ -20,9 +20,7 @@ describe('ToastComponent', () => {
     await TestBed.configureTestingModule({
       imports: [NgbToastModule],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ToastComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

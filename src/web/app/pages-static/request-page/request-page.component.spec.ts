@@ -12,9 +12,7 @@ describe('RequestPageComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(RequestPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

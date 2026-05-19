@@ -156,9 +156,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
         provideHttpClientTesting(),
       ],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorSessionIndividualExtensionPageComponent);
     component = fixture.componentInstance;
     studentService = TestBed.inject(StudentService);

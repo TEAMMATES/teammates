@@ -10,9 +10,7 @@ describe('PreviewSessionPanelComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideRouter([])],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(PreviewSessionPanelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

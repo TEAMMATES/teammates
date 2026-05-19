@@ -667,9 +667,7 @@ describe('SessionSubmissionPageComponent', () => {
         },
       ],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SessionSubmissionPageComponent);
     authService = TestBed.inject(AuthService);
     navService = TestBed.inject(NavigationService);

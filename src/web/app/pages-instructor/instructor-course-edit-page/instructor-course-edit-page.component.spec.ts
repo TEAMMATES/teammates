@@ -75,9 +75,7 @@ describe('InstructorCourseEditPageComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorCourseEditPageComponent);
     component = fixture.componentInstance;
     courseService = TestBed.inject(CourseService);

@@ -11,9 +11,7 @@ describe('CustomPrivilegeSettingPanelComponent', () => {
     await TestBed.configureTestingModule({
       providers: [NgbActiveModal],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CustomPrivilegeSettingPanelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

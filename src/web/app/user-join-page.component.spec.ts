@@ -41,9 +41,7 @@ describe('UserJoinPageComponent', () => {
         provideHttpClientTesting(),
       ],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(UserJoinPageComponent);
     component = fixture.componentInstance;
     ngbModal = TestBed.inject(NgbModal);
@@ -272,9 +270,7 @@ describe('UserJoinPageComponent creating account', () => {
         provideHttpClientTesting(),
       ],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(UserJoinPageComponent);
     component = fixture.componentInstance;
     navService = TestBed.inject(NavigationService);

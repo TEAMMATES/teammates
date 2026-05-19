@@ -134,9 +134,7 @@ describe('InstructorSessionsPageComponent', () => {
     await TestBed.configureTestingModule({
       providers: [NgbModal, provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorSessionsPageComponent);
     component = fixture.componentInstance;
     courseService = TestBed.inject(CourseService);

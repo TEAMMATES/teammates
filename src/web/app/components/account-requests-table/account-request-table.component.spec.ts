@@ -53,9 +53,7 @@ describe('AccountRequestTableComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(AccountRequestTableComponent);
     component = fixture.componentInstance;
     accountService = TestBed.inject(AccountService);

@@ -41,9 +41,7 @@ describe('NotificationEditFormComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(NotificationEditFormComponent);
     component = fixture.componentInstance;
     timezoneService = TestBed.inject(TimezoneService);

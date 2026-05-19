@@ -53,9 +53,7 @@ describe('RejectWithReasonModal', () => {
       declarations: [],
       providers: [NgbActiveModal, provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(RejectWithReasonModalComponent);
     searchService = TestBed.inject(SearchService);
     statusMessageService = TestBed.inject(StatusMessageService);

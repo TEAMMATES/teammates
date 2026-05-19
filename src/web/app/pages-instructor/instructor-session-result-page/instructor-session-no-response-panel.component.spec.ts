@@ -12,9 +12,7 @@ describe('InstructorSessionNoResponsePanelComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorSessionNoResponsePanelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

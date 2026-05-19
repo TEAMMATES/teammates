@@ -11,9 +11,7 @@ describe('SingleStatisticsComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SingleStatisticsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

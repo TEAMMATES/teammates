@@ -10,9 +10,7 @@ describe('IndexPageComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideRouter([])],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(IndexPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

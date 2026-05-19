@@ -20,9 +20,7 @@ describe('TemplateQuestionModalComponent', () => {
         provideNoopAnimations(),
       ],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(TemplateQuestionModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

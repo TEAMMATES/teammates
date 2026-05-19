@@ -275,9 +275,7 @@ describe('QuestionSubmissionFormComponent', () => {
       imports: [BrowserAnimationsModule],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(QuestionSubmissionFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

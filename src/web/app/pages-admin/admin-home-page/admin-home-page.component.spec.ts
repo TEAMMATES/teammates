@@ -19,9 +19,7 @@ describe('AdminHomePageComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(AdminHomePageComponent);
     accountService = TestBed.inject(AccountService);
     statusMessageService = TestBed.inject(StatusMessageService);

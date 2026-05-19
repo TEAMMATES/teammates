@@ -10,9 +10,7 @@ describe('SimpleModalComponent', () => {
     await TestBed.configureTestingModule({
       providers: [NgbActiveModal],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SimpleModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

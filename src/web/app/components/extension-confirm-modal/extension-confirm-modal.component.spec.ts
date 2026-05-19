@@ -128,9 +128,7 @@ describe('ExtensionConfirmModalComponent', () => {
         provideHttpClientTesting(),
       ],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ExtensionConfirmModalComponent);
     timeZoneService = TestBed.inject(TimezoneService);
     jest.spyOn(timeZoneService, 'formatToString').mockReturnValue(testTimeString);

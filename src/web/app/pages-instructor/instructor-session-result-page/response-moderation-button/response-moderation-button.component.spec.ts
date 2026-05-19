@@ -10,9 +10,7 @@ describe('ResponseModerationButtonComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideRouter([])],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ResponseModerationButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

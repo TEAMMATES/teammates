@@ -12,9 +12,7 @@ describe('StudentNotificationsPageComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(StudentNotificationsPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

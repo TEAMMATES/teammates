@@ -59,9 +59,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorCourseDetailsPageComponent);
     studentService = TestBed.inject(StudentService);
     simpleModalService = TestBed.inject(SimpleModalService);

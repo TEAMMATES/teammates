@@ -37,9 +37,7 @@ describe('UsageStatisticsPageComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(UsageStatisticsPageComponent);
     component = fixture.componentInstance;
     usageStatisticsService = TestBed.inject(UsageStatisticsService);

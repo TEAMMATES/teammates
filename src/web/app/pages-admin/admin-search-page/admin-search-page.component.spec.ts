@@ -33,9 +33,7 @@ describe('AdminSearchPageComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(AdminSearchPageComponent);
     component = fixture.componentInstance;
     searchService = TestBed.inject(SearchService);

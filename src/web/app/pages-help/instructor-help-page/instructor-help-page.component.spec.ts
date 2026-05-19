@@ -15,9 +15,7 @@ describe('InstructorHelpPageComponent', () => {
       imports: [NoopAnimationsModule, NgxPageScrollCoreModule],
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorHelpPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -27,9 +27,7 @@ describe('CopyCourseModalComponent', () => {
     await TestBed.configureTestingModule({
       providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CopyCourseModalComponent);
     timezoneService = TestBed.inject(TimezoneService);
     statusMessageService = TestBed.inject(StatusMessageService);

@@ -26,9 +26,7 @@ describe('SessionEditFormComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SessionEditFormComponent);
     simpleModalService = TestBed.inject(SimpleModalService);
     dateTimeService = TestBed.inject(DateTimeService);

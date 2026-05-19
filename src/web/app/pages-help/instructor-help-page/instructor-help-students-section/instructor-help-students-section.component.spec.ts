@@ -14,9 +14,7 @@ describe('InstructorHelpStudentsSectionComponent', () => {
       imports: [NgxPageScrollCoreModule],
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorHelpStudentsSectionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -11,9 +11,7 @@ describe('CourseRelatedInfoComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideRouter([])],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CourseRelatedInfoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

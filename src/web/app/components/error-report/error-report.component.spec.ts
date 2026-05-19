@@ -15,9 +15,7 @@ describe('ErrorReportComponent', () => {
     await TestBed.configureTestingModule({
       providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ErrorReportComponent);
     component = fixture.componentInstance;
     httpRequestService = TestBed.inject(HttpRequestService);

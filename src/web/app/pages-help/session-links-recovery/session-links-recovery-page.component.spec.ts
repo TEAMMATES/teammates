@@ -49,9 +49,7 @@ describe('SessionLinksRecoveryPageComponent', () => {
         },
       })
       .compileComponents();
-  });
 
-  beforeEach(() => {
     jest.clearAllMocks();
 
     fixture = TestBed.createComponent(SessionLinksRecoveryPageComponent);

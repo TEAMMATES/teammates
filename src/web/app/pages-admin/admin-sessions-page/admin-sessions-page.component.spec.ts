@@ -11,9 +11,7 @@ describe('AdminSessionsPageComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(AdminSessionsPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

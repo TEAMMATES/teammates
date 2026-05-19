@@ -11,9 +11,7 @@ describe('SessionsRecycleBinTableComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SessionsRecycleBinTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

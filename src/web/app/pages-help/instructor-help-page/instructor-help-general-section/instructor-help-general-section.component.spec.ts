@@ -14,9 +14,7 @@ describe('InstructorHelpGeneralSectionComponent', () => {
       imports: [NgxPageScrollCoreModule],
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorHelpGeneralSectionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

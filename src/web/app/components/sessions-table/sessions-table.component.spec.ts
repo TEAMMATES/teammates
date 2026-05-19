@@ -22,9 +22,7 @@ describe('SessionsTableComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SessionsTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

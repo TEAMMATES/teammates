@@ -21,9 +21,7 @@ describe('CopySessionModalComponent', () => {
     await TestBed.configureTestingModule({
       providers: [NgbActiveModal],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CopySessionModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

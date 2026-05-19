@@ -11,9 +11,7 @@ describe('GqrRqgViewResponsesComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(GqrRqgViewResponsesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

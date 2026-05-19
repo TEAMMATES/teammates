@@ -80,9 +80,7 @@ describe('CourseEditFormComponent', () => {
         provideHttpClientTesting(),
       ],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CourseEditFormComponent);
     feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
     ngbModal = TestBed.inject(NgbModal);

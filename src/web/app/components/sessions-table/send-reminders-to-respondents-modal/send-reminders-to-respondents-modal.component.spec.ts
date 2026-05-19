@@ -57,9 +57,7 @@ describe('SendRemindersToRespondentsModalComponent', () => {
     await TestBed.configureTestingModule({
       providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SendRemindersToRespondentsModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

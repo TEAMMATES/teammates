@@ -67,7 +67,7 @@ describe('InstructorSearchPageComponent', () => {
     ],
   };
 
-  beforeEach(() => {
+  beforeEach(async () => {
     spyHttpRequestService = createSpyFromClass(HttpRequestService);
     TestBed.configureTestingModule({
       providers: [
@@ -76,21 +76,15 @@ describe('InstructorSearchPageComponent', () => {
         provideHttpClientTesting(),
       ],
     });
-  });
 
-  beforeEach(async () => {
     await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorSearchPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
 
-  beforeEach(() => {
     const { students }: { students: Student[] } = mockStudents;
     coursesWithStudents = component.getCoursesWithStudents(students);
   });

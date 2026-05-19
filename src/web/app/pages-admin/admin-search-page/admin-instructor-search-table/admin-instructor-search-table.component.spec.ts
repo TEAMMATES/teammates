@@ -52,9 +52,7 @@ describe('AdminInstructorSearchTableComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(AdminInstructorSearchTableComponent);
     component = fixture.componentInstance;
     accountService = TestBed.inject(AccountService);

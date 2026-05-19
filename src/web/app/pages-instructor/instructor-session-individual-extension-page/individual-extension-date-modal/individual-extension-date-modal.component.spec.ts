@@ -25,9 +25,7 @@ describe('IndividualExtensionDateModalComponent', () => {
     await TestBed.configureTestingModule({
       providers: [NgbActiveModal, FormatDateDetailPipe, provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(IndividualExtensionDateModalComponent);
     component = fixture.componentInstance;
     simpleModalService = TestBed.inject(SimpleModalService);

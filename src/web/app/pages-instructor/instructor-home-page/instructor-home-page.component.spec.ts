@@ -134,9 +134,7 @@ describe('InstructorHomePageComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorHomePageComponent);
     component = fixture.componentInstance;
     courseService = TestBed.inject(CourseService);

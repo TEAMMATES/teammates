@@ -11,9 +11,7 @@ describe('ViewRolePrivilegesModalComponent', () => {
     await TestBed.configureTestingModule({
       providers: [NgbActiveModal],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ViewRolePrivilegesModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

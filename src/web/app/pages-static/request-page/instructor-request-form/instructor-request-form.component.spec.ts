@@ -58,9 +58,7 @@ describe('InstructorRequestFormComponent', () => {
     await TestBed.configureTestingModule({
       providers: [{ provide: AccountService, useValue: accountServiceStub }, provideRouter([])],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorRequestFormComponent);
     component = fixture.componentInstance;
     accountService = TestBed.inject(AccountService);

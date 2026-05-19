@@ -23,9 +23,7 @@ describe('InstructorStudentRecordsPageComponent', () => {
         provideHttpClientTesting(),
       ],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorStudentRecordsPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

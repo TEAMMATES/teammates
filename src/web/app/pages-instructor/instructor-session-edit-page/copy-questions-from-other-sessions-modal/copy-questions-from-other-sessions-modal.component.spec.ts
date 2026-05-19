@@ -132,9 +132,7 @@ describe('CopyQuestionsFromOtherSessionsModalComponent', () => {
     await TestBed.configureTestingModule({
       providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CopyQuestionsFromOtherSessionsModalComponent);
     feedbackQuestionsService = TestBed.inject(FeedbackQuestionsService);
     component = fixture.componentInstance;

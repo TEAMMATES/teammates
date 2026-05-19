@@ -58,9 +58,7 @@ describe('AdminStudentSearchTableComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(AdminStudentSearchTableComponent);
     component = fixture.componentInstance;
     accountService = TestBed.inject(AccountService);

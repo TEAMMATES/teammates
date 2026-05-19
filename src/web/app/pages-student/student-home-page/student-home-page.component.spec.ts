@@ -282,9 +282,7 @@ describe('StudentHomePageComponent', () => {
     await TestBed.configureTestingModule({
       providers: [FormatDateDetailPipe, provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(StudentHomePageComponent);
     component = fixture.componentInstance;
     courseService = TestBed.inject(CourseService);

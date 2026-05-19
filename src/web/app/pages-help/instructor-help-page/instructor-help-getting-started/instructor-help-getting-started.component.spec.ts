@@ -29,9 +29,7 @@ describe('InstructorHelpGettingStartedComponent', () => {
         provideHttpClientTesting(),
       ],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorHelpGettingStartedComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -11,9 +11,7 @@ describe('ContributionQuestionStatisticsComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideRouter([])],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ContributionQuestionStatisticsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

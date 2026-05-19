@@ -10,9 +10,7 @@ describe('StudentHelpPageComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideRouter([])],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(StudentHelpPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

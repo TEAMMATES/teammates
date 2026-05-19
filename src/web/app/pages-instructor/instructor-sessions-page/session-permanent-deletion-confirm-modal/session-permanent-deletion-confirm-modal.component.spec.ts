@@ -11,9 +11,7 @@ describe('SessionPermanentDeletionConfirmModalComponent', () => {
     await TestBed.configureTestingModule({
       providers: [NgbActiveModal],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SessionPermanentDeletionConfirmModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

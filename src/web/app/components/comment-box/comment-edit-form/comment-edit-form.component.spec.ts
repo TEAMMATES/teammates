@@ -18,9 +18,7 @@ describe('CommentEditFormComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CommentEditFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

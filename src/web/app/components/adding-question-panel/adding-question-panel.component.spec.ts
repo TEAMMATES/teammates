@@ -13,9 +13,7 @@ describe('AddingQuestionPanelComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideRouter([])],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(AddingQuestionPanelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

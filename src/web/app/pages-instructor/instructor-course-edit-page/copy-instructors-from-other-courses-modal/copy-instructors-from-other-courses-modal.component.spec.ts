@@ -134,9 +134,7 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     await TestBed.configureTestingModule({
       providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CopyInstructorsFromOtherCoursesModalComponent);
     instructorService = TestBed.inject(InstructorService);
     component = fixture.componentInstance;

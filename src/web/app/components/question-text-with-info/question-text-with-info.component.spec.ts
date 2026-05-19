@@ -18,9 +18,7 @@ describe('QuestionTextWithInfoComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideRouter([])],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(QuestionTextWithInfoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

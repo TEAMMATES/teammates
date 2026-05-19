@@ -10,9 +10,7 @@ describe('InstructorHelpPanelComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideRouter([])],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorHelpPanelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

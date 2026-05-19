@@ -11,9 +11,7 @@ describe('ContributionQuestionEditDetailsFormComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideRouter([])],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ContributionQuestionEditDetailsFormComponent);
     component = fixture.componentInstance;
     component.model = DEFAULT_CONTRIBUTION_QUESTION_DETAILS();

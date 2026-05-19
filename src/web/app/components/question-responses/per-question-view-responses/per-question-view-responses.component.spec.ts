@@ -32,9 +32,7 @@ describe('PerQuestionViewResponsesComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(PerQuestionViewResponsesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

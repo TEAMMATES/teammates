@@ -12,9 +12,7 @@ describe('SavingCompleteModalComponent', () => {
     await TestBed.configureTestingModule({
       providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SavingCompleteModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

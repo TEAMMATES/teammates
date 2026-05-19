@@ -13,9 +13,7 @@ describe('CommentTableComponent', () => {
       imports: [BrowserAnimationsModule],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CommentTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

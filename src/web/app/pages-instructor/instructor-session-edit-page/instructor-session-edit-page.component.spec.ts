@@ -280,9 +280,7 @@ describe('InstructorSessionEditPageComponent', () => {
         provideHttpClientTesting(),
       ],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorSessionEditPageComponent);
     courseService = TestBed.inject(CourseService);
     feedbackSessionsService = TestBed.inject(FeedbackSessionsService);

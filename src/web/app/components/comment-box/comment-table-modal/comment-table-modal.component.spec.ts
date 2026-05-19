@@ -30,9 +30,7 @@ describe('CommentTableModalComponent', () => {
       imports: [BrowserAnimationsModule],
       providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CommentTableModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

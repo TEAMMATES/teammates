@@ -24,9 +24,7 @@ describe('CommentRowComponent', () => {
         provideHttpClientTesting(),
       ],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CommentRowComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

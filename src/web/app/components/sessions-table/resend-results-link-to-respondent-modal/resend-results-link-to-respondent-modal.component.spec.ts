@@ -35,9 +35,7 @@ describe('ResendResultsLinkToRespondentModalComponent', () => {
     await TestBed.configureTestingModule({
       providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ResendResultsLinkToRespondentModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

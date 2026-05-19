@@ -11,9 +11,7 @@ describe('TimezonePageComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(TimezonePageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
