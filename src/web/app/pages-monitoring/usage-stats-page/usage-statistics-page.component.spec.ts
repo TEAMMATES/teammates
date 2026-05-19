@@ -1,6 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { AggregationType, StatisticsType, UsageStatisticsPageComponent } from './usage-statistics-page.component';
 import { UsageStatisticsService } from '../../../services/usage-statistics.service';
@@ -33,13 +33,11 @@ describe('UsageStatisticsPageComponent', () => {
   let fixture: ComponentFixture<UsageStatisticsPageComponent>;
   let usageStatisticsService: UsageStatisticsService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(UsageStatisticsPageComponent);
     component = fixture.componentInstance;
     usageStatisticsService = TestBed.inject(UsageStatisticsService);

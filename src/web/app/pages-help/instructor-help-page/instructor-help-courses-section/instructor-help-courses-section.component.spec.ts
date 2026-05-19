@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { InstructorHelpCoursesSectionComponent } from './instructor-help-courses-section.component';
@@ -7,14 +7,12 @@ describe('InstructorHelpCoursesSectionComponent', () => {
   let component: InstructorHelpCoursesSectionComponent;
   let fixture: ComponentFixture<InstructorHelpCoursesSectionComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [NgxPageScrollCoreModule],
       providers: [provideRouter([])],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorHelpCoursesSectionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -1,6 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 
@@ -67,7 +67,7 @@ describe('InstructorSearchPageComponent', () => {
     ],
   };
 
-  beforeEach(() => {
+  beforeEach(async () => {
     spyHttpRequestService = createSpyFromClass(HttpRequestService);
     TestBed.configureTestingModule({
       providers: [
@@ -76,21 +76,15 @@ describe('InstructorSearchPageComponent', () => {
         provideHttpClientTesting(),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorSearchPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
 
-  beforeEach(() => {
     const { students }: { students: Student[] } = mockStudents;
     coursesWithStudents = component.getCoursesWithStudents(students);
   });

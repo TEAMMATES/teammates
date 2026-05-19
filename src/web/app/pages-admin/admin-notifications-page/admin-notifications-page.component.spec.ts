@@ -2,7 +2,6 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
-import SpyInstance = jest.SpyInstance;
 import { AdminNotificationsPageComponent } from './admin-notifications-page.component';
 import { NotificationEditFormModel } from './notification-edit-form/notification-edit-form-model';
 import { NotificationsTableRowModel } from './notifications-table/notifications-table-model';
@@ -79,9 +78,7 @@ describe('AdminNotificationsPageComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(AdminNotificationsPageComponent);
     notificationService = TestBed.inject(NotificationService);
     statusMessageService = TestBed.inject(StatusMessageService);
@@ -173,7 +170,7 @@ describe('AdminNotificationsPageComponent', () => {
 
   it('should add notification for all fields filled in', () => {
     jest.spyOn(notificationService, 'createNotification').mockReturnValue(of(testNotificationOne));
-    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
+    const spy = jest.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
       expect(args).toEqual('Successfully created');
     });
 
@@ -207,7 +204,7 @@ describe('AdminNotificationsPageComponent', () => {
         },
       })),
     );
-    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
+    const spy = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
       expect(args).toEqual('This is the error message.');
     });
 
@@ -226,7 +223,7 @@ describe('AdminNotificationsPageComponent', () => {
         },
       })),
     );
-    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
+    const spy = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
       expect(args).toEqual('This is the error message.');
     });
 
@@ -238,7 +235,7 @@ describe('AdminNotificationsPageComponent', () => {
 
   it('should display warning when attempts to edit another notification when form is open', async () => {
     const promise: Promise<void> = Promise.resolve();
-    const modalSpy: SpyInstance = jest
+    const modalSpy = jest
       .spyOn(simpleModalService, 'openConfirmationModal')
       .mockReturnValue(createMockNgbModalRef({}, promise));
     jest.spyOn(notificationService, 'getNotifications').mockReturnValue(
@@ -284,7 +281,7 @@ describe('AdminNotificationsPageComponent', () => {
         message: 'Successfully deleted',
       }),
     );
-    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
+    const spy = jest.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
       expect(args).toEqual('Successfully deleted');
     });
 

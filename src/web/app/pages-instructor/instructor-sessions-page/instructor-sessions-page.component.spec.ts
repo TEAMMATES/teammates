@@ -1,10 +1,9 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of } from 'rxjs';
-import SpyInstance = jest.SpyInstance;
 import { InstructorSessionsPageComponent } from './instructor-sessions-page.component';
 import { SessionPermanentDeletionConfirmModalComponent } from './session-permanent-deletion-confirm-modal/session-permanent-deletion-confirm-modal.component';
 import { SessionsPermanentDeletionConfirmModalComponent } from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
@@ -130,13 +129,11 @@ describe('InstructorSessionsPageComponent', () => {
     canSubmitSessionInSections: false,
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [NgbModal, provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorSessionsPageComponent);
     component = fixture.componentInstance;
     courseService = TestBed.inject(CourseService);
@@ -178,7 +175,7 @@ describe('InstructorSessionsPageComponent', () => {
     const courseSessions: FeedbackSessions = {
       feedbackSessions: [testFeedbackSession1, testFeedbackSession2],
     };
-    const sessionSpy: SpyInstance = jest
+    const sessionSpy = jest
       .spyOn(sessionService, 'getFeedbackSessionsForInstructor')
       .mockReturnValue(of(courseSessions));
 
@@ -197,7 +194,7 @@ describe('InstructorSessionsPageComponent', () => {
     const recycleBinSessions: FeedbackSessions = {
       feedbackSessions: [testFeedbackSession3, testFeedbackSession4],
     };
-    const sessionSpy: SpyInstance = jest
+    const sessionSpy = jest
       .spyOn(sessionService, 'getFeedbackSessionsInRecycleBinForInstructor')
       .mockReturnValue(of(recycleBinSessions));
 
@@ -229,9 +226,7 @@ describe('InstructorSessionsPageComponent', () => {
     };
     component.sessionsTableRowModels = [sessionsTableRowModel1, sessionsTableRowModel2];
     component.recycleBinFeedbackSessionRowModels = [];
-    const courseSpy: SpyInstance = jest
-      .spyOn(sessionService, 'moveSessionToRecycleBin')
-      .mockReturnValue(of(testFeedbackSession1));
+    const courseSpy = jest.spyOn(sessionService, 'moveSessionToRecycleBin').mockReturnValue(of(testFeedbackSession1));
     component.moveSessionToRecycleBinEventHandler(0);
 
     expect(courseSpy).toHaveBeenCalledTimes(1);
@@ -248,7 +243,7 @@ describe('InstructorSessionsPageComponent', () => {
     };
     component.recycleBinFeedbackSessionRowModels = [recycleBinFeedbackSessionRowModel1];
     component.sessionsTableRowModels = [];
-    const sessionSpy: SpyInstance = jest
+    const sessionSpy = jest
       .spyOn(sessionService, 'restoreSessionFromRecycleBin')
       .mockReturnValue(of(testFeedbackSession3));
 
@@ -271,7 +266,7 @@ describe('InstructorSessionsPageComponent', () => {
       recycleBinFeedbackSessionRowModel2,
     ];
     component.sessionsTableRowModels = [];
-    const sessionSpy: SpyInstance = jest
+    const sessionSpy = jest
       .spyOn(sessionService, 'restoreSessionFromRecycleBin')
       .mockImplementation((feedbackSessionId: string) => {
         if (feedbackSessionId === testFeedbackSession3.feedbackSessionId) {
@@ -299,9 +294,7 @@ describe('InstructorSessionsPageComponent', () => {
       promise,
     );
     component.recycleBinFeedbackSessionRowModels = [recycleBinFeedbackSessionRowModel1];
-    const sessionSpy: SpyInstance = jest
-      .spyOn(sessionService, 'deleteFeedbackSession')
-      .mockReturnValue(of({ message: 'deleted' }));
+    const sessionSpy = jest.spyOn(sessionService, 'deleteFeedbackSession').mockReturnValue(of({ message: 'deleted' }));
     jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     component.permanentDeleteSession(recycleBinFeedbackSessionRowModel1);
@@ -332,7 +325,7 @@ describe('InstructorSessionsPageComponent', () => {
       recycleBinFeedbackSessionRowModel1,
       recycleBinFeedbackSessionRowModel2,
     ];
-    const sessionSpy: SpyInstance = jest
+    const sessionSpy = jest
       .spyOn(sessionService, 'deleteFeedbackSession')
       .mockImplementation((feedbackSessionId: string) => {
         if (feedbackSessionId === testFeedbackSession3.feedbackSessionId) {

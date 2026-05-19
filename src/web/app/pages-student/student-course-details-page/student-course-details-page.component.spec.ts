@@ -1,6 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { StudentCourseDetailsPageComponent } from './student-course-details-page.component';
 import { Course, Instructor, InstructorPermissionRole, JoinState, Student } from '../../../types/api-output';
@@ -48,13 +48,11 @@ describe('StudentCourseDetailsPageComponent', () => {
   let component: StudentCourseDetailsPageComponent;
   let fixture: ComponentFixture<StudentCourseDetailsPageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(StudentCourseDetailsPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

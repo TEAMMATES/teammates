@@ -1,10 +1,9 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
-import SpyInstance = jest.SpyInstance;
 import { StudentExtensionTableColumnModel } from './extension-table-column-model';
 import { InstructorSessionIndividualExtensionPageComponent } from './instructor-session-individual-extension-page.component';
 import { CourseService } from '../../../services/course.service';
@@ -138,8 +137,8 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
   let timezoneService: TimezoneService;
   let statusMessageService: StatusMessageService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [
         provideRouter([]),
         {
@@ -156,9 +155,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
         provideHttpClientTesting(),
       ],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorSessionIndividualExtensionPageComponent);
     component = fixture.componentInstance;
     studentService = TestBed.inject(StudentService);
@@ -244,7 +241,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
       .mockReturnValue(of(testDeadlineExtensions));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
-    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
+    const spyStatusMessageService = jest.spyOn(statusMessageService, 'showErrorToast');
 
     component.ngOnInit();
 
@@ -272,7 +269,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
         error: { message: 'This is a test message' },
       })),
     );
-    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
+    const spyStatusMessageService = jest.spyOn(statusMessageService, 'showErrorToast');
 
     component.ngOnInit();
 
@@ -300,7 +297,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
       .mockReturnValue(of(testDeadlineExtensions));
     jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
-    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
+    const spyStatusMessageService = jest.spyOn(statusMessageService, 'showErrorToast');
 
     component.ngOnInit();
 
@@ -335,7 +332,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
       .mockReturnValue(of(testDeadlineExtensions));
     jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
-    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
+    const spyStatusMessageService = jest.spyOn(statusMessageService, 'showErrorToast');
 
     component.ngOnInit();
 
@@ -364,7 +361,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       .mockReturnValue(of(testDeadlineExtensions));
     jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     jest.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
-    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
+    const spyStatusMessageService = jest.spyOn(statusMessageService, 'showErrorToast');
 
     component.ngOnInit();
 

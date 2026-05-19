@@ -1,9 +1,8 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
-import SpyInstance = jest.SpyInstance;
 import { CopyCourseModalComponent } from './copy-course-modal.component';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -23,13 +22,11 @@ describe('CopyCourseModalComponent', () => {
   let statusMessageService: StatusMessageService;
   let fixture: ComponentFixture<CopyCourseModalComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CopyCourseModalComponent);
     timezoneService = TestBed.inject(TimezoneService);
     statusMessageService = TestBed.inject(StatusMessageService);
@@ -174,7 +171,7 @@ describe('CopyCourseModalComponent', () => {
   });
 
   it('should call showErrorToast when copying with no new courseId and name', () => {
-    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
+    const spyStatusMessageService = jest.spyOn(statusMessageService, 'showErrorToast');
     component.copy();
     expect(spyStatusMessageService).toHaveBeenCalledWith(
       'Please make sure you have filled in both Course ID and Name before adding the course!',
@@ -200,7 +197,7 @@ describe('CopyCourseModalComponent', () => {
         deletionTimestamp: 1500000000000,
       },
     ];
-    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
+    const spyStatusMessageService = jest.spyOn(statusMessageService, 'showErrorToast');
     component.allCourses = testCourses;
     component.newCourseId = 'testId1';
     component.newCourseName = 'testName';
@@ -209,7 +206,7 @@ describe('CopyCourseModalComponent', () => {
   });
 
   it('should call close with the result when succesfully copying a course', () => {
-    const activeModalSpy: SpyInstance = jest.spyOn(ngbActiveModal, 'close');
+    const activeModalSpy = jest.spyOn(ngbActiveModal, 'close');
     component.newCourseId = 'testId2';
     component.newCourseName = 'testName';
     component.newTimezone = 'Asia/Singapore';

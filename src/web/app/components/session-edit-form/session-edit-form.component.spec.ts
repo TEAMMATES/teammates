@@ -1,9 +1,8 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import moment from 'moment-timezone';
-import SpyInstance = jest.SpyInstance;
 import { SessionEditFormMode } from './session-edit-form-model';
 import { SessionEditFormComponent } from './session-edit-form.component';
 import { DateTimeService } from '../../../services/datetime.service';
@@ -22,13 +21,11 @@ describe('SessionEditFormComponent', () => {
   const submissionStartDateField = 'submissionStartDate';
   const submissionStartTimeField = 'submissionStartTime';
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SessionEditFormComponent);
     simpleModalService = TestBed.inject(SimpleModalService);
     dateTimeService = TestBed.inject(DateTimeService);
@@ -389,7 +386,7 @@ describe('SessionEditFormComponent', () => {
 
   it('should display warning when discarding edit to current feedback session', async () => {
     const promise: Promise<void> = Promise.resolve();
-    const modalSpy: SpyInstance = jest
+    const modalSpy = jest
       .spyOn(simpleModalService, 'openConfirmationModal')
       .mockReturnValue(createMockNgbModalRef({}, promise));
     component.cancelHandler();
@@ -404,7 +401,7 @@ describe('SessionEditFormComponent', () => {
 
   it('should display warning when deleting the current feedback session', async () => {
     const promise: Promise<void> = Promise.resolve();
-    const modalSpy: SpyInstance = jest
+    const modalSpy = jest
       .spyOn(simpleModalService, 'openConfirmationModal')
       .mockReturnValue(createMockNgbModalRef({}, promise));
     component.deleteHandler();
