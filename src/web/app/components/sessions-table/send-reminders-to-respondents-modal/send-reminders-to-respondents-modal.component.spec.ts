@@ -3,7 +3,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { SendRemindersToRespondentsModalComponent } from './send-reminders-to-respondents-modal.component';
 import { createBuilder } from '../../../../test-helpers/generic-builder';
 import {

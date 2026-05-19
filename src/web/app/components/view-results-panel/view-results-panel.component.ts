@@ -2,7 +2,7 @@ import { KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import {
   FeedbackSession,
   FeedbackSessionPublishStatus,

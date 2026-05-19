@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import {

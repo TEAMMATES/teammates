@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, DoCheck, EventEmitter, Input, Output, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import {
   FeedbackRecipientLabelType,
   FeedbackResponseRecipient,

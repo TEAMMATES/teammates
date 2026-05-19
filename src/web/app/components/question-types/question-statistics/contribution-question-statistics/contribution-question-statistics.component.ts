@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, TemplateRef, inject } from '@angular/core';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { ContributionRatingsListComponent } from './contribution-ratings-list.component';
 import { ContributionComponent } from './contribution.component';
 import { SimpleModalService } from '../../../../../services/simple-modal.service';

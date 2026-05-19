@@ -2,7 +2,7 @@ import { NgClass, KeyValuePipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NgbDateParserFormatter, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap/datepicker';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';

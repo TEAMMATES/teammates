@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap/dropdown';
 import { FeedbackQuestionType } from '../../../types/api-output';
 import { AjaxLoadingComponent } from '../ajax-loading/ajax-loading.component';
 import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';

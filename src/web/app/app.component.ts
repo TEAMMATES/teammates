@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap/tooltip';
 
 /**
  * Root application page.

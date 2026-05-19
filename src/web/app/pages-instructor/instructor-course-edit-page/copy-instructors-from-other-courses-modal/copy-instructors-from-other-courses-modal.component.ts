@@ -1,7 +1,8 @@
 import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbActiveModal, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { CourseTabModel, InstructorToCopyCandidateModel } from './copy-instructors-from-other-courses-modal-model';
 import { InstructorService } from '../../../../services/instructor.service';
 import { StatusMessageService } from '../../../../services/status-message.service';

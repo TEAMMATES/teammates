@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { FeedbackSessionTabModel, QuestionToCopyCandidate } from './copy-questions-from-other-sessions-modal-model';
 import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
 import { StatusMessageService } from '../../../../services/status-message.service';

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap/dropdown';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus } from '../../../types/api-output';
 import { InstructorPermissionSet } from '../../../types/api-request';
 

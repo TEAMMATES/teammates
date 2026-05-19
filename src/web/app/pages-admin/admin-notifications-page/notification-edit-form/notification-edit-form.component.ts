@@ -1,7 +1,8 @@
 import { NgClass, KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbDateParserFormatter, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap/datepicker';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { NotificationEditFormMode, NotificationEditFormModel } from './notification-edit-form-model';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { ApiConst } from '../../../../types/api-const';

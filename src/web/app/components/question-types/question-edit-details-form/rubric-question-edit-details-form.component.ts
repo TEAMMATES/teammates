@@ -2,7 +2,7 @@ import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { FeedbackRubricQuestionDetails } from '../../../../types/api-output';

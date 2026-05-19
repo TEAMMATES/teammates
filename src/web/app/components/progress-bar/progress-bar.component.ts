@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap';
+import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap/progressbar';
 import { ProgressBarService } from '../../../services/progress-bar.service';
 
 /**

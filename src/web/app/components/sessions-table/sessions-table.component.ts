@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { GroupButtonsComponent } from './cell-with-group-buttons.component';
 import { ResponseRateComponent } from './cell-with-response-rate.component';
 import { CellWithToolTipComponent } from './cell-with-tooltip.component';
