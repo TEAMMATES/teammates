@@ -11,6 +11,7 @@ import java.util.Objects;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.AuthContext;
 import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
@@ -105,8 +106,8 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
 
     @Test
     void testExecute_withStudentEntityType_success() {
-        loginAsStudent("student");
-        when(mockLogic.getCoursesForStudentAccount("student")).thenReturn(stubCourseList);
+        AuthContext authContext = loginAsStudent("student");
+        when(mockLogic.getCoursesForStudentAccount(authContext.account())).thenReturn(stubCourseList);
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };

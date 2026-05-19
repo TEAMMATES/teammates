@@ -58,7 +58,7 @@ public class GetCoursesAction extends Action {
     private JsonResult getInstructorCourses() {
         String courseStatus = getNonNullRequestParamValue(Const.ParamsNames.COURSE_STATUS);
 
-        List<Instructor> instructors = logic.getInstructorsForGoogleId(authContext.account());
+        List<Instructor> instructors = logic.getInstructorsForGoogleId(authContext.account().getGoogleId());
         List<Course> courses;
 
         switch (courseStatus) {

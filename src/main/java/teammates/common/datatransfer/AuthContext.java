@@ -1,6 +1,7 @@
 package teammates.common.datatransfer;
 
 import jakarta.annotation.Nullable;
+
 import teammates.storage.entity.Account;
 import teammates.storage.entity.User;
 import teammates.ui.webapi.AuthType;

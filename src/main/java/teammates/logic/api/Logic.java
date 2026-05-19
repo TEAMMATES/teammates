@@ -836,8 +836,8 @@ public class Logic {
     /**
      * Gets list of instructors by {@code googleId}.
      */
-    public List<Instructor> getInstructorsForGoogleId(Account account) {
-        return usersLogic.getInstructorsForGoogleId(account.getGoogleId());
+    public List<Instructor> getInstructorsForGoogleId(String googleId) {
+        return usersLogic.getInstructorsForGoogleId(googleId);
     }
 
     /**
