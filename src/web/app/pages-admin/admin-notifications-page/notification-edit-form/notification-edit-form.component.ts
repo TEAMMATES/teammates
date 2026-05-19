@@ -135,6 +135,12 @@ export class NotificationEditFormComponent {
 
     try {
       const year = startDate.year;
+      // Default date from getDefaultDateFormat() is { year: 0, month: 0, day: 0 }.
+      // new Date(0, -1, 0) evaluates to the year 1899, which makes it seem active.
+      if (year === 0) {
+        return false;
+      }
+
       const month = startDate.month - 1;
       const day = startDate.day;
 

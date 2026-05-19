@@ -67,7 +67,9 @@ describe('NotificationEditFormComponent', () => {
   });
 
   it('should snap with notification that has been shown to users', () => {
-    component.model = testNotificationEditModel;
+    const shownModel = { ...testNotificationEditModel };
+    shownModel.startDate = { year: 2000, month: 1, day: 1 };
+    component.model = shownModel;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
