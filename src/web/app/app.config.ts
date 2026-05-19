@@ -11,12 +11,7 @@ import { customUrlSerializerProvider } from './providers/custom-url-serializer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    importProvidersFrom(
-      NgbDropdownModule,
-      NgxPageScrollCoreModule.forRoot(),
-      FormsModule,
-      NgbDatepickerModule,
-    ),
+    importProvidersFrom(NgbDropdownModule, NgxPageScrollCoreModule.forRoot(), FormsModule, NgbDatepickerModule),
     customUrlSerializerProvider,
     provideHttpClient(withInterceptorsFromDi()),
     provideAnimations(),

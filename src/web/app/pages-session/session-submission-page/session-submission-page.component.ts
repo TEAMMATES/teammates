@@ -821,6 +821,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     const savingRequests: Observable<any>[] = [];
 
     questionSubmissionForms.forEach((questionSubmissionFormModel: QuestionSubmissionFormModel) => {
+      // eslint-disable-next-line no-useless-assignment -- false positive
       let isQuestionFullyAnswered = true;
 
       const responses: FeedbackResponseRequest[] = [];

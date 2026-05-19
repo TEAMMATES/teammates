@@ -272,6 +272,7 @@ export function calculateMcqQuestionStatistics(
     for (const recipient of Object.keys(perRecipientResponse)) {
       const responses: Record<string, number> = perRecipientResponse[recipient];
       let total = 0;
+      // eslint-disable-next-line no-useless-assignment -- false positive
       let average = 0;
       let numOfResponsesForRecipient = 0;
       for (const answer of Object.keys(responses)) {
@@ -394,6 +395,7 @@ export function calculateMsqQuestionStatistics(
   for (const recipient of Object.keys(perRecipientResponse)) {
     const responses: Record<string, number> = perRecipientResponse[recipient];
     let total = 0;
+    // eslint-disable-next-line no-useless-assignment -- false positive
     let average = 0;
     let numOfResponsesForRecipient = 0;
     for (const answer of Object.keys(responses)) {
