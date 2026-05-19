@@ -1,15 +1,10 @@
 import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  NgbModal,
-  NgbModalRef,
-  NgbTooltip,
-  NgbDropdown,
-  NgbDropdownToggle,
-  NgbDropdownMenu,
-  NgbCollapse,
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
+import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap/dropdown';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import moment from 'moment-timezone';
 import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';

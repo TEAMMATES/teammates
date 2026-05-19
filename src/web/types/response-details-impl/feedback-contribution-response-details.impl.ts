@@ -34,9 +34,8 @@ export class FeedbackContributionResponseDetailsImpl
       answerStr = '0%'; // Do none
     } else if (answer === CONTRIBUTION_POINT_NOT_SURE) {
       answerStr = 'Not Sure';
-    } else {
-      answerStr = '';
     }
+
     return [[answerStr]];
   }
 }

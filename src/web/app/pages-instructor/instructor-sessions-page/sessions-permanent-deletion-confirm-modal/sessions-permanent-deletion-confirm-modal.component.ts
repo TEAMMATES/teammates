@@ -1,5 +1,5 @@
 import { Component, Input, inject } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { FeedbackSession } from '../../../../types/api-output';
 
 /**

@@ -1,6 +1,6 @@
 import { NgClass, NgStyle, NgComponentOutlet } from '@angular/common';
 import { Component, Input, OnChanges, OnInit, Type, EventEmitter, Output, inject } from '@angular/core';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { DynamicComponent, ComponentOutletInjectorDirective, DynamicIoDirective } from 'ng-dynamic-component';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../types/sort-properties';

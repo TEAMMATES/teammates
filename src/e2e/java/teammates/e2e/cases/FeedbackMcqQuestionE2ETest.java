@@ -63,6 +63,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         questionDetails = (FeedbackMcqQuestionDetails) copiedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.copyQuestion(copiedQuestion.getCourseId(),
                 copiedQuestion.getQuestionDetailsCopy().getQuestionText());
+        feedbackEditPage.waitForPageToLoad();
         copiedQuestion.setFeedbackSession(feedbackSession);
         copiedQuestion.setQuestionNumber(3);
 

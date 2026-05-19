@@ -1,12 +1,8 @@
 import { Component, inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import {
-  NgbModalRef,
-  NgbDropdown,
-  NgbDropdownToggle,
-  NgbDropdownMenu,
-  NgbTooltip,
-  NgbCollapse,
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
+import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap/dropdown';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';

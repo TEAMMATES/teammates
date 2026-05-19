@@ -1,6 +1,6 @@
 import { HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
-import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { finalize } from 'rxjs/operators';
 import { CourseService, CourseStatistics } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, inject } from '@angular/core';
-import { NgbCollapse, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   FeedbackSession,

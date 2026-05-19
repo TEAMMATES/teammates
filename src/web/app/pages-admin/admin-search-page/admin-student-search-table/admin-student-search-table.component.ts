@@ -1,6 +1,8 @@
 import { KeyValuePipe, NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
-import { NgbCollapse, NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { AccountService } from '../../../../services/account.service';
 import { EmailGenerationService } from '../../../../services/email-generation.service';
 import { FeedbackSessionsGroup, StudentAccountSearchResult } from '../../../../services/search.service';

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SimpleChange } from '@angular/core';
 
 import { RichTextEditorComponent } from './rich-text-editor.component';
 
@@ -158,5 +159,48 @@ describe('RichTextEditorComponent', () => {
     keypressHandler!(mockEvent);
 
     expect(mockEvent.preventDefault).not.toHaveBeenCalled();
+  });
+
+  it('should trigger auto resize on editor init', () => {
+    jest.useFakeTimers();
+    component.ngOnInit();
+
+    const execCommand = jest.fn();
+    const listeners: Record<string, () => void> = {};
+    const mockEditor = {
+      on: (eventName: string, handler: () => void) => {
+        listeners[eventName] = handler;
+      },
+      execCommand,
+    };
+
+    component.init.setup(mockEditor);
+    listeners['init']();
+    jest.runAllTimers();
+
+    expect(execCommand).toHaveBeenCalledWith('mceAutoResize');
+  });
+
+  it('should trigger auto resize when rich text changes after editor is initialized', () => {
+    jest.useFakeTimers();
+    component.ngOnInit();
+
+    const execCommand = jest.fn();
+    const listeners: Record<string, () => void> = {};
+    const mockEditor = {
+      on: (eventName: string, handler: () => void) => {
+        listeners[eventName] = handler;
+      },
+      execCommand,
+    };
+
+    component.init.setup(mockEditor);
+
+    component.ngOnChanges({
+      richText: new SimpleChange('', '<p>new content</p>', false),
+    });
+    jest.runAllTimers();
+
+    expect(execCommand).toHaveBeenCalledWith('mceAutoResize');
   });
 });

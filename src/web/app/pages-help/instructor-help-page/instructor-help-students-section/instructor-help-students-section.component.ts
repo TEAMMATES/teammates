@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import {
   EXAMPLE_MULTIPLE_STUDENT_RESULT_TABLES,
   EXAMPLE_SINGLE_STUDENT_RESULT_TABLES,

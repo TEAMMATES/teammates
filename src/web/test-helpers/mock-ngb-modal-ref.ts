@@ -1,4 +1,4 @@
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 
 /**
  * Mock NgbModalRef by implementing only the most important fields.

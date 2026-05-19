@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { concat } from 'rxjs';
 import { finalize, takeWhile } from 'rxjs/operators';
 import { FeedbackSessionsService } from './feedback-sessions.service';

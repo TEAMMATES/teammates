@@ -27,8 +27,7 @@ export class VisibilityEntityNamePipe implements PipeTransform {
   ): string {
     switch (visibilityType) {
       case FeedbackVisibilityType.RECIPIENT: {
-        // get entity name
-        let recipientEntityName = '';
+        let recipientEntityName: string;
         switch (questionRecipientType) {
           case QuestionRecipientType.INSTRUCTORS:
             recipientEntityName = 'instructor';

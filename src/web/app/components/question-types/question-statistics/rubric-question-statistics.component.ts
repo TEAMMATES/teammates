@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { StringHelper } from '../../../../services/string-helper';
 import { NO_VALUE } from '../../../../types/feedback-response-details';
 import { SortBy } from '../../../../types/sort-properties';

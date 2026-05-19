@@ -29,7 +29,6 @@ public class WebSecurityHeaderFilter implements Filter {
             "img-src " + IMG_SRC_CSP,
             "font-src 'self' https://cdn.jsdelivr.net/ https://fonts.gstatic.com/",
             "connect-src 'self' https://*.googleapis.com/",
-            "manifest-src 'self'",
             "form-action 'none'",
             "frame-ancestors 'self'",
             "base-uri 'self'"

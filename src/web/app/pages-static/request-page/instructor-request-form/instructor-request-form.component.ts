@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbAlert } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlert } from '@ng-bootstrap/ng-bootstrap/alert';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { finalize } from 'rxjs';
 import { InstructorRequestFormModel } from './instructor-request-form-model';

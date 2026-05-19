@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`PerQuestionViewResponsesComponent should snap response with comments 1`] = `
 <tm-per-question-view-responses

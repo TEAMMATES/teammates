@@ -1,7 +1,8 @@
 import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { UntypedFormGroup, FormsModule } from '@angular/forms';
-import { NgbModal, NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { Subscription } from 'rxjs';
 import {
   CourseEditFormMode,

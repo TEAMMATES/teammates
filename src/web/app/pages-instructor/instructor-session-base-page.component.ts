@@ -1,5 +1,5 @@
 import { inject, TemplateRef } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import moment from 'moment-timezone';
 import { Observable, of } from 'rxjs';
 import { catchError, finalize, switchMap } from 'rxjs/operators';

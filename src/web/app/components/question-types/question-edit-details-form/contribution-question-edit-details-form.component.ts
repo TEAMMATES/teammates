@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import { FeedbackContributionQuestionDetails } from '../../../../types/api-output';
 import { QuestionsSectionQuestions } from '../../../pages-help/instructor-help-page/instructor-help-questions-section/questions-section-questions';
