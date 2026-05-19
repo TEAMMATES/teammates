@@ -26,16 +26,16 @@ public class FieldValidatorTest extends BaseTestCase {
         String testFieldName = "Inconsequential test field name";
         String actual = FieldValidator.getValidityInfoForNonHtmlField(testFieldName, clean);
         assertEquals("",
-                     actual, "Valid clean input with no special HTML characters should return empty string");
+                actual, "Valid clean input with no special HTML characters should return empty string");
     }
-    
+
     @Test
     public void testGetValidityInfoForNonHtmlField_sanitizedInput_returnEmptyString() {
         String sanitizedInput = "Valid sanitized input &lt; &gt; &quot; &#x2f; &#39; &amp;";
         String testFieldName = "Inconsequential test field name";
         String actual = FieldValidator.getValidityInfoForNonHtmlField(testFieldName, sanitizedInput);
         assertEquals("",
-                     actual, "Valid sanitized input should return empty string");
+                actual, "Valid sanitized input should return empty string");
     }
 
     @Test
@@ -44,8 +44,8 @@ public class FieldValidatorTest extends BaseTestCase {
         String testFieldName = "Inconsequential test field name";
         String actual = FieldValidator.getValidityInfoForNonHtmlField(testFieldName, unsanitizedInput);
         assertEquals("The provided Inconsequential test field name is not acceptable to TEAMMATES as it "
-                         + "cannot contain the following special html characters in brackets: (< > \" / ' &)",
-                     actual, "Invalid unsanitized input should return error string");
+                + "cannot contain the following special html characters in brackets: (< > \" / ' &)",
+                actual, "Invalid unsanitized input should return error string");
     }
 
     @Test
@@ -57,34 +57,38 @@ public class FieldValidatorTest extends BaseTestCase {
                 FieldValidator.getValidityInfoForSizeCappedPossiblyEmptyString(
                         typicalFieldName,
                         maxLength,
-                        "Dr. Amy-B s/o O'br, & 2nd \t \n (alias 'JB')"), "valid: typical value");
+                        "Dr. Amy-B s/o O'br, & 2nd \t \n (alias 'JB')"),
+                "valid: typical value");
 
         assertEquals("",
                 FieldValidator.getValidityInfoForSizeCappedPossiblyEmptyString(
                         typicalFieldName,
                         maxLength,
-                        StringHelperExtension.generateStringOfLength(maxLength)), "valid: max length");
+                        StringHelperExtension.generateStringOfLength(maxLength)),
+                "valid: max length");
 
         String emptyValue = "";
         assertEquals("",
                 FieldValidator.getValidityInfoForSizeCappedPossiblyEmptyString(
                         typicalFieldName,
                         maxLength,
-                        emptyValue), "valid: empty");
+                        emptyValue),
+                "valid: empty");
 
         String untrimmedValue = " abc ";
         assertEquals("The provided my field is not acceptable to TEAMMATES as it contains only whitespace or "
-                         + "contains extra spaces at the beginning or at the end of the text.",
-                     FieldValidator.getValidityInfoForSizeCappedPossiblyEmptyString(typicalFieldName, maxLength,
-                                                                               untrimmedValue),
-                    "invalid: untrimmed");
+                + "contains extra spaces at the beginning or at the end of the text.",
+                FieldValidator.getValidityInfoForSizeCappedPossiblyEmptyString(typicalFieldName, maxLength,
+                        untrimmedValue),
+                "invalid: untrimmed");
 
         String tooLongName = StringHelperExtension.generateStringOfLength(maxLength + 1);
         assertEquals("\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES "
-                         + "as a/an my field because it is too long. The value of a/an my field should be no "
-                         + "longer than 50 characters.",
-                     FieldValidator.getValidityInfoForSizeCappedPossiblyEmptyString(typicalFieldName, maxLength,
-                                                                               tooLongName), "invalid: too long");
+                + "as a/an my field because it is too long. The value of a/an my field should be no "
+                + "longer than 50 characters.",
+                FieldValidator.getValidityInfoForSizeCappedPossiblyEmptyString(typicalFieldName, maxLength,
+                        tooLongName),
+                "invalid: too long");
     }
 
     @Test
@@ -95,8 +99,8 @@ public class FieldValidatorTest extends BaseTestCase {
         String typicalFieldName = "name field";
         int typicalLength = 25;
 
-        assertThrows(AssertionError.class, () ->
-                FieldValidator.getValidityInfoForAllowedName(typicalFieldName, typicalLength, null));
+        assertThrows(AssertionError.class,
+                () -> FieldValidator.getValidityInfoForAllowedName(typicalFieldName, typicalLength, null));
 
         ______TS("typical success case");
 
@@ -106,55 +110,55 @@ public class FieldValidatorTest extends BaseTestCase {
                         typicalFieldName,
                         maxLength,
                         "Ýàn-B. s/o O'br, &2\t\n(~!@#$^*+_={}[]\\:;\"<>?)"),
-                        "valid: typical length with valid characters");
+                "valid: typical length with valid characters");
 
         ______TS("failure: invalid characters");
 
         String nameContainInvalidChars = "Dr. Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals(
-                     "\"Dr. Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)\" is "
-                         + "not acceptable to TEAMMATES as a/an name field because it contains invalid "
-                         + "characters. A/An name field must start with an alphanumeric character, and cannot "
-                         + "contain any vertical bar (|) or percent sign (%).",
-                     FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
-                                                             nameContainInvalidChars),
-                        "invalid: typical length with invalid characters");
+                "\"Dr. Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)\" is "
+                        + "not acceptable to TEAMMATES as a/an name field because it contains invalid "
+                        + "characters. A/An name field must start with an alphanumeric character, and cannot "
+                        + "contain any vertical bar (|) or percent sign (%).",
+                FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
+                        nameContainInvalidChars),
+                "invalid: typical length with invalid characters");
 
         ______TS("failure: starts with non-alphanumeric character");
 
         String nameStartedWithNonAlphaNumChar = "!Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals(
-                     "\"!Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)\" is not "
-                         + "acceptable to TEAMMATES as a/an name field because it starts with a "
-                         + "non-alphanumeric character. A/An name field must start with an alphanumeric "
-                         + "character, and cannot contain any vertical bar (|) or percent sign (%).",
-                     FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
-                                                             nameStartedWithNonAlphaNumChar),
-                        "invalid: typical length with invalid characters");
+                "\"!Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)\" is not "
+                        + "acceptable to TEAMMATES as a/an name field because it starts with a "
+                        + "non-alphanumeric character. A/An name field must start with an alphanumeric "
+                        + "character, and cannot contain any vertical bar (|) or percent sign (%).",
+                FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
+                        nameStartedWithNonAlphaNumChar),
+                "invalid: typical length with invalid characters");
 
         ______TS("failure: starts with curly braces but contains invalid char");
 
         String nameStartedWithBracesButHasInvalidChar = "{Amy} -Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals(
-                     "\"{Amy} -Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)\" is not "
-                         + "acceptable to TEAMMATES as a/an name field because it contains invalid "
-                         + "characters. A/An name field must start with an alphanumeric character, and cannot "
-                         + "contain any vertical bar (|) or percent sign (%).",
-                     FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
-                                                             nameStartedWithBracesButHasInvalidChar),
-                        "invalid: typical length with invalid characters");
+                "\"{Amy} -Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)\" is not "
+                        + "acceptable to TEAMMATES as a/an name field because it contains invalid "
+                        + "characters. A/An name field must start with an alphanumeric character, and cannot "
+                        + "contain any vertical bar (|) or percent sign (%).",
+                FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
+                        nameStartedWithBracesButHasInvalidChar),
+                "invalid: typical length with invalid characters");
 
         ______TS("failure: starts with opening curly bracket but dose not have closing bracket");
 
         String nameStartedWithCurlyBracketButHasNoEnd = "{Amy -Bén s/o O'&|% 2\t\n (~!@#$^*+_={[]\\:;\"<>?)";
         assertEquals(
-                     "\"{Amy -Bén s/o O'&|% 2\t\n (~!@#$^*+_={[]\\:;\"<>?)\" is not "
-                         + "acceptable to TEAMMATES as a/an name field because it starts with a "
-                         + "non-alphanumeric character. A/An name field must start with an alphanumeric "
-                         + "character, and cannot contain any vertical bar (|) or percent sign (%).",
-                     FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
-                                                             nameStartedWithCurlyBracketButHasNoEnd),
-                        "invalid: typical length started with non-alphanumeric character");
+                "\"{Amy -Bén s/o O'&|% 2\t\n (~!@#$^*+_={[]\\:;\"<>?)\" is not "
+                        + "acceptable to TEAMMATES as a/an name field because it starts with a "
+                        + "non-alphanumeric character. A/An name field must start with an alphanumeric "
+                        + "character, and cannot contain any vertical bar (|) or percent sign (%).",
+                FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
+                        nameStartedWithCurlyBracketButHasNoEnd),
+                "invalid: typical length started with non-alphanumeric character");
 
         ______TS("success: with opening and closing curly braces");
 
@@ -164,7 +168,7 @@ public class FieldValidatorTest extends BaseTestCase {
                         typicalFieldName,
                         maxLength,
                         "{last name} first name"),
-                    "valid: max length");
+                "valid: max length");
 
         ______TS("success: max length");
 
@@ -174,35 +178,35 @@ public class FieldValidatorTest extends BaseTestCase {
                         typicalFieldName,
                         maxLength,
                         StringHelperExtension.generateStringOfLength(maxLength)),
-                    "valid: max length");
+                "valid: max length");
 
         ______TS("failure: too long");
 
         String tooLongName = StringHelperExtension.generateStringOfLength(maxLength + 1);
         assertEquals(
-                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES "
-                         + "as a/an name field because it is too long. The value of a/an name field should "
-                         + "be no longer than 50 characters. It should not be empty.",
-                     FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength, tooLongName),
-                    "invalid: too long");
+                "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES "
+                        + "as a/an name field because it is too long. The value of a/an name field should "
+                        + "be no longer than 50 characters. It should not be empty.",
+                FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength, tooLongName),
+                "invalid: too long");
 
         ______TS("failure: empty string");
 
         String emptyValue = "";
         assertEquals(
-                     "The field 'name field' is empty. The value of a/an name field should be no longer "
-                         + "than 50 characters. It should not be empty.",
-                     FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength, emptyValue),
-                    "invalid: empty");
+                "The field 'name field' is empty. The value of a/an name field should be no longer "
+                        + "than 50 characters. It should not be empty.",
+                FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength, emptyValue),
+                "invalid: empty");
 
         ______TS("failure: untrimmed value");
 
         String untrimmedValue = " abc ";
         assertEquals(
-                     "The provided name field is not acceptable to TEAMMATES as it contains only whitespace "
-                         + "or contains extra spaces at the beginning or at the end of the text.",
-                     FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength, untrimmedValue),
-                    "invalid: untrimmed");
+                "The provided name field is not acceptable to TEAMMATES as it contains only whitespace "
+                        + "or contains extra spaces at the beginning or at the end of the text.",
+                FieldValidator.getValidityInfoForAllowedName(typicalFieldName, maxLength, untrimmedValue),
+                "invalid: untrimmed");
     }
 
     @Test
@@ -210,24 +214,24 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidPersonName = "";
         String actual = FieldValidator.getInvalidityInfoForPersonName(invalidPersonName);
         assertEquals(
-                     "The field 'person name' is empty. The value of a/an person name should be no longer "
-                         + "than 100 characters. It should not be empty.",
-                     actual,
-                    "Invalid person name (empty) should return error message that is specific to person name");
+                "The field 'person name' is empty. The value of a/an person name should be no longer "
+                        + "than 100 characters. It should not be empty.",
+                actual,
+                "Invalid person name (empty) should return error message that is specific to person name");
 
     }
 
     @Test
     public void testGetInvalidityInfoForInstituteName_invalid_returnSpecificErrorString() {
         String invalidInstituteName = StringHelperExtension.generateStringOfLength(
-                                                                FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
+                FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         String actual = FieldValidator.getInvalidityInfoForInstituteName(invalidInstituteName);
         String expectedTemplate = "\"%s\" is not "
                 + "acceptable to TEAMMATES as a/an institute name because it is too long. The value "
                 + "of a/an institute name should be no longer than 128 characters. It should not be empty.";
         String expected = String.format(expectedTemplate, invalidInstituteName);
         assertEquals(expected, actual,
-            "Invalid institute name (too long) should return error message that is specific to institute name");
+                "Invalid institute name (too long) should return error message that is specific to institute name");
     }
 
     @Test
@@ -235,10 +239,10 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidTeamName = "";
         String actual = FieldValidator.getInvalidityInfoForTeamName(invalidTeamName);
         assertEquals(
-                     "The field 'team name' is empty. The value of a/an team name should be no longer "
-                         + "than 60 characters. It should not be empty.",
-                     actual,
-                    "Invalid team name (empty) should return error message that is specific to team name");
+                "The field 'team name' is empty. The value of a/an team name should be no longer "
+                        + "than 60 characters. It should not be empty.",
+                actual,
+                "Invalid team name (empty) should return error message that is specific to team name");
     }
 
     @Test
@@ -246,11 +250,11 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidSectionName = "Percent Symbol % Section";
         String actual = FieldValidator.getInvalidityInfoForSectionName(invalidSectionName);
         assertEquals(
-                     "\"Percent Symbol % Section\" is not acceptable to TEAMMATES as a/an section name "
-                         + "because it contains invalid characters. A/An section name must start with an "
-                         + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).",
-                     actual,
-                    "Invalid section name (invalid char) should return error string that is specific to section name");
+                "\"Percent Symbol % Section\" is not acceptable to TEAMMATES as a/an section name "
+                        + "because it contains invalid characters. A/An section name must start with an "
+                        + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).",
+                actual,
+                "Invalid section name (invalid char) should return error string that is specific to section name");
     }
 
     @Test
@@ -258,25 +262,26 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidCourseName = "Vertical Bar | Course";
         String actual = FieldValidator.getInvalidityInfoForCourseName(invalidCourseName);
         assertEquals(
-                     "\"Vertical Bar | Course\" is not acceptable to TEAMMATES as a/an course name because "
-                         + "it contains invalid characters. A/An course name must start with an alphanumeric "
-                         + "character, and cannot contain any vertical bar (|) or percent sign (%).",
-                     actual,
-                    "Invalid course name (invalid char) should return error string that is specific to course name");
+                "\"Vertical Bar | Course\" is not acceptable to TEAMMATES as a/an course name because "
+                        + "it contains invalid characters. A/An course name must start with an alphanumeric "
+                        + "character, and cannot contain any vertical bar (|) or percent sign (%).",
+                actual,
+                "Invalid course name (invalid char) should return error string that is specific to course name");
     }
 
     @Test
     public void testGetInvalidityInfoForFeedbackSessionName_invalid_returnSpecificErrorString() {
         String invalidSessionName = StringHelperExtension.generateStringOfLength(
-                                                              FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
+                FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH + 1);
         String actual = FieldValidator.getInvalidityInfoForFeedbackSessionName(invalidSessionName);
         assertEquals(
-                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" "
-                         + "is not acceptable to TEAMMATES as a/an feedback session name because it is too long. "
-                         + "The value of a/an feedback session name should be no longer than 64 characters. "
-                         + "It should not be empty.",
-                     actual,
-                    "Invalid feedback session name (too long) should return error message specific to feedback session name");
+                "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" "
+                        + "is not acceptable to TEAMMATES as a/an feedback session name because it is too long. "
+                        + "The value of a/an feedback session name should be no longer than 64 characters. "
+                        + "It should not be empty.",
+                actual,
+                "Invalid feedback session name (too long) should return error message specific to feedback"
+                        + " session name");
     }
 
     @Test
@@ -313,77 +318,77 @@ public class FieldValidatorTest extends BaseTestCase {
     public void testGetInvalidityInfoForGoogleId_valid_returnEmptyString() {
         String typicalId = "valid9.Goo-gle.id_";
         assertEquals("", FieldValidator.getInvalidityInfoForGoogleId(typicalId),
-                     "Valid Google ID (typical) should return empty string");
+                "Valid Google ID (typical) should return empty string");
 
         String shortId = "e";
         assertEquals("", FieldValidator.getInvalidityInfoForGoogleId(shortId),
-                     "Valid Google ID (short) should return empty string");
+                "Valid Google ID (short) should return empty string");
 
         String emailAsId = "someone@yahoo.com";
         assertEquals("", FieldValidator.getInvalidityInfoForGoogleId(emailAsId),
-                     "Valid Google ID (typical email) should return empty string");
+                "Valid Google ID (typical email) should return empty string");
 
         String shortEmailAsId = "e@y.c";
         assertEquals("", FieldValidator.getInvalidityInfoForGoogleId(shortEmailAsId),
-                     "Valid Google ID (short email) should return empty string");
+                "Valid Google ID (short email) should return empty string");
 
         String maxLengthId = StringHelperExtension.generateStringOfLength(FieldValidator.GOOGLE_ID_MAX_LENGTH);
         assertEquals("", FieldValidator.getInvalidityInfoForGoogleId(maxLengthId),
-                     "Valid Google ID (max length) should return empty string");
+                "Valid Google ID (max length) should return empty string");
     }
 
     @Test
     public void testGetInvalidityInfoForGoogleId_invalid_returnErrorString() {
         String emptyId = "";
         assertEquals(
-                     "The field 'Google ID' is empty. A Google ID must be a valid id "
-                         + "already registered with Google. It cannot be longer than "
-                         + "254 characters, cannot be empty and cannot contain spaces.",
-                     FieldValidator.getInvalidityInfoForGoogleId(emptyId),
-                    "Invalid Google ID (empty) should return appropriate error message");
+                "The field 'Google ID' is empty. A Google ID must be a valid id "
+                        + "already registered with Google. It cannot be longer than "
+                        + "254 characters, cannot be empty and cannot contain spaces.",
+                FieldValidator.getInvalidityInfoForGoogleId(emptyId),
+                "Invalid Google ID (empty) should return appropriate error message");
 
         String whitespaceId = "     ";
         assertEquals(
-                     FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
+                FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
                         "${fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME),
-                     FieldValidator.getInvalidityInfoForGoogleId(whitespaceId),
-                    "Invalid Google ID (contains whitespaces only) should return appropriate error message");
+                FieldValidator.getInvalidityInfoForGoogleId(whitespaceId),
+                "Invalid Google ID (contains whitespaces only) should return appropriate error message");
 
         String untrimmedId = "  googleIdWithSpacesAround    ";
         assertEquals(
-                     FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
+                FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
                         "${fieldName}", FieldValidator.GOOGLE_ID_FIELD_NAME),
-                     FieldValidator.getInvalidityInfoForGoogleId(untrimmedId),
-                    "Invalid Google ID (leading/trailing whitespaces) should return appropriate error message");
+                FieldValidator.getInvalidityInfoForGoogleId(untrimmedId),
+                "Invalid Google ID (leading/trailing whitespaces) should return appropriate error message");
 
         String tooLongId = StringHelperExtension.generateStringOfLength(FieldValidator.GOOGLE_ID_MAX_LENGTH + 1);
         assertEquals(
-                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                         + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                         + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                         + "aaaaaaaa\" is not acceptable to TEAMMATES as a/an Google ID because it is too "
-                         + "long. A Google ID must be a valid id already registered with Google. It cannot "
-                         + "be longer than 254 characters, cannot be empty and cannot contain spaces.",
-                     FieldValidator.getInvalidityInfoForGoogleId(tooLongId),
-                    "Invalid Google ID (too long) should return appropriate error message");
+                "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                        + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                        + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                        + "aaaaaaaa\" is not acceptable to TEAMMATES as a/an Google ID because it is too "
+                        + "long. A Google ID must be a valid id already registered with Google. It cannot "
+                        + "be longer than 254 characters, cannot be empty and cannot contain spaces.",
+                FieldValidator.getInvalidityInfoForGoogleId(tooLongId),
+                "Invalid Google ID (too long) should return appropriate error message");
 
         String idWithSpaces = "invalid google id with spaces";
         assertEquals(
-                     "\"invalid google id with spaces\" is not acceptable to TEAMMATES as a/an Google ID "
-                         + "because it is not in the correct format. A Google ID must be a valid id already "
-                         + "registered with Google. It cannot be longer than 254 characters, cannot be empty "
-                         + "and cannot contain spaces.",
-                     FieldValidator.getInvalidityInfoForGoogleId(idWithSpaces),
-                    "Invalid Google ID (with spaces) should return appropriate error message");
+                "\"invalid google id with spaces\" is not acceptable to TEAMMATES as a/an Google ID "
+                        + "because it is not in the correct format. A Google ID must be a valid id already "
+                        + "registered with Google. It cannot be longer than 254 characters, cannot be empty "
+                        + "and cannot contain spaces.",
+                FieldValidator.getInvalidityInfoForGoogleId(idWithSpaces),
+                "Invalid Google ID (with spaces) should return appropriate error message");
 
         String idWithInvalidHtmlChar = "invalid google id with HTML/< special characters";
         assertEquals(
-                     "\"invalid google id with HTML/< special characters\" is not acceptable to "
-                         + "TEAMMATES as a/an Google ID because it is not in the correct format. A Google ID "
-                         + "must be a valid id already registered with Google. It cannot be longer than 254 "
-                         + "characters, cannot be empty and cannot contain spaces.",
-                     FieldValidator.getInvalidityInfoForGoogleId(idWithInvalidHtmlChar),
-                    "Invalid Google ID (contains HTML characters) should return appropriate error message");
+                "\"invalid google id with HTML/< special characters\" is not acceptable to "
+                        + "TEAMMATES as a/an Google ID because it is not in the correct format. A Google ID "
+                        + "must be a valid id already registered with Google. It cannot be longer than 254 "
+                        + "characters, cannot be empty and cannot contain spaces.",
+                FieldValidator.getInvalidityInfoForGoogleId(idWithInvalidHtmlChar),
+                "Invalid Google ID (contains HTML characters) should return appropriate error message");
     }
 
     @Test
@@ -395,86 +400,88 @@ public class FieldValidatorTest extends BaseTestCase {
     public void testGetInvalidityInfoForEmail_valid_returnEmptyString() {
         String typicalEmail = "someone@yahoo.com";
         assertEquals("",
-                     FieldValidator.getInvalidityInfoForEmail(typicalEmail),
-                    "Valid email (typical) should return empty string");
+                FieldValidator.getInvalidityInfoForEmail(typicalEmail),
+                "Valid email (typical) should return empty string");
 
         String shortEmail = "e@y.c";
         assertEquals("",
-                     FieldValidator.getInvalidityInfoForEmail(shortEmail),
-                    "Valid email (short) should return empty string");
+                FieldValidator.getInvalidityInfoForEmail(shortEmail),
+                "Valid email (short) should return empty string");
 
-        String maxLengthEmail = StringHelperExtension.generateStringOfLength(FieldValidator.EMAIL_MAX_LENGTH - 6) + "@c.gov";
+        String maxLengthEmail = StringHelperExtension.generateStringOfLength(FieldValidator.EMAIL_MAX_LENGTH - 6)
+                + "@c.gov";
         assertEquals("",
-                     FieldValidator.getInvalidityInfoForEmail(maxLengthEmail),
-                    "Valid email (max-length) should return empty string");
+                FieldValidator.getInvalidityInfoForEmail(maxLengthEmail),
+                "Valid email (max-length) should return empty string");
     }
 
     @Test
     public void testGetInvalidityInfoForEmail_invalid_returnErrorString() {
         String emptyEmail = "";
         assertEquals(
-                     "The field 'email' is empty. An email address contains some text followed by one "
-                         + "'@' sign followed by some more text, and should end with a top level domain address like "
-                         + ".com. It cannot be longer than 254 characters, cannot be empty and cannot contain spaces.",
-                     FieldValidator.getInvalidityInfoForEmail(emptyEmail),
-                    "Invalid email (empty) should return appropriate error string");
+                "The field 'email' is empty. An email address contains some text followed by one "
+                        + "'@' sign followed by some more text, and should end with a top level domain address like "
+                        + ".com. It cannot be longer than 254 characters, cannot be empty and cannot contain spaces.",
+                FieldValidator.getInvalidityInfoForEmail(emptyEmail),
+                "Invalid email (empty) should return appropriate error string");
 
         String untrimmedEmail = "  untrimmed@email.com  ";
         assertEquals(
-                     FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
+                FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
                         "${fieldName}", FieldValidator.EMAIL_FIELD_NAME),
-                     FieldValidator.getInvalidityInfoForEmail(untrimmedEmail),
-                    "Invalid email (leading/trailing spaces) should return appropriate error string");
+                FieldValidator.getInvalidityInfoForEmail(untrimmedEmail),
+                "Invalid email (leading/trailing spaces) should return appropriate error string");
 
         String whitespaceEmail = "    ";
         assertEquals(
-                     FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
+                FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
                         "${fieldName}", FieldValidator.EMAIL_FIELD_NAME),
-                     FieldValidator.getInvalidityInfoForEmail(whitespaceEmail),
-                    "Invalid email (only whitespaces) should return appropriate error string");
+                FieldValidator.getInvalidityInfoForEmail(whitespaceEmail),
+                "Invalid email (only whitespaces) should return appropriate error string");
 
-        String tooLongEmail = StringHelperExtension.generateStringOfLength(FieldValidator.EMAIL_MAX_LENGTH + 1) + "@c.gov";
+        String tooLongEmail = StringHelperExtension.generateStringOfLength(FieldValidator.EMAIL_MAX_LENGTH + 1)
+                + "@c.gov";
         assertEquals(
-                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                         + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                         + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                         + "aaaaaaaa@c.gov\" is not acceptable to TEAMMATES as a/an email because it is too "
-                         + "long. An email address contains some text followed by one '@' sign followed by "
-                         + "some more text, and should end with a top level domain address like .com. "
-                         + "It cannot be longer than 254 characters, cannot be empty and "
-                         + "cannot contain spaces.",
-                     FieldValidator.getInvalidityInfoForEmail(tooLongEmail),
-                    "Invalid email (too long) should return appropriate error string");
+                "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                        + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                        + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                        + "aaaaaaaa@c.gov\" is not acceptable to TEAMMATES as a/an email because it is too "
+                        + "long. An email address contains some text followed by one '@' sign followed by "
+                        + "some more text, and should end with a top level domain address like .com. "
+                        + "It cannot be longer than 254 characters, cannot be empty and "
+                        + "cannot contain spaces.",
+                FieldValidator.getInvalidityInfoForEmail(tooLongEmail),
+                "Invalid email (too long) should return appropriate error string");
 
         String emailWithSpaceAfterAtSymbol = "woMAN@com. sg";
         assertEquals(
-                     "\"woMAN@com. sg\" is not acceptable to TEAMMATES as a/an email because it is not in "
-                         + "the correct format. An email address contains some text followed by one '@' sign "
-                         + "followed by some more text, and should end with a top level domain address like .com. "
-                         + "It cannot be longer than 254 characters, cannot be "
-                         + "empty and cannot contain spaces.",
-                     FieldValidator.getInvalidityInfoForEmail(emailWithSpaceAfterAtSymbol),
-                    "Invalid email (space character after '@') should return appropriate error string");
+                "\"woMAN@com. sg\" is not acceptable to TEAMMATES as a/an email because it is not in "
+                        + "the correct format. An email address contains some text followed by one '@' sign "
+                        + "followed by some more text, and should end with a top level domain address like .com. "
+                        + "It cannot be longer than 254 characters, cannot be "
+                        + "empty and cannot contain spaces.",
+                FieldValidator.getInvalidityInfoForEmail(emailWithSpaceAfterAtSymbol),
+                "Invalid email (space character after '@') should return appropriate error string");
 
         String emailWithSpaceBeforeAtSymbol = "man woman@com.sg";
         assertEquals(
-                     "\"man woman@com.sg\" is not acceptable to TEAMMATES as a/an email because it "
-                         + "is not in the correct format. An email address contains some text followed by "
-                         + "one '@' sign followed by some more text, and should end with a top level domain address "
-                         + "like .com. It cannot be longer than 254 "
-                         + "characters, cannot be empty and cannot contain spaces.",
-                     FieldValidator.getInvalidityInfoForEmail(emailWithSpaceBeforeAtSymbol),
-                    "Invalid email (space character before '@') should return appropriate error string");
+                "\"man woman@com.sg\" is not acceptable to TEAMMATES as a/an email because it "
+                        + "is not in the correct format. An email address contains some text followed by "
+                        + "one '@' sign followed by some more text, and should end with a top level domain address "
+                        + "like .com. It cannot be longer than 254 "
+                        + "characters, cannot be empty and cannot contain spaces.",
+                FieldValidator.getInvalidityInfoForEmail(emailWithSpaceBeforeAtSymbol),
+                "Invalid email (space character before '@') should return appropriate error string");
 
         String emailWithMultipleAtSymbol = "man@woman@com.lk";
         assertEquals(
-                     "\"man@woman@com.lk\" is not acceptable to TEAMMATES as a/an email because it is not "
-                         + "in the correct format. An email address contains some text followed by one '@' "
-                         + "sign followed by some more text, and should end with a top level domain address like .com. "
-                         + "It cannot be longer than 254 characters, "
-                         + "cannot be empty and cannot contain spaces.",
-                     FieldValidator.getInvalidityInfoForEmail(emailWithMultipleAtSymbol),
-                    "Invalid email (multiple '@' characters) should return appropriate error string");
+                "\"man@woman@com.lk\" is not acceptable to TEAMMATES as a/an email because it is not "
+                        + "in the correct format. An email address contains some text followed by one '@' "
+                        + "sign followed by some more text, and should end with a top level domain address like .com. "
+                        + "It cannot be longer than 254 characters, "
+                        + "cannot be empty and cannot contain spaces.",
+                FieldValidator.getInvalidityInfoForEmail(emailWithMultipleAtSymbol),
+                "Invalid email (multiple '@' characters) should return appropriate error string");
     }
 
     @Test
@@ -486,73 +493,73 @@ public class FieldValidatorTest extends BaseTestCase {
     public void testGetInvalidityInfoForCourseId_valid_returnEmptyString() {
         String typicalCourseId = "cs1101-sem1.2_";
         assertEquals("",
-                     FieldValidator.getInvalidityInfoForCourseId(typicalCourseId),
-                    "Valid Course ID (typical) should return empty string");
+                FieldValidator.getInvalidityInfoForCourseId(typicalCourseId),
+                "Valid Course ID (typical) should return empty string");
 
         String shortCourseId = "c";
         assertEquals("",
-                     FieldValidator.getInvalidityInfoForCourseId(shortCourseId),
-                    "Valid Course ID (short) should return empty string");
+                FieldValidator.getInvalidityInfoForCourseId(shortCourseId),
+                "Valid Course ID (short) should return empty string");
 
         String maxLengthCourseId = StringHelperExtension.generateStringOfLength(
                 FieldValidator.COURSE_ID_MAX_LENGTH);
         assertEquals("",
-                     FieldValidator.getInvalidityInfoForCourseId(maxLengthCourseId),
-                    "Valid Course ID (max length) should return empty string");
+                FieldValidator.getInvalidityInfoForCourseId(maxLengthCourseId),
+                "Valid Course ID (max length) should return empty string");
     }
 
     @Test
     public void testGetInvalidityInfoForCourseId_invalid_returnErrorString() {
         String emptyCourseId = "";
         assertEquals(
-                     "The field 'course ID' is empty. A course ID can contain letters, numbers, "
-                         + "fullstops, hyphens, underscores, and dollar signs. It cannot be "
-                         + "longer than 64 characters, cannot be empty and cannot contain spaces.",
-                     FieldValidator.getInvalidityInfoForCourseId(emptyCourseId),
-                    "Invalid Course ID (empty) should return appropriate error string");
+                "The field 'course ID' is empty. A course ID can contain letters, numbers, "
+                        + "fullstops, hyphens, underscores, and dollar signs. It cannot be "
+                        + "longer than 64 characters, cannot be empty and cannot contain spaces.",
+                FieldValidator.getInvalidityInfoForCourseId(emptyCourseId),
+                "Invalid Course ID (empty) should return appropriate error string");
 
         String untrimmedCourseId = " $cs1101-sem1.2_ ";
         assertEquals(
-                     FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
+                FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
                         "${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME),
-                     FieldValidator.getInvalidityInfoForCourseId(untrimmedCourseId),
-                    "Invalid Course ID (untrimmed) should return appropriate error string");
+                FieldValidator.getInvalidityInfoForCourseId(untrimmedCourseId),
+                "Invalid Course ID (untrimmed) should return appropriate error string");
 
         String whitespaceOnlyCourseId = "    ";
         assertEquals(
-                     FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
+                FieldValidator.WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace(
                         "${fieldName}", FieldValidator.COURSE_ID_FIELD_NAME),
-                     FieldValidator.getInvalidityInfoForCourseId(whitespaceOnlyCourseId),
-                    "Invalid Course ID (whitespace only) should return appropriate error string");
+                FieldValidator.getInvalidityInfoForCourseId(whitespaceOnlyCourseId),
+                "Invalid Course ID (whitespace only) should return appropriate error string");
 
         String tooLongCourseId = StringHelperExtension.generateStringOfLength(
-                                                           FieldValidator.COURSE_ID_MAX_LENGTH + 1);
+                FieldValidator.COURSE_ID_MAX_LENGTH + 1);
         assertEquals(
-                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" "
-                         + "is not acceptable to TEAMMATES as a/an course ID because it is too long. "
-                         + "A course ID can contain letters, numbers, fullstops, hyphens, underscores, "
-                         + "and dollar signs. It cannot be longer than 64 characters, "
-                         + "cannot be empty and cannot contain spaces.",
-                     FieldValidator.getInvalidityInfoForCourseId(tooLongCourseId),
-                    "Invalid Course ID (too long) should return appropriate error string");
+                "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" "
+                        + "is not acceptable to TEAMMATES as a/an course ID because it is too long. "
+                        + "A course ID can contain letters, numbers, fullstops, hyphens, underscores, "
+                        + "and dollar signs. It cannot be longer than 64 characters, "
+                        + "cannot be empty and cannot contain spaces.",
+                FieldValidator.getInvalidityInfoForCourseId(tooLongCourseId),
+                "Invalid Course ID (too long) should return appropriate error string");
 
         String courseIdWithSpaces = "my course id with spaces";
         assertEquals(
-                     "\"my course id with spaces\" is not acceptable to TEAMMATES as a/an course ID because "
-                         + "it is not in the correct format. A course ID can contain letters, numbers, "
-                         + "fullstops, hyphens, underscores, and dollar signs. It cannot be longer than 64 "
-                         + "characters, cannot be empty and cannot contain spaces.",
-                     FieldValidator.getInvalidityInfoForCourseId(courseIdWithSpaces),
-                    "Invalid Course ID (contains spaces) should return appropriate error string");
+                "\"my course id with spaces\" is not acceptable to TEAMMATES as a/an course ID because "
+                        + "it is not in the correct format. A course ID can contain letters, numbers, "
+                        + "fullstops, hyphens, underscores, and dollar signs. It cannot be longer than 64 "
+                        + "characters, cannot be empty and cannot contain spaces.",
+                FieldValidator.getInvalidityInfoForCourseId(courseIdWithSpaces),
+                "Invalid Course ID (contains spaces) should return appropriate error string");
 
         String courseIdWithInvalidChar = "cour@s*hy#";
         assertEquals(
-                     "\"cour@s*hy#\" is not acceptable to TEAMMATES as a/an course ID because it is not in "
-                         + "the correct format. A course ID can contain letters, numbers, fullstops, "
-                         + "hyphens, underscores, and dollar signs. It cannot be longer than 64 characters, "
-                         + "cannot be empty and cannot contain spaces.",
-                     FieldValidator.getInvalidityInfoForCourseId(courseIdWithInvalidChar),
-                    "Invalid Course ID (invalid char) should return appropriate error string");
+                "\"cour@s*hy#\" is not acceptable to TEAMMATES as a/an course ID because it is not in "
+                        + "the correct format. A course ID can contain letters, numbers, fullstops, "
+                        + "hyphens, underscores, and dollar signs. It cannot be longer than 64 characters, "
+                        + "cannot be empty and cannot contain spaces.",
+                FieldValidator.getInvalidityInfoForCourseId(courseIdWithInvalidChar),
+                "Invalid Course ID (invalid char) should return appropriate error string");
     }
 
     @Test
@@ -560,7 +567,8 @@ public class FieldValidatorTest extends BaseTestCase {
         Instant earliestSessionStart = TimeHelperExtension
                 .getInstantHoursOffsetFromNow(-1)
                 .truncatedTo(ChronoUnit.HOURS);
-        assertEquals("", FieldValidator.getInvalidityInfoForNewStartTime(earliestSessionStart, Const.DEFAULT_TIME_ZONE));
+        assertEquals("",
+                FieldValidator.getInvalidityInfoForNewStartTime(earliestSessionStart, Const.DEFAULT_TIME_ZONE));
 
         Instant latestSessionStart = TimeHelperExtension
                 .getInstantDaysOffsetFromNow(90)
@@ -638,7 +646,7 @@ public class FieldValidatorTest extends BaseTestCase {
         Instant sessionStart = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
         Instant sessionEnd = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
         assertEquals("The end time for this feedback session cannot be earlier than the start time.",
-                     FieldValidator.getInvalidityInfoForTimeForSessionStartAndEnd(sessionStart, sessionEnd));
+                FieldValidator.getInvalidityInfoForTimeForSessionStartAndEnd(sessionStart, sessionEnd));
     }
 
     @Test
@@ -646,8 +654,8 @@ public class FieldValidatorTest extends BaseTestCase {
         Instant visibilityStart = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
         Instant sessionStart = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
         assertEquals("",
-                     FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
-                         visibilityStart, sessionStart));
+                FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
+                        visibilityStart, sessionStart));
     }
 
     @Test
@@ -655,9 +663,9 @@ public class FieldValidatorTest extends BaseTestCase {
         Instant visibilityStart = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
         Instant sessionStart = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
         assertEquals("The start time for this feedback session cannot be earlier than the time when the "
-                         + "session will be visible.",
-                     FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
-                         visibilityStart, sessionStart));
+                + "session will be visible.",
+                FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndSessionStart(
+                        visibilityStart, sessionStart));
     }
 
     @Test
@@ -673,7 +681,7 @@ public class FieldValidatorTest extends BaseTestCase {
         Instant sessionStart = TimeHelperExtension.getInstantDaysOffsetFromNow(1);
         Instant thirtyOneDaysBeforeSessionStart = TimeHelperExtension.getInstantDaysOffsetFromNow(-31);
         assertEquals("The time when the session will be visible for this feedback session cannot be "
-                        + "earlier than 30 days before start time.",
+                + "earlier than 30 days before start time.",
                 FieldValidator.getInvalidityInfoForTimeForNewVisibilityStart(
                         thirtyOneDaysBeforeSessionStart, sessionStart));
     }
@@ -683,8 +691,8 @@ public class FieldValidatorTest extends BaseTestCase {
         Instant visibilityStart = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
         Instant resultsPublish = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
         assertEquals("",
-                     FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
-                         visibilityStart, resultsPublish));
+                FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
+                        visibilityStart, resultsPublish));
     }
 
     @Test
@@ -692,9 +700,9 @@ public class FieldValidatorTest extends BaseTestCase {
         Instant visibilityStart = TimeHelperExtension.getInstantHoursOffsetFromNow(1);
         Instant resultsPublish = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
         assertEquals("The time when the results will be visible for this feedback session cannot be "
-                         + "earlier than the time when the session will be visible.",
-                     FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
-                         visibilityStart, resultsPublish));
+                + "earlier than the time when the session will be visible.",
+                FieldValidator.getInvalidityInfoForTimeForVisibilityStartAndResultsPublish(
+                        visibilityStart, resultsPublish));
     }
 
     @Test
@@ -714,14 +722,14 @@ public class FieldValidatorTest extends BaseTestCase {
         Map<String, Instant> extendedDeadlines = new HashMap<>();
         extendedDeadlines.put("participant@email.com", TimeHelperExtension.getInstantHoursOffsetFromNow(-1));
         assertEquals("The extended deadlines for this feedback session cannot be earlier than or at the same time as "
-                        + "the end time.",
+                + "the end time.",
                 FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
                         sessionEnd, extendedDeadlines));
 
         ______TS("extended deadline at the same time as the end time");
         extendedDeadlines.put("participant@email.com", sessionEnd);
         assertEquals("The extended deadlines for this feedback session cannot be earlier than or at the same time as "
-                        + "the end time.",
+                + "the end time.",
                 FieldValidator.getInvalidityInfoForTimeForSessionEndAndExtendedDeadlines(
                         sessionEnd, extendedDeadlines));
     }
@@ -742,7 +750,7 @@ public class FieldValidatorTest extends BaseTestCase {
         Instant notificationEnd = TimeHelperExtension.getInstantHoursOffsetFromNow(-1);
 
         assertEquals("The time when the notification will expire for this notification cannot be earlier "
-                        + "than the time when the notification will be visible.",
+                + "than the time when the notification will be visible.",
                 FieldValidator.getInvalidityInfoForTimeForNotificationStartAndEnd(
                         notificationStart, notificationEnd));
     }
@@ -762,10 +770,10 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidNotificationTitle = StringHelperExtension.generateStringOfLength(
                 FieldValidator.NOTIFICATION_TITLE_MAX_LENGTH + 1);
         assertEquals("\"" + invalidNotificationTitle + "\" is not acceptable to TEAMMATES as a/an "
-                        + "notification title because it is too long. "
-                        + "The value of a/an notification title should be no longer than "
-                        + FieldValidator.NOTIFICATION_TITLE_MAX_LENGTH
-                        + " characters. It should not be empty.",
+                + "notification title because it is too long. "
+                + "The value of a/an notification title should be no longer than "
+                + FieldValidator.NOTIFICATION_TITLE_MAX_LENGTH
+                + " characters. It should not be empty.",
                 FieldValidator.getInvalidityInfoForNotificationTitle(invalidNotificationTitle));
     }
 

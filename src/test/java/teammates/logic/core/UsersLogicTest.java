@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -154,7 +152,7 @@ public class UsersLogicTest extends BaseTestCase {
         List<Student> unregisteredStudents = usersLogic.getUnregisteredStudentsForCourse(course.getId());
 
         assertEquals(1, unregisteredStudents.size());
-        assertTrue(unregisteredStudents.get(0).equals(unregisteredStudentNullAccount));
+        assertEquals(unregisteredStudentNullAccount, unregisteredStudents.get(0));
     }
 
     @Test

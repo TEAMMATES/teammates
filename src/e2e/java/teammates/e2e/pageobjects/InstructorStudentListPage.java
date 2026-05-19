@@ -1,7 +1,7 @@
 package teammates.e2e.pageobjects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -64,9 +64,7 @@ public class InstructorStudentListPage extends AppPage {
 
     public void verifyStudentDetails(Course course, Student[] students) {
         WebElement targetCourse = getCourseTab(course);
-        if (targetCourse == null) {
-            fail("Course with ID " + course.getId() + " is not found");
-        }
+        assertNotNull(targetCourse, "Course with ID " + course.getId() + " is not found");
 
         if (students.length == 0) {
             String noStudentText = targetCourse.findElement(By.className("card-body")).getText();
@@ -83,9 +81,7 @@ public class InstructorStudentListPage extends AppPage {
 
     public void verifyStudentDetailsNotViewable(Course course) {
         WebElement targetCourse = getCourseTab(course);
-        if (targetCourse == null) {
-            fail("Course with ID " + course.getId() + " is not found");
-        }
+        assertNotNull(targetCourse, "Course with ID " + course.getId() + " is not found");
         String noViewStudentsPermissionText = targetCourse.findElement(By.className("card-body")).getText();
         String expectedText = "You do not have permission to view the details of the students in this course.";
         assertEquals(expectedText, noViewStudentsPermissionText);
@@ -145,9 +141,7 @@ public class InstructorStudentListPage extends AppPage {
 
     private WebElement getStudentRow(Course course, String studentEmail) {
         WebElement targetCourse = getCourseTab(course);
-        if (targetCourse == null) {
-            fail("Course with ID " + course.getId() + " is not found");
-        }
+        assertNotNull(targetCourse, "Course with ID " + course.getId() + " is not found");
         waitFor(driver -> !targetCourse.findElements(By.cssSelector("tbody tr")).isEmpty()
                 && !targetCourse.findElement(By.cssSelector("tbody tr td")).getText().isEmpty());
         List<WebElement> studentRows = targetCourse.findElements(By.cssSelector("tbody tr"));

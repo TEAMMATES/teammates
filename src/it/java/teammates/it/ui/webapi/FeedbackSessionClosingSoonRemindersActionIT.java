@@ -235,8 +235,8 @@ public class FeedbackSessionClosingSoonRemindersActionIT extends BaseActionIT<Fe
         MessageOutput response1 = (MessageOutput) actionOutput1.getOutput();
 
         assertEquals("Successful", response1.getMessage());
-        assertTrue(!session.isClosingSoonEmailSent());
-        assertTrue(!de.isClosingSoonEmailSent());
+        assertFalse(session.isClosingSoonEmailSent());
+        assertFalse(de.isClosingSoonEmailSent());
 
         verifyNoTasksAdded();
     }

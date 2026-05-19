@@ -45,7 +45,7 @@ public class ActionFactoryTest extends BaseTestCase {
         nonExistentMethodOnActionServletRequest.addHeader(Const.HeaderNames.BACKDOOR_KEY, Config.BACKDOOR_KEY);
         ActionMappingException nonExistentMethodOnActionException = assertThrows(ActionMappingException.class,
                 () -> ActionFactory.getAction(nonExistentMethodOnActionServletRequest, HttpPost.METHOD_NAME));
-        assertTrue(("Method [" + HttpPost.METHOD_NAME + "] is not allowed for URI " + Const.ResourceURIs.AUTH + ".")
-                .equals(nonExistentMethodOnActionException.getMessage()));
+        assertEquals("Method [" + HttpPost.METHOD_NAME + "] is not allowed for URI " + Const.ResourceURIs.AUTH + ".",
+                nonExistentMethodOnActionException.getMessage());
     }
 }

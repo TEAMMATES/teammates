@@ -1,7 +1,6 @@
 package teammates.common.datatransfer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import static teammates.test.AssertHelper.assertJsonEquals;
 
 import java.time.Instant;
