@@ -17,7 +17,7 @@ export class CopyFromOtherSessionsModalComponent {
   activeModal = inject(NgbActiveModal);
 
   // const
-  FEEDBACK_SESSION_NAME_MAX_LENGTH: number = FEEDBACK_SESSION_NAME_MAX_LENGTH;
+  FEEDBACK_SESSION_NAME_MAX_LENGTH!: number;
 
   @Input()
   courseCandidates: Course[] = [];
@@ -28,6 +28,10 @@ export class CopyFromOtherSessionsModalComponent {
   copyToCourseId = '';
   newFeedbackSessionName = '';
   copyFromFeedbackSession: FeedbackSession | undefined;
+
+  constructor() {
+    this.FEEDBACK_SESSION_NAME_MAX_LENGTH = FEEDBACK_SESSION_NAME_MAX_LENGTH;
+  }
 
   /**
    * Copies the selected feedback session.

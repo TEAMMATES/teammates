@@ -67,7 +67,7 @@ export class SessionEditFormComponent {
   ResponseVisibleSetting!: typeof ResponseVisibleSetting;
 
   // const
-  FEEDBACK_SESSION_NAME_MAX_LENGTH: number = FEEDBACK_SESSION_NAME_MAX_LENGTH;
+  FEEDBACK_SESSION_NAME_MAX_LENGTH!: number;
 
   @Input()
   model: SessionEditFormModel = {
@@ -150,6 +150,7 @@ export class SessionEditFormComponent {
     this.SessionEditFormMode = SessionEditFormMode;
     this.SessionVisibleSetting = SessionVisibleSetting;
     this.ResponseVisibleSetting = ResponseVisibleSetting;
+    this.FEEDBACK_SESSION_NAME_MAX_LENGTH = FEEDBACK_SESSION_NAME_MAX_LENGTH;
   }
 
   /**

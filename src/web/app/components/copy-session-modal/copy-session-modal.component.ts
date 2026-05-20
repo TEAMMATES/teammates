@@ -18,7 +18,7 @@ export class CopySessionModalComponent {
   activeModal = inject(NgbActiveModal);
 
   // const
-  FEEDBACK_SESSION_NAME_MAX_LENGTH: number = FEEDBACK_SESSION_NAME_MAX_LENGTH;
+  FEEDBACK_SESSION_NAME_MAX_LENGTH!: number;
 
   @Input()
   courseCandidates: Course[] = [];
@@ -28,6 +28,10 @@ export class CopySessionModalComponent {
 
   newFeedbackSessionName = '';
   copyToCourseSet: Set<string> = new Set<string>();
+
+  constructor() {
+    this.FEEDBACK_SESSION_NAME_MAX_LENGTH = FEEDBACK_SESSION_NAME_MAX_LENGTH;
+  }
 
   /**
    * Whether copied session name is non-empty after trimming whitespace.

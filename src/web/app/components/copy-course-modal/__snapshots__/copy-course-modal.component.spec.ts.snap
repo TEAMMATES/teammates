@@ -2,8 +2,8 @@
 
 exports[`CopyCourseModalComponent > should snap when copying from other sessions 1`] = `
 <tm-copy-course-modal
-  COURSE_ID_MAX_LENGTH="undefined"
-  COURSE_NAME_MAX_LENGTH="undefined"
+  COURSE_ID_MAX_LENGTH={[Function Number]}
+  COURSE_NAME_MAX_LENGTH={[Function Number]}
   activeCourses={[Function Array]}
   activeModal={[Function NgbActiveModal]}
   allCourses={[Function Array]}
@@ -66,11 +66,12 @@ exports[`CopyCourseModalComponent > should snap when copying from other sessions
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-course-id"
+            maxlength="64"
             placeholder="e.g. CS3215-2013Semester1"
             type="text"
           />
           <span>
-            NaN characters left
+            64 characters left
           </span>
           <div
             class="invalid-field"
@@ -92,11 +93,12 @@ exports[`CopyCourseModalComponent > should snap when copying from other sessions
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-course-name"
+            maxlength="80"
             placeholder="e.g. Software Engineering"
             type="text"
           />
           <span>
-            NaN characters left
+            80 characters left
           </span>
           <div
             class="invalid-field"
@@ -215,8 +217,8 @@ exports[`CopyCourseModalComponent > should snap when copying from other sessions
 
 exports[`CopyCourseModalComponent > should snap with default fields 1`] = `
 <tm-copy-course-modal
-  COURSE_ID_MAX_LENGTH="undefined"
-  COURSE_NAME_MAX_LENGTH="undefined"
+  COURSE_ID_MAX_LENGTH={[Function Number]}
+  COURSE_NAME_MAX_LENGTH={[Function Number]}
   activeCourses={[Function Array]}
   activeModal={[Function NgbActiveModal]}
   allCourses={[Function Array]}
@@ -284,11 +286,12 @@ exports[`CopyCourseModalComponent > should snap with default fields 1`] = `
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-course-id"
+            maxlength="64"
             placeholder="e.g. CS3215-2013Semester1"
             type="text"
           />
           <span>
-            NaN characters left
+            64 characters left
           </span>
           <div
             class="invalid-field"
@@ -310,11 +313,12 @@ exports[`CopyCourseModalComponent > should snap with default fields 1`] = `
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-course-name"
+            maxlength="80"
             placeholder="e.g. Software Engineering"
             type="text"
           />
           <span>
-            NaN characters left
+            80 characters left
           </span>
           <div
             class="invalid-field"
@@ -417,8 +421,8 @@ exports[`CopyCourseModalComponent > should snap with default fields 1`] = `
 
 exports[`CopyCourseModalComponent > should snap with some course id 1`] = `
 <tm-copy-course-modal
-  COURSE_ID_MAX_LENGTH="undefined"
-  COURSE_NAME_MAX_LENGTH="undefined"
+  COURSE_ID_MAX_LENGTH={[Function Number]}
+  COURSE_NAME_MAX_LENGTH={[Function Number]}
   activeCourses={[Function Array]}
   activeModal={[Function NgbActiveModal]}
   allCourses={[Function Array]}
@@ -486,11 +490,12 @@ exports[`CopyCourseModalComponent > should snap with some course id 1`] = `
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-course-id"
+            maxlength="64"
             placeholder="e.g. CS3215-2013Semester1"
             type="text"
           />
           <span>
-            NaN characters left
+            58 characters left
           </span>
           <div
             class="invalid-field"
@@ -512,11 +517,12 @@ exports[`CopyCourseModalComponent > should snap with some course id 1`] = `
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-course-name"
+            maxlength="80"
             placeholder="e.g. Software Engineering"
             type="text"
           />
           <span>
-            NaN characters left
+            80 characters left
           </span>
           <div
             class="invalid-field"

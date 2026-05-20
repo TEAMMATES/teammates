@@ -280,7 +280,7 @@ exports[`InstructorSessionsPageComponent > should snap when courses are loading 
                          The field Session Name should not be empty. 
                       </div>
                       <div>
-                        NaN characters left
+                        64 characters left
                       </div>
                     </div>
                   </div>
@@ -1806,7 +1806,7 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions ar
                          The field Session Name should not be empty. 
                       </div>
                       <div>
-                        NaN characters left
+                        64 characters left
                       </div>
                     </div>
                   </div>
@@ -3332,7 +3332,7 @@ exports[`InstructorSessionsPageComponent > should snap when feedback sessions fa
                          The field Session Name should not be empty. 
                       </div>
                       <div>
-                        NaN characters left
+                        64 characters left
                       </div>
                     </div>
                   </div>
@@ -4839,7 +4839,7 @@ exports[`InstructorSessionsPageComponent > should snap when new session form is 
                          The field Session Name should not be empty. 
                       </div>
                       <div>
-                        NaN characters left
+                        64 characters left
                       </div>
                     </div>
                   </div>
@@ -6369,7 +6369,7 @@ exports[`InstructorSessionsPageComponent > should snap when recycle bin section 
                          The field Session Name should not be empty. 
                       </div>
                       <div>
-                        NaN characters left
+                        64 characters left
                       </div>
                     </div>
                   </div>
@@ -7895,7 +7895,7 @@ exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] 
                          The field Session Name should not be empty. 
                       </div>
                       <div>
-                        NaN characters left
+                        64 characters left
                       </div>
                     </div>
                   </div>
@@ -9421,7 +9421,7 @@ exports[`InstructorSessionsPageComponent > should snap with default fields 1`] =
                          The field Session Name should not be empty. 
                       </div>
                       <div>
-                        NaN characters left
+                        64 characters left
                       </div>
                     </div>
                   </div>
