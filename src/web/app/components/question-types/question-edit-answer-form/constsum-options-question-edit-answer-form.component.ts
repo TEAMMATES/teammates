@@ -21,8 +21,12 @@ export class ConstsumOptionsQuestionEditAnswerFormComponent extends QuestionEdit
   @Input() questionDetails: FeedbackConstantSumQuestionDetails = DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS();
 
   // enum
-  FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =
-    FeedbackConstantSumDistributePointsType;
+  FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType;
+
+  constructor() {
+    super();
+    this.FeedbackConstantSumDistributePointsType = FeedbackConstantSumDistributePointsType;
+  }
 
   getAriaLabelForOption(option: string): string {
     const baseAriaLabel: string = this.getAriaLabel();
