@@ -147,7 +147,7 @@ public final class Const {
 
         public static final String PREVIEWAS = "previewas";
 
-        public static final String STUDENT_SQL_ID = "studentid";
+        public static final String USER_ID = "userid";
         public static final String STUDENT_ID = "googleid";
         public static final String INVITER_ID = "invitergoogleid";
 

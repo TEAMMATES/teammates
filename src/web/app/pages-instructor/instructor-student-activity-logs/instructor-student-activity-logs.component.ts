@@ -228,7 +228,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         searchFrom,
         searchUntil,
         logTypes: this.formModel.logTypes,
-        studentId: this.formModel.selectedStudent.studentId,
+        userId: this.formModel.selectedStudent.studentId,
         sessionId: this.formModel.selectedSession.sessionId,
       })
       .pipe(

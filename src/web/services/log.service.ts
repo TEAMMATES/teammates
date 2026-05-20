@@ -41,7 +41,7 @@ export class LogService {
     searchFrom: number;
     searchUntil: number;
     logTypes: FeedbackSessionLogType[];
-    studentId?: string;
+    userId?: string;
     sessionId?: string;
   }): Observable<FeedbackSessionLogs> {
     const paramMap: Record<string, string | string[]> = {
@@ -51,8 +51,8 @@ export class LogService {
       fsltype: queryParams.logTypes.map((type) => type.toString()),
     };
 
-    if (queryParams.studentId) {
-      paramMap['studentid'] = queryParams.studentId;
+    if (queryParams.userId) {
+      paramMap['userid'] = queryParams.userId;
     }
 
     if (queryParams.sessionId) {

@@ -79,7 +79,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
                 newStudentTeam, student1.getSectionName(), newStudentComments, true);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
+                Const.ParamsNames.USER_ID, student1.getId().toString(),
         };
 
         UpdateStudentAction updateAction = getAction(updateRequest, submissionParams);
@@ -118,7 +118,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
                 newStudentTeamToBeTrimmed, student1.getSectionName(), newStudentCommentsToBeTrimmed, true);
 
         String[] submissionParamsToBeTrimmed = new String[] {
-                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
+                Const.ParamsNames.USER_ID, student1.getId().toString(),
         };
 
         UpdateStudentAction actionToBeTrimmed = getAction(updateRequest, submissionParamsToBeTrimmed);
@@ -142,7 +142,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
                 student1.getTeamName(), student1.getSectionName(), student1.getComments(), false);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
+                Const.ParamsNames.USER_ID, student1.getId().toString(),
         };
 
         InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(updateRequest, submissionParams);
@@ -166,7 +166,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
                 student1.getTeamName(), student1.getSectionName(), student1.getComments(), false);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
+                Const.ParamsNames.USER_ID, student1.getId().toString(),
         };
 
         InvalidOperationException ioe = verifyInvalidOperation(updateRequest, submissionParams);
@@ -183,7 +183,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
                 student1.getTeamName(), student1.getSectionName(), student1.getComments(), false);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.STUDENT_SQL_ID, UUID.randomUUID().toString(),
+                Const.ParamsNames.USER_ID, UUID.randomUUID().toString(),
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(updateRequest, submissionParams);
@@ -204,7 +204,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
                 student4.getTeamName(), student1.getSectionName(), student1.getComments(), true);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
+                Const.ParamsNames.USER_ID, student1.getId().toString(),
         };
 
         InvalidOperationException ioe = verifyInvalidOperation(updateRequest, submissionParams);
@@ -241,7 +241,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
                         studentToJoinMaxSection.getComments(), true);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.STUDENT_SQL_ID, studentToJoinMaxSection.getId().toString(),
+                Const.ParamsNames.USER_ID, studentToJoinMaxSection.getId().toString(),
         };
 
         InvalidOperationException ioe = verifyInvalidOperation(updateRequest, submissionParams);
@@ -263,7 +263,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
                 student4.getTeamName(), "", student4.getComments(), true);
 
         String[] emptySectionSubmissionParams = new String[] {
-                Const.ParamsNames.STUDENT_SQL_ID, student4.getId().toString(),
+                Const.ParamsNames.USER_ID, student4.getId().toString(),
         };
 
         UpdateStudentAction updateEmptySectionAction = getAction(emptySectionUpdateRequest, emptySectionSubmissionParams);
@@ -292,7 +292,7 @@ public class UpdateStudentActionIT extends BaseActionIT<UpdateStudentAction> {
         Course course = typicalBundle.courses.get("course1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.STUDENT_SQL_ID, student1.getId().toString(),
+                Const.ParamsNames.USER_ID, student1.getId().toString(),
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(

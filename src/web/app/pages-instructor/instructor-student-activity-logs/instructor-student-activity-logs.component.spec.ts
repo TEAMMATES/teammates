@@ -262,7 +262,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
       searchFrom: new Date('2020-12-31T00:00+00:00').getTime() - tzOffset * Milliseconds.IN_ONE_MINUTE,
       searchUntil: new Date('2021-01-01T00:00+00:00').getTime() - tzOffset * Milliseconds.IN_ONE_MINUTE,
       logTypes: [FeedbackSessionLogType.SUBMISSION],
-      studentId: '',
+      userId: '',
       sessionId: '',
     });
 
