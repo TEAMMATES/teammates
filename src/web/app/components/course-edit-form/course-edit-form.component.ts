@@ -47,8 +47,8 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
   CourseEditFormMode!: typeof CourseEditFormMode;
 
   // const
-  readonly COURSE_ID_MAX_LENGTH = COURSE_ID_MAX_LENGTH;
-  readonly COURSE_NAME_MAX_LENGTH = COURSE_NAME_MAX_LENGTH;
+  readonly COURSE_ID_MAX_LENGTH!: number;
+  readonly COURSE_NAME_MAX_LENGTH!: number;
 
   @ViewChild('courseForm') form!: UntypedFormGroup;
 
@@ -88,6 +88,8 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
 
   constructor() {
     this.CourseEditFormMode = CourseEditFormMode;
+    this.COURSE_ID_MAX_LENGTH = COURSE_ID_MAX_LENGTH;
+    this.COURSE_NAME_MAX_LENGTH = COURSE_NAME_MAX_LENGTH;
   }
 
   get isInAddMode(): boolean {
@@ -217,7 +219,6 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
    * Handles event when edits are discarded.
    */
   discardChangesHandler(): void {
-    // const editFormModel: CourseEditFormModel = this.model as CourseEditFormModel;
     if (this.editModel) {
       this.editModel.course = { ...this.editModel.originalCourse };
       this.editModel.isEditing = false;

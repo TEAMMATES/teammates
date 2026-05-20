@@ -112,6 +112,7 @@ exports[`InstructorCoursesPageComponent > should snap when courses are still loa
                 <input
                   class="col-xs-12 form-control ng-untouched ng-pristine ng-invalid"
                   id="course-id"
+                  maxlength="64"
                   name="courseId"
                   placeholder="e.g. CS3215-2013Semester1"
                   required=""
@@ -144,6 +145,7 @@ exports[`InstructorCoursesPageComponent > should snap when courses are still loa
                 <input
                   class="form-control ng-untouched ng-pristine ng-invalid"
                   id="course-name"
+                  maxlength="80"
                   name="courseName"
                   placeholder="e.g. Software Engineering"
                   required=""
@@ -3378,6 +3380,7 @@ exports[`InstructorCoursesPageComponent > should snap when it is undeletable and
                 <input
                   class="col-xs-12 form-control ng-untouched ng-pristine ng-invalid"
                   id="course-id"
+                  maxlength="64"
                   name="courseId"
                   placeholder="e.g. CS3215-2013Semester1"
                   required=""
@@ -3410,6 +3413,7 @@ exports[`InstructorCoursesPageComponent > should snap when it is undeletable and
                 <input
                   class="form-control ng-untouched ng-pristine ng-invalid"
                   id="course-name"
+                  maxlength="80"
                   name="courseName"
                   placeholder="e.g. Software Engineering"
                   required=""
@@ -7131,6 +7135,7 @@ exports[`InstructorCoursesPageComponent > should snap when new course form is ex
                 <input
                   class="col-xs-12 form-control ng-untouched ng-pristine ng-invalid"
                   id="course-id"
+                  maxlength="64"
                   name="courseId"
                   placeholder="e.g. CS3215-2013Semester1"
                   required=""
@@ -7163,6 +7168,7 @@ exports[`InstructorCoursesPageComponent > should snap when new course form is ex
                 <input
                   class="form-control ng-untouched ng-pristine ng-invalid"
                   id="course-name"
+                  maxlength="80"
                   name="courseName"
                   placeholder="e.g. Software Engineering"
                   required=""
@@ -10383,6 +10389,7 @@ exports[`InstructorCoursesPageComponent > should snap with all courses in course
                 <input
                   class="col-xs-12 form-control ng-untouched ng-pristine ng-invalid"
                   id="course-id"
+                  maxlength="64"
                   name="courseId"
                   placeholder="e.g. CS3215-2013Semester1"
                   required=""
@@ -10415,6 +10422,7 @@ exports[`InstructorCoursesPageComponent > should snap with all courses in course
                 <input
                   class="form-control ng-untouched ng-pristine ng-invalid"
                   id="course-name"
+                  maxlength="80"
                   name="courseName"
                   placeholder="e.g. Software Engineering"
                   required=""
@@ -14139,6 +14147,7 @@ exports[`InstructorCoursesPageComponent > should snap with default fields 1`] = 
                 <input
                   class="col-xs-12 form-control ng-untouched ng-pristine ng-valid"
                   id="course-id"
+                  maxlength="64"
                   name="courseId"
                   placeholder="e.g. CS3215-2013Semester1"
                   required=""
@@ -14171,6 +14180,7 @@ exports[`InstructorCoursesPageComponent > should snap with default fields 1`] = 
                 <input
                   class="form-control ng-untouched ng-pristine ng-valid"
                   id="course-name"
+                  maxlength="80"
                   name="courseName"
                   placeholder="e.g. Software Engineering"
                   required=""
@@ -17405,6 +17415,7 @@ exports[`InstructorCoursesPageComponent > should snap with no courses in course 
                 <input
                   class="col-xs-12 form-control ng-untouched ng-pristine ng-invalid"
                   id="course-id"
+                  maxlength="64"
                   name="courseId"
                   placeholder="e.g. CS3215-2013Semester1"
                   required=""
@@ -17437,6 +17448,7 @@ exports[`InstructorCoursesPageComponent > should snap with no courses in course 
                 <input
                   class="form-control ng-untouched ng-pristine ng-invalid"
                   id="course-name"
+                  maxlength="80"
                   name="courseName"
                   placeholder="e.g. Software Engineering"
                   required=""

@@ -2,8 +2,8 @@
 
 exports[`CourseEditFormComponent > should snap when in ADD Mode and is display only 1`] = `
 <tm-course-edit-form
-  COURSE_ID_MAX_LENGTH="undefined"
-  COURSE_NAME_MAX_LENGTH="undefined"
+  COURSE_ID_MAX_LENGTH={[Function Number]}
+  COURSE_NAME_MAX_LENGTH={[Function Number]}
   CourseEditFormMode={[Function Object]}
   addModel="undefined"
   closeFormEvent={[Function EventEmitter_]}
@@ -79,6 +79,7 @@ exports[`CourseEditFormComponent > should snap when in ADD Mode and is display o
             <input
               class="col-xs-12 form-control ng-untouched ng-pristine ng-valid"
               id="course-id"
+              maxlength="64"
               name="courseId"
               placeholder="e.g. CS3215-2013Semester1"
               required=""
@@ -111,6 +112,7 @@ exports[`CourseEditFormComponent > should snap when in ADD Mode and is display o
             <input
               class="form-control ng-untouched ng-pristine ng-valid"
               id="course-name"
+              maxlength="80"
               name="courseName"
               placeholder="e.g. Software Engineering"
               required=""
@@ -221,8 +223,8 @@ exports[`CourseEditFormComponent > should snap when in ADD Mode and is display o
 
 exports[`CourseEditFormComponent > should snap when in ADD Mode with default fields 1`] = `
 <tm-course-edit-form
-  COURSE_ID_MAX_LENGTH="undefined"
-  COURSE_NAME_MAX_LENGTH="undefined"
+  COURSE_ID_MAX_LENGTH={[Function Number]}
+  COURSE_NAME_MAX_LENGTH={[Function Number]}
   CourseEditFormMode={[Function Object]}
   addModel={[Function Object]}
   closeFormEvent={[Function EventEmitter_]}
@@ -298,6 +300,7 @@ exports[`CourseEditFormComponent > should snap when in ADD Mode with default fie
             <input
               class="col-xs-12 form-control ng-untouched ng-pristine ng-valid"
               id="course-id"
+              maxlength="64"
               name="courseId"
               placeholder="e.g. CS3215-2013Semester1"
               required=""
@@ -330,6 +333,7 @@ exports[`CourseEditFormComponent > should snap when in ADD Mode with default fie
             <input
               class="form-control ng-untouched ng-pristine ng-valid"
               id="course-name"
+              maxlength="80"
               name="courseName"
               placeholder="e.g. Software Engineering"
               required=""
@@ -444,8 +448,8 @@ exports[`CourseEditFormComponent > should snap when in ADD Mode with default fie
 
 exports[`CourseEditFormComponent > should snap when in EDIT Mode and is display only 1`] = `
 <tm-course-edit-form
-  COURSE_ID_MAX_LENGTH="undefined"
-  COURSE_NAME_MAX_LENGTH="undefined"
+  COURSE_ID_MAX_LENGTH={[Function Number]}
+  COURSE_NAME_MAX_LENGTH={[Function Number]}
   CourseEditFormMode={[Function Object]}
   addModel="undefined"
   closeFormEvent={[Function EventEmitter_]}
@@ -524,6 +528,7 @@ exports[`CourseEditFormComponent > should snap when in EDIT Mode and is display 
             <input
               class="col-xs-12 form-control ng-untouched ng-pristine ng-valid"
               id="course-id"
+              maxlength="64"
               name="courseId"
               placeholder="e.g. CS3215-2013Semester1"
               required=""
@@ -556,6 +561,7 @@ exports[`CourseEditFormComponent > should snap when in EDIT Mode and is display 
             <input
               class="form-control ng-untouched ng-pristine ng-valid"
               id="course-name"
+              maxlength="80"
               name="courseName"
               placeholder="e.g. Software Engineering"
               required=""
@@ -658,8 +664,8 @@ exports[`CourseEditFormComponent > should snap when in EDIT Mode and is display 
 
 exports[`CourseEditFormComponent > should snap when in EDIT Mode with default fields 1`] = `
 <tm-course-edit-form
-  COURSE_ID_MAX_LENGTH="undefined"
-  COURSE_NAME_MAX_LENGTH="undefined"
+  COURSE_ID_MAX_LENGTH={[Function Number]}
+  COURSE_NAME_MAX_LENGTH={[Function Number]}
   CourseEditFormMode={[Function Object]}
   addModel="undefined"
   closeFormEvent={[Function EventEmitter_]}
@@ -738,6 +744,7 @@ exports[`CourseEditFormComponent > should snap when in EDIT Mode with default fi
             <input
               class="col-xs-12 form-control ng-untouched ng-pristine ng-valid"
               id="course-id"
+              maxlength="64"
               name="courseId"
               placeholder="e.g. CS3215-2013Semester1"
               required=""
@@ -770,6 +777,7 @@ exports[`CourseEditFormComponent > should snap when in EDIT Mode with default fi
             <input
               class="form-control ng-untouched ng-pristine ng-valid"
               id="course-name"
+              maxlength="80"
               name="courseName"
               placeholder="e.g. Software Engineering"
               required=""
