@@ -48,6 +48,7 @@
     "@eslint/js": "^10.0.1",
     "@types/d3": "^7.4.3",
     "@types/ua-parser-js": "^0.7.39",
+    "@vitest/coverage-v8": "^4.1.6",
     "@vitest/eslint-plugin": "^1.6.17",
     "angular-eslint": "^21.4.0",
     "eslint": "^10.4.0",
