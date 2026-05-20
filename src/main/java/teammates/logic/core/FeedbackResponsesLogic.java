@@ -308,10 +308,9 @@ public final class FeedbackResponsesLogic {
             Map<String, List<Student>> teams = roster.getTeamToMembers();
             for (Map.Entry<String, List<Student>> entry : teams.entrySet()) {
                 String teamName = entry.getKey();
-                Student firstMemberOfTeam = entry.getValue().get(0);
-                ResponseGiver responseGiver = new ResponseGiver(firstMemberOfTeam);
+                ResponseGiver teamResponseGiver = new ResponseGiver(roster.getTeamNameToTeam().get(teamName));
                 numberOfRecipients =
-                        fqLogic.getRecipientsOfQuestion(question, responseGiver, roster).size();
+                        fqLogic.getRecipientsOfQuestion(question, teamResponseGiver, roster).size();
                 Team team = roster.getTeamNameToTeam().get(teamName);
                 responses =
                         getFeedbackResponsesFromTeamForQuestion(
