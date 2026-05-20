@@ -111,16 +111,12 @@ public final class Const {
 
         public static final String IS_IN_RECYCLE_BIN = "isinrecyclebin";
 
-        public static final String IS_STUDENT_REJOINING = "isstudentrejoining";
-        public static final String IS_INSTRUCTOR_REJOINING = "isinstructorrejoining";
-
         public static final String COURSE_ID = "courseid";
         public static final String COURSE_STATUS = "coursestatus";
         public static final String INSTRUCTOR_ID = "instructorid";
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
         public static final String IS_CREATING_ACCOUNT = "iscreatingaccount";
-        public static final String IS_INSTRUCTOR = "isinstructor";
 
         public static final String FEEDBACK_SESSION_ID = "fsid";
 
@@ -135,7 +131,6 @@ public final class Const {
         public static final String FEEDBACK_SESSION_LOG_ENDTIME = "fslendtime";
 
         public static final String FEEDBACK_QUESTION_ID = "questionid";
-        public static final String SINGLE_RECIPIENT_ID_FOR_SUBMISSION = "singlerecipientidforsubmission";
 
         public static final String FEEDBACK_RESPONSE_ID = "responseid";
 
@@ -149,7 +144,6 @@ public final class Const {
 
         public static final String USER_ID = "userid";
         public static final String STUDENT_ID = "googleid";
-        public static final String INVITER_ID = "invitergoogleid";
 
         public static final String REGKEY = "key";
         public static final String STUDENT_EMAIL = "studentemail";
@@ -178,28 +172,12 @@ public final class Const {
 
         public static final String QUERY_LOGS_STARTTIME = "starttime";
         public static final String QUERY_LOGS_ENDTIME = "endtime";
-        public static final String QUERY_LOGS_SEVERITY = "severity";
-        public static final String QUERY_LOGS_MIN_SEVERITY = "minseverity";
-        public static final String QUERY_LOGS_TRACE = "traceid";
-        public static final String QUERY_LOGS_ACTION_CLASS = "actionclass";
-        public static final String QUERY_LOGS_EMAIL = "email";
-        public static final String QUERY_LOGS_EVENT = "logevent";
-        public static final String QUERY_LOGS_SOURCE_LOCATION_FILE = "sourcelocationfile";
-        public static final String QUERY_LOGS_SOURCE_LOCATION_FUNCTION = "sourcelocationfunction";
-        public static final String QUERY_LOGS_EXCEPTION_CLASS = "exceptionclass";
-        public static final String QUERY_LOGS_LATENCY = "latency";
-        public static final String QUERY_LOGS_STATUS = "status";
-        public static final String QUERY_LOGS_VERSION = "version";
-        public static final String QUERY_LOGS_EXTRA_FILTERS = "extrafilters";
-        public static final String QUERY_LOGS_ORDER = "order";
 
         public static final String LIMIT = "limit";
 
         public static final String NOTIFICATION_ID = "notificationid";
         public static final String NOTIFICATION_TARGET_USER = "usertype";
         public static final String NOTIFICATION_IS_FETCHING_ALL = "isfetchingall";
-        public static final String NOTFICATION_END_TIME = "endtime";
-        public static final String CONTINUE_URL = "continueurl";
     }
 
     /**
