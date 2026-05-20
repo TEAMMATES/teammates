@@ -91,20 +91,10 @@ describe('AccountService', () => {
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_REQUEST_RESET, paramMap);
   });
 
-  it('should execute PUT on account/reset endpoint for student', () => {
-    service.resetStudentAccount(id, 'testStudentEmail');
+  it('should execute PUT on account/reset endpoint', () => {
+    service.resetAccount('testUserId');
     const paramMap: Record<string, string> = {
-      courseid: id,
-      studentemail: 'testStudentEmail',
-    };
-    expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_RESET, paramMap);
-  });
-
-  it('should execute PUT on account/reset endpoint for instructor', () => {
-    service.resetInstructorAccount(id, 'testInstructorEmail');
-    const paramMap: Record<string, string> = {
-      courseid: id,
-      instructoremail: 'testInstructorEmail',
+      userid: 'testUserId',
     };
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.ACCOUNT_RESET, paramMap);
   });

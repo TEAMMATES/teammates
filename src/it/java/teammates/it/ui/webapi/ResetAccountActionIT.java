@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.util.UUID;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -50,10 +52,9 @@ public class ResetAccountActionIT extends BaseActionIT<ResetAccountAction> {
 
         loginAsAdmin();
 
-        ______TS("Typical Success Case with Student Email param given and Student exists");
+        ______TS("Typical Success Case with Student user ID param given and Student exists");
         String[] params = new String[] {
-                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
-                Const.ParamsNames.COURSE_ID, student.getCourseId(),
+                Const.ParamsNames.USER_ID, student.getId().toString(),
         };
 
         ResetAccountAction resetAccountAction = getAction(params);
@@ -65,20 +66,18 @@ public class ResetAccountActionIT extends BaseActionIT<ResetAccountAction> {
         assertNull(student.getAccount());
         assertNull(student.getGoogleId());
 
-        ______TS("Student Email param given but Student is non existent");
-        String invalidEmail = "does-not-exist-email@teammates.tmt";
+        ______TS("User ID param given but user is non existent");
+        UUID invalidUserId = UUID.randomUUID();
         String[] invalidParams = new String[] {
-                Const.ParamsNames.STUDENT_EMAIL, invalidEmail,
-                Const.ParamsNames.COURSE_ID, student.getCourseId(),
+                Const.ParamsNames.USER_ID, invalidUserId.toString(),
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(invalidParams);
-        assertEquals("Student does not exist.", enfe.getMessage());
+        assertEquals("User does not exist.", enfe.getMessage());
 
-        ______TS("Typical Success Case with Instructor Email param given and Instructor exists");
+        ______TS("Typical Success Case with Instructor user ID param given and Instructor exists");
         params = new String[] {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
-                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.USER_ID, instructor.getId().toString(),
         };
 
         resetAccountAction = getAction(params);
@@ -90,14 +89,6 @@ public class ResetAccountActionIT extends BaseActionIT<ResetAccountAction> {
         assertNull(instructor.getAccount());
         assertNull(instructor.getGoogleId());
 
-        ______TS("Instructor Email param given but Instructor is non existent");
-        invalidParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, invalidEmail,
-                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
-        };
-
-        enfe = verifyEntityNotFound(invalidParams);
-        assertEquals("Instructor does not exist.", enfe.getMessage());
     }
 
     @Test

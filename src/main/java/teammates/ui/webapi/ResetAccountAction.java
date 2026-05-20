@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
@@ -9,8 +10,8 @@ import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 import teammates.ui.exception.EntityNotFoundException;
-import teammates.ui.exception.InvalidHttpParameterException;
 
 /**
  * Action: resets an account ID.
@@ -19,29 +20,20 @@ public class ResetAccountAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
-        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-        String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
+        UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
+        User existingUser = logic.getUser(userId);
 
-        if (studentEmail == null && instructorEmail == null) {
-            throw new InvalidHttpParameterException("Either student email or instructor email has to be specified.");
+        if (existingUser == null) {
+            throw new EntityNotFoundException("User does not exist.");
         }
 
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Course course = logic.getCourse(courseId);
-        if (course == null) {
-            throw new EntityNotFoundException("Course does not exist");
-        }
+        Course course = existingUser.getCourse();
 
-        if (studentEmail != null) {
-            Student existingStudent = logic.getStudentForEmail(courseId, studentEmail);
-
-            if (existingStudent == null) {
-                throw new EntityNotFoundException("Student does not exist.");
-            }
-
+        if (existingUser instanceof Student existingStudent) {
             try {
                 if (existingStudent.getGoogleId() != null) {
-                    logic.resetStudentGoogleId(studentEmail, courseId, existingStudent.getGoogleId());
+                    logic.resetStudentGoogleId(existingStudent.getEmail(), existingStudent.getCourseId(),
+                            existingStudent.getGoogleId());
                 }
                 // Generate and queue rejoin email to priority queue
                 EmailWrapper email = emailGenerator
@@ -52,16 +44,11 @@ public class ResetAccountAction extends AdminOnlyAction {
             } catch (EntityDoesNotExistException e) {
                 throw new EntityNotFoundException(e);
             }
-        } else if (instructorEmail != null) {
-            Instructor existingInstructor = logic.getInstructorForEmail(courseId, instructorEmail);
-
-            if (existingInstructor == null) {
-                throw new EntityNotFoundException("Instructor does not exist.");
-            }
-
+        } else if (existingUser instanceof Instructor existingInstructor) {
             try {
                 if (existingInstructor.getGoogleId() != null) {
-                    logic.resetInstructorGoogleId(instructorEmail, courseId, existingInstructor.getGoogleId());
+                    logic.resetInstructorGoogleId(existingInstructor.getEmail(), existingInstructor.getCourseId(),
+                            existingInstructor.getGoogleId());
                 }
                 // Generate and queue rejoin email to priority queue
                 EmailWrapper email = emailGenerator
