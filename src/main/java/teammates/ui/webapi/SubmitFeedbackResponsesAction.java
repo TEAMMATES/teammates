@@ -17,7 +17,6 @@ import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
@@ -233,7 +232,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         for (FeedbackResponse feedbackResponse : feedbackResponsesToUpdate) {
             try {
                 output.add(logic.updateFeedbackResponseCascade(feedbackResponse));
-            } catch (InvalidParametersException | EntityDoesNotExistException e) {
+            } catch (InvalidParametersException e) {
                 // None of the exceptions should be happening as the responses have been pre-validated
                 log.severe("Encountered exception when updating response: " + e.getMessage(), e);
             }

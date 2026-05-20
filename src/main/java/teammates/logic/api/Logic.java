@@ -1452,10 +1452,9 @@ public class Logic {
      *
      * @return updated feedback response
      * @throws InvalidParametersException  if attributes to update are not valid
-     * @throws EntityDoesNotExistException if the comment cannot be found
      */
     public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse feedbackResponse)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException {
         assert feedbackResponse != null;
 
         return feedbackResponsesLogic.updateFeedbackResponse(feedbackResponse);

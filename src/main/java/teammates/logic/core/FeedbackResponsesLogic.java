@@ -22,10 +22,8 @@ import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.api.FeedbackResponsesDb;
@@ -202,7 +200,6 @@ public final class FeedbackResponsesLogic {
      *
      * @return updated feedback response
      * @throws InvalidParametersException if attributes to update are not valid
-     * @throws EntityDoesNotExistException if the response cannot be found
      */
     public FeedbackResponse updateFeedbackResponse(FeedbackResponse feedbackResponse)
             throws InvalidParametersException {
