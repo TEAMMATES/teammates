@@ -2,10 +2,10 @@
 
 exports[`InstructorRequestFormComponent > should render correctly 1`] = `
 <tm-instructor-request-form
-  COUNTRY_NAME_MAX_LENGTH="undefined"
-  EMAIL_MAX_LENGTH="undefined"
-  INSTITUTION_NAME_MAX_LENGTH="undefined"
-  STUDENT_NAME_MAX_LENGTH="undefined"
+  COUNTRY_NAME_MAX_LENGTH={[Function Number]}
+  EMAIL_MAX_LENGTH={[Function Number]}
+  INSTITUTION_NAME_MAX_LENGTH={[Function Number]}
+  STUDENT_NAME_MAX_LENGTH={[Function Number]}
   accountService={[Function Object]}
   arf={[Function FormGroup]}
   captchaResponse="undefined"

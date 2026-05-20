@@ -28,10 +28,10 @@ export class InstructorRequestFormComponent {
   private accountService = inject(AccountService);
 
   // Create members to be accessed in template
-  readonly STUDENT_NAME_MAX_LENGTH = STUDENT_NAME_MAX_LENGTH;
-  readonly INSTITUTION_NAME_MAX_LENGTH = INSTITUTION_NAME_MAX_LENGTH;
-  readonly COUNTRY_NAME_MAX_LENGTH = COUNTRY_NAME_MAX_LENGTH;
-  readonly EMAIL_MAX_LENGTH = EMAIL_MAX_LENGTH;
+  readonly STUDENT_NAME_MAX_LENGTH!: number;
+  readonly INSTITUTION_NAME_MAX_LENGTH!: number;
+  readonly COUNTRY_NAME_MAX_LENGTH!: number;
+  readonly EMAIL_MAX_LENGTH!: number;
 
   // Captcha
   captchaSiteKey: string = environment.captchaSiteKey;
@@ -80,6 +80,13 @@ export class InstructorRequestFormComponent {
   @Output() requestSubmissionEvent = new EventEmitter<InstructorRequestFormModel>();
 
   serverErrorMessage = '';
+
+  constructor() {
+    this.STUDENT_NAME_MAX_LENGTH = STUDENT_NAME_MAX_LENGTH;
+    this.INSTITUTION_NAME_MAX_LENGTH = INSTITUTION_NAME_MAX_LENGTH;
+    this.COUNTRY_NAME_MAX_LENGTH = COUNTRY_NAME_MAX_LENGTH;
+    this.EMAIL_MAX_LENGTH = EMAIL_MAX_LENGTH;
+  }
 
   checkIsFieldRequired(field: FormControl): boolean {
     return field.hasValidator(Validators.required);
