@@ -14,7 +14,7 @@ public class RecaptchaVerifier {
     private final RecaptchaService service;
 
     RecaptchaVerifier() {
-        if (Config.IS_DEV_SERVER) {
+        if (Config.isUsingLocalRecaptcha()) {
             service = new EmptyRecaptchaService();
         } else {
             service = new GoogleRecaptchaService(Config.CAPTCHA_SECRET_KEY);
