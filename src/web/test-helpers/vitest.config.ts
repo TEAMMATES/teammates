@@ -2,6 +2,9 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: ['src/web/test-helpers/setup-vitest.ts'],
     isolate: true,
     snapshotSerializers: [
       'jest-preset-angular/build/serializers/html-comment',
