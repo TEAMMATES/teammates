@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackQuestionRecipient;
@@ -160,7 +161,6 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             }
         }
 
-        List<FeedbackResponse> feedbackResponsesToValidate = new ArrayList<>();
         List<FeedbackResponse> feedbackResponsesToAdd = new ArrayList<>();
         List<FeedbackResponse> feedbackResponsesToUpdate = new ArrayList<>();
 
@@ -175,8 +175,6 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
                 existingFeedbackResponse.setGiver(responseGiver);
                 existingFeedbackResponse.setRecipient(responseRecipient);
                 existingFeedbackResponse.setFeedbackResponseDetails(responseDetails);
-
-                feedbackResponsesToValidate.add(existingFeedbackResponse);
                 feedbackResponsesToUpdate.add(existingFeedbackResponse);
             } else {
                 FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
@@ -186,14 +184,18 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
                     );
 
                 feedbackQuestion.addFeedbackResponse(feedbackResponse);
-                feedbackResponsesToValidate.add(feedbackResponse);
                 feedbackResponsesToAdd.add(feedbackResponse);
             }
         });
 
-        List<FeedbackResponseDetails> responseDetails = feedbackResponsesToValidate.stream()
+        List<FeedbackResponse> allResponses = Stream.concat(
+                        feedbackResponsesToAdd.stream(),
+                        feedbackResponsesToUpdate.stream())
+                .toList();
+
+        List<FeedbackResponseDetails> responseDetails = allResponses.stream()
                 .map(FeedbackResponse::getFeedbackResponseDetailsCopy)
-                .collect(Collectors.toList());
+                .toList();
 
         int numRecipients = feedbackQuestion.getNumOfEntitiesToGiveFeedbackTo();
         if (numRecipients == Const.MAX_POSSIBLE_RECIPIENTS
