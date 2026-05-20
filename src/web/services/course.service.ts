@@ -127,10 +127,9 @@ export class CourseService {
   /**
    * Get the status of whether the entity has joined the course by calling API.
    */
-  getJoinCourseStatus(regKey: string, entityType: string, isCreatingAccount: boolean): Observable<JoinStatus> {
+  getJoinCourseStatus(regKey: string, isCreatingAccount: boolean): Observable<JoinStatus> {
     const paramMap: Record<string, string> = {
       key: regKey,
-      entitytype: entityType,
     };
 
     if (isCreatingAccount) {
@@ -143,10 +142,9 @@ export class CourseService {
   /**
    * Join a course by calling API.
    */
-  joinCourse(regKey: string, entityType: string): Observable<any> {
+  joinCourse(regKey: string): Observable<any> {
     const paramMap: Record<string, string> = {
       key: regKey,
-      entitytype: entityType,
     };
     return this.httpRequestService.put(ResourceEndpoints.JOIN, paramMap);
   }

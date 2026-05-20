@@ -63,7 +63,7 @@ export class UserJoinPageComponent implements OnInit {
         }
         this.userId = auth.user.id;
 
-        this.courseService.getJoinCourseStatus(this.key, this.entityType, this.isCreatingAccount).subscribe({
+        this.courseService.getJoinCourseStatus(this.key, this.isCreatingAccount).subscribe({
           next: (resp: JoinStatus) => {
             this.hasJoined = resp.hasJoined;
             if (this.hasJoined) {
@@ -93,7 +93,7 @@ export class UserJoinPageComponent implements OnInit {
    * Joins the course.
    */
   joinCourse(): void {
-    this.courseService.joinCourse(this.key, this.entityType).subscribe({
+    this.courseService.joinCourse(this.key).subscribe({
       next: () => {
         this.navigationService.navigateByURL(`/web/${this.entityType}`);
       },

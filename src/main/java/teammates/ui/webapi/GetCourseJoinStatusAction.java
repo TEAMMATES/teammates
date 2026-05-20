@@ -4,8 +4,8 @@ import teammates.common.util.Const;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 import teammates.ui.exception.EntityNotFoundException;
-import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.output.JoinStatus;
 
 /**
@@ -26,29 +26,12 @@ public class GetCourseJoinStatusAction extends Action {
     @Override
     public JsonResult execute() {
         String regkey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
-        String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         String isCreatingAccount = getRequestParamValue(Const.ParamsNames.IS_CREATING_ACCOUNT);
 
-        switch (entityType) {
-        case Const.EntityType.STUDENT:
-            return getStudentJoinStatus(regkey);
-        case Const.EntityType.INSTRUCTOR:
-            return getInstructorJoinStatus(regkey, "true".equals(isCreatingAccount));
-        default:
-            throw new InvalidHttpParameterException("Error: invalid entity type");
-        }
+        return getJoinStatus(regkey, "true".equals(isCreatingAccount));
     }
 
-    private JsonResult getStudentJoinStatus(String regkey) {
-        Student student = logic.getStudentByRegistrationKey(regkey);
-
-        if (student == null) {
-            throw new EntityNotFoundException("No student with given registration key: " + regkey);
-        }
-        return getJoinStatusResult(student.isRegistered());
-    }
-
-    private JsonResult getInstructorJoinStatus(String regkey, boolean isCreatingAccount) {
+    private JsonResult getJoinStatus(String regkey, boolean isCreatingAccount) {
         if (isCreatingAccount) {
             AccountRequest accountRequest = logic.getAccountRequestByRegistrationKey(regkey);
 
@@ -59,12 +42,19 @@ public class GetCourseJoinStatusAction extends Action {
             return getJoinStatusResult(accountRequest.getRegisteredAt() != null);
         }
 
-        Instructor instructor = logic.getInstructorByRegistrationKey(regkey);
-
-        if (instructor == null) {
-            throw new EntityNotFoundException("No instructor with given registration key: " + regkey);
+        User user = logic.getUserByRegistrationKey(regkey);
+        if (user == null) {
+            throw new EntityNotFoundException("No user with given registration key: " + regkey);
         }
-        return getJoinStatusResult(instructor.isRegistered());
+
+        if (user instanceof Student student) {
+            return getJoinStatusResult(student.isRegistered());
+        } else if (user instanceof Instructor instructor) {
+            return getJoinStatusResult(instructor.isRegistered());
+        } else {
+            throw new EntityNotFoundException(
+                "User with given registration key is neither a student nor an instructor: " + regkey);
+        }
     }
 
     private JsonResult getJoinStatusResult(boolean hasJoined) {
