@@ -73,10 +73,17 @@ export class StudentListComponent implements OnInit {
   columnsData: ColumnData[] = [];
 
   // enum
-  SortBy: typeof SortBy = SortBy;
-  SortOrder: typeof SortOrder = SortOrder;
-  JoinState: typeof JoinState = JoinState;
-  SortableTableHeaderColorScheme: typeof SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
+  SortBy!: typeof SortBy;
+  SortOrder!: typeof SortOrder;
+  JoinState!: typeof JoinState;
+  SortableTableHeaderColorScheme!: typeof SortableTableHeaderColorScheme;
+
+  constructor() {
+    this.SortBy = SortBy;
+    this.SortOrder = SortOrder;
+    this.JoinState = JoinState;
+    this.SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
+  }
 
   /**
    * Returns whether this course are divided into sections

@@ -81,10 +81,10 @@ import { Response } from '../../../../types/question-statistics.model';
 })
 export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
   // enums
-  QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
-  InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
-  QuestionEditFormMode: typeof QuestionEditFormMode = QuestionEditFormMode;
-  Sections: typeof Sections = Sections;
+  QuestionsSectionQuestions!: typeof QuestionsSectionQuestions;
+  InstructorSessionResultSectionType!: typeof InstructorSessionResultSectionType;
+  QuestionEditFormMode!: typeof QuestionEditFormMode;
+  Sections!: typeof Sections;
 
   readonly exampleEssayQuestionModel: QuestionEditFormModel = EXAMPLE_ESSAY_QUESTION_MODEL;
   readonly exampleNumericalScaleQuestionModel: QuestionEditFormModel = EXAMPLE_NUMERICAL_SCALE_QUESTION_MODEL;
@@ -139,6 +139,14 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   ];
 
   @Output() collapsePeerEvalTips: EventEmitter<any> = new EventEmitter();
+
+  constructor() {
+    super();
+    this.QuestionsSectionQuestions = QuestionsSectionQuestions;
+    this.InstructorSessionResultSectionType = InstructorSessionResultSectionType;
+    this.QuestionEditFormMode = QuestionEditFormMode;
+    this.Sections = Sections;
+  }
 
   getQuestionsOrder(): string[] {
     return this.questionsOrder;

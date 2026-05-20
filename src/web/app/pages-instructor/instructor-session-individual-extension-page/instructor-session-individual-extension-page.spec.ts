@@ -606,7 +606,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     expect(studentThreeCheckBox.checked).toBeTruthy();
   });
 
-  it('should select students that have not submitted yet if Select Not Submitted Student Button is checked', () => {
+  it('should select students that have not submitted yet if Select Not Submitted Student Button is checked', async () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
@@ -618,6 +618,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       .mockReturnValue(of(testFeedbackSessionSubmittedGiverSet)); // Alice and Alex have not submitted yet
     component.ngOnInit();
     fixture.detectChanges();
+    await Promise.resolve();
 
     const selectNotSubmittedButton = fixture.debugElement.query(
       By.css('#select-not-submitted-student-btn'),
@@ -675,7 +676,7 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     expect(studentThreeCheckBox.checked).toBeFalsy();
   });
 
-  it('should select those that have not submitted yet if Select Not Submitted Instructor and Student Button is checked', () => {
+  it('should select those that have not submitted yet if Select Not Submitted Instructor and Student Button is checked', async () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     vi.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
@@ -690,12 +691,14 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet').mockReturnValue(of(giverSet));
     component.ngOnInit();
     fixture.detectChanges();
+    await Promise.resolve();
 
     const selectNotSubmittedStudentButton = fixture.debugElement.query(
       By.css('#select-not-submitted-student-btn'),
     ).nativeElement;
     selectNotSubmittedStudentButton.click();
     fixture.detectChanges();
+    await Promise.resolve();
 
     const selectNotSubmittedInstructorButton = fixture.debugElement.query(
       By.css('#select-not-submitted-instructor-btn'),

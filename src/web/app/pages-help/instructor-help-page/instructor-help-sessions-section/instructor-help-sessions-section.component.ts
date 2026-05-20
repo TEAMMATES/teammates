@@ -81,12 +81,12 @@ import { Sections } from '../sections';
 })
 export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
   // enums
-  CommentRowMode: typeof CommentRowMode = CommentRowMode;
-  SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
-  InstructorSessionResultViewType: typeof InstructorSessionResultViewType = InstructorSessionResultViewType;
-  InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
-  SessionsSectionQuestions: typeof SessionsSectionQuestions = SessionsSectionQuestions;
-  Sections: typeof Sections = Sections;
+  CommentRowMode!: typeof CommentRowMode;
+  SessionEditFormMode!: typeof SessionEditFormMode;
+  InstructorSessionResultViewType!: typeof InstructorSessionResultViewType;
+  InstructorSessionResultSectionType!: typeof InstructorSessionResultSectionType;
+  SessionsSectionQuestions!: typeof SessionsSectionQuestions;
+  Sections!: typeof Sections;
 
   readonly supportEmail: string = environment.supportEmail;
   readonly frontendUrl: string = environment.frontendUrl;
@@ -131,6 +131,16 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
     SessionsSectionQuestions.PERMANENT_DEL_SESSION,
     SessionsSectionQuestions.RESTORE_DEL_ALL,
   ];
+
+  constructor() {
+    super();
+    this.CommentRowMode = CommentRowMode;
+    this.SessionEditFormMode = SessionEditFormMode;
+    this.InstructorSessionResultViewType = InstructorSessionResultViewType;
+    this.InstructorSessionResultSectionType = InstructorSessionResultSectionType;
+    this.SessionsSectionQuestions = SessionsSectionQuestions;
+    this.Sections = Sections;
+  }
 
   getQuestionsOrder(): string[] {
     return this.questionsOrder;

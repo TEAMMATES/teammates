@@ -107,12 +107,12 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   private logService = inject(LogService);
   private document = inject(DOCUMENT);
 
-  readonly castAsSelectElement = castAsSelectElement;
+  readonly castAsSelectElement: typeof castAsSelectElement;
 
   // enum
-  FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
-  FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
-  Intent: typeof Intent = Intent;
+  FeedbackSessionSubmissionStatus!: typeof FeedbackSessionSubmissionStatus;
+  FeedbackQuestionType!: typeof FeedbackQuestionType;
+  Intent!: typeof Intent;
 
   courseId = '';
   feedbackSessionName = '';
@@ -154,7 +154,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   isQuestionCountOne = false;
 
-  allSessionViews = SessionView;
+  allSessionViews!: typeof SessionView;
   currentSelectedSessionView: SessionView = SessionView.DEFAULT;
   hasLoadedAllRecipients = false;
   // Records the recipient to groupable questions mapping used in grouping questions by recipients view
@@ -167,6 +167,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   private backendUrl: string = environment.backendUrl;
 
   constructor() {
+    this.castAsSelectElement = castAsSelectElement;
+    this.FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
+    this.FeedbackQuestionType = FeedbackQuestionType;
+    this.Intent = Intent;
+    this.allSessionViews = SessionView;
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 

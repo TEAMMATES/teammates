@@ -82,7 +82,7 @@ export class SortableTableComponent implements OnInit, OnChanges {
   private tableComparatorService = inject(TableComparatorService);
 
   // enum
-  SortOrder: typeof SortOrder = SortOrder;
+  SortOrder!: typeof SortOrder;
 
   @Input()
   tableId = '';
@@ -111,6 +111,10 @@ export class SortableTableComponent implements OnInit, OnChanges {
   columnToSortBy = '';
   tableRows: SortableTableCellData[][] = [];
   setMainTableStyle = true;
+
+  constructor() {
+    this.SortOrder = SortOrder;
+  }
 
   ngOnInit(): void {
     this.tableRows = this.rows;

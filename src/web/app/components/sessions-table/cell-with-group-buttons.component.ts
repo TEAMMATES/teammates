@@ -47,7 +47,13 @@ export class GroupButtonsComponent {
   @Input() onSubmitSessionAsInstructor: () => void = () => {};
 
   // enum
-  FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
-  FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
-  SortableTableHeaderColorScheme: typeof SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
+  FeedbackSessionSubmissionStatus!: typeof FeedbackSessionSubmissionStatus;
+  FeedbackSessionPublishStatus!: typeof FeedbackSessionPublishStatus;
+  SortableTableHeaderColorScheme!: typeof SortableTableHeaderColorScheme;
+
+  constructor() {
+    this.FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
+    this.FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
+    this.SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
+  }
 }

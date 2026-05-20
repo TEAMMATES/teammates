@@ -2,7 +2,7 @@
 
 exports[`CopySessionModalComponent > should snap with default fields 1`] = `
 <tm-copy-session-modal
-  FEEDBACK_SESSION_NAME_MAX_LENGTH={[Function Number]}
+  FEEDBACK_SESSION_NAME_MAX_LENGTH="undefined"
   activeModal={[Function NgbActiveModal]}
   copyToCourseSet={[Function Set]}
   courseCandidates={[Function Array]}
@@ -50,7 +50,6 @@ exports[`CopySessionModalComponent > should snap with default fields 1`] = `
           <input
             class="form-control ng-untouched ng-pristine ng-invalid"
             id="copy-session-name"
-            maxlength="64"
             required=""
             type="text"
           />
@@ -65,7 +64,7 @@ exports[`CopySessionModalComponent > should snap with default fields 1`] = `
              The field "Name for copied session" should not be empty. 
           </div>
           <span>
-            64 characters left
+            NaN characters left
           </span>
         </div>
       </div>
@@ -93,7 +92,7 @@ exports[`CopySessionModalComponent > should snap with default fields 1`] = `
 
 exports[`CopySessionModalComponent > should snap with some session and courses candidates 1`] = `
 <tm-copy-session-modal
-  FEEDBACK_SESSION_NAME_MAX_LENGTH={[Function Number]}
+  FEEDBACK_SESSION_NAME_MAX_LENGTH="undefined"
   activeModal={[Function NgbActiveModal]}
   copyToCourseSet={[Function Set]}
   courseCandidates={[Function Array]}
@@ -141,7 +140,6 @@ exports[`CopySessionModalComponent > should snap with some session and courses c
           <input
             class="form-control ng-untouched ng-pristine ng-invalid"
             id="copy-session-name"
-            maxlength="64"
             required=""
             type="text"
           />
@@ -156,7 +154,7 @@ exports[`CopySessionModalComponent > should snap with some session and courses c
              The field "Name for copied session" should not be empty. 
           </div>
           <span>
-            52 characters left
+            NaN characters left
           </span>
         </div>
         <div

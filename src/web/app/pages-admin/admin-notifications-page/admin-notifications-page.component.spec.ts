@@ -170,13 +170,12 @@ describe('AdminNotificationsPageComponent', () => {
 
   it('should add notification for all fields filled in', () => {
     vi.spyOn(notificationService, 'createNotification').mockReturnValue(of(testNotificationOne));
-    const spy = vi.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
-      expect(args).toEqual('Successfully created');
-    });
+    const spy = vi.spyOn(statusMessageService, 'showSuccessToast');
 
     component.addNewNotificationHandler();
 
     expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledWith('Notification created successfully.');
     expect(component.isNotificationEditFormExpanded).toBeFalsy();
     expect(component.notificationsTableRowModels.length).toEqual(1);
     expect(component.notificationsTableRowModels[0].notification.notificationId).toEqual(

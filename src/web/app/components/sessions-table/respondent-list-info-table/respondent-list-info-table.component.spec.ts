@@ -423,7 +423,7 @@ describe('StudentListInfoTableComponent', () => {
     expect(component.isAllInstructorsSelected).toBeFalsy();
   });
 
-  it('changeSelectionStatusForAllStudentsHandler: should set all isSelected to true if not all are selected', () => {
+  it('changeSelectionStatusForAllStudentsHandler: should set all isSelected to true if not all are selected', async () => {
     component.studentListInfoTableRowModels = [
       studentModelBuilder.isSelected(true).build(),
       studentModelBuilder.isSelected(false).build(),
@@ -440,6 +440,7 @@ describe('StudentListInfoTableComponent', () => {
     );
 
     fixture.detectChanges();
+    await fixture.whenStable();
 
     selectStudentTableHeaderCheckBox().nativeElement.click();
     expect(changeSelectionStatusForAllStudentsHandlerSpy).toHaveBeenCalledTimes(1);
@@ -485,7 +486,7 @@ describe('StudentListInfoTableComponent', () => {
     },
   );
 
-  it('changeSelectionStatusForAllInstructorsHandler: should set all isSelected to true if not all are selected', () => {
+  it('changeSelectionStatusForAllInstructorsHandler: should set all isSelected to true if not all are selected', async () => {
     component.instructorListInfoTableRowModels = [
       instructorModelBuilder.isSelected(true).build(),
       instructorModelBuilder.isSelected(false).build(),
@@ -502,6 +503,7 @@ describe('StudentListInfoTableComponent', () => {
     );
 
     fixture.detectChanges();
+    await fixture.whenStable();
 
     selectInstructorTableHeaderCheckBox().nativeElement.click();
     expect(changeSelectionStatusForAllInstructorsHandlerSpy).toHaveBeenCalledTimes(1);

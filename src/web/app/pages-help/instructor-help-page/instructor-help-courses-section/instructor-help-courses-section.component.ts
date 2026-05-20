@@ -17,8 +17,8 @@ import { Sections } from '../sections';
 })
 export class InstructorHelpCoursesSectionComponent extends InstructorHelpSectionComponent implements OnInit {
   // enums
-  CoursesSectionQuestions: typeof CoursesSectionQuestions = CoursesSectionQuestions;
-  Sections: typeof Sections = Sections;
+  CoursesSectionQuestions!: typeof CoursesSectionQuestions;
+  Sections!: typeof Sections;
 
   readonly supportEmail: string = environment.supportEmail;
 
@@ -43,6 +43,12 @@ export class InstructorHelpCoursesSectionComponent extends InstructorHelpSection
   ];
 
   @Output() collapseStudentEditDetails: EventEmitter<any> = new EventEmitter();
+
+  constructor() {
+    super();
+    this.CoursesSectionQuestions = CoursesSectionQuestions;
+    this.Sections = Sections;
+  }
 
   getQuestionsOrder(): string[] {
     return this.questionsOrder;

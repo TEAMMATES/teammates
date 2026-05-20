@@ -117,15 +117,15 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   private feedbackQuestionsService = inject(FeedbackQuestionsService);
   private feedbackResponseService = inject(FeedbackResponsesService);
 
-  readonly QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;
-  readonly ResponseDetailsTypeChecker = ResponseDetailsTypeChecker;
+  readonly QuestionDetailsTypeChecker: typeof QuestionDetailsTypeChecker;
+  readonly ResponseDetailsTypeChecker: typeof ResponseDetailsTypeChecker;
 
   // enum
-  QuestionSubmissionFormMode: typeof QuestionSubmissionFormMode = QuestionSubmissionFormMode;
-  QuestionGiverType: typeof QuestionGiverType = QuestionGiverType;
-  QuestionRecipientType: typeof QuestionRecipientType = QuestionRecipientType;
-  FeedbackVisibilityType: typeof FeedbackVisibilityType = FeedbackVisibilityType;
-  CommentRowMode: typeof CommentRowMode = CommentRowMode;
+  QuestionSubmissionFormMode!: typeof QuestionSubmissionFormMode;
+  QuestionGiverType!: typeof QuestionGiverType;
+  QuestionRecipientType!: typeof QuestionRecipientType;
+  FeedbackVisibilityType!: typeof FeedbackVisibilityType;
+  CommentRowMode!: typeof CommentRowMode;
 
   isMCQDropDownEnabled = false;
 
@@ -174,7 +174,7 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   @Input()
   isQuestionCountOne = false;
 
-  allSessionViews = SessionView;
+  allSessionViews!: typeof SessionView;
 
   @Input()
   currentSelectedSessionView: SessionView = SessionView.DEFAULT;
@@ -238,6 +238,14 @@ export class QuestionSubmissionFormComponent implements DoCheck {
   isEveryRecipientSorted = false;
 
   constructor() {
+    this.QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;
+    this.ResponseDetailsTypeChecker = ResponseDetailsTypeChecker;
+    this.QuestionSubmissionFormMode = QuestionSubmissionFormMode;
+    this.QuestionGiverType = QuestionGiverType;
+    this.QuestionRecipientType = QuestionRecipientType;
+    this.FeedbackVisibilityType = FeedbackVisibilityType;
+    this.CommentRowMode = CommentRowMode;
+    this.allSessionViews = SessionView;
     this.visibilityStateMachine = this.feedbackQuestionsService.getNewVisibilityStateMachine(
       this.model.giverType,
       this.model.recipientType,

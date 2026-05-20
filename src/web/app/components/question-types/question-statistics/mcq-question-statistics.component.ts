@@ -27,12 +27,16 @@ export class McqQuestionStatisticsComponent implements OnChanges {
   isStudent = false;
 
   // enum
-  SortBy: typeof SortBy = SortBy;
+  SortBy!: typeof SortBy;
 
   summaryColumnsData: ColumnData[] = [];
   summaryRowsData: SortableTableCellData[][] = [];
   perRecipientColumnsData: ColumnData[] = [];
   perRecipientRowsData: SortableTableCellData[][] = [];
+
+  constructor() {
+    this.SortBy = SortBy;
+  }
 
   ngOnChanges(): void {
     const stats = calculateMcqQuestionStatistics(this.question, this.responses);

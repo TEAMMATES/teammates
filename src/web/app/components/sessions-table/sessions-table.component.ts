@@ -66,12 +66,12 @@ export class SessionsTableComponent implements OnInit {
   private submissionStatusName = inject(SubmissionStatusNamePipe);
 
   // enum
-  SortBy: typeof SortBy = SortBy;
-  SortOrder: typeof SortOrder = SortOrder;
-  SessionsTableColumn: typeof SessionsTableColumn = SessionsTableColumn;
-  FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
-  FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
-  SortableTableHeaderColorScheme: typeof SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
+  SortBy!: typeof SortBy;
+  SortOrder!: typeof SortOrder;
+  SessionsTableColumn!: typeof SessionsTableColumn;
+  FeedbackSessionSubmissionStatus!: typeof FeedbackSessionSubmissionStatus;
+  FeedbackSessionPublishStatus!: typeof FeedbackSessionPublishStatus;
+  SortableTableHeaderColorScheme!: typeof SortableTableHeaderColorScheme;
 
   // variable
   rowClicked = -1;
@@ -126,6 +126,15 @@ export class SessionsTableComponent implements OnInit {
 
   @Output()
   sendRemindersToSelectedNonSubmittersEvent: EventEmitter<Index> = new EventEmitter();
+
+  constructor() {
+    this.SortBy = SortBy;
+    this.SortOrder = SortOrder;
+    this.SessionsTableColumn = SessionsTableColumn;
+    this.FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
+    this.FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
+    this.SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
+  }
 
   @Input() set sessionsTableRowModels(rowModels: SessionsTableRowModel[]) {
     this.sessionsTableRowModelsVar = rowModels;
