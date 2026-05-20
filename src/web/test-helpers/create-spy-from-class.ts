@@ -11,7 +11,7 @@ import { Mock } from "vitest";
  *   method2() {}
  * }
  *
- * createSpyFromClass(MyClass) returns { method1: jest.fn(), method2: jest.fn() }
+ * createSpyFromClass(MyClass) returns { method1: vi.fn(), method2: vi.fn() }
  */
 export default function createSpyFromClass<T>(Class: new (...args: any[]) => T): Spy<T> {
   const spy = {} as Spy<T>;

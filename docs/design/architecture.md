@@ -18,7 +18,7 @@ TEAMMATES is a web application with the following main components:
 
 The following additional components are used for testing:
 
-- **Test Driver**: Automated regression testing using `TestNG` (Java) and `Jest` (TypeScript).
+- **Test Driver**: Automated regression testing using `TestNG` (Java) and `Vitest` (TypeScript).
 - **E2E**: End-to-end testing using `Selenium` to interact with the application via a web browser.
 
 The diagram below shows how each component is organised into packages and the dependencies between them.
