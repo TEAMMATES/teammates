@@ -86,44 +86,37 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
   QuestionEditFormMode!: typeof QuestionEditFormMode;
   Sections!: typeof Sections;
 
-  readonly exampleEssayQuestionModel: QuestionEditFormModel = EXAMPLE_ESSAY_QUESTION_MODEL;
-  readonly exampleNumericalScaleQuestionModel: QuestionEditFormModel = EXAMPLE_NUMERICAL_SCALE_QUESTION_MODEL;
-  readonly exampleNumericalScaleResponses: Response<FeedbackNumericalScaleResponseDetails>[] =
-    EXAMPLE_NUMERICAL_SCALE_RESPONSES;
-  readonly exampleNumericalScaleResponseOutput: ResponseOutput[] = EXAMPLE_NUMERICAL_SCALE_RESPONSE_OUTPUT;
-  readonly exampleNumericalScaleQuestionTabModel: QuestionTabModel = EXAMPLE_NUMERICAL_SCALE_QUESTION_TAB_MODEL;
-  readonly exampleNumericalScaleQuestions: Record<string, QuestionTabModel> = EXAMPLE_NUMERICAL_SCALE_QUESTIONS;
-  readonly exampleInstructorCommentTableModel: Record<string, CommentTableModel> =
-    EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL;
-  readonly exampleFeedbackSession: FeedbackSession = EXAMPLE_FEEDBACK_SESSION;
-  readonly exampleDistributePointOptionQuestionDetail: FeedbackConstantSumQuestionDetails =
-    EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTION_DETAIL;
-  readonly exampleDistributedPointOptionModel: QuestionEditFormModel = EXAMPLE_DISTRIBUTED_POINT_OPTION_MODEL;
-  readonly exampleDistributePointOptionResponseOutput: ResponseOutput[] =
-    EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT;
-  readonly exampleDistributePointOptionQuestionTabModel: QuestionTabModel =
-    EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTION_TAB_MODEL;
-  readonly exampleDistributePointOptionQuestions: Record<string, QuestionTabModel> =
-    EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTIONS;
-  readonly exampleDistributedPointRecipientModel: QuestionEditFormModel = EXAMPLE_DISTRIBUTED_POINT_RECIPIENT_MODEL;
-  readonly exampleTeamContributionQuestionModel: QuestionEditFormModel = EXAMPLE_TEAM_CONTRIBUTION_QUESTION_MODEL;
-  readonly exampleTeamContributionResponseOutput: ResponseOutput[] = EXAMPLE_TEAM_CONTRIBUTION_RESPONSE_OUTPUT;
-  readonly exampleContributionStatistics: ContributionStatistics = EXAMPLE_CONTRIBUTION_STATISTICS;
-  readonly exampleTeamContributionQuestionTabModel: QuestionTabModel = EXAMPLE_TEAM_CONTRIBUTION_QUESTION_TAB_MODEL;
-  readonly exampleTeamContributionQuestions: Record<string, QuestionTabModel> = EXAMPLE_TEAM_CONTRIBUTION_QUESTIONS;
-  readonly exampleRubricQuestionModel: QuestionEditFormModel = EXAMPLE_RUBRIC_QUESTION_MODEL;
-  readonly exampleRubricQuestionResponseOutput: ResponseOutput[] = EXAMPLE_RUBRIC_QUESTION_RESPONSE_OUTPUT;
-  readonly exampleRubricQuestionQuestionTabModel: QuestionTabModel = EXAMPLE_RUBRIC_QUESTION_QUESTION_TAB_MODEL;
-  readonly exampleRubricQuestionQuestions: Record<string, QuestionTabModel> = EXAMPLE_RUBRIC_QUESTION_QUESTIONS;
-  readonly exampleRankRecipientQuestionModel: QuestionEditFormModel = EXAMPLE_RANK_RECIPIENT_QUESTION_MODEL;
-  readonly exampleRankRecipientResponseOutput: ResponseOutput[] = EXAMPLE_RANK_RECIPIENT_RESPONSE_OUTPUT;
-  readonly exampleRankRecipientQuestionTabModel: QuestionTabModel = EXAMPLE_RANK_RECIPIENT_QUESTION_TAB_MODEL;
-  readonly exampleRankRecipientQuestions: Record<string, QuestionTabModel> = EXAMPLE_RANK_RECIPIENT_QUESTIONS;
-  readonly exampleRankOptionQuestionModel: QuestionEditFormModel = EXAMPLE_RANK_OPTION_QUESTION_MODEL;
-  readonly exampleMCQQuestionWithoutWeightsModel: QuestionEditFormModel = EXAMPLE_MCQ_QUESTION_WITHOUT_WEIGHTS_MODEL;
-  readonly exampleMCQQuestionWithWeightsModel: QuestionEditFormModel = EXAMPLE_MCQ_QUESTION_WITH_WEIGHTS_MODEL;
-  readonly exampleResponderRubricSubmissionFormModel: QuestionSubmissionFormModel =
-    EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL;
+  readonly exampleEssayQuestionModel: QuestionEditFormModel;
+  readonly exampleNumericalScaleQuestionModel: QuestionEditFormModel;
+  readonly exampleNumericalScaleResponses: Response<FeedbackNumericalScaleResponseDetails>[];
+  readonly exampleNumericalScaleResponseOutput: ResponseOutput[];
+  readonly exampleNumericalScaleQuestionTabModel: QuestionTabModel;
+  readonly exampleNumericalScaleQuestions: Record<string, QuestionTabModel>;
+  readonly exampleInstructorCommentTableModel: Record<string, CommentTableModel>;
+  readonly exampleFeedbackSession: FeedbackSession;
+  readonly exampleDistributePointOptionQuestionDetail: FeedbackConstantSumQuestionDetails;
+  readonly exampleDistributedPointOptionModel: QuestionEditFormModel;
+  readonly exampleDistributePointOptionResponseOutput: ResponseOutput[];
+  readonly exampleDistributePointOptionQuestionTabModel: QuestionTabModel;
+  readonly exampleDistributePointOptionQuestions: Record<string, QuestionTabModel>;
+  readonly exampleDistributedPointRecipientModel: QuestionEditFormModel;
+  readonly exampleTeamContributionQuestionModel: QuestionEditFormModel;
+  readonly exampleTeamContributionResponseOutput: ResponseOutput[];
+  readonly exampleContributionStatistics: ContributionStatistics;
+  readonly exampleTeamContributionQuestionTabModel: QuestionTabModel;
+  readonly exampleTeamContributionQuestions: Record<string, QuestionTabModel>;
+  readonly exampleRubricQuestionModel: QuestionEditFormModel;
+  readonly exampleRubricQuestionResponseOutput: ResponseOutput[];
+  readonly exampleRubricQuestionQuestionTabModel: QuestionTabModel;
+  readonly exampleRubricQuestionQuestions: Record<string, QuestionTabModel>;
+  readonly exampleRankRecipientQuestionModel: QuestionEditFormModel;
+  readonly exampleRankRecipientResponseOutput: ResponseOutput[];
+  readonly exampleRankRecipientQuestionTabModel: QuestionTabModel;
+  readonly exampleRankRecipientQuestions: Record<string, QuestionTabModel>;
+  readonly exampleRankOptionQuestionModel: QuestionEditFormModel;
+  readonly exampleMCQQuestionWithoutWeightsModel: QuestionEditFormModel;
+  readonly exampleMCQQuestionWithWeightsModel: QuestionEditFormModel;
+  readonly exampleResponderRubricSubmissionFormModel: QuestionSubmissionFormModel;
 
   readonly questionsOrder: string[] = [
     QuestionsSectionQuestions.ESSAY,
@@ -146,6 +139,39 @@ export class InstructorHelpQuestionsSectionComponent extends InstructorHelpSecti
     this.InstructorSessionResultSectionType = InstructorSessionResultSectionType;
     this.QuestionEditFormMode = QuestionEditFormMode;
     this.Sections = Sections;
+    this.exampleEssayQuestionModel = structuredClone(EXAMPLE_ESSAY_QUESTION_MODEL);
+    this.exampleNumericalScaleQuestionModel = structuredClone(EXAMPLE_NUMERICAL_SCALE_QUESTION_MODEL);
+    this.exampleNumericalScaleResponses = structuredClone(EXAMPLE_NUMERICAL_SCALE_RESPONSES);
+    this.exampleNumericalScaleResponseOutput = structuredClone(EXAMPLE_NUMERICAL_SCALE_RESPONSE_OUTPUT);
+    this.exampleNumericalScaleQuestionTabModel = structuredClone(EXAMPLE_NUMERICAL_SCALE_QUESTION_TAB_MODEL);
+    this.exampleNumericalScaleQuestions = structuredClone(EXAMPLE_NUMERICAL_SCALE_QUESTIONS);
+    this.exampleInstructorCommentTableModel = structuredClone(EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL);
+    this.exampleFeedbackSession = structuredClone(EXAMPLE_FEEDBACK_SESSION);
+    this.exampleDistributePointOptionQuestionDetail = structuredClone(EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTION_DETAIL);
+    this.exampleDistributedPointOptionModel = structuredClone(EXAMPLE_DISTRIBUTED_POINT_OPTION_MODEL);
+    this.exampleDistributePointOptionResponseOutput = structuredClone(EXAMPLE_DISTRIBUTE_POINT_OPTION_RESPONSE_OUTPUT);
+    this.exampleDistributePointOptionQuestionTabModel = structuredClone(
+      EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTION_TAB_MODEL,
+    );
+    this.exampleDistributePointOptionQuestions = structuredClone(EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTIONS);
+    this.exampleDistributedPointRecipientModel = structuredClone(EXAMPLE_DISTRIBUTED_POINT_RECIPIENT_MODEL);
+    this.exampleTeamContributionQuestionModel = structuredClone(EXAMPLE_TEAM_CONTRIBUTION_QUESTION_MODEL);
+    this.exampleTeamContributionResponseOutput = structuredClone(EXAMPLE_TEAM_CONTRIBUTION_RESPONSE_OUTPUT);
+    this.exampleContributionStatistics = structuredClone(EXAMPLE_CONTRIBUTION_STATISTICS);
+    this.exampleTeamContributionQuestionTabModel = structuredClone(EXAMPLE_TEAM_CONTRIBUTION_QUESTION_TAB_MODEL);
+    this.exampleTeamContributionQuestions = structuredClone(EXAMPLE_TEAM_CONTRIBUTION_QUESTIONS);
+    this.exampleRubricQuestionModel = structuredClone(EXAMPLE_RUBRIC_QUESTION_MODEL);
+    this.exampleRubricQuestionResponseOutput = structuredClone(EXAMPLE_RUBRIC_QUESTION_RESPONSE_OUTPUT);
+    this.exampleRubricQuestionQuestionTabModel = structuredClone(EXAMPLE_RUBRIC_QUESTION_QUESTION_TAB_MODEL);
+    this.exampleRubricQuestionQuestions = structuredClone(EXAMPLE_RUBRIC_QUESTION_QUESTIONS);
+    this.exampleRankRecipientQuestionModel = structuredClone(EXAMPLE_RANK_RECIPIENT_QUESTION_MODEL);
+    this.exampleRankRecipientResponseOutput = structuredClone(EXAMPLE_RANK_RECIPIENT_RESPONSE_OUTPUT);
+    this.exampleRankRecipientQuestionTabModel = structuredClone(EXAMPLE_RANK_RECIPIENT_QUESTION_TAB_MODEL);
+    this.exampleRankRecipientQuestions = structuredClone(EXAMPLE_RANK_RECIPIENT_QUESTIONS);
+    this.exampleRankOptionQuestionModel = structuredClone(EXAMPLE_RANK_OPTION_QUESTION_MODEL);
+    this.exampleMCQQuestionWithoutWeightsModel = structuredClone(EXAMPLE_MCQ_QUESTION_WITHOUT_WEIGHTS_MODEL);
+    this.exampleMCQQuestionWithWeightsModel = structuredClone(EXAMPLE_MCQ_QUESTION_WITH_WEIGHTS_MODEL);
+    this.exampleResponderRubricSubmissionFormModel = structuredClone(EXAMPLE_RESPONDER_RUBRIC_SUBMISSION_FORM_MODEL);
   }
 
   getQuestionsOrder(): string[] {

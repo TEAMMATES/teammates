@@ -13,7 +13,12 @@ import { FeedbackNumericalScaleQuestionDetails } from '../../../../types/api-out
   imports: [NgbTooltip, FormsModule],
 })
 export class NumScaleQuestionEditDetailsFormComponent extends QuestionEditDetailsFormComponent<FeedbackNumericalScaleQuestionDetails> {
-  Math: typeof Math = Math;
+  Math!: typeof Math;
+
+  constructor() {
+    super();
+    this.Math = Math;
+  }
 
   /**
    * Returns the number of possible values acceptable as answers.

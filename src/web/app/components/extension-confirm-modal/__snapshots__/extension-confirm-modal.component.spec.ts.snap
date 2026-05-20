@@ -2,8 +2,8 @@
 
 exports[`ExtensionConfirmModalComponent > Test ExtentionModalType.DELETE branch 1`] = `
 <tm-extension-confirm-modal
-  SortBy="undefined"
-  SortOrder="undefined"
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   confirmExtensionCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function _FormatDateDetailPipe]}
@@ -376,8 +376,8 @@ exports[`ExtensionConfirmModalComponent > Test ExtentionModalType.DELETE branch 
 
 exports[`ExtensionConfirmModalComponent > Test ExtentionModalType.SESSION_DELETE branch 1`] = `
 <tm-extension-confirm-modal
-  SortBy="undefined"
-  SortOrder="undefined"
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   confirmExtensionCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function _FormatDateDetailPipe]}
@@ -738,8 +738,8 @@ exports[`ExtensionConfirmModalComponent > Test ExtentionModalType.SESSION_DELETE
 
 exports[`ExtensionConfirmModalComponent > should snap with the extended students and instructors 1`] = `
 <tm-extension-confirm-modal
-  SortBy="undefined"
-  SortOrder="undefined"
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   confirmExtensionCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function _FormatDateDetailPipe]}
@@ -1186,8 +1186,8 @@ exports[`ExtensionConfirmModalComponent > should snap with the extended students
 
 exports[`ExtensionConfirmModalComponent > use ngOnInit to initialise 1`] = `
 <tm-extension-confirm-modal
-  SortBy="undefined"
-  SortOrder="undefined"
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   confirmExtensionCallbackEvent={[Function EventEmitter_]}
   dateDetailPipe={[Function _FormatDateDetailPipe]}

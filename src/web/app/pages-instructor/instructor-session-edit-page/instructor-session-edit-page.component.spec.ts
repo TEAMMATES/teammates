@@ -351,9 +351,9 @@ describe('InstructorSessionEditPageComponent', () => {
     const testDeadlineExtensions: DeadlineExtensions = { userDeadlines: {} };
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse1));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
-      .mockReturnValue(of(testDeadlineExtensions));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
+      of(testDeadlineExtensions),
+    );
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of({ students: [] }));
     vi.spyOn(instructorService, 'loadInstructors').mockReturnValue(of({ instructors: [] }));
 
@@ -654,9 +654,7 @@ describe('InstructorSessionEditPageComponent', () => {
     vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef({}, promise));
     component.questionEditFormModels = [testQuestionEditFormModel1];
     component.feedbackQuestionModels.set(testFeedbackQuestion1.feedbackQuestionId, testFeedbackQuestion1);
-    const feedbackQuestionSpy = vi
-      .spyOn(feedbackQuestionsService, 'deleteFeedbackQuestion')
-      .mockReturnValue(of(true));
+    const feedbackQuestionSpy = vi.spyOn(feedbackQuestionsService, 'deleteFeedbackQuestion').mockReturnValue(of(true));
 
     component.deleteExistingQuestionHandler(0);
     await promise;
@@ -687,12 +685,12 @@ describe('InstructorSessionEditPageComponent', () => {
   it('should copy question from other session', async () => {
     const promise: Promise<FeedbackQuestion[]> = Promise.resolve([testFeedbackQuestion1]);
     vi.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef({ questionToCopyCandidates: [] }, promise));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor')
-      .mockReturnValue(of({ feedbackSessions: [testFeedbackSession] }));
-    vi
-      .spyOn(feedbackQuestionsService, 'getFeedbackQuestions')
-      .mockReturnValue(of({ questions: [testFeedbackQuestion1, testFeedbackQuestion2] }));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor').mockReturnValue(
+      of({ feedbackSessions: [testFeedbackSession] }),
+    );
+    vi.spyOn(feedbackQuestionsService, 'getFeedbackQuestions').mockReturnValue(
+      of({ questions: [testFeedbackQuestion1, testFeedbackQuestion2] }),
+    );
     vi.spyOn(feedbackQuestionsService, 'createFeedbackQuestion').mockReturnValue(of(testFeedbackQuestion1));
 
     component.copyQuestionsFromOtherSessionsHandler();
@@ -729,9 +727,9 @@ describe('InstructorSessionEditPageComponent', () => {
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
     vi.spyOn(feedbackSessionsService, 'createFeedbackSession').mockReturnValue(of(copiedFeedbackSession));
     vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
-    vi
-      .spyOn(InstructorSessionEditPageComponent.prototype, 'createSessionCopyRequestsFromModal')
-      .mockReturnValue([of(copiedFeedbackSession)]);
+    vi.spyOn(InstructorSessionEditPageComponent.prototype, 'createSessionCopyRequestsFromModal').mockReturnValue([
+      of(copiedFeedbackSession),
+    ]);
     const navSpy = vi.spyOn(navigationService, 'navigateWithSuccessMessage').mockResolvedValue();
 
     component.copyCurrentSession();

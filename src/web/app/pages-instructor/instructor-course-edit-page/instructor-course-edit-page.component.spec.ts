@@ -225,9 +225,8 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should add instructor details', () => {
-    vi
-      .spyOn(instructorService, 'createInstructor')
-      .mockImplementation((params: { courseId: string; requestBody: InstructorCreateRequest }) =>
+    vi.spyOn(instructorService, 'createInstructor').mockImplementation(
+      (params: { courseId: string; requestBody: InstructorCreateRequest }) =>
         of({
           courseId: params.courseId,
           courseName: 'example course',
@@ -237,7 +236,7 @@ describe('InstructorCourseEditPageComponent', () => {
           joinState: JoinState.NOT_JOINED,
           name: params.requestBody.name,
         }),
-      );
+    );
 
     component.courseFormModel.course = testCourse;
     component.courseId = testCourse.courseId;
@@ -294,10 +293,10 @@ describe('InstructorCourseEditPageComponent', () => {
     component.deleteInstructor(0);
     fixture.detectChanges();
 
-    await fixture.whenStable().then(() => {
-      expect(component.instructorDetailPanels.length).toBe(1);
-      expect(component.instructorDetailPanels[0].originalInstructor).toEqual(testInstructor2);
-    });
+    await Promise.resolve();
+
+    expect(component.instructorDetailPanels.length).toBe(1);
+    expect(component.instructorDetailPanels[0].originalInstructor).toEqual(testInstructor2);
   });
 
   it('should re-send reminder email for new instructors', () => {

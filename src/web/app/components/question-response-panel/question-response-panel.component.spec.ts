@@ -717,9 +717,9 @@ describe('QuestionResponsePanelComponent', () => {
   it('loadQuestionResults: should handle errors correctly by setting errorMessage and showing a toast', () => {
     const errorMessage = 'An error occurred';
     testFeedbackQuestionModel.isLoaded = false;
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionResults')
-      .mockReturnValue(throwError(() => ({ error: { message: errorMessage }, status: 400 }) as ErrorMessageOutput));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionResults').mockReturnValue(
+      throwError(() => ({ error: { message: errorMessage }, status: 400 }) as ErrorMessageOutput),
+    );
     const showErrorToastSpy = vi.spyOn(statusMessageService, 'showErrorToast');
 
     component.loadQuestionResults(testFeedbackQuestionModel);

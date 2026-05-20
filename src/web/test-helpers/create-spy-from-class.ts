@@ -1,4 +1,4 @@
-import { Mock } from "vitest";
+import { Mock } from 'vitest';
 
 /**
  * Creates a spy object for a given class, providing spy functions for all of its methods.

@@ -202,9 +202,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of({ students: [] }));
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
-      .mockReturnValue(of(testDeadlineExtensions));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
+      of(testDeadlineExtensions),
+    );
     vi.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
 
     component.ngOnInit();
@@ -217,9 +217,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
-      .mockReturnValue(of(testDeadlineExtensions));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
+      of(testDeadlineExtensions),
+    );
     vi.spyOn(instructorService, 'loadInstructors').mockReturnValue(of({ instructors: [] }));
 
     component.ngOnInit();
@@ -237,9 +237,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     );
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
-      .mockReturnValue(of(testDeadlineExtensions));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
+      of(testDeadlineExtensions),
+    );
     vi.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     const spyStatusMessageService = vi.spyOn(statusMessageService, 'showErrorToast');
 
@@ -260,9 +260,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
-      .mockReturnValue(of(testDeadlineExtensions));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
+      of(testDeadlineExtensions),
+    );
     vi.spyOn(instructorService, 'loadInstructors').mockReturnValue(
       throwError(() => ({
         status: 404,
@@ -293,9 +293,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
         error: { message: 'This is a test message' },
       })),
     );
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
-      .mockReturnValue(of(testDeadlineExtensions));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
+      of(testDeadlineExtensions),
+    );
     vi.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
     const spyStatusMessageService = vi.spyOn(statusMessageService, 'showErrorToast');
 
@@ -318,9 +318,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     vi.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
-      .mockReturnValue(of(testDeadlineExtensions));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
+      of(testDeadlineExtensions),
+    );
 
     vi.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet').mockReturnValue(
       throwError(() => ({
@@ -328,9 +328,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
         error: { message: 'This is a test message' },
       })),
     );
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
-      .mockReturnValue(of(testDeadlineExtensions));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
+      of(testDeadlineExtensions),
+    );
     vi.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
     const spyStatusMessageService = vi.spyOn(statusMessageService, 'showErrorToast');
 
@@ -356,9 +356,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
       })),
     );
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
-      .mockReturnValue(of(testDeadlineExtensions));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
+      of(testDeadlineExtensions),
+    );
     vi.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     vi.spyOn(timezoneService, 'formatToString').mockReturnValue(testTimeString);
     const spyStatusMessageService = vi.spyOn(statusMessageService, 'showErrorToast');
@@ -381,9 +381,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     vi.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
-      .mockReturnValue(of(testDeadlineExtensions));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
+      of(testDeadlineExtensions),
+    );
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -398,9 +398,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
-      .mockReturnValue(of(testDeadlineExtensions));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
+      of(testDeadlineExtensions),
+    );
     vi.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     component.ngOnInit();
     fixture.detectChanges();
@@ -417,9 +417,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
-      .mockReturnValue(of(testDeadlineExtensions));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
+      of(testDeadlineExtensions),
+    );
     vi.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     component.ngOnInit();
     fixture.detectChanges();
@@ -436,9 +436,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
-      .mockReturnValue(of(testDeadlineExtensions));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
+      of(testDeadlineExtensions),
+    );
     vi.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     component.ngOnInit();
     component.isLoadingAllInstructors = false;
@@ -475,9 +475,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
-      .mockReturnValue(of(testDeadlineExtensions));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
+      of(testDeadlineExtensions),
+    );
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -494,9 +494,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
-      .mockReturnValue(of(testDeadlineExtensions));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
+      of(testDeadlineExtensions),
+    );
     component.ngOnInit();
     component.studentsOfCourse[1].isSelected = true; // Bob has no extension
     fixture.detectChanges();
@@ -514,9 +514,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
-      .mockReturnValue(of(testDeadlineExtensions));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
+      of(testDeadlineExtensions),
+    );
     component.ngOnInit();
     component.studentsOfCourse[0].isSelected = true; // Alice has extension
     fixture.detectChanges();
@@ -534,9 +534,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
-      .mockReturnValue(of(testDeadlineExtensions));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
+      of(testDeadlineExtensions),
+    );
     component.ngOnInit();
     component.studentsOfCourse[0].isSelected = true; // Alice has extension
     component.studentsOfCourse[1].isSelected = true; // Bob does not
@@ -555,12 +555,12 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
-      .mockReturnValue(of(testDeadlineExtensions));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet')
-      .mockReturnValue(of(testFeedbackSessionSubmittedGiverSet)); // Alice and Alex have not submitted yet
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
+      of(testDeadlineExtensions),
+    );
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet').mockReturnValue(
+      of(testFeedbackSessionSubmittedGiverSet),
+    ); // Alice and Alex have not submitted yet
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -586,12 +586,12 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
-      .mockReturnValue(of(testDeadlineExtensions));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet')
-      .mockReturnValue(of(testFeedbackSessionSubmittedGiverSet)); // Alice and Alex have not submitted yet
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
+      of(testDeadlineExtensions),
+    );
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet').mockReturnValue(
+      of(testFeedbackSessionSubmittedGiverSet),
+    ); // Alice and Alex have not submitted yet
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -610,12 +610,12 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
-      .mockReturnValue(of(testDeadlineExtensions));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet')
-      .mockReturnValue(of(testFeedbackSessionSubmittedGiverSet)); // Alice and Alex have not submitted yet
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
+      of(testDeadlineExtensions),
+    );
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet').mockReturnValue(
+      of(testFeedbackSessionSubmittedGiverSet),
+    ); // Alice and Alex have not submitted yet
     component.ngOnInit();
     fixture.detectChanges();
     await Promise.resolve();
@@ -643,12 +643,12 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
-      .mockReturnValue(of(testDeadlineExtensions));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet')
-      .mockReturnValue(of(testFeedbackSessionSubmittedGiverSet)); // Alice and Alex have not submitted yet
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
+      of(testDeadlineExtensions),
+    );
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionSubmittedGiverSet').mockReturnValue(
+      of(testFeedbackSessionSubmittedGiverSet),
+    ); // Alice and Alex have not submitted yet
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -681,9 +681,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     vi.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
-      .mockReturnValue(of(testDeadlineExtensions));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
+      of(testDeadlineExtensions),
+    );
 
     const giverSet: FeedbackSessionSubmittedGiverSet = {
       giverIdentifiers: [testStudent2.email, testInstructor1.email],
@@ -727,9 +727,9 @@ describe('InstructorSessionIndividualExtensionPageComponent', () => {
     vi.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     vi.spyOn(courseService, 'getCourseAsInstructor').mockReturnValue(of(testCourse));
     vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testFeedbackSession));
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions')
-      .mockReturnValue(of(testDeadlineExtensions));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionDeadlineExtensions').mockReturnValue(
+      of(testDeadlineExtensions),
+    );
 
     const giverSet: FeedbackSessionSubmittedGiverSet = {
       giverIdentifiers: [testInstructor1.email],

@@ -44,7 +44,7 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
   private statusMessageService = inject(StatusMessageService);
 
   // enum
-  CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
+  CourseEditFormMode!: typeof CourseEditFormMode;
 
   // const
   readonly COURSE_ID_MAX_LENGTH = COURSE_ID_MAX_LENGTH;
@@ -85,6 +85,10 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
   editModel: CourseEditFormModel | undefined = undefined;
   addModel: CourseAddFormModel | undefined = undefined;
   resetEventSubscription: Subscription = new Subscription();
+
+  constructor() {
+    this.CourseEditFormMode = CourseEditFormMode;
+  }
 
   get isInAddMode(): boolean {
     return this.formMode === CourseEditFormMode.ADD;

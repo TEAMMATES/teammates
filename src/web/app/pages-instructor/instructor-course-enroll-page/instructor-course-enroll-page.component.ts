@@ -72,7 +72,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   newStudentsGrid = viewChild.required<DataGridComponent>('newStudentsGrid');
 
   // enum
-  EnrollStatus: typeof EnrollStatus = EnrollStatus;
+  EnrollStatus!: typeof EnrollStatus;
   courseId = '';
   coursePresent?: boolean;
   isLoadingCourseEnrollPage = false;
@@ -98,6 +98,10 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   newStudentRowsIndex: Set<number> = new Set();
   modifiedStudentRowsIndex: Set<number> = new Set();
   unchangedStudentRowsIndex: Set<number> = new Set();
+
+  constructor() {
+    this.EnrollStatus = EnrollStatus;
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {

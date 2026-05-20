@@ -175,9 +175,7 @@ describe('InstructorSessionsPageComponent', () => {
     const courseSessions: FeedbackSessions = {
       feedbackSessions: [testFeedbackSession1, testFeedbackSession2],
     };
-    const sessionSpy = vi
-      .spyOn(sessionService, 'getFeedbackSessionsForInstructor')
-      .mockReturnValue(of(courseSessions));
+    const sessionSpy = vi.spyOn(sessionService, 'getFeedbackSessionsForInstructor').mockReturnValue(of(courseSessions));
 
     component.loadFeedbackSessions();
 

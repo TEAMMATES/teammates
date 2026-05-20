@@ -36,7 +36,7 @@ export class InstructorHelpPageComponent implements AfterViewInit {
   private document = inject<Document>(DOCUMENT);
 
   // enum
-  Sections: typeof Sections = Sections;
+  Sections!: typeof Sections;
   readonly supportEmail: string = environment.supportEmail;
   instructorGettingStartedPath = '';
   searchTerm = '';
@@ -53,6 +53,7 @@ export class InstructorHelpPageComponent implements AfterViewInit {
   @ViewChild('generalHelpSection') generalHelpSection?: InstructorHelpGeneralSectionComponent;
 
   constructor() {
+    this.Sections = Sections;
     let r: ActivatedRoute = this.route;
     while (r.firstChild) {
       r = r.firstChild;

@@ -868,9 +868,7 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should load an open feedback session', () => {
-    const fsSpy = vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSession')
-      .mockReturnValue(of(testOpenFeedbackSession));
+    const fsSpy = vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testOpenFeedbackSession));
     const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockResolvedValue({} as NgbModalRef);
 
     component.loadFeedbackSession(false, testInfo);

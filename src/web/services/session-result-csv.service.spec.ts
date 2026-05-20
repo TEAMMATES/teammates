@@ -8,7 +8,9 @@ import { SessionResults } from '../types/api-output';
 /**
  * Loads data for testing.
  */
-const loadTestData: (filename: string) => Promise<SessionResults> = async (filename: string): Promise<SessionResults> => {
+const loadTestData: (filename: string) => Promise<SessionResults> = async (
+  filename: string,
+): Promise<SessionResults> => {
   const testDataModule = await import(`./test-data/${filename}`);
   return testDataModule.default;
 };
@@ -260,7 +262,9 @@ describe('SessionResultCsvService', () => {
   });
 
   it('should generate results for CONTRIB question (restricted section)', async () => {
-    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsContribResultsRestrictedSections.json');
+    const sessionResult: SessionResults = await loadTestData(
+      'feedbackSessionResultsContribResultsRestrictedSections.json',
+    );
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();

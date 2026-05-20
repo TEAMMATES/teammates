@@ -122,7 +122,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   ];
 
   // enum
-  SortBy: typeof SortBy = SortBy;
+  SortBy!: typeof SortBy;
 
   formModel: SearchLogsFormModel = {
     logsDateFrom: getDefaultDateFormat(),
@@ -151,6 +151,10 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   searchResults: FeedbackSessionLogModel[] = [];
   isLoading = true;
   isSearching = false;
+
+  constructor() {
+    this.SortBy = SortBy;
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {

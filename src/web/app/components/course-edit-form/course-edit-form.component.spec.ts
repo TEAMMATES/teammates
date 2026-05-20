@@ -184,9 +184,9 @@ describe('CourseEditFormComponent', () => {
       createdAtTimestamp: 0,
     };
 
-    vi
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor')
-      .mockReturnValue(of({ feedbackSessions: [testFeedbackSession] }));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor').mockReturnValue(
+      of({ feedbackSessions: [testFeedbackSession] }),
+    );
     vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     const model: CourseAddFormModel = component.model as CourseAddFormModel;

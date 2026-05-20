@@ -23,7 +23,12 @@ const studentCsvListTester: (
   service: StudentService,
   spyCourseService: any,
   testFn: (str: string) => void,
-) => void = async (courseId: string, service: StudentService, spyCourseService: any, testFn: (str: string) => void): Promise<void> => {
+) => void = async (
+  courseId: string,
+  service: StudentService,
+  spyCourseService: any,
+  testFn: (str: string) => void,
+): Promise<void> => {
   const testDataModule = await import(`./test-data/${courseId}`);
   const testData = testDataModule.default ?? testDataModule;
   const course: Course = testData.course;
