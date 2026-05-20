@@ -160,13 +160,9 @@ public final class AccountsLogic {
     }
 
     /**
-     * Joins a course for the user associated with the registration key and account.
-     *
-     * @param registrationKey the registration key of the user
-     * @param account the account to associate with the user
-     * @return the user who joined the course
-     * @throws EntityDoesNotExistException if the user does not exist
-     * @throws EntityAlreadyExistsException if the user has already joined the course
+     * Makes the user join the course, i.e. associate the account to the student or instructor.
+     * Preconditions: <br>
+     * * Parameters regkey and account are non-null.
      */
     public User joinCourse(String registrationKey, Account account)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
@@ -175,20 +171,14 @@ public final class AccountsLogic {
 
         User user = validateJoinRequest(registrationKey, account.getGoogleId());
         assert user.getAccount() == null;
-        if (user instanceof Student student) {
-            student.setAccount(account);
-        } else if (user instanceof Instructor instructor) {
-            instructor.setAccount(account);
-            // Update the googleId of the student entity for the instructor which was created from sample data.
-            // TODO: Sample data joining should use joinCourseForStudent instead, email used here may also be incorrect.
-            Student studentForInstructor = usersLogic.getStudentForEmail(instructor.getCourseId(), instructor.getEmail());
-            if (studentForInstructor != null) {
-                studentForInstructor.setAccount(account);
-            }
-        } else {
-            throw new IllegalStateException("Unknown user type for registration key: " + registrationKey);
-        }
-
+        user.setAccount(account);
+        // Update the googleId of the student entity for the instructor which was created from sample data.
+        // TODO: The student entity from sample data must be joined separately as the email used here may be incorrect.
+        // i.e. the instructor email may be different from its corresponding student email.
+        // Student studentForInstructor = usersLogic.getStudentForEmail(instructor.getCourseId(), instructor.getEmail());
+        // if (studentForInstructor != null) {
+        //     studentForInstructor.setAccount(account);
+        // }
         return user;
     }
 

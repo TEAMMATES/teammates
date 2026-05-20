@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.http.HttpStatus;
 
 import teammates.common.util.Config;
-import teammates.common.util.Const;
 import teammates.common.util.FileHelper;
 
 /**
@@ -21,15 +20,8 @@ public class DevServerLoginServlet extends AuthServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String nextUrl = req.getParameter("nextUrl");
-        if (nextUrl == null) {
-            nextUrl = "/";
-        }
-        // Prevent HTTP response splitting
-        nextUrl = resp.encodeRedirectURL(nextUrl.replace("\r\n", ""));
         if (!Config.isDevServerLoginEnabled()) {
             resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            resp.setHeader("Location", Const.WebPageURIs.LOGIN + "?nextUrl=" + nextUrl.replace("&", "%26"));
             return;
         }
 

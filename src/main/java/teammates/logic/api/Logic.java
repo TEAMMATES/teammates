@@ -863,7 +863,7 @@ public class Logic {
     }
 
     /**
-     * Make the user join the course, i.e. associate the account to the student or instructor.
+     * Makes the user join the course, i.e. associate the account to the student or instructor.
      * Preconditions: <br>
      * * Parameters regkey and account are non-null.
      */

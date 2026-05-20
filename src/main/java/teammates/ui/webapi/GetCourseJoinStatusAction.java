@@ -2,8 +2,6 @@ package teammates.ui.webapi;
 
 import teammates.common.util.Const;
 import teammates.storage.entity.AccountRequest;
-import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.output.JoinStatus;
@@ -47,14 +45,7 @@ public class GetCourseJoinStatusAction extends Action {
             throw new EntityNotFoundException("No user with given registration key: " + regkey);
         }
 
-        if (user instanceof Student student) {
-            return getJoinStatusResult(student.isRegistered());
-        } else if (user instanceof Instructor instructor) {
-            return getJoinStatusResult(instructor.isRegistered());
-        } else {
-            throw new EntityNotFoundException(
-                "User with given registration key is neither a student nor an instructor: " + regkey);
-        }
+        return getJoinStatusResult(user.isRegistered());
     }
 
     private JsonResult getJoinStatusResult(boolean hasJoined) {

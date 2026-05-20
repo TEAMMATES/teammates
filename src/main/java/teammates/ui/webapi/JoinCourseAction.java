@@ -42,10 +42,9 @@ public class JoinCourseAction extends Action {
             throw new InvalidOperationException(eaee);
         }
 
-        boolean isInstructor = user instanceof Instructor;
-        sendJoinEmail(user.getCourseId(), user.getName(), user.getEmail(), isInstructor);
+        sendJoinEmail(user.getCourseId(), user.getName(), user.getEmail(), user instanceof Instructor);
 
-        return new JsonResult((isInstructor ? "Instructor" : "Student") + " successfully joined course");
+        return new JsonResult("User successfully joined course");
     }
 
     private void sendJoinEmail(String courseId, String userName, String userEmail, boolean isInstructor) {

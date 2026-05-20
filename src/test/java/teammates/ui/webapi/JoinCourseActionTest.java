@@ -72,7 +72,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         JoinCourseAction action = getAction(params);
         JsonResult jsonResult = getJsonResult(action);
         MessageOutput messageOutput = (MessageOutput) jsonResult.getOutput();
-        assertEquals("Student successfully joined course", messageOutput.getMessage());
+        assertEquals("User successfully joined course", messageOutput.getMessage());
         verifyNumberOfEmailsSent(1);
     }
 
@@ -124,7 +124,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         JoinCourseAction action = getAction(params);
         JsonResult jsonResult = getJsonResult(action);
         MessageOutput messageOutput = (MessageOutput) jsonResult.getOutput();
-        assertEquals("Instructor successfully joined course", messageOutput.getMessage());
+        assertEquals("User successfully joined course", messageOutput.getMessage());
         verifyNumberOfEmailsSent(1);
     }
 
