@@ -355,11 +355,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
       ],
       logRowsData: this.students
         .filter((student: Student) => {
-          if (!student.userId) {
-            return false;
-          }
-
-          if (this.formModel.selectedStudent.userId != student.userId) {
+          if (this.formModel.selectedStudent.userId && this.formModel.selectedStudent.userId != student.userId) {
             return false;
           }
 
@@ -460,8 +456,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     }
   }
 
-  private getStudentKey(log: FeedbackSessionLog, studentId: string): string {
-    return `${log.feedbackSessionData.feedbackSessionName}-${studentId}`;
+  private getStudentKey(log: FeedbackSessionLog, userId: string): string {
+    return `${log.feedbackSessionData.feedbackSessionName}-${userId}`;
   }
 
   /**
