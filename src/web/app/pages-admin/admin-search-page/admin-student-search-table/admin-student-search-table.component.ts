@@ -72,7 +72,7 @@ export class AdminStudentSearchTableComponent implements OnChanges {
 
     modalRef.result.then(
       () => {
-        this.accountService.resetStudentAccount(student.courseId, student.email).subscribe({
+        this.accountService.resetAccount(student.userId).subscribe({
           next: () => {
             student.googleId = '';
             this.studentReset.emit();

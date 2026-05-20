@@ -747,29 +747,6 @@ public final class UsersLogic {
     }
 
     /**
-     * Resets the googleId associated with the instructor.
-     */
-    public void resetInstructorGoogleId(String email, String courseId, String googleId)
-            throws EntityDoesNotExistException {
-        assert email != null;
-        assert courseId != null;
-        assert googleId != null;
-
-        Instructor instructor = getInstructorForEmail(courseId, email);
-
-        if (instructor == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT
-                    + "Instructor [courseId=" + courseId + ", email=" + email + "]");
-        }
-
-        instructor.setAccount(null);
-
-        if (usersDb.getAllUsersByGoogleId(googleId).isEmpty()) {
-            accountsLogic.deleteAccount(googleId);
-        }
-    }
-
-    /**
      * Updates a student by student id and update request, and cascades to responses and comments if needed.
      */
     public Student updateStudent(UUID studentId, StudentUpdateRequest updateRequest)
@@ -991,26 +968,19 @@ public final class UsersLogic {
     }
 
     /**
-     * Resets the googleId associated with the student.
+     * Resets the account associated with the user.
      */
-    public void resetStudentGoogleId(String email, String courseId, String googleId)
-            throws EntityDoesNotExistException {
-        assert email != null;
-        assert courseId != null;
-        assert googleId != null;
+    public User resetAccount(UUID userId) throws EntityDoesNotExistException {
+        assert userId != null;
 
-        Student student = getStudentForEmail(courseId, email);
+        User user = getUser(userId);
 
-        if (student == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT
-                    + "Student [courseId=" + courseId + ", email=" + email + "]");
+        if (user == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + "User [id=" + userId + "]");
         }
 
-        student.setAccount(null);
-
-        if (usersDb.getAllUsersByGoogleId(googleId).isEmpty()) {
-            accountsLogic.deleteAccount(googleId);
-        }
+        user.setAccount(null);
+        return user;
     }
 
     /**

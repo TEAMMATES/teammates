@@ -70,7 +70,7 @@ export class AdminInstructorSearchTableComponent implements OnChanges {
 
     modalRef.result.then(
       () => {
-        this.accountService.resetInstructorAccount(instructor.courseId, instructor.email).subscribe({
+        this.accountService.resetAccount(instructor.userId).subscribe({
           next: () => {
             this.instructorReset.emit();
             this.statusMessageService.showSuccessToast("The instructor's Google ID has been reset.");

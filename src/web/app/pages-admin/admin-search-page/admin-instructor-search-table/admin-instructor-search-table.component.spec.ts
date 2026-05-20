@@ -173,7 +173,7 @@ describe('AdminInstructorSearchTableComponent', () => {
       });
     });
 
-    vi.spyOn(accountService, 'resetInstructorAccount').mockReturnValue(
+    vi.spyOn(accountService, 'resetAccount').mockReturnValue(
       of({
         message: 'Success',
       }),
@@ -219,7 +219,7 @@ describe('AdminInstructorSearchTableComponent', () => {
       });
     });
 
-    vi.spyOn(accountService, 'resetInstructorAccount').mockReturnValue(
+    vi.spyOn(accountService, 'resetAccount').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message',
