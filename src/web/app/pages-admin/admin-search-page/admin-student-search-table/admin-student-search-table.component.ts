@@ -104,7 +104,7 @@ export class AdminStudentSearchTableComponent implements OnChanges {
 
     modalRef.result.then(
       () => {
-        this.studentService.regenerateStudentKey(student.courseId, student.email).subscribe({
+        this.studentService.regenerateStudentKey(student.userId).subscribe({
           next: (resp: RegenerateKey) => {
             this.statusMessageService.showSuccessToast(resp.message);
             this.updateDisplayedStudentCourseLinks(student, resp.newRegistrationKey);

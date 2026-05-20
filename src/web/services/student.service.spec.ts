@@ -98,12 +98,11 @@ describe('StudentService', () => {
 
   it('should execute POST when regenerating key of a student in a course', () => {
     const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
-      studentemail: 'johndoe@gmail.com',
+      userid: 'student-id',
     };
     vi.spyOn(spyHttpRequestService, 'post');
 
-    service.regenerateStudentKey(paramMap['courseid'], paramMap['studentemail']);
+    service.regenerateStudentKey(paramMap['userid']);
 
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.STUDENT_KEY, paramMap);
   });

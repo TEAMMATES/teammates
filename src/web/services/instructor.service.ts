@@ -139,10 +139,9 @@ export class InstructorService {
   /**
    * Regenerates the registration key for an instructor in a course.
    */
-  regenerateInstructorKey(courseId: string, instructorEmail: string): Observable<RegenerateKey> {
+  regenerateInstructorKey(userId: string): Observable<RegenerateKey> {
     const paramsMap: Record<string, string> = {
-      courseid: courseId,
-      instructoremail: instructorEmail,
+      userid: userId,
     };
     return this.httpRequestService.post(ResourceEndpoints.INSTRUCTOR_KEY, paramsMap);
   }

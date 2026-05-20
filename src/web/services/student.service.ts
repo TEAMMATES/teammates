@@ -90,10 +90,9 @@ export class StudentService {
   /**
    * Regenerates the registration key for a student in a course.
    */
-  regenerateStudentKey(courseId: string, studentEmail: string): Observable<RegenerateKey> {
+  regenerateStudentKey(userId: string): Observable<RegenerateKey> {
     const paramsMap: Record<string, string> = {
-      courseid: courseId,
-      studentemail: studentEmail,
+      userid: userId,
     };
     return this.httpRequestService.post(ResourceEndpoints.STUDENT_KEY, paramsMap);
   }

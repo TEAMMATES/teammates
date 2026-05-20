@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import java.util.UUID;
+
 import org.apache.http.HttpStatus;
 
 import teammates.common.exception.EntityDoesNotExistException;
@@ -36,12 +38,11 @@ public class RegenerateInstructorKeyAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
-        String instructorEmailAddress = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        UUID instructorId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
 
         Instructor updatedInstructor;
         try {
-            updatedInstructor = logic.regenerateInstructorRegistrationKey(courseId, instructorEmailAddress);
+            updatedInstructor = logic.regenerateInstructorRegistrationKey(instructorId);
         } catch (EntityDoesNotExistException ex) {
             throw new EntityNotFoundException(ex);
         } catch (InstructorUpdateException ex) {

@@ -409,6 +409,28 @@ public final class UsersLogic {
             throw new EntityDoesNotExistException(errorMessage);
         }
 
+        return regenerateInstructorRegistrationKey(instructor);
+    }
+
+    /**
+     * Regenerates the registration key for the instructor with {@code instructorId}.
+     *
+     * @return the instructor with the new registration key.
+     * @throws InstructorUpdateException if system was unable to generate a new registration key.
+     * @throws EntityDoesNotExistException if the instructor does not exist.
+     */
+    public Instructor regenerateInstructorRegistrationKey(UUID instructorId)
+            throws EntityDoesNotExistException, InstructorUpdateException {
+        Instructor instructor = getInstructor(instructorId);
+        if (instructor == null) {
+            String errorMessage = String.format("The instructor with ID [%s] could not be found.", instructorId);
+            throw new EntityDoesNotExistException(errorMessage);
+        }
+
+        return regenerateInstructorRegistrationKey(instructor);
+    }
+
+    private Instructor regenerateInstructorRegistrationKey(Instructor instructor) throws InstructorUpdateException {
         String oldKey = instructor.getRegKey();
         int numTries = 0;
         while (numTries < MAX_KEY_REGENERATION_TRIES) {
@@ -438,6 +460,28 @@ public final class UsersLogic {
             throw new EntityDoesNotExistException(errorMessage);
         }
 
+        return regenerateStudentRegistrationKey(student);
+    }
+
+    /**
+     * Regenerates the registration key for the student with {@code studentId}.
+     *
+     * @return the student with the new registration key.
+     * @throws StudentUpdateException if system was unable to generate a new registration key.
+     * @throws EntityDoesNotExistException if the student does not exist.
+     */
+    public Student regenerateStudentRegistrationKey(UUID studentId)
+            throws EntityDoesNotExistException, StudentUpdateException {
+        Student student = getStudent(studentId);
+        if (student == null) {
+            String errorMessage = String.format("The student with ID [%s] could not be found.", studentId);
+            throw new EntityDoesNotExistException(errorMessage);
+        }
+
+        return regenerateStudentRegistrationKey(student);
+    }
+
+    private Student regenerateStudentRegistrationKey(Student student) throws StudentUpdateException {
         String oldKey = student.getRegKey();
         int numTries = 0;
         while (numTries < MAX_KEY_REGENERATION_TRIES) {

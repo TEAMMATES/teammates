@@ -52,8 +52,7 @@ public class RegenerateInstructorKeyActionIT extends BaseActionIT<RegenerateInst
         ______TS("Typical Success Case");
 
         String[] param = new String[] {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
-                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.USER_ID, instructor.getId().toString(),
         };
 
         RegenerateInstructorKeyAction regenerateInstructorKeyAction = getAction(param);
@@ -75,35 +74,13 @@ public class RegenerateInstructorKeyActionIT extends BaseActionIT<RegenerateInst
         ______TS("No parameters");
         verifyHttpParameterFailure();
 
-        ______TS("No instructor email");
-        String[] noEmailParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
-        };
-        verifyHttpParameterFailure(noEmailParams);
+        ______TS("Instructor not found");
 
-        ______TS("No course ID");
-        String[] noCourseParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
-        };
-        verifyHttpParameterFailure(noCourseParams);
-
-        ______TS("Course ID given but course is non existent");
-
-        String[] invalidCourseParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
-                Const.ParamsNames.COURSE_ID, "does-not-exist-id",
+        String[] invalidInstructorIdParams = new String[] {
+                Const.ParamsNames.USER_ID, "00000000-0000-0000-0000-000000000000",
         };
 
-        verifyEntityNotFound(invalidCourseParams);
-
-        ______TS("Instructor not found in course");
-
-        String[] invalidEmailParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, "non-existent-instructor@abc.com",
-                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
-        };
-
-        verifyEntityNotFound(invalidEmailParams);
+        verifyEntityNotFound(invalidInstructorIdParams);
     }
 
     @Test
@@ -116,8 +93,7 @@ public class RegenerateInstructorKeyActionIT extends BaseActionIT<RegenerateInst
         loginAsAdmin();
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
-                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.USER_ID, instructor.getId().toString(),
         };
         verifyOnlyAdminCanAccess(course, submissionParams);
 

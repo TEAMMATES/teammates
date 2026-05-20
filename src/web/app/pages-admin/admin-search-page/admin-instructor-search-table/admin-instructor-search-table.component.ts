@@ -101,7 +101,7 @@ export class AdminInstructorSearchTableComponent implements OnChanges {
 
     modalRef.result.then(
       () => {
-        this.instructorService.regenerateInstructorKey(instructor.courseId, instructor.email).subscribe({
+        this.instructorService.regenerateInstructorKey(instructor.userId).subscribe({
           next: (resp: RegenerateKey) => {
             this.statusMessageService.showSuccessToast(resp.message);
             this.updateDisplayedInstructorCourseLinks(instructor, resp.newRegistrationKey);
