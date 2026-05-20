@@ -79,7 +79,7 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
         };
 
         InvalidOperationException ioe = verifyInvalidOperation(submissionParams);
-        assertEquals("Student has already joined course", ioe.getMessage());
+        assertEquals("User has already joined course", ioe.getMessage());
 
         verifyNoEmailsSent();
 
@@ -109,7 +109,7 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
         };
 
         ioe = verifyInvalidOperation(submissionParams);
-        assertEquals("Instructor has already joined course", ioe.getMessage());
+        assertEquals("User has already joined course", ioe.getMessage());
 
         verifyNoEmailsSent();
 

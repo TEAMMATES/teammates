@@ -202,7 +202,7 @@ public final class AccountsLogic {
 
         if (user.isRegistered()) {
             throw new EntityAlreadyExistsException(
-                "User linked with account with googleId " + googleId + " has already joined course");
+                    "User has already joined course");
         }
 
         validateNonExistingLinkedUserInCourse(user, googleId);
@@ -229,7 +229,7 @@ public final class AccountsLogic {
 
         if (existingLinkedUser != null) {
             throw new EntityAlreadyExistsException(
-                "This account is already associated with another " + user.getClass().getSimpleName() + ".");
+                    "This account is already associated with another " + user.getClass().getSimpleName().toLowerCase());
         }
     }
 }

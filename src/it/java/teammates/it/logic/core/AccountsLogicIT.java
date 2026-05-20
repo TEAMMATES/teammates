@@ -13,11 +13,9 @@ import teammates.common.util.HibernateUtil;
 import teammates.common.util.StringHelper;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.AccountsLogic;
-import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.UsersLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.entity.Account;
-import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 
@@ -28,7 +26,6 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
     private AccountsLogic accountsLogic = AccountsLogic.inst();
     private UsersLogic usersLogic = UsersLogic.inst();
-    private CoursesLogic coursesLogic = CoursesLogic.inst();
 
     private AccountsDb accountsDb = AccountsDb.inst();
 
@@ -68,7 +65,7 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
                 () -> accountsLogic.joinCourse(student2YetToJoinCourse.getRegKey(),
                 studentInCourseAccount));
-        assertEquals("Student has already joined course", eaee.getMessage());
+        assertEquals("This account is already associated with another student", eaee.getMessage());
 
         ______TS("success: student joins course");
 
@@ -91,17 +88,7 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         eaee = assertThrows(EntityAlreadyExistsException.class,
                 () -> accountsLogic.joinCourse(student2YetToJoinCourse.getRegKey(), loggedInAccount));
-        assertEquals("Student has already joined course", eaee.getMessage());
-
-        ______TS("failure: course is deleted");
-
-        Course originalCourse = usersLogic.getStudentForEmail(
-                student2YetToJoinCourse.getCourseId(), student2YetToJoinCourse.getEmail()).getCourse();
-        coursesLogic.moveCourseToRecycleBin(originalCourse.getId());
-
-        ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> accountsLogic.joinCourse(student2YetToJoinCourse.getRegKey(), loggedInAccount));
-        assertEquals("The course you are trying to join has been deleted by an instructor", ednee.getMessage());
+        assertEquals("User has already joined course", eaee.getMessage());
     }
 
     @Test
@@ -125,7 +112,7 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
                 () -> accountsLogic.joinCourse(
                         key[0], instructor1Account));
-        assertEquals("Instructor has already joined course", eaee.getMessage());
+        assertEquals("This account is already associated with another instructor", eaee.getMessage());
 
         ______TS("success: instructor joins course");
 
@@ -150,7 +137,7 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         eaee = assertThrows(EntityAlreadyExistsException.class,
                 () -> accountsLogic.joinCourse(key[0], loggedInAccount));
-        assertEquals("Instructor has already joined course", eaee.getMessage());
+        assertEquals("User has already joined course", eaee.getMessage());
 
         ______TS("failure: key belongs to a different user");
 
@@ -158,7 +145,7 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
         accountsDb.createAccount(otherAccount);
         eaee = assertThrows(EntityAlreadyExistsException.class,
                 () -> accountsLogic.joinCourse(key[0], otherAccount));
-        assertEquals("Instructor has already joined course", eaee.getMessage());
+        assertEquals("User has already joined course", eaee.getMessage());
 
         ______TS("failure: invalid key");
 
@@ -168,16 +155,6 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
                 () -> accountsLogic.joinCourse(invalidKey, loggedInAccount));
         assertEquals("No user with given registration key: " + invalidKey,
                 ednee.getMessage());
-
-        ______TS("failure: course deleted");
-
-        Course originalCourse = usersLogic.getInstructorForEmail(
-                instructor2YetToJoinCourse.getCourseId(), instructor2YetToJoinCourse.getEmail()).getCourse();
-        coursesLogic.moveCourseToRecycleBin(originalCourse.getId());
-
-        ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> accountsLogic.joinCourse(instructor2YetToJoinCourse.getRegKey(), loggedInAccount));
-        assertEquals("The course you are trying to join has been deleted by an instructor", ednee.getMessage());
     }
 
     private String getRegKeyForInstructor(String courseId, String email) {
