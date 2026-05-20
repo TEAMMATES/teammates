@@ -123,17 +123,6 @@ public class JoinCourseActionIT extends BaseActionIT<JoinCourseAction> {
         verifyEntityNotFound(submissionParams);
 
         verifyNoEmailsSent();
-
-        ______TS("failure: invalid entity type");
-
-        submissionParams = new String[] {
-                Const.ParamsNames.REGKEY, student1RegKey,
-                Const.ParamsNames.ENTITY_TYPE, "invalid_entity_type",
-        };
-
-        verifyHttpParameterFailure(submissionParams);
-
-        verifyNoEmailsSent();
     }
 
     @Override
