@@ -47,6 +47,11 @@ public class FeedbackMcqResponse extends FeedbackResponse {
     }
 
     @Override
+    public void setFeedbackResponseDetails(FeedbackResponseDetails responseDetails) {
+        setAnswer(castResponseDetails(responseDetails, FeedbackMcqResponseDetails.class));
+    }
+
+    @Override
     public String toString() {
         return "FeedbackMcqResponse [id=" + super.getId()
                 + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";

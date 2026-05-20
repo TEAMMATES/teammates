@@ -1009,10 +1009,14 @@ describe('SessionSubmissionPageComponent', () => {
         {
           name: 'Barry Harris',
           identifier: 'barry-harris-id',
+          section: 'Section 1',
+          team: 'Team 1',
         },
         {
           name: 'Gene Harris',
           identifier: 'gene-harris-id',
+          section: 'Section 1',
+          team: 'Team 1',
         },
       ],
     };
@@ -1049,10 +1053,14 @@ describe('SessionSubmissionPageComponent', () => {
       {
         recipientName: 'Barry Harris',
         recipientIdentifier: 'barry-harris-id',
+        recipientSection: 'Section 1',
+        recipientTeam: 'Team 1',
       },
       {
         recipientName: 'Gene Harris',
         recipientIdentifier: 'gene-harris-id',
+        recipientSection: 'Section 1',
+        recipientTeam: 'Team 1',
       },
     ]);
     expect(testMcqQuestionSubmissionForm2.recipientSubmissionForms).toEqual([

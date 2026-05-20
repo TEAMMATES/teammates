@@ -1,8 +1,6 @@
 package teammates.ui.output;
 
-import jakarta.annotation.Nullable;
-
-import teammates.common.datatransfer.FeedbackQuestionRecipient;
+import teammates.storage.entity.ResponseRecipient;
 
 /**
  * API output for feedback question recipient.
@@ -11,16 +9,14 @@ public class FeedbackQuestionRecipientData extends ApiOutput {
 
     private String name;
     private String identifier;
-    @Nullable
     private String section;
-    @Nullable
     private String team;
 
-    public FeedbackQuestionRecipientData(FeedbackQuestionRecipient recipient) {
-        this.name = recipient.getName();
+    public FeedbackQuestionRecipientData(ResponseRecipient recipient) {
+        this.name = recipient.getDisplayName();
         this.identifier = recipient.getIdentifier();
-        this.section = recipient.getSection();
-        this.team = recipient.getTeam();
+        this.section = recipient.getSectionName();
+        this.team = recipient.getTeamName();
     }
 
     public String getName() {

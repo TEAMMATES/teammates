@@ -8,6 +8,7 @@ import java.util.Set;
 
 import jakarta.annotation.Nullable;
 
+import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.util.FieldValidator;
 import teammates.storage.entity.FeedbackQuestion;
 
@@ -73,6 +74,13 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         this.distributePointsFor = FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption();
         this.maxPoint = null;
         this.minPoint = null;
+    }
+
+    @Override
+    public String getQuestionResultStatisticsJson(
+            FeedbackQuestion question, String studentEmail, SessionResultsBundle bundle) {
+        // Statistics are calculated in the frontend as they depend on the responses being filtered.
+        return "";
     }
 
     @Override

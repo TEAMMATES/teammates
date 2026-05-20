@@ -12,7 +12,6 @@ import jakarta.annotation.Nullable;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EnrollResults;
-import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.FeedbackResultFetchType;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
@@ -53,6 +52,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -1348,16 +1348,16 @@ public class Logic {
     }
 
     /**
-     * Gets the recipients of a feedback question for student.
+     * Gets the recipients of a feedback question.
      *
      * @see FeedbackQuestionsLogic#getRecipientsOfQuestion
      */
-    public Map<String, FeedbackQuestionRecipient> getRecipientsOfQuestion(
-            FeedbackQuestion question,
-            @Nullable Instructor instructorGiver, @Nullable Student studentGiver) {
+    public Set<ResponseRecipient> getRecipientsOfQuestion(
+            FeedbackQuestion question, ResponseGiver responseGiver) {
         assert question != null;
+        assert responseGiver != null;
 
-        return feedbackQuestionsLogic.getRecipientsOfQuestion(question, instructorGiver, studentGiver, null);
+        return feedbackQuestionsLogic.getRecipientsOfQuestion(question, responseGiver);
     }
 
     /**
@@ -1452,10 +1452,9 @@ public class Logic {
      *
      * @return updated feedback response
      * @throws InvalidParametersException  if attributes to update are not valid
-     * @throws EntityDoesNotExistException if the comment cannot be found
      */
     public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse feedbackResponse)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException {
         assert feedbackResponse != null;
 
         return feedbackResponsesLogic.updateFeedbackResponse(feedbackResponse);

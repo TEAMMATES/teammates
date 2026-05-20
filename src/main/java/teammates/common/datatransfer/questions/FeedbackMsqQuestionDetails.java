@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
@@ -66,6 +67,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.hasAssignedWeights = false;
         this.msqWeights = new ArrayList<>();
         this.msqOtherWeight = 0;
+    }
+
+    @Override
+    public String getQuestionResultStatisticsJson(
+            FeedbackQuestion question, String studentEmail, SessionResultsBundle bundle) {
+        // Statistics are calculated in the frontend as they depend on the responses being filtered.
+        return "";
     }
 
     @Override
