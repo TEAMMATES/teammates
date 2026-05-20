@@ -863,17 +863,16 @@ public class Logic {
     }
 
     /**
-     * Make the instructor join the course, i.e. associate the account to the instructor.
+     * Make the user join the course, i.e. associate the account to the student or instructor.
      * Preconditions: <br>
      * * Parameters regkey and account are non-null.
      */
-    public Instructor joinCourseForInstructor(String regkey, Account account)
+    public User joinCourse(String regkey, Account account)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
-
         assert account != null;
         assert regkey != null;
 
-        return accountsLogic.joinCourseForInstructor(regkey, account);
+        return accountsLogic.joinCourse(regkey, account);
     }
 
     /**
@@ -1084,23 +1083,6 @@ public class Logic {
         assert courseId != null;
 
         usersLogic.deleteStudentsInCourseCascade(courseId);
-    }
-
-    /**
-     * Make the student join the course, i.e. associate the account to the student.
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @param key the registration key
-     */
-    public Student joinCourseForStudent(String key, Account account)
-            throws EntityDoesNotExistException, EntityAlreadyExistsException {
-
-        assert account != null;
-        assert key != null;
-
-        return accountsLogic.joinCourseForStudent(key, account);
-
     }
 
     /**

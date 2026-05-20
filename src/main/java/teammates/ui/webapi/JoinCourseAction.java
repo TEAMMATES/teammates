@@ -6,9 +6,8 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Student;
+import teammates.storage.entity.User;
 import teammates.ui.exception.EntityNotFoundException;
-import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.InvalidOperationException;
 
 /**
@@ -29,48 +28,24 @@ public class JoinCourseAction extends Action {
     @Override
     public JsonResult execute() throws InvalidOperationException {
         String regKey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
-        String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
-
-        switch (entityType) {
-        case Const.EntityType.STUDENT:
-            return joinCourseForStudent(regKey);
-        case Const.EntityType.INSTRUCTOR:
-            return joinCourseForInstructor(regKey);
-        default:
-            throw new InvalidHttpParameterException("Error: invalid entity type");
-        }
+        return joinCourse(regKey);
     }
 
-    private JsonResult joinCourseForStudent(String regkey) throws InvalidOperationException {
-        Student student;
+    private JsonResult joinCourse(String regKey) throws InvalidOperationException {
+        User user;
 
         try {
-            student = logic.joinCourseForStudent(regkey, authContext.account());
+            user = logic.joinCourse(regKey, authContext.account());
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException eaee) {
             throw new InvalidOperationException(eaee);
         }
 
-        sendJoinEmail(student.getCourseId(), student.getName(), student.getEmail(), false);
+        boolean isInstructor = user instanceof Instructor;
+        sendJoinEmail(user.getCourseId(), user.getName(), user.getEmail(), isInstructor);
 
-        return new JsonResult("Student successfully joined course");
-    }
-
-    private JsonResult joinCourseForInstructor(String regkey) throws InvalidOperationException {
-        Instructor instructor;
-
-        try {
-            instructor = logic.joinCourseForInstructor(regkey, authContext.account());
-        } catch (EntityDoesNotExistException ednee) {
-            throw new EntityNotFoundException(ednee);
-        } catch (EntityAlreadyExistsException eaee) {
-            throw new InvalidOperationException(eaee);
-        }
-
-        sendJoinEmail(instructor.getCourseId(), instructor.getName(), instructor.getEmail(), true);
-
-        return new JsonResult("Instructor successfully joined course");
+        return new JsonResult((isInstructor ? "Instructor" : "Student") + " successfully joined course");
     }
 
     private void sendJoinEmail(String courseId, String userName, String userEmail, boolean isInstructor) {

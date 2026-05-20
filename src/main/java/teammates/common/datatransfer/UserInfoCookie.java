@@ -66,7 +66,7 @@ public class UserInfoCookie {
     }
 
     /**
-     * Returns true if the object represents a valid user info and the object has not expired.
+     * Returns true if the cookie is valid and not expired.
      */
     public boolean isValid() {
         return accountId != null
