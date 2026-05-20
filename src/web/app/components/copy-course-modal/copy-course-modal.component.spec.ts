@@ -159,7 +159,7 @@ describe('CopyCourseModalComponent', () => {
       Tz3: 0,
     };
 
-    jest.spyOn(timezoneService, 'getTzOffsets').mockReturnValue(mockTzOffsets);
+    vi.spyOn(timezoneService, 'getTzOffsets').mockReturnValue(mockTzOffsets);
 
     component.ngOnInit();
 
@@ -171,7 +171,7 @@ describe('CopyCourseModalComponent', () => {
   });
 
   it('should call showErrorToast when copying with no new courseId and name', () => {
-    const spyStatusMessageService = jest.spyOn(statusMessageService, 'showErrorToast');
+    const spyStatusMessageService = vi.spyOn(statusMessageService, 'showErrorToast');
     component.copy();
     expect(spyStatusMessageService).toHaveBeenCalledWith(
       'Please make sure you have filled in both Course ID and Name before adding the course!',
@@ -197,7 +197,7 @@ describe('CopyCourseModalComponent', () => {
         deletionTimestamp: 1500000000000,
       },
     ];
-    const spyStatusMessageService = jest.spyOn(statusMessageService, 'showErrorToast');
+    const spyStatusMessageService = vi.spyOn(statusMessageService, 'showErrorToast');
     component.allCourses = testCourses;
     component.newCourseId = 'testId1';
     component.newCourseName = 'testName';
@@ -206,7 +206,7 @@ describe('CopyCourseModalComponent', () => {
   });
 
   it('should call close with the result when succesfully copying a course', () => {
-    const activeModalSpy = jest.spyOn(ngbActiveModal, 'close');
+    const activeModalSpy = vi.spyOn(ngbActiveModal, 'close');
     component.newCourseId = 'testId2';
     component.newCourseName = 'testName';
     component.newTimezone = 'Asia/Singapore';
@@ -277,7 +277,7 @@ describe('CopyCourseModalComponent', () => {
 
   it('should set newTimezone correctly when onAutoDetectTimezone is called', () => {
     const mockTimezone = 'timezone';
-    jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue(mockTimezone);
+    vi.spyOn(timezoneService, 'guessTimezone').mockReturnValue(mockTimezone);
     component.onAutoDetectTimezone();
     expect(component.newTimezone).toBe(mockTimezone);
   });

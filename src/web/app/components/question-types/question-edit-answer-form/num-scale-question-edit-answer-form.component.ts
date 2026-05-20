@@ -22,7 +22,12 @@ import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.dire
 export class NumScaleQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent<FeedbackNumericalScaleResponseDetails> {
   @Input() questionDetails: FeedbackNumericalScaleQuestionDetails = DEFAULT_NUMSCALE_QUESTION_DETAILS();
 
-  readonly NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED: number = NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED;
+  readonly NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED: number;
+
+  constructor() {
+    super();
+    this.NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED = NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED;
+  }
 
   get numberOfPossibleValues(): number {
     const minValue: number = this.questionDetails.minScale;

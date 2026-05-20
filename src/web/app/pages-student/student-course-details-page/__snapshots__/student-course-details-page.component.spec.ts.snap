@@ -1,23 +1,23 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`StudentCourseDetailsPageComponent should snap when all data are still loading 1`] = `
+exports[`StudentCourseDetailsPageComponent > should snap when all data are still loading 1`] = `
 <tm-student-course-details-page
   SortBy={[Function Object]}
   course={[Function Object]}
   courseId="undefined"
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   hasLoadingFailed="false"
   instructorDetails={[Function Array]}
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isLoadingCourse={[Function Boolean]}
   isLoadingInstructor={[Function Boolean]}
   isLoadingStudent={[Function Boolean]}
   isLoadingTeammates={[Function Boolean]}
   route={[Function ActivatedRoute]}
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
   student={[Function Object]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
   teammateProfiles={[Function Array]}
   teammateProfilesSortBy="0"
 >
@@ -43,24 +43,24 @@ exports[`StudentCourseDetailsPageComponent should snap when all data are still l
 </tm-student-course-details-page>
 `;
 
-exports[`StudentCourseDetailsPageComponent should snap when it fails to load 1`] = `
+exports[`StudentCourseDetailsPageComponent > should snap when it fails to load 1`] = `
 <tm-student-course-details-page
   SortBy={[Function Object]}
   course={[Function Object]}
   courseId="undefined"
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   hasLoadingFailed={[Function Boolean]}
   instructorDetails={[Function Array]}
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isLoadingCourse={[Function Boolean]}
   isLoadingInstructor={[Function Boolean]}
   isLoadingStudent={[Function Boolean]}
   isLoadingTeammates="false"
   route={[Function ActivatedRoute]}
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
   student={[Function Object]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
   teammateProfiles={[Function Array]}
   teammateProfilesSortBy="0"
 >
@@ -87,24 +87,24 @@ exports[`StudentCourseDetailsPageComponent should snap when it fails to load 1`]
 </tm-student-course-details-page>
 `;
 
-exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] = `
+exports[`StudentCourseDetailsPageComponent > should snap with default fields 1`] = `
 <tm-student-course-details-page
   SortBy={[Function Object]}
   course={[Function Object]}
   courseId="undefined"
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   hasLoadingFailed="false"
   instructorDetails={[Function Array]}
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isLoadingCourse={[Function Boolean]}
   isLoadingInstructor={[Function Boolean]}
   isLoadingStudent={[Function Boolean]}
   isLoadingTeammates="false"
   route={[Function ActivatedRoute]}
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
   student={[Function Object]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
   teammateProfiles={[Function Array]}
   teammateProfilesSortBy="0"
 >
@@ -131,24 +131,24 @@ exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] =
 </tm-student-course-details-page>
 `;
 
-exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`] = `
+exports[`StudentCourseDetailsPageComponent > should snap with populated fields 1`] = `
 <tm-student-course-details-page
   SortBy={[Function Object]}
   course={[Function Object]}
   courseId="undefined"
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   hasLoadingFailed="false"
   instructorDetails={[Function Array]}
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isLoadingCourse="false"
   isLoadingInstructor="false"
   isLoadingStudent="false"
   isLoadingTeammates="false"
   route={[Function ActivatedRoute]}
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
   student={[Function Object]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
   teammateProfiles={[Function Array]}
   teammateProfilesSortBy="0"
 >

@@ -13,7 +13,11 @@ import { GeneratedChoicePipe } from '../../teammates-common/generated-choice.pip
 })
 export class MsqQuestionAdditionalInfoComponent {
   // enum
-  QuestionRecipientType: typeof QuestionRecipientType = QuestionRecipientType;
+  QuestionRecipientType!: typeof QuestionRecipientType;
 
   @Input() questionDetails: FeedbackMsqQuestionDetails = DEFAULT_MSQ_QUESTION_DETAILS();
+
+  constructor() {
+    this.QuestionRecipientType = QuestionRecipientType;
+  }
 }

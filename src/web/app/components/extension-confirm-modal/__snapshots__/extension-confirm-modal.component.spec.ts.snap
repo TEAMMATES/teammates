@@ -1,17 +1,17 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ExtensionConfirmModalComponent Test ExtentionModalType.DELETE branch 1`] = `
+exports[`ExtensionConfirmModalComponent > Test ExtentionModalType.DELETE branch 1`] = `
 <tm-extension-confirm-modal
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   confirmExtensionCallbackEvent={[Function EventEmitter_]}
-  dateDetailPipe={[Function FormatDateDetailPipe]}
+  dateDetailPipe={[Function _FormatDateDetailPipe]}
   extensionTimestamp={[Function Number]}
   feedbackSessionTimeZone={[Function String]}
   headerColorScheme={[Function Number]}
   instructorColumnsData={[Function Array]}
-  instructorRoleNamePipe={[Function InstructorRoleNamePipe]}
+  instructorRoleNamePipe={[Function _InstructorRoleNamePipe]}
   instructorRowsData={[Function Array]}
   isNotifyDeadlines="false"
   isSubmitting="false"
@@ -26,7 +26,7 @@ exports[`ExtensionConfirmModalComponent Test ExtentionModalType.DELETE branch 1`
   sortStudentsBy={[Function Number]}
   studentColumnsData={[Function Array]}
   studentRowsData={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
+  tableComparatorService={[Function _TableComparatorService]}
 >
   <fieldset>
     <div
@@ -374,18 +374,18 @@ exports[`ExtensionConfirmModalComponent Test ExtentionModalType.DELETE branch 1`
 </tm-extension-confirm-modal>
 `;
 
-exports[`ExtensionConfirmModalComponent Test ExtentionModalType.SESSION_DELETE branch 1`] = `
+exports[`ExtensionConfirmModalComponent > Test ExtentionModalType.SESSION_DELETE branch 1`] = `
 <tm-extension-confirm-modal
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   confirmExtensionCallbackEvent={[Function EventEmitter_]}
-  dateDetailPipe={[Function FormatDateDetailPipe]}
+  dateDetailPipe={[Function _FormatDateDetailPipe]}
   extensionTimestamp={[Function Number]}
   feedbackSessionTimeZone={[Function String]}
   headerColorScheme={[Function Number]}
   instructorColumnsData={[Function Array]}
-  instructorRoleNamePipe={[Function InstructorRoleNamePipe]}
+  instructorRoleNamePipe={[Function _InstructorRoleNamePipe]}
   instructorRowsData={[Function Array]}
   isNotifyDeadlines="false"
   isSubmitting="false"
@@ -400,7 +400,7 @@ exports[`ExtensionConfirmModalComponent Test ExtentionModalType.SESSION_DELETE b
   sortStudentsBy={[Function Number]}
   studentColumnsData={[Function Array]}
   studentRowsData={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
+  tableComparatorService={[Function _TableComparatorService]}
 >
   <fieldset>
     <div
@@ -736,18 +736,18 @@ exports[`ExtensionConfirmModalComponent Test ExtentionModalType.SESSION_DELETE b
 </tm-extension-confirm-modal>
 `;
 
-exports[`ExtensionConfirmModalComponent should snap with the extended students and instructors 1`] = `
+exports[`ExtensionConfirmModalComponent > should snap with the extended students and instructors 1`] = `
 <tm-extension-confirm-modal
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   confirmExtensionCallbackEvent={[Function EventEmitter_]}
-  dateDetailPipe={[Function FormatDateDetailPipe]}
+  dateDetailPipe={[Function _FormatDateDetailPipe]}
   extensionTimestamp={[Function Number]}
   feedbackSessionTimeZone={[Function String]}
   headerColorScheme={[Function Number]}
   instructorColumnsData={[Function Array]}
-  instructorRoleNamePipe={[Function InstructorRoleNamePipe]}
+  instructorRoleNamePipe={[Function _InstructorRoleNamePipe]}
   instructorRowsData={[Function Array]}
   isNotifyDeadlines="false"
   isSubmitting="false"
@@ -762,7 +762,7 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
   sortStudentsBy={[Function Number]}
   studentColumnsData={[Function Array]}
   studentRowsData={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
+  tableComparatorService={[Function _TableComparatorService]}
 >
   <fieldset>
     <div
@@ -1184,26 +1184,24 @@ exports[`ExtensionConfirmModalComponent should snap with the extended students a
 </tm-extension-confirm-modal>
 `;
 
-exports[`ExtensionConfirmModalComponent use ngOnInit to initialise 1`] = `
+exports[`ExtensionConfirmModalComponent > use ngOnInit to initialise 1`] = `
 <tm-extension-confirm-modal
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   confirmExtensionCallbackEvent={[Function EventEmitter_]}
-  dateDetailPipe={[Function FormatDateDetailPipe]}
+  dateDetailPipe={[Function _FormatDateDetailPipe]}
   extensionTimestamp={[Function Number]}
   feedbackSessionTimeZone={[Function String]}
   headerColorScheme={[Function Number]}
   instructorColumnsData={[Function Array]}
-  instructorRoleNamePipe={[Function InstructorRoleNamePipe]}
+  instructorRoleNamePipe={[Function _InstructorRoleNamePipe]}
   instructorRowsData={[Function Array]}
   isNotifyDeadlines="false"
   isSubmitting="false"
   modalType="0"
   selectedInstructors={[Function Array]}
   selectedStudents={[Function Array]}
-  setInstructorTableData={[Function Function]}
-  setStudentTableData={[Function Function]}
   sortInstructorListEvent={[Function EventEmitter_]}
   sortInstructorOrder="0"
   sortInstructorsBy={[Function Number]}
@@ -1212,7 +1210,7 @@ exports[`ExtensionConfirmModalComponent use ngOnInit to initialise 1`] = `
   sortStudentsBy={[Function Number]}
   studentColumnsData={[Function Array]}
   studentRowsData={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
+  tableComparatorService={[Function _TableComparatorService]}
 >
   <fieldset>
     <div

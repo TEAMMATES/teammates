@@ -39,8 +39,8 @@ import { Sections } from '../sections';
 })
 export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectionComponent implements OnInit {
   // enums
-  StudentsSectionQuestions: typeof StudentsSectionQuestions = StudentsSectionQuestions;
-  Sections: typeof Sections = Sections;
+  StudentsSectionQuestions!: typeof StudentsSectionQuestions;
+  Sections!: typeof Sections;
 
   readonly supportEmail: string = environment.supportEmail;
   readonly exampleStudentAttributes: Student = EXAMPLE_STUDENT_ATTRIBUTES;
@@ -55,6 +55,12 @@ export class InstructorHelpStudentsSectionComponent extends InstructorHelpSectio
     StudentsSectionQuestions.STUDENT_GOOGLE_ACCOUNT,
     StudentsSectionQuestions.STUDENT_CHANGE_ID,
   ];
+
+  constructor() {
+    super();
+    this.StudentsSectionQuestions = StudentsSectionQuestions;
+    this.Sections = Sections;
+  }
 
   getQuestionsOrder(): string[] {
     return this.questionsOrder;

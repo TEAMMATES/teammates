@@ -40,7 +40,7 @@ describe('CommentTableModalComponent', () => {
   });
 
   it('should set isAddingNewComment to true in the model', () => {
-    const ngOnChangesSpy = jest.spyOn(component.modelChange, 'emit');
+    const ngOnChangesSpy = vi.spyOn(component.modelChange, 'emit');
     component.model = testModel;
     component.ngOnChanges();
     expect(ngOnChangesSpy).toHaveBeenCalledWith({
@@ -50,27 +50,27 @@ describe('CommentTableModalComponent', () => {
   });
 
   it('should emit a DeleteCommentEvent with the correct index when triggerDeleteCommentEvent is called', () => {
-    const deleteCommentEventSpy = jest.spyOn(component.deleteCommentEvent, 'emit');
+    const deleteCommentEventSpy = vi.spyOn(component.deleteCommentEvent, 'emit');
     const testIndex = 1;
     component.triggerDeleteCommentEvent(testIndex);
     expect(deleteCommentEventSpy).toHaveBeenCalledWith(testIndex);
   });
 
   it('should emit an UpdateCommentEvent with the correct index when triggerUpdateCommentEvent is called', () => {
-    const updateCommentEventSpy = jest.spyOn(component.updateCommentEvent, 'emit');
+    const updateCommentEventSpy = vi.spyOn(component.updateCommentEvent, 'emit');
     const testIndex = 0;
     component.triggerUpdateCommentEvent(testIndex);
     expect(updateCommentEventSpy).toHaveBeenCalledWith(testIndex);
   });
 
   it('should emit a SaveNewCommentEvent when triggerSaveNewCommentEvent is called', () => {
-    const saveNewCommentEventSpy = jest.spyOn(component.saveNewCommentEvent, 'emit');
+    const saveNewCommentEventSpy = vi.spyOn(component.saveNewCommentEvent, 'emit');
     component.triggerSaveNewCommentEvent();
     expect(saveNewCommentEventSpy).toHaveBeenCalled();
   });
 
   it('should emit a ChangeFormModelEvent when triggerChangeFormModelEvent is called', () => {
-    const changeFormModelEventSpy = jest.spyOn(component.modelChange, 'emit');
+    const changeFormModelEventSpy = vi.spyOn(component.modelChange, 'emit');
     component.triggerModelChange(testModel);
     expect(changeFormModelEventSpy).toHaveBeenCalledWith(testModel);
   });

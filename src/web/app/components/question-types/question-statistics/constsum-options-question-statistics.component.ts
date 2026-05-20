@@ -27,10 +27,14 @@ export class ConstsumOptionsQuestionStatisticsComponent implements OnChanges {
   @Input()
   isStudent = false;
 
-  SortBy: typeof SortBy = SortBy;
+  SortBy!: typeof SortBy;
 
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
+
+  constructor() {
+    this.SortBy = SortBy;
+  }
 
   ngOnChanges(): void {
     const stats = calculateConstsumOptionsQuestionStatistics(this.question, this.responses);

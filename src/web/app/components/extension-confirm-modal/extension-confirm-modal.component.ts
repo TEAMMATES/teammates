@@ -83,8 +83,8 @@ export class ExtensionConfirmModalComponent implements OnInit {
   instructorColumnsData: ColumnData[] = [];
   instructorRowsData: SortableTableCellData[][] = [];
 
-  SortBy: typeof SortBy = SortBy;
-  SortOrder: typeof SortOrder = SortOrder;
+  SortBy!: typeof SortBy;
+  SortOrder!: typeof SortOrder;
   sortStudentsBy: SortBy = SortBy.SESSION_END_DATE;
   sortStudentOrder: SortOrder = SortOrder.DESC;
   sortInstructorsBy: SortBy = SortBy.SESSION_END_DATE;
@@ -92,6 +92,11 @@ export class ExtensionConfirmModalComponent implements OnInit {
 
   isSubmitting = false;
   isNotifyDeadlines = false;
+
+  constructor() {
+    this.SortBy = SortBy;
+    this.SortOrder = SortOrder;
+  }
 
   ngOnInit(): void {
     if (this.selectedStudents.length > 0) {

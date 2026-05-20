@@ -81,7 +81,7 @@ describe('CommentEditFormComponent', () => {
     const testField = 'commentText';
     const testData = 'Updated comment text';
 
-    const emitSpy = jest.spyOn(component.modelChange, 'emit');
+    const emitSpy = vi.spyOn(component.modelChange, 'emit');
 
     component.triggerModelChange(testField, testData);
 
@@ -107,7 +107,7 @@ describe('CommentEditFormComponent', () => {
       showGiverNameTo: ['Team'],
     };
 
-    const modelChangeSpy = jest.spyOn(component.modelChange, 'emit');
+    const modelChangeSpy = vi.spyOn(component.modelChange, 'emit');
 
     component.triggerModelChangeBatch(updatedModel);
 
@@ -115,13 +115,13 @@ describe('CommentEditFormComponent', () => {
   });
 
   it('should emit the closeCommentBoxEvent when triggerCloseCommentBoxEvent is called', () => {
-    const closeCommentBoxEventSpy = jest.spyOn(component.closeCommentBoxEvent, 'emit');
+    const closeCommentBoxEventSpy = vi.spyOn(component.closeCommentBoxEvent, 'emit');
     component.triggerCloseCommentBoxEvent();
     expect(closeCommentBoxEventSpy).toHaveBeenCalled();
   });
 
   it('should emit the saveCommentEvent when triggerSaveCommentEvent is called', () => {
-    const saveCommentEventSpy = jest.spyOn(component.saveCommentEvent, 'emit');
+    const saveCommentEventSpy = vi.spyOn(component.saveCommentEvent, 'emit');
     component.triggerSaveCommentEvent();
     expect(saveCommentEventSpy).toHaveBeenCalled();
   });
@@ -131,9 +131,9 @@ describe('CommentEditFormComponent', () => {
     const visibilityType = CommentVisibilityType.GIVER;
     const visibilityControl = CommentVisibilityControl.SHOW_COMMENT;
 
-    const allowToSee = jest.spyOn(component.visibilityStateMachine, 'allowToSee');
-    const disallowToSee = jest.spyOn(component.visibilityStateMachine, 'disallowToSee');
-    const triggerModelChangeBatch = jest.spyOn(component, 'triggerModelChangeBatch');
+    const allowToSee = vi.spyOn(component.visibilityStateMachine, 'allowToSee');
+    const disallowToSee = vi.spyOn(component.visibilityStateMachine, 'disallowToSee');
+    const triggerModelChangeBatch = vi.spyOn(component, 'triggerModelChangeBatch');
 
     component.modifyVisibilityControl(isAllowed, visibilityType, visibilityControl);
 

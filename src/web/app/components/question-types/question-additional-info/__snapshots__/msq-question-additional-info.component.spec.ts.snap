@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`MsqQuestionAdditionalInfoComponent should show generated option message when generateOptionFor is enabled 1`] = `
+exports[`MsqQuestionAdditionalInfoComponent > should show generated option message when generateOptionFor is enabled 1`] = `
 <tm-msq-question-additional-info
   QuestionRecipientType={[Function Object]}
   questionDetails={[Function Object]}
@@ -12,7 +12,7 @@ exports[`MsqQuestionAdditionalInfoComponent should show generated option message
 </tm-msq-question-additional-info>
 `;
 
-exports[`MsqQuestionAdditionalInfoComponent should show msq options 1`] = `
+exports[`MsqQuestionAdditionalInfoComponent > should show msq options 1`] = `
 <tm-msq-question-additional-info
   QuestionRecipientType={[Function Object]}
   questionDetails={[Function Object]}
@@ -32,7 +32,7 @@ exports[`MsqQuestionAdditionalInfoComponent should show msq options 1`] = `
 </tm-msq-question-additional-info>
 `;
 
-exports[`MsqQuestionAdditionalInfoComponent should show other when "other" option is enabled 1`] = `
+exports[`MsqQuestionAdditionalInfoComponent > should show other when "other" option is enabled 1`] = `
 <tm-msq-question-additional-info
   QuestionRecipientType={[Function Object]}
   questionDetails={[Function Object]}
@@ -55,7 +55,7 @@ exports[`MsqQuestionAdditionalInfoComponent should show other when "other" optio
 </tm-msq-question-additional-info>
 `;
 
-exports[`MsqQuestionAdditionalInfoComponent should snap with default view 1`] = `
+exports[`MsqQuestionAdditionalInfoComponent > should snap with default view 1`] = `
 <tm-msq-question-additional-info
   QuestionRecipientType={[Function Object]}
   questionDetails={[Function Object]}

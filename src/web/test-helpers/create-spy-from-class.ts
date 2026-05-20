@@ -1,3 +1,5 @@
+import { Mock } from 'vitest';
+
 /**
  * Creates a spy object for a given class, providing spy functions for all of its methods.
  *
@@ -9,14 +11,14 @@
  *   method2() {}
  * }
  *
- * createSpyFromClass(MyClass) returns { method1: jest.fn(), method2: jest.fn() }
+ * createSpyFromClass(MyClass) returns { method1: vi.fn(), method2: vi.fn() }
  */
 export default function createSpyFromClass<T>(Class: new (...args: any[]) => T): Spy<T> {
   const spy = {} as Spy<T>;
 
   Object.getOwnPropertyNames(Class.prototype).forEach((methodName) => {
     if (typeof Class.prototype[methodName] === 'function') {
-      spy[methodName as keyof T] = jest.fn();
+      spy[methodName as keyof T] = vi.fn();
     }
   });
 
@@ -25,5 +27,5 @@ export default function createSpyFromClass<T>(Class: new (...args: any[]) => T):
 
 // Helper type for better typing
 type Spy<T> = {
-  [K in keyof T]: jest.Mock<any, any>;
+  [K in keyof T]: Mock<any>;
 };

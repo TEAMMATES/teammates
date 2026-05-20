@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`InstructorCoursesPageComponent should snap when courses are still loading 1`] = `
+exports[`InstructorCoursesPageComponent > should snap when courses are still loading 1`] = `
 <tm-instructor-courses-page
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
@@ -15,11 +15,11 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   copyProgressPercentage="0"
   courseAdded={[Function EventEmitter_]}
   courseFormModel={[Function Object]}
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isCopyingCourse="false"
@@ -27,17 +27,17 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  ngbModal={[Function _NgbModal]}
+  ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
-  progressBarService={[Function ProgressBarService]}
+  progressBarService={[Function _ProgressBarService]}
   resetCourseForm={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   softDeletedCourses={[Function Array]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
+  timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <div>
@@ -3269,7 +3269,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
 </tm-instructor-courses-page>
 `;
 
-exports[`InstructorCoursesPageComponent should snap when it is undeletable and unrestorable 1`] = `
+exports[`InstructorCoursesPageComponent > should snap when it is undeletable and unrestorable 1`] = `
 <tm-instructor-courses-page
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
@@ -3284,11 +3284,11 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   copyProgressPercentage="0"
   courseAdded={[Function EventEmitter_]}
   courseFormModel={[Function Object]}
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isCopyingCourse="false"
@@ -3296,17 +3296,17 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  ngbModal={[Function _NgbModal]}
+  ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
-  progressBarService={[Function ProgressBarService]}
+  progressBarService={[Function _ProgressBarService]}
   resetCourseForm={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   softDeletedCourses={[Function Array]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
+  timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <div>
@@ -6626,7 +6626,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                        Enroll 
                     </a>
                     <div
-                      class="d-inline-block dropdown"
+                      class="d-inline-block"
                       ngbdropdown=""
                     >
                       <button
@@ -6727,7 +6727,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
                       Enroll
                     </button>
                     <div
-                      class="d-inline-block dropdown"
+                      class="d-inline-block"
                       ngbdropdown=""
                     >
                       <button
@@ -7022,7 +7022,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
 </tm-instructor-courses-page>
 `;
 
-exports[`InstructorCoursesPageComponent should snap when new course form is expanded 1`] = `
+exports[`InstructorCoursesPageComponent > should snap when new course form is expanded 1`] = `
 <tm-instructor-courses-page
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
@@ -7037,11 +7037,11 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   copyProgressPercentage="0"
   courseAdded={[Function EventEmitter_]}
   courseFormModel={[Function Object]}
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded={[Function Boolean]}
   isCopyingCourse="false"
@@ -7049,17 +7049,17 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  ngbModal={[Function _NgbModal]}
+  ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
-  progressBarService={[Function ProgressBarService]}
+  progressBarService={[Function _ProgressBarService]}
   resetCourseForm={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   softDeletedCourses={[Function Array]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
+  timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <div>
@@ -10278,7 +10278,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
 </tm-instructor-courses-page>
 `;
 
-exports[`InstructorCoursesPageComponent should snap with all courses in course stats 1`] = `
+exports[`InstructorCoursesPageComponent > should snap with all courses in course stats 1`] = `
 <tm-instructor-courses-page
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
@@ -10293,11 +10293,11 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   copyProgressPercentage="0"
   courseAdded={[Function EventEmitter_]}
   courseFormModel={[Function Object]}
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isCopyingCourse="false"
@@ -10305,17 +10305,17 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  ngbModal={[Function _NgbModal]}
+  ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
-  progressBarService={[Function ProgressBarService]}
+  progressBarService={[Function _ProgressBarService]}
   resetCourseForm={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   softDeletedCourses={[Function Array]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
+  timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <div>
@@ -13635,7 +13635,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                        Enroll 
                     </a>
                     <div
-                      class="d-inline-block dropdown"
+                      class="d-inline-block"
                       ngbdropdown=""
                     >
                       <button
@@ -13736,7 +13736,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
                       Enroll
                     </button>
                     <div
-                      class="d-inline-block dropdown"
+                      class="d-inline-block"
                       ngbdropdown=""
                     >
                       <button
@@ -14035,7 +14035,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
 </tm-instructor-courses-page>
 `;
 
-exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
+exports[`InstructorCoursesPageComponent > should snap with default fields 1`] = `
 <tm-instructor-courses-page
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
@@ -14050,11 +14050,11 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   copyProgressPercentage="0"
   courseAdded={[Function EventEmitter_]}
   courseFormModel={[Function Object]}
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isCopyingCourse="false"
@@ -14062,17 +14062,17 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  ngbModal={[Function _NgbModal]}
+  ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
-  progressBarService={[Function ProgressBarService]}
+  progressBarService={[Function _ProgressBarService]}
   resetCourseForm={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   softDeletedCourses={[Function Array]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
+  timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <div>
@@ -17304,7 +17304,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
 </tm-instructor-courses-page>
 `;
 
-exports[`InstructorCoursesPageComponent should snap with no courses in course stats 1`] = `
+exports[`InstructorCoursesPageComponent > should snap with no courses in course stats 1`] = `
 <tm-instructor-courses-page
   CourseEditFormMode={[Function Object]}
   SortBy={[Function Object]}
@@ -17319,11 +17319,11 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   copyProgressPercentage="0"
   courseAdded={[Function EventEmitter_]}
   courseFormModel={[Function Object]}
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isCopyingCourse="false"
@@ -17331,17 +17331,17 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   isRecycleBinExpanded="false"
   modifiedSessions={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  ngbModal={[Function _NgbModal]}
+  ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
-  progressBarService={[Function ProgressBarService]}
+  progressBarService={[Function _ProgressBarService]}
   resetCourseForm={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   softDeletedCourses={[Function Array]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
+  timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <div>
@@ -20678,7 +20678,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                        Enroll 
                     </a>
                     <div
-                      class="d-inline-block dropdown"
+                      class="d-inline-block"
                       ngbdropdown=""
                     >
                       <button
@@ -20796,7 +20796,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
                       Enroll
                     </button>
                     <div
-                      class="d-inline-block dropdown"
+                      class="d-inline-block"
                       ngbdropdown=""
                     >
                       <button

@@ -16,5 +16,9 @@ export class RankOptionsQuestionInstructionComponent {
   @Input()
   questionDetails: FeedbackRankOptionsQuestionDetails = DEFAULT_RANK_OPTIONS_QUESTION_DETAILS();
 
-  readonly NO_VALUE: number = NO_VALUE;
+  readonly NO_VALUE!: number;
+
+  constructor() {
+    this.NO_VALUE = NO_VALUE;
+  }
 }

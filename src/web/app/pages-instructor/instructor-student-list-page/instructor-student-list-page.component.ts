@@ -68,9 +68,13 @@ export class InstructorStudentListPageComponent implements OnInit {
   isLoadingCourses = false;
 
   // enum
-  SortBy: typeof SortBy = SortBy;
+  SortBy!: typeof SortBy;
 
   coursesSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
+
+  constructor() {
+    this.SortBy = SortBy;
+  }
 
   ngOnInit(): void {
     this.loadCourses();

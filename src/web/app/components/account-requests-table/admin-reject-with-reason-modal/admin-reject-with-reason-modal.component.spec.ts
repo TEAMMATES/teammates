@@ -70,7 +70,7 @@ describe('RejectWithReasonModal', () => {
   });
 
   it('replaceGoogleId: should set the googleId to an empty string if no instructor accounts are found', () => {
-    jest.spyOn(searchService, 'searchAdmin').mockReturnValue(
+    vi.spyOn(searchService, 'searchAdmin').mockReturnValue(
       of({
         students: [],
         instructors: [],
@@ -89,7 +89,7 @@ describe('RejectWithReasonModal', () => {
     () => {
       const testInstructor = instructorAccountSearchResultBuilder.googleId('instructorGoogleId').build();
 
-      jest.spyOn(searchService, 'searchAdmin').mockReturnValue(
+      vi.spyOn(searchService, 'searchAdmin').mockReturnValue(
         of({
           students: [],
           instructors: [testInstructor],
@@ -107,7 +107,7 @@ describe('RejectWithReasonModal', () => {
     component.rejectionReasonTitle = '';
     fixture.detectChanges();
 
-    const spyStatusMessageService = jest
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('Please provide a title for the rejection email.');
@@ -123,7 +123,7 @@ describe('RejectWithReasonModal', () => {
     component.rejectionReasonBody = '';
     fixture.detectChanges();
 
-    const spyStatusMessageService = jest
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('Please provide an email body for the rejection email.');
@@ -135,7 +135,7 @@ describe('RejectWithReasonModal', () => {
   });
 
   it('reject: should close modal with data', () => {
-    const spyActiveModal = jest.spyOn(component.activeModal, 'close');
+    const spyActiveModal = vi.spyOn(component.activeModal, 'close');
     component.rejectionReasonTitle = 'Rejection Title';
     component.rejectionReasonBody = 'Rejection Body';
     fixture.detectChanges();

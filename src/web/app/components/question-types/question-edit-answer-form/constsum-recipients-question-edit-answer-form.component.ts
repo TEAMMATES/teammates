@@ -13,7 +13,12 @@ import { WheelDisablerDirective } from '../../wheel-disabler/wheel-disabler.dire
   imports: [FormsModule, WheelDisablerDirective],
 })
 export class ConstsumRecipientsQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent<FeedbackConstantSumResponseDetails> {
-  Math: typeof Math = Math;
+  Math!: typeof Math;
+
+  constructor() {
+    super();
+    this.Math = Math;
+  }
 
   /**
    * Assigns a point to the recipient.

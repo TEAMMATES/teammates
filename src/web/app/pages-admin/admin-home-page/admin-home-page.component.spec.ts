@@ -23,7 +23,7 @@ describe('AdminHomePageComponent', () => {
     accountService = TestBed.inject(AccountService);
     statusMessageService = TestBed.inject(StatusMessageService);
     component = fixture.componentInstance;
-    jest.spyOn(accountService, 'getPendingAccountRequests').mockReturnValue(of({ accountRequests: [] }));
+    vi.spyOn(accountService, 'getPendingAccountRequests').mockReturnValue(of({ accountRequests: [] }));
     fixture.detectChanges();
   });
 
@@ -32,7 +32,7 @@ describe('AdminHomePageComponent', () => {
   });
 
   it('should create account request directly if all fields are filled', () => {
-    const spyAccountService = jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
+    const spyAccountService = vi.spyOn(accountService, 'createAccountRequest').mockReturnValue(
       of({
         id: 'some.person@example.com%NUS',
         email: 'some.person@example.com',
@@ -43,12 +43,12 @@ describe('AdminHomePageComponent', () => {
         createdAt: 528,
       }),
     );
-    const spyStatusMessageService = jest
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showSuccessToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('Account request was successfully created');
       });
-    const spyFetchAccountRequests = jest
+    const spyFetchAccountRequests = vi
       .spyOn(accountService, 'getPendingAccountRequests')
       .mockReturnValue(of({ accountRequests: [] }));
     component.instructorName = 'Instructor Name';
@@ -68,8 +68,8 @@ describe('AdminHomePageComponent', () => {
   });
 
   it('should not create account request if some fields are empty', () => {
-    const spyAccountService = jest.spyOn(accountService, 'createAccountRequest');
-    const spyStatusMessageService = jest.spyOn(statusMessageService, 'showWarningToast');
+    const spyAccountService = vi.spyOn(accountService, 'createAccountRequest');
+    const spyStatusMessageService = vi.spyOn(statusMessageService, 'showWarningToast');
 
     component.instructorName = 'Instructor Name';
     component.instructorEmail = '';
@@ -109,7 +109,7 @@ describe('AdminHomePageComponent', () => {
   });
 
   it('should not create any account request if multiple instructor details contain invalid format', () => {
-    const spyAccountService = jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
+    const spyAccountService = vi.spyOn(accountService, 'createAccountRequest').mockReturnValue(
       of({
         id: 'some.person@example.com%NUS',
         email: 'some.person@example.com',
@@ -120,7 +120,7 @@ describe('AdminHomePageComponent', () => {
         createdAt: 528,
       }),
     );
-    const spyStatusMessageService = jest.spyOn(statusMessageService, 'showWarningToast');
+    const spyStatusMessageService = vi.spyOn(statusMessageService, 'showWarningToast');
     const instructorDetails: string = [
       'Instructor A | instructora@example.com | Institution A',
       'Instructor B | instructorb@example.com',
@@ -142,7 +142,7 @@ describe('AdminHomePageComponent', () => {
   });
 
   it('should create account requests for all multiple instructor details split by vertical bars', () => {
-    const spyAccountService = jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
+    const spyAccountService = vi.spyOn(accountService, 'createAccountRequest').mockReturnValue(
       of({
         id: 'some.person@example.com%NUS',
         email: 'some.person@example.com',
@@ -153,12 +153,12 @@ describe('AdminHomePageComponent', () => {
         createdAt: 528,
       }),
     );
-    const spyStatusMessageService = jest
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showSuccessToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('2 account request(s) were successfully created');
       });
-    const spyFetchAccountRequests = jest
+    const spyFetchAccountRequests = vi
       .spyOn(accountService, 'getPendingAccountRequests')
       .mockReturnValue(of({ accountRequests: [] }));
     component.instructorDetails = [
@@ -176,14 +176,14 @@ describe('AdminHomePageComponent', () => {
   });
 
   it('should show error toast when account request creation fails', () => {
-    jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
+    vi.spyOn(accountService, 'createAccountRequest').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message',
         },
       })),
     );
-    const spyStatusMessageService = jest
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message');
@@ -202,7 +202,7 @@ describe('AdminHomePageComponent', () => {
   });
 
   it('should create account requests for all multiple instructor details split by tabs with empty lines', () => {
-    const spyAccountService = jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
+    const spyAccountService = vi.spyOn(accountService, 'createAccountRequest').mockReturnValue(
       of({
         id: 'some.person@example.com%NUS',
         email: 'some.person@example.com',
@@ -213,12 +213,12 @@ describe('AdminHomePageComponent', () => {
         createdAt: 528,
       }),
     );
-    const spyStatusMessageService = jest
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showSuccessToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('2 account request(s) were successfully created');
       });
-    const spyFetchAccountRequests = jest
+    const spyFetchAccountRequests = vi
       .spyOn(accountService, 'getPendingAccountRequests')
       .mockReturnValue(of({ accountRequests: [] }));
     component.instructorDetails = [

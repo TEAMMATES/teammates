@@ -169,7 +169,7 @@ describe('SessionsTableComponent', () => {
   });
 
   it('should emit sort event', () => {
-    jest.spyOn(component.sortSessionsTableRowModelsEvent, 'emit');
+    vi.spyOn(component.sortSessionsTableRowModelsEvent, 'emit');
 
     component.sortSessionsTableRowModelsEventHandler({
       sortBy: component.SortBy.COURSE_ID,
@@ -189,7 +189,7 @@ describe('SessionsTableComponent', () => {
   });
 
   it('should emit reminder event for all non-submitters', () => {
-    jest.spyOn(component.sendRemindersToAllNonSubmittersEvent, 'emit');
+    vi.spyOn(component.sendRemindersToAllNonSubmittersEvent, 'emit');
 
     component.sendRemindersToAllNonSubmitters(0);
 
@@ -197,7 +197,7 @@ describe('SessionsTableComponent', () => {
   });
 
   it('should emit reminder event for selected non-submitters', () => {
-    jest.spyOn(component.sendRemindersToSelectedNonSubmittersEvent, 'emit');
+    vi.spyOn(component.sendRemindersToSelectedNonSubmittersEvent, 'emit');
 
     component.sendRemindersToSelectedNonSubmitters(1);
 
@@ -205,7 +205,7 @@ describe('SessionsTableComponent', () => {
   });
 
   it('should emit download session results event', () => {
-    jest.spyOn(component.downloadSessionResultsEvent, 'emit');
+    vi.spyOn(component.downloadSessionResultsEvent, 'emit');
 
     component.downloadSessionResults(0);
 
@@ -213,7 +213,7 @@ describe('SessionsTableComponent', () => {
   });
 
   it('should emit resend results link event', () => {
-    jest.spyOn(component.resendResultsLinkToStudentsEvent, 'emit');
+    vi.spyOn(component.resendResultsLinkToStudentsEvent, 'emit');
 
     component.remindResultsLinkToStudent(1);
 
@@ -259,7 +259,7 @@ describe('SessionsTableComponent', () => {
   });
 
   it('should create response rate component data and emit on click', () => {
-    jest.spyOn(component.loadResponseRateEvent, 'emit');
+    vi.spyOn(component.loadResponseRateEvent, 'emit');
 
     const result = (component as any).createCellWithResponseRateComponent(sessionTable1);
     const data = result.customComponent.componentData(0);
@@ -275,7 +275,7 @@ describe('SessionsTableComponent', () => {
   });
 
   it('should create group button data and call setRowClicked callback', () => {
-    const setRowClickedSpy = jest.spyOn(component, 'setRowClicked');
+    const setRowClickedSpy = vi.spyOn(component, 'setRowClicked');
 
     component.sessionsTableRowModels = [sessionTable1];
     component.rowsData = [[]];

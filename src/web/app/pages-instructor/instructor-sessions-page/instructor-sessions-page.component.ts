@@ -69,11 +69,11 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   private readonly route = inject(ActivatedRoute);
 
   // enum
-  SortBy: typeof SortBy = SortBy;
-  SortOrder: typeof SortOrder = SortOrder;
-  SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
-  SessionsTableColumn: typeof SessionsTableColumn = SessionsTableColumn;
-  SortableTableHeaderColorScheme: typeof SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
+  SortBy!: typeof SortBy;
+  SortOrder!: typeof SortOrder;
+  SessionEditFormMode!: typeof SessionEditFormMode;
+  SessionsTableColumn!: typeof SessionsTableColumn;
+  SortableTableHeaderColorScheme!: typeof SortableTableHeaderColorScheme;
 
   // url params
   courseId = '';
@@ -106,6 +106,11 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
 
   constructor() {
     super();
+    this.SortBy = SortBy;
+    this.SortOrder = SortOrder;
+    this.SessionEditFormMode = SessionEditFormMode;
+    this.SessionsTableColumn = SessionsTableColumn;
+    this.SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
 
     this.sessionEditFormModel = {
       ...this.sessionEditFormModel,

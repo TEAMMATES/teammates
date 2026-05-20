@@ -62,12 +62,12 @@ export class SessionEditFormComponent {
   calendar = inject(NgbCalendar);
 
   // enum
-  SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
-  SessionVisibleSetting: typeof SessionVisibleSetting = SessionVisibleSetting;
-  ResponseVisibleSetting: typeof ResponseVisibleSetting = ResponseVisibleSetting;
+  SessionEditFormMode!: typeof SessionEditFormMode;
+  SessionVisibleSetting!: typeof SessionVisibleSetting;
+  ResponseVisibleSetting!: typeof ResponseVisibleSetting;
 
   // const
-  FEEDBACK_SESSION_NAME_MAX_LENGTH: number = FEEDBACK_SESSION_NAME_MAX_LENGTH;
+  FEEDBACK_SESSION_NAME_MAX_LENGTH!: number;
 
   @Input()
   model: SessionEditFormModel = {
@@ -145,6 +145,13 @@ export class SessionEditFormComponent {
 
   @Output()
   closeEditFormEvent: EventEmitter<void> = new EventEmitter<void>();
+
+  constructor() {
+    this.SessionEditFormMode = SessionEditFormMode;
+    this.SessionVisibleSetting = SessionVisibleSetting;
+    this.ResponseVisibleSetting = ResponseVisibleSetting;
+    this.FEEDBACK_SESSION_NAME_MAX_LENGTH = FEEDBACK_SESSION_NAME_MAX_LENGTH;
+  }
 
   /**
    * Triggers the change of the model for the form.

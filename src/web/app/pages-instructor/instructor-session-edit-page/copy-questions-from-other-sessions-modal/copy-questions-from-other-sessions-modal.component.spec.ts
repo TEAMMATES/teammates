@@ -182,7 +182,7 @@ describe('CopyQuestionsFromOtherSessionsModalComponent', () => {
     const feedbackQuestions: FeedbackQuestions = {
       questions: [testFeedbackQuestion1, testFeedbackQuestion2],
     };
-    jest.spyOn(feedbackQuestionsService, 'getFeedbackQuestions').mockReturnValue(of(feedbackQuestions));
+    vi.spyOn(feedbackQuestionsService, 'getFeedbackQuestions').mockReturnValue(of(feedbackQuestions));
     component.feedbackSessionTabModels = [testFeedbackSessionTabModel1];
 
     component.loadQuestions(testFeedbackSessionTabModel1);
@@ -221,7 +221,7 @@ describe('CopyQuestionsFromOtherSessionsModalComponent', () => {
     component.feedbackSessionTabModels = [testFeedbackSessionTabModel1, testFeedbackSessionTabModel2];
     fixture.detectChanges();
 
-    jest.spyOn(component.activeModal, 'close').mockImplementation((questions: FeedbackQuestion[]) => {
+    vi.spyOn(component.activeModal, 'close').mockImplementation((questions: FeedbackQuestion[]) => {
       expect(questions.length).toBe(3);
       expect(questions[0].feedbackQuestionId).toBe(testFeedbackQuestion1.feedbackQuestionId);
       expect(questions[1].feedbackQuestionId).toBe(testFeedbackQuestion2.feedbackQuestionId);

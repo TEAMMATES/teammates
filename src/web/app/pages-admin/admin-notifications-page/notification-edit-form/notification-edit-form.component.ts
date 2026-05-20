@@ -38,9 +38,9 @@ import { TimepickerComponent } from '../../../components/timepicker/timepicker.c
 export class NotificationEditFormComponent {
   private simpleModalService = inject(SimpleModalService);
 
-  NotificationEditFormMode = NotificationEditFormMode;
-  NotificationStyle = NotificationStyle;
-  NotificationTargetUser = NotificationTargetUser;
+  NotificationEditFormMode!: typeof NotificationEditFormMode;
+  NotificationStyle!: typeof NotificationStyle;
+  NotificationTargetUser!: typeof NotificationTargetUser;
 
   NOTIFICATION_TITLE_MAX_LENGTH = ApiConst.NOTIFICATION_TITLE_MAX_LENGTH;
 
@@ -85,6 +85,12 @@ export class NotificationEditFormComponent {
 
   @Output()
   cancelEditingNotificationEvent = new EventEmitter<void>();
+
+  constructor() {
+    this.NotificationEditFormMode = NotificationEditFormMode;
+    this.NotificationStyle = NotificationStyle;
+    this.NotificationTargetUser = NotificationTargetUser;
+  }
 
   /**
    * Triggers the change of the model for the form.

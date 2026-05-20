@@ -16,14 +16,20 @@ import { Sections } from '../sections';
 })
 export class InstructorHelpGeneralSectionComponent extends InstructorHelpSectionComponent implements OnInit {
   // enums
-  GeneralSectionQuestions: typeof GeneralSectionQuestions = GeneralSectionQuestions;
-  Sections: typeof Sections = Sections;
+  GeneralSectionQuestions!: typeof GeneralSectionQuestions;
+  Sections!: typeof Sections;
 
   readonly questionsOrder: string[] = [
     GeneralSectionQuestions.FREE_FOR_USE,
     GeneralSectionQuestions.DATA_PRIVACY,
     GeneralSectionQuestions.DST_ADJUSTMENT,
   ];
+
+  constructor() {
+    super();
+    this.GeneralSectionQuestions = GeneralSectionQuestions;
+    this.Sections = Sections;
+  }
 
   getQuestionsOrder(): string[] {
     return this.questionsOrder;

@@ -90,7 +90,7 @@ describe('UsageStatisticsPageComponent', () => {
       },
     ];
 
-    const spy = jest.spyOn(usageStatisticsService, 'getUsageStatistics').mockReturnValue(
+    const spy = vi.spyOn(usageStatisticsService, 'getUsageStatistics').mockReturnValue(
       of({
         result: statsObjects,
       }),

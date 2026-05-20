@@ -45,9 +45,9 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
   copyClickedEvent: EventEmitter<Instructor[]> = new EventEmitter();
 
   // enum
-  SortBy: typeof SortBy = SortBy;
-  SortOrder: typeof SortOrder = SortOrder;
-  InstructorPermissionRole: typeof InstructorPermissionRole = InstructorPermissionRole;
+  SortBy!: typeof SortBy;
+  SortOrder!: typeof SortOrder;
+  InstructorPermissionRole!: typeof InstructorPermissionRole;
 
   // data
   courses: CourseTabModel[] = [];
@@ -55,6 +55,12 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
   readonly notDisplayedToStudentText: string = '(NOT displayed to students)';
   coursesSortBy: SortBy | undefined;
   isCopyingSelectedInstructors = false;
+
+  constructor() {
+    this.SortBy = SortBy;
+    this.SortOrder = SortOrder;
+    this.InstructorPermissionRole = InstructorPermissionRole;
+  }
 
   /**
    * Toggles specific card and loads instructors if needed.

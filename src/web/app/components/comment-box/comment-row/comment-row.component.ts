@@ -61,8 +61,8 @@ export class CommentRowComponent implements OnChanges {
   private commentService = inject(FeedbackResponseCommentService);
 
   // enum
-  CommentRowMode: typeof CommentRowMode = CommentRowMode;
-  CommentVisibilityControl: typeof CommentVisibilityControl = CommentVisibilityControl;
+  CommentRowMode!: typeof CommentRowMode;
+  CommentVisibilityControl!: typeof CommentVisibilityControl;
 
   @Input()
   mode: CommentRowMode = CommentRowMode.ADD;
@@ -119,6 +119,8 @@ export class CommentRowComponent implements OnChanges {
   visibilityStateMachine: CommentVisibilityStateMachine;
 
   constructor() {
+    this.CommentRowMode = CommentRowMode;
+    this.CommentVisibilityControl = CommentVisibilityControl;
     this.visibilityStateMachine = this.commentService.getNewVisibilityStateMachine(this.questionShowResponsesTo);
   }
 

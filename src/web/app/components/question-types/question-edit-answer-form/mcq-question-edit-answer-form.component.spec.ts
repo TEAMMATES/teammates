@@ -75,7 +75,7 @@ describe('McqQuestionEditAnswerFormComponent', () => {
 
     const select: HTMLSelectElement = fixture.debugElement.query(By.css('#dropdown-option-select')).nativeElement;
 
-    jest.spyOn(component, 'updateSelectedMcqDropdownOption');
+    vi.spyOn(component, 'updateSelectedMcqDropdownOption');
 
     select.value = select.options[SELECTED_SELECT_INDEX].value;
     select.dispatchEvent(new Event('change'));

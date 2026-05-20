@@ -81,12 +81,12 @@ describe('UserNotificationsListComponent', () => {
 
   it('should load notifications from APIs correctly', () => {
     // two notifications, only first one has been read
-    const getNotificationSpy = jest.spyOn(notificationService, 'getAllNotificationsForTargetUser').mockReturnValue(
+    const getNotificationSpy = vi.spyOn(notificationService, 'getAllNotificationsForTargetUser').mockReturnValue(
       of({
         notifications: [testNotificationOne, testNotificationTwo],
       }),
     );
-    const getReadNotificationSpy = jest.spyOn(notificationService, 'getReadNotifications').mockReturnValue(
+    const getReadNotificationSpy = vi.spyOn(notificationService, 'getReadNotifications').mockReturnValue(
       of({
         readNotifications: [testNotificationOne.notificationId],
       }),
@@ -100,7 +100,7 @@ describe('UserNotificationsListComponent', () => {
   });
 
   it('should mark notification as read when button is clicked', () => {
-    const apiSpy = jest
+    const apiSpy = vi
       .spyOn(notificationService, 'markNotificationAsRead')
       .mockImplementation((request: MarkNotificationAsReadRequest) => {
         expect(request.notificationId).toEqual(testNotificationOne.notificationId);
@@ -108,7 +108,7 @@ describe('UserNotificationsListComponent', () => {
           readNotifications: [request.notificationId],
         });
       });
-    const messageSpy = jest.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
+    const messageSpy = vi.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
       expect(args).toEqual('Notification marked as read.');
     });
 

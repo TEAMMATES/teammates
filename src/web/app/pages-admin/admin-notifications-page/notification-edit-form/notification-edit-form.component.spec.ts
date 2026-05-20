@@ -45,7 +45,7 @@ describe('NotificationEditFormComponent', () => {
     component = fixture.componentInstance;
     timezoneService = TestBed.inject(TimezoneService);
     simpleModalService = TestBed.inject(SimpleModalService);
-    jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('Asia/Singapore');
+    vi.spyOn(timezoneService, 'guessTimezone').mockReturnValue('Asia/Singapore');
     moment.tz.setDefault('SGT');
     fixture.detectChanges();
   });
@@ -102,7 +102,7 @@ describe('NotificationEditFormComponent', () => {
       component.model = data;
     });
     const promise: Promise<void> = Promise.resolve();
-    const modalSpy = jest
+    const modalSpy = vi
       .spyOn(simpleModalService, 'openConfirmationModal')
       .mockReturnValue(createMockNgbModalRef({}, promise));
     component.cancelHandler();

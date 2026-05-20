@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`InstructorSessionEditPageComponent should snap when feedback question failed to load 1`] = `
+exports[`InstructorSessionEditPageComponent > should snap when feedback question failed to load 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionPublishStatus={[Function Object]}
@@ -9,22 +9,22 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   changeDetectorRef={[Function ViewRef]}
   courseId=""
   courseName=""
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
-  datetimeService={[Function DateTimeService]}
+  datetimeService={[Function _DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
   feedbackSessionId="undefined"
   feedbackSessionModelBeforeEditing={[Function Object]}
   feedbackSessionName=""
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed={[Function Boolean]}
   hasLoadingFeedbackSessionFailed="false"
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
@@ -35,21 +35,21 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   isResultActionLoading="false"
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function NavigationService]}
+  navigationService={[Function _NavigationService]}
   newQuestionEditFormModel={[Function Object]}
-  ngbModal={[Function _NgbModal]}
-  progressBarService={[Function ProgressBarService]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts={[Function Number]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function _ProgressBarService]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishUnpublishRetryAttempts="undefined"
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
   studentsOfCourse={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
+  tableComparatorService={[Function _TableComparatorService]}
+  timezoneService={[Function _TimezoneService]}
   userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
@@ -97,7 +97,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
 </tm-instructor-session-edit-page>
 `;
 
-exports[`InstructorSessionEditPageComponent should snap when feedback questions are loading 1`] = `
+exports[`InstructorSessionEditPageComponent > should snap when feedback questions are loading 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionPublishStatus={[Function Object]}
@@ -106,22 +106,22 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   changeDetectorRef={[Function ViewRef]}
   courseId=""
   courseName=""
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
-  datetimeService={[Function DateTimeService]}
+  datetimeService={[Function _DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
   feedbackSessionId="undefined"
   feedbackSessionModelBeforeEditing={[Function Object]}
   feedbackSessionName=""
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
@@ -132,21 +132,21 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   isResultActionLoading="false"
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function NavigationService]}
+  navigationService={[Function _NavigationService]}
   newQuestionEditFormModel={[Function Object]}
-  ngbModal={[Function _NgbModal]}
-  progressBarService={[Function ProgressBarService]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts={[Function Number]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function _ProgressBarService]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishUnpublishRetryAttempts="undefined"
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
   studentsOfCourse={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
+  tableComparatorService={[Function _TableComparatorService]}
+  timezoneService={[Function _TimezoneService]}
   userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
@@ -194,7 +194,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
 </tm-instructor-session-edit-page>
 `;
 
-exports[`InstructorSessionEditPageComponent should snap when feedback session failed to load 1`] = `
+exports[`InstructorSessionEditPageComponent > should snap when feedback session failed to load 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionPublishStatus={[Function Object]}
@@ -203,22 +203,22 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   changeDetectorRef={[Function ViewRef]}
   courseId=""
   courseName=""
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
-  datetimeService={[Function DateTimeService]}
+  datetimeService={[Function _DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
   feedbackSessionId="undefined"
   feedbackSessionModelBeforeEditing={[Function Object]}
   feedbackSessionName=""
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed={[Function Boolean]}
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
@@ -229,21 +229,21 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   isResultActionLoading="false"
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function NavigationService]}
+  navigationService={[Function _NavigationService]}
   newQuestionEditFormModel={[Function Object]}
-  ngbModal={[Function _NgbModal]}
-  progressBarService={[Function ProgressBarService]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts={[Function Number]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function _ProgressBarService]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishUnpublishRetryAttempts="undefined"
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
   studentsOfCourse={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
+  tableComparatorService={[Function _TableComparatorService]}
+  timezoneService={[Function _TimezoneService]}
   userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
@@ -294,7 +294,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
 </tm-instructor-session-edit-page>
 `;
 
-exports[`InstructorSessionEditPageComponent should snap when feedback session is loading 1`] = `
+exports[`InstructorSessionEditPageComponent > should snap when feedback session is loading 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionPublishStatus={[Function Object]}
@@ -303,22 +303,22 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   changeDetectorRef={[Function ViewRef]}
   courseId=""
   courseName=""
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
-  datetimeService={[Function DateTimeService]}
+  datetimeService={[Function _DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
   feedbackSessionId="undefined"
   feedbackSessionModelBeforeEditing={[Function Object]}
   feedbackSessionName=""
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
@@ -329,21 +329,21 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   isResultActionLoading="false"
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function NavigationService]}
+  navigationService={[Function _NavigationService]}
   newQuestionEditFormModel={[Function Object]}
-  ngbModal={[Function _NgbModal]}
-  progressBarService={[Function ProgressBarService]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts={[Function Number]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function _ProgressBarService]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishUnpublishRetryAttempts="undefined"
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
   studentsOfCourse={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
+  tableComparatorService={[Function _TableComparatorService]}
+  timezoneService={[Function _TimezoneService]}
   userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
@@ -391,7 +391,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
 </tm-instructor-session-edit-page>
 `;
 
-exports[`InstructorSessionEditPageComponent should snap with default fields 1`] = `
+exports[`InstructorSessionEditPageComponent > should snap with default fields 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionPublishStatus={[Function Object]}
@@ -400,22 +400,22 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   changeDetectorRef={[Function ViewRef]}
   courseId=""
   courseName=""
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
-  datetimeService={[Function DateTimeService]}
+  datetimeService={[Function _DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
   feedbackSessionId="undefined"
   feedbackSessionModelBeforeEditing={[Function Object]}
   feedbackSessionName=""
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
@@ -426,21 +426,21 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   isResultActionLoading="false"
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function NavigationService]}
+  navigationService={[Function _NavigationService]}
   newQuestionEditFormModel={[Function Object]}
-  ngbModal={[Function _NgbModal]}
-  progressBarService={[Function ProgressBarService]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts={[Function Number]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function _ProgressBarService]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishUnpublishRetryAttempts="undefined"
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
   studentsOfCourse={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
+  tableComparatorService={[Function _TableComparatorService]}
+  timezoneService={[Function _TimezoneService]}
   userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
@@ -488,7 +488,7 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
 </tm-instructor-session-edit-page>
 `;
 
-exports[`InstructorSessionEditPageComponent should snap with feedback session questions 1`] = `
+exports[`InstructorSessionEditPageComponent > should snap with feedback session questions 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionPublishStatus={[Function Object]}
@@ -497,22 +497,22 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   changeDetectorRef={[Function ViewRef]}
   courseId={[Function String]}
   courseName={[Function String]}
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
-  datetimeService={[Function DateTimeService]}
+  datetimeService={[Function _DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
   feedbackSessionId="undefined"
   feedbackSessionModelBeforeEditing={[Function Object]}
   feedbackSessionName={[Function String]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
@@ -523,21 +523,21 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   isResultActionLoading="false"
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function NavigationService]}
+  navigationService={[Function _NavigationService]}
   newQuestionEditFormModel={[Function Object]}
-  ngbModal={[Function _NgbModal]}
-  progressBarService={[Function ProgressBarService]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts={[Function Number]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function _ProgressBarService]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishUnpublishRetryAttempts="undefined"
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
   studentsOfCourse={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
+  tableComparatorService={[Function _TableComparatorService]}
+  timezoneService={[Function _TimezoneService]}
   userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
@@ -2008,7 +2008,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               </div>
             </button>
             <div
-              class="ng-trigger ng-trigger-collapseAnim ng-animating"
+              class="ng-trigger ng-trigger-collapseAnim ng-animate-queued"
             >
               <div
                 class="card-body"
@@ -2741,7 +2741,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
               </div>
             </button>
             <div
-              class="ng-trigger ng-trigger-collapseAnim ng-animating"
+              class="ng-trigger ng-trigger-collapseAnim ng-animate-queued"
             >
               <div
                 class="card-body"
@@ -3754,7 +3754,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
 </tm-instructor-session-edit-page>
 `;
 
-exports[`InstructorSessionEditPageComponent should snap with new question added 1`] = `
+exports[`InstructorSessionEditPageComponent > should snap with new question added 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
   FeedbackSessionPublishStatus={[Function Object]}
@@ -3763,22 +3763,22 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   changeDetectorRef={[Function ViewRef]}
   courseId=""
   courseName=""
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
-  datetimeService={[Function DateTimeService]}
+  datetimeService={[Function _DateTimeService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
   feedbackSessionId="undefined"
   feedbackSessionModelBeforeEditing={[Function Object]}
   feedbackSessionName=""
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   instructorsOfCourse={[Function Array]}
   isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded={[Function Boolean]}
@@ -3789,21 +3789,21 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   isResultActionLoading="false"
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function NavigationService]}
+  navigationService={[Function _NavigationService]}
   newQuestionEditFormModel={[Function Object]}
-  ngbModal={[Function _NgbModal]}
-  progressBarService={[Function ProgressBarService]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts={[Function Number]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function _ProgressBarService]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishUnpublishRetryAttempts="undefined"
   questionEditFormModels={[Function Array]}
   route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
   studentsOfCourse={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
+  tableComparatorService={[Function _TableComparatorService]}
+  timezoneService={[Function _TimezoneService]}
   userDeadlines={[Function Object]}
 >
   <tm-loading-retry>
@@ -5234,7 +5234,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
           </div>
         </button>
         <div
-          class="ng-trigger ng-trigger-collapseAnim ng-animating"
+          class="ng-trigger ng-trigger-collapseAnim ng-animate-queued"
         >
           <div
             class="card-body"

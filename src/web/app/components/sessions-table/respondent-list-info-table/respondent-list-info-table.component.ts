@@ -18,8 +18,8 @@ export class RespondentListInfoTableComponent {
   private tableComparatorService = inject(TableComparatorService);
 
   // enum
-  SortBy: typeof SortBy = SortBy;
-  SortOrder: typeof SortOrder = SortOrder;
+  SortBy!: typeof SortBy;
+  SortOrder!: typeof SortOrder;
 
   @Input()
   shouldDisplayHasSubmittedSessionColumn = false;
@@ -35,6 +35,11 @@ export class RespondentListInfoTableComponent {
 
   @Output()
   instructorListInfoTableRowModelsChange: EventEmitter<InstructorListInfoTableRowModel[]> = new EventEmitter();
+
+  constructor() {
+    this.SortBy = SortBy;
+    this.SortOrder = SortOrder;
+  }
 
   studentListInfoTableSortBy: SortBy = SortBy.NONE;
   studentListInfoTableSortOrder: SortOrder = SortOrder.ASC;

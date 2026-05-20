@@ -49,12 +49,11 @@ export class VisibilityPanelComponent {
   readonly castAsInputElement = castAsInputElement;
 
   // enum
-  QuestionRecipientType: typeof QuestionRecipientType = QuestionRecipientType;
-  FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
-  NumberOfEntitiesToGiveFeedbackToSetting: typeof NumberOfEntitiesToGiveFeedbackToSetting =
-    NumberOfEntitiesToGiveFeedbackToSetting;
-  VisibilityControl: typeof VisibilityControl = VisibilityControl;
-  FeedbackVisibilityType: typeof FeedbackVisibilityType = FeedbackVisibilityType;
+  QuestionRecipientType!: typeof QuestionRecipientType;
+  FeedbackQuestionType!: typeof FeedbackQuestionType;
+  NumberOfEntitiesToGiveFeedbackToSetting!: typeof NumberOfEntitiesToGiveFeedbackToSetting;
+  VisibilityControl!: typeof VisibilityControl;
+  FeedbackVisibilityType!: typeof FeedbackVisibilityType;
 
   @Input()
   model: QuestionEditFormModel = {
@@ -132,6 +131,14 @@ export class VisibilityPanelComponent {
     [VisibilityControl.SHOW_GIVER_NAME, "Giver's Name"],
     [VisibilityControl.SHOW_RECIPIENT_NAME, "Recipient's Name"],
   ]);
+
+  constructor() {
+    this.QuestionRecipientType = QuestionRecipientType;
+    this.FeedbackQuestionType = FeedbackQuestionType;
+    this.NumberOfEntitiesToGiveFeedbackToSetting = NumberOfEntitiesToGiveFeedbackToSetting;
+    this.VisibilityControl = VisibilityControl;
+    this.FeedbackVisibilityType = FeedbackVisibilityType;
+  }
 
   triggerCustomVisibilitySetting(): void {
     this.customVisibilitySetting.emit(true);

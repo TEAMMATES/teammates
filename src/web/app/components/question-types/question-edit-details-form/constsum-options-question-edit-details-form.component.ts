@@ -27,11 +27,16 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
   private statusMessageService = inject(StatusMessageService);
 
   // enum
-  FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =
-    FeedbackConstantSumDistributePointsType;
+  FeedbackConstantSumDistributePointsType!: typeof FeedbackConstantSumDistributePointsType;
 
   @Input() questionNumber = 0;
   pointsRadioGroupName = '';
+
+  constructor() {
+    super();
+    this.FeedbackConstantSumDistributePointsType = FeedbackConstantSumDistributePointsType;
+  }
+
   ngOnChanges(): void {
     this.pointsRadioGroupName = `constsum-options-${this.questionNumber}`;
   }

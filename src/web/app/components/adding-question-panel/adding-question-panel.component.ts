@@ -27,7 +27,7 @@ import { TeammatesRouterDirective } from '../teammates-router/teammates-router.d
 })
 export class AddingQuestionPanelComponent {
   // enum
-  FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
+  FeedbackQuestionType!: typeof FeedbackQuestionType;
 
   @Input()
   isCopyingQuestion = false;
@@ -43,6 +43,10 @@ export class AddingQuestionPanelComponent {
 
   @Output()
   copyQuestionsFromOtherSessionsEvent: EventEmitter<void> = new EventEmitter<void>();
+
+  constructor() {
+    this.FeedbackQuestionType = FeedbackQuestionType;
+  }
 
   /**
    * Handles display of template question modal.

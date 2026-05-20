@@ -11,8 +11,12 @@ import { CONTRIBUTION_POINT_NOT_SUBMITTED } from '../../../../../types/feedback-
   imports: [ContributionComponent],
 })
 export class ContributionRatingsListComponent {
-  CONTRIBUTION_POINT_NOT_SUBMITTED: number = CONTRIBUTION_POINT_NOT_SUBMITTED;
+  CONTRIBUTION_POINT_NOT_SUBMITTED!: number;
 
   @Input()
   ratingsList: number[] = [];
+
+  constructor() {
+    this.CONTRIBUTION_POINT_NOT_SUBMITTED = CONTRIBUTION_POINT_NOT_SUBMITTED;
+  }
 }

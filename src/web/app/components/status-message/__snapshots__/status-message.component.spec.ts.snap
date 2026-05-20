@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`StatusMessageComponent should show all three messages 1`] = `
+exports[`StatusMessageComponent > should show all three messages 1`] = `
 <tm-status-message
   messages={[Function Array]}
 >
@@ -44,7 +44,7 @@ exports[`StatusMessageComponent should show all three messages 1`] = `
 </tm-status-message>
 `;
 
-exports[`StatusMessageComponent should snap with default view 1`] = `
+exports[`StatusMessageComponent > should snap with default view 1`] = `
 <tm-status-message
   messages={[Function Array]}
 >

@@ -36,8 +36,8 @@ import { TextQuestionResponseComponent } from '../../question-types/question-res
   ],
 })
 export class SingleResponseComponent {
-  readonly QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;
-  readonly ResponseDetailsTypeChecker = ResponseDetailsTypeChecker;
+  readonly QuestionDetailsTypeChecker: typeof QuestionDetailsTypeChecker;
+  readonly ResponseDetailsTypeChecker: typeof ResponseDetailsTypeChecker;
 
   @Input() responseDetails: FeedbackResponseDetails = {
     questionType: FeedbackQuestionType.TEXT,
@@ -52,6 +52,11 @@ export class SingleResponseComponent {
   @Input() statistics = '';
   @Input() giverEmail = '';
   @Input() recipientEmail = '';
+
+  constructor() {
+    this.QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;
+    this.ResponseDetailsTypeChecker = ResponseDetailsTypeChecker;
+  }
 
   castAsTextQuestion(d: FeedbackQuestionDetails): FeedbackTextQuestionDetails {
     return d as FeedbackTextQuestionDetails;

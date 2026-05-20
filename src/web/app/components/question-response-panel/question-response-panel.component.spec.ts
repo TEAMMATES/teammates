@@ -618,7 +618,7 @@ describe('QuestionResponsePanelComponent', () => {
       ],
     };
 
-    const fsSpy = jest
+    const fsSpy = vi
       .spyOn(feedbackSessionsService, 'getFeedbackSessionResults')
       .mockReturnValue(of(testFeedbackSessionResult));
     component.loadQuestion({ visible: true }, testFeedbackQuestionModel);
@@ -637,7 +637,7 @@ describe('QuestionResponsePanelComponent', () => {
   });
 
   it('should not load the recipients and responses of a question if already loaded', () => {
-    const fsSpy = jest.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
+    const fsSpy = vi.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
 
     testFeedbackQuestionModel.isLoaded = true;
     component.loadQuestion({ visible: true }, testFeedbackQuestionModel);
@@ -664,7 +664,7 @@ describe('QuestionResponsePanelComponent', () => {
   });
 
   it('loadQuestionResults: should not re-fetch data if question is already loaded', () => {
-    const fsSpy = jest.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
+    const fsSpy = vi.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
 
     const testQuestionModel: FeedbackQuestionModel = {
       ...testFeedbackQuestionModel,
@@ -676,8 +676,8 @@ describe('QuestionResponsePanelComponent', () => {
   });
 
   it('loadQuestionResults: should handle no responses correctly and not show toast if errorMessage not set', () => {
-    const fsSpy = jest.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
-    const toastSpy = jest.spyOn(statusMessageService, 'showSuccessToast');
+    const fsSpy = vi.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
+    const toastSpy = vi.spyOn(statusMessageService, 'showSuccessToast');
 
     testFeedbackQuestionModel.isLoaded = false;
 
@@ -694,8 +694,8 @@ describe('QuestionResponsePanelComponent', () => {
   });
 
   it('loadQuestionResults: should handle no responses correctly and show success toast if errorMessage is set', () => {
-    const fsSpy = jest.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
-    const toastSpy = jest.spyOn(statusMessageService, 'showSuccessToast');
+    const fsSpy = vi.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
+    const toastSpy = vi.spyOn(statusMessageService, 'showSuccessToast');
 
     testFeedbackQuestionModel.isLoaded = false;
     testFeedbackQuestionModel.errorMessage = 'Error occurred';
@@ -717,10 +717,10 @@ describe('QuestionResponsePanelComponent', () => {
   it('loadQuestionResults: should handle errors correctly by setting errorMessage and showing a toast', () => {
     const errorMessage = 'An error occurred';
     testFeedbackQuestionModel.isLoaded = false;
-    jest
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionResults')
-      .mockReturnValue(throwError(() => ({ error: { message: errorMessage }, status: 400 }) as ErrorMessageOutput));
-    const showErrorToastSpy = jest.spyOn(statusMessageService, 'showErrorToast');
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionResults').mockReturnValue(
+      throwError(() => ({ error: { message: errorMessage }, status: 400 }) as ErrorMessageOutput),
+    );
+    const showErrorToastSpy = vi.spyOn(statusMessageService, 'showErrorToast');
 
     component.loadQuestionResults(testFeedbackQuestionModel);
 

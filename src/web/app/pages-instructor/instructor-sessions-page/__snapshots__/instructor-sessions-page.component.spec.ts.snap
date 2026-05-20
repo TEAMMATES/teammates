@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`InstructorSessionsPageComponent should snap when courses are loading 1`] = `
+exports[`InstructorSessionsPageComponent > should snap when courses are loading 1`] = `
 <tm-instructor-sessions-page
   SessionEditFormMode={[Function Object]}
   SessionsTableColumn={[Function Object]}
@@ -9,15 +9,15 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
   SortableTableHeaderColorScheme={[Function Object]}
   courseCandidates={[Function Array]}
   courseId="undefined"
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasCourseLoadingFailed="false"
   hasFeedbackSessionLoadingFailed="false"
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isCopyOtherSessionLoading="false"
   isCopySessionLoading="false"
   isCoursesLoading={[Function Boolean]}
@@ -32,23 +32,23 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
   isSessionEditFormExpanded="false"
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function NavigationService]}
-  ngbModal={[Function _NgbModal]}
-  progressBarService={[Function ProgressBarService]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts={[Function Number]}
+  navigationService={[Function _NavigationService]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function _ProgressBarService]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishUnpublishRetryAttempts="undefined"
   recycleBinFeedbackSessionRowModels={[Function Array]}
   recycleBinFeedbackSessionRowModelsSortBy="0"
   recycleBinFeedbackSessionRowModelsSortOrder={[Function Number]}
   route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
   sessionsTableRowModels={[Function Array]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
   templateSessions={[Function Array]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function _TimezoneService]}
 >
   <div>
     <button
@@ -1526,7 +1526,7 @@ exports[`InstructorSessionsPageComponent should snap when courses are loading 1`
 </tm-instructor-sessions-page>
 `;
 
-exports[`InstructorSessionsPageComponent should snap when feedback sessions are loading 1`] = `
+exports[`InstructorSessionsPageComponent > should snap when feedback sessions are loading 1`] = `
 <tm-instructor-sessions-page
   SessionEditFormMode={[Function Object]}
   SessionsTableColumn={[Function Object]}
@@ -1535,15 +1535,15 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
   SortableTableHeaderColorScheme={[Function Object]}
   courseCandidates={[Function Array]}
   courseId="undefined"
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasCourseLoadingFailed="false"
   hasFeedbackSessionLoadingFailed="false"
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isCopyOtherSessionLoading="false"
   isCopySessionLoading="false"
   isCoursesLoading={[Function Boolean]}
@@ -1558,23 +1558,23 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
   isSessionEditFormExpanded="false"
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function NavigationService]}
-  ngbModal={[Function _NgbModal]}
-  progressBarService={[Function ProgressBarService]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts={[Function Number]}
+  navigationService={[Function _NavigationService]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function _ProgressBarService]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishUnpublishRetryAttempts="undefined"
   recycleBinFeedbackSessionRowModels={[Function Array]}
   recycleBinFeedbackSessionRowModelsSortBy="0"
   recycleBinFeedbackSessionRowModelsSortOrder={[Function Number]}
   route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
   sessionsTableRowModels={[Function Array]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
   templateSessions={[Function Array]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function _TimezoneService]}
 >
   <div>
     <button
@@ -3052,7 +3052,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions are 
 </tm-instructor-sessions-page>
 `;
 
-exports[`InstructorSessionsPageComponent should snap when feedback sessions failed to load 1`] = `
+exports[`InstructorSessionsPageComponent > should snap when feedback sessions failed to load 1`] = `
 <tm-instructor-sessions-page
   SessionEditFormMode={[Function Object]}
   SessionsTableColumn={[Function Object]}
@@ -3061,15 +3061,15 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
   SortableTableHeaderColorScheme={[Function Object]}
   courseCandidates={[Function Array]}
   courseId="undefined"
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasCourseLoadingFailed="false"
   hasFeedbackSessionLoadingFailed={[Function Boolean]}
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isCopyOtherSessionLoading="false"
   isCopySessionLoading="false"
   isCoursesLoading={[Function Boolean]}
@@ -3084,23 +3084,23 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
   isSessionEditFormExpanded="false"
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function NavigationService]}
-  ngbModal={[Function _NgbModal]}
-  progressBarService={[Function ProgressBarService]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts={[Function Number]}
+  navigationService={[Function _NavigationService]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function _ProgressBarService]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishUnpublishRetryAttempts="undefined"
   recycleBinFeedbackSessionRowModels={[Function Array]}
   recycleBinFeedbackSessionRowModelsSortBy="0"
   recycleBinFeedbackSessionRowModelsSortOrder={[Function Number]}
   route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
   sessionsTableRowModels={[Function Array]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
   templateSessions={[Function Array]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function _TimezoneService]}
 >
   <div>
     <button
@@ -4546,7 +4546,7 @@ exports[`InstructorSessionsPageComponent should snap when feedback sessions fail
 </tm-instructor-sessions-page>
 `;
 
-exports[`InstructorSessionsPageComponent should snap when new session form is expanded 1`] = `
+exports[`InstructorSessionsPageComponent > should snap when new session form is expanded 1`] = `
 <tm-instructor-sessions-page
   SessionEditFormMode={[Function Object]}
   SessionsTableColumn={[Function Object]}
@@ -4555,15 +4555,15 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
   SortableTableHeaderColorScheme={[Function Object]}
   courseCandidates={[Function Array]}
   courseId="undefined"
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasCourseLoadingFailed="false"
   hasFeedbackSessionLoadingFailed="false"
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isCopyOtherSessionLoading="false"
   isCopySessionLoading="false"
   isCoursesLoading="false"
@@ -4578,23 +4578,23 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
   isSessionEditFormExpanded={[Function Boolean]}
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function NavigationService]}
-  ngbModal={[Function _NgbModal]}
-  progressBarService={[Function ProgressBarService]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts={[Function Number]}
+  navigationService={[Function _NavigationService]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function _ProgressBarService]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishUnpublishRetryAttempts="undefined"
   recycleBinFeedbackSessionRowModels={[Function Array]}
   recycleBinFeedbackSessionRowModelsSortBy="0"
   recycleBinFeedbackSessionRowModelsSortOrder={[Function Number]}
   route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
   sessionsTableRowModels={[Function Array]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
   templateSessions={[Function Array]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function _TimezoneService]}
 >
   <div
     class="alert alert-warning"
@@ -6089,7 +6089,7 @@ exports[`InstructorSessionsPageComponent should snap when new session form is ex
 </tm-instructor-sessions-page>
 `;
 
-exports[`InstructorSessionsPageComponent should snap when recycle bin section is expanded 1`] = `
+exports[`InstructorSessionsPageComponent > should snap when recycle bin section is expanded 1`] = `
 <tm-instructor-sessions-page
   SessionEditFormMode={[Function Object]}
   SessionsTableColumn={[Function Object]}
@@ -6098,15 +6098,15 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
   SortableTableHeaderColorScheme={[Function Object]}
   courseCandidates={[Function Array]}
   courseId="undefined"
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasCourseLoadingFailed="false"
   hasFeedbackSessionLoadingFailed="false"
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isCopyOtherSessionLoading="false"
   isCopySessionLoading="false"
   isCoursesLoading={[Function Boolean]}
@@ -6121,23 +6121,23 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
   isSessionEditFormExpanded="false"
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function NavigationService]}
-  ngbModal={[Function _NgbModal]}
-  progressBarService={[Function ProgressBarService]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts={[Function Number]}
+  navigationService={[Function _NavigationService]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function _ProgressBarService]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishUnpublishRetryAttempts="undefined"
   recycleBinFeedbackSessionRowModels={[Function Array]}
   recycleBinFeedbackSessionRowModelsSortBy="0"
   recycleBinFeedbackSessionRowModelsSortOrder={[Function Number]}
   route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
   sessionsTableRowModels={[Function Array]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
   templateSessions={[Function Array]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function _TimezoneService]}
 >
   <div>
     <button
@@ -7615,7 +7615,7 @@ exports[`InstructorSessionsPageComponent should snap when recycle bin section is
 </tm-instructor-sessions-page>
 `;
 
-exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = `
+exports[`InstructorSessionsPageComponent > should snap with active sessions 1`] = `
 <tm-instructor-sessions-page
   SessionEditFormMode={[Function Object]}
   SessionsTableColumn={[Function Object]}
@@ -7624,15 +7624,15 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
   SortableTableHeaderColorScheme={[Function Object]}
   courseCandidates={[Function Array]}
   courseId="undefined"
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasCourseLoadingFailed="false"
   hasFeedbackSessionLoadingFailed="false"
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isCopyOtherSessionLoading="false"
   isCopySessionLoading="false"
   isCoursesLoading={[Function Boolean]}
@@ -7647,23 +7647,23 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
   isSessionEditFormExpanded="false"
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function NavigationService]}
-  ngbModal={[Function _NgbModal]}
-  progressBarService={[Function ProgressBarService]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts={[Function Number]}
+  navigationService={[Function _NavigationService]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function _ProgressBarService]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishUnpublishRetryAttempts="undefined"
   recycleBinFeedbackSessionRowModels={[Function Array]}
   recycleBinFeedbackSessionRowModelsSortBy="0"
   recycleBinFeedbackSessionRowModelsSortOrder={[Function Number]}
   route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
   sessionsTableRowModels={[Function Array]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
   templateSessions={[Function Array]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function _TimezoneService]}
 >
   <div>
     <button
@@ -9141,7 +9141,7 @@ exports[`InstructorSessionsPageComponent should snap with active sessions 1`] = 
 </tm-instructor-sessions-page>
 `;
 
-exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
+exports[`InstructorSessionsPageComponent > should snap with default fields 1`] = `
 <tm-instructor-sessions-page
   SessionEditFormMode={[Function Object]}
   SessionsTableColumn={[Function Object]}
@@ -9150,15 +9150,15 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
   SortableTableHeaderColorScheme={[Function Object]}
   courseCandidates={[Function Array]}
   courseId="undefined"
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasCourseLoadingFailed="false"
   hasFeedbackSessionLoadingFailed="false"
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isCopyOtherSessionLoading="false"
   isCopySessionLoading="false"
   isCoursesLoading={[Function Boolean]}
@@ -9173,23 +9173,23 @@ exports[`InstructorSessionsPageComponent should snap with default fields 1`] = `
   isSessionEditFormExpanded="false"
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function NavigationService]}
-  ngbModal={[Function _NgbModal]}
-  progressBarService={[Function ProgressBarService]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts={[Function Number]}
+  navigationService={[Function _NavigationService]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function _ProgressBarService]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishUnpublishRetryAttempts="undefined"
   recycleBinFeedbackSessionRowModels={[Function Array]}
   recycleBinFeedbackSessionRowModelsSortBy="0"
   recycleBinFeedbackSessionRowModelsSortOrder={[Function Number]}
   route={[Function ActivatedRoute]}
   sessionEditFormModel={[Function Object]}
   sessionsTableRowModels={[Function Array]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
   templateSessions={[Function Array]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function _TimezoneService]}
 >
   <div>
     <button

@@ -59,7 +59,7 @@ describe('NotificationBannerComponent', () => {
   });
 
   it('should load data correctly', () => {
-    const spy = jest.spyOn(notificationService, 'getUnreadNotificationsForTargetUser').mockReturnValue(
+    const spy = vi.spyOn(notificationService, 'getUnreadNotificationsForTargetUser').mockReturnValue(
       of({
         notifications: [testNotificationOne, testNotificationTwo],
       }),
@@ -80,7 +80,7 @@ describe('NotificationBannerComponent', () => {
   });
 
   it('should close after clicking mark as read when no more unread notifications remain', () => {
-    const apiSpy = jest
+    const apiSpy = vi
       .spyOn(notificationService, 'markNotificationAsRead')
       .mockImplementation((request: MarkNotificationAsReadRequest) => {
         expect(request.notificationId).toEqual(testNotificationOne.notificationId);
@@ -88,7 +88,7 @@ describe('NotificationBannerComponent', () => {
           readNotifications: [request.notificationId],
         });
       });
-    const messageSpy = jest.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
+    const messageSpy = vi.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
       expect(args).toEqual('Notification marked as read.');
     });
     component.notifications = [testNotificationOne];
@@ -104,7 +104,7 @@ describe('NotificationBannerComponent', () => {
   });
 
   it('should show next unread notification after clicking mark as read', () => {
-    const apiSpy = jest
+    const apiSpy = vi
       .spyOn(notificationService, 'markNotificationAsRead')
       .mockImplementation((request: MarkNotificationAsReadRequest) => {
         expect(request.notificationId).toEqual(testNotificationOne.notificationId);
@@ -112,7 +112,7 @@ describe('NotificationBannerComponent', () => {
           readNotifications: [request.notificationId],
         });
       });
-    const messageSpy = jest.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
+    const messageSpy = vi.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
       expect(args).toEqual('Notification marked as read.');
     });
     component.notifications = [testNotificationOne, testNotificationTwo];

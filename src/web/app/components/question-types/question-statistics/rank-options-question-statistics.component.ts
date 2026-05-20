@@ -27,10 +27,14 @@ export class RankOptionsQuestionStatisticsComponent implements OnChanges {
   isStudent = false;
 
   // enum
-  SortBy: typeof SortBy = SortBy;
+  SortBy!: typeof SortBy;
 
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
+
+  constructor() {
+    this.SortBy = SortBy;
+  }
 
   ngOnChanges(): void {
     const stats = calculateRankOptionsQuestionStatistics(this.question, this.responses);

@@ -174,7 +174,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
 
     const promise: Promise<void> = Promise.resolve();
 
-    const spySimpleModalService = jest
+    const spySimpleModalService = vi
       .spyOn(simpleModalService, 'openConfirmationModal')
       .mockReturnValue(createMockNgbModalRef({}, promise));
 
@@ -198,15 +198,15 @@ describe('InstructorCourseDetailsPageComponent', () => {
     component.courseDetails = courseDetails;
     fixture.detectChanges();
 
-    const spyStudentService = jest
+    const spyStudentService = vi
       .spyOn(studentService, 'batchDeleteStudentsFromCourse')
       .mockReturnValue(of({ message: 'Successful' }));
 
-    jest.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
+    vi.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
       expect(args).toEqual('All the students have been removed from the course');
     });
 
-    jest.spyOn(simpleModalService, 'openLoadingModal').mockReturnValue(createMockNgbModalRef());
+    vi.spyOn(simpleModalService, 'openLoadingModal').mockReturnValue(createMockNgbModalRef());
 
     component.deleteAllStudentsFromCourse(course.courseId);
 
@@ -228,7 +228,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
     component.courseDetails = courseDetails;
     fixture.detectChanges();
 
-    jest.spyOn(studentService, 'batchDeleteStudentsFromCourse').mockReturnValue(
+    vi.spyOn(studentService, 'batchDeleteStudentsFromCourse').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message.',
@@ -236,7 +236,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
       })),
     );
 
-    const spy = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
+    const spy = vi.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
       expect(args).toEqual('This is the error message.');
     });
 

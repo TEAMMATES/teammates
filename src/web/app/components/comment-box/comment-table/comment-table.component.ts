@@ -19,7 +19,7 @@ import { CommentsToCommentTableModelPipe } from '../comments-to-comment-table-mo
 })
 export class CommentTableComponent {
   // enum
-  CommentRowMode: typeof CommentRowMode = CommentRowMode;
+  CommentRowMode!: typeof CommentRowMode;
 
   @Input()
   response?: ResponseOutput;
@@ -60,6 +60,10 @@ export class CommentTableComponent {
 
   @Output()
   updateCommentEvent: EventEmitter<number> = new EventEmitter();
+
+  constructor() {
+    this.CommentRowMode = CommentRowMode;
+  }
 
   /**
    * Triggers the delete comment event.

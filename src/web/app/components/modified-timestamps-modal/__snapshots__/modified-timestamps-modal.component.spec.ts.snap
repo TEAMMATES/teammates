@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ModifiedTimestampModalComponent should snap with coursesOfModifiedSession and modifiedSessions 1`] = `
+exports[`ModifiedTimestampModalComponent > should snap with coursesOfModifiedSession and modifiedSessions 1`] = `
 <tm-modified-timestamps-modal
   coursesOfModifiedSession={[Function Array]}
   modifiedSessions={[Function Object]}
@@ -87,7 +87,7 @@ exports[`ModifiedTimestampModalComponent should snap with coursesOfModifiedSessi
 </tm-modified-timestamps-modal>
 `;
 
-exports[`ModifiedTimestampModalComponent should snap with default fields 1`] = `
+exports[`ModifiedTimestampModalComponent > should snap with default fields 1`] = `
 <tm-modified-timestamps-modal
   coursesOfModifiedSession={[Function Array]}
   modifiedSessions={[Function Object]}
@@ -121,7 +121,7 @@ exports[`ModifiedTimestampModalComponent should snap with default fields 1`] = `
 </tm-modified-timestamps-modal>
 `;
 
-exports[`ModifiedTimestampModalComponent should snap with modifiedSessions 1`] = `
+exports[`ModifiedTimestampModalComponent > should snap with modifiedSessions 1`] = `
 <tm-modified-timestamps-modal
   coursesOfModifiedSession={[Function Array]}
   modifiedSessions={[Function Object]}

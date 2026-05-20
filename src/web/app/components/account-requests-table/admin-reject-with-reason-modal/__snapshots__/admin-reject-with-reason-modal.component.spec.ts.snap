@@ -1,16 +1,16 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`RejectWithReasonModal should show empty title and body 1`] = `
+exports[`RejectWithReasonModal > should show empty title and body 1`] = `
 <tm-reject-with-reason-modal
   accountRequestEmail=""
   accountRequestName=""
   activeModal={[Function NgbActiveModal]}
-  castAsInputElement={[Function Function]}
+  castAsInputElement="undefined"
   existingAccount={[Function Object]}
   rejectionReasonBody={[Function String]}
   rejectionReasonTitle={[Function String]}
-  searchService={[Function SearchService]}
-  statusMessageService={[Function StatusMessageService]}
+  searchService={[Function _SearchService]}
+  statusMessageService={[Function _StatusMessageService]}
 >
   <div
     class="modal-header bg-warning"

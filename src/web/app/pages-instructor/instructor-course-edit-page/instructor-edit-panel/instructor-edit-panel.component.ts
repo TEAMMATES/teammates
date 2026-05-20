@@ -64,9 +64,9 @@ export enum EditMode {
 })
 export class InstructorEditPanelComponent {
   // enum
-  JoinState: typeof JoinState = JoinState;
-  InstructorPermissionRole: typeof InstructorPermissionRole = InstructorPermissionRole;
-  EditMode: typeof EditMode = EditMode;
+  JoinState!: typeof JoinState;
+  InstructorPermissionRole!: typeof InstructorPermissionRole;
+  EditMode!: typeof EditMode;
 
   @Input()
   editMode: EditMode = EditMode.EDIT;
@@ -102,6 +102,12 @@ export class InstructorEditPanelComponent {
     isEditing: false,
     isSavingInstructorEdit: false,
   };
+
+  constructor() {
+    this.JoinState = JoinState;
+    this.InstructorPermissionRole = InstructorPermissionRole;
+    this.EditMode = EditMode;
+  }
   @Output()
   instructorChange: EventEmitter<InstructorEditPanel> = new EventEmitter();
 

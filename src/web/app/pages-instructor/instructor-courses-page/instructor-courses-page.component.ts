@@ -105,9 +105,9 @@ export class InstructorCoursesPageComponent implements OnInit {
   deletedTableSortBy: SortBy = SortBy.COURSE_NAME;
 
   // enum
-  SortBy: typeof SortBy = SortBy;
-  SortOrder: typeof SortOrder = SortOrder;
-  CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
+  SortBy!: typeof SortBy;
+  SortOrder!: typeof SortOrder;
+  CourseEditFormMode!: typeof CourseEditFormMode;
 
   isLoadingCourses = false;
   hasLoadingFailed = false;
@@ -126,6 +126,12 @@ export class InstructorCoursesPageComponent implements OnInit {
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
 
   @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
+
+  constructor() {
+    this.SortBy = SortBy;
+    this.SortOrder = SortOrder;
+    this.CourseEditFormMode = CourseEditFormMode;
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {

@@ -17,7 +17,12 @@ import { NO_VALUE, RANK_OPTIONS_ANSWER_NOT_SUBMITTED } from '../../../../types/f
 export class RankOptionsQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent<FeedbackRankOptionsResponseDetails> {
   @Input() questionDetails: FeedbackRankOptionsQuestionDetails = DEFAULT_RANK_OPTIONS_QUESTION_DETAILS();
 
-  readonly RANK_OPTIONS_ANSWER_NOT_SUBMITTED: number = RANK_OPTIONS_ANSWER_NOT_SUBMITTED;
+  readonly RANK_OPTIONS_ANSWER_NOT_SUBMITTED: number;
+
+  constructor() {
+    super();
+    this.RANK_OPTIONS_ANSWER_NOT_SUBMITTED = RANK_OPTIONS_ANSWER_NOT_SUBMITTED;
+  }
 
   /**
    * Populates the possible Ranks that can be assigned.
