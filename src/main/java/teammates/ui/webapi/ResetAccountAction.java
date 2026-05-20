@@ -21,44 +21,30 @@ public class ResetAccountAction extends AdminOnlyAction {
     @Override
     public JsonResult execute() {
         UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
-        User existingUser = logic.getUser(userId);
+        User existingUser;
 
-        if (existingUser == null) {
-            throw new EntityNotFoundException("User does not exist.");
+        try {
+            existingUser = logic.resetAccount(userId);
+        } catch (EntityDoesNotExistException e) {
+            throw new EntityNotFoundException(e);
         }
 
         Course course = existingUser.getCourse();
 
         if (existingUser instanceof Student existingStudent) {
-            try {
-                if (existingStudent.getGoogleId() != null) {
-                    logic.resetStudentGoogleId(existingStudent.getEmail(), existingStudent.getCourseId(),
-                            existingStudent.getGoogleId());
-                }
-                // Generate and queue rejoin email to priority queue
-                EmailWrapper email = emailGenerator
-                        .generateStudentCourseRejoinEmailAfterGoogleIdReset(course, existingStudent);
-                List<EmailWrapper> emails = new ArrayList<>();
-                emails.add(email);
-                taskQueuer.scheduleEmailsForPrioritySending(emails);
-            } catch (EntityDoesNotExistException e) {
-                throw new EntityNotFoundException(e);
-            }
+            // Generate and queue rejoin email to priority queue
+            EmailWrapper email = emailGenerator
+                    .generateStudentCourseRejoinEmailAfterGoogleIdReset(course, existingStudent);
+            List<EmailWrapper> emails = new ArrayList<>();
+            emails.add(email);
+            taskQueuer.scheduleEmailsForPrioritySending(emails);
         } else if (existingUser instanceof Instructor existingInstructor) {
-            try {
-                if (existingInstructor.getGoogleId() != null) {
-                    logic.resetInstructorGoogleId(existingInstructor.getEmail(), existingInstructor.getCourseId(),
-                            existingInstructor.getGoogleId());
-                }
-                // Generate and queue rejoin email to priority queue
-                EmailWrapper email = emailGenerator
-                        .generateInstructorCourseRejoinEmailAfterGoogleIdReset(existingInstructor, course);
-                List<EmailWrapper> emails = new ArrayList<>();
-                emails.add(email);
-                taskQueuer.scheduleEmailsForPrioritySending(emails);
-            } catch (EntityDoesNotExistException e) {
-                throw new EntityNotFoundException(e);
-            }
+            // Generate and queue rejoin email to priority queue
+            EmailWrapper email = emailGenerator
+                    .generateInstructorCourseRejoinEmailAfterGoogleIdReset(existingInstructor, course);
+            List<EmailWrapper> emails = new ArrayList<>();
+            emails.add(email);
+            taskQueuer.scheduleEmailsForPrioritySending(emails);
         }
 
         return new JsonResult("Account is successfully reset.");

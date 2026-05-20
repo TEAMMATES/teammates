@@ -1130,33 +1130,13 @@ public class Logic {
     }
 
     /**
-     * Resets the googleId associated with the instructor.
+     * Resets the account associated with the user.
      *
-     * <br/>
-     * Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * @throws EntityDoesNotExistException If instructor cannot be found with given
-     *                                     email and courseId.
+     * @return the user whose account was reset.
+     * @throws EntityDoesNotExistException If user cannot be found with given id.
      */
-    public void resetInstructorGoogleId(String email, String courseId, String googleId)
-            throws EntityDoesNotExistException {
-        usersLogic.resetInstructorGoogleId(email, courseId, googleId);
-    }
-
-    /**
-     * Resets the googleId associated with the student.
-     *
-     * <br/>
-     * Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * @throws EntityDoesNotExistException If student cannot be found with given
-     *                                     email and courseId.
-     */
-    public void resetStudentGoogleId(String email, String courseId, String googleId)
-            throws EntityDoesNotExistException {
-        usersLogic.resetStudentGoogleId(email, courseId, googleId);
+    public User resetAccount(UUID userId) throws EntityDoesNotExistException {
+        return usersLogic.resetAccount(userId);
     }
 
     /**

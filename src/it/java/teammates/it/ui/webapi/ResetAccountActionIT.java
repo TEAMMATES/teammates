@@ -73,7 +73,7 @@ public class ResetAccountActionIT extends BaseActionIT<ResetAccountAction> {
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(invalidParams);
-        assertEquals("User does not exist.", enfe.getMessage());
+        assertEquals(Const.ERROR_UPDATE_NON_EXISTENT + "User [id=" + invalidUserId + "]", enfe.getMessage());
 
         ______TS("Typical Success Case with Instructor user ID param given and Instructor exists");
         params = new String[] {
