@@ -877,7 +877,7 @@ public final class EmailGenerator {
      * Generates the course join email for the given {@code instructor} in {@code course}.
      * Also specifies contact information of {@code inviter}.
      */
-    public EmailWrapper generateInstructorCourseJoinEmail(Account inviter,
+    public EmailWrapper generateInstructorCourseJoinEmail(Instructor inviter,
             Instructor instructor, Course course) {
 
         String emailBody = Templates.populateTemplate(

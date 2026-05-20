@@ -1,6 +1,8 @@
 package teammates.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -13,7 +15,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
@@ -82,11 +83,10 @@ public class SendJoinReminderEmailActionTest
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
         };
 
-        Account inviterAccount = new Account(instructorGoogleId, "name", "email@tm.tmt");
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
         when(mockLogic.getInstructorForEmail(course.getId(), instructor.getEmail())).thenReturn(instructor);
-        when(mockLogic.getAccountForGoogleId(instructorGoogleId)).thenReturn(inviterAccount);
-        when(mockEmailGenerator.generateInstructorCourseJoinEmail(inviterAccount, instructor, course))
+        when(mockLogic.getInstructorByGoogleId(course.getId(), instructorGoogleId)).thenReturn(instructor);
+        when(mockEmailGenerator.generateInstructorCourseJoinEmail(any(Instructor.class), eq(instructor), eq(course)))
                 .thenReturn(mock(EmailWrapper.class));
 
         SendJoinReminderEmailAction action = getAction(params);

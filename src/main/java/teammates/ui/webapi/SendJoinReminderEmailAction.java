@@ -5,7 +5,6 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
-import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
@@ -80,9 +79,9 @@ public class SendJoinReminderEmailAction extends Action {
                 throw new EntityNotFoundException(
                         "Instructor with email " + instructorEmail + " does not exist in course " + courseId + "!");
             }
-            Account inviter = logic.getAccountForGoogleId(getCurrentUserGoogleId());
+            Instructor inviter = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
             if (inviter == null) {
-                throw new EntityNotFoundException("Inviter account does not exist.");
+                throw new EntityNotFoundException("Inviter does not exist.");
             }
             EmailWrapper email = emailGenerator.generateInstructorCourseJoinEmail(inviter, instructorData, course);
             List<EmailWrapper> emails = new ArrayList<>();
