@@ -626,6 +626,22 @@ public final class FeedbackQuestionsLogic {
      *
      * @param question the feedback question
      * @param responseGiver the entity giving the response
+     * @return a Set of {@code ResponseRecipient}.
+     */
+    public Set<ResponseRecipient> getRecipientsOfQuestion(
+            FeedbackQuestion question, ResponseGiver responseGiver) {
+        List<Student> students = usersLogic.getStudentsForCourse(question.getCourseId());
+        List<Instructor> instructors = usersLogic.getInstructorsForCourse(question.getCourseId());
+        CourseRoster courseRoster = new CourseRoster(students, instructors);
+
+        return getRecipientsOfQuestion(question, responseGiver, courseRoster);
+    }
+
+    /**
+     * Gets the possible recipients of a feedback question.
+     *
+     * @param question the feedback question
+     * @param responseGiver the entity giving the response
      * @param courseRoster the course roster
      * @return a Set of {@code ResponseRecipient}.
      */
