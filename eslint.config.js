@@ -3,7 +3,7 @@ const eslint = require('@eslint/js');
 const { defineConfig } = require('eslint/config');
 const tseslint = require('typescript-eslint');
 const angular = require('angular-eslint');
-const jest = require('eslint-plugin-jest');
+const vitest = require('@vitest/eslint-plugin');
 const eslintConfigPrettier = require('eslint-config-prettier/flat');
 
 module.exports = defineConfig(
@@ -86,7 +86,7 @@ module.exports = defineConfig(
   },
   {
     files: ['**/*.spec.ts'],
-    extends: [jest.configs['flat/recommended']],
+    extends: [vitest.configs['recommended']],
     rules: {
       // Add test file specific rules here if needed.
     },
