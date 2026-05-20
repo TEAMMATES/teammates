@@ -96,17 +96,6 @@ describe('StudentService', () => {
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.STUDENTS, paramMap);
   });
 
-  it('should execute POST when regenerating key of a student in a course', () => {
-    const paramMap: Record<string, string> = {
-      userid: 'student-id',
-    };
-    vi.spyOn(spyHttpRequestService, 'post');
-
-    service.regenerateStudentKey(paramMap['userid']);
-
-    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.STUDENT_KEY, paramMap);
-  });
-
   it('should generate course student list with section as csv', async () => {
     await studentCsvListTester('studentCsvListWithSection.json', service, spyCourseService, (csvResult: string) => {
       expect(csvResult).toMatchSnapshot();

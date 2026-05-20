@@ -24,7 +24,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.StudentUpdateException;
+import teammates.common.exception.UserUpdateException;
 import teammates.common.util.Const;
 import teammates.logic.core.AccountRequestsLogic;
 import teammates.logic.core.AccountsLogic;
@@ -1140,71 +1140,16 @@ public class Logic {
     }
 
     /**
-     * Regenerates the registration key for the instructor with email address
-     * {@code email} in course {@code courseId}.
+     * Regenerates the registration key for the user with {@code userId}.
      *
-     * @return the instructor with the new registration key.
-     * @throws InstructorUpdateException   if system was unable to generate a new
+     * @return the user with the new registration key.
+     * @throws UserUpdateException         if system was unable to generate a new
      *                                     registration key.
-     * @throws EntityDoesNotExistException if the instructor does not exist.
+     * @throws EntityDoesNotExistException if the user does not exist.
      */
-    public Instructor regenerateInstructorRegistrationKey(String courseId, String email)
-            throws EntityDoesNotExistException, InstructorUpdateException {
-
-        assert courseId != null;
-        assert email != null;
-
-        return usersLogic.regenerateInstructorRegistrationKey(courseId, email);
-    }
-
-    /**
-     * Regenerates the registration key for the instructor with {@code instructorId}.
-     *
-     * @return the instructor with the new registration key.
-     * @throws InstructorUpdateException   if system was unable to generate a new
-     *                                     registration key.
-     * @throws EntityDoesNotExistException if the instructor does not exist.
-     */
-    public Instructor regenerateInstructorRegistrationKey(UUID instructorId)
-            throws EntityDoesNotExistException, InstructorUpdateException {
-
-        assert instructorId != null;
-
-        return usersLogic.regenerateInstructorRegistrationKey(instructorId);
-    }
-
-    /**
-     * Regenerates the registration key for the student with email address
-     * {@code email} in course {@code courseId}.
-     *
-     * @return the student with the new registration key.
-     * @throws StudentUpdateException      if system was unable to generate a new
-     *                                     registration key.
-     * @throws EntityDoesNotExistException if the student does not exist.
-     */
-    public Student regenerateStudentRegistrationKey(String courseId, String email)
-            throws EntityDoesNotExistException, StudentUpdateException {
-
-        assert courseId != null;
-        assert email != null;
-
-        return usersLogic.regenerateStudentRegistrationKey(courseId, email);
-    }
-
-    /**
-     * Regenerates the registration key for the student with {@code studentId}.
-     *
-     * @return the student with the new registration key.
-     * @throws StudentUpdateException      if system was unable to generate a new
-     *                                     registration key.
-     * @throws EntityDoesNotExistException if the student does not exist.
-     */
-    public Student regenerateStudentRegistrationKey(UUID studentId)
-            throws EntityDoesNotExistException, StudentUpdateException {
-
-        assert studentId != null;
-
-        return usersLogic.regenerateStudentRegistrationKey(studentId);
+    public User regenerateUserRegistrationKey(UUID userId)
+            throws EntityDoesNotExistException, UserUpdateException {
+        return usersLogic.regenerateUserRegistrationKey(userId);
     }
 
     /**

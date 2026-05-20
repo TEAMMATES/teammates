@@ -25,7 +25,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.StudentUpdateException;
+import teammates.common.exception.UserUpdateException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.RequestTracer;
@@ -394,105 +394,31 @@ public final class UsersLogic {
     }
 
     /**
-     * Regenerates the registration key for the instructor with email address {@code email} in course {@code courseId}.
+     * Regenerates the registration key for the user with {@code userId}.
      *
-     * @return the instructor with the new registration key.
-     * @throws InstructorUpdateException if system was unable to generate a new registration key.
-     * @throws EntityDoesNotExistException if the instructor does not exist.
+     * @return the user with the new registration key.
+     * @throws UserUpdateException if system was unable to generate a new registration key.
+     * @throws EntityDoesNotExistException if the user does not exist.
      */
-    public Instructor regenerateInstructorRegistrationKey(String courseId, String email)
-            throws EntityDoesNotExistException, InstructorUpdateException {
-        Instructor instructor = getInstructorForEmail(courseId, email);
-        if (instructor == null) {
-            String errorMessage = String.format(
-                    "The instructor with the email %s could not be found for the course with ID [%s].", email, courseId);
+    public User regenerateUserRegistrationKey(UUID userId)
+            throws EntityDoesNotExistException, UserUpdateException {
+        User user = usersDb.getUser(userId);
+        if (user == null) {
+            String errorMessage = String.format("The user with ID [%s] could not be found.", userId);
             throw new EntityDoesNotExistException(errorMessage);
         }
 
-        return regenerateInstructorRegistrationKey(instructor);
-    }
-
-    /**
-     * Regenerates the registration key for the instructor with {@code instructorId}.
-     *
-     * @return the instructor with the new registration key.
-     * @throws InstructorUpdateException if system was unable to generate a new registration key.
-     * @throws EntityDoesNotExistException if the instructor does not exist.
-     */
-    public Instructor regenerateInstructorRegistrationKey(UUID instructorId)
-            throws EntityDoesNotExistException, InstructorUpdateException {
-        Instructor instructor = getInstructor(instructorId);
-        if (instructor == null) {
-            String errorMessage = String.format("The instructor with ID [%s] could not be found.", instructorId);
-            throw new EntityDoesNotExistException(errorMessage);
-        }
-
-        return regenerateInstructorRegistrationKey(instructor);
-    }
-
-    private Instructor regenerateInstructorRegistrationKey(Instructor instructor) throws InstructorUpdateException {
-        String oldKey = instructor.getRegKey();
+        String oldKey = user.getRegKey();
         int numTries = 0;
         while (numTries < MAX_KEY_REGENERATION_TRIES) {
-            instructor.generateNewRegistrationKey();
-            if (!instructor.getRegKey().equals(oldKey)) {
-                return instructor;
+            user.generateNewRegistrationKey();
+            if (!user.getRegKey().equals(oldKey)) {
+                return user;
             }
             numTries++;
         }
 
-        throw new InstructorUpdateException("Could not regenerate a new course registration key for the instructor.");
-    }
-
-    /**
-     * Regenerates the registration key for the student with email address {@code email} in course {@code courseId}.
-     *
-     * @return the student with the new registration key.
-     * @throws StudentUpdateException if system was unable to generate a new registration key.
-     * @throws EntityDoesNotExistException if the student does not exist.
-     */
-    public Student regenerateStudentRegistrationKey(String courseId, String email)
-            throws EntityDoesNotExistException, StudentUpdateException {
-        Student student = getStudentForEmail(courseId, email);
-        if (student == null) {
-            String errorMessage = String.format(
-                    "The student with the email %s could not be found for the course with ID [%s].", email, courseId);
-            throw new EntityDoesNotExistException(errorMessage);
-        }
-
-        return regenerateStudentRegistrationKey(student);
-    }
-
-    /**
-     * Regenerates the registration key for the student with {@code studentId}.
-     *
-     * @return the student with the new registration key.
-     * @throws StudentUpdateException if system was unable to generate a new registration key.
-     * @throws EntityDoesNotExistException if the student does not exist.
-     */
-    public Student regenerateStudentRegistrationKey(UUID studentId)
-            throws EntityDoesNotExistException, StudentUpdateException {
-        Student student = getStudent(studentId);
-        if (student == null) {
-            String errorMessage = String.format("The student with ID [%s] could not be found.", studentId);
-            throw new EntityDoesNotExistException(errorMessage);
-        }
-
-        return regenerateStudentRegistrationKey(student);
-    }
-
-    private Student regenerateStudentRegistrationKey(Student student) throws StudentUpdateException {
-        String oldKey = student.getRegKey();
-        int numTries = 0;
-        while (numTries < MAX_KEY_REGENERATION_TRIES) {
-            student.generateNewRegistrationKey();
-            if (!student.getRegKey().equals(oldKey)) {
-                return student;
-            }
-            numTries++;
-        }
-
-        throw new StudentUpdateException("Could not regenerate a new course registration key for the student.");
+        throw new UserUpdateException("Could not regenerate a new course registration key for the user.");
     }
 
     /**

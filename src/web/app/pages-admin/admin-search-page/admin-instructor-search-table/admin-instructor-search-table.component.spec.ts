@@ -5,9 +5,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, throwError } from 'rxjs';
 import { AdminInstructorSearchTableComponent } from './admin-instructor-search-table.component';
 import { AccountService } from '../../../../services/account.service';
-import { InstructorService } from '../../../../services/instructor.service';
 import { FeedbackSessionsGroup, InstructorAccountSearchResult } from '../../../../services/search.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
+import { UserService } from '../../../../services/user.service';
 import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-ref';
 
 const DEFAULT_SESSION_ID = '17681c09-f4e5-40c2-be77-eeccf0c221c2';
@@ -43,7 +43,7 @@ describe('AdminInstructorSearchTableComponent', () => {
   let component: AdminInstructorSearchTableComponent;
   let fixture: ComponentFixture<AdminInstructorSearchTableComponent>;
   let accountService: AccountService;
-  let instructorService: InstructorService;
+  let userService: UserService;
   let statusMessageService: StatusMessageService;
   let ngbModal: NgbModal;
 
@@ -55,7 +55,7 @@ describe('AdminInstructorSearchTableComponent', () => {
     fixture = TestBed.createComponent(AdminInstructorSearchTableComponent);
     component = fixture.componentInstance;
     accountService = TestBed.inject(AccountService);
-    instructorService = TestBed.inject(InstructorService);
+    userService = TestBed.inject(UserService);
     statusMessageService = TestBed.inject(StatusMessageService);
     ngbModal = TestBed.inject(NgbModal);
     fixture.detectChanges();
@@ -257,7 +257,7 @@ describe('AdminInstructorSearchTableComponent', () => {
 
     vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
-    vi.spyOn(instructorService, 'regenerateInstructorKey').mockReturnValue(
+    vi.spyOn(userService, 'regenerateUserKey').mockReturnValue(
       of({
         message: 'success',
         newRegistrationKey: 'newKey',
@@ -296,7 +296,7 @@ describe('AdminInstructorSearchTableComponent', () => {
 
     vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
-    vi.spyOn(instructorService, 'regenerateInstructorKey').mockReturnValue(
+    vi.spyOn(userService, 'regenerateUserKey').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message.',
