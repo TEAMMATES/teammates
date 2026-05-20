@@ -22,8 +22,14 @@ import {
 export class ContributionQuestionEditAnswerFormComponent extends QuestionEditAnswerFormComponent<FeedbackContributionResponseDetails> {
   @Input() questionDetails: FeedbackContributionQuestionDetails = DEFAULT_CONTRIBUTION_QUESTION_DETAILS();
 
-  CONTRIBUTION_POINT_NOT_SUBMITTED: number = CONTRIBUTION_POINT_NOT_SUBMITTED;
-  CONTRIBUTION_POINT_NOT_SURE: number = CONTRIBUTION_POINT_NOT_SURE;
+  CONTRIBUTION_POINT_NOT_SUBMITTED!: number;
+  CONTRIBUTION_POINT_NOT_SURE!: number;
+
+  constructor() {
+    super();
+    this.CONTRIBUTION_POINT_NOT_SUBMITTED = CONTRIBUTION_POINT_NOT_SUBMITTED;
+    this.CONTRIBUTION_POINT_NOT_SURE = CONTRIBUTION_POINT_NOT_SURE;
+  }
 
   get contributionQuestionPoints(): number[] {
     const points: number[] = [];

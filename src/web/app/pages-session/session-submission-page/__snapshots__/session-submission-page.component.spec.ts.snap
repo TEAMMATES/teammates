@@ -2606,7 +2606,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                             class="form-control form-select color-negative ng-untouched ng-pristine ng-valid"
                           >
                             <option
-                              value="0: undefined"
+                              value="0: -999"
                             />
                             <option
                               class="color-positive fw-bold"
@@ -3357,6 +3357,35 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <div
                   class="text-info"
                 >
+                  <p
+                    class="fw-bold"
+                  >
+                    Note:
+                  </p>
+                  <p
+                    id="min-options-message"
+                  >
+                    <span
+                      class="fa fa-info-circle"
+                    />
+                     Rank 
+                    <strong>
+                      at least 
+                    </strong>
+                     options. 
+                  </p>
+                  <p
+                    id="max-options-message"
+                  >
+                    <span
+                      class="fa fa-info-circle"
+                    />
+                     Rank 
+                    <strong>
+                      no more than 
+                    </strong>
+                     options. 
+                  </p>
                 </div>
               </tm-rank-options-question-instruction>
               <div
@@ -5631,7 +5660,7 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                             class="form-control form-select color-negative ng-untouched ng-pristine ng-valid"
                           >
                             <option
-                              value="0: undefined"
+                              value="0: -999"
                             />
                             <option
                               class="color-positive fw-bold"
@@ -6395,6 +6424,35 @@ exports[`SessionSubmissionPageComponent > should snap with feedback session ques
                 <div
                   class="text-info"
                 >
+                  <p
+                    class="fw-bold"
+                  >
+                    Note:
+                  </p>
+                  <p
+                    id="min-options-message"
+                  >
+                    <span
+                      class="fa fa-info-circle"
+                    />
+                     Rank 
+                    <strong>
+                      at least 
+                    </strong>
+                     options. 
+                  </p>
+                  <p
+                    id="max-options-message"
+                  >
+                    <span
+                      class="fa fa-info-circle"
+                    />
+                     Rank 
+                    <strong>
+                      no more than 
+                    </strong>
+                     options. 
+                  </p>
                 </div>
               </tm-rank-options-question-instruction>
               <div
