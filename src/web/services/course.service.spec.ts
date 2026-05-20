@@ -135,7 +135,6 @@ describe('CourseService', () => {
   it('should execute PUT when joining course', () => {
     const paramMap: Record<string, string> = {
       key: '123',
-      entitytype: 'instructor',
     };
     service.joinCourse(paramMap['key']);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.JOIN, paramMap);
