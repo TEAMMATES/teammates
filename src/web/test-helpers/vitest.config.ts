@@ -10,7 +10,7 @@ export default defineConfig({
     ],
     coverage: {
       include: ['src/web/app/**/*.ts', 'src/web/environments/**/*.ts', 'src/web/services/**/*.ts'],
-      exclude: ['src/web/app/**/*.module.ts'],
+      exclude: ['**/*.spec.ts', 'src/web/test-helpers/**'],
       reportsDirectory: './coverage',
       reporter: ['lcov', 'text-summary'],
     },
