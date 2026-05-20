@@ -296,24 +296,22 @@ public final class FeedbackResponsesLogic {
         int numberOfRecipients = 0;
 
         switch (giverType) {
-        case INSTRUCTORS:
-        case SELF:
+        case INSTRUCTORS, SELF:
             for (Instructor instructor : roster.getInstructors()) {
+                ResponseGiver responseGiver = new ResponseGiver(instructor);
                 numberOfRecipients =
-                        fqLogic.getRecipientsOfQuestion(question, instructor, null, roster).size();
+                        fqLogic.getRecipientsOfQuestion(question, responseGiver, roster).size();
                 responses = getFeedbackResponsesFromGiverForQuestion(question.getId(), instructor.getId());
             }
             break;
-        case TEAMS:
-        case TEAMS_IN_SAME_SECTION:
-            Student firstMemberOfTeam;
-            String teamName;
+        case TEAMS, TEAMS_IN_SAME_SECTION:
             Map<String, List<Student>> teams = roster.getTeamToMembers();
             for (Map.Entry<String, List<Student>> entry : teams.entrySet()) {
-                teamName = entry.getKey();
-                firstMemberOfTeam = entry.getValue().get(0);
+                String teamName = entry.getKey();
+                Student firstMemberOfTeam = entry.getValue().get(0);
+                ResponseGiver responseGiver = new ResponseGiver(firstMemberOfTeam);
                 numberOfRecipients =
-                        fqLogic.getRecipientsOfQuestion(question, null, firstMemberOfTeam, roster).size();
+                        fqLogic.getRecipientsOfQuestion(question, responseGiver, roster).size();
                 Team team = roster.getTeamNameToTeam().get(teamName);
                 responses =
                         getFeedbackResponsesFromTeamForQuestion(
@@ -322,8 +320,9 @@ public final class FeedbackResponsesLogic {
             break;
         default:
             for (Student student : roster.getStudents()) {
+                ResponseGiver responseGiver = new ResponseGiver(student);
                 numberOfRecipients =
-                        fqLogic.getRecipientsOfQuestion(question, null, student, roster).size();
+                        fqLogic.getRecipientsOfQuestion(question, responseGiver, roster).size();
                 responses = getFeedbackResponsesFromGiverForQuestion(question.getId(), student.getId());
             }
             break;
