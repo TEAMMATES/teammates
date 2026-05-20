@@ -67,7 +67,7 @@ describe('SendRemindersToRespondentsModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('changeSelectionStatusForAllStudentsHandler: should set all isSelected to true if not all are selected', () => {
+  it('changeSelectionStatusForAllStudentsHandler: should set all isSelected to true if not all are selected', async () => {
     component.studentListInfoTableRowModels = [
       studentModelBuilder.isSelected(true).build(),
       studentModelBuilder.isSelected(false).build(),
@@ -80,6 +80,7 @@ describe('SendRemindersToRespondentsModalComponent', () => {
     );
 
     fixture.detectChanges();
+    await fixture.whenStable();
 
     selectAllStudentCheckBox().nativeElement.click();
     expect(changeSelectionStatusForAllStudentsHandlerSpy).toHaveBeenCalledTimes(1);
@@ -121,7 +122,7 @@ describe('SendRemindersToRespondentsModalComponent', () => {
   it(
     'changeSelectionStatusForAllYetSubmittedStudentsHandler: should set all isSelected to true' +
       'for all students that has not submitted session',
-    () => {
+    async () => {
       component.studentListInfoTableRowModels = [
         studentModelBuilder.isSelected(false).hasSubmittedSession(false).build(),
         studentModelBuilder.isSelected(false).hasSubmittedSession(true).build(),
@@ -134,6 +135,7 @@ describe('SendRemindersToRespondentsModalComponent', () => {
       );
 
       fixture.detectChanges();
+      await fixture.whenStable();
 
       selectAllNotSubmittedStudentCheckBox().nativeElement.click();
       expect(changeSelectionStatusForAllYetSubmittedStudentsHandlerSpy).toHaveBeenCalledTimes(1);
@@ -147,7 +149,7 @@ describe('SendRemindersToRespondentsModalComponent', () => {
 
   it(
     'changeSelectionStatusForAllInstructorsHandler: should set all isSelected to true' + 'if not all are selected',
-    () => {
+    async () => {
       component.instructorListInfoTableRowModels = [
         instructorModelBuilder.isSelected(true).build(),
         instructorModelBuilder.isSelected(false).build(),
@@ -160,6 +162,7 @@ describe('SendRemindersToRespondentsModalComponent', () => {
       );
 
       fixture.detectChanges();
+      await fixture.whenStable();
 
       selectAllInstructorCheckBox().nativeElement.click();
       expect(changeSelectionStatusForAllInstructorsHandlerSpy).toHaveBeenCalledTimes(1);
@@ -202,7 +205,7 @@ describe('SendRemindersToRespondentsModalComponent', () => {
   it(
     'changeSelectionStatusForAllYetSubmittedInstructorsHandler: should set all isSelected to true' +
       'for all students that has not submitted session',
-    () => {
+    async () => {
       component.instructorListInfoTableRowModels = [
         instructorModelBuilder.isSelected(false).hasSubmittedSession(false).build(),
         instructorModelBuilder.isSelected(false).hasSubmittedSession(true).build(),
@@ -215,6 +218,7 @@ describe('SendRemindersToRespondentsModalComponent', () => {
       );
 
       fixture.detectChanges();
+      await fixture.whenStable();
 
       selectAllNotSubmittedInstructorCheckBox().nativeElement.click();
       expect(changeSelectionStatusForAllYetSubmittedInstructorsHandlerSpy).toHaveBeenCalledTimes(1);
