@@ -166,7 +166,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected String[] addUserIdToParams(String userId, String[] params) {
         List<String> list = new ArrayList<>();
-        list.add(Const.ParamsNames.USER_ID);
+        list.add(Const.ParamsNames.USER);
         list.add(userId);
         list.addAll(Arrays.asList(params));
         return list.toArray(new String[0]);

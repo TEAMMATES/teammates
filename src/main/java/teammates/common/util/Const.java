@@ -159,7 +159,7 @@ public final class Const {
         public static final String TEAM_NAME = "teamname";
 
         public static final String ERROR = "error";
-        public static final String USER_ID = "user";
+        public static final String USER = "user";
 
         public static final String SEARCH_KEY = "searchkey";
 

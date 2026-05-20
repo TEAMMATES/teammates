@@ -32,7 +32,7 @@ public class OngoingSession {
             instructorHomePageLink = null;
         } else {
             instructorHomePageLink = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
-                    .withUserId(googleId)
+                    .withUser(googleId)
                     .toString();
         }
         this.instructorHomePageLink = instructorHomePageLink;
