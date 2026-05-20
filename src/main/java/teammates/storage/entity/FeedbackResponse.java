@@ -155,9 +155,28 @@ public abstract class FeedbackResponse extends BaseEntity {
     }
 
     /**
+     * Casts the feedback response details to the expected type.
+     */
+    protected static <T extends FeedbackResponseDetails> T castResponseDetails(
+            FeedbackResponseDetails responseDetails, Class<T> expectedType) {
+        if (!expectedType.isInstance(responseDetails)) {
+            throw new IllegalArgumentException(
+                    "Expected " + expectedType.getSimpleName()
+                            + " but got " + responseDetails.getClass().getSimpleName());
+        }
+
+        return expectedType.cast(responseDetails);
+    }
+
+    /**
      * Gets a copy of the question details of the feedback question.
      */
     public abstract FeedbackResponseDetails getFeedbackResponseDetailsCopy();
+
+    /**
+     * Sets feedback response details to the feedback response.
+     */
+    public abstract void setFeedbackResponseDetails(FeedbackResponseDetails feedbackResponseDetails);
 
     /**
      * Add a comment to the feedback response.
