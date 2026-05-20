@@ -34,7 +34,7 @@
         <label for="student-name-dropdown" class="fw-bold">Student Name (Optional)</label>
         <select id="student-name-dropdown" class="form-control form-select" [(ngModel)]="formModel.selectedStudent">
           @for (student of students; track student) {
-            <option [ngValue]="{ studentEmail: student.email || '', studentId: student.userId }">
+            <option [ngValue]="{ userId: student.userId }">
               {{ student.name }} {{ student.email ? '<' + student.email + '>' : '' }}
             </option>
           }
