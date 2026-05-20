@@ -173,15 +173,12 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
 
             if (existingResponsesPerRecipient.containsKey(responseRecipient)) {
                 FeedbackResponse existingFeedbackResponse = existingResponsesPerRecipient.get(responseRecipient);
-                FeedbackResponse updatedFeedbackResponse = FeedbackResponse.updateResponse(
-                        existingFeedbackResponse,
-                        feedbackQuestion,
-                        responseGiver,
-                        responseRecipient,
-                        responseDetails);
+                existingFeedbackResponse.setGiver(responseGiver);
+                existingFeedbackResponse.setRecipient(responseRecipient);
+                existingFeedbackResponse.setFeedbackResponseDetails(responseDetails);
 
-                feedbackResponsesToValidate.add(updatedFeedbackResponse);
-                feedbackResponsesToUpdate.add(updatedFeedbackResponse);
+                feedbackResponsesToValidate.add(existingFeedbackResponse);
+                feedbackResponsesToUpdate.add(existingFeedbackResponse);
             } else {
                 FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
                         responseGiver,

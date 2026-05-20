@@ -134,27 +134,6 @@ public abstract class FeedbackResponse extends BaseEntity {
     }
 
     /**
-     * Update a feedback response according to its {@code FeedbackQuestionType}.
-     */
-    public static FeedbackResponse updateResponse(
-            FeedbackResponse originalFeedbackResponse,
-            FeedbackQuestion feedbackQuestion,
-            ResponseGiver giver, ResponseRecipient recipient,
-            FeedbackResponseDetails responseDetails
-    ) {
-        // TODO: update should be in logic layer
-        FeedbackResponse updatedFeedbackResponse = makeResponse(
-                giver,
-                recipient,
-                responseDetails
-        );
-        updatedFeedbackResponse.setCreatedAt(originalFeedbackResponse.getCreatedAt());
-        updatedFeedbackResponse.setId(originalFeedbackResponse.getId());
-        feedbackQuestion.addFeedbackResponse(updatedFeedbackResponse);
-        return updatedFeedbackResponse;
-    }
-
-    /**
      * Casts the feedback response details to the expected type.
      */
     protected static <T extends FeedbackResponseDetails> T castResponseDetails(

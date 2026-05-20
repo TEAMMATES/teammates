@@ -205,16 +205,8 @@ public final class FeedbackResponsesLogic {
      * @throws EntityDoesNotExistException if the response cannot be found
      */
     public FeedbackResponse updateFeedbackResponse(FeedbackResponse feedbackResponse)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        FeedbackResponse oldResponse = frDb.getFeedbackResponse(feedbackResponse.getId());
-        if (oldResponse == null) {
-            throw new EntityDoesNotExistException("Trying to update non-existent Entity: " + feedbackResponse);
-        }
-
-        // TODO: do not pass detached entities around
-        HibernateUtil.merge(feedbackResponse);
-
+            throws InvalidParametersException {
+        // TODO: move update logic here.
         validateFeedbackResponse(feedbackResponse);
 
         return feedbackResponse;
