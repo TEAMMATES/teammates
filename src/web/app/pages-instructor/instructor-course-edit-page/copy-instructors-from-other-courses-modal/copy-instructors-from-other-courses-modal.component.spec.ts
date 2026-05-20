@@ -1,6 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of } from 'rxjs';
 import { CourseTabModel, InstructorToCopyCandidateModel } from './copy-instructors-from-other-courses-modal-model';
@@ -13,6 +13,9 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
   const testInstructor1: Instructor = {
     googleId: 'googleIdOfIns1',
     courseId: 'FAN0001',
+    courseName: 'Test Course',
+    institute: 'Test Institute',
+    userId: 'test-ins-1',
     email: 'ins1@fan.tmt',
     isDisplayedToStudents: true,
     displayedToStudentsAs: 'abcdefg',
@@ -20,12 +23,14 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
     joinState: JoinState.JOINED,
     key: 'ujg2l5hj5l7jrfo28fyosfklh2892',
-    institute: 'A',
   };
 
   const testInstructor2: Instructor = {
     googleId: 'googleIdOfIns2',
     courseId: 'FAN0001',
+    courseName: 'Test Course',
+    institute: 'Test Institute',
+    userId: 'test-ins-2',
     email: 'ins2@fan.tmt',
     isDisplayedToStudents: false,
     displayedToStudentsAs: '',
@@ -33,12 +38,14 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM,
     joinState: JoinState.JOINED,
     key: '1343jbcl3iru2yct0897goji',
-    institute: 'A',
   };
 
   const testInstructor3: Instructor = {
     googleId: 'googleIdOfIns3',
     courseId: 'FAN0002',
+    courseName: 'Test Course',
+    institute: 'Test Institute',
+    userId: 'test-ins-3',
     email: 'ins1@fan.tmt',
     isDisplayedToStudents: true,
     displayedToStudentsAs: 'QWQWQWQ',
@@ -46,12 +53,14 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_MANAGER,
     joinState: JoinState.NOT_JOINED,
     key: 'pjkjbnc523iosdk2389nfbfib2',
-    institute: 'A',
   };
 
   const testInstructor4: Instructor = {
     googleId: 'googleIdOfIns4',
     courseId: 'FAN0002',
+    courseName: 'Test Course',
+    institute: 'Test Institute',
+    userId: 'test-ins-4',
     email: 'ins4@fan.tmt',
     isDisplayedToStudents: false,
     displayedToStudentsAs: 'oldname',
@@ -59,7 +68,6 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_TUTOR,
     joinState: JoinState.JOINED,
     key: 'qdnjvbi47t928cjqnk1o8ry2o',
-    institute: 'A',
   };
 
   const testInstructorCandidate1: InstructorToCopyCandidateModel = {
@@ -122,13 +130,11 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
   let fixture: ComponentFixture<CopyInstructorsFromOtherCoursesModalComponent>;
   let instructorService: InstructorService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CopyInstructorsFromOtherCoursesModalComponent);
     instructorService = TestBed.inject(InstructorService);
     component = fixture.componentInstance;

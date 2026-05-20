@@ -1,6 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { AggregationType, StatisticsType, UsageStatisticsPageComponent } from './usage-statistics-page.component';
 import { UsageStatisticsService } from '../../../services/usage-statistics.service';
@@ -12,6 +12,7 @@ const generateData = (startTime: number, iterations: number): UsageStatistics[] 
   let time = startTime;
   for (let i = 1; i <= iterations; i += 1) {
     stats.push({
+      usageStatisticsId: `usage-stat-${i}`,
       startTime: time,
       timePeriod: 60,
       numResponses: i,
@@ -32,13 +33,11 @@ describe('UsageStatisticsPageComponent', () => {
   let fixture: ComponentFixture<UsageStatisticsPageComponent>;
   let usageStatisticsService: UsageStatisticsService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(UsageStatisticsPageComponent);
     component = fixture.componentInstance;
     usageStatisticsService = TestBed.inject(UsageStatisticsService);
@@ -66,6 +65,7 @@ describe('UsageStatisticsPageComponent', () => {
 
     const statsObjects: UsageStatistics[] = [
       {
+        usageStatisticsId: 'usage-stat-100',
         startTime: new Date('2022-03-27T23:00:00Z').getTime(),
         timePeriod: 60,
         numResponses: 100,
@@ -77,6 +77,7 @@ describe('UsageStatisticsPageComponent', () => {
         numSubmissions: 99,
       },
       {
+        usageStatisticsId: 'usage-stat-101',
         startTime: new Date('2022-03-28T00:00:00Z').getTime(),
         timePeriod: 60,
         numResponses: 400,

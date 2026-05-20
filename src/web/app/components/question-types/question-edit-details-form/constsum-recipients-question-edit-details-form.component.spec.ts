@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { By } from '@angular/platform-browser';
 import { ConstsumRecipientsQuestionEditDetailsFormComponent } from './constsum-recipients-question-edit-details-form.component';
@@ -93,7 +93,7 @@ describe('ConstsumRecipientsQuestionEditDetailsFormComponent', () => {
     expect(component.pointsRadioGroupName).toBe('constsum-recipients-2');
   });
 
-  it('should maintain independent radio selection across components', waitForAsync(async () => {
+  it('should maintain independent radio selection across components', async () => {
     const fixtureA = TestBed.createComponent(ConstsumRecipientsQuestionEditDetailsFormComponent);
     const compA = fixtureA.componentInstance;
     compA.questionNumber = 1;
@@ -122,5 +122,5 @@ describe('ConstsumRecipientsQuestionEditDetailsFormComponent', () => {
 
     expect(radioA.checked).toBe(true);
     expect(radioB.checked).toBe(true);
-  }));
+  });
 });

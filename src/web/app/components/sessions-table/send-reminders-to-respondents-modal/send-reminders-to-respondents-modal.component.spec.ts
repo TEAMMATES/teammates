@@ -1,7 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { SendRemindersToRespondentsModalComponent } from './send-reminders-to-respondents-modal.component';
@@ -53,13 +53,11 @@ describe('SendRemindersToRespondentsModalComponent', () => {
     return fixture.debugElement.query(By.css('#sendCopyToIns'));
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SendRemindersToRespondentsModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

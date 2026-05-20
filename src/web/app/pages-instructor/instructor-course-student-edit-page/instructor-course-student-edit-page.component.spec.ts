@@ -1,6 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { provideRouter } from '@angular/router';
 import { InstructorCourseStudentEditPageComponent } from './instructor-course-student-edit-page.component';
@@ -10,13 +10,11 @@ describe('InstructorCourseStudentEditPageComponent', () => {
   let component: InstructorCourseStudentEditPageComponent;
   let fixture: ComponentFixture<InstructorCourseStudentEditPageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorCourseStudentEditPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -34,6 +32,9 @@ describe('InstructorCourseStudentEditPageComponent', () => {
     component.student = {
       email: 'jake@gmail.com',
       courseId: 'Crime101',
+      courseName: 'Test Course',
+      institute: 'Test Institute',
+      userId: 'student-edit-1',
       name: 'Jake Peralta',
       comments: 'Cool cool cool.',
       teamName: 'Team A',

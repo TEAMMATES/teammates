@@ -1,11 +1,10 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, throwError } from 'rxjs';
-import SpyInstance = jest.SpyInstance;
 import { CopyQuestionsFromOtherSessionsModalComponent } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
 import { InstructorSessionEditPageComponent } from './instructor-session-edit-page.component';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
@@ -269,8 +268,8 @@ describe('InstructorSessionEditPageComponent', () => {
   let timeZoneService: TimezoneService;
   let ngbModal: NgbModal;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [BrowserAnimationsModule],
       providers: [
         FormatDateDetailPipe,
@@ -280,9 +279,7 @@ describe('InstructorSessionEditPageComponent', () => {
         provideHttpClientTesting(),
       ],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorSessionEditPageComponent);
     courseService = TestBed.inject(CourseService);
     feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
@@ -383,7 +380,7 @@ describe('InstructorSessionEditPageComponent', () => {
         },
       })),
     );
-    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
+    const spy = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
       expect(args).toEqual('This is the error message.');
     });
 
@@ -415,7 +412,7 @@ describe('InstructorSessionEditPageComponent', () => {
         },
       })),
     );
-    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
+    const spy = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
       expect(args).toEqual('This is the error message.');
     });
 
@@ -430,6 +427,8 @@ describe('InstructorSessionEditPageComponent', () => {
       userId: 'student-id-1',
       email: 'alice@tmms.com',
       courseId: 'testId',
+      courseName: 'Test Course',
+      institute: 'Test Institute',
       name: 'Alice',
       teamName: 'Team 1',
       sectionName: 'Section 1',
@@ -438,6 +437,8 @@ describe('InstructorSessionEditPageComponent', () => {
       userId: 'student-id-2',
       email: 'bob@tmms.com',
       courseId: 'testId',
+      courseName: 'Test Course',
+      institute: 'Test Institute',
       name: 'Bob',
       teamName: 'Team 1',
       sectionName: 'Section 1',
@@ -476,6 +477,8 @@ describe('InstructorSessionEditPageComponent', () => {
     const testInstructor1: Instructor = {
       userId: 'instructor-id-1',
       courseId: 'testId',
+      courseName: 'Test Course',
+      institute: 'Test Institute',
       email: 'testA@example.com',
       name: 'Instructor A',
       joinState: JoinState.JOINED,
@@ -483,6 +486,8 @@ describe('InstructorSessionEditPageComponent', () => {
     const testInstructor2: Instructor = {
       userId: 'instructor-id-2',
       courseId: 'testId',
+      courseName: 'Test Course',
+      institute: 'Test Institute',
       email: 'testB@example.com',
       name: 'Instructor B',
       joinState: JoinState.JOINED,
@@ -567,7 +572,7 @@ describe('InstructorSessionEditPageComponent', () => {
 
   it('should delete current session', () => {
     component.sessionEditFormModel = JSON.parse(JSON.stringify(sessionEditFormModel));
-    const navSpy: SpyInstance = jest.spyOn(navigationService, 'navigateWithSuccessMessage').mockImplementation();
+    const navSpy = jest.spyOn(navigationService, 'navigateWithSuccessMessage').mockImplementation();
     jest.spyOn(feedbackSessionsService, 'moveSessionToRecycleBin').mockReturnValue(of(true));
     component.deleteExistingSessionHandler();
 
@@ -595,7 +600,7 @@ describe('InstructorSessionEditPageComponent', () => {
     const updatedFeedbackQuestion: FeedbackQuestion = JSON.parse(JSON.stringify(testFeedbackQuestion1));
     updatedFeedbackQuestion.questionDescription = 'new description';
     updatedFeedbackQuestion.questionNumber = 2;
-    const feedbackQuestionSpy: SpyInstance = jest
+    const feedbackQuestionSpy = jest
       .spyOn(feedbackQuestionsService, 'saveFeedbackQuestion')
       .mockReturnValue(of(updatedFeedbackQuestion));
     component.questionEditFormModels = [questionEditFormModel, testQuestionEditFormModel2];
@@ -632,7 +637,7 @@ describe('InstructorSessionEditPageComponent', () => {
     duplicateFeedbackQuestion.questionNumber = 2;
     duplicateFeedbackQuestion.feedbackQuestionId = 'duplicate question id';
     component.questionEditFormModels = [testQuestionEditFormModel1];
-    const feedbackQuestionSpy: SpyInstance = jest
+    const feedbackQuestionSpy = jest
       .spyOn(feedbackQuestionsService, 'createFeedbackQuestion')
       .mockReturnValue(of(duplicateFeedbackQuestion));
 
@@ -649,7 +654,7 @@ describe('InstructorSessionEditPageComponent', () => {
     jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef({}, promise));
     component.questionEditFormModels = [testQuestionEditFormModel1];
     component.feedbackQuestionModels.set(testFeedbackQuestion1.feedbackQuestionId, testFeedbackQuestion1);
-    const feedbackQuestionSpy: SpyInstance = jest
+    const feedbackQuestionSpy = jest
       .spyOn(feedbackQuestionsService, 'deleteFeedbackQuestion')
       .mockReturnValue(of(true));
 
@@ -664,7 +669,7 @@ describe('InstructorSessionEditPageComponent', () => {
   it('should display template questions', async () => {
     const promise: Promise<FeedbackQuestion[]> = Promise.resolve([testFeedbackQuestion1]);
     jest.spyOn(ngbModal, 'open').mockReturnValue(createMockNgbModalRef({}, promise));
-    const feedbackQuestionSpy: SpyInstance = jest
+    const feedbackQuestionSpy = jest
       .spyOn(feedbackQuestionsService, 'createFeedbackQuestion')
       .mockReturnValue(of(testFeedbackQuestion1));
 
@@ -727,7 +732,7 @@ describe('InstructorSessionEditPageComponent', () => {
     jest
       .spyOn(InstructorSessionEditPageComponent.prototype, 'createSessionCopyRequestsFromModal')
       .mockReturnValue([of(copiedFeedbackSession)]);
-    const navSpy: SpyInstance = jest.spyOn(navigationService, 'navigateWithSuccessMessage').mockImplementation();
+    const navSpy = jest.spyOn(navigationService, 'navigateWithSuccessMessage').mockImplementation();
 
     component.copyCurrentSession();
     await promise;

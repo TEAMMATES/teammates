@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { PageScrollService, NGXPS_CONFIG } from 'ngx-page-scroll-core';
@@ -11,8 +11,8 @@ describe('InstructorHelpGettingStartedComponent', () => {
   let component: InstructorHelpGettingStartedComponent;
   let fixture: ComponentFixture<InstructorHelpGettingStartedComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [
         {
           provide: DomSanitizer,
@@ -29,9 +29,7 @@ describe('InstructorHelpGettingStartedComponent', () => {
         provideHttpClientTesting(),
       ],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorHelpGettingStartedComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -1,6 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CommentOutput,
   FeedbackQuestion,
@@ -10,7 +10,6 @@ import {
   QuestionRecipientType,
   ResponseOutput,
 } from '../../../../types/api-output';
-import SpyInstance = jest.SpyInstance;
 import { PerQuestionViewResponsesComponent } from './per-question-view-responses.component';
 import { FeedbackResponsesService } from '../../../../services/feedback-responses.service';
 import testEventEmission from '../../../../test-helpers/test-event-emitter';
@@ -28,13 +27,11 @@ describe('PerQuestionViewResponsesComponent', () => {
 
   let feedbackResponsesService: FeedbackResponsesService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(PerQuestionViewResponsesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -121,7 +118,7 @@ describe('PerQuestionViewResponsesComponent', () => {
     component.question = feedbackQuestion;
     component.instructorCommentTableModel = instructorCommentTableModel;
     component.responses = [responseOutput];
-    const feedbackResponseSpy: SpyInstance = jest
+    const feedbackResponseSpy = jest
       .spyOn(feedbackResponsesService, 'isFeedbackResponsesDisplayedOnSection')
       .mockReturnValue(true);
 

@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap/datepicker';
-import { DateFormat } from 'src/web/types/datetime-const';
 import { DatepickerComponent } from './datepicker.component';
+import { DateFormat } from '../../../types/datetime-const';
 
 describe('DatepickerComponent', () => {
   let component: DatepickerComponent;

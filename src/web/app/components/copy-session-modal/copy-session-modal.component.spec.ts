@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { CopySessionModalComponent } from './copy-session-modal.component';
@@ -17,13 +17,11 @@ describe('CopySessionModalComponent', () => {
   let fixture: ComponentFixture<CopySessionModalComponent>;
   let activeModal: NgbActiveModal;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [NgbActiveModal],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CopySessionModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -41,6 +39,7 @@ describe('CopySessionModalComponent', () => {
   const feedbackSessionToCopy: FeedbackSession = {
     courseId: 'Test01',
     timeZone: 'Asia/Singapore',
+    feedbackSessionId: 'test-feedback-session-id-025',
     feedbackSessionName: 'Test session',
     instructions: 'Answer all',
     submissionStartTimestamp: 1555232400,

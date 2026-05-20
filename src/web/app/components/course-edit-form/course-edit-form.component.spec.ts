@@ -1,7 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { EventEmitter } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, Observable } from 'rxjs';
@@ -69,8 +69,8 @@ describe('CourseEditFormComponent', () => {
   spyCourseService.createCourse.mockReturnValue(of({}));
   spyCourseService.getAllCoursesAsInstructor(of({ courses: [testCourse1, testCourse1] }));
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [
         { provide: StatusMessageService, useValue: spyStatusMessageService },
         { provide: CourseService, useValue: spyCourseService },
@@ -80,9 +80,7 @@ describe('CourseEditFormComponent', () => {
         provideHttpClientTesting(),
       ],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CourseEditFormComponent);
     feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
     ngbModal = TestBed.inject(NgbModal);

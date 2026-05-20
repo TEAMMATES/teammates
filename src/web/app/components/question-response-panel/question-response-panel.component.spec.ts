@@ -1,9 +1,8 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
-import SpyInstance = jest.SpyInstance;
 import { QuestionResponsePanelComponent } from './question-response-panel.component';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -207,13 +206,11 @@ describe('QuestionResponsePanelComponent', () => {
   let feedbackSessionsService: FeedbackSessionsService;
   let statusMessageService: StatusMessageService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(QuestionResponsePanelComponent);
     feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
     statusMessageService = TestBed.inject(StatusMessageService);
@@ -621,7 +618,7 @@ describe('QuestionResponsePanelComponent', () => {
       ],
     };
 
-    const fsSpy: SpyInstance = jest
+    const fsSpy = jest
       .spyOn(feedbackSessionsService, 'getFeedbackSessionResults')
       .mockReturnValue(of(testFeedbackSessionResult));
     component.loadQuestion({ visible: true }, testFeedbackQuestionModel);
@@ -640,7 +637,7 @@ describe('QuestionResponsePanelComponent', () => {
   });
 
   it('should not load the recipients and responses of a question if already loaded', () => {
-    const fsSpy: SpyInstance = jest.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
+    const fsSpy = jest.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
 
     testFeedbackQuestionModel.isLoaded = true;
     component.loadQuestion({ visible: true }, testFeedbackQuestionModel);
@@ -667,7 +664,7 @@ describe('QuestionResponsePanelComponent', () => {
   });
 
   it('loadQuestionResults: should not re-fetch data if question is already loaded', () => {
-    const fsSpy: SpyInstance = jest.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
+    const fsSpy = jest.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
 
     const testQuestionModel: FeedbackQuestionModel = {
       ...testFeedbackQuestionModel,

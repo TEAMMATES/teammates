@@ -14,6 +14,7 @@ describe('ConstsumRecipientsQuestionConstraintComponent', () => {
     responseId: '123',
     recipientIdentifier: 'recipient123',
     isValid: true,
+    isModified: false,
     responseDetails: { questionType: FeedbackQuestionType.CONSTSUM },
   });
 

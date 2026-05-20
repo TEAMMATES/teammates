@@ -1,9 +1,8 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import SpyInstance = jest.SpyInstance;
 import { InstructorCoursesPageComponent } from './instructor-courses-page.component';
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -31,6 +30,7 @@ describe('InstructorCoursesPageComponent', () => {
     {
       course: {
         courseId: 'CS3281',
+        institute: 'Test Institute',
         courseName: 'Modifiable Students and Courses',
         timeZone: 'UTC',
         creationTimestamp: date1.getTime(),
@@ -42,6 +42,7 @@ describe('InstructorCoursesPageComponent', () => {
     {
       course: {
         courseId: 'CS3282',
+        institute: 'Test Institute',
         courseName: 'Nothing modifiable',
         timeZone: 'UTC',
         creationTimestamp: date2.getTime(),
@@ -56,6 +57,7 @@ describe('InstructorCoursesPageComponent', () => {
     {
       course: {
         courseId: 'CS1020',
+        institute: 'Test Institute',
         courseName: 'Can modify deleted',
         timeZone: 'UTC',
         creationTimestamp: date3.getTime(),
@@ -66,6 +68,7 @@ describe('InstructorCoursesPageComponent', () => {
     {
       course: {
         courseId: 'CS2010',
+        institute: 'Test Institute',
         courseName: 'Cannot modify deleted',
         timeZone: 'UTC',
         creationTimestamp: date5.getTime(),
@@ -92,38 +95,38 @@ describe('InstructorCoursesPageComponent', () => {
 
   const courseCS1231: Course = {
     courseId: 'CS1231',
+    institute: 'Test Institute',
     courseName: 'Discrete Structures',
     creationTimestamp: date1.getTime(),
     deletionTimestamp: 0,
     timeZone: 'UTC',
-    institute: 'Test Institute',
   };
 
   const courseCS3281: Course = {
     courseId: 'CS3281',
+    institute: 'Test Institute',
     courseName: 'Thematic Systems Project I',
     creationTimestamp: date3.getTime(),
     deletionTimestamp: date4.getTime(),
     timeZone: 'UTC',
-    institute: 'Test Institute',
   };
 
   const courseCS3282: Course = {
     courseId: 'CS3282',
+    institute: 'Test Institute',
     courseName: 'Thematic Systems Project II',
     creationTimestamp: date5.getTime(),
     deletionTimestamp: date6.getTime(),
     timeZone: 'UTC',
-    institute: 'Test Institute',
   };
 
   const courseST4234: Course = {
     courseId: 'ST4234',
+    institute: 'Test Institute',
     courseName: 'Bayesian Statistics',
     creationTimestamp: date2.getTime(),
     deletionTimestamp: 0,
     timeZone: 'UTC',
-    institute: 'Test Institute',
   };
 
   const courseModelCS1231: any = {
@@ -159,6 +162,9 @@ describe('InstructorCoursesPageComponent', () => {
       {
         email: 'alice.b.tmms@gmail.tmt',
         courseId: 'test.exa-demo',
+        courseName: 'Test Course',
+        institute: 'Test Institute',
+        userId: 'student-a',
         name: 'Alice Betsy',
         comments: "This student's name is Alice Betsy",
         joinState: JoinState.JOINED,
@@ -168,6 +174,9 @@ describe('InstructorCoursesPageComponent', () => {
       {
         email: 'benny.c.tmms@gmail.tmt',
         courseId: 'test.exa-demo',
+        courseName: 'Test Course',
+        institute: 'Test Institute',
+        userId: 'student-b',
         name: 'Benny Charles',
         comments: "This student's name is Benny Charles",
         joinState: JoinState.JOINED,
@@ -177,6 +186,9 @@ describe('InstructorCoursesPageComponent', () => {
       {
         email: 'charlie.d.tmms@gmail.tmt',
         courseId: 'test.exa-demo',
+        courseName: 'Test Course',
+        institute: 'Test Institute',
+        userId: 'student-c',
         name: 'Charlie Davis',
         comments: "This student's name is Charlie Davis",
         joinState: JoinState.JOINED,
@@ -186,6 +198,9 @@ describe('InstructorCoursesPageComponent', () => {
       {
         email: 'danny.e.tmms@gmail.tmt',
         courseId: 'test.exa-demo',
+        courseName: 'Test Course',
+        institute: 'Test Institute',
+        userId: 'student-d',
         name: 'Danny Engrid',
         comments: "This student's name is Danny Engrid",
         joinState: JoinState.JOINED,
@@ -195,6 +210,9 @@ describe('InstructorCoursesPageComponent', () => {
       {
         email: 'emma.f.tmms@gmail.tmt',
         courseId: 'test.exa-demo',
+        courseName: 'Test Course',
+        institute: 'Test Institute',
+        userId: 'student-e',
         name: 'Emma Farrell',
         comments: "This student's name is Emma Farrell",
         joinState: JoinState.JOINED,
@@ -204,6 +222,9 @@ describe('InstructorCoursesPageComponent', () => {
       {
         email: 'francis.g.tmms@gmail.tmt',
         courseId: 'test.exa-demo',
+        courseName: 'Test Course',
+        institute: 'Test Institute',
+        userId: 'student-f',
         name: 'Francis Gabriel',
         comments: "This student's name is Francis Gabriel",
         joinState: JoinState.JOINED,
@@ -213,6 +234,9 @@ describe('InstructorCoursesPageComponent', () => {
       {
         email: 'gene.h.tmms@gmail.tmt',
         courseId: 'test.exa-demo',
+        courseName: 'Test Course',
+        institute: 'Test Institute',
+        userId: 'student-g',
         name: 'Gene Hudson',
         comments: "This student's name is Gene Hudson",
         joinState: JoinState.JOINED,
@@ -222,6 +246,9 @@ describe('InstructorCoursesPageComponent', () => {
       {
         email: 'hugh.i.tmms@gmail.tmt',
         courseId: 'test.exa-demo',
+        courseName: 'Test Course',
+        institute: 'Test Institute',
+        userId: 'student-h',
         name: 'Hugh Ivanov',
         comments: "This student's name is Hugh Ivanov",
         joinState: JoinState.NOT_JOINED,
@@ -231,13 +258,11 @@ describe('InstructorCoursesPageComponent', () => {
     ],
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorCoursesPageComponent);
     component = fixture.componentInstance;
     courseService = TestBed.inject(CourseService);
@@ -252,7 +277,7 @@ describe('InstructorCoursesPageComponent', () => {
   });
 
   it('should load all courses by the instructor', () => {
-    const courseSpy: SpyInstance = jest
+    const courseSpy = jest
       .spyOn(courseService, 'getAllCoursesAsInstructor')
       .mockImplementation((courseStatus: string): Observable<Courses> => {
         if (courseStatus === 'active') {
@@ -287,7 +312,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should get the course statistics', () => {
     component.activeCourses = [courseModelCS1231];
-    const studentSpy: SpyInstance = jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
+    const studentSpy = jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(of(students));
     component.getCourseStats(0);
 
     expect(studentSpy).toHaveBeenCalledTimes(1);
@@ -303,7 +328,7 @@ describe('InstructorCoursesPageComponent', () => {
     component.softDeletedCourses = [courseModelCS1231];
     expect(component.softDeletedCourses.length).toEqual(1);
 
-    const courseSpy: SpyInstance = jest.spyOn(courseService, 'restoreCourse').mockReturnValue(of(courseModelCS1231));
+    const courseSpy = jest.spyOn(courseService, 'restoreCourse').mockReturnValue(of(courseModelCS1231));
     jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef());
 
     component.onRestore('CS1231');
@@ -316,7 +341,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should soft delete a course', async () => {
     component.activeCourses = [courseModelCS1231];
-    const courseSpy: SpyInstance = jest.spyOn(courseService, 'binCourse').mockReturnValue(of(courseCS1231));
+    const courseSpy = jest.spyOn(courseService, 'binCourse').mockReturnValue(of(courseCS1231));
     jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef());
 
     await component.onDelete('CS1231').then(() => {
@@ -330,9 +355,7 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should permanently delete a course', async () => {
     component.softDeletedCourses = [courseModelCS1231];
-    const courseSpy: SpyInstance = jest
-      .spyOn(courseService, 'deleteCourse')
-      .mockReturnValue(of({ message: 'Message' }));
+    const courseSpy = jest.spyOn(courseService, 'deleteCourse').mockReturnValue(of({ message: 'Message' }));
     jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef());
 
     await component.onDeletePermanently('CS1231').then(() => {

@@ -2,7 +2,6 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import moment from 'moment-timezone';
-import SpyInstance = jest.SpyInstance;
 import { NotificationEditFormModel } from './notification-edit-form-model';
 import { NotificationEditFormComponent } from './notification-edit-form.component';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
@@ -41,9 +40,7 @@ describe('NotificationEditFormComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(NotificationEditFormComponent);
     component = fixture.componentInstance;
     timezoneService = TestBed.inject(TimezoneService);
@@ -105,7 +102,7 @@ describe('NotificationEditFormComponent', () => {
       component.model = data;
     });
     const promise: Promise<void> = Promise.resolve();
-    const modalSpy: SpyInstance = jest
+    const modalSpy = jest
       .spyOn(simpleModalService, 'openConfirmationModal')
       .mockReturnValue(createMockNgbModalRef({}, promise));
     component.cancelHandler();

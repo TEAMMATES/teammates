@@ -1,11 +1,11 @@
 import { ElementRef, EmbeddedViewRef, Injector, TemplateRef } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap/toast';
 import { ToastComponent } from './toast.component';
 
 class MockTemplateRef extends TemplateRef<any> {
-  override elementRef!: ElementRef<any>;
+  override elementRef: ElementRef<any> = new ElementRef<any>(null);
   override createEmbeddedView(context: any, injector?: Injector): EmbeddedViewRef<any> {
     // eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/restrict-template-expressions
     throw new Error(`Method not implemented with context ${context} & injector ${injector}.`);
@@ -16,13 +16,11 @@ describe('ToastComponent', () => {
   let component: ToastComponent;
   let fixture: ComponentFixture<ToastComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [NgbToastModule],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ToastComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
