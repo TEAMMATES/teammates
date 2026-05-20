@@ -28,7 +28,7 @@ public class DevServerLoginServlet extends AuthServlet {
         // Prevent HTTP response splitting
         nextUrl = resp.encodeRedirectURL(nextUrl.replace("\r\n", ""));
         if (!Config.isDevServerLoginEnabled()) {
-            resp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+            resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
             resp.setHeader("Location", Const.WebPageURIs.LOGIN + "?nextUrl=" + nextUrl.replace("&", "%26"));
             return;
         }

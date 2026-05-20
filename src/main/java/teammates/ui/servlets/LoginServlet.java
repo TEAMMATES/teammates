@@ -33,18 +33,19 @@ public class LoginServlet extends AuthServlet {
         if (nextUrl == null) {
             nextUrl = "/";
         }
-        // Prevent HTTP response splitting
-        nextUrl = resp.encodeRedirectURL(nextUrl.replace("\r\n", ""));
-        if (Config.isDevServerLoginEnabled()) {
-            resp.setStatus(HttpStatus.SC_MOVED_PERMANENTLY);
-            resp.setHeader("Location", "/devServerLogin?nextUrl=" + nextUrl.replace("&", "%26"));
-            log.request(req, HttpStatus.SC_MOVED_PERMANENTLY, "Redirect to dev server login page");
-            return;
-        }
 
         if (!isLoginNeeded(req)) {
             log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to next URL");
             resp.sendRedirect(nextUrl);
+            return;
+        }
+
+        // Prevent HTTP response splitting
+        nextUrl = resp.encodeRedirectURL(nextUrl.replace("\r\n", ""));
+        if (Config.isDevServerLoginEnabled()) {
+            resp.setStatus(HttpStatus.SC_MOVED_TEMPORARILY);
+            resp.setHeader("Location", "/devServerLogin?nextUrl=" + nextUrl.replace("&", "%26"));
+            log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to dev server login page");
             return;
         }
 
