@@ -141,8 +141,8 @@ export class AdminStudentSearchTableComponent implements OnChanges {
     return link.replace(regex, `$1${newVal}`);
   }
 
-  openCourseJoinEmail(studentId: string): void {
-    this.emailGenerationService.getCourseJoinEmail(studentId).subscribe({
+  openCourseJoinEmail(userId: string): void {
+    this.emailGenerationService.getCourseJoinEmail(userId).subscribe({
       next: (email: Email) => {
         window.location.href = `mailto:${email.recipient}` + `?Subject=${email.subject}` + `&body=${email.content}`;
       },
@@ -152,8 +152,8 @@ export class AdminStudentSearchTableComponent implements OnChanges {
     });
   }
 
-  openFeedbackSessionReminderEmail(studentId: string, fsId: string): void {
-    this.emailGenerationService.getFeedbackSessionReminderEmail(studentId, fsId).subscribe({
+  openFeedbackSessionReminderEmail(userId: string, fsId: string): void {
+    this.emailGenerationService.getFeedbackSessionReminderEmail(userId, fsId).subscribe({
       next: (email: Email) => {
         window.location.href = `mailto:${email.recipient}` + `?Subject=${email.subject}` + `&body=${email.content}`;
       },

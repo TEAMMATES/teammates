@@ -94,7 +94,7 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
     @Test
     void testAccessControl_unregistered_cannotAccess() {
         logoutUser();
-        loginAsUnregistered(Const.ParamsNames.USER_ID);
+        loginAsUnregistered(Const.ParamsNames.USER);
         verifyCannotAccess();
     }
 

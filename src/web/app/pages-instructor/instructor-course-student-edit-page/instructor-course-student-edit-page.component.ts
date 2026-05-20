@@ -234,7 +234,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
     this.studentService
       .updateStudent(
         {
-          studentId: this.student.userId,
+          userId: this.student.userId,
         },
         reqBody,
       )

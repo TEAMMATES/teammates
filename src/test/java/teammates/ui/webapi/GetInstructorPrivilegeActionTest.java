@@ -85,7 +85,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
     @Test
     void testAccessControl_unregisteredUsers_cannotAccess() {
         logoutUser();
-        loginAsUnregistered(Const.ParamsNames.USER_ID);
+        loginAsUnregistered(Const.ParamsNames.USER);
 
         String[] submissionParams = { Const.ParamsNames.COURSE_ID, "course_id" };
         verifyCannotAccess(submissionParams);

@@ -63,13 +63,13 @@ describe('StudentService', () => {
 
   it('should execute PUT when updating students in a course', () => {
     const paramMap: Record<string, string> = {
-      studentid: '12345',
+      userid: '12345',
     };
     vi.spyOn(spyHttpRequestService, 'put');
 
     service.updateStudent(
       {
-        studentId: paramMap['studentid'],
+        userId: paramMap['userid'],
       },
       defaultStudentUpdateRequest,
     );
