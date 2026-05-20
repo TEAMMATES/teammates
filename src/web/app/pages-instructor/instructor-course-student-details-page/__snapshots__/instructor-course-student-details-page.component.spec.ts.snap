@@ -1,15 +1,15 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`InstructorCourseStudentDetailsPageComponent should snap with default fields 1`] = `
+exports[`InstructorCourseStudentDetailsPageComponent > should snap with default fields 1`] = `
 <tm-instructor-course-student-details-page
   courseId="undefined"
   hasStudentLoadingFailed="false"
   isStudentLoading={[Function Boolean]}
   route={[Function ActivatedRoute]}
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
   student="undefined"
   studentEmail="undefined"
-  studentService={[Function StudentService]}
+  studentService={[Function _StudentService]}
 >
   <tm-loading-retry>
     <div
@@ -34,16 +34,16 @@ exports[`InstructorCourseStudentDetailsPageComponent should snap with default fi
 </tm-instructor-course-student-details-page>
 `;
 
-exports[`InstructorCourseStudentDetailsPageComponent should snap with populated student 1`] = `
+exports[`InstructorCourseStudentDetailsPageComponent > should snap with populated student 1`] = `
 <tm-instructor-course-student-details-page
   courseId="undefined"
   hasStudentLoadingFailed="false"
   isStudentLoading={[Function Boolean]}
   route={[Function ActivatedRoute]}
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
   student={[Function Object]}
   studentEmail="undefined"
-  studentService={[Function StudentService]}
+  studentService={[Function _StudentService]}
 >
   <tm-loading-retry>
     <div

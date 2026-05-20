@@ -1,17 +1,17 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`InstructorStudentListPageComponent should snap with a course with students the instructor has no permission to view 1`] = `
+exports[`InstructorStudentListPageComponent > should snap with a course with students the instructor has no permission to view 1`] = `
 <tm-instructor-student-list-page
   SortBy={[Function Object]}
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   courseTabList={[Function Array]}
   coursesSortBy={[Function Number]}
   hasLoadingFailed="false"
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isLoadingCourses="false"
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
 >
   <h1>
     Students

@@ -1,9 +1,9 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CopyCourseModalComponent should snap when copying from other sessions 1`] = `
+exports[`CopyCourseModalComponent > should snap when copying from other sessions 1`] = `
 <tm-copy-course-modal
-  COURSE_ID_MAX_LENGTH={[Function Number]}
-  COURSE_NAME_MAX_LENGTH={[Function Number]}
+  COURSE_ID_MAX_LENGTH="undefined"
+  COURSE_NAME_MAX_LENGTH="undefined"
   activeCourses={[Function Array]}
   activeModal={[Function NgbActiveModal]}
   allCourses={[Function Array]}
@@ -21,8 +21,8 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
   oldCourseId=""
   oldCourseName=""
   selectedFeedbackSessions={[Function Set]}
-  statusMessageService={[Function StatusMessageService]}
-  timezoneService={[Function TimezoneService]}
+  statusMessageService={[Function _StatusMessageService]}
+  timezoneService={[Function _TimezoneService]}
   timezones={[Function Array]}
 >
   <div
@@ -66,12 +66,11 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-course-id"
-            maxlength="64"
             placeholder="e.g. CS3215-2013Semester1"
             type="text"
           />
           <span>
-            64 characters left
+            NaN characters left
           </span>
           <div
             class="invalid-field"
@@ -93,12 +92,11 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-course-name"
-            maxlength="80"
             placeholder="e.g. Software Engineering"
             type="text"
           />
           <span>
-            80 characters left
+            NaN characters left
           </span>
           <div
             class="invalid-field"
@@ -215,10 +213,10 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
 </tm-copy-course-modal>
 `;
 
-exports[`CopyCourseModalComponent should snap with default fields 1`] = `
+exports[`CopyCourseModalComponent > should snap with default fields 1`] = `
 <tm-copy-course-modal
-  COURSE_ID_MAX_LENGTH={[Function Number]}
-  COURSE_NAME_MAX_LENGTH={[Function Number]}
+  COURSE_ID_MAX_LENGTH="undefined"
+  COURSE_NAME_MAX_LENGTH="undefined"
   activeCourses={[Function Array]}
   activeModal={[Function NgbActiveModal]}
   allCourses={[Function Array]}
@@ -236,8 +234,8 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
   oldCourseId=""
   oldCourseName=""
   selectedFeedbackSessions={[Function Set]}
-  statusMessageService={[Function StatusMessageService]}
-  timezoneService={[Function TimezoneService]}
+  statusMessageService={[Function _StatusMessageService]}
+  timezoneService={[Function _TimezoneService]}
   timezones={[Function Array]}
 >
   <div
@@ -286,12 +284,11 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-course-id"
-            maxlength="64"
             placeholder="e.g. CS3215-2013Semester1"
             type="text"
           />
           <span>
-            64 characters left
+            NaN characters left
           </span>
           <div
             class="invalid-field"
@@ -313,12 +310,11 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-course-name"
-            maxlength="80"
             placeholder="e.g. Software Engineering"
             type="text"
           />
           <span>
-            80 characters left
+            NaN characters left
           </span>
           <div
             class="invalid-field"
@@ -419,10 +415,10 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
 </tm-copy-course-modal>
 `;
 
-exports[`CopyCourseModalComponent should snap with some course id 1`] = `
+exports[`CopyCourseModalComponent > should snap with some course id 1`] = `
 <tm-copy-course-modal
-  COURSE_ID_MAX_LENGTH={[Function Number]}
-  COURSE_NAME_MAX_LENGTH={[Function Number]}
+  COURSE_ID_MAX_LENGTH="undefined"
+  COURSE_NAME_MAX_LENGTH="undefined"
   activeCourses={[Function Array]}
   activeModal={[Function NgbActiveModal]}
   allCourses={[Function Array]}
@@ -440,8 +436,8 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
   oldCourseId=""
   oldCourseName=""
   selectedFeedbackSessions={[Function Set]}
-  statusMessageService={[Function StatusMessageService]}
-  timezoneService={[Function TimezoneService]}
+  statusMessageService={[Function _StatusMessageService]}
+  timezoneService={[Function _TimezoneService]}
   timezones={[Function Array]}
 >
   <div
@@ -490,12 +486,11 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-course-id"
-            maxlength="64"
             placeholder="e.g. CS3215-2013Semester1"
             type="text"
           />
           <span>
-            58 characters left
+            NaN characters left
           </span>
           <div
             class="invalid-field"
@@ -517,12 +512,11 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-course-name"
-            maxlength="80"
             placeholder="e.g. Software Engineering"
             type="text"
           />
           <span>
-            80 characters left
+            NaN characters left
           </span>
           <div
             class="invalid-field"

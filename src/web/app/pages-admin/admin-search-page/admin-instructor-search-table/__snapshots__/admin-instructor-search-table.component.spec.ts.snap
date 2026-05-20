@@ -1,15 +1,15 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`AdminInstructorSearchTableComponent should snap with a deleted course 1`] = `
+exports[`AdminInstructorSearchTableComponent > should snap with a deleted course 1`] = `
 <tm-admin-instructor-search-table
-  accountService={[Function AccountService]}
+  accountService={[Function _AccountService]}
   instructorReset={[Function EventEmitter_]}
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   instructors={[Function Array]}
   isRegeneratingInstructorKeys={[Function Array]}
   searchString=""
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
 >
   <div
     class="card bg-light top-padded"
@@ -147,16 +147,16 @@ exports[`AdminInstructorSearchTableComponent should snap with a deleted course 1
 </tm-admin-instructor-search-table>
 `;
 
-exports[`AdminInstructorSearchTableComponent should snap with an expanded instructor table 1`] = `
+exports[`AdminInstructorSearchTableComponent > should snap with an expanded instructor table 1`] = `
 <tm-admin-instructor-search-table
-  accountService={[Function AccountService]}
+  accountService={[Function _AccountService]}
   instructorReset={[Function EventEmitter_]}
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   instructors={[Function Array]}
   isRegeneratingInstructorKeys={[Function Array]}
   searchString=""
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
 >
   <div
     class="card bg-light top-padded"

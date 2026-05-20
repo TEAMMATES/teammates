@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`RejectWithReasonModal should show empty fields 1`] = `
+exports[`RejectWithReasonModal > should show empty fields 1`] = `
 <tm-edit-request-modal
   accountRequestComments=""
   accountRequestEmail=""
@@ -110,7 +110,7 @@ exports[`RejectWithReasonModal should show empty fields 1`] = `
 </tm-edit-request-modal>
 `;
 
-exports[`RejectWithReasonModal should show populated data 1`] = `
+exports[`RejectWithReasonModal > should show populated data 1`] = `
 <tm-edit-request-modal
   accountRequestComments={[Function String]}
   accountRequestEmail={[Function String]}

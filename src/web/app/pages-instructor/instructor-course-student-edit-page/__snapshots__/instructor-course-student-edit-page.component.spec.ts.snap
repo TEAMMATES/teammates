@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`InstructorCourseStudentEditPageComponent should snap when student is still loading 1`] = `
+exports[`InstructorCourseStudentEditPageComponent > should snap when student is still loading 1`] = `
 <tm-instructor-course-student-edit-page
   EMAIL_MAX_LENGTH={[Function Number]}
   SECTION_NAME_MAX_LENGTH={[Function Number]}
@@ -15,14 +15,14 @@ exports[`InstructorCourseStudentEditPageComponent should snap when student is st
   isFormSaving="false"
   isStudentLoading={[Function Boolean]}
   isTeamnameFieldChanged="false"
-  navigationService={[Function NavigationService]}
-  ngbModal={[Function _NgbModal]}
+  navigationService={[Function _NavigationService]}
+  ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
   student="undefined"
   studentEmail="undefined"
-  studentService={[Function StudentService]}
+  studentService={[Function _StudentService]}
   teamFieldSubscription="undefined"
 >
   <tm-loading-retry>
@@ -48,7 +48,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap when student is st
 </tm-instructor-course-student-edit-page>
 `;
 
-exports[`InstructorCourseStudentEditPageComponent should snap with default fields 1`] = `
+exports[`InstructorCourseStudentEditPageComponent > should snap with default fields 1`] = `
 <tm-instructor-course-student-edit-page
   EMAIL_MAX_LENGTH={[Function Number]}
   SECTION_NAME_MAX_LENGTH={[Function Number]}
@@ -63,14 +63,14 @@ exports[`InstructorCourseStudentEditPageComponent should snap with default field
   isFormSaving="false"
   isStudentLoading={[Function Boolean]}
   isTeamnameFieldChanged="false"
-  navigationService={[Function NavigationService]}
-  ngbModal={[Function _NgbModal]}
+  navigationService={[Function _NavigationService]}
+  ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
   student="undefined"
   studentEmail="undefined"
-  studentService={[Function StudentService]}
+  studentService={[Function _StudentService]}
   teamFieldSubscription="undefined"
 >
   <tm-loading-retry>
@@ -96,7 +96,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with default field
 </tm-instructor-course-student-edit-page>
 `;
 
-exports[`InstructorCourseStudentEditPageComponent should snap with student details 1`] = `
+exports[`InstructorCourseStudentEditPageComponent > should snap with student details 1`] = `
 <tm-instructor-course-student-edit-page
   EMAIL_MAX_LENGTH={[Function Number]}
   SECTION_NAME_MAX_LENGTH={[Function Number]}
@@ -111,14 +111,14 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
   isFormSaving="false"
   isStudentLoading="false"
   isTeamnameFieldChanged="false"
-  navigationService={[Function NavigationService]}
-  ngbModal={[Function _NgbModal]}
+  navigationService={[Function _NavigationService]}
+  ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
   student={[Function Object]}
   studentEmail="undefined"
-  studentService={[Function StudentService]}
+  studentService={[Function _StudentService]}
   teamFieldSubscription="undefined"
 >
   <tm-loading-retry>

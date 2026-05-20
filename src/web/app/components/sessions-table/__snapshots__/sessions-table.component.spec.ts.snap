@@ -1,10 +1,10 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`SessionsTableComponent should snap like in home page with 2 sessions sorted by start date 1`] = `
+exports[`SessionsTableComponent > should snap like in home page with 2 sessions sorted by start date 1`] = `
 <tm-sessions-table
   FeedbackSessionPublishStatus={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
-  SessionsTableColumn={[Function Object]}
+  SessionsTableColumn="undefined"
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
@@ -13,28 +13,28 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
   copySessionEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
   downloadSessionResultsEvent={[Function EventEmitter_]}
-  formatDateBriefPipe={[Function FormatDateBriefPipe]}
-  formatDateDetailPipe={[Function FormatDateDetailPipe]}
+  formatDateBriefPipe={[Function _FormatDateBriefPipe]}
+  formatDateDetailPipe={[Function _FormatDateDetailPipe]}
   headerColorScheme="0"
   initialSortBy={[Function Number]}
   isSendReminderLoading="false"
   loadResponseRateEvent={[Function EventEmitter_]}
   moveSessionToRecycleBinEvent={[Function EventEmitter_]}
-  ngbModal={[Function _NgbModal]}
+  ngbModal={[Function NgbModal]}
   publishSessionEvent={[Function EventEmitter_]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishStatusTooltip={[Function PublishStatusTooltipPipe]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishStatusTooltip={[Function _PublishStatusTooltipPipe]}
   resendResultsLinkToStudentsEvent={[Function EventEmitter_]}
   rowClicked={[Function Number]}
   rowsData={[Function Array]}
   sendRemindersToAllNonSubmittersEvent={[Function EventEmitter_]}
   sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter_]}
   sessionsTableRowModelsVar={[Function Array]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   sortOrder={[Function Number]}
   sortSessionsTableRowModelsEvent={[Function EventEmitter_]}
-  submissionStatusName={[Function SubmissionStatusNamePipe]}
-  submissionStatusTooltip={[Function SubmissionStatusTooltipPipe]}
+  submissionStatusName={[Function _SubmissionStatusNamePipe]}
+  submissionStatusTooltip={[Function _SubmissionStatusTooltipPipe]}
   submitSessionAsInstructorEvent={[Function EventEmitter_]}
   unpublishSessionEvent={[Function EventEmitter_]}
 >
@@ -235,7 +235,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                      Submit 
                   </button>
                   <div
-                    class="d-inline-block dropdown"
+                    class="d-inline-block"
                     container="body"
                     ngbdropdown=""
                   >
@@ -287,7 +287,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                     </div>
                   </div>
                   <div
-                    class="d-inline-block dropdown"
+                    class="d-inline-block"
                     container="body"
                     ngbdropdown=""
                     ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
@@ -427,7 +427,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                     </button>
                   </a>
                   <div
-                    class="d-inline-block dropdown"
+                    class="d-inline-block"
                     container="body"
                     ngbdropdown=""
                   >
@@ -472,7 +472,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                     </div>
                   </div>
                   <div
-                    class="d-inline-block dropdown"
+                    class="d-inline-block"
                     container="body"
                     ngbdropdown=""
                     ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
@@ -521,11 +521,11 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
 </tm-sessions-table>
 `;
 
-exports[`SessionsTableComponent should snap like in sessions page with 2 sessions sorted by session name 1`] = `
+exports[`SessionsTableComponent > should snap like in sessions page with 2 sessions sorted by session name 1`] = `
 <tm-sessions-table
   FeedbackSessionPublishStatus={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
-  SessionsTableColumn={[Function Object]}
+  SessionsTableColumn="undefined"
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
@@ -534,28 +534,28 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
   copySessionEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
   downloadSessionResultsEvent={[Function EventEmitter_]}
-  formatDateBriefPipe={[Function FormatDateBriefPipe]}
-  formatDateDetailPipe={[Function FormatDateDetailPipe]}
+  formatDateBriefPipe={[Function _FormatDateBriefPipe]}
+  formatDateDetailPipe={[Function _FormatDateDetailPipe]}
   headerColorScheme="0"
   initialSortBy={[Function Number]}
   isSendReminderLoading="false"
   loadResponseRateEvent={[Function EventEmitter_]}
   moveSessionToRecycleBinEvent={[Function EventEmitter_]}
-  ngbModal={[Function _NgbModal]}
+  ngbModal={[Function NgbModal]}
   publishSessionEvent={[Function EventEmitter_]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishStatusTooltip={[Function PublishStatusTooltipPipe]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishStatusTooltip={[Function _PublishStatusTooltipPipe]}
   resendResultsLinkToStudentsEvent={[Function EventEmitter_]}
   rowClicked={[Function Number]}
   rowsData={[Function Array]}
   sendRemindersToAllNonSubmittersEvent={[Function EventEmitter_]}
   sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter_]}
   sessionsTableRowModelsVar={[Function Array]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   sortOrder={[Function Number]}
   sortSessionsTableRowModelsEvent={[Function EventEmitter_]}
-  submissionStatusName={[Function SubmissionStatusNamePipe]}
-  submissionStatusTooltip={[Function SubmissionStatusTooltipPipe]}
+  submissionStatusName={[Function _SubmissionStatusNamePipe]}
+  submissionStatusTooltip={[Function _SubmissionStatusTooltipPipe]}
   submitSessionAsInstructorEvent={[Function EventEmitter_]}
   unpublishSessionEvent={[Function EventEmitter_]}
 >
@@ -741,7 +741,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                     </button>
                   </a>
                   <div
-                    class="d-inline-block dropdown"
+                    class="d-inline-block"
                     container="body"
                     ngbdropdown=""
                   >
@@ -786,7 +786,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                     </div>
                   </div>
                   <div
-                    class="d-inline-block dropdown"
+                    class="d-inline-block"
                     container="body"
                     ngbdropdown=""
                     ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
@@ -906,7 +906,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                      Submit 
                   </button>
                   <div
-                    class="d-inline-block dropdown"
+                    class="d-inline-block"
                     container="body"
                     ngbdropdown=""
                   >
@@ -958,7 +958,7 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                     </div>
                   </div>
                   <div
-                    class="d-inline-block dropdown"
+                    class="d-inline-block"
                     container="body"
                     ngbdropdown=""
                     ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
@@ -1008,11 +1008,11 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
 </tm-sessions-table>
 `;
 
-exports[`SessionsTableComponent should snap with default fields 1`] = `
+exports[`SessionsTableComponent > should snap with default fields 1`] = `
 <tm-sessions-table
   FeedbackSessionPublishStatus={[Function Object]}
   FeedbackSessionSubmissionStatus={[Function Object]}
-  SessionsTableColumn={[Function Object]}
+  SessionsTableColumn="undefined"
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
@@ -1021,28 +1021,28 @@ exports[`SessionsTableComponent should snap with default fields 1`] = `
   copySessionEvent={[Function EventEmitter_]}
   courseCandidates={[Function Array]}
   downloadSessionResultsEvent={[Function EventEmitter_]}
-  formatDateBriefPipe={[Function FormatDateBriefPipe]}
-  formatDateDetailPipe={[Function FormatDateDetailPipe]}
+  formatDateBriefPipe={[Function _FormatDateBriefPipe]}
+  formatDateDetailPipe={[Function _FormatDateDetailPipe]}
   headerColorScheme="0"
   initialSortBy={[Function Number]}
   isSendReminderLoading="false"
   loadResponseRateEvent={[Function EventEmitter_]}
   moveSessionToRecycleBinEvent={[Function EventEmitter_]}
-  ngbModal={[Function _NgbModal]}
+  ngbModal={[Function NgbModal]}
   publishSessionEvent={[Function EventEmitter_]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishStatusTooltip={[Function PublishStatusTooltipPipe]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishStatusTooltip={[Function _PublishStatusTooltipPipe]}
   resendResultsLinkToStudentsEvent={[Function EventEmitter_]}
   rowClicked={[Function Number]}
   rowsData={[Function Array]}
   sendRemindersToAllNonSubmittersEvent={[Function EventEmitter_]}
   sendRemindersToSelectedNonSubmittersEvent={[Function EventEmitter_]}
   sessionsTableRowModelsVar={[Function Array]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   sortOrder={[Function Number]}
   sortSessionsTableRowModelsEvent={[Function EventEmitter_]}
-  submissionStatusName={[Function SubmissionStatusNamePipe]}
-  submissionStatusTooltip={[Function SubmissionStatusTooltipPipe]}
+  submissionStatusName={[Function _SubmissionStatusNamePipe]}
+  submissionStatusTooltip={[Function _SubmissionStatusTooltipPipe]}
   submitSessionAsInstructorEvent={[Function EventEmitter_]}
   unpublishSessionEvent={[Function EventEmitter_]}
 >

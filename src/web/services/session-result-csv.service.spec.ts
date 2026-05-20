@@ -9,7 +9,7 @@ import { SessionResults } from '../types/api-output';
  * Loads data for testing.
  */
 const loadTestData: (filename: string) => Promise<SessionResults> = async (filename: string): Promise<SessionResults> => {
-  const testDataModule = await import(`./test-data/${filename}.json`);
+  const testDataModule = await import(`./test-data/${filename}`);
   return testDataModule.default;
 };
 

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`NotificationsTableComponent should snap like in notification page with 2 notifications sorted by create time 1`] = `
+exports[`NotificationsTableComponent > should snap like in notification page with 2 notifications sorted by create time 1`] = `
 <tm-notifications-table
   NotificationsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
@@ -12,7 +12,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
   notificationsTableRowModels={[Function Array]}
   notificationsTableRowModelsSortBy={[Function Number]}
   notificationsTableRowModelsSortOrder="0"
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   sortNotificationsTableRowModelsEvent={[Function EventEmitter_]}
 >
   <div
@@ -274,7 +274,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
 </tm-notifications-table>
 `;
 
-exports[`NotificationsTableComponent should snap like in notification page with 2 notifications sorted by start time 1`] = `
+exports[`NotificationsTableComponent > should snap like in notification page with 2 notifications sorted by start time 1`] = `
 <tm-notifications-table
   NotificationsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
@@ -286,7 +286,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
   notificationsTableRowModels={[Function Array]}
   notificationsTableRowModelsSortBy={[Function Number]}
   notificationsTableRowModelsSortOrder="0"
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   sortNotificationsTableRowModelsEvent={[Function EventEmitter_]}
 >
   <div
@@ -548,7 +548,7 @@ exports[`NotificationsTableComponent should snap like in notification page with 
 </tm-notifications-table>
 `;
 
-exports[`NotificationsTableComponent should snap with default fields 1`] = `
+exports[`NotificationsTableComponent > should snap with default fields 1`] = `
 <tm-notifications-table
   NotificationsTableHeaderColorScheme={[Function Object]}
   SortBy={[Function Object]}
@@ -560,7 +560,7 @@ exports[`NotificationsTableComponent should snap with default fields 1`] = `
   notificationsTableRowModels={[Function Array]}
   notificationsTableRowModelsSortBy={[Function Number]}
   notificationsTableRowModelsSortOrder="0"
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   sortNotificationsTableRowModelsEvent={[Function EventEmitter_]}
 >
   <div
