@@ -2,7 +2,7 @@
 
 exports[`QuestionTextWithInfoComponent > should not show control link and question details for TEXT questions 1`] = `
 <tm-question-text-with-info
-  QuestionDetailsTypeChecker={[Function Function]}
+  QuestionDetailsTypeChecker="undefined"
   additionalInfoIsExpanded="false"
   downloadQuestionResultEvent={[Function EventEmitter_]}
   questionDetails={[Function Object]}
@@ -27,7 +27,7 @@ exports[`QuestionTextWithInfoComponent > should not show control link and questi
 
 exports[`QuestionTextWithInfoComponent > should show control link when question type is not TEXT 1`] = `
 <tm-question-text-with-info
-  QuestionDetailsTypeChecker={[Function Function]}
+  QuestionDetailsTypeChecker="undefined"
   additionalInfoIsExpanded="false"
   downloadQuestionResultEvent={[Function EventEmitter_]}
   questionDetails={[Function Object]}
@@ -52,49 +52,5 @@ exports[`QuestionTextWithInfoComponent > should show control link when question 
        [more] 
     </button>
   </span>
-</tm-question-text-with-info>
-`;
-
-exports[`QuestionTextWithInfoComponent > should show question detail when click control link 1`] = `
-<tm-question-text-with-info
-  QuestionDetailsTypeChecker={[Function Function]}
-  additionalInfoIsExpanded={[Function Boolean]}
-  downloadQuestionResultEvent={[Function EventEmitter_]}
-  questionDetails={[Function Object]}
-  questionNumber="0"
->
-  <span
-    class="d-flex flex-column flex-sm-row align-items-sm-center"
-  >
-    <h2
-      class="question-number"
-    >
-      Question 0:
-    </h2>
-    <span
-      class="question-text mx-sm-2"
-    >
-      MCQ question details
-    </span>
-    <button
-      class="additional-info-button info-font-size me-auto border-0 p-0 bg-transparent text-primary"
-    >
-       [less] 
-    </button>
-  </span><div
-    class="additional-info info-font-size"
-  >
-    <tm-mcq-question-additional-info>
-      Multiple-choice (single answer) question options:
-      <ul>
-        <li>
-          a
-        </li>
-        <li>
-          b
-        </li>
-      </ul>
-    </tm-mcq-question-additional-info>
-  </div>
 </tm-question-text-with-info>
 `;

@@ -1,0 +1,726 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CopyQuestionsFromOtherSessionsModalComponent > should snap when feedback questions are loaded 1`] = `
+<tm-copy-questions-from-other-sessions-modal
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  activeModal={[Function NgbActiveModal]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionTabModels={[Function Array]}
+  feedbackSessionTabModelsSortBy={[Function Number]}
+  statusMessageService={[Function _StatusMessageService]}
+  tableComparatorService={[Function _TableComparatorService]}
+>
+  <div
+    class="modal-header"
+  >
+    <h4
+      class="modal-title"
+    >
+      Copy Questions
+    </h4>
+    <button
+      aria-label="Close"
+      class="btn-close"
+      type="button"
+    />
+  </div><div
+    class="modal-body"
+    id="copy-question-modal"
+  >
+    <div
+      class="col-12 mb-3 text-md-end"
+    >
+      <strong
+        class="d-inline"
+      >
+         Sort Sessions By: 
+      </strong>
+      <div
+        class="btn-group"
+        data-toggle="buttons"
+      >
+        <button
+          class="btn btn-light"
+          disabled=""
+          id="sort-course-id"
+        >
+           Course ID 
+        </button>
+        <button
+          class="btn btn-light"
+          id="sort-session-name"
+        >
+           Session Name 
+        </button>
+        <button
+          class="btn btn-light"
+          id="sort-creation-date"
+        >
+           Creation Date 
+        </button>
+      </div>
+    </div>
+    <div
+      class="feedback-session-tabs"
+    >
+      <div
+        class="card"
+      >
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
+        >
+          <strong
+            class="text-break"
+          >
+            [testId1] Session: Test Session 1
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div>
+          <tm-loading-retry>
+            <div
+              aria-hidden="true"
+            />
+            <div>
+              <div
+                class="card-body"
+              >
+                <table
+                  class="table table-bordered table-responsive-lg"
+                  id="copy-question-table"
+                >
+                  <thead
+                    class="bg-primary text-white"
+                  >
+                    <tr>
+                      <th>
+                        #
+                      </th>
+                      <th
+                        aria-sort="none"
+                        class="sortable-header"
+                      >
+                        <button>
+                           Question Type 
+                          <span
+                            aria-hidden="true"
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                          </span>
+                        </button>
+                      </th>
+                      <th
+                        aria-sort="none"
+                        class="sortable-header"
+                      >
+                        <button>
+                           Question Text 
+                          <span
+                            aria-hidden="true"
+                            class="fa-stack"
+                          >
+                            <i
+                              class="fas fa-sort"
+                            />
+                          </span>
+                        </button>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <input
+                          class="ng-untouched ng-pristine ng-valid"
+                          type="checkbox"
+                        />
+                      </td>
+                      <td>
+                        Essay question
+                      </td>
+                      <td>
+                        question brief
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input
+                          class="ng-untouched ng-pristine ng-valid"
+                          type="checkbox"
+                        />
+                      </td>
+                      <td>
+                        Multiple-choice (single answer) question
+                      </td>
+                      <td>
+                        question brief
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <button
+                  class="btn btn-primary float-end mt-2 mb-3"
+                >
+                  <i
+                    aria-hidden="true"
+                    class="fas fa-redo"
+                  />
+                    Reload 
+                </button>
+              </div>
+            </div>
+          </tm-loading-retry>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-primary"
+      disabled=""
+      id="btn-confirm-copy-question"
+      type="button"
+    >
+       Copy 
+    </button>
+    <button
+      class="btn btn-light"
+      type="button"
+    >
+      Cancel
+    </button>
+  </div>
+</tm-copy-questions-from-other-sessions-modal>
+`;
+
+exports[`CopyQuestionsFromOtherSessionsModalComponent > should snap when feedback questions are loading 1`] = `
+<tm-copy-questions-from-other-sessions-modal
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  activeModal={[Function NgbActiveModal]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionTabModels={[Function Array]}
+  feedbackSessionTabModelsSortBy={[Function Number]}
+  statusMessageService={[Function _StatusMessageService]}
+  tableComparatorService={[Function _TableComparatorService]}
+>
+  <div
+    class="modal-header"
+  >
+    <h4
+      class="modal-title"
+    >
+      Copy Questions
+    </h4>
+    <button
+      aria-label="Close"
+      class="btn-close"
+      type="button"
+    />
+  </div><div
+    class="modal-body"
+    id="copy-question-modal"
+  >
+    <div
+      class="col-12 mb-3 text-md-end"
+    >
+      <strong
+        class="d-inline"
+      >
+         Sort Sessions By: 
+      </strong>
+      <div
+        class="btn-group"
+        data-toggle="buttons"
+      >
+        <button
+          class="btn btn-light"
+          disabled=""
+          id="sort-course-id"
+        >
+           Course ID 
+        </button>
+        <button
+          class="btn btn-light"
+          id="sort-session-name"
+        >
+           Session Name 
+        </button>
+        <button
+          class="btn btn-light"
+          id="sort-creation-date"
+        >
+           Creation Date 
+        </button>
+      </div>
+    </div>
+    <div
+      class="feedback-session-tabs"
+    >
+      <div
+        class="card"
+      >
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
+        >
+          <strong
+            class="text-break"
+          >
+            [testId1] Session: Test Session 1
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div>
+          <tm-loading-retry>
+            <div
+              aria-hidden="true"
+            />
+            <tm-loading-spinner>
+              <div
+                class="loading-container"
+              >
+                <div
+                  class="row spinner-border text-primary"
+                  role="status"
+                />
+                <div
+                  class="row text-secondary"
+                >
+                  Loading...
+                </div>
+              </div>
+            </tm-loading-spinner>
+          </tm-loading-retry>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-primary"
+      disabled=""
+      id="btn-confirm-copy-question"
+      type="button"
+    >
+       Copy 
+    </button>
+    <button
+      class="btn btn-light"
+      type="button"
+    >
+      Cancel
+    </button>
+  </div>
+</tm-copy-questions-from-other-sessions-modal>
+`;
+
+exports[`CopyQuestionsFromOtherSessionsModalComponent > should snap when feedback questions failed to load 1`] = `
+<tm-copy-questions-from-other-sessions-modal
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  activeModal={[Function NgbActiveModal]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionTabModels={[Function Array]}
+  feedbackSessionTabModelsSortBy={[Function Number]}
+  statusMessageService={[Function _StatusMessageService]}
+  tableComparatorService={[Function _TableComparatorService]}
+>
+  <div
+    class="modal-header"
+  >
+    <h4
+      class="modal-title"
+    >
+      Copy Questions
+    </h4>
+    <button
+      aria-label="Close"
+      class="btn-close"
+      type="button"
+    />
+  </div><div
+    class="modal-body"
+    id="copy-question-modal"
+  >
+    <div
+      class="col-12 mb-3 text-md-end"
+    >
+      <strong
+        class="d-inline"
+      >
+         Sort Sessions By: 
+      </strong>
+      <div
+        class="btn-group"
+        data-toggle="buttons"
+      >
+        <button
+          class="btn btn-light"
+          disabled=""
+          id="sort-course-id"
+        >
+           Course ID 
+        </button>
+        <button
+          class="btn btn-light"
+          id="sort-session-name"
+        >
+           Session Name 
+        </button>
+        <button
+          class="btn btn-light"
+          id="sort-creation-date"
+        >
+           Creation Date 
+        </button>
+      </div>
+    </div>
+    <div
+      class="feedback-session-tabs"
+    >
+      <div
+        class="card"
+      >
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
+        >
+          <strong
+            class="text-break"
+          >
+            [testId1] Session: Test Session 1
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <button
+                aria-expanded="true"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-up"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
+          </div>
+        </div>
+        <div>
+          <tm-loading-retry>
+            <div
+              aria-hidden="true"
+            />
+            <div
+              class="text-center"
+            >
+              <p
+                class="text-muted m-1"
+              >
+                Failed to load questions
+              </p>
+              <button
+                class="btn btn-primary"
+              >
+                <i
+                  aria-hidden="true"
+                  class="fas fa-redo"
+                />
+                 Retry 
+              </button>
+            </div>
+          </tm-loading-retry>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-primary"
+      disabled=""
+      id="btn-confirm-copy-question"
+      type="button"
+    >
+       Copy 
+    </button>
+    <button
+      class="btn btn-light"
+      type="button"
+    >
+      Cancel
+    </button>
+  </div>
+</tm-copy-questions-from-other-sessions-modal>
+`;
+
+exports[`CopyQuestionsFromOtherSessionsModalComponent > should snap with default fields 1`] = `
+<tm-copy-questions-from-other-sessions-modal
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  activeModal={[Function NgbActiveModal]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionTabModels={[Function Array]}
+  feedbackSessionTabModelsSortBy={[Function Number]}
+  statusMessageService={[Function _StatusMessageService]}
+  tableComparatorService={[Function _TableComparatorService]}
+>
+  <div
+    class="modal-header"
+  >
+    <h4
+      class="modal-title"
+    >
+      Copy Questions
+    </h4>
+    <button
+      aria-label="Close"
+      class="btn-close"
+      type="button"
+    />
+  </div><div
+    class="modal-body"
+    id="copy-question-modal"
+  >
+    <div
+      class="col-12 mb-3 text-md-end"
+    >
+      <strong
+        class="d-inline"
+      >
+         Sort Sessions By: 
+      </strong>
+      <div
+        class="btn-group"
+        data-toggle="buttons"
+      >
+        <button
+          class="btn btn-light"
+          disabled=""
+          id="sort-course-id"
+        >
+           Course ID 
+        </button>
+        <button
+          class="btn btn-light"
+          id="sort-session-name"
+        >
+           Session Name 
+        </button>
+        <button
+          class="btn btn-light"
+          id="sort-creation-date"
+        >
+           Creation Date 
+        </button>
+      </div>
+    </div>
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-primary"
+      disabled=""
+      id="btn-confirm-copy-question"
+      type="button"
+    >
+       Copy 
+    </button>
+    <button
+      class="btn btn-light"
+      type="button"
+    >
+      Cancel
+    </button>
+  </div>
+</tm-copy-questions-from-other-sessions-modal>
+`;
+
+exports[`CopyQuestionsFromOtherSessionsModalComponent > should snap with feedback sessions 1`] = `
+<tm-copy-questions-from-other-sessions-modal
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  activeModal={[Function NgbActiveModal]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionTabModels={[Function Array]}
+  feedbackSessionTabModelsSortBy={[Function Number]}
+  statusMessageService={[Function _StatusMessageService]}
+  tableComparatorService={[Function _TableComparatorService]}
+>
+  <div
+    class="modal-header"
+  >
+    <h4
+      class="modal-title"
+    >
+      Copy Questions
+    </h4>
+    <button
+      aria-label="Close"
+      class="btn-close"
+      type="button"
+    />
+  </div><div
+    class="modal-body"
+    id="copy-question-modal"
+  >
+    <div
+      class="col-12 mb-3 text-md-end"
+    >
+      <strong
+        class="d-inline"
+      >
+         Sort Sessions By: 
+      </strong>
+      <div
+        class="btn-group"
+        data-toggle="buttons"
+      >
+        <button
+          class="btn btn-light"
+          disabled=""
+          id="sort-course-id"
+        >
+           Course ID 
+        </button>
+        <button
+          class="btn btn-light"
+          id="sort-session-name"
+        >
+           Session Name 
+        </button>
+        <button
+          class="btn btn-light"
+          id="sort-creation-date"
+        >
+           Creation Date 
+        </button>
+      </div>
+    </div>
+    <div
+      class="feedback-session-tabs"
+    >
+      <div
+        class="card"
+      >
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
+        >
+          <strong
+            class="text-break"
+          >
+            [testId1] Session: Test Session 1
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <button
+                aria-expanded="false"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-down"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="feedback-session-tabs"
+    >
+      <div
+        class="card"
+      >
+        <div
+          class="card-header cursor-pointer bg-primary text-white"
+        >
+          <strong
+            class="text-break"
+          >
+            [testId2] Session: Test Session 2
+          </strong>
+          <div
+            class="card-header-btn-toolbar"
+          >
+            <tm-panel-chevron>
+              <button
+                aria-expanded="false"
+                aria-label="Expand panel"
+                class="chevron btn-course btn btn-primary btn-sm"
+                type="button"
+              >
+                <i
+                  class="fas fa-chevron-down"
+                  style="color: white;"
+                />
+              </button>
+            </tm-panel-chevron>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-primary"
+      disabled=""
+      id="btn-confirm-copy-question"
+      type="button"
+    >
+       Copy 
+    </button>
+    <button
+      class="btn btn-light"
+      type="button"
+    >
+      Cancel
+    </button>
+  </div>
+</tm-copy-questions-from-other-sessions-modal>
+`;
