@@ -98,10 +98,9 @@ describe('InstructorService', () => {
   });
 
   it('should execute DELETE when deleting an instructor for a course', () => {
-    service.deleteInstructor({ courseId: 'CS3281', instructorEmail: 'John Doe' });
+    service.deleteInstructor({ userId: '00000000-0000-4000-8000-000000000001' });
     const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
-      instructoremail: 'John Doe',
+      userid: '00000000-0000-4000-8000-000000000001',
     };
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR, paramMap);
   });

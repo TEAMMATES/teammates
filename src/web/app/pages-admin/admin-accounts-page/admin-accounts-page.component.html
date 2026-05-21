@@ -41,7 +41,7 @@
               <td class="text-break">[{{ instructor.courseId }}] {{ instructor.courseName }}</td>
               <td class="text-break">{{ instructor.institute }}</td>
               <td>
-                <button class="btn btn-sm btn-danger" (click)="removeInstructorFromCourse(instructor.courseId)">
+                <button class="btn btn-sm btn-danger" (click)="removeInstructorFromCourse(instructor)">
                   <i class="fas fa-trash-alt"></i> Remove From Course
                 </button>
               </td>
@@ -81,7 +81,7 @@
               <td class="text-break">[{{ student.courseId }}] {{ student.courseName }}</td>
               <td class="text-break">{{ student.institute }}</td>
               <td>
-                <button class="btn btn-sm btn-danger" (click)="removeStudentFromCourse(student.courseId)">
+                <button class="btn btn-sm btn-danger" (click)="removeStudentFromCourse(student)">
                   <i class="fas fa-trash-alt"></i> Remove From Course
                 </button>
               </td>

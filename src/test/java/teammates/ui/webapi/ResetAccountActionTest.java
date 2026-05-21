@@ -57,30 +57,14 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         verifyHttpParameterFailure(params1);
 
         String[] params2 = {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail(),
+                Const.ParamsNames.COURSE_ID, stubInstructor.getCourseId(),
         };
         verifyHttpParameterFailure(params2);
 
         String[] params3 = {
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
-        };
-        verifyHttpParameterFailure(params3);
-
-        String[] params4 = {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail(),
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
-        };
-        verifyHttpParameterFailure(params4);
-
-        String[] params5 = {
-                Const.ParamsNames.COURSE_ID, stubInstructor.getCourseId(),
-        };
-        verifyHttpParameterFailure(params5);
-
-        String[] params6 = {
                 Const.ParamsNames.USER_ID, "invalid-user-id",
         };
-        verifyHttpParameterFailure(params6);
+        verifyHttpParameterFailure(params3);
     }
 
     @Test
@@ -208,26 +192,9 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         String[] params3 = {
                 Const.ParamsNames.USER_ID, stubInstructor.getId().toString(),
         };
-        String[] params4 = {
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
-        };
-        String[] params5 = {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail(),
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
-        };
-        String[] params6 = {
-                Const.ParamsNames.COURSE_ID, stubInstructor.getCourseId(),
-        };
-        String[] params7 = {
-                "random-params", "random-value",
-        };
 
         verifyOnlyAdminsCanAccess(params1);
         verifyOnlyAdminsCanAccess(params2);
         verifyOnlyAdminsCanAccess(params3);
-        verifyOnlyAdminsCanAccess(params4);
-        verifyOnlyAdminsCanAccess(params5);
-        verifyOnlyAdminsCanAccess(params6);
-        verifyOnlyAdminsCanAccess(params7);
     }
 }
