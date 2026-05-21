@@ -58,7 +58,7 @@ public final class EmailGenerator {
 
     private static final String DATETIME_DISPLAY_FORMAT = "EEE, dd MMM yyyy, hh:mm a z";
 
-    private static final long SESSION_LINK_RECOVERY_DURATION_IN_DAYS = 90;
+    private static final long SESSION_LINK_RECOVERY_DURATION_IN_DAYS = 180;
 
     private static final EmailGenerator instance = new EmailGenerator();
 
