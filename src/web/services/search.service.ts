@@ -402,8 +402,7 @@ export class SearchService {
           return forkJoin(
             instructors.instructors.map((instructor: Instructor) =>
               this.instructorService.loadInstructorPrivilege({
-                courseId: instructor.courseId,
-                instructorEmail: instructor.email,
+                userId: instructor.userId,
               }),
             ),
           );

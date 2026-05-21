@@ -133,6 +133,15 @@ describe('InstructorService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);
   });
 
+  it('should call get when loading instructor privileges by user ID', () => {
+    const paramMap: Record<string, string> = {
+      userid: '00000000-0000-4000-8000-000000000001',
+    };
+
+    service.loadInstructorPrivilege({ userId: paramMap['userid'] });
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);
+  });
+
   it('should call put when updating instructor privileges', () => {
     const paramMap: Record<string, string> = {
       courseid: 'CS3281',
