@@ -22,6 +22,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 
+import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -157,59 +158,59 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     /**
      * Logs in the user to the test environment as an admin.
      */
-    protected void loginAsAdmin() {
+    protected AuthContext loginAsAdmin() {
         mockUserProvision.setLogic(mockLogic);
         mockUserProvision.setCreateMissingAccounts(true);
-        mockUserProvision.loginAsAdmin(Config.APP_ADMINS.get(0));
+        return mockUserProvision.loginAsAdmin(Config.APP_ADMINS.get(0));
     }
 
     /**
      * Logs in the user to the test environment as an unregistered user
      * (without any right).
      */
-    protected void loginAsUnregistered(String userId) {
+    protected AuthContext loginAsUnregistered(String userId) {
         mockUserProvision.setLogic(mockLogic);
         mockUserProvision.setCreateMissingAccounts(true);
-        mockUserProvision.loginUser(userId);
+        return mockUserProvision.loginUser(userId);
     }
 
     /**
      * Logs in the user to the test environment as an instructor
      * (without admin rights or student rights).
      */
-    protected void loginAsInstructor(String userId) {
+    protected AuthContext loginAsInstructor(String userId) {
         mockUserProvision.setLogic(mockLogic);
         mockUserProvision.setCreateMissingAccounts(true);
-        mockUserProvision.loginUser(userId);
+        return mockUserProvision.loginUser(userId);
     }
 
     /**
      * Logs in the user to the test environment as a student
      * (without admin rights or instructor rights).
      */
-    protected void loginAsStudent(String userId) {
+    protected AuthContext loginAsStudent(String userId) {
         mockUserProvision.setLogic(mockLogic);
         mockUserProvision.setCreateMissingAccounts(true);
-        mockUserProvision.loginUser(userId);
+        return mockUserProvision.loginUser(userId);
     }
 
     /**
      * Logs in the user to the test environment as a student-instructor
      * (without admin rights).
      */
-    protected void loginAsStudentInstructor(String userId) {
+    protected AuthContext loginAsStudentInstructor(String userId) {
         mockUserProvision.setLogic(mockLogic);
         mockUserProvision.setCreateMissingAccounts(true);
-        mockUserProvision.loginUser(userId);
+        return mockUserProvision.loginUser(userId);
     }
 
     /**
      * Logs in the user to the test environment as a maintainer.
      */
-    protected void loginAsMaintainer() {
+    protected AuthContext loginAsMaintainer() {
         mockUserProvision.setLogic(mockLogic);
         mockUserProvision.setCreateMissingAccounts(true);
-        mockUserProvision.loginAsMaintainer(Config.APP_MAINTAINERS.get(0));
+        return mockUserProvision.loginAsMaintainer(Config.APP_MAINTAINERS.get(0));
     }
 
     private void stubUserForRegistrationKey() {

@@ -268,10 +268,10 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public List<Course> getCoursesForStudentAccount(String googleId) {
-        assert googleId != null;
+    public List<Course> getCoursesForStudentAccount(Account account) {
+        assert account != null;
 
-        return coursesLogic.getCoursesForStudentAccount(googleId);
+        return coursesLogic.getCoursesForStudentAccount(account);
     }
 
     /**
@@ -876,19 +876,16 @@ public class Logic {
     }
 
     /**
-     * Make the instructor join the course, i.e. associate the Google ID to the
-     * instructor.<br>
-     * Creates an account for the instructor if no existing account is found.
+     * Makes the user join the course, i.e. associate the account to the student or instructor.
      * Preconditions: <br>
-     * * Parameters regkey and googleId are non-null.
+     * * Parameters regkey and account are non-null.
      */
-    public Instructor joinCourseForInstructor(String regkey, String googleId)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-
-        assert googleId != null;
+    public User joinCourse(String regkey, Account account)
+            throws EntityDoesNotExistException, EntityAlreadyExistsException {
+        assert account != null;
         assert regkey != null;
 
-        return accountsLogic.joinCourseForInstructor(regkey, googleId);
+        return accountsLogic.joinCourse(regkey, account);
     }
 
     /**
@@ -1093,25 +1090,6 @@ public class Logic {
         assert courseId != null;
 
         usersLogic.deleteStudentsInCourse(courseId);
-    }
-
-    /**
-     * Make the student join the course, i.e. associate the Google ID to the
-     * student.<br>
-     * Create an account for the student if no existing account is found.
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @param key the registration key
-     */
-    public Student joinCourseForStudent(String key, String googleId)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-
-        assert googleId != null;
-        assert key != null;
-
-        return accountsLogic.joinCourseForStudent(key, googleId);
-
     }
 
     /**

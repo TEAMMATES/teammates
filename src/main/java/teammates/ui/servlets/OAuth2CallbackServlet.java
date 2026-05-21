@@ -73,7 +73,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
                 return;
             }
 
-            UserInfoCookie uic = new UserInfoCookie(authResult.email, account.getId());
+            UserInfoCookie uic = new UserInfoCookie(account.getId());
             cookie = getLoginCookie(uic);
         }
 
