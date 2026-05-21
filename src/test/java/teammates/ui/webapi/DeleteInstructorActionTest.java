@@ -155,6 +155,18 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
     }
 
     @Test
+    void testAccessControl_nonExistentInstructor_throwsEntityNotFoundException() {
+        String fakeInstructorId = "00000000-0000-4000-8000-000000000001";
+        String[] params = {
+                Const.ParamsNames.USER_ID, fakeInstructorId,
+        };
+
+        loginAsAdmin();
+        verifyEntityNotFoundAcl(params);
+        logoutUser();
+    }
+
+    @Test
     void testAccessControl() {
         String[] params = {
                 Const.ParamsNames.USER_ID, instructor.getId().toString(),

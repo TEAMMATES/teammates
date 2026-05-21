@@ -71,14 +71,13 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
 
         assertNull(logic.getStudent(student2InCourse1.getId()));
 
-        ______TS("Student does not exist, fails silently");
+        ______TS("Student does not exist, access control fails");
         UUID nonExistentStudentId = UUID.randomUUID();
         params = new String[] {
                 Const.ParamsNames.USER_ID, nonExistentStudentId.toString(),
         };
 
-        deleteStudentAction = getAction(params);
-        getJsonResult(deleteStudentAction);
+        verifyEntityNotFoundAcl(params);
         assertNotNull(logic.getStudent(student3InCourse1.getId()));
 
         ______TS("Incomplete params given");

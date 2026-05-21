@@ -239,12 +239,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
         };
 
         assertNull(logic.getInstructor(nonExistentInstructorId));
-
-        DeleteInstructorAction deleteInstructorAction = getAction(submissionParams);
-        JsonResult response = getJsonResult(deleteInstructorAction);
-
-        MessageOutput msg = (MessageOutput) response.getOutput();
-        assertEquals("Instructor is successfully deleted.", msg.getMessage());
+        verifyEntityNotFoundAcl(submissionParams);
     }
 
     @Test

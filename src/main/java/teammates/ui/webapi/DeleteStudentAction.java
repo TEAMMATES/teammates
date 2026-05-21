@@ -5,6 +5,7 @@ import java.util.UUID;
 import teammates.common.util.Const;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
@@ -19,13 +20,13 @@ public class DeleteStudentAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (authContext.isAdmin()) {
-            return;
-        }
-
         UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
         Student student = logic.getStudent(userId);
         if (student == null) {
+            throw new EntityNotFoundException("Student with user ID " + userId + " does not exist.");
+        }
+
+        if (authContext.isAdmin()) {
             return;
         }
 
