@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.http.HttpStatus;
@@ -23,6 +22,7 @@ import teammates.common.util.TimeHelper;
 import teammates.logic.core.DataBundleLogic;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -68,22 +68,25 @@ public class CreateAccountAction extends Action {
         String instructorEmail = accountRequest.getEmail();
         String instructorName = accountRequest.getName();
         String instructorInstitution = accountRequest.getInstitute();
-        String courseId;
+        DataBundle dataBundle;
 
         try {
-            courseId = importDemoData(instructorEmail, instructorName, instructorInstitution, timezone);
+            dataBundle = importDemoData(instructorEmail, instructorName, instructorInstitution, timezone);
         } catch (InvalidParametersException e) {
             // There should not be any invalid parameter here
             log.severe("Unexpected error", e);
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
-        List<Instructor> instructorList = logic.getInstructorsByCourse(courseId);
+        Instructor createdInstructor = dataBundle.instructors.get("demoInstructor");
+        Student createdStudent = dataBundle.students.get("demoInstructorStudent");
 
-        assert !instructorList.isEmpty();
+        assert createdInstructor != null : "Demo instructor should have been created in data bundle";
+        assert createdStudent != null : "Demo instructor student should have been created in data bundle";
 
         try {
-            logic.joinCourse(instructorList.get(0).getRegKey(), authContext.account());
+            logic.joinCourse(createdInstructor.getRegKey(), authContext.account());
+            logic.joinCourse(createdStudent.getRegKey(), getCurrentAccount());
         } catch (EntityDoesNotExistException | EntityAlreadyExistsException e) {
             // EntityDoesNotExistException should not be thrown as all entities should exist in demo course.
             // EntityAlreadyExistsException should not be thrown as updated entities should not have
@@ -126,8 +129,8 @@ public class CreateAccountAction extends Action {
      *
      * @return the ID of demo course
      */
-    private String importDemoData(String instructorEmail, String instructorName, String instructorInstitute, String timezone)
-            throws InvalidParametersException {
+    private DataBundle importDemoData(String instructorEmail, String instructorName,
+            String instructorInstitute, String timezone) throws InvalidParametersException {
 
         String courseId = generateDemoCourseId(instructorEmail);
         Instant now = Instant.now();
@@ -143,7 +146,7 @@ public class CreateAccountAction extends Action {
         // Used for timestamp of comments
         String dateString5 = getDateString(now);
 
-        String instructorEmailAsStudent = instructorEmail.replace("@", "+student@");
+        String instructorEmailAsStudent = getInstructorAsStudentEmail(instructorEmail);
         String dataBundleString = Templates.populateTemplate(Templates.INSTRUCTOR_SAMPLE_DATA,
                 // replace instructor-as-student email
                 "teammates.demo.instructor.student@demo.course", instructorEmailAsStudent,
@@ -170,9 +173,7 @@ public class CreateAccountAction extends Action {
 
         DataBundle dataBundle = DataBundleLogic.deserializeDataBundle(dataBundleString);
 
-        logic.persistDataBundle(dataBundle);
-
-        return courseId;
+        return logic.persistDataBundle(dataBundle);
     }
 
     // Strategy to Generate New Demo Course Id:
@@ -259,6 +260,15 @@ public class CreateAccountAction extends Action {
         int previousDedupSuffix = Integer.parseInt(instructorEmailOrProposedCourseId.substring(lastIndexOfDemo + 5));
 
         return StringHelper.truncateHead(root + "-demo" + (previousDedupSuffix + 1), maximumIdLength);
+    }
+
+    /**
+     * Generate an email for instructor-as-student in demo course, by replacing "@" in instructor email with "+student@".
+     *
+     * <p>This is to make sure the generated email for student does not conflict with the instructor email.
+     */
+    private String getInstructorAsStudentEmail(String instructorEmail) {
+        return instructorEmail.replace("@", "+student@");
     }
 
     /**
