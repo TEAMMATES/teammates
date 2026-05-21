@@ -28,7 +28,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UserUpdateException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
-import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.api.UsersDb;
 import teammates.storage.entity.Account;
@@ -675,15 +674,10 @@ public final class UsersLogic {
     }
 
     /**
-     * Deletes students in the course cascade their associated responses, deadline extensions, and comments.
+     * Deletes students in the course.
      */
-    public void deleteStudentsInCourseCascade(String courseId) {
-        List<Student> studentsInCourse = getStudentsForCourse(courseId);
-
-        for (Student student : studentsInCourse) {
-            RequestTracer.checkRemainingTime();
-            deleteStudentCascade(courseId, student.getEmail());
-        }
+    public void deleteStudentsInCourse(String courseId) {
+        usersDb.deleteStudentsInCourse(courseId);
     }
 
     private boolean isEmailChanged(String originalEmail, String newEmail) {

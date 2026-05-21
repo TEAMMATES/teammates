@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
@@ -370,6 +371,21 @@ public final class UsersDb {
      */
     public <T extends User> void deleteUser(T user) {
         HibernateUtil.remove(user);
+    }
+
+    /**
+     * Deletes all students in the specified {@code courseId}.
+     */
+    public void deleteStudentsInCourse(String courseId) {
+        assert courseId != null && !courseId.isEmpty();
+
+        CriteriaBuilder cb = HibernateUtil.getCriteriaBuilder();
+        CriteriaDelete<Student> cd = cb.createCriteriaDelete(Student.class);
+        Root<Student> root = cd.from(Student.class);
+
+        cd.where(cb.equal(root.get("courseId"), courseId));
+
+        HibernateUtil.executeDelete(cd);
     }
 
     /**

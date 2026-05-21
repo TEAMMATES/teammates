@@ -1,8 +1,6 @@
 package teammates.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -59,7 +57,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
         DeleteStudentsAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).deleteStudentsInCourseCascade(course.getId());
+        verify(mockLogic, times(1)).deleteStudentsInCourse(course.getId());
         assertEquals("Successful", actionOutput.getMessage());
     }
 
@@ -74,9 +72,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
         DeleteStudentsAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).deleteStudentsInCourseCascade("RANDOM_ID");
-        verify(mockLogic, times(1)).deleteStudentsInCourseCascade(any());
-        verify(mockLogic, never()).deleteStudentsInCourseCascade(course.getId());
+        verify(mockLogic, times(1)).deleteStudentsInCourse("RANDOM_ID");
         assertEquals("Successful", actionOutput.getMessage());
     }
 
