@@ -599,8 +599,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     this.instructorService
       .loadInstructorPrivilege({
-        courseId: instructor.courseId,
-        instructorEmail: instructor.email,
+        userId: instructor.userId,
       })
       .subscribe((resp: InstructorPrivilege) => {
         permission.privilege = resp.privileges.courseLevel;

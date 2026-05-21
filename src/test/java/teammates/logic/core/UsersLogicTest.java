@@ -128,6 +128,13 @@ public class UsersLogicTest extends BaseTestCase {
     }
 
     @Test
+    public void testDeleteStudentsInCourse_success() {
+        usersLogic.deleteStudentsInCourse(course.getId());
+
+        verify(usersDb, times(1)).deleteStudentsInCourse(course.getId());
+    }
+
+    @Test
     public void testUpdateToEnsureValidityOfInstructorsForTheCourse_lastModifyInstructorPrivilege_shouldPreserve() {
         InstructorPrivileges privileges = instructor.getPrivileges();
         privileges.updatePrivilege(InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
