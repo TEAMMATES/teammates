@@ -21,8 +21,6 @@ import teammates.ui.output.MessageOutput;
  * SUT: {@link DeleteStudentsAction}.
  */
 public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsAction> {
-
-    private static final int DELETE_LIMIT = 3;
     private Course course;
     private Instructor instructor;
     private String instructorId = "instructor-googleId";
@@ -56,7 +54,6 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
     void testExecute_deleteLimitedStudents_success() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.LIMIT, String.valueOf(DELETE_LIMIT),
         };
 
         DeleteStudentsAction action = getAction(params);
@@ -72,7 +69,6 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "RANDOM_ID",
-                Const.ParamsNames.LIMIT, String.valueOf(DELETE_LIMIT),
         };
 
         DeleteStudentsAction action = getAction(params);
@@ -100,7 +96,6 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.LIMIT, String.valueOf(DELETE_LIMIT),
         };
 
         verifyCanAccess(params);
@@ -116,7 +111,6 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.LIMIT, String.valueOf(DELETE_LIMIT),
         };
 
         verifyCannotAccess(params);
@@ -128,7 +122,6 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.LIMIT, String.valueOf(DELETE_LIMIT),
         };
 
         verifyCannotAccess(params);
@@ -140,7 +133,6 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.LIMIT, String.valueOf(DELETE_LIMIT),
         };
 
         verifyCannotAccess(params);
@@ -152,7 +144,6 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.LIMIT, String.valueOf(DELETE_LIMIT),
         };
 
         verifyCannotAccess(params);

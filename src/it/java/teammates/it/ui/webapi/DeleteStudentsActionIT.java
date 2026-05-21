@@ -45,8 +45,6 @@ public class DeleteStudentsActionIT extends BaseActionIT<DeleteStudentsAction> {
     protected void testExecute() throws Exception {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         String courseId = instructor.getCourseId();
-        // TODO Remove limit after migration completes
-        int deleteLimit = 4;
 
         ______TS("Typical Success Case delete a limited number of students");
         loginAsInstructor(instructor.getGoogleId());
@@ -57,7 +55,6 @@ public class DeleteStudentsActionIT extends BaseActionIT<DeleteStudentsAction> {
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.LIMIT, String.valueOf(deleteLimit),
         };
 
         DeleteStudentsAction deleteStudentsAction = getAction(params);
@@ -70,7 +67,6 @@ public class DeleteStudentsActionIT extends BaseActionIT<DeleteStudentsAction> {
         ______TS("Random course given, fails silently");
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, "non-existent-course-id",
-                Const.ParamsNames.LIMIT, String.valueOf(deleteLimit),
         };
 
         deleteStudentsAction = getAction(params);
