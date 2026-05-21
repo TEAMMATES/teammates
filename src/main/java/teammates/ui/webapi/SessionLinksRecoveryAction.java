@@ -2,8 +2,9 @@ package teammates.ui.webapi;
 
 import static teammates.common.util.FieldValidator.REGEX_EMAIL;
 
+import java.util.List;
+
 import teammates.common.util.Const;
-import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
 import teammates.ui.exception.InvalidHttpParameterException;
@@ -29,15 +30,10 @@ public class SessionLinksRecoveryAction extends PublicAction {
         }
 
         EmailWrapper email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(recoveryEmailAddress);
-        EmailSendingStatus status = emailSender.sendEmail(email);
+        taskQueuer.scheduleEmailsForPrioritySending(List.of(email));
 
-        if (status.isSuccess()) {
-            return new JsonResult(new SessionLinksRecoveryResponseData(true,
+        return new JsonResult(new SessionLinksRecoveryResponseData(true,
                     "The recovery links for your feedback sessions have been sent to the "
                             + "specified email address: " + recoveryEmailAddress));
-        } else {
-            return new JsonResult(new SessionLinksRecoveryResponseData(false, "An error occurred. "
-                    + "The email could not be sent."));
-        }
     }
 }
