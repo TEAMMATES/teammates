@@ -518,16 +518,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     modalRef.result.then(
       () => {
-        this.courseService
-          .remindInstructorForJoin(panelDetail.originalInstructor.courseId, panelDetail.originalInstructor.email)
-          .subscribe({
-            next: (resp: MessageOutput) => {
-              this.statusMessageService.showSuccessToast(resp.message);
-            },
-            error: (resp: ErrorMessageOutput) => {
-              this.statusMessageService.showErrorToast(resp.error.message);
-            },
-          });
+        this.courseService.remindUserForJoin(panelDetail.originalInstructor.userId).subscribe({
+          next: (resp: MessageOutput) => {
+            this.statusMessageService.showSuccessToast(resp.message);
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
       },
       () => {},
     );

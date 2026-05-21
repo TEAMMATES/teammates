@@ -314,11 +314,10 @@ public final class Const {
         public static final String INSTRUCTORS = URI_PREFIX + "/instructors";
         public static final String INSTRUCTOR = URI_PREFIX + "/instructor";
         public static final String INSTRUCTOR_PRIVILEGE = URI_PREFIX + "/instructor/privilege";
-        public static final String INSTRUCTOR_KEY = URI_PREFIX + "/instructor/key";
         public static final String RESULT = URI_PREFIX + "/result";
         public static final String STUDENTS = URI_PREFIX + "/students";
         public static final String STUDENT = URI_PREFIX + "/student";
-        public static final String STUDENT_KEY = URI_PREFIX + "/student/key";
+        public static final String USER_KEY = URI_PREFIX + "/user/key";
         public static final String NOTIFICATION = URI_PREFIX + "/notification";
         public static final String NOTIFICATIONS = URI_PREFIX + "/notifications";
         public static final String NOTIFICATION_READ = URI_PREFIX + "/notification/read";

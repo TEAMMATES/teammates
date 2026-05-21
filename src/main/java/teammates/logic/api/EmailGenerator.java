@@ -24,7 +24,6 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.DeadlineExtensionsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.UsersLogic;
-import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;
@@ -877,7 +876,7 @@ public final class EmailGenerator {
      * Generates the course join email for the given {@code instructor} in {@code course}.
      * Also specifies contact information of {@code inviter}.
      */
-    public EmailWrapper generateInstructorCourseJoinEmail(Account inviter,
+    public EmailWrapper generateInstructorCourseJoinEmail(Instructor inviter,
             Instructor instructor, Course course) {
 
         String emailBody = Templates.populateTemplate(
