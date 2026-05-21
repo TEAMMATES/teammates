@@ -588,13 +588,6 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     }
 
     /**
-     * Gets registration key for a given student.
-     */
-    protected String getKeyForStudent(Student student) {
-        return getStudent(student).getKey();
-    }
-
-    /**
      * Gets feedback session deadline extensions data from the database.
      */
     protected DeadlineExtensionsData getDeadlineExtensions(UUID feedbackSessionId) {
