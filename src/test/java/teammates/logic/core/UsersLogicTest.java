@@ -36,30 +36,25 @@ public class UsersLogicTest extends BaseTestCase {
 
     private UsersLogic usersLogic = UsersLogic.inst();
 
-    private AccountsLogic accountsLogic;
-
     private UsersDb usersDb;
 
     private Instructor instructor;
 
     private Student student;
 
-    private Account account;
-
     private Course course;
 
     @BeforeMethod
     public void setUpMethod() {
         usersDb = mock(UsersDb.class);
-        accountsLogic = mock(AccountsLogic.class);
         FeedbackResponsesLogic feedbackResponsesLogic = mock(FeedbackResponsesLogic.class);
         CoursesLogic coursesLogic = mock(CoursesLogic.class);
-        usersLogic.initLogicDependencies(usersDb, accountsLogic, coursesLogic, feedbackResponsesLogic);
+        usersLogic.initLogicDependencies(usersDb, coursesLogic, feedbackResponsesLogic);
 
         course = new Course("course-id", "course-name", Const.DEFAULT_TIME_ZONE, "institute");
         instructor = getTypicalInstructor();
         student = getTypicalStudent();
-        account = getTypicalAccount();
+        Account account = getTypicalAccount();
 
         instructor.setAccount(account);
         student.setAccount(account);
@@ -68,15 +63,12 @@ public class UsersLogicTest extends BaseTestCase {
     @Test
     public void testResetAccount_instructorExists_success()
             throws EntityDoesNotExistException {
-        String googleId = account.getGoogleId();
-
         when(usersDb.getUser(instructor.getId())).thenReturn(instructor);
 
         User resetUser = usersLogic.resetAccount(instructor.getId());
 
         assertEquals(instructor, resetUser);
         assertNull(instructor.getAccount());
-        verify(accountsLogic, times(0)).deleteAccount(googleId);
     }
 
     @Test
@@ -94,15 +86,12 @@ public class UsersLogicTest extends BaseTestCase {
     @Test
     public void testResetAccount_studentExists_success()
             throws EntityDoesNotExistException {
-        String googleId = account.getGoogleId();
-
         when(usersDb.getUser(student.getId())).thenReturn(student);
 
         User resetUser = usersLogic.resetAccount(student.getId());
 
         assertEquals(student, resetUser);
         assertNull(student.getAccount());
-        verify(accountsLogic, times(0)).deleteAccount(googleId);
     }
 
     @Test
