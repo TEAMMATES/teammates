@@ -101,7 +101,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
                 Const.ParamsNames.USER_ID, instructor.getId().toString(),
         };
 
-        assertEquals(logic.getInstructorsByCourse(instructor.getCourseId()).size(), 1);
+        assertEquals(1, logic.getInstructorsByCourse(instructor.getCourseId()).size());
 
         InvalidOperationException ioe = verifyInvalidOperation(submissionParams);
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
@@ -144,7 +144,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
                 Const.ParamsNames.USER_ID, instructorToDelete.getId().toString(),
         };
 
-        assertEquals(logic.getInstructorsByCourse(courseId).size(), 1);
+        assertEquals(1, logic.getInstructorsByCourse(courseId).size());
 
         InvalidOperationException ioe = verifyInvalidOperation(submissionParams);
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
@@ -165,7 +165,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
                 Const.ParamsNames.USER_ID, instructorToDelete.getId().toString(),
         };
 
-        assertEquals(logic.getInstructorsByCourse(courseId).size(), 1);
+        assertEquals(1, logic.getInstructorsByCourse(courseId).size());
 
         InvalidOperationException ioe = verifyInvalidOperation(
                 addUserToParams(instructorToDelete.getGoogleId(), submissionParams));
