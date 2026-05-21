@@ -124,7 +124,7 @@ export class InstructorService {
     userId: string;
     requestBody: InstructorPrivilegeUpdateRequest;
   }): Observable<InstructorPrivilege> {
-    const paramMap: any = {
+    const paramMap: Record<string, string> = {
       userid: queryParams.userId,
     };
     return this.httpRequestService.put(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap, queryParams.requestBody);
