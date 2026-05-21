@@ -215,6 +215,26 @@ public final class UsersLogic {
     }
 
     /**
+     * Updates the privileges of an instructor by user id.
+     *
+     * @return the updated instructor
+     * @throws EntityDoesNotExistException if the instructor does not exist in the database
+     */
+    public Instructor updateInstructorPrivileges(UUID userId, InstructorPrivileges newPrivileges)
+            throws EntityDoesNotExistException {
+        Instructor instructorToUpdate = getInstructor(userId);
+        if (instructorToUpdate == null) {
+            throw new EntityDoesNotExistException("Instructor does not exist.");
+        }
+
+        newPrivileges.validatePrivileges();
+        instructorToUpdate.setPrivileges(newPrivileges);
+        updateToEnsureValidityOfInstructorsForTheCourse(instructorToUpdate.getCourseId(), instructorToUpdate);
+
+        return instructorToUpdate;
+    }
+
+    /**
      * Gets the instructor with the specified email.
      */
     public Instructor getInstructorForEmail(String courseId, String userEmail) {

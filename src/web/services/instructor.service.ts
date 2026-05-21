@@ -118,16 +118,14 @@ export class InstructorService {
   }
 
   /**
-   * Updates the privilege of an instructor for a specified course.
+   * Updates the privilege of an instructor.
    */
   updateInstructorPrivilege(queryParams: {
-    courseId: string;
-    instructorEmail: string;
+    userId: string;
     requestBody: InstructorPrivilegeUpdateRequest;
   }): Observable<InstructorPrivilege> {
-    const paramMap: any = {
-      courseid: queryParams.courseId,
-      instructoremail: queryParams.instructorEmail,
+    const paramMap: Record<string, string> = {
+      userid: queryParams.userId,
     };
     return this.httpRequestService.put(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap, queryParams.requestBody);
   }

@@ -144,8 +144,7 @@ describe('InstructorService', () => {
 
   it('should call put when updating instructor privileges', () => {
     const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
-      instructoremail: 'johndoe@gmail.com',
+      userid: '00000000-0000-4000-8000-000000000001',
     };
     const requestBody: InstructorPrivilegeUpdateRequest = {
       privileges: {
@@ -166,8 +165,7 @@ describe('InstructorService', () => {
 
     service.updateInstructorPrivilege({
       requestBody,
-      courseId: paramMap['courseid'],
-      instructorEmail: paramMap['instructoremail'],
+      userId: paramMap['userid'],
     });
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(
       ResourceEndpoints.INSTRUCTOR_PRIVILEGE,

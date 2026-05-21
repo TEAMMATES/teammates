@@ -709,8 +709,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     this.instructorService
       .updateInstructorPrivilege({
-        courseId: instructor.courseId,
-        instructorEmail: instructor.email,
+        userId: instructor.userId,
         requestBody: { privileges },
       })
       .subscribe({
