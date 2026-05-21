@@ -1,7 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AdminNotificationsPageComponent should snap when notification edit form expanded for adding notification 1`] =
-  `
+exports[`AdminNotificationsPageComponent should snap when notification edit form expanded for adding notification 1`] = `
 <tm-admin-notifications-page
   NotificationEditFormMode={[Function Object]}
   currentNotificationEditFormMode="0"
