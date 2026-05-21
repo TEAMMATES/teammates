@@ -42,18 +42,18 @@ export class StudentService {
   /**
    * Gets student of a course by calling API.
    *
-   * <p> If both studentEmail and regKey are not provided, get the student of current logged-in user.
+   * If both userId and regKey are not provided, get the student of current logged-in user.
    *
    * @param courseId courseId of the course
-   * @param studentEmail if provided, get the student of the course of the given email
+   * @param userId if provided, get the student with the given user ID
    * @param regKey if provided, get the student of the course with regKey
    */
-  getStudent(courseId: string, studentEmail?: string, regKey?: string): Observable<Student> {
+  getStudent(courseId: string, userId?: string, regKey?: string): Observable<Student> {
     const paramsMap: { [key: string]: string } = {
       courseid: courseId,
     };
-    if (studentEmail) {
-      paramsMap['studentemail'] = studentEmail;
+    if (userId) {
+      paramsMap['userid'] = userId;
     }
     if (regKey) {
       paramsMap['key'] = regKey;

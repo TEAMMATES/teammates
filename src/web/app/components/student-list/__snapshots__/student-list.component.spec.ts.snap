@@ -369,7 +369,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                 >
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
+                    href="/web/instructor/courses/student/details?courseid=&userid=student-009"
                     id="btn-view-details--0"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -378,7 +378,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                   </a>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
+                    href="/web/instructor/courses/student/edit?courseid=&userid=student-009"
                     id="btn-edit-details--0"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -399,7 +399,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                   </button>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
+                    href="/web/instructor/students/records?courseid=&userid=student-009"
                     id="btn-view-records--0"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -442,7 +442,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                 >
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/details?courseid=&userid=student-010"
                     id="btn-view-details--1"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -451,7 +451,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                   </a>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/edit?courseid=&userid=student-010"
                     id="btn-edit-details--1"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -472,7 +472,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                   </button>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+                    href="/web/instructor/students/records?courseid=&userid=student-010"
                     id="btn-view-records--1"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -515,7 +515,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                 >
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/details?courseid=&userid=student-011"
                     id="btn-view-details--2"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -524,7 +524,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                   </a>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/edit?courseid=&userid=student-011"
                     id="btn-edit-details--2"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -539,7 +539,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                   </button>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+                    href="/web/instructor/students/records?courseid=&userid=student-011"
                     id="btn-view-records--2"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -582,7 +582,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                 >
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/details?courseid=&userid=student-012"
                     id="btn-view-details--3"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -591,7 +591,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                   </a>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/edit?courseid=&userid=student-012"
                     id="btn-edit-details--3"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -606,7 +606,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                   </button>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+                    href="/web/instructor/students/records?courseid=&userid=student-012"
                     id="btn-view-records--3"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -821,7 +821,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                 >
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
+                    href="/web/instructor/courses/student/details?courseid=&userid=student-013"
                     id="btn-view-details--0"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -830,7 +830,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                   </a>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button disabled mouse-hover-only"
-                    href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
+                    href="/web/instructor/courses/student/edit?courseid=&userid=student-013"
                     id="btn-edit-details--0"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -851,7 +851,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                   </button>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button disabled mouse-hover-only"
-                    href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
+                    href="/web/instructor/students/records?courseid=&userid=student-013"
                     id="btn-view-records--0"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -894,7 +894,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                 >
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/details?courseid=&userid=student-014"
                     id="btn-view-details--1"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -903,7 +903,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                   </a>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/edit?courseid=&userid=student-014"
                     id="btn-edit-details--1"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -918,7 +918,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                   </button>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+                    href="/web/instructor/students/records?courseid=&userid=student-014"
                     id="btn-view-records--1"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -961,7 +961,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                 >
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/details?courseid=&userid=student-015"
                     id="btn-view-details--2"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -970,7 +970,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                   </a>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/edit?courseid=&userid=student-015"
                     id="btn-edit-details--2"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -985,7 +985,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                   </button>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+                    href="/web/instructor/students/records?courseid=&userid=student-015"
                     id="btn-view-records--2"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -1028,7 +1028,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                 >
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/details?courseid=&userid=student-016"
                     id="btn-view-details--3"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -1037,7 +1037,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                   </a>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/edit?courseid=&userid=student-016"
                     id="btn-edit-details--3"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -1052,7 +1052,7 @@ exports[`StudentListComponent > should snap with enable remind button set to tru
                   </button>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+                    href="/web/instructor/students/records?courseid=&userid=student-016"
                     id="btn-view-records--3"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -1267,7 +1267,7 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                 >
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
+                    href="/web/instructor/courses/student/details?courseid=&userid=student-001"
                     id="btn-view-details--0"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -1276,7 +1276,7 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                   </a>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
+                    href="/web/instructor/courses/student/edit?courseid=&userid=student-001"
                     id="btn-edit-details--0"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -1291,7 +1291,7 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                   </button>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
+                    href="/web/instructor/students/records?courseid=&userid=student-001"
                     id="btn-view-records--0"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -1334,7 +1334,7 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                 >
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/details?courseid=&userid=student-002"
                     id="btn-view-details--1"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -1343,7 +1343,7 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                   </a>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/edit?courseid=&userid=student-002"
                     id="btn-edit-details--1"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -1358,7 +1358,7 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                   </button>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+                    href="/web/instructor/students/records?courseid=&userid=student-002"
                     id="btn-view-records--1"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -1401,7 +1401,7 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                 >
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/details?courseid=&userid=student-003"
                     id="btn-view-details--2"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -1410,7 +1410,7 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                   </a>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/edit?courseid=&userid=student-003"
                     id="btn-edit-details--2"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -1425,7 +1425,7 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                   </button>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+                    href="/web/instructor/students/records?courseid=&userid=student-003"
                     id="btn-view-records--2"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -1468,7 +1468,7 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                 >
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/details?courseid=&userid=student-004"
                     id="btn-view-details--3"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -1477,7 +1477,7 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                   </a>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/edit?courseid=&userid=student-004"
                     id="btn-edit-details--3"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -1492,7 +1492,7 @@ exports[`StudentListComponent > should snap with some student list data 1`] = `
                   </button>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+                    href="/web/instructor/students/records?courseid=&userid=student-004"
                     id="btn-view-records--3"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -1707,7 +1707,7 @@ exports[`StudentListComponent > should snap with some student list data and some
                 >
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/details?courseid=&userid=student-018"
                     id="btn-view-details--0"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -1716,7 +1716,7 @@ exports[`StudentListComponent > should snap with some student list data and some
                   </a>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/edit?courseid=&userid=student-018"
                     id="btn-edit-details--0"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -1731,7 +1731,7 @@ exports[`StudentListComponent > should snap with some student list data and some
                   </button>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+                    href="/web/instructor/students/records?courseid=&userid=student-018"
                     id="btn-view-records--0"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -1774,7 +1774,7 @@ exports[`StudentListComponent > should snap with some student list data and some
                 >
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/details?courseid=&userid=student-020"
                     id="btn-view-details--1"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -1783,7 +1783,7 @@ exports[`StudentListComponent > should snap with some student list data and some
                   </a>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/edit?courseid=&userid=student-020"
                     id="btn-edit-details--1"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -1798,7 +1798,7 @@ exports[`StudentListComponent > should snap with some student list data and some
                   </button>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+                    href="/web/instructor/students/records?courseid=&userid=student-020"
                     id="btn-view-records--1"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -2013,7 +2013,7 @@ exports[`StudentListComponent > should snap with some student list data when not
                 >
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
+                    href="/web/instructor/courses/student/details?courseid=&userid=student-005"
                     id="btn-view-details--0"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -2022,7 +2022,7 @@ exports[`StudentListComponent > should snap with some student list data when not
                   </a>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button disabled mouse-hover-only"
-                    href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
+                    href="/web/instructor/courses/student/edit?courseid=&userid=student-005"
                     id="btn-edit-details--0"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -2037,7 +2037,7 @@ exports[`StudentListComponent > should snap with some student list data when not
                   </button>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button disabled mouse-hover-only"
-                    href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
+                    href="/web/instructor/students/records?courseid=&userid=student-005"
                     id="btn-view-records--0"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -2080,7 +2080,7 @@ exports[`StudentListComponent > should snap with some student list data when not
                 >
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/details?courseid=&userid=student-006"
                     id="btn-view-details--1"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -2089,7 +2089,7 @@ exports[`StudentListComponent > should snap with some student list data when not
                   </a>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button disabled mouse-hover-only"
-                    href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/edit?courseid=&userid=student-006"
                     id="btn-edit-details--1"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -2104,7 +2104,7 @@ exports[`StudentListComponent > should snap with some student list data when not
                   </button>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button disabled mouse-hover-only"
-                    href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+                    href="/web/instructor/students/records?courseid=&userid=student-006"
                     id="btn-view-records--1"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -2147,7 +2147,7 @@ exports[`StudentListComponent > should snap with some student list data when not
                 >
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/details?courseid=&userid=student-007"
                     id="btn-view-details--2"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -2156,7 +2156,7 @@ exports[`StudentListComponent > should snap with some student list data when not
                   </a>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/edit?courseid=&userid=student-007"
                     id="btn-edit-details--2"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -2171,7 +2171,7 @@ exports[`StudentListComponent > should snap with some student list data when not
                   </button>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+                    href="/web/instructor/students/records?courseid=&userid=student-007"
                     id="btn-view-records--2"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -2214,7 +2214,7 @@ exports[`StudentListComponent > should snap with some student list data when not
                 >
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/details?courseid=&userid=student-008"
                     id="btn-view-details--3"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -2223,7 +2223,7 @@ exports[`StudentListComponent > should snap with some student list data when not
                   </a>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+                    href="/web/instructor/courses/student/edit?courseid=&userid=student-008"
                     id="btn-edit-details--3"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -2238,7 +2238,7 @@ exports[`StudentListComponent > should snap with some student list data when not
                   </button>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+                    href="/web/instructor/students/records?courseid=&userid=student-008"
                     id="btn-view-records--3"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -2453,7 +2453,7 @@ exports[`StudentListComponent > should snap with some student list data with no 
                 >
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
+                    href="/web/instructor/courses/student/details?courseid=&userid=student-021"
                     id="btn-view-details--0"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -2462,7 +2462,7 @@ exports[`StudentListComponent > should snap with some student list data with no 
                   </a>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
+                    href="/web/instructor/courses/student/edit?courseid=&userid=student-021"
                     id="btn-edit-details--0"
                     rel="noopener noreferrer"
                     target="_blank"
@@ -2477,7 +2477,7 @@ exports[`StudentListComponent > should snap with some student list data with no 
                   </button>
                   <a
                     class="btn btn-light btn-sm btn-margin-right custom-button"
-                    href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
+                    href="/web/instructor/students/records?courseid=&userid=student-021"
                     id="btn-view-records--0"
                     rel="noopener noreferrer"
                     target="_blank"

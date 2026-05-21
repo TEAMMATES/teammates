@@ -190,7 +190,7 @@ export class StudentListComponent implements OnInit {
         componentData: (idx: number) => ({
           idx,
           courseId: this.courseId,
-          email: studentModel.student.email,
+          userId: studentModel.student.userId,
           enableRemindButton: studentModel.student.joinState === JoinState.NOT_JOINED,
           instructorPrivileges: {
             canModifyStudent: studentModel.isAllowedToModifyStudent,
