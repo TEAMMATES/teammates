@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.util.Const;
@@ -46,13 +47,13 @@ abstract class BasicFeedbackSubmissionAction extends Action {
      * Gets the student involved in the submission process.
      */
     Student getStudentOfCourseFromRequest(String courseId) {
-        String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
-        String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
+        UUID moderatedPerson = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
+        UUID previewAsPerson = getNullableUuidRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
-        if (!StringHelper.isEmpty(moderatedPerson)) {
-            return logic.getStudentForEmail(courseId, moderatedPerson);
-        } else if (!StringHelper.isEmpty(previewAsPerson)) {
-            return logic.getStudentForEmail(courseId, previewAsPerson);
+        if (moderatedPerson != null) {
+            return logic.getStudentOfCourse(courseId, moderatedPerson);
+        } else if (previewAsPerson != null) {
+            return logic.getStudentOfCourse(courseId, previewAsPerson);
         } else {
             return getPossiblyUnregisteredStudent(courseId);
         }
@@ -119,13 +120,13 @@ abstract class BasicFeedbackSubmissionAction extends Action {
      * Gets the instructor involved in the submission process.
      */
     Instructor getInstructorOfCourseFromRequest(String courseId) {
-        String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
-        String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
+        UUID moderatedPerson = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
+        UUID previewAsPerson = getNullableUuidRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
-        if (!StringHelper.isEmpty(moderatedPerson)) {
-            return logic.getInstructorForEmail(courseId, moderatedPerson);
-        } else if (!StringHelper.isEmpty(previewAsPerson)) {
-            return logic.getInstructorForEmail(courseId, previewAsPerson);
+        if (moderatedPerson != null) {
+            return logic.getInstructorOfCourse(courseId, moderatedPerson);
+        } else if (previewAsPerson != null) {
+            return logic.getInstructorOfCourse(courseId, previewAsPerson);
         } else {
             return getPossiblyUnregisteredInstructor(courseId);
         }

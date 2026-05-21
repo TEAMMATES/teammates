@@ -423,7 +423,7 @@ public abstract class AbstractBackDoor {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.FEEDBACK_QUESTION_ID, feedbackQuestionId);
         params.put(Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString());
-        params.put(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, giver.getIdentifier());
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, giver.getGiverUserId().toString());
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.RESPONSES, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;

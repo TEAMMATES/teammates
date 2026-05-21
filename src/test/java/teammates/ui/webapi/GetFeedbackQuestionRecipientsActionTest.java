@@ -261,7 +261,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         String[] previewParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.PREVIEWAS, typicalInstructor.getEmail(),
+                Const.ParamsNames.PREVIEWAS, typicalInstructor.getId().toString(),
         };
         verifyCannotAccess(previewParams);
     }
@@ -291,9 +291,9 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         String[] previewParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.PREVIEWAS, typicalStudent.getEmail(),
+                Const.ParamsNames.PREVIEWAS, typicalStudent.getId().toString(),
         };
-        when(mockLogic.getStudentForEmail(typicalStudent.getCourseId(), typicalStudent.getEmail()))
+        when(mockLogic.getStudentOfCourse(typicalStudent.getCourseId(), typicalStudent.getId()))
                 .thenReturn(typicalStudent);
         verifyCanAccess(previewParams);
 
@@ -313,7 +313,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         String[] moderatedParams = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, typicalFeedbackQuestion.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, typicalStudent.getEmail(),
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, typicalStudent.getId().toString(),
         };
         verifyCanAccess(moderatedParams);
     }

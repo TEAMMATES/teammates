@@ -808,6 +808,13 @@ public class Logic {
     }
 
     /**
+     * Gets instructor associated with {@code id} in the specified course.
+     */
+    public Instructor getInstructorOfCourse(String courseId, UUID id) {
+        return usersLogic.getInstructorOfCourse(courseId, id);
+    }
+
+    /**
      * Updates the privileges of an instructor by user id.
      *
      * @return the updated instructor
@@ -924,6 +931,13 @@ public class Logic {
      */
     public Student getStudent(UUID id) {
         return usersLogic.getStudent(id);
+    }
+
+    /**
+     * Gets student associated with {@code id} in the specified course.
+     */
+    public Student getStudentOfCourse(String courseId, UUID id) {
+        return usersLogic.getStudentOfCourse(courseId, id);
     }
 
     /**

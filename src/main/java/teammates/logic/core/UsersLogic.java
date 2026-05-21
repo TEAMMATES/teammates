@@ -212,6 +212,17 @@ public final class UsersLogic {
     }
 
     /**
+     * Gets instructor associated with {@code id} in the specified course.
+     */
+    public Instructor getInstructorOfCourse(String courseId, UUID id) {
+        Objects.requireNonNull(courseId);
+        Objects.requireNonNull(id);
+
+        Instructor instructor = getInstructor(id);
+        return instructor != null && courseId.equals(instructor.getCourseId()) ? instructor : null;
+    }
+
+    /**
      * Updates the privileges of an instructor by user id.
      *
      * @return the updated instructor
@@ -438,6 +449,17 @@ public final class UsersLogic {
         assert id != null;
 
         return usersDb.getStudent(id);
+    }
+
+    /**
+     * Gets student associated with {@code id} in the specified course.
+     */
+    public Student getStudentOfCourse(String courseId, UUID id) {
+        Objects.requireNonNull(courseId);
+        Objects.requireNonNull(id);
+
+        Student student = getStudent(id);
+        return student != null && courseId.equals(student.getCourseId()) ? student : null;
     }
 
     /**

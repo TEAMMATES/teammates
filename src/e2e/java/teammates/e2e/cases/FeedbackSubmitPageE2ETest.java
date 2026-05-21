@@ -155,7 +155,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         logout();
         url = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_SUBMISSION_PAGE)
                 .withFeedbackSessionId(openSession.getId().toString())
-                .withParam("previewas", instructor.getEmail());
+                .withParam("previewas", instructor.getId().toString());
         submitPage = loginToPage(url, FeedbackSubmitPage.class, instructor.getGoogleId());
 
         submitPage.verifyFeedbackSessionDetails(openSession, course);
@@ -166,7 +166,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         ______TS("preview as student");
         url = createFrontendUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                 .withFeedbackSessionId(openSession.getId().toString())
-                .withParam("previewas", student.getEmail());
+                .withParam("previewas", student.getId().toString());
         submitPage = getNewPageInstance(url, FeedbackSubmitPage.class);
 
         submitPage.verifyFeedbackSessionDetails(openSession, course);
@@ -180,7 +180,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         ______TS("moderating instructor cannot see questions without instructor visibility");
         url = createFrontendUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                 .withFeedbackSessionId(gracePeriodSession.getId().toString())
-                .withParam("moderatedperson", student.getEmail())
+                .withParam("moderatedperson", student.getId().toString())
                 .withParam("moderatedquestionId", question.getId().toString());
         submitPage = getNewPageInstance(url, FeedbackSubmitPage.class);
 
