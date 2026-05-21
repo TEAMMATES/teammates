@@ -2,8 +2,6 @@ package teammates.ui.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -48,11 +46,9 @@ public class DevServerLoginServlet extends AuthServlet {
             nextUrl = "/";
         }
 
-        // Prevent HTTP response splitting
-        nextUrl = nextUrl.replace("\r\n", "");
-        String encodedEmail = URLEncoder.encode(email, StandardCharsets.UTF_8);
-        String encodedNextUrl = URLEncoder.encode(nextUrl, StandardCharsets.UTF_8);
-        String redirectUrl = resp.encodeRedirectURL("/oauth2callback?email=" + encodedEmail + "&nextUrl=" + encodedNextUrl);
+        email = getEncodedQueryParam(email);
+        nextUrl = getEncodedQueryParam(getSanitizedRedirectUrl(nextUrl));
+        String redirectUrl = resp.encodeRedirectURL("/oauth2callback?email=" + email + "&nextUrl=" + nextUrl);
         resp.sendRedirect(redirectUrl);
     }
 

@@ -1,6 +1,8 @@
 package teammates.ui.servlets;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -72,6 +74,15 @@ abstract class AuthServlet extends HttpServlet {
         cookie.setHttpOnly(true);
         cookie.setMaxAge((int) Const.COOKIE_VALIDITY_PERIOD.toSeconds()); // one week
         return cookie;
+    }
+
+    String getSanitizedRedirectUrl(String url) {
+        // Prevent HTTP response splitting
+        return url.replace("\r\n", "");
+    }
+
+    String getEncodedQueryParam(String param) {
+        return URLEncoder.encode(param, StandardCharsets.UTF_8);
     }
 
     /**
