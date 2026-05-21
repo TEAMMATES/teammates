@@ -12,8 +12,8 @@ exports[`InstructorSessionEditPageComponent > should snap when feedback question
   courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
   datetimeService={[Function _DateTimeService]}
-  emailOfInstructorToPreview=""
-  emailOfStudentToPreview=""
+  userIdOfInstructorToPreview=""
+  userIdOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function _FeedbackQuestionsService]}
@@ -109,8 +109,8 @@ exports[`InstructorSessionEditPageComponent > should snap when feedback question
   courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
   datetimeService={[Function _DateTimeService]}
-  emailOfInstructorToPreview=""
-  emailOfStudentToPreview=""
+  userIdOfInstructorToPreview=""
+  userIdOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function _FeedbackQuestionsService]}
@@ -206,8 +206,8 @@ exports[`InstructorSessionEditPageComponent > should snap when feedback session 
   courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
   datetimeService={[Function _DateTimeService]}
-  emailOfInstructorToPreview=""
-  emailOfStudentToPreview=""
+  userIdOfInstructorToPreview=""
+  userIdOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function _FeedbackQuestionsService]}
@@ -306,8 +306,8 @@ exports[`InstructorSessionEditPageComponent > should snap when feedback session 
   courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
   datetimeService={[Function _DateTimeService]}
-  emailOfInstructorToPreview=""
-  emailOfStudentToPreview=""
+  userIdOfInstructorToPreview=""
+  userIdOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function _FeedbackQuestionsService]}
@@ -403,8 +403,8 @@ exports[`InstructorSessionEditPageComponent > should snap with default fields 1`
   courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
   datetimeService={[Function _DateTimeService]}
-  emailOfInstructorToPreview=""
-  emailOfStudentToPreview=""
+  userIdOfInstructorToPreview=""
+  userIdOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function _FeedbackQuestionsService]}
@@ -500,8 +500,8 @@ exports[`InstructorSessionEditPageComponent > should snap with feedback session 
   courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
   datetimeService={[Function _DateTimeService]}
-  emailOfInstructorToPreview=""
-  emailOfStudentToPreview=""
+  userIdOfInstructorToPreview=""
+  userIdOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function _FeedbackQuestionsService]}
@@ -3766,8 +3766,8 @@ exports[`InstructorSessionEditPageComponent > should snap with new question adde
   courseService={[Function _CourseService]}
   coursesOfModifiedSession={[Function Array]}
   datetimeService={[Function _DateTimeService]}
-  emailOfInstructorToPreview=""
-  emailOfStudentToPreview=""
+  userIdOfInstructorToPreview=""
+  userIdOfStudentToPreview=""
   failedToCopySessions={[Function Object]}
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function _FeedbackQuestionsService]}

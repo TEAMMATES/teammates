@@ -77,7 +77,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
 
   teamsToUsers: Record<string, string[]> = {};
   userToEmail: Record<string, string> = {};
-  userToRelatedEmail: Record<string, string> = {};
+  userToUserIdForModeration: Record<string, string> = {};
 
   teamExpanded: Record<string, boolean> = {};
   userExpanded: Record<string, boolean> = {};
@@ -100,7 +100,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
     this.teamsToUsers = {};
     this.teamExpanded = {};
     this.userToEmail = {};
-    this.userToRelatedEmail = {};
+    this.userToUserIdForModeration = {};
     this.userExpanded = {};
     this.userIsInstructor = {};
     for (const question of this.responses) {
@@ -137,8 +137,8 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
             this.teamsToUsers[response.giverTeam].push(response.giver);
             this.teamExpanded[response.giverTeam] = this.isExpandAll;
           }
-          if (response.relatedGiverEmail) {
-            this.userToRelatedEmail[response.giver] = response.relatedGiverEmail;
+          if (response.userIdForModeration) {
+            this.userToUserIdForModeration[response.giver] = response.userIdForModeration;
           }
 
           this.userExpanded[response.giver] = this.isExpandAll;

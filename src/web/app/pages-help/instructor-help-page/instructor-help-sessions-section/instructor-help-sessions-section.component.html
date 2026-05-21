@@ -249,8 +249,8 @@
     </p>
     <tm-example-box [ngbCollapse]="!questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW]">
       <tm-preview-session-panel
-        [emailOfStudentToPreview]="exampleStudents[0].email"
-        [emailOfInstructorToPreview]="exampleInstructors[0].email"
+        [userIdOfStudentToPreview]="exampleStudents[0].userId"
+        [userIdOfInstructorToPreview]="exampleInstructors[0].userId"
         [studentsOfCourse]="exampleStudents"
         [instructorsCanBePreviewedAs]="exampleInstructors"
         [forDisplayOnly]="true"

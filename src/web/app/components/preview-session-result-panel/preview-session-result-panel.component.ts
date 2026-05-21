@@ -28,13 +28,13 @@ export class PreviewSessionResultPanelComponent {
   studentsOfCourse: Student[] = [];
 
   @Input()
-  emailOfStudentToPreview = '';
+  userIdOfStudentToPreview = '';
 
   @Input()
   instructorsOfCourse: Instructor[] = [];
 
   @Input()
-  emailOfInstructorToPreview = '';
+  userIdOfInstructorToPreview = '';
 
   @Input()
   forDisplayOnly = false;
