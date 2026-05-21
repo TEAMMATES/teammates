@@ -3,6 +3,7 @@ package teammates.it.ui.webapi;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
@@ -96,7 +97,8 @@ public class GetStudentActionIT extends BaseActionIT<GetStudentAction> {
         ______TS("Student is non existent");
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.USER_ID, UUID.nameUUIDFromBytes("does-not-exist".getBytes()).toString(),
+                Const.ParamsNames.USER_ID, UUID.nameUUIDFromBytes("does-not-exist"
+                        .getBytes(StandardCharsets.UTF_8)).toString(),
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(params);

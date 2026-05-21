@@ -474,15 +474,6 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Deletes a course from the database.
-     */
-    public void deleteCourse(String courseId) {
-        Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.COURSE_ID, courseId);
-        executeDeleteRequest(Const.ResourceURIs.COURSE, params);
-    }
-
-    /**
      * Gets an account request from the database.
      */
     public AccountRequestData getAccountRequest(UUID id) {
