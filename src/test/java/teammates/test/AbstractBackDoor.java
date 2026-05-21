@@ -50,6 +50,7 @@ import teammates.ui.output.InstructorsData;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.output.NotificationData;
 import teammates.ui.output.StudentData;
+import teammates.ui.output.StudentsData;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 import teammates.ui.request.Intent;
 
@@ -330,15 +331,18 @@ public abstract class AbstractBackDoor {
     /**
      * Gets student data from the database.
      */
-    public StudentData getStudentData(String courseId, String studentId) {
+    public StudentData getStudentData(String courseId, String studentEmail) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.COURSE_ID, courseId);
-        params.put(Const.ParamsNames.USER_ID, studentId);
-        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.STUDENT, params);
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.STUDENTS, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
         }
-        return JsonUtils.fromJson(response.responseBody, StudentData.class);
+        return JsonUtils.fromJson(response.responseBody, StudentsData.class).getStudents()
+                .stream()
+                .filter(student -> student.getEmail().equals(studentEmail))
+                .findFirst()
+                .orElse(null);
     }
 
     /**

@@ -574,17 +574,17 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
     }
 
     /**
-     * Gets the student data for the given course ID and student id.
+     * Gets the student data for the given course ID and student email.
      */
-    protected StudentData getStudent(String courseId, String studentId) {
-        return BACKDOOR.getStudentData(courseId, studentId);
+    protected StudentData getStudent(String courseId, String studentEmail) {
+        return BACKDOOR.getStudentData(courseId, studentEmail);
     }
 
     /**
      * Gets the student data for the given student.
      */
     protected StudentData getStudent(Student student) {
-        return getStudent(student.getCourseId(), student.getId().toString());
+        return getStudent(student.getCourseId(), student.getEmail());
     }
 
     /**
