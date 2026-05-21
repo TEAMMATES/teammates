@@ -391,7 +391,7 @@ public final class UsersLogic {
                 Account account = new Account(
                         googleId, "testIssuer", "validInstructorSubject", instructor.getName(), instructor.getEmail());
                 instructor.setAccount(account);
-                accountsLogic.createAccount(account);
+                accountsLogic.createAccount(account.getIssuer(), account.getSubject(), account.getEmail());
             }
         } else {
             instructor.setGoogleId(googleId);

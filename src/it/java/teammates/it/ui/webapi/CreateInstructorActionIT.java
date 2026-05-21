@@ -12,7 +12,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
-import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.InvalidOperationException;
@@ -34,10 +33,8 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
         typicalBundle = persistDataBundle(getTypicalDataBundle());
 
         // Ensure the admin account exists for email sending
-        String adminId = Config.APP_ADMINS.get(0);
-        Account inviter = new Account(
-                adminId, "testIssuer", "validAdminSubject", "Admin", "admin@test.tmt");
-        logic.createAccount(inviter);
+        String adminEmail = Config.APP_ADMINS.get(0);
+        logic.createAccount("testIssuer", "validAdminSubject", adminEmail);
 
         HibernateUtil.flushSession();
     }

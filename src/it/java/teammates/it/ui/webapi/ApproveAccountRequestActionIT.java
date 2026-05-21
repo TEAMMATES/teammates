@@ -93,7 +93,7 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     void testExecute_existingAccountWithSameEmail_approvesSuccessfully() throws Exception {
         Account existingAccount = getTypicalAccount();
         existingAccount.setEmail("existing@email.com");
-        logic.createAccount(existingAccount);
+        logic.createAccount(existingAccount.getIssuer(), existingAccount.getSubject(), existingAccount.getEmail());
 
         AccountRequest accountRequest = logic.createAccountRequest("name", existingAccount.getEmail(),
                 "anotherInstitute", AccountRequestStatus.PENDING, "comments");

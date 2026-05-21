@@ -236,8 +236,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
         if (logic.getAccountForGoogleId(googleId) == null) {
             String email = googleId.contains("@") ? googleId : googleId + "@example.com";
             try {
-                logic.createAccount(
-                    new Account(googleId, "testIssuer", "testUserSubject", "Test User", email));
+                logic.createAccount("testIssuer", "testSubject", email);
             } catch (InvalidParametersException | EntityAlreadyExistsException e) {
                 throw new RuntimeException(e);
             }
@@ -749,9 +748,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
                     InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER, new InstructorPrivileges());
             logic.createInstructor(instructor);
 
-            Account account = new Account(
-                    email, "testIssuer", "validInstructorSubject", "accountName", email);
-            logic.createAccount(account);
+            Account account = logic.createAccount("testIssuer", "validInstructorSubject", email);
             instructor.setAccount(account);
         }
         return instructor;
@@ -780,9 +777,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
 
             student = logic.createStudent(course, team, "student-name", email, "");
 
-            Account account = new Account(
-                    email, "testIssuer", "validStudentSubject", "accountName", email);
-            logic.createAccount(account);
+            Account account = logic.createAccount("testIssuer", "validStudentSubject", email);
             student.setAccount(account);
         }
         return student;

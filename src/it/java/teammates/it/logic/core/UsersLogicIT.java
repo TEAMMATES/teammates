@@ -57,7 +57,7 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
         team = coursesLogic.createTeam(section, "team-name");
 
         account = getTypicalAccount();
-        accountsLogic.createAccount(account);
+        accountsLogic.createAccount(account.getIssuer(), account.getSubject(), account.getEmail());
     }
 
     @Test

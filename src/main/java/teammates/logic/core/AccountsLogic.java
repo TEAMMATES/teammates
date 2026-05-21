@@ -102,12 +102,21 @@ public final class AccountsLogic {
         }
     }
 
+    /**
+     * Creates an account.
+     *
+     * @return the created account
+     * @throws InvalidParametersException   if the account is not valid
+     * @throws EntityAlreadyExistsException if the account already exists in the
+     *                                      database.
+     */
     public Account createAccount(String issuer, String subject, String email)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert issuer != null;
         assert subject != null;
         assert email != null;
         // TODO: Account name will be removed, use a generic "User" for now.
+        // googleId is set to email, but will be removed.
         Account account = new Account(email, issuer, subject, "User", email);
         return createAccount(account);
     }
@@ -120,7 +129,7 @@ public final class AccountsLogic {
      * @throws EntityAlreadyExistsException if the account already exists in the
      *                                      database.
      */
-    public Account createAccount(Account account)
+    private Account createAccount(Account account)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert account != null;
 
