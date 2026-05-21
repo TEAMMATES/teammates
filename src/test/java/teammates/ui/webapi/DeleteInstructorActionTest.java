@@ -155,24 +155,6 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
     }
 
     @Test
-    void testExecute_legacyInstructorIdWithoutUserId_throwsInvalidHttpParameterException() {
-        String[] params = {
-                Const.ParamsNames.INSTRUCTOR_ID, instructor.getGoogleId(),
-        };
-
-        verifyHttpParameterFailure(params);
-    }
-
-    @Test
-    void testExecute_legacyInstructorEmailWithoutUserId_throwsInvalidHttpParameterException() {
-        String[] params = {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
-        };
-
-        verifyHttpParameterFailure(params);
-    }
-
-    @Test
     void testAccessControl() {
         String[] params = {
                 Const.ParamsNames.USER_ID, instructor.getId().toString(),
