@@ -66,7 +66,7 @@ export class StudentListComponent implements OnInit {
     this.setRowData();
   }
 
-  @Output() removeStudentFromCourseEvent: EventEmitter<string> = new EventEmitter();
+  @Output() removeStudentFromCourseEvent: EventEmitter<StudentListRowModel> = new EventEmitter();
   @Output() sortStudentListEvent: EventEmitter<SortableEvent> = new EventEmitter();
 
   rowsData: SortableTableCellData[][] = [];
@@ -247,7 +247,7 @@ export class StudentListComponent implements OnInit {
     );
     modalRef.result.then(
       () => {
-        this.removeStudentFromCourse(studentModel.student.userId);
+        this.removeStudentFromCourse(studentModel);
         this.students = this.students.filter(
           (student: StudentListRowModel) => student.student.userId !== studentModel.student.userId,
         );
@@ -274,8 +274,8 @@ export class StudentListComponent implements OnInit {
   /**
    * Removes the student from course.
    */
-  removeStudentFromCourse(studentUserId: string): void {
-    this.removeStudentFromCourseEvent.emit(studentUserId);
+  removeStudentFromCourse(studentModel: StudentListRowModel): void {
+    this.removeStudentFromCourseEvent.emit(studentModel);
   }
 
   /**

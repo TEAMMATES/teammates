@@ -346,11 +346,11 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   /**
    * Removes the student from course and update the course statistics
    */
-  removeStudentFromCourse(studentUserId: string): void {
-    this.studentService.deleteStudent({ userId: studentUserId }).subscribe({
+  removeStudentFromCourse(studentRow: StudentListRowModel): void {
+    this.studentService.deleteStudent({ userId: studentRow.student.userId }).subscribe({
       next: () => {
         this.students = this.students.filter(
-          (studentModel: StudentListRowModel) => studentModel.student.userId !== studentUserId,
+          (studentModel: StudentListRowModel) => studentModel.student.userId !== studentRow.student.userId,
         );
 
         const students: Student[] = this.students.map((studentModel: StudentListRowModel) => studentModel.student);
