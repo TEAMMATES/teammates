@@ -99,19 +99,20 @@ export class InstructorService {
   }
 
   /**
-   * Loads privilege of an instructor for a specified course.
+   * Loads privilege of an instructor for a specified course or user.
+   *
+   * The query parameter can either be `courseId` or `userId`.
+   * If courseId is provided, the API will return the privilege of the current logged in instructor for the specified course.
+   * If userId is provided, the API will return the privilege of the instructor with the specified userId.
    */
-  loadInstructorPrivilege(queryParams: {
-    courseId?: string;
-    userId?: string;
-  }): Observable<InstructorPrivilege> {
+  loadInstructorPrivilege(queryParams: { courseId: string } | { userId: string }): Observable<InstructorPrivilege> {
     const paramMap: Record<string, string> = {};
 
-    if (queryParams.courseId) {
+    if ('courseId' in queryParams) {
       paramMap['courseid'] = queryParams.courseId;
     }
 
-    if (queryParams.userId) {
+    if ('userId' in queryParams) {
       paramMap['userid'] = queryParams.userId;
     }
 
