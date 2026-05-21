@@ -5,5 +5,5 @@
     "rootDir": "./src/web",
     "types": ["jest", "node"]
   },
-   "include": ["src/web/test-helpers/**/*.ts", "src/web/**/*.spec.ts", "src/web/**/*.d.ts"]
+  "include": ["src/web/test-helpers/**/*.ts", "src/web/**/*.spec.ts", "src/web/**/*.d.ts"]
 }
