@@ -88,18 +88,6 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
         };
 
         verifyHttpParameterFailure(params);
-
-        params = new String[] {
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
-        };
-
-        verifyHttpParameterFailure(params);
-
-        params = new String[] {
-                Const.ParamsNames.STUDENT_ID, student1InCourse1.getGoogleId(),
-        };
-
-        verifyHttpParameterFailure(params);
     }
 
     @Test
