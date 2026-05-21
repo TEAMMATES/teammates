@@ -110,12 +110,11 @@ export class StudentService {
   }
 
   /**
-   * Deletes up to a limited number of students in a course by calling API.
+   * Deletes all students in a course by calling API.
    */
-  batchDeleteStudentsFromCourse(queryParams: { courseId: string; limit: number }): Observable<MessageOutput> {
+  deleteStudentsFromCourse(queryParams: { courseId: string }): Observable<MessageOutput> {
     const paramsMap: Record<string, string> = {
       courseid: queryParams.courseId,
-      limit: queryParams.limit.toString(),
     };
     return this.httpRequestService.delete(ResourceEndpoints.STUDENTS, paramsMap);
   }

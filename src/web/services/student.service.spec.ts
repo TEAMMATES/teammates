@@ -84,13 +84,11 @@ describe('StudentService', () => {
   it('should execute DELETE when deleting all students in a course', () => {
     const paramMap: Record<string, string> = {
       courseid: 'CS3281',
-      limit: '100',
     };
     vi.spyOn(spyHttpRequestService, 'delete');
 
-    service.batchDeleteStudentsFromCourse({
+    service.deleteStudentsFromCourse({
       courseId: paramMap['courseid'],
-      limit: Number.parseInt(paramMap['limit'], 10),
     });
 
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.STUDENTS, paramMap);
