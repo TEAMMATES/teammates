@@ -104,7 +104,6 @@ export class InstructorService {
   loadInstructorPrivilege(queryParams: {
     courseId: string;
     instructorEmail?: string;
-    instructorId?: string;
   }): Observable<InstructorPrivilege> {
     const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
@@ -112,10 +111,6 @@ export class InstructorService {
 
     if (queryParams.instructorEmail) {
       paramMap['instructoremail'] = queryParams.instructorEmail;
-    }
-
-    if (queryParams.instructorId) {
-      paramMap['instructorid'] = queryParams.instructorId;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);

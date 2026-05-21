@@ -96,33 +96,10 @@ public class GetInstructorPrivilegeActionIT extends BaseActionIT<GetInstructorPr
         assertTrue(privileges.getSectionLevelPrivileges().isEmpty());
         assertTrue(privileges.getSessionLevelPrivileges().isEmpty());
 
-        ______TS("Typical Success Case fetching privilege of another instructor by id");
-        params = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
-                Const.ParamsNames.INSTRUCTOR_ID, otherInstructor.getGoogleId(),
-        };
-
-        getInstructorPrivilegeAction = getAction(params);
-        response = (InstructorPrivilegeData) getJsonResult(getInstructorPrivilegeAction).getOutput();
-        privileges = response.getPrivileges();
-        courseLevelPrivilege = privileges.getCourseLevelPrivileges();
-
-        assertFalse(courseLevelPrivilege.isCanModifyCourse());
-        assertFalse(courseLevelPrivilege.isCanModifyInstructor());
-        assertFalse(courseLevelPrivilege.isCanModifySession());
-        assertFalse(courseLevelPrivilege.isCanModifyStudent());
-        assertTrue(courseLevelPrivilege.isCanViewStudentInSections());
-        assertTrue(courseLevelPrivilege.isCanViewSessionInSections());
-        assertTrue(courseLevelPrivilege.isCanSubmitSessionInSections());
-        assertFalse(courseLevelPrivilege.isCanModifySessionCommentsInSections());
-
-        assertTrue(privileges.getSectionLevelPrivileges().isEmpty());
-        assertTrue(privileges.getSessionLevelPrivileges().isEmpty());
-
         ______TS("Fetch privilege of non-existent instructor, should fail");
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
-                Const.ParamsNames.INSTRUCTOR_ID, "invalidId",
+                Const.ParamsNames.INSTRUCTOR_EMAIL, "invalid@example.com",
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(params);

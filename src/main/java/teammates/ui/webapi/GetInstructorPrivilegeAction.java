@@ -34,23 +34,14 @@ public class GetInstructorPrivilegeAction extends Action {
     @Override
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
 
         Instructor instructor;
 
-        if (instructorId == null) {
-            if (instructorEmail == null) {
-                instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
-            } else {
-                instructor = logic.getInstructorForEmail(courseId, instructorEmail);
-
-                if (instructor == null) {
-                    throw new EntityNotFoundException("Instructor does not exist.");
-                }
-            }
+        if (instructorEmail == null) {
+            instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
         } else {
-            instructor = logic.getInstructorByGoogleId(courseId, instructorId);
+            instructor = logic.getInstructorForEmail(courseId, instructorEmail);
 
             if (instructor == null) {
                 throw new EntityNotFoundException("Instructor does not exist.");
