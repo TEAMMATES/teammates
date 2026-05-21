@@ -61,8 +61,6 @@ public final class UsersLogic {
 
     private UsersDb usersDb;
 
-    private AccountsLogic accountsLogic;
-
     private CoursesLogic coursesLogic;
 
     private FeedbackResponsesLogic feedbackResponsesLogic;
@@ -75,10 +73,9 @@ public final class UsersLogic {
         return instance;
     }
 
-    void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic, CoursesLogic coursesLogic,
+    void initLogicDependencies(UsersDb usersDb, CoursesLogic coursesLogic,
                                FeedbackResponsesLogic feedbackResponsesLogic) {
         this.usersDb = usersDb;
-        this.accountsLogic = accountsLogic;
         this.coursesLogic = coursesLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
     }
