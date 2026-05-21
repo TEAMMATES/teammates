@@ -76,7 +76,7 @@ export class InstructorService {
   }
 
   /**
-   * Deletes an instructor from a course by calling API.
+   * Deletes an instructor by calling API.
    */
   deleteInstructor(queryParams: { userId: string }): Observable<any> {
     const paramMap: Record<string, string> = {

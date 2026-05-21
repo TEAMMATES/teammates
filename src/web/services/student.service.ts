@@ -77,7 +77,7 @@ export class StudentService {
   }
 
   /**
-   * Deletes a student in a course by calling API.
+   * Deletes a student by calling API.
    */
   deleteStudent(queryParams: { userId: string }): Observable<any> {
     const paramsMap: Record<string, string> = {

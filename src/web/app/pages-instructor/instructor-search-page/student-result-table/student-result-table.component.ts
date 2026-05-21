@@ -96,5 +96,4 @@ export class StudentResultTableComponent {
       return this.tableComparatorService.compare(by, order, strA, strB);
     };
   }
-
 }
