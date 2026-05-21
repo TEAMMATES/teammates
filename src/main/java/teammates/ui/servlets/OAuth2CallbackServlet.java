@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
+import java.util.UUID;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -60,7 +61,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
             Account account;
             try {
                 HibernateUtil.beginTransaction();
-                account = accountsLogic.createOrGetAccountForEmail(authResult.email);
+                account = accountsLogic.createOrGetAccount(authResult.issuer, authResult.subject, authResult.email);
                 HibernateUtil.commitTransaction();
             } catch (Exception e) {
                 HibernateUtil.rollbackTransaction();
@@ -91,7 +92,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
         if (nextUrl == null) {
             nextUrl = "/";
         }
-        return new AuthResult(email, nextUrl);
+        return new AuthResult("teammates-dev", email, email, nextUrl);
     }
 
     private AuthResult getGoogleOauth2AuthResult(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -149,7 +150,12 @@ public class OAuth2CallbackServlet extends AuthServlet {
             // if any of the operation fail, googleId is kept at null
             log.warning("Failed to get Google ID", e);
         }
-        return new AuthResult(email, nextUrl);
+        // TODO: Obtain issuer and subject from ID token.
+        return new AuthResult("GoogleIssuer", getUniqueSubject(), email, nextUrl);
+    }
+
+    private String getUniqueSubject() {
+        return UUID.randomUUID().toString();
     }
 
     private void logAndPrintError(HttpServletRequest req, HttpServletResponse resp, int status, String message)
@@ -161,10 +167,14 @@ public class OAuth2CallbackServlet extends AuthServlet {
     }
 
     private static final class AuthResult {
+        private final String issuer;
+        private final String subject;
         private final String email;
         private final String nextUrl;
 
-        private AuthResult(String email, String nextUrl) {
+        private AuthResult(String issuer, String subject, String email, String nextUrl) {
+            this.issuer = issuer;
+            this.subject = subject;
             this.email = email;
             this.nextUrl = nextUrl;
         }

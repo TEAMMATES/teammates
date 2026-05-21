@@ -73,22 +73,27 @@ public final class AccountsLogic {
     }
 
     /**
-     * Creates and returns an account for the given email if it does not exist,
+     * Creates and returns an account for the given issuer + subject if it does not exist,
      * otherwise just return the existing account.
      *
+     * @param issuer the issuer of the account
+     * @param subject the subject of the account
      * @param email the email of the account
      * @return the created or existing account
      */
-    public Account createOrGetAccountForEmail(String email) {
+    public Account createOrGetAccount(String issuer, String subject, String email) {
+        assert issuer != null;
+        assert subject != null;
         assert email != null;
 
+        // TODO: Fetch account by issuer + subject.
         Account account = getAccountForGoogleId(email);
         if (account != null) {
             return account;
         }
 
         try {
-            return createAccountForEmail(email);
+            return createAccount(issuer, subject, email);
         } catch (EntityAlreadyExistsException e) {
             // This should not happen.
             throw new IllegalStateException("Failed to create existing account for email: " + email, e);
@@ -97,14 +102,13 @@ public final class AccountsLogic {
         }
     }
 
-    private Account createAccountForEmail(String email)
+    public Account createAccount(String issuer, String subject, String email)
             throws InvalidParametersException, EntityAlreadyExistsException {
+        assert issuer != null;
+        assert subject != null;
         assert email != null;
-
-        // TODO: Account googleId will be replaced by OIDC subject in the future,
-        // for now we can just use email as googleId.
-        // Account name will also be removed, use a generic "User" for now.
-        Account account = new Account(email, "testIssuer", "validUserSubject", "User", email);
+        // TODO: Account name will be removed, use a generic "User" for now.
+        Account account = new Account(email, issuer, subject, "User", email);
         return createAccount(account);
     }
 
