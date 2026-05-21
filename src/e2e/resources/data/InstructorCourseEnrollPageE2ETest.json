@@ -4,7 +4,9 @@
       "id": "00000000-0000-4000-8000-000000000001",
       "googleId": "tm.e2e.ICEnroll.instr1",
       "name": "Instructor of Course CS2104",
-      "email": "icenroll.instr1@gmail.tmt"
+      "email": "icenroll.instr1@gmail.tmt",
+      "issuer": "testIssuer",
+      "subject": "tm.e2e.ICEnroll.instr1"
     }
   },
   "courses": {

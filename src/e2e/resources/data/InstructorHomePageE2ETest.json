@@ -4,7 +4,9 @@
       "id": "00000000-0000-4000-8000-000000000001",
       "googleId": "tm.e2e.IHome.instructor.tmms",
       "name": "Teammates Test",
-      "email": "ihome.instructor.tmms@gmail.tmt"
+      "email": "ihome.instructor.tmms@gmail.tmt",
+      "issuer": "testIssuer",
+      "subject": "tm.e2e.IHome.instructor.tmms"
     }
   },
   "accountRequests": {},

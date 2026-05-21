@@ -4,13 +4,17 @@
       "googleId": "tm.e2e.ISList.instr1",
       "name": "Instructor of Course 1",
       "email": "islist.instr1@gmail.tmt",
-      "id": "00000000-0000-4000-8000-000000000001"
+      "id": "00000000-0000-4000-8000-000000000001",
+      "issuer": "testIssuer",
+      "subject": "tm.e2e.ISList.instr1"
     },
     "Student3Course3": {
       "googleId": "tm.e2e.ISList.charlie.tmms",
       "name": "Charlie D",
       "email": "islist.charlie.tmms@gmail.tmt",
-      "id": "00000000-0000-4000-8000-000000000002"
+      "id": "00000000-0000-4000-8000-000000000002",
+      "issuer": "testIssuer",
+      "subject": "tm.e2e.ISList.charlie.tmms"
     }
   },
   "accountRequests": {},

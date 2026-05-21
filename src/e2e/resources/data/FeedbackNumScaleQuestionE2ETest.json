@@ -4,13 +4,17 @@
       "googleId": "tm.e2e.FNumScaleQn.instructor",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
-      "id": "00000000-0000-4000-8000-000000000001"
+      "id": "00000000-0000-4000-8000-000000000001",
+      "issuer": "testIssuer",
+      "subject": "tm.e2e.FNumScaleQn.instructor"
     },
     "tm.e2e.FNumScaleQn.alice.tmms": {
       "googleId": "tm.e2e.FNumScaleQn.alice.tmms",
       "name": "Alice Betsy",
       "email": "alice.b.tmms@gmail.tmt",
-      "id": "00000000-0000-4000-8000-000000000002"
+      "id": "00000000-0000-4000-8000-000000000002",
+      "issuer": "testIssuer",
+      "subject": "tm.e2e.FNumScaleQn.alice.tmms"
     }
   },
   "accountRequests": {},

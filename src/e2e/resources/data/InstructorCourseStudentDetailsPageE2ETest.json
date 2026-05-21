@@ -4,13 +4,17 @@
       "id": "00000000-0000-4000-8000-000000000001",
       "googleId": "tm.e2e.ICSDet.instr",
       "name": "Teammates Test",
-      "email": "icsdet.instr@gmail.tmt"
+      "email": "icsdet.instr@gmail.tmt",
+      "issuer": "testIssuer",
+      "subject": "tm.e2e.ICSDet.instr"
     },
     "Jos\u00e9 G\u00f3mez": {
       "id": "00000000-0000-4000-8000-000000000002",
       "googleId": "tm.e2e.ICSDet.jose.tmms",
       "name": "Jos\u00e9 G\u00f3mez",
-      "email": "icsdet.jose.tmms@gmail.tmt"
+      "email": "icsdet.jose.tmms@gmail.tmt",
+      "issuer": "testIssuer",
+      "subject": "tm.e2e.ICSDet.jose.tmms"
     }
   },
   "accountRequests": {},
