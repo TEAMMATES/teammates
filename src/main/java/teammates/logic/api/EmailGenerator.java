@@ -428,8 +428,6 @@ public final class EmailGenerator {
 
         for (var student : studentsForEmail) {
             RequestTracer.checkRemainingTime();
-            // Query students' courses first
-            // as a student will likely be in only a small number of courses.
             Course course = student.getCourse();
             String courseId = course.getId();
 
