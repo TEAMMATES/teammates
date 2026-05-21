@@ -1,5 +1,10 @@
 package teammates.it.ui.webapi;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -170,7 +175,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
         assertEquals(logic.getInstructorsByCourse(courseId).size(), 1);
 
         InvalidOperationException ioe = verifyInvalidOperation(
-                addUserIdToParams(instructorToDelete.getGoogleId(), submissionParams));
+                addUserToParams(instructorToDelete.getGoogleId(), submissionParams));
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
@@ -193,7 +198,7 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
         assertTrue(logic.getInstructorsByCourse(courseId).size() > 1);
 
         DeleteInstructorAction deleteInstructorAction =
-                getAction(addUserIdToParams(instructorToDelete.getGoogleId(), submissionParams));
+                getAction(addUserToParams(instructorToDelete.getGoogleId(), submissionParams));
         JsonResult response = getJsonResult(deleteInstructorAction);
 
         MessageOutput messageOutput = (MessageOutput) response.getOutput();

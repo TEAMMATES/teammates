@@ -1,19 +1,19 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`UserNotificationsListComponent should snap when all loaded notifications are read 1`] = `
+exports[`UserNotificationsListComponent > should snap when all loaded notifications are read 1`] = `
 <tm-user-notifications-list
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
-  notificationService={[Function NotificationService]}
+  notificationService={[Function _NotificationService]}
   notificationTabs={[Function Array]}
   notificationsSortBy="0"
-  statusMessageService={[Function StatusMessageService]}
-  tableComparatorService={[Function TableComparatorService]}
+  statusMessageService={[Function _StatusMessageService]}
+  tableComparatorService={[Function _TableComparatorService]}
   timezone={[Function String]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function _TimezoneService]}
   userType={[Function String]}
 >
   <div
@@ -161,20 +161,20 @@ exports[`UserNotificationsListComponent should snap when all loaded notification
 </tm-user-notifications-list>
 `;
 
-exports[`UserNotificationsListComponent should snap when it fails to load 1`] = `
+exports[`UserNotificationsListComponent > should snap when it fails to load 1`] = `
 <tm-user-notifications-list
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
   hasLoadingFailed={[Function Boolean]}
   isLoadingNotifications="false"
-  notificationService={[Function NotificationService]}
+  notificationService={[Function _NotificationService]}
   notificationTabs={[Function Array]}
   notificationsSortBy="0"
-  statusMessageService={[Function StatusMessageService]}
-  tableComparatorService={[Function TableComparatorService]}
+  statusMessageService={[Function _StatusMessageService]}
+  tableComparatorService={[Function _TableComparatorService]}
   timezone={[Function String]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function _TimezoneService]}
   userType={[Function String]}
 >
   <div
@@ -209,20 +209,20 @@ exports[`UserNotificationsListComponent should snap when it fails to load 1`] = 
 </tm-user-notifications-list>
 `;
 
-exports[`UserNotificationsListComponent should snap when it loads the provided notifications 1`] = `
+exports[`UserNotificationsListComponent > should snap when it loads the provided notifications 1`] = `
 <tm-user-notifications-list
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
-  notificationService={[Function NotificationService]}
+  notificationService={[Function _NotificationService]}
   notificationTabs={[Function Array]}
   notificationsSortBy="0"
-  statusMessageService={[Function StatusMessageService]}
-  tableComparatorService={[Function TableComparatorService]}
+  statusMessageService={[Function _StatusMessageService]}
+  tableComparatorService={[Function _TableComparatorService]}
   timezone={[Function String]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function _TimezoneService]}
   userType={[Function String]}
 >
   <div
@@ -390,20 +390,20 @@ exports[`UserNotificationsListComponent should snap when it loads the provided n
 </tm-user-notifications-list>
 `;
 
-exports[`UserNotificationsListComponent should snap when it sorts the notification by end time 1`] = `
+exports[`UserNotificationsListComponent > should snap when it sorts the notification by end time 1`] = `
 <tm-user-notifications-list
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
-  notificationService={[Function NotificationService]}
+  notificationService={[Function _NotificationService]}
   notificationTabs={[Function Array]}
   notificationsSortBy={[Function Number]}
-  statusMessageService={[Function StatusMessageService]}
-  tableComparatorService={[Function TableComparatorService]}
+  statusMessageService={[Function _StatusMessageService]}
+  tableComparatorService={[Function _TableComparatorService]}
   timezone={[Function String]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function _TimezoneService]}
   userType={[Function String]}
 >
   <div
@@ -572,20 +572,20 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
 </tm-user-notifications-list>
 `;
 
-exports[`UserNotificationsListComponent should snap when it sorts the notification by start time 1`] = `
+exports[`UserNotificationsListComponent > should snap when it sorts the notification by start time 1`] = `
 <tm-user-notifications-list
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
-  notificationService={[Function NotificationService]}
+  notificationService={[Function _NotificationService]}
   notificationTabs={[Function Array]}
   notificationsSortBy={[Function Number]}
-  statusMessageService={[Function StatusMessageService]}
-  tableComparatorService={[Function TableComparatorService]}
+  statusMessageService={[Function _StatusMessageService]}
+  tableComparatorService={[Function _TableComparatorService]}
   timezone={[Function String]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function _TimezoneService]}
   userType={[Function String]}
 >
   <div
@@ -754,20 +754,20 @@ exports[`UserNotificationsListComponent should snap when it sorts the notificati
 </tm-user-notifications-list>
 `;
 
-exports[`UserNotificationsListComponent should snap with default fields when loading 1`] = `
+exports[`UserNotificationsListComponent > should snap with default fields when loading 1`] = `
 <tm-user-notifications-list
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
   hasLoadingFailed="false"
   isLoadingNotifications={[Function Boolean]}
-  notificationService={[Function NotificationService]}
+  notificationService={[Function _NotificationService]}
   notificationTabs={[Function Array]}
   notificationsSortBy="0"
-  statusMessageService={[Function StatusMessageService]}
-  tableComparatorService={[Function TableComparatorService]}
+  statusMessageService={[Function _StatusMessageService]}
+  tableComparatorService={[Function _TableComparatorService]}
   timezone={[Function String]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function _TimezoneService]}
   userType={[Function String]}
 >
   <div
@@ -803,20 +803,20 @@ exports[`UserNotificationsListComponent should snap with default fields when loa
 </tm-user-notifications-list>
 `;
 
-exports[`UserNotificationsListComponent should snap with no notifications 1`] = `
+exports[`UserNotificationsListComponent > should snap with no notifications 1`] = `
 <tm-user-notifications-list
   DATE_FORMAT={[Function String]}
   NotificationTargetUser={[Function Object]}
   SortBy={[Function Object]}
   hasLoadingFailed="false"
   isLoadingNotifications="false"
-  notificationService={[Function NotificationService]}
+  notificationService={[Function _NotificationService]}
   notificationTabs={[Function Array]}
   notificationsSortBy="0"
-  statusMessageService={[Function StatusMessageService]}
-  tableComparatorService={[Function TableComparatorService]}
+  statusMessageService={[Function _StatusMessageService]}
+  tableComparatorService={[Function _TableComparatorService]}
   timezone={[Function String]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function _TimezoneService]}
   userType={[Function String]}
 >
   <div

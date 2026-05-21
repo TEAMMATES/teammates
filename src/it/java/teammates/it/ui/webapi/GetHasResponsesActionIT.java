@@ -1,5 +1,7 @@
 package teammates.it.ui.webapi;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

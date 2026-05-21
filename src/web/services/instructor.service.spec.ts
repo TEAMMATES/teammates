@@ -27,6 +27,9 @@ const defaultInstructors: Instructors = {
     {
       googleId: '',
       courseId: 'CS3281',
+      courseName: 'Test Course',
+      institute: 'Test Institute',
+      userId: 'test-user-id',
       email: '',
       isDisplayedToStudents: true,
       displayedToStudentsAs: '',
@@ -37,6 +40,9 @@ const defaultInstructors: Instructors = {
     {
       googleId: '',
       courseId: 'CS3282',
+      courseName: 'Test Course',
+      institute: 'Test Institute',
+      userId: 'test-user-id',
       email: '',
       isDisplayedToStudents: true,
       displayedToStudentsAs: '',
@@ -127,10 +133,18 @@ describe('InstructorService', () => {
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);
   });
 
+  it('should call get when loading instructor privileges by user ID', () => {
+    const paramMap: Record<string, string> = {
+      userid: '00000000-0000-4000-8000-000000000001',
+    };
+
+    service.loadInstructorPrivilege({ userId: paramMap['userid'] });
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.INSTRUCTOR_PRIVILEGE, paramMap);
+  });
+
   it('should call put when updating instructor privileges', () => {
     const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
-      instructoremail: 'johndoe@gmail.com',
+      userid: '00000000-0000-4000-8000-000000000001',
     };
     const requestBody: InstructorPrivilegeUpdateRequest = {
       privileges: {
@@ -151,8 +165,7 @@ describe('InstructorService', () => {
 
     service.updateInstructorPrivilege({
       requestBody,
-      courseId: paramMap['courseid'],
-      instructorEmail: paramMap['instructoremail'],
+      userId: paramMap['userid'],
     });
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(
       ResourceEndpoints.INSTRUCTOR_PRIVILEGE,

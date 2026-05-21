@@ -1,16 +1,14 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, throwError } from 'rxjs';
-import SpyInstance = jest.SpyInstance;
 import { AdminStudentSearchTableComponent } from './admin-student-search-table.component';
 import { AccountService } from '../../../../services/account.service';
 import { EmailGenerationService } from '../../../../services/email-generation.service';
 import { FeedbackSessionsGroup, StudentAccountSearchResult } from '../../../../services/search.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
-import { StudentService } from '../../../../services/student.service';
+import { UserService } from '../../../../services/user.service';
 import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-ref';
 
 const DEFAULT_SESSION_ID = '17681c09-f4e5-40c2-be77-eeccf0c221c2';
@@ -50,23 +48,20 @@ describe('AdminStudentSearchTableComponent', () => {
   let component: AdminStudentSearchTableComponent;
   let fixture: ComponentFixture<AdminStudentSearchTableComponent>;
   let accountService: AccountService;
-  let studentService: StudentService;
+  let userService: UserService;
   let statusMessageService: StatusMessageService;
   let emailGenerationService: EmailGenerationService;
   let ngbModal: NgbModal;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(AdminStudentSearchTableComponent);
     component = fixture.componentInstance;
     accountService = TestBed.inject(AccountService);
-    studentService = TestBed.inject(StudentService);
+    userService = TestBed.inject(UserService);
     statusMessageService = TestBed.inject(StatusMessageService);
     emailGenerationService = TestBed.inject(EmailGenerationService);
     ngbModal = TestBed.inject(NgbModal);
@@ -152,20 +147,20 @@ describe('AdminStudentSearchTableComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
-    jest.spyOn(ngbModal, 'open').mockImplementation(() => {
+    vi.spyOn(ngbModal, 'open').mockImplementation(() => {
       return createMockNgbModalRef({
         name: 'dummy',
         course: 'dummy',
       });
     });
 
-    jest.spyOn(accountService, 'resetStudentAccount').mockReturnValue(
+    vi.spyOn(accountService, 'resetAccount').mockReturnValue(
       of({
         message: 'success',
       }),
     );
 
-    const spyStatusMessageService: SpyInstance = jest
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showSuccessToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual("The student's Google ID has been reset.");
@@ -203,14 +198,14 @@ describe('AdminStudentSearchTableComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
-    jest.spyOn(ngbModal, 'open').mockImplementation(() => {
+    vi.spyOn(ngbModal, 'open').mockImplementation(() => {
       return createMockNgbModalRef({
         name: 'dummy',
         course: 'dummy',
       });
     });
 
-    jest.spyOn(accountService, 'resetStudentAccount').mockReturnValue(
+    vi.spyOn(accountService, 'resetAccount').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message.',
@@ -218,7 +213,7 @@ describe('AdminStudentSearchTableComponent', () => {
       })),
     );
 
-    const spyStatusMessageService: SpyInstance = jest
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');
@@ -270,20 +265,20 @@ describe('AdminStudentSearchTableComponent', () => {
       componentInstance: {},
       result: Promise.resolve({}),
       dismissed: {
-        subscribe: jest.fn(),
+        subscribe: vi.fn(),
       },
     };
 
-    jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
+    vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
-    jest.spyOn(studentService, 'regenerateStudentKey').mockReturnValue(
+    vi.spyOn(userService, 'regenerateUserKey').mockReturnValue(
       of({
         message: 'success',
         newRegistrationKey: 'newKey',
       }),
     );
 
-    const spyStatusMessageService: SpyInstance = jest
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showSuccessToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('success');
@@ -343,13 +338,13 @@ describe('AdminStudentSearchTableComponent', () => {
       componentInstance: {},
       result: Promise.resolve({}),
       dismissed: {
-        subscribe: jest.fn(),
+        subscribe: vi.fn(),
       },
     };
 
-    jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
+    vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
-    jest.spyOn(studentService, 'regenerateStudentKey').mockReturnValue(
+    vi.spyOn(userService, 'regenerateUserKey').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message.',
@@ -357,7 +352,7 @@ describe('AdminStudentSearchTableComponent', () => {
       })),
     );
 
-    const spyStatusMessageService: SpyInstance = jest
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');
@@ -377,7 +372,7 @@ describe('AdminStudentSearchTableComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
-    jest.spyOn(emailGenerationService, 'getCourseJoinEmail').mockReturnValue(
+    vi.spyOn(emailGenerationService, 'getCourseJoinEmail').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message.',
@@ -385,7 +380,7 @@ describe('AdminStudentSearchTableComponent', () => {
       })),
     );
 
-    const spyStatusMessageService: SpyInstance = jest
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');
@@ -405,7 +400,7 @@ describe('AdminStudentSearchTableComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
-    jest.spyOn(emailGenerationService, 'getFeedbackSessionReminderEmail').mockReturnValue(
+    vi.spyOn(emailGenerationService, 'getFeedbackSessionReminderEmail').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message.',
@@ -413,7 +408,7 @@ describe('AdminStudentSearchTableComponent', () => {
       })),
     );
 
-    const spyStatusMessageService: SpyInstance = jest
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');

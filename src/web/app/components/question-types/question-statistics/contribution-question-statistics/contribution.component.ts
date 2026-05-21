@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import {
   CONTRIBUTION_POINT_NOT_INITIALIZED,
   CONTRIBUTION_POINT_NOT_SUBMITTED,
@@ -15,9 +15,14 @@ import {
   imports: [NgbTooltip],
 })
 export class ContributionComponent {
-  CONTRIBUTION_POINT_NOT_INITIALIZED: number = CONTRIBUTION_POINT_NOT_INITIALIZED;
-  CONTRIBUTION_POINT_NOT_SUBMITTED: number = CONTRIBUTION_POINT_NOT_SUBMITTED;
+  CONTRIBUTION_POINT_NOT_INITIALIZED!: number;
+  CONTRIBUTION_POINT_NOT_SUBMITTED!: number;
 
   @Input() value = 100;
   @Input() diffOnly = false;
+
+  constructor() {
+    this.CONTRIBUTION_POINT_NOT_INITIALIZED = CONTRIBUTION_POINT_NOT_INITIALIZED;
+    this.CONTRIBUTION_POINT_NOT_SUBMITTED = CONTRIBUTION_POINT_NOT_SUBMITTED;
+  }
 }

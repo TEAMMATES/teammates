@@ -1,5 +1,8 @@
 package teammates.e2e.cases;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -39,10 +42,10 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
         String javaOffsets = timezonePage.getJavaTimezoneOffsets();
         String momentOffsets = timezonePage.getMomentTimezoneOffsets();
         assertEquals(
-                "The timezone database versions are not in sync. For information on updating the timezone databases, "
-                + "see the maintainer guide in the TEAMMATES ops repository.",
                 timezonePage.getJavaTimezoneVersion(),
-                timezonePage.getMomentTimezoneVersion()
+                timezonePage.getMomentTimezoneVersion(),
+                "The timezone database versions are not in sync. For information on updating the timezone databases, "
+                + "see the maintainer guide in the TEAMMATES ops repository."
         );
         if (!javaOffsets.equals(momentOffsets)) {
             // Show diff when running test in Gradle
@@ -67,9 +70,9 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
             LocalDate nowDate = Instant.now().atZone(ZoneId.of(Const.DEFAULT_TIME_ZONE)).toLocalDate();
 
             assertTrue(
+                    releaseDate.plusDays(DAYS_TO_UPDATE_TZ).isAfter(nowDate),
                     "The timezone database version is not up-to-date for more than " + DAYS_TO_UPDATE_TZ + " days,"
-                            + " please update them according to the maintenance guide.",
-                    releaseDate.plusDays(DAYS_TO_UPDATE_TZ).isAfter(nowDate));
+                            + " please update them according to the maintenance guide.");
 
         }
     }

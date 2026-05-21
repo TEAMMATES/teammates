@@ -27,7 +27,7 @@ public class DeleteStudentsAction extends Action {
     public JsonResult execute() {
         var courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
-        logic.deleteStudentsInCourseCascade(courseId);
+        logic.deleteStudentsInCourse(courseId);
 
         return new JsonResult("Successful");
     }

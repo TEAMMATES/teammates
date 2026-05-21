@@ -1,7 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, throwError } from 'rxjs';
 import { ErrorReportComponent } from './error-report.component';
 import { HttpRequestService } from '../../../services/http-request.service';
@@ -11,13 +11,11 @@ describe('ErrorReportComponent', () => {
   let fixture: ComponentFixture<ErrorReportComponent>;
   let httpRequestService: HttpRequestService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ErrorReportComponent);
     component = fixture.componentInstance;
     httpRequestService = TestBed.inject(HttpRequestService);
@@ -41,7 +39,7 @@ describe('ErrorReportComponent', () => {
     expect(component.sendButtonEnabled).toBeTruthy();
     expect(component.errorReportSubmitted).toBeFalsy();
 
-    jest.spyOn(httpRequestService, 'post').mockReturnValue(of(''));
+    vi.spyOn(httpRequestService, 'post').mockReturnValue(of(''));
     fixture.nativeElement.querySelector('button').click();
     fixture.detectChanges();
 
@@ -54,7 +52,7 @@ describe('ErrorReportComponent', () => {
     expect(component.sendButtonEnabled).toBeTruthy();
     expect(component.errorReportSubmitted).toBeFalsy();
 
-    jest.spyOn(httpRequestService, 'post').mockReturnValue(
+    vi.spyOn(httpRequestService, 'post').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message',

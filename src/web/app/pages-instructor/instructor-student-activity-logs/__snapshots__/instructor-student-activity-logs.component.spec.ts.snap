@@ -1,29 +1,29 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`InstructorStudentActivityLogsComponent should snap when page is still loading 1`] = `
+exports[`InstructorStudentActivityLogsComponent > should snap when page is still loading 1`] = `
 <tm-instructor-student-activity-logs
   LOGS_DATE_TIME_FORMAT={[Function String]}
   LOG_TYPES={[Function Array]}
   STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD={[Function Number]}
   SortBy={[Function Object]}
-  castAsInputElement={[Function Function]}
+  castAsInputElement="undefined"
   course={[Function Object]}
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
   feedbackSessions={[Function Map]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   formModel={[Function Object]}
   isLoading={[Function Boolean]}
   isSearching="false"
-  logsService={[Function LogService]}
+  logsService={[Function _LogService]}
   route={[Function ActivatedRoute]}
   searchResults={[Function Array]}
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
   studentLogsMap={[Function Map]}
-  studentService={[Function StudentService]}
+  studentService={[Function _StudentService]}
   students={[Function Array]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function _TimezoneService]}
 >
   <h1>
     Student Activity Logs For 
@@ -60,30 +60,30 @@ exports[`InstructorStudentActivityLogsComponent should snap when page is still l
 </tm-instructor-student-activity-logs>
 `;
 
-exports[`InstructorStudentActivityLogsComponent should snap when searching for details in search form 1`] = `
+exports[`InstructorStudentActivityLogsComponent > should snap when searching for details in search form 1`] = `
 <tm-instructor-student-activity-logs
   LOGS_DATE_TIME_FORMAT={[Function String]}
   LOG_TYPES={[Function Array]}
   STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD={[Function Number]}
   SortBy={[Function Object]}
-  castAsInputElement={[Function Function]}
+  castAsInputElement="undefined"
   course={[Function Object]}
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
   feedbackSessions={[Function Map]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   formModel={[Function Object]}
   isLoading="false"
   isSearching={[Function Boolean]}
-  logsService={[Function LogService]}
+  logsService={[Function _LogService]}
   route={[Function ActivatedRoute]}
   searchResults={[Function Array]}
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
   studentLogsMap={[Function Map]}
-  studentService={[Function StudentService]}
+  studentService={[Function _StudentService]}
   students={[Function Array]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function _TimezoneService]}
 >
   <h1>
     Student Activity Logs For CS9999
@@ -602,30 +602,30 @@ exports[`InstructorStudentActivityLogsComponent should snap when searching for d
 </tm-instructor-student-activity-logs>
 `;
 
-exports[`InstructorStudentActivityLogsComponent should snap with default fields 1`] = `
+exports[`InstructorStudentActivityLogsComponent > should snap with default fields 1`] = `
 <tm-instructor-student-activity-logs
   LOGS_DATE_TIME_FORMAT={[Function String]}
   LOG_TYPES={[Function Array]}
   STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD={[Function Number]}
   SortBy={[Function Object]}
-  castAsInputElement={[Function Function]}
+  castAsInputElement="undefined"
   course={[Function Object]}
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
   feedbackSessions={[Function Map]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   formModel={[Function Object]}
   isLoading={[Function Boolean]}
   isSearching="false"
-  logsService={[Function LogService]}
+  logsService={[Function _LogService]}
   route={[Function ActivatedRoute]}
   searchResults={[Function Array]}
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
   studentLogsMap={[Function Map]}
-  studentService={[Function StudentService]}
+  studentService={[Function _StudentService]}
   students={[Function Array]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function _TimezoneService]}
 >
   <h1>
     Student Activity Logs For 
@@ -662,30 +662,30 @@ exports[`InstructorStudentActivityLogsComponent should snap with default fields 
 </tm-instructor-student-activity-logs>
 `;
 
-exports[`InstructorStudentActivityLogsComponent should snap with results of a search 1`] = `
+exports[`InstructorStudentActivityLogsComponent > should snap with results of a search 1`] = `
 <tm-instructor-student-activity-logs
   LOGS_DATE_TIME_FORMAT={[Function String]}
   LOG_TYPES={[Function Array]}
   STUDENT_ACTIVITY_LOGS_RETENTION_PERIOD={[Function Number]}
   SortBy={[Function Object]}
-  castAsInputElement={[Function Function]}
+  castAsInputElement="undefined"
   course={[Function Object]}
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
   feedbackSessions={[Function Map]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   formModel={[Function Object]}
   isLoading="false"
   isSearching="false"
-  logsService={[Function LogService]}
+  logsService={[Function _LogService]}
   route={[Function ActivatedRoute]}
   searchResults={[Function Array]}
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
   studentLogsMap={[Function Map]}
-  studentService={[Function StudentService]}
+  studentService={[Function _StudentService]}
   students={[Function Array]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function _TimezoneService]}
 >
   <h1>
     Student Activity Logs For 

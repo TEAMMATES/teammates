@@ -1,7 +1,6 @@
 import { HttpStatusCode, provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { throwError } from 'rxjs';
 import { CourseTab, InstructorStudentListPageComponent } from './instructor-student-list-page.component';
@@ -30,6 +29,9 @@ describe('InstructorStudentListPageComponent', () => {
         student: {
           email: 'student1@example.com',
           courseId: 'course1Id',
+          courseName: 'Test Course',
+          institute: 'Test Institute',
+          userId: 'student-1',
           name: 'Student 1',
           teamName: 'Team 1',
           sectionName: 'Section 1',
@@ -41,6 +43,9 @@ describe('InstructorStudentListPageComponent', () => {
         student: {
           email: 'student2@example.com',
           courseId: 'course1Id',
+          courseName: 'Test Course',
+          institute: 'Test Institute',
+          userId: 'student-2',
           name: 'Student 2',
           teamName: 'Team 1',
           sectionName: 'Section 1',
@@ -52,6 +57,9 @@ describe('InstructorStudentListPageComponent', () => {
         student: {
           email: 'student3@example.com',
           courseId: 'course1Id',
+          courseName: 'Test Course',
+          institute: 'Test Institute',
+          userId: 'student-3',
           name: 'Student 3',
           teamName: 'Team 4',
           sectionName: 'Section 5',
@@ -73,14 +81,11 @@ describe('InstructorStudentListPageComponent', () => {
     },
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorStudentListPageComponent);
     studentService = TestBed.inject(StudentService);
     component = fixture.componentInstance;
@@ -92,7 +97,7 @@ describe('InstructorStudentListPageComponent', () => {
   });
 
   it('should block instructors from viewing student details if they do not have the permission', () => {
-    jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
+    vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
       throwError(() => ({
         status: HttpStatusCode.Forbidden,
         error: {

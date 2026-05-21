@@ -1,24 +1,24 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`InstructorHomePageComponent should snap when courses are still loading 1`] = `
+exports[`InstructorHomePageComponent > should snap when courses are still loading 1`] = `
 <tm-instructor-home-page
   SessionsTableColumn={[Function Object]}
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasCoursesLoaded="false"
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
   instructorCoursesSortBy={[Function Number]}
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isCopyLoading="false"
   isCopyingCourse="false"
   isNewUser="false"
@@ -26,19 +26,19 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   isSendReminderLoading="false"
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function NavigationService]}
-  ngbModal={[Function _NgbModal]}
+  navigationService={[Function _NavigationService]}
+  ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
-  progressBarService={[Function ProgressBarService]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts={[Function Number]}
+  progressBarService={[Function _ProgressBarService]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishUnpublishRetryAttempts="undefined"
   sessionEditFormModel={[Function Object]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
+  timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <h1>
@@ -80,25 +80,25 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
 </tm-instructor-home-page>
 `;
 
-exports[`InstructorHomePageComponent should snap with default fields 1`] = `
+exports[`InstructorHomePageComponent > should snap with default fields 1`] = `
 <tm-instructor-home-page
   SessionsTableColumn={[Function Object]}
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasCoursesLoaded="false"
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
   instructorCoursesSortBy={[Function Number]}
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isCopyLoading="false"
   isCopyingCourse="false"
   isNewUser="false"
@@ -106,19 +106,19 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   isSendReminderLoading="false"
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function NavigationService]}
-  ngbModal={[Function _NgbModal]}
+  navigationService={[Function _NavigationService]}
+  ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
-  progressBarService={[Function ProgressBarService]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts={[Function Number]}
+  progressBarService={[Function _ProgressBarService]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishUnpublishRetryAttempts="undefined"
   sessionEditFormModel={[Function Object]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
+  timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <h1>
@@ -160,25 +160,25 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
 </tm-instructor-home-page>
 `;
 
-exports[`InstructorHomePageComponent should snap with one course with error loading feedback sessions 1`] = `
+exports[`InstructorHomePageComponent > should snap with one course with error loading feedback sessions 1`] = `
 <tm-instructor-home-page
   SessionsTableColumn={[Function Object]}
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
   instructorCoursesSortBy={[Function Number]}
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isCopyLoading="false"
   isCopyingCourse="false"
   isNewUser="false"
@@ -186,19 +186,19 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   isSendReminderLoading="false"
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function NavigationService]}
-  ngbModal={[Function _NgbModal]}
+  navigationService={[Function _NavigationService]}
+  ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
-  progressBarService={[Function ProgressBarService]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts={[Function Number]}
+  progressBarService={[Function _ProgressBarService]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishUnpublishRetryAttempts="undefined"
   sessionEditFormModel={[Function Object]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
+  timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <h1>
@@ -307,25 +307,25 @@ exports[`InstructorHomePageComponent should snap with one course with error load
 </tm-instructor-home-page>
 `;
 
-exports[`InstructorHomePageComponent should snap with one course with one feedback session with instructor privilege 1`] = `
+exports[`InstructorHomePageComponent > should snap with one course with one feedback session with instructor privilege 1`] = `
 <tm-instructor-home-page
   SessionsTableColumn={[Function Object]}
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
   instructorCoursesSortBy={[Function Number]}
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isCopyLoading="false"
   isCopyingCourse="false"
   isNewUser="false"
@@ -333,19 +333,19 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   isSendReminderLoading="false"
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function NavigationService]}
-  ngbModal={[Function _NgbModal]}
+  navigationService={[Function _NavigationService]}
+  ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
-  progressBarService={[Function ProgressBarService]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts={[Function Number]}
+  progressBarService={[Function _ProgressBarService]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishUnpublishRetryAttempts="undefined"
   sessionEditFormModel={[Function Object]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
+  timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <h1>
@@ -426,7 +426,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
               class="card-header-btn-toolbar flex-lg-shrink-0"
             >
               <span
-                class="dropdown"
                 container="body"
                 ngbdropdown=""
               >
@@ -459,7 +458,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 </div>
               </span>
               <span
-                class="dropdown"
                 container="body"
                 ngbdropdown=""
               >
@@ -485,7 +483,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 </div>
               </span>
               <span
-                class="dropdown"
                 container="body"
                 ngbdropdown=""
               >
@@ -511,7 +508,6 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                 </div>
               </span>
               <span
-                class="dropdown"
                 container="body"
                 ngbdropdown=""
               >
@@ -797,7 +793,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                   </button>
                                 </a>
                                 <div
-                                  class="d-inline-block dropdown"
+                                  class="d-inline-block"
                                   container="body"
                                   ngbdropdown=""
                                 >
@@ -848,7 +844,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                   </div>
                                 </div>
                                 <div
-                                  class="d-inline-block dropdown"
+                                  class="d-inline-block"
                                   container="body"
                                   ngbdropdown=""
                                   ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
@@ -904,25 +900,25 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
 </tm-instructor-home-page>
 `;
 
-exports[`InstructorHomePageComponent should snap with one course with two feedback sessions with tutor privilege 1`] = `
+exports[`InstructorHomePageComponent > should snap with one course with two feedback sessions with tutor privilege 1`] = `
 <tm-instructor-home-page
   SessionsTableColumn={[Function Object]}
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
   instructorCoursesSortBy={[Function Number]}
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isCopyLoading="false"
   isCopyingCourse="false"
   isNewUser="false"
@@ -930,19 +926,19 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   isSendReminderLoading="false"
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function NavigationService]}
-  ngbModal={[Function _NgbModal]}
+  navigationService={[Function _NavigationService]}
+  ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
-  progressBarService={[Function ProgressBarService]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts={[Function Number]}
+  progressBarService={[Function _ProgressBarService]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishUnpublishRetryAttempts="undefined"
   sessionEditFormModel={[Function Object]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
+  timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <h1>
@@ -1023,7 +1019,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
               class="card-header-btn-toolbar flex-lg-shrink-0"
             >
               <span
-                class="dropdown"
                 container="body"
                 ngbdropdown=""
               >
@@ -1049,7 +1044,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 </div>
               </span>
               <span
-                class="dropdown"
                 container="body"
                 ngbdropdown=""
               >
@@ -1075,7 +1069,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 </div>
               </span>
               <span
-                class="dropdown"
                 container="body"
                 ngbdropdown=""
               >
@@ -1101,7 +1094,6 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                 </div>
               </span>
               <span
-                class="dropdown"
                 container="body"
                 ngbdropdown=""
               >
@@ -1364,7 +1356,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                    Submit 
                                 </button>
                                 <div
-                                  class="d-inline-block dropdown"
+                                  class="d-inline-block"
                                   container="body"
                                   ngbdropdown=""
                                 >
@@ -1416,7 +1408,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                   </div>
                                 </div>
                                 <div
-                                  class="d-inline-block dropdown"
+                                  class="d-inline-block"
                                   container="body"
                                   ngbdropdown=""
                                   ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
@@ -1549,7 +1541,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                    Submit 
                                 </button>
                                 <div
-                                  class="d-inline-block dropdown"
+                                  class="d-inline-block"
                                   container="body"
                                   ngbdropdown=""
                                 >
@@ -1601,7 +1593,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                   </div>
                                 </div>
                                 <div
-                                  class="d-inline-block dropdown"
+                                  class="d-inline-block"
                                   container="body"
                                   ngbdropdown=""
                                   ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
@@ -1658,25 +1650,25 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
 </tm-instructor-home-page>
 `;
 
-exports[`InstructorHomePageComponent should snap with one course with unexpanded course tab 1`] = `
+exports[`InstructorHomePageComponent > should snap with one course with unexpanded course tab 1`] = `
 <tm-instructor-home-page
   SessionsTableColumn={[Function Object]}
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
   instructorCoursesSortBy={[Function Number]}
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isCopyLoading="false"
   isCopyingCourse="false"
   isNewUser="false"
@@ -1684,19 +1676,19 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   isSendReminderLoading="false"
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function NavigationService]}
-  ngbModal={[Function _NgbModal]}
+  navigationService={[Function _NavigationService]}
+  ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
-  progressBarService={[Function ProgressBarService]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts={[Function Number]}
+  progressBarService={[Function _ProgressBarService]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishUnpublishRetryAttempts="undefined"
   sessionEditFormModel={[Function Object]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
+  timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <h1>
@@ -1777,7 +1769,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
               class="card-header-btn-toolbar flex-lg-shrink-0"
             >
               <span
-                class="dropdown"
                 container="body"
                 ngbdropdown=""
               >
@@ -1810,7 +1801,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 </div>
               </span>
               <span
-                class="dropdown"
                 container="body"
                 ngbdropdown=""
               >
@@ -1836,7 +1826,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 </div>
               </span>
               <span
-                class="dropdown"
                 container="body"
                 ngbdropdown=""
               >
@@ -1862,7 +1851,6 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
                 </div>
               </span>
               <span
-                class="dropdown"
                 container="body"
                 ngbdropdown=""
               >
@@ -1949,25 +1937,25 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
 </tm-instructor-home-page>
 `;
 
-exports[`InstructorHomePageComponent should snap with one course with unpopulated feedback sessions 1`] = `
+exports[`InstructorHomePageComponent > should snap with one course with unpopulated feedback sessions 1`] = `
 <tm-instructor-home-page
   SessionsTableColumn={[Function Object]}
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
   instructorCoursesSortBy={[Function Number]}
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isCopyLoading="false"
   isCopyingCourse="false"
   isNewUser="false"
@@ -1975,19 +1963,19 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   isSendReminderLoading="false"
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function NavigationService]}
-  ngbModal={[Function _NgbModal]}
+  navigationService={[Function _NavigationService]}
+  ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
-  progressBarService={[Function ProgressBarService]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts={[Function Number]}
+  progressBarService={[Function _ProgressBarService]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishUnpublishRetryAttempts="undefined"
   sessionEditFormModel={[Function Object]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
+  timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <h1>
@@ -2068,7 +2056,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
               class="card-header-btn-toolbar flex-lg-shrink-0"
             >
               <span
-                class="dropdown"
                 container="body"
                 ngbdropdown=""
               >
@@ -2101,7 +2088,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 </div>
               </span>
               <span
-                class="dropdown"
                 container="body"
                 ngbdropdown=""
               >
@@ -2127,7 +2113,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 </div>
               </span>
               <span
-                class="dropdown"
                 container="body"
                 ngbdropdown=""
               >
@@ -2153,7 +2138,6 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
                 </div>
               </span>
               <span
-                class="dropdown"
                 container="body"
                 ngbdropdown=""
               >
@@ -2240,25 +2224,25 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
 </tm-instructor-home-page>
 `;
 
-exports[`InstructorHomePageComponent should snap with one course without feedback session 1`] = `
+exports[`InstructorHomePageComponent > should snap with one course without feedback session 1`] = `
 <tm-instructor-home-page
   SessionsTableColumn={[Function Object]}
   SortBy={[Function Object]}
   SortableTableHeaderColorScheme={[Function Object]}
   allCoursesList={[Function Array]}
   copyProgressPercentage="0"
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   courseTabModels={[Function Array]}
   coursesOfModifiedSession={[Function Array]}
   failedToCopySessions={[Function Object]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
-  feedbackSessionActionsService={[Function FeedbackSessionActionsService]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
+  feedbackSessionActionsService={[Function _FeedbackSessionActionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasCoursesLoaded={[Function Boolean]}
   hasCoursesLoadingFailed="false"
   initialSortBy={[Function Number]}
   instructorCoursesSortBy={[Function Number]}
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isCopyLoading="false"
   isCopyingCourse="false"
   isNewUser="false"
@@ -2266,19 +2250,19 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   isSendReminderLoading="false"
   modifiedSession={[Function Object]}
   modifiedTimestampsModal={[Function TemplateRef]}
-  navigationService={[Function NavigationService]}
-  ngbModal={[Function _NgbModal]}
+  navigationService={[Function _NavigationService]}
+  ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
-  progressBarService={[Function ProgressBarService]}
-  publishStatusName={[Function PublishStatusNamePipe]}
-  publishUnpublishRetryAttempts={[Function Number]}
+  progressBarService={[Function _ProgressBarService]}
+  publishStatusName={[Function _PublishStatusNamePipe]}
+  publishUnpublishRetryAttempts="undefined"
   sessionEditFormModel={[Function Object]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   sortOrder="0"
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
-  timezoneService={[Function TimezoneService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
+  tableComparatorService={[Function _TableComparatorService]}
+  timezoneService={[Function _TimezoneService]}
   totalNumberOfSessionsToCopy="0"
 >
   <h1>
@@ -2359,7 +2343,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
               class="card-header-btn-toolbar flex-lg-shrink-0"
             >
               <span
-                class="dropdown"
                 container="body"
                 ngbdropdown=""
               >
@@ -2392,7 +2375,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 </div>
               </span>
               <span
-                class="dropdown"
                 container="body"
                 ngbdropdown=""
               >
@@ -2418,7 +2400,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 </div>
               </span>
               <span
-                class="dropdown"
                 container="body"
                 ngbdropdown=""
               >
@@ -2444,7 +2425,6 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
                 </div>
               </span>
               <span
-                class="dropdown"
                 container="body"
                 ngbdropdown=""
               >

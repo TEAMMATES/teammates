@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import moment from 'moment-timezone';
 import { finalize } from 'rxjs/operators';
 import {
@@ -42,7 +42,7 @@ export class AdminNotificationsPageComponent implements OnInit {
   private tableComparatorService = inject(TableComparatorService);
   private timezoneService = inject(TimezoneService);
 
-  NotificationEditFormMode = NotificationEditFormMode;
+  NotificationEditFormMode!: typeof NotificationEditFormMode;
 
   currentNotificationEditFormMode = NotificationEditFormMode.ADD;
   isNotificationLoading = false;
@@ -73,6 +73,10 @@ export class AdminNotificationsPageComponent implements OnInit {
   notificationsTableRowModelsSortOrder = SortOrder.DESC;
 
   guessTimezone = 'UTC';
+
+  constructor() {
+    this.NotificationEditFormMode = NotificationEditFormMode;
+  }
 
   ngOnInit(): void {
     this.initNotificationEditFormModel();

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CourseEditFormComponent should snap when in ADD Mode and is display only 1`] = `
+exports[`CourseEditFormComponent > should snap when in ADD Mode and is display only 1`] = `
 <tm-course-edit-form
   COURSE_ID_MAX_LENGTH={[Function Number]}
   COURSE_NAME_MAX_LENGTH={[Function Number]}
@@ -11,16 +11,16 @@ exports[`CourseEditFormComponent should snap when in ADD Mode and is display onl
   createNewCourseEvent={[Function EventEmitter_]}
   deleteCourseEvent={[Function EventEmitter_]}
   editModel="undefined"
-  feedbackSessionsService={[Function FeedbackSessionsService]}
-  form={[Function _NgForm]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
+  form={[Function NgForm]}
   formMode="0"
   isDisplayOnly={[Function Boolean]}
   model={[Function Object]}
-  ngbModal={[Function _NgbModal]}
+  ngbModal={[Function NgbModal]}
   resetEventSubscription={[Function Subscription]}
   resetFormEvent={[Function EventEmitter_]}
-  statusMessageService={[Function mockConstructor]}
-  timezoneService={[Function mockConstructor]}
+  statusMessageService={[Function Mock]}
+  timezoneService={[Function Mock]}
   updateCourseEvent={[Function EventEmitter_]}
 >
   <div
@@ -221,7 +221,7 @@ exports[`CourseEditFormComponent should snap when in ADD Mode and is display onl
 </tm-course-edit-form>
 `;
 
-exports[`CourseEditFormComponent should snap when in ADD Mode with default fields 1`] = `
+exports[`CourseEditFormComponent > should snap when in ADD Mode with default fields 1`] = `
 <tm-course-edit-form
   COURSE_ID_MAX_LENGTH={[Function Number]}
   COURSE_NAME_MAX_LENGTH={[Function Number]}
@@ -232,16 +232,16 @@ exports[`CourseEditFormComponent should snap when in ADD Mode with default field
   createNewCourseEvent={[Function EventEmitter_]}
   deleteCourseEvent={[Function EventEmitter_]}
   editModel="undefined"
-  feedbackSessionsService={[Function FeedbackSessionsService]}
-  form={[Function _NgForm]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
+  form={[Function NgForm]}
   formMode="0"
   isDisplayOnly="false"
   model={[Function Object]}
-  ngbModal={[Function _NgbModal]}
+  ngbModal={[Function NgbModal]}
   resetEventSubscription={[Function SafeSubscriber]}
   resetFormEvent={[Function EventEmitter_]}
-  statusMessageService={[Function mockConstructor]}
-  timezoneService={[Function mockConstructor]}
+  statusMessageService={[Function Mock]}
+  timezoneService={[Function Mock]}
   updateCourseEvent={[Function EventEmitter_]}
 >
   <div
@@ -446,7 +446,7 @@ exports[`CourseEditFormComponent should snap when in ADD Mode with default field
 </tm-course-edit-form>
 `;
 
-exports[`CourseEditFormComponent should snap when in EDIT Mode and is display only 1`] = `
+exports[`CourseEditFormComponent > should snap when in EDIT Mode and is display only 1`] = `
 <tm-course-edit-form
   COURSE_ID_MAX_LENGTH={[Function Number]}
   COURSE_NAME_MAX_LENGTH={[Function Number]}
@@ -457,16 +457,16 @@ exports[`CourseEditFormComponent should snap when in EDIT Mode and is display on
   createNewCourseEvent={[Function EventEmitter_]}
   deleteCourseEvent={[Function EventEmitter_]}
   editModel="undefined"
-  feedbackSessionsService={[Function FeedbackSessionsService]}
-  form={[Function _NgForm]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
+  form={[Function NgForm]}
   formMode={[Function Number]}
   isDisplayOnly={[Function Boolean]}
   model={[Function Object]}
-  ngbModal={[Function _NgbModal]}
+  ngbModal={[Function NgbModal]}
   resetEventSubscription={[Function Subscription]}
   resetFormEvent={[Function EventEmitter_]}
-  statusMessageService={[Function mockConstructor]}
-  timezoneService={[Function mockConstructor]}
+  statusMessageService={[Function Mock]}
+  timezoneService={[Function Mock]}
   updateCourseEvent={[Function EventEmitter_]}
 >
   <div
@@ -662,7 +662,7 @@ exports[`CourseEditFormComponent should snap when in EDIT Mode and is display on
 </tm-course-edit-form>
 `;
 
-exports[`CourseEditFormComponent should snap when in EDIT Mode with default fields 1`] = `
+exports[`CourseEditFormComponent > should snap when in EDIT Mode with default fields 1`] = `
 <tm-course-edit-form
   COURSE_ID_MAX_LENGTH={[Function Number]}
   COURSE_NAME_MAX_LENGTH={[Function Number]}
@@ -673,16 +673,16 @@ exports[`CourseEditFormComponent should snap when in EDIT Mode with default fiel
   createNewCourseEvent={[Function EventEmitter_]}
   deleteCourseEvent={[Function EventEmitter_]}
   editModel={[Function Object]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
-  form={[Function _NgForm]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
+  form={[Function NgForm]}
   formMode={[Function Number]}
   isDisplayOnly="false"
   model={[Function Object]}
-  ngbModal={[Function _NgbModal]}
+  ngbModal={[Function NgbModal]}
   resetEventSubscription={[Function SafeSubscriber]}
   resetFormEvent={[Function EventEmitter_]}
-  statusMessageService={[Function mockConstructor]}
-  timezoneService={[Function mockConstructor]}
+  statusMessageService={[Function Mock]}
+  timezoneService={[Function Mock]}
   updateCourseEvent={[Function EventEmitter_]}
 >
   <div

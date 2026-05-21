@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`NewInstructorDataRowComponent should snap with default view 1`] = `
+exports[`NewInstructorDataRowComponent > should snap with default view 1`] = `
 <tr
   addInstructorEvent={[Function EventEmitter_]}
   editedInstructorEmail={[Function String]}
@@ -69,7 +69,7 @@ exports[`NewInstructorDataRowComponent should snap with default view 1`] = `
 </tr>
 `;
 
-exports[`NewInstructorDataRowComponent should snap with edit cancelled 1`] = `
+exports[`NewInstructorDataRowComponent > should snap with edit cancelled 1`] = `
 <tr
   addInstructorEvent={[Function EventEmitter_]}
   editedInstructorEmail={[Function String]}
@@ -138,7 +138,7 @@ exports[`NewInstructorDataRowComponent should snap with edit cancelled 1`] = `
 </tr>
 `;
 
-exports[`NewInstructorDataRowComponent should snap with edit confirmed 1`] = `
+exports[`NewInstructorDataRowComponent > should snap with edit confirmed 1`] = `
 <tr
   addInstructorEvent={[Function EventEmitter_]}
   editedInstructorEmail={[Function String]}
@@ -207,7 +207,7 @@ exports[`NewInstructorDataRowComponent should snap with edit confirmed 1`] = `
 </tr>
 `;
 
-exports[`NewInstructorDataRowComponent should snap with instructor details edited 1`] = `
+exports[`NewInstructorDataRowComponent > should snap with instructor details edited 1`] = `
 <tr
   addInstructorEvent={[Function EventEmitter_]}
   editedInstructorEmail={[Function String]}
@@ -270,7 +270,7 @@ exports[`NewInstructorDataRowComponent should snap with instructor details edite
 </tr>
 `;
 
-exports[`NewInstructorDataRowComponent should snap with start of edit 1`] = `
+exports[`NewInstructorDataRowComponent > should snap with start of edit 1`] = `
 <tr
   addInstructorEvent={[Function EventEmitter_]}
   editedInstructorEmail={[Function String]}

@@ -30,7 +30,12 @@ export class RubricQuestionEditAnswerFormComponent extends QuestionEditAnswerFor
   id = '';
 
   // constant
-  readonly RUBRIC_ANSWER_NOT_CHOSEN: number = RUBRIC_ANSWER_NOT_CHOSEN;
+  readonly RUBRIC_ANSWER_NOT_CHOSEN: number;
+
+  constructor() {
+    super();
+    this.RUBRIC_ANSWER_NOT_CHOSEN = RUBRIC_ANSWER_NOT_CHOSEN;
+  }
 
   /**
    * Selects an answer.

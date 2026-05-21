@@ -1,5 +1,10 @@
 package teammates.logic.api;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
@@ -148,7 +153,7 @@ public class UserProvisionTest extends BaseTestCase {
     public void getAuthContextFromRequest_nonAdminMasquerade_throwsUnauthorizedAccessException() {
         Account account = createAccount("user-id", "user@example.com");
         MockHttpServletRequest req = createRequestWithAuthCookie(account);
-        req.addParam(Const.ParamsNames.USER_ID, "target-id");
+        req.addParam(Const.ParamsNames.USER, "target-id");
         when(mockAccountsLogic.getAccount(account.getId())).thenReturn(account);
 
         UnauthorizedAccessException ex = assertThrows(
@@ -162,7 +167,7 @@ public class UserProvisionTest extends BaseTestCase {
         Account adminAccount = createAccount("admin-id", "admin@example.com");
         Account targetAccount = createAccount("target-id", "target@example.com");
         MockHttpServletRequest req = createRequestWithAuthCookie(adminAccount);
-        req.addParam(Const.ParamsNames.USER_ID, targetAccount.getGoogleId());
+        req.addParam(Const.ParamsNames.USER, targetAccount.getGoogleId());
         when(mockAccountsLogic.getAccount(adminAccount.getId())).thenReturn(adminAccount);
         when(mockAccountsLogic.getAccountForGoogleId(targetAccount.getGoogleId())).thenReturn(targetAccount);
         mockConfigStatic.when(Config::getAppAdmins).thenReturn(List.of(adminAccount.getEmail()));
@@ -204,7 +209,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     private static MockHttpServletRequest createRequestWithAuthCookie(Account account) {
         MockHttpServletRequest req = createRequest();
-        UserInfoCookie userInfoCookie = new UserInfoCookie(account.getGoogleId(), account.getId());
+        UserInfoCookie userInfoCookie = new UserInfoCookie(account.getId());
         String cookieValue = StringHelper.encrypt(JsonUtils.toCompactJson(userInfoCookie));
         req.addCookie(new Cookie(Const.SecurityConfig.AUTH_COOKIE_NAME, cookieValue));
         return req;

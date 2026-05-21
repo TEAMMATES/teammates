@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap/dropdown';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus } from '../../../types/api-output';
 import { InstructorPermissionSet } from '../../../types/api-request';
 
@@ -46,7 +47,13 @@ export class GroupButtonsComponent {
   @Input() onSubmitSessionAsInstructor: () => void = () => {};
 
   // enum
-  FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
-  FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
-  SortableTableHeaderColorScheme: typeof SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
+  FeedbackSessionSubmissionStatus!: typeof FeedbackSessionSubmissionStatus;
+  FeedbackSessionPublishStatus!: typeof FeedbackSessionPublishStatus;
+  SortableTableHeaderColorScheme!: typeof SortableTableHeaderColorScheme;
+
+  constructor() {
+    this.FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
+    this.FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
+    this.SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
+  }
 }

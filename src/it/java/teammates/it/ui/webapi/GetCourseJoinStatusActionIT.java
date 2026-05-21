@@ -1,5 +1,8 @@
 package teammates.it.ui.webapi;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -45,10 +48,7 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
 
         verifyHttpParameterFailure();
         verifyHttpParameterFailure(
-                Const.ParamsNames.REGKEY, "regkey"
-        );
-        verifyHttpParameterFailure(
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT
+                Const.ParamsNames.IS_CREATING_ACCOUNT, "true"
         );
 
         ______TS("Normal case: student is already registered");
@@ -57,7 +57,6 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
 
         String[] params = new String[] {
                 Const.ParamsNames.REGKEY, registeredStudentKey,
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
         GetCourseJoinStatusAction getCourseJoinStatusAction = getAction(params);
@@ -72,7 +71,6 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, unregisteredStudentKey,
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
         getCourseJoinStatusAction = getAction(params);
@@ -85,7 +83,6 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, "ANXKJZNZXNJCZXKJDNKSDA",
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
         verifyEntityNotFound(params);
@@ -97,7 +94,6 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, registeredInstructorKey,
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
         getCourseJoinStatusAction = getAction(params);
@@ -113,7 +109,6 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, unregisteredInstructorKey,
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
         getCourseJoinStatusAction = getAction(params);
@@ -126,7 +121,6 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, "ANXKJZNZXNJCZXKJDNKSDA",
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
         verifyEntityNotFound(params);
@@ -138,7 +132,6 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, accountRequestNotUsedKey,
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
                 Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
         };
 
@@ -155,7 +148,6 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, accountRequestUsedKey,
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
                 Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
         };
 
@@ -169,20 +161,10 @@ public class GetCourseJoinStatusActionIT extends BaseActionIT<GetCourseJoinStatu
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, "invalid-registration-key",
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
                 Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
         };
 
         verifyEntityNotFound(params);
-
-        ______TS("Failure case: invalid entity type");
-
-        params = new String[] {
-                Const.ParamsNames.REGKEY, unregisteredStudentKey,
-                Const.ParamsNames.ENTITY_TYPE, "unknown",
-        };
-
-        verifyHttpParameterFailure(params);
     }
 
     @Test

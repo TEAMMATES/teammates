@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, Input, OnInit, inject } from '@angular/core';
-import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { NotificationService } from '../../../services/notification.service';
@@ -45,8 +45,8 @@ export class UserNotificationsListComponent implements OnInit {
   private tableComparatorService = inject(TableComparatorService);
 
   // enum
-  NotificationTargetUser: typeof NotificationTargetUser = NotificationTargetUser;
-  SortBy: typeof SortBy = SortBy;
+  NotificationTargetUser!: typeof NotificationTargetUser;
+  SortBy!: typeof SortBy;
 
   @Input()
   userType: NotificationTargetUser = NotificationTargetUser.GENERAL;
@@ -61,6 +61,11 @@ export class UserNotificationsListComponent implements OnInit {
   hasLoadingFailed = false;
 
   DATE_FORMAT = 'DD MMM YYYY';
+
+  constructor() {
+    this.NotificationTargetUser = NotificationTargetUser;
+    this.SortBy = SortBy;
+  }
 
   ngOnInit(): void {
     this.loadNotifications();

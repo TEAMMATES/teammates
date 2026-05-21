@@ -1,21 +1,19 @@
 package teammates.ui.webapi;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.participanttypes.ViewerType;
@@ -23,6 +21,7 @@ import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.ui.output.FeedbackQuestionRecipientsData;
 import teammates.ui.request.Intent;
@@ -36,7 +35,9 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
     private FeedbackQuestion typicalFeedbackQuestion;
     private Student typicalStudent;
     private Instructor typicalInstructor;
-    private Map<String, FeedbackQuestionRecipient> typicalRecipients;
+    private Student recipientStudent1;
+    private Student recipientStudent2;
+    private Set<ResponseRecipient> typicalRecipients;
 
     @Override
     protected String getActionUri() {
@@ -60,11 +61,26 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         typicalInstructor = getTypicalInstructor();
         typicalInstructor.setAccount(getTypicalAccount());
 
-        typicalRecipients = new HashMap<>();
-        typicalRecipients.put("recipient1", new FeedbackQuestionRecipient("Recipient 1", "recipient1@teammates.tmt"));
-        typicalRecipients.put("recipient2", new FeedbackQuestionRecipient("Recipient 2", "recipient2@teammates.tmt"));
+        recipientStudent1 = getTypicalStudent();
+        recipientStudent1.setId(UUID.randomUUID());
+        recipientStudent1.setName("Recipient 1");
+        recipientStudent1.setEmail("recipient1@teammates.tmt");
+        recipientStudent1.setCourse(typicalStudent.getCourse());
+        recipientStudent1.setTeam(typicalStudent.getTeam());
+
+        recipientStudent2 = getTypicalStudent();
+        recipientStudent2.setId(UUID.randomUUID());
+        recipientStudent2.setName("Recipient 2");
+        recipientStudent2.setEmail("recipient2@teammates.tmt");
+        recipientStudent2.setCourse(typicalStudent.getCourse());
+        recipientStudent2.setTeam(typicalStudent.getTeam());
+
+        typicalRecipients = Set.of(new ResponseRecipient(recipientStudent1), new ResponseRecipient(recipientStudent2));
 
         reset(mockLogic);
+        when(mockLogic.getStudentsForCourse(typicalStudent.getCourseId()))
+                .thenReturn(List.of(typicalStudent, recipientStudent1, recipientStudent2));
+        when(mockLogic.getInstructorsByCourse(typicalStudent.getCourseId())).thenReturn(List.of(typicalInstructor));
     }
 
     @Test
@@ -78,10 +94,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                 .thenReturn(typicalFeedbackQuestion);
         when(mockLogic.getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
                 .thenReturn(typicalStudent);
-        when(mockLogic.getRecipientsOfQuestion(
-                argThat(arg -> arg.getId().equals(typicalFeedbackQuestion.getId())),
-                argThat(arg -> arg == null),
-                argThat(arg -> arg.getGoogleId().equals(typicalStudent.getGoogleId()))))
+        when(mockLogic.getRecipientsOfQuestion(any(), any()))
                 .thenReturn(typicalRecipients);
 
         loginAsStudent(typicalStudent.getGoogleId());
@@ -90,8 +103,8 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         JsonResult result = action.execute();
         FeedbackQuestionRecipientsData data = (FeedbackQuestionRecipientsData) result.getOutput();
 
-        assertEquals(typicalRecipients.get("recipient1").getName(), data.getRecipients().get(0).getName());
-        assertEquals(typicalRecipients.get("recipient2").getName(), data.getRecipients().get(1).getName());
+        assertEquals(recipientStudent1.getName(), data.getRecipients().get(0).getName());
+        assertEquals(recipientStudent2.getName(), data.getRecipients().get(1).getName());
     }
 
     @Test
@@ -105,10 +118,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                 .thenReturn(typicalFeedbackQuestion);
         when(mockLogic.getInstructorByGoogleId(typicalInstructor.getCourseId(), typicalInstructor.getGoogleId()))
                 .thenReturn(typicalInstructor);
-        when(mockLogic.getRecipientsOfQuestion(
-                argThat(arg -> arg.getId().equals(typicalFeedbackQuestion.getId())),
-                argThat(arg -> arg.getGoogleId().equals(typicalInstructor.getGoogleId())),
-                argThat(arg -> arg == null)))
+        when(mockLogic.getRecipientsOfQuestion(any(), any()))
                 .thenReturn(typicalRecipients);
 
         loginAsInstructor(typicalInstructor.getGoogleId());
@@ -118,8 +128,8 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         FeedbackQuestionRecipientsData data = (FeedbackQuestionRecipientsData) result.getOutput();
 
         assertEquals(typicalRecipients.size(), data.getRecipients().size());
-        assertEquals(typicalRecipients.get("recipient1").getName(), data.getRecipients().get(0).getName());
-        assertEquals(typicalRecipients.get("recipient2").getName(), data.getRecipients().get(1).getName());
+        assertEquals(recipientStudent1.getName(), data.getRecipients().get(0).getName());
+        assertEquals(recipientStudent2.getName(), data.getRecipients().get(1).getName());
     }
 
     @Test
@@ -175,13 +185,12 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
-        Map<String, FeedbackQuestionRecipient> selfRecipients = new HashMap<>();
-        selfRecipients.put("self", new FeedbackQuestionRecipient(typicalStudent.getName(), typicalStudent.getEmail()));
+        Set<ResponseRecipient> selfRecipients = Set.of(new ResponseRecipient(typicalStudent));
 
         when(mockLogic.getFeedbackQuestion(selfQuestion.getId())).thenReturn(selfQuestion);
         when(mockLogic.getStudentByGoogleId(typicalStudent.getCourseId(), typicalStudent.getGoogleId()))
                 .thenReturn(typicalStudent);
-        when(mockLogic.getRecipientsOfQuestion(any(), any(), any())).thenReturn(selfRecipients);
+        when(mockLogic.getRecipientsOfQuestion(any(), any())).thenReturn(selfRecipients);
 
         loginAsStudent(typicalStudent.getGoogleId());
 
@@ -200,18 +209,17 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
         };
 
-        Map<String, FeedbackQuestionRecipient> teamRecipients = new HashMap<>();
-        teamRecipients.put("team1", new FeedbackQuestionRecipient("Team 1", "team1"));
+        Set<ResponseRecipient> teamRecipients = Set.of(new ResponseRecipient(typicalStudent.getTeam()));
 
         when(mockLogic.getFeedbackQuestion(teamQuestion.getId())).thenReturn(teamQuestion);
-        when(mockLogic.getRecipientsOfQuestion(any(), any(), any())).thenReturn(teamRecipients);
+        when(mockLogic.getRecipientsOfQuestion(any(), any())).thenReturn(teamRecipients);
 
         action = getAction(teamParams);
         result = action.execute();
         data = (FeedbackQuestionRecipientsData) result.getOutput();
 
         assertEquals(1, data.getRecipients().size());
-        assertEquals("team1", data.getRecipients().get(0).getIdentifier());
+        assertEquals(typicalStudent.getTeamName(), data.getRecipients().get(0).getIdentifier());
     }
 
     @Test

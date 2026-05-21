@@ -1,7 +1,7 @@
 import { KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import moment from 'moment-timezone';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { TimezoneService } from '../../../../services/timezone.service';
@@ -55,9 +55,9 @@ export class IndividualExtensionDateModalComponent {
   @Output()
   confirmCallbackEvent: EventEmitter<number> = new EventEmitter();
 
-  RadioOptions: typeof RadioOptions = RadioOptions;
+  RadioOptions!: typeof RadioOptions;
   radioOption: RadioOptions = RadioOptions.EXTEND_BY;
-  DateTime: typeof DateTime = DateTime;
+  DateTime!: typeof DateTime;
 
   extendByDeadlineKey = '';
   extendByDeadlineOptions: Map<string, number> = new Map([
@@ -75,6 +75,11 @@ export class IndividualExtensionDateModalComponent {
   extendToTimePicker: TimeFormat = getLatestTimeFormat();
 
   sortMapByOriginalOrder = (): number => 0;
+
+  constructor() {
+    this.RadioOptions = RadioOptions;
+    this.DateTime = DateTime;
+  }
 
   onConfirm(): void {
     if (this.getExtensionTimestamp() >= Date.now()) {

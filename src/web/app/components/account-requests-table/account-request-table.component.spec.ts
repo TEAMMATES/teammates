@@ -1,8 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, throwError } from 'rxjs';
 import { AccountRequestTableRowModel } from './account-request-table-model';
 import { AccountRequestTableComponent } from './account-request-table.component';
@@ -50,14 +49,11 @@ describe('AccountRequestTableComponent', () => {
         <strong>institute</strong>?`;
   const deleteModalTitle = 'Delete account request for <strong>name</strong>?';
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(AccountRequestTableComponent);
     component = fixture.componentInstance;
     accountService = TestBed.inject(AccountService);
@@ -71,7 +67,7 @@ describe('AccountRequestTableComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should snap with an expanded account requests table', () => {
+  it('should snap with an account requests table', () => {
     const accountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
     component.accountRequests = [accountRequestResult];
 
@@ -79,33 +75,13 @@ describe('AccountRequestTableComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it('should display account requests with no reset or expand links button', () => {
+  it('should display account requests table', () => {
     const accountRequestResults: AccountRequestTableRowModel[] = [
       DEFAULT_ACCOUNT_REQUEST.build(),
       DEFAULT_ACCOUNT_REQUEST.build(),
     ];
 
     component.accountRequests = accountRequestResults;
-    fixture.detectChanges();
-    expect(fixture).toMatchSnapshot();
-  });
-
-  it('should display account requests with reset button and expandable links buttons', () => {
-    const approvedAccountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
-    approvedAccountRequestResult.status = AccountRequestStatus.APPROVED;
-    approvedAccountRequestResult.registrationLink = 'registrationLink';
-
-    const registeredAccountRequestResult: AccountRequestTableRowModel = DEFAULT_ACCOUNT_REQUEST.build();
-    registeredAccountRequestResult.status = AccountRequestStatus.REGISTERED;
-    registeredAccountRequestResult.registrationLink = 'registrationLink';
-
-    const accountRequestResults: AccountRequestTableRowModel[] = [
-      approvedAccountRequestResult,
-      registeredAccountRequestResult,
-    ];
-
-    component.accountRequests = accountRequestResults;
-    component.searchString = 'test';
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -114,17 +90,17 @@ describe('AccountRequestTableComponent', () => {
     component.accountRequests = [DEFAULT_ACCOUNT_REQUEST.build()];
     fixture.detectChanges();
 
-    const modalSpy = jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() => {
+    const modalSpy = vi.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() => {
       return createMockNgbModalRef({});
     });
 
-    jest.spyOn(accountService, 'deleteAccountRequest').mockReturnValue(
+    vi.spyOn(accountService, 'deleteAccountRequest').mockReturnValue(
       of({
         message: 'Account request successfully deleted.',
       }),
     );
 
-    const spyStatusMessageService: any = jest
+    const spyStatusMessageService: any = vi
       .spyOn(statusMessageService, 'showSuccessToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('Account request successfully deleted.');
@@ -143,11 +119,11 @@ describe('AccountRequestTableComponent', () => {
 
     fixture.detectChanges();
 
-    const modalSpy = jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() => {
+    const modalSpy = vi.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() => {
       return createMockNgbModalRef({});
     });
 
-    jest.spyOn(accountService, 'deleteAccountRequest').mockReturnValue(
+    vi.spyOn(accountService, 'deleteAccountRequest').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message.',
@@ -155,7 +131,7 @@ describe('AccountRequestTableComponent', () => {
       })),
     );
 
-    const spyStatusMessageService: any = jest
+    const spyStatusMessageService: any = vi
       .spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');
@@ -175,7 +151,7 @@ describe('AccountRequestTableComponent', () => {
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
 
-    const modalSpy = jest.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
+    const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
 
     const viewCommentButton: any = fixture.debugElement.nativeElement.querySelector('#view-account-request-0');
     viewCommentButton.click();
@@ -198,7 +174,7 @@ describe('AccountRequestTableComponent', () => {
       result: Promise.resolve({}),
     };
 
-    const modalSpy = jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
+    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
     const editButton: any = fixture.debugElement.nativeElement.querySelector('#edit-account-request-0');
     editButton.click();
@@ -216,11 +192,11 @@ describe('AccountRequestTableComponent', () => {
       componentInstance: {},
       result: Promise.resolve({}),
       dismissed: {
-        subscribe: jest.fn(),
+        subscribe: vi.fn(),
       },
     };
 
-    const modalSpy = jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
+    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
     const rejectButton: any = fixture.debugElement.nativeElement.querySelector('#reject-request-with-reason-0');
     rejectButton.click();
@@ -235,7 +211,7 @@ describe('AccountRequestTableComponent', () => {
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
 
-    jest.spyOn(accountService, 'rejectAccountRequest').mockReturnValue(
+    vi.spyOn(accountService, 'rejectAccountRequest').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message.',
@@ -243,7 +219,7 @@ describe('AccountRequestTableComponent', () => {
       })),
     );
 
-    const spyStatusMessageService = jest
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');
@@ -261,7 +237,7 @@ describe('AccountRequestTableComponent', () => {
     component.accountRequests = accountRequestResults;
     fixture.detectChanges();
 
-    jest.spyOn(accountService, 'approveAccountRequest').mockReturnValue(
+    vi.spyOn(accountService, 'approveAccountRequest').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message.',
@@ -269,7 +245,7 @@ describe('AccountRequestTableComponent', () => {
       })),
     );
 
-    const spyStatusMessageService: any = jest
+    const spyStatusMessageService: any = vi
       .spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');
@@ -292,9 +268,9 @@ describe('AccountRequestTableComponent', () => {
       result: Promise.resolve({}),
     };
 
-    jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
+    vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
-    jest.spyOn(accountService, 'editAccountRequest').mockReturnValue(
+    vi.spyOn(accountService, 'editAccountRequest').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message.',
@@ -302,7 +278,7 @@ describe('AccountRequestTableComponent', () => {
       })),
     );
 
-    const spyStatusMessageService = jest
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message.');
@@ -325,7 +301,7 @@ describe('AccountRequestTableComponent', () => {
       result: Promise.resolve({}),
     };
 
-    const modalSpy = jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
+    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef as any);
 
     const editedAccountRequest: AccountRequest = {
       id: 'id',
@@ -338,7 +314,7 @@ describe('AccountRequestTableComponent', () => {
       status: AccountRequestStatus.PENDING,
     };
 
-    jest.spyOn(accountService, 'editAccountRequest').mockReturnValue(of(editedAccountRequest));
+    vi.spyOn(accountService, 'editAccountRequest').mockReturnValue(of(editedAccountRequest));
 
     const editButton: any = fixture.debugElement.nativeElement.querySelector('#edit-account-request-0');
     editButton.click();
@@ -369,7 +345,7 @@ describe('AccountRequestTableComponent', () => {
       status: AccountRequestStatus.APPROVED,
     };
 
-    jest.spyOn(accountService, 'approveAccountRequest').mockReturnValue(of(approvedRequest));
+    vi.spyOn(accountService, 'approveAccountRequest').mockReturnValue(of(approvedRequest));
 
     const approveButton: any = fixture.debugElement.nativeElement.querySelector('#approve-account-request-0');
     approveButton.click();
@@ -395,7 +371,7 @@ describe('AccountRequestTableComponent', () => {
       status: AccountRequestStatus.REJECTED,
     };
 
-    jest.spyOn(accountService, 'rejectAccountRequest').mockReturnValue(of(rejectedRequest));
+    vi.spyOn(accountService, 'rejectAccountRequest').mockReturnValue(of(rejectedRequest));
 
     const rejectButton: any = fixture.debugElement.nativeElement.querySelector('#reject-request-0');
     rejectButton.click();

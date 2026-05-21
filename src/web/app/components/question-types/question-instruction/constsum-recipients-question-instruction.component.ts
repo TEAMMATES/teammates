@@ -22,8 +22,11 @@ export class ConstsumRecipientsQuestionInstructionComponent {
   numOfRecipients = 0;
 
   // enum
-  FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =
-    FeedbackConstantSumDistributePointsType;
+  FeedbackConstantSumDistributePointsType!: typeof FeedbackConstantSumDistributePointsType;
+
+  constructor() {
+    this.FeedbackConstantSumDistributePointsType = FeedbackConstantSumDistributePointsType;
+  }
 
   /**
    * Gets the total points of the constant sum question.

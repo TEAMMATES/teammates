@@ -1,7 +1,9 @@
 import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbCalendar, NgbCollapse, NgbDateParserFormatter, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
+import { NgbCalendar, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap/datepicker';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import moment from 'moment-timezone';
 import { SessionEditFormMode, SessionEditFormModel } from './session-edit-form-model';
 import { DateTimeService } from '../../../services/datetime.service';
@@ -60,12 +62,12 @@ export class SessionEditFormComponent {
   calendar = inject(NgbCalendar);
 
   // enum
-  SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
-  SessionVisibleSetting: typeof SessionVisibleSetting = SessionVisibleSetting;
-  ResponseVisibleSetting: typeof ResponseVisibleSetting = ResponseVisibleSetting;
+  SessionEditFormMode!: typeof SessionEditFormMode;
+  SessionVisibleSetting!: typeof SessionVisibleSetting;
+  ResponseVisibleSetting!: typeof ResponseVisibleSetting;
 
   // const
-  FEEDBACK_SESSION_NAME_MAX_LENGTH: number = FEEDBACK_SESSION_NAME_MAX_LENGTH;
+  FEEDBACK_SESSION_NAME_MAX_LENGTH!: number;
 
   @Input()
   model: SessionEditFormModel = {
@@ -143,6 +145,13 @@ export class SessionEditFormComponent {
 
   @Output()
   closeEditFormEvent: EventEmitter<void> = new EventEmitter<void>();
+
+  constructor() {
+    this.SessionEditFormMode = SessionEditFormMode;
+    this.SessionVisibleSetting = SessionVisibleSetting;
+    this.ResponseVisibleSetting = ResponseVisibleSetting;
+    this.FEEDBACK_SESSION_NAME_MAX_LENGTH = FEEDBACK_SESSION_NAME_MAX_LENGTH;
+  }
 
   /**
    * Triggers the change of the model for the form.

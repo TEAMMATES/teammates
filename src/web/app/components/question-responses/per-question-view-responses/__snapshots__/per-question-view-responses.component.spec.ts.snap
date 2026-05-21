@@ -1,19 +1,19 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`PerQuestionViewResponsesComponent should snap response with comments 1`] = `
+exports[`PerQuestionViewResponsesComponent > should snap response with comments 1`] = `
 <tm-per-question-view-responses
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   currResponseToAdd="undefined"
   deleteCommentEvent={[Function EventEmitter_]}
-  feedbackResponsesService={[Function FeedbackResponsesService]}
+  feedbackResponsesService={[Function _FeedbackResponsesService]}
   groupByTeam={[Function Boolean]}
   indicateMissingResponses={[Function Boolean]}
   instructorCommentTableModel={[Function Object]}
   instructorCommentTableModelChange={[Function EventEmitter_]}
   isDisplayOnly="false"
   isExpandAll="false"
-  ngbModal={[Function _NgbModal]}
+  ngbModal={[Function NgbModal]}
   question={[Function Object]}
   responses={[Function Array]}
   responsesToShow={[Function Array]}
@@ -26,7 +26,7 @@ exports[`PerQuestionViewResponsesComponent should snap response with comments 1`
   sortBy="0"
   sortOrder={[Function Number]}
   statistics=""
-  tableComparatorService={[Function TableComparatorService]}
+  tableComparatorService={[Function _TableComparatorService]}
   updateCommentEvent={[Function EventEmitter_]}
 >
   <div>

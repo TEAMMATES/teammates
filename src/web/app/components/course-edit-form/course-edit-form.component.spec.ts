@@ -1,9 +1,9 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { EventEmitter } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, Observable } from 'rxjs';
 
 import {
@@ -67,10 +67,10 @@ describe('CourseEditFormComponent', () => {
 
   const spyCourseService = createSpyFromClass(CourseService);
   spyCourseService.createCourse.mockReturnValue(of({}));
-  spyCourseService.getAllCoursesAsInstructor(of({ courses: [testCourse1, testCourse1] }));
+  spyCourseService.getAllCoursesAsInstructor.mockReturnValue(of({ courses: [testCourse1, testCourse1] }));
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [
         { provide: StatusMessageService, useValue: spyStatusMessageService },
         { provide: CourseService, useValue: spyCourseService },
@@ -80,9 +80,7 @@ describe('CourseEditFormComponent', () => {
         provideHttpClientTesting(),
       ],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CourseEditFormComponent);
     feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
     ngbModal = TestBed.inject(NgbModal);
@@ -186,10 +184,10 @@ describe('CourseEditFormComponent', () => {
       createdAtTimestamp: 0,
     };
 
-    jest
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor')
-      .mockReturnValue(of({ feedbackSessions: [testFeedbackSession] }));
-    jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor').mockReturnValue(
+      of({ feedbackSessions: [testFeedbackSession] }),
+    );
+    vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     const model: CourseAddFormModel = component.model as CourseAddFormModel;
     model.activeCourses = [testCourse1];
@@ -217,7 +215,7 @@ describe('CourseEditFormComponent', () => {
       },
       Promise.reject(customError),
     );
-    jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
+    vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     component.copyCourseHandler();
 
@@ -238,7 +236,7 @@ describe('CourseEditFormComponent', () => {
         observer.error(customError);
       }),
     });
-    jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
+    vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     component.copyCourseHandler();
 
@@ -290,8 +288,8 @@ describe('CourseEditFormComponent', () => {
 
   it('should do nothing when in display-only mode', () => {
     component.isDisplayOnly = true;
-    const updateEmitSpy = jest.spyOn(component.updateCourseEvent, 'emit');
-    const createEmitSpy = jest.spyOn(component.createNewCourseEvent, 'emit');
+    const updateEmitSpy = vi.spyOn(component.updateCourseEvent, 'emit');
+    const createEmitSpy = vi.spyOn(component.createNewCourseEvent, 'emit');
 
     component.submitHandler();
 
@@ -303,13 +301,13 @@ describe('CourseEditFormComponent', () => {
     component.isDisplayOnly = false;
     component.formModel = DEFAULT_COURSE_EDIT_FORM_MODEL();
     fixture.detectChanges();
-    const formInvalidGetter = jest.spyOn(component.form, 'invalid', 'get');
+    const formInvalidGetter = vi.spyOn(component.form, 'invalid', 'get');
     formInvalidGetter.mockReturnValue(true);
 
-    const control1 = { markAsTouched: jest.fn() };
-    const control2 = { markAsTouched: jest.fn() };
+    const control1 = { markAsTouched: vi.fn() };
+    const control2 = { markAsTouched: vi.fn() };
 
-    jest.spyOn(Object, 'values').mockReturnValue([control1, control2]);
+    vi.spyOn(Object, 'values').mockReturnValue([control1, control2]);
 
     component.submitHandler();
 
@@ -324,7 +322,7 @@ describe('CourseEditFormComponent', () => {
     component.formMode = CourseEditFormMode.EDIT;
     component.formModel = DEFAULT_COURSE_EDIT_FORM_MODEL();
     fixture.detectChanges();
-    const emitSpy = jest.spyOn(component.updateCourseEvent, 'emit');
+    const emitSpy = vi.spyOn(component.updateCourseEvent, 'emit');
 
     component.submitHandler();
 
@@ -337,7 +335,7 @@ describe('CourseEditFormComponent', () => {
     component.formModel = DEFAULT_COURSE_ADD_FORM_MODEL();
     fixture.detectChanges();
 
-    const emitSpy = jest.spyOn(component.createNewCourseEvent, 'emit');
+    const emitSpy = vi.spyOn(component.createNewCourseEvent, 'emit');
 
     component.submitHandler();
 
@@ -345,7 +343,7 @@ describe('CourseEditFormComponent', () => {
   });
 
   it('should emit closeFormEvent when closeFormHandler is called', () => {
-    const closeFormEventSpy = jest.spyOn(component.closeFormEvent, 'emit');
+    const closeFormEventSpy = vi.spyOn(component.closeFormEvent, 'emit');
 
     component.closeFormHandler();
 
@@ -353,7 +351,7 @@ describe('CourseEditFormComponent', () => {
   });
 
   it('should emit deleteCourseEvent when deleteCourseHandler is called', () => {
-    const deleteCourseEventSpy = jest.spyOn(component.deleteCourseEvent, 'emit');
+    const deleteCourseEventSpy = vi.spyOn(component.deleteCourseEvent, 'emit');
 
     component.deleteCourseHandler();
 

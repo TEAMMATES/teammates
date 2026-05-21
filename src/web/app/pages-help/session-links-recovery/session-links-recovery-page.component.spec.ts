@@ -1,15 +1,16 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SessionLinksRecoveryPageComponent } from './session-links-recovery-page.component';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { Mocked } from 'vitest';
 
-const mockStatusMessageService: jest.Mocked<Partial<StatusMessageService>> = {
-  showErrorToast: jest.fn(),
+const mockStatusMessageService: Mocked<Partial<StatusMessageService>> = {
+  showErrorToast: vi.fn(),
 };
 
 const mockFeedbackSessionsService = {
-  sendFeedbackSessionLinkToRecoveryEmail: jest.fn(),
+  sendFeedbackSessionLinkToRecoveryEmail: vi.fn(),
 };
 
 /**
@@ -35,8 +36,8 @@ describe('SessionLinksRecoveryPageComponent', () => {
   let component: SessionLinksRecoveryPageComponent;
   let fixture: ComponentFixture<SessionLinksRecoveryPageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [SessionLinksRecoveryPageComponent],
       providers: [
         { provide: StatusMessageService, useValue: mockStatusMessageService },
@@ -49,17 +50,15 @@ describe('SessionLinksRecoveryPageComponent', () => {
         },
       })
       .compileComponents();
-  }));
 
-  beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
 
     fixture = TestBed.createComponent(SessionLinksRecoveryPageComponent);
     component = fixture.componentInstance;
 
     fixture.detectChanges();
 
-    component.captchaElem = { reloadCaptcha: jest.fn() } as any;
+    component.captchaElem = { reloadCaptcha: vi.fn() } as any;
   });
 
   it('should create', () => {

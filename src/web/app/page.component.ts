@@ -12,7 +12,8 @@ import {
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { NgbModal, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap/dropdown';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { fromEvent, merge, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import uaParser from 'ua-parser-js';
@@ -81,7 +82,7 @@ export class PageComponent {
   private statusMessageService = inject(StatusMessageService);
 
   // enum
-  NotificationTargetUser: typeof NotificationTargetUser = NotificationTargetUser;
+  NotificationTargetUser!: typeof NotificationTargetUser;
 
   @Input() isFetchingAuthDetails = false;
   @Input() user = '';
@@ -121,6 +122,7 @@ export class PageComponent {
   constructor() {
     const location = inject(Location);
 
+    this.NotificationTargetUser = NotificationTargetUser;
     this.checkBrowserVersion();
     this.router.events.subscribe((val: any) => {
       if (val instanceof NavigationEnd) {

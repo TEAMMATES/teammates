@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, inject } from '@angular/core';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
 import { StringHelper } from '../../../../services/string-helper';
@@ -46,12 +46,12 @@ export interface CommentEditFormModel {
 export class CommentEditFormComponent implements OnInit, OnChanges {
   private commentService = inject(FeedbackResponseCommentService);
 
-  readonly castAsInputElement = castAsInputElement;
+  readonly castAsInputElement: typeof castAsInputElement;
 
   // enum
-  CommentVisibilityType: typeof CommentVisibilityType = CommentVisibilityType;
-  CommentVisibilityControl: typeof CommentVisibilityControl = CommentVisibilityControl;
-  CommentRowMode: typeof CommentRowMode = CommentRowMode;
+  CommentVisibilityType!: typeof CommentVisibilityType;
+  CommentVisibilityControl!: typeof CommentVisibilityControl;
+  CommentRowMode!: typeof CommentRowMode;
 
   @Input()
   mode: CommentRowMode = CommentRowMode.ADD;
@@ -98,6 +98,10 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
   visibilityStateMachine: CommentVisibilityStateMachine;
 
   constructor() {
+    this.castAsInputElement = castAsInputElement;
+    this.CommentVisibilityType = CommentVisibilityType;
+    this.CommentVisibilityControl = CommentVisibilityControl;
+    this.CommentRowMode = CommentRowMode;
     this.visibilityStateMachine = this.commentService.getNewVisibilityStateMachine(this.questionShowResponsesTo);
   }
 

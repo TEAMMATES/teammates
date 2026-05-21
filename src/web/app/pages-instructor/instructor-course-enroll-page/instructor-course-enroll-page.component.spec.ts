@@ -1,6 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { EnrollStatus } from './enroll-status';
@@ -12,14 +12,12 @@ describe('InstructorCourseEnrollPageComponent', () => {
   let component: InstructorCourseEnrollPageComponent;
   let fixture: ComponentFixture<InstructorCourseEnrollPageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [NgxPageScrollCoreModule],
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorCourseEnrollPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -32,6 +30,9 @@ describe('InstructorCourseEnrollPageComponent', () => {
   it('should treat enroll result emails case-insensitively', () => {
     const existingStudent: Student = {
       courseId: 'course-id',
+      courseName: 'Test Course',
+      institute: 'Test Institute',
+      userId: 'test-user-id',
       email: 'test@gmail.com',
       name: 'Existing Student',
       sectionName: 'Section A',

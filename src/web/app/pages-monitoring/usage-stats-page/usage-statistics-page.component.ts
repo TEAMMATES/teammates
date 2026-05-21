@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbInputDatepicker, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
+import { NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap/datepicker';
+import { NgbTimepicker } from '@ng-bootstrap/ng-bootstrap/timepicker';
 import { DataPoint } from './data-point.model';
 import { StatsLineChartComponent } from './stats-line-chart/stats-line-chart.component';
 
@@ -56,8 +57,8 @@ export class UsageStatisticsPageComponent implements OnInit {
   private timezoneService = inject(TimezoneService);
   private statusMessageService = inject(StatusMessageService);
 
-  StatisticsType = StatisticsType;
-  AggregationType = AggregationType;
+  StatisticsType!: typeof StatisticsType;
+  AggregationType!: typeof AggregationType;
 
   itemName = 'responses';
 
@@ -77,6 +78,11 @@ export class UsageStatisticsPageComponent implements OnInit {
   fetchedData: UsageStatistics[] = [];
   dataToDraw: DataPoint[] = [];
   timezone = 'UTC';
+
+  constructor() {
+    this.StatisticsType = StatisticsType;
+    this.AggregationType = AggregationType;
+  }
 
   ngOnInit(): void {
     this.timezone = this.timezoneService.guessTimezone();

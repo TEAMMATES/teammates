@@ -1,6 +1,6 @@
 import { Component, Input, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { Course, FeedbackSession } from '../../../../types/api-output';
 import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../../types/field-validator';
 
@@ -17,7 +17,7 @@ export class CopyFromOtherSessionsModalComponent {
   activeModal = inject(NgbActiveModal);
 
   // const
-  FEEDBACK_SESSION_NAME_MAX_LENGTH: number = FEEDBACK_SESSION_NAME_MAX_LENGTH;
+  FEEDBACK_SESSION_NAME_MAX_LENGTH!: number;
 
   @Input()
   courseCandidates: Course[] = [];
@@ -28,6 +28,10 @@ export class CopyFromOtherSessionsModalComponent {
   copyToCourseId = '';
   newFeedbackSessionName = '';
   copyFromFeedbackSession: FeedbackSession | undefined;
+
+  constructor() {
+    this.FEEDBACK_SESSION_NAME_MAX_LENGTH = FEEDBACK_SESSION_NAME_MAX_LENGTH;
+  }
 
   /**
    * Copies the selected feedback session.

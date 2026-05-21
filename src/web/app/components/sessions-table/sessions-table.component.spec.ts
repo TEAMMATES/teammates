@@ -1,6 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 
 import { SessionsTableColumn, SessionsTableRowModel } from './sessions-table-model';
@@ -18,13 +18,11 @@ describe('SessionsTableComponent', () => {
   let component: SessionsTableComponent;
   let fixture: ComponentFixture<SessionsTableComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SessionsTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -171,7 +169,7 @@ describe('SessionsTableComponent', () => {
   });
 
   it('should emit sort event', () => {
-    jest.spyOn(component.sortSessionsTableRowModelsEvent, 'emit');
+    vi.spyOn(component.sortSessionsTableRowModelsEvent, 'emit');
 
     component.sortSessionsTableRowModelsEventHandler({
       sortBy: component.SortBy.COURSE_ID,
@@ -191,7 +189,7 @@ describe('SessionsTableComponent', () => {
   });
 
   it('should emit reminder event for all non-submitters', () => {
-    jest.spyOn(component.sendRemindersToAllNonSubmittersEvent, 'emit');
+    vi.spyOn(component.sendRemindersToAllNonSubmittersEvent, 'emit');
 
     component.sendRemindersToAllNonSubmitters(0);
 
@@ -199,7 +197,7 @@ describe('SessionsTableComponent', () => {
   });
 
   it('should emit reminder event for selected non-submitters', () => {
-    jest.spyOn(component.sendRemindersToSelectedNonSubmittersEvent, 'emit');
+    vi.spyOn(component.sendRemindersToSelectedNonSubmittersEvent, 'emit');
 
     component.sendRemindersToSelectedNonSubmitters(1);
 
@@ -207,7 +205,7 @@ describe('SessionsTableComponent', () => {
   });
 
   it('should emit download session results event', () => {
-    jest.spyOn(component.downloadSessionResultsEvent, 'emit');
+    vi.spyOn(component.downloadSessionResultsEvent, 'emit');
 
     component.downloadSessionResults(0);
 
@@ -215,7 +213,7 @@ describe('SessionsTableComponent', () => {
   });
 
   it('should emit resend results link event', () => {
-    jest.spyOn(component.resendResultsLinkToStudentsEvent, 'emit');
+    vi.spyOn(component.resendResultsLinkToStudentsEvent, 'emit');
 
     component.remindResultsLinkToStudent(1);
 
@@ -244,24 +242,24 @@ describe('SessionsTableComponent', () => {
   it('should include optional fields in row data when provided', () => {
     component.columnsToShow = [SessionsTableColumn.COURSE_ID];
 
-    const customComponent = { component: {} as never };
+    const customComponent = { component: {} as never, componentData: () => ({}) };
     const result = component.createRowData({
       columnType: SessionsTableColumn.COURSE_ID,
       value: 'CS101',
       displayValue: 'Display CS101',
       customComponent,
-      style: { color: 'red' },
+      style: "{ color: 'red' }",
     });
 
     expect(result).toHaveLength(1);
     expect(result[0].value).toBe('CS101');
     expect(result[0].displayValue).toBe('Display CS101');
     expect(result[0].customComponent).toBe(customComponent);
-    expect(result[0].style).toEqual({ color: 'red' });
+    expect(result[0].style).toEqual("{ color: 'red' }");
   });
 
   it('should create response rate component data and emit on click', () => {
-    jest.spyOn(component.loadResponseRateEvent, 'emit');
+    vi.spyOn(component.loadResponseRateEvent, 'emit');
 
     const result = (component as any).createCellWithResponseRateComponent(sessionTable1);
     const data = result.customComponent.componentData(0);
@@ -277,7 +275,7 @@ describe('SessionsTableComponent', () => {
   });
 
   it('should create group button data and call setRowClicked callback', () => {
-    const setRowClickedSpy = jest.spyOn(component, 'setRowClicked');
+    const setRowClickedSpy = vi.spyOn(component, 'setRowClicked');
 
     component.sessionsTableRowModels = [sessionTable1];
     component.rowsData = [[]];

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { FeedbackVisibilityType, ResponseOutput } from '../../../../types/api-output';
 import { CommentTableComponent } from '../comment-table/comment-table.component';
 import { CommentTableModel } from '../comment-table/comment-table.model';

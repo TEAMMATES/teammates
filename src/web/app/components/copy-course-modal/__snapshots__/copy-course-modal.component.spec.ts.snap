@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CopyCourseModalComponent should snap when copying from other sessions 1`] = `
+exports[`CopyCourseModalComponent > should snap when copying from other sessions 1`] = `
 <tm-copy-course-modal
   COURSE_ID_MAX_LENGTH={[Function Number]}
   COURSE_NAME_MAX_LENGTH={[Function Number]}
@@ -21,8 +21,8 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
   oldCourseId=""
   oldCourseName=""
   selectedFeedbackSessions={[Function Set]}
-  statusMessageService={[Function StatusMessageService]}
-  timezoneService={[Function TimezoneService]}
+  statusMessageService={[Function _StatusMessageService]}
+  timezoneService={[Function _TimezoneService]}
   timezones={[Function Array]}
 >
   <div
@@ -215,7 +215,7 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
 </tm-copy-course-modal>
 `;
 
-exports[`CopyCourseModalComponent should snap with default fields 1`] = `
+exports[`CopyCourseModalComponent > should snap with default fields 1`] = `
 <tm-copy-course-modal
   COURSE_ID_MAX_LENGTH={[Function Number]}
   COURSE_NAME_MAX_LENGTH={[Function Number]}
@@ -236,8 +236,8 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
   oldCourseId=""
   oldCourseName=""
   selectedFeedbackSessions={[Function Set]}
-  statusMessageService={[Function StatusMessageService]}
-  timezoneService={[Function TimezoneService]}
+  statusMessageService={[Function _StatusMessageService]}
+  timezoneService={[Function _TimezoneService]}
   timezones={[Function Array]}
 >
   <div
@@ -419,7 +419,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
 </tm-copy-course-modal>
 `;
 
-exports[`CopyCourseModalComponent should snap with some course id 1`] = `
+exports[`CopyCourseModalComponent > should snap with some course id 1`] = `
 <tm-copy-course-modal
   COURSE_ID_MAX_LENGTH={[Function Number]}
   COURSE_NAME_MAX_LENGTH={[Function Number]}
@@ -440,8 +440,8 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
   oldCourseId=""
   oldCourseName=""
   selectedFeedbackSessions={[Function Set]}
-  statusMessageService={[Function StatusMessageService]}
-  timezoneService={[Function TimezoneService]}
+  statusMessageService={[Function _StatusMessageService]}
+  timezoneService={[Function _TimezoneService]}
   timezones={[Function Array]}
 >
   <div

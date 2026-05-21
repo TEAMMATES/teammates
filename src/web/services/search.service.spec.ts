@@ -34,13 +34,15 @@ describe('SearchService', () => {
   let timezoneService: TimezoneService;
 
   const mockStudent: Student = {
+    userId: 'student-alice',
     email: 'alice.b.tmms@gmail.tmt',
     courseId: 'dog.gma-demo',
+    courseName: 'Test Course',
+    institute: 'NUS',
     name: 'Alice Betsy',
     googleId: 'alice.b.tmms.sampleData',
     comments: "This student's name is Alice Betsy",
     key: 'keyheehee',
-    institute: 'NUS',
     joinState: JoinState.JOINED,
     teamName: 'Team 1',
     sectionName: 'Tutorial Group 1',
@@ -50,6 +52,8 @@ describe('SearchService', () => {
     userId: '00000000-0000-4000-8000-000000000001',
     googleId: 'test@example.com',
     courseId: 'dog.gma-demo',
+    courseName: 'Test Course',
+    institute: 'Test Institute',
     email: 'dog@gmail.com',
     isDisplayedToStudents: true,
     displayedToStudentsAs: 'Instructor',
@@ -63,6 +67,8 @@ describe('SearchService', () => {
     userId: '00000000-0000-4000-8000-000000000002',
     googleId: 'insB',
     courseId: 'dog.gma-demo',
+    courseName: 'Test Course',
+    institute: 'Test Institute',
     email: 'cat@gmail.com',
     isDisplayedToStudents: true,
     displayedToStudentsAs: 'Instructor',
@@ -76,6 +82,8 @@ describe('SearchService', () => {
     userId: '00000000-0000-4000-8000-000000000003',
     googleId: 'insC',
     courseId: 'dog.gma-demo',
+    courseName: 'Test Course',
+    institute: 'Test Institute',
     email: 'animal@gmail.com',
     isDisplayedToStudents: true,
     displayedToStudentsAs: 'Instructor',
@@ -297,7 +305,7 @@ describe('SearchService', () => {
   });
 
   it('should join account requests accurately when timezone can be guessed and instructor is registered', () => {
-    jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('Asia/Singapore');
+    vi.spyOn(timezoneService, 'guessTimezone').mockReturnValue('Asia/Singapore');
     const accountRequest: AccountRequest = {
       ...mockAccountRequest,
       registeredAt: 1685487897502,
@@ -315,7 +323,7 @@ describe('SearchService', () => {
   });
 
   it('should join account requests accurately when timezone cannot be guessed and instructor is not registered', () => {
-    jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('');
+    vi.spyOn(timezoneService, 'guessTimezone').mockReturnValue('');
     const result: AccountRequestSearchResult = service.joinAdminAccountRequest(mockAccountRequest);
 
     expect(result.email).toBe('test@example.com');

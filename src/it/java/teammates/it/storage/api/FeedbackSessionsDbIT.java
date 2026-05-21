@@ -1,5 +1,7 @@
 package teammates.it.storage.api;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashSet;

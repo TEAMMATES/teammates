@@ -1,9 +1,9 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`StudentNotificationsPageComponent should snap with default fields 1`] = `
+exports[`StudentNotificationsPageComponent > should snap with default fields 1`] = `
 <tm-student-notifications-page
   timezone={[Function String]}
-  timezoneService={[Function TimezoneService]}
+  timezoneService={[Function _TimezoneService]}
   userType={[Function String]}
 >
   <h1>

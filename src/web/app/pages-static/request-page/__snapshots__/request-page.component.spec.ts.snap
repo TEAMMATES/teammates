@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`RequestPageComponent should render correctly after form is submitted 1`] = `
+exports[`RequestPageComponent > should render correctly after form is submitted 1`] = `
 <tm-request-page
   isDeclarationDone="false"
   submittedFormData={[Function Object]}
@@ -94,7 +94,7 @@ exports[`RequestPageComponent should render correctly after form is submitted 1`
 </tm-request-page>
 `;
 
-exports[`RequestPageComponent should render correctly after instructor declaration is done 1`] = `
+exports[`RequestPageComponent > should render correctly after instructor declaration is done 1`] = `
 <tm-request-page
   isDeclarationDone={[Function Boolean]}
   submittedFormData="null"
@@ -307,7 +307,7 @@ exports[`RequestPageComponent should render correctly after instructor declarati
 </tm-request-page>
 `;
 
-exports[`RequestPageComponent should render correctly before instructor declaration is done 1`] = `
+exports[`RequestPageComponent > should render correctly before instructor declaration is done 1`] = `
 <tm-request-page
   isDeclarationDone="false"
   submittedFormData="null"

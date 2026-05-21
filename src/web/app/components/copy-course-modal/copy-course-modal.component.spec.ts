@@ -1,9 +1,8 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import SpyInstance = jest.SpyInstance;
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { CopyCourseModalComponent } from './copy-course-modal.component';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -23,13 +22,11 @@ describe('CopyCourseModalComponent', () => {
   let statusMessageService: StatusMessageService;
   let fixture: ComponentFixture<CopyCourseModalComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CopyCourseModalComponent);
     timezoneService = TestBed.inject(TimezoneService);
     statusMessageService = TestBed.inject(StatusMessageService);
@@ -110,6 +107,7 @@ describe('CopyCourseModalComponent', () => {
     const testFeedbackSession: FeedbackSession = {
       courseId: 'testId',
       timeZone: 'Asia/Singapore',
+      feedbackSessionId: 'test-feedback-session-id',
       feedbackSessionName: 'Test Session',
       instructions: 'Instructions',
       submissionStartTimestamp: 1000000000000,
@@ -161,7 +159,7 @@ describe('CopyCourseModalComponent', () => {
       Tz3: 0,
     };
 
-    jest.spyOn(timezoneService, 'getTzOffsets').mockReturnValue(mockTzOffsets);
+    vi.spyOn(timezoneService, 'getTzOffsets').mockReturnValue(mockTzOffsets);
 
     component.ngOnInit();
 
@@ -173,7 +171,7 @@ describe('CopyCourseModalComponent', () => {
   });
 
   it('should call showErrorToast when copying with no new courseId and name', () => {
-    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
+    const spyStatusMessageService = vi.spyOn(statusMessageService, 'showErrorToast');
     component.copy();
     expect(spyStatusMessageService).toHaveBeenCalledWith(
       'Please make sure you have filled in both Course ID and Name before adding the course!',
@@ -199,7 +197,7 @@ describe('CopyCourseModalComponent', () => {
         deletionTimestamp: 1500000000000,
       },
     ];
-    const spyStatusMessageService: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast');
+    const spyStatusMessageService = vi.spyOn(statusMessageService, 'showErrorToast');
     component.allCourses = testCourses;
     component.newCourseId = 'testId1';
     component.newCourseName = 'testName';
@@ -208,7 +206,7 @@ describe('CopyCourseModalComponent', () => {
   });
 
   it('should call close with the result when succesfully copying a course', () => {
-    const activeModalSpy: SpyInstance = jest.spyOn(ngbActiveModal, 'close');
+    const activeModalSpy = vi.spyOn(ngbActiveModal, 'close');
     component.newCourseId = 'testId2';
     component.newCourseName = 'testName';
     component.newTimezone = 'Asia/Singapore';
@@ -228,6 +226,7 @@ describe('CopyCourseModalComponent', () => {
     const testFeedbackSession1: FeedbackSession = {
       courseId: 'testId',
       timeZone: 'Asia/Singapore',
+      feedbackSessionId: 'test-feedback-session-id-1',
       feedbackSessionName: 'Test Session 1',
       instructions: 'Instructions',
       submissionStartTimestamp: 1000000000000,
@@ -244,6 +243,7 @@ describe('CopyCourseModalComponent', () => {
     const testFeedbackSession2: FeedbackSession = {
       courseId: 'testId',
       timeZone: 'Asia/Singapore',
+      feedbackSessionId: 'test-feedback-session-id-2',
       feedbackSessionName: 'Test Session 2',
       instructions: 'Instructions',
       submissionStartTimestamp: 1000000000000,
@@ -277,7 +277,7 @@ describe('CopyCourseModalComponent', () => {
 
   it('should set newTimezone correctly when onAutoDetectTimezone is called', () => {
     const mockTimezone = 'timezone';
-    jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue(mockTimezone);
+    vi.spyOn(timezoneService, 'guessTimezone').mockReturnValue(mockTimezone);
     component.onAutoDetectTimezone();
     expect(component.newTimezone).toBe(mockTimezone);
   });
@@ -286,6 +286,7 @@ describe('CopyCourseModalComponent', () => {
     const testFeedbackSession: FeedbackSession = {
       courseId: 'testId2',
       timeZone: 'Asia/Singapore',
+      feedbackSessionId: 'test-feedback-session-id-22',
       feedbackSessionName: 'Test Session 2',
       instructions: 'Instructions',
       submissionStartTimestamp: 1000000000000,

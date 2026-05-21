@@ -25,13 +25,11 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.StudentUpdateException;
+import teammates.common.exception.UserUpdateException;
 import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
-import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.api.UsersDb;
-import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
@@ -63,8 +61,6 @@ public final class UsersLogic {
 
     private UsersDb usersDb;
 
-    private AccountsLogic accountsLogic;
-
     private CoursesLogic coursesLogic;
 
     private FeedbackResponsesLogic feedbackResponsesLogic;
@@ -77,10 +73,9 @@ public final class UsersLogic {
         return instance;
     }
 
-    void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic, CoursesLogic coursesLogic,
+    void initLogicDependencies(UsersDb usersDb, CoursesLogic coursesLogic,
                                FeedbackResponsesLogic feedbackResponsesLogic) {
         this.usersDb = usersDb;
-        this.accountsLogic = accountsLogic;
         this.coursesLogic = coursesLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
     }
@@ -216,6 +211,26 @@ public final class UsersLogic {
     }
 
     /**
+     * Updates the privileges of an instructor by user id.
+     *
+     * @return the updated instructor
+     * @throws EntityDoesNotExistException if the instructor does not exist in the database
+     */
+    public Instructor updateInstructorPrivileges(UUID userId, InstructorPrivileges newPrivileges)
+            throws EntityDoesNotExistException {
+        Instructor instructorToUpdate = getInstructor(userId);
+        if (instructorToUpdate == null) {
+            throw new EntityDoesNotExistException("Instructor does not exist.");
+        }
+
+        newPrivileges.validatePrivileges();
+        instructorToUpdate.setPrivileges(newPrivileges);
+        updateToEnsureValidityOfInstructorsForTheCourse(instructorToUpdate.getCourseId(), instructorToUpdate);
+
+        return instructorToUpdate;
+    }
+
+    /**
      * Gets the instructor with the specified email.
      */
     public Instructor getInstructorForEmail(String courseId, String userEmail) {
@@ -347,108 +362,31 @@ public final class UsersLogic {
     }
 
     /**
-     * Make the instructor join the course, i.e. associate an account to the instructor with the given googleId.
-     * Creates an account for the instructor if no existing account is found.
-     * Preconditions:
-     * Parameters regkey and googleId are non-null.
-     * @throws EntityAlreadyExistsException if the instructor already exists in the database.
-     * @throws InvalidParametersException if the instructor parameters are not valid
-     */
-    public Instructor joinCourseForInstructor(String googleId, Instructor instructor)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        if (googleId == null) {
-            throw new InvalidParametersException("Instructor's googleId cannot be null");
-        }
-        if (instructor == null) {
-            throw new InvalidParametersException("Instructor cannot be null");
-        }
-
-        // setting account for instructor sets it as registered
-        if (instructor.getAccount() == null) {
-            Account dbAccount = accountsLogic.getAccountForGoogleId(googleId);
-            if (dbAccount != null) {
-                instructor.setAccount(dbAccount);
-            } else {
-                Account account = new Account(googleId, instructor.getName(), instructor.getEmail());
-                instructor.setAccount(account);
-                accountsLogic.createAccount(account);
-            }
-        } else {
-            instructor.setGoogleId(googleId);
-        }
-        validateUser(instructor);
-
-        // Update the googleId of the student entity for the instructor which was created from sample data.
-        Student student = getStudentForEmail(instructor.getCourseId(), instructor.getEmail());
-        if (student != null) {
-            if (student.getAccount() == null) {
-                Account account = new Account(googleId, student.getName(), student.getEmail());
-                student.setAccount(account);
-            } else {
-                student.getAccount().setGoogleId(googleId);
-            }
-            validateUser(student);
-        }
-
-        return instructor;
-    }
-
-    /**
-     * Regenerates the registration key for the instructor with email address {@code email} in course {@code courseId}.
+     * Regenerates the registration key for the user with {@code userId}.
      *
-     * @return the instructor with the new registration key.
-     * @throws InstructorUpdateException if system was unable to generate a new registration key.
-     * @throws EntityDoesNotExistException if the instructor does not exist.
+     * @return the user with the new registration key.
+     * @throws UserUpdateException if system was unable to generate a new registration key.
+     * @throws EntityDoesNotExistException if the user does not exist.
      */
-    public Instructor regenerateInstructorRegistrationKey(String courseId, String email)
-            throws EntityDoesNotExistException, InstructorUpdateException {
-        Instructor instructor = getInstructorForEmail(courseId, email);
-        if (instructor == null) {
-            String errorMessage = String.format(
-                    "The instructor with the email %s could not be found for the course with ID [%s].", email, courseId);
+    public User regenerateUserRegistrationKey(UUID userId)
+            throws EntityDoesNotExistException, UserUpdateException {
+        User user = usersDb.getUser(userId);
+        if (user == null) {
+            String errorMessage = String.format("The user with ID [%s] could not be found.", userId);
             throw new EntityDoesNotExistException(errorMessage);
         }
 
-        String oldKey = instructor.getRegKey();
+        String oldKey = user.getRegKey();
         int numTries = 0;
         while (numTries < MAX_KEY_REGENERATION_TRIES) {
-            instructor.generateNewRegistrationKey();
-            if (!instructor.getRegKey().equals(oldKey)) {
-                return instructor;
+            user.generateNewRegistrationKey();
+            if (!user.getRegKey().equals(oldKey)) {
+                return user;
             }
             numTries++;
         }
 
-        throw new InstructorUpdateException("Could not regenerate a new course registration key for the instructor.");
-    }
-
-    /**
-     * Regenerates the registration key for the student with email address {@code email} in course {@code courseId}.
-     *
-     * @return the student with the new registration key.
-     * @throws StudentUpdateException if system was unable to generate a new registration key.
-     * @throws EntityDoesNotExistException if the student does not exist.
-     */
-    public Student regenerateStudentRegistrationKey(String courseId, String email)
-            throws EntityDoesNotExistException, StudentUpdateException {
-        Student student = getStudentForEmail(courseId, email);
-        if (student == null) {
-            String errorMessage = String.format(
-                    "The student with the email %s could not be found for the course with ID [%s].", email, courseId);
-            throw new EntityDoesNotExistException(errorMessage);
-        }
-
-        String oldKey = student.getRegKey();
-        int numTries = 0;
-        while (numTries < MAX_KEY_REGENERATION_TRIES) {
-            student.generateNewRegistrationKey();
-            if (!student.getRegKey().equals(oldKey)) {
-                return student;
-            }
-            numTries++;
-        }
-
-        throw new StudentUpdateException("Could not regenerate a new course registration key for the student.");
+        throw new UserUpdateException("Could not regenerate a new course registration key for the user.");
     }
 
     /**
@@ -705,15 +643,10 @@ public final class UsersLogic {
     }
 
     /**
-     * Deletes students in the course cascade their associated responses, deadline extensions, and comments.
+     * Deletes students in the course.
      */
-    public void deleteStudentsInCourseCascade(String courseId) {
-        List<Student> studentsInCourse = getStudentsForCourse(courseId);
-
-        for (Student student : studentsInCourse) {
-            RequestTracer.checkRemainingTime();
-            deleteStudentCascade(courseId, student.getEmail());
-        }
+    public void deleteStudentsInCourse(String courseId) {
+        usersDb.deleteStudentsInCourse(courseId);
     }
 
     private boolean isEmailChanged(String originalEmail, String newEmail) {
@@ -744,29 +677,6 @@ public final class UsersLogic {
         validateUser(student);
 
         return student;
-    }
-
-    /**
-     * Resets the googleId associated with the instructor.
-     */
-    public void resetInstructorGoogleId(String email, String courseId, String googleId)
-            throws EntityDoesNotExistException {
-        assert email != null;
-        assert courseId != null;
-        assert googleId != null;
-
-        Instructor instructor = getInstructorForEmail(courseId, email);
-
-        if (instructor == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT
-                    + "Instructor [courseId=" + courseId + ", email=" + email + "]");
-        }
-
-        instructor.setAccount(null);
-
-        if (usersDb.getAllUsersByGoogleId(googleId).isEmpty()) {
-            accountsLogic.deleteAccount(googleId);
-        }
     }
 
     /**
@@ -991,26 +901,19 @@ public final class UsersLogic {
     }
 
     /**
-     * Resets the googleId associated with the student.
+     * Resets the account associated with the user.
      */
-    public void resetStudentGoogleId(String email, String courseId, String googleId)
-            throws EntityDoesNotExistException {
-        assert email != null;
-        assert courseId != null;
-        assert googleId != null;
+    public User resetAccount(UUID userId) throws EntityDoesNotExistException {
+        assert userId != null;
 
-        Student student = getStudentForEmail(courseId, email);
+        User user = getUser(userId);
 
-        if (student == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT
-                    + "Student [courseId=" + courseId + ", email=" + email + "]");
+        if (user == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + "User [id=" + userId + "]");
         }
 
-        student.setAccount(null);
-
-        if (usersDb.getAllUsersByGoogleId(googleId).isEmpty()) {
-            accountsLogic.deleteAccount(googleId);
-        }
+        user.setAccount(null);
+        return user;
     }
 
     /**

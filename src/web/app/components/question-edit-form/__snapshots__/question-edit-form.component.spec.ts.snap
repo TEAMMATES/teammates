@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`QuestionEditFormComponent should snap with default view 1`] = `
+exports[`QuestionEditFormComponent > should snap with default view 1`] = `
 <tm-question-edit-form
   FeedbackQuestionType={[Function Object]}
   FeedbackVisibilityType={[Function Object]}
@@ -15,7 +15,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
   discardExistingQuestionChangesEvent={[Function EventEmitter_]}
   discardNewQuestionEvent={[Function EventEmitter_]}
   duplicateCurrentQuestionEvent={[Function EventEmitter_]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   formMode={[Function Number]}
   formModelChange={[Function EventEmitter_]}
   isDisplayOnly="false"
@@ -23,7 +23,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
   model={[Function Object]}
   numOfQuestions="0"
   saveExistingQuestionEvent={[Function EventEmitter_]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   visibilityStateMachine={[Function VisibilityStateMachine]}
 >
   <div
@@ -118,7 +118,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
       </div>
     </button>
     <div
-      class="ng-trigger ng-trigger-collapseAnim"
+      class="ng-trigger ng-trigger-collapseAnim ng-animate-queued"
     >
       <div
         class="card-body"

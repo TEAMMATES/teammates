@@ -2,7 +2,7 @@ import { KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import {
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -27,8 +27,8 @@ import { EnumToArrayPipe } from '../teammates-common/enum-to-array.pipe';
 })
 export class ViewResultsPanelComponent {
   // enum
-  InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
-  InstructorSessionResultViewType: typeof InstructorSessionResultViewType = InstructorSessionResultViewType;
+  InstructorSessionResultSectionType!: typeof InstructorSessionResultSectionType;
+  InstructorSessionResultViewType!: typeof InstructorSessionResultViewType;
 
   viewTooltipText = 'View results in different formats';
 
@@ -93,6 +93,11 @@ export class ViewResultsPanelComponent {
 
   @Output()
   collapseAllTabsEvent: EventEmitter<void> = new EventEmitter<void>();
+
+  constructor() {
+    this.InstructorSessionResultSectionType = InstructorSessionResultSectionType;
+    this.InstructorSessionResultViewType = InstructorSessionResultViewType;
+  }
 
   collapseAllTabsHandler(): void {
     this.collapseAllTabsEvent.emit();

@@ -20,10 +20,15 @@ export class MsqQuestionEditAnswerFormComponent
 {
   @Input() questionDetails: FeedbackMsqQuestionDetails = DEFAULT_MSQ_QUESTION_DETAILS();
 
-  readonly NO_VALUE: number = NO_VALUE;
+  readonly NO_VALUE: number;
   isMsqOptionSelected: boolean[] = [];
 
   @ViewChild('inputTextBoxOther') inputTextBoxOther?: ElementRef;
+
+  constructor() {
+    super();
+    this.NO_VALUE = NO_VALUE;
+  }
 
   // sync the internal status with the input data
   ngOnChanges(): void {

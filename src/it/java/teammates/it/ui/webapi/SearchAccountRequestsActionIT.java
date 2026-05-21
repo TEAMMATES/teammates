@@ -1,5 +1,9 @@
 package teammates.it.ui.webapi;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -61,7 +65,7 @@ public class SearchAccountRequestsActionIT extends BaseActionIT<SearchAccountReq
                 .filter(i -> i.getName().equals(accountRequest.getName()))
                 .findAny()
                 .isPresent());
-        assertTrue(response.getAccountRequests().get(0).getRegistrationKey() != null);
+        assertNotNull(response.getAccountRequests().get(0).getRegistrationKey());
 
         ______TS("Search via Institute");
         submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, accountRequest.getInstitute() };
@@ -72,7 +76,7 @@ public class SearchAccountRequestsActionIT extends BaseActionIT<SearchAccountReq
                 .filter(i -> i.getName().equals(accountRequest.getName()))
                 .findAny()
                 .isPresent());
-        assertTrue(response.getAccountRequests().get(0).getRegistrationKey() != null);
+        assertNotNull(response.getAccountRequests().get(0).getRegistrationKey());
 
         ______TS("Search via Name");
         submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, accountRequest.getName() };
@@ -83,14 +87,14 @@ public class SearchAccountRequestsActionIT extends BaseActionIT<SearchAccountReq
                 .filter(i -> i.getName().equals(accountRequest.getName()))
                 .findAny()
                 .isPresent());
-        assertTrue(response.getAccountRequests().get(0).getRegistrationKey() != null);
+        assertNotNull(response.getAccountRequests().get(0).getRegistrationKey());
 
         ______TS("Search Duplicate Name");
         submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, "Instructor" };
         action = getAction(submissionParams);
         result = getJsonResult(action, 200);
         response = (AccountRequestsData) result.getOutput();
-        assertTrue(response.getAccountRequests().get(0).getRegistrationKey() != null);
+        assertNotNull(response.getAccountRequests().get(0).getRegistrationKey());
         assertEquals(11, response.getAccountRequests().size());
 
         ______TS("Search result with 0 matches");

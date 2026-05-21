@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`McqQuestionEditAnswerFormComponent should snap when questionDropdownEnabled is updated 1`] = `
+exports[`McqQuestionEditAnswerFormComponent > should snap when questionDropdownEnabled is updated 1`] = `
 <tm-mcq-question-edit-answer-form
   cssRefresh={[Function EventEmitter_]}
   id=""
@@ -32,7 +32,7 @@ exports[`McqQuestionEditAnswerFormComponent should snap when questionDropdownEna
 </tm-mcq-question-edit-answer-form>
 `;
 
-exports[`McqQuestionEditAnswerFormComponent should snap with default view 1`] = `
+exports[`McqQuestionEditAnswerFormComponent > should snap with default view 1`] = `
 <tm-mcq-question-edit-answer-form
   cssRefresh={[Function EventEmitter_]}
   id=""

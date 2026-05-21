@@ -74,23 +74,11 @@ export class AccountService {
   }
 
   /**
-   * Resets a student account by calling API.
+   * Resets a user account by calling API.
    */
-  resetStudentAccount(courseId: string, studentEmail: string): Observable<MessageOutput> {
+  resetAccount(userId: string): Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
-      courseid: courseId,
-      studentemail: studentEmail,
-    };
-    return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_RESET, paramMap);
-  }
-
-  /**
-   * Resets an instructor account by calling API.
-   */
-  resetInstructorAccount(courseId: string, instructorEmail: string): Observable<MessageOutput> {
-    const paramMap: Record<string, string> = {
-      courseid: courseId,
-      instructoremail: instructorEmail,
+      userid: userId,
     };
     return this.httpRequestService.put(ResourceEndpoints.ACCOUNT_RESET, paramMap);
   }

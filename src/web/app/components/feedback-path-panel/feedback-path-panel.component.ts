@@ -1,7 +1,7 @@
 import { KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap/dropdown';
 import {
   FeedbackQuestionType,
   NumberOfEntitiesToGiveFeedbackToSetting,
@@ -35,10 +35,9 @@ import {
 })
 export class FeedbackPathPanelComponent {
   // enum
-  QuestionRecipientType: typeof QuestionRecipientType = QuestionRecipientType;
-  FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
-  NumberOfEntitiesToGiveFeedbackToSetting: typeof NumberOfEntitiesToGiveFeedbackToSetting =
-    NumberOfEntitiesToGiveFeedbackToSetting;
+  QuestionRecipientType!: typeof QuestionRecipientType;
+  FeedbackQuestionType!: typeof FeedbackQuestionType;
+  NumberOfEntitiesToGiveFeedbackToSetting!: typeof NumberOfEntitiesToGiveFeedbackToSetting;
 
   @Input()
   model: QuestionEditFormModel = {
@@ -102,6 +101,12 @@ export class FeedbackPathPanelComponent {
   >();
 
   subMenuStatuses: Map<QuestionGiverType, boolean> = new Map();
+
+  constructor() {
+    this.QuestionRecipientType = QuestionRecipientType;
+    this.FeedbackQuestionType = FeedbackQuestionType;
+    this.NumberOfEntitiesToGiveFeedbackToSetting = NumberOfEntitiesToGiveFeedbackToSetting;
+  }
 
   triggerCustomNumberOfEntities(data: number): void {
     this.customNumberOfEntitiesToGiveFeedbackTo.emit(data);

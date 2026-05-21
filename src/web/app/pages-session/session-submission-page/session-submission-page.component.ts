@@ -2,7 +2,8 @@ import { KeyValuePipe } from '@angular/common';
 import { AfterViewInit, Component, OnInit, DOCUMENT, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal, NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { DestroyableDirective, InViewportDirective } from 'ng-in-viewport';
 import { PageScrollService } from 'ngx-page-scroll-core';
 import { forkJoin, Observable, of } from 'rxjs';
@@ -106,12 +107,12 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   private logService = inject(LogService);
   private document = inject(DOCUMENT);
 
-  readonly castAsSelectElement = castAsSelectElement;
+  readonly castAsSelectElement: typeof castAsSelectElement;
 
   // enum
-  FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
-  FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
-  Intent: typeof Intent = Intent;
+  FeedbackSessionSubmissionStatus!: typeof FeedbackSessionSubmissionStatus;
+  FeedbackQuestionType!: typeof FeedbackQuestionType;
+  Intent!: typeof Intent;
 
   courseId = '';
   feedbackSessionName = '';
@@ -153,7 +154,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
   isQuestionCountOne = false;
 
-  allSessionViews = SessionView;
+  allSessionViews!: typeof SessionView;
   currentSelectedSessionView: SessionView = SessionView.DEFAULT;
   hasLoadedAllRecipients = false;
   // Records the recipient to groupable questions mapping used in grouping questions by recipients view
@@ -166,6 +167,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   private backendUrl: string = environment.backendUrl;
 
   constructor() {
+    this.castAsSelectElement = castAsSelectElement;
+    this.FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
+    this.FeedbackQuestionType = FeedbackQuestionType;
+    this.Intent = Intent;
+    this.allSessionViews = SessionView;
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 
@@ -821,8 +827,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     const savingRequests: Observable<any>[] = [];
 
     questionSubmissionForms.forEach((questionSubmissionFormModel: QuestionSubmissionFormModel) => {
-      let isQuestionFullyAnswered = true;
-
       const responses: FeedbackResponseRequest[] = [];
 
       questionSubmissionFormModel.recipientSubmissionForms.forEach(
@@ -846,7 +850,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         },
       );
 
-      isQuestionFullyAnswered = responses.length > 0;
+      const isQuestionFullyAnswered = responses.length > 0;
 
       if (!failToSaveQuestions[questionSubmissionFormModel.questionNumber]) {
         savingRequests.push(

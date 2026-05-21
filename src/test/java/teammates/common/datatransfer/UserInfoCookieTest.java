@@ -1,5 +1,8 @@
 package teammates.common.datatransfer;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
@@ -12,7 +15,7 @@ import teammates.test.BaseTestCase;
  * SUT: {@link UserInfoCookie}.
  */
 public class UserInfoCookieTest extends BaseTestCase {
-    private UserInfoCookie uc = new UserInfoCookie("MockId", UUID.randomUUID());
+    private UserInfoCookie uc = new UserInfoCookie(UUID.randomUUID());
 
     @Test
     public void testIsValid() {
@@ -22,19 +25,6 @@ public class UserInfoCookieTest extends BaseTestCase {
 
         ______TS("Cookie expired");
         uc.setExpiryTime(Instant.now().minus(1, ChronoUnit.DAYS).toEpochMilli());
-        assertFalse(uc.isValid());
-
-        ______TS("Cookie with null user ID");
-        uc.setUserId(null);
-        uc.setExpiryTime(Instant.now().plus(1, ChronoUnit.DAYS).toEpochMilli());
-        assertFalse(uc.isValid());
-
-        ______TS("Cookie with empty user ID");
-        uc.setUserId("");
-        assertFalse(uc.isValid());
-
-        ______TS("Cookie with blank user ID");
-        uc.setUserId("   ");
         assertFalse(uc.isValid());
     }
 

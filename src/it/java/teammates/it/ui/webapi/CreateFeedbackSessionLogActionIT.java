@@ -1,5 +1,7 @@
 package teammates.it.ui.webapi;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;

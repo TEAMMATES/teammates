@@ -1,5 +1,7 @@
 package teammates.e2e.cases;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.time.Duration;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;

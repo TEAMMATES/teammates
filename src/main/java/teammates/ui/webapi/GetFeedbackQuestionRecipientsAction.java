@@ -1,13 +1,15 @@
 package teammates.ui.webapi;
 
-import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
-import teammates.common.datatransfer.FeedbackQuestionRecipient;
+import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.entity.FeedbackSession;
 import teammates.storage.entity.Instructor;
+import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Student;
 import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.InvalidHttpParameterException;
@@ -83,21 +85,25 @@ public class GetFeedbackQuestionRecipientsAction extends BasicFeedbackSubmission
 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
-        Map<String, FeedbackQuestionRecipient> recipient;
+        ResponseGiver responseGiver;
         switch (intent) {
         case STUDENT_SUBMISSION:
             Student student = getStudentOfCourseFromRequest(courseId);
 
-            recipient = logic.getRecipientsOfQuestion(feedbackQuestion, null, student);
+            responseGiver = feedbackQuestion.getGiverType() == QuestionGiverType.TEAMS
+                    ? new ResponseGiver(student.getTeam())
+                    : new ResponseGiver(student);
             break;
         case INSTRUCTOR_SUBMISSION:
             Instructor instructor = getInstructorOfCourseFromRequest(courseId);
 
-            recipient = logic.getRecipientsOfQuestion(feedbackQuestion, instructor, null);
+            responseGiver = new ResponseGiver(instructor);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
-        return new JsonResult(new FeedbackQuestionRecipientsData(recipient));
+
+        Set<ResponseRecipient> recipients = logic.getRecipientsOfQuestion(feedbackQuestion, responseGiver);
+        return new JsonResult(new FeedbackQuestionRecipientsData(recipients));
     }
 }

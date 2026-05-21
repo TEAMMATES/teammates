@@ -334,7 +334,7 @@ describe('StudentListInfoTableComponent', () => {
       },
       false,
     );
-    const handleSelectionOfStudentRowSpy = jest.spyOn(component, 'handleSelectionOfStudentRow');
+    const handleSelectionOfStudentRowSpy = vi.spyOn(component, 'handleSelectionOfStudentRow');
     fixture.detectChanges();
 
     clickRowCheckBox(selectStudentRowByIndex(1));
@@ -362,7 +362,7 @@ describe('StudentListInfoTableComponent', () => {
       },
       false,
     );
-    const handleSelectionOfInstructorRowSpy = jest.spyOn(component, 'handleSelectionOfInstructorRow');
+    const handleSelectionOfInstructorRowSpy = vi.spyOn(component, 'handleSelectionOfInstructorRow');
     fixture.detectChanges();
 
     clickRowCheckBox(selectInstructorRowByIndex(1));
@@ -423,7 +423,7 @@ describe('StudentListInfoTableComponent', () => {
     expect(component.isAllInstructorsSelected).toBeFalsy();
   });
 
-  it('changeSelectionStatusForAllStudentsHandler: should set all isSelected to true if not all are selected', () => {
+  it('changeSelectionStatusForAllStudentsHandler: should set all isSelected to true if not all are selected', async () => {
     component.studentListInfoTableRowModels = [
       studentModelBuilder.isSelected(true).build(),
       studentModelBuilder.isSelected(false).build(),
@@ -434,12 +434,13 @@ describe('StudentListInfoTableComponent', () => {
     testEventEmission(component.studentListInfoTableRowModelsChange, (newRows) => {
       emittedRows = newRows;
     });
-    const changeSelectionStatusForAllStudentsHandlerSpy = jest.spyOn(
+    const changeSelectionStatusForAllStudentsHandlerSpy = vi.spyOn(
       component,
       'changeSelectionStatusForAllStudentsHandler',
     );
 
     fixture.detectChanges();
+    await fixture.whenStable();
 
     selectStudentTableHeaderCheckBox().nativeElement.click();
     expect(changeSelectionStatusForAllStudentsHandlerSpy).toHaveBeenCalledTimes(1);
@@ -467,7 +468,7 @@ describe('StudentListInfoTableComponent', () => {
         },
         false,
       );
-      const changeSelectionStatusForAllStudentsHandlerSpy = jest.spyOn(
+      const changeSelectionStatusForAllStudentsHandlerSpy = vi.spyOn(
         component,
         'changeSelectionStatusForAllStudentsHandler',
       );
@@ -485,7 +486,7 @@ describe('StudentListInfoTableComponent', () => {
     },
   );
 
-  it('changeSelectionStatusForAllInstructorsHandler: should set all isSelected to true if not all are selected', () => {
+  it('changeSelectionStatusForAllInstructorsHandler: should set all isSelected to true if not all are selected', async () => {
     component.instructorListInfoTableRowModels = [
       instructorModelBuilder.isSelected(true).build(),
       instructorModelBuilder.isSelected(false).build(),
@@ -496,12 +497,13 @@ describe('StudentListInfoTableComponent', () => {
     testEventEmission(component.instructorListInfoTableRowModelsChange, (newRows) => {
       emittedRows = newRows;
     });
-    const changeSelectionStatusForAllInstructorsHandlerSpy = jest.spyOn(
+    const changeSelectionStatusForAllInstructorsHandlerSpy = vi.spyOn(
       component,
       'changeSelectionStatusForAllInstructorsHandler',
     );
 
     fixture.detectChanges();
+    await fixture.whenStable();
 
     selectInstructorTableHeaderCheckBox().nativeElement.click();
     expect(changeSelectionStatusForAllInstructorsHandlerSpy).toHaveBeenCalledTimes(1);
@@ -530,7 +532,7 @@ describe('StudentListInfoTableComponent', () => {
         },
         false,
       );
-      const changeSelectionStatusForAllInstructorsHandlerSpy = jest.spyOn(
+      const changeSelectionStatusForAllInstructorsHandlerSpy = vi.spyOn(
         component,
         'changeSelectionStatusForAllInstructorsHandler',
       );

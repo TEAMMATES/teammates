@@ -1,7 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { of } from 'rxjs';
 import { CourseTabModel, InstructorHomePageComponent } from './instructor-home-page.component';
@@ -131,14 +130,11 @@ describe('InstructorHomePageComponent', () => {
   let component: InstructorHomePageComponent;
   let fixture: ComponentFixture<InstructorHomePageComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorHomePageComponent);
     component = fixture.componentInstance;
     courseService = TestBed.inject(CourseService);
@@ -185,14 +181,14 @@ describe('InstructorHomePageComponent', () => {
     expect(component.courseTabModels[0].course.courseId).toEqual('CS1231');
     expect(component.courseTabModels[0].course.courseName).toEqual('Discrete Structures');
 
-    jest.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() =>
+    vi.spyOn(simpleModalService, 'openConfirmationModal').mockImplementation(() =>
       createMockNgbModalRef({
         header: 'mock header',
         content: 'mock content',
         type: SimpleModalType.WARNING,
       }),
     );
-    jest.spyOn(courseService, 'binCourse').mockReturnValue(of(courseToDelete));
+    vi.spyOn(courseService, 'binCourse').mockReturnValue(of(courseToDelete));
 
     const courseButton: any = fixture.debugElement.nativeElement.querySelector('.btn-course');
     courseButton.click();
@@ -209,7 +205,7 @@ describe('InstructorHomePageComponent', () => {
       courses: [testCourse1, testCourse2],
     };
 
-    jest.spyOn(courseService, 'getInstructorCoursesThatAreActive').mockReturnValue(of(activeCourses));
+    vi.spyOn(courseService, 'getInstructorCoursesThatAreActive').mockReturnValue(of(activeCourses));
     component.loadCourses();
 
     expect(component.hasCoursesLoaded).toBeTruthy();
@@ -227,7 +223,7 @@ describe('InstructorHomePageComponent', () => {
       feedbackSessions: [testFeedbackSession1, testFeedbackSession2],
     };
 
-    jest.spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor').mockReturnValue(of(courseSessions));
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor').mockReturnValue(of(courseSessions));
     component.courseTabModels = activeCourseTabModels;
     component.loadFeedbackSessions(0);
     fixture.detectChanges();

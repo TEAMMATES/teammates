@@ -1,5 +1,8 @@
 package teammates.common.datatransfer.questions;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import org.testng.annotations.Test;
 
 import teammates.test.BaseTestCase;

@@ -1,9 +1,8 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
-import SpyInstance = jest.SpyInstance;
 import { AdminSearchPageComponent } from './admin-search-page.component';
 import {
   FeedbackSessionsGroup,
@@ -29,13 +28,11 @@ describe('AdminSearchPageComponent', () => {
   let searchService: SearchService;
   let statusMessageService: StatusMessageService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(AdminSearchPageComponent);
     component = fixture.componentInstance;
     searchService = TestBed.inject(SearchService);
@@ -58,7 +55,7 @@ describe('AdminSearchPageComponent', () => {
   });
 
   it('should display error message for invalid input', () => {
-    jest.spyOn(searchService, 'searchAdmin').mockReturnValue(
+    vi.spyOn(searchService, 'searchAdmin').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message',
@@ -66,7 +63,7 @@ describe('AdminSearchPageComponent', () => {
       })),
     );
 
-    const spyStatusMessageService: SpyInstance = jest
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message');
@@ -79,7 +76,7 @@ describe('AdminSearchPageComponent', () => {
   });
 
   it('should display warning message for no results', () => {
-    jest.spyOn(searchService, 'searchAdmin').mockReturnValue(
+    vi.spyOn(searchService, 'searchAdmin').mockReturnValue(
       of({
         students: [],
         instructors: [],
@@ -87,7 +84,7 @@ describe('AdminSearchPageComponent', () => {
       }),
     );
 
-    const spyStatusMessageService: SpyInstance = jest
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showWarningToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('No results found.');
@@ -139,7 +136,7 @@ describe('AdminSearchPageComponent', () => {
       },
     ];
 
-    jest.spyOn(searchService, 'searchAdmin').mockReturnValue(
+    vi.spyOn(searchService, 'searchAdmin').mockReturnValue(
       of({
         students: [],
         instructors: instructorResults,
@@ -205,7 +202,7 @@ describe('AdminSearchPageComponent', () => {
       },
     ];
 
-    jest.spyOn(searchService, 'searchAdmin').mockReturnValue(
+    vi.spyOn(searchService, 'searchAdmin').mockReturnValue(
       of({
         students: studentResults,
         instructors: [],

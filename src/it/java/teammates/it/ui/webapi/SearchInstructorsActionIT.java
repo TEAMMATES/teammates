@@ -1,5 +1,9 @@
 package teammates.it.ui.webapi;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -89,8 +93,8 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
                 .filter(i -> i.getName().equals(instructor.getName()))
                 .findAny()
                 .isPresent());
-        assertTrue(response.getInstructors().get(0).getKey() != null);
-        assertTrue(response.getInstructors().get(0).getInstitute() != null);
+        assertNotNull(response.getInstructors().get(0).getKey());
+        assertNotNull(response.getInstructors().get(0).getInstitute());
     }
 
     @Test
@@ -104,8 +108,8 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
                 .filter(i -> i.getName().equals(instructor.getName()))
                 .findAny()
                 .isPresent());
-        assertTrue(response.getInstructors().get(0).getKey() != null);
-        assertTrue(response.getInstructors().get(0).getInstitute() != null);
+        assertNotNull(response.getInstructors().get(0).getKey());
+        assertNotNull(response.getInstructors().get(0).getInstitute());
     }
 
     @Test
@@ -119,8 +123,8 @@ public class SearchInstructorsActionIT extends BaseActionIT<SearchInstructorsAct
                 .filter(i -> i.getName().equals(instructor.getName()))
                 .findAny()
                 .isPresent());
-        assertTrue(response.getInstructors().get(0).getKey() != null);
-        assertTrue(response.getInstructors().get(0).getInstitute() != null);
+        assertNotNull(response.getInstructors().get(0).getKey());
+        assertNotNull(response.getInstructors().get(0).getInstitute());
     }
 
     @Test

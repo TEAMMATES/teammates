@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`UsageStatisticsPageComponent should snap with default fields 1`] = `
+exports[`UsageStatisticsPageComponent > should snap with default fields 1`] = `
 <tm-usage-statistics-page
   AggregationType={[Function Object]}
   StatisticsType={[Function Object]}
@@ -12,11 +12,11 @@ exports[`UsageStatisticsPageComponent should snap with default fields 1`] = `
   hasQueried="false"
   isLoading="false"
   itemName={[Function String]}
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
   timeRange={[Function Object]}
   timezone={[Function String]}
-  timezoneService={[Function TimezoneService]}
-  usageStatisticsService={[Function UsageStatisticsService]}
+  timezoneService={[Function _TimezoneService]}
+  usageStatisticsService={[Function _UsageStatisticsService]}
 >
   <p>
     Data available from: 1 January 2016, 00:00 UTC

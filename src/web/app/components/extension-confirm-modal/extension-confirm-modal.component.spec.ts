@@ -1,7 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { ExtensionConfirmModalComponent, ExtensionModalType } from './extension-confirm-modal.component';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
@@ -118,8 +118,8 @@ describe('ExtensionConfirmModalComponent', () => {
   let sortedStudents: StudentExtensionTableColumnModel[];
   let sortedInstructors: InstructorExtensionTableColumnModel[];
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [
         NgbActiveModal,
         FormatDateDetailPipe,
@@ -128,12 +128,10 @@ describe('ExtensionConfirmModalComponent', () => {
         provideHttpClientTesting(),
       ],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ExtensionConfirmModalComponent);
     timeZoneService = TestBed.inject(TimezoneService);
-    jest.spyOn(timeZoneService, 'formatToString').mockReturnValue(testTimeString);
+    vi.spyOn(timeZoneService, 'formatToString').mockReturnValue(testTimeString);
     component = fixture.componentInstance;
     component.feedbackSessionTimeZone = 'Asia/Singapore';
     fixture.detectChanges();
@@ -154,8 +152,8 @@ describe('ExtensionConfirmModalComponent', () => {
   it('use ngOnInit to initialise', () => {
     component.selectedStudents = [studentModel3];
     component.selectedInstructors = [instructorModel3];
-    const setStudentTableDataSpy = jest.spyOn(component, 'setStudentTableData');
-    const setInstructorTableDataSpy = jest.spyOn(component, 'setInstructorTableData');
+    const setStudentTableDataSpy = vi.spyOn(component, 'setStudentTableData');
+    const setInstructorTableDataSpy = vi.spyOn(component, 'setInstructorTableData');
     component.ngOnInit();
     component.extensionTimestamp = testFeedbackSession.submissionEndTimestamp;
     fixture.detectChanges();
@@ -167,8 +165,8 @@ describe('ExtensionConfirmModalComponent', () => {
   it('ngOnInit to initialise with empty arrays', () => {
     component.selectedStudents = [];
     component.selectedInstructors = [];
-    const setStudentTableDataSpy = jest.spyOn(component, 'setStudentTableData');
-    const setInstructorTableDataSpy = jest.spyOn(component, 'setInstructorTableData');
+    const setStudentTableDataSpy = vi.spyOn(component, 'setStudentTableData');
+    const setInstructorTableDataSpy = vi.spyOn(component, 'setInstructorTableData');
     component.ngOnInit();
     expect(setStudentTableDataSpy).not.toHaveBeenCalled();
     expect(setInstructorTableDataSpy).not.toHaveBeenCalled();
@@ -230,8 +228,8 @@ describe('ExtensionConfirmModalComponent', () => {
   });
 
   it('test setStudentTableData', () => {
-    const setStudentColumnDataSpy = jest.spyOn(component, 'setStudentColumnData');
-    const setStudentRowDataSpy = jest.spyOn(component, 'setStudentRowData');
+    const setStudentColumnDataSpy = vi.spyOn(component, 'setStudentColumnData');
+    const setStudentRowDataSpy = vi.spyOn(component, 'setStudentRowData');
     component.setStudentTableData();
     expect(setStudentColumnDataSpy).toHaveBeenCalled();
     expect(setStudentRowDataSpy).toHaveBeenCalled();
@@ -285,15 +283,15 @@ describe('ExtensionConfirmModalComponent', () => {
   });
 
   it('test setInstructorTableData', () => {
-    const setInstructorColumnDataSpy = jest.spyOn(component, 'setInstructorColumnData');
-    const setInstructorRowDataSpy = jest.spyOn(component, 'setInstructorRowData');
+    const setInstructorColumnDataSpy = vi.spyOn(component, 'setInstructorColumnData');
+    const setInstructorRowDataSpy = vi.spyOn(component, 'setInstructorRowData');
     component.setInstructorTableData();
     expect(setInstructorColumnDataSpy).toHaveBeenCalled();
     expect(setInstructorRowDataSpy).toHaveBeenCalled();
   });
 
   it('test emit from onConfirm()', () => {
-    const spy = jest.spyOn(component.confirmExtensionCallbackEvent, 'emit');
+    const spy = vi.spyOn(component.confirmExtensionCallbackEvent, 'emit');
     component.onConfirm();
     expect(spy).toHaveBeenCalledTimes(1);
     expect(component.isSubmitting).toBe(true);
@@ -304,7 +302,7 @@ describe('ExtensionConfirmModalComponent', () => {
     sortOrder = SortOrder.ASC;
     const event = { sortBy, sortOrder };
 
-    const spy = jest.spyOn(component.sortStudentListEvent, 'emit');
+    const spy = vi.spyOn(component.sortStudentListEvent, 'emit');
     component.sortStudentColumnsByEventHandler(event);
     expect(spy).toHaveBeenCalledTimes(1);
   });
@@ -314,7 +312,7 @@ describe('ExtensionConfirmModalComponent', () => {
     sortOrder = SortOrder.DESC;
     const event = { sortBy, sortOrder };
 
-    const spy = jest.spyOn(component.sortInstructorListEvent, 'emit');
+    const spy = vi.spyOn(component.sortInstructorListEvent, 'emit');
     component.sortInstructorsColumnsByEventHandler(event);
     expect(spy).toHaveBeenCalledTimes(1);
   });

@@ -1,16 +1,16 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`AdminStudentSearchTableComponent should snap with a deleted course 1`] = `
+exports[`AdminStudentSearchTableComponent > should snap with a deleted course 1`] = `
 <tm-admin-student-search-table
-  accountService={[Function AccountService]}
-  emailGenerationService={[Function EmailGenerationService]}
+  accountService={[Function _AccountService]}
+  emailGenerationService={[Function _EmailGenerationService]}
   isRegeneratingStudentKeys={[Function Array]}
   searchString=""
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
   studentReset={[Function EventEmitter_]}
-  studentService={[Function StudentService]}
   students={[Function Array]}
+  userService={[Function _UserService]}
 >
   <div
     class="card bg-light top-padded"
@@ -269,17 +269,17 @@ exports[`AdminStudentSearchTableComponent should snap with a deleted course 1`] 
 </tm-admin-student-search-table>
 `;
 
-exports[`AdminStudentSearchTableComponent should snap with an expanded student table 1`] = `
+exports[`AdminStudentSearchTableComponent > should snap with an expanded student table 1`] = `
 <tm-admin-student-search-table
-  accountService={[Function AccountService]}
-  emailGenerationService={[Function EmailGenerationService]}
+  accountService={[Function _AccountService]}
+  emailGenerationService={[Function _EmailGenerationService]}
   isRegeneratingStudentKeys={[Function Array]}
   searchString=""
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
   studentReset={[Function EventEmitter_]}
-  studentService={[Function StudentService]}
   students={[Function Array]}
+  userService={[Function _UserService]}
 >
   <div
     class="card bg-light top-padded"

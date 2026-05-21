@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModalRef, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { Observable, of } from 'rxjs';
 import { concatMap, finalize } from 'rxjs/operators';
 import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
@@ -99,8 +100,8 @@ export class InstructorSessionResultPageComponent implements OnInit {
   private commentService = inject(InstructorCommentService);
 
   // enum
-  InstructorSessionResultSectionType: typeof InstructorSessionResultSectionType = InstructorSessionResultSectionType;
-  InstructorSessionResultViewType: typeof InstructorSessionResultViewType = InstructorSessionResultViewType;
+  InstructorSessionResultSectionType!: typeof InstructorSessionResultSectionType;
+  InstructorSessionResultViewType!: typeof InstructorSessionResultViewType;
 
   formattedSessionOpeningTime = '';
   formattedSessionClosingTime = '';
@@ -142,7 +143,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
   allInstructorsInCourse: Instructor[] = [];
   emailOfInstructorToPreview = '';
 
-  FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
+  FeedbackSessionPublishStatus!: typeof FeedbackSessionPublishStatus;
   isExpandAll = false;
 
   session: FeedbackSession = {
@@ -166,6 +167,9 @@ export class InstructorSessionResultPageComponent implements OnInit {
   @ViewChild(InstructorSessionNoResponsePanelComponent) noResponsePanel?: InstructorSessionNoResponsePanelComponent;
 
   constructor() {
+    this.InstructorSessionResultSectionType = InstructorSessionResultSectionType;
+    this.InstructorSessionResultViewType = InstructorSessionResultViewType;
+    this.FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 

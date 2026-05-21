@@ -1,11 +1,14 @@
 package teammates.ui.webapi;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.UUID;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -46,10 +49,6 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         stubInstructorAfterReset = getTypicalInstructor();
         reset(mockLogic, mockEmailGenerator);
         logoutUser();
-
-        // Mock getCourse to avoid NPE
-        when(mockLogic.getCourse(stubStudent.getCourseId())).thenReturn(stubStudent.getCourse());
-        when(mockLogic.getCourse(stubInstructor.getCourseId())).thenReturn(stubInstructor.getCourse());
     }
 
     @Test
@@ -77,56 +76,23 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
                 Const.ParamsNames.COURSE_ID, stubInstructor.getCourseId(),
         };
         verifyHttpParameterFailure(params5);
+
+        String[] params6 = {
+                Const.ParamsNames.USER_ID, "invalid-user-id",
+        };
+        verifyHttpParameterFailure(params6);
     }
 
     @Test
-    void testExecute_invalidStudentEmail_throwsEntityNotFoundException() {
+    void testExecute_invalidUserId_throwsEntityNotFoundException() throws EntityDoesNotExistException {
         loginAsAdmin();
 
+        UUID invalidUserId = UUID.randomUUID();
         String[] params = {
-                Const.ParamsNames.STUDENT_EMAIL, "invalid-student-email",
-                Const.ParamsNames.COURSE_ID, stubStudent.getCourseId(),
+                Const.ParamsNames.USER_ID, invalidUserId.toString(),
         };
-        when(mockLogic.getStudentForEmail(stubStudent.getCourseId(), "invalid-student-email"))
-                .thenReturn(null);
+        when(mockLogic.resetAccount(invalidUserId)).thenThrow(EntityDoesNotExistException.class);
         verifyEntityNotFound(params);
-        assertEquals(0, mockTaskQueuer.getTasksAdded().size());
-    }
-
-    @Test
-    void testExecute_invalidInstructorEmail_throwsEntityNotFoundException() {
-        loginAsAdmin();
-
-        String[] params = {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, "invalid-instructor-email",
-                Const.ParamsNames.COURSE_ID, stubInstructor.getCourseId(),
-        };
-        when(mockLogic.getInstructorForEmail(stubInstructor.getCourseId(), "invalid-instructor-email"))
-                .thenReturn(null);
-        verifyEntityNotFound(params);
-        assertEquals(0, mockTaskQueuer.getTasksAdded().size());
-    }
-
-    @Test
-    void testExecute_invalidCourseId_throwsEntityNotFoundException() {
-        loginAsAdmin();
-
-        String[] params1 = {
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
-                Const.ParamsNames.COURSE_ID, "invalid-course-id",
-        };
-        when(mockLogic.getStudentForEmail("invalid-course-id", stubStudent.getEmail()))
-                .thenReturn(null);
-        verifyEntityNotFound(params1);
-        assertEquals(0, mockTaskQueuer.getTasksAdded().size());
-
-        String[] params2 = {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail(),
-                Const.ParamsNames.COURSE_ID, "invalid-course-id",
-        };
-        when(mockLogic.getInstructorForEmail("invalid-course-id", stubInstructor.getEmail()))
-                .thenReturn(null);
-        verifyEntityNotFound(params2);
         assertEquals(0, mockTaskQueuer.getTasksAdded().size());
     }
 
@@ -135,11 +101,9 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         loginAsAdmin();
 
         String[] params = {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail(),
-                Const.ParamsNames.COURSE_ID, stubInstructor.getCourseId(),
+                Const.ParamsNames.USER_ID, stubInstructor.getId().toString(),
         };
-        when(mockLogic.getInstructorForEmail(stubInstructor.getCourseId(), stubInstructor.getEmail()))
-                .thenReturn(stubInstructor);
+        when(mockLogic.resetAccount(stubInstructor.getId())).thenReturn(stubInstructor);
         when(mockEmailGenerator.generateInstructorCourseRejoinEmailAfterGoogleIdReset(
                 stubInstructor, stubInstructor.getCourse())).thenReturn(mock(EmailWrapper.class));
         ResetAccountAction action = getAction(params);
@@ -148,8 +112,7 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
 
         assertEquals("Account is successfully reset.", output.getMessage());
         verifySpecifiedTasksAdded(Const.TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, 1);
-        verify(mockLogic, times(1)).resetInstructorGoogleId(stubInstructor.getEmail(),
-                stubInstructor.getCourseId(), stubInstructor.getGoogleId());
+        verify(mockLogic, times(1)).resetAccount(stubInstructor.getId());
     }
 
     @Test
@@ -157,11 +120,9 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         loginAsAdmin();
 
         String[] params = {
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
-                Const.ParamsNames.COURSE_ID, stubStudent.getCourseId(),
+                Const.ParamsNames.USER_ID, stubStudent.getId().toString(),
         };
-        when(mockLogic.getStudentForEmail(stubStudent.getCourseId(), stubStudent.getEmail()))
-                .thenReturn(stubStudent);
+        when(mockLogic.resetAccount(stubStudent.getId())).thenReturn(stubStudent);
         when(mockEmailGenerator.generateStudentCourseRejoinEmailAfterGoogleIdReset(
                 stubStudent.getCourse(), stubStudent)).thenReturn(mock(EmailWrapper.class));
         ResetAccountAction action = getAction(params);
@@ -170,8 +131,7 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
 
         assertEquals("Account is successfully reset.", output.getMessage());
         verifySpecifiedTasksAdded(Const.TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, 1);
-        verify(mockLogic, times(1))
-                .resetStudentGoogleId(stubStudent.getEmail(), stubStudent.getCourseId(), stubStudent.getGoogleId());
+        verify(mockLogic, times(1)).resetAccount(stubStudent.getId());
     }
 
     @Test
@@ -179,11 +139,9 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         loginAsAdmin();
 
         String[] params = {
-                Const.ParamsNames.STUDENT_EMAIL, stubStudentAfterReset.getEmail(),
-                Const.ParamsNames.COURSE_ID, stubStudentAfterReset.getCourseId(),
+                Const.ParamsNames.USER_ID, stubStudentAfterReset.getId().toString(),
         };
-        when(mockLogic.getStudentForEmail(stubStudent.getCourseId(), stubStudent.getEmail()))
-                .thenReturn(stubStudentAfterReset);
+        when(mockLogic.resetAccount(stubStudentAfterReset.getId())).thenReturn(stubStudentAfterReset);
         when(mockEmailGenerator.generateStudentCourseRejoinEmailAfterGoogleIdReset(
                 stubStudent.getCourse(), stubStudentAfterReset)).thenReturn(mock(EmailWrapper.class));
         ResetAccountAction action = getAction(params);
@@ -192,8 +150,7 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
 
         assertEquals("Account is successfully reset.", output.getMessage());
         verifySpecifiedTasksAdded(Const.TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, 1);
-        verify(mockLogic, times(0))
-                .resetStudentGoogleId(stubStudent.getEmail(), stubStudent.getCourseId(), stubStudent.getGoogleId());
+        verify(mockLogic, times(1)).resetAccount(stubStudentAfterReset.getId());
     }
 
     @Test
@@ -201,11 +158,9 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         loginAsAdmin();
 
         String[] params = {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructorAfterReset.getEmail(),
-                Const.ParamsNames.COURSE_ID, stubInstructorAfterReset.getCourseId(),
+                Const.ParamsNames.USER_ID, stubInstructorAfterReset.getId().toString(),
         };
-        when(mockLogic.getInstructorForEmail(stubInstructor.getCourseId(), stubInstructor.getEmail()))
-                .thenReturn(stubInstructorAfterReset);
+        when(mockLogic.resetAccount(stubInstructorAfterReset.getId())).thenReturn(stubInstructorAfterReset);
         when(mockEmailGenerator.generateInstructorCourseRejoinEmailAfterGoogleIdReset(
                 stubInstructorAfterReset, stubInstructor.getCourse())).thenReturn(mock(EmailWrapper.class));
         ResetAccountAction action = getAction(params);
@@ -214,8 +169,7 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
 
         assertEquals("Account is successfully reset.", output.getMessage());
         verifySpecifiedTasksAdded(Const.TaskQueue.PRIORITY_EMAIL_QUEUE_NAME, 1);
-        verify(mockLogic, times(0)).resetInstructorGoogleId(stubInstructor.getEmail(),
-                stubInstructor.getCourseId(), stubInstructor.getGoogleId());
+        verify(mockLogic, times(1)).resetAccount(stubInstructorAfterReset.getId());
     }
 
     @Test
@@ -224,13 +178,9 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         loginAsAdmin();
 
         String[] params = {
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
-                Const.ParamsNames.COURSE_ID, stubStudent.getCourseId(),
+                Const.ParamsNames.USER_ID, stubStudent.getId().toString(),
         };
-        when(mockLogic.getStudentForEmail(stubStudent.getCourseId(), stubStudent.getEmail()))
-                .thenReturn(stubStudent);
-        doThrow(EntityDoesNotExistException.class).when(mockLogic).resetStudentGoogleId(stubStudent.getEmail(),
-                stubStudent.getCourseId(), stubStudent.getGoogleId());
+        doThrow(EntityDoesNotExistException.class).when(mockLogic).resetAccount(stubStudent.getId());
         verifyEntityNotFound(params);
         assertEquals(0, mockTaskQueuer.getTasksAdded().size());
 
@@ -242,13 +192,9 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         loginAsAdmin();
 
         String[] params = {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail(),
-                Const.ParamsNames.COURSE_ID, stubInstructor.getCourseId(),
+                Const.ParamsNames.USER_ID, stubInstructor.getId().toString(),
         };
-        when(mockLogic.getInstructorForEmail(stubInstructor.getCourseId(), stubInstructor.getEmail()))
-                .thenReturn(stubInstructor);
-        doThrow(EntityDoesNotExistException.class).when(mockLogic).resetInstructorGoogleId(stubInstructor.getEmail(),
-                stubInstructor.getCourseId(), stubInstructor.getGoogleId());
+        doThrow(EntityDoesNotExistException.class).when(mockLogic).resetAccount(stubInstructor.getId());
         verifyEntityNotFound(params);
         assertEquals(0, mockTaskQueuer.getTasksAdded().size());
     }
@@ -257,11 +203,10 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
     void testAccessControl() {
         String[] params1 = {};
         String[] params2 = {
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
-                Const.ParamsNames.COURSE_ID, stubStudent.getCourseId(),
+                Const.ParamsNames.USER_ID, stubStudent.getId().toString(),
         };
         String[] params3 = {
-                Const.ParamsNames.INSTRUCTOR_EMAIL, stubInstructor.getEmail(),
+                Const.ParamsNames.USER_ID, stubInstructor.getId().toString(),
         };
         String[] params4 = {
                 Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),

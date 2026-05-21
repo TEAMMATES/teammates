@@ -2,7 +2,7 @@ import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag, CdkDragHandle } fro
 
 import { Component, Input, OnChanges, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { ConstsumOptionsFieldComponent } from './constsum-options-field/constsum-options-field.component';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import { StatusMessageService } from '../../../../services/status-message.service';
@@ -27,11 +27,16 @@ export class ConstsumOptionsQuestionEditDetailsFormComponent
   private statusMessageService = inject(StatusMessageService);
 
   // enum
-  FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =
-    FeedbackConstantSumDistributePointsType;
+  FeedbackConstantSumDistributePointsType!: typeof FeedbackConstantSumDistributePointsType;
 
   @Input() questionNumber = 0;
   pointsRadioGroupName = '';
+
+  constructor() {
+    super();
+    this.FeedbackConstantSumDistributePointsType = FeedbackConstantSumDistributePointsType;
+  }
+
   ngOnChanges(): void {
     this.pointsRadioGroupName = `constsum-options-${this.questionNumber}`;
   }

@@ -1,9 +1,8 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import SpyInstance = jest.SpyInstance;
 import { NotificationBannerComponent } from './notification-banner.component';
 import { NotificationService } from '../../../services/notification.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -38,13 +37,11 @@ describe('NotificationBannerComponent', () => {
     message: 'valid message 2',
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(NotificationBannerComponent);
     notificationService = TestBed.inject(NotificationService);
     statusMessageService = TestBed.inject(StatusMessageService);
@@ -60,7 +57,7 @@ describe('NotificationBannerComponent', () => {
   });
 
   it('should load data correctly', () => {
-    const spy = jest.spyOn(notificationService, 'getUnreadNotificationsForTargetUser').mockReturnValue(
+    const spy = vi.spyOn(notificationService, 'getUnreadNotificationsForTargetUser').mockReturnValue(
       of({
         notifications: [testNotificationOne, testNotificationTwo],
       }),
@@ -81,7 +78,7 @@ describe('NotificationBannerComponent', () => {
   });
 
   it('should close after clicking mark as read when no more unread notifications remain', () => {
-    const apiSpy: SpyInstance = jest
+    const apiSpy = vi
       .spyOn(notificationService, 'markNotificationAsRead')
       .mockImplementation((request: MarkNotificationAsReadRequest) => {
         expect(request.notificationId).toEqual(testNotificationOne.notificationId);
@@ -89,11 +86,9 @@ describe('NotificationBannerComponent', () => {
           readNotifications: [request.notificationId],
         });
       });
-    const messageSpy: SpyInstance = jest
-      .spyOn(statusMessageService, 'showSuccessToast')
-      .mockImplementation((args: string) => {
-        expect(args).toEqual('Notification marked as read.');
-      });
+    const messageSpy = vi.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
+      expect(args).toEqual('Notification marked as read.');
+    });
     component.notifications = [testNotificationOne];
     fixture.detectChanges();
 
@@ -107,7 +102,7 @@ describe('NotificationBannerComponent', () => {
   });
 
   it('should show next unread notification after clicking mark as read', () => {
-    const apiSpy: SpyInstance = jest
+    const apiSpy = vi
       .spyOn(notificationService, 'markNotificationAsRead')
       .mockImplementation((request: MarkNotificationAsReadRequest) => {
         expect(request.notificationId).toEqual(testNotificationOne.notificationId);
@@ -115,11 +110,9 @@ describe('NotificationBannerComponent', () => {
           readNotifications: [request.notificationId],
         });
       });
-    const messageSpy: SpyInstance = jest
-      .spyOn(statusMessageService, 'showSuccessToast')
-      .mockImplementation((args: string) => {
-        expect(args).toEqual('Notification marked as read.');
-      });
+    const messageSpy = vi.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
+      expect(args).toEqual('Notification marked as read.');
+    });
     component.notifications = [testNotificationOne, testNotificationTwo];
     fixture.detectChanges();
 

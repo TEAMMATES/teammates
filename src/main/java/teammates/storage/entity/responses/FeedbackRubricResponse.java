@@ -47,6 +47,11 @@ public class FeedbackRubricResponse extends FeedbackResponse {
     }
 
     @Override
+    public void setFeedbackResponseDetails(FeedbackResponseDetails responseDetails) {
+        setAnswer(castResponseDetails(responseDetails, FeedbackRubricResponseDetails.class));
+    }
+
+    @Override
     public String toString() {
         return "FeedbackRubricResponse [id=" + super.getId()
                 + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";

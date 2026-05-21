@@ -1,17 +1,17 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { TemplateQuestionModalComponent } from './template-question-modal.component';
 
 describe('TemplateQuestionModalComponent', () => {
   let component: TemplateQuestionModalComponent;
   let fixture: ComponentFixture<TemplateQuestionModalComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [
         NgbActiveModal,
         provideHttpClient(),
@@ -20,9 +20,7 @@ describe('TemplateQuestionModalComponent', () => {
         provideNoopAnimations(),
       ],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(TemplateQuestionModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

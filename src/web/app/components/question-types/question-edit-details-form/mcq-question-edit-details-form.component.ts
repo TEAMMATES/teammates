@@ -2,7 +2,7 @@ import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag, CdkDragHandle } fro
 
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { McqFieldComponent } from './mcq-field/mcq-field.component';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import { WeightFieldComponent } from './weight-field/weight-field.component';

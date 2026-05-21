@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SimpleChange } from '@angular/core';
 
 import { RichTextEditorComponent } from './rich-text-editor.component';
 
@@ -70,7 +71,7 @@ describe('RichTextEditorComponent', () => {
   });
 
   it('should update character count on GetContent when character limit is enabled', () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     component.hasCharacterLimit = true;
     component.ngOnInit();
@@ -93,7 +94,7 @@ describe('RichTextEditorComponent', () => {
     component.init.setup(mockEditor);
     handler();
 
-    jest.runAllTimers();
+    vi.runAllTimers();
 
     expect(component.characterCount).toBe(50);
   });
@@ -120,7 +121,7 @@ describe('RichTextEditorComponent', () => {
     };
 
     const mockEvent = {
-      preventDefault: jest.fn(),
+      preventDefault: vi.fn(),
     };
 
     component.init.setup(mockEditor);
@@ -151,12 +152,55 @@ describe('RichTextEditorComponent', () => {
     };
 
     const mockEvent = {
-      preventDefault: jest.fn(),
+      preventDefault: vi.fn(),
     };
 
     component.init.setup(mockEditor);
     keypressHandler!(mockEvent);
 
     expect(mockEvent.preventDefault).not.toHaveBeenCalled();
+  });
+
+  it('should trigger auto resize on editor init', () => {
+    vi.useFakeTimers();
+    component.ngOnInit();
+
+    const execCommand = vi.fn();
+    const listeners: Record<string, () => void> = {};
+    const mockEditor = {
+      on: (eventName: string, handler: () => void) => {
+        listeners[eventName] = handler;
+      },
+      execCommand,
+    };
+
+    component.init.setup(mockEditor);
+    listeners['init']();
+    vi.runAllTimers();
+
+    expect(execCommand).toHaveBeenCalledWith('mceAutoResize');
+  });
+
+  it('should trigger auto resize when rich text changes after editor is initialized', () => {
+    vi.useFakeTimers();
+    component.ngOnInit();
+
+    const execCommand = vi.fn();
+    const listeners: Record<string, () => void> = {};
+    const mockEditor = {
+      on: (eventName: string, handler: () => void) => {
+        listeners[eventName] = handler;
+      },
+      execCommand,
+    };
+
+    component.init.setup(mockEditor);
+
+    component.ngOnChanges({
+      richText: new SimpleChange('', '<p>new content</p>', false),
+    });
+    vi.runAllTimers();
+
+    expect(execCommand).toHaveBeenCalledWith('mceAutoResize');
   });
 });

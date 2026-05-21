@@ -31,7 +31,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   private statusMessageService = inject(StatusMessageService);
 
   // enum
-  SortBy: typeof SortBy = SortBy;
+  SortBy!: typeof SortBy;
   teammateProfilesSortBy: SortBy = SortBy.NONE;
 
   // data
@@ -66,6 +66,10 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   isLoadingInstructor = false;
   isLoadingTeammates = false;
   hasLoadingFailed = false;
+
+  constructor() {
+    this.SortBy = SortBy;
+  }
 
   /**
    * Fetches relevant data to be displayed on page.

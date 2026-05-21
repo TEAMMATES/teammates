@@ -1,6 +1,8 @@
 package teammates.logic.external;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;

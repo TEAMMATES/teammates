@@ -2,7 +2,7 @@ import { NgClass } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { forkJoin } from 'rxjs';
 import { finalize, map, switchMap } from 'rxjs/operators';
 import { InstructorExtensionTableColumnModel, StudentExtensionTableColumnModel } from './extension-table-column-model';
@@ -90,8 +90,8 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   instructorsOfCourse: InstructorExtensionTableColumnModel[] = [];
   userDeadlines: Record<string, number> = {};
 
-  SortBy: typeof SortBy = SortBy;
-  SortOrder: typeof SortOrder = SortOrder;
+  SortBy!: typeof SortBy;
+  SortOrder!: typeof SortOrder;
   sortStudentsBy: SortBy = SortBy.SESSION_END_DATE;
   sortStudentOrder: SortOrder = SortOrder.DESC;
   sortInstructorsBy: SortBy = SortBy.SESSION_END_DATE;
@@ -110,6 +110,11 @@ export class InstructorSessionIndividualExtensionPageComponent implements OnInit
   isLoadingFeedbackSession = true;
   hasLoadingFeedbackSessionFailed = false;
   isSubmittingDeadlines = false;
+
+  constructor() {
+    this.SortBy = SortBy;
+    this.SortOrder = SortOrder;
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {

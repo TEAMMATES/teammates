@@ -1,7 +1,8 @@
 import { NgClass, KeyValuePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbDateParserFormatter, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap/datepicker';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { NotificationEditFormMode, NotificationEditFormModel } from './notification-edit-form-model';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { ApiConst } from '../../../../types/api-const';
@@ -37,9 +38,9 @@ import { TimepickerComponent } from '../../../components/timepicker/timepicker.c
 export class NotificationEditFormComponent {
   private simpleModalService = inject(SimpleModalService);
 
-  NotificationEditFormMode = NotificationEditFormMode;
-  NotificationStyle = NotificationStyle;
-  NotificationTargetUser = NotificationTargetUser;
+  NotificationEditFormMode!: typeof NotificationEditFormMode;
+  NotificationStyle!: typeof NotificationStyle;
+  NotificationTargetUser!: typeof NotificationTargetUser;
 
   NOTIFICATION_TITLE_MAX_LENGTH = ApiConst.NOTIFICATION_TITLE_MAX_LENGTH;
 
@@ -83,6 +84,12 @@ export class NotificationEditFormComponent {
 
   @Output()
   cancelEditingNotificationEvent = new EventEmitter<void>();
+
+  constructor() {
+    this.NotificationEditFormMode = NotificationEditFormMode;
+    this.NotificationStyle = NotificationStyle;
+    this.NotificationTargetUser = NotificationTargetUser;
+  }
 
   /**
    * Triggers the change of the model for the form.

@@ -27,17 +27,24 @@ export class InstructorHelpGettingStartedComponent {
   private document = inject(DOCUMENT);
 
   // enum
-  StudentsSectionQuestions: typeof StudentsSectionQuestions = StudentsSectionQuestions;
-  CoursesSectionQuestions: typeof CoursesSectionQuestions = CoursesSectionQuestions;
-  SessionsSectionQuestions: typeof SessionsSectionQuestions = SessionsSectionQuestions;
-  QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
-  CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
-  Sections: typeof Sections = Sections;
+  StudentsSectionQuestions!: typeof StudentsSectionQuestions;
+  CoursesSectionQuestions!: typeof CoursesSectionQuestions;
+  SessionsSectionQuestions!: typeof SessionsSectionQuestions;
+  QuestionsSectionQuestions!: typeof QuestionsSectionQuestions;
+  CourseEditFormMode!: typeof CourseEditFormMode;
+  Sections!: typeof Sections;
 
   readonly supportEmail: string = environment.supportEmail;
   instructorHelpPath = '';
 
   constructor() {
+    this.StudentsSectionQuestions = StudentsSectionQuestions;
+    this.CoursesSectionQuestions = CoursesSectionQuestions;
+    this.SessionsSectionQuestions = SessionsSectionQuestions;
+    this.QuestionsSectionQuestions = QuestionsSectionQuestions;
+    this.CourseEditFormMode = CourseEditFormMode;
+    this.Sections = Sections;
+
     let r: ActivatedRoute = this.route;
     while (r.firstChild) {
       r = r.firstChild;

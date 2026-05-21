@@ -209,8 +209,8 @@ export interface FeedbackQuestionDetails {
 export interface FeedbackQuestionRecipient extends ApiOutput {
   name: string;
   identifier: string;
-  section?: string;
-  team?: string;
+  section: string;
+  team: string;
 }
 
 export interface FeedbackQuestionRecipients extends ApiOutput {

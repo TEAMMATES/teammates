@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import {
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -38,7 +38,7 @@ import { SingleResponseComponent } from '../single-response/single-response.comp
 })
 export class GroupedResponsesComponent extends InstructorResponsesViewBase implements OnInit {
   // enum
-  CommentRowMode: typeof CommentRowMode = CommentRowMode;
+  CommentRowMode!: typeof CommentRowMode;
 
   @Input() responses: QuestionOutput[] = [];
   @Input() userToEmail: Record<string, string> = {};
@@ -64,6 +64,11 @@ export class GroupedResponsesComponent extends InstructorResponsesViewBase imple
   };
 
   hasRealResponses = false;
+
+  constructor() {
+    super();
+    this.CommentRowMode = CommentRowMode;
+  }
 
   ngOnInit(): void {
     this.hasRealResponses = this.responses.some((question: QuestionOutput) =>

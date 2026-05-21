@@ -2,7 +2,7 @@ import { NgClass } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
@@ -40,10 +40,10 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   private ngbModal = inject(NgbModal);
   private simpleModalService = inject(SimpleModalService);
 
-  readonly STUDENT_NAME_MAX_LENGTH = STUDENT_NAME_MAX_LENGTH;
-  readonly SECTION_NAME_MAX_LENGTH = SECTION_NAME_MAX_LENGTH;
-  readonly TEAM_NAME_MAX_LENGTH = TEAM_NAME_MAX_LENGTH;
-  readonly EMAIL_MAX_LENGTH = EMAIL_MAX_LENGTH;
+  readonly STUDENT_NAME_MAX_LENGTH!: number;
+  readonly SECTION_NAME_MAX_LENGTH!: number;
+  readonly TEAM_NAME_MAX_LENGTH!: number;
+  readonly EMAIL_MAX_LENGTH!: number;
 
   @Input() isEnabled = true;
   courseId = '';
@@ -59,6 +59,13 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   editForm!: UntypedFormGroup;
   teamFieldSubscription?: Subscription;
   emailFieldSubscription?: Subscription;
+
+  constructor() {
+    this.STUDENT_NAME_MAX_LENGTH = STUDENT_NAME_MAX_LENGTH;
+    this.SECTION_NAME_MAX_LENGTH = SECTION_NAME_MAX_LENGTH;
+    this.TEAM_NAME_MAX_LENGTH = TEAM_NAME_MAX_LENGTH;
+    this.EMAIL_MAX_LENGTH = EMAIL_MAX_LENGTH;
+  }
 
   ngOnInit(): void {
     if (!this.isEnabled) {
@@ -227,7 +234,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
     this.studentService
       .updateStudent(
         {
-          studentId: this.student.userId,
+          userId: this.student.userId,
         },
         reqBody,
       )

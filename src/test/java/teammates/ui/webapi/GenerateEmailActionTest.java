@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -56,7 +57,7 @@ public class GenerateEmailActionTest
     @Test
     public void testExecute_studentCourseJoinEmailType_success() {
         String[] params = {
-                Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
+                Const.ParamsNames.USER_ID, student.getId().toString(),
                 Const.ParamsNames.EMAIL_TYPE, EmailType.STUDENT_COURSE_JOIN.name(),
         };
 
@@ -83,7 +84,7 @@ public class GenerateEmailActionTest
     @Test
     public void testExecute_feedbackSessionReminderEmailType_success() {
         String[] params = {
-                Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
+                Const.ParamsNames.USER_ID, student.getId().toString(),
                 Const.ParamsNames.EMAIL_TYPE, EmailType.FEEDBACK_SESSION_REMINDER.name(),
                 Const.ParamsNames.FEEDBACK_SESSION_ID, session.getId().toString(),
         };
@@ -117,7 +118,7 @@ public class GenerateEmailActionTest
     @Test
     public void testExecute_studentDoesNotExist_throwsEntityNotFoundException() {
         String[] params = {
-                Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
+                Const.ParamsNames.USER_ID, student.getId().toString(),
                 Const.ParamsNames.EMAIL_TYPE, EmailType.STUDENT_COURSE_JOIN.name(),
         };
 
@@ -129,7 +130,7 @@ public class GenerateEmailActionTest
     @Test
     public void testExecute_invalidFeedbackSession_throwsEntityNotFoundException() {
         String[] params = {
-                Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
+                Const.ParamsNames.USER_ID, student.getId().toString(),
                 Const.ParamsNames.EMAIL_TYPE, EmailType.FEEDBACK_SESSION_REMINDER.name(),
                 Const.ParamsNames.FEEDBACK_SESSION_ID, "e06ef8a3-d693-40a9-b80c-4560860c3d09",
         };

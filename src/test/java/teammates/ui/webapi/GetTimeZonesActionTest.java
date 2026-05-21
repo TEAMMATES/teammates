@@ -1,5 +1,8 @@
 package teammates.ui.webapi;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -52,7 +55,7 @@ public class GetTimeZonesActionTest extends BaseActionTest<GetTimeZonesAction> {
 
     @Test
     void testAccessControl_unregistered_cannotAccess() {
-        loginAsUnregistered(Const.ParamsNames.USER_ID);
+        loginAsUnregistered(Const.ParamsNames.USER);
         verifyCannotAccess();
     }
 

@@ -27,13 +27,17 @@ export class MsqQuestionStatisticsComponent implements OnChanges {
   isStudent = false;
 
   // enum
-  SortBy: typeof SortBy = SortBy;
+  SortBy!: typeof SortBy;
 
   summaryColumnsData: ColumnData[] = [];
   summaryRowsData: SortableTableCellData[][] = [];
   perRecipientColumnsData: ColumnData[] = [];
   perRecipientRowsData: SortableTableCellData[][] = [];
   hasAnswers = false;
+
+  constructor() {
+    this.SortBy = SortBy;
+  }
 
   ngOnChanges(): void {
     const stats = calculateMsqQuestionStatistics(this.question, this.responses);

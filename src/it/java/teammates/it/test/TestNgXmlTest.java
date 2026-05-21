@@ -1,5 +1,7 @@
 package teammates.it.test;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;

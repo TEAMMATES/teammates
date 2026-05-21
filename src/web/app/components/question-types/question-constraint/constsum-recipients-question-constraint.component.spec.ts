@@ -14,6 +14,7 @@ describe('ConstsumRecipientsQuestionConstraintComponent', () => {
     responseId: '123',
     recipientIdentifier: 'recipient123',
     isValid: true,
+    isModified: false,
     responseDetails: { questionType: FeedbackQuestionType.CONSTSUM },
   });
 
@@ -72,49 +73,49 @@ describe('ConstsumRecipientsQuestionConstraintComponent', () => {
   });
 
   it('isAllPointsUneven: should return true when all points are unique', () => {
-    const mockAllAnswers = jest.fn().mockReturnValue([1, 2, 3]);
+    const mockAllAnswers = vi.fn().mockReturnValue([1, 2, 3]);
     Object.defineProperty(component, 'allAnswers', { get: mockAllAnswers });
 
     expect(component.isAllPointsUneven).toEqual(true);
   });
 
   it('isAllPointsUneven: should return false when some points are repeated', () => {
-    const mockAllAnswers = jest.fn().mockReturnValue([1, 2, 2, 3]);
+    const mockAllAnswers = vi.fn().mockReturnValue([1, 2, 2, 3]);
     Object.defineProperty(component, 'allAnswers', { get: mockAllAnswers });
 
     expect(component.isAllPointsUneven).toEqual(false);
   });
 
   it('isAllPointsUneven: should return true when there are no points', () => {
-    const mockAllAnswers = jest.fn().mockReturnValue([]);
+    const mockAllAnswers = vi.fn().mockReturnValue([]);
     Object.defineProperty(component, 'allAnswers', { get: mockAllAnswers });
 
     expect(component.isAllPointsUneven).toEqual(true);
   });
 
   it('isSomePointsUneven: should return true when length is 1', () => {
-    const mockAllAnswers = jest.fn().mockReturnValue([1]);
+    const mockAllAnswers = vi.fn().mockReturnValue([1]);
     Object.defineProperty(component, 'allAnswers', { get: mockAllAnswers });
 
     expect(component.isSomePointsUneven).toEqual(true);
   });
 
   it('isSomePointsUneven: should return true when there are multiple points and some are different', () => {
-    const mockAllAnswers = jest.fn().mockReturnValue([1, 2, 3]);
+    const mockAllAnswers = vi.fn().mockReturnValue([1, 2, 3]);
     Object.defineProperty(component, 'allAnswers', { get: mockAllAnswers });
 
     expect(component.isSomePointsUneven).toEqual(true);
   });
 
   it('isSomePointsUneven: should return false when all answers are the same and length is greater than 1', () => {
-    const mockAllAnswers = jest.fn().mockReturnValue([2, 2, 2]);
+    const mockAllAnswers = vi.fn().mockReturnValue([2, 2, 2]);
     Object.defineProperty(component, 'allAnswers', { get: mockAllAnswers });
 
     expect(component.isSomePointsUneven).toEqual(false);
   });
 
   it('isSomePointsUneven: should return true when there are no points', () => {
-    const mockAllAnswers = jest.fn().mockReturnValue([]);
+    const mockAllAnswers = vi.fn().mockReturnValue([]);
     Object.defineProperty(component, 'allAnswers', { get: mockAllAnswers });
 
     expect(component.isSomePointsUneven).toEqual(true);

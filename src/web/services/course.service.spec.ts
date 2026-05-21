@@ -121,25 +121,22 @@ describe('CourseService', () => {
 
   it('should execute GET to retrieve join course status', () => {
     const regKey = 'ABC';
-    const entityType = 'instructor';
     const paramMap: { [key: string]: string } = {
       key: regKey,
-      entitytype: entityType,
     };
-    service.getJoinCourseStatus(regKey, entityType, false);
+    service.getJoinCourseStatus(regKey, false);
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.JOIN, paramMap);
 
     paramMap['iscreatingaccount'] = 'true';
-    service.getJoinCourseStatus(regKey, entityType, true);
+    service.getJoinCourseStatus(regKey, true);
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.JOIN, paramMap);
   });
 
   it('should execute PUT when joining course', () => {
     const paramMap: Record<string, string> = {
       key: '123',
-      entitytype: 'instructor',
     };
-    service.joinCourse(paramMap['key'], paramMap['entitytype']);
+    service.joinCourse(paramMap['key']);
     expect(spyHttpRequestService.put).toHaveBeenCalledWith(ResourceEndpoints.JOIN, paramMap);
   });
 
@@ -150,25 +147,12 @@ describe('CourseService', () => {
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.JOIN_REMIND, paramMap);
   });
 
-  it('should execute POST to remind particular student', () => {
-    const courseId = 'test-id';
-    const studentEmail = 'test@example.com';
+  it('should execute POST to remind particular user', () => {
+    const userId = 'test-user-id';
     const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-      studentemail: studentEmail,
+      userid: userId,
     };
-    service.remindStudentForJoin(courseId, studentEmail);
-    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.JOIN_REMIND, paramMap);
-  });
-
-  it('should execute POST to remind particular instructor', () => {
-    const courseId = 'test-id';
-    const instructorEmail = 'test@example.com';
-    const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-      instructoremail: instructorEmail,
-    };
-    service.remindInstructorForJoin(courseId, instructorEmail);
+    service.remindUserForJoin(userId);
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.JOIN_REMIND, paramMap);
   });
 

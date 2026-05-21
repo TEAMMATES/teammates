@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbActiveModal, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { CopyCourseModalResult } from './copy-course-modal-model';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -29,8 +30,8 @@ export class CopyCourseModalComponent implements OnInit {
   private timezoneService = inject(TimezoneService);
 
   // const
-  readonly COURSE_ID_MAX_LENGTH: number = COURSE_ID_MAX_LENGTH;
-  readonly COURSE_NAME_MAX_LENGTH: number = COURSE_NAME_MAX_LENGTH;
+  readonly COURSE_ID_MAX_LENGTH: number;
+  readonly COURSE_NAME_MAX_LENGTH: number;
 
   @Input()
   courseToFeedbackSession: Record<string, FeedbackSession[]> = {};
@@ -57,6 +58,11 @@ export class CopyCourseModalComponent implements OnInit {
   oldCourseName = '';
 
   selectedFeedbackSessions: Set<FeedbackSession> = new Set<FeedbackSession>();
+
+  constructor() {
+    this.COURSE_ID_MAX_LENGTH = COURSE_ID_MAX_LENGTH;
+    this.COURSE_NAME_MAX_LENGTH = COURSE_NAME_MAX_LENGTH;
+  }
 
   ngOnInit(): void {
     this.timezones = Object.entries(this.timezoneService.getTzOffsets()).map(([id, offset]: [string, number]) => {

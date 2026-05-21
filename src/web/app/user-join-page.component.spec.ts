@@ -1,10 +1,9 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, provideRouter } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of, throwError } from 'rxjs';
-import SpyInstance = jest.SpyInstance;
 import { SimpleModalType } from './components/simple-modal/simple-modal-type';
 import { UserJoinPageComponent } from './user-join-page.component';
 import { AccountService } from '../services/account.service';
@@ -24,8 +23,8 @@ describe('UserJoinPageComponent', () => {
   let simpleModalService: SimpleModalService;
   let ngbModal: NgbModal;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [
         provideRouter([]),
         {
@@ -41,9 +40,7 @@ describe('UserJoinPageComponent', () => {
         provideHttpClientTesting(),
       ],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(UserJoinPageComponent);
     component = fixture.componentInstance;
     ngbModal = TestBed.inject(NgbModal);
@@ -107,7 +104,7 @@ describe('UserJoinPageComponent', () => {
 
   it('should show error message if 4xx is returned when joining course', () => {
     const errorMessage = '404 ERROR';
-    jest.spyOn(courseService, 'joinCourse').mockReturnValue(
+    vi.spyOn(courseService, 'joinCourse').mockReturnValue(
       throwError(() => ({
         error: {
           message: errorMessage,
@@ -116,7 +113,7 @@ describe('UserJoinPageComponent', () => {
       })),
     );
 
-    const modalSpy = jest.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
+    const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockReturnValue(createMockNgbModalRef());
 
     component.joinCourse();
 
@@ -127,7 +124,7 @@ describe('UserJoinPageComponent', () => {
   it('should show error message if 5xx is returned when joining course', () => {
     const errorMessage = '502 ERROR';
     const requestId = 'requestId';
-    jest.spyOn(courseService, 'joinCourse').mockReturnValue(
+    vi.spyOn(courseService, 'joinCourse').mockReturnValue(
       throwError(() => ({
         error: {
           message: errorMessage,
@@ -138,7 +135,7 @@ describe('UserJoinPageComponent', () => {
     );
 
     const mockModalRef = createMockNgbModalRef();
-    const modalSpy = jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
+    const modalSpy = vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     component.joinCourse();
 
@@ -148,7 +145,7 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should join course when join course button is clicked on', () => {
-    const params: string[] = ['key', 'student'];
+    const params: string[] = ['key'];
     component.isLoading = false;
     component.hasJoined = false;
     component.userId = 'user';
@@ -156,8 +153,8 @@ describe('UserJoinPageComponent', () => {
     component.entityType = params[1];
     component.validUrl = true;
 
-    const courseSpy: SpyInstance = jest.spyOn(courseService, 'joinCourse').mockReturnValue(of({}));
-    const navSpy: SpyInstance = jest.spyOn(navService, 'navigateByURL').mockImplementation();
+    const courseSpy = vi.spyOn(courseService, 'joinCourse').mockReturnValue(of({}));
+    const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
     fixture.detectChanges();
 
@@ -171,24 +168,26 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should redirect user to home page if user is logged in and join URL has been used', () => {
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(
       of({
+        loginUrl: '/login',
         user: {
           id: 'user',
           isAdmin: false,
           isInstructor: false,
           isStudent: false,
           isMaintainer: false,
+          accountId: 'account-id',
         },
         masquerade: false,
       }),
     );
-    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(
+    vi.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(
       of({
         hasJoined: true,
       }),
     );
-    const navSpy: SpyInstance = jest.spyOn(navService, 'navigateByURL').mockImplementation();
+    const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
     component.ngOnInit();
 
@@ -199,19 +198,21 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should stop loading and show error message if 404 is returned', () => {
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(
       of({
+        loginUrl: '/login',
         user: {
           id: 'user',
           isAdmin: false,
           isInstructor: false,
           isStudent: false,
           isMaintainer: false,
+          accountId: '',
         },
         masquerade: false,
       }),
     );
-    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(
+    vi.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(
       throwError(() => ({
         status: 404,
       })),
@@ -224,12 +225,13 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should stop loading and redirect if user is not logged in', () => {
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(
       of({
+        loginUrl: '/login',
         masquerade: false,
       }),
     );
-    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(
+    vi.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(
       of({
         hasJoined: true,
       }),
@@ -250,8 +252,8 @@ describe('UserJoinPageComponent creating account', () => {
   let courseService: CourseService;
   let timezoneService: TimezoneService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [
         provideRouter([]),
         {
@@ -267,9 +269,7 @@ describe('UserJoinPageComponent creating account', () => {
         provideHttpClientTesting(),
       ],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(UserJoinPageComponent);
     component = fixture.componentInstance;
     navService = TestBed.inject(NavigationService);
@@ -289,13 +289,13 @@ describe('UserJoinPageComponent creating account', () => {
     component.entityType = 'instructor';
     component.validUrl = true;
 
-    const accountSpy: SpyInstance = jest.spyOn(accountService, 'createAccount').mockReturnValue(
+    const accountSpy = vi.spyOn(accountService, 'createAccount').mockReturnValue(
       of({
         message: 'test message',
       }),
     );
-    const navSpy: SpyInstance = jest.spyOn(navService, 'navigateByURL').mockImplementation();
-    jest.spyOn(timezoneService, 'guessTimezone').mockReturnValue('UTC');
+    const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
+    vi.spyOn(timezoneService, 'guessTimezone').mockReturnValue('UTC');
 
     fixture.detectChanges();
 
@@ -309,24 +309,26 @@ describe('UserJoinPageComponent creating account', () => {
   });
 
   it('should redirect user to home page if user is logged in and URL has been used', () => {
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(
       of({
+        loginUrl: '/login',
         user: {
           id: 'user',
           isAdmin: false,
           isInstructor: false,
           isStudent: false,
           isMaintainer: false,
+          accountId: '',
         },
         masquerade: false,
       }),
     );
-    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(
+    vi.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(
       of({
         hasJoined: true,
       }),
     );
-    const navSpy: SpyInstance = jest.spyOn(navService, 'navigateByURL').mockImplementation();
+    const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
 
     component.ngOnInit();
 
@@ -337,19 +339,21 @@ describe('UserJoinPageComponent creating account', () => {
   });
 
   it('should stop loading and show error message if 404 is returned when creating new account', () => {
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(
       of({
+        loginUrl: '/login',
         user: {
           id: 'user',
           isAdmin: false,
           isInstructor: false,
           isStudent: false,
           isMaintainer: false,
+          accountId: '',
         },
         masquerade: false,
       }),
     );
-    jest.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(
+    vi.spyOn(courseService, 'getJoinCourseStatus').mockReturnValue(
       throwError(() => ({
         status: 404,
       })),

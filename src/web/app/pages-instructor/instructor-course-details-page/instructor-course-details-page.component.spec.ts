@@ -1,9 +1,8 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
-import SpyInstance = jest.SpyInstance;
 import { InstructorCourseDetailsPageComponent } from './instructor-course-details-page.component';
 import { CourseStatistics } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -15,9 +14,9 @@ import { StudentListRowModel } from '../../components/student-list/student-list.
 
 const course: Course = {
   courseId: 'CS101',
+  institute: 'Test Institute',
   courseName: 'Introduction to CS',
   timeZone: '',
-  institute: 'Test Institute',
   creationTimestamp: 0,
   deletionTimestamp: 0,
 };
@@ -29,10 +28,16 @@ const testStudent: Student = {
   teamName: 'Team 1',
   sectionName: 'Tutorial Group 1',
   courseId: 'CS101',
+  courseName: 'Test Course',
+  institute: 'Test Institute',
+  userId: 'student-jamie',
 };
 
 const testInstructor: Instructor = {
   courseId: course.courseId,
+  courseName: 'Test Course',
+  institute: 'Test Institute',
+  userId: 'instructor-hock',
   joinState: JoinState.JOINED,
   googleId: 'Hock',
   name: 'Hock',
@@ -49,13 +54,11 @@ describe('InstructorCourseDetailsPageComponent', () => {
   let simpleModalService: SimpleModalService;
   let statusMessageService: StatusMessageService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorCourseDetailsPageComponent);
     studentService = TestBed.inject(StudentService);
     simpleModalService = TestBed.inject(SimpleModalService);
@@ -80,6 +83,9 @@ describe('InstructorCourseDetailsPageComponent', () => {
     };
     const coOwner: Instructor = {
       courseId: course.courseId,
+      courseName: 'Test Course',
+      institute: 'Test Institute',
+      userId: 'instructor-hodor',
       joinState: JoinState.JOINED,
       googleId: 'Hodor',
       name: 'Hodor',
@@ -109,6 +115,9 @@ describe('InstructorCourseDetailsPageComponent', () => {
     };
     const coOwner: Instructor = {
       courseId: course.courseId,
+      courseName: 'Test Course',
+      institute: 'Test Institute',
+      userId: 'instructor-bran',
       joinState: JoinState.JOINED,
       googleId: 'Bran',
       name: 'Bran',
@@ -165,7 +174,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
 
     const promise: Promise<void> = Promise.resolve();
 
-    const spySimpleModalService: SpyInstance = jest
+    const spySimpleModalService = vi
       .spyOn(simpleModalService, 'openConfirmationModal')
       .mockReturnValue(createMockNgbModalRef({}, promise));
 
@@ -176,7 +185,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
     expect(spySimpleModalService).toHaveBeenCalled();
   });
 
-  it('should delete students in batches and show success message upon completion', () => {
+  it('should delete students and show success message upon completion', () => {
     const stats: CourseStatistics = {
       numOfSections: 10,
       numOfTeams: 10,
@@ -189,21 +198,17 @@ describe('InstructorCourseDetailsPageComponent', () => {
     component.courseDetails = courseDetails;
     fixture.detectChanges();
 
-    const spyStudentService: SpyInstance = jest
-      .spyOn(studentService, 'batchDeleteStudentsFromCourse')
+    const spyStudentService = vi
+      .spyOn(studentService, 'deleteStudentsFromCourse')
       .mockReturnValue(of({ message: 'Successful' }));
 
-    jest.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
+    vi.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
       expect(args).toEqual('All the students have been removed from the course');
     });
 
-    jest.spyOn(simpleModalService, 'openLoadingModal').mockReturnValue(createMockNgbModalRef());
-
     component.deleteAllStudentsFromCourse(course.courseId);
 
-    // given a limit of 100 students per call and 350 students,
-    // there should be four calls in total
-    expect(spyStudentService).toHaveBeenCalledTimes(4);
+    expect(spyStudentService).toHaveBeenCalledExactlyOnceWith({ courseId: course.courseId });
   });
 
   it('should show error message when delete fails', () => {
@@ -219,7 +224,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
     component.courseDetails = courseDetails;
     fixture.detectChanges();
 
-    jest.spyOn(studentService, 'batchDeleteStudentsFromCourse').mockReturnValue(
+    vi.spyOn(studentService, 'deleteStudentsFromCourse').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message.',
@@ -227,7 +232,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
       })),
     );
 
-    const spy: SpyInstance = jest.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
+    const spy = vi.spyOn(statusMessageService, 'showErrorToast').mockImplementation((args: string) => {
       expect(args).toEqual('This is the error message.');
     });
 

@@ -1,7 +1,8 @@
 import { NgClass } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbCollapse, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { DeadlineExtensionHelper } from '../../../services/deadline-extension-helper';
@@ -75,7 +76,7 @@ export class StudentHomePageComponent implements OnInit {
   private readonly timezoneService = inject(TimezoneService);
 
   // enum
-  SortBy: typeof SortBy = SortBy;
+  SortBy!: typeof SortBy;
 
   // Tooltip messages
   studentFeedbackSessionStatusPublished = 'The responses for the session have been published and can now be viewed.';
@@ -100,6 +101,7 @@ export class StudentHomePageComponent implements OnInit {
   sessionSubmissionStatusPipe = new SubmissionStatusPipe();
 
   constructor() {
+    this.SortBy = SortBy;
     this.timezoneService.getTzVersion();
   }
 

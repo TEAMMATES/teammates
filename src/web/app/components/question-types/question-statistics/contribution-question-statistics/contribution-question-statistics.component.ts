@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, TemplateRef, inject } from '@angular/core';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { ContributionRatingsListComponent } from './contribution-ratings-list.component';
 import { ContributionComponent } from './contribution.component';
 import { SimpleModalService } from '../../../../../services/simple-modal.service';
@@ -44,13 +44,18 @@ export class ContributionQuestionStatisticsComponent implements OnChanges {
   @Input() displayContributionStats = true;
 
   // enum
-  QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
-  Sections: typeof Sections = Sections;
+  QuestionsSectionQuestions!: typeof QuestionsSectionQuestions;
+  Sections!: typeof Sections;
 
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
   questionOverallStatistics?: ContributionStatistics;
   questionStatisticsForStudent?: ContributionStatisticsEntry & { claimedOthersValues: number[] };
+
+  constructor() {
+    this.QuestionsSectionQuestions = QuestionsSectionQuestions;
+    this.Sections = Sections;
+  }
 
   ngOnChanges(): void {
     const stats = calculateContributionQuestionStatistics(this.responses, this.statistics, this.isStudent);

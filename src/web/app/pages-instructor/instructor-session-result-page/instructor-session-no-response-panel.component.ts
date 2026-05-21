@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, inject } from '@angular/core';
-import { NgbCollapse, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   FeedbackSession,
@@ -31,9 +32,9 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
   private tableComparatorService = inject(TableComparatorService);
 
   // enum
-  FeedbackSessionSubmissionStatus: typeof FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
-  SortBy: typeof SortBy = SortBy;
-  SortOrder: typeof SortOrder = SortOrder;
+  FeedbackSessionSubmissionStatus!: typeof FeedbackSessionSubmissionStatus;
+  SortBy!: typeof SortBy;
+  SortOrder!: typeof SortOrder;
 
   @Input() isNoResponseStudentsLoaded = false;
   @Input() isDisplayOnly = false;
@@ -65,6 +66,12 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
   noResponseStudentsInSection: Student[] = [];
 
   @Output() studentsToRemindEvent: EventEmitter<ReminderResponseModel> = new EventEmitter();
+
+  constructor() {
+    this.FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus;
+    this.SortBy = SortBy;
+    this.SortOrder = SortOrder;
+  }
 
   ngOnInit(): void {
     this.filterStudentsBySection();

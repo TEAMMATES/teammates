@@ -14,7 +14,11 @@ import { StripHtmlTagsPipe } from '../../teammates-common/strip-html-tags.pipe';
 })
 export class McqQuestionAdditionalInfoComponent {
   // enum
-  QuestionRecipientType: typeof QuestionRecipientType = QuestionRecipientType;
+  QuestionRecipientType!: typeof QuestionRecipientType;
 
   @Input() questionDetails: FeedbackMcqQuestionDetails = DEFAULT_MCQ_QUESTION_DETAILS();
+
+  constructor() {
+    this.QuestionRecipientType = QuestionRecipientType;
+  }
 }

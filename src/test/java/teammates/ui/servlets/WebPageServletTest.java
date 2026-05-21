@@ -1,5 +1,7 @@
 package teammates.ui.servlets;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.testng.annotations.Test;

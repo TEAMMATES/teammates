@@ -1,5 +1,8 @@
 package teammates.ui.webapi;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doAnswer;
@@ -19,6 +22,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 
+import teammates.common.datatransfer.AuthContext;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -141,9 +145,9 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      * Returns The {@code params} array with the {@code userId}
      * (together with the parameter name) inserted at the beginning.
      */
-    protected String[] addUserIdToParams(String userId, String[] params) {
+    protected String[] addUserToParams(String userId, String[] params) {
         List<String> list = new ArrayList<>();
-        list.add(Const.ParamsNames.USER_ID);
+        list.add(Const.ParamsNames.USER);
         list.add(userId);
         list.addAll(Arrays.asList(params));
         return list.toArray(new String[0]);
@@ -154,59 +158,59 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     /**
      * Logs in the user to the test environment as an admin.
      */
-    protected void loginAsAdmin() {
+    protected AuthContext loginAsAdmin() {
         mockUserProvision.setLogic(mockLogic);
         mockUserProvision.setCreateMissingAccounts(true);
-        mockUserProvision.loginAsAdmin(Config.APP_ADMINS.get(0));
+        return mockUserProvision.loginAsAdmin(Config.APP_ADMINS.get(0));
     }
 
     /**
      * Logs in the user to the test environment as an unregistered user
      * (without any right).
      */
-    protected void loginAsUnregistered(String userId) {
+    protected AuthContext loginAsUnregistered(String userId) {
         mockUserProvision.setLogic(mockLogic);
         mockUserProvision.setCreateMissingAccounts(true);
-        mockUserProvision.loginUser(userId);
+        return mockUserProvision.loginUser(userId);
     }
 
     /**
      * Logs in the user to the test environment as an instructor
      * (without admin rights or student rights).
      */
-    protected void loginAsInstructor(String userId) {
+    protected AuthContext loginAsInstructor(String userId) {
         mockUserProvision.setLogic(mockLogic);
         mockUserProvision.setCreateMissingAccounts(true);
-        mockUserProvision.loginUser(userId);
+        return mockUserProvision.loginUser(userId);
     }
 
     /**
      * Logs in the user to the test environment as a student
      * (without admin rights or instructor rights).
      */
-    protected void loginAsStudent(String userId) {
+    protected AuthContext loginAsStudent(String userId) {
         mockUserProvision.setLogic(mockLogic);
         mockUserProvision.setCreateMissingAccounts(true);
-        mockUserProvision.loginUser(userId);
+        return mockUserProvision.loginUser(userId);
     }
 
     /**
      * Logs in the user to the test environment as a student-instructor
      * (without admin rights).
      */
-    protected void loginAsStudentInstructor(String userId) {
+    protected AuthContext loginAsStudentInstructor(String userId) {
         mockUserProvision.setLogic(mockLogic);
         mockUserProvision.setCreateMissingAccounts(true);
-        mockUserProvision.loginUser(userId);
+        return mockUserProvision.loginUser(userId);
     }
 
     /**
      * Logs in the user to the test environment as a maintainer.
      */
-    protected void loginAsMaintainer() {
+    protected AuthContext loginAsMaintainer() {
         mockUserProvision.setLogic(mockLogic);
         mockUserProvision.setCreateMissingAccounts(true);
-        mockUserProvision.loginAsMaintainer(Config.APP_MAINTAINERS.get(0));
+        return mockUserProvision.loginAsMaintainer(Config.APP_MAINTAINERS.get(0));
     }
 
     private void stubUserForRegistrationKey() {
@@ -263,7 +267,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      * {@code userId}.
      */
     protected void verifyCanMasquerade(String userId, String... params) {
-        verifyCanAccess(addUserIdToParams(userId, params));
+        verifyCanAccess(addUserToParams(userId, params));
     }
 
     /**
@@ -273,7 +277,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
      */
     protected void verifyCannotMasquerade(String userId, String... params) {
         assertThrows(UnauthorizedAccessException.class,
-                () -> getAction(addUserIdToParams(userId, params)).checkAccessControl());
+                () -> getAction(addUserToParams(userId, params)).checkAccessControl());
     }
 
     // The next few methods are for parsing results

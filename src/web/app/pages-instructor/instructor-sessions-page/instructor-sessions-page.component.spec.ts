@@ -1,10 +1,9 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { of } from 'rxjs';
-import SpyInstance = jest.SpyInstance;
 import { InstructorSessionsPageComponent } from './instructor-sessions-page.component';
 import { SessionPermanentDeletionConfirmModalComponent } from './session-permanent-deletion-confirm-modal/session-permanent-deletion-confirm-modal.component';
 import { SessionsPermanentDeletionConfirmModalComponent } from './sessions-permanent-deletion-confirm-modal/sessions-permanent-deletion-confirm-modal.component';
@@ -130,13 +129,11 @@ describe('InstructorSessionsPageComponent', () => {
     canSubmitSessionInSections: false,
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [NgbModal, provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorSessionsPageComponent);
     component = fixture.componentInstance;
     courseService = TestBed.inject(CourseService);
@@ -155,7 +152,7 @@ describe('InstructorSessionsPageComponent', () => {
       courses: [testCourse1, testCourse2],
     };
 
-    jest.spyOn(courseService, 'getInstructorCoursesThatAreActive').mockReturnValue(of(activeCourses));
+    vi.spyOn(courseService, 'getInstructorCoursesThatAreActive').mockReturnValue(of(activeCourses));
     component.loadCandidatesCourse();
 
     expect(component.courseCandidates[0].courseId).toEqual('CS1231');
@@ -178,9 +175,7 @@ describe('InstructorSessionsPageComponent', () => {
     const courseSessions: FeedbackSessions = {
       feedbackSessions: [testFeedbackSession1, testFeedbackSession2],
     };
-    const sessionSpy: SpyInstance = jest
-      .spyOn(sessionService, 'getFeedbackSessionsForInstructor')
-      .mockReturnValue(of(courseSessions));
+    const sessionSpy = vi.spyOn(sessionService, 'getFeedbackSessionsForInstructor').mockReturnValue(of(courseSessions));
 
     component.loadFeedbackSessions();
 
@@ -197,7 +192,7 @@ describe('InstructorSessionsPageComponent', () => {
     const recycleBinSessions: FeedbackSessions = {
       feedbackSessions: [testFeedbackSession3, testFeedbackSession4],
     };
-    const sessionSpy: SpyInstance = jest
+    const sessionSpy = vi
       .spyOn(sessionService, 'getFeedbackSessionsInRecycleBinForInstructor')
       .mockReturnValue(of(recycleBinSessions));
 
@@ -229,9 +224,7 @@ describe('InstructorSessionsPageComponent', () => {
     };
     component.sessionsTableRowModels = [sessionsTableRowModel1, sessionsTableRowModel2];
     component.recycleBinFeedbackSessionRowModels = [];
-    const courseSpy: SpyInstance = jest
-      .spyOn(sessionService, 'moveSessionToRecycleBin')
-      .mockReturnValue(of(testFeedbackSession1));
+    const courseSpy = vi.spyOn(sessionService, 'moveSessionToRecycleBin').mockReturnValue(of(testFeedbackSession1));
     component.moveSessionToRecycleBinEventHandler(0);
 
     expect(courseSpy).toHaveBeenCalledTimes(1);
@@ -248,7 +241,7 @@ describe('InstructorSessionsPageComponent', () => {
     };
     component.recycleBinFeedbackSessionRowModels = [recycleBinFeedbackSessionRowModel1];
     component.sessionsTableRowModels = [];
-    const sessionSpy: SpyInstance = jest
+    const sessionSpy = vi
       .spyOn(sessionService, 'restoreSessionFromRecycleBin')
       .mockReturnValue(of(testFeedbackSession3));
 
@@ -271,7 +264,7 @@ describe('InstructorSessionsPageComponent', () => {
       recycleBinFeedbackSessionRowModel2,
     ];
     component.sessionsTableRowModels = [];
-    const sessionSpy: SpyInstance = jest
+    const sessionSpy = vi
       .spyOn(sessionService, 'restoreSessionFromRecycleBin')
       .mockImplementation((feedbackSessionId: string) => {
         if (feedbackSessionId === testFeedbackSession3.feedbackSessionId) {
@@ -299,10 +292,8 @@ describe('InstructorSessionsPageComponent', () => {
       promise,
     );
     component.recycleBinFeedbackSessionRowModels = [recycleBinFeedbackSessionRowModel1];
-    const sessionSpy: SpyInstance = jest
-      .spyOn(sessionService, 'deleteFeedbackSession')
-      .mockReturnValue(of(testFeedbackSession3));
-    jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
+    const sessionSpy = vi.spyOn(sessionService, 'deleteFeedbackSession').mockReturnValue(of({ message: 'deleted' }));
+    vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     component.permanentDeleteSession(recycleBinFeedbackSessionRowModel1);
     await promise;
@@ -332,15 +323,15 @@ describe('InstructorSessionsPageComponent', () => {
       recycleBinFeedbackSessionRowModel1,
       recycleBinFeedbackSessionRowModel2,
     ];
-    const sessionSpy: SpyInstance = jest
+    const sessionSpy = vi
       .spyOn(sessionService, 'deleteFeedbackSession')
-      .mockImplementation((_courseId: string, feedbackSessionName: string) => {
-        if (feedbackSessionName === testFeedbackSession3.feedbackSessionName) {
-          return of(testFeedbackSession3);
+      .mockImplementation((feedbackSessionId: string) => {
+        if (feedbackSessionId === testFeedbackSession3.feedbackSessionId) {
+          return of({ message: 'deleted' });
         }
-        return of(testFeedbackSession4);
+        return of({ message: 'deleted' });
       });
-    jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
+    vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     component.permanentDeleteAllSessions();
     await promise;
@@ -417,7 +408,7 @@ describe('InstructorSessionsPageComponent', () => {
       Singapore: 8 * 60,
       Turkey: 3 * 60,
     };
-    jest.spyOn(timezoneService, 'getTzOffsets').mockReturnValue(timezones);
+    vi.spyOn(timezoneService, 'getTzOffsets').mockReturnValue(timezones);
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

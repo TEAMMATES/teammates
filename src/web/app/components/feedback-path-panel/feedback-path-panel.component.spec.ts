@@ -7,11 +7,12 @@ import {
   QuestionGiverType,
   QuestionRecipientType,
 } from '../../../types/api-output';
+import { Mock } from 'vitest';
 
 describe('FeedbackPathPanelComponent', () => {
   let component: FeedbackPathPanelComponent;
   let fixture: ComponentFixture<FeedbackPathPanelComponent>;
-  let emitSpy: jest.SpyInstance;
+  let emitSpy: Mock;
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FeedbackPathPanelComponent);
@@ -20,7 +21,7 @@ describe('FeedbackPathPanelComponent', () => {
       [QuestionGiverType.TEAMS, [QuestionRecipientType.OWN_TEAM_MEMBERS, QuestionRecipientType.STUDENTS]],
     ]);
     component.triggerModelChangeBatch = new EventEmitter<any>();
-    emitSpy = jest.spyOn(component.triggerModelChangeBatch, 'emit');
+    emitSpy = vi.spyOn(component.triggerModelChangeBatch, 'emit');
     fixture.detectChanges();
   });
 
@@ -48,7 +49,7 @@ describe('FeedbackPathPanelComponent', () => {
 
   it('should trigger custom number of entities', () => {
     const customNumber = 5;
-    const customNumberOfEntitiesToGiveFeedbackToEmitSpy = jest.spyOn(
+    const customNumberOfEntitiesToGiveFeedbackToEmitSpy = vi.spyOn(
       component.customNumberOfEntitiesToGiveFeedbackTo,
       'emit',
     );
@@ -58,7 +59,7 @@ describe('FeedbackPathPanelComponent', () => {
 
   it('should trigger number of entities setting', () => {
     const setting = NumberOfEntitiesToGiveFeedbackToSetting.CUSTOM;
-    const numberOfEntitiesToGiveFeedbackToSettingEmitSpy = jest.spyOn(
+    const numberOfEntitiesToGiveFeedbackToSettingEmitSpy = vi.spyOn(
       component.numberOfEntitiesToGiveFeedbackToSetting,
       'emit',
     );
@@ -67,7 +68,7 @@ describe('FeedbackPathPanelComponent', () => {
   });
 
   it('should trigger custom feedback path', () => {
-    const customFeedbackPathEmitSpy = jest.spyOn(component.customFeedbackPath, 'emit');
+    const customFeedbackPathEmitSpy = vi.spyOn(component.customFeedbackPath, 'emit');
     component.triggerCustomFeedbackPath();
     expect(customFeedbackPathEmitSpy).toHaveBeenCalledWith(true);
   });

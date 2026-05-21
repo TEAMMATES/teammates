@@ -1,5 +1,7 @@
 package teammates.e2e.cases;
 
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import java.time.Instant;
 
 import org.testng.annotations.AfterClass;
@@ -223,7 +225,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
 
     private String getExpectedStudentHomePageLink(Student student) {
         return student.isRegistered() ? createFrontendUrl(Const.WebPageURIs.STUDENT_HOME_PAGE)
-                .withUserId(student.getGoogleId())
+                .withUser(student.getGoogleId())
                 .toAbsoluteString()
                 : "";
     }
@@ -251,7 +253,7 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     private String getExpectedInstructorHomePageLink(Instructor instructor) {
         String googleId = instructor.isRegistered() ? instructor.getGoogleId() : "";
         return createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
-                .withUserId(googleId)
+                .withUser(googleId)
                 .toAbsoluteString();
     }
 

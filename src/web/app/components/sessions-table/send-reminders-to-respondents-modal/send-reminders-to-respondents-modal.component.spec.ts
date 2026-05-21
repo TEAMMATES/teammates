@@ -1,9 +1,9 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { SendRemindersToRespondentsModalComponent } from './send-reminders-to-respondents-modal.component';
 import { createBuilder } from '../../../../test-helpers/generic-builder';
 import {
@@ -53,13 +53,11 @@ describe('SendRemindersToRespondentsModalComponent', () => {
     return fixture.debugElement.query(By.css('#sendCopyToIns'));
   };
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SendRemindersToRespondentsModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -69,19 +67,20 @@ describe('SendRemindersToRespondentsModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('changeSelectionStatusForAllStudentsHandler: should set all isSelected to true if not all are selected', () => {
+  it('changeSelectionStatusForAllStudentsHandler: should set all isSelected to true if not all are selected', async () => {
     component.studentListInfoTableRowModels = [
       studentModelBuilder.isSelected(true).build(),
       studentModelBuilder.isSelected(false).build(),
       studentModelBuilder.isSelected(true).build(),
     ];
 
-    const changeSelectionStatusForAllStudentsHandlerSpy = jest.spyOn(
+    const changeSelectionStatusForAllStudentsHandlerSpy = vi.spyOn(
       component,
       'changeSelectionStatusForAllStudentsHandler',
     );
 
     fixture.detectChanges();
+    await fixture.whenStable();
 
     selectAllStudentCheckBox().nativeElement.click();
     expect(changeSelectionStatusForAllStudentsHandlerSpy).toHaveBeenCalledTimes(1);
@@ -102,7 +101,7 @@ describe('SendRemindersToRespondentsModalComponent', () => {
         studentModelBuilder.isSelected(true).build(),
       ];
 
-      const changeSelectionStatusForAllStudentsHandlerSpy = jest.spyOn(
+      const changeSelectionStatusForAllStudentsHandlerSpy = vi.spyOn(
         component,
         'changeSelectionStatusForAllStudentsHandler',
       );
@@ -123,19 +122,20 @@ describe('SendRemindersToRespondentsModalComponent', () => {
   it(
     'changeSelectionStatusForAllYetSubmittedStudentsHandler: should set all isSelected to true' +
       'for all students that has not submitted session',
-    () => {
+    async () => {
       component.studentListInfoTableRowModels = [
         studentModelBuilder.isSelected(false).hasSubmittedSession(false).build(),
         studentModelBuilder.isSelected(false).hasSubmittedSession(true).build(),
         studentModelBuilder.isSelected(false).hasSubmittedSession(false).build(),
       ];
 
-      const changeSelectionStatusForAllYetSubmittedStudentsHandlerSpy = jest.spyOn(
+      const changeSelectionStatusForAllYetSubmittedStudentsHandlerSpy = vi.spyOn(
         component,
         'changeSelectionStatusForAllYetSubmittedStudentsHandler',
       );
 
       fixture.detectChanges();
+      await fixture.whenStable();
 
       selectAllNotSubmittedStudentCheckBox().nativeElement.click();
       expect(changeSelectionStatusForAllYetSubmittedStudentsHandlerSpy).toHaveBeenCalledTimes(1);
@@ -149,19 +149,20 @@ describe('SendRemindersToRespondentsModalComponent', () => {
 
   it(
     'changeSelectionStatusForAllInstructorsHandler: should set all isSelected to true' + 'if not all are selected',
-    () => {
+    async () => {
       component.instructorListInfoTableRowModels = [
         instructorModelBuilder.isSelected(true).build(),
         instructorModelBuilder.isSelected(false).build(),
         instructorModelBuilder.isSelected(true).build(),
       ];
 
-      const changeSelectionStatusForAllInstructorsHandlerSpy = jest.spyOn(
+      const changeSelectionStatusForAllInstructorsHandlerSpy = vi.spyOn(
         component,
         'changeSelectionStatusForAllInstructorsHandler',
       );
 
       fixture.detectChanges();
+      await fixture.whenStable();
 
       selectAllInstructorCheckBox().nativeElement.click();
       expect(changeSelectionStatusForAllInstructorsHandlerSpy).toHaveBeenCalledTimes(1);
@@ -183,7 +184,7 @@ describe('SendRemindersToRespondentsModalComponent', () => {
         instructorModelBuilder.isSelected(true).build(),
       ];
 
-      const changeSelectionStatusForAllInstructorsHandlerSpy = jest.spyOn(
+      const changeSelectionStatusForAllInstructorsHandlerSpy = vi.spyOn(
         component,
         'changeSelectionStatusForAllInstructorsHandler',
       );
@@ -204,19 +205,20 @@ describe('SendRemindersToRespondentsModalComponent', () => {
   it(
     'changeSelectionStatusForAllYetSubmittedInstructorsHandler: should set all isSelected to true' +
       'for all students that has not submitted session',
-    () => {
+    async () => {
       component.instructorListInfoTableRowModels = [
         instructorModelBuilder.isSelected(false).hasSubmittedSession(false).build(),
         instructorModelBuilder.isSelected(false).hasSubmittedSession(true).build(),
         instructorModelBuilder.isSelected(false).hasSubmittedSession(false).build(),
       ];
 
-      const changeSelectionStatusForAllYetSubmittedInstructorsHandlerSpy = jest.spyOn(
+      const changeSelectionStatusForAllYetSubmittedInstructorsHandlerSpy = vi.spyOn(
         component,
         'changeSelectionStatusForAllYetSubmittedInstructorsHandler',
       );
 
       fixture.detectChanges();
+      await fixture.whenStable();
 
       selectAllNotSubmittedInstructorCheckBox().nativeElement.click();
       expect(changeSelectionStatusForAllYetSubmittedInstructorsHandlerSpy).toHaveBeenCalledTimes(1);
@@ -229,7 +231,7 @@ describe('SendRemindersToRespondentsModalComponent', () => {
   );
 
   it('changeSelectionStatusForSendingCopyToInstructorHandler: should toggle isSendingCopyToInstructorHandler', () => {
-    const changeSelectionStatusForSendingCopyToInstructorHandlerSpy = jest.spyOn(
+    const changeSelectionStatusForSendingCopyToInstructorHandlerSpy = vi.spyOn(
       component,
       'changeSelectionStatusForSendingCopyToInstructorHandler',
     );

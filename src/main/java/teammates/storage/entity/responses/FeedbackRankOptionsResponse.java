@@ -47,6 +47,11 @@ public class FeedbackRankOptionsResponse extends FeedbackResponse {
     }
 
     @Override
+    public void setFeedbackResponseDetails(FeedbackResponseDetails responseDetails) {
+        setAnswer(castResponseDetails(responseDetails, FeedbackRankOptionsResponseDetails.class));
+    }
+
+    @Override
     public String toString() {
         return "FeedbackRankOptionsResponse [id=" + super.getId()
                 + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";

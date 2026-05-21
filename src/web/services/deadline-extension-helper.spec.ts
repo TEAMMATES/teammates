@@ -26,6 +26,8 @@ const student1: Student = {
   userId: 'student1-id',
   email: 'student1Model@example.com',
   courseId: 'course1',
+  courseName: 'Test Course',
+  institute: 'Test Institute',
   name: 'student1Model',
   teamName: '1',
   sectionName: '1',
@@ -44,6 +46,8 @@ const student2: Student = {
   userId: 'student2-id',
   email: 'student2Model@example.com',
   courseId: 'course1',
+  courseName: 'Test Course',
+  institute: 'Test Institute',
   name: 'student2Model',
   teamName: '2',
   sectionName: '1',
@@ -61,6 +65,8 @@ const student2Model: StudentExtensionTableColumnModel = {
 const instructor1: Instructor = {
   userId: 'instructor1-id',
   courseId: '1',
+  courseName: 'Test Course',
+  institute: 'Test Institute',
   role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
   email: 'instructor1Model@example.com',
   name: 'instructor1Model',
@@ -78,6 +84,8 @@ const instructor1ModelWithExtension: InstructorExtensionTableColumnModel = {
 const instructor2: Instructor = {
   userId: 'instructor2-id',
   courseId: '1',
+  courseName: 'Test Course',
+  institute: 'Test Institute',
   role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
   email: 'instructor2Model@example.com',
   name: 'instructor2Model',
@@ -94,7 +102,7 @@ const instructor2ModelWithExtension: InstructorExtensionTableColumnModel = {
 };
 
 describe('DeadlineExtensionHelper', () => {
-  beforeEach(() => jest.useFakeTimers().setSystemTime(timeNow));
+  beforeEach(() => vi.useFakeTimers().setSystemTime(timeNow));
 
   it('should filter and set deadlines before given end time correctly', () => {
     expect(

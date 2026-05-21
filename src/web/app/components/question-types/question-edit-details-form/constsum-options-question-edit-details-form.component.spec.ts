@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ConstsumOptionsQuestionEditDetailsFormComponent } from './constsum-options-question-edit-details-form.component';
 import { DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS } from '../../../../types/default-question-structs';
@@ -23,7 +23,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
       key: 'b',
     });
 
-    const eventSpy = jest.spyOn(event, 'preventDefault');
+    const eventSpy = vi.spyOn(event, 'preventDefault');
     component.onIntegerInput(event);
     expect(eventSpy).toHaveBeenCalled();
   });
@@ -33,7 +33,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
       key: '.',
     });
 
-    const eventSpy = jest.spyOn(event, 'preventDefault');
+    const eventSpy = vi.spyOn(event, 'preventDefault');
     component.onIntegerInput(event);
     expect(eventSpy).toHaveBeenCalled();
   });
@@ -43,7 +43,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
       key: '7',
     });
 
-    const eventSpy = jest.spyOn(event, 'preventDefault');
+    const eventSpy = vi.spyOn(event, 'preventDefault');
     component.onIntegerInput(event);
     expect(eventSpy).not.toHaveBeenCalled();
   });
@@ -92,7 +92,7 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
     expect(component.pointsRadioGroupName).toBe('constsum-options-2');
   });
 
-  it('should maintain independent radio selection across components', waitForAsync(async () => {
+  it('should maintain independent radio selection across components', async () => {
     const fixtureA = TestBed.createComponent(ConstsumOptionsQuestionEditDetailsFormComponent);
     const compA = fixtureA.componentInstance;
     compA.model = DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS();
@@ -121,5 +121,5 @@ describe('ConstsumOptionsQuestionEditDetailsFormComponent', () => {
 
     expect(radioA.checked).toBe(true);
     expect(radioB.checked).toBe(true);
-  }));
+  });
 });

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { QuestionEditDetailsFormComponent } from './question-edit-details-form.component';
 import { FeedbackNumericalScaleQuestionDetails } from '../../../../types/api-output';
 
@@ -13,7 +13,12 @@ import { FeedbackNumericalScaleQuestionDetails } from '../../../../types/api-out
   imports: [NgbTooltip, FormsModule],
 })
 export class NumScaleQuestionEditDetailsFormComponent extends QuestionEditDetailsFormComponent<FeedbackNumericalScaleQuestionDetails> {
-  Math: typeof Math = Math;
+  Math!: typeof Math;
+
+  constructor() {
+    super();
+    this.Math = Math;
+  }
 
   /**
    * Returns the number of possible values acceptable as answers.

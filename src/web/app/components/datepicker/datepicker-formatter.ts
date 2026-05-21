@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap/datepicker';
 import moment from 'moment-timezone';
 
 const DATE_FORMAT = 'ddd, DD MMM, YYYY';

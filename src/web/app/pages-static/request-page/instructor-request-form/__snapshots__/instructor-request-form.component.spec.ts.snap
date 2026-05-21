@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`InstructorRequestFormComponent should render correctly 1`] = `
+exports[`InstructorRequestFormComponent > should render correctly 1`] = `
 <tm-instructor-request-form
   COUNTRY_NAME_MAX_LENGTH={[Function Number]}
   EMAIL_MAX_LENGTH={[Function Number]}
@@ -10,15 +10,15 @@ exports[`InstructorRequestFormComponent should render correctly 1`] = `
   arf={[Function FormGroup]}
   captchaResponse="undefined"
   captchaSiteKey=""
-  comments={[Function FormControl2]}
-  country={[Function FormControl2]}
-  email={[Function FormControl2]}
+  comments={[Function FormControl]}
+  country={[Function FormControl]}
+  email={[Function FormControl]}
   hasSubmitAttempt="false"
-  institution={[Function FormControl2]}
+  institution={[Function FormControl]}
   isCaptchaSuccessful="false"
   isLoading="false"
   lang={[Function String]}
-  name={[Function FormControl2]}
+  name={[Function FormControl]}
   requestSubmissionEvent={[Function EventEmitter_]}
   serverErrorMessage=""
   size={[Function String]}

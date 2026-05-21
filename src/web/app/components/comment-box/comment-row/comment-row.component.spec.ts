@@ -1,6 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommentRowComponent } from './comment-row.component';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
@@ -16,17 +16,15 @@ describe('CommentRowComponent', () => {
   const spyCommentService = createSpyFromClass(FeedbackResponseCommentService);
   spyCommentService.getNewVisibilityStateMachine.mockReturnValue(spyVisibilityStateMachine);
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [
         { provide: FeedbackResponseCommentService, useValue: spyCommentService },
         provideHttpClient(),
         provideHttpClientTesting(),
       ],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(CommentRowComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -97,7 +95,7 @@ describe('CommentRowComponent', () => {
 
   describe('triggerCloseEditing', () => {
     it('should emit closeEditing event', () => {
-      const emitSpy = jest.spyOn(component.closeEditingEvent, 'emit');
+      const emitSpy = vi.spyOn(component.closeEditingEvent, 'emit');
       component.triggerCloseEditing();
       expect(emitSpy).toHaveBeenCalled();
     });
@@ -105,7 +103,7 @@ describe('CommentRowComponent', () => {
 
   describe('triggerSaveCommentEvent', () => {
     it('should emit saveComment event', () => {
-      const spy = jest.spyOn(component.saveCommentEvent, 'emit');
+      const spy = vi.spyOn(component.saveCommentEvent, 'emit');
       component.triggerSaveCommentEvent();
       expect(spy).toHaveBeenCalled();
     });
@@ -114,8 +112,8 @@ describe('CommentRowComponent', () => {
   describe('triggerDeleteCommentEvent', () => {
     it('should emit deleteComment event after modal confirmation', async () => {
       const mockModalRef = { result: Promise.resolve(true) };
-      jest.spyOn((component as any).simpleModalService, 'openConfirmationModal').mockReturnValue(mockModalRef);
-      const emitSpy = jest.spyOn(component.deleteCommentEvent, 'emit');
+      vi.spyOn((component as any).simpleModalService, 'openConfirmationModal').mockReturnValue(mockModalRef);
+      const emitSpy = vi.spyOn(component.deleteCommentEvent, 'emit');
       component.triggerDeleteCommentEvent();
       await mockModalRef.result;
       expect(emitSpy).toHaveBeenCalled();

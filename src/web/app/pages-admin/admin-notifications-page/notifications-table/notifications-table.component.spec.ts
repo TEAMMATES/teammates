@@ -42,9 +42,7 @@ describe('NotificationsTableComponent', () => {
     await TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(NotificationsTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

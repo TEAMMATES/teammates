@@ -1,6 +1,6 @@
 import { HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
-import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { finalize } from 'rxjs/operators';
 import { CourseService, CourseStatistics } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
@@ -68,9 +68,13 @@ export class InstructorStudentListPageComponent implements OnInit {
   isLoadingCourses = false;
 
   // enum
-  SortBy: typeof SortBy = SortBy;
+  SortBy!: typeof SortBy;
 
   coursesSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
+
+  constructor() {
+    this.SortBy = SortBy;
+  }
 
   ngOnInit(): void {
     this.loadCourses();

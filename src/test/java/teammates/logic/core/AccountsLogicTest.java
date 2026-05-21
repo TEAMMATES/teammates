@@ -1,5 +1,8 @@
 package teammates.logic.core;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -32,8 +35,7 @@ public class AccountsLogicTest extends BaseTestCase {
     public void setUpMethod() {
         accountsDb = mock(AccountsDb.class);
         usersLogic = mock(UsersLogic.class);
-        CoursesLogic coursesLogic = mock(CoursesLogic.class);
-        accountsLogic.initLogicDependencies(accountsDb, usersLogic, coursesLogic);
+        accountsLogic.initLogicDependencies(accountsDb, usersLogic);
     }
 
     @Test

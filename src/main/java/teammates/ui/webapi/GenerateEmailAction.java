@@ -22,7 +22,7 @@ public class GenerateEmailAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
-        UUID studentId = getUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
+        UUID studentId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
         Student student = logic.getStudent(studentId);
         if (student == null) {
             throw new EntityNotFoundException("Student does not exist");

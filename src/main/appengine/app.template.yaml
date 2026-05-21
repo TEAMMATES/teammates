@@ -48,14 +48,14 @@ handlers:
     expiration: 90d
 
   # Progressive web app files
-  - url: /manifest.webmanifest
-    static_files: manifest.webmanifest
-    upload: manifest.webmanifest
-    expiration: 10m
-  - url: /ngsw.json
-    static_files: ngsw.json
-    upload: ngsw.json
-    expiration: 1d
+  # - url: /manifest.webmanifest
+  #   static_files: manifest.webmanifest
+  #   upload: manifest.webmanifest
+  #   expiration: 10m
+  # - url: /ngsw.json
+  #   static_files: ngsw.json
+  #   upload: ngsw.json
+  #   expiration: 1d
 
   # Crawler-related files
   # - url: /sitemap.xml

@@ -15,13 +15,15 @@ describe('Link Service', () => {
   });
 
   const mockStudent: Student = {
+    userId: 'student-alice',
     email: 'alice.b.tmms@gmail.tmt',
     courseId: 'dog.gma-demo',
+    courseName: 'Test Course',
+    institute: 'NUS',
     name: 'Alice Betsy',
     googleId: 'alice.b.tmms.sampleData',
     comments: "This student's name is Alice Betsy",
     key: 'keyheehee',
-    institute: 'NUS',
     joinState: JoinState.JOINED,
     teamName: 'Team 1',
     sectionName: 'Tutorial Group 1',
@@ -30,6 +32,9 @@ describe('Link Service', () => {
   const mockInstructor: Instructor = {
     googleId: 'test@example.com',
     courseId: 'dog.gma-demo',
+    courseName: 'Test Course',
+    institute: 'Test Institute',
+    userId: 'test-user-id',
     email: 'dog@gmail.com',
     isDisplayedToStudents: true,
     displayedToStudentsAs: 'Instructor',

@@ -255,7 +255,7 @@ public abstract class AbstractBackDoor {
      */
     public String getUserCookie(String userId) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.USER_ID, userId);
+        params.put(Const.ParamsNames.USER, userId);
         ResponseBodyAndCode response = executePostRequest(Const.ResourceURIs.USER_COOKIE, params, null);
 
         MessageOutput output = JsonUtils.fromJson(response.responseBody, MessageOutput.class);
@@ -377,7 +377,7 @@ public abstract class AbstractBackDoor {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR);
         params.put(Const.ParamsNames.IS_IN_RECYCLE_BIN, "true");
-        params.put(Const.ParamsNames.USER_ID, instructorId);
+        params.put(Const.ParamsNames.USER, instructorId);
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.SESSIONS, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
@@ -462,7 +462,7 @@ public abstract class AbstractBackDoor {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, commentId.toString());
         params.put(Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString());
-        params.put(Const.ParamsNames.USER_ID, instructorGoogleId);
+        params.put(Const.ParamsNames.USER, instructorGoogleId);
 
         FeedbackResponseCommentUpdateRequest body = new FeedbackResponseCommentUpdateRequest(
                 commentText,

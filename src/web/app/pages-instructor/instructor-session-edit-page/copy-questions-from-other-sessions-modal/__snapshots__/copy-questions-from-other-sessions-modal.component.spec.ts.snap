@@ -1,15 +1,15 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback questions are loaded 1`] = `
+exports[`CopyQuestionsFromOtherSessionsModalComponent > should snap when feedback questions are loaded 1`] = `
 <tm-copy-questions-from-other-sessions-modal
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeModal={[Function NgbActiveModal]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackSessionTabModels={[Function Array]}
   feedbackSessionTabModelsSortBy={[Function Number]}
-  statusMessageService={[Function StatusMessageService]}
-  tableComparatorService={[Function TableComparatorService]}
+  statusMessageService={[Function _StatusMessageService]}
+  tableComparatorService={[Function _TableComparatorService]}
 >
   <div
     class="modal-header"
@@ -214,16 +214,16 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
 </tm-copy-questions-from-other-sessions-modal>
 `;
 
-exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback questions are loading 1`] = `
+exports[`CopyQuestionsFromOtherSessionsModalComponent > should snap when feedback questions are loading 1`] = `
 <tm-copy-questions-from-other-sessions-modal
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeModal={[Function NgbActiveModal]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackSessionTabModels={[Function Array]}
   feedbackSessionTabModelsSortBy={[Function Number]}
-  statusMessageService={[Function StatusMessageService]}
-  tableComparatorService={[Function TableComparatorService]}
+  statusMessageService={[Function _StatusMessageService]}
+  tableComparatorService={[Function _TableComparatorService]}
 >
   <div
     class="modal-header"
@@ -352,16 +352,16 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
 </tm-copy-questions-from-other-sessions-modal>
 `;
 
-exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback questions failed to load 1`] = `
+exports[`CopyQuestionsFromOtherSessionsModalComponent > should snap when feedback questions failed to load 1`] = `
 <tm-copy-questions-from-other-sessions-modal
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeModal={[Function NgbActiveModal]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackSessionTabModels={[Function Array]}
   feedbackSessionTabModelsSortBy={[Function Number]}
-  statusMessageService={[Function StatusMessageService]}
-  tableComparatorService={[Function TableComparatorService]}
+  statusMessageService={[Function _StatusMessageService]}
+  tableComparatorService={[Function _TableComparatorService]}
 >
   <div
     class="modal-header"
@@ -493,16 +493,16 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap when feedback 
 </tm-copy-questions-from-other-sessions-modal>
 `;
 
-exports[`CopyQuestionsFromOtherSessionsModalComponent should snap with default fields 1`] = `
+exports[`CopyQuestionsFromOtherSessionsModalComponent > should snap with default fields 1`] = `
 <tm-copy-questions-from-other-sessions-modal
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeModal={[Function NgbActiveModal]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackSessionTabModels={[Function Array]}
   feedbackSessionTabModelsSortBy={[Function Number]}
-  statusMessageService={[Function StatusMessageService]}
-  tableComparatorService={[Function TableComparatorService]}
+  statusMessageService={[Function _StatusMessageService]}
+  tableComparatorService={[Function _TableComparatorService]}
 >
   <div
     class="modal-header"
@@ -575,16 +575,16 @@ exports[`CopyQuestionsFromOtherSessionsModalComponent should snap with default f
 </tm-copy-questions-from-other-sessions-modal>
 `;
 
-exports[`CopyQuestionsFromOtherSessionsModalComponent should snap with feedback sessions 1`] = `
+exports[`CopyQuestionsFromOtherSessionsModalComponent > should snap with feedback sessions 1`] = `
 <tm-copy-questions-from-other-sessions-modal
   SortBy={[Function Object]}
   SortOrder={[Function Object]}
   activeModal={[Function NgbActiveModal]}
-  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackQuestionsService={[Function _FeedbackQuestionsService]}
   feedbackSessionTabModels={[Function Array]}
   feedbackSessionTabModelsSortBy={[Function Number]}
-  statusMessageService={[Function StatusMessageService]}
-  tableComparatorService={[Function TableComparatorService]}
+  statusMessageService={[Function _StatusMessageService]}
+  tableComparatorService={[Function _TableComparatorService]}
 >
   <div
     class="modal-header"

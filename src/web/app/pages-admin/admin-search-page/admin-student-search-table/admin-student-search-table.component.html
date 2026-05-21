@@ -108,7 +108,7 @@
                 data-testid="regenerate-student-key"
                 class="btn btn-danger"
                 [disabled]="isRegeneratingStudentKeys[i]"
-                (click)="student.showLinks = !student.showLinks; regenerateStudentKey(student, i)"
+                (click)="student.showLinks = !student.showLinks; regenerateUserKey(student, i)"
               >
                 @if (isRegeneratingStudentKeys[i]) {
                   <tm-ajax-loading></tm-ajax-loading>

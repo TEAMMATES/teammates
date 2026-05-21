@@ -127,10 +127,9 @@ export class CourseService {
   /**
    * Get the status of whether the entity has joined the course by calling API.
    */
-  getJoinCourseStatus(regKey: string, entityType: string, isCreatingAccount: boolean): Observable<JoinStatus> {
+  getJoinCourseStatus(regKey: string, isCreatingAccount: boolean): Observable<JoinStatus> {
     const paramMap: Record<string, string> = {
       key: regKey,
-      entitytype: entityType,
     };
 
     if (isCreatingAccount) {
@@ -143,10 +142,9 @@ export class CourseService {
   /**
    * Join a course by calling API.
    */
-  joinCourse(regKey: string, entityType: string): Observable<any> {
+  joinCourse(regKey: string): Observable<any> {
     const paramMap: Record<string, string> = {
       key: regKey,
-      entitytype: entityType,
     };
     return this.httpRequestService.put(ResourceEndpoints.JOIN, paramMap);
   }
@@ -162,23 +160,11 @@ export class CourseService {
   }
 
   /**
-   * Send join reminder email to a student.
+   * Send join reminder email to a user.
    */
-  remindStudentForJoin(courseId: string, studentEmail: string): Observable<MessageOutput> {
+  remindUserForJoin(userId: string): Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
-      courseid: courseId,
-      studentemail: studentEmail,
-    };
-    return this.httpRequestService.post(ResourceEndpoints.JOIN_REMIND, paramMap);
-  }
-
-  /**
-   * Send join reminder email to an instructor.
-   */
-  remindInstructorForJoin(courseId: string, instructorEmail: string): Observable<MessageOutput> {
-    const paramMap: Record<string, string> = {
-      courseid: courseId,
-      instructoremail: instructorEmail,
+      userid: userId,
     };
     return this.httpRequestService.post(ResourceEndpoints.JOIN_REMIND, paramMap);
   }

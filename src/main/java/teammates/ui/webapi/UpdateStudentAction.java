@@ -50,7 +50,7 @@ public class UpdateStudentAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        UUID studentId = getUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
+        UUID studentId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
         Student existingStudent = logic.getStudent(studentId);
         if (existingStudent == null) {
             throw new EntityNotFoundException(STUDENT_NOT_FOUND_FOR_EDIT);
@@ -63,7 +63,7 @@ public class UpdateStudentAction extends Action {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
-        UUID studentId = getUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
+        UUID studentId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
         StudentUpdateRequest updateRequest = getAndValidateRequestBody(StudentUpdateRequest.class);
 
         Student existingStudent = logic.getStudent(studentId);

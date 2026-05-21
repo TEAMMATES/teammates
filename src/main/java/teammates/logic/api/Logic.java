@@ -12,8 +12,8 @@ import jakarta.annotation.Nullable;
 import teammates.common.datatransfer.AccountRequestStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.EnrollResults;
-import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.FeedbackResultFetchType;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.NotificationStyle;
 import teammates.common.datatransfer.NotificationTargetUser;
 import teammates.common.datatransfer.SessionResultsBundle;
@@ -25,7 +25,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidFeedbackSessionStateException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.StudentUpdateException;
+import teammates.common.exception.UserUpdateException;
 import teammates.common.util.Const;
 import teammates.logic.core.AccountRequestsLogic;
 import teammates.logic.core.AccountsLogic;
@@ -53,6 +53,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Notification;
 import teammates.storage.entity.ReadNotification;
 import teammates.storage.entity.ResponseGiver;
+import teammates.storage.entity.ResponseRecipient;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
@@ -266,10 +267,10 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public List<Course> getCoursesForStudentAccount(String googleId) {
-        assert googleId != null;
+    public List<Course> getCoursesForStudentAccount(Account account) {
+        assert account != null;
 
-        return coursesLogic.getCoursesForStudentAccount(googleId);
+        return coursesLogic.getCoursesForStudentAccount(account);
     }
 
     /**
@@ -806,6 +807,17 @@ public class Logic {
     }
 
     /**
+     * Updates the privileges of an instructor by user id.
+     *
+     * @return the updated instructor
+     * @throws EntityDoesNotExistException if the instructor does not exist in the database
+     */
+    public Instructor updateInstructorPrivileges(UUID userId, InstructorPrivileges newPrivileges)
+            throws EntityDoesNotExistException {
+        return usersLogic.updateInstructorPrivileges(userId, newPrivileges);
+    }
+
+    /**
      * Gets instructor associated with {@code courseId} and {@code email}.
      */
     public Instructor getInstructorForEmail(String courseId, String email) {
@@ -863,19 +875,16 @@ public class Logic {
     }
 
     /**
-     * Make the instructor join the course, i.e. associate the Google ID to the
-     * instructor.<br>
-     * Creates an account for the instructor if no existing account is found.
+     * Makes the user join the course, i.e. associate the account to the student or instructor.
      * Preconditions: <br>
-     * * Parameters regkey and googleId are non-null.
+     * * Parameters regkey and account are non-null.
      */
-    public Instructor joinCourseForInstructor(String regkey, String googleId)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-
-        assert googleId != null;
+    public User joinCourse(String regkey, Account account)
+            throws EntityDoesNotExistException, EntityAlreadyExistsException {
+        assert account != null;
         assert regkey != null;
 
-        return accountsLogic.joinCourseForInstructor(regkey, googleId);
+        return accountsLogic.joinCourse(regkey, account);
     }
 
     /**
@@ -1075,36 +1084,12 @@ public class Logic {
     }
 
     /**
-     * Deletes all the students in the course cascade their associated responses,
-     * deadline extensions and comments.
-     *
-     * <br/>
-     * Preconditions: <br/>
-     * Parameter is non-null.
+     * Deletes all the students in the course.
      */
-    public void deleteStudentsInCourseCascade(String courseId) {
+    public void deleteStudentsInCourse(String courseId) {
         assert courseId != null;
 
-        usersLogic.deleteStudentsInCourseCascade(courseId);
-    }
-
-    /**
-     * Make the student join the course, i.e. associate the Google ID to the
-     * student.<br>
-     * Create an account for the student if no existing account is found.
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     *
-     * @param key the registration key
-     */
-    public Student joinCourseForStudent(String key, String googleId)
-            throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-
-        assert googleId != null;
-        assert key != null;
-
-        return accountsLogic.joinCourseForStudent(key, googleId);
-
+        usersLogic.deleteStudentsInCourse(courseId);
     }
 
     /**
@@ -1130,69 +1115,26 @@ public class Logic {
     }
 
     /**
-     * Resets the googleId associated with the instructor.
+     * Resets the account associated with the user.
      *
-     * <br/>
-     * Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * @throws EntityDoesNotExistException If instructor cannot be found with given
-     *                                     email and courseId.
+     * @return the user whose account was reset.
+     * @throws EntityDoesNotExistException If user cannot be found with given id.
      */
-    public void resetInstructorGoogleId(String email, String courseId, String googleId)
-            throws EntityDoesNotExistException {
-        usersLogic.resetInstructorGoogleId(email, courseId, googleId);
+    public User resetAccount(UUID userId) throws EntityDoesNotExistException {
+        return usersLogic.resetAccount(userId);
     }
 
     /**
-     * Resets the googleId associated with the student.
+     * Regenerates the registration key for the user with {@code userId}.
      *
-     * <br/>
-     * Preconditions: <br/>
-     * * All parameters are non-null.
-     *
-     * @throws EntityDoesNotExistException If student cannot be found with given
-     *                                     email and courseId.
-     */
-    public void resetStudentGoogleId(String email, String courseId, String googleId)
-            throws EntityDoesNotExistException {
-        usersLogic.resetStudentGoogleId(email, courseId, googleId);
-    }
-
-    /**
-     * Regenerates the registration key for the instructor with email address
-     * {@code email} in course {@code courseId}.
-     *
-     * @return the instructor with the new registration key.
-     * @throws InstructorUpdateException   if system was unable to generate a new
+     * @return the user with the new registration key.
+     * @throws UserUpdateException         if system was unable to generate a new
      *                                     registration key.
-     * @throws EntityDoesNotExistException if the instructor does not exist.
+     * @throws EntityDoesNotExistException if the user does not exist.
      */
-    public Instructor regenerateInstructorRegistrationKey(String courseId, String email)
-            throws EntityDoesNotExistException, InstructorUpdateException {
-
-        assert courseId != null;
-        assert email != null;
-
-        return usersLogic.regenerateInstructorRegistrationKey(courseId, email);
-    }
-
-    /**
-     * Regenerates the registration key for the student with email address
-     * {@code email} in course {@code courseId}.
-     *
-     * @return the student with the new registration key.
-     * @throws StudentUpdateException      if system was unable to generate a new
-     *                                     registration key.
-     * @throws EntityDoesNotExistException if the student does not exist.
-     */
-    public Student regenerateStudentRegistrationKey(String courseId, String email)
-            throws EntityDoesNotExistException, StudentUpdateException {
-
-        assert courseId != null;
-        assert email != null;
-
-        return usersLogic.regenerateStudentRegistrationKey(courseId, email);
+    public User regenerateUserRegistrationKey(UUID userId)
+            throws EntityDoesNotExistException, UserUpdateException {
+        return usersLogic.regenerateUserRegistrationKey(userId);
     }
 
     /**
@@ -1348,16 +1290,16 @@ public class Logic {
     }
 
     /**
-     * Gets the recipients of a feedback question for student.
+     * Gets the recipients of a feedback question.
      *
      * @see FeedbackQuestionsLogic#getRecipientsOfQuestion
      */
-    public Map<String, FeedbackQuestionRecipient> getRecipientsOfQuestion(
-            FeedbackQuestion question,
-            @Nullable Instructor instructorGiver, @Nullable Student studentGiver) {
+    public Set<ResponseRecipient> getRecipientsOfQuestion(
+            FeedbackQuestion question, ResponseGiver responseGiver) {
         assert question != null;
+        assert responseGiver != null;
 
-        return feedbackQuestionsLogic.getRecipientsOfQuestion(question, instructorGiver, studentGiver, null);
+        return feedbackQuestionsLogic.getRecipientsOfQuestion(question, responseGiver);
     }
 
     /**
@@ -1452,10 +1394,9 @@ public class Logic {
      *
      * @return updated feedback response
      * @throws InvalidParametersException  if attributes to update are not valid
-     * @throws EntityDoesNotExistException if the comment cannot be found
      */
     public FeedbackResponse updateFeedbackResponseCascade(FeedbackResponse feedbackResponse)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException {
         assert feedbackResponse != null;
 
         return feedbackResponsesLogic.updateFeedbackResponse(feedbackResponse);

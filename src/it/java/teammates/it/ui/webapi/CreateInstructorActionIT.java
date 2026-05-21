@@ -1,5 +1,10 @@
 package teammates.it.ui.webapi;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -54,7 +59,7 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
 
     @Test
     protected void testExecute_typicalCase_shouldPass() throws Exception {
-        loginAsAdmin();
+        loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
 
         Course course1 = typicalBundle.courses.get("course1");
 
@@ -112,10 +117,6 @@ public class CreateInstructorActionIT extends BaseActionIT<CreateInstructorActio
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
         };
-
-        ______TS("Admins can access");
-
-        verifyAccessibleForAdmin(submissionParams);
 
         ______TS("only instructors of the same course can access");
 

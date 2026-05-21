@@ -1,7 +1,8 @@
 import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbActiveModal, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { CourseTabModel, InstructorToCopyCandidateModel } from './copy-instructors-from-other-courses-modal-model';
 import { InstructorService } from '../../../../services/instructor.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
@@ -44,9 +45,9 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
   copyClickedEvent: EventEmitter<Instructor[]> = new EventEmitter();
 
   // enum
-  SortBy: typeof SortBy = SortBy;
-  SortOrder: typeof SortOrder = SortOrder;
-  InstructorPermissionRole: typeof InstructorPermissionRole = InstructorPermissionRole;
+  SortBy!: typeof SortBy;
+  SortOrder!: typeof SortOrder;
+  InstructorPermissionRole!: typeof InstructorPermissionRole;
 
   // data
   courses: CourseTabModel[] = [];
@@ -54,6 +55,12 @@ export class CopyInstructorsFromOtherCoursesModalComponent {
   readonly notDisplayedToStudentText: string = '(NOT displayed to students)';
   coursesSortBy: SortBy | undefined;
   isCopyingSelectedInstructors = false;
+
+  constructor() {
+    this.SortBy = SortBy;
+    this.SortOrder = SortOrder;
+    this.InstructorPermissionRole = InstructorPermissionRole;
+  }
 
   /**
    * Toggles specific card and loads instructors if needed.

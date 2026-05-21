@@ -22,10 +22,8 @@ import teammates.common.datatransfer.participanttypes.ViewerType;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRankRecipientsResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.HibernateUtil;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.api.FeedbackResponsesDb;
@@ -202,19 +200,10 @@ public final class FeedbackResponsesLogic {
      *
      * @return updated feedback response
      * @throws InvalidParametersException if attributes to update are not valid
-     * @throws EntityDoesNotExistException if the response cannot be found
      */
     public FeedbackResponse updateFeedbackResponse(FeedbackResponse feedbackResponse)
-            throws InvalidParametersException, EntityDoesNotExistException {
-
-        FeedbackResponse oldResponse = frDb.getFeedbackResponse(feedbackResponse.getId());
-        if (oldResponse == null) {
-            throw new EntityDoesNotExistException("Trying to update non-existent Entity: " + feedbackResponse);
-        }
-
-        // TODO: do not pass detached entities around
-        HibernateUtil.merge(feedbackResponse);
-
+            throws InvalidParametersException {
+        // TODO: move update logic here.
         validateFeedbackResponse(feedbackResponse);
 
         return feedbackResponse;
@@ -307,24 +296,21 @@ public final class FeedbackResponsesLogic {
         int numberOfRecipients = 0;
 
         switch (giverType) {
-        case INSTRUCTORS:
-        case SELF:
+        case INSTRUCTORS, SELF:
             for (Instructor instructor : roster.getInstructors()) {
+                ResponseGiver responseGiver = new ResponseGiver(instructor);
                 numberOfRecipients =
-                        fqLogic.getRecipientsOfQuestion(question, instructor, null, roster).size();
+                        fqLogic.getRecipientsOfQuestion(question, responseGiver, roster).size();
                 responses = getFeedbackResponsesFromGiverForQuestion(question.getId(), instructor.getId());
             }
             break;
-        case TEAMS:
-        case TEAMS_IN_SAME_SECTION:
-            Student firstMemberOfTeam;
-            String teamName;
+        case TEAMS, TEAMS_IN_SAME_SECTION:
             Map<String, List<Student>> teams = roster.getTeamToMembers();
             for (Map.Entry<String, List<Student>> entry : teams.entrySet()) {
-                teamName = entry.getKey();
-                firstMemberOfTeam = entry.getValue().get(0);
+                String teamName = entry.getKey();
+                ResponseGiver teamResponseGiver = new ResponseGiver(roster.getTeamNameToTeam().get(teamName));
                 numberOfRecipients =
-                        fqLogic.getRecipientsOfQuestion(question, null, firstMemberOfTeam, roster).size();
+                        fqLogic.getRecipientsOfQuestion(question, teamResponseGiver, roster).size();
                 Team team = roster.getTeamNameToTeam().get(teamName);
                 responses =
                         getFeedbackResponsesFromTeamForQuestion(
@@ -333,8 +319,9 @@ public final class FeedbackResponsesLogic {
             break;
         default:
             for (Student student : roster.getStudents()) {
+                ResponseGiver responseGiver = new ResponseGiver(student);
                 numberOfRecipients =
-                        fqLogic.getRecipientsOfQuestion(question, null, student, roster).size();
+                        fqLogic.getRecipientsOfQuestion(question, responseGiver, roster).size();
                 responses = getFeedbackResponsesFromGiverForQuestion(question.getId(), student.getId());
             }
             break;

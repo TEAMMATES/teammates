@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import {
@@ -83,8 +83,8 @@ export class ExtensionConfirmModalComponent implements OnInit {
   instructorColumnsData: ColumnData[] = [];
   instructorRowsData: SortableTableCellData[][] = [];
 
-  SortBy: typeof SortBy = SortBy;
-  SortOrder: typeof SortOrder = SortOrder;
+  SortBy!: typeof SortBy;
+  SortOrder!: typeof SortOrder;
   sortStudentsBy: SortBy = SortBy.SESSION_END_DATE;
   sortStudentOrder: SortOrder = SortOrder.DESC;
   sortInstructorsBy: SortBy = SortBy.SESSION_END_DATE;
@@ -92,6 +92,11 @@ export class ExtensionConfirmModalComponent implements OnInit {
 
   isSubmitting = false;
   isNotifyDeadlines = false;
+
+  constructor() {
+    this.SortBy = SortBy;
+    this.SortOrder = SortOrder;
+  }
 
   ngOnInit(): void {
     if (this.selectedStudents.length > 0) {

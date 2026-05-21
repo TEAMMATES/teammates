@@ -1,5 +1,8 @@
 package teammates.e2e.cases;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;

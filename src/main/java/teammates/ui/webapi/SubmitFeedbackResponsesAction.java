@@ -6,18 +6,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
@@ -105,30 +104,25 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             throw new EntityNotFoundException("The feedback question does not exist.");
         }
 
-        String courseId = feedbackQuestion.getCourseId();
-
         List<FeedbackResponse> existingResponses;
-        Map<String, FeedbackQuestionRecipient> recipientsOfTheQuestion;
         FeedbackQuestionDetails questionDetails = feedbackQuestion.getQuestionDetailsCopy();
         Optional<List<String>> dynamicallyGeneratedOptions;
 
-        String giverIdentifier;
+        ResponseGiver responseGiver;
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case STUDENT_SUBMISSION:
             Student student = getStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
-            giverIdentifier =
-                    feedbackQuestion.getGiverType() == QuestionGiverType.TEAMS
-                            ? student.getTeamName() : student.getEmail();
+            responseGiver = feedbackQuestion.getGiverType() == QuestionGiverType.TEAMS
+                    ? new ResponseGiver(student.getTeam())
+                    : new ResponseGiver(student);
             existingResponses = logic.getFeedbackResponsesFromStudentOrTeamForQuestion(feedbackQuestion, student);
-            recipientsOfTheQuestion = logic.getRecipientsOfQuestion(feedbackQuestion, null, student);
             dynamicallyGeneratedOptions = logic.getDynamicallyGeneratedOptions(feedbackQuestion, student);
             break;
         case INSTRUCTOR_SUBMISSION:
             Instructor instructor = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
-            giverIdentifier = instructor.getEmail();
+            responseGiver = new ResponseGiver(instructor);
             existingResponses = logic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructor);
-            recipientsOfTheQuestion = logic.getRecipientsOfQuestion(feedbackQuestion, instructor, null);
             dynamicallyGeneratedOptions = logic.getDynamicallyGeneratedOptions(feedbackQuestion, null);
             break;
         default:
@@ -144,9 +138,9 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             }
         }
 
-        List<Student> students = logic.getStudentsForCourse(courseId);
-        List<Instructor> instructors = logic.getInstructorsByCourse(courseId);
-        CourseRoster roster = new CourseRoster(students, instructors);
+        Set<ResponseRecipient> recipientsOfTheQuestion = logic.getRecipientsOfQuestion(feedbackQuestion, responseGiver);
+        Map<String, ResponseRecipient> recipientsByIdentifier = recipientsOfTheQuestion.stream()
+                .collect(Collectors.toMap(ResponseRecipient::getIdentifier, recipient -> recipient));
 
         Map<ResponseRecipient, FeedbackResponse> existingResponsesPerRecipient = new HashMap<>();
         existingResponses.forEach(response -> existingResponsesPerRecipient.put(response.getRecipient(), response));
@@ -155,33 +149,26 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         log.info(JsonUtils.toCompactJson(submitRequest));
 
         for (String recipient : submitRequest.getRecipients()) {
-            if (recipient == null || !recipientsOfTheQuestion.containsKey(recipient)) {
+            if (recipient == null || !recipientsByIdentifier.containsKey(recipient)) {
                 throw new InvalidOperationException(
                         "The recipient " + recipient + " is not a valid recipient of the question");
             }
         }
 
-        List<FeedbackResponse> feedbackResponsesToValidate = new ArrayList<>();
         List<FeedbackResponse> feedbackResponsesToAdd = new ArrayList<>();
         List<FeedbackResponse> feedbackResponsesToUpdate = new ArrayList<>();
 
-        ResponseGiver responseGiver = getResponseGiver(giverIdentifier, roster);
         submitRequest.getResponses().forEach(responseRequest -> {
             String recipient = responseRequest.getRecipient();
-            ResponseRecipient responseRecipient = getResponseRecipient(recipient, roster);
+            ResponseRecipient responseRecipient = recipientsByIdentifier.get(recipient);
             FeedbackResponseDetails responseDetails = responseRequest.getResponseDetails();
 
             if (existingResponsesPerRecipient.containsKey(responseRecipient)) {
                 FeedbackResponse existingFeedbackResponse = existingResponsesPerRecipient.get(responseRecipient);
-                FeedbackResponse updatedFeedbackResponse = FeedbackResponse.updateResponse(
-                        existingFeedbackResponse,
-                        feedbackQuestion,
-                        responseGiver,
-                        responseRecipient,
-                        responseDetails);
-
-                feedbackResponsesToValidate.add(updatedFeedbackResponse);
-                feedbackResponsesToUpdate.add(updatedFeedbackResponse);
+                existingFeedbackResponse.setGiver(responseGiver);
+                existingFeedbackResponse.setRecipient(responseRecipient);
+                existingFeedbackResponse.setFeedbackResponseDetails(responseDetails);
+                feedbackResponsesToUpdate.add(existingFeedbackResponse);
             } else {
                 FeedbackResponse feedbackResponse = FeedbackResponse.makeResponse(
                         responseGiver,
@@ -190,14 +177,18 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
                     );
 
                 feedbackQuestion.addFeedbackResponse(feedbackResponse);
-                feedbackResponsesToValidate.add(feedbackResponse);
                 feedbackResponsesToAdd.add(feedbackResponse);
             }
         });
 
-        List<FeedbackResponseDetails> responseDetails = feedbackResponsesToValidate.stream()
+        List<FeedbackResponse> allResponses = Stream.concat(
+                        feedbackResponsesToAdd.stream(),
+                        feedbackResponsesToUpdate.stream())
+                .toList();
+
+        List<FeedbackResponseDetails> responseDetails = allResponses.stream()
                 .map(FeedbackResponse::getFeedbackResponseDetailsCopy)
-                .collect(Collectors.toList());
+                .toList();
 
         int numRecipients = feedbackQuestion.getNumOfEntitiesToGiveFeedbackTo();
         if (numRecipients == Const.MAX_POSSIBLE_RECIPIENTS
@@ -236,7 +227,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         for (FeedbackResponse feedbackResponse : feedbackResponsesToUpdate) {
             try {
                 output.add(logic.updateFeedbackResponseCascade(feedbackResponse));
-            } catch (InvalidParametersException | EntityDoesNotExistException e) {
+            } catch (InvalidParametersException e) {
                 // None of the exceptions should be happening as the responses have been pre-validated
                 log.severe("Encountered exception when updating response: " + e.getMessage(), e);
             }
@@ -245,29 +236,4 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         return new JsonResult(FeedbackResponsesData.createFromEntity(output));
     }
 
-    private ResponseGiver getResponseGiver(String giverIdentifier, CourseRoster roster) {
-        if (roster.getStudentForEmail(giverIdentifier) != null) {
-            return new ResponseGiver(roster.getStudentForEmail(giverIdentifier));
-        } else if (roster.getInstructorForEmail(giverIdentifier) != null) {
-            return new ResponseGiver(roster.getInstructorForEmail(giverIdentifier));
-        } else if (roster.getTeamNameToTeam().get(giverIdentifier) != null) {
-            return new ResponseGiver(roster.getTeamNameToTeam().get(giverIdentifier));
-        } else {
-            throw new EntityNotFoundException("The giver " + giverIdentifier + " is not found in the roster");
-        }
-    }
-
-    private ResponseRecipient getResponseRecipient(String recipientIdentifier, CourseRoster roster) {
-        if (roster.getStudentForEmail(recipientIdentifier) != null) {
-            return new ResponseRecipient(roster.getStudentForEmail(recipientIdentifier));
-        } else if (roster.getInstructorForEmail(recipientIdentifier) != null) {
-            return new ResponseRecipient(roster.getInstructorForEmail(recipientIdentifier));
-        } else if (roster.getTeamNameToTeam().get(recipientIdentifier) != null) {
-            return new ResponseRecipient(roster.getTeamNameToTeam().get(recipientIdentifier));
-        } else if (Const.GENERAL_QUESTION.equals(recipientIdentifier)) {
-            return new ResponseRecipient();
-        } else {
-            throw new EntityNotFoundException("The recipient " + recipientIdentifier + " is not found in the roster");
-        }
-    }
 }

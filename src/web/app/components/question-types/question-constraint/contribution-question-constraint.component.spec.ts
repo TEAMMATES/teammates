@@ -15,6 +15,7 @@ describe('ContributionQuestionConstraintComponent', () => {
     responseId: '123',
     recipientIdentifier: 'recipient123',
     isValid: true,
+    isModified: false,
     responseDetails: { questionType: FeedbackQuestionType.CONTRIB },
   });
 

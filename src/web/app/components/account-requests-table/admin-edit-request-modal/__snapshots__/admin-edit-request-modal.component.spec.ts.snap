@@ -1,14 +1,14 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`RejectWithReasonModal should show empty fields 1`] = `
+exports[`RejectWithReasonModal > should show empty fields 1`] = `
 <tm-edit-request-modal
   accountRequestComments=""
   accountRequestEmail=""
   accountRequestInstitution=""
   accountRequestName=""
   activeModal={[Function NgbActiveModal]}
-  castAsInputElement={[Function Function]}
-  castAsTextAreaElement={[Function Function]}
+  castAsInputElement="undefined"
+  castAsTextAreaElement="undefined"
 >
   <div
     class="modal-header bg-primary"
@@ -110,15 +110,15 @@ exports[`RejectWithReasonModal should show empty fields 1`] = `
 </tm-edit-request-modal>
 `;
 
-exports[`RejectWithReasonModal should show populated data 1`] = `
+exports[`RejectWithReasonModal > should show populated data 1`] = `
 <tm-edit-request-modal
   accountRequestComments={[Function String]}
   accountRequestEmail={[Function String]}
   accountRequestInstitution={[Function String]}
   accountRequestName={[Function String]}
   activeModal={[Function NgbActiveModal]}
-  castAsInputElement={[Function Function]}
-  castAsTextAreaElement={[Function Function]}
+  castAsInputElement="undefined"
+  castAsTextAreaElement="undefined"
 >
   <div
     class="modal-header bg-primary"

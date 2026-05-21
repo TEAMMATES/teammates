@@ -1,9 +1,8 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
-import SpyInstance = jest.SpyInstance;
 import { QuestionResponsePanelComponent } from './question-response-panel.component';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -207,13 +206,11 @@ describe('QuestionResponsePanelComponent', () => {
   let feedbackSessionsService: FeedbackSessionsService;
   let statusMessageService: StatusMessageService;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(QuestionResponsePanelComponent);
     feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
     statusMessageService = TestBed.inject(StatusMessageService);
@@ -621,7 +618,7 @@ describe('QuestionResponsePanelComponent', () => {
       ],
     };
 
-    const fsSpy: SpyInstance = jest
+    const fsSpy = vi
       .spyOn(feedbackSessionsService, 'getFeedbackSessionResults')
       .mockReturnValue(of(testFeedbackSessionResult));
     component.loadQuestion({ visible: true }, testFeedbackQuestionModel);
@@ -640,7 +637,7 @@ describe('QuestionResponsePanelComponent', () => {
   });
 
   it('should not load the recipients and responses of a question if already loaded', () => {
-    const fsSpy: SpyInstance = jest.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
+    const fsSpy = vi.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
 
     testFeedbackQuestionModel.isLoaded = true;
     component.loadQuestion({ visible: true }, testFeedbackQuestionModel);
@@ -667,7 +664,7 @@ describe('QuestionResponsePanelComponent', () => {
   });
 
   it('loadQuestionResults: should not re-fetch data if question is already loaded', () => {
-    const fsSpy: SpyInstance = jest.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
+    const fsSpy = vi.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
 
     const testQuestionModel: FeedbackQuestionModel = {
       ...testFeedbackQuestionModel,
@@ -679,8 +676,8 @@ describe('QuestionResponsePanelComponent', () => {
   });
 
   it('loadQuestionResults: should handle no responses correctly and not show toast if errorMessage not set', () => {
-    const fsSpy = jest.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
-    const toastSpy = jest.spyOn(statusMessageService, 'showSuccessToast');
+    const fsSpy = vi.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
+    const toastSpy = vi.spyOn(statusMessageService, 'showSuccessToast');
 
     testFeedbackQuestionModel.isLoaded = false;
 
@@ -697,8 +694,8 @@ describe('QuestionResponsePanelComponent', () => {
   });
 
   it('loadQuestionResults: should handle no responses correctly and show success toast if errorMessage is set', () => {
-    const fsSpy = jest.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
-    const toastSpy = jest.spyOn(statusMessageService, 'showSuccessToast');
+    const fsSpy = vi.spyOn(feedbackSessionsService, 'getFeedbackSessionResults');
+    const toastSpy = vi.spyOn(statusMessageService, 'showSuccessToast');
 
     testFeedbackQuestionModel.isLoaded = false;
     testFeedbackQuestionModel.errorMessage = 'Error occurred';
@@ -720,10 +717,10 @@ describe('QuestionResponsePanelComponent', () => {
   it('loadQuestionResults: should handle errors correctly by setting errorMessage and showing a toast', () => {
     const errorMessage = 'An error occurred';
     testFeedbackQuestionModel.isLoaded = false;
-    jest
-      .spyOn(feedbackSessionsService, 'getFeedbackSessionResults')
-      .mockReturnValue(throwError(() => ({ error: { message: errorMessage }, status: 400 }) as ErrorMessageOutput));
-    const showErrorToastSpy = jest.spyOn(statusMessageService, 'showErrorToast');
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSessionResults').mockReturnValue(
+      throwError(() => ({ error: { message: errorMessage }, status: 400 }) as ErrorMessageOutput),
+    );
+    const showErrorToastSpy = vi.spyOn(statusMessageService, 'showErrorToast');
 
     component.loadQuestionResults(testFeedbackQuestionModel);
 

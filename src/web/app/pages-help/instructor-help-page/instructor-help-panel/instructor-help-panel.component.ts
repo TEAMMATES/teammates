@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, Output, inject } from '@angular/core';
-import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap/collapse';
 import { NavigationService } from '../../../../services/navigation.service';
 import { PanelChevronComponent } from '../../../components/panel-chevron/panel-chevron.component';
 

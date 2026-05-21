@@ -1,12 +1,12 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { Observable, first } from 'rxjs';
-import { AccountRequest } from 'src/web/types/api-output';
 import { InstructorRequestFormModel } from './instructor-request-form-model';
 import { InstructorRequestFormComponent } from './instructor-request-form.component';
 import { AccountService } from '../../../../services/account.service';
 import { AccountCreateRequest, AccountRequestStatus } from '../../../../types/api-request';
+import { AccountRequest } from '../../../../types/api-output';
 
 describe('InstructorRequestFormComponent', () => {
   let component: InstructorRequestFormComponent;
@@ -54,19 +54,17 @@ describe('InstructorRequestFormComponent', () => {
     component.comments.setValue(data.comments);
   }
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [{ provide: AccountService, useValue: accountServiceStub }, provideRouter([])],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(InstructorRequestFormComponent);
     component = fixture.componentInstance;
     accountService = TestBed.inject(AccountService);
     component.captchaSiteKey = ''; // Test ignores captcha
     fixture.detectChanges();
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should have empty captcha key', () => {
@@ -82,7 +80,7 @@ describe('InstructorRequestFormComponent', () => {
   });
 
   it('should run onSubmit() when submit button is clicked', () => {
-    jest.spyOn(component, 'onSubmit');
+    vi.spyOn(component, 'onSubmit');
 
     fillFormWith(typicalModel);
     const submitButton = fixture.debugElement.query(By.css('#submit-button'));
@@ -92,7 +90,7 @@ describe('InstructorRequestFormComponent', () => {
   });
 
   it('should emit requestSubmissionEvent with the correct data when form is submitted', () => {
-    jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
+    vi.spyOn(accountService, 'createAccountRequest').mockReturnValue(
       new Observable((subscriber) => {
         subscriber.next(typicalAccountRequest);
       }),
@@ -116,7 +114,7 @@ describe('InstructorRequestFormComponent', () => {
   });
 
   it('should send the correct request data when form is submitted', () => {
-    jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
+    vi.spyOn(accountService, 'createAccountRequest').mockReturnValue(
       new Observable((subscriber) => {
         subscriber.next(typicalAccountRequest);
       }),
@@ -130,7 +128,7 @@ describe('InstructorRequestFormComponent', () => {
   });
 
   it('should auto-unify country when applicable', () => {
-    jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
+    vi.spyOn(accountService, 'createAccountRequest').mockReturnValue(
       new Observable((subscriber) => {
         subscriber.next(typicalAccountRequest);
       }),

@@ -10,8 +10,8 @@ public class AppUrl extends Url {
         assert url.startsWith("http"); // must either be http or https
     }
 
-    public AppUrl withUserId(String userId) {
-        return withParam(Const.ParamsNames.USER_ID, userId);
+    public AppUrl withUser(String userId) {
+        return withParam(Const.ParamsNames.USER, userId);
     }
 
     public AppUrl withRegistrationKey(String key) {

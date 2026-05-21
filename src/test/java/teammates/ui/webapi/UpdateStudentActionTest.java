@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -88,7 +89,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         mockEmailSender.setShouldFail(false);
 
         String[] params = {
-                Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
+                Const.ParamsNames.USER_ID, student.getId().toString(),
         };
 
         UpdateStudentAction action = getAction(studentUpdateRequest, params);
@@ -125,7 +126,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         mockEmailSender.setShouldFail(true);
 
         String[] params = {
-                Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
+                Const.ParamsNames.USER_ID, student.getId().toString(),
         };
 
         UpdateStudentAction action = getAction(studentUpdateRequest, params);
@@ -149,7 +150,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 section.getName(), student.getComments(), true);
 
         String[] params = {
-                Const.ParamsNames.STUDENT_SQL_ID, UUID.randomUUID().toString(),
+                Const.ParamsNames.USER_ID, UUID.randomUUID().toString(),
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(studentUpdateRequest, params);
@@ -173,7 +174,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         when(mockLogic.updateStudent(eq(student.getId()), any())).thenThrow(InvalidParametersException.class);
 
         String[] params = {
-                Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
+                Const.ParamsNames.USER_ID, student.getId().toString(),
         };
 
         verifyHttpRequestBodyFailure(studentUpdateRequest, params);
@@ -188,7 +189,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 section.getName(), student.getComments(), true);
 
         String[] params = {
-                Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
+                Const.ParamsNames.USER_ID, student.getId().toString(),
         };
 
         verifyHttpRequestBodyFailure(studentUpdateRequest, params);
@@ -207,7 +208,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         loginAsInstructor(nonExistentInstructorId);
 
         String[] params = {
-                Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
+                Const.ParamsNames.USER_ID, student.getId().toString(),
         };
 
         verifyCannotAccess(params);
@@ -223,7 +224,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         loginAsInstructor(instructorId);
 
         String[] params = {
-                Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
+                Const.ParamsNames.USER_ID, student.getId().toString(),
         };
 
         verifyCanAccess(params);
@@ -242,7 +243,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         loginAsInstructor(instructorId);
 
         String[] params = {
-                Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
+                Const.ParamsNames.USER_ID, student.getId().toString(),
         };
 
         verifyCannotAccess(params);
@@ -253,7 +254,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         loginAsStudent("student-googleId");
 
         String[] params = {
-                Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
+                Const.ParamsNames.USER_ID, student.getId().toString(),
         };
         when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(null);
 
@@ -265,7 +266,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         logoutUser();
 
         String[] params = {
-                Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
+                Const.ParamsNames.USER_ID, student.getId().toString(),
         };
 
         verifyCannotAccess(params);
@@ -277,7 +278,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         loginAsUnregistered("instructor-googleId");
 
         String[] params = {
-                Const.ParamsNames.STUDENT_SQL_ID, student.getId().toString(),
+                Const.ParamsNames.USER_ID, student.getId().toString(),
         };
         when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(null);
 

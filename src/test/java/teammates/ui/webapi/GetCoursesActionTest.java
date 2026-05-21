@@ -1,5 +1,8 @@
 package teammates.ui.webapi;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.when;
 
@@ -106,7 +109,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
     @Test
     void testExecute_withStudentEntityType_success() {
         loginAsStudent("student");
-        when(mockLogic.getCoursesForStudentAccount("student")).thenReturn(stubCourseList);
+        when(mockLogic.getCoursesForStudentAccount(any())).thenReturn(stubCourseList);
         String[] params = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };

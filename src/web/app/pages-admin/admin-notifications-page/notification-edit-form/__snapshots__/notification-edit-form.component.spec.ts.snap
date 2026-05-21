@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`NotificationEditFormComponent should snap with default view 1`] = `
+exports[`NotificationEditFormComponent > should snap with default view 1`] = `
 <tm-notification-edit-form
   NOTIFICATION_TITLE_MAX_LENGTH={[Function Number]}
   NotificationEditFormMode={[Function Object]}
@@ -14,7 +14,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
   guessTimezone={[Function String]}
   model={[Function Object]}
   modelChange={[Function EventEmitter_]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
 >
   <div
     class="card card-plain"
@@ -636,7 +636,7 @@ exports[`NotificationEditFormComponent should snap with default view 1`] = `
 </tm-notification-edit-form>
 `;
 
-exports[`NotificationEditFormComponent should snap with notification 1`] = `
+exports[`NotificationEditFormComponent > should snap with notification 1`] = `
 <tm-notification-edit-form
   NOTIFICATION_TITLE_MAX_LENGTH={[Function Number]}
   NotificationEditFormMode={[Function Object]}
@@ -650,7 +650,7 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
   guessTimezone={[Function String]}
   model={[Function Object]}
   modelChange={[Function EventEmitter_]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
 >
   <div
     class="card card-plain"
@@ -1272,7 +1272,7 @@ exports[`NotificationEditFormComponent should snap with notification 1`] = `
 </tm-notification-edit-form>
 `;
 
-exports[`NotificationEditFormComponent should snap with notification that has been shown to users 1`] = `
+exports[`NotificationEditFormComponent > should snap with notification that has been shown to users 1`] = `
 <tm-notification-edit-form
   NOTIFICATION_TITLE_MAX_LENGTH={[Function Number]}
   NotificationEditFormMode={[Function Object]}
@@ -1286,7 +1286,7 @@ exports[`NotificationEditFormComponent should snap with notification that has be
   guessTimezone={[Function String]}
   model={[Function Object]}
   modelChange={[Function EventEmitter_]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
 >
   <div
     class="card card-plain"

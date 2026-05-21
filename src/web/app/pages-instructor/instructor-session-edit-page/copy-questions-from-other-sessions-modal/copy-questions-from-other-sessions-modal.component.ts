@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { FeedbackSessionTabModel, QuestionToCopyCandidate } from './copy-questions-from-other-sessions-modal-model';
 import { FeedbackQuestionsService } from '../../../../services/feedback-questions.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
@@ -30,12 +30,17 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
   private tableComparatorService = inject(TableComparatorService);
 
   // enum
-  SortBy: typeof SortBy = SortBy;
-  SortOrder: typeof SortOrder = SortOrder;
+  SortBy!: typeof SortBy;
+  SortOrder!: typeof SortOrder;
 
   // data
   feedbackSessionTabModels: FeedbackSessionTabModel[] = [];
   feedbackSessionTabModelsSortBy: SortBy = SortBy.COURSE_ID;
+
+  constructor() {
+    this.SortBy = SortBy;
+    this.SortOrder = SortOrder;
+  }
 
   /**
    * Toggles specific card and loads questions if needed.

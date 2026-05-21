@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { InstructorPermissionRole, InstructorPermissionSet, JoinState } from '../../../../types/api-output';
 import { AjaxLoadingComponent } from '../../../components/ajax-loading/ajax-loading.component';
 import { EnumToArrayPipe } from '../../../components/teammates-common/enum-to-array.pipe';
@@ -64,9 +64,9 @@ export enum EditMode {
 })
 export class InstructorEditPanelComponent {
   // enum
-  JoinState: typeof JoinState = JoinState;
-  InstructorPermissionRole: typeof InstructorPermissionRole = InstructorPermissionRole;
-  EditMode: typeof EditMode = EditMode;
+  JoinState!: typeof JoinState;
+  InstructorPermissionRole!: typeof InstructorPermissionRole;
+  EditMode!: typeof EditMode;
 
   @Input()
   editMode: EditMode = EditMode.EDIT;
@@ -102,6 +102,12 @@ export class InstructorEditPanelComponent {
     isEditing: false,
     isSavingInstructorEdit: false,
   };
+
+  constructor() {
+    this.JoinState = JoinState;
+    this.InstructorPermissionRole = InstructorPermissionRole;
+    this.EditMode = EditMode;
+  }
   @Output()
   instructorChange: EventEmitter<InstructorEditPanel> = new EventEmitter();
 

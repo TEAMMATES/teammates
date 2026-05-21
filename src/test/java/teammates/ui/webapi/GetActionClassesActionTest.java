@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -84,8 +86,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 FeedbackSessionPublishedRemindersAction.class,
                 SessionLinksRecoveryAction.class,
                 SendJoinReminderEmailAction.class,
-                RegenerateInstructorKeyAction.class,
-                RegenerateStudentKeyAction.class,
+                RegenerateUserKeyAction.class,
                 CompileLogsAction.class,
                 GetAuthInfoAction.class,
                 GetFeedbackSessionSubmittedGiverSetAction.class,

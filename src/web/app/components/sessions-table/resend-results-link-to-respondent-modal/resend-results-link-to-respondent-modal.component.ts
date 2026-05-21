@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import {
   InstructorListInfoTableRowModel,
   StudentListInfoTableRowModel,

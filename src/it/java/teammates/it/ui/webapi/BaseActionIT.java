@@ -1,5 +1,9 @@
 package teammates.it.ui.webapi;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -160,9 +164,9 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * Returns The {@code params} array with the {@code userId}
      * (together with the parameter name) inserted at the beginning.
      */
-    protected String[] addUserIdToParams(String userId, String[] params) {
+    protected String[] addUserToParams(String userId, String[] params) {
         List<String> list = new ArrayList<>();
-        list.add(Const.ParamsNames.USER_ID);
+        list.add(Const.ParamsNames.USER);
         list.add(userId);
         list.addAll(Arrays.asList(params));
         return list.toArray(new String[0]);
@@ -562,7 +566,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      * {@code userId}.
      */
     protected void verifyCanMasquerade(String userId, String... params) {
-        verifyCanAccess(addUserIdToParams(userId, params));
+        verifyCanAccess(addUserToParams(userId, params));
     }
 
     /**
@@ -572,7 +576,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
      */
     protected void verifyCannotMasquerade(String userId, String... params) {
         assertThrows(UnauthorizedAccessException.class,
-                () -> getAction(addUserIdToParams(userId, params)).checkAccessControl());
+                () -> getAction(addUserToParams(userId, params)).checkAccessControl());
     }
 
     // The next few methods are for parsing results

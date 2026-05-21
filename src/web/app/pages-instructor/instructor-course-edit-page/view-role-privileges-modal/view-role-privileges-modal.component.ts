@@ -1,5 +1,5 @@
 import { Component, Input, inject } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { InstructorPermissionRole, InstructorPermissionSet } from '../../../../types/api-output';
 import { InstructorRoleNamePipe } from '../../../components/teammates-common/instructor-role-name.pipe';
 

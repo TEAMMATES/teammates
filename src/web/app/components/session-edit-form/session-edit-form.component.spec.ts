@@ -1,9 +1,8 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import moment from 'moment-timezone';
-import SpyInstance = jest.SpyInstance;
 import { SessionEditFormMode } from './session-edit-form-model';
 import { SessionEditFormComponent } from './session-edit-form.component';
 import { DateTimeService } from '../../../services/datetime.service';
@@ -22,13 +21,11 @@ describe('SessionEditFormComponent', () => {
   const submissionStartDateField = 'submissionStartDate';
   const submissionStartTimeField = 'submissionStartTime';
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SessionEditFormComponent);
     simpleModalService = TestBed.inject(SimpleModalService);
     dateTimeService = TestBed.inject(DateTimeService);
@@ -68,8 +65,8 @@ describe('SessionEditFormComponent', () => {
       const date: DateFormat = component.minDateForSubmissionStart;
       const minTime: TimeFormat = component.minTimeForSubmissionStart;
       const time: TimeFormat = { hour: minTime.hour - 1, minute: minTime.minute };
-      const configureSubmissionOpeningTimeSpy = jest.spyOn(component, 'configureSubmissionOpeningTime');
-      const triggerModelChangeSpy = jest.spyOn(component, 'triggerModelChange');
+      const configureSubmissionOpeningTimeSpy = vi.spyOn(component, 'configureSubmissionOpeningTime');
+      const triggerModelChangeSpy = vi.spyOn(component, 'triggerModelChange');
       component.model.submissionStartTime = time;
       component.triggerSubmissionOpeningDateModelChange(submissionStartDateField, date);
       component.configureSubmissionOpeningTime(minTime);
@@ -83,8 +80,8 @@ describe('SessionEditFormComponent', () => {
     const date: DateFormat = component.minDateForSubmissionStart;
     const minTime: TimeFormat = component.minTimeForSubmissionStart;
     const time: TimeFormat = { hour: minTime.hour + 1, minute: minTime.minute };
-    const configureSubmissionOpeningTimeSpy = jest.spyOn(component, 'configureSubmissionOpeningTime');
-    const triggerModelChangeSpy = jest.spyOn(component, 'triggerModelChange');
+    const configureSubmissionOpeningTimeSpy = vi.spyOn(component, 'configureSubmissionOpeningTime');
+    const triggerModelChangeSpy = vi.spyOn(component, 'triggerModelChange');
     component.model.submissionStartTime = time;
     component.triggerSubmissionOpeningDateModelChange(submissionStartDateField, date);
     expect(triggerModelChangeSpy).toHaveBeenCalledWith(submissionStartDateField, date);
@@ -98,8 +95,8 @@ describe('SessionEditFormComponent', () => {
       const date: DateFormat = { day: 12, month: 7, year: 2024 };
       const time: TimeFormat = { hour: 4, minute: 0 };
       const visibilityTime: TimeFormat = { hour: 14, minute: 0 };
-      const triggerModelChangeSpy = jest.spyOn(component, 'triggerModelChange');
-      const configureSessionVisibleDateTimeSpy = jest.spyOn(component, 'configureSessionVisibleDateTime');
+      const triggerModelChangeSpy = vi.spyOn(component, 'triggerModelChange');
+      const configureSessionVisibleDateTimeSpy = vi.spyOn(component, 'configureSessionVisibleDateTime');
       component.model.customSessionVisibleDate = date;
       component.model.submissionStartDate = date;
       component.model.customSessionVisibleTime = visibilityTime;
@@ -132,7 +129,7 @@ describe('SessionEditFormComponent', () => {
   it('should emit a modelChange event with the updated field when triggerModelChange is called', () => {
     const field = 'courseId';
     const data = 'testId';
-    const modelChangeSpy = jest.spyOn(component.modelChange, 'emit');
+    const modelChangeSpy = vi.spyOn(component.modelChange, 'emit');
     component.triggerModelChange(field, data);
     expect(modelChangeSpy).toHaveBeenCalledWith({
       ...component.model,
@@ -153,7 +150,7 @@ describe('SessionEditFormComponent', () => {
       },
     ];
     component.courseCandidates = courseCandidates;
-    const modelChangeSpy = jest.spyOn(component.modelChange, 'emit');
+    const modelChangeSpy = vi.spyOn(component.modelChange, 'emit');
     component.courseIdChangeHandler(newCourseId);
     expect(modelChangeSpy).toHaveBeenCalledWith({
       ...component.model,
@@ -167,7 +164,7 @@ describe('SessionEditFormComponent', () => {
     const newCourseId = 'testId1';
     const courseCandidates: Course[] = [];
     component.courseCandidates = courseCandidates;
-    const modelChangeSpy = jest.spyOn(component.modelChange, 'emit');
+    const modelChangeSpy = vi.spyOn(component.modelChange, 'emit');
     component.courseIdChangeHandler(newCourseId);
     expect(modelChangeSpy).not.toHaveBeenCalled();
   });
@@ -375,21 +372,21 @@ describe('SessionEditFormComponent', () => {
 
   it('should emit addNewSessionEvent when session edit form mode is ADD', () => {
     component.formMode = SessionEditFormMode.ADD;
-    const addNewSessionSpy = jest.spyOn(component.addNewSessionEvent, 'emit');
+    const addNewSessionSpy = vi.spyOn(component.addNewSessionEvent, 'emit');
     component.submitFormHandler();
     expect(addNewSessionSpy).toHaveBeenCalled();
   });
 
   it('should emit editExistingSessionEvent when session edit form Mode is EDIT', () => {
     component.formMode = SessionEditFormMode.EDIT;
-    const editExistingSessionSpy = jest.spyOn(component.editExistingSessionEvent, 'emit');
+    const editExistingSessionSpy = vi.spyOn(component.editExistingSessionEvent, 'emit');
     component.submitFormHandler();
     expect(editExistingSessionSpy).toHaveBeenCalled();
   });
 
   it('should display warning when discarding edit to current feedback session', async () => {
     const promise: Promise<void> = Promise.resolve();
-    const modalSpy: SpyInstance = jest
+    const modalSpy = vi
       .spyOn(simpleModalService, 'openConfirmationModal')
       .mockReturnValue(createMockNgbModalRef({}, promise));
     component.cancelHandler();
@@ -404,7 +401,7 @@ describe('SessionEditFormComponent', () => {
 
   it('should display warning when deleting the current feedback session', async () => {
     const promise: Promise<void> = Promise.resolve();
-    const modalSpy: SpyInstance = jest
+    const modalSpy = vi
       .spyOn(simpleModalService, 'openConfirmationModal')
       .mockReturnValue(createMockNgbModalRef({}, promise));
     component.deleteHandler();
@@ -419,19 +416,19 @@ describe('SessionEditFormComponent', () => {
   });
 
   it('should emit copyCurrentSessionEvent when copyHandler is called', () => {
-    const copyCurrentSessionSpy = jest.spyOn(component.copyCurrentSessionEvent, 'emit');
+    const copyCurrentSessionSpy = vi.spyOn(component.copyCurrentSessionEvent, 'emit');
     component.copyHandler();
     expect(copyCurrentSessionSpy).toHaveBeenCalled();
   });
 
   it('should emit copyOtherSessionsEvent when copyOthersHandler is called', () => {
-    const copyOtherSessionsSpy = jest.spyOn(component.copyOtherSessionsEvent, 'emit');
+    const copyOtherSessionsSpy = vi.spyOn(component.copyOtherSessionsEvent, 'emit');
     component.copyOthersHandler();
     expect(copyOtherSessionsSpy).toHaveBeenCalled();
   });
 
   it('should emit closeEditFormEvent when closeEditFormHandler is called', () => {
-    const closeEditFormSpy = jest.spyOn(component.closeEditFormEvent, 'emit');
+    const closeEditFormSpy = vi.spyOn(component.closeEditFormEvent, 'emit');
     component.closeEditFormHandler();
     expect(closeEditFormSpy).toHaveBeenCalled();
   });

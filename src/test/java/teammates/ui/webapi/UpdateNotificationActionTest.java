@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
@@ -93,7 +94,7 @@ public class UpdateNotificationActionTest extends BaseActionTest<UpdateNotificat
     @Test
     void testAccessControl_unregistered_cannotAccess() {
         logoutUser();
-        loginAsUnregistered(Const.ParamsNames.USER_ID);
+        loginAsUnregistered(Const.ParamsNames.USER);
         verifyCannotAccess();
     }
 

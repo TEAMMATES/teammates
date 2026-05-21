@@ -33,7 +33,7 @@ import { TextQuestionAdditionalInfoComponent } from '../question-types/question-
   ],
 })
 export class QuestionTextWithInfoComponent {
-  readonly QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;
+  readonly QuestionDetailsTypeChecker: typeof QuestionDetailsTypeChecker;
 
   @Input() questionNumber = 0;
   @Input() questionDetails: FeedbackQuestionDetails = {
@@ -44,6 +44,10 @@ export class QuestionTextWithInfoComponent {
   @Output() downloadQuestionResultEvent: EventEmitter<any> = new EventEmitter();
 
   additionalInfoIsExpanded = false;
+
+  constructor() {
+    this.QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;
+  }
 
   /**
    * Returns true if the question has additional info.

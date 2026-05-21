@@ -1,20 +1,18 @@
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap/modal';
 import { EditRequestModalComponent } from './admin-edit-request-modal.component';
 
 describe('RejectWithReasonModal', () => {
   let fixture: ComponentFixture<EditRequestModalComponent>;
   let component: EditRequestModalComponent;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       providers: [NgbActiveModal, provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(EditRequestModalComponent);
     fixture.detectChanges();
     component = fixture.componentInstance;
@@ -38,7 +36,7 @@ describe('RejectWithReasonModal', () => {
   });
 
   it('should close modal with data', () => {
-    const spyActiveModal = jest.spyOn(component.activeModal, 'close');
+    const spyActiveModal = vi.spyOn(component.activeModal, 'close');
     component.accountRequestName = 'John Doe';
     component.accountRequestEmail = 'johndoe@email.com';
     component.accountRequestInstitution = 'NUS';

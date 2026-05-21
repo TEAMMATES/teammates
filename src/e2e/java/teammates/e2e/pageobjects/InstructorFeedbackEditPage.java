@@ -1162,6 +1162,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         int newQuestionNum = getNumQuestions() + 1;
         click(button);
         waitForElementPresence(By.id("question-form-" + newQuestionNum));
+        waitForPageToLoad(true);
     }
 
     private void addNewQuestion(int optionNumber) {
