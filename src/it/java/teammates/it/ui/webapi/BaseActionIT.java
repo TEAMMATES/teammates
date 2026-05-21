@@ -233,10 +233,12 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
     }
 
     private void ensureAccountExists(String googleId) {
+        // TODO: Get account should be by issuer and subject.
         if (logic.getAccountForGoogleId(googleId) == null) {
             String email = googleId.contains("@") ? googleId : googleId + "@example.com";
+            String subject = googleId;
             try {
-                logic.createAccount("testIssuer", "testSubject", email);
+                logic.createAccount("testIssuer", subject, email, googleId);
             } catch (InvalidParametersException | EntityAlreadyExistsException e) {
                 throw new RuntimeException(e);
             }
@@ -748,7 +750,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
                     InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER, new InstructorPrivileges());
             logic.createInstructor(instructor);
 
-            Account account = logic.createAccount("testIssuer", "validInstructorSubject", email);
+            Account account = logic.createAccount("testIssuer", "validInstructorSubject", email, email);
             instructor.setAccount(account);
         }
         return instructor;
@@ -777,7 +779,7 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
 
             student = logic.createStudent(course, team, "student-name", email, "");
 
-            Account account = logic.createAccount("testIssuer", "validStudentSubject", email);
+            Account account = logic.createAccount("testIssuer", "validStudentSubject", email, email);
             student.setAccount(account);
         }
         return student;

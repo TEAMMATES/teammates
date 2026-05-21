@@ -388,10 +388,9 @@ public final class UsersLogic {
             if (dbAccount != null) {
                 instructor.setAccount(dbAccount);
             } else {
-                Account account = new Account(
-                        googleId, "testIssuer", "validInstructorSubject", instructor.getName(), instructor.getEmail());
+                Account account = accountsLogic.createAccount(
+                        "testIssuer", "validInstructorSubject", instructor.getEmail(), googleId);
                 instructor.setAccount(account);
-                accountsLogic.createAccount(account.getIssuer(), account.getSubject(), account.getEmail());
             }
         } else {
             instructor.setGoogleId(googleId);
@@ -402,8 +401,8 @@ public final class UsersLogic {
         Student student = getStudentForEmail(instructor.getCourseId(), instructor.getEmail());
         if (student != null) {
             if (student.getAccount() == null) {
-                Account account = new Account(
-                        googleId, "testIssuer", "validStudentSubject", student.getName(), student.getEmail());
+                Account account = accountsLogic.createAccount(
+                        "testIssuer", "validStudentSubject", student.getEmail(), googleId);
                 student.setAccount(account);
             } else {
                 student.getAccount().setGoogleId(googleId);

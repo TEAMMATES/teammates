@@ -86,14 +86,15 @@ public final class AccountsLogic {
         assert subject != null;
         assert email != null;
 
+        String googleId = email;
         // TODO: Fetch account by issuer + subject.
-        Account account = getAccountForGoogleId(email);
+        Account account = getAccountForGoogleId(googleId);
         if (account != null) {
             return account;
         }
 
         try {
-            return createAccount(issuer, subject, email);
+            return createAccount(issuer, subject, email, googleId);
         } catch (EntityAlreadyExistsException e) {
             // This should not happen.
             throw new IllegalStateException("Failed to create existing account for email: " + email, e);
@@ -110,14 +111,15 @@ public final class AccountsLogic {
      * @throws EntityAlreadyExistsException if the account already exists in the
      *                                      database.
      */
-    public Account createAccount(String issuer, String subject, String email)
+    public Account createAccount(String issuer, String subject, String email, String googleId)
             throws InvalidParametersException, EntityAlreadyExistsException {
         assert issuer != null;
         assert subject != null;
         assert email != null;
+        assert googleId != null;
         // TODO: Account name will be removed, use a generic "User" for now.
-        // googleId is set to email, but will be removed.
-        Account account = new Account(email, issuer, subject, "User", email);
+        // googleId will be removed as well.
+        Account account = new Account(googleId, issuer, subject, "User", email);
         return createAccount(account);
     }
 

@@ -43,8 +43,10 @@ public class GetUserCookieAction extends Action {
         }
 
         String email = isValidEmail(userId) ? userId : getUniqueFallbackEmail();
+        String subject = email;
+        String googleId = email;
         try {
-            Account newAccount = logic.createAccount("testIssuer", email, email);
+            Account newAccount = logic.createAccount("testIssuer", subject, email, googleId);
             return newAccount.getId();
         } catch (EntityAlreadyExistsException e) {
             throw new IllegalStateException("Failed to create existing account for email: " + email, e);

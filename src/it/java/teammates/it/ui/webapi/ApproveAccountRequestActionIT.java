@@ -93,7 +93,8 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
     void testExecute_existingAccountWithSameEmail_approvesSuccessfully() throws Exception {
         Account existingAccount = getTypicalAccount();
         existingAccount.setEmail("existing@email.com");
-        logic.createAccount(existingAccount.getIssuer(), existingAccount.getSubject(), existingAccount.getEmail());
+        logic.createAccount(
+                existingAccount.getIssuer(), existingAccount.getSubject(), existingAccount.getEmail(), existingAccount.getGoogleId());
 
         AccountRequest accountRequest = logic.createAccountRequest("name", existingAccount.getEmail(),
                 "anotherInstitute", AccountRequestStatus.PENDING, "comments");
@@ -147,7 +148,6 @@ public class ApproveAccountRequestActionIT extends BaseActionIT<ApproveAccountRe
             throws Exception {
         String email = "existing-instructor@email.com";
         String institute = "dupInstitute";
-
         Course course = new Course("dup-course-id", "dup course", Const.DEFAULT_TIME_ZONE, institute);
         logic.createCourse(course);
 
