@@ -1310,7 +1310,7 @@ exports[`NotificationEditFormComponent should snap with notification that has be
           <i
             class="fas fa-exclamation-circle"
           />
-           This notification has already been active and visible to users.
+           This notification has already been active and visible to users. 
         </h5>
         <p>
           Major edits to the notification are not recommended.

@@ -5,6 +5,9 @@
     "rootDir": "./src/web",
     "types": []
   },
-  "include": ["src/web/**/*.ts"],
+  "include": [
+    "src/web/**/*.ts",
+    "src/web/app/pages-admin/admin-notifications-page/__snapshots__/admin-notifications-page.component.spec.ts.snap"
+  ],
   "exclude": ["src/web/test-helpers/**/*.ts", "src/web/**/*.spec.ts"]
 }
