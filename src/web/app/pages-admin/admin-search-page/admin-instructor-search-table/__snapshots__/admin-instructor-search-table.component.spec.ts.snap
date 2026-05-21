@@ -4,12 +4,12 @@ exports[`AdminInstructorSearchTableComponent > should snap with a deleted course
 <tm-admin-instructor-search-table
   accountService={[Function _AccountService]}
   instructorReset={[Function EventEmitter_]}
-  instructorService={[Function _InstructorService]}
   instructors={[Function Array]}
   isRegeneratingInstructorKeys={[Function Array]}
   searchString=""
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
+  userService={[Function _UserService]}
 >
   <div
     class="card bg-light top-padded"
@@ -151,12 +151,12 @@ exports[`AdminInstructorSearchTableComponent > should snap with an expanded inst
 <tm-admin-instructor-search-table
   accountService={[Function _AccountService]}
   instructorReset={[Function EventEmitter_]}
-  instructorService={[Function _InstructorService]}
   instructors={[Function Array]}
   isRegeneratingInstructorKeys={[Function Array]}
   searchString=""
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
+  userService={[Function _UserService]}
 >
   <div
     class="card bg-light top-padded"

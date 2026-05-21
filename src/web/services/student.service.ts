@@ -7,7 +7,7 @@ import { HttpRequestService } from './http-request.service';
 import { TableComparatorService } from './table-comparator.service';
 import { JoinStatePipe } from '../app/components/student-list/join-state.pipe';
 import { ResourceEndpoints } from '../types/api-const';
-import { Course, EnrollStudents, MessageOutput, RegenerateKey, Student, Students } from '../types/api-output';
+import { Course, EnrollStudents, MessageOutput, Student, Students } from '../types/api-output';
 import { StudentsEnrollRequest, StudentUpdateRequest } from '../types/api-request';
 import { SortBy, SortOrder } from '../types/sort-properties';
 
@@ -85,17 +85,6 @@ export class StudentService {
       courseid: queryParams.courseId,
     };
     return this.httpRequestService.delete(ResourceEndpoints.STUDENT, paramsMap);
-  }
-
-  /**
-   * Regenerates the registration key for a student in a course.
-   */
-  regenerateStudentKey(courseId: string, studentEmail: string): Observable<RegenerateKey> {
-    const paramsMap: Record<string, string> = {
-      courseid: courseId,
-      studentemail: studentEmail,
-    };
-    return this.httpRequestService.post(ResourceEndpoints.STUDENT_KEY, paramsMap);
   }
 
   /**

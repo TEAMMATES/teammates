@@ -9,8 +9,8 @@ exports[`AdminStudentSearchTableComponent > should snap with a deleted course 1`
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   studentReset={[Function EventEmitter_]}
-  studentService={[Function _StudentService]}
   students={[Function Array]}
+  userService={[Function _UserService]}
 >
   <div
     class="card bg-light top-padded"
@@ -278,8 +278,8 @@ exports[`AdminStudentSearchTableComponent > should snap with an expanded student
   simpleModalService={[Function _SimpleModalService]}
   statusMessageService={[Function _StatusMessageService]}
   studentReset={[Function EventEmitter_]}
-  studentService={[Function _StudentService]}
   students={[Function Array]}
+  userService={[Function _UserService]}
 >
   <div
     class="card bg-light top-padded"

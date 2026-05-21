@@ -101,7 +101,7 @@ public class AdminSearchPage extends AppPage {
     }
 
     public void verifyRegenerateStudentKey(Student student, String originalJoinLink) {
-        verifyStatusMessage("Student's key for this course has been successfully regenerated,"
+        verifyStatusMessage("User's key for this course has been successfully regenerated,"
                 + " and the email has been sent.");
 
         String regeneratedJoinLink = getStudentJoinLink(student);
@@ -654,7 +654,7 @@ public class AdminSearchPage extends AppPage {
     }
 
     public void verifyRegenerateInstructorKey(Instructor instructor, String originalJoinLink) {
-        verifyStatusMessage("Instructor's key for this course has been successfully regenerated,"
+        verifyStatusMessage("User's key for this course has been successfully regenerated,"
                 + " and the email has been sent.");
 
         String regeneratedJoinLink = getInstructorJoinLink(instructor);
