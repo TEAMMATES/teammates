@@ -1,6 +1,9 @@
 package teammates.ui.webapi;
 
+import java.util.UUID;
+
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
@@ -31,21 +34,16 @@ public class UpdateInstructorPrivilegeAction extends Action {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String emailOfInstructorToUpdate = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-
-        Instructor instructorToUpdate = logic.getInstructorForEmail(courseId, emailOfInstructorToUpdate);
-
-        if (instructorToUpdate == null) {
-            throw new EntityNotFoundException("Instructor does not exist.");
-        }
-
+        UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
         InstructorPrivilegeUpdateRequest request = getAndValidateRequestBody(InstructorPrivilegeUpdateRequest.class);
         InstructorPrivileges newPrivileges = request.getPrivileges();
-        newPrivileges.validatePrivileges();
 
-        instructorToUpdate.setPrivileges(newPrivileges);
-        logic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
+        Instructor instructorToUpdate;
+        try {
+            instructorToUpdate = logic.updateInstructorPrivileges(userId, newPrivileges);
+        } catch (EntityDoesNotExistException e) {
+            throw new EntityNotFoundException(e);
+        }
 
         InstructorPrivilegeData response = new InstructorPrivilegeData(instructorToUpdate.getPrivileges());
         return new JsonResult(response);
