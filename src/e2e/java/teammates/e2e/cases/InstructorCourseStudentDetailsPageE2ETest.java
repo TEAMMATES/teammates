@@ -25,7 +25,7 @@ public class InstructorCourseStudentDetailsPageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         ______TS("verify loaded details");
-        AppUrl viewPageUrl = getStudentDetailsViewPageUrl(student.getEmail());
+        AppUrl viewPageUrl = getStudentDetailsViewPageUrl(student.getId().toString());
         InstructorCourseStudentDetailsViewPage viewPage =
                 loginToPage(viewPageUrl, InstructorCourseStudentDetailsViewPage.class,
                         testData.instructors.get("ICSDet.instr").getGoogleId());
@@ -33,9 +33,9 @@ public class InstructorCourseStudentDetailsPageE2ETest extends BaseE2ETestCase {
         viewPage.verifyStudentDetails(student);
     }
 
-    private AppUrl getStudentDetailsViewPageUrl(String studentEmail) {
+    private AppUrl getStudentDetailsViewPageUrl(String studentId) {
         return createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE)
                 .withCourseId(testData.courses.get("ICSDet.CS2104").getId())
-                .withStudentEmail(studentEmail);
+                .withUserId(studentId);
     }
 }

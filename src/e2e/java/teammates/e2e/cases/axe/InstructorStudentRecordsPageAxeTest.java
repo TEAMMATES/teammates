@@ -24,7 +24,7 @@ public class InstructorStudentRecordsPageAxeTest extends BaseAxeTestCase {
     public void testAll() {
         AppUrl recordsPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
                 .withCourseId(testData.courses.get("CS2104").getId())
-                .withStudentEmail(testData.students.get("benny.c.tmms@ISR.CS2104").getEmail());
+                .withUserId(testData.students.get("benny.c.tmms@ISR.CS2104").getId().toString());
 
         InstructorStudentRecordsPage recordsPage =
                 loginToPage(recordsPageUrl, InstructorStudentRecordsPage.class,
