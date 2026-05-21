@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`QuestionTextWithInfoComponent should not show control link and question details for TEXT questions 1`] = `
+exports[`QuestionTextWithInfoComponent > should not show control link and question details for TEXT questions 1`] = `
 <tm-question-text-with-info
   QuestionDetailsTypeChecker={[Function Function]}
   additionalInfoIsExpanded="false"
@@ -25,7 +25,7 @@ exports[`QuestionTextWithInfoComponent should not show control link and question
 </tm-question-text-with-info>
 `;
 
-exports[`QuestionTextWithInfoComponent should show control link when question type is not TEXT 1`] = `
+exports[`QuestionTextWithInfoComponent > should show control link when question type is not TEXT 1`] = `
 <tm-question-text-with-info
   QuestionDetailsTypeChecker={[Function Function]}
   additionalInfoIsExpanded="false"
@@ -55,7 +55,7 @@ exports[`QuestionTextWithInfoComponent should show control link when question ty
 </tm-question-text-with-info>
 `;
 
-exports[`QuestionTextWithInfoComponent should show question detail when click control link 1`] = `
+exports[`QuestionTextWithInfoComponent > should show question detail when click control link 1`] = `
 <tm-question-text-with-info
   QuestionDetailsTypeChecker={[Function Function]}
   additionalInfoIsExpanded={[Function Boolean]}

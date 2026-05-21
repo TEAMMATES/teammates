@@ -1,17 +1,17 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`ErrorReportComponent should snap with default view 1`] = `
+exports[`ErrorReportComponent > should snap with default view 1`] = `
 <tm-error-report
   content=""
   csrfErrorMessages={[Function Array]}
   errorMessage=""
   errorReportEnabled={[Function Boolean]}
-  errorReportService={[Function ErrorReportService]}
+  errorReportService={[Function _ErrorReportService]}
   errorReportSubmitted="false"
   ngbActiveModal={[Function NgbActiveModal]}
   requestId=""
   sendButtonEnabled={[Function Boolean]}
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
   subject={[Function String]}
   supportEmail={[Function String]}
 >

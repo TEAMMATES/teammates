@@ -23,14 +23,24 @@ const studentCsvListTester: (
   service: StudentService,
   spyCourseService: any,
   testFn: (str: string) => void,
-) => void = (courseId: string, service: StudentService, spyCourseService: any, testFn: (str: string) => void): void => {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const testData: any = require(`./test-data/${courseId}`);
+) => Promise<void> = async (
+  courseId: string,
+  service: StudentService,
+  spyCourseService: any,
+  testFn: (str: string) => void,
+): Promise<void> => {
+  const testDataModule = await import(`./test-data/${courseId}`);
+  const testData = testDataModule.default ?? testDataModule;
   const course: Course = testData.course;
   const students: Students = testData.students;
-  jest.spyOn(spyCourseService, 'getCourseAsInstructor').mockReturnValue(of(course));
-  jest.spyOn(service, 'getStudentsFromCourse').mockReturnValue(of(students));
-  service.loadStudentListAsCsv({ courseId }).subscribe((csvResult: string) => testFn(csvResult));
+  vi.spyOn(spyCourseService, 'getCourseAsInstructor').mockReturnValue(of(course));
+  vi.spyOn(service, 'getStudentsFromCourse').mockReturnValue(of(students));
+  await new Promise<void>((resolve) => {
+    service.loadStudentListAsCsv({ courseId }).subscribe((csvResult: string) => {
+      testFn(csvResult);
+      resolve();
+    });
+  });
 };
 
 describe('StudentService', () => {
@@ -53,13 +63,13 @@ describe('StudentService', () => {
 
   it('should execute PUT when updating students in a course', () => {
     const paramMap: Record<string, string> = {
-      studentid: '12345',
+      userid: '12345',
     };
-    jest.spyOn(spyHttpRequestService, 'put');
+    vi.spyOn(spyHttpRequestService, 'put');
 
     service.updateStudent(
       {
-        studentId: paramMap['studentid'],
+        userId: paramMap['userid'],
       },
       defaultStudentUpdateRequest,
     );
@@ -74,38 +84,24 @@ describe('StudentService', () => {
   it('should execute DELETE when deleting all students in a course', () => {
     const paramMap: Record<string, string> = {
       courseid: 'CS3281',
-      limit: '100',
     };
-    jest.spyOn(spyHttpRequestService, 'delete');
+    vi.spyOn(spyHttpRequestService, 'delete');
 
-    service.batchDeleteStudentsFromCourse({
+    service.deleteStudentsFromCourse({
       courseId: paramMap['courseid'],
-      limit: parseInt(paramMap['limit'], 10),
     });
 
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.STUDENTS, paramMap);
   });
 
-  it('should execute POST when regenerating key of a student in a course', () => {
-    const paramMap: Record<string, string> = {
-      courseid: 'CS3281',
-      studentemail: 'johndoe@gmail.com',
-    };
-    jest.spyOn(spyHttpRequestService, 'post');
-
-    service.regenerateStudentKey(paramMap['courseid'], paramMap['studentemail']);
-
-    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.STUDENT_KEY, paramMap);
-  });
-
-  it('should generate course student list with section as csv', () => {
-    studentCsvListTester('studentCsvListWithSection', service, spyCourseService, (csvResult: string) => {
+  it('should generate course student list with section as csv', async () => {
+    await studentCsvListTester('studentCsvListWithSection.json', service, spyCourseService, (csvResult: string) => {
       expect(csvResult).toMatchSnapshot();
     });
   });
 
-  it('should generate course student list without section as csv', () => {
-    studentCsvListTester('studentCsvListWithoutSection', service, spyCourseService, (csvResult: string) => {
+  it('should generate course student list without section as csv', async () => {
+    await studentCsvListTester('studentCsvListWithoutSection.json', service, spyCourseService, (csvResult: string) => {
       expect(csvResult).toMatchSnapshot();
     });
   });

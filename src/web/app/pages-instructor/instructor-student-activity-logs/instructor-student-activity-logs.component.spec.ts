@@ -149,7 +149,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 1998, month: 9, day: 11 },
       logsTimeTo: { hour: 15, minute: 0 },
-      selectedStudent: { studentEmail: 'doejohn@email.com', studentId: undefined },
+      selectedStudent: { userId: 'doe-john' },
       logTypes: [FeedbackSessionLogType.SUBMISSION, FeedbackSessionLogType.ACCESS],
       selectedSession: { feedbackSessionName: undefined, sessionId: undefined },
       showActions: false,
@@ -195,7 +195,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
   });
 
   it('should load all students of selected course has on select', () => {
-    const studentSpy = jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
+    const studentSpy = vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
       of({
         students: [testStudent],
       }),
@@ -209,7 +209,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
   });
 
   it('should load students from cache if present', () => {
-    const studentSpy = jest.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
+    const studentSpy = vi.spyOn(studentService, 'getStudentsFromCourse').mockReturnValue(
       of({
         students: [testStudent],
       }),
@@ -224,10 +224,10 @@ describe('InstructorStudentActivityLogsComponent', () => {
   });
 
   it('should search for logs using feedback course timezone when search button is clicked', () => {
-    const logSpy = jest
+    const logSpy = vi
       .spyOn(logService, 'searchFeedbackSessionLog')
       .mockReturnValue(of({ feedbackSessionLogs: [testLogs1, testLogs2] }));
-    const timeSpy = jest.spyOn(timezoneService, 'resolveLocalDateTime');
+    const timeSpy = vi.spyOn(timezoneService, 'resolveLocalDateTime');
     const tzOffset: number = timezoneService.getTzOffsets()[testCourse1.timeZone];
 
     component.isLoading = false;
@@ -237,7 +237,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2020, month: 12, day: 31 },
       logsTimeTo: { hour: 23, minute: 59 },
-      selectedStudent: { studentEmail: testStudent.email, studentId: '' },
+      selectedStudent: { userId: testStudent.userId },
       logTypes: [FeedbackSessionLogType.SUBMISSION],
       selectedSession: { feedbackSessionName: '', sessionId: '' },
       showActions: true,
@@ -262,7 +262,7 @@ describe('InstructorStudentActivityLogsComponent', () => {
       searchFrom: new Date('2020-12-31T00:00+00:00').getTime() - tzOffset * Milliseconds.IN_ONE_MINUTE,
       searchUntil: new Date('2021-01-01T00:00+00:00').getTime() - tzOffset * Milliseconds.IN_ONE_MINUTE,
       logTypes: [FeedbackSessionLogType.SUBMISSION],
-      studentId: '',
+      userId: testStudent.userId,
       sessionId: '',
     });
 

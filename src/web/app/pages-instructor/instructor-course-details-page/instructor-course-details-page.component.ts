@@ -1,12 +1,10 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
-import { generate } from 'rxjs';
-import { concatMap, finalize, takeWhile } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
+import { finalize } from 'rxjs/operators';
 import { CourseService, CourseStatistics } from '../../../services/course.service';
 import { FileSaveService } from '../../../services/file-save.service';
 import { InstructorService } from '../../../services/instructor.service';
-import { ProgressBarService } from '../../../services/progress-bar.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -61,7 +59,6 @@ interface StudentIndexedData {
 export class InstructorCourseDetailsPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private statusMessageService = inject(StatusMessageService);
-  private progressBarService = inject(ProgressBarService);
   private courseService = inject(CourseService);
   private fileSaveService = inject(FileSaveService);
   private ngbModal = inject(NgbModal);
@@ -248,79 +245,25 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   deleteAllStudentsFromCourse(courseId: string): void {
     this.isDeleting = true;
 
-    const totalNumberOfStudents = this.courseDetails.stats.numOfStudents;
-    const numOfStudentsToDeletePerRequest = 100;
-    const totalNumOfRequests = Math.ceil(totalNumberOfStudents / numOfStudentsToDeletePerRequest);
-    let numOfRequestsCompleted = 0;
-
-    let deleteAborted = false;
-    let hasFailedToDelete = false;
-    const modalContent = `Deleting all students from the course ${this.courseDetails.course.courseId}, 
-        this may take a while...`;
-    const loadingModal: NgbModalRef = this.simpleModalService.openLoadingModal(
-      'Delete Progress',
-      SimpleModalType.LOAD,
-      modalContent,
-    );
-
-    loadingModal.result.then(
-      () => {
-        // Modal is closed
-        this.isDeleting = false;
-
-        if (numOfRequestsCompleted === totalNumOfRequests) {
-          this.statusMessageService.showSuccessToast('All the students have been removed from the course');
-        }
-
-        if (!hasFailedToDelete && numOfRequestsCompleted < totalNumOfRequests) {
-          deleteAborted = true;
-          this.statusMessageService.showWarningToast(
-            'Delete aborted. ' + 'Note that some students may not have been deleted.',
-          );
-        }
-      },
-      () => {},
-    );
-
-    generate({
-      initialState: 0,
-      condition: (x) => x < totalNumOfRequests,
-      iterate: (x) => x + 1,
-    })
+    this.studentService
+      .deleteStudentsFromCourse({ courseId })
       .pipe(
-        concatMap(() =>
-          this.studentService.batchDeleteStudentsFromCourse({ courseId, limit: numOfStudentsToDeletePerRequest }),
-        ),
-        takeWhile(() => !deleteAborted),
         finalize(() => {
-          loadingModal.close();
+          this.isDeleting = false;
         }),
       )
       .subscribe({
         next: () => {
-          numOfRequestsCompleted += 1;
-          const percentageProgress = Math.round((100 * numOfRequestsCompleted) / totalNumOfRequests);
-          this.progressBarService.updateProgress(percentageProgress);
-        },
-        complete: () => {
-          if (deleteAborted) {
-            this.loadStudents(courseId);
-            return;
-          }
-
-          // Reset list of students and course stats
           this.students = [];
           this.courseDetails.stats = {
             numOfStudents: 0,
             numOfSections: 0,
             numOfTeams: 0,
           };
+          this.statusMessageService.showSuccessToast('All the students have been removed from the course');
         },
         error: (resp: ErrorMessageOutput) => {
-          hasFailedToDelete = true;
-          if (!deleteAborted) {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          }
+          this.statusMessageService.showErrorToast(resp.error.message);
         },
       });
   }

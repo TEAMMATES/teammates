@@ -39,8 +39,8 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
   private feedbackResponsesService = inject(FeedbackResponsesService);
   private ngbModal = inject(NgbModal);
 
-  SortBy: typeof SortBy = SortBy;
-  SortOrder: typeof SortOrder = SortOrder;
+  SortBy!: typeof SortBy;
+  SortOrder!: typeof SortOrder;
 
   @Input() responses: ResponseOutput[] = [];
   @Input() section = '';
@@ -74,6 +74,12 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
   sortOrder: SortOrder = SortOrder.ASC;
 
   currResponseToAdd?: ResponseOutput;
+
+  constructor() {
+    super();
+    this.SortBy = SortBy;
+    this.SortOrder = SortOrder;
+  }
 
   ngOnInit(): void {
     this.filterResponses();

@@ -3,10 +3,10 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, injec
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap/tooltip';
 import { AccountService } from '../../../../services/account.service';
-import { InstructorService } from '../../../../services/instructor.service';
 import { FeedbackSessionsGroup, InstructorAccountSearchResult } from '../../../../services/search.service';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
+import { UserService } from '../../../../services/user.service';
 import { RegenerateKey } from '../../../../types/api-output';
 import { AjaxLoadingComponent } from '../../../components/ajax-loading/ajax-loading.component';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
@@ -22,7 +22,7 @@ export class AdminInstructorSearchTableComponent implements OnChanges {
   private statusMessageService = inject(StatusMessageService);
   private simpleModalService = inject(SimpleModalService);
   private accountService = inject(AccountService);
-  private instructorService = inject(InstructorService);
+  private userService = inject(UserService);
 
   @Input()
   instructors: InstructorAccountSearchResult[] = [];
@@ -70,7 +70,7 @@ export class AdminInstructorSearchTableComponent implements OnChanges {
 
     modalRef.result.then(
       () => {
-        this.accountService.resetInstructorAccount(instructor.courseId, instructor.email).subscribe({
+        this.accountService.resetAccount(instructor.userId).subscribe({
           next: () => {
             this.instructorReset.emit();
             this.statusMessageService.showSuccessToast("The instructor's Google ID has been reset.");
@@ -84,7 +84,7 @@ export class AdminInstructorSearchTableComponent implements OnChanges {
     );
   }
 
-  regenerateInstructorKey(instructor: InstructorAccountSearchResult, index: number): void {
+  regenerateUserKey(instructor: InstructorAccountSearchResult, index: number): void {
     this.isRegeneratingInstructorKeys[index] = true;
     const modalContent = `Are you sure you want to regenerate the registration key for
         <strong>${instructor.name}</strong> for the course <strong>${instructor.courseId}</strong>?
@@ -101,7 +101,7 @@ export class AdminInstructorSearchTableComponent implements OnChanges {
 
     modalRef.result.then(
       () => {
-        this.instructorService.regenerateInstructorKey(instructor.courseId, instructor.email).subscribe({
+        this.userService.regenerateUserKey(instructor.userId).subscribe({
           next: (resp: RegenerateKey) => {
             this.statusMessageService.showSuccessToast(resp.message);
             this.updateDisplayedInstructorCourseLinks(instructor, resp.newRegistrationKey);

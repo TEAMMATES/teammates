@@ -1,21 +1,21 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`UserJoinPageComponent should snap if user is not logged in and has a valid url 1`] = `
+exports[`UserJoinPageComponent > should snap if user is not logged in and has a valid url 1`] = `
 <tm-user-join-page
-  accountService={[Function AccountService]}
-  authService={[Function AuthService]}
+  accountService={[Function _AccountService]}
+  authService={[Function _AuthService]}
   backendUrl={[Function String]}
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   entityType={[Function String]}
   hasJoined="false"
   isCreatingAccount="false"
   isLoading="false"
   key={[Function String]}
-  navigationService={[Function NavigationService]}
-  ngbModal={[Function _NgbModal]}
+  navigationService={[Function _NavigationService]}
+  ngbModal={[Function NgbModal]}
   route={[Function Object]}
-  simpleModalService={[Function SimpleModalService]}
-  timezoneService={[Function TimezoneService]}
+  simpleModalService={[Function _SimpleModalService]}
+  timezoneService={[Function _TimezoneService]}
   userId=""
   validUrl={[Function Boolean]}
 >
@@ -43,22 +43,22 @@ exports[`UserJoinPageComponent should snap if user is not logged in and has a va
 </tm-user-join-page>
 `;
 
-exports[`UserJoinPageComponent should snap with default fields 1`] = `
+exports[`UserJoinPageComponent > should snap with default fields 1`] = `
 <tm-user-join-page
-  accountService={[Function AccountService]}
-  authService={[Function AuthService]}
+  accountService={[Function _AccountService]}
+  authService={[Function _AuthService]}
   backendUrl={[Function String]}
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   entityType={[Function String]}
   hasJoined="false"
   isCreatingAccount="false"
   isLoading={[Function Boolean]}
   key={[Function String]}
-  navigationService={[Function NavigationService]}
-  ngbModal={[Function _NgbModal]}
+  navigationService={[Function _NavigationService]}
+  ngbModal={[Function NgbModal]}
   route={[Function Object]}
-  simpleModalService={[Function SimpleModalService]}
-  timezoneService={[Function TimezoneService]}
+  simpleModalService={[Function _SimpleModalService]}
+  timezoneService={[Function _TimezoneService]}
   userId=""
   validUrl={[Function Boolean]}
 >
@@ -80,22 +80,22 @@ exports[`UserJoinPageComponent should snap with default fields 1`] = `
 </tm-user-join-page>
 `;
 
-exports[`UserJoinPageComponent should snap with invalid course join link 1`] = `
+exports[`UserJoinPageComponent > should snap with invalid course join link 1`] = `
 <tm-user-join-page
-  accountService={[Function AccountService]}
-  authService={[Function AuthService]}
+  accountService={[Function _AccountService]}
+  authService={[Function _AuthService]}
   backendUrl={[Function String]}
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   entityType={[Function String]}
   hasJoined="false"
   isCreatingAccount="false"
   isLoading="false"
   key={[Function String]}
-  navigationService={[Function NavigationService]}
-  ngbModal={[Function _NgbModal]}
+  navigationService={[Function _NavigationService]}
+  ngbModal={[Function NgbModal]}
   route={[Function Object]}
-  simpleModalService={[Function SimpleModalService]}
-  timezoneService={[Function TimezoneService]}
+  simpleModalService={[Function _SimpleModalService]}
+  timezoneService={[Function _TimezoneService]}
   userId={[Function String]}
   validUrl="false"
 >
@@ -123,22 +123,22 @@ exports[`UserJoinPageComponent should snap with invalid course join link 1`] = `
 </tm-user-join-page>
 `;
 
-exports[`UserJoinPageComponent should snap with valid course join link that has been used 1`] = `
+exports[`UserJoinPageComponent > should snap with valid course join link that has been used 1`] = `
 <tm-user-join-page
-  accountService={[Function AccountService]}
-  authService={[Function AuthService]}
+  accountService={[Function _AccountService]}
+  authService={[Function _AuthService]}
   backendUrl={[Function String]}
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   entityType={[Function String]}
   hasJoined={[Function Boolean]}
   isCreatingAccount="false"
   isLoading="false"
   key={[Function String]}
-  navigationService={[Function NavigationService]}
-  ngbModal={[Function _NgbModal]}
+  navigationService={[Function _NavigationService]}
+  ngbModal={[Function NgbModal]}
   route={[Function Object]}
-  simpleModalService={[Function SimpleModalService]}
-  timezoneService={[Function TimezoneService]}
+  simpleModalService={[Function _SimpleModalService]}
+  timezoneService={[Function _TimezoneService]}
   userId={[Function String]}
   validUrl={[Function Boolean]}
 >
@@ -166,22 +166,22 @@ exports[`UserJoinPageComponent should snap with valid course join link that has 
 </tm-user-join-page>
 `;
 
-exports[`UserJoinPageComponent should snap with valid course join link that has not been used 1`] = `
+exports[`UserJoinPageComponent > should snap with valid course join link that has not been used 1`] = `
 <tm-user-join-page
-  accountService={[Function AccountService]}
-  authService={[Function AuthService]}
+  accountService={[Function _AccountService]}
+  authService={[Function _AuthService]}
   backendUrl={[Function String]}
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   entityType={[Function String]}
   hasJoined="false"
   isCreatingAccount="false"
   isLoading="false"
   key={[Function String]}
-  navigationService={[Function NavigationService]}
-  ngbModal={[Function _NgbModal]}
+  navigationService={[Function _NavigationService]}
+  ngbModal={[Function NgbModal]}
   route={[Function Object]}
-  simpleModalService={[Function SimpleModalService]}
-  timezoneService={[Function TimezoneService]}
+  simpleModalService={[Function _SimpleModalService]}
+  timezoneService={[Function _TimezoneService]}
   userId={[Function String]}
   validUrl={[Function Boolean]}
 >

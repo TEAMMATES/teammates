@@ -82,7 +82,7 @@ export class PageComponent {
   private statusMessageService = inject(StatusMessageService);
 
   // enum
-  NotificationTargetUser: typeof NotificationTargetUser = NotificationTargetUser;
+  NotificationTargetUser!: typeof NotificationTargetUser;
 
   @Input() isFetchingAuthDetails = false;
   @Input() user = '';
@@ -122,6 +122,7 @@ export class PageComponent {
   constructor() {
     const location = inject(Location);
 
+    this.NotificationTargetUser = NotificationTargetUser;
     this.checkBrowserVersion();
     this.router.events.subscribe((val: any) => {
       if (val instanceof NavigationEnd) {

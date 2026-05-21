@@ -32,7 +32,7 @@ import { SingleResponseComponent } from '../single-response/single-response.comp
 })
 export class StudentViewResponsesComponent implements OnInit {
   // enum
-  CommentRowMode: typeof CommentRowMode = CommentRowMode;
+  CommentRowMode!: typeof CommentRowMode;
 
   @Input() feedbackQuestion: FeedbackQuestion = {
     feedbackQuestionId: '',
@@ -58,6 +58,10 @@ export class StudentViewResponsesComponent implements OnInit {
   @Input() timezone = 'UTC';
 
   recipient = '';
+
+  constructor() {
+    this.CommentRowMode = CommentRowMode;
+  }
 
   ngOnInit(): void {
     this.recipient = this.responses.length ? this.responses[0].recipient : '';

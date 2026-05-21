@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`IndividualExtensionDateModalComponent should snap with the extend by radio option 1`] = `
+exports[`IndividualExtensionDateModalComponent > should snap with the extend by radio option 1`] = `
 <tm-individual-extension-date-modal
   DateTime={[Function Object]}
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
@@ -8,7 +8,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
-  dateDetailPipe={[Function FormatDateDetailPipe]}
+  dateDetailPipe={[Function _FormatDateDetailPipe]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey={[Function String]}
   extendByDeadlineOptions={[Function Map]}
@@ -19,9 +19,9 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   numInstructors={[Function Number]}
   numStudents={[Function Number]}
   radioOption={[Function Number]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   sortMapByOriginalOrder={[Function Function]}
-  timeZoneService={[Function TimezoneService]}
+  timeZoneService={[Function _TimezoneService]}
 >
   <div
     class="modal-header alert alert-primary alert-no-bottom"
@@ -150,7 +150,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
 </tm-individual-extension-date-modal>
 `;
 
-exports[`IndividualExtensionDateModalComponent should snap with the extend by radio option with customize 1`] = `
+exports[`IndividualExtensionDateModalComponent > should snap with the extend by radio option with customize 1`] = `
 <tm-individual-extension-date-modal
   DateTime={[Function Object]}
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
@@ -158,7 +158,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
-  dateDetailPipe={[Function FormatDateDetailPipe]}
+  dateDetailPipe={[Function _FormatDateDetailPipe]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey={[Function String]}
   extendByDeadlineOptions={[Function Map]}
@@ -169,9 +169,9 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
   numInstructors={[Function Number]}
   numStudents={[Function Number]}
   radioOption={[Function Number]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   sortMapByOriginalOrder={[Function Function]}
-  timeZoneService={[Function TimezoneService]}
+  timeZoneService={[Function _TimezoneService]}
 >
   <div
     class="modal-header alert alert-primary alert-no-bottom"
@@ -345,7 +345,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend by ra
 </tm-individual-extension-date-modal>
 `;
 
-exports[`IndividualExtensionDateModalComponent should snap with the extend to radio option with timepicker 1`] = `
+exports[`IndividualExtensionDateModalComponent > should snap with the extend to radio option with timepicker 1`] = `
 <tm-individual-extension-date-modal
   DateTime={[Function Object]}
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
@@ -353,7 +353,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
-  dateDetailPipe={[Function FormatDateDetailPipe]}
+  dateDetailPipe={[Function _FormatDateDetailPipe]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey=""
   extendByDeadlineOptions={[Function Map]}
@@ -364,9 +364,9 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
   numInstructors={[Function Number]}
   numStudents={[Function Number]}
   radioOption={[Function Number]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   sortMapByOriginalOrder={[Function Function]}
-  timeZoneService={[Function TimezoneService]}
+  timeZoneService={[Function _TimezoneService]}
 >
   <div
     class="modal-header alert alert-primary alert-no-bottom"
@@ -615,7 +615,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extend to ra
 </tm-individual-extension-date-modal>
 `;
 
-exports[`IndividualExtensionDateModalComponent should snap with the extended students 1`] = `
+exports[`IndividualExtensionDateModalComponent > should snap with the extended students 1`] = `
 <tm-individual-extension-date-modal
   DateTime={[Function Object]}
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
@@ -623,7 +623,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
-  dateDetailPipe={[Function FormatDateDetailPipe]}
+  dateDetailPipe={[Function _FormatDateDetailPipe]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey=""
   extendByDeadlineOptions={[Function Map]}
@@ -634,9 +634,9 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
   numInstructors={[Function Number]}
   numStudents={[Function Number]}
   radioOption={[Function Number]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   sortMapByOriginalOrder={[Function Function]}
-  timeZoneService={[Function TimezoneService]}
+  timeZoneService={[Function _TimezoneService]}
 >
   <div
     class="modal-header alert alert-primary alert-no-bottom"
@@ -766,7 +766,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the extended stu
 </tm-individual-extension-date-modal>
 `;
 
-exports[`IndividualExtensionDateModalComponent should snap with the warning modal 1`] = `
+exports[`IndividualExtensionDateModalComponent > should snap with the warning modal 1`] = `
 <tm-individual-extension-date-modal
   DateTime={[Function Object]}
   MAX_EPOCH_TIME_IN_DAYS={[Function Number]}
@@ -774,7 +774,7 @@ exports[`IndividualExtensionDateModalComponent should snap with the warning moda
   RadioOptions={[Function Object]}
   activeModal={[Function NgbActiveModal]}
   confirmCallbackEvent={[Function EventEmitter_]}
-  dateDetailPipe={[Function FormatDateDetailPipe]}
+  dateDetailPipe={[Function _FormatDateDetailPipe]}
   extendByDatePicker={[Function Object]}
   extendByDeadlineKey=""
   extendByDeadlineOptions={[Function Map]}
@@ -782,13 +782,12 @@ exports[`IndividualExtensionDateModalComponent should snap with the warning moda
   extendToTimePicker={[Function Object]}
   feedbackSessionEndingTimestamp="0"
   feedbackSessionTimeZone=""
-  getExtensionTimestamp={[Function Function]}
   numInstructors={[Function Number]}
   numStudents={[Function Number]}
   radioOption={[Function Number]}
-  simpleModalService={[Function SimpleModalService]}
+  simpleModalService={[Function _SimpleModalService]}
   sortMapByOriginalOrder={[Function Function]}
-  timeZoneService={[Function TimezoneService]}
+  timeZoneService={[Function _TimezoneService]}
 >
   <div
     class="modal-header alert alert-primary alert-no-bottom"

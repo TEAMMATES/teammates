@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`StudentListComponent should snap with default fields 1`] = `
+exports[`StudentListComponent > should snap with default fields 1`] = `
 <tm-student-list
   JoinState={[Function Object]}
   SortBy={[Function Object]}
@@ -8,7 +8,7 @@ exports[`StudentListComponent should snap with default fields 1`] = `
   SortableTableHeaderColorScheme={[Function Object]}
   columnsData={[Function Array]}
   courseId=""
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   customHeaderStyle={[Function String]}
   enableRemindButton="false"
   headerColorScheme={[Function Number]}
@@ -19,10 +19,10 @@ exports[`StudentListComponent should snap with default fields 1`] = `
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}
   searchString=""
-  searchTermsHighlighterPipe={[Function SearchTermsHighlighterPipe]}
-  simpleModalService={[Function SimpleModalService]}
+  searchTermsHighlighterPipe={[Function _SearchTermsHighlighterPipe]}
+  simpleModalService={[Function _SimpleModalService]}
   sortStudentListEvent={[Function EventEmitter_]}
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
   students={[Function Array]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
@@ -172,7 +172,7 @@ exports[`StudentListComponent should snap with default fields 1`] = `
 </tm-student-list>
 `;
 
-exports[`StudentListComponent should snap with enable remind button set to true and two students yet to join 1`] = `
+exports[`StudentListComponent > should snap with enable remind button set to true and two students yet to join 1`] = `
 <tm-student-list
   JoinState={[Function Object]}
   SortBy={[Function Object]}
@@ -180,7 +180,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
   SortableTableHeaderColorScheme={[Function Object]}
   columnsData={[Function Array]}
   courseId=""
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   customHeaderStyle={[Function String]}
   enableRemindButton={[Function Boolean]}
   headerColorScheme={[Function Number]}
@@ -191,10 +191,10 @@ exports[`StudentListComponent should snap with enable remind button set to true 
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}
   searchString=""
-  searchTermsHighlighterPipe={[Function SearchTermsHighlighterPipe]}
-  simpleModalService={[Function SimpleModalService]}
+  searchTermsHighlighterPipe={[Function _SearchTermsHighlighterPipe]}
+  simpleModalService={[Function _SimpleModalService]}
   sortStudentListEvent={[Function EventEmitter_]}
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
   students={[Function Array]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
@@ -624,7 +624,7 @@ exports[`StudentListComponent should snap with enable remind button set to true 
 </tm-student-list>
 `;
 
-exports[`StudentListComponent should snap with enable remind button set to true, one student yet to join when not allowed to modify student 1`] = `
+exports[`StudentListComponent > should snap with enable remind button set to true, one student yet to join when not allowed to modify student 1`] = `
 <tm-student-list
   JoinState={[Function Object]}
   SortBy={[Function Object]}
@@ -632,7 +632,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
   SortableTableHeaderColorScheme={[Function Object]}
   columnsData={[Function Array]}
   courseId=""
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   customHeaderStyle={[Function String]}
   enableRemindButton={[Function Boolean]}
   headerColorScheme={[Function Number]}
@@ -643,10 +643,10 @@ exports[`StudentListComponent should snap with enable remind button set to true,
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}
   searchString=""
-  searchTermsHighlighterPipe={[Function SearchTermsHighlighterPipe]}
-  simpleModalService={[Function SimpleModalService]}
+  searchTermsHighlighterPipe={[Function _SearchTermsHighlighterPipe]}
+  simpleModalService={[Function _SimpleModalService]}
   sortStudentListEvent={[Function EventEmitter_]}
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
   students={[Function Array]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
@@ -1070,7 +1070,7 @@ exports[`StudentListComponent should snap with enable remind button set to true,
 </tm-student-list>
 `;
 
-exports[`StudentListComponent should snap with some student list data 1`] = `
+exports[`StudentListComponent > should snap with some student list data 1`] = `
 <tm-student-list
   JoinState={[Function Object]}
   SortBy={[Function Object]}
@@ -1078,7 +1078,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
   SortableTableHeaderColorScheme={[Function Object]}
   columnsData={[Function Array]}
   courseId=""
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   customHeaderStyle={[Function String]}
   enableRemindButton="false"
   headerColorScheme={[Function Number]}
@@ -1089,10 +1089,10 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}
   searchString=""
-  searchTermsHighlighterPipe={[Function SearchTermsHighlighterPipe]}
-  simpleModalService={[Function SimpleModalService]}
+  searchTermsHighlighterPipe={[Function _SearchTermsHighlighterPipe]}
+  simpleModalService={[Function _SimpleModalService]}
   sortStudentListEvent={[Function EventEmitter_]}
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
   students={[Function Array]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
@@ -1510,7 +1510,7 @@ exports[`StudentListComponent should snap with some student list data 1`] = `
 </tm-student-list>
 `;
 
-exports[`StudentListComponent should snap with some student list data and some students to hide 1`] = `
+exports[`StudentListComponent > should snap with some student list data and some students to hide 1`] = `
 <tm-student-list
   JoinState={[Function Object]}
   SortBy={[Function Object]}
@@ -1518,7 +1518,7 @@ exports[`StudentListComponent should snap with some student list data and some s
   SortableTableHeaderColorScheme={[Function Object]}
   columnsData={[Function Array]}
   courseId=""
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   customHeaderStyle={[Function String]}
   enableRemindButton="false"
   headerColorScheme={[Function Number]}
@@ -1529,10 +1529,10 @@ exports[`StudentListComponent should snap with some student list data and some s
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}
   searchString=""
-  searchTermsHighlighterPipe={[Function SearchTermsHighlighterPipe]}
-  simpleModalService={[Function SimpleModalService]}
+  searchTermsHighlighterPipe={[Function _SearchTermsHighlighterPipe]}
+  simpleModalService={[Function _SimpleModalService]}
   sortStudentListEvent={[Function EventEmitter_]}
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
   students={[Function Array]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
@@ -1816,7 +1816,7 @@ exports[`StudentListComponent should snap with some student list data and some s
 </tm-student-list>
 `;
 
-exports[`StudentListComponent should snap with some student list data when not allowed to modify student for a specific section 1`] = `
+exports[`StudentListComponent > should snap with some student list data when not allowed to modify student for a specific section 1`] = `
 <tm-student-list
   JoinState={[Function Object]}
   SortBy={[Function Object]}
@@ -1824,7 +1824,7 @@ exports[`StudentListComponent should snap with some student list data when not a
   SortableTableHeaderColorScheme={[Function Object]}
   columnsData={[Function Array]}
   courseId=""
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   customHeaderStyle={[Function String]}
   enableRemindButton="false"
   headerColorScheme={[Function Number]}
@@ -1835,10 +1835,10 @@ exports[`StudentListComponent should snap with some student list data when not a
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}
   searchString=""
-  searchTermsHighlighterPipe={[Function SearchTermsHighlighterPipe]}
-  simpleModalService={[Function SimpleModalService]}
+  searchTermsHighlighterPipe={[Function _SearchTermsHighlighterPipe]}
+  simpleModalService={[Function _SimpleModalService]}
   sortStudentListEvent={[Function EventEmitter_]}
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
   students={[Function Array]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
@@ -2256,7 +2256,7 @@ exports[`StudentListComponent should snap with some student list data when not a
 </tm-student-list>
 `;
 
-exports[`StudentListComponent should snap with some student list data with no sections 1`] = `
+exports[`StudentListComponent > should snap with some student list data with no sections 1`] = `
 <tm-student-list
   JoinState={[Function Object]}
   SortBy={[Function Object]}
@@ -2264,7 +2264,7 @@ exports[`StudentListComponent should snap with some student list data with no se
   SortableTableHeaderColorScheme={[Function Object]}
   columnsData={[Function Array]}
   courseId=""
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   customHeaderStyle={[Function String]}
   enableRemindButton="false"
   headerColorScheme={[Function Number]}
@@ -2275,10 +2275,10 @@ exports[`StudentListComponent should snap with some student list data with no se
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}
   searchString=""
-  searchTermsHighlighterPipe={[Function SearchTermsHighlighterPipe]}
-  simpleModalService={[Function SimpleModalService]}
+  searchTermsHighlighterPipe={[Function _SearchTermsHighlighterPipe]}
+  simpleModalService={[Function _SimpleModalService]}
   sortStudentListEvent={[Function EventEmitter_]}
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
   students={[Function Array]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}
@@ -2495,7 +2495,7 @@ exports[`StudentListComponent should snap with some student list data with no se
 </tm-student-list>
 `;
 
-exports[`StudentListComponent should snap with table head set to hidden 1`] = `
+exports[`StudentListComponent > should snap with table head set to hidden 1`] = `
 <tm-student-list
   JoinState={[Function Object]}
   SortBy={[Function Object]}
@@ -2503,7 +2503,7 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
   SortableTableHeaderColorScheme={[Function Object]}
   columnsData={[Function Array]}
   courseId=""
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   customHeaderStyle={[Function String]}
   enableRemindButton="false"
   headerColorScheme={[Function Number]}
@@ -2514,10 +2514,10 @@ exports[`StudentListComponent should snap with table head set to hidden 1`] = `
   removeStudentFromCourseEvent={[Function EventEmitter_]}
   rowsData={[Function Array]}
   searchString=""
-  searchTermsHighlighterPipe={[Function SearchTermsHighlighterPipe]}
-  simpleModalService={[Function SimpleModalService]}
+  searchTermsHighlighterPipe={[Function _SearchTermsHighlighterPipe]}
+  simpleModalService={[Function _SimpleModalService]}
   sortStudentListEvent={[Function EventEmitter_]}
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
   students={[Function Array]}
   tableSortBy="0"
   tableSortOrder={[Function Number]}

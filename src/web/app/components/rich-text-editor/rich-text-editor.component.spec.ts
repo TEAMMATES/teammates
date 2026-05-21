@@ -71,7 +71,7 @@ describe('RichTextEditorComponent', () => {
   });
 
   it('should update character count on GetContent when character limit is enabled', () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     component.hasCharacterLimit = true;
     component.ngOnInit();
@@ -94,7 +94,7 @@ describe('RichTextEditorComponent', () => {
     component.init.setup(mockEditor);
     handler();
 
-    jest.runAllTimers();
+    vi.runAllTimers();
 
     expect(component.characterCount).toBe(50);
   });
@@ -121,7 +121,7 @@ describe('RichTextEditorComponent', () => {
     };
 
     const mockEvent = {
-      preventDefault: jest.fn(),
+      preventDefault: vi.fn(),
     };
 
     component.init.setup(mockEditor);
@@ -152,7 +152,7 @@ describe('RichTextEditorComponent', () => {
     };
 
     const mockEvent = {
-      preventDefault: jest.fn(),
+      preventDefault: vi.fn(),
     };
 
     component.init.setup(mockEditor);
@@ -162,10 +162,10 @@ describe('RichTextEditorComponent', () => {
   });
 
   it('should trigger auto resize on editor init', () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     component.ngOnInit();
 
-    const execCommand = jest.fn();
+    const execCommand = vi.fn();
     const listeners: Record<string, () => void> = {};
     const mockEditor = {
       on: (eventName: string, handler: () => void) => {
@@ -176,16 +176,16 @@ describe('RichTextEditorComponent', () => {
 
     component.init.setup(mockEditor);
     listeners['init']();
-    jest.runAllTimers();
+    vi.runAllTimers();
 
     expect(execCommand).toHaveBeenCalledWith('mceAutoResize');
   });
 
   it('should trigger auto resize when rich text changes after editor is initialized', () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
     component.ngOnInit();
 
-    const execCommand = jest.fn();
+    const execCommand = vi.fn();
     const listeners: Record<string, () => void> = {};
     const mockEditor = {
       on: (eventName: string, handler: () => void) => {
@@ -199,7 +199,7 @@ describe('RichTextEditorComponent', () => {
     component.ngOnChanges({
       richText: new SimpleChange('', '<p>new content</p>', false),
     });
-    jest.runAllTimers();
+    vi.runAllTimers();
 
     expect(execCommand).toHaveBeenCalledWith('mceAutoResize');
   });

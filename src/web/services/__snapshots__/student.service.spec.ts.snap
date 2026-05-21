@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`StudentService should generate course student list with section as csv 1`] = `
+exports[`StudentService > should generate course student list with section as csv 1`] = `
 "Course ID,studentListWithSection
 Course Name,Student List With Section
 
@@ -13,7 +13,7 @@ Section B,Team 1,student1OfTeam1,Joined,student1OfTeam1@test.com
 Section B,Team 2,student1OfTeam2,Yet to Join,student1OfTeam2OfSectionB@test.com"
 `;
 
-exports[`StudentService should generate course student list without section as csv 1`] = `
+exports[`StudentService > should generate course student list without section as csv 1`] = `
 "Course ID,studentListWithoutSection
 Course Name,Student List Without Section
 

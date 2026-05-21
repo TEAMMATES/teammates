@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import jakarta.annotation.Nullable;
 
+import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.storage.entity.FeedbackQuestion;
 
 /**
@@ -28,6 +29,13 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
         super(FeedbackQuestionType.TEXT, questionText);
         recommendedLength = null;
         shouldAllowRichText = true;
+    }
+
+    @Override
+    public String getQuestionResultStatisticsJson(
+            FeedbackQuestion question, String studentEmail, SessionResultsBundle bundle) {
+        // Statistics are calculated in the frontend as they depend on the responses being filtered.
+        return "";
     }
 
     @Override

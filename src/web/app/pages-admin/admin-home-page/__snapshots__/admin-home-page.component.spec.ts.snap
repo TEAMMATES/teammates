@@ -1,18 +1,18 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`AdminHomePageComponent should snap with default view 1`] = `
+exports[`AdminHomePageComponent > should snap with default view 1`] = `
 <tm-admin-home-page
   accountReqs={[Function Array]}
-  accountService={[Function AccountService]}
-  formatDateDetailPipe={[Function FormatDateDetailPipe]}
+  accountService={[Function _AccountService]}
+  formatDateDetailPipe={[Function _FormatDateDetailPipe]}
   instructorDetails=""
   instructorEmail=""
   instructorInstitution=""
   instructorName=""
   isAddingMultipleInstructors="false"
   isAddingSingleInstructor="false"
-  statusMessageService={[Function StatusMessageService]}
-  timezoneService={[Function TimezoneService]}
+  statusMessageService={[Function _StatusMessageService]}
+  timezoneService={[Function _TimezoneService]}
 >
   <div
     class="card bg-light top-padded"

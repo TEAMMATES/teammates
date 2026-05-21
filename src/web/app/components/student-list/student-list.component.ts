@@ -73,10 +73,17 @@ export class StudentListComponent implements OnInit {
   columnsData: ColumnData[] = [];
 
   // enum
-  SortBy: typeof SortBy = SortBy;
-  SortOrder: typeof SortOrder = SortOrder;
-  JoinState: typeof JoinState = JoinState;
-  SortableTableHeaderColorScheme: typeof SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
+  SortBy!: typeof SortBy;
+  SortOrder!: typeof SortOrder;
+  JoinState!: typeof JoinState;
+  SortableTableHeaderColorScheme!: typeof SortableTableHeaderColorScheme;
+
+  constructor() {
+    this.SortBy = SortBy;
+    this.SortOrder = SortOrder;
+    this.JoinState = JoinState;
+    this.SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
+  }
 
   /**
    * Returns whether this course are divided into sections
@@ -220,7 +227,7 @@ export class StudentListComponent implements OnInit {
     );
     modalRef.result.then(
       () => {
-        this.remindStudentFromCourse(studentModel.student.email);
+        this.remindStudentFromCourse(studentModel.student.userId);
       },
       () => {},
     );
@@ -253,8 +260,8 @@ export class StudentListComponent implements OnInit {
   /**
    * Remind the student from course.
    */
-  remindStudentFromCourse(studentEmail: string): void {
-    this.courseService.remindStudentForJoin(this.courseId, studentEmail).subscribe({
+  remindStudentFromCourse(studentId: string): void {
+    this.courseService.remindUserForJoin(studentId).subscribe({
       next: (resp: MessageOutput) => {
         this.statusMessageService.showSuccessToast(resp.message);
       },

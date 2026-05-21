@@ -6,13 +6,14 @@ import { createBuilder } from '../../../../test-helpers/generic-builder';
 import { createMockNgbModalRef } from '../../../../test-helpers/mock-ngb-modal-ref';
 import { FeedbackQuestionType, FeedbackRubricQuestionDetails } from '../../../../types/api-output';
 import { DEFAULT_RUBRIC_QUESTION_DETAILS } from '../../../../types/default-question-structs';
+import { Mock } from 'vitest';
 
 describe('RubricQuestionEditDetailsFormComponent', () => {
   let component: RubricQuestionEditDetailsFormComponent;
   let fixture: ComponentFixture<RubricQuestionEditDetailsFormComponent>;
   let simpleModalService: SimpleModalService;
-  let triggerModelChangeSpy: jest.SpyInstance;
-  let triggerModelChangeBatchSpy: jest.SpyInstance;
+  let triggerModelChangeSpy: Mock;
+  let triggerModelChangeBatchSpy: Mock;
 
   const feedbackRubricQuestionDetailsBuilder = createBuilder<FeedbackRubricQuestionDetails>({
     questionType: FeedbackQuestionType.RUBRIC,
@@ -29,8 +30,8 @@ describe('RubricQuestionEditDetailsFormComponent', () => {
     simpleModalService = TestBed.inject(SimpleModalService);
     component = fixture.componentInstance;
     component.model = DEFAULT_RUBRIC_QUESTION_DETAILS();
-    triggerModelChangeSpy = jest.spyOn(component, 'triggerModelChange');
-    triggerModelChangeBatchSpy = jest.spyOn(component, 'triggerModelChangeBatch');
+    triggerModelChangeSpy = vi.spyOn(component, 'triggerModelChange');
+    triggerModelChangeBatchSpy = vi.spyOn(component, 'triggerModelChangeBatch');
     fixture.detectChanges();
   });
 
@@ -226,7 +227,7 @@ describe('RubricQuestionEditDetailsFormComponent', () => {
     'deleteSubQuestion: should not call triggerModelChangeBatch or simpleModalService' +
       'if there is only 1 subQuestion',
     () => {
-      const simpleModalServiceSpy = jest.spyOn(simpleModalService, 'openConfirmationModal');
+      const simpleModalServiceSpy = vi.spyOn(simpleModalService, 'openConfirmationModal');
       component.model = feedbackRubricQuestionDetailsBuilder.rubricSubQuestions(['1']).build();
 
       component.deleteSubQuestion(0);
@@ -241,7 +242,7 @@ describe('RubricQuestionEditDetailsFormComponent', () => {
       'with correct paramters when hasAssignedWeights is false',
     async () => {
       const promise: Promise<void> = Promise.resolve();
-      const simpleModalServiceSpy = jest
+      const simpleModalServiceSpy = vi
         .spyOn(simpleModalService, 'openConfirmationModal')
         .mockReturnValue(createMockNgbModalRef({}, promise));
       component.model = feedbackRubricQuestionDetailsBuilder
@@ -268,7 +269,7 @@ describe('RubricQuestionEditDetailsFormComponent', () => {
       'correct paramters when hasAssignedWeights is true',
     async () => {
       const promise: Promise<void> = Promise.resolve();
-      const simpleModalServiceSpy = jest
+      const simpleModalServiceSpy = vi
         .spyOn(simpleModalService, 'openConfirmationModal')
         .mockReturnValue(createMockNgbModalRef({}, promise));
       component.model = feedbackRubricQuestionDetailsBuilder
@@ -296,7 +297,7 @@ describe('RubricQuestionEditDetailsFormComponent', () => {
       'correct paramters when hasAssignedWeights is false',
     async () => {
       const promise: Promise<void> = Promise.resolve();
-      const simpleModalServiceSpy = jest
+      const simpleModalServiceSpy = vi
         .spyOn(simpleModalService, 'openConfirmationModal')
         .mockReturnValue(createMockNgbModalRef({}, promise));
       component.model = feedbackRubricQuestionDetailsBuilder
@@ -331,7 +332,7 @@ describe('RubricQuestionEditDetailsFormComponent', () => {
       'correct paramters when hasAssignedWeights is true',
     async () => {
       const promise: Promise<void> = Promise.resolve();
-      const simpleModalServiceSpy = jest
+      const simpleModalServiceSpy = vi
         .spyOn(simpleModalService, 'openConfirmationModal')
         .mockReturnValue(createMockNgbModalRef({}, promise));
       component.model = feedbackRubricQuestionDetailsBuilder

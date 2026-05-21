@@ -57,8 +57,8 @@ export class UsageStatisticsPageComponent implements OnInit {
   private timezoneService = inject(TimezoneService);
   private statusMessageService = inject(StatusMessageService);
 
-  StatisticsType = StatisticsType;
-  AggregationType = AggregationType;
+  StatisticsType!: typeof StatisticsType;
+  AggregationType!: typeof AggregationType;
 
   itemName = 'responses';
 
@@ -78,6 +78,11 @@ export class UsageStatisticsPageComponent implements OnInit {
   fetchedData: UsageStatistics[] = [];
   dataToDraw: DataPoint[] = [];
   timezone = 'UTC';
+
+  constructor() {
+    this.StatisticsType = StatisticsType;
+    this.AggregationType = AggregationType;
+  }
 
   ngOnInit(): void {
     this.timezone = this.timezoneService.guessTimezone();

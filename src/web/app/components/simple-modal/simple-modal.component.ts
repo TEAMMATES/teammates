@@ -17,7 +17,7 @@ export class SimpleModalComponent {
   activeModal = inject(NgbActiveModal);
 
   // enum
-  SimpleModalType: typeof SimpleModalType = SimpleModalType;
+  SimpleModalType!: typeof SimpleModalType;
 
   @Input() header = '';
   @Input() content: string | TemplateRef<any> = '';
@@ -25,6 +25,10 @@ export class SimpleModalComponent {
   @Input() isInformationOnly = false; // true will cause modal to only have 1 button
   @Input() confirmMessage = 'Yes'; // custom text message for confirm button
   @Input() cancelMessage = 'No, cancel the operation'; // custom text message for cancel button
+
+  constructor() {
+    this.SimpleModalType = SimpleModalType;
+  }
 
   get isTemplate(): boolean {
     return this.content instanceof TemplateRef;

@@ -1,15 +1,15 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`QuestionResponsePanelComponent should snap with feedback session with questions 1`] = `
+exports[`QuestionResponsePanelComponent > should snap with feedback session with questions 1`] = `
 <tm-question-response-panel
   RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   intent={[Function String]}
   previewAsPerson=""
   questions={[Function Array]}
   regKey=""
   session={[Function Object]}
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
 >
   <div
     inviewport=""
@@ -443,16 +443,16 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
 </tm-question-response-panel>
 `;
 
-exports[`QuestionResponsePanelComponent should snap with feedback session with questions of anonymous responses 1`] = `
+exports[`QuestionResponsePanelComponent > should snap with feedback session with questions of anonymous responses 1`] = `
 <tm-question-response-panel
   RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   intent={[Function String]}
   previewAsPerson=""
   questions={[Function Array]}
   regKey=""
   session={[Function Object]}
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
 >
   <div
     inviewport=""
@@ -756,16 +756,16 @@ exports[`QuestionResponsePanelComponent should snap with feedback session with q
 </tm-question-response-panel>
 `;
 
-exports[`QuestionResponsePanelComponent should snap with questions and responses when previewing results 1`] = `
+exports[`QuestionResponsePanelComponent > should snap with questions and responses when previewing results 1`] = `
 <tm-question-response-panel
   RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   intent={[Function String]}
   previewAsPerson=""
   questions={[Function Array]}
   regKey=""
   session={[Function Object]}
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
 >
   <div
     inviewport=""

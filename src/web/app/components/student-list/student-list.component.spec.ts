@@ -502,9 +502,9 @@ describe('StudentListComponent', () => {
   it('openReminderModal: should display warning when reminding student to join course', async () => {
     const promise: Promise<void> = Promise.resolve();
     const mockModalRef = createMockNgbModalRef({}, promise);
-    const modalSpy = jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(mockModalRef);
+    const modalSpy = vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(mockModalRef);
 
-    const reminderStudentFromCourseSpy = jest.spyOn(component, 'remindStudentFromCourse');
+    const reminderStudentFromCourseSpy = vi.spyOn(component, 'remindStudentFromCourse');
 
     const student = studentBuilder.build();
     student.joinState = JoinState.NOT_JOINED;
@@ -527,15 +527,15 @@ describe('StudentListComponent', () => {
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenLastCalledWith('Send join request?', SimpleModalType.INFO, expectedModalContent);
 
-    expect(reminderStudentFromCourseSpy).toHaveBeenCalledWith(studentModel.student.email);
+    expect(reminderStudentFromCourseSpy).toHaveBeenCalledWith(studentModel.student.userId);
   });
 
   it('openDeleteModal: should display warning when deleting student from course', async () => {
     const promise: Promise<void> = Promise.resolve();
     const mockModalRef = createMockNgbModalRef({}, promise);
-    const modalSpy = jest.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(mockModalRef);
+    const modalSpy = vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(mockModalRef);
 
-    const removeStudentFromCourseSpy = jest.spyOn(component, 'removeStudentFromCourse');
+    const removeStudentFromCourseSpy = vi.spyOn(component, 'removeStudentFromCourse');
 
     const studentModel = studentListRowModelBuilder.build();
     component.studentModels = [studentModel];
@@ -565,12 +565,12 @@ describe('StudentListComponent', () => {
     'remindStudentFromCourse: should call statusMessageService.showSuccessToast with' + 'correct message upon success',
     () => {
       const successMessage = 'success';
-      jest.spyOn(courseService, 'remindStudentForJoin').mockReturnValue(of({ message: successMessage }));
-      const studentEmail = 'testemail@gmail.com';
+      vi.spyOn(courseService, 'remindUserForJoin').mockReturnValue(of({ message: successMessage }));
+      const studentId = 'test-user-id';
 
-      const statusMessageServiceSpy = jest.spyOn(statusMessageService, 'showSuccessToast');
+      const statusMessageServiceSpy = vi.spyOn(statusMessageService, 'showSuccessToast');
 
-      component.remindStudentFromCourse(studentEmail);
+      component.remindStudentFromCourse(studentId);
 
       expect(statusMessageServiceSpy).toHaveBeenLastCalledWith(successMessage);
     },
@@ -578,16 +578,16 @@ describe('StudentListComponent', () => {
 
   it('remindStudentFromCourse: should call statusMessageService.showErrorToast with correct message upon error', () => {
     const errorMessage = 'error';
-    jest.spyOn(courseService, 'remindStudentForJoin').mockReturnValue(
+    vi.spyOn(courseService, 'remindUserForJoin').mockReturnValue(
       throwError(() => ({
         error: { message: errorMessage },
       })),
     );
-    const studentEmail = 'testemail@gmail.com';
+    const studentId = 'test-user-id';
 
-    const statusMessageServiceSpy = jest.spyOn(statusMessageService, 'showErrorToast');
+    const statusMessageServiceSpy = vi.spyOn(statusMessageService, 'showErrorToast');
 
-    component.remindStudentFromCourse(studentEmail);
+    component.remindStudentFromCourse(studentId);
 
     expect(statusMessageServiceSpy).toHaveBeenLastCalledWith(errorMessage);
   });

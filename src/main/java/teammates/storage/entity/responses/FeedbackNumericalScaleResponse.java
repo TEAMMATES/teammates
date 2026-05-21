@@ -47,6 +47,11 @@ public class FeedbackNumericalScaleResponse extends FeedbackResponse {
     }
 
     @Override
+    public void setFeedbackResponseDetails(FeedbackResponseDetails responseDetails) {
+        setAnswer(castResponseDetails(responseDetails, FeedbackNumericalScaleResponseDetails.class));
+    }
+
+    @Override
     public String toString() {
         return "FeedbackTextResponse [id=" + super.getId()
                 + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";

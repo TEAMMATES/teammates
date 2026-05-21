@@ -10,7 +10,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.SanitizationHelper;
-import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.ui.exception.EntityNotFoundException;
@@ -32,10 +31,6 @@ public class CreateInstructorAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (authContext.isAdmin()) {
-            return;
-        }
-
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
@@ -60,9 +55,9 @@ public class CreateInstructorAction extends Action {
             Instructor createdInstructor = logic.createInstructor(instructorToAdd);
 
             // Generate and queue invitation email to priority queue (user-triggered)
-            Account inviter = logic.getAccountForGoogleId(getCurrentUserGoogleId());
+            Instructor inviter = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
             if (inviter == null) {
-                throw new EntityNotFoundException("Inviter account does not exist.");
+                throw new EntityNotFoundException("Inviter does not exist.");
             }
             EmailWrapper email = emailGenerator.generateInstructorCourseJoinEmail(inviter, createdInstructor, course);
             List<EmailWrapper> emails = new ArrayList<>();

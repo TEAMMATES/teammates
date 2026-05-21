@@ -27,9 +27,9 @@ import { NotificationStyleDescriptionPipe } from '../../../components/teammates-
 export class NotificationsTableComponent {
   private simpleModalService = inject(SimpleModalService);
 
-  SortBy = SortBy;
-  SortOrder = SortOrder;
-  NotificationsTableHeaderColorScheme = NotificationsTableHeaderColorScheme;
+  SortBy!: typeof SortBy;
+  SortOrder!: typeof SortOrder;
+  NotificationsTableHeaderColorScheme!: typeof NotificationsTableHeaderColorScheme;
 
   @Input()
   guessTimezone = 'UTC';
@@ -54,6 +54,12 @@ export class NotificationsTableComponent {
 
   @Output()
   loadNotificationEditFormEvent: EventEmitter<Notification> = new EventEmitter();
+
+  constructor() {
+    this.SortBy = SortBy;
+    this.SortOrder = SortOrder;
+    this.NotificationsTableHeaderColorScheme = NotificationsTableHeaderColorScheme;
+  }
 
   /**
    * Sorts the list of feedback session row.

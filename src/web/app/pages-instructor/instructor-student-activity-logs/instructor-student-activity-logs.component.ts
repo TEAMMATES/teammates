@@ -39,7 +39,6 @@ import {
   SortableTableCellData,
   SortableTableComponent,
 } from '../../components/sortable-table/sortable-table.component';
-import { areEmailsEqual } from '../../components/teammates-common/email-utils';
 import { TimepickerComponent } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -64,8 +63,7 @@ interface LogType {
 }
 
 interface SelectedStudent {
-  studentEmail?: string;
-  studentId?: string;
+  userId?: string;
 }
 
 interface SelectedSession {
@@ -122,7 +120,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   ];
 
   // enum
-  SortBy: typeof SortBy = SortBy;
+  SortBy!: typeof SortBy;
 
   formModel: SearchLogsFormModel = {
     logsDateFrom: getDefaultDateFormat(),
@@ -130,7 +128,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     logsDateTo: getDefaultDateFormat(),
     logsTimeTo: getDefaultTimeFormat(),
     logTypes: [FeedbackSessionLogType.ACCESS, FeedbackSessionLogType.SUBMISSION],
-    selectedStudent: { studentEmail: '', studentId: '' },
+    selectedStudent: { userId: '' },
     selectedSession: { feedbackSessionName: '', sessionId: '' },
     showActions: true,
     showInactions: false,
@@ -151,6 +149,10 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
   searchResults: FeedbackSessionLogModel[] = [];
   isLoading = true;
   isSearching = false;
+
+  constructor() {
+    this.SortBy = SortBy;
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -224,7 +226,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         searchFrom,
         searchUntil,
         logTypes: this.formModel.logTypes,
-        studentId: this.formModel.selectedStudent.studentId,
+        userId: this.formModel.selectedStudent.userId,
         sessionId: this.formModel.selectedSession.sessionId,
       })
       .pipe(
@@ -238,12 +240,12 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
             logs.feedbackSessionLogs.forEach((log: FeedbackSessionLog) => {
               log.feedbackSessionLogEntries.forEach((entry: FeedbackSessionLogEntry) => {
                 const arr: FeedbackSessionLogEntry[] | undefined = this.studentLogsMap.get(
-                  this.getStudentKey(log, entry.studentData.email),
+                  this.getStudentKey(log, entry.studentData.userId),
                 );
                 if (arr) {
                   arr.push(entry);
                 } else {
-                  this.studentLogsMap.set(this.getStudentKey(log, entry.studentData.email), [entry]);
+                  this.studentLogsMap.set(this.getStudentKey(log, entry.studentData.userId), [entry]);
                 }
               });
               this.searchResults.push(this.toFeedbackSessionLogModel(log));
@@ -257,12 +259,12 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
             if (targetFeedbackSessionLog) {
               targetFeedbackSessionLog.feedbackSessionLogEntries.forEach((entry: FeedbackSessionLogEntry) => {
                 const arr: FeedbackSessionLogEntry[] | undefined = this.studentLogsMap.get(
-                  this.getStudentKey(targetFeedbackSessionLog, entry.studentData.email),
+                  this.getStudentKey(targetFeedbackSessionLog, entry.studentData.userId),
                 );
                 if (arr) {
                   arr.push(entry);
                 } else {
-                  this.studentLogsMap.set(this.getStudentKey(targetFeedbackSessionLog, entry.studentData.email), [
+                  this.studentLogsMap.set(this.getStudentKey(targetFeedbackSessionLog, entry.studentData.userId), [
                     entry,
                   ]);
                 }
@@ -353,14 +355,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
       ],
       logRowsData: this.students
         .filter((student: Student) => {
-          if (student.email === '') {
-            return false;
-          }
-
-          if (
-            this.formModel.selectedStudent.studentEmail !== '' &&
-            !areEmailsEqual(student.email, this.formModel.selectedStudent.studentEmail)
-          ) {
+          if (this.formModel.selectedStudent.userId && this.formModel.selectedStudent.userId != student.userId) {
             return false;
           }
 
@@ -368,7 +363,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
             return true;
           }
 
-          const studentKey = this.getStudentKey(log, student.email);
+          const studentKey = this.getStudentKey(log, student.userId);
 
           if (this.studentLogsMap.has(studentKey)) {
             if (this.formModel.showInactions) {
@@ -383,7 +378,7 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
         .flatMap((student: Student) => {
           let status: string;
           let dataStyle = 'font-family:monospace; white-space:pre;';
-          const studentKey = this.getStudentKey(log, student.email);
+          const studentKey = this.getStudentKey(log, student.userId);
 
           const entries: FeedbackSessionLogEntry[] | undefined = this.studentLogsMap.get(studentKey);
           const rows: any[] = [];
@@ -461,8 +456,8 @@ export class InstructorStudentActivityLogsComponent implements OnInit {
     }
   }
 
-  private getStudentKey(log: FeedbackSessionLog, studentEmail: string): string {
-    return `${log.feedbackSessionData.feedbackSessionName}-${studentEmail}`;
+  private getStudentKey(log: FeedbackSessionLog, userId: string): string {
+    return `${log.feedbackSessionData.feedbackSessionName}-${userId}`;
   }
 
   /**

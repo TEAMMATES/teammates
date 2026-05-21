@@ -64,7 +64,7 @@ describe('InstructorRequestFormComponent', () => {
     accountService = TestBed.inject(AccountService);
     component.captchaSiteKey = ''; // Test ignores captcha
     fixture.detectChanges();
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('should have empty captcha key', () => {
@@ -80,7 +80,7 @@ describe('InstructorRequestFormComponent', () => {
   });
 
   it('should run onSubmit() when submit button is clicked', () => {
-    jest.spyOn(component, 'onSubmit');
+    vi.spyOn(component, 'onSubmit');
 
     fillFormWith(typicalModel);
     const submitButton = fixture.debugElement.query(By.css('#submit-button'));
@@ -90,7 +90,7 @@ describe('InstructorRequestFormComponent', () => {
   });
 
   it('should emit requestSubmissionEvent with the correct data when form is submitted', () => {
-    jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
+    vi.spyOn(accountService, 'createAccountRequest').mockReturnValue(
       new Observable((subscriber) => {
         subscriber.next(typicalAccountRequest);
       }),
@@ -114,7 +114,7 @@ describe('InstructorRequestFormComponent', () => {
   });
 
   it('should send the correct request data when form is submitted', () => {
-    jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
+    vi.spyOn(accountService, 'createAccountRequest').mockReturnValue(
       new Observable((subscriber) => {
         subscriber.next(typicalAccountRequest);
       }),
@@ -128,7 +128,7 @@ describe('InstructorRequestFormComponent', () => {
   });
 
   it('should auto-unify country when applicable', () => {
-    jest.spyOn(accountService, 'createAccountRequest').mockReturnValue(
+    vi.spyOn(accountService, 'createAccountRequest').mockReturnValue(
       new Observable((subscriber) => {
         subscriber.next(typicalAccountRequest);
       }),

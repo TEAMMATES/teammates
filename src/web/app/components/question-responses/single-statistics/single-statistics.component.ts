@@ -40,8 +40,8 @@ import { RubricQuestionStatisticsComponent } from '../../question-types/question
 export class SingleStatisticsComponent implements OnInit, OnChanges {
   private feedbackResponsesService = inject(FeedbackResponsesService);
 
-  readonly QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;
-  readonly ResponseOutputCaster = ResponseOutputCaster;
+  readonly QuestionDetailsTypeChecker: typeof QuestionDetailsTypeChecker;
+  readonly ResponseOutputCaster: typeof ResponseOutputCaster;
 
   @Input() responses: ResponseOutput[] = [];
   @Input() question: FeedbackQuestionDetails = {
@@ -56,6 +56,11 @@ export class SingleStatisticsComponent implements OnInit, OnChanges {
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
 
   responsesToUse: ResponseOutput[] = [];
+
+  constructor() {
+    this.QuestionDetailsTypeChecker = QuestionDetailsTypeChecker;
+    this.ResponseOutputCaster = ResponseOutputCaster;
+  }
 
   ngOnInit(): void {
     this.filterResponses();

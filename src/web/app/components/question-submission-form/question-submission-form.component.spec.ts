@@ -538,7 +538,7 @@ describe('QuestionSubmissionFormComponent', () => {
   it(
     'addNewParticipantCommentToResponse: should call triggerRecipientSubmissionFormChange' + 'with the correct index',
     () => {
-      const triggerRecipientSubmissionFormChangeSpy = jest
+      const triggerRecipientSubmissionFormChangeSpy = vi
         .spyOn(component, 'triggerRecipientSubmissionFormChange')
         .mockReturnValue();
 
@@ -557,7 +557,7 @@ describe('QuestionSubmissionFormComponent', () => {
   it(
     'cancelAddingNewParticipantComment: should call triggerRecipientSubmissionFormChange' + 'with the correct index',
     () => {
-      const triggerRecipientSubmissionFormChangeSpy = jest
+      const triggerRecipientSubmissionFormChangeSpy = vi
         .spyOn(component, 'triggerRecipientSubmissionFormChange')
         .mockReturnValue();
 
@@ -572,7 +572,7 @@ describe('QuestionSubmissionFormComponent', () => {
       'if commentModel is undefined',
     () => {
       component.model.recipientSubmissionForms = [recipientSubmissionFormBuilder.recipientIdentifier('testid').build()];
-      const triggerRecipientSubmissionFormChangeSpy = jest
+      const triggerRecipientSubmissionFormChangeSpy = vi
         .spyOn(component, 'triggerRecipientSubmissionFormChange')
         .mockReturnValue();
 
@@ -590,7 +590,7 @@ describe('QuestionSubmissionFormComponent', () => {
       recipientSubmissionForm.commentByGiver = commentRowModelBuilder.build();
       component.model.recipientSubmissionForms = [recipientSubmissionForm];
 
-      const triggerRecipientSubmissionFormChangeSpy = jest
+      const triggerRecipientSubmissionFormChangeSpy = vi
         .spyOn(component, 'triggerRecipientSubmissionFormChange')
         .mockReturnValue();
 
@@ -612,7 +612,7 @@ describe('QuestionSubmissionFormComponent', () => {
       recipientSubmissionForm.commentByGiver.originalComment = feedbackResponseComment;
 
       component.model.recipientSubmissionForms = [recipientSubmissionForm];
-      const triggerRecipientSubmissionFormChangeSpy = jest
+      const triggerRecipientSubmissionFormChangeSpy = vi
         .spyOn(component, 'triggerRecipientSubmissionFormChange')
         .mockReturnValue();
 
@@ -630,7 +630,7 @@ describe('QuestionSubmissionFormComponent', () => {
 
   it('updateValidity: should not emit formModelChange if there are no recipientSubmissionForms', () => {
     component.model.recipientSubmissionForms = [];
-    const formModelChangeSpy = jest.spyOn(component.formModelChange, 'emit');
+    const formModelChangeSpy = vi.spyOn(component.formModelChange, 'emit');
 
     component.updateValidity(true);
 
@@ -720,7 +720,7 @@ describe('QuestionSubmissionFormComponent', () => {
 
       fixture.detectChanges();
 
-      const toggleSectionTeamSpy = jest.spyOn(component, 'toggleSectionTeam');
+      const toggleSectionTeamSpy = vi.spyOn(component, 'toggleSectionTeam');
 
       getShowSectionTeamCheckBox().nativeElement.click();
 
@@ -748,7 +748,7 @@ describe('QuestionSubmissionFormComponent', () => {
 
       fixture.detectChanges();
 
-      const toggleSectionTeamSpy = jest.spyOn(component, 'toggleSectionTeam');
+      const toggleSectionTeamSpy = vi.spyOn(component, 'toggleSectionTeam');
 
       getShowSectionTeamCheckBox().nativeElement.click();
 
@@ -773,7 +773,7 @@ describe('QuestionSubmissionFormComponent', () => {
 
     fixture.detectChanges();
 
-    const toggleSectionTeamSpy = jest.spyOn(component, 'toggleSectionTeam');
+    const toggleSectionTeamSpy = vi.spyOn(component, 'toggleSectionTeam');
 
     getShowSectionTeamCheckBox().nativeElement.click();
     getShowSectionTeamCheckBox().nativeElement.click();

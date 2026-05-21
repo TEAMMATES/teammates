@@ -8,9 +8,11 @@ import { SessionResults } from '../types/api-output';
 /**
  * Loads data for testing.
  */
-const loadTestData: (filename: string) => SessionResults = (filename: string): SessionResults => {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  return require(`./test-data/${filename}`);
+const loadTestData: (filename: string) => Promise<SessionResults> = async (
+  filename: string,
+): Promise<SessionResults> => {
+  const testDataModule = await import(`./test-data/${filename}`);
+  return testDataModule.default;
 };
 
 /**
@@ -48,29 +50,29 @@ describe('SessionResultCsvService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should show responses for feedbackSessionResultsC1S1', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsC1S1.json');
+  it('should show responses for feedbackSessionResultsC1S1', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsC1S1.json');
 
     const result: string = service.getCsvForSessionResult(sessionResult, false, false);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should show responses along with stats for feedbackSessionResultsC1S1', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsC1S1.json');
+  it('should show responses along with stats for feedbackSessionResultsC1S1', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsC1S1.json');
 
     const result: string = service.getCsvForSessionResult(sessionResult, false, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should show missing responses for feedbackSessionResultsC1S1', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsAllResults.json');
+  it('should show missing responses for feedbackSessionResultsC1S1', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsAllResults.json');
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should show responses from/to section for feedbackSessionResultsC1S1S1', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsC1S1S1.json');
+  it('should show responses from/to section for feedbackSessionResultsC1S1S1', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsC1S1S1.json');
 
     const result: string = service.getCsvForSessionResult(
       sessionResult,
@@ -82,8 +84,8 @@ describe('SessionResultCsvService', () => {
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should only show responses from section for feedbackSessionResultsC1S1S1', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsC1S1S1.json');
+  it('should only show responses from section for feedbackSessionResultsC1S1S1', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsC1S1S1.json');
 
     const result: string = service.getCsvForSessionResult(
       sessionResult,
@@ -95,8 +97,8 @@ describe('SessionResultCsvService', () => {
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should only show responses to section for feedbackSessionResultsC1S1S1', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsC1S1S1.json');
+  it('should only show responses to section for feedbackSessionResultsC1S1S1', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsC1S1S1.json');
 
     const result: string = service.getCsvForSessionResult(
       sessionResult,
@@ -108,8 +110,8 @@ describe('SessionResultCsvService', () => {
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should only show responses from and to section for feedbackSessionResultsC1S1S1', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsC1S1S1.json');
+  it('should only show responses from and to section for feedbackSessionResultsC1S1S1', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsC1S1S1.json');
 
     const result: string = service.getCsvForSessionResult(
       sessionResult,
@@ -121,50 +123,50 @@ describe('SessionResultCsvService', () => {
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should show missing responses', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsMissingResponsesShown.json');
+  it('should show missing responses', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsMissingResponsesShown.json');
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, false);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should hide missing responses', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsMissingResponsesShown.json');
+  it('should hide missing responses', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsMissingResponsesShown.json');
 
     const result: string = service.getCsvForSessionResult(sessionResult, false, false);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should hide stats', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsStatistics.json');
+  it('should hide stats', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsStatistics.json');
 
     const result: string = service.getCsvForSessionResult(sessionResult, false, false);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should show stats', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsStatistics.json');
+  it('should show stats', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsStatistics.json');
 
     const result: string = service.getCsvForSessionResult(sessionResult, false, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should generate results for a specific question (question 1)', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsC1S1Q1.json');
+  it('should generate results for a specific question (question 1)', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsC1S1Q1.json');
 
     const result: string = service.getCsvForSessionResult(sessionResult, false, false);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should generate results for a specific question (question 2)', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsSingleQuestion.json');
+  it('should generate results for a specific question (question 2)', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsSingleQuestion.json');
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should generate results for a specific question from/to section', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsC1S1S1Q2.json');
+  it('should generate results for a specific question from/to section', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsC1S1S1Q2.json');
 
     const result: string = service.getCsvForSessionResult(
       sessionResult,
@@ -176,8 +178,8 @@ describe('SessionResultCsvService', () => {
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should generate results for a specific question with responses from section', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsC1S1S1Q2.json');
+  it('should generate results for a specific question with responses from section', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsC1S1S1Q2.json');
 
     const result: string = service.getCsvForSessionResult(
       sessionResult,
@@ -189,8 +191,8 @@ describe('SessionResultCsvService', () => {
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should generate results for a specific question with responses to section', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsC1S1S1Q2.json');
+  it('should generate results for a specific question with responses to section', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsC1S1S1Q2.json');
 
     const result: string = service.getCsvForSessionResult(
       sessionResult,
@@ -202,8 +204,8 @@ describe('SessionResultCsvService', () => {
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should generate results for a specific question with responses from and to section', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsC1S1S1Q2.json');
+  it('should generate results for a specific question with responses from and to section', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsC1S1S1Q2.json');
 
     const result: string = service.getCsvForSessionResult(
       sessionResult,
@@ -215,36 +217,36 @@ describe('SessionResultCsvService', () => {
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should generate results for MCQ question', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsMcqResults.json');
+  it('should generate results for MCQ question', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsMcqResults.json');
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should generate results for MSQ question', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsMsqResults.json');
+  it('should generate results for MSQ question', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsMsqResults.json');
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should generate results for NUMSCALE question', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsNumscaleResults.json');
+  it('should generate results for NUMSCALE question', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsNumscaleResults.json');
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should generate results for CONSTSUM question', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsConstsumResults.json');
+  it('should generate results for CONSTSUM question', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsConstsumResults.json');
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should generate results for CONSTSUM question (restricted responses)', () => {
-    const sessionResult: SessionResults = loadTestData(
+  it('should generate results for CONSTSUM question (restricted responses)', async () => {
+    const sessionResult: SessionResults = await loadTestData(
       'feedbackSessionResultsConstsumResultsInstructorNoPrivilege.json',
     );
 
@@ -252,29 +254,31 @@ describe('SessionResultCsvService', () => {
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should generate results for CONTRIB question', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsContribResults.json');
+  it('should generate results for CONTRIB question', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsContribResults.json');
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should generate results for CONTRIB question (restricted section)', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsContribResultsRestrictedSections.json');
+  it('should generate results for CONTRIB question (restricted section)', async () => {
+    const sessionResult: SessionResults = await loadTestData(
+      'feedbackSessionResultsContribResultsRestrictedSections.json',
+    );
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should generate results for RUBRIC question', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsRubricResults.json');
+  it('should generate results for RUBRIC question', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsRubricResults.json');
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();
   });
 
-  it('should generate results for RANK question', () => {
-    const sessionResult: SessionResults = loadTestData('feedbackSessionResultsRankResults.json');
+  it('should generate results for RANK question', async () => {
+    const sessionResult: SessionResults = await loadTestData('feedbackSessionResultsRankResults.json');
 
     const result: string = service.getCsvForSessionResult(sessionResult, true, true);
     expect(replaceUnpredictableValuesWithPlaceholders(result)).toMatchSnapshot();

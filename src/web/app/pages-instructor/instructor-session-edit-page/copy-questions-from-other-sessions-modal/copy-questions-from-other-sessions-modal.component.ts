@@ -30,12 +30,17 @@ export class CopyQuestionsFromOtherSessionsModalComponent {
   private tableComparatorService = inject(TableComparatorService);
 
   // enum
-  SortBy: typeof SortBy = SortBy;
-  SortOrder: typeof SortOrder = SortOrder;
+  SortBy!: typeof SortBy;
+  SortOrder!: typeof SortOrder;
 
   // data
   feedbackSessionTabModels: FeedbackSessionTabModel[] = [];
   feedbackSessionTabModelsSortBy: SortBy = SortBy.COURSE_ID;
+
+  constructor() {
+    this.SortBy = SortBy;
+    this.SortOrder = SortOrder;
+  }
 
   /**
    * Toggles specific card and loads questions if needed.

@@ -118,7 +118,7 @@ describe('PerQuestionViewResponsesComponent', () => {
     component.question = feedbackQuestion;
     component.instructorCommentTableModel = instructorCommentTableModel;
     component.responses = [responseOutput];
-    const feedbackResponseSpy = jest
+    const feedbackResponseSpy = vi
       .spyOn(feedbackResponsesService, 'isFeedbackResponsesDisplayedOnSection')
       .mockReturnValue(true);
 

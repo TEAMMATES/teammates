@@ -47,6 +47,11 @@ public class FeedbackConstantSumResponse extends FeedbackResponse {
     }
 
     @Override
+    public void setFeedbackResponseDetails(FeedbackResponseDetails responseDetails) {
+        setAnswer(castResponseDetails(responseDetails, FeedbackConstantSumResponseDetails.class));
+    }
+
+    @Override
     public String toString() {
         return "FeedbackConstantSumResponse [id=" + super.getId()
                 + ", createdAt=" + super.getCreatedAt() + ", updatedAt=" + super.getUpdatedAt() + "]";

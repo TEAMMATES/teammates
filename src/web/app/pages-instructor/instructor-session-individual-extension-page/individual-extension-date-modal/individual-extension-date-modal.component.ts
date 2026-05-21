@@ -55,9 +55,9 @@ export class IndividualExtensionDateModalComponent {
   @Output()
   confirmCallbackEvent: EventEmitter<number> = new EventEmitter();
 
-  RadioOptions: typeof RadioOptions = RadioOptions;
+  RadioOptions!: typeof RadioOptions;
   radioOption: RadioOptions = RadioOptions.EXTEND_BY;
-  DateTime: typeof DateTime = DateTime;
+  DateTime!: typeof DateTime;
 
   extendByDeadlineKey = '';
   extendByDeadlineOptions: Map<string, number> = new Map([
@@ -75,6 +75,11 @@ export class IndividualExtensionDateModalComponent {
   extendToTimePicker: TimeFormat = getLatestTimeFormat();
 
   sortMapByOriginalOrder = (): number => 0;
+
+  constructor() {
+    this.RadioOptions = RadioOptions;
+    this.DateTime = DateTime;
+  }
 
   onConfirm(): void {
     if (this.getExtensionTimestamp() >= Date.now()) {

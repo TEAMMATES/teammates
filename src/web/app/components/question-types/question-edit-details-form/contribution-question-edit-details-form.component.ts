@@ -18,8 +18,14 @@ import { TeammatesRouterDirective } from '../../teammates-router/teammates-route
 })
 export class ContributionQuestionEditDetailsFormComponent extends QuestionEditDetailsFormComponent<FeedbackContributionQuestionDetails> {
   // enum
-  QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
-  Sections: typeof Sections = Sections;
+  QuestionsSectionQuestions!: typeof QuestionsSectionQuestions;
+  Sections!: typeof Sections;
+
+  constructor() {
+    super();
+    this.QuestionsSectionQuestions = QuestionsSectionQuestions;
+    this.Sections = Sections;
+  }
 
   /**
    * Triggers the change of the zero sum checkbox.

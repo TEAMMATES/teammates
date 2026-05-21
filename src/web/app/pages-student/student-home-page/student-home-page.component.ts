@@ -76,7 +76,7 @@ export class StudentHomePageComponent implements OnInit {
   private readonly timezoneService = inject(TimezoneService);
 
   // enum
-  SortBy: typeof SortBy = SortBy;
+  SortBy!: typeof SortBy;
 
   // Tooltip messages
   studentFeedbackSessionStatusPublished = 'The responses for the session have been published and can now be viewed.';
@@ -101,6 +101,7 @@ export class StudentHomePageComponent implements OnInit {
   sessionSubmissionStatusPipe = new SubmissionStatusPipe();
 
   constructor() {
+    this.SortBy = SortBy;
     this.timezoneService.getTzVersion();
   }
 

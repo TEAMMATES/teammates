@@ -88,12 +88,11 @@ export class QuestionEditFormComponent {
   private simpleModalService = inject(SimpleModalService);
 
   // enum
-  FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
-  QuestionEditFormMode: typeof QuestionEditFormMode = QuestionEditFormMode;
-  NumberOfEntitiesToGiveFeedbackToSetting: typeof NumberOfEntitiesToGiveFeedbackToSetting =
-    NumberOfEntitiesToGiveFeedbackToSetting;
-  VisibilityControl: typeof VisibilityControl = VisibilityControl;
-  FeedbackVisibilityType: typeof FeedbackVisibilityType = FeedbackVisibilityType;
+  FeedbackQuestionType!: typeof FeedbackQuestionType;
+  QuestionEditFormMode!: typeof QuestionEditFormMode;
+  NumberOfEntitiesToGiveFeedbackToSetting!: typeof NumberOfEntitiesToGiveFeedbackToSetting;
+  VisibilityControl!: typeof VisibilityControl;
+  FeedbackVisibilityType!: typeof FeedbackVisibilityType;
 
   @Input()
   set formModel(model: QuestionEditFormModel) {
@@ -240,6 +239,11 @@ export class QuestionEditFormComponent {
   visibilityStateMachine: VisibilityStateMachine;
 
   constructor() {
+    this.FeedbackQuestionType = FeedbackQuestionType;
+    this.QuestionEditFormMode = QuestionEditFormMode;
+    this.NumberOfEntitiesToGiveFeedbackToSetting = NumberOfEntitiesToGiveFeedbackToSetting;
+    this.VisibilityControl = VisibilityControl;
+    this.FeedbackVisibilityType = FeedbackVisibilityType;
     this.visibilityStateMachine = this.feedbackQuestionsService.getNewVisibilityStateMachine(
       this.model.giverType,
       this.model.recipientType,

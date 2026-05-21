@@ -41,7 +41,7 @@ describe('ConstsumOptionsQuestionEditAnswerFormComponent', () => {
   });
 
   it('triggerResponse: should round up event in newAnswers when setting new number for index', () => {
-    const triggerResponseDetailsChangeSpy = jest.spyOn(component, 'triggerResponseDetailsChange');
+    const triggerResponseDetailsChangeSpy = vi.spyOn(component, 'triggerResponseDetailsChange');
     component.responseDetails = feedbackConstantSumResponseDetailsBuilder.answers([0, 0, 0]).build();
     component.questionDetails = feedbackConstantSumQuestionDetailsBuilder.constSumOptions(['1', '2', '3']).build();
 
@@ -54,7 +54,7 @@ describe('ConstsumOptionsQuestionEditAnswerFormComponent', () => {
     'triggerResponse: should set newAnswers to be array of 0s when response answers is' +
       'not the same length as question options',
     () => {
-      const triggerResponseDetailsChangeSpy = jest.spyOn(component, 'triggerResponseDetailsChange');
+      const triggerResponseDetailsChangeSpy = vi.spyOn(component, 'triggerResponseDetailsChange');
       component.responseDetails = feedbackConstantSumResponseDetailsBuilder.answers([5, 5]).build();
       component.questionDetails = feedbackConstantSumQuestionDetailsBuilder.constSumOptions(['1', '2', '3']).build();
 

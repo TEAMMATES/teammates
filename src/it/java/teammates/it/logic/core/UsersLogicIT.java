@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.UUID;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -14,7 +16,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.InstructorPermissions;
-import teammates.common.util.HibernateUtil;
 import teammates.it.test.BaseTestCaseWithDatabaseAccess;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
@@ -25,6 +26,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
+import teammates.storage.entity.User;
 
 /**
  * SUT: {@link UsersLogic}.
@@ -59,80 +61,49 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
     }
 
     @Test
-    public void testResetInstructorGoogleId()
+    public void testResetAccount_instructor()
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         Instructor instructor = getTypicalInstructor();
         instructor.setCourse(course);
         instructor.setAccount(account);
 
-        String email = instructor.getEmail();
-        String courseId = instructor.getCourseId();
         String googleId = instructor.getGoogleId();
 
-        ______TS("success: reset instructor that does not exist");
+        ______TS("failure: reset instructor that does not exist");
         assertThrows(EntityDoesNotExistException.class,
-                () -> usersLogic.resetInstructorGoogleId(email, courseId, googleId));
+                () -> usersLogic.resetAccount(instructor.getId()));
 
         ______TS("success: reset instructor that exists");
         usersLogic.createInstructor(instructor);
-        usersLogic.resetInstructorGoogleId(email, courseId, googleId);
+        User resetUser = usersLogic.resetAccount(instructor.getId());
 
+        assertEquals(instructor, resetUser);
         assertNull(instructor.getAccount());
-        assertEquals(0, accountsLogic.getAccountsForEmail(email).size());
+        assertEquals(account, accountsLogic.getAccountForGoogleId(googleId));
 
-        ______TS("found at least one other user with same googleId, should not delete account");
-        Account anotherAccount = getTypicalAccount();
-        accountsLogic.createAccount(anotherAccount);
-
-        instructor.setCourse(course);
-        instructor.setAccount(anotherAccount);
-
-        Student anotherUser = usersLogic.createStudent(course, team, "name", "student-email@gmail.tmt", "comments");
-        anotherUser.setAccount(anotherAccount);
-        HibernateUtil.flushSession();
-
-        usersLogic.resetInstructorGoogleId(email, courseId, googleId);
-
-        assertNull(instructor.getAccount());
-        assertEquals(anotherAccount, accountsLogic.getAccountForGoogleId(googleId));
     }
 
     @Test
-    public void testResetStudentGoogleId()
+    public void testResetAccount_student()
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
         String email = "email@gmail.tmt";
-        String courseId = course.getId();
         String googleId = account.getGoogleId();
 
-        ______TS("success: reset student that does not exist");
+        ______TS("failure: reset student that does not exist");
+        UUID missingStudentId = UUID.randomUUID();
         assertThrows(EntityDoesNotExistException.class,
-                () -> usersLogic.resetStudentGoogleId(email, courseId, googleId));
+                () -> usersLogic.resetAccount(missingStudentId));
 
         ______TS("success: reset student that exists");
         Student student = usersLogic.createStudent(course, team, "name", email, "comments");
         student.setAccount(account);
 
-        usersLogic.resetStudentGoogleId(email, courseId, googleId);
+        User resetUser = usersLogic.resetAccount(student.getId());
 
+        assertEquals(student, resetUser);
         assertNull(student.getAccount());
-        assertEquals(0, accountsLogic.getAccountsForEmail(email).size());
+        assertEquals(account, accountsLogic.getAccountForGoogleId(googleId));
 
-        ______TS("found at least one other user with same googleId, should not delete account");
-        Account anotherAccount = getTypicalAccount();
-        accountsLogic.createAccount(anotherAccount);
-
-        student.setCourse(course);
-        student.setAccount(anotherAccount);
-
-        Instructor anotherUser = getTypicalInstructor();
-        anotherUser.setCourse(course);
-        anotherUser.setAccount(anotherAccount);
-
-        usersLogic.createInstructor(anotherUser);
-        usersLogic.resetStudentGoogleId(email, courseId, googleId);
-
-        assertNull(student.getAccount());
-        assertEquals(anotherAccount, accountsLogic.getAccountForGoogleId(googleId));
     }
 
     @Test

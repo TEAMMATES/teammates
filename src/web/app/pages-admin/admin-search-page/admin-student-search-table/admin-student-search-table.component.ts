@@ -8,7 +8,7 @@ import { EmailGenerationService } from '../../../../services/email-generation.se
 import { FeedbackSessionsGroup, StudentAccountSearchResult } from '../../../../services/search.service';
 import { SimpleModalService } from '../../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
-import { StudentService } from '../../../../services/student.service';
+import { UserService } from '../../../../services/user.service';
 import { Email, RegenerateKey } from '../../../../types/api-output';
 import { AjaxLoadingComponent } from '../../../components/ajax-loading/ajax-loading.component';
 import { SimpleModalType } from '../../../components/simple-modal/simple-modal-type';
@@ -24,7 +24,7 @@ export class AdminStudentSearchTableComponent implements OnChanges {
   private statusMessageService = inject(StatusMessageService);
   private simpleModalService = inject(SimpleModalService);
   private accountService = inject(AccountService);
-  private studentService = inject(StudentService);
+  private userService = inject(UserService);
   private emailGenerationService = inject(EmailGenerationService);
 
   @Input()
@@ -72,7 +72,7 @@ export class AdminStudentSearchTableComponent implements OnChanges {
 
     modalRef.result.then(
       () => {
-        this.accountService.resetStudentAccount(student.courseId, student.email).subscribe({
+        this.accountService.resetAccount(student.userId).subscribe({
           next: () => {
             student.googleId = '';
             this.studentReset.emit();
@@ -87,7 +87,7 @@ export class AdminStudentSearchTableComponent implements OnChanges {
     );
   }
 
-  regenerateStudentKey(student: StudentAccountSearchResult, index: number): void {
+  regenerateUserKey(student: StudentAccountSearchResult, index: number): void {
     this.isRegeneratingStudentKeys[index] = true;
     const modalContent = `Are you sure you want to regenerate the registration key for
         <strong>${student.name}</strong> for the course <strong>${student.courseId}</strong>?
@@ -104,7 +104,7 @@ export class AdminStudentSearchTableComponent implements OnChanges {
 
     modalRef.result.then(
       () => {
-        this.studentService.regenerateStudentKey(student.courseId, student.email).subscribe({
+        this.userService.regenerateUserKey(student.userId).subscribe({
           next: (resp: RegenerateKey) => {
             this.statusMessageService.showSuccessToast(resp.message);
             this.updateDisplayedStudentCourseLinks(student, resp.newRegistrationKey);
@@ -141,8 +141,8 @@ export class AdminStudentSearchTableComponent implements OnChanges {
     return link.replace(regex, `$1${newVal}`);
   }
 
-  openCourseJoinEmail(studentId: string): void {
-    this.emailGenerationService.getCourseJoinEmail(studentId).subscribe({
+  openCourseJoinEmail(userId: string): void {
+    this.emailGenerationService.getCourseJoinEmail(userId).subscribe({
       next: (email: Email) => {
         window.location.href = `mailto:${email.recipient}` + `?Subject=${email.subject}` + `&body=${email.content}`;
       },
@@ -152,8 +152,8 @@ export class AdminStudentSearchTableComponent implements OnChanges {
     });
   }
 
-  openFeedbackSessionReminderEmail(studentId: string, fsId: string): void {
-    this.emailGenerationService.getFeedbackSessionReminderEmail(studentId, fsId).subscribe({
+  openFeedbackSessionReminderEmail(userId: string, fsId: string): void {
+    this.emailGenerationService.getFeedbackSessionReminderEmail(userId, fsId).subscribe({
       next: (email: Email) => {
         window.location.href = `mailto:${email.recipient}` + `?Subject=${email.subject}` + `&body=${email.content}`;
       },

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`InstructorCourseEditPageComponent should snap when editing course details 1`] = `
+exports[`InstructorCourseEditPageComponent > should snap when editing course details 1`] = `
 <tm-instructor-course-edit-page
   CourseEditFormMode={[Function Object]}
   CoursesSectionQuestions={[Function Object]}
@@ -8,30 +8,30 @@ exports[`InstructorCourseEditPageComponent should snap when editing course detai
   Sections={[Function Object]}
   allSections={[Function Array]}
   allSessions={[Function Array]}
-  authService={[Function AuthService]}
+  authService={[Function _AuthService]}
   courseFormModel={[Function Object]}
   courseId="undefined"
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   currInstructorCoursePrivilege={[Function Object]}
   currInstructorGoogleId=""
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasCourseLoadingFailed="false"
   hasInstructorsLoadingFailed="false"
   instructorDetailPanels={[Function Array]}
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isAddingNewInstructor="false"
   isCopyingInstructor="false"
   isCourseLoading={[Function Boolean]}
   isInstructorsLoading="false"
   isSavingNewInstructor="false"
-  navigationService={[Function NavigationService]}
+  navigationService={[Function _NavigationService]}
   newInstructorPanel={[Function Object]}
-  ngbModal={[Function _NgbModal]}
+  ngbModal={[Function NgbModal]}
   resetCourseFormEvent={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
 >
   <tm-loading-retry>
     <div
@@ -305,7 +305,7 @@ exports[`InstructorCourseEditPageComponent should snap when editing course detai
 </tm-instructor-course-edit-page>
 `;
 
-exports[`InstructorCourseEditPageComponent should snap with course details 1`] = `
+exports[`InstructorCourseEditPageComponent > should snap with course details 1`] = `
 <tm-instructor-course-edit-page
   CourseEditFormMode={[Function Object]}
   CoursesSectionQuestions={[Function Object]}
@@ -313,30 +313,30 @@ exports[`InstructorCourseEditPageComponent should snap with course details 1`] =
   Sections={[Function Object]}
   allSections={[Function Array]}
   allSessions={[Function Array]}
-  authService={[Function AuthService]}
+  authService={[Function _AuthService]}
   courseFormModel={[Function Object]}
   courseId="undefined"
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   currInstructorCoursePrivilege={[Function Object]}
   currInstructorGoogleId=""
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasCourseLoadingFailed="false"
   hasInstructorsLoadingFailed="false"
   instructorDetailPanels={[Function Array]}
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isAddingNewInstructor="false"
   isCopyingInstructor="false"
   isCourseLoading={[Function Boolean]}
   isInstructorsLoading="false"
   isSavingNewInstructor="false"
-  navigationService={[Function NavigationService]}
+  navigationService={[Function _NavigationService]}
   newInstructorPanel={[Function Object]}
-  ngbModal={[Function _NgbModal]}
+  ngbModal={[Function NgbModal]}
   resetCourseFormEvent={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
 >
   <tm-loading-retry>
     <div
@@ -610,7 +610,7 @@ exports[`InstructorCourseEditPageComponent should snap with course details 1`] =
 </tm-instructor-course-edit-page>
 `;
 
-exports[`InstructorCourseEditPageComponent should snap with default fields 1`] = `
+exports[`InstructorCourseEditPageComponent > should snap with default fields 1`] = `
 <tm-instructor-course-edit-page
   CourseEditFormMode={[Function Object]}
   CoursesSectionQuestions={[Function Object]}
@@ -618,30 +618,30 @@ exports[`InstructorCourseEditPageComponent should snap with default fields 1`] =
   Sections={[Function Object]}
   allSections={[Function Array]}
   allSessions={[Function Array]}
-  authService={[Function AuthService]}
+  authService={[Function _AuthService]}
   courseFormModel={[Function Object]}
   courseId="undefined"
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   currInstructorCoursePrivilege={[Function Object]}
   currInstructorGoogleId=""
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasCourseLoadingFailed="false"
   hasInstructorsLoadingFailed="false"
   instructorDetailPanels={[Function Array]}
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isAddingNewInstructor="false"
   isCopyingInstructor="false"
   isCourseLoading={[Function Boolean]}
   isInstructorsLoading="false"
   isSavingNewInstructor="false"
-  navigationService={[Function NavigationService]}
+  navigationService={[Function _NavigationService]}
   newInstructorPanel={[Function Object]}
-  ngbModal={[Function _NgbModal]}
+  ngbModal={[Function NgbModal]}
   resetCourseFormEvent={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
 >
   <tm-loading-retry>
     <div
@@ -915,7 +915,7 @@ exports[`InstructorCourseEditPageComponent should snap with default fields 1`] =
 </tm-instructor-course-edit-page>
 `;
 
-exports[`InstructorCourseEditPageComponent should snap with some instructor details 1`] = `
+exports[`InstructorCourseEditPageComponent > should snap with some instructor details 1`] = `
 <tm-instructor-course-edit-page
   CourseEditFormMode={[Function Object]}
   CoursesSectionQuestions={[Function Object]}
@@ -923,30 +923,30 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
   Sections={[Function Object]}
   allSections={[Function Array]}
   allSessions={[Function Array]}
-  authService={[Function AuthService]}
+  authService={[Function _AuthService]}
   courseFormModel={[Function Object]}
   courseId="undefined"
-  courseService={[Function CourseService]}
+  courseService={[Function _CourseService]}
   currInstructorCoursePrivilege={[Function Object]}
   currInstructorGoogleId=""
-  feedbackSessionsService={[Function FeedbackSessionsService]}
+  feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasCourseLoadingFailed="false"
   hasInstructorsLoadingFailed="false"
   instructorDetailPanels={[Function Array]}
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isAddingNewInstructor="false"
   isCopyingInstructor="false"
   isCourseLoading={[Function Boolean]}
   isInstructorsLoading="false"
   isSavingNewInstructor="false"
-  navigationService={[Function NavigationService]}
+  navigationService={[Function _NavigationService]}
   newInstructorPanel={[Function Object]}
-  ngbModal={[Function _NgbModal]}
+  ngbModal={[Function NgbModal]}
   resetCourseFormEvent={[Function EventEmitter_]}
   route={[Function ActivatedRoute]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
 >
   <tm-loading-retry>
     <div

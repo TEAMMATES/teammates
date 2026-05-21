@@ -96,7 +96,7 @@
                 data-testid="regenerate-instructor-key"
                 class="btn btn-danger"
                 [disabled]="isRegeneratingInstructorKeys[i]"
-                (click)="instructor.showLinks = !instructor.showLinks; regenerateInstructorKey(instructor, i)"
+                (click)="instructor.showLinks = !instructor.showLinks; regenerateUserKey(instructor, i)"
               >
                 @if (isRegeneratingInstructorKeys[i]) {
                   <tm-ajax-loading></tm-ajax-loading>

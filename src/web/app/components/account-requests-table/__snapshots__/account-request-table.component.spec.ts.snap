@@ -1,14 +1,14 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`AccountRequestTableComponent should display account requests table 1`] = `
+exports[`AccountRequestTableComponent > should display account requests table 1`] = `
 <tm-account-request-table
   accountRequests={[Function Array]}
-  accountService={[Function AccountService]}
+  accountService={[Function _AccountService]}
   isApprovingAccount={[Function Array]}
   isRejectingAccount={[Function Array]}
-  ngbModal={[Function _NgbModal]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
+  ngbModal={[Function NgbModal]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
 >
   <div
     class="card bg-light top-padded"
@@ -130,7 +130,6 @@ exports[`AccountRequestTableComponent should display account requests table 1`] 
                    Approve 
                 </button>
                 <span
-                  class="dropdown"
                   container="body"
                   ngbdropdown=""
                 >
@@ -241,7 +240,6 @@ exports[`AccountRequestTableComponent should display account requests table 1`] 
                    Approve 
                 </button>
                 <span
-                  class="dropdown"
                   container="body"
                   ngbdropdown=""
                 >
@@ -282,15 +280,15 @@ exports[`AccountRequestTableComponent should display account requests table 1`] 
 </tm-account-request-table>
 `;
 
-exports[`AccountRequestTableComponent should snap with an account requests table 1`] = `
+exports[`AccountRequestTableComponent > should snap with an account requests table 1`] = `
 <tm-account-request-table
   accountRequests={[Function Array]}
-  accountService={[Function AccountService]}
+  accountService={[Function _AccountService]}
   isApprovingAccount={[Function Array]}
   isRejectingAccount={[Function Array]}
-  ngbModal={[Function _NgbModal]}
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
+  ngbModal={[Function NgbModal]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
 >
   <div
     class="card bg-light top-padded"
@@ -412,7 +410,6 @@ exports[`AccountRequestTableComponent should snap with an account requests table
                    Approve 
                 </button>
                 <span
-                  class="dropdown"
                   container="body"
                   ngbdropdown=""
                 >

@@ -3,7 +3,7 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, provideRouter } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { of, throwError } from 'rxjs';
 import { SessionSubmissionPageComponent } from './session-submission-page.component';
@@ -779,7 +779,7 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should fetch auth info on init', () => {
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
     component.ngOnInit();
     expect(component.intent).toEqual(Intent.STUDENT_SUBMISSION);
     expect(component.feedbackSessionId).toEqual(testQueryParams.fsid);
@@ -793,9 +793,9 @@ describe('SessionSubmissionPageComponent', () => {
       isUsed: true,
       isValid: false,
     };
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
-    jest.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    const navSpy = jest.spyOn(navService, 'navigateByURLWithParamEncoding').mockImplementation();
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
+    vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
+    const navSpy = vi.spyOn(navService, 'navigateByURLWithParamEncoding').mockResolvedValue(true);
 
     component.ngOnInit();
 
@@ -811,9 +811,9 @@ describe('SessionSubmissionPageComponent', () => {
       isUsed: false,
       isValid: true,
     };
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
-    jest.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    const navSpy = jest.spyOn(navService, 'navigateWithErrorMessage').mockImplementation();
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
+    vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
+    const navSpy = vi.spyOn(navService, 'navigateWithErrorMessage').mockResolvedValue();
 
     component.ngOnInit();
 
@@ -834,9 +834,9 @@ describe('SessionSubmissionPageComponent', () => {
       isUsed: false,
       isValid: false,
     };
-    jest.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
-    jest.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
-    const navSpy = jest.spyOn(navService, 'navigateWithErrorMessage').mockImplementation();
+    vi.spyOn(authService, 'getAuthUser').mockReturnValue(of(testInfo));
+    vi.spyOn(authService, 'getAuthRegkeyValidity').mockReturnValue(of(testValidity));
+    const navSpy = vi.spyOn(navService, 'navigateWithErrorMessage').mockResolvedValue();
 
     component.ngOnInit();
 
@@ -846,7 +846,7 @@ describe('SessionSubmissionPageComponent', () => {
 
   it('should load a student name', () => {
     component.intent = Intent.STUDENT_SUBMISSION;
-    jest.spyOn(studentService, 'getStudent').mockReturnValue(of(testStudent));
+    vi.spyOn(studentService, 'getStudent').mockReturnValue(of(testStudent));
     component.loadPersonName();
     expect(component.personName).toEqual(testStudent.name);
     expect(component.personEmail).toEqual(testStudent.email);
@@ -854,24 +854,22 @@ describe('SessionSubmissionPageComponent', () => {
 
   it('should load an instructor name', () => {
     component.intent = Intent.INSTRUCTOR_SUBMISSION;
-    jest.spyOn(instructorService, 'getInstructor').mockReturnValue(of(testInstructor));
+    vi.spyOn(instructorService, 'getInstructor').mockReturnValue(of(testInstructor));
     component.loadPersonName();
     expect(component.personName).toEqual(testInstructor.name);
     expect(component.personEmail).toEqual(testInstructor.email);
   });
 
   it('should join course for unregistered student', () => {
-    const navSpy = jest.spyOn(navService, 'navigateByURL').mockImplementation();
+    const navSpy = vi.spyOn(navService, 'navigateByURL').mockResolvedValue(true);
     component.joinCourseForUnregisteredEntity();
     expect(navSpy).toHaveBeenCalledTimes(1);
     expect(navSpy).toHaveBeenLastCalledWith('/web/join', { entitytype: 'student', key: testQueryParams.key });
   });
 
   it('should load an open feedback session', () => {
-    const fsSpy = jest
-      .spyOn(feedbackSessionsService, 'getFeedbackSession')
-      .mockReturnValue(of(testOpenFeedbackSession));
-    const modalSpy = jest.spyOn(simpleModalService, 'openInformationModal').mockImplementation();
+    const fsSpy = vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(of(testOpenFeedbackSession));
+    const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockResolvedValue({} as NgbModalRef);
 
     component.loadFeedbackSession(false, testInfo);
 
@@ -892,10 +890,10 @@ describe('SessionSubmissionPageComponent', () => {
   it('should load a closed feedback session', () => {
     const testClosedFeedbackSession: FeedbackSession = deepCopy(testOpenFeedbackSession);
     testClosedFeedbackSession.submissionStatus = FeedbackSessionSubmissionStatus.CLOSED;
-    const fsSpy = jest
+    const fsSpy = vi
       .spyOn(feedbackSessionsService, 'getFeedbackSession')
       .mockReturnValue(of(testClosedFeedbackSession));
-    const modalSpy = jest.spyOn(simpleModalService, 'openInformationModal').mockImplementation();
+    const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockResolvedValue({} as NgbModalRef);
 
     component.loadFeedbackSession(false, testInfo);
 
@@ -912,10 +910,10 @@ describe('SessionSubmissionPageComponent', () => {
   it('should load a visible not open feedback session', () => {
     const testVisibleNotOpenFeedbackSession: FeedbackSession = deepCopy(testOpenFeedbackSession);
     testVisibleNotOpenFeedbackSession.submissionStatus = FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
-    const fsSpy = jest
+    const fsSpy = vi
       .spyOn(feedbackSessionsService, 'getFeedbackSession')
       .mockReturnValue(of(testVisibleNotOpenFeedbackSession));
-    const modalSpy = jest.spyOn(simpleModalService, 'openInformationModal').mockImplementation();
+    const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockResolvedValue({} as NgbModalRef);
 
     component.loadFeedbackSession(false, testInfo);
 
@@ -930,13 +928,13 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should show session not found modal when loading non-existent feedback session', () => {
-    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(
       throwError(() => ({
         error: { message: 'This is an error' },
         status: 404,
       })),
     );
-    const modalSpy = jest.spyOn(simpleModalService, 'openInformationModal').mockImplementation();
+    const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockResolvedValue({} as NgbModalRef);
 
     component.loadFeedbackSession(false, testInfo);
 
@@ -951,13 +949,13 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should show session not visible modal when loading non-viewable feedback session', () => {
-    jest.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(
+    vi.spyOn(feedbackSessionsService, 'getFeedbackSession').mockReturnValue(
       throwError(() => ({
         error: { message: 'This is an error' },
         status: 403,
       })),
     );
-    const modalSpy = jest.spyOn(simpleModalService, 'openInformationModal').mockImplementation();
+    const modalSpy = vi.spyOn(simpleModalService, 'openInformationModal').mockResolvedValue({} as NgbModalRef);
 
     component.loadFeedbackSession(false, testInfo);
 
@@ -993,7 +991,7 @@ describe('SessionSubmissionPageComponent', () => {
       ],
     };
 
-    const getQuestionsSpy = jest
+    const getQuestionsSpy = vi
       .spyOn(feedbackQuestionsService, 'getFeedbackQuestions')
       .mockReturnValue(of(testFeedbackQuestions));
 
@@ -1011,10 +1009,14 @@ describe('SessionSubmissionPageComponent', () => {
         {
           name: 'Barry Harris',
           identifier: 'barry-harris-id',
+          section: 'Section 1',
+          team: 'Team 1',
         },
         {
           name: 'Gene Harris',
           identifier: 'gene-harris-id',
+          section: 'Section 1',
+          team: 'Team 1',
         },
       ],
     };
@@ -1022,10 +1024,10 @@ describe('SessionSubmissionPageComponent', () => {
       responses: [testResponse1, testResponse2],
     };
 
-    const loadRecipientsSpy = jest
+    const loadRecipientsSpy = vi
       .spyOn(feedbackQuestionsService, 'loadFeedbackQuestionRecipients')
       .mockReturnValue(of(testFeedbackQuestionRecipients));
-    const getResponseSpy = jest
+    const getResponseSpy = vi
       .spyOn(feedbackResponsesService, 'getFeedbackResponse')
       .mockReturnValue(of(testExistingResponses));
 
@@ -1051,10 +1053,14 @@ describe('SessionSubmissionPageComponent', () => {
       {
         recipientName: 'Barry Harris',
         recipientIdentifier: 'barry-harris-id',
+        recipientSection: 'Section 1',
+        recipientTeam: 'Team 1',
       },
       {
         recipientName: 'Gene Harris',
         recipientIdentifier: 'gene-harris-id',
+        recipientSection: 'Section 1',
+        recipientTeam: 'Team 1',
       },
     ]);
     expect(testMcqQuestionSubmissionForm2.recipientSubmissionForms).toEqual([
@@ -1065,8 +1071,8 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should not load the recipients and responses of a question if already loaded', () => {
-    const loadRecipientsSpy = jest.spyOn(feedbackQuestionsService, 'loadFeedbackQuestionRecipients');
-    const getResponseSpy = jest.spyOn(feedbackResponsesService, 'getFeedbackResponse');
+    const loadRecipientsSpy = vi.spyOn(feedbackQuestionsService, 'loadFeedbackQuestionRecipients');
+    const getResponseSpy = vi.spyOn(feedbackResponsesService, 'getFeedbackResponse');
 
     testMcqQuestionSubmissionForm2.isLoaded = true;
     component.loadRecipientsAndResponses({ visible: true }, testMcqQuestionSubmissionForm2);
@@ -1079,8 +1085,8 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should not load the recipients and responses of a question if the event is not correct', () => {
-    const loadRecipientsSpy = jest.spyOn(feedbackQuestionsService, 'loadFeedbackQuestionRecipients');
-    const getResponseSpy = jest.spyOn(feedbackResponsesService, 'getFeedbackResponse');
+    const loadRecipientsSpy = vi.spyOn(feedbackQuestionsService, 'loadFeedbackQuestionRecipients');
+    const getResponseSpy = vi.spyOn(feedbackResponsesService, 'getFeedbackResponse');
 
     component.loadRecipientsAndResponses(null, testMcqQuestionSubmissionForm2);
     component.loadRecipientsAndResponses({}, testMcqQuestionSubmissionForm2);
@@ -1109,7 +1115,7 @@ describe('SessionSubmissionPageComponent', () => {
     testQuestionSubmissionForm2.recipientSubmissionForms[0].responseDetails = testResponseDetails2;
     component.questionSubmissionForms = [testQuestionSubmissionForm1, testQuestionSubmissionForm2];
 
-    const responseSpy = jest
+    const responseSpy = vi
       .spyOn(feedbackResponsesService, 'submitFeedbackResponses')
       .mockImplementation((id: string) => {
         if (id === testQuestionSubmissionForm1.feedbackQuestionId) {
@@ -1117,9 +1123,9 @@ describe('SessionSubmissionPageComponent', () => {
         }
         return of({ responses: [testResponse2], requestId: '20' });
       });
-    jest.spyOn(feedbackResponseCommentService, 'createComment').mockReturnValue(of(testComment));
-    jest.spyOn(feedbackResponseCommentService, 'updateComment').mockReturnValue(of(testComment));
-    jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
+    vi.spyOn(feedbackResponseCommentService, 'createComment').mockReturnValue(of(testComment));
+    vi.spyOn(feedbackResponseCommentService, 'updateComment').mockReturnValue(of(testComment));
+    vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     component.saveFeedbackResponses(component.questionSubmissionForms, null);
 
@@ -1184,12 +1190,12 @@ describe('SessionSubmissionPageComponent', () => {
     testQuestionSubmissionForm2.recipientSubmissionForms[0].isValid = false;
     component.questionSubmissionForms = [testQuestionSubmissionForm1, testQuestionSubmissionForm2];
 
-    const responseSpy = jest.spyOn(feedbackResponsesService, 'submitFeedbackResponses').mockImplementation(() => {
+    const responseSpy = vi.spyOn(feedbackResponsesService, 'submitFeedbackResponses').mockImplementation(() => {
       return of({ responses: [testResponse1], requestId: '10' });
     });
-    jest.spyOn(feedbackResponseCommentService, 'createComment').mockReturnValue(of(testComment));
-    jest.spyOn(feedbackResponseCommentService, 'updateComment').mockReturnValue(of(testComment));
-    jest.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
+    vi.spyOn(feedbackResponseCommentService, 'createComment').mockReturnValue(of(testComment));
+    vi.spyOn(feedbackResponseCommentService, 'updateComment').mockReturnValue(of(testComment));
+    vi.spyOn(ngbModal, 'open').mockReturnValue(mockModalRef);
 
     component.saveFeedbackResponses(component.questionSubmissionForms, null);
 
@@ -1232,7 +1238,7 @@ describe('SessionSubmissionPageComponent', () => {
 
   it('should create comment request to create new comment when submission form has no original comment', () => {
     const testSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = deepCopy(testTextRecipientSubmissionForm);
-    const commentSpy = jest.spyOn(feedbackResponseCommentService, 'createComment').mockReturnValue(of(testComment));
+    const commentSpy = vi.spyOn(feedbackResponseCommentService, 'createComment').mockReturnValue(of(testComment));
 
     component.createCommentRequest(testSubmissionForm).subscribe(() => {
       expect(testSubmissionForm.commentByGiver).toEqual(
@@ -1259,7 +1265,7 @@ describe('SessionSubmissionPageComponent', () => {
     () => {
       const testSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = deepCopy(testMcqRecipientSubmissionForm);
       testSubmissionForm.commentByGiver!.originalRecipientIdentifier = 'other-recipient-identifier';
-      const commentSpy = jest.spyOn(feedbackResponseCommentService, 'createComment').mockReturnValue(of(testComment));
+      const commentSpy = vi.spyOn(feedbackResponseCommentService, 'createComment').mockReturnValue(of(testComment));
 
       component.createCommentRequest(testSubmissionForm).subscribe(() => {
         expect(testSubmissionForm.commentByGiver).toEqual(
@@ -1284,7 +1290,7 @@ describe('SessionSubmissionPageComponent', () => {
   it('should create comment request to update existing comment when submission form has original comment', () => {
     const testSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = deepCopy(testMcqRecipientSubmissionForm);
     const expectedId: any = testMcqRecipientSubmissionForm.commentByGiver?.originalComment?.feedbackResponseCommentId;
-    const commentSpy = jest.spyOn(feedbackResponseCommentService, 'updateComment').mockReturnValue(of(testComment));
+    const commentSpy = vi.spyOn(feedbackResponseCommentService, 'updateComment').mockReturnValue(of(testComment));
 
     component.createCommentRequest(testSubmissionForm).subscribe(() => {
       expect(testSubmissionForm.commentByGiver).toEqual(
@@ -1308,7 +1314,7 @@ describe('SessionSubmissionPageComponent', () => {
   it('should create comment request to delete existing comment when new comment text is empty', () => {
     const testSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = deepCopy(testMcqRecipientSubmissionForm2);
     const expectedId: any = testMcqRecipientSubmissionForm2.commentByGiver?.originalComment?.feedbackResponseCommentId;
-    const commentSpy = jest.spyOn(feedbackResponseCommentService, 'deleteComment').mockReturnValue(of({}));
+    const commentSpy = vi.spyOn(feedbackResponseCommentService, 'deleteComment').mockReturnValue(of({}));
 
     component.createCommentRequest(testSubmissionForm).subscribe(() => {
       expect(testSubmissionForm.commentByGiver).toEqual(undefined);
@@ -1326,7 +1332,7 @@ describe('SessionSubmissionPageComponent', () => {
     const expectedId: any =
       testMsqQuestionSubmissionForm.recipientSubmissionForms[0].commentByGiver?.originalComment
         ?.feedbackResponseCommentId;
-    const commentSpy = jest.spyOn(feedbackResponseCommentService, 'deleteComment').mockReturnValue(of(true));
+    const commentSpy = vi.spyOn(feedbackResponseCommentService, 'deleteComment').mockReturnValue(of(true));
 
     component.questionSubmissionForms = [testSubmissionForm];
     component.deleteParticipantComment(0, 0);

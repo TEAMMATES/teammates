@@ -51,15 +51,8 @@ public abstract class FeedbackQuestionDetails {
     /**
     * Get question result statistics as JSON string.
     */
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public String getQuestionResultStatisticsJson(
-            FeedbackQuestion question, String studentEmail, SessionResultsBundle bundle) {
-        // Statistics are calculated in the front-end as it is dependent on the responses being filtered.
-        // The only exception is contribution question, where there is only one statistics for the entire question.
-        // It is also necessary to calculate contribution question statistics here
-        // to be displayed in student result page as students are not supposed to be able to see the exact responses.
-        return "";
-    }
+    public abstract String getQuestionResultStatisticsJson(
+            FeedbackQuestion question, String studentEmail, SessionResultsBundle bundle);
 
     /**
      * Checks whether the changes to the question details require deletion of corresponding responses.

@@ -36,7 +36,7 @@ describe('RejectWithReasonModal', () => {
   });
 
   it('should close modal with data', () => {
-    const spyActiveModal = jest.spyOn(component.activeModal, 'close');
+    const spyActiveModal = vi.spyOn(component.activeModal, 'close');
     component.accountRequestName = 'John Doe';
     component.accountRequestEmail = 'johndoe@email.com';
     component.accountRequestInstitution = 'NUS';

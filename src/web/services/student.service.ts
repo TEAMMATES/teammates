@@ -7,7 +7,7 @@ import { HttpRequestService } from './http-request.service';
 import { TableComparatorService } from './table-comparator.service';
 import { JoinStatePipe } from '../app/components/student-list/join-state.pipe';
 import { ResourceEndpoints } from '../types/api-const';
-import { Course, EnrollStudents, MessageOutput, RegenerateKey, Student, Students } from '../types/api-output';
+import { Course, EnrollStudents, MessageOutput, Student, Students } from '../types/api-output';
 import { StudentsEnrollRequest, StudentUpdateRequest } from '../types/api-request';
 import { SortBy, SortOrder } from '../types/sort-properties';
 
@@ -66,12 +66,12 @@ export class StudentService {
    */
   updateStudent(
     queryParams: {
-      studentId: string;
+      userId: string;
     },
     requestBody: StudentUpdateRequest,
   ): Observable<MessageOutput> {
     const paramsMap: { [key: string]: string } = {
-      studentid: queryParams.studentId,
+      userid: queryParams.userId,
     };
     return this.httpRequestService.put(ResourceEndpoints.STUDENT, paramsMap, requestBody);
   }
@@ -85,17 +85,6 @@ export class StudentService {
       courseid: queryParams.courseId,
     };
     return this.httpRequestService.delete(ResourceEndpoints.STUDENT, paramsMap);
-  }
-
-  /**
-   * Regenerates the registration key for a student in a course.
-   */
-  regenerateStudentKey(courseId: string, studentEmail: string): Observable<RegenerateKey> {
-    const paramsMap: Record<string, string> = {
-      courseid: courseId,
-      studentemail: studentEmail,
-    };
-    return this.httpRequestService.post(ResourceEndpoints.STUDENT_KEY, paramsMap);
   }
 
   /**
@@ -121,12 +110,11 @@ export class StudentService {
   }
 
   /**
-   * Deletes up to a limited number of students in a course by calling API.
+   * Deletes all students in a course by calling API.
    */
-  batchDeleteStudentsFromCourse(queryParams: { courseId: string; limit: number }): Observable<MessageOutput> {
+  deleteStudentsFromCourse(queryParams: { courseId: string }): Observable<MessageOutput> {
     const paramsMap: Record<string, string> = {
       courseid: queryParams.courseId,
-      limit: queryParams.limit.toString(),
     };
     return this.httpRequestService.delete(ResourceEndpoints.STUDENTS, paramsMap);
   }

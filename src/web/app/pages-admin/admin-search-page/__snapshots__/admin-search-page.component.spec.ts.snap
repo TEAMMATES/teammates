@@ -1,15 +1,15 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`AdminSearchPageComponent should snap with a search key 1`] = `
+exports[`AdminSearchPageComponent > should snap with a search key 1`] = `
 <tm-admin-search-page
   accountRequests={[Function Array]}
   characterLimit={[Function Number]}
   instructors={[Function Array]}
-  loadingBarService={[Function LoadingBarService]}
+  loadingBarService={[Function _LoadingBarService]}
   searchQuery={[Function String]}
-  searchService={[Function SearchService]}
+  searchService={[Function _SearchService]}
   searchString=""
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
   students={[Function Array]}
 >
   <div
@@ -43,16 +43,16 @@ exports[`AdminSearchPageComponent should snap with a search key 1`] = `
 </tm-admin-search-page>
 `;
 
-exports[`AdminSearchPageComponent should snap with default fields 1`] = `
+exports[`AdminSearchPageComponent > should snap with default fields 1`] = `
 <tm-admin-search-page
   accountRequests={[Function Array]}
   characterLimit={[Function Number]}
   instructors={[Function Array]}
-  loadingBarService={[Function LoadingBarService]}
+  loadingBarService={[Function _LoadingBarService]}
   searchQuery=""
-  searchService={[Function SearchService]}
+  searchService={[Function _SearchService]}
   searchString=""
-  statusMessageService={[Function StatusMessageService]}
+  statusMessageService={[Function _StatusMessageService]}
   students={[Function Array]}
 >
   <div

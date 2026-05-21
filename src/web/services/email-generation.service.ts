@@ -14,16 +14,16 @@ import { EmailType } from '../types/api-request';
 export class EmailGenerationService {
   private httpRequestService = inject(HttpRequestService);
 
-  getCourseJoinEmail(studentId: string): Observable<Email> {
+  getCourseJoinEmail(userId: string): Observable<Email> {
     return this.getEmail({
-      studentId,
+      userId,
       emailType: EmailType.STUDENT_COURSE_JOIN,
     });
   }
 
-  getFeedbackSessionReminderEmail(studentId: string, fsId: string): Observable<Email> {
+  getFeedbackSessionReminderEmail(userId: string, fsId: string): Observable<Email> {
     return this.getEmail({
-      studentId,
+      userId,
       emailType: EmailType.FEEDBACK_SESSION_REMINDER,
       fsId,
     });
@@ -32,9 +32,9 @@ export class EmailGenerationService {
   /**
    * Get email contents by calling API.
    */
-  private getEmail(params: { studentId: string; emailType: EmailType; fsId?: string }): Observable<Email> {
+  private getEmail(params: { userId: string; emailType: EmailType; fsId?: string }): Observable<Email> {
     const paramsMap: Record<string, string> = {
-      studentid: params.studentId,
+      userid: params.userId,
       emailtype: params.emailType,
       ...(params.fsId && { fsid: params.fsId }),
     };

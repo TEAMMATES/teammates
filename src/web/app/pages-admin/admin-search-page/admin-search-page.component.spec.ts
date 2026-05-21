@@ -55,7 +55,7 @@ describe('AdminSearchPageComponent', () => {
   });
 
   it('should display error message for invalid input', () => {
-    jest.spyOn(searchService, 'searchAdmin').mockReturnValue(
+    vi.spyOn(searchService, 'searchAdmin').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message',
@@ -63,7 +63,7 @@ describe('AdminSearchPageComponent', () => {
       })),
     );
 
-    const spyStatusMessageService = jest
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showErrorToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('This is the error message');
@@ -76,7 +76,7 @@ describe('AdminSearchPageComponent', () => {
   });
 
   it('should display warning message for no results', () => {
-    jest.spyOn(searchService, 'searchAdmin').mockReturnValue(
+    vi.spyOn(searchService, 'searchAdmin').mockReturnValue(
       of({
         students: [],
         instructors: [],
@@ -84,7 +84,7 @@ describe('AdminSearchPageComponent', () => {
       }),
     );
 
-    const spyStatusMessageService = jest
+    const spyStatusMessageService = vi
       .spyOn(statusMessageService, 'showWarningToast')
       .mockImplementation((args: string) => {
         expect(args).toEqual('No results found.');
@@ -136,7 +136,7 @@ describe('AdminSearchPageComponent', () => {
       },
     ];
 
-    jest.spyOn(searchService, 'searchAdmin').mockReturnValue(
+    vi.spyOn(searchService, 'searchAdmin').mockReturnValue(
       of({
         students: [],
         instructors: instructorResults,
@@ -202,7 +202,7 @@ describe('AdminSearchPageComponent', () => {
       },
     ];
 
-    jest.spyOn(searchService, 'searchAdmin').mockReturnValue(
+    vi.spyOn(searchService, 'searchAdmin').mockReturnValue(
       of({
         students: studentResults,
         instructors: [],

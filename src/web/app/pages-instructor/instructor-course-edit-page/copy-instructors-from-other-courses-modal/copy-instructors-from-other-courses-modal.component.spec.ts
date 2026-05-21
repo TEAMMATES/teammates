@@ -199,7 +199,7 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
     const instructors: Instructors = {
       instructors: [testInstructor1, testInstructor2],
     };
-    jest.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
+    vi.spyOn(instructorService, 'loadInstructors').mockReturnValue(of(instructors));
     component.courses = [testCourseTab2];
 
     component.loadInstructors(testCourseTab2);
@@ -236,7 +236,7 @@ describe('CopyInstructorsFromOtherCoursesModalComponent', () => {
 
     const instructors: Instructor[] = [testInstructor1, testInstructor3, testInstructor4];
     const buttonConfirmCopy: any = fixture.debugElement.nativeElement.querySelector('#btn-confirm-copy-instructor');
-    jest.spyOn(component.copyClickedEvent, 'emit');
+    vi.spyOn(component.copyClickedEvent, 'emit');
 
     expect(component.isAnyInstructorCandidatesSelected).toBeTruthy();
     expect(buttonConfirmCopy.disabled).toBeFalsy();

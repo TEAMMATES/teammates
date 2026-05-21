@@ -21,11 +21,16 @@ export class ConstsumRecipientsQuestionEditDetailsFormComponent
   implements OnChanges
 {
   // enum
-  FeedbackConstantSumDistributePointsType: typeof FeedbackConstantSumDistributePointsType =
-    FeedbackConstantSumDistributePointsType;
+  FeedbackConstantSumDistributePointsType!: typeof FeedbackConstantSumDistributePointsType;
 
   @Input() questionNumber = 0;
   pointsRadioGroupName = '';
+
+  constructor() {
+    super();
+    this.FeedbackConstantSumDistributePointsType = FeedbackConstantSumDistributePointsType;
+  }
+
   ngOnChanges(): void {
     this.pointsRadioGroupName = `constsum-recipients-${this.questionNumber}`;
   }

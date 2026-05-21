@@ -24,7 +24,7 @@ We welcome contributions from developers of all backgrounds, especially students
 | Backend  | Java, Gradle, Jetty              |
 | Frontend | Angular, SCSS                    |
 | Database | PostgreSQL, Hibernate, Liquibase |
-| Testing  | Jest, TestNG, Selenium           |
+| Testing  | Vitest, TestNG, Selenium         |
 
 ## Community & Support
 

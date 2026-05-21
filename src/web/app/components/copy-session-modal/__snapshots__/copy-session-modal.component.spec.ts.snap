@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CopySessionModalComponent should snap with default fields 1`] = `
+exports[`CopySessionModalComponent > should snap with default fields 1`] = `
 <tm-copy-session-modal
   FEEDBACK_SESSION_NAME_MAX_LENGTH={[Function Number]}
   activeModal={[Function NgbActiveModal]}
@@ -91,7 +91,7 @@ exports[`CopySessionModalComponent should snap with default fields 1`] = `
 </tm-copy-session-modal>
 `;
 
-exports[`CopySessionModalComponent should snap with some session and courses candidates 1`] = `
+exports[`CopySessionModalComponent > should snap with some session and courses candidates 1`] = `
 <tm-copy-session-modal
   FEEDBACK_SESSION_NAME_MAX_LENGTH={[Function Number]}
   activeModal={[Function NgbActiveModal]}

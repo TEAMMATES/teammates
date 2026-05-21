@@ -83,7 +83,7 @@ public class GetFeedbackSessionLogsAction extends Action {
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        UUID studentId = getNullableUuidRequestParamValue(Const.ParamsNames.STUDENT_SQL_ID);
+        UUID studentId = getNullableUuidRequestParamValue(Const.ParamsNames.USER_ID);
         UUID feedbackSessionId = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ID);
 
         if (logic.getCourse(courseId) == null) {

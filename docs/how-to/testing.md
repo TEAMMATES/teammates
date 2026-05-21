@@ -13,7 +13,7 @@ Component tests are white-box tests that test the application at two levels:
 
 | Type                      | Location                 | Configuration                             |
 | ------------------------- | ------------------------ | ----------------------------------------- |
-| Frontend unit tests       | `*.spec.ts` files        | `src/web/jest.config.js`                  |
+| Frontend unit tests       | `*.spec.ts` files        | `src/web/test-helpers/vitest.config.ts`   |
 | Backend unit tests        | `teammates.test` package | `src/test/resources/testng-component.xml` |
 | Backend integration tests | `teammates.it` package   | `src/it/resources/testng-it.xml`          |
 
@@ -131,7 +131,7 @@ Snapshot testing compares large expected outputs (e.g. rendered HTML, email cont
 - **Verification mode** (default): compares the actual output against the stored snapshot.
 - **Auto-update mode**: overwrites the stored snapshot with the actual output. Use this when intentional changes are made, then manually verify that only the intended changes occurred.
 
-**Frontend:** Auto-update mode is activated by pressing `u` in Jest watch mode.
+**Frontend:** Press `u` in Vitest watch mode to update failed snapshots.
 
 **Backend:** Auto-update mode is activated by setting `test.snapshot.update=true` in `test.properties`.
 

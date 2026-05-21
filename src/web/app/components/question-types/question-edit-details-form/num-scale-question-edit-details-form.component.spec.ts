@@ -23,7 +23,7 @@ describe('NumScaleQuestionEditDetailsFormComponent', () => {
       key: 'e',
     });
 
-    const eventSpy = jest.spyOn(event, 'preventDefault');
+    const eventSpy = vi.spyOn(event, 'preventDefault');
     component.onIntegerInput(event);
     expect(eventSpy).toHaveBeenCalled();
   });
@@ -33,7 +33,7 @@ describe('NumScaleQuestionEditDetailsFormComponent', () => {
       key: '.',
     });
 
-    const eventSpy = jest.spyOn(event, 'preventDefault');
+    const eventSpy = vi.spyOn(event, 'preventDefault');
     component.onIntegerInput(event);
     expect(eventSpy).toHaveBeenCalled();
   });
@@ -43,7 +43,7 @@ describe('NumScaleQuestionEditDetailsFormComponent', () => {
       key: '3',
     });
 
-    const eventSpy = jest.spyOn(event, 'preventDefault');
+    const eventSpy = vi.spyOn(event, 'preventDefault');
     component.onIntegerInput(event);
     expect(eventSpy).not.toHaveBeenCalled();
   });
@@ -53,7 +53,7 @@ describe('NumScaleQuestionEditDetailsFormComponent', () => {
       key: 'e',
     });
 
-    const eventSpy = jest.spyOn(event, 'preventDefault');
+    const eventSpy = vi.spyOn(event, 'preventDefault');
     component.onFloatInput(event);
     expect(eventSpy).toHaveBeenCalled();
   });
@@ -63,7 +63,7 @@ describe('NumScaleQuestionEditDetailsFormComponent', () => {
       key: '.',
     });
 
-    const eventSpy = jest.spyOn(event, 'preventDefault');
+    const eventSpy = vi.spyOn(event, 'preventDefault');
     component.onFloatInput(event);
     expect(eventSpy).not.toHaveBeenCalled();
   });
@@ -73,7 +73,7 @@ describe('NumScaleQuestionEditDetailsFormComponent', () => {
       key: '3',
     });
 
-    const eventSpy = jest.spyOn(event, 'preventDefault');
+    const eventSpy = vi.spyOn(event, 'preventDefault');
     component.onFloatInput(event);
     expect(eventSpy).not.toHaveBeenCalled();
   });

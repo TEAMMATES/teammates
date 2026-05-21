@@ -1,27 +1,26 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`InstructorCourseDetailsPageComponent should snap when students are still loading 1`] = `
+exports[`InstructorCourseDetailsPageComponent > should snap when students are still loading 1`] = `
 <tm-instructor-course-details-page
   courseDetails={[Function Object]}
-  courseService={[Function CourseService]}
-  fileSaveService={[Function FileSaveService]}
+  courseService={[Function _CourseService]}
+  fileSaveService={[Function _FileSaveService]}
   hasLoadingStudentsFailed="false"
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   instructors={[Function Array]}
   isDeleting="false"
   isLoadingCsv="false"
   isStudentsLoading={[Function Boolean]}
-  ngbModal={[Function _NgbModal]}
-  progressBarService={[Function ProgressBarService]}
+  ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   sectionsLoaded="0"
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
   studentSortBy="0"
   studentSortOrder={[Function Number]}
   students={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
+  tableComparatorService={[Function _TableComparatorService]}
 >
   <tm-loading-retry>
     <div
@@ -46,28 +45,27 @@ exports[`InstructorCourseDetailsPageComponent should snap when students are stil
 </tm-instructor-course-details-page>
 `;
 
-exports[`InstructorCourseDetailsPageComponent should snap with a course with one co-owner and no students, and populated course student list 1`] = `
+exports[`InstructorCourseDetailsPageComponent > should snap with a course with one co-owner and no students, and populated course student list 1`] = `
 <tm-instructor-course-details-page
   courseDetails={[Function Object]}
-  courseService={[Function CourseService]}
-  fileSaveService={[Function FileSaveService]}
+  courseService={[Function _CourseService]}
+  fileSaveService={[Function _FileSaveService]}
   hasLoadingStudentsFailed="false"
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   instructors={[Function Array]}
   isDeleting="false"
   isLoadingCsv="false"
   isStudentsLoading="false"
-  ngbModal={[Function _NgbModal]}
-  progressBarService={[Function ProgressBarService]}
+  ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   sectionsLoaded="0"
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
   studentSortBy="0"
   studentSortOrder={[Function Number]}
   students={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
+  tableComparatorService={[Function _TableComparatorService]}
 >
   <tm-loading-retry>
     <div
@@ -212,28 +210,27 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
 </tm-instructor-course-details-page>
 `;
 
-exports[`InstructorCourseDetailsPageComponent should snap with a course with one co-owner and one student, and ajax failure 1`] = `
+exports[`InstructorCourseDetailsPageComponent > should snap with a course with one co-owner and one student, and ajax failure 1`] = `
 <tm-instructor-course-details-page
   courseDetails={[Function Object]}
-  courseService={[Function CourseService]}
-  fileSaveService={[Function FileSaveService]}
+  courseService={[Function _CourseService]}
+  fileSaveService={[Function _FileSaveService]}
   hasLoadingStudentsFailed="false"
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   instructors={[Function Array]}
   isDeleting="false"
   isLoadingCsv="false"
   isStudentsLoading="false"
-  ngbModal={[Function _NgbModal]}
-  progressBarService={[Function ProgressBarService]}
+  ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   sectionsLoaded="0"
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
   studentSortBy="0"
   studentSortOrder={[Function Number]}
   students={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
+  tableComparatorService={[Function _TableComparatorService]}
 >
   <tm-loading-retry>
     <div
@@ -624,28 +621,27 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
 </tm-instructor-course-details-page>
 `;
 
-exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`] = `
+exports[`InstructorCourseDetailsPageComponent > should snap with default fields 1`] = `
 <tm-instructor-course-details-page
   courseDetails={[Function Object]}
-  courseService={[Function CourseService]}
-  fileSaveService={[Function FileSaveService]}
+  courseService={[Function _CourseService]}
+  fileSaveService={[Function _FileSaveService]}
   hasLoadingStudentsFailed="false"
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   instructors={[Function Array]}
   isDeleting="false"
   isLoadingCsv="false"
   isStudentsLoading={[Function Boolean]}
-  ngbModal={[Function _NgbModal]}
-  progressBarService={[Function ProgressBarService]}
+  ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   sectionsLoaded="0"
-  simpleModalService={[Function SimpleModalService]}
-  statusMessageService={[Function StatusMessageService]}
-  studentService={[Function StudentService]}
+  simpleModalService={[Function _SimpleModalService]}
+  statusMessageService={[Function _StatusMessageService]}
+  studentService={[Function _StudentService]}
   studentSortBy="0"
   studentSortOrder={[Function Number]}
   students={[Function Array]}
-  tableComparatorService={[Function TableComparatorService]}
+  tableComparatorService={[Function _TableComparatorService]}
 >
   <tm-loading-retry>
     <div

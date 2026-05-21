@@ -63,7 +63,7 @@ export class SessionResultPageComponent implements OnInit {
   private ngbModal = inject(NgbModal);
 
   // enum
-  Intent: typeof Intent = Intent;
+  Intent!: typeof Intent;
 
   session: FeedbackSession = {
     feedbackSessionId: '',
@@ -113,6 +113,7 @@ export class SessionResultPageComponent implements OnInit {
   private backendUrl: string = environment.backendUrl;
 
   constructor() {
+    this.Intent = Intent;
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
 

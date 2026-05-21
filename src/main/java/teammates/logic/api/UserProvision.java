@@ -106,7 +106,7 @@ public class UserProvision {
      * Checks if the request is a masquerade request.
      */
     protected boolean isMasqueradeRequest(HttpServletRequest req) {
-        String userParam = req.getParameter(Const.ParamsNames.USER_ID);
+        String userParam = req.getParameter(Const.ParamsNames.USER);
         return userParam != null;
     }
 
@@ -155,7 +155,7 @@ public class UserProvision {
     private AuthContext handleBackdoorRequest(HttpServletRequest req) {
         Account account = null;
         if (isMasqueradeRequest(req)) {
-            String userId = req.getParameter(Const.ParamsNames.USER_ID);
+            String userId = req.getParameter(Const.ParamsNames.USER);
             account = accountsLogic.getAccountForGoogleId(userId);
         }
 
@@ -192,7 +192,7 @@ public class UserProvision {
                         String.format("Masquerade failed: user %s does not have admin privilege", account.getEmail()));
             }
 
-            String userId = req.getParameter(Const.ParamsNames.USER_ID);
+            String userId = req.getParameter(Const.ParamsNames.USER);
             effectiveAccount = accountsLogic.getAccountForGoogleId(userId);
             if (effectiveAccount == null) {
                 throw new UnauthorizedAccessException(

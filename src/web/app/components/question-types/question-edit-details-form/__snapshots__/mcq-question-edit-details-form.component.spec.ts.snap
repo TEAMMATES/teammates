@@ -1,9 +1,9 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEnabled is false 1`] = `
+exports[`McqQuestionEditDetailsFormComponent > should snap when questionDropdownEnabled is false 1`] = `
 <tm-mcq-question-edit-details-form
   PARTICIPANT_TYPES={[Function Array]}
-  castAsInputElement={[Function Function]}
+  castAsInputElement="undefined"
   detailsChange={[Function EventEmitter_]}
   isEditable={[Function Boolean]}
   model={[Function Object]}
@@ -163,10 +163,10 @@ exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEn
 </tm-mcq-question-edit-details-form>
 `;
 
-exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEnabled is true 1`] = `
+exports[`McqQuestionEditDetailsFormComponent > should snap when questionDropdownEnabled is true 1`] = `
 <tm-mcq-question-edit-details-form
   PARTICIPANT_TYPES={[Function Array]}
-  castAsInputElement={[Function Function]}
+  castAsInputElement="undefined"
   detailsChange={[Function EventEmitter_]}
   isEditable={[Function Boolean]}
   model={[Function Object]}
@@ -326,10 +326,10 @@ exports[`McqQuestionEditDetailsFormComponent should snap when questionDropdownEn
 </tm-mcq-question-edit-details-form>
 `;
 
-exports[`McqQuestionEditDetailsFormComponent should snap with default view i.e. Question options are radio buttons 1`] = `
+exports[`McqQuestionEditDetailsFormComponent > should snap with default view i.e. Question options are radio buttons 1`] = `
 <tm-mcq-question-edit-details-form
   PARTICIPANT_TYPES={[Function Array]}
-  castAsInputElement={[Function Function]}
+  castAsInputElement="undefined"
   detailsChange={[Function EventEmitter_]}
   isEditable={[Function Boolean]}
   model={[Function Object]}

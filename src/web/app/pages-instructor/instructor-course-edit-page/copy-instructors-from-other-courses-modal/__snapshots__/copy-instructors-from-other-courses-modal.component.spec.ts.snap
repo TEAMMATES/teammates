@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback questions failed to load 1`] = `
+exports[`CopyInstructorsFromOtherCoursesModalComponent > should snap when feedback questions failed to load 1`] = `
 <tm-copy-instructors-from-other-courses-modal
   InstructorPermissionRole={[Function Object]}
   SortBy={[Function Object]}
@@ -9,11 +9,11 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}
   coursesSortBy="undefined"
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isCopyingSelectedInstructors="false"
   notDisplayedToStudentText={[Function String]}
-  statusMessageService={[Function StatusMessageService]}
-  tableComparatorService={[Function TableComparatorService]}
+  statusMessageService={[Function _StatusMessageService]}
+  tableComparatorService={[Function _TableComparatorService]}
 >
   <div
     class="modal-header"
@@ -144,7 +144,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when feedback
 </tm-copy-instructors-from-other-courses-modal>
 `;
 
-exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instructors are loaded 1`] = `
+exports[`CopyInstructorsFromOtherCoursesModalComponent > should snap when instructors are loaded 1`] = `
 <tm-copy-instructors-from-other-courses-modal
   InstructorPermissionRole={[Function Object]}
   SortBy={[Function Object]}
@@ -153,11 +153,11 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}
   coursesSortBy="undefined"
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isCopyingSelectedInstructors="false"
   notDisplayedToStudentText={[Function String]}
-  statusMessageService={[Function StatusMessageService]}
-  tableComparatorService={[Function TableComparatorService]}
+  statusMessageService={[Function _StatusMessageService]}
+  tableComparatorService={[Function _TableComparatorService]}
 >
   <div
     class="modal-header"
@@ -412,7 +412,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
 </tm-copy-instructors-from-other-courses-modal>
 `;
 
-exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instructors are loading 1`] = `
+exports[`CopyInstructorsFromOtherCoursesModalComponent > should snap when instructors are loading 1`] = `
 <tm-copy-instructors-from-other-courses-modal
   InstructorPermissionRole={[Function Object]}
   SortBy={[Function Object]}
@@ -421,11 +421,11 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}
   coursesSortBy="undefined"
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isCopyingSelectedInstructors="false"
   notDisplayedToStudentText={[Function String]}
-  statusMessageService={[Function StatusMessageService]}
-  tableComparatorService={[Function TableComparatorService]}
+  statusMessageService={[Function _StatusMessageService]}
+  tableComparatorService={[Function _TableComparatorService]}
 >
   <div
     class="modal-header"
@@ -553,7 +553,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap when instruct
 </tm-copy-instructors-from-other-courses-modal>
 `;
 
-exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 1`] = `
+exports[`CopyInstructorsFromOtherCoursesModalComponent > should snap with courses 1`] = `
 <tm-copy-instructors-from-other-courses-modal
   InstructorPermissionRole={[Function Object]}
   SortBy={[Function Object]}
@@ -562,11 +562,11 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}
   coursesSortBy="undefined"
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isCopyingSelectedInstructors="false"
   notDisplayedToStudentText={[Function String]}
-  statusMessageService={[Function StatusMessageService]}
-  tableComparatorService={[Function TableComparatorService]}
+  statusMessageService={[Function _StatusMessageService]}
+  tableComparatorService={[Function _TableComparatorService]}
 >
   <div
     class="modal-header"
@@ -704,7 +704,7 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with courses 
 </tm-copy-instructors-from-other-courses-modal>
 `;
 
-exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with default fields 1`] = `
+exports[`CopyInstructorsFromOtherCoursesModalComponent > should snap with default fields 1`] = `
 <tm-copy-instructors-from-other-courses-modal
   InstructorPermissionRole={[Function Object]}
   SortBy={[Function Object]}
@@ -713,11 +713,11 @@ exports[`CopyInstructorsFromOtherCoursesModalComponent should snap with default 
   copyClickedEvent={[Function EventEmitter_]}
   courses={[Function Array]}
   coursesSortBy="undefined"
-  instructorService={[Function InstructorService]}
+  instructorService={[Function _InstructorService]}
   isCopyingSelectedInstructors="false"
   notDisplayedToStudentText={[Function String]}
-  statusMessageService={[Function StatusMessageService]}
-  tableComparatorService={[Function TableComparatorService]}
+  statusMessageService={[Function _StatusMessageService]}
+  tableComparatorService={[Function _TableComparatorService]}
 >
   <div
     class="modal-header"

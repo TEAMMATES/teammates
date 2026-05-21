@@ -13,10 +13,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import jakarta.annotation.Nullable;
-
 import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.FeedbackQuestionRecipient;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
@@ -439,186 +436,19 @@ public final class FeedbackQuestionsLogic {
     }
 
     /**
-     * Gets the recipients of a feedback question including recipient section and team.
+     * Gets the possible recipients of a feedback question.
      *
      * @param question the feedback question
-     * @param instructorGiver can be null for student giver
-     * @param studentGiver can be null for instructor giver
-     * @param courseRoster if provided, the function can be completed without touching database
-     * @return a Map of {@code FeedbackQuestionRecipient} as the value and identifier as the key.
+     * @param responseGiver the entity giving the response
+     * @return a Set of {@code ResponseRecipient}.
      */
-    public Map<String, FeedbackQuestionRecipient> getRecipientsOfQuestion(
-            FeedbackQuestion question,
-            @Nullable Instructor instructorGiver, @Nullable Student studentGiver,
-            @Nullable CourseRoster courseRoster) {
-        assert instructorGiver != null || studentGiver != null;
+    public Set<ResponseRecipient> getRecipientsOfQuestion(
+            FeedbackQuestion question, ResponseGiver responseGiver) {
+        List<Student> students = usersLogic.getStudentsForCourse(question.getCourseId());
+        List<Instructor> instructors = usersLogic.getInstructorsForCourse(question.getCourseId());
+        CourseRoster courseRoster = new CourseRoster(students, instructors);
 
-        String courseId = question.getCourseId();
-
-        Map<String, FeedbackQuestionRecipient> recipients = new HashMap<>();
-
-        boolean isStudentGiver = studentGiver != null;
-        boolean isInstructorGiver = instructorGiver != null;
-
-        String giverEmail = "";
-        String giverTeam = "";
-        String giverSection = "";
-        if (isStudentGiver) {
-            giverEmail = studentGiver.getEmail();
-            giverTeam = studentGiver.getTeamName();
-            giverSection = studentGiver.getSectionName();
-        } else if (isInstructorGiver) {
-            giverEmail = instructorGiver.getEmail();
-            giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
-            giverSection = Const.DEFAULT_SECTION;
-        }
-
-        QuestionRecipientType recipientType = question.getRecipientType();
-        QuestionRecipientType generateOptionsFor = recipientType;
-
-        switch (recipientType) {
-        case SELF:
-            if (question.getGiverType() == QuestionGiverType.TEAMS) {
-                recipients.put(giverTeam,
-                       new FeedbackQuestionRecipient(giverTeam, giverTeam));
-            } else {
-                recipients.put(giverEmail,
-                        new FeedbackQuestionRecipient(USER_NAME_FOR_SELF, giverEmail));
-            }
-            break;
-        case STUDENTS:
-        case STUDENTS_EXCLUDING_SELF:
-        case STUDENTS_IN_SAME_SECTION:
-            List<Student> studentList;
-            if (courseRoster == null) {
-                if (generateOptionsFor == QuestionRecipientType.STUDENTS_IN_SAME_SECTION) {
-                    studentList = usersLogic.getStudentsForSection(giverSection, courseId);
-                } else {
-                    studentList = usersLogic.getStudentsForCourse(courseId);
-                }
-            } else {
-                if (generateOptionsFor == QuestionRecipientType.STUDENTS_IN_SAME_SECTION) {
-                    final String finalGiverSection = giverSection;
-                    studentList = courseRoster.getStudents().stream()
-                            .filter(studentAttributes -> studentAttributes.getSectionName()
-                                    .equals(finalGiverSection)).collect(Collectors.toList());
-                } else {
-                    studentList = courseRoster.getStudents();
-                }
-            }
-            for (Student student : studentList) {
-                if (isInstructorGiver && !instructorGiver.isAllowedForPrivilege(
-                        student.getSectionName(), question.getFeedbackSession().getName(),
-                        Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
-                    // instructor can only see students in allowed sections for him/her
-                    continue;
-                }
-                // Ensure student does not evaluate him/herself if it's STUDENTS_EXCLUDING_SELF or
-                // STUDENTS_IN_SAME_SECTION
-                if (giverEmail.equals(student.getEmail()) && generateOptionsFor != QuestionRecipientType.STUDENTS) {
-                    continue;
-                }
-                recipients.put(student.getEmail(), new FeedbackQuestionRecipient(student.getName(), student.getEmail(),
-                        student.getSectionName(), student.getTeamName()));
-            }
-            break;
-        case INSTRUCTORS:
-            List<Instructor> instructorsInCourse;
-            if (courseRoster == null) {
-                instructorsInCourse = usersLogic.getInstructorsForCourse(courseId);
-            } else {
-                instructorsInCourse = courseRoster.getInstructors();
-            }
-            for (Instructor instr : instructorsInCourse) {
-                // remove hidden instructors for students
-                if (isStudentGiver && !instr.isDisplayedToStudents()) {
-                    continue;
-                }
-                // Ensure instructor does not evaluate himself
-                if (!giverEmail.equals(instr.getEmail())) {
-                    recipients.put(instr.getEmail(),
-                            new FeedbackQuestionRecipient(instr.getName(), instr.getEmail()));
-                }
-            }
-            break;
-        case TEAMS:
-        case TEAMS_EXCLUDING_SELF:
-        case TEAMS_IN_SAME_SECTION:
-            Map<String, List<Student>> teamToTeamMembersTable;
-            List<Student> teamStudents;
-            if (courseRoster == null) {
-                if (generateOptionsFor == QuestionRecipientType.TEAMS_IN_SAME_SECTION) {
-                    teamStudents = usersLogic.getStudentsForSection(giverSection, courseId);
-                } else {
-                    teamStudents = usersLogic.getStudentsForCourse(courseId);
-                }
-                teamToTeamMembersTable = CourseRoster.buildTeamToMembersTable(teamStudents);
-            } else {
-                if (generateOptionsFor == QuestionRecipientType.TEAMS_IN_SAME_SECTION) {
-                    final String finalGiverSection = giverSection;
-                    teamStudents = courseRoster.getStudents().stream()
-                            .filter(student -> student.getSectionName().equals(finalGiverSection))
-                            .collect(Collectors.toList());
-                    teamToTeamMembersTable = CourseRoster.buildTeamToMembersTable(teamStudents);
-                } else {
-                    teamToTeamMembersTable = courseRoster.getTeamToMembers();
-                }
-            }
-            for (Map.Entry<String, List<Student>> team : teamToTeamMembersTable.entrySet()) {
-                if (isInstructorGiver && !instructorGiver.isAllowedForPrivilege(
-                        team.getValue().iterator().next().getSectionName(),
-                        question.getFeedbackSession().getName(),
-                        Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
-                    // instructor can only see teams in allowed sections for him/her
-                    continue;
-                }
-                // Ensure student('s team) does not evaluate own team if it's TEAMS_EXCLUDING_SELF or
-                // TEAMS_IN_SAME_SECTION
-                if (giverTeam.equals(team.getKey()) && generateOptionsFor != QuestionRecipientType.TEAMS) {
-                    continue;
-                }
-                // recipientEmail doubles as team name in this case.
-                recipients.put(team.getKey(), new FeedbackQuestionRecipient(team.getKey(), team.getKey()));
-            }
-            break;
-        case OWN_TEAM:
-            recipients.put(giverTeam, new FeedbackQuestionRecipient(giverTeam, giverTeam));
-            break;
-        case OWN_TEAM_MEMBERS:
-            List<Student> students;
-            if (courseRoster == null) {
-                students = usersLogic.getStudentsForTeam(giverTeam, courseId);
-            } else {
-                students = courseRoster.getTeamToMembers().getOrDefault(giverTeam, Collections.emptyList());
-            }
-            for (Student student : students) {
-                if (!SanitizationHelper.areEmailsEqual(student.getEmail(), giverEmail)) {
-                    recipients.put(student.getEmail(), new FeedbackQuestionRecipient(student.getName(), student.getEmail(),
-                            student.getSectionName(), student.getTeamName()));
-                }
-            }
-            break;
-        case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-            List<Student> teamMembers;
-            if (courseRoster == null) {
-                teamMembers = usersLogic.getStudentsForTeam(giverTeam, courseId);
-            } else {
-                teamMembers = courseRoster.getTeamToMembers().getOrDefault(giverTeam, Collections.emptyList());
-            }
-            for (Student student : teamMembers) {
-                // accepts self feedback too
-                recipients.put(student.getEmail(), new FeedbackQuestionRecipient(student.getName(), student.getEmail(),
-                        student.getSectionName(), student.getTeamName()));
-            }
-            break;
-        case NONE:
-            recipients.put(Const.GENERAL_QUESTION,
-                    new FeedbackQuestionRecipient(Const.GENERAL_QUESTION, Const.GENERAL_QUESTION));
-            break;
-        default:
-            break;
-        }
-        return recipients;
+        return getRecipientsOfQuestion(question, responseGiver, courseRoster);
     }
 
     /**

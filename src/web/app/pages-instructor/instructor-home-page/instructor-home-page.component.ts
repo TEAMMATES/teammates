@@ -74,9 +74,9 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
 
   private static readonly coursesToLoad: number = 3;
   // enum
-  SessionsTableColumn: typeof SessionsTableColumn = SessionsTableColumn;
-  SortableTableHeaderColorScheme: typeof SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
-  SortBy: typeof SortBy = SortBy;
+  SessionsTableColumn!: typeof SessionsTableColumn;
+  SortableTableHeaderColorScheme!: typeof SortableTableHeaderColorScheme;
+  SortBy!: typeof SortBy;
 
   instructorCoursesSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
 
@@ -98,6 +98,13 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   sortOrder = SortOrder.DESC;
 
   @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
+
+  constructor() {
+    super();
+    this.SessionsTableColumn = SessionsTableColumn;
+    this.SortableTableHeaderColorScheme = SortableTableHeaderColorScheme;
+    this.SortBy = SortBy;
+  }
 
   ngOnInit(): void {
     this.loadCourses();

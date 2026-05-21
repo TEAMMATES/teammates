@@ -89,10 +89,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   private changeDetectorRef = inject(ChangeDetectorRef);
 
   // enum
-  SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
-  QuestionEditFormMode: typeof QuestionEditFormMode = QuestionEditFormMode;
-  FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
-  FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
+  SessionEditFormMode!: typeof SessionEditFormMode;
+  QuestionEditFormMode!: typeof QuestionEditFormMode;
+  FeedbackQuestionType!: typeof FeedbackQuestionType;
+  FeedbackSessionPublishStatus!: typeof FeedbackSessionPublishStatus;
 
   // url param
   courseId = '';
@@ -167,6 +167,14 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   }
 
   @ViewChild('modifiedTimestampsModal') modifiedTimestampsModal!: TemplateRef<any>;
+
+  constructor() {
+    super();
+    this.SessionEditFormMode = SessionEditFormMode;
+    this.QuestionEditFormMode = QuestionEditFormMode;
+    this.FeedbackQuestionType = FeedbackQuestionType;
+    this.FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {

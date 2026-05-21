@@ -101,10 +101,10 @@ export class InstructorCourseEditPageComponent implements OnInit {
   private simpleModalService = inject(SimpleModalService);
 
   // enum
-  EditMode: typeof EditMode = EditMode;
-  CoursesSectionQuestions: typeof CoursesSectionQuestions = CoursesSectionQuestions;
-  Sections: typeof Sections = Sections;
-  CourseEditFormMode: typeof CourseEditFormMode = CourseEditFormMode;
+  EditMode!: typeof EditMode;
+  CoursesSectionQuestions!: typeof CoursesSectionQuestions;
+  Sections!: typeof Sections;
+  CourseEditFormMode!: typeof CourseEditFormMode;
 
   courseId = '';
   currInstructorGoogleId = '';
@@ -139,6 +139,13 @@ export class InstructorCourseEditPageComponent implements OnInit {
   isInstructorsLoading = false;
   hasInstructorsLoadingFailed = false;
   isSavingNewInstructor = false;
+
+  constructor() {
+    this.EditMode = EditMode;
+    this.CoursesSectionQuestions = CoursesSectionQuestions;
+    this.Sections = Sections;
+    this.CourseEditFormMode = CourseEditFormMode;
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -511,16 +518,14 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     modalRef.result.then(
       () => {
-        this.courseService
-          .remindInstructorForJoin(panelDetail.originalInstructor.courseId, panelDetail.originalInstructor.email)
-          .subscribe({
-            next: (resp: MessageOutput) => {
-              this.statusMessageService.showSuccessToast(resp.message);
-            },
-            error: (resp: ErrorMessageOutput) => {
-              this.statusMessageService.showErrorToast(resp.error.message);
-            },
-          });
+        this.courseService.remindUserForJoin(panelDetail.originalInstructor.userId).subscribe({
+          next: (resp: MessageOutput) => {
+            this.statusMessageService.showSuccessToast(resp.message);
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
       },
       () => {},
     );
@@ -594,8 +599,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     this.instructorService
       .loadInstructorPrivilege({
-        courseId: instructor.courseId,
-        instructorEmail: instructor.email,
+        userId: instructor.userId,
       })
       .subscribe((resp: InstructorPrivilege) => {
         permission.privilege = resp.privileges.courseLevel;
@@ -705,8 +709,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     this.instructorService
       .updateInstructorPrivilege({
-        courseId: instructor.courseId,
-        instructorEmail: instructor.email,
+        userId: instructor.userId,
         requestBody: { privileges },
       })
       .subscribe({

@@ -44,13 +44,18 @@ export class ContributionQuestionStatisticsComponent implements OnChanges {
   @Input() displayContributionStats = true;
 
   // enum
-  QuestionsSectionQuestions: typeof QuestionsSectionQuestions = QuestionsSectionQuestions;
-  Sections: typeof Sections = Sections;
+  QuestionsSectionQuestions!: typeof QuestionsSectionQuestions;
+  Sections!: typeof Sections;
 
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
   questionOverallStatistics?: ContributionStatistics;
   questionStatisticsForStudent?: ContributionStatisticsEntry & { claimedOthersValues: number[] };
+
+  constructor() {
+    this.QuestionsSectionQuestions = QuestionsSectionQuestions;
+    this.Sections = Sections;
+  }
 
   ngOnChanges(): void {
     const stats = calculateContributionQuestionStatistics(this.responses, this.statistics, this.isStudent);

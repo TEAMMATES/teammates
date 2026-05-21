@@ -14,7 +14,6 @@ import java.util.UUID;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.participanttypes.QuestionGiverType;
 import teammates.common.datatransfer.participanttypes.QuestionRecipientType;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
@@ -263,26 +262,6 @@ public class FeedbackQuestionsLogicTest extends BaseTestCase {
 
         assertEquals(expectedQuestions.size(), actualQuestions.size());
         assertTrue(actualQuestions.containsAll(actualQuestions));
-    }
-
-    @Test(enabled = false)
-    public void testGetRecipientsOfQuestion_giverTypeStudents() {
-        Course c = getTypicalCourse();
-        FeedbackSession fs = getTypicalFeedbackSessionForCourse(c);
-        FeedbackQuestion fq = getTypicalFeedbackQuestionForSession(fs);
-
-        Student s1 = getTypicalStudent();
-        Student s2 = getTypicalStudent();
-        List<Student> studentsInCourse = List.of(s1, s2);
-
-        CourseRoster courseRoster = new CourseRoster(studentsInCourse, null);
-
-        when(usersLogic.getStudentsForCourse("course-1")).thenReturn(studentsInCourse);
-
-        ______TS("response to students except self");
-        assertEquals(fqLogic.getRecipientsOfQuestion(fq, null, s2, null).size(), studentsInCourse.size() - 1);
-        assertEquals(fqLogic.getRecipientsOfQuestion(fq, null, s2, courseRoster).size(), studentsInCourse.size() - 1);
-
     }
 
     private List<FeedbackQuestion> createQuestionList(FeedbackSession fs, int numOfQuestions) {

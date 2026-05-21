@@ -33,8 +33,8 @@ export interface RecycleBinFeedbackSessionRowModel {
 })
 export class SessionsRecycleBinTableComponent {
   // enum
-  SortBy: typeof SortBy = SortBy;
-  SortOrder: typeof SortOrder = SortOrder;
+  SortBy!: typeof SortBy;
+  SortOrder!: typeof SortOrder;
 
   // variable
   rowClicked = -1;
@@ -71,6 +71,11 @@ export class SessionsRecycleBinTableComponent {
 
   @Output()
   recycleBinExpandEvent: EventEmitter<any> = new EventEmitter<any>();
+
+  constructor() {
+    this.SortBy = SortBy;
+    this.SortOrder = SortOrder;
+  }
 
   /**
    * Sorts the list of deleted feedback session row

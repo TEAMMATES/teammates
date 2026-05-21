@@ -132,8 +132,8 @@ public class GetRegKeyValidityActionIT extends BaseActionIT<GetRegkeyValidityAct
         ______TS("Normal case: No logged in user for an unused regkey; should be valid/unused/allowed");
 
         try {
-            logic.resetStudentGoogleId(student1.getEmail(), student1.getCourseId(), student1.getGoogleId());
-            logic.resetInstructorGoogleId(instructor1.getEmail(), instructor1.getCourseId(), instructor1.getGoogleId());
+            logic.resetAccount(student1.getId());
+            logic.resetAccount(instructor1.getId());
         } catch (EntityDoesNotExistException e) {
             e.printStackTrace();
         }

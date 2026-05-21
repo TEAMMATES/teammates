@@ -33,10 +33,14 @@ export class ConstsumRecipientsQuestionStatisticsComponent implements OnChanges 
   isStudent = false;
 
   // enum
-  SortBy: typeof SortBy = SortBy;
+  SortBy!: typeof SortBy;
 
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
+
+  constructor() {
+    this.SortBy = SortBy;
+  }
 
   ngOnChanges(): void {
     const stats = calculateConstsumRecipientsQuestionStatistics(this.responses, this.recipientType);
