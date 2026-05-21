@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.UUID;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -73,10 +75,9 @@ public class GetInstructorPrivilegeActionIT extends BaseActionIT<GetInstructorPr
         assertTrue(privileges.getSectionLevelPrivileges().isEmpty());
         assertTrue(privileges.getSessionLevelPrivileges().isEmpty());
 
-        ______TS("Typical Success Case fetching privilege of another instructor by email");
+        ______TS("Typical Success Case fetching privilege of another instructor by user ID");
         params = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
-                Const.ParamsNames.INSTRUCTOR_EMAIL, otherInstructor.getEmail(),
+                Const.ParamsNames.USER_ID, otherInstructor.getId().toString(),
         };
 
         getInstructorPrivilegeAction = getAction(params);
@@ -97,9 +98,9 @@ public class GetInstructorPrivilegeActionIT extends BaseActionIT<GetInstructorPr
         assertTrue(privileges.getSessionLevelPrivileges().isEmpty());
 
         ______TS("Fetch privilege of non-existent instructor, should fail");
+        UUID invalidInstructorId = UUID.randomUUID();
         params = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
-                Const.ParamsNames.INSTRUCTOR_EMAIL, "invalid@example.com",
+                Const.ParamsNames.USER_ID, invalidInstructorId.toString(),
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(params);
@@ -112,10 +113,10 @@ public class GetInstructorPrivilegeActionIT extends BaseActionIT<GetInstructorPr
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        Instructor otherInstructor = typicalBundle.instructors.get("instructor2OfCourse1");
         Course course = typicalBundle.courses.get("course1");
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.USER_ID, otherInstructor.getId().toString(),
         };
 
         verifyInaccessibleWithoutLogin(params);
