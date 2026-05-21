@@ -18,9 +18,9 @@ import { ErrorMessageOutput } from '../../error-message-output';
   imports: [FormsModule, ReactiveFormsModule, NgxCaptchaModule, AjaxLoadingComponent],
 })
 export class SessionLinksRecoveryPageComponent implements OnInit {
-  private feedbackSessionsService = inject(FeedbackSessionsService);
-  private statusMessageService = inject(StatusMessageService);
-  private formBuilder = inject(UntypedFormBuilder);
+  private readonly feedbackSessionsService = inject(FeedbackSessionsService);
+  private readonly statusMessageService = inject(StatusMessageService);
+  private readonly formBuilder = inject(UntypedFormBuilder);
 
   // ngx-recaptcha2 element properties
   captchaSuccess = false;
@@ -75,11 +75,7 @@ export class SessionLinksRecoveryPageComponent implements OnInit {
       )
       .subscribe({
         next: (resp: SessionLinksRecoveryResponse) => {
-          if (resp.isEmailSent) {
-            this.statusMessageService.showSuccessToast(resp.message);
-          } else {
-            this.statusMessageService.showErrorToast(resp.message);
-          }
+          this.statusMessageService.showSuccessToast(resp.message);
         },
         error: (response: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(response.error.message);

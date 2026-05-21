@@ -563,7 +563,6 @@ export interface ResponseOutput {
 }
 
 export interface SessionLinksRecoveryResponse extends ApiOutput {
-  isEmailSent: boolean;
   message: string;
 }
 
