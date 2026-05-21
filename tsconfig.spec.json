@@ -5,10 +5,5 @@
     "rootDir": "./src/web",
     "types": ["jest", "node"]
   },
-  "include": [
-    "src/web/test-helpers/**/*.ts",
-    "src/web/**/*.spec.ts",
-    "src/web/**/*.d.ts",
-    "src/web/app/pages-admin/admin-notifications-page/__snapshots__/admin-notifications-page.component.spec.ts.snap"
-  ]
+   "include": ["src/web/test-helpers/**/*.ts", "src/web/**/*.spec.ts", "src/web/**/*.d.ts"]
 }
