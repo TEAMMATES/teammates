@@ -25,14 +25,14 @@ public class SessionLinksRecoveryAction extends PublicAction {
 
         String userCaptchaResponse = getRequestParamValue(Const.ParamsNames.USER_CAPTCHA_RESPONSE);
         if (!recaptchaVerifier.isVerificationSuccessful(userCaptchaResponse)) {
-            return new JsonResult(new SessionLinksRecoveryResponseData(false, "Something went wrong with "
-                    + "the reCAPTCHA verification. Please try again."));
+            throw new InvalidHttpParameterException("Something went wrong with the reCAPTCHA verification. "
+                    + "Please try again.");
         }
 
         EmailWrapper email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(recoveryEmailAddress);
         taskQueuer.scheduleEmailsForPrioritySending(List.of(email));
 
-        return new JsonResult(new SessionLinksRecoveryResponseData(true,
+        return new JsonResult(new SessionLinksRecoveryResponseData(
                     "The recovery links for your feedback sessions have been sent to the "
                             + "specified email address: " + recoveryEmailAddress));
     }
