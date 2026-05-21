@@ -144,7 +144,7 @@ public class GetStudentActionIT extends BaseActionIT<GetStudentAction> {
         ______TS("Only instructors of the same course with correct privilege can access");
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_ID, student.getId().toString(),
+                Const.ParamsNames.USER_ID, student.getId().toString(),
         };
 
         loginAsInstructor(instructor.getGoogleId());
