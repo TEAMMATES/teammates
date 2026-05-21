@@ -204,10 +204,6 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
         Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.getGoogleId();
 
-        String[] legacyInstructorParameter = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
-        };
-
         String[] onlyCourseParameter = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
@@ -215,13 +211,11 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
         loginAsAdmin();
 
         verifyHttpParameterFailure();
-        verifyHttpParameterFailure(legacyInstructorParameter);
         verifyHttpParameterFailure(onlyCourseParameter);
 
         loginAsInstructor(instructorId);
 
         verifyHttpParameterFailure();
-        verifyHttpParameterFailure(legacyInstructorParameter);
         verifyHttpParameterFailure(onlyCourseParameter);
     }
 
@@ -251,23 +245,6 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
 
         MessageOutput msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
-    }
-
-    @Test
-    protected void testExecute_adminDeletesInstructorWithLegacyCourseParam_shouldFail() {
-        loginAsAdmin();
-
-        Instructor instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.getGoogleId();
-
-        String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, instructorId,
-                Const.ParamsNames.COURSE_ID, "fake-course",
-        };
-
-        assertNull(logic.getCourse("fake-course"));
-
-        verifyHttpParameterFailure(submissionParams);
     }
 
     @Test
