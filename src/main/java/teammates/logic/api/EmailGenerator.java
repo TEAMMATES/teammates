@@ -24,7 +24,6 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.DeadlineExtensionsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.UsersLogic;
-import teammates.storage.entity.Account;
 import teammates.storage.entity.AccountRequest;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.DeadlineExtension;

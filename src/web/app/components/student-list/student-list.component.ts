@@ -227,7 +227,7 @@ export class StudentListComponent implements OnInit {
     );
     modalRef.result.then(
       () => {
-        this.remindStudentFromCourse(studentModel.student.email);
+        this.remindStudentFromCourse(studentModel.student.userId);
       },
       () => {},
     );
@@ -260,8 +260,8 @@ export class StudentListComponent implements OnInit {
   /**
    * Remind the student from course.
    */
-  remindStudentFromCourse(studentEmail: string): void {
-    this.courseService.remindStudentForJoin(this.courseId, studentEmail).subscribe({
+  remindStudentFromCourse(studentId: string): void {
+    this.courseService.remindUserForJoin(studentId).subscribe({
       next: (resp: MessageOutput) => {
         this.statusMessageService.showSuccessToast(resp.message);
       },

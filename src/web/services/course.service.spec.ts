@@ -150,25 +150,12 @@ describe('CourseService', () => {
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.JOIN_REMIND, paramMap);
   });
 
-  it('should execute POST to remind particular student', () => {
-    const courseId = 'test-id';
-    const studentEmail = 'test@example.com';
+  it('should execute POST to remind particular user', () => {
+    const userId = 'test-user-id';
     const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-      studentemail: studentEmail,
+      userid: userId,
     };
-    service.remindStudentForJoin(courseId, studentEmail);
-    expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.JOIN_REMIND, paramMap);
-  });
-
-  it('should execute POST to remind particular instructor', () => {
-    const courseId = 'test-id';
-    const instructorEmail = 'test@example.com';
-    const paramMap: { [key: string]: string } = {
-      courseid: courseId,
-      instructoremail: instructorEmail,
-    };
-    service.remindInstructorForJoin(courseId, instructorEmail);
+    service.remindUserForJoin(userId);
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.JOIN_REMIND, paramMap);
   });
 
