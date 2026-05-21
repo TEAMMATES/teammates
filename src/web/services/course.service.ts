@@ -162,23 +162,11 @@ export class CourseService {
   }
 
   /**
-   * Send join reminder email to a student.
+   * Send join reminder email to a user.
    */
-  remindStudentForJoin(courseId: string, studentEmail: string): Observable<MessageOutput> {
+  remindUserForJoin(userId: string): Observable<MessageOutput> {
     const paramMap: Record<string, string> = {
-      courseid: courseId,
-      studentemail: studentEmail,
-    };
-    return this.httpRequestService.post(ResourceEndpoints.JOIN_REMIND, paramMap);
-  }
-
-  /**
-   * Send join reminder email to an instructor.
-   */
-  remindInstructorForJoin(courseId: string, instructorEmail: string): Observable<MessageOutput> {
-    const paramMap: Record<string, string> = {
-      courseid: courseId,
-      instructoremail: instructorEmail,
+      userid: userId,
     };
     return this.httpRequestService.post(ResourceEndpoints.JOIN_REMIND, paramMap);
   }

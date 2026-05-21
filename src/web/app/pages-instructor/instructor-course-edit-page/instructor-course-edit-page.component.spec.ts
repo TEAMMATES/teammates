@@ -300,12 +300,12 @@ describe('InstructorCourseEditPageComponent', () => {
   });
 
   it('should re-send reminder email for new instructors', () => {
-    const mockReminderFunction: MockedFunction<any> = vi.fn((_: string, email: string) =>
+    const mockReminderFunction: MockedFunction<any> = vi.fn(() =>
       of({
-        message: `An email has been sent to ${email}`,
+        message: `An email has been sent`,
       }),
     );
-    vi.spyOn(courseService, 'remindInstructorForJoin').mockImplementation(mockReminderFunction);
+    vi.spyOn(courseService, 'remindUserForJoin').mockImplementation(mockReminderFunction);
 
     vi.spyOn(simpleModalService, 'openConfirmationModal').mockReturnValue(createMockNgbModalRef());
 
@@ -330,7 +330,7 @@ describe('InstructorCourseEditPageComponent', () => {
     );
     button.click();
 
-    expect(mockReminderFunction).toHaveBeenCalledWith(testCourse.courseId, testInstructor2.email);
+    expect(mockReminderFunction).toHaveBeenCalledWith(testInstructor2.userId);
   });
 
   it('should snap with default fields', () => {
