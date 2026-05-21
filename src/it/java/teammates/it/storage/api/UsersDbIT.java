@@ -52,14 +52,18 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         coursesDb.createTeam(team);
         section.addTeam(team);
 
-        Account instructorAccount = new Account("instructor-account", "instructor-name", "valid-instructor@email.tmt");
+        Account instructorAccount = new Account(
+                "instructor-account", "testIssuer", "validInstructorSubject",
+                "instructor-name", "valid-instructor@email.tmt");
         accountsDb.createAccount(instructorAccount);
         instructor = getTypicalInstructor();
         instructor.setCourse(course);
         usersDb.createInstructor(instructor);
         instructor.setAccount(instructorAccount);
 
-        Account studentAccount = new Account("student-account", "student-name", "valid-student@email.tmt");
+        Account studentAccount = new Account(
+                "student-account", "testIssuer", "validStudentSubject",
+                "student-name", "valid-student@email.tmt");
         accountsDb.createAccount(studentAccount);
         student = getTypicalStudent();
         student.setCourse(course);
@@ -130,7 +134,8 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
     @Test
     public void testGetAllUsersByGoogleId() {
         ______TS("success: gets all instructors and students by googleId");
-        Account userSharedAccount = new Account("user-account", "user-name", "valid-user@email.tmt");
+        Account userSharedAccount = new Account(
+                "user-account", "testIssuer", "validUserSubject", "user-name", "valid-user@email.tmt");
         accountsDb.createAccount(userSharedAccount);
 
         Instructor firstInstructor = getTypicalInstructor();
@@ -272,7 +277,8 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
         section.addTeam(team);
 
         Student student2 = getTypicalStudent();
-        Account account = new Account("google-id", student.getName(), student.getEmail());
+        Account account = new Account(
+                "google-id", "testIssuer", "typicalStudentSubject", student.getName(), student.getEmail());
 
         team.addUser(student2);
         accountsDb.createAccount(account);

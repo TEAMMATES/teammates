@@ -43,7 +43,7 @@ public class GetUserCookieAction extends Action {
         }
 
         String email = isValidEmail(userId) ? userId : getUniqueFallbackEmail();
-        Account newAccount = new Account(userId, "Test User", email);
+        Account newAccount = new Account(userId, "testIssuer", "testSubject", "Test User", email);
         try {
             logic.createAccount(newAccount);
             return newAccount.getId();

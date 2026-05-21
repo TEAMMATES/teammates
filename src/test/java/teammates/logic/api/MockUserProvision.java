@@ -124,7 +124,8 @@ public class MockUserProvision extends UserProvision {
     private AuthContext createAccountAuthContext(
             AuthType authType, String googleId, boolean isAdmin, boolean isMaintainer) {
         Account account = createMissingAccounts
-                ? new Account(googleId, "Test User", googleId + "@example.com")
+                ? new Account(
+                        googleId, "testIssuer", "testUserSubject", "Test User", googleId + "@example.com")
                 : logic.getAccountForGoogleId(googleId);
         return new AuthContext(authType, account, null, isAdmin, isMaintainer);
     }

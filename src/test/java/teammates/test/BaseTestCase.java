@@ -106,7 +106,7 @@ public class BaseTestCase {
      * student.setName("New Student Name");
      */
     protected Account getTypicalAccount() {
-        return new Account("google-id", "name", "email@teammates.com");
+        return new Account("google-id", "testIssuer", "validUserSubject", "name", "email@teammates.com");
     }
 
     protected Notification getTypicalNotificationWithId() {

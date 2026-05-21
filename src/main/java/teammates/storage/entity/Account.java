@@ -12,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -23,10 +24,20 @@ import teammates.common.util.SanitizationHelper;
  * Represents a unique account in the system.
  */
 @Entity
-@Table(name = "Accounts")
+@Table(name = "Accounts",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "Unique iss_sub", columnNames = {"issuer", "subject"}),
+        }
+)
 public class Account extends BaseEntity {
     @Id
     private UUID id;
+
+    @Column(nullable = false)
+    private String issuer;
+
+    @Column(nullable = false)
+    private String subject;
 
     @NaturalId
     private String googleId;
@@ -53,9 +64,11 @@ public class Account extends BaseEntity {
         // required by Hibernate
     }
 
-    public Account(String googleId, String name, String email) {
+    public Account(String googleId, String issuer, String subject, String name, String email) {
         this.setId(UUID.randomUUID());
         this.setGoogleId(googleId);
+        this.setIssuer(issuer);
+        this.setSubject(subject);
         this.setName(name);
         this.setEmail(email);
     }
@@ -74,6 +87,22 @@ public class Account extends BaseEntity {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getIssuer() {
+        return issuer;
+    }
+
+    public void setIssuer(String issuer) {
+        this.issuer = issuer;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     public String getGoogleId() {

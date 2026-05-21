@@ -811,7 +811,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
     private void verifySameCourseAccessibility(
             Course thisCourse, InstructorPrivileges instructorPrivileges, boolean canAccess, String... params) {
         Instructor instructor = getTypicalInstructor();
-        instructor.setAccount(new Account("instructor-googleId", instructor.getName(), instructor.getEmail()));
+        instructor.setAccount(new Account(
+                "instructor-googleId", "testIssuer", "validInstructorSubject", instructor.getName(), instructor.getEmail()));
 
         when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
         when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);

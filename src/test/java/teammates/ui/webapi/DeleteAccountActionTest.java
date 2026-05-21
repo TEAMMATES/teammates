@@ -45,7 +45,8 @@ public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction>
     @Test
     protected void testExecute_nonNullParams_success() {
         Course stubCourse = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
-        Account stubAccount = new Account(googleId, "name", "instructoremail@tm.tmt");
+        Account stubAccount = new Account(
+                googleId, "testIssuer", "validInstructorSubject", "name", "instructoremail@tm.tmt");
         Instructor instructor = new Instructor(stubCourse, "name", "instructoremail@tm.tmt",
                 false, "", null, new InstructorPrivileges());
         instructor.setAccount(stubAccount);

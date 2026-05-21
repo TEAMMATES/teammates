@@ -277,8 +277,10 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         String email = "student1@gmail.com";
         String name = "student-1";
         String googleId = "student-1";
+        String issuer = "testIssuer";
+        String subject = "validStudentSubject";
         Student s = new Student(courseStudentIsIn, name, email, "comment for student-1");
-        s.setAccount(new Account(googleId, name, email));
+        s.setAccount(new Account(googleId, issuer, subject, name, email));
         return s;
     }
 
@@ -298,7 +300,10 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     private Instructor generateInstructor1InCourse(Course course) {
         Instructor instructor = new Instructor(course, "name", "email@tm.tmt", false, "", null,
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
-        instructor.setAccount(new Account("instructor-1", instructor.getName(), instructor.getEmail()));
+        String issuer = "testIssuer";
+        String subject = "validInstructorSubject";
+        instructor.setAccount(new Account(
+                "instructor-1", issuer, subject, instructor.getName(), instructor.getEmail()));
         return instructor;
     }
 

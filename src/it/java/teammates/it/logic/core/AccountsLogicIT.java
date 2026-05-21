@@ -89,7 +89,10 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("success: student joined but account already exists");
 
         String existingAccountId = "existingAccountId";
-        Account existingAccount = new Account(existingAccountId, "accountName", student3YetToJoinCourse.getEmail());
+        String testIssuer = "testIssuer";
+        String testSubject = "validStudentSubject";
+        Account existingAccount = new Account(
+                existingAccountId, testIssuer, testSubject, "accountName", student3YetToJoinCourse.getEmail());
         accountsDb.createAccount(existingAccount);
 
         accountsLogic.joinCourseForStudent(student3YetToJoinCourse.getRegKey(), existingAccountId);
@@ -148,7 +151,10 @@ public class AccountsLogicIT extends BaseTestCaseWithDatabaseAccess {
         ______TS("success: instructor joined but account already exists");
 
         String existingAccountId = "existingAccountId";
-        Account existingAccount = new Account(existingAccountId, "accountName", instructor3YetToJoinCourse.getEmail());
+        String testIssuer = "testIssuer";
+        String testSubject = "validInstructorSubject";
+        Account existingAccount = new Account(
+                existingAccountId, testIssuer, testSubject, "accountName", instructor3YetToJoinCourse.getEmail());
         accountsDb.createAccount(existingAccount);
 
         accountsLogic.joinCourseForInstructor(key[1], existingAccount.getGoogleId());

@@ -104,7 +104,7 @@ public final class AccountsLogic {
         // TODO: Account googleId will be replaced by OIDC subject in the future,
         // for now we can just use email as googleId.
         // Account name will also be removed, use a generic "User" for now.
-        Account account = new Account(email, "User", email);
+        Account account = new Account(email, "testIssuer", "validUserSubject", "User", email);
         return createAccount(account);
     }
 
@@ -175,7 +175,8 @@ public final class AccountsLogic {
         Account account = accountsDb.getAccountByGoogleId(googleId);
         // Create an account if it doesn't exist
         if (account == null) {
-            account = new Account(googleId, student.getName(), student.getEmail());
+            account = new Account(
+                    googleId, "testIssuer", "validStudentSubject", student.getName(), student.getEmail());
             createAccount(account);
         }
 
@@ -198,7 +199,8 @@ public final class AccountsLogic {
         Account account = accountsDb.getAccountByGoogleId(googleId);
         if (account == null) {
             try {
-                account = new Account(googleId, instructor.getName(), instructor.getEmail());
+                account = new Account(
+                        googleId, "testIssuer", "validInstructorSubject", instructor.getName(), instructor.getEmail());
                 createAccount(account);
             } catch (EntityAlreadyExistsException e) {
                 assert false : "Account already exists.";

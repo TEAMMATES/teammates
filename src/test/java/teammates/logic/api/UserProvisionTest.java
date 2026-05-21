@@ -216,7 +216,8 @@ public class UserProvisionTest extends BaseTestCase {
     }
 
     private static Account createAccount(String googleId, String email) {
-        Account account = new Account(googleId, "Test User", email);
+        Account account = new Account(
+                googleId, "testIssuer", "testUserSubject", "Test User", email);
         account.setId(UUID.randomUUID());
         return account;
     }
