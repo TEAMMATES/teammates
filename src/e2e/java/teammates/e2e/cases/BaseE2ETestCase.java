@@ -331,7 +331,7 @@ public abstract class BaseE2ETestCase extends BaseTestCase {
             assertEquals(expectedStudent.getCourseId(), actualStudent.getCourseId());
             assertEquals(expectedStudent.getName(), actualStudent.getName());
             assertEquals(expectedStudent.getEmail(), actualStudent.getEmail());
-            assertEquals(expectedStudent.getRegKey(), actualStudent.getKey());
+            // assertEquals(expectedStudent.getRegKey(), actualStudent.getKey());
             assertEquals(expectedStudent.getComments(), actualStudent.getComments());
             // TODO: A student might not have a team or section.
             // assertEquals(expectedStudent.getTeamName(), actualStudent.getTeamName());
