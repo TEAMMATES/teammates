@@ -110,9 +110,7 @@ export class InstructorService {
 
     if ('courseId' in queryParams) {
       paramMap['courseid'] = queryParams.courseId;
-    }
-
-    if ('userId' in queryParams) {
+    } else {
       paramMap['userid'] = queryParams.userId;
     }
 
