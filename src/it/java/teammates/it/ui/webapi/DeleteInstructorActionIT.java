@@ -15,7 +15,6 @@ import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
-import teammates.storage.entity.Student;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.webapi.DeleteInstructorAction;
@@ -275,7 +274,6 @@ public class DeleteInstructorActionIT extends BaseActionIT<DeleteInstructorActio
     @Override
     protected void testAccessControl() throws Exception {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        Student student = typicalBundle.students.get("student1InCourse1");
         Course course = typicalBundle.courses.get("course1");
 
         String[] params = new String[] {

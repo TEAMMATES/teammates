@@ -106,7 +106,6 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         Student student = typicalBundle.students.get("student1InCourse1");
         Course course = typicalBundle.courses.get("course1");
 
