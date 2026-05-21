@@ -128,7 +128,7 @@ public class UsersLogicTest extends BaseTestCase {
     }
 
     @Test
-    public void testDeleteStudentsInCourseCascade_success() {
+    public void testDeleteStudentsInCourse_success() {
         usersLogic.deleteStudentsInCourse(course.getId());
 
         verify(usersDb, times(1)).deleteStudentsInCourse(course.getId());

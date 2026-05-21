@@ -49,7 +49,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
     }
 
     @Test
-    void testExecute_deleteLimitedStudents_success() {
+    void testExecute_deleteAllStudents_success() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, course.getId(),
         };

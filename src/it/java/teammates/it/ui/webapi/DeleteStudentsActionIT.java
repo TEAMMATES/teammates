@@ -46,7 +46,7 @@ public class DeleteStudentsActionIT extends BaseActionIT<DeleteStudentsAction> {
         Instructor instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         String courseId = instructor.getCourseId();
 
-        ______TS("Typical Success Case delete a limited number of students");
+        ______TS("Typical Success Case delete all students in the course");
         loginAsInstructor(instructor.getGoogleId());
 
         List<Student> studentsToDelete = logic.getStudentsForCourse(courseId);
