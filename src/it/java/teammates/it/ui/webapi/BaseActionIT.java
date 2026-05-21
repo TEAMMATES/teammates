@@ -750,7 +750,9 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
                     InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER, new InstructorPrivileges());
             logic.createInstructor(instructor);
 
-            Account account = logic.createAccount("testIssuer", "validInstructorSubject", email, email);
+            String googleId = email;
+            String subject = email;
+            Account account = logic.createAccount("testIssuer", subject, email, googleId);
             instructor.setAccount(account);
         }
         return instructor;
@@ -779,7 +781,9 @@ public abstract class BaseActionIT<T extends Action> extends BaseTestCaseWithDat
 
             student = logic.createStudent(course, team, "student-name", email, "");
 
-            Account account = logic.createAccount("testIssuer", "validStudentSubject", email, email);
+            String googleId = email;
+            String subject = email;
+            Account account = logic.createAccount("testIssuer", subject, email, googleId);
             student.setAccount(account);
         }
         return student;

@@ -81,7 +81,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         Account actualInstructorAccount = dataBundle.accounts.get("instructor1");
         Account expectedInstructorAccount = new Account(
-                "idOfInstructor1", "testIssuer", "instructor1Subject", "Instructor 1", "instr1@teammates.tmt");
+                "idOfInstructor1", "testIssuer", "idOfInstructor1", "Instructor 1", "instr1@teammates.tmt");
         expectedInstructorAccount.setId(actualInstructorAccount.getId());
         verifyEquals(expectedInstructorAccount, actualInstructorAccount);
         assertEquals(1, actualInstructorAccount.getReadNotifications().size());
@@ -90,7 +90,7 @@ public class DataBundleLogicIT extends BaseTestCaseWithDatabaseAccess {
 
         Account actualStudentAccount = dataBundle.accounts.get("student1");
         Account expectedStudentAccount = new Account(
-                "idOfStudent1", "testIssuer", "student1Subject", "Student 1", "student1@teammates.tmt");
+                "idOfStudent1", "testIssuer", "idOfStudent1", "Student 1", "student1@teammates.tmt");
         expectedStudentAccount.setId(actualStudentAccount.getId());
         verifyEquals(expectedStudentAccount, actualStudentAccount);
         assertEquals(1, actualStudentAccount.getReadNotifications().size());

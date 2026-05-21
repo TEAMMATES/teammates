@@ -56,8 +56,7 @@ public class AccountsDbIT extends BaseTestCaseWithDatabaseAccess {
     public void testCreateAccount() throws Exception {
         ______TS("Create account, does not exists, succeeds");
 
-        Account account = new Account(
-                "google-id", "testIssuer", "testSubject", "name", "email@teammates.com");
+        Account account = getTypicalAccount();
 
         accountsDb.createAccount(account);
         HibernateUtil.flushSession();
@@ -68,8 +67,7 @@ public class AccountsDbIT extends BaseTestCaseWithDatabaseAccess {
 
     @Test
     public void testDeleteAccount() throws InvalidParametersException, EntityAlreadyExistsException {
-        Account account = new Account(
-                "google-id", "testIssuer", "testSubject", "name", "email@teammates.com");
+        Account account = getTypicalAccount();
         accountsDb.createAccount(account);
         HibernateUtil.flushSession();
 

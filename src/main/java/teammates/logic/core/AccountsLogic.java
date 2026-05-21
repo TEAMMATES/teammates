@@ -191,7 +191,7 @@ public final class AccountsLogic {
         // Create an account if it doesn't exist
         if (account == null) {
             account = new Account(
-                    googleId, "testIssuer", "validStudentSubject", student.getName(), student.getEmail());
+                    googleId, "testIssuer", student.getEmail(), student.getName(), student.getEmail());
             createAccount(account);
         }
 
@@ -215,7 +215,7 @@ public final class AccountsLogic {
         if (account == null) {
             try {
                 account = new Account(
-                        googleId, "testIssuer", "validInstructorSubject", instructor.getName(), instructor.getEmail());
+                        googleId, "testIssuer", instructor.getEmail(), instructor.getName(), instructor.getEmail());
                 createAccount(account);
             } catch (EntityAlreadyExistsException e) {
                 assert false : "Account already exists.";

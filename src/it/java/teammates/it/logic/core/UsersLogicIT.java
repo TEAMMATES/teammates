@@ -57,7 +57,8 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
         team = coursesLogic.createTeam(section, "team-name");
 
         account = getTypicalAccount();
-        accountsLogic.createAccount(account.getIssuer(), account.getSubject(), account.getEmail(), account.getGoogleId());
+        account = accountsLogic.createAccount(
+                account.getIssuer(), account.getSubject(), account.getEmail(), account.getGoogleId());
     }
 
     @Test
@@ -80,7 +81,6 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(instructor, resetUser);
         assertNull(instructor.getAccount());
         assertEquals(account, accountsLogic.getAccountForGoogleId(googleId));
-
     }
 
     @Test
@@ -103,7 +103,6 @@ public class UsersLogicIT extends BaseTestCaseWithDatabaseAccess {
         assertEquals(student, resetUser);
         assertNull(student.getAccount());
         assertEquals(account, accountsLogic.getAccountForGoogleId(googleId));
-
     }
 
     @Test

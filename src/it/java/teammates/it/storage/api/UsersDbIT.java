@@ -135,7 +135,7 @@ public class UsersDbIT extends BaseTestCaseWithDatabaseAccess {
     public void testGetAllUsersByGoogleId() {
         ______TS("success: gets all instructors and students by googleId");
         Account userSharedAccount = new Account(
-                "user-account", "testIssuer", "validUserSubject", "user-name", "valid-user@email.tmt");
+                "user-account", "testIssuer", "valid-user@email.com", "user-name", "valid-user@email.tmt");
         accountsDb.createAccount(userSharedAccount);
 
         Instructor firstInstructor = getTypicalInstructor();
