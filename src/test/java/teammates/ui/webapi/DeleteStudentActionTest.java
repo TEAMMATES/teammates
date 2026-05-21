@@ -1,11 +1,11 @@
 package teammates.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.UUID;
 
 import org.mockito.Mockito;
 import org.testng.annotations.BeforeMethod;
@@ -78,8 +78,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         DeleteStudentAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getStudent(java.util.UUID.fromString(randomUserId));
-        verify(mockLogic, never()).deleteStudentCascade(any());
+        verify(mockLogic, times(1)).deleteStudentCascade(UUID.fromString(randomUserId));
         assertEquals("Student is successfully deleted.", actionOutput.getMessage());
     }
 

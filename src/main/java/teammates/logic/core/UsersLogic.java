@@ -37,6 +37,7 @@ import teammates.storage.entity.Section;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.storage.entity.User;
+import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.request.InstructorCreateRequest;
 import teammates.ui.request.StudentEnrollRequest;
 import teammates.ui.request.StudentUpdateRequest;
@@ -298,13 +299,44 @@ public final class UsersLogic {
      *
      * <p>Fails silently if the instructor does not exist.
      */
-    public void deleteInstructorCascade(UUID userId) {
+    public void deleteInstructorCascade(UUID userId) throws InvalidOperationException {
         Instructor instructor = getInstructor(userId);
         if (instructor == null) {
             return;
         }
 
+        if (!hasAlternativeInstructor(instructor)) {
+            throw new InvalidOperationException(
+                    "The instructor you are trying to delete is the last instructor in the course. "
+                            + "Deleting the last instructor from the course is not allowed.");
+        }
+
         deleteUser(instructor);
+    }
+
+    /**
+     * Returns true if there is at least one joined instructor (other than the instructor to delete)
+     * with the privilege of modifying instructors and at least one instructor visible to the students.
+     */
+    private boolean hasAlternativeInstructor(Instructor instructorToDelete) {
+        List<Instructor> instructors = getInstructorsForCourse(instructorToDelete.getCourseId());
+        boolean hasAlternativeModifyInstructor = false;
+        boolean hasAlternativeVisibleInstructor = false;
+
+        for (Instructor instr : instructors) {
+            hasAlternativeModifyInstructor = hasAlternativeModifyInstructor || instr.isRegistered()
+                    && !instr.equals(instructorToDelete)
+                    && instr.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+
+            hasAlternativeVisibleInstructor = hasAlternativeVisibleInstructor
+                    || instr.isDisplayedToStudents()
+                    && !instr.equals(instructorToDelete);
+
+            if (hasAlternativeModifyInstructor && hasAlternativeVisibleInstructor) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

@@ -3,6 +3,8 @@ package teammates.it.ui.webapi;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.util.UUID;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -47,49 +49,37 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
         Student student3InCourse1 = typicalBundle.students.get("student3InCourse1");
         String courseId = instructor.getCourseId();
 
-        ______TS("Typical Success Case delete a student by email");
+        ______TS("Typical Success Case delete a student by user id");
         loginAsInstructor(instructor.getGoogleId());
 
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
+                Const.ParamsNames.USER_ID, student1InCourse1.getId().toString(),
         };
 
         DeleteStudentAction deleteStudentAction = getAction(params);
         getJsonResult(deleteStudentAction);
 
-        assertNull(logic.getStudentForEmail(courseId, student1InCourse1.getEmail()));
+        assertNull(logic.getStudent(student1InCourse1.getId()));
 
-        ______TS("Typical Success Case delete a student by id");
+        ______TS("Typical Success Case delete another student by user id");
         params = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.STUDENT_ID, student2InCourse1.getGoogleId(),
+                Const.ParamsNames.USER_ID, student2InCourse1.getId().toString(),
         };
 
         deleteStudentAction = getAction(params);
         getJsonResult(deleteStudentAction);
 
-        assertNull(logic.getStudentByGoogleId(courseId, student2InCourse1.getGoogleId()));
-
-        ______TS("Course does not exist, fails silently");
-        params = new String[] {
-                Const.ParamsNames.COURSE_ID, "non-existent-course",
-                Const.ParamsNames.STUDENT_ID, student3InCourse1.getGoogleId(),
-        };
-
-        deleteStudentAction = getAction(params);
-        getJsonResult(deleteStudentAction);
-
-        assertNotNull(logic.getStudentByGoogleId(student3InCourse1.getCourseId(), student3InCourse1.getGoogleId()));
+        assertNull(logic.getStudent(student2InCourse1.getId()));
 
         ______TS("Student does not exist, fails silently");
+        UUID nonExistentStudentId = UUID.randomUUID();
         params = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.STUDENT_ID, "non-existent-id",
+                Const.ParamsNames.USER_ID, nonExistentStudentId.toString(),
         };
 
         deleteStudentAction = getAction(params);
         getJsonResult(deleteStudentAction);
+        assertNotNull(logic.getStudent(student3InCourse1.getId()));
 
         ______TS("Incomplete params given");
         verifyHttpParameterFailure();
@@ -110,16 +100,7 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
                 Const.ParamsNames.STUDENT_ID, student1InCourse1.getGoogleId(),
         };
 
-        verifyAccessibleForAdmin(params);
-
-        ______TS("Random email given, fails silently");
-        params = new String[] {
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.STUDENT_EMAIL, "random-email",
-        };
-
-        deleteStudentAction = getAction(params);
-        getJsonResult(deleteStudentAction);
+        verifyHttpParameterFailure(params);
     }
 
     @Test
@@ -130,8 +111,7 @@ public class DeleteStudentActionIT extends BaseActionIT<DeleteStudentAction> {
         Course course = typicalBundle.courses.get("course1");
 
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
-                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
+                Const.ParamsNames.USER_ID, student.getId().toString(),
         };
 
         verifyAccessibleForAdmin(params);

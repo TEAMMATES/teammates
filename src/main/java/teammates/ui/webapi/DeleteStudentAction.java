@@ -37,12 +37,8 @@ public class DeleteStudentAction extends Action {
     @Override
     public JsonResult execute() {
         UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
-        Student student = logic.getStudent(userId);
 
-        // if student is not found, fail silently
-        if (student != null) {
-            logic.deleteStudentCascade(userId);
-        }
+        logic.deleteStudentCascade(userId);
 
         return new JsonResult("Student is successfully deleted.");
     }

@@ -59,6 +59,7 @@ import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.storage.entity.UsageStatistics;
 import teammates.storage.entity.User;
+import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
@@ -1124,7 +1125,7 @@ public class Logic {
      * Preconditions: <br/>
      * * User ID is non-null.
      */
-    public void deleteInstructorCascade(UUID userId) {
+    public void deleteInstructorCascade(UUID userId) throws InvalidOperationException {
         assert userId != null;
 
         usersLogic.deleteInstructorCascade(userId);

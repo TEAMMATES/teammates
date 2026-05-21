@@ -1,8 +1,7 @@
 package teammates.ui.webapi;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -81,7 +80,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
     }
 
     @Test
-    void testExecute_deleteInstructorByUserId_success() {
+    void testExecute_deleteInstructorByUserId_success() throws InvalidOperationException {
         String[] params = {
                 Const.ParamsNames.USER_ID, instructor2.getId().toString(),
         };
@@ -89,33 +88,16 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         DeleteInstructorAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getInstructor(instructor2.getId());
         verify(mockLogic, times(1)).deleteInstructorCascade(instructor2.getId());
         assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
     }
 
     @Test
-    void testExecute_onlyOneInstructorInCourse_throwsInvalidOperationException() {
-        // Override the mock logic for the course to have only one instructor
-        when(mockLogic.getInstructorsByCourse(course.getId())).thenReturn(List.of(instructor));
-
-        String[] params = {
-                Const.ParamsNames.USER_ID, instructor.getId().toString(),
-        };
-
-        assertEquals(mockLogic.getInstructorsByCourse(course.getId()).size(), 1);
-
-        InvalidOperationException ioe = verifyInvalidOperation(params);
-        assertEquals("The instructor you are trying to delete is the last instructor in the course. "
-                + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
-
-        verify(mockLogic, times(1)).getInstructor(instructor.getId());
-        verify(mockLogic, never()).deleteInstructorCascade(any());
-    }
-
-    @Test
-    void testExecute_onlyOneRegisteredInstructor_throwsInvalidOperationException() {
-        instructor2.setAccount(null);
+    void testExecute_onlyOneInstructorInCourse_throwsInvalidOperationException() throws InvalidOperationException {
+        doThrow(new InvalidOperationException(
+                "The instructor you are trying to delete is the last instructor in the course. "
+                        + "Deleting the last instructor from the course is not allowed."))
+                        .when(mockLogic).deleteInstructorCascade(instructor.getId());
 
         String[] params = {
                 Const.ParamsNames.USER_ID, instructor.getId().toString(),
@@ -125,28 +107,11 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
-        verify(mockLogic, times(1)).getInstructor(instructor.getId());
-        verify(mockLogic, never()).deleteInstructorCascade(any());
+        verify(mockLogic, times(1)).deleteInstructorCascade(instructor.getId());
     }
 
     @Test
-    void testExecute_onlyOneInstructorDisplayedToStudents_throwsInvalidOperationException() {
-        instructor2.setDisplayedToStudents(false);
-
-        String[] params = {
-                Const.ParamsNames.USER_ID, instructor.getId().toString(),
-        };
-
-        InvalidOperationException ioe = verifyInvalidOperation(params);
-        assertEquals("The instructor you are trying to delete is the last instructor in the course. "
-                + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
-
-        verify(mockLogic, times(1)).getInstructor(instructor.getId());
-        verify(mockLogic, never()).deleteInstructorCascade(any());
-    }
-
-    @Test
-    void testExecute_instructorDeleteOwnRoleByGoogleId_success() {
+    void testExecute_instructorDeleteOwnRoleByGoogleId_success() throws InvalidOperationException {
         loginAsInstructor(instructor.getGoogleId());
 
         String[] params = {
@@ -156,13 +121,12 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         DeleteInstructorAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getInstructor(instructor.getId());
         verify(mockLogic, times(1)).deleteInstructorCascade(instructor.getId());
         assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
     }
 
     @Test
-    void testExecute_deleteNonExistentInstructorByUserId_failSilently() {
+    void testExecute_deleteNonExistentInstructorByUserId_failSilently() throws InvalidOperationException {
         String fakeInstructorId = "00000000-0000-4000-8000-000000000001";
 
         String[] params = {
@@ -172,8 +136,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         DeleteInstructorAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getInstructor(java.util.UUID.fromString(fakeInstructorId));
-        verify(mockLogic, never()).deleteInstructorCascade(any());
+        verify(mockLogic, times(1)).deleteInstructorCascade(java.util.UUID.fromString(fakeInstructorId));
         assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
     }
 
