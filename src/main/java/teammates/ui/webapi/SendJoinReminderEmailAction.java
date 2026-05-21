@@ -48,9 +48,6 @@ public class SendJoinReminderEmailAction extends Action {
 
         if (user instanceof Student student) {
             Course course = student.getCourse();
-            if (course == null) {
-                throw new EntityNotFoundException("Course does not exist.");
-            }
             EmailWrapper email = emailGenerator.generateStudentCourseJoinEmail(course, student);
             List<EmailWrapper> emails = new ArrayList<>();
             emails.add(email);
@@ -59,9 +56,6 @@ public class SendJoinReminderEmailAction extends Action {
 
         } else if (user instanceof Instructor instructorData) {
             Course course = instructorData.getCourse();
-            if (course == null) {
-                throw new EntityNotFoundException("Course does not exist.");
-            }
             Instructor inviter = logic.getInstructorByGoogleId(course.getId(), getCurrentUserGoogleId());
             if (inviter == null) {
                 throw new EntityNotFoundException("Inviter does not exist.");
