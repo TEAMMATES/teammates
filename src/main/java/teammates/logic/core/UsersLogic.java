@@ -30,7 +30,6 @@ import teammates.common.util.Const;
 import teammates.common.util.HibernateUtil;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.api.UsersDb;
-import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Section;
@@ -62,8 +61,6 @@ public final class UsersLogic {
 
     private UsersDb usersDb;
 
-    private AccountsLogic accountsLogic;
-
     private CoursesLogic coursesLogic;
 
     private FeedbackResponsesLogic feedbackResponsesLogic;
@@ -76,10 +73,9 @@ public final class UsersLogic {
         return instance;
     }
 
-    void initLogicDependencies(UsersDb usersDb, AccountsLogic accountsLogic, CoursesLogic coursesLogic,
+    void initLogicDependencies(UsersDb usersDb, CoursesLogic coursesLogic,
                                FeedbackResponsesLogic feedbackResponsesLogic) {
         this.usersDb = usersDb;
-        this.accountsLogic = accountsLogic;
         this.coursesLogic = coursesLogic;
         this.feedbackResponsesLogic = feedbackResponsesLogic;
     }
@@ -363,54 +359,6 @@ public final class UsersLogic {
         assert institute != null;
 
         return usersDb.getInstructorByEmailAndInstitute(email, institute);
-    }
-
-    /**
-     * Make the instructor join the course, i.e. associate an account to the instructor with the given googleId.
-     * Creates an account for the instructor if no existing account is found.
-     * Preconditions:
-     * Parameters regkey and googleId are non-null.
-     * @throws EntityAlreadyExistsException if the instructor already exists in the database.
-     * @throws InvalidParametersException if the instructor parameters are not valid
-     */
-    public Instructor joinCourseForInstructor(String googleId, Instructor instructor)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        if (googleId == null) {
-            throw new InvalidParametersException("Instructor's googleId cannot be null");
-        }
-        if (instructor == null) {
-            throw new InvalidParametersException("Instructor cannot be null");
-        }
-
-        // setting account for instructor sets it as registered
-        if (instructor.getAccount() == null) {
-            Account dbAccount = accountsLogic.getAccountForGoogleId(googleId);
-            if (dbAccount != null) {
-                instructor.setAccount(dbAccount);
-            } else {
-                Account account = accountsLogic.createAccount(
-                        "testIssuer", "validInstructorSubject", instructor.getEmail(), googleId);
-                instructor.setAccount(account);
-            }
-        } else {
-            instructor.setGoogleId(googleId);
-        }
-        validateUser(instructor);
-
-        // Update the googleId of the student entity for the instructor which was created from sample data.
-        Student student = getStudentForEmail(instructor.getCourseId(), instructor.getEmail());
-        if (student != null) {
-            if (student.getAccount() == null) {
-                Account account = accountsLogic.createAccount(
-                        "testIssuer", "validStudentSubject", student.getEmail(), googleId);
-                student.setAccount(account);
-            } else {
-                student.getAccount().setGoogleId(googleId);
-            }
-            validateUser(student);
-        }
-
-        return instructor;
     }
 
     /**

@@ -209,7 +209,7 @@ public class UserProvisionTest extends BaseTestCase {
 
     private static MockHttpServletRequest createRequestWithAuthCookie(Account account) {
         MockHttpServletRequest req = createRequest();
-        UserInfoCookie userInfoCookie = new UserInfoCookie(account.getGoogleId(), account.getId());
+        UserInfoCookie userInfoCookie = new UserInfoCookie(account.getId());
         String cookieValue = StringHelper.encrypt(JsonUtils.toCompactJson(userInfoCookie));
         req.addCookie(new Cookie(Const.SecurityConfig.AUTH_COOKIE_NAME, cookieValue));
         return req;

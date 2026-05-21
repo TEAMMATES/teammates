@@ -121,10 +121,10 @@ public final class CoursesLogic {
     /**
      * Returns a list of {@link Course} for all courses a given student is enrolled in.
      *
-     * @param googleId The Google ID of the student
+     * @param account The account of the student
      */
-    public List<Course> getCoursesForStudentAccount(String googleId) {
-        List<Student> students = usersLogic.getAllStudentsByGoogleId(googleId);
+    public List<Course> getCoursesForStudentAccount(Account account) {
+        List<Student> students = usersLogic.getAllStudentsByGoogleId(account.getGoogleId());
 
         return students
                 .stream()

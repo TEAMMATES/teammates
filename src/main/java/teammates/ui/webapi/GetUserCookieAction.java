@@ -32,7 +32,7 @@ public class GetUserCookieAction extends Action {
     public JsonResult execute() {
         String user = getNonNullRequestParamValue(Const.ParamsNames.USER);
         UUID accountId = getOrCreateAccountId(user);
-        UserInfoCookie uic = new UserInfoCookie(user, accountId);
+        UserInfoCookie uic = new UserInfoCookie(accountId);
         return new JsonResult(StringHelper.encrypt(JsonUtils.toCompactJson(uic)));
     }
 

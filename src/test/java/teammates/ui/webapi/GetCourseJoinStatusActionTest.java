@@ -52,12 +52,11 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         String[] params = new String[] {
                 Const.ParamsNames.REGKEY, "key",
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
         GetCourseJoinStatusAction action = getAction(params);
         EntityNotFoundException enfe = assertThrows(EntityNotFoundException.class, action::execute);
-        assertEquals("No student with given registration key: key", enfe.getMessage());
+        assertEquals("No user with given registration key: key", enfe.getMessage());
     }
 
     @Test
@@ -69,7 +68,6 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         String[] params = new String[] {
                 Const.ParamsNames.REGKEY, typicalStudent.getRegKey(),
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
         GetCourseJoinStatusAction action = getAction(params);
@@ -84,7 +82,6 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         String[] params = new String[] {
                 Const.ParamsNames.REGKEY, typicalStudent.getRegKey(),
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
         GetCourseJoinStatusAction action = getAction(params);
@@ -99,12 +96,11 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         String[] params = new String[] {
                 Const.ParamsNames.REGKEY, "key",
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
         GetCourseJoinStatusAction action = getAction(params);
         EntityNotFoundException enfe = assertThrows(EntityNotFoundException.class, action::execute);
-        assertEquals("No instructor with given registration key: key", enfe.getMessage());
+        assertEquals("No user with given registration key: key", enfe.getMessage());
     }
 
     @Test
@@ -116,7 +112,6 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         String[] params = new String[] {
                 Const.ParamsNames.REGKEY, typicalInstructor.getRegKey(),
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
         GetCourseJoinStatusAction action = getAction(params);
@@ -131,7 +126,6 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         String[] params = new String[] {
                 Const.ParamsNames.REGKEY, typicalInstructor.getRegKey(),
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
         GetCourseJoinStatusAction action = getAction(params);
@@ -146,7 +140,6 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         String[] params = new String[] {
                 Const.ParamsNames.REGKEY, "key",
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
                 Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
         };
 
@@ -161,7 +154,6 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         String[] params = new String[] {
                 Const.ParamsNames.REGKEY, typicalInstructor.getRegKey(),
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
                 Const.ParamsNames.IS_CREATING_ACCOUNT, "true",
         };
 
@@ -195,15 +187,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         verifyHttpParameterFailure();
 
         verifyHttpParameterFailure(
-                Const.ParamsNames.REGKEY, "regkey"
-        );
-        verifyHttpParameterFailure(
-                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT
-        );
-
-        verifyHttpParameterFailure(
-                Const.ParamsNames.ENTITY_TYPE, "some-entity",
-                Const.ParamsNames.REGKEY, "regkey"
+                Const.ParamsNames.IS_CREATING_ACCOUNT, "true"
         );
     }
 
