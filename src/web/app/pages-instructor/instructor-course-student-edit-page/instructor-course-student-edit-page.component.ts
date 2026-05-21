@@ -108,7 +108,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
     this.hasStudentLoadingFailed = false;
     this.isStudentLoading = true;
     this.studentService
-      .getStudent(courseId, studentId)
+      .getStudent({ courseId, userId: studentId })
       .pipe(
         finalize(() => {
           this.isStudentLoading = false;

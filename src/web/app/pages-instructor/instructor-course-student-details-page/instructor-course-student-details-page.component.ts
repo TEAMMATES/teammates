@@ -46,7 +46,7 @@ export class InstructorCourseStudentDetailsPageComponent implements OnInit {
     this.hasStudentLoadingFailed = false;
     this.isStudentLoading = true;
     this.studentService
-      .getStudent(courseId, studentId)
+      .getStudent({ courseId, userId: studentId })
       .pipe(
         finalize(() => {
           this.isStudentLoading = false;

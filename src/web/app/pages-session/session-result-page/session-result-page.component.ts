@@ -262,12 +262,14 @@ export class SessionResultPageComponent implements OnInit {
             }
           });
         } else {
-          this.studentService.getStudent(this.courseId, undefined, this.regKey).subscribe((student: Student) => {
-            this.studentId = student.userId;
-            this.personName = student.name;
-            this.personEmail = student.email;
-            this.logStudentView();
-          });
+          this.studentService
+            .getStudent({ courseId: this.courseId, regKey: this.regKey })
+            .subscribe((student: Student) => {
+              this.studentId = student.userId;
+              this.personName = student.name;
+              this.personEmail = student.email;
+              this.logStudentView();
+            });
         }
         break;
       case Intent.INSTRUCTOR_RESULT:

@@ -143,7 +143,7 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
    * Loads the student's records based on the given course ID and user ID.
    */
   private loadStudentRecords(courseId: string, studentId: string): Observable<Student> {
-    return this.studentService.getStudent(courseId, studentId).pipe(
+    return this.studentService.getStudent({ courseId, userId: studentId }).pipe(
       tap((resp: Student) => {
         this.studentName = resp.name;
         this.studentEmail = resp.email;

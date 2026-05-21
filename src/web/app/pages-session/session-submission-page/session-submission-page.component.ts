@@ -368,12 +368,14 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             }
           });
         } else {
-          this.studentService.getStudent(this.courseId, undefined, this.regKey).subscribe((student: Student) => {
-            this.studentId = student.userId;
-            this.personName = student.name;
-            this.personEmail = student.email;
-            this.logStudentAccess();
-          });
+          this.studentService
+            .getStudent({ courseId: this.courseId, regKey: this.regKey })
+            .subscribe((student: Student) => {
+              this.studentId = student.userId;
+              this.personName = student.name;
+              this.personEmail = student.email;
+              this.logStudentAccess();
+            });
         }
         break;
       case Intent.INSTRUCTOR_SUBMISSION:

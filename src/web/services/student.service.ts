@@ -44,19 +44,16 @@ export class StudentService {
    *
    * If both userId and regKey are not provided, get the student of current logged-in user.
    *
-   * @param courseId courseId of the course
-   * @param userId if provided, get the student with the given user ID
-   * @param regKey if provided, get the student of the course with regKey
    */
-  getStudent(courseId: string, userId?: string, regKey?: string): Observable<Student> {
+  getStudent(queryParams: { courseId: string; userId?: string; regKey?: string }): Observable<Student> {
     const paramsMap: { [key: string]: string } = {
-      courseid: courseId,
+      courseid: queryParams.courseId,
     };
-    if (userId) {
-      paramsMap['userid'] = userId;
+    if (queryParams.userId) {
+      paramsMap['userid'] = queryParams.userId;
     }
-    if (regKey) {
-      paramsMap['key'] = regKey;
+    if (queryParams.regKey) {
+      paramsMap['key'] = queryParams.regKey;
     }
     return this.httpRequestService.get(ResourceEndpoints.STUDENT, paramsMap);
   }

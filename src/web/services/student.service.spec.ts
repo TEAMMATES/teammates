@@ -88,7 +88,10 @@ describe('StudentService', () => {
     };
     vi.spyOn(spyHttpRequestService, 'get');
 
-    service.getStudent(paramMap['courseid'], paramMap['userid']);
+    service.getStudent({
+      courseId: paramMap['courseid'],
+      userId: paramMap['userid'],
+    });
 
     expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.STUDENT, paramMap);
   });
