@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import teammates.common.util.Const;
 import teammates.storage.entity.Account;
@@ -35,10 +36,13 @@ public class GetStudentAction extends Action {
 
         Student student;
 
-        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        UUID studentId = getNullableUuidRequestParamValue(Const.ParamsNames.USER_ID);
         String regKey = getRequestParamValue(Const.ParamsNames.REGKEY);
-        if (studentEmail != null) {
-            student = logic.getStudentForEmail(courseId, studentEmail);
+        if (studentId != null) {
+            student = getStudentInCourse(courseId, studentId);
+            if (student == null) {
+                throw new EntityNotFoundException(STUDENT_NOT_FOUND);
+            }
 
             Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
 
@@ -59,12 +63,12 @@ public class GetStudentAction extends Action {
 
         Student student;
 
-        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        UUID studentId = getNullableUuidRequestParamValue(Const.ParamsNames.USER_ID);
 
-        if (studentEmail == null) {
+        if (studentId == null) {
             student = getPossiblyUnregisteredStudent(courseId);
         } else {
-            student = logic.getStudentForEmail(courseId, studentEmail);
+            student = getStudentInCourse(courseId, studentId);
         }
 
         if (student == null) {
@@ -81,7 +85,7 @@ public class GetStudentAction extends Action {
             );
         }
 
-        if (studentEmail == null) {
+        if (studentId == null) {
             // hide information if not an instructor
             studentData.hideInformationForStudent();
             // add student institute
@@ -89,5 +93,13 @@ public class GetStudentAction extends Action {
         }
 
         return new JsonResult(studentData);
+    }
+
+    private Student getStudentInCourse(String courseId, UUID studentId) {
+        Student student = logic.getStudent(studentId);
+        if (student == null || !courseId.equals(student.getCourseId())) {
+            return null;
+        }
+        return student;
     }
 }

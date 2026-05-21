@@ -24,7 +24,7 @@ public class InstructorCourseStudentDetailsPageAxeTest extends BaseAxeTestCase {
     public void testAll() {
         AppUrl viewPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE)
                 .withCourseId(testData.courses.get("ICSDet.CS2104").getId())
-                .withStudentEmail(testData.students.get("ICSDet.jose.tmms").getEmail());
+                .withUserId(testData.students.get("ICSDet.jose.tmms").getId().toString());
         InstructorCourseStudentDetailsViewPage viewPage =
                 loginToPage(viewPageUrl, InstructorCourseStudentDetailsViewPage.class,
                 testData.instructors.get("ICSDet.instr").getGoogleId());

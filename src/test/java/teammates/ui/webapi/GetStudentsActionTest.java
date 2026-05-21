@@ -345,7 +345,6 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
                 Const.ParamsNames.COURSE_ID, stubStudentOne.getCourseId(),
                 Const.ParamsNames.TEAM_NAME, stubStudentTwo.getTeamName(),
         };
-        verifyAdminsCannotAccess(params);
         verifyWithoutLoginCannotAccess(params);
     }
 

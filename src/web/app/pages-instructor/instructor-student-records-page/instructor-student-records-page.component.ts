@@ -64,6 +64,7 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   courseId = '';
   studentName = '';
   studentEmail = '';
+  studentId = '';
   studentTeam = '';
 
   sessionTabs: SessionTab[] = [];
@@ -77,10 +78,10 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
     this.route.queryParams.subscribe({
       next: (queryParams: any) => {
         this.courseId = queryParams.courseid;
-        this.studentEmail = queryParams.studentemail;
+        this.studentId = queryParams.userid;
 
         this.loadInstructorRecords(this.courseId);
-        this.loadStudentResults(this.courseId, this.studentEmail);
+        this.loadStudentResults(this.courseId, this.studentId);
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
@@ -103,17 +104,17 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   }
 
   /**
-   * Loads the student's feedback session results based on the given course ID and student email.
+   * Loads the student's feedback session results based on the given course ID and student user ID.
    * Fetches student records and feedback sessions in parallel, then loads results for each session.
    */
-  loadStudentResults(courseId: string, studentEmail: string): void {
+  loadStudentResults(courseId: string, studentId: string): void {
     this.sessionTabs = [];
     this.hasStudentResultsLoadingFailed = false;
     this.isStudentResultsLoading = true;
 
     combineLatest({
       feedbackSession: this.getFeedbackSessions(this.courseId),
-      student: this.loadStudentRecords(courseId, studentEmail),
+      student: this.loadStudentRecords(courseId, studentId),
     })
       .pipe(
         mergeMap(({ feedbackSession, student }: { feedbackSession: FeedbackSession; student: Student }) => {
@@ -139,12 +140,13 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   }
 
   /**
-   * Loads the student's records based on the given course ID and email.
+   * Loads the student's records based on the given course ID and user ID.
    */
-  private loadStudentRecords(courseId: string, studentEmail: string): Observable<Student> {
-    return this.studentService.getStudent(courseId, studentEmail).pipe(
+  private loadStudentRecords(courseId: string, studentId: string): Observable<Student> {
+    return this.studentService.getStudent({ courseId, userId: studentId }).pipe(
       tap((resp: Student) => {
         this.studentName = resp.name;
+        this.studentEmail = resp.email;
         this.studentTeam = resp.teamName;
       }),
     );

@@ -51,7 +51,6 @@ public class FeedbackResultsPageE2ETest extends BaseE2ETestCase {
         ______TS("unregistered student: can access results");
         Student unregistered = testData.students.get("Unregistered");
         AppUrl url = createFrontendUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
-                .withStudentEmail(unregistered.getEmail())
                 .withFeedbackSessionId(openSession.getId().toString())
                 .withRegistrationKey(unregistered.getRegKey());
         resultsPage = getNewPageInstance(url, FeedbackResultsPage.class);

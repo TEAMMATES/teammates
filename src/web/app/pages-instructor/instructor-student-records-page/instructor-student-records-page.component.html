@@ -5,7 +5,7 @@
 <tm-loading-retry
   [shouldShowRetry]="hasStudentResultsLoadingFailed"
   [message]="'Failed to load student results'"
-  (retryEvent)="loadStudentResults(courseId, studentEmail)"
+  (retryEvent)="loadStudentResults(courseId, studentId)"
 >
   <div *tmIsLoading="isStudentResultsLoading">
     @for (session of sessionTabs; track session) {

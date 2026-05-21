@@ -24,7 +24,7 @@ public class InstructorCourseStudentDetailsEditPageAxeTest extends BaseAxeTestCa
     public void testAll() {
         AppUrl editPageUrl = createFrontendUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_PAGE)
                 .withCourseId(testData.courses.get("ICSDetEdit.CS2104").getId())
-                .withStudentEmail(testData.students.get("ICSDetEdit.jose.tmms").getEmail());
+                .withUserId(testData.students.get("ICSDetEdit.jose.tmms").getId().toString());
         InstructorCourseStudentDetailsEditPage editPage =
                 loginToPage(editPageUrl, InstructorCourseStudentDetailsEditPage.class,
                         testData.instructors.get("ICSDetEdit.instr").getGoogleId());

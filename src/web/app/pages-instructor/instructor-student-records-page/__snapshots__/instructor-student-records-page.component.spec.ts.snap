@@ -14,7 +14,8 @@ exports[`InstructorStudentRecordsPageComponent > should snap when student result
   route={[Function Object]}
   sessionTabs={[Function Array]}
   statusMessageService={[Function _StatusMessageService]}
-  studentEmail={[Function String]}
+  studentEmail=""
+  studentId={[Function String]}
   studentName={[Function String]}
   studentService={[Function _StudentService]}
   studentTeam=""
@@ -68,7 +69,8 @@ exports[`InstructorStudentRecordsPageComponent > should snap with default fields
   route={[Function Object]}
   sessionTabs={[Function Array]}
   statusMessageService={[Function _StatusMessageService]}
-  studentEmail={[Function String]}
+  studentEmail=""
+  studentId={[Function String]}
   studentName=""
   studentService={[Function _StudentService]}
   studentTeam=""
@@ -122,7 +124,8 @@ exports[`InstructorStudentRecordsPageComponent > should snap with populated fiel
   route={[Function Object]}
   sessionTabs={[Function Array]}
   statusMessageService={[Function _StatusMessageService]}
-  studentEmail={[Function String]}
+  studentEmail=""
+  studentId={[Function String]}
   studentName={[Function String]}
   studentService={[Function _StudentService]}
   studentTeam=""

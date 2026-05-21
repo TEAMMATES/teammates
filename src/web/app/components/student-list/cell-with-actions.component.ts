@@ -14,7 +14,7 @@ import { TeammatesRouterDirective } from '../teammates-router/teammates-router.d
 export class CellWithActionsComponent {
   @Input() idx = 0;
   @Input() courseId = '';
-  @Input() email = '';
+  @Input() userId = '';
   @Input() isSendReminderLoading = false;
   @Input() enableRemindButton = false;
   @Input() isActionButtonsEnabled = true;

@@ -116,7 +116,7 @@ export class StudentCourseDetailsPageComponent implements OnInit {
   loadStudent(courseId: string): void {
     this.isLoadingStudent = true;
     this.studentService
-      .getStudent(courseId)
+      .getStudent({ courseId })
       .pipe(
         finalize(() => {
           this.isLoadingStudent = false;
