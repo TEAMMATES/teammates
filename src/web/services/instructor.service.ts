@@ -118,7 +118,7 @@ export class InstructorService {
   }
 
   /**
-   * Updates the privilege of an instructor for a specified course.
+   * Updates the privilege of an instructor.
    */
   updateInstructorPrivilege(queryParams: {
     userId: string;

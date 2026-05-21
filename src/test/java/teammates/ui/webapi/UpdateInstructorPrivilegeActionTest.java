@@ -49,7 +49,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
     }
 
     @BeforeMethod
-        void setUp() throws Exception {
+    void setUp() throws Exception {
         course = new Course("course-id", "name", Const.DEFAULT_TIME_ZONE, "institute");
 
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
@@ -309,7 +309,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
     }
 
     @Test
-        protected void testExecute_withInvalidInstructorId_shouldFail() throws Exception {
+    protected void testExecute_withInvalidInstructorId_shouldFail() throws Exception {
         UUID invalidInstructorId = UUID.fromString("00000000-0000-4000-8000-000000000099");
         when(mockLogic.updateInstructorPrivileges(eq(invalidInstructorId), any(InstructorPrivileges.class)))
                 .thenThrow(new EntityDoesNotExistException("Instructor does not exist."));
@@ -334,13 +334,16 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         instructorPrivileges.updatePrivilege(InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
         Instructor instructorWithAccess = new Instructor(courseWithAccess, "name", "instructoremail@tm.tmt",
                 false, "", null, instructorPrivileges);
+        Instructor instructorToUpdate = getTypicalInstructor();
+        instructorToUpdate.setCourse(courseWithAccess);
 
         loginAsInstructor(googleId);
         when(mockLogic.getCourse(courseWithAccess.getId())).thenReturn(courseWithAccess);
         when(mockLogic.getInstructorByGoogleId(courseWithAccess.getId(), googleId)).thenReturn(instructorWithAccess);
+        when(mockLogic.getInstructor(instructorToUpdate.getId())).thenReturn(instructorToUpdate);
 
         String[] params = {
-                Const.ParamsNames.COURSE_ID, courseWithAccess.getId(),
+                Const.ParamsNames.USER_ID, instructorToUpdate.getId().toString(),
         };
 
         verifyCanAccess(params);
@@ -349,9 +352,10 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
     @Test
     void testSpecificAccessControl_notInstructor_cannotAccess() {
         String[] params = {
-                Const.ParamsNames.COURSE_ID, "course-id",
+                Const.ParamsNames.USER_ID, "00000000-0000-4000-8000-000000000001",
         };
         when(mockLogic.getInstructorByGoogleId("course-id", googleId)).thenReturn(null);
+        when(mockLogic.getInstructor(instructorUserId)).thenReturn(getTypicalInstructor());
 
         loginAsStudent(googleId);
         verifyCannotAccess(params);

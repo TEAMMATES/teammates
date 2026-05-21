@@ -25,7 +25,13 @@ public class UpdateInstructorPrivilegeAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
+        Instructor instructorToUpdate = logic.getInstructor(userId);
+        if (instructorToUpdate == null) {
+            throw new EntityNotFoundException("Instructor with user ID " + userId + " does not exist.");
+        }
+
+        String courseId = instructorToUpdate.getCourseId();
 
         Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
         gateKeeper.verifyAccessible(
