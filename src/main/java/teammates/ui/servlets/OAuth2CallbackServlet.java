@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
-import java.util.UUID;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -147,15 +146,11 @@ public class OAuth2CallbackServlet extends AuthServlet {
                 email = String.valueOf(parsedResponse.get("email"));
             }
         } catch (URISyntaxException | IOException | JacksonException e) {
-            // if any of the operation fail, googleId is kept at null
-            log.warning("Failed to get Google ID", e);
+            // if any of the operation fail, email is kept at null
+            log.warning("Failed to get Google email", e);
         }
         // TODO: Obtain issuer and subject from ID token.
-        return new AuthResult("GoogleIssuer", getUniqueSubject(), email, nextUrl);
-    }
-
-    private String getUniqueSubject() {
-        return UUID.randomUUID().toString();
+        return new AuthResult("GoogleIssuer", email, email, nextUrl);
     }
 
     private void logAndPrintError(HttpServletRequest req, HttpServletResponse resp, int status, String message)

@@ -33,10 +33,10 @@ public class Account extends BaseEntity {
     @Id
     private UUID id;
 
-    @Column(nullable = false)
+    @Column
     private String issuer;
 
-    @Column(nullable = false)
+    @Column
     private String subject;
 
     @NaturalId
@@ -94,7 +94,7 @@ public class Account extends BaseEntity {
     }
 
     public void setIssuer(String issuer) {
-        this.issuer = issuer;
+        this.issuer = SanitizationHelper.sanitizeIssuer(issuer);
     }
 
     public String getSubject() {
@@ -102,7 +102,7 @@ public class Account extends BaseEntity {
     }
 
     public void setSubject(String subject) {
-        this.subject = subject;
+        this.subject = SanitizationHelper.sanitizeSubject(subject);
     }
 
     public String getGoogleId() {

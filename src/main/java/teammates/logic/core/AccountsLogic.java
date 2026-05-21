@@ -69,7 +69,7 @@ public final class AccountsLogic {
     }
 
     /**
-     * Creates and returns an account for the given issuer + subject if it does not exist,
+     * Creates and returns an account for the given email if it does not exist,
      * otherwise just return the existing account.
      *
      * @param issuer the issuer of the account
@@ -83,7 +83,8 @@ public final class AccountsLogic {
         assert email != null;
 
         String googleId = email;
-        // TODO: Fetch account by issuer + subject.
+        // TODO: Fetch account by issuer + subject first, then fall back to googleId.
+        // Remove googleId after migration is complete.
         Account account = getAccountForGoogleId(googleId);
         if (account != null) {
             return account;
