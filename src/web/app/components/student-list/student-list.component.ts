@@ -247,9 +247,9 @@ export class StudentListComponent implements OnInit {
     );
     modalRef.result.then(
       () => {
-        this.removeStudentFromCourse(studentModel.student.email);
+        this.removeStudentFromCourse(studentModel.student.userId);
         this.students = this.students.filter(
-          (student: StudentListRowModel) => student.student.email !== studentModel.student.email,
+          (student: StudentListRowModel) => student.student.userId !== studentModel.student.userId,
         );
         this.setRowData();
       },
@@ -274,8 +274,8 @@ export class StudentListComponent implements OnInit {
   /**
    * Removes the student from course.
    */
-  removeStudentFromCourse(studentEmail: string): void {
-    this.removeStudentFromCourseEvent.emit(studentEmail);
+  removeStudentFromCourse(studentUserId: string): void {
+    this.removeStudentFromCourseEvent.emit(studentUserId);
   }
 
   /**

@@ -152,16 +152,15 @@ export class InstructorSearchPageComponent {
    */
   removeStudentFromCourse(studentRow: StudentListRowModel): void {
     const courseId: string = studentRow.student.courseId;
-    const studentEmail: string = studentRow.student.email;
 
-    this.courseService.removeStudentFromCourse(courseId, studentEmail).subscribe({
+    this.courseService.removeStudentFromCourse(studentRow.student.userId).subscribe({
       next: () => {
         const affectedTable: SearchStudentsListRowTable | undefined = this.studentsListRowTables.find(
           (table: SearchStudentsListRowTable) => table.courseId === courseId,
         );
         if (affectedTable) {
           affectedTable.students = affectedTable.students.filter(
-            (student: StudentListRowModel) => student.student.email !== studentEmail,
+            (student: StudentListRowModel) => student.student.userId !== studentRow.student.userId,
           );
         }
 

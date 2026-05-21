@@ -1077,13 +1077,12 @@ public class Logic {
      *
      * <br/>
      * Preconditions: <br/>
-     * * All parameters are non-null.
+     * * User ID is non-null.
      */
-    public void deleteStudentCascade(String courseId, String studentEmail) {
-        assert courseId != null;
-        assert studentEmail != null;
+    public void deleteStudentCascade(UUID userId) {
+        assert userId != null;
 
-        usersLogic.deleteStudentCascade(courseId, studentEmail);
+        usersLogic.deleteStudentCascade(userId);
     }
 
     /**
@@ -1123,13 +1122,12 @@ public class Logic {
      *
      * <br/>
      * Preconditions: <br/>
-     * * All parameters are non-null.
+     * * User ID is non-null.
      */
-    public void deleteInstructorCascade(String courseId, String email) {
-        assert courseId != null;
-        assert email != null;
+    public void deleteInstructorCascade(UUID userId) {
+        assert userId != null;
 
-        usersLogic.deleteInstructorCascade(courseId, email);
+        usersLogic.deleteInstructorCascade(userId);
     }
 
     public List<Notification> getAllNotifications() {

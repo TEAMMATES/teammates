@@ -79,10 +79,9 @@ export class StudentService {
   /**
    * Deletes a student in a course by calling API.
    */
-  deleteStudent(queryParams: { googleId: string; courseId: string }): Observable<any> {
+  deleteStudent(queryParams: { userId: string }): Observable<any> {
     const paramsMap: Record<string, string> = {
-      googleid: queryParams.googleId,
-      courseid: queryParams.courseId,
+      userid: queryParams.userId,
     };
     return this.httpRequestService.delete(ResourceEndpoints.STUDENT, paramsMap);
   }

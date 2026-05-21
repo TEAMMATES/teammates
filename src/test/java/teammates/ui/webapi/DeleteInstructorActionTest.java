@@ -69,6 +69,8 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
     private void setupMockLogic() {
         when(mockLogic.getCourse(course.getId())).thenReturn(course);
+        when(mockLogic.getInstructor(instructor.getId())).thenReturn(instructor);
+        when(mockLogic.getInstructor(instructor2.getId())).thenReturn(instructor2);
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructor.getGoogleId())).thenReturn(instructor);
         when(mockLogic.getInstructorByGoogleId(course.getId(), instructor2.getGoogleId())).thenReturn(instructor2);
         when(mockLogic.getStudentByGoogleId(course.getId(), studentId)).thenReturn(student);
@@ -79,34 +81,16 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
     }
 
     @Test
-    void testExecute_deleteInstructorByGoogleId_success() {
+    void testExecute_deleteInstructorByUserId_success() {
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.INSTRUCTOR_ID, instructor2.getGoogleId(),
+                Const.ParamsNames.USER_ID, instructor2.getId().toString(),
         };
 
         DeleteInstructorAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructor2.getGoogleId());
-        verify(mockLogic, times(1)).deleteInstructorCascade(course.getId(), instructor2.getEmail());
-        verify(mockLogic, times(1)).deleteInstructorCascade(any(), any());
-        assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
-    }
-
-    @Test
-    void testExecute_deleteInstructorByEmail_success() {
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor2.getEmail(),
-        };
-
-        DeleteInstructorAction action = getAction(params);
-        MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
-
-        verify(mockLogic, times(1)).getInstructorForEmail(course.getId(), instructor2.getEmail());
-        verify(mockLogic, times(1)).deleteInstructorCascade(course.getId(), instructor2.getEmail());
-        verify(mockLogic, times(1)).deleteInstructorCascade(any(), any());
+        verify(mockLogic, times(1)).getInstructor(instructor2.getId());
+        verify(mockLogic, times(1)).deleteInstructorCascade(instructor2.getId());
         assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
     }
 
@@ -116,8 +100,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         when(mockLogic.getInstructorsByCourse(course.getId())).thenReturn(List.of(instructor));
 
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.INSTRUCTOR_ID, instructor.getGoogleId(),
+                Const.ParamsNames.USER_ID, instructor.getId().toString(),
         };
 
         assertEquals(mockLogic.getInstructorsByCourse(course.getId()).size(), 1);
@@ -126,8 +109,8 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
-        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructor.getGoogleId());
-        verify(mockLogic, never()).deleteInstructorCascade(any(), any());
+        verify(mockLogic, times(1)).getInstructor(instructor.getId());
+        verify(mockLogic, never()).deleteInstructorCascade(any());
     }
 
     @Test
@@ -135,16 +118,15 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         instructor2.setAccount(null);
 
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.INSTRUCTOR_ID, instructor.getGoogleId(),
+                Const.ParamsNames.USER_ID, instructor.getId().toString(),
         };
 
         InvalidOperationException ioe = verifyInvalidOperation(params);
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
-        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructor.getGoogleId());
-        verify(mockLogic, never()).deleteInstructorCascade(any(), any());
+        verify(mockLogic, times(1)).getInstructor(instructor.getId());
+        verify(mockLogic, never()).deleteInstructorCascade(any());
     }
 
     @Test
@@ -152,16 +134,15 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         instructor2.setDisplayedToStudents(false);
 
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.INSTRUCTOR_ID, instructor.getGoogleId(),
+                Const.ParamsNames.USER_ID, instructor.getId().toString(),
         };
 
         InvalidOperationException ioe = verifyInvalidOperation(params);
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
-        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructor.getGoogleId());
-        verify(mockLogic, never()).deleteInstructorCascade(any(), any());
+        verify(mockLogic, times(1)).getInstructor(instructor.getId());
+        verify(mockLogic, never()).deleteInstructorCascade(any());
     }
 
     @Test
@@ -169,69 +150,30 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         loginAsInstructor(instructor.getGoogleId());
 
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.INSTRUCTOR_ID, instructor.getGoogleId(),
+                Const.ParamsNames.USER_ID, instructor.getId().toString(),
         };
 
         DeleteInstructorAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), instructor.getGoogleId());
-        verify(mockLogic, times(1)).deleteInstructorCascade(course.getId(), instructor.getEmail());
-        verify(mockLogic, times(1)).deleteInstructorCascade(any(), any());
+        verify(mockLogic, times(1)).getInstructor(instructor.getId());
+        verify(mockLogic, times(1)).deleteInstructorCascade(instructor.getId());
         assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
     }
 
     @Test
-    void testExecute_deleteNonExistentInstructorByGoogleId_failSilently() {
-        when(mockLogic.getInstructorByGoogleId(course.getId(), "fake-googleId")).thenReturn(null);
+    void testExecute_deleteNonExistentInstructorByUserId_failSilently() {
+        String fakeInstructorId = "00000000-0000-4000-8000-000000000001";
 
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.INSTRUCTOR_ID, "fake-googleId",
+                Const.ParamsNames.USER_ID, fakeInstructorId,
         };
 
         DeleteInstructorAction action = getAction(params);
         MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
 
-        verify(mockLogic, times(1)).getInstructorByGoogleId(course.getId(), "fake-googleId");
-        verify(mockLogic, never()).deleteInstructorCascade(any(), any());
-        assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
-    }
-
-    @Test
-    void testExecute_deleteNonExistentInstructorByEmail_failSilently() {
-        String fakeInstructorEmail = "fake-instructoremail@teammates.tmt";
-        when(mockLogic.getInstructorForEmail(course.getId(), fakeInstructorEmail)).thenReturn(null);
-
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.INSTRUCTOR_EMAIL, fakeInstructorEmail,
-        };
-
-        DeleteInstructorAction action = getAction(params);
-        MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
-
-        verify(mockLogic, times(1)).getInstructorForEmail(course.getId(), fakeInstructorEmail);
-        verify(mockLogic, never()).deleteInstructorCascade(any(), any());
-        assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
-    }
-
-    @Test
-    void testExecute_nonExistentCourse_failSilently() {
-        String nonExistentCourseId = "non-existent-course-id";
-        when(mockLogic.getCourse(nonExistentCourseId)).thenReturn(null);
-
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, nonExistentCourseId,
-                Const.ParamsNames.INSTRUCTOR_ID, instructor.getGoogleId(),
-        };
-
-        DeleteInstructorAction action = getAction(params);
-        MessageOutput actionOutput = (MessageOutput) getJsonResult(action).getOutput();
-
-        verify(mockLogic, times(1)).getInstructorByGoogleId(nonExistentCourseId, instructor.getGoogleId());
-        verify(mockLogic, never()).deleteInstructorCascade(any(), any());
+        verify(mockLogic, times(1)).getInstructor(java.util.UUID.fromString(fakeInstructorId));
+        verify(mockLogic, never()).deleteInstructorCascade(any());
         assertEquals("Instructor is successfully deleted.", actionOutput.getMessage());
     }
 
@@ -241,7 +183,16 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
     }
 
     @Test
-    void testExecute_missingCourseIdWithInstructorId_throwsInvalidHttpParameterException() {
+    void testExecute_invalidUserId_throwsInvalidHttpParameterException() {
+        String[] params = {
+                Const.ParamsNames.USER_ID, "invalid-user-id",
+        };
+
+        verifyHttpParameterFailure(params);
+    }
+
+    @Test
+    void testExecute_legacyInstructorIdWithoutUserId_throwsInvalidHttpParameterException() {
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_ID, instructor.getGoogleId(),
         };
@@ -250,7 +201,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
     }
 
     @Test
-    void testExecute_missingCourseIdWithInstructorEmail_throwsInvalidHttpParameterException() {
+    void testExecute_legacyInstructorEmailWithoutUserId_throwsInvalidHttpParameterException() {
         String[] params = {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
         };
@@ -259,19 +210,9 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
     }
 
     @Test
-    void testExecute_onlyCourseId_throwsInvalidHttpParameterException() {
-        String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-        };
-
-        verifyHttpParameterFailure(params);
-    }
-
-    @Test
     void testAccessControl() {
         String[] params = {
-                Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.INSTRUCTOR_ID, instructor.getGoogleId(),
+                Const.ParamsNames.USER_ID, instructor.getId().toString(),
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(course, params);

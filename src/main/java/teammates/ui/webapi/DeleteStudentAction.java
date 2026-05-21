@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import java.util.UUID;
+
 import teammates.common.util.Const;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
@@ -21,32 +23,25 @@ public class DeleteStudentAction extends Action {
             return;
         }
 
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
+        Student student = logic.getStudent(userId);
+        if (student == null) {
+            return;
+        }
 
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
+        Instructor instructor = logic.getInstructorByGoogleId(student.getCourseId(), getCurrentUserGoogleId());
         gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+                instructor, logic.getCourse(student.getCourseId()), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }
 
     @Override
     public JsonResult execute() {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String studentId = getRequestParamValue(Const.ParamsNames.STUDENT_ID);
-
-        String studentEmail = null;
-
-        if (studentId == null) {
-            studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-        } else {
-            Student student = logic.getStudentByGoogleId(courseId, studentId);
-            if (student != null) {
-                studentEmail = student.getEmail();
-            }
-        }
+        UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
+        Student student = logic.getStudent(userId);
 
         // if student is not found, fail silently
-        if (studentEmail != null) {
-            logic.deleteStudentCascade(courseId, studentEmail);
+        if (student != null) {
+            logic.deleteStudentCascade(userId);
         }
 
         return new JsonResult("Student is successfully deleted.");

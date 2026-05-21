@@ -293,13 +293,13 @@ public final class UsersLogic {
     }
 
     /**
-     * Deletes an instructor and cascades deletion to
+     * Deletes an instructor by user ID and cascades deletion to
      * associated feedback responses, deadline extensions and comments.
      *
      * <p>Fails silently if the instructor does not exist.
      */
-    public void deleteInstructorCascade(String courseId, String email) {
-        Instructor instructor = getInstructorForEmail(courseId, email);
+    public void deleteInstructorCascade(UUID userId) {
+        Instructor instructor = getInstructor(userId);
         if (instructor == null) {
             return;
         }
@@ -677,17 +677,18 @@ public final class UsersLogic {
     }
 
     /**
-     * Deletes a student along with its associated feedback responses, deadline extensions and comments.
+     * Deletes a student by user ID along with its associated feedback responses, deadline extensions and comments.
      *
      * <p>Fails silently if the student does not exist.
      */
-    public void deleteStudentCascade(String courseId, String studentEmail) {
-        Student student = getStudentForEmail(courseId, studentEmail);
+    public void deleteStudentCascade(UUID userId) {
+        Student student = getStudent(userId);
 
         if (student == null) {
             return;
         }
 
+        String courseId = student.getCourseId();
         deleteUser(student);
         HibernateUtil.flushSession();
         feedbackResponsesLogic.updateRankRecipientQuestionResponsesAfterDeletingStudent(courseId);

@@ -479,8 +479,7 @@ export class InstructorCourseEditPageComponent implements OnInit {
       () => {
         this.instructorService
           .deleteInstructor({
-            courseId: panelDetail.originalInstructor.courseId,
-            instructorEmail: panelDetail.originalInstructor.email,
+            userId: panelDetail.originalInstructor.userId,
           })
           .subscribe({
             next: () => {

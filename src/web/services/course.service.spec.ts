@@ -160,13 +160,11 @@ describe('CourseService', () => {
   });
 
   it('should execute DELETE to remove student from course', () => {
-    const courseId = 'test-id';
-    const studentEmail = 'test@example.com';
+    const userId = '00000000-0000-4000-8000-000000000001';
     const paramsMap: { [key: string]: string } = {
-      courseid: courseId,
-      studentemail: studentEmail,
+      userid: userId,
     };
-    service.removeStudentFromCourse(courseId, studentEmail);
+    service.removeStudentFromCourse(userId);
     expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.STUDENT, paramsMap);
   });
 

@@ -1,11 +1,11 @@
 package teammates.ui.webapi;
 
 import java.util.List;
+import java.util.UUID;
 
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Instructor;
-import teammates.ui.exception.InvalidHttpParameterException;
 import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.exception.UnauthorizedAccessException;
 
@@ -26,39 +26,35 @@ public class DeleteInstructorAction extends Action {
             return;
         }
 
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
+        UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
+        Instructor instructorToDelete = logic.getInstructor(userId);
+        if (instructorToDelete == null) {
+            return;
+        }
+
+        Instructor instructor = logic.getInstructorByGoogleId(instructorToDelete.getCourseId(), getCurrentUserGoogleId());
         gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
+                instructor, logic.getCourse(instructorToDelete.getCourseId()),
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
 
     @Override
     public JsonResult execute() throws InvalidOperationException {
-        String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
-        String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
-        Instructor instructor;
-        if (instructorId != null) {
-            instructor = logic.getInstructorByGoogleId(courseId, instructorId);
-        } else if (instructorEmail != null) {
-            instructor = logic.getInstructorForEmail(courseId, instructorEmail);
-        } else {
-            throw new InvalidHttpParameterException("Instructor to delete not specified");
-        }
+        UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
+        Instructor instructor = logic.getInstructor(userId);
 
         if (instructor == null) {
             return new JsonResult("Instructor is successfully deleted.");
         }
 
         // Deleting last instructor from the course is not allowed (even by admins)
-        if (!hasAlternativeInstructor(courseId, instructor.getEmail())) {
+        if (!hasAlternativeInstructor(instructor.getCourseId(), instructor.getEmail())) {
             throw new InvalidOperationException(
                     "The instructor you are trying to delete is the last instructor in the course. "
                             + "Deleting the last instructor from the course is not allowed.");
         }
 
-        logic.deleteInstructorCascade(courseId, instructor.getEmail());
+        logic.deleteInstructorCascade(userId);
 
         return new JsonResult("Instructor is successfully deleted.");
     }
