@@ -9,6 +9,8 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
+import java.util.UUID;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -120,11 +122,11 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     void testExecute_validParamsRegisteredStudentNotLoggedIn_success() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
+                Const.ParamsNames.USER_ID, stubStudent.getId().toString(),
 
         };
 
-        when(mockLogic.getStudentForEmail(stubCourse.getId(), stubStudent.getEmail())).thenReturn(stubStudent);
+        when(mockLogic.getStudent(stubStudent.getId())).thenReturn(stubStudent);
         GetStudentAction action = getAction(params);
         StudentData studentData = (StudentData) getJsonResult(action).getOutput();
         verifyStudentData(stubStudentData, studentData, Type.INSTRUCTOR);
@@ -134,9 +136,9 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     void testExecute_invalidCourseIdParamsStudent_throwsEntityNotFoundException() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "random-course",
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
+                Const.ParamsNames.USER_ID, stubStudent.getId().toString(),
         };
-        when(mockLogic.getStudentForEmail("random-course", stubStudent.getEmail())).thenReturn(null);
+        when(mockLogic.getStudent(stubStudent.getId())).thenReturn(stubStudent);
         verifyEntityNotFound(params);
 
         loginAsStudent(stubStudent.getGoogleId());
@@ -144,20 +146,21 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     }
 
     @Test
-    void testExecute_invalidStudentEmailParams_throwsEntityNotFoundException() {
+    void testExecute_invalidStudentIdParams_throwsEntityNotFoundException() {
+        UUID nonExistentStudentId = UUID.randomUUID();
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, "invalid_email",
+                Const.ParamsNames.USER_ID, nonExistentStudentId.toString(),
 
         };
-        when(mockLogic.getStudentForEmail(stubCourse.getId(), "invalid_email")).thenReturn(null);
+        when(mockLogic.getStudent(nonExistentStudentId)).thenReturn(null);
         verifyEntityNotFound(params);
     }
 
     @Test
     void testExecute_incompleteParamsStudent_throwsInvalidHttpParameterException() {
         String[] params = {
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
+                Const.ParamsNames.USER_ID, stubStudent.getId().toString(),
         };
         verifyHttpParameterFailure(params);
 
@@ -172,11 +175,11 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         stubStudent.setAccount(stubAccount);
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
+                Const.ParamsNames.USER_ID, stubStudent.getId().toString(),
 
         };
 
-        when(mockLogic.getStudentForEmail(stubCourse.getId(), stubStudent.getEmail())).thenReturn(stubStudent);
+        when(mockLogic.getStudent(stubStudent.getId())).thenReturn(stubStudent);
         stubStudentData = new StudentData(stubStudent);
         stubStudentData.setKey(stubStudent.getRegKey());
         stubStudentData.setGoogleId(stubStudent.getAccount().getGoogleId());
@@ -193,25 +196,26 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         stubStudent.setAccount(stubAccount);
         String[] params1 = {
                 Const.ParamsNames.COURSE_ID, "random-course",
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
+                Const.ParamsNames.USER_ID, stubStudent.getId().toString(),
 
         };
-        when(mockLogic.getStudentForEmail("random-course", stubStudent.getEmail())).thenReturn(null);
+        when(mockLogic.getStudent(stubStudent.getId())).thenReturn(stubStudent);
         verifyEntityNotFound(params1);
 
+        UUID nonExistentStudentId = UUID.randomUUID();
         String[] params2 = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, "invalid_email",
+                Const.ParamsNames.USER_ID, nonExistentStudentId.toString(),
 
         };
-        when(mockLogic.getStudentForEmail(stubCourse.getId(), "invalid_email")).thenReturn(null);
+        when(mockLogic.getStudent(nonExistentStudentId)).thenReturn(null);
         verifyEntityNotFound(params2);
     }
 
     @Test
     void testExecute_incompleteParamsAdminLoggedOut_throwsInvalidHttpParameterException() {
         String[] params = {
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
+                Const.ParamsNames.USER_ID, stubStudent.getId().toString(),
         };
         verifyHttpParameterFailure(params);
     }
@@ -221,10 +225,10 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         loginAsInstructor(stubInstructor.getGoogleId());
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
+                Const.ParamsNames.USER_ID, stubStudent.getId().toString(),
         };
 
-        when(mockLogic.getStudentForEmail(stubCourse.getId(), stubStudent.getEmail())).thenReturn(stubStudent);
+        when(mockLogic.getStudent(stubStudent.getId())).thenReturn(stubStudent);
         GetStudentAction action = getAction(params);
         StudentData studentData = (StudentData) getJsonResult(action).getOutput();
         verifyStudentData(stubStudentData, studentData, Type.INSTRUCTOR);
@@ -235,22 +239,23 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         loginAsInstructor(stubInstructor.getGoogleId());
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "random-course",
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
+                Const.ParamsNames.USER_ID, stubStudent.getId().toString(),
         };
 
-        when(mockLogic.getStudentForEmail("random-course", stubStudent.getEmail())).thenReturn(null);
+        when(mockLogic.getStudent(stubStudent.getId())).thenReturn(stubStudent);
         verifyEntityNotFound(params);
     }
 
     @Test
-    void testExecute_invalidStudentEmailParamsInstructor_throwsEntityNotFoundException() {
+    void testExecute_invalidStudentIdParamsInstructor_throwsEntityNotFoundException() {
         loginAsInstructor(stubInstructor.getGoogleId());
+        UUID nonExistentStudentId = UUID.randomUUID();
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, "invalid_email",
+                Const.ParamsNames.USER_ID, nonExistentStudentId.toString(),
         };
 
-        when(mockLogic.getStudentForEmail(stubCourse.getId(), "invalid-email")).thenReturn(null);
+        when(mockLogic.getStudent(nonExistentStudentId)).thenReturn(null);
         verifyEntityNotFound(params);
     }
 
@@ -258,7 +263,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     void testExecute_incompleteParamsInstructor_throwsInvalidHttpParameterException() {
         loginAsInstructor(stubInstructor.getGoogleId());
         String[] params1 = {
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
+                Const.ParamsNames.USER_ID, stubStudent.getId().toString(),
         };
         verifyHttpParameterFailure(params1);
     }
@@ -339,13 +344,12 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
     }
 
     @Test
-    void testGetStudent_instructorEmailPathSameCourseWithViewSectionPrivilege_canAccess() {
+    void testGetStudent_instructorUserIdPathSameCourseWithViewSectionPrivilege_canAccess() {
         String[] params = {
                 Const.ParamsNames.COURSE_ID, stubCourse.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, stubStudent.getEmail(),
+                Const.ParamsNames.USER_ID, stubStudent.getId().toString(),
         };
-        when(mockLogic.getStudentForEmail(stubCourse.getId(), stubStudent.getEmail()))
-                .thenReturn(stubStudent);
+        when(mockLogic.getStudent(stubStudent.getId())).thenReturn(stubStudent);
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
                 stubCourse,
                 Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS,

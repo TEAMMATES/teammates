@@ -330,10 +330,10 @@ public abstract class AbstractBackDoor {
     /**
      * Gets student data from the database.
      */
-    public StudentData getStudentData(String courseId, String studentEmail) {
+    public StudentData getStudentData(String courseId, String studentId) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.COURSE_ID, courseId);
-        params.put(Const.ParamsNames.STUDENT_EMAIL, studentEmail);
+        params.put(Const.ParamsNames.USER_ID, studentId);
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.STUDENT, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
