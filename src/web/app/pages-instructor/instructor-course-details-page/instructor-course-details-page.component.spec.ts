@@ -185,7 +185,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
     expect(spySimpleModalService).toHaveBeenCalled();
   });
 
-  it('should delete students in batches and show success message upon completion', () => {
+  it('should delete students and show success message upon completion', () => {
     const stats: CourseStatistics = {
       numOfSections: 10,
       numOfTeams: 10,
@@ -199,20 +199,16 @@ describe('InstructorCourseDetailsPageComponent', () => {
     fixture.detectChanges();
 
     const spyStudentService = vi
-      .spyOn(studentService, 'batchDeleteStudentsFromCourse')
+      .spyOn(studentService, 'deleteStudentsFromCourse')
       .mockReturnValue(of({ message: 'Successful' }));
 
     vi.spyOn(statusMessageService, 'showSuccessToast').mockImplementation((args: string) => {
       expect(args).toEqual('All the students have been removed from the course');
     });
 
-    vi.spyOn(simpleModalService, 'openLoadingModal').mockReturnValue(createMockNgbModalRef());
-
     component.deleteAllStudentsFromCourse(course.courseId);
 
-    // given a limit of 100 students per call and 350 students,
-    // there should be four calls in total
-    expect(spyStudentService).toHaveBeenCalledTimes(4);
+    expect(spyStudentService).toHaveBeenCalledExactlyOnceWith({ courseId: course.courseId });
   });
 
   it('should show error message when delete fails', () => {
@@ -228,7 +224,7 @@ describe('InstructorCourseDetailsPageComponent', () => {
     component.courseDetails = courseDetails;
     fixture.detectChanges();
 
-    vi.spyOn(studentService, 'batchDeleteStudentsFromCourse').mockReturnValue(
+    vi.spyOn(studentService, 'deleteStudentsFromCourse').mockReturnValue(
       throwError(() => ({
         error: {
           message: 'This is the error message.',

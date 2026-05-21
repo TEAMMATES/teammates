@@ -160,7 +160,6 @@ public final class Const {
         public static final String USER_CAPTCHA_RESPONSE = "captcharesponse";
 
         public static final String EMAIL_TYPE = "emailtype";
-        public static final String USER_EMAIL = "useremail";
 
         public static final String ENTITY_TYPE = "entitytype";
 
@@ -172,8 +171,6 @@ public final class Const {
 
         public static final String QUERY_LOGS_STARTTIME = "starttime";
         public static final String QUERY_LOGS_ENDTIME = "endtime";
-
-        public static final String LIMIT = "limit";
 
         public static final String NOTIFICATION_ID = "notificationid";
         public static final String NOTIFICATION_TARGET_USER = "usertype";
