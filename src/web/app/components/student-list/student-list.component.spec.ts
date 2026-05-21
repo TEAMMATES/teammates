@@ -557,8 +557,8 @@ describe('StudentListComponent', () => {
     expect(modalSpy).toHaveBeenCalledTimes(1);
     expect(modalSpy).toHaveBeenLastCalledWith(expectedModalHeader, SimpleModalType.DANGER, expectedModalContent);
 
-    expect(removeStudentFromCourseSpy).toHaveBeenCalledWith(studentModel.student.email);
-    expect(component.students).not.toContain(studentModel.student.email);
+    expect(removeStudentFromCourseSpy).toHaveBeenCalledWith(studentModel.student.userId);
+    expect(component.students).not.toContain(studentModel);
   });
 
   it(
