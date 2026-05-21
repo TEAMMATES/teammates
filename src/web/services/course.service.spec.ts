@@ -159,15 +159,6 @@ describe('CourseService', () => {
     expect(spyHttpRequestService.post).toHaveBeenCalledWith(ResourceEndpoints.JOIN_REMIND, paramMap);
   });
 
-  it('should execute DELETE to remove student from course', () => {
-    const userId = '00000000-0000-4000-8000-000000000001';
-    const paramsMap: { [key: string]: string } = {
-      userid: userId,
-    };
-    service.removeStudentFromCourse(userId);
-    expect(spyHttpRequestService.delete).toHaveBeenCalledWith(ResourceEndpoints.STUDENT, paramsMap);
-  });
-
   it('should execute GET when getting course section names', () => {
     const paramMap: Record<string, string> = {
       courseid: 'CS3281',

@@ -6,10 +6,10 @@ import {
   SearchStudentsListRowTable,
   StudentResultTableComponent,
 } from './student-result-table/student-result-table.component';
-import { CourseService } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { InstructorSearchResult, SearchService } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentService } from '../../../services/student.service';
 import { ApiConst } from '../../../types/api-const';
 import { InstructorPermissionSet, InstructorPrivilege, Student } from '../../../types/api-output';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
@@ -27,8 +27,8 @@ import { ErrorMessageOutput } from '../../error-message-output';
 export class InstructorSearchPageComponent {
   private statusMessageService = inject(StatusMessageService);
   private searchService = inject(SearchService);
-  private courseService = inject(CourseService);
   private instructorService = inject(InstructorService);
+  private studentService = inject(StudentService);
 
   searchParams: SearchParams = {
     searchKey: '',
@@ -153,7 +153,7 @@ export class InstructorSearchPageComponent {
   removeStudentFromCourse(studentRow: StudentListRowModel): void {
     const courseId: string = studentRow.student.courseId;
 
-    this.courseService.removeStudentFromCourse(studentRow.student.userId).subscribe({
+    this.studentService.deleteStudent({ userId: studentRow.student.userId }).subscribe({
       next: () => {
         const affectedTable: SearchStudentsListRowTable | undefined = this.studentsListRowTables.find(
           (table: SearchStudentsListRowTable) => table.courseId === courseId,
