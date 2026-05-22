@@ -813,7 +813,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCase {
             Course thisCourse, InstructorPrivileges instructorPrivileges, boolean canAccess, String... params) {
         Instructor instructor = getTypicalInstructor();
         instructor.setAccount(new Account(
-                "instructor-googleId", "teammates-test", "validInstructorSubject", instructor.getName(), instructor.getEmail()));
+                "instructor-googleId", "teammates-test", "validInstructorSubject",
+                instructor.getName(), instructor.getEmail()));
 
         when(mockLogic.getInstructorByGoogleId(any(), any())).thenReturn(instructor);
         when(mockLogic.getCourse(thisCourse.getId())).thenReturn(thisCourse);
