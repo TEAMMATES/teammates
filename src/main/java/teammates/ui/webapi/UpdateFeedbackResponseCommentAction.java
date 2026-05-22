@@ -51,7 +51,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getStudentOfCourseFromRequest(courseId);
+            Student student = getStudentOfCourseForSubmission(courseId);
             if (student == null) {
                 throw new EntityNotFoundException("Student does not exist.");
             }
@@ -68,7 +68,7 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
                             : new ResponseGiver(student));
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
+            Instructor instructorAsFeedbackParticipant = getInstructorOfCourseForSubmission(courseId);
             if (instructorAsFeedbackParticipant == null) {
                 throw new EntityNotFoundException("Instructor does not exist.");
             }
@@ -120,14 +120,14 @@ public class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getStudentOfCourseFromRequest(courseId);
+            Student student = getStudentOfCourseForSubmission(courseId);
             FeedbackQuestion question = feedbackResponseComment.getFeedbackResponse().getFeedbackQuestion();
             updater = question.getGiverType() == QuestionGiverType.TEAMS
                     ? new ResponseGiver(student.getTeam())
                     : new ResponseGiver(student);
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
+            Instructor instructorAsFeedbackParticipant = getInstructorOfCourseForSubmission(courseId);
             updater = new ResponseGiver(instructorAsFeedbackParticipant);
             break;
         case INSTRUCTOR_RESULT:

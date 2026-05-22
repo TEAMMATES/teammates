@@ -44,9 +44,11 @@ abstract class BasicFeedbackSubmissionAction extends Action {
     }
 
     /**
-     * Gets the student involved in the submission process.
+     * Gets the student of the course for submission.
+     *
+     * <p>This includes the student being moderated or previewed, if applicable.
      */
-    Student getStudentOfCourseFromRequest(String courseId) {
+    Student getStudentOfCourseForSubmission(String courseId) {
         UUID moderatedPerson = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         UUID previewAsPerson = getNullableUuidRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
@@ -56,6 +58,54 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             return logic.getStudentOfCourse(courseId, previewAsPerson);
         } else {
             return getPossiblyUnregisteredStudent(courseId);
+        }
+    }
+
+    /**
+     * Gets the instructor of the course for submission.
+     *
+     * <p>This includes the instructor being moderated or previewed, if applicable.
+     */
+    Instructor getInstructorOfCourseForSubmission(String courseId) {
+        UUID moderatedPerson = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
+        UUID previewAsPerson = getNullableUuidRequestParamValue(Const.ParamsNames.PREVIEWAS);
+
+        if (moderatedPerson != null) {
+            return logic.getInstructorOfCourse(courseId, moderatedPerson);
+        } else if (previewAsPerson != null) {
+            return logic.getInstructorOfCourse(courseId, previewAsPerson);
+        } else {
+            return getPossiblyUnregisteredInstructor(courseId);
+        }
+    }
+
+    /**
+     * Gets the student of the course for result.
+     *
+     * <p>This includes the student being previewed, if applicable.
+     */
+    Student getStudentOfCourseForResult(String courseId) {
+        UUID previewAsPerson = getNullableUuidRequestParamValue(Const.ParamsNames.PREVIEWAS);
+
+        if (previewAsPerson != null) {
+            return logic.getStudentOfCourse(courseId, previewAsPerson);
+        } else {
+            return getPossiblyUnregisteredStudent(courseId);
+        }
+    }
+
+    /**
+     * Gets the instructor of the course for result.
+     *
+     * <p>This includes the instructor being previewed, if applicable.
+     */
+    Instructor getInstructorOfCourseForResult(String courseId) {
+        UUID previewAsPerson = getNullableUuidRequestParamValue(Const.ParamsNames.PREVIEWAS);
+
+        if (previewAsPerson != null) {
+            return logic.getInstructorOfCourse(courseId, previewAsPerson);
+        } else {
+            return getPossiblyUnregisteredInstructor(courseId);
         }
     }
 
@@ -78,10 +128,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
                     student.getSectionName(),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
-            gateKeeper.verifyLoggedInUserPrivileges(authContext);
-            gateKeeper.verifyAccessible(
-                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()), feedbackSession,
-                    Const.InstructorPermissions.CAN_MODIFY_SESSION);
+            checkAccessControlForPreview(feedbackSession);
         } else {
             gateKeeper.verifyAccessible(student, feedbackSession);
             if (student.getAccount() != null) {
@@ -112,23 +159,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             gateKeeper.verifyAccessible(student, feedbackSession);
             verifyMatchingGoogleId(student.getGoogleId());
         } else {
-            checkAccessControlForPreview(feedbackSession, false);
-        }
-    }
-
-    /**
-     * Gets the instructor involved in the submission process.
-     */
-    Instructor getInstructorOfCourseFromRequest(String courseId) {
-        UUID moderatedPerson = getNullableUuidRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
-        UUID previewAsPerson = getNullableUuidRequestParamValue(Const.ParamsNames.PREVIEWAS);
-
-        if (moderatedPerson != null) {
-            return logic.getInstructorOfCourse(courseId, moderatedPerson);
-        } else if (previewAsPerson != null) {
-            return logic.getInstructorOfCourse(courseId, previewAsPerson);
-        } else {
-            return getPossiblyUnregisteredInstructor(courseId);
+            checkAccessControlForPreview(feedbackSession);
         }
     }
 
@@ -186,7 +217,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
                     Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
             verifyMatchingGoogleId(instructor.getGoogleId());
         } else {
-            checkAccessControlForPreview(feedbackSession, true);
+            checkAccessControlForPreview(feedbackSession);
         }
     }
 
@@ -204,19 +235,12 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         }
     }
 
-    @SuppressWarnings("PMD.IdenticalConditionalBranches") // TODO find out why!
-    private void checkAccessControlForPreview(FeedbackSession feedbackSession, boolean isInstructor)
+    private void checkAccessControlForPreview(FeedbackSession feedbackSession)
             throws UnauthorizedAccessException {
         gateKeeper.verifyLoggedInUserPrivileges(authContext);
-        if (isInstructor) {
-            gateKeeper.verifyAccessible(
-                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()), feedbackSession,
-                    Const.InstructorPermissions.CAN_MODIFY_SESSION);
-        } else {
-            gateKeeper.verifyAccessible(
-                    logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()), feedbackSession,
-                    Const.InstructorPermissions.CAN_MODIFY_SESSION);
-        }
+        gateKeeper.verifyAccessible(
+                logic.getInstructorByGoogleId(feedbackSession.getCourseId(), getCurrentUserGoogleId()), feedbackSession,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
     /**

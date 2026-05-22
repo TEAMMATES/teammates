@@ -70,7 +70,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         switch (intent) {
         case STUDENT_SUBMISSION:
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
-            Student student = getStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
+            Student student = getStudentOfCourseForSubmission(feedbackQuestion.getCourseId());
             if (student == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
             }
@@ -79,7 +79,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             break;
         case INSTRUCTOR_SUBMISSION:
             gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
-            Instructor instructor = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
+            Instructor instructor = getInstructorOfCourseForSubmission(feedbackQuestion.getCourseId());
             if (instructor == null) {
                 throw new UnauthorizedAccessException("Trying to access system using a non-existent instructor entity");
             }
@@ -112,7 +112,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
+            Student student = getStudentOfCourseForSubmission(feedbackQuestion.getCourseId());
             responseGiver = feedbackQuestion.getGiverType() == QuestionGiverType.TEAMS
                     ? new ResponseGiver(student.getTeam())
                     : new ResponseGiver(student);
@@ -120,7 +120,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
             dynamicallyGeneratedOptions = logic.getDynamicallyGeneratedOptions(feedbackQuestion, student);
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructor = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
+            Instructor instructor = getInstructorOfCourseForSubmission(feedbackQuestion.getCourseId());
             responseGiver = new ResponseGiver(instructor);
             existingResponses = logic.getFeedbackResponsesFromInstructorForQuestion(feedbackQuestion, instructor);
             dynamicallyGeneratedOptions = logic.getDynamicallyGeneratedOptions(feedbackQuestion, null);
@@ -207,7 +207,7 @@ public class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction
         List<FeedbackResponse> feedbackResponsesToDelete = existingResponsesPerRecipient.entrySet().stream()
                 .filter(entry -> !recipients.contains(entry.getKey().getIdentifier()))
                 .map(Entry::getValue)
-                .collect(Collectors.toList());
+                .toList();
 
         for (FeedbackResponse feedbackResponse : feedbackResponsesToDelete) {
             logic.deleteFeedbackResponsesAndCommentsCascade(feedbackResponse);

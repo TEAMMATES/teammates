@@ -21,7 +21,7 @@ import teammates.ui.request.Intent;
  * Get all the comments given by the user for a response.
  */
 public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
-
+    // TODO: check if this is used anywhere.
     @Override
     AuthType getMinAuthLevel() {
         return AuthType.REG_KEY;
@@ -52,12 +52,12 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
         switch (intent) {
         case STUDENT_SUBMISSION:
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
-            Student student = getStudentOfCourseFromRequest(courseId);
+            Student student = getStudentOfCourseForSubmission(courseId);
             checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
             gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
-            Instructor instructor = getInstructorOfCourseFromRequest(courseId);
+            Instructor instructor = getInstructorOfCourseForSubmission(courseId);
             checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
             break;
         default:

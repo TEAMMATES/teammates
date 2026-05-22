@@ -35,13 +35,21 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         String courseId = feedbackSession.getCourseId();
 
         switch (intent) {
-        case STUDENT_SUBMISSION, STUDENT_RESULT:
-            Student student = getStudentOfCourseFromRequest(courseId);
+        case STUDENT_SUBMISSION:
+            Student student = getStudentOfCourseForSubmission(courseId);
             checkAccessControlForStudentFeedbackSubmission(student, feedbackSession);
             break;
-        case INSTRUCTOR_SUBMISSION, INSTRUCTOR_RESULT:
-            Instructor instructor = getInstructorOfCourseFromRequest(courseId);
+        case STUDENT_RESULT:
+            student = getStudentOfCourseForResult(courseId);
+            checkAccessControlForStudentFeedbackResult(student, feedbackSession);
+            break;
+        case INSTRUCTOR_SUBMISSION:
+            Instructor instructor = getInstructorOfCourseForSubmission(courseId);
             checkAccessControlForInstructorFeedbackSubmission(instructor, feedbackSession);
+            break;
+        case INSTRUCTOR_RESULT:
+            instructor = getInstructorOfCourseForResult(courseId);
+            checkAccessControlForInstructorFeedbackResult(instructor, feedbackSession);
             break;
         case FULL_DETAIL:
             gateKeeper.verifyLoggedInUserPrivileges(authContext);
@@ -66,21 +74,27 @@ public class GetFeedbackSessionAction extends BasicFeedbackSubmissionAction {
         FeedbackSessionData response;
 
         switch (intent) {
-        case STUDENT_SUBMISSION, STUDENT_RESULT:
-            Student student = getStudentOfCourseFromRequest(courseId);
+        case STUDENT_SUBMISSION:
+            Student student = getStudentOfCourseForSubmission(courseId);
             Instant studentDeadline = logic.getDeadlineForUser(feedbackSession, student);
             response = new FeedbackSessionData(feedbackSession, studentDeadline);
             response.hideInformation();
             break;
+        case STUDENT_RESULT:
+            student = getStudentOfCourseForResult(courseId);
+            studentDeadline = logic.getDeadlineForUser(feedbackSession, student);
+            response = new FeedbackSessionData(feedbackSession, studentDeadline);
+            response.hideInformation();
+            break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructorSubmission = getInstructorOfCourseFromRequest(courseId);
+            Instructor instructorSubmission = getInstructorOfCourseForSubmission(courseId);
             response = new FeedbackSessionData(feedbackSession,
                     logic.getDeadlineForUser(feedbackSession,
                     instructorSubmission));
             response.hideInformation();
             break;
         case INSTRUCTOR_RESULT:
-            Instructor instructorResult = getInstructorOfCourseFromRequest(courseId);
+            Instructor instructorResult = getInstructorOfCourseForResult(courseId);
             response = new FeedbackSessionData(feedbackSession,
                     logic.getDeadlineForUser(feedbackSession,
                     instructorResult));

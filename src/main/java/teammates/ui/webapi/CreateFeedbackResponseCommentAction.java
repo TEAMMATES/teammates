@@ -52,7 +52,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
 
         switch (intent) {
         case STUDENT_SUBMISSION:
-            Student student = getStudentOfCourseFromRequest(courseId);
+            Student student = getStudentOfCourseForSubmission(courseId);
             if (student == null) {
                 throw new EntityNotFoundException("Student does not exist.");
             }
@@ -66,7 +66,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             verifyResponseOwnershipForStudent(student, feedbackResponse);
             break;
         case INSTRUCTOR_SUBMISSION:
-            Instructor instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
+            Instructor instructorAsFeedbackParticipant = getInstructorOfCourseForSubmission(courseId);
             if (instructorAsFeedbackParticipant == null) {
                 throw new EntityNotFoundException("Instructor does not exist.");
             }
@@ -128,7 +128,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
         switch (intent) {
         case STUDENT_SUBMISSION:
             verifyCommentNotExist(feedbackResponseId);
-            Student student = getStudentOfCourseFromRequest(courseId);
+            Student student = getStudentOfCourseForSubmission(courseId);
             if (student == null) {
                 throw new EntityNotFoundException("Student does not exist.");
             }
@@ -140,7 +140,7 @@ public class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionA
             break;
         case INSTRUCTOR_SUBMISSION:
             verifyCommentNotExist(feedbackResponseId);
-            Instructor instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
+            Instructor instructorAsFeedbackParticipant = getInstructorOfCourseForSubmission(courseId);
             if (instructorAsFeedbackParticipant == null) {
                 throw new EntityNotFoundException("Instructor does not exist.");
             }
