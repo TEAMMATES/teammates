@@ -114,7 +114,7 @@ public class GetSessionResultsActionIT extends BaseActionIT<GetSessionResultsAct
         submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_ID, accessibleFeedbackSession.getId().toString(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
-                Const.ParamsNames.PREVIEWAS, student.getEmail(),
+                Const.ParamsNames.PREVIEWAS, student.getId().toString(),
         };
 
         a = getAction(submissionParams);

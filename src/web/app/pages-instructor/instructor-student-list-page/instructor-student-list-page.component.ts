@@ -204,11 +204,11 @@ export class InstructorStudentListPageComponent implements OnInit {
   /**
    * Removes the student from course and update the course statistics.
    */
-  removeStudentFromCourse(courseTab: CourseTab, studentEmail: string): void {
-    this.courseService.removeStudentFromCourse(courseTab.course.courseId, studentEmail).subscribe({
+  removeStudentFromCourse(courseTab: CourseTab, studentRow: StudentListRowModel): void {
+    this.studentService.deleteStudent({ userId: studentRow.student.userId }).subscribe({
       next: () => {
         courseTab.studentList = courseTab.studentList.filter(
-          (studentModel: StudentListRowModel) => studentModel.student.email !== studentEmail,
+          (studentModel: StudentListRowModel) => studentModel.student.userId !== studentRow.student.userId,
         );
 
         const students: Student[] = courseTab.studentList.map(
@@ -240,7 +240,7 @@ export class InstructorStudentListPageComponent implements OnInit {
     this.coursesSortBy = by;
 
     if (this.courseTabList.length > 1) {
-      const coursesCopy: CourseTab[] = JSON.parse(JSON.stringify(this.courseTabList));
+      const coursesCopy: CourseTab[] = structuredClone(this.courseTabList);
       coursesCopy.sort(this.sortCoursesBy(by));
       this.courseTabList = coursesCopy;
     }

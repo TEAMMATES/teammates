@@ -65,7 +65,7 @@ import {
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 
 describe('SessionSubmissionPageComponent', () => {
-  const deepCopy: <T>(obj: T) => T = <T>(obj: T) => JSON.parse(JSON.stringify(obj));
+  const deepCopy: <T>(obj: T) => T = <T>(obj: T) => structuredClone(obj);
 
   const testStudent: Student = {
     userId: '00000000-0000-4000-8000-000000000003',
@@ -107,8 +107,8 @@ describe('SessionSubmissionPageComponent', () => {
   };
 
   const testComment: FeedbackResponseComment = {
-    commentGiver: 'comment giver',
-    lastEditorEmail: 'last-editor@email.com',
+    commentGiverName: 'Comment Giver',
+    lastEditorName: 'Comment Editor',
     feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
     commentText: 'comment text',
     createdAt: 10000000,

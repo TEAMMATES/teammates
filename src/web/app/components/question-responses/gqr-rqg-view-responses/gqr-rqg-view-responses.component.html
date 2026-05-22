@@ -90,11 +90,11 @@
         }
       </div>
       <div class="card-header-btn-toolbar">
-        @if (isGqr && userToRelatedEmail[userInfo]) {
+        @if (isGqr && userToUserIdForModeration[userInfo]) {
           <tm-response-moderation-button
             class="btn-margin-right"
             [session]="session"
-            [relatedGiverEmail]="userToRelatedEmail[userInfo]"
+            [userIdForModeration]="userToUserIdForModeration[userInfo]"
             [isGiverInstructor]="userIsInstructor[userInfo]"
             btnStyle="PRIMARY"
           ></tm-response-moderation-button>

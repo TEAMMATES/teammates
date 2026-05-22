@@ -350,14 +350,24 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   loadPersonName(): void {
     switch (this.intent) {
       case Intent.STUDENT_SUBMISSION:
-        this.studentService
-          .getStudent(this.courseId, this.moderatedPerson || this.previewAsPerson, this.regKey)
-          .subscribe((student: Student) => {
+        if (this.moderatedPerson || this.previewAsPerson) {
+          const userId = this.moderatedPerson || this.previewAsPerson;
+          this.studentService.getStudent({ courseId: this.courseId, userId }).subscribe((student: Student) => {
             this.studentId = student.userId;
             this.personName = student.name;
             this.personEmail = student.email;
             this.logStudentAccess();
           });
+        } else {
+          this.studentService
+            .getStudent({ courseId: this.courseId, regKey: this.regKey })
+            .subscribe((student: Student) => {
+              this.studentId = student.userId;
+              this.personName = student.name;
+              this.personEmail = student.email;
+              this.logStudentAccess();
+            });
+        }
         break;
       case Intent.INSTRUCTOR_SUBMISSION:
         this.instructorService

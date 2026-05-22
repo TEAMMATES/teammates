@@ -25,7 +25,7 @@ export class PreviewSessionPanelComponent {
   feedbackSessionId = '';
 
   @Input()
-  emailOfStudentToPreview = '';
+  userIdOfStudentToPreview = '';
 
   @Input()
   studentsOfCourse: Student[] = [];
@@ -34,7 +34,7 @@ export class PreviewSessionPanelComponent {
   instructorsCanBePreviewedAs: Instructor[] = [];
 
   @Input()
-  emailOfInstructorToPreview = '';
+  userIdOfInstructorToPreview = '';
 
   @Input()
   forDisplayOnly = false;

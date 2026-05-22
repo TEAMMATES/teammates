@@ -39,13 +39,13 @@ describe('CommentRowComponent', () => {
       component.model = {
         originalComment: {
           isVisibilityFollowingFeedbackQuestion: true,
-          commentGiver: 'mockCommentGiver',
-          lastEditorEmail: 'mockEditor@example.com',
+          commentGiverName: 'Mock Giver Name',
+          lastEditorName: 'Mock Editor Name',
           feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
           commentText: 'Mock comment text',
           showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
-          createdAt: new Date().getTime(),
-          lastEditedAt: new Date().getTime(),
+          createdAt: Date.now(),
+          lastEditedAt: Date.now(),
           showGiverNameTo: [],
         },
         commentEditFormModel: {
@@ -71,13 +71,13 @@ describe('CommentRowComponent', () => {
       component.model = {
         originalComment: {
           isVisibilityFollowingFeedbackQuestion: true,
-          commentGiver: 'mockCommentGiver',
-          lastEditorEmail: 'mockEditor@example.com',
+          commentGiverName: 'Mock Giver Name',
+          lastEditorName: 'Mock Editor Name',
           feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
           commentText: 'Mock comment text',
           showCommentTo: [],
-          createdAt: new Date().getTime(),
-          lastEditedAt: new Date().getTime(),
+          createdAt: Date.now(),
+          lastEditedAt: Date.now(),
           showGiverNameTo: [],
         },
         commentEditFormModel: {
@@ -123,13 +123,13 @@ describe('CommentRowComponent', () => {
       component.model = {
         originalComment: {
           isVisibilityFollowingFeedbackQuestion: false,
-          commentGiver: 'mockCommentGiver',
-          lastEditorEmail: 'mockEditor@example.com',
+          commentGiverName: 'Mock Giver Name',
+          lastEditorName: 'Mock Editor Name',
           feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
           commentText: 'Mock comment text',
           showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
-          createdAt: new Date().getTime(),
-          lastEditedAt: new Date().getTime(),
+          createdAt: Date.now(),
+          lastEditedAt: Date.now(),
           showGiverNameTo: [],
         },
         commentEditFormModel: {

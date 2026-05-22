@@ -258,7 +258,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ2.getId().toString(),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, instructorOfCourse2.getEmail(),
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, instructorOfCourse2.getId().toString(),
         };
         when(mockLogic.getFeedbackSession(any(), any())).thenReturn(feedbackSessionInCourse1);
         when(mockLogic.getFeedbackResponse(any())).thenReturn(responseForQ2);
@@ -271,7 +271,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, responseForQ1.getId().toString(),
-                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, studentInCourse2.getEmail(),
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, studentInCourse2.getId().toString(),
         };
         when(mockLogic.getFeedbackSession(any(), any())).thenReturn(feedbackSessionInCourse1);
         when(mockLogic.getFeedbackResponse(any())).thenReturn(responseForQ1);

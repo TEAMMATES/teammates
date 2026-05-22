@@ -6,7 +6,7 @@ import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { Account } from '../../../types/api-output';
+import { Account, Instructor, Student } from '../../../types/api-output';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -87,16 +87,19 @@ export class AdminAccountsPageComponent implements OnInit {
   /**
    * Removes the student from course.
    */
-  removeStudentFromCourse(courseId: string): void {
+  removeStudentFromCourse(studentToDelete: Student): void {
     this.studentService
       .deleteStudent({
-        courseId,
-        googleId: this.accountInfo.googleId,
+        userId: studentToDelete.userId,
       })
       .subscribe({
         next: () => {
-          this.accountInfo.students = this.accountInfo.students.filter((student) => student.courseId !== courseId);
-          this.statusMessageService.showSuccessToast(`Student is successfully deleted from course "${courseId}"`);
+          this.accountInfo.students = this.accountInfo.students.filter(
+            (student) => student.userId !== studentToDelete.userId,
+          );
+          this.statusMessageService.showSuccessToast(
+            `Student is successfully deleted from course "${studentToDelete.courseId}"`,
+          );
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
@@ -107,18 +110,19 @@ export class AdminAccountsPageComponent implements OnInit {
   /**
    * Removes the instructor from course.
    */
-  removeInstructorFromCourse(courseId: string): void {
+  removeInstructorFromCourse(instructorToDelete: Instructor): void {
     this.instructorService
       .deleteInstructor({
-        courseId,
-        instructorId: this.accountInfo.googleId,
+        userId: instructorToDelete.userId,
       })
       .subscribe({
         next: () => {
           this.accountInfo.instructors = this.accountInfo.instructors.filter(
-            (instructor) => instructor.courseId !== courseId,
+            (instructor) => instructor.userId !== instructorToDelete.userId,
           );
-          this.statusMessageService.showSuccessToast(`Instructor is successfully deleted from course "${courseId}"`);
+          this.statusMessageService.showSuccessToast(
+            `Instructor is successfully deleted from course "${instructorToDelete.courseId}"`,
+          );
         },
         error: (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);

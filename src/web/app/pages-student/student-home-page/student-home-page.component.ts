@@ -327,7 +327,7 @@ export class StudentHomePageComponent implements OnInit {
     this.sortBy = by;
 
     // make a copy of the courses array and sort it
-    const copy: StudentCourse[] = JSON.parse(JSON.stringify(this.courses));
+    const copy: StudentCourse[] = structuredClone(this.courses);
     copy.sort(this.sortPanelsBy(by));
     this.courses = copy;
 

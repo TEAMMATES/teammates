@@ -47,7 +47,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
 
   @Input() isEnabled = true;
   courseId = '';
-  studentEmail = '';
+  studentId = '';
   student!: Student;
 
   isTeamnameFieldChanged = false;
@@ -87,8 +87,8 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
 
     this.route.queryParams.subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
-      this.studentEmail = queryParams.studentemail;
-      this.loadStudentEditDetails(queryParams.courseid, queryParams.studentemail);
+      this.studentId = queryParams.userid;
+      this.loadStudentEditDetails(queryParams.courseid, queryParams.userid);
     });
   }
 
@@ -104,11 +104,11 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   /**
    * Loads student details required for this page.
    */
-  loadStudentEditDetails(courseId: string, studentEmail: string): void {
+  loadStudentEditDetails(courseId: string, studentId: string): void {
     this.hasStudentLoadingFailed = false;
     this.isStudentLoading = true;
     this.studentService
-      .getStudent(courseId, studentEmail)
+      .getStudent({ courseId, userId: studentId })
       .pipe(
         finalize(() => {
           this.isStudentLoading = false;

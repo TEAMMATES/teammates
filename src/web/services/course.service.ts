@@ -170,17 +170,6 @@ export class CourseService {
   }
 
   /**
-   * Removes student from course.
-   */
-  removeStudentFromCourse(courseId: string, studentEmail: string): Observable<any> {
-    const paramsMap: Record<string, string> = {
-      courseid: courseId,
-      studentemail: studentEmail,
-    };
-    return this.httpRequestService.delete(ResourceEndpoints.STUDENT, paramsMap);
-  }
-
-  /**
    * Gets a list of course section names.
    */
   getCourseSectionNames(courseId: string): Observable<any> {

@@ -3,11 +3,9 @@ package teammates.ui.output;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Queue;
 import java.util.Set;
 import java.util.UUID;
 
@@ -182,22 +180,26 @@ public class SessionResultsData extends ApiOutput {
         // process comments
         List<FeedbackResponseComment> feedbackResponseComments =
                 bundle.getResponseCommentsMap().getOrDefault(response, Collections.emptyList());
-        Queue<CommentOutput> comments = buildComments(feedbackResponseComments, bundle);
+        List<FeedbackResponseCommentData> instructorComments = buildInstructorComments(feedbackResponseComments, bundle);
+        FeedbackResponseCommentData participantComment = feedbackResponseComments.stream()
+                .filter(FeedbackResponseComment::getIsCommentFromFeedbackParticipant)
+                .findFirst()
+                .map(FeedbackResponseCommentData::new)
+                .orElse(null);
 
         return ResponseOutput.builder()
                 .withResponseId(response.getId().toString())
                 .withGiver(giverName)
                 .withGiverTeam(giverTeam)
                 .withGiverEmail(null)
-                .withRelatedGiverEmail(null)
                 .withGiverSectionName(giver.getSectionName())
                 .withRecipient(recipientName)
                 .withRecipientTeam(recipientTeam)
                 .withRecipientEmail(null)
                 .withRecipientSectionName(recipient.getSectionName())
                 .withResponseDetails(response.getFeedbackResponseDetailsCopy())
-                .withParticipantComment(comments.poll())
-                .withInstructorComments(new ArrayList<>(comments))
+                .withParticipantComment(participantComment)
+                .withInstructorComments(instructorComments)
                 .build();
     }
 
@@ -222,17 +224,17 @@ public class SessionResultsData extends ApiOutput {
         // process giver
         ResponseGiver responseGiver = response.getGiver();
         String giverEmail = null;
-        String relatedGiverEmail = null;
+        String userIdForModeration = null;
         if (bundle.isResponseGiverVisible(response.getId())) {
             if (responseGiver.isGiverUser()) {
                 giverEmail = responseGiver.getGiverUser().getEmail();
-                relatedGiverEmail = responseGiver.getIdentifier();
+                userIdForModeration = responseGiver.getGiverUser().getId().toString();
             } else {
-                // team giver, relatedGiverEmail is any team member's email
+                // team giver, userIdForModeration is any team member's user ID
                 String teamName = responseGiver.getTeamName();
                 List<Student> teamMembers =
                         bundle.getRoster().getTeamToMembers().getOrDefault(teamName, Collections.emptyList());
-                relatedGiverEmail = teamMembers.isEmpty() ? null : teamMembers.iterator().next().getEmail();
+                userIdForModeration = teamMembers.isEmpty() ? null : teamMembers.iterator().next().getId().toString();
                 giverEmail = null;
             }
         }
@@ -255,7 +257,12 @@ public class SessionResultsData extends ApiOutput {
         // process comments
         List<FeedbackResponseComment> feedbackResponseComments =
                 bundle.getResponseCommentsMap().getOrDefault(response, Collections.emptyList());
-        Queue<CommentOutput> comments = buildComments(feedbackResponseComments, bundle);
+        List<FeedbackResponseCommentData> instructorComments = buildInstructorComments(feedbackResponseComments, bundle);
+        FeedbackResponseCommentData participantComment = feedbackResponseComments.stream()
+                .filter(FeedbackResponseComment::getIsCommentFromFeedbackParticipant)
+                .findFirst()
+                .map(FeedbackResponseCommentData::new)
+                .orElse(null);
 
         return ResponseOutput.builder()
                 .withIsMissingResponse(false)
@@ -263,15 +270,15 @@ public class SessionResultsData extends ApiOutput {
                 .withGiver(giverName)
                 .withGiverTeam(giverTeam)
                 .withGiverEmail(giverEmail)
-                .withRelatedGiverEmail(relatedGiverEmail)
+                .withUserIdForModeration(userIdForModeration)
                 .withGiverSectionName(giverSectionName)
                 .withRecipient(recipientName)
                 .withRecipientTeam(recipientTeam)
                 .withRecipientEmail(recipientEmail)
                 .withRecipientSectionName(recipientSectionName)
                 .withResponseDetails(response.getFeedbackResponseDetailsCopy())
-                .withParticipantComment(comments.poll())
-                .withInstructorComments(new ArrayList<>(comments))
+                .withParticipantComment(participantComment)
+                .withInstructorComments(instructorComments)
                 .build();
     }
 
@@ -291,17 +298,19 @@ public class SessionResultsData extends ApiOutput {
         // process giver
         ResponseGiver responseGiver = response.giver();
         String giverEmail = null;
-        String relatedGiverEmail = null;
+        String userIdForModeration = null;
 
         if (bundle.isResponseGiverVisible(response.id())) {
             if (responseGiver.isGiverUser()) {
                 giverEmail = responseGiver.getGiverUser().getEmail();
-                relatedGiverEmail = responseGiver.getIdentifier();
+                userIdForModeration = responseGiver.getGiverUser().getId().toString();
             } else {
-                // team giver, relatedGiverEmail is any team member's email
+                // team giver, userIdForModeration is any team member's user ID
                 String teamName = responseGiver.getTeamName();
-                relatedGiverEmail = bundle.getRoster().getTeamToMembers().getOrDefault(teamName, Collections.emptyList())
-                        .stream().findFirst().map(Student::getEmail).orElse(null);
+                List<Student> teamMembers =
+                        bundle.getRoster().getTeamToMembers().getOrDefault(teamName, Collections.emptyList());
+                userIdForModeration = teamMembers.stream().findFirst()
+                        .map(student -> student.getId().toString()).orElse(null);
                 giverEmail = null;
             }
         }
@@ -328,7 +337,7 @@ public class SessionResultsData extends ApiOutput {
                 .withGiver(giverName)
                 .withGiverTeam(giverTeam)
                 .withGiverEmail(giverEmail)
-                .withRelatedGiverEmail(relatedGiverEmail)
+                .withUserIdForModeration(userIdForModeration)
                 .withGiverSectionName(giverSectionName)
                 .withRecipient(recipientName)
                 .withRecipientTeam(recipientTeam)
@@ -368,40 +377,15 @@ public class SessionResultsData extends ApiOutput {
         }
     }
 
-    private static Queue<CommentOutput> buildComments(List<FeedbackResponseComment> feedbackResponseComments,
-                                                      SessionResultsBundle bundle) {
-        LinkedList<CommentOutput> outputs = new LinkedList<>();
+    private static List<FeedbackResponseCommentData> buildInstructorComments(
+                List<FeedbackResponseComment> feedbackResponseComments, SessionResultsBundle bundle) {
+        List<FeedbackResponseCommentData> outputs = new ArrayList<>();
 
-        CommentOutput participantComment = null;
         for (FeedbackResponseComment comment : feedbackResponseComments) {
-            if (comment.getIsCommentFromFeedbackParticipant()) {
-                // participant comment will not need these fields
-                participantComment = CommentOutput.builder(comment)
-                        .withCommentGiver(null)
-                        .withCommentGiverName(null)
-                        .withLastEditorEmail(null)
-                        .withLastEditorName(null)
-                        .build();
-            } else {
-                String giverEmail = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
-                String giverName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
-                String lastEditorEmail = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
-                String lastEditorName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
-                if (bundle.isCommentGiverVisible(comment)) {
-                    giverEmail = comment.getGiver().getIdentifier();
-                    giverName = comment.getGiver().getDisplayName();
-                    lastEditorEmail = comment.getLastEditedBy().getIdentifier();
-                    lastEditorName = comment.getLastEditedBy().getDisplayName();
-                }
-                outputs.add(CommentOutput.builder(comment)
-                        .withCommentGiver(giverEmail)
-                        .withCommentGiverName(giverName)
-                        .withLastEditorEmail(lastEditorEmail)
-                        .withLastEditorName(lastEditorName)
-                        .build());
+            if (!comment.getIsCommentFromFeedbackParticipant()) {
+                outputs.add(new FeedbackResponseCommentData(comment, bundle.isCommentGiverVisible(comment)));
             }
         }
-        outputs.addFirst(participantComment);
 
         return outputs;
     }
@@ -479,12 +463,8 @@ public class SessionResultsData extends ApiOutput {
         private String responseId;
 
         private String giver;
-        /**
-         * Depending on the question giver type, {@code giverIdentifier} may contain the giver's email, any team member's
-         * email or null.
-         */
         @Nullable
-        private String relatedGiverEmail;
+        private String userIdForModeration;
         private String giverTeam;
         @Nullable
         private String giverEmail;
@@ -498,8 +478,8 @@ public class SessionResultsData extends ApiOutput {
 
         // comments
         @Nullable
-        private CommentOutput participantComment;
-        private List<CommentOutput> instructorComments;
+        private FeedbackResponseCommentData participantComment;
+        private List<FeedbackResponseCommentData> instructorComments;
 
         private ResponseOutput() {
             // use builder instead
@@ -530,8 +510,8 @@ public class SessionResultsData extends ApiOutput {
         }
 
         @Nullable
-        public String getRelatedGiverEmail() {
-            return relatedGiverEmail;
+        public String getUserIdForModeration() {
+            return userIdForModeration;
         }
 
         public String getGiverTeam() {
@@ -564,11 +544,11 @@ public class SessionResultsData extends ApiOutput {
         }
 
         @Nullable
-        public CommentOutput getParticipantComment() {
+        public FeedbackResponseCommentData getParticipantComment() {
             return participantComment;
         }
 
-        public List<CommentOutput> getInstructorComments() {
+        public List<FeedbackResponseCommentData> getInstructorComments() {
             return instructorComments;
         }
 
@@ -597,8 +577,8 @@ public class SessionResultsData extends ApiOutput {
                 return this;
             }
 
-            Builder withRelatedGiverEmail(@Nullable String relatedGiverEmail) {
-                responseOutput.relatedGiverEmail = relatedGiverEmail;
+            Builder withUserIdForModeration(@Nullable String userIdForModeration) {
+                responseOutput.userIdForModeration = userIdForModeration;
                 return this;
             }
 
@@ -642,12 +622,12 @@ public class SessionResultsData extends ApiOutput {
                 return this;
             }
 
-            Builder withParticipantComment(@Nullable CommentOutput participantComment) {
+            Builder withParticipantComment(@Nullable FeedbackResponseCommentData participantComment) {
                 responseOutput.participantComment = participantComment;
                 return this;
             }
 
-            Builder withInstructorComments(List<CommentOutput> instructorComments) {
+            Builder withInstructorComments(List<FeedbackResponseCommentData> instructorComments) {
                 responseOutput.instructorComments = instructorComments;
                 return this;
             }
@@ -657,73 +637,4 @@ public class SessionResultsData extends ApiOutput {
             }
         }
     }
-
-    /**
-     * API output format for response comments.
-     */
-    public static final class CommentOutput extends FeedbackResponseCommentData {
-
-        @Nullable
-        private String commentGiverName;
-        @Nullable
-        private String lastEditorName;
-
-        private CommentOutput(FeedbackResponseComment frc) {
-            // use builder instead
-            super(frc);
-        }
-
-        /**
-         * Returns a builder for {@link CommentOutput}.
-         */
-        static Builder builder(FeedbackResponseComment frc) {
-            return new Builder(frc);
-        }
-
-        @Nullable
-        public String getCommentGiverName() {
-            return commentGiverName;
-        }
-
-        @Nullable
-        public String getLastEditorName() {
-            return lastEditorName;
-        }
-
-        /**
-         * Builder class for {@link CommentOutput}.
-         */
-        public static final class Builder {
-            private final CommentOutput commentOutput;
-
-            private Builder(FeedbackResponseComment frc) {
-                commentOutput = new CommentOutput(frc);
-            }
-
-            Builder withCommentGiver(@Nullable String commentGiver) {
-                commentOutput.commentGiver = commentGiver;
-                return this;
-            }
-
-            Builder withCommentGiverName(@Nullable String commentGiverName) {
-                commentOutput.commentGiverName = commentGiverName;
-                return this;
-            }
-
-            Builder withLastEditorEmail(@Nullable String lastEditorEmail) {
-                commentOutput.lastEditorEmail = lastEditorEmail;
-                return this;
-            }
-
-            Builder withLastEditorName(@Nullable String lastEditorName) {
-                commentOutput.lastEditorName = lastEditorName;
-                return this;
-            }
-
-            CommentOutput build() {
-                return commentOutput;
-            }
-        }
-    }
-
 }

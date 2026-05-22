@@ -10,6 +10,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static teammates.common.util.Const.ERROR_UPDATE_NON_EXISTENT;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -28,6 +29,7 @@ import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 import teammates.storage.entity.User;
 import teammates.test.BaseTestCase;
+import teammates.ui.exception.InvalidOperationException;
 
 /**
  * SUT: {@link UsersLogic}.
@@ -125,6 +127,64 @@ public class UsersLogicTest extends BaseTestCase {
     }
 
     @Test
+    public void testDeleteInstructorCascade_hasAlternativeInstructor_success() throws InvalidOperationException {
+        Instructor instructorToDelete = createRegisteredInstructor("to-delete@teammates.tmt", true);
+        Instructor alternativeInstructor = createRegisteredInstructor("alternative@teammates.tmt", true);
+
+        when(usersDb.getInstructor(instructorToDelete.getId())).thenReturn(instructorToDelete);
+        when(usersDb.getInstructorsForCourse(course.getId()))
+                .thenReturn(new ArrayList<>(List.of(instructorToDelete, alternativeInstructor)));
+
+        usersLogic.deleteInstructorCascade(instructorToDelete.getId());
+
+        verify(usersDb, times(1)).deleteUser(instructorToDelete);
+    }
+
+    @Test
+    public void testDeleteInstructorCascade_instructorDoesNotExist_failSilently() throws InvalidOperationException {
+        UUID userId = UUID.randomUUID();
+        when(usersDb.getInstructor(userId)).thenReturn(null);
+
+        usersLogic.deleteInstructorCascade(userId);
+
+        verify(usersDb, times(0)).deleteUser(instructor);
+    }
+
+    @Test
+    public void testDeleteInstructorCascade_noAlternativeModifyInstructor_throwsInvalidOperationException() {
+        Instructor instructorToDelete = createRegisteredInstructor("to-delete@teammates.tmt", true);
+        Instructor alternativeInstructor = createUnregisteredInstructor("alternative@teammates.tmt", true);
+
+        when(usersDb.getInstructor(instructorToDelete.getId())).thenReturn(instructorToDelete);
+        when(usersDb.getInstructorsForCourse(course.getId()))
+                .thenReturn(new ArrayList<>(List.of(instructorToDelete, alternativeInstructor)));
+
+        InvalidOperationException ioe = assertThrows(InvalidOperationException.class,
+                () -> usersLogic.deleteInstructorCascade(instructorToDelete.getId()));
+
+        assertEquals("The instructor you are trying to delete is the last instructor in the course. "
+                + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
+        verify(usersDb, times(0)).deleteUser(instructorToDelete);
+    }
+
+    @Test
+    public void testDeleteInstructorCascade_noAlternativeVisibleInstructor_throwsInvalidOperationException() {
+        Instructor instructorToDelete = createRegisteredInstructor("to-delete@teammates.tmt", true);
+        Instructor alternativeInstructor = createRegisteredInstructor("alternative@teammates.tmt", false);
+
+        when(usersDb.getInstructor(instructorToDelete.getId())).thenReturn(instructorToDelete);
+        when(usersDb.getInstructorsForCourse(course.getId()))
+                .thenReturn(new ArrayList<>(List.of(instructorToDelete, alternativeInstructor)));
+
+        InvalidOperationException ioe = assertThrows(InvalidOperationException.class,
+                () -> usersLogic.deleteInstructorCascade(instructorToDelete.getId()));
+
+        assertEquals("The instructor you are trying to delete is the last instructor in the course. "
+                + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
+        verify(usersDb, times(0)).deleteUser(instructorToDelete);
+    }
+
+    @Test
     public void testUpdateToEnsureValidityOfInstructorsForTheCourse_lastModifyInstructorPrivilege_shouldPreserve() {
         InstructorPrivileges privileges = instructor.getPrivileges();
         privileges.updatePrivilege(InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
@@ -133,6 +193,26 @@ public class UsersLogicTest extends BaseTestCase {
 
         assertFalse(instructor.getPrivileges().isAllowedForPrivilege(
                 Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+    }
+
+    private Instructor createRegisteredInstructor(String email, boolean isDisplayedToStudents) {
+        Instructor instructor = createInstructor(email, isDisplayedToStudents);
+        instructor.setAccount(getTypicalAccount());
+        return instructor;
+    }
+
+    private Instructor createUnregisteredInstructor(String email, boolean isDisplayedToStudents) {
+        Instructor instructor = createInstructor(email, isDisplayedToStudents);
+        instructor.setAccount(null);
+        return instructor;
+    }
+
+    private Instructor createInstructor(String email, boolean isDisplayedToStudents) {
+        Instructor instructor = getTypicalInstructor();
+        instructor.setCourse(course);
+        instructor.setEmail(email);
+        instructor.setDisplayedToStudents(isDisplayedToStudents);
+        return instructor;
     }
 
 }

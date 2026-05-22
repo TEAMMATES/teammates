@@ -16,7 +16,7 @@ describe('InstructorStudentRecordsPageComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            queryParams: of({ courseid: 'su1337', studentemail: 'punk@punk.com' }),
+            queryParams: of({ courseid: 'su1337', userid: '00000000-0000-4000-9000-000000000001' }),
           },
         },
         provideHttpClient(),

@@ -8,7 +8,7 @@ exports[`InstructorCourseStudentDetailsPageComponent > should snap with default 
   route={[Function ActivatedRoute]}
   statusMessageService={[Function _StatusMessageService]}
   student="undefined"
-  studentEmail="undefined"
+  studentId="undefined"
   studentService={[Function _StudentService]}
 >
   <tm-loading-retry>
@@ -42,7 +42,7 @@ exports[`InstructorCourseStudentDetailsPageComponent > should snap with populate
   route={[Function ActivatedRoute]}
   statusMessageService={[Function _StatusMessageService]}
   student={[Function Object]}
-  studentEmail="undefined"
+  studentId="undefined"
   studentService={[Function _StudentService]}
 >
   <tm-loading-retry>

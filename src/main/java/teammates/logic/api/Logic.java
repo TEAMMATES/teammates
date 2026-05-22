@@ -59,6 +59,7 @@ import teammates.storage.entity.Student;
 import teammates.storage.entity.Team;
 import teammates.storage.entity.UsageStatistics;
 import teammates.storage.entity.User;
+import teammates.ui.exception.InvalidOperationException;
 import teammates.ui.request.FeedbackQuestionUpdateRequest;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 import teammates.ui.request.FeedbackSessionUpdateRequest;
@@ -807,6 +808,13 @@ public class Logic {
     }
 
     /**
+     * Gets instructor associated with {@code id} in the specified course.
+     */
+    public Instructor getInstructorOfCourse(String courseId, UUID id) {
+        return usersLogic.getInstructorOfCourse(courseId, id);
+    }
+
+    /**
      * Updates the privileges of an instructor by user id.
      *
      * @return the updated instructor
@@ -923,6 +931,13 @@ public class Logic {
      */
     public Student getStudent(UUID id) {
         return usersLogic.getStudent(id);
+    }
+
+    /**
+     * Gets student associated with {@code id} in the specified course.
+     */
+    public Student getStudentOfCourse(String courseId, UUID id) {
+        return usersLogic.getStudentOfCourse(courseId, id);
     }
 
     /**
@@ -1074,13 +1089,12 @@ public class Logic {
      *
      * <br/>
      * Preconditions: <br/>
-     * * All parameters are non-null.
+     * * User ID is non-null.
      */
-    public void deleteStudentCascade(String courseId, String studentEmail) {
-        assert courseId != null;
-        assert studentEmail != null;
+    public void deleteStudentCascade(UUID userId) {
+        assert userId != null;
 
-        usersLogic.deleteStudentCascade(courseId, studentEmail);
+        usersLogic.deleteStudentCascade(userId);
     }
 
     /**
@@ -1101,13 +1115,12 @@ public class Logic {
      *
      * <br/>
      * Preconditions: <br/>
-     * * All parameters are non-null.
+     * * User ID is non-null.
      */
-    public void deleteInstructorCascade(String courseId, String email) {
-        assert courseId != null;
-        assert email != null;
+    public void deleteInstructorCascade(UUID userId) throws InvalidOperationException {
+        assert userId != null;
 
-        usersLogic.deleteInstructorCascade(courseId, email);
+        usersLogic.deleteInstructorCascade(userId);
     }
 
     public List<Notification> getAllNotifications() {

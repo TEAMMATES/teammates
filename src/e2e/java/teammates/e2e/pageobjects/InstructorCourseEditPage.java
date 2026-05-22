@@ -330,6 +330,7 @@ public class InstructorCourseEditPage extends AppPage {
         clickEditInstructorButton(instrNum);
         click(getCourseLevelPanelCheckBox(instrNum, getCourseLevelPrivilegeIndex(privilege)));
         clickSaveInstructorButton(instrNum);
+        waitForPageToLoad();
     }
 
     public void toggleCustomSectionLevelPrivilege(int instrNum, int panelNum, String section,
@@ -344,6 +345,7 @@ public class InstructorCourseEditPage extends AppPage {
         click(getSectionSelectionCheckBox(instrNum, panelNum, getSectionIndex(instrNum, section)));
         click(getSectionLevelCheckBox(instrNum, panelNum, getSectionLevelPrivilegeIndex(privilege)));
         clickSaveInstructorButton(instrNum);
+        waitForPageToLoad();
     }
 
     public void toggleCustomSessionLevelPrivilege(int instrNum, int panelNum, String section, String session,
@@ -360,6 +362,7 @@ public class InstructorCourseEditPage extends AppPage {
         click(getSessionLevelCheckbox(instrNum, panelNum, getSessionIndex(instrNum, session),
                 getSessionLevelPrivilegeIndex(privilege)));
         clickSaveInstructorButton(instrNum);
+        waitForPageToLoad();
     }
 
     private int getNumInstructors() {
@@ -401,7 +404,7 @@ public class InstructorCourseEditPage extends AppPage {
 
     private void clickSaveInstructorButton(int instrNum) {
         click(getSaveInstructorButton(instrNum));
-        waitForPageToLoad();
+        waitForPageToLoad(true);
     }
 
     private void clickAddSectionPrivilegeLink(int instrNum) {

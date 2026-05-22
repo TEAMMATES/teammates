@@ -104,7 +104,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   userDeadlines: Record<string, number> = {};
 
   // to get the original session model on discard changes
-  feedbackSessionModelBeforeEditing: SessionEditFormModel = JSON.parse(JSON.stringify(this.sessionEditFormModel));
+  feedbackSessionModelBeforeEditing: SessionEditFormModel = structuredClone(this.sessionEditFormModel);
 
   // to get the original question model
   feedbackQuestionModels: Map<string, FeedbackQuestion> = new Map();
@@ -155,10 +155,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
   // all students of the course
   studentsOfCourse: Student[] = [];
-  emailOfStudentToPreview = '';
+  userIdOfStudentToPreview = '';
   // all instructors of the course
   instructorsOfCourse: Instructor[] = [];
-  emailOfInstructorToPreview = '';
+  userIdOfInstructorToPreview = '';
 
   get isAllCollapsed(): boolean {
     return this.questionEditFormModels.some((model: QuestionEditFormModel) => {
@@ -386,7 +386,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles editing existing session event.
    */
   editExistingSessionHandler(): void {
-    this.feedbackSessionModelBeforeEditing = JSON.parse(JSON.stringify(this.sessionEditFormModel));
+    this.feedbackSessionModelBeforeEditing = structuredClone(this.sessionEditFormModel);
 
     const submissionStartTime: number = this.timezoneService.resolveLocalDateTime(
       this.sessionEditFormModel.submissionStartDate,
@@ -572,7 +572,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles canceling existing session event without saving changes.
    */
   cancelEditingSessionHandler(): void {
-    this.sessionEditFormModel = JSON.parse(JSON.stringify(this.feedbackSessionModelBeforeEditing));
+    this.sessionEditFormModel = structuredClone(this.feedbackSessionModelBeforeEditing);
   }
 
   /**
@@ -1212,7 +1212,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
         // select the first student
         if (this.studentsOfCourse.length >= 1) {
-          this.emailOfStudentToPreview = this.studentsOfCourse[0].email;
+          this.userIdOfStudentToPreview = this.studentsOfCourse[0].userId;
         }
 
         return this.studentsOfCourse;
@@ -1242,7 +1242,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
           // select the first instructor
           if (this.instructorsOfCourse.length >= 1) {
-            this.emailOfInstructorToPreview = this.instructorsOfCourse[0].email;
+            this.userIdOfInstructorToPreview = this.instructorsOfCourse[0].userId;
           }
 
           return this.instructorsOfCourse;
@@ -1263,7 +1263,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   }
 
   private deepCopy<T>(obj: T): T {
-    return JSON.parse(JSON.stringify(obj));
+    return structuredClone(obj);
   }
 
   private scrollToNewEditForm(): void {

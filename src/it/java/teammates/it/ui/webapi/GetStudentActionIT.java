@@ -3,6 +3,9 @@ package teammates.it.ui.webapi;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -53,7 +56,7 @@ public class GetStudentActionIT extends BaseActionIT<GetStudentAction> {
 
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
+                Const.ParamsNames.USER_ID, student.getId().toString(),
         };
 
         GetStudentAction getStudentAction = getAction(params);
@@ -68,7 +71,7 @@ public class GetStudentActionIT extends BaseActionIT<GetStudentAction> {
         ______TS("Typical Success Case logged in as student, Registered Student");
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
+                Const.ParamsNames.USER_ID, student.getId().toString(),
         };
 
         getStudentAction = getAction(params);
@@ -80,7 +83,6 @@ public class GetStudentActionIT extends BaseActionIT<GetStudentAction> {
         ______TS("Typical Success Case with Unregistered Student");
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, null,
         };
 
         getStudentAction = getAction(params);
@@ -95,7 +97,8 @@ public class GetStudentActionIT extends BaseActionIT<GetStudentAction> {
         ______TS("Student is non existent");
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, "does-not-exist@teammates.tmt",
+                Const.ParamsNames.USER_ID, UUID.nameUUIDFromBytes("does-not-exist"
+                        .getBytes(StandardCharsets.UTF_8)).toString(),
         };
 
         EntityNotFoundException enfe = verifyEntityNotFound(params);
@@ -109,7 +112,7 @@ public class GetStudentActionIT extends BaseActionIT<GetStudentAction> {
 
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
+                Const.ParamsNames.USER_ID, student.getId().toString(),
         };
 
         getStudentAction = getAction(params);
@@ -141,7 +144,7 @@ public class GetStudentActionIT extends BaseActionIT<GetStudentAction> {
         ______TS("Only instructors of the same course with correct privilege can access");
         params = new String[] {
                 Const.ParamsNames.COURSE_ID, course.getId(),
-                Const.ParamsNames.STUDENT_EMAIL, student.getEmail(),
+                Const.ParamsNames.USER_ID, student.getId().toString(),
         };
 
         loginAsInstructor(instructor.getGoogleId());

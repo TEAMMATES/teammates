@@ -77,7 +77,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
 
   teamsToUsers: Record<string, string[]> = {};
   userToEmail: Record<string, string> = {};
-  userToRelatedEmail: Record<string, string> = {};
+  userToUserIdForModeration: Record<string, string> = {};
 
   teamExpanded: Record<string, boolean> = {};
   userExpanded: Record<string, boolean> = {};
@@ -100,7 +100,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
     this.teamsToUsers = {};
     this.teamExpanded = {};
     this.userToEmail = {};
-    this.userToRelatedEmail = {};
+    this.userToUserIdForModeration = {};
     this.userExpanded = {};
     this.userIsInstructor = {};
     for (const question of this.responses) {
@@ -137,8 +137,8 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
             this.teamsToUsers[response.giverTeam].push(response.giver);
             this.teamExpanded[response.giverTeam] = this.isExpandAll;
           }
-          if (response.relatedGiverEmail) {
-            this.userToRelatedEmail[response.giver] = response.relatedGiverEmail;
+          if (response.userIdForModeration) {
+            this.userToUserIdForModeration[response.giver] = response.userIdForModeration;
           }
 
           this.userExpanded[response.giver] = this.isExpandAll;
@@ -166,7 +166,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
 
     for (const user of Object.keys(this.userExpanded)) {
       for (const question of this.responses) {
-        const questionCopy: QuestionOutput = JSON.parse(JSON.stringify(question));
+        const questionCopy: QuestionOutput = structuredClone(question);
         questionCopy.allResponses = questionCopy.allResponses.filter((response: ResponseOutput) => {
           if (!this.indicateMissingResponses && response.isMissingResponse) {
             // filter out missing responses
@@ -212,7 +212,7 @@ export class GqrRqgViewResponsesComponent extends InstructorResponsesViewBase im
           // Should not display anything for contribution and text questions
           continue;
         }
-        const questionCopy: QuestionOutput = JSON.parse(JSON.stringify(question));
+        const questionCopy: QuestionOutput = structuredClone(question);
         questionCopy.allResponses = questionCopy.allResponses.filter((response: ResponseOutput) => {
           if (response.isMissingResponse) {
             // Missing response is meaningless for team statistics

@@ -364,7 +364,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
     this.instructorCoursesSortBy = by;
 
     if (this.courseTabModels.length > 1) {
-      const modelCopy: CourseTabModel[] = JSON.parse(JSON.stringify(this.courseTabModels));
+      const modelCopy: CourseTabModel[] = structuredClone(this.courseTabModels);
       modelCopy.sort(this.sortPanelsBy(by));
       this.courseTabModels = modelCopy;
     }

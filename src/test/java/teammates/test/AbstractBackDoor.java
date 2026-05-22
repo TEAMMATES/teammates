@@ -50,6 +50,7 @@ import teammates.ui.output.InstructorsData;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.output.NotificationData;
 import teammates.ui.output.StudentData;
+import teammates.ui.output.StudentsData;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 import teammates.ui.request.Intent;
 
@@ -333,12 +334,15 @@ public abstract class AbstractBackDoor {
     public StudentData getStudentData(String courseId, String studentEmail) {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.COURSE_ID, courseId);
-        params.put(Const.ParamsNames.STUDENT_EMAIL, studentEmail);
-        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.STUDENT, params);
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.STUDENTS, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
         }
-        return JsonUtils.fromJson(response.responseBody, StudentData.class);
+        return JsonUtils.fromJson(response.responseBody, StudentsData.class).getStudents()
+                .stream()
+                .filter(student -> student.getEmail().equals(studentEmail))
+                .findFirst()
+                .orElse(null);
     }
 
     /**
@@ -419,7 +423,7 @@ public abstract class AbstractBackDoor {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.FEEDBACK_QUESTION_ID, feedbackQuestionId);
         params.put(Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString());
-        params.put(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, giver.getIdentifier());
+        params.put(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON, giver.getGiverUserId().toString());
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.RESPONSES, params);
         if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
             return null;
@@ -471,15 +475,6 @@ public abstract class AbstractBackDoor {
         );
 
         executePutRequest(Const.ResourceURIs.RESPONSE_COMMENT, params, JsonUtils.toJson(body));
-    }
-
-    /**
-     * Deletes a course from the database.
-     */
-    public void deleteCourse(String courseId) {
-        Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.COURSE_ID, courseId);
-        executeDeleteRequest(Const.ResourceURIs.COURSE, params);
     }
 
     /**

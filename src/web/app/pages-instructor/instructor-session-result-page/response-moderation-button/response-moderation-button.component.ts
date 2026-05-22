@@ -38,7 +38,7 @@ export class ResponseModerationButtonComponent {
   };
 
   @Input()
-  relatedGiverEmail = '';
+  userIdForModeration = '';
 
   @Input()
   moderatedQuestionId = '';

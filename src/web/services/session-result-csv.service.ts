@@ -65,7 +65,7 @@ export class SessionResultCsvService {
     );
     // filter responses based on settings
     for (const question of result.questions) {
-      const currQuestion: QuestionOutput = JSON.parse(JSON.stringify(question));
+      const currQuestion: QuestionOutput = structuredClone(question);
       currQuestion.allResponses = currQuestion.allResponses.filter((response: ResponseOutput) => {
         if (sectionName && sectionDetail) {
           return this.feedbackResponsesService.isFeedbackResponsesDisplayedOnSection(

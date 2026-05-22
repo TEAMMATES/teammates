@@ -10,7 +10,7 @@
         @if (intent === Intent.INSTRUCTOR_RESULT) {
           <span>instructor</span>
         }
-        {{ personName }} ({{ previewAsPerson }})
+        {{ personName }} ({{ personEmail }})
         @if (!isPreviewHintExpanded) {
           <button type="button" class="btn btn-link no-shadow" (click)="isPreviewHintExpanded = true">[more]</button>
         }
@@ -20,7 +20,7 @@
       </h4>
       @if (isPreviewHintExpanded) {
         <div class="text-start">
-          <p>The page below resembles the session results page as seen by {{ personName }} ({{ previewAsPerson }}).</p>
+          <p>The page below resembles the session results page as seen by {{ personName }} ({{ personEmail }}).</p>
           <p>
             Note that due to visibility settings, contents that are not supposed to be shown to instructors (e.g.
             yourself) but can be seen by the respondent will not be shown in the page below. Instead, you will see a

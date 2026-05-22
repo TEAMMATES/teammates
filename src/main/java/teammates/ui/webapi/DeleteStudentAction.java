@@ -1,8 +1,11 @@
 package teammates.ui.webapi;
 
+import java.util.UUID;
+
 import teammates.common.util.Const;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
+import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
 
 /**
@@ -17,37 +20,26 @@ public class DeleteStudentAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
+        UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
+        Student student = logic.getStudent(userId);
+        if (student == null) {
+            throw new EntityNotFoundException("Student with user ID " + userId + " does not exist.");
+        }
+
         if (authContext.isAdmin()) {
             return;
         }
 
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-
-        Instructor instructor = logic.getInstructorByGoogleId(courseId, getCurrentUserGoogleId());
+        Instructor instructor = logic.getInstructorByGoogleId(student.getCourseId(), getCurrentUserGoogleId());
         gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+                instructor, logic.getCourse(student.getCourseId()), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }
 
     @Override
     public JsonResult execute() {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String studentId = getRequestParamValue(Const.ParamsNames.STUDENT_ID);
+        UUID userId = getUuidRequestParamValue(Const.ParamsNames.USER_ID);
 
-        String studentEmail = null;
-
-        if (studentId == null) {
-            studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-        } else {
-            Student student = logic.getStudentByGoogleId(courseId, studentId);
-            if (student != null) {
-                studentEmail = student.getEmail();
-            }
-        }
-
-        // if student is not found, fail silently
-        if (studentEmail != null) {
-            logic.deleteStudentCascade(courseId, studentEmail);
-        }
+        logic.deleteStudentCascade(userId);
 
         return new JsonResult("Student is successfully deleted.");
     }

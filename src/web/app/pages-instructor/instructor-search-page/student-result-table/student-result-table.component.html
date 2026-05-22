@@ -15,7 +15,7 @@
         [tableSortBy]="studentSortBy"
         [tableSortOrder]="studentSortOrder"
         [searchString]="searchString"
-        (removeStudentFromCourseEvent)="removeStudent(course.students, $event)"
+        (removeStudentFromCourseEvent)="removeStudentFromCourseEvent.emit($event)"
       >
       </tm-student-list>
     </div>

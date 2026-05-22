@@ -569,7 +569,7 @@ exports[`InstructorCourseDetailsPageComponent > should snap with a course with o
                         >
                           <a
                             class="btn btn-light btn-sm btn-margin-right custom-button"
-                            href="/web/instructor/courses/student/details?courseid=CS101&studentemail=jamie@gmail.com"
+                            href="/web/instructor/courses/student/details?courseid=CS101&userid=student-jamie"
                             id="btn-view-details-CS101-0"
                             rel="noopener noreferrer"
                             target="_blank"
@@ -578,7 +578,7 @@ exports[`InstructorCourseDetailsPageComponent > should snap with a course with o
                           </a>
                           <a
                             class="btn btn-light btn-sm btn-margin-right custom-button"
-                            href="/web/instructor/courses/student/edit?courseid=CS101&studentemail=jamie@gmail.com"
+                            href="/web/instructor/courses/student/edit?courseid=CS101&userid=student-jamie"
                             id="btn-edit-details-CS101-0"
                             rel="noopener noreferrer"
                             target="_blank"
@@ -599,7 +599,7 @@ exports[`InstructorCourseDetailsPageComponent > should snap with a course with o
                           </button>
                           <a
                             class="btn btn-light btn-sm btn-margin-right custom-button"
-                            href="/web/instructor/students/records?courseid=CS101&studentemail=jamie@gmail.com"
+                            href="/web/instructor/students/records?courseid=CS101&userid=student-jamie"
                             id="btn-view-records-CS101-0"
                             rel="noopener noreferrer"
                             target="_blank"

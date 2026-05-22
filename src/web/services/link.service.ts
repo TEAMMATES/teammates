@@ -87,12 +87,12 @@ export class LinkService {
    * Generates student profile page link.
    */
   generateProfilePageLink(student: Student, instructorGoogleId: string): string {
-    const { courseId: courseid, email: studentemail }: Student = student;
+    const { courseId: courseid, userId: userid }: Student = student;
     const params: {
       [key: string]: string;
     } = {
       courseid,
-      studentemail,
+      userid,
       user: instructorGoogleId,
     };
 

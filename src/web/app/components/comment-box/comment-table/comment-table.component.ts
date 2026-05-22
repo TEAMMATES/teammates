@@ -90,7 +90,7 @@ export class CommentTableComponent {
    * Triggers the change of comment rows for the form.
    */
   triggerCommentRowChange(index: number, data: CommentRowModel): void {
-    const newCommentRows: CommentRowModel[] = JSON.parse(JSON.stringify(this.model.commentRows));
+    const newCommentRows: CommentRowModel[] = structuredClone(this.model.commentRows);
     newCommentRows[index] = data;
     this.triggerModelChange('commentRows', newCommentRows);
   }
@@ -106,7 +106,7 @@ export class CommentTableComponent {
    * Handles the close editing event.
    */
   handleCloseEditingCommentRowEvent(index: number): void {
-    const newRowModel: CommentRowModel = JSON.parse(JSON.stringify(this.model.commentRows[index]));
+    const newRowModel: CommentRowModel = structuredClone(this.model.commentRows[index]);
     const originalComment: FeedbackResponseComment = newRowModel.originalComment!;
     newRowModel.commentEditFormModel = {
       commentText: originalComment.commentText,

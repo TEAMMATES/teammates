@@ -23,18 +23,10 @@ import { CommentVisibilityTypesJointNamePipe } from '../comment-visibility-setti
  * Model for a comment row.
  */
 export interface CommentRowModel {
-  // original comment and recipient identifier can be null under ADD mode
+  // original comment, recipient identifier and timezone can be null under ADD mode
   originalComment?: FeedbackResponseComment;
   originalRecipientIdentifier?: string;
-  /**
-   * Timezone of the original comment.
-   */
   timezone?: string;
-  // timezone and originalComment are optional under ADD mode.
-
-  // optional fields that make the display name more readable
-  commentGiverName?: string;
-  lastEditorName?: string;
 
   commentEditFormModel: CommentEditFormModel;
   isEditing: boolean;
