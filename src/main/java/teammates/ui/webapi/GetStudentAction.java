@@ -46,7 +46,7 @@ public class GetStudentAction extends Action {
                     student.getTeamName(),
                     Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
         } else {
-            student = getPossiblyUnregisteredStudent(courseId);
+            student = getStudentFromRequest(courseId);
             gateKeeper.verifyAccessible(student, course);
         }
     }
@@ -60,7 +60,7 @@ public class GetStudentAction extends Action {
         UUID studentId = getNullableUuidRequestParamValue(Const.ParamsNames.USER_ID);
 
         if (studentId == null) {
-            student = getPossiblyUnregisteredStudent(courseId);
+            student = getStudentFromRequest(courseId);
         } else {
             student = getStudentInCourse(courseId, studentId);
         }

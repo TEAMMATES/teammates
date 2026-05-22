@@ -272,7 +272,7 @@ public abstract class Action {
         return null;
     }
 
-    Instructor getPossiblyUnregisteredInstructor(String courseId) {
+    Instructor getInstructorFromRequest(String courseId) {
         if (authContext.authType() == AuthType.REG_KEY) {
             return getUnregisteredInstructor();
         }
@@ -285,7 +285,7 @@ public abstract class Action {
         return logic.getInstructorByGoogleId(courseId, account.getGoogleId());
     }
 
-    Student getPossiblyUnregisteredStudent(String courseId) {
+    Student getStudentFromRequest(String courseId) {
         if (authContext.authType() == AuthType.REG_KEY) {
             return getUnregisteredStudent();
         }

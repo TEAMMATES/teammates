@@ -57,7 +57,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         } else if (previewAsPerson != null && isPreviewAllowed) {
             return logic.getStudentOfCourse(courseId, previewAsPerson);
         } else {
-            return getPossiblyUnregisteredStudent(courseId);
+            return getStudentFromRequest(courseId);
         }
     }
 
@@ -75,7 +75,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         } else if (previewAsPerson != null && isPreviewAllowed) {
             return logic.getInstructorOfCourse(courseId, previewAsPerson);
         } else {
-            return getPossiblyUnregisteredInstructor(courseId);
+            return getInstructorFromRequest(courseId);
         }
     }
 
@@ -90,7 +90,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         if (previewAsPerson != null) {
             return logic.getStudentOfCourse(courseId, previewAsPerson);
         } else {
-            return getPossiblyUnregisteredStudent(courseId);
+            return getStudentFromRequest(courseId);
         }
     }
 
@@ -105,7 +105,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         if (previewAsPerson != null) {
             return logic.getInstructorOfCourse(courseId, previewAsPerson);
         } else {
-            return getPossiblyUnregisteredInstructor(courseId);
+            return getInstructorFromRequest(courseId);
         }
     }
 
