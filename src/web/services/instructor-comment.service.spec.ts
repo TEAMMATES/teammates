@@ -23,8 +23,6 @@ describe('InstructorCommentService', () => {
   let service: InstructorCommentService;
 
   const createComment = (overrides: Partial<FeedbackResponseComment> = {}): FeedbackResponseComment => ({
-    commentGiver: 'instructor@example.com',
-    lastEditorEmail: 'instructor@example.com',
     commentGiverName: 'Original Instructor',
     lastEditorName: 'Original Instructor',
     feedbackResponseCommentId: 'comment-id',

@@ -19,8 +19,6 @@ describe('CommentsToCommentTableModelPipe', () => {
       {
         commentGiverName: 'commentGiverName',
         lastEditorName: 'lastEditorName',
-        commentGiver: 'commentGiver',
-        lastEditorEmail: 'lastEditorEmail',
         feedbackResponseCommentId: '00000000-0000-4000-8000-000000000000',
         commentText: 'commentText',
         createdAt: 0,
@@ -32,8 +30,6 @@ describe('CommentsToCommentTableModelPipe', () => {
       {
         commentGiverName: 'commentGiverName2',
         lastEditorName: 'lastEditorName2',
-        commentGiver: 'commentGiver2',
-        lastEditorEmail: 'lastEditorEmail2',
         feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
         commentText: 'commentText2',
         createdAt: 1,
@@ -50,8 +46,6 @@ describe('CommentsToCommentTableModelPipe', () => {
           originalComment: {
             commentGiverName: 'commentGiverName',
             lastEditorName: 'lastEditorName',
-            commentGiver: 'commentGiver',
-            lastEditorEmail: 'lastEditorEmail',
             feedbackResponseCommentId: '00000000-0000-4000-8000-000000000000',
             commentText: 'commentText',
             createdAt: 0,
@@ -73,8 +67,6 @@ describe('CommentsToCommentTableModelPipe', () => {
           originalComment: {
             commentGiverName: 'commentGiverName2',
             lastEditorName: 'lastEditorName2',
-            commentGiver: 'commentGiver2',
-            lastEditorEmail: 'lastEditorEmail2',
             feedbackResponseCommentId: '00000000-0000-4000-8000-000000000001',
             commentText: 'commentText2',
             createdAt: 1,

@@ -15,11 +15,7 @@ public class FeedbackResponseCommentData extends ApiOutput {
     private UUID feedbackResponseCommentId;
 
     @Nullable
-    private String commentGiver;
-    @Nullable
     private String commentGiverName;
-    @Nullable
-    private String lastEditorEmail;
     @Nullable
     private String lastEditorName;
 
@@ -36,9 +32,7 @@ public class FeedbackResponseCommentData extends ApiOutput {
     }
 
     public FeedbackResponseCommentData(FeedbackResponseComment frc) {
-        this.commentGiver = frc.getGiver().getIdentifier();
         this.commentGiverName = frc.getGiver().getDisplayName();
-        this.lastEditorEmail = frc.getLastEditedBy().getIdentifier();
         this.lastEditorName = frc.getLastEditedBy().getDisplayName();
         this.feedbackResponseCommentId = frc.getId();
         this.commentText = frc.getCommentText();
@@ -52,9 +46,7 @@ public class FeedbackResponseCommentData extends ApiOutput {
     public FeedbackResponseCommentData(FeedbackResponseComment frc, boolean isGiverVisible) {
         this(frc);
         if (!isGiverVisible) {
-            this.commentGiver = null;
             this.commentGiverName = null;
-            this.lastEditorEmail = null;
             this.lastEditorName = null;
         }
     }
@@ -94,10 +86,6 @@ public class FeedbackResponseCommentData extends ApiOutput {
         return feedbackResponseCommentId;
     }
 
-    public String getCommentGiver() {
-        return commentGiver;
-    }
-
     public String getCommentGiverName() {
         return commentGiverName;
     }
@@ -112,10 +100,6 @@ public class FeedbackResponseCommentData extends ApiOutput {
 
     public long getCreatedAt() {
         return createdAt;
-    }
-
-    public String getLastEditorEmail() {
-        return lastEditorEmail;
     }
 
     public String getLastEditorName() {

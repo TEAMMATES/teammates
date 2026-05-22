@@ -58,8 +58,6 @@
             {
               "commentGiverName": "Instructor1 Course1",
               "lastEditorName": "Instructor1 Course1",
-              "commentGiver": "instructor1@course1.tmt",
-              "lastEditorEmail": "instructor1@course1.tmt",
               "feedbackResponseCommentId": "00000000-0000-0000-0000-00000000006a",
               "commentText": "Instructor 1 comment to student 1 self feedback",
               "createdAt": 1772409540000,

@@ -38,8 +38,6 @@
             {
               "commentGiverName": "Instructor1 Course1",
               "lastEditorName": "Instructor1 Course1",
-              "commentGiver": "instructor1@course1.tmt",
-              "lastEditorEmail": "instructor1@course1.tmt",
               "feedbackResponseCommentId": "00000000-0000-0000-0000-000000000057",
               "commentText": "Instructor 1 comment to instructor 1 self feedback Question 3",
               "createdAt": 1767311940000,
@@ -155,8 +153,6 @@
             {
               "commentGiverName": "Instructor1 Course1",
               "lastEditorName": "Instructor1 Course1",
-              "commentGiver": "instructor1@course1.tmt",
-              "lastEditorEmail": "instructor1@course1.tmt",
               "feedbackResponseCommentId": "00000000-0000-0000-0000-000000000056",
               "commentText": "Instructor 1 comment to response from student 2 to student 5 in feedback Question 2",
               "createdAt": 1769990340000,
@@ -645,8 +641,6 @@
             {
               "commentGiverName": "Instructor1 Course1",
               "lastEditorName": "Instructor1 Course1",
-              "commentGiver": "instructor1@course1.tmt",
-              "lastEditorEmail": "instructor1@course1.tmt",
               "feedbackResponseCommentId": "00000000-0000-0000-0000-000000000055",
               "commentText": "Instructor 1 comment to student 1 self feedback",
               "createdAt": 1772409540000,

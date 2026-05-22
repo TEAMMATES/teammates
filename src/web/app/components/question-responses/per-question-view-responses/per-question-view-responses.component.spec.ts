@@ -46,8 +46,6 @@ describe('PerQuestionViewResponsesComponent', () => {
   const commentOutput: FeedbackResponseComment = {
     commentGiverName: 'Jennie Kim',
     lastEditorName: 'Jennie Kim',
-    commentGiver: 'Jennie Kim',
-    lastEditorEmail: 'jenniekim@gmail.com',
     feedbackResponseCommentId: '00000000-0000-4000-8000-000000000003',
     commentText: 'commentText',
     createdAt: 0,
