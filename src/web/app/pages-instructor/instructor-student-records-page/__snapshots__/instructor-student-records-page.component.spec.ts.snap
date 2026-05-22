@@ -5,11 +5,9 @@ exports[`InstructorStudentRecordsPageComponent > should snap when student result
   commentService={[Function _InstructorCommentService]}
   commentsToCommentTableModel={[Function _CommentsToCommentTableModelPipe]}
   courseId={[Function String]}
-  currInstructorName="undefined"
   feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasStudentResultsLoadingFailed="false"
   instructorCommentTableModel={[Function Object]}
-  instructorService={[Function _InstructorService]}
   isStudentResultsLoading={[Function Boolean]}
   route={[Function Object]}
   sessionTabs={[Function Array]}
@@ -60,11 +58,9 @@ exports[`InstructorStudentRecordsPageComponent > should snap with default fields
   commentService={[Function _InstructorCommentService]}
   commentsToCommentTableModel={[Function _CommentsToCommentTableModelPipe]}
   courseId={[Function String]}
-  currInstructorName="undefined"
   feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasStudentResultsLoadingFailed="false"
   instructorCommentTableModel={[Function Object]}
-  instructorService={[Function _InstructorService]}
   isStudentResultsLoading={[Function Boolean]}
   route={[Function Object]}
   sessionTabs={[Function Array]}
@@ -115,11 +111,9 @@ exports[`InstructorStudentRecordsPageComponent > should snap with populated fiel
   commentService={[Function _InstructorCommentService]}
   commentsToCommentTableModel={[Function _CommentsToCommentTableModelPipe]}
   courseId={[Function String]}
-  currInstructorName="undefined"
   feedbackSessionsService={[Function _FeedbackSessionsService]}
   hasStudentResultsLoadingFailed="false"
   instructorCommentTableModel={[Function Object]}
-  instructorService={[Function _InstructorService]}
   isStudentResultsLoading="false"
   route={[Function Object]}
   sessionTabs={[Function Array]}

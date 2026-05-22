@@ -160,7 +160,6 @@ describe('InstructorCommentService', () => {
       data: { responseId: 'response-id', index: 0 },
       timezone,
       instructorCommentTableModel,
-      currInstructorName: 'Current Instructor',
     });
 
     expect(spyFeedbackResponseCommentService.updateComment).toHaveBeenCalledWith(
@@ -173,8 +172,6 @@ describe('InstructorCommentService', () => {
       Intent.INSTRUCTOR_RESULT,
     );
     expect(instructorCommentTableModel['response-id'].commentRows[0].originalComment?.commentText).toBe('updated text');
-    expect(instructorCommentTableModel['response-id'].commentRows[0].commentGiverName).toBe('Original Instructor');
-    expect(instructorCommentTableModel['response-id'].commentRows[0].lastEditorName).toBe('Current Instructor');
     expect(instructorCommentTableModel['response-id'].commentRows[0].timezone).toBe(timezone);
   });
 
@@ -221,7 +218,6 @@ describe('InstructorCommentService', () => {
       responseId: 'response-id',
       timezone,
       instructorCommentTableModel,
-      currInstructorName: 'Current Instructor',
     });
 
     expect(spyFeedbackResponseCommentService.createComment).toHaveBeenCalledWith(
@@ -237,8 +233,6 @@ describe('InstructorCommentService', () => {
     expect(instructorCommentTableModel['response-id'].commentRows[0].originalComment?.feedbackResponseCommentId).toBe(
       'new-comment-id',
     );
-    expect(instructorCommentTableModel['response-id'].commentRows[0].commentGiverName).toBe('Current Instructor');
-    expect(instructorCommentTableModel['response-id'].commentRows[0].lastEditorName).toBe('Current Instructor');
     expect(instructorCommentTableModel['response-id'].newCommentRow.commentEditFormModel.commentText).toBe('');
     expect(instructorCommentTableModel['response-id'].isAddingNewComment).toBe(false);
   });

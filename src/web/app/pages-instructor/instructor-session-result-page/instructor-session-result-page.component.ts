@@ -117,7 +117,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
   showStatistics = true;
   indicateMissingResponses = true;
 
-  currInstructorName?: string;
   instructorCommentTableModel: Record<string, CommentTableModel> = {};
 
   // below are two models contain similar and duplicate data
@@ -333,16 +332,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
                 this.statusMessageService.showErrorToast(resp.error.message);
               },
             });
-
-          // load current instructor name
-          this.instructorService
-            .getInstructor({
-              courseId: this.courseId,
-              intent: Intent.FULL_DETAIL,
-            })
-            .subscribe((instructor: Instructor) => {
-              this.currInstructorName = instructor.name;
-            });
         },
         error: (resp: ErrorMessageOutput) => {
           this.isFeedbackSessionLoading = false;
@@ -521,7 +510,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
       responseId,
       timezone: this.session.timeZone,
       instructorCommentTableModel: this.instructorCommentTableModel,
-      currInstructorName: this.currInstructorName,
     });
   }
 
@@ -543,7 +531,6 @@ export class InstructorSessionResultPageComponent implements OnInit {
       data,
       timezone: this.session.timeZone,
       instructorCommentTableModel: this.instructorCommentTableModel,
-      currInstructorName: this.currInstructorName,
     });
   }
 

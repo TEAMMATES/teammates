@@ -2,8 +2,8 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  CommentOutput,
   FeedbackQuestion,
+  FeedbackResponseComment,
   FeedbackTextQuestionDetails,
   FeedbackTextResponseDetails,
   QuestionGiverType,
@@ -43,7 +43,7 @@ describe('PerQuestionViewResponsesComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  const commentOutput: CommentOutput = {
+  const commentOutput: FeedbackResponseComment = {
     commentGiverName: 'Jennie Kim',
     lastEditorName: 'Jennie Kim',
     commentGiver: 'Jennie Kim',

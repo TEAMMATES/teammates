@@ -182,7 +182,7 @@ public class SessionResultsData extends ApiOutput {
         // process comments
         List<FeedbackResponseComment> feedbackResponseComments =
                 bundle.getResponseCommentsMap().getOrDefault(response, Collections.emptyList());
-        Queue<CommentOutput> comments = buildComments(feedbackResponseComments, bundle);
+        Queue<FeedbackResponseCommentData> comments = buildComments(feedbackResponseComments, bundle);
 
         return ResponseOutput.builder()
                 .withResponseId(response.getId().toString())
@@ -254,7 +254,7 @@ public class SessionResultsData extends ApiOutput {
         // process comments
         List<FeedbackResponseComment> feedbackResponseComments =
                 bundle.getResponseCommentsMap().getOrDefault(response, Collections.emptyList());
-        Queue<CommentOutput> comments = buildComments(feedbackResponseComments, bundle);
+        Queue<FeedbackResponseCommentData> comments = buildComments(feedbackResponseComments, bundle);
 
         return ResponseOutput.builder()
                 .withIsMissingResponse(false)
@@ -369,40 +369,17 @@ public class SessionResultsData extends ApiOutput {
         }
     }
 
-    private static Queue<CommentOutput> buildComments(List<FeedbackResponseComment> feedbackResponseComments,
+    private static Queue<FeedbackResponseCommentData> buildComments(List<FeedbackResponseComment> feedbackResponseComments,
                                                       SessionResultsBundle bundle) {
-        LinkedList<CommentOutput> outputs = new LinkedList<>();
+        LinkedList<FeedbackResponseCommentData> outputs = new LinkedList<>();
 
-        CommentOutput participantComment = null;
         for (FeedbackResponseComment comment : feedbackResponseComments) {
             if (comment.getIsCommentFromFeedbackParticipant()) {
-                // participant comment will not need these fields
-                participantComment = CommentOutput.builder(comment)
-                        .withCommentGiver(null)
-                        .withCommentGiverName(null)
-                        .withLastEditorEmail(null)
-                        .withLastEditorName(null)
-                        .build();
+                outputs.addFirst(new FeedbackResponseCommentData(comment));
             } else {
-                String giverEmail = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
-                String giverName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
-                String lastEditorEmail = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
-                String lastEditorName = Const.DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT;
-                if (bundle.isCommentGiverVisible(comment)) {
-                    giverEmail = comment.getGiver().getIdentifier();
-                    giverName = comment.getGiver().getDisplayName();
-                    lastEditorEmail = comment.getLastEditedBy().getIdentifier();
-                    lastEditorName = comment.getLastEditedBy().getDisplayName();
-                }
-                outputs.add(CommentOutput.builder(comment)
-                        .withCommentGiver(giverEmail)
-                        .withCommentGiverName(giverName)
-                        .withLastEditorEmail(lastEditorEmail)
-                        .withLastEditorName(lastEditorName)
-                        .build());
+                outputs.add(new FeedbackResponseCommentData(comment, bundle.isCommentGiverVisible(comment)));
             }
         }
-        outputs.addFirst(participantComment);
 
         return outputs;
     }
@@ -495,8 +472,8 @@ public class SessionResultsData extends ApiOutput {
 
         // comments
         @Nullable
-        private CommentOutput participantComment;
-        private List<CommentOutput> instructorComments;
+        private FeedbackResponseCommentData participantComment;
+        private List<FeedbackResponseCommentData> instructorComments;
 
         private ResponseOutput() {
             // use builder instead
@@ -561,11 +538,11 @@ public class SessionResultsData extends ApiOutput {
         }
 
         @Nullable
-        public CommentOutput getParticipantComment() {
+        public FeedbackResponseCommentData getParticipantComment() {
             return participantComment;
         }
 
-        public List<CommentOutput> getInstructorComments() {
+        public List<FeedbackResponseCommentData> getInstructorComments() {
             return instructorComments;
         }
 
@@ -639,12 +616,12 @@ public class SessionResultsData extends ApiOutput {
                 return this;
             }
 
-            Builder withParticipantComment(@Nullable CommentOutput participantComment) {
+            Builder withParticipantComment(@Nullable FeedbackResponseCommentData participantComment) {
                 responseOutput.participantComment = participantComment;
                 return this;
             }
 
-            Builder withInstructorComments(List<CommentOutput> instructorComments) {
+            Builder withInstructorComments(List<FeedbackResponseCommentData> instructorComments) {
                 responseOutput.instructorComments = instructorComments;
                 return this;
             }
@@ -654,73 +631,4 @@ public class SessionResultsData extends ApiOutput {
             }
         }
     }
-
-    /**
-     * API output format for response comments.
-     */
-    public static final class CommentOutput extends FeedbackResponseCommentData {
-
-        @Nullable
-        private String commentGiverName;
-        @Nullable
-        private String lastEditorName;
-
-        private CommentOutput(FeedbackResponseComment frc) {
-            // use builder instead
-            super(frc);
-        }
-
-        /**
-         * Returns a builder for {@link CommentOutput}.
-         */
-        static Builder builder(FeedbackResponseComment frc) {
-            return new Builder(frc);
-        }
-
-        @Nullable
-        public String getCommentGiverName() {
-            return commentGiverName;
-        }
-
-        @Nullable
-        public String getLastEditorName() {
-            return lastEditorName;
-        }
-
-        /**
-         * Builder class for {@link CommentOutput}.
-         */
-        public static final class Builder {
-            private final CommentOutput commentOutput;
-
-            private Builder(FeedbackResponseComment frc) {
-                commentOutput = new CommentOutput(frc);
-            }
-
-            Builder withCommentGiver(@Nullable String commentGiver) {
-                commentOutput.commentGiver = commentGiver;
-                return this;
-            }
-
-            Builder withCommentGiverName(@Nullable String commentGiverName) {
-                commentOutput.commentGiverName = commentGiverName;
-                return this;
-            }
-
-            Builder withLastEditorEmail(@Nullable String lastEditorEmail) {
-                commentOutput.lastEditorEmail = lastEditorEmail;
-                return this;
-            }
-
-            Builder withLastEditorName(@Nullable String lastEditorName) {
-                commentOutput.lastEditorName = lastEditorName;
-                return this;
-            }
-
-            CommentOutput build() {
-                return commentOutput;
-            }
-        }
-    }
-
 }

@@ -1,6 +1,6 @@
+import { FeedbackResponseComment } from '../../../types/api-output';
 import { CommentToCommentRowModelPipe } from './comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from './comments-to-comment-table-model.pipe';
-import { CommentOutput } from '../../../types/api-output';
 import { TestBed } from '@angular/core/testing';
 
 describe('CommentsToCommentTableModelPipe', () => {
@@ -15,7 +15,7 @@ describe('CommentsToCommentTableModelPipe', () => {
   });
 
   it('converts comments to comment table model correctly', () => {
-    const comments: CommentOutput[] = [
+    const comments: FeedbackResponseComment[] = [
       {
         commentGiverName: 'commentGiverName',
         lastEditorName: 'lastEditorName',
@@ -60,8 +60,6 @@ describe('CommentsToCommentTableModelPipe', () => {
             showGiverNameTo: [],
             showCommentTo: [],
           },
-          commentGiverName: 'commentGiverName',
-          lastEditorName: 'lastEditorName',
           commentEditFormModel: {
             commentText: 'commentText',
             isUsingCustomVisibilities: true,
@@ -85,8 +83,6 @@ describe('CommentsToCommentTableModelPipe', () => {
             showGiverNameTo: [],
             showCommentTo: [],
           },
-          commentGiverName: 'commentGiverName2',
-          lastEditorName: 'lastEditorName2',
           commentEditFormModel: {
             commentText: 'commentText2',
             isUsingCustomVisibilities: false,

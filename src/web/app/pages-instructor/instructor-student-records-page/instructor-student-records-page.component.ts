@@ -5,14 +5,12 @@ import { combineLatest, Observable } from 'rxjs';
 import { finalize, map, mergeMap, tap } from 'rxjs/operators';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorCommentEventData, InstructorCommentService } from '../../../services/instructor-comment.service';
-import { InstructorService } from '../../../services/instructor.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import {
   FeedbackSession,
   FeedbackSessions,
-  Instructor,
   QuestionOutput,
   ResponseOutput,
   SessionResults,
@@ -55,7 +53,6 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private feedbackSessionsService = inject(FeedbackSessionsService);
   private studentService = inject(StudentService);
-  private instructorService = inject(InstructorService);
   private commentsToCommentTableModel = inject(CommentsToCommentTableModelPipe);
   private tableComparatorService = inject(TableComparatorService);
   private statusMessageService = inject(StatusMessageService);
@@ -71,7 +68,6 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
   isStudentResultsLoading = false;
   hasStudentResultsLoadingFailed = false;
 
-  currInstructorName?: string;
   instructorCommentTableModel: Record<string, CommentTableModel> = {};
 
   ngOnInit(): void {
@@ -80,27 +76,12 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
         this.courseId = queryParams.courseid;
         this.studentId = queryParams.userid;
 
-        this.loadInstructorRecords(this.courseId);
         this.loadStudentResults(this.courseId, this.studentId);
       },
       error: (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       },
     });
-  }
-
-  /**
-   * Loads the instructor's records based on the given course ID.
-   */
-  loadInstructorRecords(courseId: string): void {
-    this.instructorService
-      .getInstructor({
-        courseId,
-        intent: Intent.FULL_DETAIL,
-      })
-      .subscribe((instructor: Instructor) => {
-        this.currInstructorName = instructor.name;
-      });
   }
 
   /**
@@ -247,7 +228,6 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
       responseId,
       timezone,
       instructorCommentTableModel: this.instructorCommentTableModel,
-      currInstructorName: this.currInstructorName,
     });
   }
 
@@ -269,7 +249,6 @@ export class InstructorStudentRecordsPageComponent implements OnInit {
       data,
       timezone,
       instructorCommentTableModel: this.instructorCommentTableModel,
-      currInstructorName: this.currInstructorName,
     });
   }
 
