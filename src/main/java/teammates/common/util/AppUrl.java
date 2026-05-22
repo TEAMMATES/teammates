@@ -38,4 +38,8 @@ public class AppUrl extends Url {
         return withParam(Const.ParamsNames.ENTITY_TYPE, entityType);
     }
 
+    public AppUrl withPreviewAs(String previewAs) {
+        return withParam(Const.ParamsNames.PREVIEWAS, previewAs);
+    }
+
 }

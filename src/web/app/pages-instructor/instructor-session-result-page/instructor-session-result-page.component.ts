@@ -139,9 +139,9 @@ export class InstructorSessionResultPageComponent implements OnInit {
   hasNoResponseLoadingFailed = false;
 
   allStudentsInCourse: Student[] = [];
-  emailOfStudentToPreview = '';
+  userIdOfStudentToPreview = '';
   allInstructorsInCourse: Instructor[] = [];
-  emailOfInstructorToPreview = '';
+  userIdOfInstructorToPreview = '';
 
   FeedbackSessionPublishStatus!: typeof FeedbackSessionPublishStatus;
   isExpandAll = false;
@@ -299,7 +299,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
 
                 // select the first student
                 if (this.allStudentsInCourse.length >= 1) {
-                  this.emailOfStudentToPreview = this.allStudentsInCourse[0].email;
+                  this.userIdOfStudentToPreview = this.allStudentsInCourse[0].userId;
                 }
 
                 this.loadNoResponseStudents(feedbackSessionId);
@@ -326,7 +326,7 @@ export class InstructorSessionResultPageComponent implements OnInit {
 
                 // select the first instructor
                 if (this.allInstructorsInCourse.length >= 1) {
-                  this.emailOfInstructorToPreview = this.allInstructorsInCourse[0].email;
+                  this.userIdOfInstructorToPreview = this.allInstructorsInCourse[0].userId;
                 }
               },
               error: (resp: ErrorMessageOutput) => {

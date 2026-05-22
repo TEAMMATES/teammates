@@ -549,7 +549,7 @@ export interface ResponseOutput {
   isMissingResponse: boolean;
   responseId: string;
   giver: string;
-  relatedGiverEmail?: string;
+  userIdForModeration?: string;
   giverTeam: string;
   giverEmail?: string;
   giverSection: string;

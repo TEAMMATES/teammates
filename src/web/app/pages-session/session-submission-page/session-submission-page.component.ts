@@ -43,7 +43,6 @@ import {
   QuestionRecipientType,
   RegkeyValidity,
   Student,
-  Students,
 } from '../../../types/api-output';
 import { FeedbackResponseRequest, Intent } from '../../../types/api-request';
 import { Milliseconds } from '../../../types/datetime-const';
@@ -62,7 +61,6 @@ import {
 } from '../../components/question-submission-form/question-submission-form-model';
 import { QuestionSubmissionFormComponent } from '../../components/question-submission-form/question-submission-form.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
-import { areEmailsEqual } from '../../components/teammates-common/email-utils';
 import { SafeHtmlPipe } from '../../components/teammates-common/safe-html.pipe';
 import { ErrorMessageOutput } from '../../error-message-output';
 
@@ -353,19 +351,12 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     switch (this.intent) {
       case Intent.STUDENT_SUBMISSION:
         if (this.moderatedPerson || this.previewAsPerson) {
-          // Temporary solution as previewAs + moderatedPerson is an email and not an id.
-          // Once previewAs is changed to be an id, we can directly get the student details using the id.
-          const studentEmail = this.moderatedPerson || this.previewAsPerson;
-          this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe((students: Students) => {
-            const student: Student | undefined = students.students.find((s: Student) => {
-              return areEmailsEqual(s.email, studentEmail);
-            });
-            if (student) {
-              this.studentId = student.userId;
-              this.personName = student.name;
-              this.personEmail = student.email;
-              this.logStudentAccess();
-            }
+          const userId = this.moderatedPerson || this.previewAsPerson;
+          this.studentService.getStudent({ courseId: this.courseId, userId }).subscribe((student: Student) => {
+            this.studentId = student.userId;
+            this.personName = student.name;
+            this.personEmail = student.email;
+            this.logStudentAccess();
           });
         } else {
           this.studentService

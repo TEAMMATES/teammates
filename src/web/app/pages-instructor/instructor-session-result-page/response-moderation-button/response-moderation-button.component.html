@@ -2,7 +2,7 @@
   [tmRouterLink]="isGiverInstructor ? '/web/instructor/sessions/submission' : '/web/sessions/submission'"
   [queryParams]="{
     fsid: session.feedbackSessionId,
-    moderatedperson: relatedGiverEmail,
+    moderatedperson: userIdForModeration,
     moderatedquestionId: moderatedQuestionId,
   }"
   class="btn btn-sm"

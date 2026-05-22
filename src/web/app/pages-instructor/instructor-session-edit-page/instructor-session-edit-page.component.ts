@@ -155,10 +155,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
   // all students of the course
   studentsOfCourse: Student[] = [];
-  emailOfStudentToPreview = '';
+  userIdOfStudentToPreview = '';
   // all instructors of the course
   instructorsOfCourse: Instructor[] = [];
-  emailOfInstructorToPreview = '';
+  userIdOfInstructorToPreview = '';
 
   get isAllCollapsed(): boolean {
     return this.questionEditFormModels.some((model: QuestionEditFormModel) => {
@@ -1212,7 +1212,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
         // select the first student
         if (this.studentsOfCourse.length >= 1) {
-          this.emailOfStudentToPreview = this.studentsOfCourse[0].email;
+          this.userIdOfStudentToPreview = this.studentsOfCourse[0].userId;
         }
 
         return this.studentsOfCourse;
@@ -1242,7 +1242,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
           // select the first instructor
           if (this.instructorsOfCourse.length >= 1) {
-            this.emailOfInstructorToPreview = this.instructorsOfCourse[0].email;
+            this.userIdOfInstructorToPreview = this.instructorsOfCourse[0].userId;
           }
 
           return this.instructorsOfCourse;

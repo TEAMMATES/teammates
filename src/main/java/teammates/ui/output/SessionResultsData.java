@@ -189,7 +189,6 @@ public class SessionResultsData extends ApiOutput {
                 .withGiver(giverName)
                 .withGiverTeam(giverTeam)
                 .withGiverEmail(null)
-                .withRelatedGiverEmail(null)
                 .withGiverSectionName(giver.getSectionName())
                 .withRecipient(recipientName)
                 .withRecipientTeam(recipientTeam)
@@ -222,17 +221,17 @@ public class SessionResultsData extends ApiOutput {
         // process giver
         ResponseGiver responseGiver = response.getGiver();
         String giverEmail = null;
-        String relatedGiverEmail = null;
+        String userIdForModeration = null;
         if (bundle.isResponseGiverVisible(response.getId())) {
             if (responseGiver.isGiverUser()) {
                 giverEmail = responseGiver.getGiverUser().getEmail();
-                relatedGiverEmail = responseGiver.getIdentifier();
+                userIdForModeration = responseGiver.getGiverUser().getId().toString();
             } else {
-                // team giver, relatedGiverEmail is any team member's email
+                // team giver, userIdForModeration is any team member's user ID
                 String teamName = responseGiver.getTeamName();
                 List<Student> teamMembers =
                         bundle.getRoster().getTeamToMembers().getOrDefault(teamName, Collections.emptyList());
-                relatedGiverEmail = teamMembers.isEmpty() ? null : teamMembers.iterator().next().getEmail();
+                userIdForModeration = teamMembers.isEmpty() ? null : teamMembers.iterator().next().getId().toString();
                 giverEmail = null;
             }
         }
@@ -263,7 +262,7 @@ public class SessionResultsData extends ApiOutput {
                 .withGiver(giverName)
                 .withGiverTeam(giverTeam)
                 .withGiverEmail(giverEmail)
-                .withRelatedGiverEmail(relatedGiverEmail)
+                .withUserIdForModeration(userIdForModeration)
                 .withGiverSectionName(giverSectionName)
                 .withRecipient(recipientName)
                 .withRecipientTeam(recipientTeam)
@@ -291,17 +290,19 @@ public class SessionResultsData extends ApiOutput {
         // process giver
         ResponseGiver responseGiver = response.giver();
         String giverEmail = null;
-        String relatedGiverEmail = null;
+        String userIdForModeration = null;
 
         if (bundle.isResponseGiverVisible(response.id())) {
             if (responseGiver.isGiverUser()) {
                 giverEmail = responseGiver.getGiverUser().getEmail();
-                relatedGiverEmail = responseGiver.getIdentifier();
+                userIdForModeration = responseGiver.getGiverUser().getId().toString();
             } else {
-                // team giver, relatedGiverEmail is any team member's email
+                // team giver, userIdForModeration is any team member's user ID
                 String teamName = responseGiver.getTeamName();
-                relatedGiverEmail = bundle.getRoster().getTeamToMembers().getOrDefault(teamName, Collections.emptyList())
-                        .stream().findFirst().map(Student::getEmail).orElse(null);
+                List<Student> teamMembers =
+                        bundle.getRoster().getTeamToMembers().getOrDefault(teamName, Collections.emptyList());
+                userIdForModeration = teamMembers.stream().findFirst()
+                        .map(student -> student.getId().toString()).orElse(null);
                 giverEmail = null;
             }
         }
@@ -328,7 +329,7 @@ public class SessionResultsData extends ApiOutput {
                 .withGiver(giverName)
                 .withGiverTeam(giverTeam)
                 .withGiverEmail(giverEmail)
-                .withRelatedGiverEmail(relatedGiverEmail)
+                .withUserIdForModeration(userIdForModeration)
                 .withGiverSectionName(giverSectionName)
                 .withRecipient(recipientName)
                 .withRecipientTeam(recipientTeam)
@@ -479,12 +480,8 @@ public class SessionResultsData extends ApiOutput {
         private String responseId;
 
         private String giver;
-        /**
-         * Depending on the question giver type, {@code giverIdentifier} may contain the giver's email, any team member's
-         * email or null.
-         */
         @Nullable
-        private String relatedGiverEmail;
+        private String userIdForModeration;
         private String giverTeam;
         @Nullable
         private String giverEmail;
@@ -530,8 +527,8 @@ public class SessionResultsData extends ApiOutput {
         }
 
         @Nullable
-        public String getRelatedGiverEmail() {
-            return relatedGiverEmail;
+        public String getUserIdForModeration() {
+            return userIdForModeration;
         }
 
         public String getGiverTeam() {
@@ -597,8 +594,8 @@ public class SessionResultsData extends ApiOutput {
                 return this;
             }
 
-            Builder withRelatedGiverEmail(@Nullable String relatedGiverEmail) {
-                responseOutput.relatedGiverEmail = relatedGiverEmail;
+            Builder withUserIdForModeration(@Nullable String userIdForModeration) {
+                responseOutput.userIdForModeration = userIdForModeration;
                 return this;
             }
 

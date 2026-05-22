@@ -452,7 +452,7 @@ describe('InstructorSessionEditPageComponent', () => {
 
     expect(component.studentsOfCourse.length).toBe(2);
     expect(component.studentsOfCourse[0].name).toBe(testStudent1.name);
-    expect(component.emailOfStudentToPreview).toBe(testStudent1.email);
+    expect(component.userIdOfStudentToPreview).toBe(testStudent1.userId);
   });
 
   it('should emit error when failed to get student', () => {
@@ -500,7 +500,7 @@ describe('InstructorSessionEditPageComponent', () => {
     component.getAllInstructors().subscribe();
     expect(component.instructorsOfCourse.length).toBe(2);
     expect(component.instructorsOfCourse[0].name).toBe(testInstructor1.name);
-    expect(component.emailOfInstructorToPreview).toBe(testInstructor1.email);
+    expect(component.userIdOfInstructorToPreview).toBe(testInstructor1.userId);
   });
 
   it('should emit error when failed to get instructor', () => {

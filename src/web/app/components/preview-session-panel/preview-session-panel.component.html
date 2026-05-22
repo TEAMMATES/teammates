@@ -12,25 +12,25 @@
           id="preview-student"
           [ngClass]="{ 'preview-example-select': forDisplayOnly }"
           class="col-12 col-sm-8 col-lg-6 form-control form-select preview-select"
-          [(ngModel)]="emailOfStudentToPreview"
+          [(ngModel)]="userIdOfStudentToPreview"
           aria-label="Select student to preview as"
         >
           @for (student of studentsOfCourse; track student) {
-            <option [ngValue]="student.email">[{{ student.teamName }}] {{ student.name }}</option>
+            <option [ngValue]="student.userId">[{{ student.teamName }}] {{ student.name }}</option>
           }
         </select>
         <div class="mt-1 mt-lg-0 col-sm-4 col-lg-6 w-max-content">
-          @if (emailOfStudentToPreview.length !== 0) {
+          @if (userIdOfStudentToPreview.length !== 0) {
             <a
               tmRouterLink="/web/sessions/submission"
               [queryParams]="{
                 fsid: feedbackSessionId,
-                previewas: emailOfStudentToPreview,
+                previewas: userIdOfStudentToPreview,
               }"
               target="_blank"
               rel="noopener noreferrer"
               [ngbTooltip]="
-                emailOfStudentToPreview.length !== 0
+                userIdOfStudentToPreview.length !== 0
                   ? 'View how this session would look like to a student who is submitting feedback.'
                   : 'Preview is unavailable if the course has yet to have any student enrolled.'
               "
@@ -41,7 +41,7 @@
             <button
               id="btn-preview-student"
               class="btn btn-primary"
-              [disabled]="emailOfStudentToPreview.length === 0 || forDisplayOnly"
+              [disabled]="userIdOfStudentToPreview.length === 0 || forDisplayOnly"
             >
               Preview as Student
             </button>
@@ -51,7 +51,7 @@
           <button
             id="btn-preview-student"
             class="btn btn-primary"
-            [disabled]="emailOfStudentToPreview.length === 0 || forDisplayOnly"
+            [disabled]="userIdOfStudentToPreview.length === 0 || forDisplayOnly"
           >
             Preview as Student
           </button>
@@ -64,22 +64,22 @@
           id="preview-instructor"
           [ngClass]="{ 'preview-example-select': forDisplayOnly }"
           class="col-12 col-sm-8 col-lg-6 form-control form-select preview-select"
-          [(ngModel)]="emailOfInstructorToPreview"
+          [(ngModel)]="userIdOfInstructorToPreview"
           aria-label="Select instructor to preview as"
         >
           @for (instructor of instructorsCanBePreviewedAs; track instructor) {
-            <option [ngValue]="instructor.email">
+            <option [ngValue]="instructor.userId">
               {{ instructor.name }}
             </option>
           }
         </select>
         <div class="mt-1 mt-lg-0 col-sm-4 col-lg-6 w-max-content">
-          @if (emailOfInstructorToPreview.length !== 0) {
+          @if (userIdOfInstructorToPreview.length !== 0) {
             <a
               tmRouterLink="/web/instructor/sessions/submission"
               [queryParams]="{
                 fsid: feedbackSessionId,
-                previewas: emailOfInstructorToPreview,
+                previewas: userIdOfInstructorToPreview,
               }"
               target="_blank"
               rel="noopener noreferrer"
@@ -91,7 +91,7 @@
             <button
               id="btn-preview-instructor"
               class="btn btn-primary"
-              [disabled]="emailOfInstructorToPreview.length === 0 || forDisplayOnly"
+              [disabled]="userIdOfInstructorToPreview.length === 0 || forDisplayOnly"
             >
               Preview as Instructor
             </button>
@@ -101,7 +101,7 @@
           <button
             id="btn-preview-instructor"
             class="btn btn-primary"
-            [disabled]="emailOfInstructorToPreview.length === 0 || forDisplayOnly"
+            [disabled]="userIdOfInstructorToPreview.length === 0 || forDisplayOnly"
           >
             Preview as Instructor
           </button>
