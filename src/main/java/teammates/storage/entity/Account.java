@@ -160,6 +160,7 @@ public class Account extends BaseEntity {
         addNonEmptyError(FieldValidator.getInvalidityInfoForGoogleId(googleId), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForPersonName(name), errors);
         addNonEmptyError(FieldValidator.getInvalidityInfoForEmail(email), errors);
+        addNonEmptyError(FieldValidator.getInvalidityInfoForOidcIssuer(issuer), errors);
 
         return errors;
     }

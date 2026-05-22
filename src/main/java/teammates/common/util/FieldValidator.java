@@ -84,9 +84,13 @@ public final class FieldValidator {
     public static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
     public static final int STUDENT_ROLE_COMMENTS_MAX_LENGTH = 500;
 
-    public static final Set<String> OIDC_ISSUER_ACCEPTED_VALUES =
+    public static final Set<String> PRODUCTION_OIDC_ISSUER_ACCEPTED_VALUES =
             Collections.unmodifiableSet(
-                    Set.of(Const.OidcIssuers.DEV_SERVER, Const.OidcIssuers.GOOGLE, Const.OidcIssuers.GOOGLE_LEGACY));
+                    Set.of(Const.OidcIssuers.GOOGLE, Const.OidcIssuers.GOOGLE_LEGACY));
+
+    public static final Set<String> DEV_SERVER_OIDC_ISSUER_ACCEPTED_VALUES =
+            Collections.unmodifiableSet(
+                    Set.of(Const.OidcIssuers.DEV_SERVER));
 
     /*
      * =======================================================================
@@ -966,7 +970,9 @@ public final class FieldValidator {
     }
 
     /**
-     * Checks if the given {@code oidcIssuer} is one of the trusted OIDC issuers {@link #OIDC_ISSUER_ACCEPTED_VALUES}.
+     * Checks if the given {@code oidcIssuer} is one of the trusted OIDC issuers.
+     * Production OIDC issuers are in {@link #PRODUCTION_OIDC_ISSUER_ACCEPTED_VALUES}.
+     * Development server OIDC issuers are in {@link #DEV_SERVER_OIDC_ISSUER_ACCEPTED_VALUES}.
      *
      * @param oidcIssuer The OIDC issuer to be checked.
      * @return Error string if the {@code oidcIssuer} is not in the list of trusted OIDC issuers, otherwise empty string.
@@ -974,10 +980,10 @@ public final class FieldValidator {
     public static String getInvalidityInfoForOidcIssuer(String oidcIssuer) {
         assert oidcIssuer != null;
 
-        if (OIDC_ISSUER_ACCEPTED_VALUES.contains(oidcIssuer)) {
-            return "";
-        }
-        return String.format(INVALID_OIDC_ISSUER_ERROR_MESSAGE, oidcIssuer);
+        boolean isValidOidcIssuer = Config.isDevServerLoginEnabled()
+                ? DEV_SERVER_OIDC_ISSUER_ACCEPTED_VALUES.contains(oidcIssuer)
+                : PRODUCTION_OIDC_ISSUER_ACCEPTED_VALUES.contains(oidcIssuer);
+        return isValidOidcIssuer ? "" : String.format(INVALID_OIDC_ISSUER_ERROR_MESSAGE, oidcIssuer);
     }
 
     private static boolean isUntrimmed(String value) {
