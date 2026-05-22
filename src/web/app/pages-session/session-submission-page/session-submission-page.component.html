@@ -9,7 +9,7 @@
         @if (intent === Intent.INSTRUCTOR_SUBMISSION) {
           <span>instructor</span>
         }
-        {{ personName }} ({{ moderatedPerson }})
+        {{ personName }} ({{ personEmail }})
         @if (!isModerationHintExpanded) {
           <button type="button" class="btn btn-link" (click)="isModerationHintExpanded = true">[More]</button>
         }
@@ -20,9 +20,8 @@
       @if (isModerationHintExpanded) {
         <div class="text-start">
           <p>
-            The page below resembles the submission page as seen by the respondent {{ personName }} ({{
-              moderatedPerson
-            }}). You can use it to moderate responses submitted by the respondent or submit responses on behalf of the
+            The page below resembles the submission page as seen by the respondent {{ personName }} ({{ personEmail }}).
+            You can use it to moderate responses submitted by the respondent or submit responses on behalf of the
             respondent.
           </p>
           <p>
@@ -45,7 +44,7 @@
         @if (intent === Intent.INSTRUCTOR_SUBMISSION) {
           <span>instructor</span>
         }
-        {{ personName }} ({{ previewAsPerson }})
+        {{ personName }} ({{ personEmail }})
       </h4>
     </div>
   </div>

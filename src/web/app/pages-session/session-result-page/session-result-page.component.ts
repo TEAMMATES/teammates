@@ -29,7 +29,6 @@ import {
   ResponseVisibleSetting,
   SessionVisibleSetting,
   Student,
-  Students,
 } from '../../../types/api-output';
 import { FeedbackVisibilityType, Intent } from '../../../types/api-request';
 import { Timestamps } from '../../../types/datetime-const';
@@ -38,7 +37,6 @@ import { ErrorReportComponent } from '../../components/error-report/error-report
 import { LoadingRetryComponent } from '../../components/loading-retry/loading-retry.component';
 import { LoadingSpinnerDirective } from '../../components/loading-spinner/loading-spinner.directive';
 import { QuestionResponsePanelComponent } from '../../components/question-response-panel/question-response-panel.component';
-import { areEmailsEqual } from '../../components/teammates-common/email-utils';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -248,19 +246,14 @@ export class SessionResultPageComponent implements OnInit {
     switch (this.intent) {
       case Intent.STUDENT_RESULT:
         if (this.previewAsPerson) {
-          // Temporary solution as previewAs is an email and not an id.
-          // Once previewAs is changed to be an id, we can directly get the student details using the id.
-          this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe((students: Students) => {
-            const student: Student | undefined = students.students.find((s: Student) => {
-              return areEmailsEqual(s.email, this.previewAsPerson);
-            });
-            if (student) {
+          this.studentService
+            .getStudent({ courseId: this.courseId, userId: this.previewAsPerson })
+            .subscribe((student: Student) => {
               this.studentId = student.userId;
               this.personName = student.name;
               this.personEmail = student.email;
               this.logStudentView();
-            }
-          });
+            });
         } else {
           this.studentService
             .getStudent({ courseId: this.courseId, regKey: this.regKey })
