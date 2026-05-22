@@ -12,6 +12,8 @@ import teammates.storage.entity.FeedbackResponseComment;
  * The API output format of {@link FeedbackResponseComment}.
  */
 public class FeedbackResponseCommentData extends ApiOutput {
+    private UUID feedbackResponseCommentId;
+
     @Nullable
     private String commentGiver;
     @Nullable
@@ -21,7 +23,6 @@ public class FeedbackResponseCommentData extends ApiOutput {
     @Nullable
     private String lastEditorName;
 
-    private UUID feedbackResponseCommentId;
     private String commentText;
     private long createdAt;
     private long lastEditedAt;
