@@ -93,8 +93,8 @@ const DefaultCourseEditFormModel: CourseEditFormModel = {
 /**
  * Returns default course form model.
  */
-export const DEFAULT_COURSE_FORM_MODEL = (): CourseEditFormModel => {
-  return structuredClone(DefaultCourseModel) as CourseEditFormModel;
+export const DEFAULT_COURSE_FORM_MODEL = (): CourseFormModel => {
+  return structuredClone(DefaultCourseModel);
 };
 
 /**
