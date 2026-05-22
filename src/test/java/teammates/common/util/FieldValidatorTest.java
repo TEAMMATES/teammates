@@ -823,6 +823,10 @@ public class FieldValidatorTest extends BaseTestCase {
         String invalidIssuer = "invalid issuer";
         assertEquals("\"" + invalidIssuer + "\" is not an accepted OIDC issuer to TEAMMATES. ",
                 FieldValidator.getInvalidityInfoForOidcIssuer(invalidIssuer));
+
+        invalidIssuer = "https://attacker.accounts.google.com";
+        assertEquals("\"" + invalidIssuer + "\" is not an accepted OIDC issuer to TEAMMATES. ",
+                FieldValidator.getInvalidityInfoForOidcIssuer(invalidIssuer));
     }
 
     @Test

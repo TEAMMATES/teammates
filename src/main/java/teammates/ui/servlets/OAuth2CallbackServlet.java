@@ -77,12 +77,13 @@ public class OAuth2CallbackServlet extends AuthServlet {
             logMessage = "Login failed";
         }
 
-        log.info("Going to redirect to: " + authResult.nextUrl);
+        String redirectUrl = resp.encodeRedirectURL(getSanitizedRedirectUrl(authResult.nextUrl));
+        log.info("Going to redirect to: " + redirectUrl);
 
         log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, logMessage);
 
         resp.addCookie(cookie);
-        resp.sendRedirect(authResult.nextUrl);
+        resp.sendRedirect(redirectUrl);
     }
 
     private AuthResult getDevServerAuthResult(HttpServletRequest req) {
