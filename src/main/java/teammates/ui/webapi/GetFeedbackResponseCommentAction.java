@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackResponseComment;
+import teammates.ui.exception.EntityNotFoundException;
 import teammates.ui.exception.UnauthorizedAccessException;
 import teammates.ui.output.FeedbackResponseCommentData;
 
@@ -26,6 +27,9 @@ public class GetFeedbackResponseCommentAction extends BasicCommentSubmissionActi
         UUID feedbackResponseId = getUuidRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
         FeedbackResponseComment comment =
                 logic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
+        if (comment == null) {
+            throw new EntityNotFoundException("No comment found for feedback response id: " + feedbackResponseId);
+        }
         return new JsonResult(new FeedbackResponseCommentData(comment));
     }
 }
