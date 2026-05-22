@@ -3,11 +3,9 @@ package teammates.ui.output;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Queue;
 import java.util.Set;
 import java.util.UUID;
 
@@ -182,7 +180,12 @@ public class SessionResultsData extends ApiOutput {
         // process comments
         List<FeedbackResponseComment> feedbackResponseComments =
                 bundle.getResponseCommentsMap().getOrDefault(response, Collections.emptyList());
-        Queue<FeedbackResponseCommentData> comments = buildComments(feedbackResponseComments, bundle);
+        List<FeedbackResponseCommentData> instructorComments = buildInstructorComments(feedbackResponseComments, bundle);
+        FeedbackResponseCommentData participantComment = feedbackResponseComments.stream()
+                .filter(FeedbackResponseComment::getIsCommentFromFeedbackParticipant)
+                .findFirst()
+                .map(FeedbackResponseCommentData::new)
+                .orElse(null);
 
         return ResponseOutput.builder()
                 .withResponseId(response.getId().toString())
@@ -195,8 +198,8 @@ public class SessionResultsData extends ApiOutput {
                 .withRecipientEmail(null)
                 .withRecipientSectionName(recipient.getSectionName())
                 .withResponseDetails(response.getFeedbackResponseDetailsCopy())
-                .withParticipantComment(comments.poll())
-                .withInstructorComments(new ArrayList<>(comments))
+                .withParticipantComment(participantComment)
+                .withInstructorComments(instructorComments)
                 .build();
     }
 
@@ -254,7 +257,12 @@ public class SessionResultsData extends ApiOutput {
         // process comments
         List<FeedbackResponseComment> feedbackResponseComments =
                 bundle.getResponseCommentsMap().getOrDefault(response, Collections.emptyList());
-        Queue<FeedbackResponseCommentData> comments = buildComments(feedbackResponseComments, bundle);
+        List<FeedbackResponseCommentData> instructorComments = buildInstructorComments(feedbackResponseComments, bundle);
+        FeedbackResponseCommentData participantComment = feedbackResponseComments.stream()
+                .filter(FeedbackResponseComment::getIsCommentFromFeedbackParticipant)
+                .findFirst()
+                .map(FeedbackResponseCommentData::new)
+                .orElse(null);
 
         return ResponseOutput.builder()
                 .withIsMissingResponse(false)
@@ -269,8 +277,8 @@ public class SessionResultsData extends ApiOutput {
                 .withRecipientEmail(recipientEmail)
                 .withRecipientSectionName(recipientSectionName)
                 .withResponseDetails(response.getFeedbackResponseDetailsCopy())
-                .withParticipantComment(comments.poll())
-                .withInstructorComments(new ArrayList<>(comments))
+                .withParticipantComment(participantComment)
+                .withInstructorComments(instructorComments)
                 .build();
     }
 
@@ -369,14 +377,12 @@ public class SessionResultsData extends ApiOutput {
         }
     }
 
-    private static Queue<FeedbackResponseCommentData> buildComments(List<FeedbackResponseComment> feedbackResponseComments,
-                                                      SessionResultsBundle bundle) {
-        LinkedList<FeedbackResponseCommentData> outputs = new LinkedList<>();
+    private static List<FeedbackResponseCommentData> buildInstructorComments(
+                List<FeedbackResponseComment> feedbackResponseComments, SessionResultsBundle bundle) {
+        List<FeedbackResponseCommentData> outputs = new ArrayList<>();
 
         for (FeedbackResponseComment comment : feedbackResponseComments) {
-            if (comment.getIsCommentFromFeedbackParticipant()) {
-                outputs.addFirst(new FeedbackResponseCommentData(comment));
-            } else {
+            if (!comment.getIsCommentFromFeedbackParticipant()) {
                 outputs.add(new FeedbackResponseCommentData(comment, bundle.isCommentGiverVisible(comment)));
             }
         }
