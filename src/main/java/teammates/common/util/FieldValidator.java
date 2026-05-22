@@ -86,11 +86,11 @@ public final class FieldValidator {
 
     public static final Set<String> PRODUCTION_OIDC_ISSUER_ACCEPTED_VALUES =
             Collections.unmodifiableSet(
-                    Set.of(Const.OidcIssuers.GOOGLE, Const.OidcIssuers.GOOGLE_LEGACY));
+                    Set.of(Const.OIDCIssuers.GOOGLE, Const.OIDCIssuers.GOOGLE_LEGACY));
 
     public static final Set<String> DEV_SERVER_OIDC_ISSUER_ACCEPTED_VALUES =
             Collections.unmodifiableSet(
-                    Set.of(Const.OidcIssuers.DEVELOPMENT, Const.OidcIssuers.TEST));
+                    Set.of(Const.OIDCIssuers.DEVELOPMENT, Const.OIDCIssuers.TEST));
 
     /*
      * =======================================================================

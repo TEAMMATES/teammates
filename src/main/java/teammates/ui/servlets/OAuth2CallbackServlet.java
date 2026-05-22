@@ -92,7 +92,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
         if (nextUrl == null) {
             nextUrl = "/";
         }
-        return new AuthResult(Const.OidcIssuers.DEVELOPMENT, email, email, nextUrl);
+        return new AuthResult(Const.OIDCIssuers.DEVELOPMENT, email, email, nextUrl);
     }
 
     private AuthResult getGoogleOauth2AuthResult(HttpServletRequest req, HttpServletResponse resp) throws IOException {
