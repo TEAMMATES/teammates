@@ -77,8 +77,8 @@ describe('AccountRequestTableComponent', () => {
 
   it('should display account requests table', () => {
     const accountRequestResults: AccountRequestTableRowModel[] = [
-      DEFAULT_ACCOUNT_REQUEST.build(),
-      DEFAULT_ACCOUNT_REQUEST.build(),
+      DEFAULT_ACCOUNT_REQUEST.id('id-1').build(),
+      DEFAULT_ACCOUNT_REQUEST.id('id-2').build(),
     ];
 
     component.accountRequests = accountRequestResults;
